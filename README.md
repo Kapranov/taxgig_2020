@@ -34,7 +34,7 @@ bash> mix phx.new server --no-html --no-webpack --no-ecto
 - [X] `mailings` - sends emails to users
 - [] `ptin` - keeps and updates DB of all PTIN holders
 - [] `stripe` - functions to handle stripe
-- [] `server` - resolvers, schemas GraphQL
+- [X] `server` - resolvers, schemas GraphQL
 
 #### Frontend
 - []
