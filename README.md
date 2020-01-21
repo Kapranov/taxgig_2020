@@ -20,8 +20,8 @@ bash> make git-"YOUR TEXT"
 ```
 bash> cd apps
 bash> mix new mailings
-bash> mix new graph_web --sup
-bash> mix phx.new core  --no-html --no-webpack --no-ecto
+bash> mix new core --sup
+bash> mix phx.new graph_web --no-html --no-webpack --no-ecto
 ```
 
 #### Backend API
