@@ -17,7 +17,7 @@ help:
 git-%:
 							$(V)git add .
 							$(V)git commit -m "$(@:git-%=%)"
-							$(V)git push -u origin backend
+							$(V)git push -u origin master
 
 pull:
 							$(V)git pull
