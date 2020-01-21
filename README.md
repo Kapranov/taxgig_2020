@@ -21,7 +21,7 @@ bash> make git-"YOUR TEXT"
 bash> cd apps
 bash> mix new mailings
 bash> mix new core --sup
-bash> mix phx.new graph_web --no-html --no-webpack --no-ecto
+bash> mix phx.new server --no-html --no-webpack --no-ecto
 ```
 
 #### Backend API
@@ -34,7 +34,7 @@ bash> mix phx.new graph_web --no-html --no-webpack --no-ecto
 - [X] `mailings` - sends emails to users
 - [] `ptin` - keeps and updates DB of all PTIN holders
 - [] `stripe` - functions to handle stripe
-- [] `graph_web` - resolvers, schemas GraphQL
+- [] `server` - resolvers, schemas GraphQL
 
 #### Frontend
 - []
