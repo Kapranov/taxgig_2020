@@ -29,3 +29,7 @@ bash> make git-"YOUR TEXT"
 
 
 ### 20 Jan 2020 by Oleg G.Kapranov
+
+[1]: https://gitlab.com/taxgig/taxgig_ex
+[2]: https://paper.dropbox.com/doc/Graph-API--AsyYKWDkl3ycVg1z40YLkKukAg-FNst2XVqeQQW5HBCs0JKH
+[3]: https://paper.dropbox.com/doc/Backend-Tech-Documentation-UOhiP5AhK7PsJBJ5ZVKJo#:h2=umbrella-apps
