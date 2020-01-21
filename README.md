@@ -13,4 +13,15 @@ bash> git push -u origin master
 bash> mix new ./ --app taxgig_ex --umbrella
 ```
 
+#### Backend API
+- []
+- []
+- []
+
+#### Frontend
+- []
+- []
+- []
+
+
 ### 20 Jan 2020 by Oleg G.Kapranov
