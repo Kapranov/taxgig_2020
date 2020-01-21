@@ -22,6 +22,7 @@ bash> cd apps
 bash> mix new mailings
 bash> mix new core --sup
 bash> mix new ptin --sup
+bash> mix new stripe --sup
 bash> mix new blockscore --sup
 bash> mix phx.new server --no-html --no-webpack --no-ecto
 ```
@@ -34,15 +35,12 @@ bash> mix phx.new server --no-html --no-webpack --no-ecto
 - [X] `blockscore` - queries blockscore backend to verify users
 - [X] `core` - contains all DB models, migrations and manipulation functions
 - [X] `mailings` - sends emails to users
-- [] `ptin` - keeps and updates DB of all PTIN holders
-- [] `stripe` - functions to handle stripe
+- [X] `ptin` - keeps and updates DB of all PTIN holders
 - [X] `server` - resolvers, schemas GraphQL
+- [X] `stripe` - functions to handle stripe
 
 #### Frontend
-- []
-- []
-- []
-
+- [] React MVC
 
 ### 20 Jan 2020 by Oleg G.Kapranov
 
