@@ -17,10 +17,24 @@ bash> mix docs
 bash> make git-"YOUR TEXT"
 ```
 
+```
+bash> cd apps
+bash> mix new mailings
+bash> mix new graph_web --sup
+bash> mix phx.new core  --no-html --no-webpack --no-ecto
+```
+
 #### Backend API
-- []
-- []
-- []
+
+**umbrella app name**: `taxgig`
+
+##### umbrella apps:
+- [] `blockscore` - queries blockscore backend to verify users
+- [X] `core` - contains all DB models, migrations and manipulation functions
+- [X] `mailings` - sends emails to users
+- [] `ptin` - keeps and updates DB of all PTIN holders
+- [] `stripe` - functions to handle stripe
+- [] `graph_web` - resolvers, schemas GraphQL
 
 #### Frontend
 - []
