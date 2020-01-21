@@ -13,6 +13,8 @@ bash> git push -u origin master
 bash> mix new ./ --app taxgig_ex --umbrella
 
 bash> mix docs
+
+bash> make git-"YOUR TEXT"
 ```
 
 #### Backend API
