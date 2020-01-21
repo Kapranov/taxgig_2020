@@ -21,15 +21,16 @@ bash> make git-"YOUR TEXT"
 bash> cd apps
 bash> mix new mailings
 bash> mix new core --sup
+bash> mix new blockscore --sup
 bash> mix phx.new server --no-html --no-webpack --no-ecto
 ```
 
 #### Backend API
 
-**umbrella app name**: `taxgig`
+**umbrella app name**: `taxgig_ex`
 
 ##### umbrella apps:
-- [] `blockscore` - queries blockscore backend to verify users
+- [X] `blockscore` - queries blockscore backend to verify users
 - [X] `core` - contains all DB models, migrations and manipulation functions
 - [X] `mailings` - sends emails to users
 - [] `ptin` - keeps and updates DB of all PTIN holders
