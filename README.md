@@ -21,6 +21,7 @@ bash> make git-"YOUR TEXT"
 bash> cd apps
 bash> mix new mailings
 bash> mix new core --sup
+bash> mix new ptin --sup
 bash> mix new blockscore --sup
 bash> mix phx.new server --no-html --no-webpack --no-ecto
 ```
