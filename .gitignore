@@ -3,6 +3,11 @@
 /deps/
 /doc/dist/*
 /doc/.build
+
 /.fetch
 erl_crash.dump
 *.ez
+
+/config/*.secret.exs
+
+mix.lock

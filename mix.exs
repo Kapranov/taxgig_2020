@@ -42,12 +42,14 @@ defmodule TaxgigEx.MixProject do
       "ecto.setup.repo": ["ecto.create -r Core.Repo", "cmd --app core mix ecto.migrate -r Core.Repo", "run #{@seed_core_ptin_path}"],
       "ecto.reset.ptin": ["ecto.drop -r Core.Ptin", "ecto.setup.ptin"],
       "ecto.reset.repo": ["ecto.drop -r Core.Repo", "ecto.setup.repo"],
-      "ecto.drop_ptin": ["cmd --app core mix ecto.drop -r Core.Ptin"],
-      "ecto.drop_repo": ["cmd --app core mix ecto.drop -r Core.Repo"],
+      "ecto.drop.ptin": ["cmd --app core mix ecto.drop -r Core.Ptin"],
+      "ecto.drop.repo": ["cmd --app core mix ecto.drop -r Core.Repo"],
       "ecto.migrate.ptin": ["cmd --app core mix ecto.migrate -r Core.Ptin", "cmd --app core mix ecto.dump -r Core.Ptin",],
       "ecto.migrate.repo": ["cmd --app core mix ecto.migrate -r Core.Repo", "cmd --app core mix ecto.dump -r Core.Repo",],
       "ecto.create.ptin": ["cmd --app core mix ecto.create -r Core.Ptin"],
-      "ecto.create.repo": ["cmd --app core mix ecto.create -r Core.Repo"]
+      "ecto.create.repo": ["cmd --app core mix ecto.create -r Core.Repo"],
+      "test.ptin": ["ecto.drop.ptin", "ecto.create.ptin --quiet", "cmd --app core mix ecto.migrate -r Core.Ptin", "run #{@seed_core_ptin_path}"],
+      "test.repo": ["ecto.drop.repo", "ecto.create.repo --quiet", "cmd --app core mix ecto.migrate -r Core.Repo", "run #{@seed_core_repo_path}"]
     ]
   end
 end
