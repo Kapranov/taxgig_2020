@@ -11,6 +11,8 @@ bash> git commit -m "created empty dir"
 bash> git push -u origin master
 
 bash> mix new ./ --app taxgig_ex --umbrella
+
+bash> mix docs
 ```
 
 #### Backend API
