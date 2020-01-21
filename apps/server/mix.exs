@@ -29,12 +29,13 @@ defmodule Server.MixProject do
 
   defp deps do
     [
-      {:phoenix, "~> 1.4.11"},
-      {:phoenix_pubsub, "~> 1.1"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
-      # {:core, in_umbrella: true}
+      {:phoenix, "~> 1.4.11"},
+      {:phoenix_pubsub, "~> 1.1"},
+      {:plug_cowboy, "~> 2.0"},
+      {:remix, "~> 0.0", only: [:dev]},
+      {:core, in_umbrella: true}
     ]
   end
 end

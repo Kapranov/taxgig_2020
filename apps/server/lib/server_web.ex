@@ -33,7 +33,9 @@ defmodule ServerWeb do
         root: "lib/server_web/templates",
         namespace: ServerWeb
 
-      import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1]
+      import Phoenix.Controller, only: [
+        get_flash: 1, get_flash: 2, view_module: 1
+      ]
 
       import ServerWeb.ErrorHelpers
       import ServerWeb.Gettext

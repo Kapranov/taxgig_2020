@@ -17,6 +17,8 @@ defmodule ServerWeb.ConnCase do
 
   use ExUnit.CaseTemplate
 
+  alias Phoenix.ConnTest
+
   using do
     quote do
       use Phoenix.ConnTest
@@ -27,6 +29,6 @@ defmodule ServerWeb.ConnCase do
   end
 
   setup _tags do
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    {:ok, conn: ConnTest.build_conn()}
   end
 end

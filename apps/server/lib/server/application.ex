@@ -3,6 +3,8 @@ defmodule Server.Application do
 
   use Application
 
+  alias ServerWeb.Endpoint
+
   def start(_type, _args) do
     children = [
       ServerWeb.Endpoint
@@ -13,7 +15,7 @@ defmodule Server.Application do
   end
 
   def config_change(changed, _new, removed) do
-    ServerWeb.Endpoint.config_change(changed, removed)
+    Endpoint.config_change(changed, removed)
     :ok
   end
 end

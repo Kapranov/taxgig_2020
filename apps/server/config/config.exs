@@ -6,7 +6,6 @@ config :server, ServerWeb.Endpoint,
   render_errors: [view: ServerWeb.ErrorView, accepts: ~w(json)],
   pubsub: [name: Server.PubSub, adapter: Phoenix.PubSub.PG2]
 
-
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]

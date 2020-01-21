@@ -23,6 +23,8 @@ defmodule Stripe.MixProject do
   end
 
   defp deps do
-    []
+    [
+      {:remix, "~> 0.0", only: [:dev]}
+    ]
   end
 end

@@ -10,6 +10,7 @@ defmodule Core.MixProject do
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
       elixir: "~> 1.9",
+      elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -25,8 +26,12 @@ defmodule Core.MixProject do
   defp deps do
     [
       {:ecto_sql, "~> 3.3"},
-      {:postgrex, "~> 0.15.3"}
+      {:postgrex, "~> 0.15.3"},
+      {:remix, "~> 0.0", only: [:dev]}
     ]
 
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 end
