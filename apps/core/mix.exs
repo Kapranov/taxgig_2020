@@ -23,6 +23,10 @@ defmodule Core.MixProject do
   end
 
   defp deps do
-    []
+    [
+      {:ecto_sql, "~> 3.3"},
+      {:postgrex, "~> 0.15.3"}
+    ]
+
   end
 end
