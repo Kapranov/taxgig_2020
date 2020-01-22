@@ -19,7 +19,7 @@ defmodule Core.Landing.PressArticle do
     url
   )
 
-  schema "faqs" do
+  schema "press_articles" do
     field :title, :string
     field :author, :string
     field :preview_text, :string
