@@ -1,1 +1,1 @@
-Core.DemoPtin.seed!()
+Core.Seeder.Ptin.seed!()

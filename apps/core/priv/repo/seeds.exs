@@ -1,1 +1,1 @@
-Core.DemoRepo.seed!
+Core.Seeder.Repo.seed!
