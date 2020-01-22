@@ -16,7 +16,6 @@ defmodule Core.Model do
        @foreign_key_type :binary_id
        @timestamps_opts [type: :utc_datetime, usec: true]
 
-
        def create(attrs) do
          attrs
          |> changeset()

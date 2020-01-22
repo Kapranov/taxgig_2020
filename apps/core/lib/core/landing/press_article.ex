@@ -6,23 +6,23 @@ defmodule Core.Landing.PressArticle do
   use Core.Model
 
   @allowed_params ~w(
-    title
     author
     preview_text
+    title
     url
-  )
+  )a
 
   @required_params ~w(
-    title
     author
     preview_text
+    title
     url
-  )
+  )a
 
   schema "press_articles" do
-    field :title, :string
     field :author, :string
     field :preview_text, :string
+    field :title, :string
     field :url, :string
 
     timestamps()

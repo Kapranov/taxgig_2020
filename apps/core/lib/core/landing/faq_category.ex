@@ -9,11 +9,11 @@ defmodule Core.Landing.FaqCategory do
 
   @allowed_params ~w(
     title
-  )
+  )a
 
   @required_params ~w(
     title
-  )
+  )a
 
   schema "faq_categories" do
     field :title, :string

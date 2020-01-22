@@ -40,9 +40,9 @@ defmodule TaxgigEx.MixProject do
       "ecto.migrate.repo": ["cmd --app core mix ecto.migrate -r Core.Repo", "cmd --app core mix ecto.dump -r Core.Repo",],
       "ecto.create.ptin": ["cmd --app core mix ecto.create -r Core.Ptin"],
       "ecto.create.repo": ["cmd --app core mix ecto.create -r Core.Repo"],
-      "test.ptin": ["ecto.drop.ptin", "ecto.create.ptin --quiet", "cmd --app core mix ecto.migrate -r Core.Ptin", "run #{@seed_core_ptin_path}"],
-      "test.repo": ["ecto.drop.repo", "ecto.create.repo --quiet", "cmd --app core mix ecto.migrate -r Core.Repo", "run #{@seed_core_repo_path}"],
-      "test.reset": ["ecto.drop.repo", "ecto.create.repo", "db.migrate -r Core.Repo"],
+      "test.ptin": ["ecto.drop -r Core.Ptin", "ecto.create --quiet -r Core.Ptin", "ecto.migrate -r Core.Ptin", "run #{@seed_core_ptin_path}"],
+      "test.repo": ["ecto.drop -r Core.Repo", "ecto.create --quiet -r Core.Repo", "ecto.migrate -r Core.Repo", "run #{@seed_core_repo_path}"],
+      "test.reset": ["ecto.drop -r Core.Repo", "ecto.create -r Core.Repo", "ecto.migrate -r Core.Repo"],
       "test.cover": &run_default_coverage/1,
       "test.cover.html": &run_html_coverage/1,
       "test.no.start": ["test --no-start"]

@@ -6,21 +6,21 @@ defmodule Core.Landing.Vacancy do
   use Core.Model
 
   @allowed_params ~w(
-    title
     content
     department
-  )
+    title
+  )a
 
   @required_params ~w(
-    title
     content
     department
-  )
+    title
+  )a
 
   schema "vacancies" do
-    field :title, :string
     field :content, :string
     field :department, :string
+    field :title, :string
 
     timestamps()
   end

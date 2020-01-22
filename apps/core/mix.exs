@@ -18,14 +18,17 @@ defmodule Core.MixProject do
 
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: applications(Mix.env),
       mod: {Core.Application, []}
     ]
   end
 
   defp deps do
     [
+      {:decimal, "~> 1.8", optional: true},
+      {:faker, "~> 0.13", only: [:dev, :test]},
       {:ecto_sql, "~> 3.3"},
+      {:ex_machina, "~> 2.3"},
       {:postgrex, "~> 0.15.3"},
       {:remix, "~> 0.0", only: [:dev]}
     ]
@@ -34,4 +37,8 @@ defmodule Core.MixProject do
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
+
+  defp applications(:dev), do: applications(:all) ++ [:remix]
+  defp applications(:test), do: applications(:all) ++ [:faker]
+  defp applications(_all), do: [:logger]
 end

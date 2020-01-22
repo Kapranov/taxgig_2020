@@ -8,20 +8,23 @@ defmodule Core.Landing.Faq do
   alias Core.Landing.FaqCategory
 
   @allowed_params ~w(
-    title
     content
-  )
+    faq_category_id
+    title
+  )a
 
   @required_params ~w(
-    title
     content
-  )
+    faq_category_id
+    title
+  )a
 
   schema "faqs" do
-    field :title, :string
     field :content, :string
+    field :title, :string
 
-    belongs_to :faq_category, FaqCategory
+    belongs_to :faq_categories, FaqCategory,
+      foreign_key: :faq_category_id, type: :binary_id, references: :id
 
     timestamps()
   end
@@ -33,5 +36,6 @@ defmodule Core.Landing.Faq do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
+    |> foreign_key_constraint(:faq_category_id, message: "Select the Faq Category")
   end
 end
