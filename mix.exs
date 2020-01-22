@@ -3,49 +3,33 @@ defmodule TaxgigEx.MixProject do
 
   @seed_core_ptin_path "apps/core/priv/ptin/seeds.exs"
   @seed_core_repo_path "apps/core/priv/repo/seeds.exs"
+  @version "1.0.0-beta.1"
 
   def project do
     [
+      aliases: aliases(),
       app: :taxgig_ex,
       apps_path: "apps",
-      version: "0.1.0",
+      deps: deps(),
+      description: description(),
+      docs: docs(),
+      elixirc_options: [warnings_as_errors: true],
+      homepage_url: "https://api.taxgig.com/",
+      name: "Taxgig",
+      preferred_cli_env: preferred_cli_env(),
+      releases: releases(),
+      source_url: "https://gitlab.com/taxgig/taxgig_ex/tree/master",
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: preferred_cli_env(),
-      docs: docs(),
-      aliases: aliases(),
-      deps: deps()
-    ]
-  end
-
-  defp deps do
-    [
-      {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.21", only: :dev, runtime: false},
-      {:ex_spec, "~> 2.0", only: [:test]},
-      {:ex_unit_notifier, "~> 0.1", only: [:test]},
-      {:excoveralls, "~> 0.12", only: [:test]},
-      {:junit_formatter, "~> 3.0"},
-      {:mix_test_watch, "~> 1.0", only: [:dev], runtime: false}
-    ]
-  end
-
-  defp docs do
-    [
-      name: "TaxgigEx",
-      source_url: "https://gitlab.com/taxgig/taxgig_ex",
-      homepage_url: "http://localhost:4000",
-      docs: [
-        main: "TaxgigEx",
-        logo: "",
-        extras: ["README.md"]
-      ]
+      updated: update_version(@version),
+      version: version(@version)
     ]
   end
 
   defp aliases do
     [
       bless: [&bless/1],
+      "deps.get": ["deps.get", &update_version/1],
       "ecto.setup.ptin": ["ecto.create -r Core.Ptin", "cmd --app core mix ecto.migrate -r Core.Ptin", "run #{@seed_core_repo_path}"],
       "ecto.setup.repo": ["ecto.create -r Core.Repo", "cmd --app core mix ecto.migrate -r Core.Repo", "run #{@seed_core_ptin_path}"],
       "ecto.reset.ptin": ["ecto.drop -r Core.Ptin", "ecto.setup.ptin"],
@@ -65,6 +49,36 @@ defmodule TaxgigEx.MixProject do
     ]
   end
 
+  defp deps do
+    [
+      {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.21", only: :dev, runtime: false},
+      {:ex_spec, "~> 2.0", only: [:test]},
+      {:ex_unit_notifier, "~> 0.1", only: [:test]},
+      {:excoveralls, "~> 0.12", only: [:test]},
+      {:junit_formatter, "~> 3.0"},
+      {:mix_test_watch, "~> 1.0", only: [:dev], runtime: false}
+    ]
+  end
+
+  defp description do
+    contents = "An easy way to manage GraphQL Channel and much more for Pure Agency Inc. Honolulu"
+    Mix.shell().info("Synopsis version with: #{inspect(contents)}")
+  end
+
+  defp docs do
+    [
+      name: "TaxgigEx",
+      source_url: "https://gitlab.com/taxgig/taxgig_ex",
+      homepage_url: "http://localhost:4000",
+      docs: [
+        main: "TaxgigEx",
+        logo: "",
+        extras: ["README.md"]
+      ]
+    ]
+  end
+
   defp preferred_cli_env do
     [
       coveralls: :test,
@@ -74,6 +88,109 @@ defmodule TaxgigEx.MixProject do
       "coveralls.json": :test,
       "test.reset": :test
     ]
+  end
+
+  defp releases do
+  end
+
+  def update_version(_) do
+    contents = [
+      version(@version),
+      get_commit_sha(),
+      get_commit_date()
+    ]
+
+    Mix.shell().info("Updating version with: #{inspect(contents)}")
+    File.write("VERSION", Enum.join(contents, "\n"), [:write])
+  end
+
+  defp version(version) do
+    identifier_filter = ~r/[^0-9a-z\-]+/i
+
+    git_pre_release =
+      with {tag, 0} <-
+           System.cmd("git", ["describe", "--tags", "--abbrev=0"], stderr_to_stdout: true),
+           {describe, 0} <- System.cmd("git", ["describe", "--tags", "--abbrev=8"]) do
+        describe
+        |> String.trim()
+        |> String.replace(String.trim(tag), "")
+        |> String.trim_leading("-")
+        |> String.trim()
+      else
+        _ ->
+          {commit_hash, 0} = System.cmd("git", ["rev-parse", "--short", "HEAD"])
+          "0-g" <> String.trim(commit_hash)
+      end
+
+    branch_name =
+      with {branch_name, 0} <- System.cmd("git", ["rev-parse", "--abbrev-ref", "HEAD"]),
+           branch_name <- String.trim(branch_name),
+           branch_name <- System.get_env("PLEROMA_BUILD_BRANCH") || branch_name,
+           true <-
+             !Enum.any?(["master", "HEAD", "release/", "stable"], fn name ->
+               String.starts_with?(name, branch_name)
+             end) do
+        branch_name =
+          branch_name
+          |> String.trim()
+          |> String.replace(identifier_filter, "-")
+
+        branch_name
+      end
+
+    build_name =
+      cond do
+        name = Application.get_env(:taxgig_ex, :build_name) -> name
+        name = System.get_env("COMMUNITY_BUILD_NAME") -> name
+        true -> nil
+      end
+
+    env_name = if Mix.env() != :prod, do: to_string(Mix.env())
+    env_override = System.get_env("COMMUNITY_BUILD_NAME")
+
+    env_name =
+      case env_override do
+        nil -> env_name
+        env_override when env_override in ["", "prod"] -> nil
+        env_override -> env_override
+      end
+
+    pre_release =
+      [git_pre_release, branch_name]
+      |> Enum.filter(fn string -> string && string != "" end)
+      |> Enum.join(".")
+      |> (fn
+        "" -> nil
+        string -> "-" <> String.replace(string, identifier_filter, "-")
+      end).()
+
+    build_metadata =
+      [build_name, env_name]
+      |> Enum.filter(fn string -> string && string != "" end)
+      |> Enum.join(".")
+      |> (fn
+        "" -> nil
+        string -> "+" <> String.replace(string, identifier_filter, "-")
+      end).()
+
+    [version, pre_release, build_metadata]
+    |> Enum.filter(fn string -> string && string != "" end)
+    |> Enum.join()
+  end
+
+  defp bless(_) do
+    [
+      {"compile", ["--warnings-as-errors", "--force"]},
+      {"coveralls.html", []},
+      {"format", ["--check-formatted"]},
+      {"credo", []}
+    ]
+    |>  Enum.each(fn {task, args} ->
+      IO.ANSI.format([:cyan, "Running #{task} with args #{inspect(args)}"])
+      |> IO.puts()
+
+      Mix.Task.run(task, args)
+    end)
   end
 
   defp run_default_coverage(args), do: run_coverage("coveralls", args)
@@ -93,18 +210,19 @@ defmodule TaxgigEx.MixProject do
     end
   end
 
-  defp bless(_) do
-    [
-      {"compile", ["--warnings-as-errors", "--force"]},
-      {"coveralls.html", []},
-      {"format", ["--check-formatted"]},
-      {"credo", []}
-    ]
-    |>  Enum.each(fn {task, args} ->
-      IO.ANSI.format([:cyan, "Running #{task} with args #{inspect(args)}"])
-      |> IO.puts()
+  defp get_commit_sha do
+    System.cmd("git", ["rev-parse", "HEAD"])
+    |> elem(0)
+    |> String.trim()
+  end
 
-      Mix.Task.run(task, args)
-    end)
+  defp get_commit_date do
+    [sec, tz] =
+      System.cmd("git", ~w|log -1 --date=raw --format=%cd|)
+      |> elem(0)
+      |> String.split(~r/\s+/, trim: true)
+      |> Enum.map(&String.to_integer/1)
+
+    DateTime.from_unix!(sec + tz * 36)
   end
 end
