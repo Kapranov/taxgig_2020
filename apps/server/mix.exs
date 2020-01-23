@@ -29,8 +29,14 @@ defmodule Server.MixProject do
 
   defp deps do
     [
+      {:absinthe, "~> 1.4"},
+      {:absinthe_error_payload, "~> 1.0"},
+      {:absinthe_phoenix, "~> 1.4"},
+      {:absinthe_plug, "~> 1.4"},
+      {:dataloader, "~> 1.0"},
       {:jason, "~> 1.0"},
       {:phoenix, "~> 1.4.11"},
+      {:phoenix_pubsub, "~> 1.1"},
       {:plug_cowboy, "~> 2.0"},
       {:remix, "~> 0.0", only: [:dev]},
       {:core, in_umbrella: true}
