@@ -51,12 +51,14 @@ defmodule Core.Landing.VacancyTest do
     end
 
     test "create_vacancy/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Landing.create_vacancy(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} =
+        Landing.create_vacancy(@invalid_attrs)
     end
 
     test "update_vacancy/2 with valid data updates the vacancy" do
       struct = fixture()
-      assert {:ok, %Vacancy{} = struct} = Landing.update_vacancy(struct, @update_attrs)
+      assert {:ok, %Vacancy{} = struct} =
+        Landing.update_vacancy(struct, @update_attrs)
       assert struct.content    == "updated text"
       assert struct.department == "updated text"
       assert struct.title      == "updated text"
@@ -64,7 +66,8 @@ defmodule Core.Landing.VacancyTest do
 
     test "update_vacancy/2 with invalid data returns error changeset" do
       struct = fixture()
-      assert {:error, %Ecto.Changeset{}} = Landing.update_vacancy(struct, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} =
+        Landing.update_vacancy(struct, @invalid_attrs)
       assert struct == Landing.get_vacancy!(struct.id)
     end
 

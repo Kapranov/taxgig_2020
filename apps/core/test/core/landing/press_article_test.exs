@@ -47,7 +47,8 @@ defmodule Core.Landing.PressArticleTest do
     end
 
     test "create_press_article/1 with valid data creates a press article" do
-      assert {:ok, %PressArticle{} = struct} = Landing.create_press_article(@valid_attrs)
+      assert {:ok, %PressArticle{} = struct} =
+        Landing.create_press_article(@valid_attrs)
       assert struct.author       == "some text"
       assert struct.preview_text == "some text"
       assert struct.title        == "some text"
@@ -55,12 +56,14 @@ defmodule Core.Landing.PressArticleTest do
     end
 
     test "create_press_article/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Landing.create_press_article(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} =
+        Landing.create_press_article(@invalid_attrs)
     end
 
     test "update_press_article/2 with valid data updates the press article" do
       struct = fixture()
-      assert {:ok, %PressArticle{} = struct} = Landing.update_press_article(struct, @update_attrs)
+      assert {:ok, %PressArticle{} = struct} =
+        Landing.update_press_article(struct, @update_attrs)
       assert struct.author       == "updated text"
       assert struct.preview_text == "updated text"
       assert struct.title        == "updated text"
@@ -69,7 +72,8 @@ defmodule Core.Landing.PressArticleTest do
 
     test "update_press_article/2 with invalid data returns error changeset" do
       struct = fixture()
-      assert {:error, %Ecto.Changeset{}} = Landing.update_press_article(struct, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} =
+        Landing.update_press_article(struct, @invalid_attrs)
       assert struct == Landing.get_press_article!(struct.id)
     end
 

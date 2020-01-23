@@ -80,7 +80,8 @@ defmodule Core.Landing.FaqTest do
 
     test "update_faq/2 with invalid data returns error changeset" do
       struct = fixture()
-      assert {:error, %Ecto.Changeset{}} = Landing.update_faq(struct, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} =
+        Landing.update_faq(struct, @invalid_attrs)
       assert struct == Landing.get_faq!(struct.id)
     end
 

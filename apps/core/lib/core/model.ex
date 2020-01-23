@@ -1,5 +1,6 @@
 defmodule Core.Model do
   @moduledoc """
+  Extention Ecto.* for schemas
   """
 
    alias Core.Repo

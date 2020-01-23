@@ -30,23 +30,27 @@ defmodule Core.Landing.FaqCategoryTest do
     end
 
     test "create_faq_category/1 with valid data creates a faq category" do
-      assert {:ok, %FaqCategory{} = struct} = Landing.create_faq_category(@valid_attrs)
+      assert {:ok, %FaqCategory{} = struct} =
+        Landing.create_faq_category(@valid_attrs)
       assert struct.title == "some text"
     end
 
     test "create_faq_category/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Landing.create_faq_category(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} =
+        Landing.create_faq_category(@invalid_attrs)
     end
 
     test "update_faq_category/2 with valid data updates the faq category" do
       struct = fixture()
-      assert {:ok, %FaqCategory{} = struct} = Landing.update_faq_category(struct, @update_attrs)
+      assert {:ok, %FaqCategory{} = struct} =
+        Landing.update_faq_category(struct, @update_attrs)
       assert struct.title == "updated text"
     end
 
     test "update_faq_category/2 with invalid data returns error changeset" do
       struct = fixture()
-      assert {:error, %Ecto.Changeset{}} = Landing.update_faq_category(struct, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} =
+        Landing.update_faq_category(struct, @invalid_attrs)
       assert struct == Landing.get_faq_category!(struct.id)
     end
 

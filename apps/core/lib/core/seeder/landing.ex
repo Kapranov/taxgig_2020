@@ -13,7 +13,7 @@ defmodule Core.Seeder.Landing do
   alias Core.Repo
 
   alias Faker.{
-    Company,
+    Company.En,
     Internet,
     Lorem,
     Name
@@ -116,12 +116,12 @@ defmodule Core.Seeder.Landing do
     [
       Repo.insert!(%Vacancy{
         content: Lorem.sentence(),
-        department: Company.En.bs(),
+        department: En.bs(),
         title: Lorem.word()
       }),
       Repo.insert!(%Vacancy{
         content: Lorem.sentence(),
-        department: Company.En.bs(),
+        department: En.bs(),
         title: Lorem.word()
       })
     ]
