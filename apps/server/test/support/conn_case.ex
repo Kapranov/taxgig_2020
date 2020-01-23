@@ -18,17 +18,25 @@ defmodule ServerWeb.ConnCase do
   use ExUnit.CaseTemplate
 
   alias Phoenix.ConnTest
+  alias Core.Repo
+  alias Ecto.Adapters.SQL.Sandbox, as: Adapter
 
   using do
     quote do
       use Phoenix.ConnTest
+      use ExSpec
       alias ServerWeb.Router.Helpers, as: Routes
+      import Server.Factory
 
       @endpoint ServerWeb.Endpoint
     end
   end
 
-  setup _tags do
+  setup tags do
+    :ok = Adapter.checkout(Repo)
+
+    unless tags[:async], do: Adapter.mode(Repo, {:shared, self()})
+
     {:ok, conn: ConnTest.build_conn()}
   end
 end

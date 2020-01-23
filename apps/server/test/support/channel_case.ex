@@ -15,6 +15,9 @@ defmodule ServerWeb.ChannelCase do
 
   use ExUnit.CaseTemplate
 
+  alias Core.Repo
+  alias Ecto.Adapters.SQL.Sandbox, as: Adapter
+
   using do
     quote do
       use Phoenix.ChannelTest
@@ -23,7 +26,11 @@ defmodule ServerWeb.ChannelCase do
     end
   end
 
-  setup _tags do
+  setup tags do
+    :ok = Adapter.checkout(Repo)
+
+    unless tags[:async], do: Adapter.mode(Repo, {:shared, self()})
+
     :ok
   end
 end
