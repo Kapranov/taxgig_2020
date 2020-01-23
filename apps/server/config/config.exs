@@ -1,10 +1,9 @@
 use Mix.Config
 
 config :server, ServerWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "localhost", port: 4000, ip: {127, 0, 0, 1}],
   secret_key_base: "4rKBiN5BznqeClNzy1t+4LmfMH48TxlPCUT996MELKJ2t/zwrvQsPrG71vhE7vKu",
-  render_errors: [view: ServerWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: Server.PubSub, adapter: Phoenix.PubSub.PG2]
+  render_errors: [view: ServerWeb.ErrorView, accepts: ~w(json)]
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

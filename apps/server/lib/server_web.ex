@@ -22,7 +22,6 @@ defmodule ServerWeb do
       use Phoenix.Controller, namespace: ServerWeb
 
       import Plug.Conn
-      import ServerWeb.Gettext
       alias ServerWeb.Router.Helpers, as: Routes
     end
   end
@@ -37,8 +36,6 @@ defmodule ServerWeb do
         get_flash: 1, get_flash: 2, view_module: 1
       ]
 
-      import ServerWeb.ErrorHelpers
-      import ServerWeb.Gettext
       alias ServerWeb.Router.Helpers, as: Routes
     end
   end
@@ -54,7 +51,6 @@ defmodule ServerWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import ServerWeb.Gettext
     end
   end
 

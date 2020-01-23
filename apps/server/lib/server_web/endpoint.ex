@@ -1,15 +1,21 @@
 defmodule ServerWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :server
 
-  socket "/socket", ServerWeb.UserSocket,
-    websocket: true,
-    longpoll: false
+  [val1, val2, _] = Application.get_env(:server, ServerWeb.Endpoint)[:url]
 
-  plug Plug.Static,
-    at: "/",
-    from: :server,
-    gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt)
+  host = val1 |> elem(1)
+  port = val2 |> elem(1) |> to_string
+
+  origin =
+    case Mix.env() do
+      :prod -> ["https://api.taxgig.com"]
+      :dev -> ["http://" <> host <> ":" <> port]
+      _ -> false
+    end
+
+  socket "/socket", ServerWeb.UserSocket,
+    websocket: [check_origin: origin],
+    longpoll: false
 
   if code_reloading? do
     plug Phoenix.CodeReloader
@@ -22,14 +28,6 @@ defmodule ServerWeb.Endpoint do
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
-
-  plug Plug.MethodOverride
-  plug Plug.Head
-
-  plug Plug.Session,
-    store: :cookie,
-    key: "_server_key",
-    signing_salt: "R3+e4W9v"
 
   plug ServerWeb.Router
 end
