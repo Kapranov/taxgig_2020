@@ -91,6 +91,17 @@ end
 
 ######################################################################
 ######################################################################
+import Ecto.Query
+
+alias Core.{
+  Landing,
+  Landing.Faq,
+  Landing.FaqCategory,
+  Landing.PressArticle,
+  Landing.Vacancy,
+  Ptin,
+  Repo
+}
 
 :timer.sleep(8000);
 
@@ -106,9 +117,510 @@ defmodule LetMeSee do
   iex> iex -S mix
 
   cmd+r
+
+  LetMeSee.index_faqs()
+  LetMeSee.index_faq_categories()
+  LetMeSee.index_press_articles()
+  LetMeSee.index_vacancies()
+
+  LetMeSee.show_faq(args)
+  LetMeSee.show_faq_category(args)
+  LetMeSee.show_press_article(args)
+  LetMeSee.show_vacancy(args)
+
+  LetMeSee.create_faq(args)
+  LetMeSee.create_faq_category()
+  LetMeSee.create_press_article()
+  LetMeSee.create_vacancy()
+
+  LetMeSee.update_faq(id, arg)
+  LetMeSee.update_faq_category(args)
+  LetMeSee.update_press_article(args)
+  LetMeSee.update_vacancy(args)
+
+  LetMeSee.delete_faq(args)
+  LetMeSee.delete_faq_category(args)
+  LetMeSee.delete_press_article(args)
+  LetMeSee.delete_vacancy(args)
   """
 
   IO.puts(
     "\nAaron - This is your self from the past. Remember to reset the DB! mix ecto.reset.repo then do setup\n"
   )
+
+  @last_vacancy Repo.all(Vacancy) |> List.last |> Map.get(:id)
+  @last_press_article Repo.all(PressArticle) |> List.last |> Map.get(:id)
+  @last_faq Repo.all(Faq) |> List.last |> Map.get(:id)
+  @last_faq_category Repo.all(FaqCategory) |> List.last |> Map.get(:id)
+
+
+  def index_faqs do
+    request = """
+    {
+      allFaqs {
+        id
+        content
+        title
+        inserted_at
+        updated_at
+        faq_categories {
+          id
+          title
+          inserted_at
+          updated_at
+        }
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def index_faq_categories do
+    request = """
+    {
+      allFaqCategories {
+        id
+        title
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def index_press_articles do
+    request = """
+    {
+      allPressArticles{
+        id
+        author
+        preview_text
+        title
+        url
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def index_vacancies do
+    request = """
+    {
+      allVacancies{
+        id
+        content
+        department
+        title
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def show_faq(id \\ @last_faq) do
+    request = """
+    {
+      showFaq(id: \"#{id}\") {
+        id
+        content
+        title
+        inserted_at
+        updated_at
+        faq_categories {
+          id
+          title
+          inserted_at
+          updated_at
+        }
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def show_faq_category(id \\ @last_faq_category) do
+    request = """
+    {
+      showFaqCategory(id: \"#{id}\") {
+        id
+        title
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def show_press_article(id \\ @last_press_article) do
+    request = """
+    {
+      showPressArticle(id: \"#{id}\") {
+        id
+        author
+        preview_text
+        title
+        url
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def show_vacancy(id \\ @last_vacancy) do
+    request = """
+    {
+      showVacancy(id: \"#{id}\") {
+        id
+        content
+        department
+        title
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def create_faq(id \\ @last_faq_category) do
+    request = """
+    {
+      createFaq(
+        content: "some text",
+        title: "some text",
+        faq_categoryId: \"#{id}\"
+      ) {
+        id
+        content
+        title
+        inserted_at
+        updated_at
+        faq_categories {
+          id
+          title
+          inserted_at
+          updated_at
+        }
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def create_faq_category do
+    request = """
+    {
+      createFaqCategory(
+        title: "some text"
+      ) {
+        id
+        title
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def create_press_article do
+    request = """
+    {
+      createPressArticle(
+        author: "some text",
+        preview_text: "some text",
+        title: "some text",
+        url: "some text"
+      ) {
+        id
+        author
+        preview_text
+        title
+        url
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def create_vacancy do
+    request = """
+    {
+      createVacancy(
+        content: "some text",
+        department: "some text",
+        title: "some text"
+      ) {
+        id
+        content
+        department
+        title
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def update_faq(id \\ @last_faq, arg \\ @last_faq_category) do
+    request = """
+    {
+      updateFaq(
+        id: \"#{id}\",
+        faq: {
+          content: "updated text",
+          title: "updated text",
+          faq_categoryId: \"#{arg}\"
+        }
+      ) {
+        id
+        content
+        title
+        inserted_at
+        updated_at
+        faq_categories {
+          id
+          title
+          inserted_at
+          updated_at
+        }
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def update_faq_category(id \\ @last_faq_category) do
+    request = """
+    {
+      updateFaqCategory(
+        id: \"#{id}\",
+        faq_category: {
+          title: "updated text"
+        }
+      ) {
+        id
+        title
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def update_press_article(id \\ @last_press_article) do
+    request = """
+    {
+      updatePressArticle(
+        id: \"#{id}\",
+        press_article: {
+          author: "updated text",
+          preview_text: "updated text",
+          title: "updated text",
+          url: "updated text"
+        }
+      ) {
+        id
+        author
+        preview_text
+        title
+        url
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def update_vacancy(id \\ @last_vacancy) do
+    request = """
+    {
+      updateVacancy(
+        id: \"#{id}\",
+        vacancy: {
+          content: "updated text",
+          department: "updated text",
+          title: "updated text"
+        }
+      ) {
+        id
+        content
+        department
+        title
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def delete_faq(id \\ @last_faq) do
+    request = """
+    {
+      deleteFaq(id: \"#{id}\") {id}
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def delete_faq_category(id \\ @last_faq_category) do
+    request = """
+    {
+      deleteFaqCategory(id: \"#{id}\") {id}
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def delete_press_article(id \\ @last_press_article) do
+    request = """
+    {
+      deletePressArticle(id: \"#{id}\") {id}
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def delete_vacancy(id \\ @last_vacancy) do
+    request = """
+    {
+      deleteVacancy(id: \"#{id}\") {id}
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
 end
