@@ -1,5 +1,6 @@
 defmodule ServerWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :server
+  use Absinthe.Phoenix.Endpoint
 
   [val1, val2, _] = Application.get_env(:server, ServerWeb.Endpoint)[:url]
 
@@ -25,7 +26,7 @@ defmodule ServerWeb.Endpoint do
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
   plug Plug.Parsers,
-    parsers: [:urlencoded, :multipart, :json],
+    parsers: [:urlencoded, {:multipart, length: 10_000_000}, :json, Absinthe.Plug.Parser],
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
 

@@ -8,24 +8,26 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.FaqCategoryTypes do
   alias ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver
 
   @desc "A faq category on the site"
-  object :faq_category do
-    field :id, non_null(:string), description: "faq category id"
+  object :faq_category, description: "Faq Category" do
+    field :id, non_null(:string), description: "unique identifier"
     field :title, non_null(:string), description: "faq category title"
+    field :inserted_at, non_null(:datetime), description: "Created at"
+    field :updated_at, non_null(:datetime), description: "Last updated at"
   end
 
   @desc "The faq category update via params"
-  input_object :update_faq_category_params do
-    field :title, :string
+  input_object :update_faq_category_params, description: "create faq category" do
+    field :title, non_null(:string), description: "Required title name"
   end
 
   object :faq_category_queries do
     @desc "Get all faq categories"
-    field :faq_categories, list_of(:faq_category) do
+    field :all_faq_categories, list_of(:faq_category) do
       resolve(&FaqCategoryResolver.list/3)
     end
 
     @desc "Get a specific faq category"
-    field :faq_category, :faq_category do
+    field :show_faq_category, :faq_category do
       arg(:id, non_null(:string))
       resolve(&FaqCategoryResolver.show/3)
     end
@@ -33,8 +35,8 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.FaqCategoryTypes do
 
   object :faq_category_mutations do
     @desc "Create the Faq Category"
-    field :create_faq_category, :faq_category do
-      arg :title, :string
+    field :create_faq_category, :faq_category, description: "Create a new faq category" do
+      arg :title, non_null(:string)
       resolve &FaqCategoryResolver.create/3
     end
 

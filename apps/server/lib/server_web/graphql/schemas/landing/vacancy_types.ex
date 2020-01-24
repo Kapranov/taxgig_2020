@@ -13,6 +13,8 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.VacancyTypes do
     field :content, non_null(:string), description: "vacancy content"
     field :department, non_null(:string), description: "vacancy department"
     field :title, non_null(:string), description: "vacancy title"
+    field :inserted_at, non_null(:datetime)
+    field :updated_at, non_null(:datetime)
   end
 
   @desc "The vacancy update via params"
@@ -24,12 +26,12 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.VacancyTypes do
 
   object :vacancy_queries do
     @desc "Get all vacancies"
-    field :vacancies, list_of(:vacancy) do
+    field :all_vacancies, list_of(:vacancy) do
       resolve(&VacancyResolver.list/3)
     end
 
     @desc "Get a specific vacancy"
-    field :vacancy, :vacancy do
+    field :show_vacancy, :vacancy do
       arg(:id, non_null(:string))
       resolve(&VacancyResolver.show/3)
     end

@@ -29,10 +29,10 @@ defmodule Server.MixProject do
 
   defp deps do
     [
-      {:absinthe, "~> 1.4"},
-      {:absinthe_error_payload, "~> 1.0"},
-      {:absinthe_phoenix, "~> 1.4"},
-      {:absinthe_plug, "~> 1.4"},
+      {:absinthe, "~> 1.4", override: true},
+      {:absinthe_error_payload, "~> 1.0", override: true},
+      {:absinthe_phoenix, "~> 1.4", override: true},
+      {:absinthe_plug, "~> 1.4", override: true},
       {:dataloader, "~> 1.0"},
       {:ex_machina, "~> 2.3"},
       {:ex_spec, "~> 2.0", only: [:test]},
@@ -42,6 +42,7 @@ defmodule Server.MixProject do
       {:phoenix_pubsub, "~> 1.1"},
       {:plug_cowboy, "~> 2.0"},
       {:remix, "~> 0.0", only: [:dev]},
+      {:timex, "~> 3.6"},
       {:core, in_umbrella: true}
     ]
   end

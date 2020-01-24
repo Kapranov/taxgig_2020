@@ -14,6 +14,8 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.PressArticleTypes do
     field :preview_text, non_null(:string), description: "press article preview_text"
     field :title, non_null(:string), description: "press article title"
     field :url, non_null(:string), description: "press article url"
+    field :inserted_at, non_null(:datetime)
+    field :updated_at, non_null(:datetime)
   end
 
   @desc "The press article update via params"
@@ -26,12 +28,12 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.PressArticleTypes do
 
   object :press_article_queries do
     @desc "Get all press articles"
-    field :press_articles, list_of(:press_article) do
+    field :all_press_articles, list_of(:press_article) do
       resolve(&PressArticleResolver.list/3)
     end
 
     @desc "Get a specific press article"
-    field :press_article, :press_article do
+    field :show_press_article, :press_article do
       arg(:id, non_null(:string))
       resolve(&PressArticleResolver.show/3)
     end

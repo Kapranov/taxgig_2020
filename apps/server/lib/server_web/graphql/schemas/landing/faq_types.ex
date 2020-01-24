@@ -16,6 +16,8 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.FaqTypes do
     field :content, non_null(:string), description: "faq content"
     field :title, non_null(:string), description: "faq title"
     field :faq_category, list_of(:faq_category), resolve: dataloader(Data)
+    field :inserted_at, non_null(:datetime)
+    field :updated_at, non_null(:datetime)
   end
 
   @desc "The faq update via params"
@@ -27,12 +29,12 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.FaqTypes do
 
   object :faq_queries do
     @desc "Get all faqs"
-    field :faqs, list_of(:faq) do
+    field :all_faqs, list_of(:faq) do
       resolve(&FaqResolver.list/3)
     end
 
     @desc "Get a specific faq"
-    field :faq, :faq do
+    field :show_faq, :faq do
       arg(:id, non_null(:string))
       resolve(&FaqResolver.show/3)
     end

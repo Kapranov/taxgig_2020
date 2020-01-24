@@ -12,4 +12,8 @@ config :logger, :console,
 
 config :phoenix, :json_library, Jason
 
+config :absinthe_error_payload,
+  ecto_repos: [Core.Repo],
+  field_constructor: AbsintheErrorPayload.FieldConstructor
+
 import_config "#{Mix.env()}.exs"

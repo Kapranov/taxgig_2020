@@ -19,7 +19,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolverTest do
       {:ok, found} = FaqCategoryResolver.show(nil, %{id: struct.id}, nil)
       assert found.id    == struct.id
       assert found.title == struct.title
-
     end
 
     it "returns not found when FaqCategory does not exist" do
