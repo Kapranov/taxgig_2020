@@ -59,7 +59,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
   end
 
   describe "#show" do
-    it "returns specific FaqCategory by id" do
+    it "returns specific faq category by id" do
       struct = insert(:faq_category)
 
       context = %{}
@@ -97,7 +97,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert found["updated_at"]  == format_time(struct.updated_at)
     end
 
-    it "returns not found when FaqCategory does not exist" do
+    it "returns not found when faq category does not exist" do
       id =  Ecto.UUID.generate()
 
       query = """
@@ -123,7 +123,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
   end
 
   describe "#create" do
-    it "creates FaqCategory" do
+    it "creates faq category" do
       mutation = """
       {
         createFaqCategory(
@@ -153,7 +153,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
   end
 
   describe "#update" do
-    it "update specific FaqCategory by id" do
+    it "update specific faq category by id" do
       struct = insert(:faq_category)
 
       mutation = """
@@ -194,7 +194,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
   end
 
   describe "#delete" do
-    it "delete specific FaqCategory by id" do
+    it "delete specific faq category by id" do
       struct = insert(:faq_category)
 
       mutation = """

@@ -29,6 +29,7 @@ defmodule Core.MixProject do
       {:faker, "~> 0.13", only: [:dev, :test]},
       {:ecto_sql, "~> 3.3"},
       {:ex_machina, "~> 2.3"},
+      {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:postgrex, "~> 0.15.3"},
       {:remix, "~> 0.0", only: [:dev]}
     ]
