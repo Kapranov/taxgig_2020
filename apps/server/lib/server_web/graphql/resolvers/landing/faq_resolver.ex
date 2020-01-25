@@ -28,6 +28,24 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqResolver do
     end
   end
 
+  def search_titles(_parent, args, _info) do
+    if is_nil(args) do
+      {:error, [[field: :title, message: "Can't be blank"]]}
+    else
+      try do
+        if is_nil(args[:title]) do
+          {:error, [[field: :title, message: "Can't be blank"]]}
+        else
+          struct = Landing.search_title(args[:title])
+          {:ok, struct}
+        end
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "The Faq #{args[:title]} not found!"}
+      end
+    end
+  end
+
   def create(_parent, args, _info) do
     args
     |> Landing.create_faq()

@@ -128,6 +128,8 @@ defmodule LetMeSee do
   LetMeSee.show_press_article(args)
   LetMeSee.show_vacancy(args)
 
+  LetMeSee.search_titles(args)
+
   LetMeSee.create_faq(args)
   LetMeSee.create_faq_category()
   LetMeSee.create_press_article()
@@ -152,7 +154,7 @@ defmodule LetMeSee do
   @last_press_article Repo.all(PressArticle) |> List.last |> Map.get(:id)
   @last_faq Repo.all(Faq) |> List.last |> Map.get(:id)
   @last_faq_category Repo.all(FaqCategory) |> List.last |> Map.get(:id)
-
+  @search_word ~s(Article)
 
   def index_faqs do
     request = """
@@ -326,6 +328,33 @@ defmodule LetMeSee do
         title
         inserted_at
         updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def search_titles(word \\ @search_word) do
+    request = """
+    {
+      searchTitles(title: \"#{word}\") {
+        id
+        content
+        title
+        inserted_at
+        updated_at
+        faq_categories {
+          id
+          title
+          inserted_at
+          updated_at
+        }
       }
     }
     """

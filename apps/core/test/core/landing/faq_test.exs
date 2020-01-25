@@ -49,6 +49,12 @@ defmodule Core.Landing.FaqTest do
       assert Landing.get_faq!(struct.id) == struct
     end
 
+    test "search_title/1 1 returns the faqs with given title" do
+      struct = fixture()
+      word = struct.title
+      assert Landing.search_title(word) == [struct]
+    end
+
     test "create_faq/1 with valid data creates a faq" do
       {:ok, faq_category} =
         Landing.create_faq_category(%{title: "some text"})

@@ -38,6 +38,12 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.FaqTypes do
       arg(:id, non_null(:string))
       resolve(&FaqResolver.show/3)
     end
+
+    @desc "Search title by faqs"
+    field :search_titles, list_of(:faq) do
+      arg(:title, non_null(:string))
+      resolve(&FaqResolver.search_titles/3)
+    end
   end
 
   object :faq_mutations do

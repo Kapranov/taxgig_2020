@@ -177,6 +177,100 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
     end
   end
 
+  describe "#search_titles" do
+    it "returns searched faq's title" do
+      struct_a = insert(:faq_category)
+      struct_b = insert(:faq, %{faq_categories: struct_a})
+
+      context = %{}
+
+      query = """
+      {
+        searchTitles(title: \"#{struct_b.title}\") {
+          id
+          content
+          title
+          inserted_at
+          updated_at
+          faq_categories {
+            id
+            title
+            inserted_at
+            updated_at
+          }
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "searchTitles"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      [found] = json_response(res, 200)["data"]["searchTitles"]
+
+      assert found["id"]          == struct_b.id
+      assert found["title"]       == struct_b.title
+      assert found["content"]     == struct_b.content
+      assert found["title"]       == struct_b.title
+      assert found["inserted_at"] == format_time(struct_b.inserted_at)
+      assert found["updated_at"]  == format_time(struct_b.updated_at)
+
+      assert found["faq_categories"]["id"]          == struct_a.id
+      assert found["faq_categories"]["title"]       == struct_a.title
+      assert found["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
+      assert found["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
+
+      {:ok, %{data: %{"searchTitles" => [found]}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["id"]          == struct_b.id
+      assert found["content"]     == struct_b.content
+      assert found["title"]       == struct_b.title
+      assert found["inserted_at"] == format_time(struct_b.inserted_at)
+      assert found["updated_at"]  == format_time(struct_b.updated_at)
+    end
+
+    it "returns not found when title does not exist" do
+      insert(:faq)
+      word = "Aloha"
+
+      context = %{}
+
+      query = """
+      {
+        searchTitles(title: \"#{word}\") {
+          id
+          content
+          title
+          inserted_at
+          updated_at
+          faq_categories {
+            id
+            title
+            inserted_at
+            updated_at
+          }
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "searchTitles"))
+
+      assert json_response(res, 200)["errors"] == nil
+      found = json_response(res, 200)["data"]["searchTitles"]
+      assert found == []
+
+      {:ok, %{data: %{"searchTitles" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found == []
+    end
+  end
+
   describe "#create" do
     it "creates faq" do
       struct = insert(:faq_category)

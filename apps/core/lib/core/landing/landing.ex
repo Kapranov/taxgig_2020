@@ -74,6 +74,18 @@ defmodule Core.Landing do
   def get_faq!(id), do: Repo.get!(Faq, id)
 
   @doc """
+  Search by title for Faq
+  """
+  @spec search_title(String.t) :: list
+  def search_title(word) do
+    Repo.all(
+      from u in Faq,
+      where: ilike(u.title, ^("%" <> word <> "%")),
+      limit: 25
+    )
+  end
+
+  @doc """
   Gets a single Faq Category.
 
   Raises `Ecto.NoResultsError` if the FaqCategory does not exist.

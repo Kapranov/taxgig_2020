@@ -40,6 +40,34 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqResolverTest do
     end
   end
 
+  describe "#search_titles" do
+    it "search title and returns specific Faq by title" do
+      struct = insert(:faq)
+      {:ok, found} = FaqResolver.search_titles(nil, %{title: struct.title}, nil)
+      loader = found |> Core.Repo.preload(:faq_categories)
+      assert loader == [struct]
+    end
+
+    it "returns not found when title does not exist by Faq" do
+      insert(:faq)
+      word = "Aloha"
+      {:ok, found} = FaqResolver.search_titles(nil, %{title: word}, nil)
+      assert found == []
+    end
+
+    it "returns error for params is null" do
+      insert(:faq)
+      {:error, found} = FaqResolver.search_titles(nil, %{title: nil}, nil)
+      assert found == [[field: :title, message: "Can't be blank"]]
+    end
+
+    it "returns error for missing params" do
+      insert(:faq)
+      {:error, found} = FaqResolver.search_titles(nil, nil, nil)
+      assert found == [[field: :title, message: "Can't be blank"]]
+    end
+  end
+
   describe "#create" do
     it "creates Faq" do
       %{id: id} = insert(:faq_category)
