@@ -14,6 +14,12 @@ defmodule Core.Landing do
 
   alias Core.Repo
 
+  @type t :: __MODULE__.t()
+  @type reason :: any
+  @type success_tuple :: {:ok, t}
+  @type error_tuple :: {:error, reason}
+  @type result :: success_tuple | error_tuple
+
   @doc """
   Returns the list of Faq.
 
@@ -22,6 +28,7 @@ defmodule Core.Landing do
       iex> list_faq()
       [%Faq{}, ...]
   """
+  @spec list_faq() :: result
   def list_faq, do: Repo.all(Faq)
 
   @doc """
@@ -33,6 +40,7 @@ defmodule Core.Landing do
       [%FaqCategory{}, ...]
 
   """
+  @spec list_faq_category() :: result
   def list_faq_category, do: Repo.all(FaqCategory)
 
   @doc """
@@ -44,6 +52,7 @@ defmodule Core.Landing do
       [%PressArticle{}, ...]
 
   """
+  @spec list_press_article() :: result
   def list_press_article, do: Repo.all(PressArticle)
 
   @doc """
@@ -55,6 +64,7 @@ defmodule Core.Landing do
       [%Vacancy{}, ...]
 
   """
+  @spec list_vacancy() :: result
   def list_vacancy, do: Repo.all(Vacancy)
 
   @doc """
@@ -71,18 +81,44 @@ defmodule Core.Landing do
       ** (Ecto.NoResultsError)
 
   """
+  @spec get_faq!(String.t) :: result
   def get_faq!(id), do: Repo.get!(Faq, id)
 
   @doc """
   Search by title for Faq
   """
-  @spec search_title(String.t) :: list
+  @spec search_title(String.t) :: list | error_tuple
   def search_title(word) do
-    Repo.all(
-      from u in Faq,
-      where: ilike(u.title, ^("%" <> word <> "%")),
-      limit: 25
-    )
+    if is_nil(word) do
+      {:error, %Ecto.Changeset{}}
+    else
+      Repo.all(
+        from u in Faq,
+        where: ilike(u.title, ^("%" <> word <> "%")),
+        limit: 25
+      )
+    end
+  end
+
+  @spec count_title(String.t) :: integer | error_tuple
+  def count_title(word) do
+    if is_nil(word) do
+      {:error, %Ecto.Changeset{}}
+    else
+      title =
+        Repo.all(
+          from c in FaqCategory,
+          join: cu in Faq,
+          where: c.title ==^word and cu.faq_category_id == c.id,
+          select: cu.faq_category_id
+        )
+      case title do
+        nil ->
+          0
+        _ ->
+          Enum.count(title)
+      end
+    end
   end
 
   @doc """
@@ -99,6 +135,7 @@ defmodule Core.Landing do
       ** (Ecto.NoResultsError)
 
   """
+  @spec get_faq_category!(String.t) :: result
   def get_faq_category!(id), do: Repo.get!(FaqCategory, id)
 
   @doc """
@@ -115,6 +152,7 @@ defmodule Core.Landing do
       ** (Ecto.NoResultsError)
 
   """
+  @spec get_press_article!(String.t) :: result
   def get_press_article!(id), do: Repo.get!(PressArticle, id)
 
   @doc """
@@ -131,6 +169,7 @@ defmodule Core.Landing do
       ** (Ecto.NoResultsError)
 
   """
+  @spec get_vacancy!(String.t) :: result
   def get_vacancy!(id), do: Repo.get!(Vacancy, id)
 
   @doc """
@@ -145,6 +184,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_faq(map) :: result
   def create_faq(attrs \\ %{}) do
     %Faq{}
     |> Faq.changeset(attrs)
@@ -163,6 +203,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_faq_category(map) :: result
   def create_faq_category(attrs \\ %{}) do
     %FaqCategory{}
     |> FaqCategory.changeset(attrs)
@@ -181,6 +222,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_press_article(map) :: result
   def create_press_article(attrs \\ %{}) do
     %PressArticle{}
     |> PressArticle.changeset(attrs)
@@ -199,6 +241,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_vacancy(map) :: result
   def create_vacancy(attrs \\ %{}) do
     %Vacancy{}
     |> Vacancy.changeset(attrs)
@@ -217,6 +260,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec update_faq(map, map) :: result
   def update_faq(%Faq{} = struct, attrs) do
     struct
     |> Faq.changeset(attrs)
@@ -235,6 +279,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec update_faq_category(map, map) :: result
   def update_faq_category(%FaqCategory{} = struct, attrs) do
     struct
     |> FaqCategory.changeset(attrs)
@@ -253,6 +298,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec update_press_article(map, map) :: result
   def update_press_article(%PressArticle{} = struct, attrs) do
     struct
     |> PressArticle.changeset(attrs)
@@ -271,6 +317,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec update_vacancy(map, map) :: result
   def update_vacancy(%Vacancy{} = struct, attrs) do
     struct
     |> Vacancy.changeset(attrs)
@@ -289,6 +336,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec delete_faq(map) :: result
   def delete_faq(%Faq{} = struct) do
     Repo.delete(struct)
   end
@@ -305,6 +353,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec delete_faq_category(map) :: result
   def delete_faq_category(%FaqCategory{} = struct) do
     Repo.delete(struct)
   end
@@ -321,6 +370,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec delete_press_article(map) :: result
   def delete_press_article(%PressArticle{} = struct) do
     Repo.delete(struct)
   end
@@ -337,6 +387,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec delete_vacancy(map) :: result
   def delete_vacancy(%Vacancy{} = struct) do
     Repo.delete(struct)
   end
@@ -350,6 +401,7 @@ defmodule Core.Landing do
       %Ecto.Changeset{source: %Faq{}}
 
   """
+  @spec change_faq(map) :: result
   def change_faq(%Faq{} = struct) do
     Faq.changeset(struct, %{})
   end
@@ -363,6 +415,7 @@ defmodule Core.Landing do
       %Ecto.Changeset{source: %FaqCategory{}}
 
   """
+  @spec change_faq_category(map) :: result
   def change_faq_category(%FaqCategory{} = struct) do
     FaqCategory.changeset(struct, %{})
   end
@@ -376,6 +429,7 @@ defmodule Core.Landing do
       %Ecto.Changeset{source: %PressArticle{}}
 
   """
+  @spec change_press_article(map) :: result
   def change_press_article(%PressArticle{} = struct) do
     PressArticle.changeset(struct, %{})
   end
@@ -389,6 +443,7 @@ defmodule Core.Landing do
       %Ecto.Changeset{source: %Vacancy{}}
 
   """
+  @spec change_vacancy(map) :: result
   def change_vacancy(%Vacancy{} = struct) do
     Vacancy.changeset(struct, %{})
   end
