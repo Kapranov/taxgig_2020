@@ -3,7 +3,7 @@ defmodule Core.Landing do
   The Landing context.
   """
 
-  import Ecto.Query, warn: false
+  use Core.Context
 
   alias Core.Landing.{
     Faq,
@@ -11,14 +11,6 @@ defmodule Core.Landing do
     PressArticle,
     Vacancy
   }
-
-  alias Core.Repo
-
-  @type t :: __MODULE__.t()
-  @type reason :: any
-  @type success_tuple :: {:ok, t}
-  @type error_tuple :: {:error, reason}
-  @type result :: success_tuple | error_tuple
 
   @doc """
   Returns the list of Faq.
@@ -28,7 +20,7 @@ defmodule Core.Landing do
       iex> list_faq()
       [%Faq{}, ...]
   """
-  @spec list_faq() :: result
+  @spec list_faq() :: list
   def list_faq, do: Repo.all(Faq)
 
   @doc """
@@ -40,7 +32,7 @@ defmodule Core.Landing do
       [%FaqCategory{}, ...]
 
   """
-  @spec list_faq_category() :: result
+  @spec list_faq_category() :: list
   def list_faq_category, do: Repo.all(FaqCategory)
 
   @doc """
@@ -52,7 +44,7 @@ defmodule Core.Landing do
       [%PressArticle{}, ...]
 
   """
-  @spec list_press_article() :: result
+  @spec list_press_article() :: list
   def list_press_article, do: Repo.all(PressArticle)
 
   @doc """
@@ -64,7 +56,7 @@ defmodule Core.Landing do
       [%Vacancy{}, ...]
 
   """
-  @spec list_vacancy() :: result
+  @spec list_vacancy() :: list
   def list_vacancy, do: Repo.all(Vacancy)
 
   @doc """
@@ -78,45 +70,19 @@ defmodule Core.Landing do
       %Faq{}
 
       iex> get_faq!(456)
-      ** (Ecto.NoResultsError)
+      {:error, %Ecto.Changeset{}}
 
   """
-  @spec get_faq!(String.t) :: result
-  def get_faq!(id), do: Repo.get!(Faq, id)
-
-  @doc """
-  Search by title for Faq
-  """
-  @spec search_title(String.t) :: list | error_tuple
-  def search_title(word) do
-    if is_nil(word) do
+  @spec get_faq!(String.t) :: map | error_tuple
+  def get_faq!(id) do
+    if is_nil(id) do
       {:error, %Ecto.Changeset{}}
     else
-      Repo.all(
-        from u in Faq,
-        where: ilike(u.title, ^("%" <> word <> "%")),
-        limit: 25
-      )
-    end
-  end
-
-  @spec count_title(String.t) :: integer | error_tuple
-  def count_title(word) do
-    if is_nil(word) do
-      {:error, %Ecto.Changeset{}}
-    else
-      title =
-        Repo.all(
-          from c in FaqCategory,
-          join: cu in Faq,
-          where: c.title ==^word and cu.faq_category_id == c.id,
-          select: cu.faq_category_id
-        )
-      case title do
-        nil ->
-          0
-        _ ->
-          Enum.count(title)
+      try do
+        Repo.get!(Faq, id)
+      rescue
+        Ecto.NoResultsError ->
+          {:error, %Ecto.Changeset{}}
       end
     end
   end
@@ -132,11 +98,22 @@ defmodule Core.Landing do
       %FaqCategory{}
 
       iex> get_faq_category!(456)
-      ** (Ecto.NoResultsError)
+      {:error, %Ecto.Changeset{}}
 
   """
-  @spec get_faq_category!(String.t) :: result
-  def get_faq_category!(id), do: Repo.get!(FaqCategory, id)
+  @spec get_faq_category!(String.t) :: map | error_tuple
+  def get_faq_category!(id) do
+    if is_nil(id) do
+      {:error, %Ecto.Changeset{}}
+    else
+      try do
+        Repo.get!(FaqCategory, id)
+      rescue
+        Ecto.NoResultsError ->
+          {:error, %Ecto.Changeset{}}
+      end
+    end
+  end
 
   @doc """
   Gets a single Press Article.
@@ -149,11 +126,22 @@ defmodule Core.Landing do
       %PressArticle{}
 
       iex> get_press_article!(456)
-      ** (Ecto.NoResultsError)
+      {:error, %Ecto.Changeset{}}
 
   """
-  @spec get_press_article!(String.t) :: result
-  def get_press_article!(id), do: Repo.get!(PressArticle, id)
+  @spec get_press_article!(String.t) :: map | error_tuple
+  def get_press_article!(id) do
+    if is_nil(id) do
+      {:error, %Ecto.Changeset{}}
+    else
+      try do
+        Repo.get!(PressArticle, id)
+      rescue
+        Ecto.NoResultsError ->
+          {:error, %Ecto.Changeset{}}
+      end
+    end
+  end
 
   @doc """
   Gets a single Vacancy.
@@ -166,11 +154,181 @@ defmodule Core.Landing do
       %Vacancy{}
 
       iex> get_vacancy!(456)
-      ** (Ecto.NoResultsError)
+      {:error, %Ecto.Changeset{}}
 
   """
-  @spec get_vacancy!(String.t) :: result
-  def get_vacancy!(id), do: Repo.get!(Vacancy, id)
+  @spec get_vacancy!(String.t) :: map | error_tuple
+  def get_vacancy!(id) do
+    if is_nil(id) do
+      {:error, %Ecto.Changeset{}}
+    else
+      try do
+        Repo.get!(Vacancy, id)
+      rescue
+        Ecto.NoResultsError ->
+          {:error, %Ecto.Changeset{}}
+      end
+    end
+  end
+
+  @doc """
+  Search by title for Faq
+
+  ## Examples
+
+      iex> search_title("123")
+      [%Faq{}, ...]
+
+      iex> search_title(456)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec search_title(String.t) :: list | error_tuple
+  def search_title(word) do
+    if is_nil(word) do
+      {:error, %Ecto.Changeset{}}
+    else
+      Repo.all(
+        from u in Faq,
+        where: ilike(u.title, ^("%" <> word <> "%")),
+        limit: 25
+      )
+    end
+  end
+
+  @doc """
+  Count by title for FaqCategory by Faq
+
+  ## Examples
+
+      iex> count_title("123")
+      0
+
+      iex> count_title(456)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec count_title(String.t) :: integer | error_tuple
+  def count_title(word) do
+    if is_nil(word) do
+      {:error, %Ecto.Changeset{}}
+    else
+      title =
+        Repo.aggregate(
+          from(
+            c in FaqCategory,
+            join: cu in Faq,
+            where: c.title ==^word and cu.faq_category_id == c.id
+          ), :count, :id
+        )
+      case title do
+        nil ->
+          0
+        _ ->
+          title
+      end
+    end
+  end
+
+  @doc """
+  Create new struct with count by title for FaqCategory by Faq.
+
+  ## Examples
+
+      iex> count_title_map("123")
+      [%FaqCategory{}, ...]
+
+      iex> count_title_map(456)
+      {:error, %Ecto.Changeset{}}
+
+  """
+
+  @spec count_title_map(String.t) :: map | error_tuple
+  def count_title_map(word) do
+    if is_nil(word) do
+      {:error, %Ecto.Changeset{}}
+    else
+      title =
+        Repo.all(from(
+          c in FaqCategory,
+          join: cu in Faq,
+          where: c.title ==^word and cu.faq_category_id == c.id,
+          # select_merge: %{"$aggregate": %{"$count": %{:id => count(field(cu, :faqs_count))}}},
+          # select_merge: %{faqs: %{:faqs_count => count(field(cu, :id))}},
+          # select_merge: %{faqs: %{:faqs_count => count(field(cu, :id))}},
+          select_merge: %{faqs: %{:id => cu.id, :faqs_count => count(field(cu, :id))}},
+          group_by: [cu.faq_category_id, c.id, cu.id]
+        ))
+
+      case title do
+        nil -> 0
+        _ -> title
+      end
+    end
+  end
+
+  @doc """
+  Count faq_category_id by FaqCategory.
+
+  ## Examples
+
+      iex> count("123")
+      0
+
+      iex> count(456)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec count(String.t) :: integer | error_tuple
+  def count(id) do
+    if is_nil(id) do
+      {:error, %Ecto.Changeset{}}
+    else
+      case id do
+        "" ->
+          {:error, %Ecto.Changeset{}}
+        _ ->
+          query =
+            from p in Faq,
+            where: p.faq_category_id == ^id
+
+          id_count =
+            Repo.aggregate(query, :count, :faq_category_id)
+
+          id_count
+      end
+    end
+  end
+
+  @doc """
+  Find FaqCategoryId all records by Faq.
+
+  ## Examples
+
+      iex> find_by_faq_category_id("123")
+      [%Faq{}, ...]
+
+      iex> find_by_faq_category_id(456)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec find_by_faq_category_id(String.t) :: list | error_tuple
+  def find_by_faq_category_id(id) do
+    if is_nil(id) do
+      {:error, %Ecto.Changeset{}}
+    else
+      case id do
+        "" ->
+          {:error, %Ecto.Changeset{}}
+        _ ->
+          query =
+            from p in Faq,
+            where: p.faq_category_id == ^id
+
+          Repo.all(query)
+      end
+    end
+  end
 
   @doc """
   Creates a Faq.
@@ -184,7 +342,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_faq(map) :: result
+  @spec create_faq(map) :: result | error_tuple
   def create_faq(attrs \\ %{}) do
     %Faq{}
     |> Faq.changeset(attrs)
@@ -203,7 +361,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_faq_category(map) :: result
+  @spec create_faq_category(map) :: result | error_tuple
   def create_faq_category(attrs \\ %{}) do
     %FaqCategory{}
     |> FaqCategory.changeset(attrs)
@@ -222,7 +380,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_press_article(map) :: result
+  @spec create_press_article(map) :: result | error_tuple
   def create_press_article(attrs \\ %{}) do
     %PressArticle{}
     |> PressArticle.changeset(attrs)
@@ -241,7 +399,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_vacancy(map) :: result
+  @spec create_vacancy(map) :: result | error_tuple
   def create_vacancy(attrs \\ %{}) do
     %Vacancy{}
     |> Vacancy.changeset(attrs)
@@ -260,7 +418,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_faq(map, map) :: result
+  @spec update_faq(map, map) :: result | error_tuple
   def update_faq(%Faq{} = struct, attrs) do
     struct
     |> Faq.changeset(attrs)
@@ -279,7 +437,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_faq_category(map, map) :: result
+  @spec update_faq_category(map, map) :: result | error_tuple
   def update_faq_category(%FaqCategory{} = struct, attrs) do
     struct
     |> FaqCategory.changeset(attrs)
@@ -298,7 +456,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_press_article(map, map) :: result
+  @spec update_press_article(map, map) :: result | error_tuple
   def update_press_article(%PressArticle{} = struct, attrs) do
     struct
     |> PressArticle.changeset(attrs)
@@ -317,7 +475,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_vacancy(map, map) :: result
+  @spec update_vacancy(map, map) :: result | error_tuple
   def update_vacancy(%Vacancy{} = struct, attrs) do
     struct
     |> Vacancy.changeset(attrs)
@@ -353,7 +511,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec delete_faq_category(map) :: result
+  @spec delete_faq_category(map) :: result | error_tuple
   def delete_faq_category(%FaqCategory{} = struct) do
     Repo.delete(struct)
   end
@@ -370,7 +528,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec delete_press_article(map) :: result
+  @spec delete_press_article(map) :: result | error_tuple
   def delete_press_article(%PressArticle{} = struct) do
     Repo.delete(struct)
   end
@@ -387,7 +545,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec delete_vacancy(map) :: result
+  @spec delete_vacancy(map) :: result | error_tuple
   def delete_vacancy(%Vacancy{} = struct) do
     Repo.delete(struct)
   end

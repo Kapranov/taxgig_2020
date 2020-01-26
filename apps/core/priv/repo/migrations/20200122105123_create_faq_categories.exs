@@ -9,5 +9,7 @@ defmodule Core.Repo.Migrations.CreateFaqCategories do
 
       timestamps(type: :utc_datetime_usec)
     end
+
+    create(unique_index(:faq_categories, [:title]))
   end
 end

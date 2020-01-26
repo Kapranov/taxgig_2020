@@ -30,8 +30,8 @@ defmodule TaxgigEx.MixProject do
     [
       bless: [&bless/1],
       "deps.get": ["deps.get", &update_version/1],
-      "ecto.setup.ptin": ["ecto.create -r Core.Ptin", "cmd --app core mix ecto.migrate -r Core.Ptin", "run #{@seed_core_repo_path}"],
-      "ecto.setup.repo": ["ecto.create -r Core.Repo", "cmd --app core mix ecto.migrate -r Core.Repo", "run #{@seed_core_ptin_path}"],
+      "ecto.setup.ptin": ["ecto.create -r Core.Ptin", "cmd --app core mix ecto.migrate -r Core.Ptin", "run #{@seed_core_ptin_path}"],
+      "ecto.setup.repo": ["ecto.create -r Core.Repo", "cmd --app core mix ecto.migrate -r Core.Repo", "run #{@seed_core_repo_path}"],
       "ecto.reset.ptin": ["ecto.drop -r Core.Ptin", "ecto.setup.ptin"],
       "ecto.reset.repo": ["ecto.drop -r Core.Repo", "ecto.setup.repo"],
       "ecto.drop.ptin": ["cmd --app core mix ecto.drop -r Core.Ptin"],

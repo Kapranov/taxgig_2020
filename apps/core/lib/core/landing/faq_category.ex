@@ -18,7 +18,7 @@ defmodule Core.Landing.FaqCategory do
   schema "faq_categories" do
     field :title, :string
 
-    has_many :faqs, Faq
+    has_many :faqs, Faq, on_delete: :delete_all
 
     timestamps()
   end
@@ -30,5 +30,6 @@ defmodule Core.Landing.FaqCategory do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
+    |> unique_constraint(:title)
   end
 end
