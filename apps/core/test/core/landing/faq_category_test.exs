@@ -49,8 +49,7 @@ defmodule Core.Landing.FaqCategoryTest do
 
     test "update_faq_category/2 with invalid data returns error changeset" do
       struct = fixture()
-      assert {:error, %Ecto.Changeset{}} =
-        Landing.update_faq_category(struct, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Landing.update_faq_category(struct, @invalid_attrs)
       assert struct == Landing.get_faq_category!(struct.id)
     end
 

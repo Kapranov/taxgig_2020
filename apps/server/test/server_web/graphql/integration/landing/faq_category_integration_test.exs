@@ -15,6 +15,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       {
         allFaqCategories {
           id
+          faqs_count
           title
           inserted_at
           updated_at
@@ -30,11 +31,13 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       data = json_response(res, 200)["data"]["allFaqCategories"]
 
       assert List.first(data)["id"]          == struct_a.id
+      assert List.first(data)["faqs_count"]  == struct_a.faqs_count
       assert List.first(data)["title"]       == struct_a.title
       assert List.first(data)["inserted_at"] == format_time(struct_a.inserted_at)
       assert List.first(data)["updated_at"]  == format_time(struct_a.updated_at)
 
       assert List.last(data)["id"]          == struct_b.id
+      assert List.last(data)["faqs_count"]  == struct_b.faqs_count
       assert List.last(data)["title"]       == struct_b.title
       assert List.last(data)["inserted_at"] == format_time(struct_b.inserted_at)
       assert List.last(data)["updated_at"]  == format_time(struct_b.updated_at)
@@ -45,6 +48,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       first = hd(data)
 
       assert first["id"]          == struct_a.id
+      assert first["faqs_count"]  == struct_a.faqs_count
       assert first["title"]       == struct_a.title
       assert first["inserted_at"] == format_time(struct_a.inserted_at)
       assert first["updated_at"]  == format_time(struct_a.updated_at)
@@ -52,6 +56,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       [second] = tl(data)
 
       assert second["id"]          == struct_b.id
+      assert second["faqs_count"]  == struct_b.faqs_count
       assert second["title"]       == struct_b.title
       assert second["inserted_at"] == format_time(struct_b.inserted_at)
       assert second["updated_at"]  == format_time(struct_b.updated_at)
@@ -68,6 +73,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       {
         showFaqCategory(id: \"#{struct.id}\") {
           id
+          faqs_count
           title
           inserted_at
           updated_at
@@ -84,6 +90,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       found = json_response(res, 200)["data"]["showFaqCategory"]
 
       assert found["id"]          == struct.id
+      assert found["faqs_count"]  == struct.faqs_count
       assert found["title"]       == struct.title
       assert found["inserted_at"] == format_time(struct.inserted_at)
       assert found["updated_at"]  == format_time(struct.updated_at)
@@ -92,6 +99,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
         Absinthe.run(query, Schema, context: context)
 
       assert found["id"]          == struct.id
+      assert found["faqs_count"]  == struct.faqs_count
       assert found["title"]       == struct.title
       assert found["inserted_at"] == format_time(struct.inserted_at)
       assert found["updated_at"]  == format_time(struct.updated_at)
@@ -104,6 +112,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       {
         showFaqCategory(id: \"#{id}\") {
           id
+          faqs_count
           title
           inserted_at
           updated_at
@@ -145,7 +154,8 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
 
       created = json_response(res, 200)["data"]["createFaqCategory"]
 
-      assert created["title"] == "some text"
+      assert created["title"]      == "some text"
+      assert created["faqs_count"] == nil
     end
 
     it "returns error for missing params" do
@@ -165,6 +175,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           }
         ) {
           id
+          faqs_count
           title
           inserted_at
           updated_at
@@ -181,6 +192,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       updated = json_response(res, 200)["data"]["updateFaqCategory"]
 
       assert updated["id"]          == struct.id
+      assert updated["faqs_count"]  == 0
       assert updated["title"]       == "updated text"
       assert updated["inserted_at"] == format_time(struct.inserted_at)
       assert updated["updated_at"]  == format_time(struct.updated_at)

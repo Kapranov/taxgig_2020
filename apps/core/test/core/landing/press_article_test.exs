@@ -80,7 +80,7 @@ defmodule Core.Landing.PressArticleTest do
     test "delete_press_article/1 deletes the press article" do
       struct = fixture()
       assert {:ok, %PressArticle{}} = Landing.delete_press_article(struct)
-      assert_raise Ecto.NoResultsError, fn -> Landing.get_press_article!(struct.id) end
+      assert_raise Ecto.NoResultsError, fn -> Landing.get_press_article!(struct.id) end 
     end
 
     test "change_press_article/1 returns a press article changeset" do

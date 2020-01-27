@@ -23,6 +23,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           updated_at
           faq_categories {
             id
+            faqs_count
             title
             inserted_at
             updated_at
@@ -45,6 +46,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert List.first(data)["updated_at"]  == format_time(struct_c.updated_at)
 
       assert List.first(data)["faq_categories"]["id"]          == struct_a.id
+      assert List.first(data)["faq_categories"]["faqs_count"]  == 0
       assert List.first(data)["faq_categories"]["title"]       == struct_a.title
       assert List.first(data)["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
       assert List.first(data)["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
@@ -56,6 +58,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert List.last(data)["updated_at"]  == format_time(struct_d.updated_at)
 
       assert List.last(data)["faq_categories"]["id"]          == struct_b.id
+      assert List.last(data)["faq_categories"]["faqs_count"]  == 0
       assert List.last(data)["faq_categories"]["title"]       == struct_b.title
       assert List.last(data)["faq_categories"]["inserted_at"] == format_time(struct_b.inserted_at)
       assert List.last(data)["faq_categories"]["updated_at"]  == format_time(struct_b.updated_at)
@@ -72,6 +75,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert first["updated_at"]  == format_time(struct_c.updated_at)
 
       assert first["faq_categories"]["id"]          == struct_a.id
+      assert first["faq_categories"]["faqs_count"]  == 0
       assert first["faq_categories"]["title"]       == struct_a.title
       assert first["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
       assert first["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
@@ -85,6 +89,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert second["updated_at"]  == format_time(struct_d.updated_at)
 
       assert second["faq_categories"]["id"]          == struct_b.id
+      assert second["faq_categories"]["faqs_count"]  == 0
       assert second["faq_categories"]["title"]       == struct_b.title
       assert second["faq_categories"]["inserted_at"] == format_time(struct_b.inserted_at)
       assert second["faq_categories"]["updated_at"]  == format_time(struct_b.updated_at)
@@ -108,6 +113,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           updated_at
           faq_categories {
             id
+            faqs_count
             title
             inserted_at
             updated_at
@@ -131,6 +137,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert found["updated_at"]  == format_time(struct_b.updated_at)
 
       assert found["faq_categories"]["id"]          == struct_a.id
+      assert found["faq_categories"]["faqs_count"]  == 0
       assert found["faq_categories"]["title"]       == struct_a.title
       assert found["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
       assert found["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
@@ -156,6 +163,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           title
           faq_categories {
             id
+            faqs_count
             title
             inserted_at
             updated_at
@@ -194,6 +202,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           updated_at
           faq_categories {
             id
+            faqs_count
             title
             inserted_at
             updated_at
@@ -218,6 +227,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert found["updated_at"]  == format_time(struct_b.updated_at)
 
       assert found["faq_categories"]["id"]          == struct_a.id
+      assert found["faq_categories"]["faqs_count"]  == 0
       assert found["faq_categories"]["title"]       == struct_a.title
       assert found["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
       assert found["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
@@ -248,6 +258,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           updated_at
           faq_categories {
             id
+            faqs_count
             title
             inserted_at
             updated_at
@@ -289,6 +300,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           updated_at
           faq_categories {
             id
+            faqs_count
             title
             inserted_at
             updated_at
@@ -309,6 +321,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert created["title"]   == "some text"
 
       assert created["faq_categories"]["id"]          == struct.id
+      assert created["faq_categories"]["faqs_count"]  == 0
       assert created["faq_categories"]["title"]       == struct.title
       assert created["faq_categories"]["inserted_at"] == format_time(struct.inserted_at)
       assert created["faq_categories"]["updated_at"]  == format_time(struct.updated_at)
@@ -340,6 +353,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           updated_at
           faq_categories {
             id
+            faqs_count
             title
             inserted_at
             updated_at
@@ -363,6 +377,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert updated["updated_at"]  == format_time(struct_b.updated_at)
 
       assert updated["faq_categories"]["id"]          == struct_a.id
+      assert updated["faq_categories"]["faqs_count"]  == 0
       assert updated["faq_categories"]["title"]       == struct_a.title
       assert updated["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
       assert updated["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)

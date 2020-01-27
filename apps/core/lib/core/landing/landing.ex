@@ -5,11 +5,12 @@ defmodule Core.Landing do
 
   use Core.Context
 
-  alias Core.Landing.{
-    Faq,
-    FaqCategory,
-    PressArticle,
-    Vacancy
+  alias Core.{
+    Landing,
+    Landing.Faq,
+    Landing.FaqCategory,
+    Landing.PressArticle,
+    Landing.Vacancy
   }
 
   @doc """
@@ -70,22 +71,13 @@ defmodule Core.Landing do
       %Faq{}
 
       iex> get_faq!(456)
-      {:error, %Ecto.Changeset{}}
+      ** (Ecto.NoResultsError)
 
   """
   @spec get_faq!(String.t) :: map | error_tuple
-  def get_faq!(id) do
-    if is_nil(id) do
-      {:error, %Ecto.Changeset{}}
-    else
-      try do
-        Repo.get!(Faq, id)
-      rescue
-        Ecto.NoResultsError ->
-          {:error, %Ecto.Changeset{}}
-      end
-    end
-  end
+  def get_faq!(id), do: Repo.get!(Faq, id)
+
+
 
   @doc """
   Gets a single Faq Category.
@@ -98,22 +90,26 @@ defmodule Core.Landing do
       %FaqCategory{}
 
       iex> get_faq_category!(456)
-      {:error, %Ecto.Changeset{}}
+      ** (Ecto.NoResultsError)
 
   """
   @spec get_faq_category!(String.t) :: map | error_tuple
+  # def get_faq_category!(id), do: Repo.get!(FaqCategory, id)
+
   def get_faq_category!(id) do
-    if is_nil(id) do
-      {:error, %Ecto.Changeset{}}
+    count =
+      Repo.get!(FaqCategory, id)
+      |> Map.get(:title)
+      |> Landing.create_count
+
+    if count == [] do
+      Repo.get!(FaqCategory, id)
     else
-      try do
-        Repo.get!(FaqCategory, id)
-      rescue
-        Ecto.NoResultsError ->
-          {:error, %Ecto.Changeset{}}
-      end
+      count
+      |> List.last
     end
   end
+
 
   @doc """
   Gets a single Press Article.
@@ -126,22 +122,10 @@ defmodule Core.Landing do
       %PressArticle{}
 
       iex> get_press_article!(456)
-      {:error, %Ecto.Changeset{}}
+      ** (Ecto.NoResultsError)
 
   """
-  @spec get_press_article!(String.t) :: map | error_tuple
-  def get_press_article!(id) do
-    if is_nil(id) do
-      {:error, %Ecto.Changeset{}}
-    else
-      try do
-        Repo.get!(PressArticle, id)
-      rescue
-        Ecto.NoResultsError ->
-          {:error, %Ecto.Changeset{}}
-      end
-    end
-  end
+  def get_press_article!(id), do: Repo.get!(PressArticle, id)
 
   @doc """
   Gets a single Vacancy.
@@ -154,22 +138,11 @@ defmodule Core.Landing do
       %Vacancy{}
 
       iex> get_vacancy!(456)
-      {:error, %Ecto.Changeset{}}
+      ** (Ecto.NoResultsError)
 
   """
   @spec get_vacancy!(String.t) :: map | error_tuple
-  def get_vacancy!(id) do
-    if is_nil(id) do
-      {:error, %Ecto.Changeset{}}
-    else
-      try do
-        Repo.get!(Vacancy, id)
-      rescue
-        Ecto.NoResultsError ->
-          {:error, %Ecto.Changeset{}}
-      end
-    end
-  end
+  def get_vacancy!(id), do: Repo.get!(Vacancy, id)
 
   @doc """
   Search by title for Faq
@@ -226,43 +199,6 @@ defmodule Core.Landing do
           0
         _ ->
           title
-      end
-    end
-  end
-
-  @doc """
-  Create new struct with count by title for FaqCategory by Faq.
-
-  ## Examples
-
-      iex> count_title_map("123")
-      [%FaqCategory{}, ...]
-
-      iex> count_title_map(456)
-      {:error, %Ecto.Changeset{}}
-
-  """
-
-  @spec count_title_map(String.t) :: map | error_tuple
-  def count_title_map(word) do
-    if is_nil(word) do
-      {:error, %Ecto.Changeset{}}
-    else
-      title =
-        Repo.all(from(
-          c in FaqCategory,
-          join: cu in Faq,
-          where: c.title ==^word and cu.faq_category_id == c.id,
-          # select_merge: %{"$aggregate": %{"$count": %{:id => count(field(cu, :faqs_count))}}},
-          # select_merge: %{faqs: %{:faqs_count => count(field(cu, :id))}},
-          # select_merge: %{faqs: %{:faqs_count => count(field(cu, :id))}},
-          select_merge: %{faqs: %{:id => cu.id, :faqs_count => count(field(cu, :id))}},
-          group_by: [cu.faq_category_id, c.id, cu.id]
-        ))
-
-      case title do
-        nil -> 0
-        _ -> title
       end
     end
   end
@@ -331,6 +267,39 @@ defmodule Core.Landing do
   end
 
   @doc """
+  Create new struct with count by title for FaqCategory by Faq.
+
+  ## Examples
+
+      iex> create_count("123")
+      [%FaqCategory{}, ...]
+
+      iex> create_count(456)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_count(String.t) :: map | error_tuple
+  def create_count(word) do
+    if is_nil(word) do
+      {:error, %Ecto.Changeset{}}
+    else
+      title =
+        Repo.all(from(
+          c in FaqCategory,
+          join: cu in Faq,
+          where: c.title ==^word and cu.faq_category_id == c.id,
+          select_merge: %{:faqs_count => count(field(cu, :id))},
+          group_by: [cu.faq_category_id, c.id]
+        ))
+
+      case title do
+        nil -> 0
+        _ -> title
+      end
+    end
+  end
+
+  @doc """
   Creates a Faq.
 
   ## Examples
@@ -342,7 +311,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_faq(map) :: result | error_tuple
+   @spec create_faq(map) :: result | error_tuple
   def create_faq(attrs \\ %{}) do
     %Faq{}
     |> Faq.changeset(attrs)

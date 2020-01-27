@@ -42,7 +42,6 @@ defmodule Server.MixProject do
       {:phoenix, "~> 1.4.11"},
       {:phoenix_pubsub, "~> 1.1"},
       {:plug_cowboy, "~> 2.0"},
-      {:remix, "~> 0.0", only: [:dev]},
       {:timex, "~> 3.6"},
       {:core, in_umbrella: true}
     ]
