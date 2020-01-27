@@ -19,7 +19,7 @@ defmodule Core.Landing.FaqCategoryTest do
       struct
     end
 
-    test "list_faq_category/0 returns all faq categories" do
+    test "list_faq_category/0 returns all faq categories and faqs join" do
       struct = fixture()
       assert Landing.list_faq_category() == [struct]
     end

@@ -188,6 +188,7 @@ defmodule LetMeSee do
     {
       allFaqCategories {
         id
+        faqs_count
         title
         inserted_at
         updated_at
@@ -280,6 +281,7 @@ defmodule LetMeSee do
     {
       showFaqCategory(id: \"#{id}\") {
         id
+        faqs_count
         title
         inserted_at
         updated_at

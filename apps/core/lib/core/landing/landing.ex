@@ -34,7 +34,25 @@ defmodule Core.Landing do
 
   """
   @spec list_faq_category() :: list
-  def list_faq_category, do: Repo.all(FaqCategory)
+  def list_faq_category do
+    Repo.all(from(
+      faq_category in FaqCategory,
+      left_join: faq in subquery(from c in Faq),
+      on: faq.faq_category_id == faq_category.id,
+      select_merge: %{:faqs_count => count(field(faq, :id))},
+      group_by: [faq.faq_category_id, faq_category.id]
+    ))
+  end
+
+  @spec list_count_faq_category() :: list
+  def list_count_faq_category do
+    FaqCategory
+    |> join(:inner, [u], f in Faq, on: u.id == f.faq_category_id)
+    |> group_by([u], u.title)
+    |> group_by([u], u.id)
+    |> select_merge([f], %{faqs_count: count(f.id)})
+    |> Repo.all
+  end
 
   @doc """
   Returns the list of Press Article.
@@ -77,8 +95,6 @@ defmodule Core.Landing do
   @spec get_faq!(String.t) :: map | error_tuple
   def get_faq!(id), do: Repo.get!(Faq, id)
 
-
-
   @doc """
   Gets a single Faq Category.
 
@@ -94,22 +110,14 @@ defmodule Core.Landing do
 
   """
   @spec get_faq_category!(String.t) :: map | error_tuple
-  # def get_faq_category!(id), do: Repo.get!(FaqCategory, id)
-
   def get_faq_category!(id) do
-    count =
-      Repo.get!(FaqCategory, id)
-      |> Map.get(:title)
-      |> Landing.create_count
+    data = Repo.get!(FaqCategory, id)
 
-    if count == [] do
-      Repo.get!(FaqCategory, id)
-    else
-      count
-      |> List.last
+    case Landing.create_count(Map.get(data, :title)) do
+      nil -> data
+      changeset -> changeset
     end
   end
-
 
   @doc """
   Gets a single Press Article.
@@ -278,24 +286,18 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_count(String.t) :: map | error_tuple
+  @spec create_count(String.t) :: map | nil
   def create_count(word) do
     if is_nil(word) do
       {:error, %Ecto.Changeset{}}
     else
-      title =
-        Repo.all(from(
-          c in FaqCategory,
-          join: cu in Faq,
-          where: c.title ==^word and cu.faq_category_id == c.id,
-          select_merge: %{:faqs_count => count(field(cu, :id))},
-          group_by: [cu.faq_category_id, c.id]
-        ))
-
-      case title do
-        nil -> 0
-        _ -> title
-      end
+      Repo.one(from(
+        c in FaqCategory,
+        join: cu in Faq,
+        where: c.title ==^word and cu.faq_category_id == c.id,
+        select_merge: %{:faqs_count => count(field(cu, :id))},
+        group_by: [cu.faq_category_id, c.id]
+      ))
     end
   end
 
