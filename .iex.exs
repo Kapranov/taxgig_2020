@@ -123,6 +123,8 @@ defmodule LetMeSee do
   LetMeSee.index_press_articles()
   LetMeSee.index_vacancies()
 
+  LetMeSee.find_faq_category(args)
+
   LetMeSee.show_faq(args)
   LetMeSee.show_faq_category(args)
   LetMeSee.show_press_article(args)
@@ -238,6 +240,33 @@ defmodule LetMeSee do
         title
         inserted_at
         updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def find_faq_category(id \\ @last_faq_category) do
+    request = """
+    {
+      findFaqCategory(id: \"#{id}\") {
+        id
+        content
+        title
+        inserted_at
+        updated_at
+        faq_categories {
+          id
+          title
+          inserted_at
+          updated_at
+        }
       }
     }
     """

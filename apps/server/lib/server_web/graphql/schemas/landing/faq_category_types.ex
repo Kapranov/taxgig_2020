@@ -27,6 +27,12 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.FaqCategoryTypes do
       resolve(&FaqCategoryResolver.list/3)
     end
 
+    @desc "Get all faq categories by id"
+    field :find_faq_category, list_of(:faq) do
+      arg(:id, non_null(:string))
+      resolve(&FaqCategoryResolver.find_faq_category/3)
+    end
+
     @desc "Get a specific faq category"
     field :show_faq_category, :faq_category do
       arg(:id, non_null(:string))

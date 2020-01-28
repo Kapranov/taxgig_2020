@@ -63,6 +63,114 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
     end
   end
 
+  describe "#findFaqCategory" do
+    it "found Faq with specific FaqCategory by id" do
+      struct_a = insert(:faq_category)
+      struct_b = insert(:faq, faq_categories: struct_a)
+
+      context = %{}
+
+      query = """
+      {
+        findFaqCategory(id: \"#{struct_a.id}\") {
+          id
+          content
+          title
+          inserted_at
+          updated_at
+          faq_categories {
+            id
+            faqs_count
+            title
+            inserted_at
+            updated_at
+          }
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "findFaqCategory"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      [found] = json_response(res, 200)["data"]["findFaqCategory"]
+
+      assert json_response(res, 200)["errors"] == nil
+
+      assert found["content"]     == struct_b.content
+      assert found["title"]       == struct_b.title
+      assert found["inserted_at"] == format_time(struct_b.inserted_at)
+      assert found["updated_at"]  == format_time(struct_b.updated_at)
+
+      assert found["faq_categories"]["id"]          == struct_a.id
+      assert found["faq_categories"]["faqs_count"]  == 0
+      assert found["faq_categories"]["title"]       == struct_a.title
+      assert found["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
+      assert found["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
+
+      {:ok, %{data: %{"findFaqCategory" => [found]}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["content"]     == struct_b.content
+      assert found["title"]       == struct_b.title
+      assert found["inserted_at"] == format_time(struct_b.inserted_at)
+      assert found["updated_at"]  == format_time(struct_b.updated_at)
+
+      assert found["faq_categories"]["id"]          == struct_a.id
+      assert found["faq_categories"]["faqs_count"]  == 0
+      assert found["faq_categories"]["title"]       == struct_a.title
+      assert found["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
+      assert found["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
+    end
+
+    it "returns not found Faq with specific FaqCategory by id" do
+      id = Ecto.UUID.generate
+
+      context = %{}
+
+      query = """
+      {
+        findFaqCategory(id: \"#{id}\") {
+          id
+          content
+          title
+          inserted_at
+          updated_at
+          faq_categories {
+            id
+            faqs_count
+            title
+            inserted_at
+            updated_at
+          }
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "findFaqCategory"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["findFaqCategory"]
+
+      assert json_response(res, 200)["errors"] == nil
+
+      assert found == []
+
+      {:ok, %{data: %{"findFaqCategory" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found == []
+    end
+
+    it "returns error when nil FaqCategory by id" do
+    end
+  end
+
   describe "#show" do
     it "returns specific faq category by id" do
       struct = insert(:faq_category)

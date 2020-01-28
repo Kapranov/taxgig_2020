@@ -14,6 +14,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver do
     {:ok, struct}
   end
 
+  def find_faq_category(_parent, %{id: id}, _info) do
+    struct = Landing.find_by_faq_category_id(id)
+    {:ok, struct}
+  end
+
   def show(_parent, %{id: id}, _info) do
     if is_nil(id) do
       {:error, [[field: :id, message: "Can't be blank"]]}

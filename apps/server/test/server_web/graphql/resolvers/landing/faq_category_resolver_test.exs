@@ -13,6 +13,30 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolverTest do
     end
   end
 
+  describe "#findFaqCategory" do
+    it "found Faq with specific FaqCategory by id" do
+      struct_a = insert(:faq_category)
+      struct_b = insert(:faq, faq_categories: struct_a)
+      {:ok, [found]} = FaqCategoryResolver.find_faq_category(nil, %{id: struct_a.id}, nil)
+      assert found.id              == struct_b.id
+      assert found.content         == struct_b.content
+      assert found.title           == struct_b.title
+      assert found.faq_category_id == struct_a.id
+    end
+
+    it "returns not found Faq with specific FaqCategory by id" do
+      id = Ecto.UUID.generate
+      {:ok, found} = FaqCategoryResolver.find_faq_category(nil, %{id: id}, nil)
+      assert found == []
+    end
+
+    it "returns error when nil FaqCategory by id" do
+      id = nil
+      {:ok, found} = FaqCategoryResolver.find_faq_category(nil, %{id: id}, nil)
+      assert found == {:error, %Ecto.Changeset{}}
+    end
+  end
+
   describe "#show" do
     it "returns specific FaqCategory by id" do
       struct = insert(:faq_category)
