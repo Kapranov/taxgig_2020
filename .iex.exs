@@ -263,6 +263,7 @@ defmodule LetMeSee do
         updated_at
         faq_categories {
           id
+          faqs_count
           title
           inserted_at
           updated_at

@@ -4,9 +4,11 @@ defmodule Core.Seeder.Repo do
   """
 
   alias Core.Seeder.Landing
+  alias Core.Seeder.Localization
 
   def seed! do
     Landing.seed!()
+    Localization.seed!()
     :ok
   end
 end
