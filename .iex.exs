@@ -99,6 +99,8 @@ alias Core.{
   Landing.FaqCategory,
   Landing.PressArticle,
   Landing.Vacancy,
+  Localization,
+  Localization.Language,
   Ptin,
   Repo
 }
@@ -122,6 +124,7 @@ defmodule LetMeSee do
   LetMeSee.index_faq_categories()
   LetMeSee.index_press_articles()
   LetMeSee.index_vacancies()
+  LetMeSee.index_languages()
 
   LetMeSee.find_faq_category(args)
 
@@ -129,6 +132,7 @@ defmodule LetMeSee do
   LetMeSee.show_faq_category(args)
   LetMeSee.show_press_article(args)
   LetMeSee.show_vacancy(args)
+  LetMeSee.show_language(args)
 
   LetMeSee.search_titles(args)
 
@@ -136,16 +140,19 @@ defmodule LetMeSee do
   LetMeSee.create_faq_category()
   LetMeSee.create_press_article()
   LetMeSee.create_vacancy()
+  LetMeSee.create_language()
 
   LetMeSee.update_faq(id, arg)
   LetMeSee.update_faq_category(args)
   LetMeSee.update_press_article(args)
   LetMeSee.update_vacancy(args)
+  LetMeSee.update_language(args)
 
   LetMeSee.delete_faq(args)
   LetMeSee.delete_faq_category(args)
   LetMeSee.delete_press_article(args)
   LetMeSee.delete_vacancy(args)
+  LetMeSee.delete_language(args)
   """
 
   IO.puts(
@@ -156,6 +163,7 @@ defmodule LetMeSee do
   @last_press_article Repo.all(PressArticle) |> List.last |> Map.get(:id)
   @last_faq Repo.all(Faq) |> List.last |> Map.get(:id)
   @last_faq_category Repo.all(FaqCategory) |> List.last |> Map.get(:id)
+  @last_language Repo.all(Language) |> List.last |> Map.get(:id)
   @search_word ~s(Article)
 
   def index_faqs do
@@ -238,6 +246,27 @@ defmodule LetMeSee do
         content
         department
         title
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def index_languages do
+    request = """
+    {
+      allLanguages{
+        id
+        abbr
+        name
         inserted_at
         updated_at
       }
@@ -360,6 +389,27 @@ defmodule LetMeSee do
         content
         department
         title
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def show_language(id \\ @last_language) do
+    request = """
+    {
+      showLanguage(id: \"#{id}\") {
+        id
+        abbr
+        name
         inserted_at
         updated_at
       }
@@ -509,6 +559,30 @@ defmodule LetMeSee do
     result
   end
 
+  def create_language do
+    request = """
+    {
+      createLanguage(
+        abbr: "some text",
+        name: "some text"
+      ) {
+        id
+        abbr
+        name
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
   def update_faq(id \\ @last_faq, arg \\ @last_faq_category) do
     request = """
     {
@@ -629,6 +703,33 @@ defmodule LetMeSee do
     result
   end
 
+  def update_language(id \\ @last_language) do
+    request = """
+    {
+      updateLanguage(
+        id: \"#{id}\",
+        language: {
+          abbr: "updated text",
+          name: "updated text"
+        }
+      ) {
+        id
+        abbr
+        name
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
   def delete_faq(id \\ @last_faq) do
     request = """
     {
@@ -678,6 +779,21 @@ defmodule LetMeSee do
     request = """
     {
       deleteVacancy(id: \"#{id}\") {id}
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def delete_language(id \\ @last_language) do
+    request = """
+    {
+      deleteLanguage(id: \"#{id}\") {id}
     }
     """
     IO.puts("The Request:")

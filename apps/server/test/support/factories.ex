@@ -5,11 +5,12 @@ defmodule Server.Factory do
 
   use ExMachina.Ecto, repo: Core.Repo
 
-  alias Core.Landing.{
-    Faq,
-    FaqCategory,
-    PressArticle,
-    Vacancy
+  alias Core.{
+    Landing.Faq,
+    Landing.FaqCategory,
+    Landing.PressArticle,
+    Landing.Vacancy,
+    Localization.Language
   }
 
   alias Faker.{
@@ -49,6 +50,13 @@ defmodule Server.Factory do
       content: Lorem.sentence(),
       department: En.bs(),
       title: Lorem.word()
+    }
+  end
+
+  def language_factory do
+    %Language{
+      abbr: Lorem.word(),
+      name: Lorem.word()
     }
   end
 end
