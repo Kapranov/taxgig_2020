@@ -16,6 +16,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
         allPressArticles{
           id
           author
+          img_url
           preview_text
           title
           url
@@ -34,6 +35,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
 
       assert List.first(data)["id"]           == struct_a.id
       assert List.first(data)["author"]       == struct_a.author
+      assert List.first(data)["img_url"]      == struct_a.img_url
       assert List.first(data)["preview_text"] == struct_a.preview_text
       assert List.first(data)["title"]        == struct_a.title
       assert List.first(data)["url"]          == struct_a.url
@@ -42,6 +44,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
 
       assert List.last(data)["id"]           == struct_b.id
       assert List.last(data)["author"]       == struct_b.author
+      assert List.last(data)["img_url"]      == struct_b.img_url
       assert List.last(data)["preview_text"] == struct_b.preview_text
       assert List.last(data)["title"]        == struct_b.title
       assert List.last(data)["url"]          == struct_b.url
@@ -55,6 +58,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
 
       assert first["id"]           == struct_a.id
       assert first["author"]       == struct_a.author
+      assert first["img_url"]      == struct_a.img_url
       assert first["preview_text"] == struct_a.preview_text
       assert first["title"]        == struct_a.title
       assert first["url"]          == struct_a.url
@@ -65,6 +69,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
 
       assert second["id"]           == struct_b.id
       assert second["author"]       == struct_b.author
+      assert second["img_url"]      == struct_b.img_url
       assert second["preview_text"] == struct_b.preview_text
       assert second["title"]        == struct_b.title
       assert second["url"]          == struct_b.url
@@ -84,6 +89,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
         showPressArticle(id: \"#{struct.id}\") {
           id
           author
+          img_url
           preview_text
           title
           url
@@ -103,6 +109,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
 
       assert found["id"]           == struct.id
       assert found["author"]       == struct.author
+      assert found["img_url"]      == struct.img_url
       assert found["preview_text"] == struct.preview_text
       assert found["title"]        == struct.title
       assert found["url"]          == struct.url
@@ -114,6 +121,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
 
       assert found["id"]           == struct.id
       assert found["author"]       == struct.author
+      assert found["img_url"]      == struct.img_url
       assert found["preview_text"] == struct.preview_text
       assert found["title"]        == struct.title
       assert found["url"]          == struct.url
@@ -129,6 +137,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
         showPressArticle(id: \"#{id}\") {
           id
           author
+          img_url
           preview_text
           title
           url
@@ -155,12 +164,14 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       {
         createPressArticle(
           author: "some text",
+          img_url: "some text",
           preview_text: "some text",
           title: "some text",
           url: "some text"
         ) {
           id
           author
+          img_url
           preview_text
           title
           url
@@ -179,6 +190,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       created = json_response(res, 200)["data"]["createPressArticle"]
 
       assert created["author"]       == "some text"
+      assert created["img_url"]      == "some text"
       assert created["preview_text"] == "some text"
       assert created["title"]        == "some text"
       assert created["url"]          == "some text"
@@ -198,6 +210,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           id: \"#{struct.id}\",
           press_article: {
             author: "updated text",
+            img_url: "updated text",
             preview_text: "updated text",
             title: "updated text",
             url: "updated text"
@@ -205,6 +218,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
         ) {
           id
           author
+          img_url
           preview_text
           title
           url
@@ -224,6 +238,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
 
       assert updated["id"]           == struct.id
       assert updated["author"]       == "updated text"
+      assert updated["img_url"]      == "updated text"
       assert updated["preview_text"] == "updated text"
       assert updated["title"]        == "updated text"
       assert updated["url"]          == "updated text"

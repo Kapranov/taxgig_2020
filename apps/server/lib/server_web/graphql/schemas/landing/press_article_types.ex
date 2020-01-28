@@ -11,6 +11,7 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.PressArticleTypes do
   object :press_article do
     field :id, non_null(:string), description: "press article id"
     field :author, non_null(:string), description: "press article author"
+    field :img_url, non_null(:string), description: "press article image_url"
     field :preview_text, non_null(:string), description: "press article preview_text"
     field :title, non_null(:string), description: "press article title"
     field :url, non_null(:string), description: "press article url"
@@ -21,6 +22,7 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.PressArticleTypes do
   @desc "The press article update via params"
   input_object :update_press_article_params do
     field :author, :string
+    field :img_url, :string
     field :preview_text, :string
     field :title, :string
     field :url, :string
@@ -43,6 +45,7 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.PressArticleTypes do
     @desc "Create the Press Article"
     field :create_press_article, :press_article do
       arg :author, :string
+      arg :img_url, :string
       arg :preview_text, :string
       arg :title, :string
       arg :url, :string

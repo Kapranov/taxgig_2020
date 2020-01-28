@@ -7,6 +7,7 @@ defmodule Core.Landing.PressArticle do
 
   @allowed_params ~w(
     author
+    img_url
     preview_text
     title
     url
@@ -14,6 +15,7 @@ defmodule Core.Landing.PressArticle do
 
   @required_params ~w(
     author
+    img_url
     preview_text
     title
     url
@@ -21,6 +23,7 @@ defmodule Core.Landing.PressArticle do
 
   schema "press_articles" do
     field :author, :string
+    field :img_url, :string
     field :preview_text, :string
     field :title, :string
     field :url, :string

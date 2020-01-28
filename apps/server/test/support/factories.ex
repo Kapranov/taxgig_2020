@@ -13,6 +13,7 @@ defmodule Server.Factory do
   }
 
   alias Faker.{
+    Avatar,
     Company.En,
     Internet,
     Lorem,
@@ -36,6 +37,7 @@ defmodule Server.Factory do
   def press_article_factory do
     %PressArticle{
       author: Name.name(),
+      img_url: Avatar.image_url(),
       preview_text: Lorem.sentence(),
       title: Lorem.word(),
       url: Internet.url()

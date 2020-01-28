@@ -8,6 +8,7 @@ defmodule Core.Landing.PressArticleTest do
 
     @valid_attrs %{
       author: "some text",
+      img_url: "some text",
       preview_text: "some text",
       title: "some text",
       url: "some text"
@@ -15,6 +16,7 @@ defmodule Core.Landing.PressArticleTest do
 
     @update_attrs %{
       author: "updated text",
+      img_url: "updated text",
       preview_text: "updated text",
       title: "updated text",
       url: "updated text"
@@ -22,6 +24,7 @@ defmodule Core.Landing.PressArticleTest do
 
     @invalid_attrs %{
       author: nil,
+      img_url: nil,
       preview_text: nil,
       title: nil,
       url: nil
@@ -50,6 +53,7 @@ defmodule Core.Landing.PressArticleTest do
       assert {:ok, %PressArticle{} = struct} =
         Landing.create_press_article(@valid_attrs)
       assert struct.author       == "some text"
+      assert struct.img_url      == "some text"
       assert struct.preview_text == "some text"
       assert struct.title        == "some text"
       assert struct.url          == "some text"
@@ -65,6 +69,7 @@ defmodule Core.Landing.PressArticleTest do
       assert {:ok, %PressArticle{} = struct} =
         Landing.update_press_article(struct, @update_attrs)
       assert struct.author       == "updated text"
+      assert struct.img_url      == "updated text"
       assert struct.preview_text == "updated text"
       assert struct.title        == "updated text"
       assert struct.url          == "updated text"

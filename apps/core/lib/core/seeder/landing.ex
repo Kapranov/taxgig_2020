@@ -13,6 +13,7 @@ defmodule Core.Seeder.Landing do
   alias Core.Repo
 
   alias Faker.{
+    Avatar,
     Company.En,
     Internet,
     Lorem,
@@ -99,12 +100,14 @@ defmodule Core.Seeder.Landing do
     [
       Repo.insert!(%PressArticle{
         author: Name.name(),
+        img_url: Avatar.image_url(),
         preview_text: Lorem.sentence(),
         title: Lorem.word(),
         url: Internet.url()
       }),
       Repo.insert!(%PressArticle{
         author: Name.name(),
+        img_url: Avatar.image_url(),
         preview_text: Lorem.sentence(),
         title: Lorem.word(),
         url: Internet.url()

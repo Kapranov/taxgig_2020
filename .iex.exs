@@ -210,6 +210,7 @@ defmodule LetMeSee do
       allPressArticles{
         id
         author
+        img_url
         preview_text
         title
         url
@@ -303,6 +304,7 @@ defmodule LetMeSee do
       showPressArticle(id: \"#{id}\") {
         id
         author
+        img_url
         preview_text
         title
         url
@@ -427,6 +429,7 @@ defmodule LetMeSee do
     {
       createPressArticle(
         author: "some text",
+        img_url: "some text",
         preview_text: "some text",
         title: "some text",
         url: "some text"
@@ -542,6 +545,7 @@ defmodule LetMeSee do
         id: \"#{id}\",
         press_article: {
           author: "updated text",
+          img_url: "updated text",
           preview_text: "updated text",
           title: "updated text",
           url: "updated text"

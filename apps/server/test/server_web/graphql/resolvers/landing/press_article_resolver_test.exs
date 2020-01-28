@@ -10,6 +10,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.PressArticleResolverTest do
       assert length(data) == 1
       assert List.first(data).id           == struct.id
       assert List.first(data).author       == struct.author
+      assert List.first(data).img_url      == struct.img_url
       assert List.first(data).preview_text == struct.preview_text
       assert List.first(data).title        == struct.title
       assert List.first(data).url          == struct.url
@@ -22,6 +23,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.PressArticleResolverTest do
       {:ok, found} = PressArticleResolver.show(nil, %{id: struct.id}, nil)
       assert found.id           == struct.id
       assert found.author       == struct.author
+      assert found.img_url      == struct.img_url
       assert found.preview_text == struct.preview_text
       assert found.title        == struct.title
       assert found.url          == struct.url
@@ -45,12 +47,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.PressArticleResolverTest do
     it "creates PressArticle" do
       args = %{
         author: "some text",
+        img_url: "some text",
         preview_text: "some text",
         title: "some text",
         url: "some text"
       }
       {:ok, created} = PressArticleResolver.create(nil, args, nil)
       assert created.author       == "some text"
+      assert created.img_url      == "some text"
       assert created.preview_text == "some text"
       assert created.title        == "some text"
       assert created.url          == "some text"
@@ -61,6 +65,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.PressArticleResolverTest do
       {:error, error} = PressArticleResolver.create(nil, args, nil)
       assert error == [
         [field: :author, message: "Can't be blank"],
+        [field: :img_url, message: "Can't be blank"],
         [field: :preview_text, message: "Can't be blank"],
         [field: :title, message: "Can't be blank"],
         [field: :url, message: "Can't be blank"]
@@ -73,6 +78,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.PressArticleResolverTest do
       struct = insert(:press_article)
       params = %{
         author: "updated text",
+        img_url: "updated text",
         preview_text: "updated text",
         title: "updated text",
         url: "updated text"
@@ -81,6 +87,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.PressArticleResolverTest do
       {:ok, updated} = PressArticleResolver.update(nil, args, nil)
       assert updated.id           == struct.id
       assert updated.author       == "updated text"
+      assert updated.img_url      == "updated text"
       assert updated.preview_text == "updated text"
       assert updated.title        == "updated text"
       assert updated.url          == "updated text"
@@ -93,6 +100,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.PressArticleResolverTest do
       {:ok, updated} = PressArticleResolver.update(nil, args, nil)
       assert updated.id           == struct.id
       assert updated.author       == struct.author
+      assert updated.img_url      == struct.img_url
       assert updated.preview_text == struct.preview_text
       assert updated.title        == struct.title
       assert updated.url          == struct.url
