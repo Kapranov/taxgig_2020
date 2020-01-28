@@ -30,12 +30,14 @@ defmodule Core.Accounts.Subscriber do
   def changeset(struct, attrs) do
     struct
     |> cast(attrs, @allowed_params)
-    |> validate_format(:email, ~r/@/)
+    |> validate_format(:email, email_regex())
     |> validate_required(@required_params)
     |> update_change(:email, &String.downcase/1)
     |> unique_constraint(:email)
     |> validate_email()
   end
+
+  defp email_regex, do: @email_regex
 
   defp validate_email(%{changes: %{email: email}} = changeset) do
     case Regex.match?(@email_regex, email) do
