@@ -25,11 +25,12 @@ defmodule Core.MixProject do
 
   defp deps do
     [
+      {:burnex, "~> 1.1"},
       {:decimal, "~> 1.8", optional: true},
-      {:faker, "~> 0.13", only: [:dev, :test]},
       {:ecto_sql, "~> 3.3"},
       {:ex_machina, "~> 2.3"},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
+      {:faker, "~> 0.13", only: [:dev, :test]},
       {:postgrex, "~> 0.15.3"},
       {:remix, "~> 0.0", only: [:dev]}
     ]
