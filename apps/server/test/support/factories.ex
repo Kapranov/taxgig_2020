@@ -6,6 +6,7 @@ defmodule Server.Factory do
   use ExMachina.Ecto, repo: Core.Repo
 
   alias Core.{
+    Accounts.Subscriber,
     Landing.Faq,
     Landing.FaqCategory,
     Landing.PressArticle,
@@ -57,6 +58,13 @@ defmodule Server.Factory do
     %Language{
       abbr: Lorem.word(),
       name: Lorem.word()
+    }
+  end
+
+  def subscriber_factory do
+    %Subscriber{
+      email: "lugatex@yahoo.com",
+      pro_role: false
     }
   end
 end

@@ -6,8 +6,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
 
   describe "#list" do
     it "returns faq categories" do
-      struct_a = insert(:faq_category)
-      struct_b = insert(:faq_category)
+      struct = insert(:faq_category)
 
       context = %{}
 
@@ -30,36 +29,28 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
 
       data = json_response(res, 200)["data"]["allFaqCategories"]
 
-      assert List.first(data)["id"]          == struct_a.id
-      assert List.first(data)["faqs_count"]  == struct_a.faqs_count
-      assert List.first(data)["title"]       == struct_a.title
-      assert List.first(data)["inserted_at"] == format_time(struct_a.inserted_at)
-      assert List.first(data)["updated_at"]  == format_time(struct_a.updated_at)
+      assert List.first(data)["id"]          == struct.id
+      assert List.first(data)["faqs_count"]  == struct.faqs_count
+      assert List.first(data)["title"]       == struct.title
+      assert List.first(data)["inserted_at"] == format_time(struct.inserted_at)
+      assert List.first(data)["updated_at"]  == format_time(struct.updated_at)
 
-      assert List.last(data)["id"]          == struct_b.id
-      assert List.last(data)["faqs_count"]  == struct_b.faqs_count
-      assert List.last(data)["title"]       == struct_b.title
-      assert List.last(data)["inserted_at"] == format_time(struct_b.inserted_at)
-      assert List.last(data)["updated_at"]  == format_time(struct_b.updated_at)
+      assert List.last(data)["id"]          == struct.id
+      assert List.last(data)["faqs_count"]  == struct.faqs_count
+      assert List.last(data)["title"]       == struct.title
+      assert List.last(data)["inserted_at"] == format_time(struct.inserted_at)
+      assert List.last(data)["updated_at"]  == format_time(struct.updated_at)
 
       {:ok, %{data: %{"allFaqCategories" => data}}} =
         Absinthe.run(query, Schema, context: context)
 
       first = hd(data)
 
-      assert first["id"]          == struct_a.id
-      assert first["faqs_count"]  == struct_a.faqs_count
-      assert first["title"]       == struct_a.title
-      assert first["inserted_at"] == format_time(struct_a.inserted_at)
-      assert first["updated_at"]  == format_time(struct_a.updated_at)
-
-      [second] = tl(data)
-
-      assert second["id"]          == struct_b.id
-      assert second["faqs_count"]  == struct_b.faqs_count
-      assert second["title"]       == struct_b.title
-      assert second["inserted_at"] == format_time(struct_b.inserted_at)
-      assert second["updated_at"]  == format_time(struct_b.updated_at)
+      assert first["id"]          == struct.id
+      assert first["faqs_count"]  == struct.faqs_count
+      assert first["title"]       == struct.title
+      assert first["inserted_at"] == format_time(struct.inserted_at)
+      assert first["updated_at"]  == format_time(struct.updated_at)
     end
   end
 

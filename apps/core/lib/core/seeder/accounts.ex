@@ -29,7 +29,7 @@ defmodule Core.Seeder.Accounts do
       }),
       Repo.insert!(%Subscriber{
         email: "kapranov.lugatex@yahoo.com",
-        pro_role: false
+        pro_role: true
       })
     ]
   end

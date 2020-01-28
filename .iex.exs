@@ -94,6 +94,8 @@ end
 import Ecto.Query
 
 alias Core.{
+  Accounts,
+  Accounts.Subscriber,
   Landing,
   Landing.Faq,
   Landing.FaqCategory,
@@ -120,39 +122,44 @@ defmodule LetMeSee do
 
   cmd+r
 
-  LetMeSee.index_faqs()
   LetMeSee.index_faq_categories()
-  LetMeSee.index_press_articles()
-  LetMeSee.index_vacancies()
+  LetMeSee.index_faqs()
   LetMeSee.index_languages()
+  LetMeSee.index_press_articles()
+  LetMeSee.index_subscribers()
+  LetMeSee.index_vacancies()
 
   LetMeSee.find_faq_category(args)
 
   LetMeSee.show_faq(args)
   LetMeSee.show_faq_category(args)
-  LetMeSee.show_press_article(args)
-  LetMeSee.show_vacancy(args)
   LetMeSee.show_language(args)
+  LetMeSee.show_press_article(args)
+  LetMeSee.show_subscriber(args)
+  LetMeSee.show_vacancy(args)
 
   LetMeSee.search_titles(args)
 
   LetMeSee.create_faq(args)
-  LetMeSee.create_faq_category()
-  LetMeSee.create_press_article()
-  LetMeSee.create_vacancy()
-  LetMeSee.create_language()
+  LetMeSee.create_faq_category(args)
+  LetMeSee.create_language(args)
+  LetMeSee.create_press_article(args)
+  LetMeSee.create_subscriber(args)
+  LetMeSee.create_vacancy(args)
 
   LetMeSee.update_faq(id, arg)
   LetMeSee.update_faq_category(args)
-  LetMeSee.update_press_article(args)
-  LetMeSee.update_vacancy(args)
   LetMeSee.update_language(args)
+  LetMeSee.update_press_article(args)
+  LetMeSee.update_subscriber(args)
+  LetMeSee.update_vacancy(args)
 
   LetMeSee.delete_faq(args)
   LetMeSee.delete_faq_category(args)
-  LetMeSee.delete_press_article(args)
-  LetMeSee.delete_vacancy(args)
   LetMeSee.delete_language(args)
+  LetMeSee.delete_press_article(args)
+  LetMeSee.delete_subscriber(args)
+  LetMeSee.delete_vacancy(args)
   """
 
   IO.puts(
@@ -164,6 +171,7 @@ defmodule LetMeSee do
   @last_faq Repo.all(Faq) |> List.last |> Map.get(:id)
   @last_faq_category Repo.all(FaqCategory) |> List.last |> Map.get(:id)
   @last_language Repo.all(Language) |> List.last |> Map.get(:id)
+  @last_subscriber Repo.all(Subscriber) |> List.last |> Map.get(:id)
   @search_word ~s(Article)
 
   def index_faqs do
@@ -267,6 +275,27 @@ defmodule LetMeSee do
         id
         abbr
         name
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def index_subscribers do
+    request = """
+    {
+      allSubscribers{
+        id
+        email
+        pro_role
         inserted_at
         updated_at
       }
@@ -410,6 +439,27 @@ defmodule LetMeSee do
         id
         abbr
         name
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def show_subscriber(id \\ @last_subscriber) do
+    request = """
+    {
+      showSubscriber(id: \"#{id}\") {
+        id
+        email
+        pro_role
         inserted_at
         updated_at
       }
@@ -583,6 +633,30 @@ defmodule LetMeSee do
     result
   end
 
+  def create_subscriber do
+    request = """
+    {
+      createSubscriber(
+        email: "kapranov.lugatex@gmail.com",
+        name: true
+      ) {
+        id
+        email
+        pro_role
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
   def update_faq(id \\ @last_faq, arg \\ @last_faq_category) do
     request = """
     {
@@ -730,6 +804,34 @@ defmodule LetMeSee do
     result
   end
 
+  def update_subscriber(id \\ @last_subscriber) do
+    request = """
+    {
+      updateSubscriber(
+        id: \"#{id}\",
+        subscriber: {
+          email: "kapranov.lugatex@gmail.com",
+          pro_role: true
+        }
+      ) {
+        id
+        email
+        pro_role
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+
   def delete_faq(id \\ @last_faq) do
     request = """
     {
@@ -794,6 +896,21 @@ defmodule LetMeSee do
     request = """
     {
       deleteLanguage(id: \"#{id}\") {id}
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def delete_subscriber(id \\ @last_subscriber) do
+    request = """
+    {
+      deleteSubscriber(id: \"#{id}\") {id}
     }
     """
     IO.puts("The Request:")

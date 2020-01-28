@@ -3,10 +3,14 @@ defmodule Core.Seeder.Repo do
   Seeds for `Core.Seeder.Repo` repository.
   """
 
-  alias Core.Seeder.Landing
-  alias Core.Seeder.Localization
+  alias Core.Seeder.{
+    Accounts,
+    Landing,
+    Localization
+  }
 
   def seed! do
+    Accounts.seed!()
     Landing.seed!()
     Localization.seed!()
     :ok

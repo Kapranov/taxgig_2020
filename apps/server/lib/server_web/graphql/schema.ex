@@ -14,6 +14,7 @@ defmodule ServerWeb.GraphQL.Schema do
 
   import_types(Absinthe.Plug.Types)
   import_types(Absinthe.Type.Custom)
+  import_types(ServerWeb.GraphQL.Schemas.Accounts.SubscriberTypes)
   import_types(ServerWeb.GraphQL.Schemas.Landing.FaqCategoryTypes)
   import_types(ServerWeb.GraphQL.Schemas.Landing.FaqTypes)
   import_types(ServerWeb.GraphQL.Schemas.Landing.PressArticleTypes)
@@ -27,6 +28,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:faq_queries)
     import_fields(:language_queries)
     import_fields(:press_article_queries)
+    import_fields(:subscriber_queries)
     import_fields(:vacancy_queries)
   end
 
@@ -36,11 +38,13 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:faq_mutations)
     import_fields(:language_mutations)
     import_fields(:press_article_mutations)
+    import_fields(:subscriber_mutations)
     import_fields(:vacancy_mutations)
     import_fields(:update_faq_category_params)
     import_fields(:update_faq_params)
     import_fields(:update_language_params)
     import_fields(:update_press_article_params)
+    import_fields(:update_subscriber_params)
     import_fields(:update_vacancy_params)
   end
 
@@ -50,6 +54,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:faq_subscriptions)
     import_fields(:language_subscriptions)
     import_fields(:press_article_subscriptions)
+    import_fields(:subscriber_subscriptions)
     import_fields(:vacancy_subscriptions)
   end
 
