@@ -23,8 +23,15 @@ defmodule Core.MixProject do
     ]
   end
 
+  defp applications(:dev), do: applications(:all) ++ [:remix]
+  defp applications(:test), do: applications(:all) ++ [:faker]
+  defp applications(_all), do: [:logger]
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
+
   defp deps do
     [
+      {:argon2_elixir, "~> 2.2"},
       {:burnex, "~> 1.1"},
       {:decimal, "~> 1.8", optional: true},
       {:ecto_sql, "~> 3.3"},
@@ -34,13 +41,5 @@ defmodule Core.MixProject do
       {:postgrex, "~> 0.15.3"},
       {:remix, "~> 0.0", only: [:dev]}
     ]
-
   end
-
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_), do: ["lib"]
-
-  defp applications(:dev), do: applications(:all) ++ [:remix]
-  defp applications(:test), do: applications(:all) ++ [:faker]
-  defp applications(_all), do: [:logger]
 end

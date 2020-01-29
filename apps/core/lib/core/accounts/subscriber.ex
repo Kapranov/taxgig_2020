@@ -30,8 +30,8 @@ defmodule Core.Accounts.Subscriber do
   def changeset(struct, attrs) do
     struct
     |> cast(attrs, @allowed_params)
-    |> validate_format(:email, email_regex())
     |> validate_required(@required_params)
+    |> validate_format(:email, email_regex())
     |> update_change(:email, &String.downcase/1)
     |> unique_constraint(:email)
     |> validate_email()
