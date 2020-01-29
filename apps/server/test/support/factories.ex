@@ -7,6 +7,7 @@ defmodule Server.Factory do
 
   alias Core.{
     Accounts.Subscriber,
+    Accounts.User,
     Landing.Faq,
     Landing.FaqCategory,
     Landing.PressArticle,
@@ -65,6 +66,30 @@ defmodule Server.Factory do
     %Subscriber{
       email: "lugatex@yahoo.com",
       pro_role: false
+    }
+  end
+
+  def user_factory do
+    %User{
+      active: false,
+      admin_role: false,
+      avatar: "some text",
+      bio: "some text",
+      birthday: Timex.now,
+      email: "lugatex@yahoo.com",
+      first_name: "some text",
+      init_setup: false,
+      last_name: "some text",
+      middle_name: "some text",
+      password: "qwerty",
+      password_confirmation: "qwerty",
+      phone: "some text",
+      pro_role: false,
+      provider: "google",
+      sex: "some text",
+      ssn: 123456789,
+      street: "some text",
+      zip: 123456789
     }
   end
 end

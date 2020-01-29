@@ -39,7 +39,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :admin_role, :boolean
     field :avatar, :string
     field :bio, :string
-    field :birthday
+    field :birthday, :date
     field :email, :string
     field :first_name, :string
     field :init_setup, :boolean
@@ -76,7 +76,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       arg :admin_role, :boolean
       arg :avatar, :string
       arg :bio, :string
-      arg :birthday
+      arg :birthday, :date
       arg :email, :string
       arg :first_name, :string
       arg :init_setup, :boolean
