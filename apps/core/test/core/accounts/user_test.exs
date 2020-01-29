@@ -7,17 +7,47 @@ defmodule Core.Accounts.UserTest do
     alias Core.Accounts.User
 
     @valid_attrs %{
+      active: false,
+      admin_role: false,
+      avatar: "some text",
+      bio: "some text",
+      birthday: Timex.today,
       email: "lugatex@yahoo.com",
+      first_name: "some text",
+      init_setup: false,
+      last_name: "some text",
+      middle_name: "some text",
       password: "qwerty",
       password_confirmation: "qwerty",
-      provider: "localhost"
+      phone: "some text",
+      pro_role: false,
+      provider: "localhost",
+      sex: "some text",
+      ssn: 123456789,
+      street: "some text",
+      zip: 123456789
     }
 
     @update_attrs %{
+      active: true,
+      admin_role: true,
+      avatar: "updated text",
+      bio: "updated text",
+      birthday: Timex.today,
       email: "kapranov.lugatex@gmail.com",
+      first_name: "updated text",
+      init_setup: true,
+      last_name: "updated text",
+      middle_name: "updated text",
       password: "qwertyyy",
       password_confirmation: "qwertyyy",
-      provider: "google"
+      phone: "updated text",
+      pro_role: true,
+      provider: "google",
+      sex: "updated text",
+      ssn: 987654321,
+      street: "updated text",
+      zip: 987654321
     }
 
     @invalid_attrs %{
@@ -47,23 +77,23 @@ defmodule Core.Accounts.UserTest do
 
     test "create_user/1 with valid data creates user" do
       assert {:ok, %User{} = struct} = Accounts.create_user(@valid_attrs)
-      assert struct.active      == nil
-      assert struct.admin_role  == nil
-      assert struct.avatar      == nil
-      assert struct.bio         == nil
-      assert struct.birthday    == nil
+      assert struct.active      == false
+      assert struct.admin_role  == false
+      assert struct.avatar      == "some text"
+      assert struct.bio         == "some text"
+      assert struct.birthday    == Timex.today
       assert struct.email       == "lugatex@yahoo.com"
-      assert struct.first_name  == nil
-      assert struct.init_setup  == nil
-      assert struct.last_name   == nil
-      assert struct.middle_name == nil
-      assert struct.phone       == nil
-      assert struct.pro_role    == nil
+      assert struct.first_name  == "some text"
+      assert struct.init_setup  == false
+      assert struct.last_name   == "some text"
+      assert struct.middle_name == "some text"
+      assert struct.phone       == "some text"
+      assert struct.pro_role    == false
       assert struct.provider    == "localhost"
-      assert struct.sex         == nil
-      assert struct.ssn         == nil
-      assert struct.street      == nil
-      assert struct.zip         == nil
+      assert struct.sex         == "some text"
+      assert struct.ssn         == 123456789
+      assert struct.street      == "some text"
+      assert struct.zip         == 123456789
       assert Argon2.verify_pass("qwerty", struct.password_hash)
     end
 
@@ -75,23 +105,23 @@ defmodule Core.Accounts.UserTest do
     test "update_user/2 with valid data updates the user" do
       struct = fixture()
       assert {:ok, %User{} = updated} = Accounts.update_user(struct, @update_attrs)
-      assert updated.active      == nil
-      assert updated.admin_role  == nil
-      assert updated.avatar      == nil
-      assert updated.bio         == nil
-      assert updated.birthday    == nil
+      assert updated.active      == true
+      assert updated.admin_role  == true
+      assert updated.avatar      == "updated text"
+      assert updated.bio         == "updated text"
+      assert updated.birthday    == Timex.today
       assert updated.email       == "kapranov.lugatex@gmail.com"
-      assert updated.first_name  == nil
-      assert updated.init_setup  == nil
-      assert updated.last_name   == nil
-      assert updated.middle_name == nil
-      assert updated.phone       == nil
-      assert updated.pro_role    == nil
+      assert updated.first_name  == "updated text"
+      assert updated.init_setup  == true
+      assert updated.last_name   == "updated text"
+      assert updated.middle_name == "updated text"
+      assert updated.phone       == "updated text"
+      assert updated.pro_role    == true
       assert updated.provider    == "google"
-      assert updated.sex         == nil
-      assert updated.ssn         == nil
-      assert updated.street      == nil
-      assert updated.zip         == nil
+      assert updated.sex         == "updated text"
+      assert updated.ssn         == 987654321
+      assert updated.street      == "updated text"
+      assert updated.zip         == 987654321
       assert Argon2.verify_pass("qwertyyy", updated.password_hash)
     end
 

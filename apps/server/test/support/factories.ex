@@ -75,7 +75,7 @@ defmodule Server.Factory do
       admin_role: false,
       avatar: "some text",
       bio: "some text",
-      birthday: Timex.now,
+      birthday: Date.add(Timex.now, 0),
       email: "lugatex@yahoo.com",
       first_name: "some text",
       init_setup: false,

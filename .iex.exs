@@ -740,9 +740,25 @@ defmodule LetMeSee do
     request = """
     {
       createUser(
+        active: false,
+        admin_role: false,
+        avatar: "some text",
+        bio: "some text",
+        birthday: \"#{Date.add(Timex.now, -2)}\",
         email: "lugatex@yahoo.com",
+        first_name: "some text",
+        init_setup: false,
+        last_name: "some text",
+        middle_name: "some text",
         password: "qwerty",
         password_confirmation: "qwerty"
+        phone: "some text",
+        pro_role: false,
+        provider: "google",
+        sex: "some text",
+        ssn: 123456789,
+        street: "some text",
+        zip: 123456789
       ) {
         id
         active
@@ -956,10 +972,25 @@ defmodule LetMeSee do
       updateUser(
         id: \"#{id}\",
         user: {
+          active: true,
+          admin_role: true,
+          avatar: "updated text",
+          bio: "updated text",
+          birthday: \"#{Date.add(Timex.now, 0)}\",
           email: "kapranov.lugatex@gmail.com",
+          first_name: "updated text",
+          init_setup: true,
+          last_name: "updated text",
+          middle_name: "updated text",
           password: "qwertyyy",
           password_confirmation: "qwertyyy",
-          provider: "google"
+          phone: "updated text",
+          pro_role: true,
+          provider: "facebook",
+          sex: "updated text",
+          ssn: 987654321,
+          street: "updated text",
+          zip: 987654321
         }
       ) {
         id

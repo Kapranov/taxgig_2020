@@ -74,7 +74,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
         admin_role: false,
         avatar: "some text",
         bio: "some text",
-        birthday: Date.add(Timex.now, -2),
+        birthday: Timex.today,
         email: "lugatex@yahoo.com",
         first_name: "some text",
         init_setup: false,
@@ -95,7 +95,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       assert created.admin_role  == false
       assert created.avatar      == "some text"
       assert created.bio         == "some text"
-      assert created.birthday    == Date.add(Timex.now, -2)
+      assert created.birthday    == Timex.today
       assert created.email       == "lugatex@yahoo.com"
       assert created.first_name  == "some text"
       assert created.init_setup  == false
@@ -129,7 +129,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
         admin_role: true,
         avatar: "updated text",
         bio: "updated text",
-        birthday: Date.add(Timex.now, 0),
+        birthday: Timex.today,
         email: "kapranov.lugatex@gmail.com",
         first_name: "updated text",
         init_setup: true,
@@ -152,7 +152,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       assert updated.admin_role  == true
       assert updated.avatar      == "updated text"
       assert updated.bio         == "updated text"
-      assert updated.birthday    == Date.add(Timex.now, 0)
+      assert updated.birthday    == Timex.today
       assert updated.email       == "kapranov.lugatex@gmail.com"
       assert updated.first_name  == "updated text"
       assert updated.init_setup  == true
