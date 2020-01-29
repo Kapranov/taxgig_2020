@@ -10,9 +10,9 @@ defmodule Core.Seeder.Repo do
   }
 
   def seed! do
+    Localization.seed!()
     Accounts.seed!()
     Landing.seed!()
-    Localization.seed!()
     :ok
   end
 end
