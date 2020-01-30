@@ -5,8 +5,34 @@ defmodule Core.Accounts.User do
 
   use Core.Model
 
-  alias Core.Localization.Language
-  alias Core.Repo
+  alias Core.{
+    Localization.Language,
+    Repo
+  }
+
+  @type t :: %__MODULE__{
+    active: boolean,
+    admin_role: boolean,
+    avatar: String.t,
+    bio: String.t,
+    birthday: Date,
+    email: String.t,
+    first_name: String.t,
+    init_setup: boolean,
+    languages: [Language.t()],
+    last_name: String.t,
+    middle_name: String.t,
+    password: String.t,
+    password_confirmation: String.t,
+    password_hash: String.t,
+    phone: String.t,
+    pro_role: boolean,
+    provider: String.t,
+    sex: String.t,
+    ssn: integer,
+    street: String.t,
+    zip: integer
+  }
 
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
   @pass_salt "$argon2id$v=19$m=131072,t=8,p=4$bzlQ77WsnZVTotjmea95iw$s1uYbt2mqfmE9upwEq5vSm3V5GwAmVZn/4QOmchvtoo"
@@ -67,13 +93,16 @@ defmodule Core.Accounts.User do
   end
 
   @doc """
-  Create changeset for User.
+  Create changeset for User, registration only requires
+  an email, password and password_confirmation are fields.
   """
+  @spec changeset(t, map) :: Ecto.Changeset.t()
   def changeset(struct, attrs) do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
-    |> put_assoc(:languages, parse_name(attrs))
+    |> changeset_preload(:languages)
+    |> put_assoc_nochange(:languages, parse_name(attrs))
     |> validate_format(:email, email_regex())
     |> validate_length(:password, min: 6)
     |> validate_confirmation(:password)
@@ -83,6 +112,19 @@ defmodule Core.Accounts.User do
     |> put_password_hash()
   end
 
+  @spec changeset_preload(map, atom) :: map
+  defp changeset_preload(ch, field),
+    do: update_in(ch.data, &Repo.preload(&1, field))
+
+  @spec put_assoc_nochange(map, atom, map) :: map
+  defp put_assoc_nochange(ch, field, new_change) do
+    case get_change(ch, field) do
+      nil -> put_assoc(ch, field, new_change)
+      _ -> ch
+    end
+  end
+
+  @spec parse_name(map) :: map
   defp parse_name(params)  do
     (params[:languages] || "")
     |> String.split(",")
@@ -91,10 +133,12 @@ defmodule Core.Accounts.User do
     |> Enum.map(&get_or_insert_lang/1)
   end
 
+  @spec get_or_insert_lang(String.t) :: map
   defp get_or_insert_lang(name) do
     Repo.get_by(Language, name: name) || maybe_insert_lang(name)
   end
 
+  @spec maybe_insert_lang(String.t) :: map
   defp maybe_insert_lang(name) do
     %Language{}
     |> Ecto.Changeset.change(name: name)
@@ -108,6 +152,7 @@ defmodule Core.Accounts.User do
 
   defp email_regex, do: @email_regex
 
+  @spec validate_email(%Ecto.Changeset{}) :: %Ecto.Changeset{}
   defp validate_email(%{changes: %{email: email}} = changeset) do
     case Regex.match?(@email_regex, email) do
       true ->
@@ -121,7 +166,6 @@ defmodule Core.Accounts.User do
         add_error(changeset, :email, "invalid_format")
     end
   end
-
   defp validate_email(changeset), do: changeset
 
   @spec put_password_hash(%Ecto.Changeset{}) :: %Ecto.Changeset{}

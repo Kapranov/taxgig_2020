@@ -5,6 +5,8 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
 
   use Absinthe.Schema.Notation
 
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
+
   alias ServerWeb.GraphQL.Resolvers.Accounts.UserResolver
   alias ServerWeb.GraphQL.Schemas.Middleware
 
@@ -30,6 +32,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :zip, :integer, description: "accounts user zip"
     field :inserted_at, non_null(:datetime)
     field :updated_at, non_null(:datetime)
+    field :languages, list_of(:language), resolve: dataloader(Data)
   end
 
   @desc "The accounts an user update via params"
