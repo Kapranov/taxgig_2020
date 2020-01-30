@@ -6,8 +6,11 @@ defmodule Server.Application do
   alias ServerWeb.Endpoint
 
   def start(_type, _args) do
+    import Supervisor.Spec
+
     children = [
-      ServerWeb.Endpoint
+      supervisor(ServerWeb.Endpoint, []),
+      supervisor(Absinthe.Subscription, [ServerWeb.Endpoint])
     ]
 
     opts = [strategy: :one_for_one, name: Server.Supervisor]

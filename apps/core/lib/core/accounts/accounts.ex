@@ -64,7 +64,10 @@ defmodule Core.Accounts do
 
   """
   @spec get_user!(String.t) :: map | error_tuple
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(id) do
+    Repo.get!(User, id)
+    |> Repo.preload([:languages])
+  end
 
   @doc """
   Creates Subscriber.

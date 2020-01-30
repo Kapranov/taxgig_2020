@@ -76,6 +76,6 @@ defmodule ServerWeb.GraphQL.Schema do
   end
 
   def middleware(middleware, _field, _object) do
-    middleware
+    middleware ++ [ServerWeb.GraphQL.Schemas.Middleware.ChangesetErrors]
   end
 end

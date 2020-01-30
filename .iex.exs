@@ -184,7 +184,7 @@ defmodule LetMeSee do
 
   def index_faqs do
     request = """
-    {
+    query {
       allFaqs {
         id
         content
@@ -211,7 +211,7 @@ defmodule LetMeSee do
 
   def index_faq_categories do
     request = """
-    {
+    query {
       allFaqCategories {
         id
         faqs_count
@@ -232,7 +232,7 @@ defmodule LetMeSee do
 
   def index_press_articles do
     request = """
-    {
+    query {
       allPressArticles{
         id
         author
@@ -256,7 +256,7 @@ defmodule LetMeSee do
 
   def index_vacancies do
     request = """
-    {
+    query {
       allVacancies{
         id
         content
@@ -278,7 +278,7 @@ defmodule LetMeSee do
 
   def index_languages do
     request = """
-    {
+    query {
       allLanguages{
         id
         abbr
@@ -299,7 +299,7 @@ defmodule LetMeSee do
 
   def index_subscribers do
     request = """
-    {
+    query {
       allSubscribers{
         id
         email
@@ -320,7 +320,7 @@ defmodule LetMeSee do
 
   def index_users do
     request = """
-    {
+    query {
       allUsers{
         id
         active
@@ -356,7 +356,7 @@ defmodule LetMeSee do
 
   def find_faq_category(id \\ @last_faq_category) do
     request = """
-    {
+    query {
       findFaqCategory(id: \"#{id}\") {
         id
         content
@@ -384,7 +384,7 @@ defmodule LetMeSee do
 
   def show_faq(id \\ @last_faq) do
     request = """
-    {
+    query {
       showFaq(id: \"#{id}\") {
         id
         content
@@ -411,7 +411,7 @@ defmodule LetMeSee do
 
   def show_faq_category(id \\ @last_faq_category) do
     request = """
-    {
+    query {
       showFaqCategory(id: \"#{id}\") {
         id
         faqs_count
@@ -432,7 +432,7 @@ defmodule LetMeSee do
 
   def show_press_article(id \\ @last_press_article) do
     request = """
-    {
+    query {
       showPressArticle(id: \"#{id}\") {
         id
         author
@@ -456,7 +456,7 @@ defmodule LetMeSee do
 
   def show_vacancy(id \\ @last_vacancy) do
     request = """
-    {
+    query {
       showVacancy(id: \"#{id}\") {
         id
         content
@@ -478,7 +478,7 @@ defmodule LetMeSee do
 
   def show_language(id \\ @last_language) do
     request = """
-    {
+    query {
       showLanguage(id: \"#{id}\") {
         id
         abbr
@@ -499,7 +499,7 @@ defmodule LetMeSee do
 
   def show_subscriber(id \\ @last_subscriber) do
     request = """
-    {
+    query {
       showSubscriber(id: \"#{id}\") {
         id
         email
@@ -520,7 +520,7 @@ defmodule LetMeSee do
 
   def show_user(id \\ @last_user) do
     request = """
-    {
+    query {
       showUser(id: \"#{id}\") {
         id
         active
@@ -556,7 +556,7 @@ defmodule LetMeSee do
 
   def search_titles(word \\ @search_word) do
     request = """
-    {
+    query {
       searchTitles(title: \"#{word}\") {
         id
         content
@@ -583,7 +583,7 @@ defmodule LetMeSee do
 
   def create_faq(id \\ @last_faq_category) do
     request = """
-    {
+    mutation {
       createFaq(
         content: "some text",
         title: "some text",
@@ -614,7 +614,7 @@ defmodule LetMeSee do
 
   def create_faq_category do
     request = """
-    {
+    mutation {
       createFaqCategory(
         title: "some text"
       ) {
@@ -636,7 +636,7 @@ defmodule LetMeSee do
 
   def create_press_article do
     request = """
-    {
+    mutation {
       createPressArticle(
         author: "some text",
         img_url: "some text",
@@ -665,7 +665,7 @@ defmodule LetMeSee do
 
   def create_vacancy do
     request = """
-    {
+    mutation {
       createVacancy(
         content: "some text",
         department: "some text",
@@ -691,7 +691,7 @@ defmodule LetMeSee do
 
   def create_language do
     request = """
-    {
+    mutation {
       createLanguage(
         abbr: "some text",
         name: "some text"
@@ -715,7 +715,7 @@ defmodule LetMeSee do
 
   def create_subscriber do
     request = """
-    {
+    mutation {
       createSubscriber(
         email: "kapranov.lugatex@gmail.com",
         name: true
@@ -739,7 +739,7 @@ defmodule LetMeSee do
 
   def create_user do
     request = """
-    {
+    mutation {
       createUser(
         active: false,
         admin_role: false,
@@ -752,7 +752,7 @@ defmodule LetMeSee do
         last_name: "some text",
         middle_name: "some text",
         password: "qwerty",
-        password_confirmation: "qwerty"
+        password_confirmation: "qwerty",
         phone: "some text",
         pro_role: false,
         provider: "google",
@@ -795,7 +795,7 @@ defmodule LetMeSee do
 
   def update_faq(id \\ @last_faq, arg \\ @last_faq_category) do
     request = """
-    {
+    mutation {
       updateFaq(
         id: \"#{id}\",
         faq: {
@@ -829,7 +829,7 @@ defmodule LetMeSee do
 
   def update_faq_category(id \\ @last_faq_category) do
     request = """
-    {
+    mutation {
       updateFaqCategory(
         id: \"#{id}\",
         faq_category: {
@@ -854,7 +854,7 @@ defmodule LetMeSee do
 
   def update_press_article(id \\ @last_press_article) do
     request = """
-    {
+    mutation {
       updatePressArticle(
         id: \"#{id}\",
         press_article: {
@@ -886,7 +886,7 @@ defmodule LetMeSee do
 
   def update_vacancy(id \\ @last_vacancy) do
     request = """
-    {
+    mutation {
       updateVacancy(
         id: \"#{id}\",
         vacancy: {
@@ -915,7 +915,7 @@ defmodule LetMeSee do
 
   def update_language(id \\ @last_language) do
     request = """
-    {
+    mutation {
       updateLanguage(
         id: \"#{id}\",
         language: {
@@ -942,7 +942,7 @@ defmodule LetMeSee do
 
   def update_subscriber(id \\ @last_subscriber) do
     request = """
-    {
+    mutation {
       updateSubscriber(
         id: \"#{id}\",
         subscriber: {
@@ -969,7 +969,7 @@ defmodule LetMeSee do
 
   def update_user(id \\ @last_user) do
     request = """
-    {
+    mutation {
       updateUser(
         id: \"#{id}\",
         user: {
@@ -1029,7 +1029,7 @@ defmodule LetMeSee do
 
   def delete_faq(id \\ @last_faq) do
     request = """
-    {
+    mutation {
       deleteFaq(id: \"#{id}\") {id}
     }
     """
@@ -1044,7 +1044,7 @@ defmodule LetMeSee do
 
   def delete_faq_category(id \\ @last_faq_category) do
     request = """
-    {
+    mutation {
       deleteFaqCategory(id: \"#{id}\") {id}
     }
     """
@@ -1059,7 +1059,7 @@ defmodule LetMeSee do
 
   def delete_press_article(id \\ @last_press_article) do
     request = """
-    {
+    mutation {
       deletePressArticle(id: \"#{id}\") {id}
     }
     """
@@ -1074,7 +1074,7 @@ defmodule LetMeSee do
 
   def delete_vacancy(id \\ @last_vacancy) do
     request = """
-    {
+    mutation {
       deleteVacancy(id: \"#{id}\") {id}
     }
     """
@@ -1089,7 +1089,7 @@ defmodule LetMeSee do
 
   def delete_language(id \\ @last_language) do
     request = """
-    {
+    mutation {
       deleteLanguage(id: \"#{id}\") {id}
     }
     """
@@ -1104,7 +1104,7 @@ defmodule LetMeSee do
 
   def delete_subscriber(id \\ @last_subscriber) do
     request = """
-    {
+    mutation {
       deleteSubscriber(id: \"#{id}\") {id}
     }
     """
@@ -1119,7 +1119,7 @@ defmodule LetMeSee do
 
   def delete_user(id \\ @last_user) do
     request = """
-    {
+    mutation {
       deleteUser(id: \"#{id}\") {id}
     }
     """

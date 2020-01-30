@@ -21,7 +21,7 @@ defmodule Core.Localization.Language do
     field :abbr, :string
     field :name, :string
 
-    many_to_many :users, User, join_through: "users_languages"
+    many_to_many :users, User, join_through: "users_languages", on_replace: :delete
 
     timestamps()
   end

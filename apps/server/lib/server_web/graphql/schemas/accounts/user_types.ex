@@ -6,6 +6,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
   use Absinthe.Schema.Notation
 
   alias ServerWeb.GraphQL.Resolvers.Accounts.UserResolver
+  alias ServerWeb.GraphQL.Schemas.Middleware
 
   @desc "The accounts user on the site"
   object :user do
@@ -20,8 +21,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :init_setup, :boolean, description: "accounts user init_setup"
     field :last_name, :string, description: "accounts user last_name"
     field :middle_name, :string, description: "accounts user middle_name"
-    field :password, non_null(:string), description: "accounts user password"
-    field :password_confirmation, non_null(:string), description: "accounts user password_confirmation"
     field :phone, :string, description: "accounts user phone"
     field :pro_role, :boolean, description: "accounts user pro_role"
     field :provider, non_null(:string), description: "accounts user provider"
@@ -92,6 +91,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       arg :street, :string
       arg :zip, :integer
       resolve &UserResolver.create/3
+      middleware Middleware.ChangesetErrors
     end
 
     @desc "Update a specific accounts an user"

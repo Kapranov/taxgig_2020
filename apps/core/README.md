@@ -40,6 +40,11 @@ iex> Repo.update!(user_languages_changeset)
 
 iex> changeset = user_changeset |> Ecto.Changeset.put_assoc(:languages, [%{name: "german", abbr: "ger"}])
 iex> Repo.update!(changeset)
+
+iex> attrs = %{email: "oleg@yahoo.com", password: "qwerty", password_confirmation: "qwerty", languages: "french, greek, chinese"}
+iex> Accounts.create_user(attrs)
+iex> user = Accounts.get_user!("a29a6ba6-dd6a-4d63-9d69-ce2cfa4c2538")
+iex> Accounts.update_user(user, params)
 ```
 
 ### 21 Jan 2020 by Oleg G.Kapranov
