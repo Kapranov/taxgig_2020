@@ -30,7 +30,10 @@ defmodule Core.Accounts do
       [%User{}, ...]
   """
   @spec list_user() :: list
-  def list_user, do: Repo.all(User)
+  def list_user do
+    Repo.all(User)
+    |> Repo.preload([:languages])
+  end
 
   @doc """
   Gets a single Subscriber.
