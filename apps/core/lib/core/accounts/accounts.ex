@@ -7,8 +7,7 @@ defmodule Core.Accounts do
 
   alias Core.Accounts.{
     Subscriber,
-    User,
-    UserLanguage
+    User
   }
 
   @doc """
@@ -32,17 +31,6 @@ defmodule Core.Accounts do
   """
   @spec list_user() :: list
   def list_user, do: Repo.all(User)
-
-  @doc """
-  Returns the list of UserLanguage.
-
-  ## Examples
-
-      iex> list_user_language()
-      [%UserLanguage{}, ...]
-  """
-  @spec list_user_language() :: list
-  def list_user_language, do: Repo.all(UserLanguage)
 
   @doc """
   Gets a single Subscriber.
@@ -79,23 +67,6 @@ defmodule Core.Accounts do
   def get_user!(id), do: Repo.get!(User, id)
 
   @doc """
-  Gets a single UserLanguage.
-
-  Raises `Ecto.NoResultsError` if the UserLanguage does not exist.
-
-  ## Examples
-
-      iex> get_user_language!(123)
-      %UserLanguage{}
-
-      iex> get_user_language!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  @spec get_user_language!(String.t) :: map | error_tuple
-  def get_user_language!(id), do: Repo.get!(UserLanguage, id)
-
-  @doc """
   Creates Subscriber.
 
   ## Examples
@@ -130,25 +101,6 @@ defmodule Core.Accounts do
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Creates UserLanguage.
-
-  ## Examples
-
-      iex> create_user_language(%{field: value})
-      {:ok, %UserLanguage{}}
-
-      iex> create_user_language(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  @spec create_user_language(map) :: result | error_tuple
-  def create_user_language(attrs \\ %{}) do
-    %UserLanguage{}
-    |> UserLanguage.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -191,25 +143,6 @@ defmodule Core.Accounts do
   end
 
   @doc """
-  Updates UserLanguage.
-
-  ## Examples
-
-      iex> update_user_language(struct, %{field: new_value})
-      {:ok, %UserLanguage{}}
-
-      iex> update_user_language(struct, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  @spec update_user_language(map, map) :: result | error_tuple
-  def update_user_language(struct, attrs) do
-    struct
-    |> UserLanguage.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
   Deletes Subscriber.
 
   ## Examples
@@ -244,23 +177,6 @@ defmodule Core.Accounts do
   end
 
   @doc """
-  Deletes UserLanguage.
-
-  ## Examples
-
-      iex> delete_user_language(struct)
-      {:ok, %UserLanguage{}}
-
-      iex> delete_user_language(struct)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  @spec delete_user_language(map) :: result
-  def delete_user_language(%UserLanguage{} = struct) do
-    Repo.delete(struct)
-  end
-
-  @doc """
   Returns an `%Ecto.Changeset{}` for tracking Subscriber changes.
 
   ## Examples
@@ -286,19 +202,5 @@ defmodule Core.Accounts do
   @spec change_user(map) :: result
   def change_user(%User{} = struct) do
     User.changeset(struct, %{})
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking UserLanguage changes.
-
-  ## Examples
-
-      iex> change_user_language(struct)
-      %Ecto.Changeset{source: %UserLanguage{}}
-
-  """
-  @spec change_user_language(map) :: result
-  def change_user_language(%UserLanguage{} = struct) do
-    UserLanguage.changeset(struct, %{})
   end
 end

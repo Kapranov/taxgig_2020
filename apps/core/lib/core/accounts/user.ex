@@ -5,6 +5,8 @@ defmodule Core.Accounts.User do
 
   use Core.Model
 
+  alias Core.Localization.Language
+
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
   @pass_salt "$argon2id$v=19$m=131072,t=8,p=4$bzlQ77WsnZVTotjmea95iw$s1uYbt2mqfmE9upwEq5vSm3V5GwAmVZn/4QOmchvtoo"
 
@@ -58,6 +60,8 @@ defmodule Core.Accounts.User do
     field :street, :string
     field :zip, :integer
 
+    many_to_many :languages, Language, join_through: "users_languages"
+
     timestamps()
   end
 
@@ -72,7 +76,7 @@ defmodule Core.Accounts.User do
     |> validate_length(:password, min: 6)
     |> validate_confirmation(:password)
     |> update_change(:email, &String.downcase/1)
-    |> unique_constraint(:email)
+    |> unique_constraint(:email, name: :users_email_index, message: "Only one an Email Record")
     |> validate_email()
     |> put_password_hash()
   end

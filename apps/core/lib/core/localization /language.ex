@@ -5,6 +5,8 @@ defmodule Core.Localization.Language do
 
   use Core.Model
 
+  alias Core.Accounts.User
+
   @allowed_params ~w(
     abbr
     name
@@ -19,6 +21,8 @@ defmodule Core.Localization.Language do
     field :abbr, :string
     field :name, :string
 
+    many_to_many :users, User, join_through: "users_languages"
+
     timestamps()
   end
 
@@ -29,6 +33,6 @@ defmodule Core.Localization.Language do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
-    |> unique_constraint(:name)
+    |> unique_constraint(:name, name: :languages_name_index, message: "Only one Language")
   end
 end
