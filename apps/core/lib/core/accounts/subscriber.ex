@@ -5,6 +5,11 @@ defmodule Core.Accounts.Subscriber do
 
   use Core.Model
 
+  @type t :: %__MODULE__{
+    email: String.t(),
+    pro_role: boolean
+  }
+
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
   @allowed_params ~w(
@@ -27,6 +32,7 @@ defmodule Core.Accounts.Subscriber do
   @doc """
   Create changeset for Subscriber.
   """
+  @spec changeset(t, map) :: Ecto.Changeset.t()
   def changeset(struct, attrs) do
     struct
     |> cast(attrs, @allowed_params)
@@ -37,8 +43,10 @@ defmodule Core.Accounts.Subscriber do
     |> validate_email()
   end
 
+  @spec email_regex() :: %Regex{}
   defp email_regex, do: @email_regex
 
+  @spec validate_email(%Ecto.Changeset{}) :: %Ecto.Changeset{}
   defp validate_email(%{changes: %{email: email}} = changeset) do
     case Regex.match?(@email_regex, email) do
       true ->

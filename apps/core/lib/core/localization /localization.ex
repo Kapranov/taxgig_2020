@@ -47,7 +47,7 @@ defmodule Core.Localization do
       {:error, %Ecto.Changeset{}}
 
   """
-   @spec create_language(map) :: result | error_tuple
+  @spec create_language(map) :: result | error_tuple
   def create_language(attrs \\ %{}) do
     %Language{}
     |> Language.changeset(attrs)
@@ -99,7 +99,7 @@ defmodule Core.Localization do
       %Ecto.Changeset{source: %Language{}}
 
   """
-  @spec change_language(map) :: result
+  @spec change_language(map) :: Ecto.Changeset.t()
   def change_language(%Language{} = struct) do
     Language.changeset(struct, %{})
   end

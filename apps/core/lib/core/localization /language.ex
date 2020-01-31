@@ -7,6 +7,12 @@ defmodule Core.Localization.Language do
 
   alias Core.Accounts.User
 
+  @type t :: %__MODULE__{
+    abbr: String.t(),
+    name: String.t(),
+    users: [User.t()]
+  }
+
   @allowed_params ~w(
     abbr
     name
@@ -29,6 +35,7 @@ defmodule Core.Localization.Language do
   @doc """
   Create changeset for Language.
   """
+  @spec changeset(t, map) :: Ecto.Changeset.t()
   def changeset(struct, attrs) do
     struct
     |> cast(attrs, @allowed_params)

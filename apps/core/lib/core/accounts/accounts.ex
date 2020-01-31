@@ -191,7 +191,7 @@ defmodule Core.Accounts do
       %Ecto.Changeset{source: %Subscriber{}}
 
   """
-  @spec change_subscriber(map) :: result
+  @spec change_subscriber(map) :: Ecto.Changeset.t()
   def change_subscriber(%Subscriber{} = struct) do
     Subscriber.changeset(struct, %{})
   end
@@ -205,7 +205,7 @@ defmodule Core.Accounts do
       %Ecto.Changeset{source: %User{}}
 
   """
-  @spec change_user(map) :: result
+  @spec change_user(map) :: Ecto.Changeset.t()
   def change_user(%User{} = struct) do
     User.changeset(struct, %{})
   end

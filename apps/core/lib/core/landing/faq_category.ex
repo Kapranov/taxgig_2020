@@ -8,6 +8,11 @@ defmodule Core.Landing.FaqCategory do
   alias Core.Landing
   alias Core.Landing.Faq
 
+  @type t :: %__MODULE__{
+    title: String.t()
+    faqs_count: integer
+  }
+
   @allowed_params ~w(
     title
   )a
@@ -29,6 +34,7 @@ defmodule Core.Landing.FaqCategory do
   @doc """
   Create changeset for FaqCategory.
   """
+  @spec changeset(t, map) :: Ecto.Changeset.t()
   def changeset(struct, attrs) do
     struct
     |> cast(attrs, @allowed_params)
@@ -37,7 +43,8 @@ defmodule Core.Landing.FaqCategory do
     |> unique_constraint(:title)
   end
 
-  def build_count(changeset) do
+  @spec build_count(%Ecto.Changeset{}) :: %Ecto.Changeset{}
+  defp build_count(changeset) do
     count =
       get_field(changeset, :title)
       |> Landing.count_title()

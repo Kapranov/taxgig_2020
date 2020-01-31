@@ -13,24 +13,24 @@ defmodule Core.Accounts.User do
   @type t :: %__MODULE__{
     active: boolean,
     admin_role: boolean,
-    avatar: String.t,
-    bio: String.t,
-    birthday: Date,
-    email: String.t,
-    first_name: String.t,
+    avatar: String.t(),
+    bio: String.t(),
+    birthday: %Date{},
+    email: String.t(),
+    first_name: String.t(),
     init_setup: boolean,
     languages: [Language.t()],
-    last_name: String.t,
-    middle_name: String.t,
-    password: String.t,
-    password_confirmation: String.t,
-    password_hash: String.t,
-    phone: String.t,
+    last_name: String.t(),
+    middle_name: String.t(),
+    password: String.t(),
+    password_confirmation: String.t(),
+    password_hash: String.t(),
+    phone: String.t(),
     pro_role: boolean,
-    provider: String.t,
-    sex: String.t,
+    provider: String.t(),
+    sex: String.t(),
     ssn: integer,
-    street: String.t,
+    street: String.t(),
     zip: integer
   }
 
@@ -112,11 +112,11 @@ defmodule Core.Accounts.User do
     |> put_password_hash()
   end
 
-  @spec changeset_preload(map, atom) :: map
+  @spec changeset_preload(map, Keyword.t) :: map
   defp changeset_preload(ch, field),
     do: update_in(ch.data, &Repo.preload(&1, field))
 
-  @spec put_assoc_nochange(map, atom, map) :: map
+  @spec put_assoc_nochange(map, Keyword.t, map) :: map
   defp put_assoc_nochange(ch, field, new_change) do
     case get_change(ch, field) do
       nil -> put_assoc(ch, field, new_change)
@@ -150,6 +150,7 @@ defmodule Core.Accounts.User do
     end
   end
 
+  @spec email_regex() :: %Regex{}
   defp email_regex, do: @email_regex
 
   @spec validate_email(%Ecto.Changeset{}) :: %Ecto.Changeset{}

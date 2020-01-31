@@ -5,6 +5,12 @@ defmodule Core.Landing.Vacancy do
 
   use Core.Model
 
+  @type t :: %__MODULE__{
+    content: String.t(),
+    department: String.t(),
+    title: String.t()
+  }
+
   @allowed_params ~w(
     content
     department
@@ -28,6 +34,7 @@ defmodule Core.Landing.Vacancy do
   @doc """
   Create changeset for Vacancy.
   """
+  @spec changeset(t, map) :: Ecto.Changeset.t()
   def changeset(struct, attrs) do
     struct
     |> cast(attrs, @allowed_params)
