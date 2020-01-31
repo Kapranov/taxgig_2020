@@ -9,7 +9,7 @@ defmodule Core.Landing.FaqCategory do
   alias Core.Landing.Faq
 
   @type t :: %__MODULE__{
-    title: String.t()
+    title: String.t(),
     faqs_count: integer
   }
 

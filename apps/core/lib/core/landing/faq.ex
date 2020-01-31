@@ -9,7 +9,7 @@ defmodule Core.Landing.Faq do
 
   @type t :: %__MODULE__{
     content: String.t(),
-    faq_category: FaqCategory.t(),
+    faq_categories: FaqCategory.t(),
     title: String.t()
   }
 
