@@ -176,8 +176,7 @@ defmodule LetMeSee do
   @last_press_article Repo.all(PressArticle) |> List.last |> Map.get(:id)
   @last_faq Repo.all(Faq) |> List.last |> Map.get(:id)
   @last_faq_category Repo.all(FaqCategory) |> List.last |> Map.get(:id)
-  # @last_language Repo.all(Language) |> List.last |> Map.get(:id)
-  @last_language %{}
+  @last_language Repo.all(Language) |> List.last |> Map.get(:id)
   @last_subscriber Repo.all(Subscriber) |> List.last |> Map.get(:id)
   @last_user Repo.all(User) |> List.last |> Map.get(:id)
   @search_word ~s(Article)
