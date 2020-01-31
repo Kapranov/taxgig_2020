@@ -22,6 +22,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
+          languages {id abbr name inserted_at updated_at}
           last_name
           middle_name
           phone
@@ -65,6 +66,10 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert List.first(data)["inserted_at"] == format_time(struct.inserted_at)
       assert List.first(data)["updated_at"]  == format_time(struct.updated_at)
 
+      assert List.first(data)["languages"] |> length                       == 1
+      assert List.first(data)["languages"] |> List.last |> Map.get("name") == "chinese"
+      assert List.first(data)["languages"] |> List.last |> Map.get("abbr") == "chi"
+
       assert List.last(data)["id"]          == struct.id
       assert List.last(data)["active"]      == struct.active
       assert List.last(data)["admin_role"]  == struct.admin_role
@@ -85,6 +90,10 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert List.last(data)["zip"]         == struct.zip
       assert List.last(data)["inserted_at"] == format_time(struct.inserted_at)
       assert List.last(data)["updated_at"]  == format_time(struct.updated_at)
+
+      assert List.last(data)["languages"] |> length                       == 1
+      assert List.last(data)["languages"] |> List.last |> Map.get("name") == "chinese"
+      assert List.last(data)["languages"] |> List.last |> Map.get("abbr") == "chi"
 
       {:ok, %{data: %{"allUsers" => data}}} =
         Absinthe.run(query, Schema, context: context)
@@ -111,6 +120,10 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert first["zip"]         == struct.zip
       assert first["inserted_at"] == format_time(struct.inserted_at)
       assert first["updated_at"]  == format_time(struct.updated_at)
+
+      assert first["languages"] |> length                       == 1
+      assert first["languages"] |> List.last |> Map.get("name") == "chinese"
+      assert first["languages"] |> List.last |> Map.get("abbr") == "chi"
     end
   end
 
@@ -132,6 +145,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
+          languages {id abbr name inserted_at updated_at}
           last_name
           middle_name
           phone
@@ -176,6 +190,10 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["inserted_at"] == format_time(struct.inserted_at)
       assert found["updated_at"]  == format_time(struct.updated_at)
 
+      assert found["languages"] |> length                       == 1
+      assert found["languages"] |> List.last |> Map.get("name") == "chinese"
+      assert found["languages"] |> List.last |> Map.get("abbr") == "chi"
+
       {:ok, %{data: %{"showUser" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
@@ -199,6 +217,10 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["zip"]         == struct.zip
       assert found["inserted_at"] == format_time(struct.inserted_at)
       assert found["updated_at"]  == format_time(struct.updated_at)
+
+      assert found["languages"] |> length                       == 1
+      assert found["languages"] |> List.last |> Map.get("name") == "chinese"
+      assert found["languages"] |> List.last |> Map.get("abbr") == "chi"
     end
 
     it "returns not found when accounts an user does not exist" do
@@ -216,6 +238,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
+          languages {id abbr name inserted_at updated_at}
           last_name
           middle_name
           phone
@@ -244,6 +267,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
   describe "#create" do
     it "creates accounts an user" do
+      insert(:language)
+
       mutation = """
       {
         createUser(
@@ -255,6 +280,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email: "lugatex@yahoo.com",
           first_name: "some text",
           init_setup: false,
+          languages: "chinese",
           last_name: "some text",
           middle_name: "some text",
           password: "qwerty",
@@ -276,6 +302,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
+          languages {id abbr name inserted_at updated_at}
           last_name
           middle_name
           phone
@@ -316,6 +343,10 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert created["ssn"]         == 123456789
       assert created["street"]      == "some text"
       assert created["zip"]         == 123456789
+
+      assert created["languages"] |> length                       == 1
+      assert created["languages"] |> List.last |> Map.get("name") == "chinese"
+      assert created["languages"] |> List.last |> Map.get("abbr") == "chi"
     end
 
     it "returns error for missing params" do
@@ -339,6 +370,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
             email: "kapranov.lugatex@gmail.com",
             first_name: "updated text",
             init_setup: true,
+            languages: "chinese",
             last_name: "updated text",
             middle_name: "updated text",
             password: "qwertyyy",
@@ -361,6 +393,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
+          languages {id abbr name inserted_at updated_at}
           last_name
           middle_name
           phone
@@ -403,6 +436,10 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert updated["street"]      == "updated text"
       assert updated["zip"]         == 987654321
       assert updated["inserted_at"] == format_time(struct.inserted_at)
+
+      assert updated["languages"] |> length                       == 1
+      assert updated["languages"] |> List.last |> Map.get("name") == "chinese"
+      assert updated["languages"] |> List.last |> Map.get("abbr") == "chi"
     end
 
     it "nothing change for missing params" do

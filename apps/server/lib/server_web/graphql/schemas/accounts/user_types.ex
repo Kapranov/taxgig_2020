@@ -5,8 +5,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
 
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
-
   alias ServerWeb.GraphQL.Resolvers.Accounts.UserResolver
   alias ServerWeb.GraphQL.Schemas.Middleware
 
@@ -21,6 +19,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :email, non_null(:string), description: "accounts user email"
     field :first_name, :string, description: "accounts user first_name"
     field :init_setup, :boolean, description: "accounts user init_setup"
+    field :languages, list_of(:language), description: "languages list for user"
     field :last_name, :string, description: "accounts user last_name"
     field :middle_name, :string, description: "accounts user middle_name"
     field :phone, :string, description: "accounts user phone"
@@ -32,7 +31,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :zip, :integer, description: "accounts user zip"
     field :inserted_at, non_null(:datetime)
     field :updated_at, non_null(:datetime)
-    field :languages, list_of(:language), resolve: dataloader(Data)
   end
 
   @desc "The accounts an user update via params"
@@ -45,6 +43,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :email, :string
     field :first_name, :string
     field :init_setup, :boolean
+    field :languages, :string
     field :last_name, :string
     field :middle_name, :string
     field :password, :string
@@ -82,6 +81,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       arg :email, :string
       arg :first_name, :string
       arg :init_setup, :boolean
+      arg :languages, :string
       arg :last_name, :string
       arg :middle_name, :string
       arg :password, :string

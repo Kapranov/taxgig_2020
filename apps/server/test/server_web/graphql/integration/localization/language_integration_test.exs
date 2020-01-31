@@ -7,7 +7,7 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
   describe "#list" do
     it "returns languages" do
       struct_a = insert(:language)
-      struct_b = insert(:language)
+      struct_b = insert(:language, abbr: "fra", name: "french")
 
       context = %{}
 

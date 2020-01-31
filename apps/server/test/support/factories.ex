@@ -57,8 +57,8 @@ defmodule Server.Factory do
 
   def language_factory do
     %Language{
-      abbr: Lorem.word(),
-      name: Lorem.word()
+      abbr: "chi",
+      name: "chinese"
     }
   end
 
@@ -79,6 +79,7 @@ defmodule Server.Factory do
       email: "lugatex@yahoo.com",
       first_name: "some text",
       init_setup: false,
+      languages: [build(:language, name: "chinese")],
       last_name: "some text",
       middle_name: "some text",
       password: "qwerty",

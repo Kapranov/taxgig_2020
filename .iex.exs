@@ -331,6 +331,7 @@ defmodule LetMeSee do
         email
         first_name
         init_setup
+        languages {id abbr name inserted_at updated_at}
         last_name
         middle_name
         phone
@@ -531,6 +532,7 @@ defmodule LetMeSee do
         email
         first_name
         init_setup
+        languages {id abbr name inserted_at updated_at}
         last_name
         middle_name
         phone
@@ -746,9 +748,10 @@ defmodule LetMeSee do
         avatar: "some text",
         bio: "some text",
         birthday: \"#{Date.add(Timex.now, -2)}\",
-        email: "lugatex@yahoo.com",
+        email: "oleg@yahoo.com",
         first_name: "some text",
         init_setup: false,
+        languages: "chinese",
         last_name: "some text",
         middle_name: "some text",
         password: "qwerty",
@@ -770,6 +773,7 @@ defmodule LetMeSee do
         email
         first_name
         init_setup
+        languages {id abbr name inserted_at updated_at}
         last_name
         middle_name
         phone
@@ -981,6 +985,7 @@ defmodule LetMeSee do
           email: "kapranov.lugatex@gmail.com",
           first_name: "updated text",
           init_setup: true,
+          languages: "french",
           last_name: "updated text",
           middle_name: "updated text",
           password: "qwertyyy",
@@ -1003,6 +1008,7 @@ defmodule LetMeSee do
         email
         first_name
         init_setup
+        languages {id abbr name inserted_at updated_at}
         last_name
         middle_name
         phone

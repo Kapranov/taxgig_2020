@@ -17,6 +17,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       assert List.first(data).email       == struct.email
       assert List.first(data).first_name  == struct.first_name
       assert List.first(data).init_setup  == struct.init_setup
+      assert List.first(data).languages   == struct.languages
       assert List.first(data).last_name   == struct.last_name
       assert List.first(data).middle_name == struct.middle_name
       assert List.first(data).phone       == struct.phone
@@ -42,6 +43,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       assert found.email       == struct.email
       assert found.first_name  == struct.first_name
       assert found.init_setup  == struct.init_setup
+      assert found.languages   == struct.languages
       assert found.last_name   == struct.last_name
       assert found.middle_name == struct.middle_name
       assert found.phone       == struct.phone
@@ -69,6 +71,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
 
   describe "#create" do
     it "creates accounts an user" do
+      struct = insert(:language)
+
       args = %{
         active: false,
         admin_role: false,
@@ -78,6 +82,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
         email: "lugatex@yahoo.com",
         first_name: "some text",
         init_setup: false,
+        languages: "chinese",
         last_name: "some text",
         middle_name: "some text",
         password: "qwerty",
@@ -99,6 +104,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       assert created.email       == "lugatex@yahoo.com"
       assert created.first_name  == "some text"
       assert created.init_setup  == false
+      assert created.languages   == [struct]
       assert created.last_name   == "some text"
       assert created.middle_name == "some text"
       assert created.phone       == "some text"
@@ -123,7 +129,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
 
   describe "#update" do
     it "update specific accounts an user by id" do
-      struct = insert(:user)
+      struct_a = insert(:language, abbr: "fra", name: "french")
+      struct_b = insert(:user)
+
       params = %{
         active: true,
         admin_role: true,
@@ -133,6 +141,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
         email: "kapranov.lugatex@gmail.com",
         first_name: "updated text",
         init_setup: true,
+        languages: "french",
         last_name: "updated text",
         middle_name: "updated text",
         password: "qwertyyy",
@@ -145,9 +154,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
         street: "updated text",
         zip: 987654321
       }
-      args = %{id: struct.id, user: params}
+      args = %{id: struct_b.id, user: params}
       {:ok, updated} = UserResolver.update(nil, args, nil)
-      assert updated.id          == struct.id
+      assert updated.id          == struct_b.id
       assert updated.active      == true
       assert updated.admin_role  == true
       assert updated.avatar      == "updated text"
@@ -156,6 +165,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       assert updated.email       == "kapranov.lugatex@gmail.com"
       assert updated.first_name  == "updated text"
       assert updated.init_setup  == true
+      assert updated.languages   == [struct_a]
       assert updated.last_name   == "updated text"
       assert updated.middle_name == "updated text"
       assert updated.phone       == "updated text"
