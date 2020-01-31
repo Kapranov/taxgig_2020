@@ -110,7 +110,7 @@ alias Core.{
 
 :timer.sleep(8000);
 
-# clear
+clear
 ######################################################################
 
 defmodule LetMeSee do

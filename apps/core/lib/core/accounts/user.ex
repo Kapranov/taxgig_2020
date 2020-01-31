@@ -35,7 +35,8 @@ defmodule Core.Accounts.User do
   }
 
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-  @pass_salt "$argon2id$v=19$m=131072,t=8,p=4$bzlQ77WsnZVTotjmea95iw$s1uYbt2mqfmE9upwEq5vSm3V5GwAmVZn/4QOmchvtoo"
+  @secret  Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_base]
+  @pass_salt Argon2.hash_pwd_salt(@secret)
 
   @allowed_params ~w(
     active
