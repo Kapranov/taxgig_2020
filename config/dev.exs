@@ -26,5 +26,9 @@ else
     hostname: "localhost",
     show_sensitive_data_on_connection_error: true,
     pool_size: 10
+
+  config :mailings,
+    mailgun_domain: "https://api.mailgun.net/v3/mydomain.com",
+    mailgun_key: "key-##############"
   """)
 end

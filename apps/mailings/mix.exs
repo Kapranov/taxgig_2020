@@ -17,13 +17,16 @@ defmodule Mailings.MixProject do
 
   def application do
     [
+      mod: {Mailings.Application, []},
       extra_applications: [:logger]
     ]
   end
 
   defp deps do
     [
-      {:remix, "~> 0.0", only: [:dev]}
+      {:exvcr, "~> 0.11.0"},
+      {:faker, "~> 0.13", only: [:dev, :test]},
+      {:mailgun, "~> 0.1"}
     ]
   end
 end

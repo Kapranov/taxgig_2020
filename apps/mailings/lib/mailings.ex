@@ -1,3 +1,5 @@
 defmodule Mailings do
-  @moduledoc false
+  @moduledoc """
+  Mailings is microservice sent by mailgun.
+  """
 end

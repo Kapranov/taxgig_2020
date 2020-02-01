@@ -41,6 +41,7 @@ defmodule Server.MixProject do
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:faker, "~> 0.13", only: [:dev, :test]},
       {:jason, "~> 1.0"},
+      {:mailings, in_umbrella: true},
       {:phoenix, "~> 1.4.11"},
       {:phoenix_pubsub, "~> 1.1"},
       {:plug_cowboy, "~> 2.0"},
