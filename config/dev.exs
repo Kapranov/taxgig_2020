@@ -5,4 +5,26 @@ config :phoenix, :plug_init_mode, :runtime
 config :phoenix, :stacktrace_depth, 20
 config :remix, escript: false, silent: true
 
-import_config "dev.secret.exs"
+if File.exists?("./config/dev.secret.exs") do
+  import_config "dev.secret.exs"
+else
+  File.write("./config/dev.secret.exs", """
+  use Mix.Config
+
+  config :core, Core.Repo,
+    username: "your_login",
+    password: "your_password",
+    database: "your_name_db",
+    hostname: "localhost",
+    show_sensitive_data_on_connection_error: true,
+    pool_size: 10
+
+  config :core, Core.Ptin,
+    username: "your_login",
+    password: "your_password",
+    database: "your_name_db",
+    hostname: "localhost",
+    show_sensitive_data_on_connection_error: true,
+    pool_size: 10
+  """)
+end

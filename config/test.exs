@@ -19,4 +19,28 @@ if System.get_env("CI") do
   prepend_project_name?: true
 end
 
-import_config "test.secret.exs"
+config :argon2_elixir, t_cost: 2, m_cost: 12
+
+if File.exists?("./config/test.secret.exs") do
+  import_config "test.secret.exs"
+else
+  File.write("./config/test.secret.exs", """
+  use Mix.Config
+
+  config :core, Core.Repo,
+    username: "your_login",
+    password: "your_password",
+    database: "your_name_db",
+    hostname: "localhost",
+    show_sensitive_data_on_connection_error: true,
+    pool: Ecto.Adapters.SQL.Sandbox
+
+  config :core, Core.Ptin,
+    username: "your_login",
+    password: "your_password",
+    database: "your_name_db",
+    hostname: "localhost",
+    show_sensitive_data_on_connection_error: true,
+    pool: Ecto.Adapters.SQL.Sandbox
+  """)
+end
