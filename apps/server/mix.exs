@@ -34,6 +34,7 @@ defmodule Server.MixProject do
       {:absinthe_phoenix, "~> 1.4", override: true},
       {:absinthe_plug, "~> 1.4", override: true},
       {:absinthe_relay, "~> 1.4", override: true},
+      {:blockscore, in_umbrella: true},
       {:core, in_umbrella: true},
       {:dataloader, "~> 1.0"},
       {:ex_machina, "~> 2.3"},

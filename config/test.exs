@@ -46,5 +46,11 @@ else
   config :mailings,
     mailgun_domain: "https://api.mailgun.net/v3/mydomain.com",
     mailgun_key: "key-##############"
+
+  config :blockscore,
+    adapter: HTTPoison,
+    header: "BLOCKSCORE_HEADER",
+    token: "BLOCKSCORE_TOKEN",
+    url: "BLOCKSCORE_URL"
   """)
 end
