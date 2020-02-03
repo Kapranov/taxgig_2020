@@ -51,10 +51,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolverTest do
     it "returns error for missing params" do
       args = %{email: nil, pro_role: nil}
       {:error, error} = SubscriberResolver.create(nil, args, nil)
-      assert error == [
-        [field: :email, message: "Can't be blank"],
-        [field: :pro_role, message: "Can't be blank"]
-      ]
+      assert error == [[field: :pro_role, message: "Check that an email address or role has been entered"]]
     end
   end
 

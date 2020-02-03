@@ -73,6 +73,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver do
     end
   end
 
+  @spec extract_error_msg(%Ecto.Changeset{}) :: %Ecto.Changeset{}
   defp extract_error_msg(changeset) do
     changeset.errors
     |> Enum.map(fn {field, {error, _details}} ->

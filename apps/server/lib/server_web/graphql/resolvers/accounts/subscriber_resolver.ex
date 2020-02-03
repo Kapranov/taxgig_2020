@@ -9,6 +9,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
     Repo
   }
 
+  alias Mailings.Mailer
+
   def list(_parent, _args, _info) do
     struct = Accounts.list_subscriber()
     {:ok, struct}
@@ -29,11 +31,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
   end
 
   def create(_parent, args, _info) do
-    args
-    |> Accounts.create_subscriber()
-    |> case do
-      {:ok, struct} ->
-        {:ok, struct}
+    with :ok <- Task.await(mailgun(args.email, args.pro_role), 3000),
+          {:ok, struct} <- Accounts.create_subscriber(args)
+        do
+      {:ok, struct}
+    else
+      :error ->
+        {:error, [[field: :pro_role, message: "Check that an email address or role has been entered"]]}
       {:error, changeset} ->
         {:error, extract_error_msg(changeset)}
     end
@@ -68,6 +72,31 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
     end
   end
 
+  @spec mailgun(String.t(), boolean()) :: {:ok} | {:error, String.t()}
+  defp mailgun(email, role) when is_bitstring(email) and is_boolean(role) do
+    case role do
+      true ->
+        Task.async(fn ->
+          Mailer.send_pro_html(email)
+        end)
+      false ->
+        Task.async(fn ->
+          Mailer.send_tp_html(email)
+        end)
+    end
+  end
+
+  defp mailgun(_, _) do
+    Task.async(fn ->
+      try do
+        raise "Oops"
+      catch _, _ ->
+        :error
+      end
+    end)
+  end
+
+  @spec extract_error_msg(%Ecto.Changeset{}) :: %Ecto.Changeset{}
   defp extract_error_msg(changeset) do
     changeset.errors
     |> Enum.map(fn {field, {error, _details}} ->

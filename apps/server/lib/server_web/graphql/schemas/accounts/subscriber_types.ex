@@ -38,8 +38,8 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.SubscriberTypes do
   object :subscriber_mutations do
     @desc "Create an accounts subscriber"
     field :create_subscriber, :subscriber do
-      arg :email, :string
-      arg :pro_role, :boolean
+      arg :email, non_null(:string)
+      arg :pro_role, non_null(:boolean)
       resolve &SubscriberResolver.create/3
     end
 
