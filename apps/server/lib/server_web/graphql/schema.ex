@@ -21,10 +21,12 @@ defmodule ServerWeb.GraphQL.Schema do
   import_types(ServerWeb.GraphQL.Schemas.Landing.PressArticleTypes)
   import_types(ServerWeb.GraphQL.Schemas.Landing.VacancyTypes)
   import_types(ServerWeb.GraphQL.Schemas.Localization.LanguageTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Services.BlockscoreTypes)
   import_types(ServerWeb.GraphQL.Schemas.UuidTypes)
 
   @desc "The root query type."
   query do
+    import_fields(:blockscore_queries)
     import_fields(:faq_category_queries)
     import_fields(:faq_queries)
     import_fields(:language_queries)
@@ -54,6 +56,7 @@ defmodule ServerWeb.GraphQL.Schema do
 
   @desc "The root subscription type."
   subscription do
+    import_fields(:blockscore_subscriptions)
     import_fields(:faq_category_subscriptions)
     import_fields(:faq_subscriptions)
     import_fields(:language_subscriptions)
