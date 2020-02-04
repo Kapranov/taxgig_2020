@@ -21,10 +21,13 @@ end
 
 config :argon2_elixir, t_cost: 2, m_cost: 12
 
-if File.exists?("./config/test.secret.exs") do
+root_path = Path.expand("../config/", __DIR__)
+file_path = "#{root_path}/test.secret.exs"
+
+if File.exists?(file_path) do
   import_config "test.secret.exs"
 else
-  File.write("./config/test.secret.exs", """
+  File.write(file_path, """
   use Mix.Config
 
   config :core, Core.Repo,

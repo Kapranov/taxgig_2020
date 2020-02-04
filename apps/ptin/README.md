@@ -4,6 +4,10 @@
 
 ```
 bash> mix new ptin --sup
+
+bash> mix ecto.gen.migration -r Core.Ptin add_uuid_generate_v4_extension_to_database
+bash> mix ecto.gen.migration -r Core.Ptin create_expires
+bash> mix ecto.gen.migration -r Core.Ptin create_ptins
 ```
 
 ### 21 Jan 2020 by Oleg G.Kapranov

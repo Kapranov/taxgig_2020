@@ -5,10 +5,13 @@ config :phoenix, :plug_init_mode, :runtime
 config :phoenix, :stacktrace_depth, 20
 config :remix, escript: false, silent: true
 
-if File.exists?("./config/dev.secret.exs") do
+root_path = Path.expand("../config/", __DIR__)
+file_path = "#{root_path}/dev.secret.exs"
+
+if File.exists?(file_path) do
   import_config "dev.secret.exs"
 else
-  File.write("./config/dev.secret.exs", """
+  File.write(file_path, """
   use Mix.Config
 
   config :core, Core.Repo,

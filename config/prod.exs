@@ -2,10 +2,13 @@ use Mix.Config
 
 config :logger, level: :info
 
-if File.exists?("./config/prod.secret.exs") do
+root_path = Path.expand("../config/", __DIR__)
+file_path = "#{root_path}/prod.secret.exs"
+
+if File.exists?(file_path) do
   import_config "prod.secret.exs"
 else
-  File.write("./config/prod.secret.exs", """
+  File.write(file_path, """
   use Mix.Config
 
   # For additional configuration outside of environmental variables
