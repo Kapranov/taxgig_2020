@@ -34,19 +34,20 @@ defmodule Server.MixProject do
       {:absinthe_phoenix, "~> 1.4", override: true},
       {:absinthe_plug, "~> 1.4", override: true},
       {:absinthe_relay, "~> 1.4", override: true},
-      {:blockscore, in_umbrella: true},
-      {:core, in_umbrella: true},
       {:dataloader, "~> 1.0"},
       {:ex_machina, "~> 2.3"},
       {:ex_spec, "~> 2.0", only: [:test]},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:faker, "~> 0.13", only: [:dev, :test]},
       {:jason, "~> 1.0"},
-      {:mailings, in_umbrella: true},
       {:phoenix, "~> 1.4.11"},
       {:phoenix_pubsub, "~> 1.1"},
       {:plug_cowboy, "~> 2.0"},
-      {:timex, "~> 3.6"}
+      {:timex, "~> 3.6"},
+      {:blockscore, in_umbrella: true},
+      {:core, in_umbrella: true},
+      {:mailings, in_umbrella: true},
+      {:ptin, in_umbrella: true}
     ]
   end
 end

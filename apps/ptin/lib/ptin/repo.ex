@@ -1,8 +1,8 @@
-defmodule Core.Ptin do
+defmodule Ptin.Repo do
   @moduledoc """
-  Core Ptin.
+  Ptin Repo.
   """
-  use Ecto.Repo, otp_app: :core, adapter: Ecto.Adapters.Postgres
+  use Ecto.Repo, otp_app: :ptin, adapter: Ecto.Adapters.Postgres
 
   @doc """
   Dynamically loads the repository url from the DATABASE_URL environment variable.

@@ -33,7 +33,6 @@ defmodule Core.MixProject do
     [
       {:argon2_elixir, "~> 2.2"},
       {:burnex, "~> 1.1"},
-      {:dataloader, "~> 1.0"},
       {:decimal, "~> 1.8", optional: true},
       {:ecto_sql, "~> 3.3"},
       {:ex_machina, "~> 2.3"},

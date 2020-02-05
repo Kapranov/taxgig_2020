@@ -4,7 +4,7 @@ defmodule Ptin.Application do
   use Application
 
   def start(_type, _args) do
-    children = []
+    children = [Ptin.Repo]
 
     opts = [strategy: :one_for_one, name: Ptin.Supervisor]
     Supervisor.start_link(children, opts)

@@ -4,6 +4,7 @@ defmodule Server.Factory do
   """
 
   use ExMachina.Ecto, repo: Core.Repo
+  # use ExMachina.Ecto, repo: Ptin.Repo
 
   alias Core.{
     Accounts.Subscriber,
@@ -22,6 +23,8 @@ defmodule Server.Factory do
     Lorem,
     Name
   }
+
+  alias Ptin.Services.Ptin
 
   def faq_category_factory do
     %FaqCategory{
@@ -91,6 +94,16 @@ defmodule Server.Factory do
       ssn: 123456789,
       street: "some text",
       zip: 123456789
+    }
+  end
+
+  def ptin_factory do
+    %Ptin{
+      bus_addr_zip: "84116",
+      bus_st_code: "UT",
+      first_name: "Jason",
+      last_name: "Broschinsky",
+      profession: "CPA,EA"
     }
   end
 end

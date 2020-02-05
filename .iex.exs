@@ -97,7 +97,7 @@ case phoenix_app do
         ptin = ecto_app |> Application.get_env(:ecto_repos) |> Enum.at(1)
         quote do
           alias unquote(repo), as: Repo
-          alias unquote(ptin), as: Ptin
+          alias unquote(ptin), as: DB
         end
     end
 end
@@ -117,7 +117,6 @@ alias Core.{
   Landing.Vacancy,
   Localization,
   Localization.Language,
-  Ptin,
   Repo
 }
 
@@ -155,6 +154,7 @@ defmodule LetMeSee do
   LetMeSee.show_user(args)
 
   LetMeSee.search_titles(args)
+  LetMeSee.search_profession(args)
 
   LetMeSee.create_faq(args)
   LetMeSee.create_faq_category(args)
@@ -193,6 +193,7 @@ defmodule LetMeSee do
   @last_subscriber Repo.all(Subscriber) |> List.last |> Map.get(:id)
   @last_user Repo.all(User) |> List.last |> Map.get(:id)
   @search_word ~s(Article)
+  @profession %{bus_addr_zip: "84074", bus_st_code: "UT", first_name: "LiSa", last_name: "StEwArT"}
 
   def index_faqs do
     request = """
@@ -583,6 +584,35 @@ defmodule LetMeSee do
           inserted_at
           updated_at
         }
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def search_profession(attrs \\ @profession) do
+    %{
+      bus_addr_zip: bus_addr_zip,
+      bus_st_code: bus_st_code,
+      first_name: first_name,
+      last_name: last_name
+    } = attrs
+
+    request = """
+    query {
+      searchProfession(
+        bus_addr_zip: \"#{bus_addr_zip}\",
+        bus_st_code: \"#{bus_st_code}\",
+        first_name: \"#{first_name}\",
+        last_name: \"#{last_name}\"
+      ) {
+        profession
       }
     }
     """

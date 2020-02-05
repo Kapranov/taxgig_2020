@@ -10,6 +10,7 @@ defmodule Ptin.MixProject do
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
       elixir: "~> 1.9",
+      elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -24,7 +25,14 @@ defmodule Ptin.MixProject do
 
   defp deps do
     [
-      {:remix, "~> 0.0", only: [:dev]}
+      {:ecto_sql, "~> 3.3"},
+      {:ex_unit_notifier, "~> 0.1", only: [:test]},
+      {:httpoison, "~> 1.6"},
+      {:nimble_csv, "~> 0.6.0"},
+      {:postgrex, "~> 0.15.3"}
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 end

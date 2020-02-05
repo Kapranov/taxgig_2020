@@ -19,6 +19,7 @@ defmodule ServerWeb.ConnCase do
 
   alias Phoenix.ConnTest
   alias Core.Repo
+  alias Ptin.Repo, as: DB
   alias Ecto.Adapters.SQL.Sandbox, as: Adapter
 
   using do
@@ -34,8 +35,10 @@ defmodule ServerWeb.ConnCase do
 
   setup tags do
     :ok = Adapter.checkout(Repo)
+    :ok = Adapter.checkout(DB)
 
     unless tags[:async], do: Adapter.mode(Repo, {:shared, self()})
+    unless tags[:async], do: Adapter.mode(DB, {:shared, self()})
 
     {:ok, conn: ConnTest.build_conn()}
   end

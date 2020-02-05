@@ -42,6 +42,9 @@ packs:
 													$(V)mix deps.get
 													$(V)mix deps.update --all
 													$(V)mix deps.get
+recovery:
+													$(V)mix deps.compile
+													$(V)mix compile
 
 test:
 													$(V)clear

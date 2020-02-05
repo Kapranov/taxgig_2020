@@ -1,1 +1,0 @@
-Core.Seeder.Ptin.seed!()

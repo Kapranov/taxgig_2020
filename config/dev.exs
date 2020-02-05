@@ -22,7 +22,7 @@ else
     show_sensitive_data_on_connection_error: true,
     pool_size: 10
 
-  config :core, Core.Ptin,
+  config :ptin, Ptin.Repo,
     username: "your_login",
     password: "your_password",
     database: "your_name_db",

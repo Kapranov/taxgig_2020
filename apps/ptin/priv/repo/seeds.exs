@@ -1,0 +1,1 @@
+Ptin.Seeder.Repo.seed!

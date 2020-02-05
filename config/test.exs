@@ -38,7 +38,7 @@ else
     show_sensitive_data_on_connection_error: true,
     pool: Ecto.Adapters.SQL.Sandbox
 
-  config :core, Core.Ptin,
+  config :ptin, Ptin.Repo,
     username: "your_login",
     password: "your_password",
     database: "your_name_db",

@@ -22,6 +22,7 @@ defmodule ServerWeb.GraphQL.Schema do
   import_types(ServerWeb.GraphQL.Schemas.Landing.VacancyTypes)
   import_types(ServerWeb.GraphQL.Schemas.Localization.LanguageTypes)
   import_types(ServerWeb.GraphQL.Schemas.Services.BlockscoreTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Services.PtinTypes)
   import_types(ServerWeb.GraphQL.Schemas.UuidTypes)
 
   @desc "The root query type."
@@ -33,6 +34,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:press_article_queries)
     import_fields(:subscriber_queries)
     import_fields(:user_queries)
+    import_fields(:ptin_queries)
     import_fields(:vacancy_queries)
   end
 
@@ -42,6 +44,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:faq_mutations)
     import_fields(:language_mutations)
     import_fields(:press_article_mutations)
+    import_fields(:ptin_mutations)
     import_fields(:subscriber_mutations)
     import_fields(:user_mutations)
     import_fields(:vacancy_mutations)
@@ -61,6 +64,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:faq_subscriptions)
     import_fields(:language_subscriptions)
     import_fields(:press_article_subscriptions)
+    import_fields(:ptin_subscriptions)
     import_fields(:subscriber_subscriptions)
     import_fields(:user_subscriptions)
     import_fields(:vacancy_subscriptions)

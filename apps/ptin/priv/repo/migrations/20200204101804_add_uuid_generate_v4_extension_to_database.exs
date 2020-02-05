@@ -1,4 +1,4 @@
-defmodule Core.Ptin.Migrations.AddUuidGenerateV4ExtensionToDatabase do
+defmodule Ptin.Repo.Migrations.AddUuidGenerateV4ExtensionToDatabase do
   use Ecto.Migration
 
   def up do
