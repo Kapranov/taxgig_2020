@@ -21,6 +21,7 @@ defmodule ServerWeb.GraphQL.Schema do
   import_types(ServerWeb.GraphQL.Schemas.Landing.PressArticleTypes)
   import_types(ServerWeb.GraphQL.Schemas.Landing.VacancyTypes)
   import_types(ServerWeb.GraphQL.Schemas.Localization.LanguageTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Lookup.ZipcodeTypes)
   import_types(ServerWeb.GraphQL.Schemas.Services.BlockscoreTypes)
   import_types(ServerWeb.GraphQL.Schemas.Services.PtinTypes)
   import_types(ServerWeb.GraphQL.Schemas.UuidTypes)
@@ -32,10 +33,11 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:faq_queries)
     import_fields(:language_queries)
     import_fields(:press_article_queries)
+    import_fields(:ptin_queries)
     import_fields(:subscriber_queries)
     import_fields(:user_queries)
-    import_fields(:ptin_queries)
     import_fields(:vacancy_queries)
+    import_fields(:zipcode_queries)
   end
 
   @desc "The root mutation type."
@@ -68,6 +70,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:subscriber_subscriptions)
     import_fields(:user_subscriptions)
     import_fields(:vacancy_subscriptions)
+    import_fields(:zipcode_subscriptions)
   end
 
   def context(ctx) do

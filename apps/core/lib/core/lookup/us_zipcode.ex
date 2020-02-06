@@ -1,0 +1,41 @@
+defmodule Core.Lookup.UsZipcode do
+  @moduledoc """
+  Schema for UsZipcode.
+  """
+
+  use Core.Model
+
+  @type t :: %__MODULE__{
+    city: String.t(),
+    state: String.t(),
+    zipcode: integer()
+  }
+
+  @allowed_params ~w(
+    city
+    state
+    zipcode
+  )a
+
+  @required_params ~w(
+    city
+    state
+    zipcode
+  )a
+
+  schema "us_zipcodes" do
+    field :city, :string, null: false
+    field :state, :string, null: false
+    field :zipcode, :integer, null: false
+  end
+
+  @doc """
+  Create changeset for UsZipcode.
+  """
+  @spec changeset(t, map) :: Ecto.Changeset.t()
+  def changeset(struct, attrs) do
+    struct
+    |> cast(attrs, @allowed_params)
+    |> validate_required(@required_params)
+  end
+end

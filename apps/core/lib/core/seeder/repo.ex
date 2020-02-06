@@ -6,13 +6,15 @@ defmodule Core.Seeder.Repo do
   alias Core.Seeder.{
     Accounts,
     Landing,
-    Localization
+    Localization,
+    Lookup
   }
 
   def seed! do
     Localization.seed!()
     Accounts.seed!()
     Landing.seed!()
+    Lookup.seed!()
     :ok
   end
 end

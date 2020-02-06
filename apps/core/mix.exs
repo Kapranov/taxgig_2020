@@ -38,6 +38,7 @@ defmodule Core.MixProject do
       {:ex_machina, "~> 2.3"},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:faker, "~> 0.13", only: [:dev, :test]},
+      {:jason, "~> 1.0"},
       {:postgrex, "~> 0.15.3"},
       {:remix, "~> 0.0", only: [:dev]},
       {:timex, "~> 3.6"}

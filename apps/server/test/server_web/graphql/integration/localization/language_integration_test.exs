@@ -197,8 +197,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
       assert updated["id"]          == struct.id
       assert updated["abbr"]        == "updated text"
       assert updated["name"]        == "updated text"
-      assert updated["inserted_at"] == format_time(struct.inserted_at)
-      assert updated["updated_at"]  == format_time(struct.updated_at)
     end
 
     it "nothing change for missing params" do

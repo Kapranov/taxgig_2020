@@ -13,7 +13,8 @@ defmodule Server.Factory do
     Landing.FaqCategory,
     Landing.PressArticle,
     Landing.Vacancy,
-    Localization.Language
+    Localization.Language,
+    Lookup.UsZipcode
   }
 
   alias Faker.{
@@ -104,6 +105,14 @@ defmodule Server.Factory do
       first_name: "Jason",
       last_name: "Broschinsky",
       profession: "CPA,EA"
+    }
+  end
+
+  def zipcode_factory do
+    %UsZipcode{
+      city: "AGUADA",
+      state: "PR",
+      zipcode: 602
     }
   end
 end

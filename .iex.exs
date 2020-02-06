@@ -117,6 +117,8 @@ alias Core.{
   Landing.Vacancy,
   Localization,
   Localization.Language,
+  Lookup,
+  Lookup.UsZipcode,
   Repo
 }
 
