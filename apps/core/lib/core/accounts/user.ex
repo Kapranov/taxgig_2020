@@ -6,6 +6,7 @@ defmodule Core.Accounts.User do
   use Core.Model
 
   alias Core.{
+    Accounts.Profile,
     Localization.Language,
     Repo
   }
@@ -87,6 +88,8 @@ defmodule Core.Accounts.User do
     field :ssn, :integer
     field :street, :string
     field :zip, :integer
+
+    has_one :profile, Profile, on_delete: :delete_all
 
     many_to_many :languages, Language, join_through: "users_languages", on_replace: :delete
 

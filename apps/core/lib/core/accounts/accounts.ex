@@ -6,6 +6,7 @@ defmodule Core.Accounts do
   use Core.Context
 
   alias Core.Accounts.{
+    Profile,
     Subscriber,
     User
   }
@@ -33,6 +34,20 @@ defmodule Core.Accounts do
   def list_user do
     Repo.all(User)
     |> Repo.preload([:languages])
+  end
+
+  @doc """
+  Returns the list of profile.
+
+  ## Examples
+
+      iex> list_profile()
+      [%Profile{}, ...]
+  """
+  @spec list_profile() :: list
+  def list_profile do
+    Repo.all(Profile)
+    # |> Repo.preload([:us_zipcodes, user: [:profile, :languages]])
   end
 
   @doc """
@@ -73,6 +88,26 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Gets a single Profile.
+
+  Raises `Ecto.NoResultsError` if the Profile does not exist.
+
+  ## Examples
+
+      iex> get_profile!(123)
+      %Profile{}
+
+      iex> get_profile!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_profile!(String.t) :: map | error_tuple
+  def get_profile!(id) do
+    Repo.get!(Profile, id)
+    # |> Repo.preload([:us_zipcodes, user: [:profile, :languages]])
+  end
+
+  @doc """
   Creates Subscriber.
 
   ## Examples
@@ -107,6 +142,25 @@ defmodule Core.Accounts do
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Creates Profile.
+
+  ## Examples
+
+      iex> create_profile(%{field: value})
+      {:ok, %Profile{}}
+
+      iex> create_profile(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_profile(map) :: result | error_tuple
+  def create_profile(attrs \\ %{}) do
+    %Profile{}
+    |> Profile.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -149,6 +203,25 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Updates Profile.
+
+  ## Examples
+
+      iex> update_profile(struct, %{field: new_value})
+      {:ok, %Profile{}}
+
+      iex> update_profile(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_profile(map, map) :: result | error_tuple
+  def update_profile(struct, attrs) do
+    struct
+    |> Profile.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
   Deletes Subscriber.
 
   ## Examples
@@ -183,6 +256,23 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Deletes Profile.
+
+  ## Examples
+
+      iex> delete_profile(struct)
+      {:ok, %Profile{}}
+
+      iex> delete_profile(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_profile(map) :: result
+  def delete_profile(%Profile{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking Subscriber changes.
 
   ## Examples
@@ -208,5 +298,19 @@ defmodule Core.Accounts do
   @spec change_user(map) :: Ecto.Changeset.t()
   def change_user(%User{} = struct) do
     User.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking Profile changes.
+
+  ## Examples
+
+      iex> change_profile(struct)
+      %Ecto.Changeset{source: %Profile{}}
+
+  """
+  @spec change_profile(map) :: Ecto.Changeset.t()
+  def change_profile(%Profile{} = struct) do
+    Profile.changeset(struct, %{})
   end
 end

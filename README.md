@@ -46,5 +46,6 @@ bash> mix phx.new server --no-html --no-webpack --no-ecto
 
 [1]: https://gitlab.com/taxgig/taxgig_ex
 [2]: https://paper.dropbox.com/doc/Graph-API--AsyYKWDkl3ycVg1z40YLkKukAg-FNst2XVqeQQW5HBCs0JKH
-[3]: https://paper.dropbox.com/doc/Backend-Tech-Documentation-UOhiP5AhK7PsJBJ5ZVKJo#:h2=umbrella-apps
-[4]: https://github.com/phoenixframework/phoenix/tree/v1.4.0/installer/templates/phx_umbrella
+[3]: https://paper.dropbox.com/doc/Backend-Tech-Documentation-UOhiP5AhK7PsJBJ5ZVKJo
+[4]: https://paper.dropbox.com/doc/Backend-API-Documentation-FNst2XVqeQQW5HBCs0JKH
+[5]: https://github.com/phoenixframework/phoenix/tree/v1.4.0/installer/templates/phx_umbrella

@@ -17,6 +17,7 @@ bash> mix ecto.gen.migration -r Core.Repo add_img_url_press_press_article
 bash> mix ecto.gen.migration -r Core.Repo create_languages
 bash> mix ecto.gen.migration -r Core.Repo create_subscribers
 bash> mix ecto.gen.migration -r Core.Repo create_users
+bash> mix ecto.gen.migration -r Core.Repo create_us_zipcodes
 bash> mix ecto.gen.migration -r Core.Repo create_profiles
 
 bash> mix ecto.gen.migration -r Core.Repo create_user_languages
