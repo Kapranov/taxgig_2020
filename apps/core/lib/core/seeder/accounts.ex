@@ -6,6 +6,7 @@ defmodule Core.Seeder.Accounts do
   import Ecto.Query
 
   alias Core.{
+    Accounts,
     Accounts.Subscriber,
     Accounts.User,
     Localization.Language,
@@ -113,12 +114,12 @@ defmodule Core.Seeder.Accounts do
 
   defp insert_user do
     [
-      Repo.insert!(%User{
+      Accounts.create_user(%{
         email: "lugatex@yahoo.com",
         password: "qwerty",
         password_confirmation: "qwerty"
       }),
-      Repo.insert!(%User{
+      Accounts.create_user(%{
         email: "kapranov.lugatex@yahoo.com",
         password: "qwerty",
         password_confirmation: "qwerty"

@@ -1,4 +1,4 @@
-defmodule ServerWeb.GraphQL.Integration.Lookup.ZipcodeIntegrationTest do
+defmodule ServerWeb.GraphQL.Integration.Lookup.UsZipcodeIntegrationTest do
   use ServerWeb.ConnCase
 
   alias Server.AbsintheHelpers

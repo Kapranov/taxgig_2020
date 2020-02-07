@@ -8,6 +8,7 @@ defmodule Server.Factory do
 
   alias Core.{
     Accounts.Subscriber,
+    Accounts.Profile,
     Accounts.User,
     Landing.Faq,
     Landing.FaqCategory,
@@ -113,6 +114,16 @@ defmodule Server.Factory do
       city: "AGUADA",
       state: "PR",
       zipcode: 602
+    }
+  end
+
+  def profile_factory do
+    %Profile{
+      address: "some text",
+      banner: "some text",
+      description: "some text",
+      us_zipcode: build(:zipcode),
+      user: build(:user)
     }
   end
 end

@@ -16,7 +16,7 @@ defmodule Core.Accounts.Profile do
     banner: String.t(),
     description: String.t(),
     logo: map(),
-    us_zipcodes: UsZipcode.t(),
+    us_zipcode: UsZipcode.t(),
     user_id: User.t()
   }
 
@@ -44,7 +44,7 @@ defmodule Core.Accounts.Profile do
 
     belongs_to :user, User, foreign_key: :user_id, type: :binary_id,
       references: :id
-    belongs_to :us_zipcodes, UsZipcode, foreign_key: :us_zipcode_id,
+    belongs_to :us_zipcode, UsZipcode, foreign_key: :us_zipcode_id,
       type: :binary_id, references: :id
 
     timestamps()

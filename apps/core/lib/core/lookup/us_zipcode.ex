@@ -5,8 +5,11 @@ defmodule Core.Lookup.UsZipcode do
 
   use Core.Model
 
+  alias Core.Accounts.Profile
+
   @type t :: %__MODULE__{
     city: String.t(),
+    profile: [Profile.t()],
     state: String.t(),
     zipcode: integer()
   }
@@ -27,6 +30,8 @@ defmodule Core.Lookup.UsZipcode do
     field :city, :string, null: false
     field :state, :string, null: false
     field :zipcode, :integer, null: false
+
+    has_one :profile, Profile
   end
 
   @doc """

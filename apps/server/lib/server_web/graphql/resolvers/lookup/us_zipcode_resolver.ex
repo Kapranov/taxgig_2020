@@ -1,4 +1,4 @@
-defmodule ServerWeb.GraphQL.Resolvers.Lookup.ZipcodeResolver do
+defmodule ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolver do
   @moduledoc """
   The UsZipcode GraphQL resolvers.
   """

@@ -47,7 +47,7 @@ defmodule Core.Accounts do
   @spec list_profile() :: list
   def list_profile do
     Repo.all(Profile)
-    # |> Repo.preload([:us_zipcodes, user: [:profile, :languages]])
+    |> Repo.preload([:us_zipcode, user: [:profile, :languages]])
   end
 
   @doc """
@@ -104,7 +104,7 @@ defmodule Core.Accounts do
   @spec get_profile!(String.t) :: map | error_tuple
   def get_profile!(id) do
     Repo.get!(Profile, id)
-    # |> Repo.preload([:us_zipcodes, user: [:profile, :languages]])
+    |> Repo.preload([:us_zipcode, user: [:profile, :languages]])
   end
 
   @doc """
@@ -140,9 +140,21 @@ defmodule Core.Accounts do
   """
   @spec create_user(map) :: result | error_tuple
   def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert()
+    user_changeset = User.changeset(%User{}, attrs)
+
+    Multi.new
+    |> Multi.insert(:users, user_changeset)
+    |> Multi.run(:profiles, fn _, %{users: user} ->
+      profile_changeset = %Profile{user_id: user.id}
+      Repo.insert(profile_changeset)
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{users: user}} ->
+        {:ok, user}
+      {:error, _model, changeset, _completed} ->
+        {:error, changeset}
+    end
   end
 
   @doc """

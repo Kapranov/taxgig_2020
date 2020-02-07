@@ -9,11 +9,11 @@ defmodule ServerWeb.GraphQL.Schemas.Localization.LanguageTypes do
 
   @desc "The language on the site"
   object :language do
-    field :id, non_null(:string), description: "language id"
-    field :abbr, non_null(:string), description: "language abbr"
-    field :name, non_null(:string), description: "language name"
-    field :inserted_at, non_null(:datetime)
-    field :updated_at, non_null(:datetime)
+    field :id, :string, description: "language id"
+    field :abbr, :string, description: "language abbr"
+    field :name, :string, description: "language name"
+    field :inserted_at, :datetime
+    field :updated_at, :datetime
   end
 
   @desc "The language update via params"

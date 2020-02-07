@@ -108,6 +108,7 @@ import Ecto.Query
 
 alias Core.{
   Accounts,
+  Accounts.Profile,
   Accounts.Subscriber,
   Accounts.User,
   Landing,
@@ -137,26 +138,30 @@ defmodule LetMeSee do
 
   cmd+r
 
+
   LetMeSee.index_faq_categories()
   LetMeSee.index_faqs()
   LetMeSee.index_languages()
   LetMeSee.index_press_articles()
+  LetMeSee.index_profiles()
   LetMeSee.index_subscribers()
-  LetMeSee.index_vacancies()
   LetMeSee.index_users()
-
+  LetMeSee.index_vacancies()
   LetMeSee.find_faq_category(args)
 
   LetMeSee.show_faq(args)
   LetMeSee.show_faq_category(args)
   LetMeSee.show_language(args)
   LetMeSee.show_press_article(args)
+  LetMeSee.show_profile(args)
   LetMeSee.show_subscriber(args)
-  LetMeSee.show_vacancy(args)
   LetMeSee.show_user(args)
+  LetMeSee.show_vacancy(args)
+  LetMeSee.show_zipcode(args)
 
   LetMeSee.search_titles(args)
   LetMeSee.search_profession(args)
+  LetMeSee.search_zipcode(args)
 
   LetMeSee.create_faq(args)
   LetMeSee.create_faq_category(args)
@@ -170,17 +175,19 @@ defmodule LetMeSee do
   LetMeSee.update_faq_category(args)
   LetMeSee.update_language(args)
   LetMeSee.update_press_article(args)
+  LetMeSee.update_profile(args)
   LetMeSee.update_subscriber(args)
-  LetMeSee.update_vacancy(args)
   LetMeSee.update_user(args)
+  LetMeSee.update_vacancy(args)
 
   LetMeSee.delete_faq(args)
   LetMeSee.delete_faq_category(args)
   LetMeSee.delete_language(args)
   LetMeSee.delete_press_article(args)
+  LetMeSee.delete_profile(args)
   LetMeSee.delete_subscriber(args)
-  LetMeSee.delete_vacancy(args)
   LetMeSee.delete_user(args)
+  LetMeSee.delete_vacancy(args)
   """
 
   IO.puts(
@@ -194,7 +201,9 @@ defmodule LetMeSee do
   @last_language Repo.all(Language) |> List.last |> Map.get(:id)
   @last_subscriber Repo.all(Subscriber) |> List.last |> Map.get(:id)
   @last_user Repo.all(User) |> List.last |> Map.get(:id)
+  @last_zipcode Repo.all(UsZipcode) |> List.first |> Map.get(:id)
   @search_word ~s(Article)
+  @search_zipcode %{zipcode: 602}
   @profession %{bus_addr_zip: "84074", bus_st_code: "UT", first_name: "LiSa", last_name: "StEwArT"}
 
   def index_faqs do
@@ -356,6 +365,51 @@ defmodule LetMeSee do
         ssn
         street
         zip
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def index_profiles do
+    request = """
+    query {
+      allProfiles{
+        address
+        banner
+        description
+        us_zipcode {id city state zipcode}
+        user {
+          id
+          active
+          admin_role
+          avatar
+          bio
+          birthday
+          email
+          first_name
+          init_setup
+          languages {id abbr name inserted_at updated_at}
+          last_name
+          middle_name
+          phone
+          pro_role
+          provider
+          sex
+          ssn
+          street
+          zip
+          inserted_at
+          updated_at
+        }
         inserted_at
         updated_at
       }
@@ -571,6 +625,71 @@ defmodule LetMeSee do
     result
   end
 
+  def show_zipcode(id \\ @last_zipcode) do
+    request = """
+    query {
+      showZipcode(id: \"#{id}\") {
+        id
+        city
+        state
+        zipcode
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def show_profile(id \\ @last_user) do
+    request = """
+    query {
+      showProfile(id: \"#{id}\") {
+        address
+        banner
+        description
+        us_zipcode {id city state zipcode}
+        user {
+          id
+          active
+          admin_role
+          avatar
+          bio
+          birthday
+          email
+          first_name
+          init_setup
+          languages {id abbr name inserted_at updated_at}
+          last_name
+          middle_name
+          phone
+          pro_role
+          provider
+          sex
+          ssn
+          street
+          zip
+          inserted_at
+          updated_at
+        }
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
   def search_titles(word \\ @search_word) do
     request = """
     query {
@@ -615,6 +734,30 @@ defmodule LetMeSee do
         last_name: \"#{last_name}\"
       ) {
         profession
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def search_zipcode(attrs \\ @search_zipcode) do
+    %{zipcode: number} = attrs
+
+    request = """
+    query {
+      searchZipcode(
+        zipcode: #{number}
+      ) {
+        id
+        city
+        state
+        zipcode
       }
     }
     """
@@ -1076,6 +1219,60 @@ defmodule LetMeSee do
     result
   end
 
+  def update_profile(id \\ @last_user) do
+    request = """
+    mutation {
+      updateProfile(
+        id: \"#{id}\",
+        profile: {
+          address: "updated text",
+          banner: "updated text",
+          description: "updated text",
+          us_zipcodeId: \"#{@last_zipcode}\",
+          userId: \"#{@last_user}\"
+        }
+      ) {
+        address
+        banner
+        description
+        us_zipcode {id city state zipcode}
+        user {
+          id
+          active
+          admin_role
+          avatar
+          bio
+          birthday
+          email
+          first_name
+          init_setup
+          languages {id abbr name inserted_at updated_at}
+          last_name
+          middle_name
+          phone
+          pro_role
+          provider
+          sex
+          ssn
+          street
+          zip
+          inserted_at
+          updated_at
+        }
+        inserted_at
+        updated_at
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
 
   def delete_faq(id \\ @last_faq) do
     request = """
@@ -1171,6 +1368,21 @@ defmodule LetMeSee do
     request = """
     mutation {
       deleteUser(id: \"#{id}\") {id}
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+
+    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+    IO.puts("\nThe Result:")
+    result
+  end
+
+  def delete_profile(id \\ @last_user) do
+    request = """
+    mutation {
+      deleteProfile(id: \"#{id}\") {user {id}}
     }
     """
     IO.puts("The Request:")
