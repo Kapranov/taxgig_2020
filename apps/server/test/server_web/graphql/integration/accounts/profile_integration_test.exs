@@ -53,52 +53,111 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
       data = json_response(res, 200)["data"]["allProfiles"]
 
-      assert List.first(data)["address"]     == struct.address
-      assert List.first(data)["banner"]      == struct.banner
-      assert List.first(data)["description"] == struct.description
-      assert List.first(data)["inserted_at"] == format_time(struct.inserted_at)
-      assert List.first(data)["updated_at"]  == format_time(struct.updated_at)
+      assert List.first(data)["address"]                         == struct.address
+      assert List.first(data)["banner"]                          == struct.banner
+      assert List.first(data)["description"]                     == struct.description
+      assert List.first(data)["inserted_at"]                     == format_time(struct.inserted_at)
+      assert List.first(data)["updated_at"]                      == format_time(struct.updated_at)
+      assert List.first(data)["us_zipcode"]["city"]              == struct.us_zipcode.city
+      assert List.first(data)["us_zipcode"]["state"]             == struct.us_zipcode.state
+      assert List.first(data)["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
+      assert List.first(data)["user"]["id"]                      == struct.user.id
+      assert List.first(data)["user"]["active"]                  == struct.user.active
+      assert List.first(data)["user"]["admin_role"]              == struct.user.admin_role
+      assert List.first(data)["user"]["avatar"]                  == struct.user.avatar
+      assert List.first(data)["user"]["bio"]                     == struct.user.bio
+      assert List.first(data)["user"]["birthday"]                == to_string(struct.user.birthday)
+      assert List.first(data)["user"]["email"]                   == struct.user.email
+      assert List.first(data)["user"]["first_name"]              == struct.user.first_name
+      assert List.first(data)["user"]["init_setup"]              == struct.user.init_setup
+      assert List.first(data)["user"]["last_name"]               == struct.user.last_name
+      assert List.first(data)["user"]["middle_name"]             == struct.user.middle_name
+      assert List.first(data)["user"]["phone"]                   == struct.user.phone
+      assert List.first(data)["user"]["pro_role"]                == struct.user.pro_role
+      assert List.first(data)["user"]["provider"]                == struct.user.provider
+      assert List.first(data)["user"]["sex"]                     == struct.user.sex
+      assert List.first(data)["user"]["ssn"]                     == struct.user.ssn
+      assert List.first(data)["user"]["street"]                  == struct.user.street
+      assert List.first(data)["user"]["zip"]                     == struct.user.zip
+      assert List.first(data)["user"]["inserted_at"]             == format_time(struct.user.inserted_at)
+      assert List.first(data)["user"]["updated_at"]              == format_time(struct.user.updated_at)
+      assert List.first(data)["user"]["languages"][:id]          == nil
+      assert List.first(data)["user"]["languages"][:abbr]        == nil
+      assert List.first(data)["user"]["languages"][:name]        == nil
+      assert List.first(data)["user"]["languages"][:inserted_at] == nil
+      assert List.first(data)["user"]["languages"][:updated_at]  == nil
 
-      assert List.last(data)["address"]     == struct.address
-      assert List.last(data)["banner"]      == struct.banner
-      assert List.last(data)["description"] == struct.description
-      assert List.last(data)["inserted_at"] == format_time(struct.inserted_at)
-      assert List.last(data)["updated_at"]  == format_time(struct.updated_at)
+      assert List.last(data)["address"]                         == struct.address
+      assert List.last(data)["banner"]                          == struct.banner
+      assert List.last(data)["description"]                     == struct.description
+      assert List.last(data)["inserted_at"]                     == format_time(struct.inserted_at)
+      assert List.last(data)["updated_at"]                      == format_time(struct.updated_at)
+      assert List.last(data)["us_zipcode"]["city"]              == struct.us_zipcode.city
+      assert List.last(data)["us_zipcode"]["state"]             == struct.us_zipcode.state
+      assert List.last(data)["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
+      assert List.last(data)["user"]["id"]                      == struct.user.id
+      assert List.last(data)["user"]["active"]                  == struct.user.active
+      assert List.last(data)["user"]["admin_role"]              == struct.user.admin_role
+      assert List.last(data)["user"]["avatar"]                  == struct.user.avatar
+      assert List.last(data)["user"]["bio"]                     == struct.user.bio
+      assert List.last(data)["user"]["birthday"]                == to_string(struct.user.birthday)
+      assert List.last(data)["user"]["email"]                   == struct.user.email
+      assert List.last(data)["user"]["first_name"]              == struct.user.first_name
+      assert List.last(data)["user"]["init_setup"]              == struct.user.init_setup
+      assert List.last(data)["user"]["last_name"]               == struct.user.last_name
+      assert List.last(data)["user"]["middle_name"]             == struct.user.middle_name
+      assert List.last(data)["user"]["phone"]                   == struct.user.phone
+      assert List.last(data)["user"]["pro_role"]                == struct.user.pro_role
+      assert List.last(data)["user"]["provider"]                == struct.user.provider
+      assert List.last(data)["user"]["sex"]                     == struct.user.sex
+      assert List.last(data)["user"]["ssn"]                     == struct.user.ssn
+      assert List.last(data)["user"]["street"]                  == struct.user.street
+      assert List.last(data)["user"]["zip"]                     == struct.user.zip
+      assert List.last(data)["user"]["inserted_at"]             == format_time(struct.user.inserted_at)
+      assert List.last(data)["user"]["updated_at"]              == format_time(struct.user.updated_at)
+      assert List.last(data)["user"]["languages"][:id]          == nil
+      assert List.last(data)["user"]["languages"][:abbr]        == nil
+      assert List.last(data)["user"]["languages"][:name]        == nil
+      assert List.last(data)["user"]["languages"][:inserted_at] == nil
+      assert List.last(data)["user"]["languages"][:updated_at]  == nil
 
       {:ok, %{data: %{"allProfiles" => data}}} =
         Absinthe.run(query, Schema, context: context)
 
       first = hd(data)
 
-      assert first["address"]     == struct.address
-      assert first["banner"]      == struct.banner
-      assert first["description"] == struct.description
-      assert first["inserted_at"] == format_time(struct.inserted_at)
-      assert first["updated_at"]  == format_time(struct.updated_at)
-
-      assert first["user"]["id"]          == struct.user_id
-      assert first["user"]["active"]      == struct.user.active
-      assert first["user"]["admin_role"]  == struct.user.admin_role
-      assert first["user"]["avatar"]      == struct.user.avatar
-      assert first["user"]["bio"]         == struct.user.bio
-      assert first["user"]["birthday"]    == to_string(struct.user.birthday)
-      assert first["user"]["email"]       == struct.user.email
-      assert first["user"]["first_name"]  == struct.user.first_name
-      assert first["user"]["init_setup"]  == struct.user.init_setup
-      assert first["user"]["last_name"]   == struct.user.last_name
-      assert first["user"]["middle_name"] == struct.user.middle_name
-      assert first["user"]["phone"]       == struct.user.phone
-      assert first["user"]["pro_role"]    == struct.user.pro_role
-      assert first["user"]["provider"]    == struct.user.provider
-      assert first["user"]["sex"]         == struct.user.sex
-      assert first["user"]["ssn"]         == struct.user.ssn
-      assert first["user"]["street"]      == struct.user.street
-      assert first["user"]["zip"]         == struct.user.zip
-
-      assert first["us_zipcode"]["id"]      == struct.us_zipcode_id
-      assert first["us_zipcode"]["city"]    == struct.us_zipcode.city
-      assert first["us_zipcode"]["state"]   == struct.us_zipcode.state
-      assert first["us_zipcode"]["zipcode"] == struct.us_zipcode.zipcode
+      assert first["address"]                         == struct.address
+      assert first["banner"]                          == struct.banner
+      assert first["description"]                     == struct.description
+      assert first["inserted_at"]                     == format_time(struct.inserted_at)
+      assert first["updated_at"]                      == format_time(struct.updated_at)
+      assert first["us_zipcode"]["id"]                == struct.us_zipcode_id
+      assert first["us_zipcode"]["city"]              == struct.us_zipcode.city
+      assert first["us_zipcode"]["state"]             == struct.us_zipcode.state
+      assert first["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
+      assert first["user"]["id"]                      == struct.user_id
+      assert first["user"]["active"]                  == struct.user.active
+      assert first["user"]["admin_role"]              == struct.user.admin_role
+      assert first["user"]["avatar"]                  == struct.user.avatar
+      assert first["user"]["bio"]                     == struct.user.bio
+      assert first["user"]["birthday"]                == to_string(struct.user.birthday)
+      assert first["user"]["email"]                   == struct.user.email
+      assert first["user"]["first_name"]              == struct.user.first_name
+      assert first["user"]["init_setup"]              == struct.user.init_setup
+      assert first["user"]["last_name"]               == struct.user.last_name
+      assert first["user"]["middle_name"]             == struct.user.middle_name
+      assert first["user"]["phone"]                   == struct.user.phone
+      assert first["user"]["pro_role"]                == struct.user.pro_role
+      assert first["user"]["provider"]                == struct.user.provider
+      assert first["user"]["sex"]                     == struct.user.sex
+      assert first["user"]["ssn"]                     == struct.user.ssn
+      assert first["user"]["street"]                  == struct.user.street
+      assert first["user"]["zip"]                     == struct.user.zip
+      assert first["user"]["languages"][:id]          == nil
+      assert first["user"]["languages"][:abbr]        == nil
+      assert first["user"]["languages"][:name]        == nil
+      assert first["user"]["languages"][:inserted_at] == nil
+      assert first["user"]["languages"][:updated_at]  == nil
     end
   end
 
@@ -152,20 +211,74 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
       found = json_response(res, 200)["data"]["showProfile"]
 
-      assert found["address"]     == struct.address
-      assert found["banner"]      == struct.banner
-      assert found["description"] == struct.description
-      assert found["inserted_at"] == format_time(struct.inserted_at)
-      assert found["updated_at"]  == format_time(struct.updated_at)
+      assert found["address"]                         == struct.address
+      assert found["banner"]                          == struct.banner
+      assert found["description"]                     == struct.description
+      assert found["inserted_at"]                     == format_time(struct.inserted_at)
+      assert found["updated_at"]                      == format_time(struct.updated_at)
+      assert found["us_zipcode"]["id"]                == struct.us_zipcode_id
+      assert found["us_zipcode"]["city"]              == struct.us_zipcode.city
+      assert found["us_zipcode"]["state"]             == struct.us_zipcode.state
+      assert found["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
+      assert found["user"]["id"]                      == struct.user_id
+      assert found["user"]["active"]                  == struct.user.active
+      assert found["user"]["admin_role"]              == struct.user.admin_role
+      assert found["user"]["avatar"]                  == struct.user.avatar
+      assert found["user"]["bio"]                     == struct.user.bio
+      assert found["user"]["birthday"]                == to_string(struct.user.birthday)
+      assert found["user"]["email"]                   == struct.user.email
+      assert found["user"]["first_name"]              == struct.user.first_name
+      assert found["user"]["init_setup"]              == struct.user.init_setup
+      assert found["user"]["last_name"]               == struct.user.last_name
+      assert found["user"]["middle_name"]             == struct.user.middle_name
+      assert found["user"]["phone"]                   == struct.user.phone
+      assert found["user"]["pro_role"]                == struct.user.pro_role
+      assert found["user"]["provider"]                == struct.user.provider
+      assert found["user"]["sex"]                     == struct.user.sex
+      assert found["user"]["ssn"]                     == struct.user.ssn
+      assert found["user"]["street"]                  == struct.user.street
+      assert found["user"]["zip"]                     == struct.user.zip
+      assert found["user"]["languages"][:id]          == nil
+      assert found["user"]["languages"][:abbr]        == nil
+      assert found["user"]["languages"][:name]        == nil
+      assert found["user"]["languages"][:inserted_at] == nil
+      assert found["user"]["languages"][:updated_at]  == nil
 
       {:ok, %{data: %{"showProfile" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["address"]     == struct.address
-      assert found["banner"]      == struct.banner
-      assert found["description"] == struct.description
-      assert found["inserted_at"] == format_time(struct.inserted_at)
-      assert found["updated_at"]  == format_time(struct.updated_at)
+      assert found["address"]                         == struct.address
+      assert found["banner"]                          == struct.banner
+      assert found["description"]                     == struct.description
+      assert found["inserted_at"]                     == format_time(struct.inserted_at)
+      assert found["updated_at"]                      == format_time(struct.updated_at)
+      assert found["user"]["languages"][:id]          == nil
+      assert found["user"]["languages"][:abbr]        == nil
+      assert found["user"]["languages"][:name]        == nil
+      assert found["user"]["languages"][:inserted_at] == nil
+      assert found["user"]["languages"][:updated_at]  == nil
+      assert found["user"]["id"]                      == struct.user_id
+      assert found["user"]["active"]                  == struct.user.active
+      assert found["user"]["admin_role"]              == struct.user.admin_role
+      assert found["user"]["avatar"]                  == struct.user.avatar
+      assert found["user"]["bio"]                     == struct.user.bio
+      assert found["user"]["birthday"]                == to_string(struct.user.birthday)
+      assert found["user"]["email"]                   == struct.user.email
+      assert found["user"]["first_name"]              == struct.user.first_name
+      assert found["user"]["init_setup"]              == struct.user.init_setup
+      assert found["user"]["last_name"]               == struct.user.last_name
+      assert found["user"]["middle_name"]             == struct.user.middle_name
+      assert found["user"]["phone"]                   == struct.user.phone
+      assert found["user"]["pro_role"]                == struct.user.pro_role
+      assert found["user"]["provider"]                == struct.user.provider
+      assert found["user"]["sex"]                     == struct.user.sex
+      assert found["user"]["ssn"]                     == struct.user.ssn
+      assert found["user"]["street"]                  == struct.user.street
+      assert found["user"]["zip"]                     == struct.user.zip
+      assert found["us_zipcode"]["id"]                == struct.us_zipcode_id
+      assert found["us_zipcode"]["city"]              == struct.us_zipcode.city
+      assert found["us_zipcode"]["state"]             == struct.us_zipcode.state
+      assert found["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
     end
 
     it "returns not found when accounts subscriber does not exist" do
@@ -249,11 +362,38 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
       updated = json_response(res, 200)["data"]["updateProfile"]
 
-      assert updated["address"]     == "updated text"
-      assert updated["banner"]      == "updated text"
-      assert updated["description"] == "updated text"
-      assert updated["inserted_at"] == format_time(struct.inserted_at)
-      assert updated["updated_at"]  == format_time(struct.updated_at)
+      assert updated["address"]                         == "updated text"
+      assert updated["banner"]                          == "updated text"
+      assert updated["description"]                     == "updated text"
+      assert updated["inserted_at"]                     == format_time(struct.inserted_at)
+      assert updated["updated_at"]                      == format_time(struct.updated_at)
+      assert updated["user"]["languages"][:id]          == nil
+      assert updated["user"]["languages"][:abbr]        == nil
+      assert updated["user"]["languages"][:name]        == nil
+      assert updated["user"]["languages"][:inserted_at] == nil
+      assert updated["user"]["languages"][:updated_at]  == nil
+      assert updated["user"]["id"]                      == struct.user_id
+      assert updated["user"]["active"]                  == struct.user.active
+      assert updated["user"]["admin_role"]              == struct.user.admin_role
+      assert updated["user"]["avatar"]                  == struct.user.avatar
+      assert updated["user"]["bio"]                     == struct.user.bio
+      assert updated["user"]["birthday"]                == to_string(struct.user.birthday)
+      assert updated["user"]["email"]                   == struct.user.email
+      assert updated["user"]["first_name"]              == struct.user.first_name
+      assert updated["user"]["init_setup"]              == struct.user.init_setup
+      assert updated["user"]["last_name"]               == struct.user.last_name
+      assert updated["user"]["middle_name"]             == struct.user.middle_name
+      assert updated["user"]["phone"]                   == struct.user.phone
+      assert updated["user"]["pro_role"]                == struct.user.pro_role
+      assert updated["user"]["provider"]                == struct.user.provider
+      assert updated["user"]["sex"]                     == struct.user.sex
+      assert updated["user"]["ssn"]                     == struct.user.ssn
+      assert updated["user"]["street"]                  == struct.user.street
+      assert updated["user"]["zip"]                     == struct.user.zip
+      assert updated["us_zipcode"]["id"]                == zipcode.id
+      assert updated["us_zipcode"]["city"]              == struct.us_zipcode.city
+      assert updated["us_zipcode"]["state"]             == struct.us_zipcode.state
+      assert updated["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
     end
 
     it "nothing change for missing params" do
