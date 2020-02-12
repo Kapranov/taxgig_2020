@@ -7,7 +7,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
   describe "#list" do
     it "returns accounts profile" do
       struct = insert(:profile)
-      {:ok, data} = ProfileResolver.list(nil, nil, nil)
+      {:ok, profile} = ProfileResolver.list(nil, nil, nil)
+      data =
+        profile
+        |> Core.Repo.preload([:us_zipcode, user: [:languages]])
       assert length(data) == 1
       assert List.first(data).address          == struct.address
       assert List.first(data).banner           == struct.banner

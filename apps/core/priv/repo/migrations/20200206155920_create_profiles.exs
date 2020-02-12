@@ -9,7 +9,7 @@ defmodule Core.Repo.Migrations.CreateProfiles do
       add :description, :string, null: true
       add :logo, :map, null: true
       add :us_zipcode_id, references(:us_zipcodes, type: :uuid, null: true, on_delete: :delete_all)
-      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: true
+      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
 
       timestamps(type: :utc_datetime_usec)
     end

@@ -18,53 +18,43 @@ defmodule Core.Landing.FaqTest do
 
     @invalid_attrs %{
       content: nil,
+      faq_category_id: nil,
       title: nil
     }
 
-    def fixture(attrs \\ %{}) do
-      valid_attrs = %{title: "some text"}
-
-      {:ok, faq_category} =
-        attrs
-        |> Enum.into(valid_attrs)
-        |> Landing.create_faq_category()
-
-      params = Map.merge(@valid_attrs, %{faq_category_id: faq_category.id})
-
-      {:ok, struct} =
-        attrs
-        |> Enum.into(params)
-        |> Landing.create_faq()
-
-      struct
-    end
-
     test "list_faq/0 returns all faq" do
-      struct = fixture()
-      assert Landing.list_faq() == [struct]
+      struct = insert(:faq)
+      data =
+        Landing.list_faq()
+        |> Repo.preload([:faq_categories])
+      assert data == [struct]
     end
 
     test "get_faq!/1 returns the faq with given id" do
-      struct = fixture()
-      assert Landing.get_faq!(struct.id) == struct
+      struct = insert(:faq)
+      data =
+        Landing.get_faq!(struct.id)
+        |> Repo.preload([:faq_categories])
+      assert data == struct
     end
 
     test "search_title/1 1 returns the faqs with given title" do
-      struct = fixture()
+      struct = insert(:faq)
       word = struct.title
-      assert Landing.search_title(word) == [struct]
+      data =
+        Landing.search_title(word)
+        |> Repo.preload([:faq_categories])
+      assert data == [struct]
     end
 
     test "create_faq/1 with valid data creates a faq" do
-      {:ok, faq_category} =
-        Landing.create_faq_category(%{title: "some text"})
+      struct = insert(:faq_category)
+      params = Map.merge(@valid_attrs, %{faq_category_id: struct.id})
 
-      params = Map.merge(@valid_attrs, %{faq_category_id: faq_category.id})
-
-      assert {:ok, %Faq{} = struct} = Landing.create_faq(params)
-      assert struct.content         == "some text"
-      assert struct.title           == "some text"
-      assert struct.faq_category_id == faq_category.id
+      assert {:ok, %Faq{} = created} = Landing.create_faq(params)
+      assert created.content         == "some text"
+      assert created.title           == "some text"
+      assert created.faq_category_id == struct.id
     end
 
     test "create_faq/1 with invalid data returns error changeset" do
@@ -72,33 +62,34 @@ defmodule Core.Landing.FaqTest do
     end
 
     test "update_faq/2 with valid data updates the faq" do
-      {:ok, %{id: faq_category}} =
-        Landing.create_faq_category(%{title: "new text"})
+      struct_a = insert(:faq_category)
+      struct_b = insert(:faq)
 
-      params = Map.merge(@update_attrs, %{faq_category_id: faq_category})
+      params = Map.merge(@update_attrs, %{faq_category_id: struct_a.id})
 
-      struct = fixture()
-      assert {:ok, %Faq{} = struct} = Landing.update_faq(struct, params)
-      assert struct.content         == "updated text"
-      assert struct.title           == "updated text"
-      assert struct.faq_category_id == faq_category
+      assert {:ok, %Faq{} = updated} = Landing.update_faq(struct_b, params)
+      assert updated.content         == "updated text"
+      assert updated.title           == "updated text"
+      assert updated.faq_category_id == struct_a.id
     end
 
     test "update_faq/2 with invalid data returns error changeset" do
-      struct = fixture()
-      assert {:error, %Ecto.Changeset{}} =
-        Landing.update_faq(struct, @invalid_attrs)
-      assert struct == Landing.get_faq!(struct.id)
+      struct = insert(:faq)
+      data =
+        Landing.get_faq!(struct.id)
+        |> Repo.preload([:faq_categories])
+      assert {:error, %Ecto.Changeset{}} = Landing.update_faq(struct, @invalid_attrs)
+      assert data == struct
     end
 
     test "delete_faq/1 deletes the faq" do
-      struct = fixture()
+      struct = insert(:faq)
       assert {:ok, %Faq{}} = Landing.delete_faq(struct)
       assert_raise Ecto.NoResultsError, fn -> Landing.get_faq!(struct.id) end
     end
 
     test "change_faq/1 returns a faq changeset" do
-      struct = fixture()
+      struct = insert(:faq)
       assert %Ecto.Changeset{} = Landing.change_faq(struct)
     end
   end

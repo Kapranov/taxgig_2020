@@ -21,22 +21,13 @@ defmodule Core.Localization.LanguageTest do
       name: nil
     }
 
-    def fixture(attrs \\ %{}) do
-      {:ok, struct} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Localization.create_language()
-
-      struct
-    end
-
     test "list_language/0 returns all languages" do
-      struct = fixture()
+      struct = insert(:language)
       assert Localization.list_language() == [struct]
     end
 
     test "get_language!/1 returns the language with given id" do
-      struct = fixture()
+      struct = insert(:language)
       assert Localization.get_language!(struct.id) == struct
     end
 
@@ -52,7 +43,7 @@ defmodule Core.Localization.LanguageTest do
     end
 
     test "update_language/2 with valid data updates the language" do
-      struct = fixture()
+      struct = insert(:language)
       assert {:ok, %Language{} = struct} =
         Localization.update_language(struct, @update_attrs)
       assert struct.abbr == "updated text"
@@ -60,20 +51,20 @@ defmodule Core.Localization.LanguageTest do
     end
 
     test "update_language/2 with invalid data returns error changeset" do
-      struct = fixture()
+      struct = insert(:language)
       assert {:error, %Ecto.Changeset{}} =
         Localization.update_language(struct, @invalid_attrs)
       assert struct == Localization.get_language!(struct.id)
     end
 
     test "delete_language/1 deletes the language" do
-      struct = fixture()
+      struct = insert(:language)
       assert {:ok, %Language{}} = Localization.delete_language(struct)
       assert_raise Ecto.NoResultsError, fn -> Localization.get_language!(struct.id) end
     end
 
     test "change_language/1 returns language changeset" do
-      struct = fixture()
+      struct = insert(:language)
       assert %Ecto.Changeset{} = Localization.change_language(struct)
     end
   end

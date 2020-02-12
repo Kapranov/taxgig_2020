@@ -89,9 +89,12 @@ defmodule Core.Accounts.User do
     field :street, :string
     field :zip, :integer
 
-    has_one :profile, Profile, on_delete: :delete_all
+    has_one :profile, Profile,
+      on_delete: :delete_all
 
-    many_to_many :languages, Language, join_through: "users_languages", on_replace: :delete
+    many_to_many :languages, Language,
+      join_through: "users_languages",
+      on_replace: :delete
 
     timestamps()
   end

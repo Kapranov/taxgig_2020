@@ -6,8 +6,7 @@ defmodule Core.Context do
   defmacro __using__(_) do
     quote do
       alias Core.Repo
-      alias Ecto.Changeset
-      alias Ecto.Multi
+      alias Ecto.{Changeset, Multi}
       import Ecto.Query
 
       @type t :: __MODULE__.t()

@@ -29,6 +29,7 @@ defmodule Core.DataCase do
         Query
       }
       import Core.DataCase
+      import Core.Factory
     end
   end
 

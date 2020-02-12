@@ -21,6 +21,9 @@ end
 
 config :argon2_elixir, t_cost: 2, m_cost: 12
 
+config :core, Core.Upload, filters: [], link_name: false
+config :core, Core.Uploaders.Local, uploads: "test/uploads"
+
 root_path = Path.expand("../config/", __DIR__)
 file_path = "#{root_path}/test.secret.exs"
 

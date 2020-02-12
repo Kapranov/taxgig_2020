@@ -3,14 +3,13 @@ defmodule Core.Seeder.Landing do
   Seeds for `Core.Landing` context.
   """
 
-  alias Core.Landing.{
-    Faq,
-    FaqCategory,
-    PressArticle,
-    Vacancy
+  alias Core.{
+    Landing.Faq,
+    Landing.FaqCategory,
+    Landing.PressArticle,
+    Landing.Vacancy,
+    Repo
   }
-
-  alias Core.Repo
 
   alias Faker.{
     Avatar,

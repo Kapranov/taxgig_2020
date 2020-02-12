@@ -16,4 +16,6 @@ config :absinthe_error_payload,
   ecto_repos: [Core.Repo],
   field_constructor: AbsintheErrorPayload.FieldConstructor
 
+config :server, :instance,
+
 import_config "#{Mix.env()}.exs"

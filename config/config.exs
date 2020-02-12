@@ -28,4 +28,51 @@ config :logger, :console,
   metadata: [:request_id],
   level: level
 
+config :core, Core.Upload,
+  uploader: Core.Uploaders.Local,
+  filters: [
+    Core.Upload.Filter.Dedupe,
+    Core.Upload.Filter.Optimize
+  ],
+  link_name: true,
+  proxy_remote: false,
+  proxy_opts: [
+    redirect_on_failure: false,
+    max_body_length: 25 * 1_048_576,
+    http: [
+      follow_redirect: true,
+      pool: :upload
+    ]
+  ]
+
+config :core, Core.Uploaders.Local,
+  uploads: "uploads"
+
+config :core, Core.Uploaders.S3,
+  bucket: nil,
+  streaming_enabled: true,
+  public_endpoint: "https://s3.amazonaws.com"
+
+config :core, :media_proxy,
+  enabled: false,
+  proxy_opts: [
+    redirect_on_failure: false,
+    max_body_length: 25 * 1_048_576,
+    http: [
+      follow_redirect: true,
+      pool: :media
+    ]
+  ]
+
+config :core, :instance,
+  name: System.get_env("CORE_INSTANCE_NAME") || "Core Instance",
+  description: System.get_env("CORE_INSTANCE_DESCRIPTION") || "Change this to a proper description of your instance", version: "1.0.0-dev",
+  hostname: System.get_env("CORE_INSTANCE_HOST") || "localhost",
+  repository: Mix.Project.config()[:source_url],
+  avatar_upload_limit: 4_000_000,
+  banner_upload_limit: 4_000_000,
+  logo_upload_limit: 4_000_000,
+  background_upload_limit: 4_000_000,
+  upload_limit: 16_000_000
+
 import_config "#{Mix.env()}.exs"

@@ -25,3 +25,8 @@ unless Version.compare(System.version(), "1.8.0") == :lt do
     send(:after_suite_test_process, :third_after_suite)
   end)
 end
+
+ExUnit.after_suite(fn _results ->
+  uploads = Core.Config.get([Core.Uploaders.Local, :uploads], "test/uploads")
+  File.rm_rf!(uploads)
+end)

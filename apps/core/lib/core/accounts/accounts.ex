@@ -47,7 +47,7 @@ defmodule Core.Accounts do
   @spec list_profile() :: list
   def list_profile do
     Repo.all(Profile)
-    |> Repo.preload([:us_zipcode, user: [:profile, :languages]])
+    # |> Repo.preload([:us_zipcode, user: [:profile, :languages]])
   end
 
   @doc """

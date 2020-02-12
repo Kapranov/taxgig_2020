@@ -3,8 +3,10 @@ defmodule Core.Seeder.Lookup do
   Seeds for `Core.Lookup` context.
   """
 
-  alias Core.Lookup.UsZipcode
-  alias Core.Repo
+  alias Core.{
+    Lookup.UsZipcode,
+    Repo
+  }
 
   @root_dir Path.expand("../../../priv/data/", __DIR__)
   @usa_zipcodes_part1 "#{@root_dir}/us_zip_part1.json"

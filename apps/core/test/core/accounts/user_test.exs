@@ -2,6 +2,7 @@ defmodule Core.Accounts.UserTest do
   use Core.DataCase
 
   alias Core.Accounts
+  alias Core.Localization.Language
 
   describe "user" do
     alias Core.Accounts.User
@@ -56,27 +57,63 @@ defmodule Core.Accounts.UserTest do
       password_confirmation: nil
     }
 
-    def fixture(attrs \\ %{}) do
-      {:ok, struct} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Accounts.create_user()
-
-      struct
-    end
-
     test "list_user/0 returns all users" do
-      struct = fixture()
-      assert Accounts.list_user() == [%User{struct | password: nil, password_confirmation: nil}]
+      struct = insert(:user)
+      data =
+        Accounts.list_user
+        |> Repo.preload([:languages])
+
+      struct =
+        [%User{struct | password: nil, password_confirmation: nil}]
+        |> Repo.preload([:languages])
+
+      assert data == struct
     end
 
     test "get_user!/1 returns the user with given id" do
-      struct = fixture()
-      assert Accounts.get_user!(struct.id) == %User{struct | password: nil, password_confirmation: nil}
+      struct = insert(:user)
+      data =
+        Accounts.get_user!(struct.id)
+        |> Repo.preload([:languages])
+
+      struct =
+        %User{struct | password: nil, password_confirmation: nil}
+        |> Repo.preload([:languages])
+
+      assert data.id          == struct.id
+      assert data.active      == struct.active
+      assert data.admin_role  == struct.admin_role
+      assert data.avatar      == struct.avatar
+      assert data.bio         == struct.bio
+      assert data.birthday    == struct.birthday
+      assert data.email       == struct.email
+      assert data.first_name  == struct.first_name
+      assert data.init_setup  == struct.init_setup
+      assert data.languages   == []
+      assert data.last_name   == struct.last_name
+      assert data.middle_name == struct.middle_name
+      assert data.phone       == struct.phone
+      assert data.pro_role    == struct.pro_role
+      assert data.provider    == struct.provider
+      assert data.sex         == struct.sex
+      assert data.ssn         == struct.ssn
+      assert data.street      == struct.street
+      assert data.zip         == struct.zip
+      assert data.inserted_at == struct.inserted_at
+      assert data.updated_at  == struct.updated_at
+
     end
 
     test "create_user/1 with valid data creates user" do
-      assert {:ok, %User{} = struct} = Accounts.create_user(@valid_attrs)
+      lang_a = insert(:language)
+      lang_b = insert(:language)
+      params = Map.merge(@valid_attrs, %{
+        languages: "#{lang_a.name}, #{lang_b.name}"})
+      assert {:ok, %User{} = struct} = Accounts.create_user(params)
+      [
+        %Language{id: id1, abbr: abbr1, name: name1},
+        %Language{id: id2, abbr: abbr2, name: name2}
+      ] = struct.languages
       assert struct.active      == false
       assert struct.admin_role  == false
       assert struct.avatar      == "some text"
@@ -95,6 +132,15 @@ defmodule Core.Accounts.UserTest do
       assert struct.street      == "some text"
       assert struct.zip         == 123456789
       assert Argon2.verify_pass("qwerty", struct.password_hash)
+
+      assert struct.languages |> Enum.count == 2
+
+      assert lang_a.id   == id1
+      assert lang_b.id   == id2
+      assert lang_a.abbr == abbr1
+      assert lang_b.abbr == abbr2
+      assert lang_a.name == name1
+      assert lang_b.name == name2
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -103,8 +149,15 @@ defmodule Core.Accounts.UserTest do
     end
 
     test "update_user/2 with valid data updates the user" do
-      struct = fixture()
-      assert {:ok, %User{} = updated} = Accounts.update_user(struct, @update_attrs)
+      lang = insert(:language)
+      struct = insert(:user)
+      params = Map.merge(@update_attrs, %{
+        languages: "#{lang.name}"
+      })
+      assert {:ok, %User{} = updated} = Accounts.update_user(struct, params)
+      [
+        %Language{id: id, abbr: abbr, name: name}
+      ] = updated.languages
       assert updated.active      == true
       assert updated.admin_role  == true
       assert updated.avatar      == "updated text"
@@ -123,23 +176,36 @@ defmodule Core.Accounts.UserTest do
       assert updated.street      == "updated text"
       assert updated.zip         == 987654321
       assert Argon2.verify_pass("qwertyyy", updated.password_hash)
+
+      assert updated.languages |> Enum.count == 1
+
+      assert lang.id   == id
+      assert lang.abbr == abbr
+      assert lang.name == name
     end
 
     test "update_user/2 with invalid data returns error changeset" do
-      struct = fixture()
+      user = insert(:user)
+      data =
+        Accounts.get_user!(user.id)
+        |> Repo.preload([:languages])
+
+      struct =
+        %User{user | password: nil, password_confirmation: nil}
+        |> Repo.preload([:languages])
+
       assert {:error, %Ecto.Changeset{}} = Accounts.update_user(struct, @invalid_attrs)
-      assert %User{struct | password: nil, password_confirmation: nil} == Accounts.get_user!(struct.id)
-      assert Argon2.verify_pass("qwerty", struct.password_hash)
+      assert data == struct
     end
 
     test "delete_user/1 deletes the user" do
-      struct = fixture()
+      struct = insert(:user)
       assert {:ok, %User{}} = Accounts.delete_user(struct)
       assert_raise Ecto.NoResultsError, fn -> Accounts.get_user!(struct.id) end
     end
 
     test "change_user/1 returns user changeset" do
-      struct = fixture()
+      struct = insert(:user)
       assert %Ecto.Changeset{} = Accounts.change_user(struct)
     end
   end

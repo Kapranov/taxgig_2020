@@ -8,14 +8,15 @@ defmodule Core.Accounts.Profile do
 
   alias Core.{
     Accounts.User,
-    Lookup.UsZipcode
+    Lookup.UsZipcode,
+    Media.File,
   }
 
   @type t :: %__MODULE__{
     address: String.t(),
     banner: String.t(),
     description: String.t(),
-    logo: map(),
+    logo: File.t(),
     us_zipcode: UsZipcode.t(),
     user_id: User.t()
   }
@@ -27,7 +28,6 @@ defmodule Core.Accounts.Profile do
     address
     banner
     description
-    logo
     us_zipcode_id
     user_id
   )a
@@ -40,12 +40,17 @@ defmodule Core.Accounts.Profile do
     field :address, :string, null: true
     field :banner, :string, null: true
     field :description, :string, null: true
-    field :logo, :map, null: true
 
-    belongs_to :user, User, foreign_key: :user_id, type: :binary_id,
+    embeds_one :logo, File, on_replace: :update
+
+    belongs_to :user, User,
+      foreign_key: :user_id,
+      type: :binary_id,
       references: :id
-    belongs_to :us_zipcode, UsZipcode, foreign_key: :us_zipcode_id,
-      type: :binary_id, references: :id
+    belongs_to :us_zipcode, UsZipcode,
+      foreign_key: :us_zipcode_id,
+      type: :binary_id,
+      references: :id
 
     timestamps()
   end
@@ -57,6 +62,7 @@ defmodule Core.Accounts.Profile do
   def changeset(struct, attrs) do
     struct
     |> cast(attrs, @allowed_params)
+    |> cast_embed(:logo)
     |> validate_required(@required_params)
     |> foreign_key_constraint(:us_zipcode_id, message: "Select the UsZipcode")
     |> foreign_key_constraint(:user_id, message: "Select an User")

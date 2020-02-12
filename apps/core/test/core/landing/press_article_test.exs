@@ -30,22 +30,13 @@ defmodule Core.Landing.PressArticleTest do
       url: nil
     }
 
-    def fixture(attrs \\ %{}) do
-      {:ok, struct} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Landing.create_press_article()
-
-      struct
-    end
-
     test "list_press_article/0 returns all press articles" do
-      struct = fixture()
+      struct = insert(:press_article)
       assert Landing.list_press_article() == [struct]
     end
 
     test "get_press_article!/1 returns the press article with given id" do
-      struct = fixture()
+      struct = insert(:press_article)
       assert Landing.get_press_article!(struct.id) == struct
     end
 
@@ -65,7 +56,7 @@ defmodule Core.Landing.PressArticleTest do
     end
 
     test "update_press_article/2 with valid data updates the press article" do
-      struct = fixture()
+      struct = insert(:press_article)
       assert {:ok, %PressArticle{} = struct} =
         Landing.update_press_article(struct, @update_attrs)
       assert struct.author       == "updated text"
@@ -76,20 +67,20 @@ defmodule Core.Landing.PressArticleTest do
     end
 
     test "update_press_article/2 with invalid data returns error changeset" do
-      struct = fixture()
+      struct = insert(:press_article)
       assert {:error, %Ecto.Changeset{}} =
         Landing.update_press_article(struct, @invalid_attrs)
       assert struct == Landing.get_press_article!(struct.id)
     end
 
     test "delete_press_article/1 deletes the press article" do
-      struct = fixture()
+      struct = insert(:press_article)
       assert {:ok, %PressArticle{}} = Landing.delete_press_article(struct)
       assert_raise Ecto.NoResultsError, fn -> Landing.get_press_article!(struct.id) end 
     end
 
     test "change_press_article/1 returns a press article changeset" do
-      struct = fixture()
+      struct = insert(:press_article)
       assert %Ecto.Changeset{} = Landing.change_press_article(struct)
     end
   end

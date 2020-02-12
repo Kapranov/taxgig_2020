@@ -3,8 +3,10 @@ defmodule Core.Seeder.Localization do
   Seeds for `Core.Localization` context.
   """
 
-  alias Core.Localization.Language
-  alias Core.Repo
+  alias Core.{
+    Localization.Language,
+    Repo
+  }
 
   def reset_database! do
     Repo.delete_all(Language)

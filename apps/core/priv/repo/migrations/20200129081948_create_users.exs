@@ -3,8 +3,7 @@ defmodule Core.Repo.Migrations.CreateUsers do
 
   def change do
     create table(:users, primary_key: false) do
-      add :id, :uuid, primary_key: true,
-        default: fragment("uuid_generate_v4()"), read_after_writes: true
+      add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
       add :active, :boolean
       add :admin_role, :boolean
       add :avatar, :string
