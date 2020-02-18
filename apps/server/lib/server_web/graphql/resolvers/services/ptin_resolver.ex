@@ -10,6 +10,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PtinResolver do
     Services.Ptin
   }
 
+  @type t :: map()
+  @type reason :: any
+  @type success_tuple :: {:ok, t}
+  @type error_tuple :: {:error, reason}
+  @type result :: success_tuple | error_tuple
+
   @search_fields ~w(
     bus_addr_zip
     bus_st_code
@@ -20,6 +26,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PtinResolver do
   @doc """
   Download, unpack zip, convert csv to json and insert into DB.
   """
+  @spec create(map(), map(), map()) :: result
   def create(_root, args, _info) do
     case Map.keys(args) do
       [:expired, :url] ->
@@ -39,6 +46,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PtinResolver do
   @doc """
   Search value by profession in Ptin DB.
   """
+  @spec search(map(), map(), map()) :: result
   def search(_root, args, _info) do
     case Map.keys(args) do
       @search_fields ->
@@ -56,6 +64,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PtinResolver do
   @doc """
   Destroy whole ptin table without args.
   """
+  @spec delete(map(), map(), map()) :: result
   def delete(_root, _args, _info) do
     {_, _} =
       Repo.delete_all(Ptin)
@@ -70,6 +79,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PtinResolver do
   @doc """
   Destroy directory with timestamp in `apps/ptin/priv/data`.
   """
+  @spec delete_dir(map(), %{date: :datetime}, map()) :: result
   def delete_dir(_root, args, _info) do
     case Map.keys(args) do
       [:date] ->

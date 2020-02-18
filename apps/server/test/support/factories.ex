@@ -7,15 +7,17 @@ defmodule Server.Factory do
   # use ExMachina.Ecto, repo: Ptin.Repo
 
   alias Core.{
-    Accounts.Subscriber,
     Accounts.Profile,
+    Accounts.Subscriber,
     Accounts.User,
     Landing.Faq,
     Landing.FaqCategory,
     Landing.PressArticle,
     Landing.Vacancy,
     Localization.Language,
-    Lookup.UsZipcode
+    Lookup.UsZipcode,
+    Media.Picture,
+    Upload
   }
 
   alias Faker.{
@@ -23,10 +25,14 @@ defmodule Server.Factory do
     Company.En,
     Internet,
     Lorem,
-    Name
+    Name,
+    UUID
   }
 
   alias Ptin.Services.Ptin
+
+  @image1_path Path.absname("../core/test/fixtures/image.jpg")
+  @image2_path Path.absname("../core/test/fixtures/image_tmp.jpg")
 
   def faq_category_factory do
     %FaqCategory{
@@ -122,8 +128,46 @@ defmodule Server.Factory do
       address: "some text",
       banner: "some text",
       description: "some text",
+      logo: build(:file, name: "Logo"),
       us_zipcode: build(:zipcode),
       user: build(:user)
+    }
+  end
+
+  def picture_factory do
+    profile = build(:profile)
+    %Picture{
+      file: profile.logo,
+      profile: profile
+    }
+  end
+
+  def file_factory do
+    File.cp!(@image1_path, @image2_path)
+
+    file = %Plug.Upload{
+      content_type: "image/jpg",
+      filename: "image_tmp.jpg",
+      path: @image2_path
+    }
+
+    {:ok, data} = Upload.store(file)
+
+    %{
+      content_type: "image/jpg",
+      name: "image_tmp.jpg",
+      size: 5024,
+      url: url
+    } = data
+
+    %Core.Media.File{
+      content_type: "image/jpg",
+      id: UUID.v4(),
+      inserted_at: Timex.shift(Timex.now, days: -2),
+      name: "image_tmp.jpg",
+      size: 5024,
+      updated_at: Timex.shift(Timex.now, days: -1),
+      url: url
     }
   end
 end

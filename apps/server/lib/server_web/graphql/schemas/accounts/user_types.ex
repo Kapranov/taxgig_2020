@@ -5,8 +5,10 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
 
   use Absinthe.Schema.Notation
 
-  alias ServerWeb.GraphQL.Resolvers.Accounts.UserResolver
-  alias ServerWeb.GraphQL.Schemas.Middleware
+  alias ServerWeb.GraphQL.{
+    Resolvers.Accounts.UserResolver,
+    Schemas.Middleware
+  }
 
   @desc "The accounts user on the site"
   object :user do

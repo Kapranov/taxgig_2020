@@ -4,7 +4,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolver do
   """
 
   alias Core.Lookup
+  alias Core.Lookup.UsZipcode
 
+  @type t :: UsZipcode.t()
+  @type reason :: any
+  @type success_tuple :: {:ok, t}
+  @type error_tuple :: {:error, reason}
+  @type result :: success_tuple | error_tuple
+
+  @spec show(map(), %{id: bitstring}, map()) :: result
   def show(_parent, %{id: id}, _info) do
     if is_nil(id) do
       {:error, [[field: :id, message: "Can't be blank"]]}
@@ -19,6 +27,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolver do
     end
   end
 
+  @spec search(map(), %{zipcode: integer}, map()) :: result
   def search(_parent, %{zipcode: zipcode}, _info) do
     if is_nil(zipcode) do
       {:error, [[field: :zipcode, message: "Can't be blank"]]}

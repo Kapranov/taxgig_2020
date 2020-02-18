@@ -14,7 +14,7 @@ defmodule Core.DataCase do
 
   use ExUnit.CaseTemplate
 
-  alias Core.Repo
+  alias Core.{Config, Repo, Upload}
   alias Ecto.Adapters.SQL.Sandbox, as: Adapter
   alias Ecto.Changeset
 
@@ -30,6 +30,7 @@ defmodule Core.DataCase do
       }
       import Core.DataCase
       import Core.Factory
+      use Core.Tests.Helpers
     end
   end
 
@@ -124,5 +125,22 @@ defmodule Core.DataCase do
   def error_message(changeset, field) do
     {message, _} = changeset.errors[field]
     message
+  end
+
+  def ensure_local_uploader(_context) do
+    uploader = Config.get([Upload, :uploader])
+    filters = Config.get([Upload, :filters])
+
+    unless uploader == Core.Uploaders.Local || filters != [] do
+      Config.put([Upload, :uploader], Core.Uploaders.Local)
+      Config.put([Upload, :filters], [])
+
+      on_exit(fn ->
+        Config.put([Upload, :uploader], uploader)
+        Config.put([Upload, :filters], filters)
+      end)
+    end
+
+    :ok
   end
 end

@@ -106,7 +106,7 @@ defmodule Core.Seeder.Accounts do
         pro_role: false
       }),
       Repo.insert!(%Subscriber{
-        email: "kapranov.lugatex@yahoo.com",
+        email: "kapranov.lugatex@gmail.com",
         pro_role: true
       })
     ]
@@ -120,7 +120,7 @@ defmodule Core.Seeder.Accounts do
         password_confirmation: "qwerty"
       }),
       Accounts.create_user(%{
-        email: "kapranov.lugatex@yahoo.com",
+        email: "kapranov.lugatex@gmail.com",
         password: "qwerty",
         password_confirmation: "qwerty"
       })

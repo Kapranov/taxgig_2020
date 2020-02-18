@@ -37,16 +37,18 @@ defmodule Core.MixProject do
       {:ecto_sql, "~> 3.3"},
       {:ex_aws, "~> 2.1"},
       {:ex_aws_s3, "~> 2.0"},
-      {:ex_machina, "~> 2.3"},
+      {:ex_machina, "~> 2.4"},
       {:ex_optimizer, "~> 0.1.0"},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:faker, "~> 0.13", only: [:dev, :test]},
       {:gravity, "~> 1.0"},
       {:jason, "~> 1.0"},
       {:mogrify, "~> 0.7.3"},
+      {:mox, "~> 0.5.1"},
       {:plug, "~> 1.9"},
       {:postgrex, "~> 0.15.3"},
       {:remix, "~> 0.0", only: [:dev]},
+      {:sweet_xml, "~> 0.6.6"},
       {:timex, "~> 3.6"}
     ]
   end

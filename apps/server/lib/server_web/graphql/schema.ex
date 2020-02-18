@@ -23,6 +23,7 @@ defmodule ServerWeb.GraphQL.Schema do
   import_types(ServerWeb.GraphQL.Schemas.Landing.VacancyTypes)
   import_types(ServerWeb.GraphQL.Schemas.Localization.LanguageTypes)
   import_types(ServerWeb.GraphQL.Schemas.Lookup.UsZipcodeTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Media.PictureTypes)
   import_types(ServerWeb.GraphQL.Schemas.Services.BlockscoreTypes)
   import_types(ServerWeb.GraphQL.Schemas.Services.PtinTypes)
   import_types(ServerWeb.GraphQL.Schemas.UuidTypes)
@@ -33,13 +34,14 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:faq_category_queries)
     import_fields(:faq_queries)
     import_fields(:language_queries)
+    import_fields(:picture_queries)
     import_fields(:press_article_queries)
     import_fields(:profile_queries)
     import_fields(:ptin_queries)
     import_fields(:subscriber_queries)
+    import_fields(:us_zipcode_queries)
     import_fields(:user_queries)
     import_fields(:vacancy_queries)
-    import_fields(:us_zipcode_queries)
   end
 
   @desc "The root mutation type."
@@ -47,6 +49,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:faq_category_mutations)
     import_fields(:faq_mutations)
     import_fields(:language_mutations)
+    import_fields(:picture_mutations)
     import_fields(:press_article_mutations)
     import_fields(:profile_mutations)
     import_fields(:ptin_mutations)

@@ -69,7 +69,7 @@ defmodule Core.MIME do
   end
 
   defp check_mime_type(<<0xFF, 0xD8, 0xFF, _::binary>>) do
-    "image/jpeg"
+    "image/jpg"
   end
 
   defp check_mime_type(<<0x1A, 0x45, 0xDF, 0xA3, _::binary>>) do

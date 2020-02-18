@@ -3,9 +3,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.BlockscoreResolver do
   The Blockscore GraphQL resolvers.
   """
 
+  @type t :: %{status: bitstring}
+  @type reason :: any
+  @type success_tuple :: {:ok, t}
+  @type error_tuple :: {:error, reason}
+  @type result :: success_tuple | error_tuple
+
   @doc """
   Get the status by Blockscore service
   """
+  @spec get_status(map(), map(), map()) :: result
   def get_status(_root, %{address_city: address_city,
                           address_country_code: address_country_code,
                           address_postal_code: address_postal_code,

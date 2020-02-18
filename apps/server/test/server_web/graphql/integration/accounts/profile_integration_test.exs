@@ -4,6 +4,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
   alias Server.AbsintheHelpers
   alias ServerWeb.GraphQL.Schema
 
+  @bernie_path Path.absname("../core/test/fixtures/bernie.jpg")
+
   describe "#list" do
     it "returns profiles" do
       struct = insert(:profile)
@@ -16,6 +18,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           address
           banner
           description
+          logo {id content_type name size url inserted_at updated_at}
           us_zipcode {id city state zipcode}
           user {
             id
@@ -56,6 +59,13 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert List.first(data)["address"]                         == struct.address
       assert List.first(data)["banner"]                          == struct.banner
       assert List.first(data)["description"]                     == struct.description
+      assert List.first(data)["logo"]["id"]                      == struct.logo.id
+      assert List.first(data)["logo"]["content_type"]            == struct.logo.content_type
+      assert List.first(data)["logo"]["name"]                    == struct.logo.name
+      assert List.first(data)["logo"]["size"]                    == struct.logo.size
+      assert List.first(data)["logo"]["url"]                     == struct.logo.url
+      assert List.first(data)["logo"]["inserted_at"]             == format_time(struct.logo.inserted_at)
+      assert List.first(data)["logo"]["updated_at"]              == format_time(struct.logo.updated_at)
       assert List.first(data)["inserted_at"]                     == format_time(struct.inserted_at)
       assert List.first(data)["updated_at"]                      == format_time(struct.updated_at)
       assert List.first(data)["us_zipcode"]["city"]              == struct.us_zipcode.city
@@ -90,6 +100,13 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert List.last(data)["address"]                         == struct.address
       assert List.last(data)["banner"]                          == struct.banner
       assert List.last(data)["description"]                     == struct.description
+      assert List.last(data)["logo"]["id"]                      == struct.logo.id
+      assert List.last(data)["logo"]["content_type"]            == struct.logo.content_type
+      assert List.last(data)["logo"]["name"]                    == struct.logo.name
+      assert List.last(data)["logo"]["size"]                    == struct.logo.size
+      assert List.last(data)["logo"]["url"]                     == struct.logo.url
+      assert List.last(data)["logo"]["inserted_at"]             == format_time(struct.logo.inserted_at)
+      assert List.last(data)["logo"]["updated_at"]              == format_time(struct.logo.updated_at)
       assert List.last(data)["inserted_at"]                     == format_time(struct.inserted_at)
       assert List.last(data)["updated_at"]                      == format_time(struct.updated_at)
       assert List.last(data)["us_zipcode"]["city"]              == struct.us_zipcode.city
@@ -129,6 +146,13 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert first["address"]                         == struct.address
       assert first["banner"]                          == struct.banner
       assert first["description"]                     == struct.description
+      assert first["logo"]["id"]                      == struct.logo.id
+      assert first["logo"]["content_type"]            == struct.logo.content_type
+      assert first["logo"]["name"]                    == struct.logo.name
+      assert first["logo"]["size"]                    == struct.logo.size
+      assert first["logo"]["url"]                     == struct.logo.url
+      assert first["logo"]["inserted_at"]             == format_time(struct.logo.inserted_at)
+      assert first["logo"]["updated_at"]              == format_time(struct.logo.updated_at)
       assert first["inserted_at"]                     == format_time(struct.inserted_at)
       assert first["updated_at"]                      == format_time(struct.updated_at)
       assert first["us_zipcode"]["id"]                == struct.us_zipcode_id
@@ -173,6 +197,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           address
           banner
           description
+          logo {id content_type name size url inserted_at updated_at}
           us_zipcode {id city state zipcode}
           user {
             id
@@ -214,6 +239,13 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert found["address"]                         == struct.address
       assert found["banner"]                          == struct.banner
       assert found["description"]                     == struct.description
+      assert found["logo"]["id"]                      == struct.logo.id
+      assert found["logo"]["content_type"]            == struct.logo.content_type
+      assert found["logo"]["name"]                    == struct.logo.name
+      assert found["logo"]["size"]                    == struct.logo.size
+      assert found["logo"]["url"]                     == struct.logo.url
+      assert found["logo"]["inserted_at"]             == format_time(struct.logo.inserted_at)
+      assert found["logo"]["updated_at"]              == format_time(struct.logo.updated_at)
       assert found["inserted_at"]                     == format_time(struct.inserted_at)
       assert found["updated_at"]                      == format_time(struct.updated_at)
       assert found["us_zipcode"]["id"]                == struct.us_zipcode_id
@@ -250,6 +282,13 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert found["address"]                         == struct.address
       assert found["banner"]                          == struct.banner
       assert found["description"]                     == struct.description
+      assert found["logo"]["id"]                      == struct.logo.id
+      assert found["logo"]["content_type"]            == struct.logo.content_type
+      assert found["logo"]["name"]                    == struct.logo.name
+      assert found["logo"]["size"]                    == struct.logo.size
+      assert found["logo"]["url"]                     == struct.logo.url
+      assert found["logo"]["inserted_at"]             == format_time(struct.logo.inserted_at)
+      assert found["logo"]["updated_at"]              == format_time(struct.logo.updated_at)
       assert found["inserted_at"]                     == format_time(struct.inserted_at)
       assert found["updated_at"]                      == format_time(struct.updated_at)
       assert found["user"]["languages"][:id]          == nil
@@ -308,22 +347,31 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
     it "update specific profile by user_id" do
       struct = insert(:profile)
       zipcode = insert(:zipcode)
+      logo = %{name: "Time for #NeverBernie", alt: "I woke up this morning wondering whether it’s time to unfurl the #NeverBernie banner.", file: "bernie.jpg"}
 
       mutation = """
       {
         updateProfile(
           id: \"#{struct.user_id}\",
+          logo: {
+            picture: {
+              alt: \"#{logo.alt}\",
+              file: \"#{logo.file}\",
+              name: \"#{logo.name}\"
+            }
+          },
           profile: {
             address: "updated text",
             banner: "updated text",
             description: "updated text",
             us_zipcodeId: \"#{zipcode.id}\",
             userId: \"#{struct.user_id}\"
-          }
+          },
         ) {
           address
           banner
           description
+          logo {id content_type name size url inserted_at updated_at}
           us_zipcode {id city state zipcode}
           user {
             id
@@ -354,9 +402,18 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       }
       """
 
+      map = %{
+        "query" => "mutation #{mutation}",
+        logo.file => %Plug.Upload{
+          filename: logo.file,
+          path: @bernie_path
+        }
+      }
+
       res =
         build_conn()
-        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
+        |> put_req_header("content-type", "multipart/form-data")
+        |> post("/graphiql", map)
 
       assert json_response(res, 200)["errors"] == nil
 
@@ -365,6 +422,13 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert updated["address"]                         == "updated text"
       assert updated["banner"]                          == "updated text"
       assert updated["description"]                     == "updated text"
+      assert updated["logo"]["id"]
+      assert updated["logo"]["content_type"]            == "image/jpg"
+      assert updated["logo"]["name"]                    == "Logo"
+      assert updated["logo"]["size"]                    == 5024
+      assert updated["logo"]["url"]                     =~ ServerWeb.Endpoint.url() <> "/media/"
+      assert updated["logo"]["inserted_at"]
+      assert updated["logo"]["updated_at"]
       assert updated["inserted_at"]                     == format_time(struct.inserted_at)
       assert updated["updated_at"]                      == format_time(struct.updated_at)
       assert updated["user"]["languages"][:id]          == nil

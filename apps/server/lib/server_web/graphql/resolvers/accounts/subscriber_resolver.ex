@@ -11,11 +11,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
 
   alias Mailings.Mailer
 
+  @type t :: Subscriber.t()
+  @type reason :: any
+  @type ok :: {:ok}
+  @type success_tuple :: {:ok, t}
+  @type success_list :: {:ok, [t]}
+  @type error_tuple :: {:error, reason}
+  @type result :: success_tuple | error_tuple
+
+  @spec list(map(), map(), map()) :: success_list | error_tuple
   def list(_parent, _args, _info) do
     struct = Accounts.list_subscriber()
     {:ok, struct}
   end
 
+  @spec show(map(), %{id: bitstring}, map()) :: result
   def show(_parent, %{id: id}, _info) do
     if is_nil(id) do
       {:error, [[field: :id, message: "Can't be blank"]]}
@@ -30,6 +40,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
     end
   end
 
+  @spec create(map(), map(), map()) :: result
   def create(_parent, args, _info) do
     with :ok <- Task.await(mailgun(args.email, args.pro_role), 3000),
           {:ok, struct} <- Accounts.create_subscriber(args)
@@ -43,6 +54,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
     end
   end
 
+  @spec update(map(), %{id: bitstring, subscriber: map()}, map()) :: result
   def update(_root, %{id: id, subscriber: params}, _info) do
     if is_nil(id) do
       {:error, [[field: :id, message: "Can't be blank"]]}
@@ -58,6 +70,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
     end
   end
 
+  @spec delete(map(), %{id: bitstring}, map()) :: result
   def delete(_parent, %{id: id}, _info) do
     if is_nil(id) do
       {:error, [[field: :id, message: "Can't be blank"]]}
@@ -72,7 +85,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
     end
   end
 
-  @spec mailgun(String.t(), boolean()) :: {:ok} | {:error, String.t()}
+  @spec mailgun(bitstring, boolean()) :: ok | error_tuple
   defp mailgun(email, role) when is_bitstring(email) and is_boolean(role) do
     case role do
       true ->

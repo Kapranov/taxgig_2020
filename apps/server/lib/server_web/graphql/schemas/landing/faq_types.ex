@@ -7,8 +7,10 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.FaqTypes do
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
-  alias ServerWeb.GraphQL.Data
-  alias ServerWeb.GraphQL.Resolvers.Landing.FaqResolver
+  alias ServerWeb.GraphQL.{
+    Data,
+    Resolvers.Landing.FaqResolver
+  }
 
   @desc "A faq on the site"
   object :faq do

@@ -1,6 +1,7 @@
 V ?= @
 SHELL := /usr/bin/env bash
 ERLSERVICE := $(shell pgrep beam.smp)
+NUM := {1..3}
 
 ELIXIR = elixir
 
@@ -18,6 +19,14 @@ git-%:
 													$(V)git add .
 													$(V)git commit -m "$(@:git-%=%)"
 													$(V)git push -u origin master
+
+gitlog:
+													$(V)git log -p -$(NUM)
+gitpretty:
+													$(v)git log --pretty=oneline
+
+gitshort:
+													$(V)git log --pretty=format:"%h - %an, %ar : %s"
 
 pull:
 													$(V)git pull

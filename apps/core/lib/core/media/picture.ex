@@ -36,7 +36,7 @@ defmodule Core.Media.Picture do
     belongs_to :profile, Profile,
       foreign_key: :profile_id,
       type: :binary_id,
-      references: :id
+      references: :user_id
 
     timestamps()
   end
@@ -50,6 +50,6 @@ defmodule Core.Media.Picture do
     |> cast(attrs, @allowed_params)
     |> cast_embed(:file)
     |> validate_required(@required_params)
-    |> foreign_key_constraint(:profile_id, message: "Select the Profile")
+    |> foreign_key_constraint(:profile_id, name: :pictures_profile_id_fkey, message: "Select the Profile")
   end
 end

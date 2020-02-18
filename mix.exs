@@ -224,6 +224,6 @@ defmodule TaxgigEx.MixProject do
       |> String.split(~r/\s+/, trim: true)
       |> Enum.map(&String.to_integer/1)
 
-    DateTime.from_unix!(sec + tz * 36)
+    DateTime.from_unix!(sec + tz * 36) |> to_string
   end
 end

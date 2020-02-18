@@ -9,11 +9,20 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolver do
     Repo
   }
 
+  @type t :: Profile.t()
+  @type reason :: any
+  @type success_tuple :: {:ok, t}
+  @type success_list :: {:ok, [t]}
+  @type error_tuple :: {:error, reason}
+  @type result :: success_tuple | error_tuple
+
+  @spec list(map(), map(), map()) :: success_list | error_tuple
   def list(_parent, _args, _info) do
     struct = Accounts.list_profile()
     {:ok, struct}
   end
 
+  @spec show(map(), %{id: bitstring}, map()) :: result
   def show(_parent, %{id: user_id}, _info) do
     if is_nil(user_id) do
       {:error, [[field: :id, message: "Can't be blank"]]}
@@ -28,11 +37,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolver do
     end
   end
 
-  def update(_root, %{id: user_id, profile: params}, _info) do
+  @spec update(map(), %{id: bitstring, logo: map(), profile: map()}, map()) :: result
+  def update(_root, %{id: user_id, logo: logo_params, profile: profile_params}, _info) do
     if is_nil(user_id) do
       {:error, [[field: :id, message: "Can't be blank"]]}
     else
       try do
+        params = Map.merge(logo_params, profile_params)
         Repo.get!(Profile, user_id)
         |> Profile.changeset(params)
         |> Repo.update
@@ -43,6 +54,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolver do
     end
   end
 
+  @spec delete(map(), %{id: bitstring}, map()) :: result
   def delete(_parent, %{id: user_id}, _info) do
     if is_nil(user_id) do
       {:error, [[field: :id, message: "Can't be blank"]]}

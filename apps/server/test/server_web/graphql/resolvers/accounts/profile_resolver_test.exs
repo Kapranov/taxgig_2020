@@ -1,8 +1,12 @@
 defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
   use ServerWeb.ConnCase
 
-  alias ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolver
-  alias ServerWeb.GraphQL.Resolvers.Accounts.UserResolver
+  alias ServerWeb.GraphQL.Resolvers.Accounts.{
+    ProfileResolver,
+    UserResolver
+  }
+
+  @trump_path Path.absname("../core/test/fixtures/trump.jpg")
 
   describe "#list" do
     it "returns accounts profile" do
@@ -12,32 +16,39 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
         profile
         |> Core.Repo.preload([:us_zipcode, user: [:languages]])
       assert length(data) == 1
-      assert List.first(data).address          == struct.address
-      assert List.first(data).banner           == struct.banner
-      assert List.first(data).description      == struct.description
-      assert List.first(data).us_zipcode_id    == struct.us_zipcode_id
-      assert List.first(data).user_id          == struct.user_id
-      assert List.first(data).user.id          == struct.user.id
-      assert List.first(data).user.avatar      == struct.user.avatar
-      assert List.first(data).user.active      == struct.user.active
-      assert List.first(data).user.admin_role  == struct.user.admin_role
-      assert List.first(data).user.avatar      == struct.user.avatar
-      assert List.first(data).user.bio         == struct.user.bio
-      assert List.first(data).user.birthday    == struct.user.birthday
-      assert List.first(data).user.email       == struct.user.email
-      assert List.first(data).user.first_name  == struct.user.first_name
-      assert List.first(data).user.init_setup  == struct.user.init_setup
-      assert List.first(data).user.last_name   == struct.user.last_name
-      assert List.first(data).user.middle_name == struct.user.middle_name
-      assert List.first(data).user.phone       == struct.user.phone
-      assert List.first(data).user.pro_role    == struct.user.pro_role
-      assert List.first(data).user.provider    == struct.user.provider
-      assert List.first(data).user.sex         == struct.user.sex
-      assert List.first(data).user.ssn         == struct.user.ssn
-      assert List.first(data).user.street      == struct.user.street
-      assert List.first(data).user.zip         == struct.user.zip
-      assert List.first(data).user.inserted_at == struct.user.inserted_at
-      assert List.first(data).user.updated_at  == struct.user.updated_at
+      assert List.first(data).address           == struct.address
+      assert List.first(data).banner            == struct.banner
+      assert List.first(data).description       == struct.description
+      assert List.first(data).logo.id           == struct.logo.id
+      assert List.first(data).logo.content_type == struct.logo.content_type
+      assert List.first(data).logo.name         == struct.logo.name
+      assert List.first(data).logo.size         == struct.logo.size
+      assert List.first(data).logo.url          == struct.logo.url
+      assert List.first(data).logo.inserted_at  == struct.logo.inserted_at
+      assert List.first(data).logo.updated_at   == struct.logo.updated_at
+      assert List.first(data).us_zipcode_id     == struct.us_zipcode_id
+      assert List.first(data).user_id           == struct.user_id
+      assert List.first(data).user.id           == struct.user.id
+      assert List.first(data).user.avatar       == struct.user.avatar
+      assert List.first(data).user.active       == struct.user.active
+      assert List.first(data).user.admin_role   == struct.user.admin_role
+      assert List.first(data).user.avatar       == struct.user.avatar
+      assert List.first(data).user.bio          == struct.user.bio
+      assert List.first(data).user.birthday     == struct.user.birthday
+      assert List.first(data).user.email        == struct.user.email
+      assert List.first(data).user.first_name   == struct.user.first_name
+      assert List.first(data).user.init_setup   == struct.user.init_setup
+      assert List.first(data).user.last_name    == struct.user.last_name
+      assert List.first(data).user.middle_name  == struct.user.middle_name
+      assert List.first(data).user.phone        == struct.user.phone
+      assert List.first(data).user.pro_role     == struct.user.pro_role
+      assert List.first(data).user.provider     == struct.user.provider
+      assert List.first(data).user.sex          == struct.user.sex
+      assert List.first(data).user.ssn          == struct.user.ssn
+      assert List.first(data).user.street       == struct.user.street
+      assert List.first(data).user.zip          == struct.user.zip
+      assert List.first(data).user.inserted_at  == struct.user.inserted_at
+      assert List.first(data).user.updated_at   == struct.user.updated_at
       assert %Core.Lookup.UsZipcode{
         id: _,
         city: "AGUADA",
@@ -59,31 +70,38 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
     it "returns specific profile by user_id" do
       struct = insert(:profile)
       {:ok, found} = ProfileResolver.show(nil, %{id: struct.user_id}, nil)
-      assert found.address          == struct.address
-      assert found.banner           == struct.banner
-      assert found.description      == struct.description
-      assert found.us_zipcode_id    == struct.us_zipcode_id
-      assert found.user_id          == struct.user_id
-      assert found.user.id          == struct.user.id
-      assert found.user.active      == struct.user.active
-      assert found.user.admin_role  == struct.user.admin_role
-      assert found.user.avatar      == struct.user.avatar
-      assert found.user.bio         == struct.user.bio
-      assert found.user.birthday    == struct.user.birthday
-      assert found.user.email       == struct.user.email
-      assert found.user.first_name  == struct.user.first_name
-      assert found.user.init_setup  == struct.user.init_setup
-      assert found.user.last_name   == struct.user.last_name
-      assert found.user.middle_name == struct.user.middle_name
-      assert found.user.phone       == struct.user.phone
-      assert found.user.pro_role    == struct.user.pro_role
-      assert found.user.provider    == struct.user.provider
-      assert found.user.sex         == struct.user.sex
-      assert found.user.ssn         == struct.user.ssn
-      assert found.user.street      == struct.user.street
-      assert found.user.zip         == struct.user.zip
-      assert found.user.inserted_at == struct.user.inserted_at
-      assert found.user.updated_at  == struct.user.updated_at
+      assert found.address           == struct.address
+      assert found.banner            == struct.banner
+      assert found.description       == struct.description
+      assert found.logo.id           == struct.logo.id
+      assert found.logo.content_type == struct.logo.content_type
+      assert found.logo.name         == struct.logo.name
+      assert found.logo.size         == struct.logo.size
+      assert found.logo.url          == struct.logo.url
+      assert found.logo.inserted_at  == struct.logo.inserted_at
+      assert found.logo.updated_at   == struct.logo.updated_at
+      assert found.us_zipcode_id     == struct.us_zipcode_id
+      assert found.user_id           == struct.user_id
+      assert found.user.id           == struct.user.id
+      assert found.user.active       == struct.user.active
+      assert found.user.admin_role   == struct.user.admin_role
+      assert found.user.avatar       == struct.user.avatar
+      assert found.user.bio          == struct.user.bio
+      assert found.user.birthday     == struct.user.birthday
+      assert found.user.email        == struct.user.email
+      assert found.user.first_name   == struct.user.first_name
+      assert found.user.init_setup   == struct.user.init_setup
+      assert found.user.last_name    == struct.user.last_name
+      assert found.user.middle_name  == struct.user.middle_name
+      assert found.user.phone        == struct.user.phone
+      assert found.user.pro_role     == struct.user.pro_role
+      assert found.user.provider     == struct.user.provider
+      assert found.user.sex          == struct.user.sex
+      assert found.user.ssn          == struct.user.ssn
+      assert found.user.street       == struct.user.street
+      assert found.user.zip          == struct.user.zip
+      assert found.user.inserted_at  == struct.user.inserted_at
+      assert found.user.updated_at   == struct.user.updated_at
       assert %Core.Lookup.UsZipcode{
         id: _,
         city: "AGUADA",
@@ -141,13 +159,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
         street: "some text",
         zip: 123456789
       }
+
       {:ok, user} = UserResolver.create(nil, args, nil)
 
       {:ok, created} = ProfileResolver.show(nil, %{id: user.id}, nil)
       assert created.address          == nil
       assert created.banner           == nil
       assert created.description      == nil
+      assert created.logo             == nil
       assert created.us_zipcode_id    == nil
+      assert created.us_zipcode       == nil
       assert created.user_id          == user.id
       assert created.user.id          == user.id
       assert created.user.active      == user.active
@@ -169,7 +190,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       assert created.user.zip         == user.zip
       assert created.user.inserted_at == user.inserted_at
       assert created.user.updated_at  == user.updated_at
-      assert created.us_zipcode       == nil
       assert [
         %Core.Localization.Language{
           id: _,
@@ -187,7 +207,22 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       struct = insert(:profile)
       zipcode = insert(:zipcode)
 
-      args = %{id: struct.user_id,
+      file = %Plug.Upload{
+        content_type: "image/jpg",
+        path: @trump_path,
+        filename: "trump.jpg"
+      }
+
+      {:ok, data} = Core.Upload.store(file)
+
+      args = %{
+        id: struct.user_id,
+        logo: %{
+          name: file.filename,
+          content_type: file.content_type,
+          size: data.size,
+          url: data.url
+        },
         profile: %{
           address: "updated text",
           banner: "updated text",
@@ -198,8 +233,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       }
 
       {:ok, updated} = ProfileResolver.update(nil, args, nil)
-      assert updated.address       == "updated text"
-      assert updated.banner        == "updated text"
+      assert updated.address           == "updated text"
+      assert updated.banner            == "updated text"
+      assert updated.logo.content_type == "image/jpg"
+      assert updated.logo.name         == "Logo"
+      assert updated.logo.size         == 5024
       assert updated.description   == "updated text"
       assert updated.us_zipcode_id == zipcode.id
       assert updated.user_id       == struct.user_id
@@ -207,18 +245,25 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
 
     it "nothing change for missing params" do
       struct = insert(:profile)
-      args = %{id: struct.user_id, profile: %{}}
+      args = %{id: struct.user_id, logo: %{}, profile: %{}}
       {:ok, updated} = ProfileResolver.update(nil, args, nil)
-      assert updated.address       == "some text"
-      assert updated.banner        == "some text"
-      assert updated.description   == "some text"
-      assert updated.us_zipcode_id == struct.us_zipcode_id
-      assert updated.user_id       == struct.user_id
+      assert updated.address           == "some text"
+      assert updated.banner            == "some text"
+      assert updated.description       == "some text"
+      assert updated.logo.id           == struct.logo.id
+      assert updated.logo.content_type == "image/jpg"
+      assert updated.logo.name         == "Logo"
+      assert updated.logo.size         == 5024
+      assert updated.logo.url          == struct.logo.url
+      assert updated.logo.inserted_at  == struct.logo.inserted_at
+      assert updated.logo.updated_at   == struct.logo.updated_at
+      assert updated.us_zipcode_id     == struct.us_zipcode_id
+      assert updated.user_id           == struct.user_id
     end
 
     it "returns error for missing params" do
       insert(:profile)
-      args = %{id: nil, profile: nil}
+      args = %{id: nil, logo: nil, profile: nil}
       {:error, error} = ProfileResolver.update(nil, args, nil)
       assert error == [[field: :id, message: "Can't be blank"]]
     end

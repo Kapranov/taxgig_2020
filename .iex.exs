@@ -139,27 +139,28 @@ defmodule LetMeSee do
   cmd+r
 
 
-  LetMeSee.index_faq_categories()
-  LetMeSee.index_faqs()
-  LetMeSee.index_languages()
-  LetMeSee.index_press_articles()
-  LetMeSee.index_profiles()
-  LetMeSee.index_subscribers()
-  LetMeSee.index_users()
-  LetMeSee.index_vacancies()
-  LetMeSee.find_faq_category(args)
+  LetMeSee.index_faq_category()
+  LetMeSee.index_faq()
+  LetMeSee.index_language()
+  LetMeSee.index_press_article()
+  LetMeSee.index_profile()
+  LetMeSee.index_subscriber()
+  LetMeSee.index_user()
+  LetMeSee.index_vacancy()
 
-  LetMeSee.show_faq(args)
-  LetMeSee.show_faq_category(args)
-  LetMeSee.show_language(args)
-  LetMeSee.show_press_article(args)
-  LetMeSee.show_profile(args)
-  LetMeSee.show_subscriber(args)
-  LetMeSee.show_user(args)
-  LetMeSee.show_vacancy(args)
-  LetMeSee.show_zipcode(args)
+  LetMeSee.find_faq_category(id)
 
-  LetMeSee.search_titles(args)
+  LetMeSee.show_faq(id)
+  LetMeSee.show_faq_category(id)
+  LetMeSee.show_language(id)
+  LetMeSee.show_press_article(id)
+  LetMeSee.show_profile(id)
+  LetMeSee.show_subscriber(id)
+  LetMeSee.show_user(id)
+  LetMeSee.show_vacancy(id)
+  LetMeSee.show_zipcode(id)
+
+  LetMeSee.search_titles(word)
   LetMeSee.search_profession(args)
   LetMeSee.search_zipcode(args)
 
@@ -172,27 +173,38 @@ defmodule LetMeSee do
   LetMeSee.create_user(args)
 
   LetMeSee.update_faq(id, arg)
-  LetMeSee.update_faq_category(args)
-  LetMeSee.update_language(args)
-  LetMeSee.update_press_article(args)
-  LetMeSee.update_profile(args)
-  LetMeSee.update_subscriber(args)
-  LetMeSee.update_user(args)
-  LetMeSee.update_vacancy(args)
+  LetMeSee.update_faq_category(id, args)
+  LetMeSee.update_language(id, args)
+  LetMeSee.update_press_article(id, args)
+  LetMeSee.update_profile(id, args)
+  LetMeSee.update_subscriber(id, args)
+  LetMeSee.update_user(id, args)
+  LetMeSee.update_vacancy(id, args)
 
-  LetMeSee.delete_faq(args)
-  LetMeSee.delete_faq_category(args)
-  LetMeSee.delete_language(args)
-  LetMeSee.delete_press_article(args)
-  LetMeSee.delete_profile(args)
-  LetMeSee.delete_subscriber(args)
-  LetMeSee.delete_user(args)
-  LetMeSee.delete_vacancy(args)
+  LetMeSee.delete_faq(id)
+  LetMeSee.delete_faq_category(id)
+  LetMeSee.delete_language(id)
+  LetMeSee.delete_press_article(id)
+  LetMeSee.delete_profile(id)
+  LetMeSee.delete_subscriber(id)
+  LetMeSee.delete_user(id)
+  LetMeSee.delete_vacancy(id)
   """
 
   IO.puts(
     "\nAaron - This is your self from the past. Remember to reset the DB! mix ecto.reset.repo then do setup\n"
   )
+
+  @type t :: __MODULE__.t()
+  @type action :: bitstring()
+  @type msg :: bitstring()
+  @type int :: integer()
+  @type reason :: any
+  @type success_map :: %{data: map()}
+  @type error_tuple :: {:error, reason}
+  @type error_map :: %{data: %{action => nil}, errors: [%{locations: [%{column: int, line: int}], message: msg, path: [action]}]}
+  @type error :: %{errors: [%{locations: [%{column: int, line: int}], message: msg, path: [action]}]}
+  @type result :: success_map | error_map
 
   @last_vacancy Repo.all(Vacancy) |> List.last |> Map.get(:id)
   @last_press_article Repo.all(PressArticle) |> List.last |> Map.get(:id)
@@ -206,7 +218,8 @@ defmodule LetMeSee do
   @search_zipcode %{zipcode: 602}
   @profession %{bus_addr_zip: "84074", bus_st_code: "UT", first_name: "LiSa", last_name: "StEwArT"}
 
-  def index_faqs do
+  @spec index_faq() :: list()
+  def index_faq do
     request = """
     query {
       allFaqs {
@@ -233,7 +246,8 @@ defmodule LetMeSee do
     result
   end
 
-  def index_faq_categories do
+  @spec index_faq_category() :: list()
+  def index_faq_category do
     request = """
     query {
       allFaqCategories {
@@ -254,7 +268,8 @@ defmodule LetMeSee do
     result
   end
 
-  def index_press_articles do
+  @spec index_press_article() :: list()
+  def index_press_article do
     request = """
     query {
       allPressArticles{
@@ -278,7 +293,8 @@ defmodule LetMeSee do
     result
   end
 
-  def index_vacancies do
+  @spec index_vacancy() :: list()
+  def index_vacancy do
     request = """
     query {
       allVacancies{
@@ -300,7 +316,8 @@ defmodule LetMeSee do
     result
   end
 
-  def index_languages do
+  @spec index_language() :: list()
+  def index_language do
     request = """
     query {
       allLanguages{
@@ -321,7 +338,8 @@ defmodule LetMeSee do
     result
   end
 
-  def index_subscribers do
+  @spec index_subscriber() :: list()
+  def index_subscriber do
     request = """
     query {
       allSubscribers{
@@ -342,7 +360,8 @@ defmodule LetMeSee do
     result
   end
 
-  def index_users do
+  @spec index_user() :: list()
+  def index_user do
     request = """
     query {
       allUsers{
@@ -379,7 +398,8 @@ defmodule LetMeSee do
     result
   end
 
-  def index_profiles do
+  @spec index_profile() :: list()
+  def index_profile do
     request = """
     query {
       allProfiles{
@@ -424,273 +444,334 @@ defmodule LetMeSee do
     result
   end
 
+  @spec find_faq_category(bitstring()) :: map() | error_tuple
   def find_faq_category(id \\ @last_faq_category) do
-    request = """
-    query {
-      findFaqCategory(id: \"#{id}\") {
-        id
-        content
-        title
-        inserted_at
-        updated_at
-        faq_categories {
-          id
-          faqs_count
-          title
-          inserted_at
-          updated_at
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        query {
+          findFaqCategory(id: \"#{binaryId}\") {
+            id
+            content
+            title
+            inserted_at
+            updated_at
+            faq_categories {
+              id
+              faqs_count
+              title
+              inserted_at
+              updated_at
+            }
+          }
         }
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
   end
 
+  @spec show_faq(bitstring()) :: map() | error_map | error_tuple
   def show_faq(id \\ @last_faq) do
-    request = """
-    query {
-      showFaq(id: \"#{id}\") {
-        id
-        content
-        title
-        inserted_at
-        updated_at
-        faq_categories {
-          id
-          title
-          inserted_at
-          updated_at
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        query {
+          showFaq(id: \"#{binaryId}\") {
+            id
+            content
+            title
+            inserted_at
+            updated_at
+            faq_categories {
+              id
+              title
+              inserted_at
+              updated_at
+            }
+          }
         }
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
   end
 
+  @spec show_faq_category(bitstring()) :: map() | error_map | error_tuple
   def show_faq_category(id \\ @last_faq_category) do
-    request = """
-    query {
-      showFaqCategory(id: \"#{id}\") {
-        id
-        faqs_count
-        title
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
-
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  def show_press_article(id \\ @last_press_article) do
-    request = """
-    query {
-      showPressArticle(id: \"#{id}\") {
-        id
-        author
-        img_url
-        preview_text
-        title
-        url
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
-
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  def show_vacancy(id \\ @last_vacancy) do
-    request = """
-    query {
-      showVacancy(id: \"#{id}\") {
-        id
-        content
-        department
-        title
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
-
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  def show_language(id \\ @last_language) do
-    request = """
-    query {
-      showLanguage(id: \"#{id}\") {
-        id
-        abbr
-        name
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
-
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  def show_subscriber(id \\ @last_subscriber) do
-    request = """
-    query {
-      showSubscriber(id: \"#{id}\") {
-        id
-        email
-        pro_role
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
-
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  def show_user(id \\ @last_user) do
-    request = """
-    query {
-      showUser(id: \"#{id}\") {
-        id
-        active
-        admin_role
-        avatar
-        bio
-        birthday
-        email
-        first_name
-        init_setup
-        languages {id abbr name inserted_at updated_at}
-        last_name
-        middle_name
-        phone
-        pro_role
-        provider
-        sex
-        ssn
-        street
-        zip
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
-
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  def show_zipcode(id \\ @last_zipcode) do
-    request = """
-    query {
-      showZipcode(id: \"#{id}\") {
-        id
-        city
-        state
-        zipcode
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
-
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  def show_profile(id \\ @last_user) do
-    request = """
-    query {
-      showProfile(id: \"#{id}\") {
-        address
-        banner
-        description
-        us_zipcode {id city state zipcode}
-        user {
-          id
-          active
-          admin_role
-          avatar
-          bio
-          birthday
-          email
-          first_name
-          init_setup
-          languages {id abbr name inserted_at updated_at}
-          last_name
-          middle_name
-          phone
-          pro_role
-          provider
-          sex
-          ssn
-          street
-          zip
-          inserted_at
-          updated_at
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        query {
+          showFaqCategory(id: \"#{binaryId}\") {
+            id
+            faqs_count
+            title
+            inserted_at
+            updated_at
+          }
         }
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
   end
 
-  def search_titles(word \\ @search_word) do
+  @spec show_press_article(bitstring()) :: map() | error_map | error_tuple
+  def show_press_article(id \\ @last_press_article) do
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        query {
+          showPressArticle(id: \"#{binaryId}\") {
+            id
+            author
+            img_url
+            preview_text
+            title
+            url
+            inserted_at
+            updated_at
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
+  end
+
+  @spec show_vacancy(bitstring()) :: map() | error_map | error_tuple
+  def show_vacancy(id \\ @last_vacancy) do
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        query {
+          showVacancy(id: \"#{binaryId}\") {
+            id
+            content
+            department
+            title
+            inserted_at
+            updated_at
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
+  end
+
+  @spec show_language(bitstring()) :: map() | error_map | error_tuple
+  def show_language(id \\ @last_language) do
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        query {
+          showLanguage(id: \"#{binaryId}\") {
+            id
+            abbr
+            name
+            inserted_at
+            updated_at
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
+  end
+
+  @spec show_subscriber(bitstring()) :: map() | error_map | error_tuple
+  def show_subscriber(id \\ @last_subscriber) do
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        query {
+          showSubscriber(id: \"#{binaryId}\") {
+            id
+            email
+            pro_role
+            inserted_at
+            updated_at
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
+  end
+
+  @spec show_user(bitstring()) :: map() | error_map | error_tuple
+  def show_user(id \\ @last_user) do
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        query {
+          showUser(id: \"#{binaryId}\") {
+            id
+            active
+            admin_role
+            avatar
+            bio
+            birthday
+            email
+            first_name
+            init_setup
+            languages {id abbr name inserted_at updated_at}
+            last_name
+            middle_name
+            phone
+            pro_role
+            provider
+            sex
+            ssn
+            street
+            zip
+            inserted_at
+            updated_at
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
+  end
+
+  @spec show_zipcode(bitstring()) :: map() | error_map | error_tuple
+  def show_zipcode(id \\ @last_zipcode) do
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        query {
+          showZipcode(id: \"#{binaryId}\") {
+            id
+            city
+            state
+            zipcode
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
+  end
+
+  @spec show_profile(bitstring()) :: map() | error_map | error_tuple
+  def show_profile(id \\ @last_user) do
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        query {
+          showProfile(id: \"#{binaryId}\") {
+            address
+            banner
+            description
+            us_zipcode {id city state zipcode}
+            user {
+              id
+              active
+              admin_role
+              avatar
+              bio
+              birthday
+              email
+              first_name
+              init_setup
+              languages {id abbr name inserted_at updated_at}
+              last_name
+              middle_name
+              phone
+              pro_role
+              provider
+              sex
+              ssn
+              street
+              zip
+              inserted_at
+              updated_at
+            }
+            inserted_at
+            updated_at
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
+  end
+
+  @spec search_title(map()) :: map() | error_map | error_tuple
+  def search_title(word \\ @search_word) do
     request = """
     query {
       searchTitles(title: \"#{word}\") {
@@ -717,680 +798,948 @@ defmodule LetMeSee do
     result
   end
 
-  def search_profession(attrs \\ @profession) do
-    %{
-      bus_addr_zip: bus_addr_zip,
-      bus_st_code: bus_st_code,
-      first_name: first_name,
-      last_name: last_name
-    } = attrs
+  @profession_keys ~w(bus_addr_zip bus_st_code first_name last_name)a |> Enum.sort
 
-    request = """
-    query {
-      searchProfession(
-        bus_addr_zip: \"#{bus_addr_zip}\",
-        bus_st_code: \"#{bus_st_code}\",
-        first_name: \"#{first_name}\",
-        last_name: \"#{last_name}\"
-      ) {
-        profession
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
-
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  def search_zipcode(attrs \\ @search_zipcode) do
-    %{zipcode: number} = attrs
-
-    request = """
-    query {
-      searchZipcode(
-        zipcode: #{number}
-      ) {
-        id
-        city
-        state
-        zipcode
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
-
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  def create_faq(id \\ @last_faq_category) do
-    request = """
-    mutation {
-      createFaq(
-        content: "some text",
-        title: "some text",
-        faq_categoryId: \"#{id}\"
-      ) {
-        id
-        content
-        title
-        inserted_at
-        updated_at
-        faq_categories {
-          id
-          title
-          inserted_at
-          updated_at
+  @spec search_profession(map()) :: map() | error_tuple
+  def search_profession(args \\ @profession) do
+    case Map.keys(args) do
+      @profession_keys ->
+        request = """
+        query {
+          searchProfession(
+            bus_addr_zip: \"#{args.bus_addr_zip}\",
+            bus_st_code: \"#{args.bus_st_code}\",
+            first_name: \"#{args.first_name}\",
+            last_name: \"#{args.last_name}\"
+          ) {
+            profession
+          }
         }
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
   end
 
-  def create_faq_category do
-    request = """
-    mutation {
-      createFaqCategory(
-        title: "some text"
-      ) {
-        id
-        title
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+  @zipcode_keys ~w(zipcode)a
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  def create_press_article do
-    request = """
-    mutation {
-      createPressArticle(
-        author: "some text",
-        img_url: "some text",
-        preview_text: "some text",
-        title: "some text",
-        url: "some text"
-      ) {
-        id
-        author
-        preview_text
-        title
-        url
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
-
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  def create_vacancy do
-    request = """
-    mutation {
-      createVacancy(
-        content: "some text",
-        department: "some text",
-        title: "some text"
-      ) {
-        id
-        content
-        department
-        title
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
-
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  def create_language do
-    request = """
-    mutation {
-      createLanguage(
-        abbr: "some text",
-        name: "some text"
-      ) {
-        id
-        abbr
-        name
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
-
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  def create_subscriber do
-    request = """
-    mutation {
-      createSubscriber(
-        email: "kapranov.lugatex@gmail.com",
-        name: true
-      ) {
-        id
-        email
-        pro_role
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
-
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  def create_user do
-    request = """
-    mutation {
-      createUser(
-        active: false,
-        admin_role: false,
-        avatar: "some text",
-        bio: "some text",
-        birthday: \"#{Date.add(Timex.now, -2)}\",
-        email: "oleg@yahoo.com",
-        first_name: "some text",
-        init_setup: false,
-        languages: "chinese",
-        last_name: "some text",
-        middle_name: "some text",
-        password: "qwerty",
-        password_confirmation: "qwerty",
-        phone: "some text",
-        pro_role: false,
-        provider: "google",
-        sex: "some text",
-        ssn: 123456789,
-        street: "some text",
-        zip: 123456789
-      ) {
-        id
-        active
-        admin_role
-        avatar
-        bio
-        birthday
-        email
-        first_name
-        init_setup
-        languages {id abbr name inserted_at updated_at}
-        last_name
-        middle_name
-        phone
-        pro_role
-        provider
-        sex
-        ssn
-        street
-        zip
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
-
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  def update_faq(id \\ @last_faq, arg \\ @last_faq_category) do
-    request = """
-    mutation {
-      updateFaq(
-        id: \"#{id}\",
-        faq: {
-          content: "updated text",
-          title: "updated text",
-          faq_categoryId: \"#{arg}\"
+  @spec search_zipcode(map()) :: map() | error_tuple
+  def search_zipcode(args \\ @search_zipcode) do
+    case Map.keys(args) do
+      @zipcode_keys ->
+        request = """
+        query {
+          searchZipcode(
+            zipcode: #{args.zipcode}
+          ) {
+            id
+            city
+            state
+            zipcode
+          }
         }
-      ) {
-        id
-        content
-        title
-        inserted_at
-        updated_at
-        faq_categories {
-          id
-          title
-          inserted_at
-          updated_at
-        }
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
   end
 
-  def update_faq_category(id \\ @last_faq_category) do
-    request = """
-    mutation {
-      updateFaqCategory(
-        id: \"#{id}\",
-        faq_category: {
-          title: "updated text"
-        }
-      ) {
-        id
-        title
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+  @faq_keys ~w(content title faq_category_id)a |> Enum.sort
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+  @spec create_faq(map()) :: map() | error_map | error_tuple
+  def create_faq(args) do
+    case Map.keys(args) do
+      @faq_keys ->
+        case Ecto.UUID.cast(args.faq_category_id) do
+          {:ok, binaryId} ->
+            request = """
+            mutation {
+              createFaq(
+                content: "#{args.content}\",
+                title: \"#{args.title}\",
+                faq_categoryId: \"#{binaryId}\"
+              ) {
+                id
+                content
+                title
+                inserted_at
+                updated_at
+                faq_categories {
+                  id
+                  title
+                  inserted_at
+                  updated_at
+                }
+              }
+            }
+            """
+            IO.puts("The Request:")
+            IO.puts(request)
 
-    IO.puts("\nThe Result:")
-    result
+            {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+            IO.puts("\nThe Result:")
+            result
+          :error ->
+            {:error, message: "Oops! Something Wrong with Id"}
+        end
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
   end
 
-  def update_press_article(id \\ @last_press_article) do
-    request = """
-    mutation {
-      updatePressArticle(
-        id: \"#{id}\",
-        press_article: {
-          author: "updated text",
-          img_url: "updated text",
-          preview_text: "updated text",
-          title: "updated text",
-          url: "updated text"
+  @faq_category_keys ~w(title)a |> Enum.sort
+
+  @spec create_faq_category(map()) :: map() | error_map | error_tuple
+  def create_faq_category(args) do
+    case Map.keys(args) do
+      @faq_category_keys ->
+        request = """
+        mutation {
+          createFaqCategory(
+            title: \"#{args.title}\"
+          ) {
+            id
+            title
+            inserted_at
+            updated_at
+          }
         }
-      ) {
-        id
-        author
-        preview_text
-        title
-        url
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
   end
 
-  def update_vacancy(id \\ @last_vacancy) do
-    request = """
-    mutation {
-      updateVacancy(
-        id: \"#{id}\",
-        vacancy: {
-          content: "updated text",
-          department: "updated text",
-          title: "updated text"
+  @press_article_keys ~w(author img_url preview_text title url)a |> Enum.sort
+
+  @spec create_press_article(map()) :: map() | error_map | error_tuple
+  def create_press_article(args) do
+    case Map.keys(args) do
+      @press_article_keys ->
+        request = """
+        mutation {
+          createPressArticle(
+            author: \"#{args.author}\",
+            img_url: \"#{args.img_url}\",
+            preview_text: \"#{args.preview_text}\",
+            title: \"#{args.title}\",
+            url: \"#{args.url}\"
+          ) {
+            id
+            author
+            preview_text
+            title
+            url
+            inserted_at
+            updated_at
+          }
         }
-      ) {
-        id
-        content
-        department
-        title
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
   end
 
-  def update_language(id \\ @last_language) do
-    request = """
-    mutation {
-      updateLanguage(
-        id: \"#{id}\",
-        language: {
-          abbr: "updated text",
-          name: "updated text"
+  @vacancy_keys ~w(content department title)a |> Enum.sort
+
+  @spec create_vacancy(map()) :: map() | error_map | error_tuple
+  def create_vacancy(args) do
+    case Map.keys(args) do
+      @vacancy_keys ->
+        request = """
+        mutation {
+          createVacancy(
+            content: \"#{args.content}\",
+            department: \"#{args.department}\",
+            title: \"#{args.title}\"
+          ) {
+            id
+            content
+            department
+            title
+            inserted_at
+            updated_at
+          }
         }
-      ) {
-        id
-        abbr
-        name
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
   end
 
-  def update_subscriber(id \\ @last_subscriber) do
-    request = """
-    mutation {
-      updateSubscriber(
-        id: \"#{id}\",
-        subscriber: {
-          email: "kapranov.lugatex@gmail.com",
-          pro_role: true
+  @language_keys ~w(abbr name)a |> Enum.sort
+
+  @spec create_language(map()) :: map() | error_map | error_tuple
+  def create_language(args) do
+    case Map.keys(args) do
+      @language_keys ->
+        request = """
+        mutation {
+          createLanguage(
+            abbr: \"#{args.abbr}\",
+            name: \"#{args.name}\"
+          ) {
+            id
+            abbr
+            name
+            inserted_at
+            updated_at
+          }
         }
-      ) {
-        id
-        email
-        pro_role
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
   end
 
-  def update_user(id \\ @last_user) do
-    request = """
-    mutation {
-      updateUser(
-        id: \"#{id}\",
-        user: {
-          active: true,
-          admin_role: true,
-          avatar: "updated text",
-          bio: "updated text",
-          birthday: \"#{Date.add(Timex.now, 0)}\",
-          email: "kapranov.lugatex@gmail.com",
-          first_name: "updated text",
-          init_setup: true,
-          languages: "french",
-          last_name: "updated text",
-          middle_name: "updated text",
-          password: "qwertyyy",
-          password_confirmation: "qwertyyy",
-          phone: "updated text",
-          pro_role: true,
-          provider: "facebook",
-          sex: "updated text",
-          ssn: 987654321,
-          street: "updated text",
-          zip: 987654321
+  @subscriber_keys ~w(email pro_role)a |> Enum.sort
+
+  @spec create_subscriber(map()) :: map() | error | error_map | error_tuple
+  def create_subscriber(args) do
+    case Map.keys(args) do
+      @subscriber_keys ->
+        request = """
+        mutation {
+          createSubscriber(
+            email:\"#{args.email}\",
+            pro_role: #{args.pro_role}
+          ) {
+            id
+            email
+            pro_role
+            inserted_at
+            updated_at
+          }
         }
-      ) {
-        id
-        active
-        admin_role
-        avatar
-        bio
-        birthday
-        email
-        first_name
-        init_setup
-        languages {id abbr name inserted_at updated_at}
-        last_name
-        middle_name
-        phone
-        pro_role
-        provider
-        sex
-        ssn
-        street
-        zip
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
   end
 
-  def update_profile(id \\ @last_user) do
-    request = """
-    mutation {
-      updateProfile(
-        id: \"#{id}\",
-        profile: {
-          address: "updated text",
-          banner: "updated text",
-          description: "updated text",
-          us_zipcodeId: \"#{@last_zipcode}\",
-          userId: \"#{@last_user}\"
-        }
-      ) {
-        address
-        banner
-        description
-        us_zipcode {id city state zipcode}
-        user {
-          id
-          active
-          admin_role
-          avatar
-          bio
-          birthday
-          email
-          first_name
-          init_setup
-          languages {id abbr name inserted_at updated_at}
-          last_name
-          middle_name
-          phone
-          pro_role
-          provider
-          sex
-          ssn
-          street
-          zip
-          inserted_at
-          updated_at
-        }
-        inserted_at
-        updated_at
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+  @user_keys ~w(
+    active
+    admin_role
+    avatar
+    bio
+    birthday
+    email
+    first_name
+    init_setup
+    languages
+    last_name
+    middle_name
+    password
+    password_confirmation
+    phone
+    pro_role
+    provider
+    sex
+    ssn
+    street
+    zip
+  )a |> Enum.sort
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+  @user_mini_keys ~w(email languages password password_confirmation)a |> Enum.sort
 
-    IO.puts("\nThe Result:")
-    result
+  @spec create_user(map()) :: map() | error | error_map | error_tuple
+  def create_user(args) do
+    case Map.keys(args) do
+      @user_keys ->
+        request = """
+        mutation {
+          createUser(
+            active: #{args.active},
+            admin_role: #{args.admin_role},
+            avatar: \"#{args.avatar}\",
+            bio: \"#{args.bio}\",
+            birthday: \"#{args.birthday}\",
+            email: \"#{args.email}\",
+            first_name: \"#{args.first_name}\",
+            init_setup: #{args.init_setup},
+            languages: \"#{args.languages}\",
+            last_name: \"#{args.last_name}\",
+            middle_name: \"#{args.middle_name}\",
+            password: \"#{args.password}\",
+            password_confirmation: "#{args.password_confirmation}\",
+            phone: \"#{args.phone}\",
+            pro_role: #{args.pro_role},
+            provider: \"#{args.provider}\",
+            sex: \"#{args.sex}\",
+            ssn: #{args.ssn},
+            street: "#{args.street}\",
+            zip: #{args.zip}
+          ) {
+            id
+            active
+            admin_role
+            avatar
+            bio
+            birthday
+            email
+            first_name
+            init_setup
+            languages {id abbr name inserted_at updated_at}
+            last_name
+            middle_name
+            phone
+            pro_role
+            provider
+            sex
+            ssn
+            street
+            zip
+            inserted_at
+            updated_at
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      @user_mini_keys ->
+        request = """
+        mutation {
+          createUser(
+            email: \"#{args.email}\",
+            languages: \"#{args.languages}\",
+            password: \"#{args.password}\",
+            password_confirmation: "#{args.password_confirmation}\"
+          ) {
+            id
+            active
+            admin_role
+            avatar
+            bio
+            birthday
+            email
+            first_name
+            init_setup
+            languages {id abbr name inserted_at updated_at}
+            last_name
+            middle_name
+            phone
+            pro_role
+            provider
+            sex
+            ssn
+            street
+            zip
+            inserted_at
+            updated_at
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
   end
 
+  @spec update_faq(bitstring(), map()) :: map() | error | error_map | error_tuple
+  def update_faq(id \\ @last_faq, args) do
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        case Map.keys(args) do
+          @faq_keys ->
+            request = """
+            mutation {
+              updateFaq(
+                id: \"#{binaryId}\",
+                faq: {
+                content: \"#{args.content}\",
+                  title: \"#{args.title}\",
+                  faq_categoryId: \"#{args.faq_category_id}\"
+                }
+              ) {
+                id
+                content
+                title
+                inserted_at
+                updated_at
+                faq_categories {
+                  id
+                  title
+                  inserted_at
+                  updated_at
+                }
+              }
+            }
+            """
+            IO.puts("The Request:")
+            IO.puts(request)
 
+            {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+            IO.puts("\nThe Result:")
+            result
+          _ ->
+            {:error, message: "Oops! Something Wrong with an args"}
+        end
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
+  end
+
+  @spec update_faq_category(bitstring(), map()) :: map() | error | error_map | error_tuple
+  def update_faq_category(id \\ @last_faq_category, args) do
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        case Map.keys(args) do
+          @faq_category_keys ->
+            request = """
+            mutation {
+              updateFaqCategory(
+                id: \"#{binaryId}\",
+                faq_category: {
+                  title: \"#{args.title}\"
+                }
+              ) {
+                id
+                title
+                inserted_at
+                updated_at
+              }
+            }
+            """
+            IO.puts("The Request:")
+            IO.puts(request)
+
+            {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+            IO.puts("\nThe Result:")
+            result
+          _ ->
+            {:error, message: "Oops! Something Wrong with an args"}
+        end
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
+  end
+
+  @spec update_press_article(bitstring(), map()) :: map() | error | error_map | error_tuple
+  def update_press_article(id \\ @last_press_article, args) do
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        case Map.keys(args) do
+          @press_article_keys ->
+            request = """
+            mutation {
+              updatePressArticle(
+                id: \"#{binaryId}\",
+                press_article: {
+                  author: \"#{args.author}\",
+                  img_url: \"#{args.img_url}\",
+                  preview_text: \"#{args.preview_text}\",
+                  title: \"#{args.title}\",
+                  url: \"#{args.url}\"
+                }
+              ) {
+                id
+                author
+                preview_text
+                title
+                url
+                inserted_at
+                updated_at
+              }
+            }
+            """
+            IO.puts("The Request:")
+            IO.puts(request)
+
+            {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+            IO.puts("\nThe Result:")
+            result
+          _ ->
+            {:error, message: "Oops! Something Wrong with an args"}
+        end
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
+  end
+
+  @spec update_vacancy(bitstring(), map()) :: map() | error | error_map | error_tuple
+  def update_vacancy(id \\ @last_vacancy, args) do
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        case Map.keys(args) do
+          @vacancy_keys ->
+            request = """
+            mutation {
+              updateVacancy(
+                id: \"#{binaryId}\",
+                vacancy: {
+                content: \"#{args.content}\",
+                  department: \"#{args.department}\",
+                  title: \"#{args.title}\"
+                }
+              ) {
+                id
+                content
+                department
+                title
+                inserted_at
+                updated_at
+              }
+            }
+            """
+            IO.puts("The Request:")
+            IO.puts(request)
+
+            {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+            IO.puts("\nThe Result:")
+            result
+          _ ->
+            {:error, message: "Oops! Something Wrong with an args"}
+        end
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
+  end
+
+  @spec update_language(bitstring(), map()) :: map() | error | error_map | error_tuple
+  def update_language(id \\ @last_language, args) do
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        case Map.keys(args) do
+          @language_keys ->
+            request = """
+            mutation {
+              updateLanguage(
+                id: \"#{binaryId}\",
+                language: {
+                  abbr: \"#{args.abbr}\",
+                  name: \"#{args.name}\"
+                }
+              ) {
+                id
+                abbr
+                name
+                inserted_at
+                updated_at
+              }
+            }
+            """
+            IO.puts("The Request:")
+            IO.puts(request)
+
+            {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+            IO.puts("\nThe Result:")
+            result
+          _ ->
+            {:error, message: "Oops! Something Wrong with an args"}
+        end
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
+  end
+
+  @spec update_subscriber(bitstring(), map()) :: map() | error | error_map | error_tuple
+  def update_subscriber(id \\ @last_subscriber, args) do
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        case Map.keys(args) do
+          @subscriber_keys ->
+            request = """
+            mutation {
+              updateSubscriber(
+                id: \"#{binaryId}\",
+                subscriber: {
+                  email: \"#{args.email}\",
+                  pro_role: #{args.pro_role}
+                }
+              ) {
+                id
+                email
+                pro_role
+                inserted_at
+                updated_at
+              }
+            }
+            """
+            IO.puts("The Request:")
+            IO.puts(request)
+
+            {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+            IO.puts("\nThe Result:")
+            result
+          _ ->
+            {:error, message: "Oops! Something Wrong with an args"}
+        end
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
+  end
+
+  @spec update_user(bitstring(), map()) :: map() | error | error_map | error_tuple
+  def update_user(id \\ @last_user, args) do
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        case Map.keys(args) do
+          @user_keys ->
+            request = """
+            mutation {
+              updateUser(
+                id: \"#{binaryId}\",
+                user: {
+                  active: #{args.active},
+                  admin_role: #{args.admin_role},
+                  avatar: \"#{args.avatar}\",
+                  bio: \"#{args.bio}\",
+                  birthday: \"#{args.birthday}\",
+                  email: \"#{args.email}\",
+                  first_name: \"#{args.first_name}\",
+                  init_setup: #{args.init_setup},
+                  languages: \"#{args.languages}\",
+                  last_name: \"#{args.last_name}\",
+                  middle_name: \"#{args.middle_name}\",
+                  password: \"#{args.password}\",
+                  password_confirmation: \"#{args.password_confirmation}\",
+                  phone: \"#{args.phone}\",
+                  pro_role: #{args.pro_role},
+                  provider: \"#{args.provider}\",
+                  sex: \"#{args.sex}\",
+                  ssn: #{args.ssn},
+                  street: \"#{args.street}\",
+                  zip: #{args.zip}
+                }
+              ) {
+                id
+                active
+                admin_role
+                avatar
+                bio
+                birthday
+                email
+                first_name
+                init_setup
+                languages {id abbr name inserted_at updated_at}
+                last_name
+                middle_name
+                phone
+                pro_role
+                provider
+                sex
+                ssn
+                street
+                zip
+                inserted_at
+                updated_at
+              }
+            }
+            """
+            IO.puts("The Request:")
+            IO.puts(request)
+
+            {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+            IO.puts("\nThe Result:")
+            result
+          _ ->
+            {:error, message: "Oops! Something Wrong with an args"}
+        end
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
+  end
+
+  @profile_keys ~w(address banner description us_zipcode_id user_id)a |> Enum.sort
+
+  @spec update_profile(bitstring(), map()) :: map() | error | error_map | error_tuple
+  def update_profile(id \\ @last_user, args) do
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        case Map.keys(args) do
+          @profile_keys ->
+            request = """
+            mutation {
+              updateProfile(
+                id: \"#{binaryId}\",
+                profile: {
+                  address: \"#{args.address}\",
+                  banner: \"#{args.banner}\",
+                  description: \"#{args.description}\",
+                  us_zipcodeId: \"#{args.us_zipcode_id}\",
+                  userId: \"#{args.user_id}\"
+                }
+              ) {
+                address
+                banner
+                description
+                us_zipcode {id city state zipcode}
+                user {
+                  id
+                  active
+                  admin_role
+                  avatar
+                  bio
+                  birthday
+                  email
+                  first_name
+                  init_setup
+                  languages {id abbr name inserted_at updated_at}
+                  last_name
+                  middle_name
+                  phone
+                  pro_role
+                  provider
+                  sex
+                  ssn
+                  street
+                  zip
+                  inserted_at
+                  updated_at
+                }
+                inserted_at
+                updated_at
+              }
+            }
+            """
+            IO.puts("The Request:")
+            IO.puts(request)
+
+            {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+            IO.puts("\nThe Result:")
+            result
+          _ ->
+            {:error, message: "Oops! Something Wrong with an args"}
+        end
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
+  end
+
+  @spec delete_faq(bitstring()) :: map() | error | error_map | error_tuple
   def delete_faq(id \\ @last_faq) do
-    request = """
-    mutation {
-      deleteFaq(id: \"#{id}\") {id}
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        mutation {
+          deleteFaq(id: \"#{binaryId}\") {id}
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
   end
 
+  @spec delete_faq_category(bitstring()) :: map() | error | error_map | error_tuple
   def delete_faq_category(id \\ @last_faq_category) do
-    request = """
-    mutation {
-      deleteFaqCategory(id: \"#{id}\") {id}
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        mutation {
+          deleteFaqCategory(id: \"#{binaryId}\") {id}
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
   end
 
+  @spec delete_press_article(bitstring()) :: map() | error | error_map | error_tuple
   def delete_press_article(id \\ @last_press_article) do
-    request = """
-    mutation {
-      deletePressArticle(id: \"#{id}\") {id}
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        mutation {
+          deletePressArticle(id: \"#{binaryId}\") {id}
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
   end
 
+  @spec delete_vacancy(bitstring()) :: map() | error | error_map | error_tuple
   def delete_vacancy(id \\ @last_vacancy) do
-    request = """
-    mutation {
-      deleteVacancy(id: \"#{id}\") {id}
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        mutation {
+          deleteVacancy(id: \"#{binaryId}\") {id}
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
   end
 
+  @spec delete_language(bitstring()) :: map() | error | error_map | error_tuple
   def delete_language(id \\ @last_language) do
-    request = """
-    mutation {
-      deleteLanguage(id: \"#{id}\") {id}
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        mutation {
+          deleteLanguage(id: \"#{binaryId}\") {id}
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
   end
 
+  @spec delete_subscriber(bitstring()) :: map() | error | error_map | error_tuple
   def delete_subscriber(id \\ @last_subscriber) do
-    request = """
-    mutation {
-      deleteSubscriber(id: \"#{id}\") {id}
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        mutation {
+          deleteSubscriber(id: \"#{binaryId}\") {id}
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
   end
 
+  @spec delete_user(bitstring()) :: map() | error | error_map | error_tuple
   def delete_user(id \\ @last_user) do
-    request = """
-    mutation {
-      deleteUser(id: \"#{id}\") {id}
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        mutation {
+          deleteUser(id: \"#{binaryId}\") {id}
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
   end
 
+  @spec delete_profile(bitstring()) :: map() | error | error_map | error_tuple
   def delete_profile(id \\ @last_user) do
-    request = """
-    mutation {
-      deleteProfile(id: \"#{id}\") {user {id}}
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
+    case Ecto.UUID.cast(id) do
+      {:ok, binaryId} ->
+        request = """
+        mutation {
+          deleteProfile(id: \"#{binaryId}\") {user {id}}
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
 
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
 
-    IO.puts("\nThe Result:")
-    result
+        IO.puts("\nThe Result:")
+        result
+      :error ->
+        {:error, message: "Oops! Something Wrong with Id"}
+    end
   end
 end

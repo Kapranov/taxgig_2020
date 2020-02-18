@@ -26,19 +26,32 @@ defmodule ServerWeb.ConnCase do
     quote do
       use Phoenix.ConnTest
       use ExSpec
+      alias Core.Accounts.User
       alias ServerWeb.Router.Helpers, as: Routes
       import Server.Factory
+
+      @salt Application.get_env(:server, ServerWeb.Endpoint)[:salt]
+      @secret Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_base]
+
+      def auth_conn(%Plug.Conn{} = conn, %User{} = user) do
+        token = Phoenix.Token.sign(@secret, @salt, user.id)
+
+        conn
+        |> Plug.Conn.put_req_header("authorization", "Bearer #{token}")
+        |> Plug.Conn.put_req_header("accept", "application/json")
+      end
 
       @endpoint ServerWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Adapter.checkout(Repo)
-    :ok = Adapter.checkout(DB)
+    :ok = Adapter.checkout(Repo) || Adapter.checkout(DB)
 
-    unless tags[:async], do: Adapter.mode(Repo, {:shared, self()})
-    unless tags[:async], do: Adapter.mode(DB, {:shared, self()})
+    unless tags[:async] do
+      Adapter.mode(Repo, {:shared, self()})
+      Adapter.mode(DB, {:shared, self()})
+    end
 
     {:ok, conn: ConnTest.build_conn()}
   end

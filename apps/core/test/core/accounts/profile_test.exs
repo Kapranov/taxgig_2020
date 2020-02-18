@@ -66,7 +66,7 @@ defmodule Core.Accounts.ProfileTest do
       assert data.us_zipcode_id     == struct.us_zipcode_id
 
       assert data.logo.id           == struct.logo.id
-      assert data.logo.content_type == "image/jpeg"
+      assert data.logo.content_type == "image/jpg"
       assert data.logo.name         == "Logo"
       assert data.logo.size         == 5024
       assert data.logo.url          == struct.logo.url
@@ -122,7 +122,7 @@ defmodule Core.Accounts.ProfileTest do
       assert data.user_id           == user.id
       assert data.us_zipcode_id     == zipcode.id
 
-      assert data.logo.content_type == "image/jpeg"
+      assert data.logo.content_type == "image/jpg"
       assert data.logo.name         == "image_tmp.jpg"
       assert data.logo.size         == 5024
       assert data.logo.url          == file.url
@@ -185,7 +185,7 @@ defmodule Core.Accounts.ProfileTest do
       assert updated.user_id           == struct.user_id
       assert updated.us_zipcode_id     == struct.us_zipcode_id
 
-      assert updated.logo.content_type == "image/jpeg"
+      assert updated.logo.content_type == "image/jpg"
       assert updated.logo.name         == "Logo"
       assert updated.logo.size         == 5024
       assert updated.logo.url          == struct.logo.url
@@ -242,7 +242,7 @@ defmodule Core.Accounts.ProfileTest do
     File.cp!("test/fixtures/image.jpg", "test/fixtures/image_tmp.jpg")
 
     file = %Plug.Upload{
-      content_type: "image/jpeg",
+      content_type: "image/jpg",
       path: Path.absname("test/fixtures/image_tmp.jpg"),
       filename: "image_tmp.jpg"
     }

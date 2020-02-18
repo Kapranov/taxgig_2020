@@ -68,7 +68,7 @@ defmodule Core.Factory do
     File.cp!("test/fixtures/image.jpg", "test/fixtures/image_tmp.jpg")
 
     file = %Plug.Upload{
-      content_type: "image/jpeg",
+      content_type: "image/jpg",
       filename: "image_tmp.jpg",
       path: Path.absname("test/fixtures/image_tmp.jpg")
     }
@@ -76,14 +76,14 @@ defmodule Core.Factory do
     {:ok, data} = Upload.store(file)
 
     %{
-      content_type: "image/jpeg",
+      content_type: "image/jpg",
       name: "image_tmp.jpg",
       size: 5024,
       url: url
     } = data
 
     %Core.Media.File{
-      content_type: "image/jpeg",
+      content_type: "image/jpg",
       id: UUID.v4(),
       inserted_at: Timex.shift(Timex.now, days: -2),
       name: "image_tmp.jpg",

@@ -5,7 +5,19 @@ defmodule Server.AbsintheHelpers do
 
   use Phoenix.ConnTest
 
+  alias Core.Accounts.User
+
   @endpoint ServerWeb.Endpoint
+  @salt Application.get_env(:server, ServerWeb.Endpoint)[:salt]
+  @secret Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_base]
+
+  def authenticate_conn(%Plug.Conn{} = conn, %User{} = user) do
+    token = Phoenix.Token.sign(@secret, @salt, user.id)
+
+    conn
+    |> Plug.Conn.put_req_header("authorization", "Bearer #{token}")
+    |> Plug.Conn.put_req_header("accept", "application/json")
+  end
 
   def query_skeleton(query, query_name) do
     %{

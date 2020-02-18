@@ -3,10 +3,12 @@ defmodule ServerWeb.Router do
 
   alias Absinthe.Plug
   alias Absinthe.Plug.GraphiQL
+  alias ServerWeb.Context
   alias ServerWeb.GraphQL.Schema
   alias ServerWeb.UserSocket
 
   pipeline :api do
+    plug Context
     plug :accepts, ["json"]
   end
 

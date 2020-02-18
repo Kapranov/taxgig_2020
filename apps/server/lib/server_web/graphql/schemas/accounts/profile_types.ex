@@ -7,14 +7,17 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProfileTypes do
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
-  alias ServerWeb.GraphQL.Data
-  alias ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolver
+  alias ServerWeb.GraphQL.{
+    Data,
+    Resolvers.Accounts.ProfileResolver
+  }
 
   @desc "The profile on the site"
   object :profile do
     field :address, :string, description: "profile address"
     field :banner, :string, description: "profile banner"
     field :description, :string, description: "profile description"
+    field :logo, :picture, description: "An user's logo picture"
     field :user, :user, resolve: dataloader(Data)
     field :us_zipcode, :us_zipcode, resolve: dataloader(Data)
     field :inserted_at, non_null(:datetime)
@@ -47,7 +50,8 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProfileTypes do
     @desc "Update a specific profiles"
     field :update_profile, :profile do
       arg :id, non_null(:string)
-      arg :profile, :update_profile_params
+      arg :logo, :picture_input, description: "The logo for the profile, either as an object or directly the ID of an existing Picture"
+      arg :profile, :update_profile_params, description: "The params for profile, either as an object"
       resolve &ProfileResolver.update/3
     end
 

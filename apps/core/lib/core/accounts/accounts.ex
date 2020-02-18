@@ -20,7 +20,9 @@ defmodule Core.Accounts do
       [%Subscriber{}, ...]
   """
   @spec list_subscriber() :: list
-  def list_subscriber, do: Repo.all(Subscriber)
+  def list_subscriber do
+    Repo.all(Subscriber)
+  end
 
   @doc """
   Returns the list of user.
@@ -47,7 +49,7 @@ defmodule Core.Accounts do
   @spec list_profile() :: list
   def list_profile do
     Repo.all(Profile)
-    # |> Repo.preload([:us_zipcode, user: [:profile, :languages]])
+    |> Repo.preload([:us_zipcode, user: [:profile, :languages]])
   end
 
   @doc """
@@ -65,7 +67,9 @@ defmodule Core.Accounts do
 
   """
   @spec get_subscriber!(String.t) :: map | error_tuple
-  def get_subscriber!(id), do: Repo.get!(Subscriber, id)
+  def get_subscriber!(id) do
+    Repo.get!(Subscriber, id)
+  end
 
   @doc """
   Gets a single User.

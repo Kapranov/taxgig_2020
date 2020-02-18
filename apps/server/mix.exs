@@ -37,7 +37,7 @@ defmodule Server.MixProject do
       {:absinthe_relay, "~> 1.4", override: true},
       {:cors_plug, "~> 2.0"},
       {:dataloader, "~> 1.0"},
-      {:ex_machina, "~> 2.3"},
+      {:ex_machina, "~> 2.4"},
       {:ex_spec, "~> 2.0", only: [:test]},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:faker, "~> 0.13", only: [:dev, :test]},
