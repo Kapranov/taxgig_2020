@@ -2,6 +2,22 @@ defmodule ServerWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :server
   use Absinthe.Phoenix.Endpoint
 
+  alias Absinthe.Plug.Parser, as: AbsintheParser
+  alias Phoenix.CodeReloader
+
+  alias Plug.{
+    Parsers,
+    RequestId,
+    Telemetry
+  }
+
+  # alias ServerWeb.Endpoint, as: WebEndpoint
+
+  alias ServerWeb.{
+    Router,
+    UserSocket
+  }
+
   [val1, val2, _] = Application.get_env(:server, ServerWeb.Endpoint)[:url]
 
   host = val1 |> elem(1)
@@ -14,23 +30,23 @@ defmodule ServerWeb.Endpoint do
       _ -> false
     end
 
-  socket "/socket", ServerWeb.UserSocket,
+  socket "/socket", UserSocket,
     websocket: [check_origin: origin],
     longpoll: false
 
   if code_reloading? do
-    plug Phoenix.CodeReloader
+    plug CodeReloader
   end
 
-  plug Plug.RequestId
-  plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
+  plug RequestId
+  plug Telemetry, event_prefix: [:phoenix, :endpoint]
 
-  plug Plug.Parsers,
-    parsers: [:urlencoded, {:multipart, length: 10_000_000}, :json, Absinthe.Plug.Parser],
+  plug Parsers,
+    parsers: [:urlencoded, {:multipart, length: 10_000_000}, :json, AbsintheParser],
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
 
-  plug ServerWeb.Router
+  plug Router
 
   @doc """
   Callback invoked for dynamically configuring the endpoint.

@@ -2,7 +2,8 @@ use Mix.Config
 
 config :server, ServerWeb.Endpoint,
   http: [port: 4002],
-  server: false
+  url: [port: 4002],
+  server: true
 
 config :logger, level: :warn
 
@@ -14,4 +15,3 @@ case System.cmd "uname", [] do
     notifier: ExUnitNotifier.Notifiers.NotifySend
   _other -> nil
 end
-

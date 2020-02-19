@@ -7,10 +7,12 @@ defmodule ServerWeb.Context do
 
   alias Absinthe.Plug
   alias Core.Accounts
+  alias ServerWeb.Endpoint
+  alias Phoenix.Token
 
-  @max_age Application.get_env(:server, ServerWeb.Endpoint)[:max_age]
-  @salt Application.get_env(:server, ServerWeb.Endpoint)[:salt]
-  @secret Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_base]
+  @max_age Application.get_env(:server, Endpoint)[:max_age]
+  @salt Application.get_env(:server, Endpoint)[:salt]
+  @secret Application.get_env(:server, Endpoint)[:secret_key_base]
 
   def init(opts), do: opts
 
@@ -24,7 +26,7 @@ defmodule ServerWeb.Context do
   """
   def build_context(conn) do
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
-         {:ok, user_id} <- Phoenix.Token.verify(@secret, @salt, token, max_age: @max_age),
+         {:ok, user_id} <- Token.verify(@secret, @salt, token, max_age: @max_age),
          user when not is_nil(user) <- Accounts.get_user!(user_id) do
       %{current_user: user}
     else

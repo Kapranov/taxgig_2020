@@ -54,6 +54,10 @@ defmodule ServerWeb do
     end
   end
 
+  def base_url do
+    ServerWeb.Endpoint.url()
+  end
+
   @doc """
   When used, dispatch to the appropriate controller/view/etc.
   """

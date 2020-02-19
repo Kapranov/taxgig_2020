@@ -34,16 +34,7 @@ config :core, Core.Upload,
     Core.Upload.Filter.Dedupe,
     Core.Upload.Filter.Optimize
   ],
-  link_name: true,
-  proxy_remote: false,
-  proxy_opts: [
-    redirect_on_failure: false,
-    max_body_length: 25 * 1_048_576,
-    http: [
-      follow_redirect: true,
-      pool: :upload
-    ]
-  ]
+  link_name: true
 
 config :core, Core.Uploaders.Local,
   uploads: "uploads"
@@ -52,17 +43,6 @@ config :core, Core.Uploaders.S3,
   bucket: nil,
   streaming_enabled: true,
   public_endpoint: "https://s3.amazonaws.com"
-
-config :core, :media_proxy,
-  enabled: false,
-  proxy_opts: [
-    redirect_on_failure: false,
-    max_body_length: 25 * 1_048_576,
-    http: [
-      follow_redirect: true,
-      pool: :media
-    ]
-  ]
 
 config :core, :instance,
   name: System.get_env("CORE_INSTANCE_NAME") || "Core Instance",

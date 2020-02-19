@@ -1,11 +1,16 @@
 defmodule ServerWeb.Router do
   use ServerWeb, :router
 
-  alias Absinthe.Plug
-  alias Absinthe.Plug.GraphiQL
-  alias ServerWeb.Context
-  alias ServerWeb.GraphQL.Schema
-  alias ServerWeb.UserSocket
+  alias Absinthe.{
+    Plug,
+    Plug.GraphiQL
+  }
+
+  alias ServerWeb.{
+    Context,
+    GraphQL.Schema,
+    UserSocket
+  }
 
   pipeline :api do
     plug Context
