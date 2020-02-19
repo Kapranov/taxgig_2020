@@ -71,7 +71,7 @@ defmodule ServerWeb.Media.UploadTest do
 
       {:ok, data} = Upload.store(file, filters: [Filter.Dedupe])
 
-      <<"http://localhost:4002/media/", url_id::binary-size(64), ".jpg" >> = data.url
+      <<"http://localhost:4000/media/", url_id::binary-size(64), ".jpg" >> = data.url
       assert data.url == Endpoint.url() <> "/media/#{url_id}.jpg"
     end
 
@@ -319,7 +319,7 @@ defmodule ServerWeb.Media.UploadTest do
 
   describe "Setting a custom base_url for uploaded media" do
     clear_config([Upload, :base_url]) do
-      Config.put([Upload, :base_url], "http://localhost:4002")
+      Config.put([Upload, :base_url], "http://localhost:4000")
     end
 
     test "returns a media url with configured base_url" do
@@ -335,7 +335,7 @@ defmodule ServerWeb.Media.UploadTest do
 
       {:ok, data} = Upload.store(file, base_url: base_url)
 
-      <<"http://localhost:4002/media/", url_id::binary-size(36), "/image.jpg" >> = data.url
+      <<"http://localhost:4000/media/", url_id::binary-size(36), "/image.jpg" >> = data.url
 
       assert data.url == Endpoint.url() <> "/media/#{url_id}/image.jpg"
       assert %{
