@@ -8,9 +8,6 @@ defmodule Server.Application do
   alias Core.Config
   alias ServerWeb.Endpoint
 
-  @name Mix.Project.config()[:name]
-  @version Mix.Project.config()[:version]
-
   @doc """
   """
   @spec user_agent :: String.t()
@@ -48,12 +45,13 @@ defmodule Server.Application do
   end
 
   @spec named_version :: String.t()
-  def named_version, do: "#{@name} #{@version}"
+  def named_version do
+    "#{Mix.Project.config()[:name]} #{Mix.Project.config()[:version]}"
+  end
 
-  # def version, do: Application.get_env(:server, :version)
-
+  @spec version :: String.t()
   def version do
-    case :application.get_key(:server, :version) do
+    case :application.get_key(:server, :vsn) do
       {:ok, version} -> to_string(version)
       _ -> "unknown"
     end
