@@ -16,6 +16,14 @@ defmodule Core.Model do
        @foreign_key_type :binary_id
        @timestamps_opts [type: :utc_datetime, usec: true]
 
+       def find(id) do
+         Repo.get(@name, id)
+       end
+
+       def find_by(conds) do
+         Repo.get_by(@name, conds)
+       end
+
        def create(attrs) do
          attrs
          |> changeset()

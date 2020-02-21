@@ -35,6 +35,39 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :updated_at, non_null(:datetime)
   end
 
+  @desc "Provider's code"
+  object :provider do
+    field :code, :string
+  end
+
+  @desc "Provider's verify tokens"
+  object :verify_token do
+    field :access_type, :string
+    field :aud, :string
+    field :azp, :string
+    field :email, :string
+    field :error, :string
+    field :error_description, :string
+    field :exp, :string
+    field :expires_in, :string
+    field :provider, :string
+    field :scope, :string
+    field :sub, :string
+  end
+
+  @desc "Provider's access by Facebook, Google, LinkedIn, Twitter"
+  object :social_provider do
+    field :access_token, :string
+    field :error, :string
+    field :error_description, :string
+    field :expires_in, :integer
+    field :id_token, :string
+    field :provider, :string
+    field :refresh_token, :string
+    field :scope, :string
+    field :token_type, :string
+  end
+
   @desc "The accounts an user update via params"
   input_object :update_user_params do
     field :active, :boolean
@@ -69,6 +102,42 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :show_user, :user do
       arg(:id, non_null(:string))
       resolve(&UserResolver.show/3)
+    end
+
+    @desc "Get code by Providers"
+    field :get_code, :provider do
+      arg(:provider, non_null(:string))
+      resolve(&UserResolver.get_code/3)
+    end
+
+    @desc "Get token by Providers"
+    field :get_token, :social_provider do
+      arg(:code, :string)
+      arg(:provider, non_null(:string))
+      arg(:email, :string)
+      arg(:password, :string)
+      resolve(&UserResolver.get_token/3)
+    end
+
+    @desc "Get refresh token code by Providers"
+    field :get_refresh_token_code, :provider do
+      arg(:provider, non_null(:string))
+      arg(:token, non_null(:string))
+      resolve(&UserResolver.get_refresh_token_code/3)
+    end
+
+    @desc "Get refresh token by Providers"
+    field :get_refresh_token, :social_provider do
+      arg(:token, non_null(:string))
+      arg(:provider, non_null(:string))
+      resolve(&UserResolver.get_refresh_token/3)
+    end
+
+    @desc "Get verify by Providers"
+    field :get_verify, :verify_token do
+      arg(:token, non_null(:string))
+      arg(:provider, non_null(:string))
+      resolve(&UserResolver.verify_token/3)
     end
   end
 

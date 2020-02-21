@@ -164,6 +164,12 @@ defmodule LetMeSee do
   LetMeSee.search_profession(args)
   LetMeSee.search_zipcode(args)
 
+  LetMeSee.get_code(args)
+  LetMeSee.get_token(args)
+  LetMeSee.get_refresh_token_code(args)
+  LetMeSee.get_refresh_token(args)
+  LetMeSee.get_verify(args)
+
   LetMeSee.create_faq(args)
   LetMeSee.create_faq_category(args)
   LetMeSee.create_language(args)
@@ -217,6 +223,10 @@ defmodule LetMeSee do
   @search_word ~s(Article)
   @search_zipcode %{zipcode: 602}
   @profession %{bus_addr_zip: "84074", bus_st_code: "UT", first_name: "LiSa", last_name: "StEwArT"}
+  @provider_key ~w(provider)a
+  @code_provider_key ~w(code provider)a
+  @token_provider_key ~w(provider token)a
+  @localhost_key ~w(email password provider)a
 
   @spec index_faq() :: list()
   def index_faq do
@@ -843,6 +853,188 @@ defmodule LetMeSee do
             city
             state
             zipcode
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
+  end
+
+  @spec get_code(map()) :: map() | error_tuple
+  def get_code(args \\ %{provider: "localhost"}) do
+    case Map.keys(args) do
+      @provider_key ->
+        request = """
+        query {
+          getCode(
+            provider: \"#{args.provider}\"
+          ) {
+            code
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
+  end
+
+  @spec get_token(map()) :: map() | error_tuple
+  def get_token(args) do
+    case Map.keys(args) do
+      @code_provider_key ->
+        request = """
+        query {
+          getToken(
+            code: \"#{args.code}\",
+            provider: \"#{args.provider}\"
+          ) {
+            access_token
+            error
+            error_description
+            expires_in
+            id_token
+            provider
+            refresh_token
+            scope
+            token_type
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      @localhost_key ->
+        request = """
+        query {
+          getToken(
+            email: \"#{args.email}\",
+            password: \"#{args.password}\",
+            provider: \"#{args.provider}\"
+          ) {
+            access_token
+            error
+            error_description
+            expires_in
+            id_token
+            provider
+            refresh_token
+            scope
+            token_type
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
+  end
+
+  @spec get_refresh_token_code(map()) :: map() | error_tuple
+  def get_refresh_token_code(args \\ %{provider: "localhost", token: nil}) do
+    case Map.keys(args) do
+      @code_provider_key ->
+        request = """
+        query {
+          getRefreshTokenCode(
+            provider: \"#{args.provider}\",
+            token: \"#{args.token}\"
+          ) {
+            code
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
+  end
+
+  @spec get_refresh_token(map()) :: map() | error_tuple
+  def get_refresh_token(args \\ %{provider: "localhost", token: "xxx"}) do
+    case Map.keys(args) do
+      @token_provider_key ->
+        request = """
+        query {
+          getRefreshToken(
+            provider: \"#{args.provider}\",
+            token: \"#{args.token}\"
+          ) {
+            access_token
+            error
+            error_description
+            expires_in
+            id_token
+            provider
+            refresh_token
+            scope
+            token_type
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
+  end
+
+  @spec get_verify(map()) :: map() | error_tuple
+  def get_verify(args) do
+    case Map.keys(args) do
+      @token_provider_key ->
+        request = """
+        query {
+          getVerify(
+            provider: \"#{args.provider}\",
+            token: \"#{args.token}\"
+          ) {
+            access_type
+            aud
+            azp
+            email
+            error
+            error_description
+            exp
+            expires_in
+            provider
+            scope
+            sub
           }
         }
         """

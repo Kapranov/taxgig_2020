@@ -17,6 +17,10 @@ defmodule ServerWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/", ServerWeb do
+    pipe_through :api
+  end
+
   scope "/api", ServerWeb do
     pipe_through :api
   end

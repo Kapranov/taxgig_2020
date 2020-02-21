@@ -5,17 +5,6 @@ defmodule Server.Application do
 
   require Logger
 
-  alias Core.Config
-  alias ServerWeb.Endpoint
-
-  @doc """
-  """
-  @spec user_agent :: String.t()
-  def user_agent do
-    info = "#{Endpoint.url()} <#{Config.get([:instance, :email], "")}>"
-    "#{named_version()}; #{info}"
-  end
-
   @doc """
   Starts the endpoint supervision tree.
   """
@@ -40,24 +29,9 @@ defmodule Server.Application do
   Callback that changes the configuration from the app callback.
   """
   def config_change(changed, _new, removed) do
-    Endpoint.config_change(changed, removed)
+    ServerWeb.Endpoint.config_change(changed, removed)
     :ok
   end
-
-  @spec named_version :: String.t()
-  def named_version do
-    "#{Mix.Project.config()[:name]} #{Mix.Project.config()[:version]}"
-  end
-
-  @spec version :: String.t()
-  def version do
-    case :application.get_key(:server, :vsn) do
-      {:ok, version} -> to_string(version)
-      _ -> "unknown"
-    end
-  end
-
-  def version(key), do: version()[key]
 
   @spec load_version :: String.t()
   def load_version do

@@ -28,8 +28,8 @@ defmodule Ptin.MixProject do
       {:ecto_sql, "~> 3.3"},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:httpoison, "~> 1.6"},
-      {:nimble_csv, "~> 0.6.0"},
-      {:postgrex, "~> 0.15.3"}
+      {:nimble_csv, "~> 0.6"},
+      {:postgrex, "~> 0.15"}
     ]
   end
 

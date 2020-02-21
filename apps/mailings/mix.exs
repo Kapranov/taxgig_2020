@@ -24,7 +24,7 @@ defmodule Mailings.MixProject do
 
   defp deps do
     [
-      {:exvcr, "~> 0.11.0"},
+      {:exvcr, "~> 0.11"},
       {:faker, "~> 0.13", only: [:dev, :test]},
       {:mailgun, "~> 0.1"}
     ]

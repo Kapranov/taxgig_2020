@@ -30,7 +30,7 @@ defmodule Server.MixProject do
   defp deps do
     [
       {:absinthe, "~> 1.4", override: true},
-      {:absinthe_auth, "~> 0.2.1"},
+      {:absinthe_auth, "~> 0.2"},
       {:absinthe_error_payload, "~> 1.0", override: true},
       {:absinthe_phoenix, "~> 1.4", override: true},
       {:absinthe_plug, "~> 1.4", override: true},
@@ -41,9 +41,10 @@ defmodule Server.MixProject do
       {:ex_spec, "~> 2.0", only: [:test]},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:faker, "~> 0.13", only: [:dev, :test]},
+      {:httpoison, "~> 1.6"},
       {:jason, "~> 1.0"},
-      {:phoenix, "~> 1.4.11"},
-      {:phoenix_client, "~> 0.10.0"},
+      {:phoenix, "~> 1.4"},
+      {:phoenix_client, "~> 0.10"},
       {:phoenix_pubsub, "~> 1.1"},
       {:plug_cowboy, "~> 2.0"},
       {:timex, "~> 3.6"},
