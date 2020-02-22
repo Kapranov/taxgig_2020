@@ -168,7 +168,10 @@ defmodule LetMeSee do
   LetMeSee.get_token(args)
   LetMeSee.get_refresh_token_code(args)
   LetMeSee.get_refresh_token(args)
-  LetMeSee.get_verify(args)
+  LetMeSee.verify_token(args)
+
+  LetMeSee.signup(args)
+  LetMeSee.signin(args)
 
   LetMeSee.create_faq(args)
   LetMeSee.create_faq_category(args)
@@ -227,6 +230,8 @@ defmodule LetMeSee do
   @code_provider_key ~w(code provider)a
   @token_provider_key ~w(provider token)a
   @localhost_key ~w(email password provider)a
+  @localhost_keys ~w(email password password_confirmation provider)a
+  @social_keys ~w(code email provider)a
 
   @spec index_faq() :: list()
   def index_faq do
@@ -1014,8 +1019,8 @@ defmodule LetMeSee do
     end
   end
 
-  @spec get_verify(map()) :: map() | error_tuple
-  def get_verify(args) do
+  @spec verify_token(map()) :: map() | error_tuple
+  def verify_token(args) do
     case Map.keys(args) do
       @token_provider_key ->
         request = """
@@ -1048,6 +1053,62 @@ defmodule LetMeSee do
       _ ->
         {:error, message: "Oops! Something Wrong with an args"}
     end
+  end
+
+  def signup(args) do
+    case Map.keys(args) do
+      @localhost_keys ->
+        request = """
+        mutation {
+          signUp(
+            email: \"#{args.email}\",
+            password: \"#{args.password}\",
+            password_confirmation: \"#{args.password_confirmation}\",
+            provider: \"#{args.provider}\"
+          ) {
+            access_token
+            provider
+            error
+            error_description
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      @social_keys ->
+        request = """
+        mutation {
+          signUp(
+            code: \"#{args.code}\",
+            email: \"#{args.email}\",
+            provider: \"#{args.provider}\"
+          ) {
+            access_token
+            provider
+            error
+            error_description
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
+  end
+
+  def signin(args) do
+    args
   end
 
   @faq_keys ~w(content title faq_category_id)a |> Enum.sort

@@ -328,10 +328,105 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  def signin(_parent, _args, _resolution) do
+  def signup(_parent, args, _resolution) do
+    case args[:provider] do
+      nil ->
+        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+      "facebook" ->
+        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+      "google" ->
+        case OauthGoogle.token(args[:code]) do
+          {:error, data} ->
+            %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
+            {:ok, %{error: @error_code, error_description: msg}}
+          {:ok, data} ->
+            if is_nil(data["error"]) do
+              with {:ok, profile} <- OauthGoogle.user_profile(data["access_token"]) do
+                user = User.find_by(email: profile["email"])
+                if is_nil(user) do
+                  user_params =
+                    %{
+                      avatar:         profile["picture"],
+                      email:            profile["email"],
+                      first_name: profile["family_name"],
+                      last_name:   profile["given_name"],
+                      provider:                 "google",
+                      password:                 "qwerty",
+                      password_confirmation:    "qwerty"
+                    }
+
+                  case Accounts.create_user(user_params) do
+                    {:ok, created} ->
+                      with data <- generate_token(created) do
+                        {:ok, %{access_token: data, provider: args[:provider]}}
+                      end
+                    {:error, %Ecto.Changeset{}} ->
+                      {:error, %Ecto.Changeset{}}
+                  end
+                else
+                  {:ok, %{error: @error_email, error_description: "An email has already been taken"}}
+                end
+              end
+            else
+              {:ok, %{error: "invalid_grant", error_description: "Bad Request"}}
+            end
+        end
+      "linkedin" ->
+        case OauthLinkedIn.token(args[:code]) do
+          {:error, data} ->
+            %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
+            {:ok, %{error: @error_code, error_description: msg}}
+          {:ok, data} ->
+            if is_nil(data["error"]) do
+              with {:ok, info} <- OauthLinkedIn.user_email(data["access_token"]),
+                   {:ok, profile} <- OauthLinkedIn.user_profile(data["access_token"]) do
+                user = User.find_by(email: info_email(info))
+                if is_nil(user) do
+                  user_params =
+                    %{
+                      avatar:               info_image(profile),
+                      email:                   info_email(info),
+                      first_name: profile["localizedFirstName"],
+                      last_name:   profile["localizedLastName"],
+                      provider:                      "linkedin",
+                      password:                        "qwerty",
+                      password_confirmation:           "qwerty"
+                    }
+                  case Accounts.create_user(user_params) do
+                    {:ok, created} ->
+                      with data <- generate_token(created) do
+                        {:ok, %{access_token: data, provider: args[:provider]}}
+                      end
+                    {:error, %Ecto.Changeset{}} ->
+                      {:error, %Ecto.Changeset{}}
+                  end
+                else
+                  {:ok, %{error: @error_email, error_description: "Has already been taken"}}
+                end
+              end
+            else
+              {:ok, %{error: data["error"], error_description: data["error_description"]}}
+            end
+        end
+      "localhost" ->
+        args
+        |> Accounts.create_user()
+        |> case do
+          {:ok, user} ->
+            with data <- generate_token(user) do
+              {:ok, %{access_token: data, provider: args[:provider]}}
+            end
+          {:error, changeset} ->
+            {:error, extract_error_msg(changeset)}
+        end
+      "twitter" ->
+        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+      _ ->
+        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+    end
   end
 
-  def signup(_parent, _args, _resolution) do
+  def signin(_parent, _args, _resolution) do
   end
 
   @spec required_keys([atom()], map()) :: boolean()
@@ -350,6 +445,24 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     with token <- Phoenix.Token.sign(@secret, @salt, user.id) do
       token
     end
+  end
+
+  @spec info_email(list()) :: String.t()
+  defp info_email(data) do
+    if email =
+      data["elements"]
+      |> List.last
+      |> get_in(["handle~", "emailAddress"]), do: email, else: nil
+  end
+
+  @spec info_image(list()) :: String.t()
+  defp info_image(data) do
+    data
+    |> get_in(["profilePicture", "displayImage~", "elements"])
+    |> List.last()
+    |> get_in(["identifiers"])
+    |> List.last()
+    |> get_in(["identifier"])
   end
 
   @spec extract_error_msg(%Ecto.Changeset{}) :: %Ecto.Changeset{}
