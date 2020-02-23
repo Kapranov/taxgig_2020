@@ -14,3 +14,5 @@ case System.cmd "uname", [] do
     notifier: ExUnitNotifier.Notifiers.NotifySend
   _other -> nil
 end
+
+config :server, httpoison: ServerWeb.Provider.HTTPoison.InMemory

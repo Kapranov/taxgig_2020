@@ -43,6 +43,7 @@ defmodule Server.MixProject do
       {:faker, "~> 0.13", only: [:dev, :test]},
       {:httpoison, "~> 1.6"},
       {:jason, "~> 1.0"},
+      {:mox, "~> 0.5"},
       {:phoenix, "~> 1.4"},
       {:phoenix_client, "~> 0.10"},
       {:phoenix_pubsub, "~> 1.1"},

@@ -489,7 +489,118 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
     end
   end
 
+  describe "#get_code" do
+    it "return code by google" do
+    end
+
+    it "return code by linkedin" do
+    end
+
+    it "return code by facebook" do
+    end
+
+    it "return code by twitter" do
+    end
+
+    it "return code by localhost" do
+    end
+  end
+
+  describe "#get_token" do
+    it "return token by google" do
+    end
+
+    it "return token by linkedin" do
+    end
+
+    it "return token by facebook" do
+    end
+
+    it "return token by twitter" do
+    end
+
+    it "return token by localhost" do
+    end
+  end
+
+  describe "#get_refresh_token_code" do
+    it "return refresh code by google" do
+    end
+
+    it "return refresh code by linkedin" do
+    end
+
+    it "return refresh code by facebook" do
+    end
+
+    it "return refresh code by twitter" do
+    end
+  end
+
+  describe "#get_refresh_token" do
+    it "return refresh token  by google" do
+    end
+
+    it "return refresh token  by linkedin" do
+    end
+
+    it "return refresh token  by facebook" do
+    end
+
+    it "return refresh token  by twitter" do
+    end
+  end
+
+  describe "#verify_token" do
+    it "return checked out token by google" do
+    end
+
+    it "return checked out token by linkedin" do
+    end
+
+    it "return checked out token by facebook" do
+    end
+
+    it "return checked out token by twitter" do
+    end
+  end
+
+  describe "#signup" do
+    it "create user used code by google and return access token" do
+    end
+
+    it "create user used code by linkedin and return access token" do
+    end
+
+    it "create user used code by facebook and return access token" do
+    end
+
+    it "create user used code by twitter and return access token" do
+    end
+
+    it "create user via localhost and return access token" do
+    end
+  end
+
+  describe "#signin" do
+    it "entrance via google and return access token" do
+    end
+
+    it "entrance via linkedin and return access token" do
+    end
+
+    it "entrance via facebook and return access token" do
+    end
+
+    it "entrance via twitter and return access token" do
+    end
+
+    it "entrance via localhost and return access token" do
+    end
+  end
+
   defp format_time(timestamp) do
     Timex.format!(Timex.to_datetime(timestamp, "Europe/Kiev"), "{ISO:Extended:Z}")
   end
+
 end
