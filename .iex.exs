@@ -1108,7 +1108,54 @@ defmodule LetMeSee do
   end
 
   def signin(args) do
-    args
+    case Map.keys(args) do
+      @localhost_keys ->
+        request = """
+        query {
+          signIn(
+            email: \"#{args.email}\",
+            password: \"#{args.password}\",
+            password_confirmation: \"#{args.password_confirmation}\",
+            provider: \"#{args.provider}\"
+          ) {
+            access_token
+            provider
+            error
+            error_description
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      @code_provider_key ->
+        request = """
+        query {
+          signIn(
+            code: \"#{args.code}\",
+            provider: \"#{args.provider}\"
+          ) {
+            access_token
+            provider
+            error
+            error_description
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+
+        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+
+        IO.puts("\nThe Result:")
+        result
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
   end
 
   @faq_keys ~w(content title faq_category_id)a |> Enum.sort

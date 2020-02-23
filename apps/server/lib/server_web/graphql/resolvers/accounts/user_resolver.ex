@@ -36,6 +36,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   @error_password_des "password is empty or doesn't correct"
   @error_token "invalid token"
   @error_token_des "token is empty or doesn't correct"
+  @error_request "invalid grant"
+  @error_request_des "Bad Request"
 
   @spec list(map(), map(), map()) :: success_list | error_tuple
   def list(_parent, _args, _info) do
@@ -368,7 +370,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                 end
               end
             else
-              {:ok, %{error: "invalid_grant", error_description: "Bad Request"}}
+              {:ok, %{error: @error_request, error_description: @error_request_des}}
             end
         end
       "linkedin" ->
@@ -426,8 +428,99 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  def signin(_parent, _args, _resolution) do
+  def signin(_parent, args, _resolution) do
+    case args[:provider] do
+      nil ->
+        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+      "facebook" ->
+        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+      "linkedin" ->
+        case OauthLinkedIn.token(args[:code]) do
+          {:error, data} ->
+            %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
+            {:ok, %{error: @error_code, error_description: msg}}
+          {:ok, data} ->
+            if is_nil(data["error"]) do
+              {:ok, info} = OauthLinkedIn.user_email(data["access_token"])
+              user = User.find_by(email: info_email(info))
+              if is_nil(user) do
+                {:ok, %{error: data["error"], error_description: data["error_description"]}}
+              else
+                verifed = OauthLinkedIn.verify_token(data["access_token"])
+                case verifed == user.email do
+                  true ->
+                    with token <- generate_token(user) do
+                      {:ok, %{access_token: token, provider: args[:provider]}}
+                    end
+                  false ->
+                    {:ok, %{error: @error_email, error_description: @error_email_des}}
+                end
+              end
+            else
+              {:ok, %{error: data["error"], error_description: data["error_description"]}}
+            end
+        end
+      "google" ->
+        case OauthGoogle.token(args[:code]) do
+          {:error, data} ->
+            %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
+            {:ok, %{error: @error_code, error_description: msg}}
+          {:ok, data} ->
+            if is_nil(data["error"]) do
+              {:ok, profile} = OauthGoogle.user_profile(data["access_token"])
+              user = User.find_by(email: profile["email"])
+              if is_nil(user) do
+                {:ok, %{error: @error_email, error_description: @error_email_des}}
+              else
+                {:ok, verifed} = OauthGoogle.verify_token(data["access_token"])
+                case verifed["access_type"] == "online" || verifed["email_verified"] == "true" do
+                  true ->
+                    with token <- generate_token(user) do
+                      {:ok, %{access_token: token, provider: args[:provider]}}
+                    end
+                  false ->
+                    {:ok, %{error: @error_request, error_description: @error_request_des}}
+                  _ ->
+                    {:ok, %{error: @error_request, error_description: @error_request_des}}
+                end
+              end
+            else
+              {:ok, %{error: @error_request, error_description: @error_request_des}}
+            end
+        end
+      "localhost" ->
+        case args[:email] do
+          nil ->
+            {:ok, %{error: @error_email, error_description: @error_email_des}}
+          "" ->
+            {:ok, %{error: @error_email, error_description: @error_email_des}}
+          _ ->
+            if is_bitstring(args[:email]) do
+              case User.find_by(email: String.downcase(args[:email])) do
+                nil ->
+                  {:ok, %{error: @error_email, error_description: @error_email_des}}
+                user ->
+                  case Argon2.check_pass(user, args[:password]) do
+                    {:error, data} ->
+                      {:ok, %{error: @error_password, error_description: data}}
+                    {:ok, user} ->
+                      with token <- generate_token(user) do
+                        {:ok, %{access_token: token, provider: args[:provider]}}
+                      end
+                  end
+
+              end
+            else
+              {:ok, %{error: @error_email, error_description: @error_email_des}}
+            end
+        end
+      "twitter" ->
+        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+      _ ->
+        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+    end
   end
+
 
   @spec required_keys([atom()], map()) :: boolean()
   defp required_keys(keys, args) do
