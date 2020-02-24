@@ -35,6 +35,7 @@ defmodule Server.MixProject do
       {:absinthe_phoenix, "~> 1.4", override: true},
       {:absinthe_plug, "~> 1.4", override: true},
       {:absinthe_relay, "~> 1.4", override: true},
+      {:argon2_elixir, "~> 2.2"},
       {:cors_plug, "~> 2.0"},
       {:dataloader, "~> 1.0"},
       {:ex_machina, "~> 2.4"},

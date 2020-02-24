@@ -16,3 +16,4 @@ case System.cmd "uname", [] do
 end
 
 config :server, httpoison: ServerWeb.Provider.HTTPoison.InMemory
+config :argon2_elixir, t_cost: 1, m_cost: 8

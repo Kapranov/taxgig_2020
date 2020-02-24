@@ -31,6 +31,7 @@ defmodule Core.MixProject do
 
   defp deps do
     [
+      {:argon2_elixir, "~> 2.2"},
       {:burnex, "~> 1.1"},
       {:decimal, "~> 1.8", optional: true},
       {:ecto_sql, "~> 3.3"},

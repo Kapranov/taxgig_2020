@@ -266,8 +266,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             case OauthLinkedIn.refresh_token(args[:token]) do
               nil ->
                 {:ok, %{error: @error_token, error_description: error_des(args[:provider])}}
-              {:ok, %{"error" => msg1, "error_description" => msg2}} ->
-                {:ok, %{error: msg1, error_description: msg2}}
+              {:error, data} ->
+                %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
+                {:ok, %{error: @error_token, error_description: msg}}
               {:ok, code} -> {:ok, code}
             end
         end

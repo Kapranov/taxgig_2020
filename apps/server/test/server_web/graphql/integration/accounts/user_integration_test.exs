@@ -502,7 +502,16 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
     it "return code by twitter" do
     end
 
-    it "return code by localhost" do
+    it "return error by localhost" do
+    end
+
+    it "return error when provider is nil" do
+    end
+
+    it "return error when provider isn't exist" do
+    end
+
+    it "return error without provider" do
     end
   end
 
@@ -519,7 +528,22 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
     it "return token by twitter" do
     end
 
-    it "return token by localhost" do
+    it "return error token by localhost" do
+    end
+
+    it "return error when provider isn't exist" do
+    end
+
+    it "return error when provider is empty string" do
+    end
+
+    it "return error when provider is nil" do
+    end
+
+    it "return error when only code" do
+    end
+
+    it "return error when code isn't correct" do
     end
   end
 
@@ -530,18 +554,48 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
     it "return refresh code by linkedin" do
     end
 
+    it "return refresh code by linkedin when token isn't correct" do
+    end
+
+    it "return error refresh code by linkedin when token is nil" do
+    end
+
+    it "return error refresh code by linkedin" do
+    end
+
     it "return refresh code by facebook" do
     end
 
     it "return refresh code by twitter" do
     end
+
+    it "return error when provider isn't correct" do
+    end
+
+    it "return error when provider is nil" do
+    end
+
+    it "return error when provider doesn't exist" do
+    end
   end
 
   describe "#get_refresh_token" do
-    it "return refresh token  by google" do
+    it "return refresh token by google" do
     end
 
-    it "return refresh token  by linkedin" do
+    it "return error refresh token by google when isn't correct" do
+    end
+
+    it "return error token by google when doesn't exist" do
+    end
+
+    it "return refresh token by linkedin" do
+    end
+
+    it "return error token by linkedin when is nil" do
+    end
+
+    it "return error token by linkedin when doesn't exist" do
     end
 
     it "return refresh token  by facebook" do
@@ -549,13 +603,31 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
     it "return refresh token  by twitter" do
     end
+
+    it "return error when provider is nil" do
+    end
+
+    it "return error when provider dosn't exist" do
+    end
   end
 
   describe "#verify_token" do
     it "return checked out token by google" do
     end
 
+    it "return error new token by google when isn't correct" do
+    end
+
+    it "return error new token by google when doesn't exist" do
+    end
+
     it "return checked out token by linkedin" do
+    end
+
+    it "return error token by linkedin when token is nil" do
+    end
+
+    it "return error token by linkedin when token doesn't exist" do
     end
 
     it "return checked out token by facebook" do
@@ -569,7 +641,16 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
     it "create user used code by google and return access token" do
     end
 
+    it "return error by google when code is nil" do
+    end
+
+    it "return error by google when code doesn't exist" do
+    end
+
     it "create user used code by linkedin and return access token" do
+    end
+
+    it "return error by linkedin when code is nil" do
     end
 
     it "create user used code by facebook and return access token" do
@@ -580,22 +661,46 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
     it "create user via localhost and return access token" do
     end
+
+    it "return error via localhost when args nil" do
+    end
   end
 
   describe "#signin" do
-    it "entrance via google and return access token" do
+    it "signin via google and return access token" do
     end
 
-    it "entrance via linkedin and return access token" do
+    it "return error via google when code is nil" do
     end
 
-    it "entrance via facebook and return access token" do
+    it "return error via google when code doesn't exist" do
     end
 
-    it "entrance via twitter and return access token" do
+    it "signin via linkedin and return access token" do
     end
 
-    it "entrance via localhost and return access token" do
+    it "return error via linkedin when code is nil" do
+    end
+
+    it "return error via linkedin when code doesn't exist" do
+    end
+
+    it "signin via facebook and return access token" do
+    end
+
+    it "signin via twitter and return access token" do
+    end
+
+    it "signin via localhost and return access token" do
+    end
+
+    it "return error via localhost when email is nil" do
+    end
+
+    it "return error via localhost when password is nil" do
+    end
+
+    it "return error when args is nil" do
     end
   end
 

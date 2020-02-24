@@ -6,7 +6,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
   describe "#list" do
     it "returns accounts an user" do
       struct = insert(:user)
-      {:ok, data} = UserResolver.list(nil, nil, nil)
+      {:ok, data} = UserResolver.list(%{}, %{}, %{})
       assert length(data) == 1
       assert List.first(data).id          == struct.id
       assert List.first(data).active      == struct.active
@@ -33,7 +33,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
   describe "#show" do
     it "returns specific accounts an user by id" do
       struct = insert(:user)
-      {:ok, found} = UserResolver.show(nil, %{id: struct.id}, nil)
+      {:ok, found} = UserResolver.show(%{}, %{id: struct.id}, %{})
       assert found.id          == struct.id
       assert found.active      == struct.active
       assert found.admin_role  == struct.admin_role
@@ -57,14 +57,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
 
     it "returns not found when accounts an user does not exist" do
       id = Ecto.UUID.generate
-      {:error, error} = UserResolver.show(nil, %{id: id}, nil)
+      {:error, error} = UserResolver.show(%{}, %{id: id}, %{})
       assert error == "An User #{id} not found!"
     end
 
     it "returns error for missing params" do
       insert(:user)
       args = %{id: nil, email: nil, password: nil, password_confirmation: nil}
-      {:error, error} = UserResolver.show(nil, args, nil)
+      {:error, error} = UserResolver.show(%{}, args, %{})
       assert error == [[field: :id, message: "Can't be blank"]]
     end
   end
@@ -95,7 +95,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
         street: "some text",
         zip: 123456789
       }
-      {:ok, created} = UserResolver.create(nil, args, nil)
+      {:ok, created} = UserResolver.create(%{}, args, %{})
       assert created.active      == false
       assert created.admin_role  == false
       assert created.avatar      == "some text"
@@ -118,7 +118,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
 
     it "returns error for missing params" do
       args = %{email: nil, password: nil, password_confirmation: nil}
-      {:error, error} = UserResolver.create(nil, args, nil)
+      {:error, error} = UserResolver.create(%{}, args, %{})
       assert error == [
         [field: :email, message: "Can't be blank"],
         [field: :password, message: "Can't be blank"],
@@ -155,7 +155,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
         zip: 987654321
       }
       args = %{id: struct_b.id, user: params}
-      {:ok, updated} = UserResolver.update(nil, args, nil)
+      {:ok, updated} = UserResolver.update(%{}, args, %{})
       assert updated.id          == struct_b.id
       assert updated.active      == true
       assert updated.admin_role  == true
@@ -181,7 +181,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       struct = insert(:user)
       params = %{}
       args = %{id: struct.id, user: params}
-      {:error, %Ecto.Changeset{errors: error}} = UserResolver.update(nil, args, nil)
+      {:error, %Ecto.Changeset{errors: error}} = UserResolver.update(%{}, args, %{})
       assert error == [
         {:password, {"can't be blank", [validation: :required]}},
         {:password_confirmation, {"can't be blank", [validation: :required]}}
@@ -192,7 +192,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       insert(:user)
       params = %{email: nil, password: nil, password_confirmation: nil}
       args = %{id: nil, user: params}
-      {:error, error} = UserResolver.update(nil, args, nil)
+      {:error, error} = UserResolver.update(%{}, args, %{})
       assert error == [[field: :id, message: "Can't be blank"]]
     end
   end
@@ -200,97 +200,415 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
   describe "#delete" do
     it "delete specific accounts an user by id" do
       struct = insert(:user)
-      {:ok, deleted} = UserResolver.delete(nil, %{id: struct.id}, nil)
+      {:ok, deleted} = UserResolver.delete(%{}, %{id: struct.id}, %{})
       assert deleted.id == struct.id
     end
 
     it "returns not found when accounts an user does not exist" do
       id = Ecto.UUID.generate
-      {:error, error} = UserResolver.delete(nil, %{id: id}, nil)
+      {:error, error} = UserResolver.delete(%{}, %{id: id}, %{})
       assert error == "An User #{id} not found!"
     end
 
     it "returns error for missing params" do
       insert(:user)
       args = %{id: nil}
-      {:error, error} = UserResolver.delete(nil, args, nil)
+      {:error, error} = UserResolver.delete(%{}, args, %{})
       assert error == [[field: :id, message: "Can't be blank"]]
     end
   end
 
   describe "#get_code" do
     it "return code by google" do
+      args = %{provider: "google"}
+      {:ok, %{code: code}} = UserResolver.get_code(%{}, args, %{})
+      assert code =~ "https://accounts.google.com/o/oauth2/v2/auth?"
     end
 
     it "return code by linkedin" do
+      args = %{provider: "linkedin"}
+      {:ok, %{code: code}} = UserResolver.get_code(%{}, args, %{})
+      assert code =~ "https://www.linkedin.com/oauth/v2/authorization?"
     end
 
     it "return code by facebook" do
+      args = %{provider: "facebook"}
+      {:ok, %{code: code}} = UserResolver.get_code(%{}, args, %{})
+      assert code == :ok
     end
 
     it "return code by twitter" do
+      args = %{provider: "twitter"}
+      {:ok, %{code: code}} = UserResolver.get_code(%{}, args, %{})
+      assert code == :ok
     end
 
-    it "return code by localhost" do
+    it "return error by localhost" do
+      args = %{provider: "localhost"}
+      {:ok, %{error: error}} = UserResolver.get_code(%{}, args, %{})
+      assert error == "invalid provider"
+    end
+
+    it "return error when provider is nil" do
+      args = %{provider: nil}
+      {:ok, %{error: error}} = UserResolver.get_code(%{}, args, %{})
+      assert error == "invalid provider"
+    end
+
+    it "return error when provider isn't exist" do
+      args = %{provider: "xxx"}
+      {:ok, %{error: error}} = UserResolver.get_code(%{}, args, %{})
+      assert error == "invalid provider"
+    end
+
+    it "return error without provider" do
+      args = %{}
+      {:ok, %{error: error}} = UserResolver.get_code(%{}, args, %{})
+      assert error == "invalid provider"
     end
   end
 
   describe "#get_token" do
     it "return token by google" do
+      args = %{provider: "google", code: "ok_code"}
+      {:ok, data} = UserResolver.get_token(%{}, args, %{})
+      assert data == %{
+        access_token: "token1",
+        error: nil,
+        error_description: nil,
+        expires_in: nil,
+        id_token: nil,
+        provider: "google",
+        refresh_token: nil,
+        scope: nil,
+        token_type: nil
+      }
     end
 
     it "return token by linkedin" do
+      args = %{provider: "linkedin", code: "ok_code"}
+      {:ok, data} = UserResolver.get_token(%{}, args, %{})
+      assert data == %{
+        access_token: "token1",
+        error: nil,
+        error_description: nil,
+        expires_in: nil,
+        provider: "linkedin"
+      }
     end
 
     it "return token by facebook" do
+      args = %{provider: "facebook", code: "ok_code"}
+      {:ok, error} = UserResolver.get_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
     end
 
     it "return token by twitter" do
+      args = %{provider: "twitter", code: "ok_code"}
+      {:ok, error} = UserResolver.get_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
     end
 
-    it "return token by localhost" do
+    it "return error token by localhost" do
+      args = %{provider: "localhost", code: "ok_code"}
+      {:ok, error} = UserResolver.get_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
+    end
+
+    it "return error when provider isn't exist" do
+      args = %{provider: "xxx", code: "ok_code"}
+      {:ok, error} = UserResolver.get_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
+    end
+
+    it "return error when provider is empty string" do
+      args = %{provider: "", code: "ok_code"}
+      {:ok, error} = UserResolver.get_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
+    end
+
+    it "return error when provider is nil" do
+      args = %{provider: nil, code: "ok_code"}
+      {:ok, error} = UserResolver.get_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
+    end
+
+    it "return error when only code" do
+      args = %{code: "ok_code"}
+      {:ok, error} = UserResolver.get_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
+    end
+
+    it "return error when code isn't correct" do
+      args = %{provider: "google", code: nil}
+      {:ok, error} = UserResolver.get_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
     end
   end
 
   describe "#get_refresh_token_code" do
     it "return refresh code by google" do
+      args = %{provider: "google"}
+      {:ok, %{code: data}} = UserResolver.get_refresh_token_code(%{}, args, %{})
+      assert data =~ "https://accounts.google.com/o/oauth2/v2/auth?"
     end
 
     it "return refresh code by linkedin" do
+      args = %{provider: "linkedin", token: "token1"}
+      {:ok, %{code: data}} = UserResolver.get_refresh_token_code(%{}, args, %{})
+      assert data =~ "https://www.linkedin.com/oauth/v2/accessToken"
+    end
+
+    it "return refresh code by linkedin when token isn't correct" do
+      args = %{provider: "linkedin", token: "xxx"}
+      {:ok, %{code: data}} = UserResolver.get_refresh_token_code(%{}, args, %{})
+      assert data =~ "https://www.linkedin.com/oauth/v2/accessToken&grant_type=refresh_token&refresh_token=xxx"
+    end
+
+    it "return error refresh code by linkedin when token is nil" do
+      args = %{provider: "linkedin", token: nil}
+      {:ok, %{code: data}} = UserResolver.get_refresh_token_code(%{}, args, %{})
+      assert data == {:error, [field: :token, message: "Token is invalid and not string"]}
+    end
+
+    it "return error refresh code by linkedin" do
+      args = %{provider: "linkedin", code: "ok_code"}
+      {:ok, %{code: error}} = UserResolver.get_refresh_token_code(%{}, args, %{})
+      assert error == {:error, [field: :token, message: "Token is invalid and not string"]}
     end
 
     it "return refresh code by facebook" do
+      args = %{provider: "facebook"}
+      {:ok, data} = UserResolver.get_refresh_token_code(%{}, args, %{})
+      assert data == %{code: :ok}
     end
 
     it "return refresh code by twitter" do
+      args = %{provider: "twitter"}
+      {:ok, data} = UserResolver.get_refresh_token_code(%{}, args, %{})
+      assert data == %{code: :ok}
+    end
+
+    it "return error when provider isn't correct" do
+      args = %{provider: "xxx"}
+      {:ok, error} = UserResolver.get_refresh_token_code(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
+    end
+
+    it "return error when provider is nil" do
+      args = %{provider: nil}
+      {:ok, error} = UserResolver.get_refresh_token_code(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
+    end
+
+    it "return error when provider doesn't exist" do
+      args = %{}
+      {:ok, error} = UserResolver.get_refresh_token_code(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
     end
   end
 
   describe "#get_refresh_token" do
-    it "return refresh token  by google" do
+    it "return refresh token by google" do
+      args = %{provider: "google", token: "token1"}
+      {:ok, data} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert data == %{
+        access_token: "token1",
+        error: nil,
+        error_description: nil,
+        expires_in: nil,
+        id_token: nil,
+        provider: "google",
+        refresh_token: nil,
+        scope: nil,
+        token_type: nil
+      }
     end
 
-    it "return refresh token  by linkedin" do
+    it "return error refresh token by google when isn't correct" do
+      args = %{provider: "google", token: nil}
+      {:ok, error} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid token",
+        error_description: "Token is invalid or can't be blank"
+      }
+    end
+
+    it "return error token by google when doesn't exist" do
+      args = %{provider: "google"}
+      {:ok, error} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid token",
+        error_description: "Token is invalid or can't be blank"
+      }
+    end
+
+    it "return refresh token by linkedin" do
+      args = %{provider: "linkedin", token: "token1"}
+      {:ok, data} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert data == %{"access_token" => "token1"}
+    end
+
+    it "return error token by linkedin when is nil" do
+      args = %{provider: "linkedin", token: nil}
+      {:ok, error} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid token",
+        error_description: "Token is invalid or can't be blank"
+      }
+    end
+
+    it "return error token by linkedin when doesn't exist" do
+      args = %{provider: "linkedin"}
+      {:ok, error} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid token",
+        error_description: "Token is invalid or can't be blank"
+      }
     end
 
     it "return refresh token  by facebook" do
+      args = %{provider: "facebook"}
+      {:ok, %{access_token: data}} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert data == :ok
     end
 
     it "return refresh token  by twitter" do
+      args = %{provider: "twitter"}
+      {:ok, %{access_token: data}} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert data == :ok
+    end
+
+    it "return error when provider is nil" do
+      args = %{provider: nil}
+      {:ok, error} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
+    end
+
+    it "return error when provider dosn't exist" do
+      args = %{}
+      {:ok, error} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
     end
   end
 
   describe "#verify_token" do
     it "return checked out token by google" do
+      args = %{provider: "google", token: "token1"}
+      {:ok, data} = UserResolver.verify_token(%{}, args, %{})
+      assert data == %{
+        access_type: nil,
+        aud: nil,
+        azp: nil,
+        error: nil,
+        error_description: nil,
+        exp: nil,
+        expires_in: nil,
+        provider: "google",
+        scope: nil,
+        sub: nil
+      }
+    end
+
+    it "return error new token by google when isn't correct" do
+      args = %{provider: "google", token: nil}
+      {:ok, error} = UserResolver.verify_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid token",
+        error_description: "Token is invalid or can't be blank"
+      }
+    end
+
+    it "return error new token by google when doesn't exist" do
+      args = %{provider: "google"}
+      {:ok, error} = UserResolver.verify_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid token",
+        error_description: "Token is invalid or can't be blank"
+      }
     end
 
     it "return checked out token by linkedin" do
+      args = %{provider: "linkedin", token: "token1"}
+      {:ok, data} = UserResolver.verify_token(%{}, args, %{})
+      assert %{
+        email: _email,
+        provider: "linkedin"
+      } = data
+    end
+
+    it "return error token by linkedin when token is nil" do
+      args = %{provider: "linkedin", token: nil}
+      {:ok, data} = UserResolver.verify_token(%{}, args, %{})
+      assert data == %{
+        email: {:error, [
+            field: :token,
+            message: "Token is invalid or can't be blank"
+        ]},
+        provider: "linkedin"
+      }
+    end
+
+    it "return error token by linkedin when token doesn't exist" do
+      args = %{provider: "linkedin"}
+      {:ok, data} = UserResolver.verify_token(%{}, args, %{})
+      assert data == %{
+        email: {:error, [
+            field: :token,
+            message: "Token is invalid or can't be blank"]},
+        provider: "linkedin"
+      }
     end
 
     it "return checked out token by facebook" do
+      args = %{provider: "facebook"}
+      {:ok, data} = UserResolver.verify_token(%{}, args, %{})
+      assert data == %{access_token: :ok}
     end
 
     it "return checked out token by twitter" do
+      args = %{provider: "twitter"}
+      {:ok, data} = UserResolver.verify_token(%{}, args, %{})
+      assert data == %{access_token: :ok}
     end
   end
 
@@ -298,33 +616,217 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
     it "create user used code by google and return access token" do
     end
 
+    it "return error by google when code is nil" do
+      args = %{provider: "google", code: nil}
+      {:ok, error} = UserResolver.signup(%{}, args, %{})
+      assert error == %{
+        error: "invalid code",
+        error_description: "Code is invalid or can't be blank"
+      }
+    end
+
+    it "return error by google when code doesn't exist" do
+      args = %{provider: "google"}
+      {:ok, error} = UserResolver.signup(%{}, args, %{})
+      assert error == %{
+        error: "invalid code",
+        error_description: "Code is invalid or can't be blank"
+      }
+    end
+
     it "create user used code by linkedin and return access token" do
     end
 
+    it "return error by linkedin when code is nil" do
+      args = %{provider: "linkedin", code: nil}
+      {:ok, error} = UserResolver.signup(%{}, args, %{})
+      assert error == %{
+        error: "invalid code",
+        error_description: "Code is invalid or can't be blank"
+      }
+    end
+
     it "create user used code by facebook and return access token" do
+      args = %{provider: "facebook"}
+      {:ok, data} = UserResolver.signup(%{}, args, %{})
+      assert data == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
     end
 
     it "create user used code by twitter and return access token" do
+      args = %{provider: "twitter"}
+      {:ok, data} = UserResolver.signup(%{}, args, %{})
+      assert data == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
     end
 
     it "create user via localhost and return access token" do
+      args = %{
+        provider: "localhost",
+        email: "oleg@yahoo.com.com",
+        password: "qwerty",
+        password_confirmation: "qwerty"
+      }
+      {:ok, data} = UserResolver.signup(%{}, args, %{})
+      assert %{
+        access_token: _access_token,
+        provider: "localhost"
+      } = data
+
+    end
+
+    it "return error via localhost when args nil" do
+      args = %{provider: "localhost"}
+      {:error, error} = UserResolver.signup(%{}, args, %{})
+      assert error == [
+        [field: :email, message: "Can't be blank"],
+        [field: :password, message: "Can't be blank"],
+        [field: :password_confirmation, message: "Can't be blank"]
+      ]
     end
   end
 
   describe "#signin" do
-    it "entrance via google and return access token" do
+    it "signin via google and return access token" do
+      _args = %{provider: "google", code: "ok_code"}
     end
 
-    it "entrance via linkedin and return access token" do
+    it "return error via google when code is nil" do
+      args = %{provider: "google", code: nil}
+      {:ok, error} = UserResolver.signin(%{}, args, %{})
+      assert error == %{
+        error: "invalid code",
+        error_description: "Code is invalid or can't be blank"
+      }
     end
 
-    it "entrance via facebook and return access token" do
+    it "return error via google when code doesn't exist" do
+      args = %{provider: "google"}
+      {:ok, error} = UserResolver.signin(%{}, args, %{})
+      assert error == %{
+        error: "invalid code",
+        error_description: "Code is invalid or can't be blank"
+      }
     end
 
-    it "entrance via twitter and return access token" do
+    it "signin via linkedin and return access token" do
+      _args = %{provider: "linkedin", code: "ok_code"}
     end
 
-    it "entrance via localhost and return access token" do
+    it "return error via linkedin when code is nil" do
+      args = %{provider: "linkedin", code: nil}
+      {:ok, error} = UserResolver.signin(%{}, args, %{})
+      assert error == %{
+        error: "invalid code",
+        error_description: "Code is invalid or can't be blank"
+      }
+    end
+
+    it "return error via linkedin when code doesn't exist" do
+      args = %{provider: "linkedin"}
+      {:ok, error} = UserResolver.signin(%{}, args, %{})
+      assert error == %{
+        error: "invalid code",
+        error_description: "Code is invalid or can't be blank"
+      }
+    end
+
+    it "signin via facebook and return access token" do
+      args = %{provider: "facebook"}
+      {:ok, error} = UserResolver.signin(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
+    end
+
+    it "signin via twitter and return access token" do
+      args = %{provider: "twitter"}
+      {:ok, error} = UserResolver.signin(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
+    end
+
+    it "signin via localhost and return access token" do
+      struct =
+        insert(:user,
+          provider: "localhost",
+          email: "oleg@yahoo.com",
+          password: "qwerty",
+          password_confirmation: "qwerty",
+          password_hash: "$argon2id$v=19$m=131072,t=8,p=4$UXqzl/WwvwNsP/f95t2Tew$FGIeOOerDnGEVa8R79xxmCXHJ1nkSnSm/am58ng0A8s"
+        )
+      Argon2.verify_pass(struct.password, "$argon2id$v=19$m=131072,t=8,p=4$UXqzl/WwvwNsP/f95t2Tew$FGIeOOerDnGEVa8R79xxmCXHJ1nkSnSm/am58ng0A8s")
+      args = %{provider: "localhost", email: struct.email, password: "qwerty"}
+      {:ok, data} = UserResolver.signin(%{}, args, %{})
+      assert %{
+        access_token: access_token,
+        provider: "localhost"
+      } = data
+      assert data == %{
+        access_token: access_token,
+        provider: struct.provider
+      }
+    end
+
+    it "return error via localhost when email is nil" do
+      struct =
+        insert(:user,
+          provider: "localhost",
+          email: "oleg@yahoo.com",
+          password: "qwerty",
+          password_confirmation: "qwerty",
+          password_hash: "$argon2id$v=19$m=131072,t=8,p=4$UXqzl/WwvwNsP/f95t2Tew$FGIeOOerDnGEVa8R79xxmCXHJ1nkSnSm/am58ng0A8s"
+        )
+      Argon2.verify_pass(struct.password, "$argon2id$v=19$m=131072,t=8,p=4$UXqzl/WwvwNsP/f95t2Tew$FGIeOOerDnGEVa8R79xxmCXHJ1nkSnSm/am58ng0A8s")
+      args = %{provider: "localhost", email: nil, password: "qwerty"}
+      {:ok, data} = UserResolver.signin(%{}, args, %{})
+      assert data == %{
+        error: "invalid an email",
+        error_description: "an email is empty or doesn't correct"
+      }
+    end
+
+    it "return error via localhost when password is nil" do
+      struct =
+        insert(:user,
+          provider: "localhost",
+          email: "oleg@yahoo.com",
+          password: "qwerty",
+          password_confirmation: "qwerty",
+          password_hash: "$argon2id$v=19$m=131072,t=8,p=4$UXqzl/WwvwNsP/f95t2Tew$FGIeOOerDnGEVa8R79xxmCXHJ1nkSnSm/am58ng0A8s"
+        )
+      Argon2.verify_pass(struct.password, "$argon2id$v=19$m=131072,t=8,p=4$UXqzl/WwvwNsP/f95t2Tew$FGIeOOerDnGEVa8R79xxmCXHJ1nkSnSm/am58ng0A8s")
+      args = %{provider: "localhost", email: struct.email, password: nil}
+      {:ok, data} = UserResolver.signin(%{}, args, %{})
+      assert data == %{
+        error: "invalid password",
+        error_description: "password is not a string"
+      }
+    end
+
+    it "return error when args is nil" do
+      struct =
+        insert(:user,
+          provider: "localhost",
+          email: "oleg@yahoo.com",
+          password: "qwerty",
+          password_confirmation: "qwerty",
+          password_hash: "$argon2id$v=19$m=131072,t=8,p=4$UXqzl/WwvwNsP/f95t2Tew$FGIeOOerDnGEVa8R79xxmCXHJ1nkSnSm/am58ng0A8s"
+        )
+      Argon2.verify_pass(struct.password, "$argon2id$v=19$m=131072,t=8,p=4$UXqzl/WwvwNsP/f95t2Tew$FGIeOOerDnGEVa8R79xxmCXHJ1nkSnSm/am58ng0A8s")
+      args = %{}
+      {:ok, data} = UserResolver.signin(%{}, args, %{})
+      assert data == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider"
+      }
     end
   end
 end
