@@ -491,149 +491,1697 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
   describe "#get_code" do
     it "return code by google" do
+      context = %{}
+
+      query = """
+      {
+        getCode(provider: "google") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getCode"]
+
+      assert found["code"] =~ "https://accounts.google.com/o/oauth2/v2/auth?"
+
+      {:ok, %{data: %{"getCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] =~ "https://accounts.google.com/o/oauth2/v2/auth?"
     end
 
     it "return code by linkedin" do
+      context = %{}
+
+      query = """
+      {
+        getCode(provider: "linkedin") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getCode"]
+
+      assert found["code"] =~ "https://www.linkedin.com/oauth/v2/authorization?"
+
+      {:ok, %{data: %{"getCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] =~ "https://www.linkedin.com/oauth/v2/authorization?"
     end
 
     it "return code by facebook" do
+      context = %{}
+
+      query = """
+      {
+        getCode(provider: "facebook") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getCode"]
+
+      assert found["code"] == "ok"
+
+      {:ok, %{data: %{"getCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] == "ok"
     end
 
     it "return code by twitter" do
+      context = %{}
+
+      query = """
+      {
+        getCode(provider: "twitter") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getCode"]
+
+      assert found["code"] == "ok"
+
+      {:ok, %{data: %{"getCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] == "ok"
     end
 
-    it "return error by localhost" do
+    it "return null by localhost" do
+      context = %{}
+
+      query = """
+      {
+        getCode(provider: "localhost") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getCode"]
+
+      assert found["code"] == nil
+
+      {:ok, %{data: %{"getCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] == nil
     end
 
-    it "return error when provider is nil" do
+    it "return null when provider is nil" do
+      context = %{}
+
+      query = """
+      {
+        getCode(provider: \"\#{nil}") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getCode"]
+
+      assert found["code"] == nil
+
+      {:ok, %{data: %{"getCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] == nil
     end
 
-    it "return error when provider isn't exist" do
+    it "return null when provider isn't exist" do
+      context = %{}
+
+      query = """
+      {
+        getCode(provider: "proba") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getCode"]
+
+      assert found["code"] == nil
+
+      {:ok, %{data: %{"getCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] == nil
     end
 
-    it "return error without provider" do
+    it "return null when string is blank" do
+      context = %{}
+
+      query = """
+      {
+        getCode(provider: "") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getCode"]
+
+      assert found["code"] == nil
+
+      {:ok, %{data: %{"getCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] == nil
     end
   end
 
   describe "#get_token" do
     it "return token by google" do
+      context = %{}
+
+      query = """
+      {
+        getToken(provider: "google", code: "ok_code") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getToken"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getToken"]
+
+      assert found["access_token"]      == "token1"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == "google"
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+
+      {:ok, %{data: %{"getToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == "token1"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == "google"
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
     end
 
     it "return token by linkedin" do
+      context = %{}
+
+      query = """
+      {
+        getToken(provider: "linkedin", code: "ok_code") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getToken"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getToken"]
+
+      assert found["access_token"]      == "token1"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == "linkedin"
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+
+      {:ok, %{data: %{"getToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == "token1"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == "linkedin"
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
     end
 
     it "return token by facebook" do
+      context = %{}
+
+      query = """
+      {
+        getToken(provider: "facebook") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getToken"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getToken"]
+
+      assert found["access_token"]      == "ok"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+
+      {:ok, %{data: %{"getToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == "ok"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
     end
 
     it "return token by twitter" do
+      context = %{}
+
+      query = """
+      {
+        getToken(provider: "twitter") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getToken"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getToken"]
+
+      assert found["access_token"]      == "ok"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+
+      {:ok, %{data: %{"getToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == "ok"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
     end
 
-    it "return error token by localhost" do
+    it "return null token by localhost" do
+      context = %{}
+
+      query = """
+      {
+        getToken(provider: "localhost") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getToken"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getToken"]
+
+      assert found["access_token"]      == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+
+      {:ok, %{data: %{"getToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
     end
 
-    it "return error when provider isn't exist" do
+    it "return null when provider isn't exist" do
+      context = %{}
+
+      query = """
+      {
+        getToken(provider: "xxx") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getToken"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getToken"]
+
+      assert found["access_token"]      == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+
+      {:ok, %{data: %{"getToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
     end
 
-    it "return error when provider is empty string" do
+    it "return null when provider is empty string" do
+      context = %{}
+
+      query = """
+      {
+        getToken(provider: \"#{nil}\") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getToken"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getToken"]
+
+      assert found["access_token"]      == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+
+      {:ok, %{data: %{"getToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
     end
 
-    it "return error when provider is nil" do
-    end
+    it "return null when code doesn't exist" do
+      context = %{}
 
-    it "return error when only code" do
-    end
+      query = """
+      {
+        getToken(provider: "google") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
 
-    it "return error when code isn't correct" do
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getToken"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getToken"]
+
+      assert found["access_token"]      == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+
+      {:ok, %{data: %{"getToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
     end
   end
 
   describe "#get_refresh_token_code" do
     it "return refresh code by google" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshTokenCode(provider: "google", token: "token1") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshTokenCode"]
+
+      assert found["code"] =~ "https://accounts.google.com/o/oauth2/v2/auth?"
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] =~ "https://accounts.google.com/o/oauth2/v2/auth?"
     end
 
     it "return refresh code by linkedin" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshTokenCode(provider: "linkedin", token: "token1") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshTokenCode"]
+
+      assert found["code"] =~ "https://www.linkedin.com/oauth/v2/accessToken"
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] =~ "https://www.linkedin.com/oauth/v2/accessToken"
     end
 
-    it "return refresh code by linkedin when token isn't correct" do
+    it "return refresh code by linkedin when token is nil" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshTokenCode(provider: "linkedin", token: \"#{nil}\") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshTokenCode"]
+
+      assert found["code"] =~ "https://www.linkedin.com/oauth/v2/accessToken"
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] =~ "https://www.linkedin.com/oauth/v2/accessToken&grant_type=refresh_token&refresh_token=&"
     end
 
-    it "return error refresh code by linkedin when token is nil" do
-    end
+    it "return refresh code by google when token is nil" do
+      context = %{}
 
-    it "return error refresh code by linkedin" do
+      query = """
+      {
+        getRefreshTokenCode(provider: "google", token: \"#{nil}\") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshTokenCode"]
+
+      assert found["code"] =~ "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&access_type=offline&"
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] =~ "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&access_type=offline&"
     end
 
     it "return refresh code by facebook" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshTokenCode(provider: "facebook", token: \"#{nil}\") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshTokenCode"]
+
+      assert found["code"] == "ok"
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] == "ok"
     end
 
     it "return refresh code by twitter" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshTokenCode(provider: "twitter", token: \"#{nil}\") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshTokenCode"]
+
+      assert found["code"] == "ok"
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] == "ok"
     end
 
-    it "return error when provider isn't correct" do
+    it "return null when provider is localhost" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshTokenCode(provider: "localhost", token: \"#{nil}\") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshTokenCode"]
+
+      assert found["code"] == nil
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] == nil
     end
 
     it "return error when provider is nil" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshTokenCode(provider: \"#{nil}\", token: \"#{nil}\") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshTokenCode"]
+
+      assert found["code"] == nil
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] == nil
     end
 
     it "return error when provider doesn't exist" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshTokenCode(provider: "xxx", token: \"#{nil}\") {
+          code
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshTokenCode"]
+
+      assert found["code"] == nil
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] == nil
     end
   end
 
   describe "#get_refresh_token" do
     it "return refresh token by google" do
-    end
+      context = %{}
 
-    it "return error refresh token by google when isn't correct" do
-    end
+      query = """
+      {
+        getRefreshToken(provider: "google", token: "token1") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
 
-    it "return error token by google when doesn't exist" do
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshToken"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshToken"]
+
+      assert found["access_token"]      == "token1"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == "google"
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+
+      {:ok, %{data: %{"getRefreshToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == "token1"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == "google"
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
     end
 
     it "return refresh token by linkedin" do
-    end
+      context = %{}
 
-    it "return error token by linkedin when is nil" do
-    end
+      query = """
+      {
+        getRefreshToken(provider: "linkedin", token: "token1") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
 
-    it "return error token by linkedin when doesn't exist" do
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshToken"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshToken"]
+
+      assert found["access_token"]      == "token1"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == "linkedin"
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+
+      {:ok, %{data: %{"getRefreshToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == "token1"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == "linkedin"
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
     end
 
     it "return refresh token  by facebook" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshToken(provider: "facebook", token: "token1") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshToken"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshToken"]
+
+      assert found["access_token"]      == "ok"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+
+      {:ok, %{data: %{"getRefreshToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == "ok"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
     end
 
     it "return refresh token  by twitter" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshToken(provider: "twitter", token: "token1") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshToken"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshToken"]
+
+      assert found["access_token"]      == "ok"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+
+      {:ok, %{data: %{"getRefreshToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == "ok"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
     end
 
-    it "return error when provider is nil" do
+    it "return null when provider isn't correct" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshToken(provider: "xxx", token: "token1") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshToken"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshToken"]
+
+      assert found["access_token"]      == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+
+      {:ok, %{data: %{"getRefreshToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
     end
 
     it "return error when provider dosn't exist" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshToken(provider: \"#{nil}\", token: "token1") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshToken"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshToken"]
+
+      assert found["access_token"]      == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+
+      {:ok, %{data: %{"getRefreshToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == nil
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
     end
   end
 
   describe "#verify_token" do
     it "return checked out token by google" do
+      context = %{}
+
+      query = """
+      {
+        getVerify(provider: "google", token: "token1") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getVerify"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getVerify"]
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == "google"
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
+
+      {:ok, %{data: %{"getVerify" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == "google"
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
     end
 
-    it "return error new token by google when isn't correct" do
+    it "return null new token by google when isn't correct" do
+      context = %{}
+
+      query = """
+      {
+        getVerify(provider: "google", token: \"#{nil}\") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getVerify"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getVerify"]
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == "google"
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
+
+      {:ok, %{data: %{"getVerify" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == "google"
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
     end
 
     it "return error new token by google when doesn't exist" do
+      context = %{}
+
+      query = """
+      {
+        getVerify(provider: "xxx", token: \"#{nil}\") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getVerify"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getVerify"]
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == nil
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
+
+      {:ok, %{data: %{"getVerify" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == nil
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
     end
 
     it "return checked out token by linkedin" do
+      context = %{}
+
+      query = """
+      {
+        getVerify(provider: "linkedin", token: "token1") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getVerify"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getVerify"]
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == "Invalid access token"
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == "linkedin"
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
+
+      {:ok, %{data: %{"getVerify" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == "Invalid access token"
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == "linkedin"
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
     end
 
     it "return error token by linkedin when token is nil" do
+      context = %{}
+
+      query = """
+      {
+        getVerify(provider: "linkedin", token: \"#{nil}\") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getVerify"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getVerify"]
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == "Invalid access token"
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == "linkedin"
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
+
+      {:ok, %{data: %{"getVerify" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == "Invalid access token"
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == "linkedin"
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
     end
 
     it "return error token by linkedin when token doesn't exist" do
+      context = %{}
+
+      query = """
+      {
+        getVerify(provider: "linkedin", token: "xxx") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getVerify"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getVerify"]
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == "Invalid access token"
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == "linkedin"
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
+
+      {:ok, %{data: %{"getVerify" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == "Invalid access token"
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == "linkedin"
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
     end
 
     it "return checked out token by facebook" do
+      context = %{}
+
+      query = """
+      {
+        getVerify(provider: "facebook", token: "token1") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getVerify"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getVerify"]
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == nil
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
+
+      {:ok, %{data: %{"getVerify" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == nil
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
     end
 
     it "return checked out token by twitter" do
+      context = %{}
+
+      query = """
+      {
+        getVerify(provider: "twitter", token: "token1") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getVerify"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getVerify"]
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == nil
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
+
+      {:ok, %{data: %{"getVerify" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == nil
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
+    end
+
+    it "return error token by linkedin when provider doesn't correct" do
+      context = %{}
+
+      query = """
+      {
+        getVerify(provider: "xxx", token: "token1") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getVerify"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getVerify"]
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == nil
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
+
+      {:ok, %{data: %{"getVerify" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == nil
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
     end
   end
 

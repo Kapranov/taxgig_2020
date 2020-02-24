@@ -269,7 +269,20 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
               {:error, data} ->
                 %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
                 {:ok, %{error: @error_token, error_description: msg}}
-              {:ok, code} -> {:ok, code}
+              {:ok, data} ->
+                {:ok,
+                  %{
+                    access_token:           data["access_token"],
+                    error:                         data["error"],
+                    error_description: data["error_description"],
+                    expires_in:               data["expires_in"],
+                    id_token:                   data["id_token"],
+                    provider:                    args[:provider],
+                    refresh_token:         data["refresh_token"],
+                    scope:                         data["scope"],
+                    token_type:               data["token_type"]
+                  }
+                }
             end
         end
       else
@@ -315,8 +328,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             case OauthLinkedIn.verify_token(args[:token]) do
               nil ->
                 {:ok, %{error: @error_pro, error_description: @error_pro_des}}
-              data ->
-                {:ok, %{email: data, provider: args[:provider]}}
+              {:error, error} ->
+                {:ok, %{error: error, provider: args[:provider]}}
+              email ->
+                {:ok, %{email: email, provider: args[:provider]}}
             end
         end
       else

@@ -479,7 +479,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
     it "return refresh token by linkedin" do
       args = %{provider: "linkedin", token: "token1"}
       {:ok, data} = UserResolver.get_refresh_token(%{}, args, %{})
-      assert data == %{"access_token" => "token1"}
+      assert data == %{
+        access_token: "token1",
+        error: nil,
+        error_description: nil,
+        expires_in: nil,
+        id_token: nil,
+        provider: "linkedin",
+        refresh_token: nil,
+        scope: nil,
+        token_type: nil
+      }
     end
 
     it "return error token by linkedin when is nil" do
@@ -570,21 +580,18 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
     it "return checked out token by linkedin" do
       args = %{provider: "linkedin", token: "token1"}
       {:ok, data} = UserResolver.verify_token(%{}, args, %{})
-      assert %{
-        email: _email,
+      assert data ==  %{
+        error: "Invalid access token",
         provider: "linkedin"
-      } = data
+      }
     end
 
     it "return error token by linkedin when token is nil" do
       args = %{provider: "linkedin", token: nil}
       {:ok, data} = UserResolver.verify_token(%{}, args, %{})
       assert data == %{
-        email: {:error, [
-            field: :token,
-            message: "Token is invalid or can't be blank"
-        ]},
-        provider: "linkedin"
+        provider: "linkedin",
+        error: [field: :token, message: "Token is invalid or can't be blank"]
       }
     end
 
@@ -592,11 +599,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       args = %{provider: "linkedin"}
       {:ok, data} = UserResolver.verify_token(%{}, args, %{})
       assert data == %{
-        email: {:error, [
-            field: :token,
-            message: "Token is invalid or can't be blank"]},
-        provider: "linkedin"
+        provider: "linkedin",
+        error: [field: :token, message: "Token is invalid or can't be blank"]
       }
+
     end
 
     it "return checked out token by facebook" do
