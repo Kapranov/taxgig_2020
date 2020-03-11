@@ -38,6 +38,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
   @desc "Provider's code"
   object :provider do
     field :code, :string
+    field :provider, :string
   end
 
   @desc "Provider's verify tokens"
@@ -150,7 +151,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
 
     @desc "SignIn via localhost and social networks"
     field :sign_in, :token do
-      arg(:code, :string, description: "code by social networks, except for localhost")
+      arg(:code, :string, description: "code by social networks, except by localhost")
       arg(:email, :string, description: "set email for localhost")
       arg(:password, :string, description: "set password for localhost")
       arg(:password_confirmation, :string, description: "set password for localhost")
@@ -189,7 +190,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     @desc "Sign up via localhost and social networks"
     field :sign_up, :token do
       arg(:code, :string, description: "code by social networks, except for localhost")
-      arg(:email, non_null(:string), description: "set email for localhost")
+      arg(:email, :string, description: "set email for localhost")
       arg(:password, :string, description: "set password for localhost")
       arg(:password_confirmation, :string, description: "set password for localhost")
       arg(:provider, non_null(:string), description: "set provider localhost or social networks")

@@ -44,8 +44,13 @@ defmodule ServerWeb.Provider.OauthGoogle do
     |> parse_body_response()
   end
 
-  def token(code) when is_integer(code), do: {:error, [field: :code, message: "Code is invalid and not string"]}
-  def token(_), do: {:error, [field: :code, message: "Code is invalid or can't be blank"]}
+  def token(_) do
+    {:ok, %{
+        "error" => "invalid_grant",
+        "error_description" => "Malformed auth code."
+      }
+    }
+  end
 
   def refresh_token(token) when not is_nil(token) and is_bitstring(token) do
     body = Jason.encode!(%{
@@ -59,8 +64,13 @@ defmodule ServerWeb.Provider.OauthGoogle do
     |> parse_body_response()
   end
 
-  def refresh_token(token) when is_integer(token), do: {:error, [field: :token, message: "Token is invalid and not string"]}
-  def refresh_token(_), do: {:error, [field: :token, message: "Token is invalid or can't be blank"]}
+  def refresh_token(_) do
+    {:ok, %{
+        "error" => "invalid_grant",
+        "error_description" => "Bad Request"
+      }
+    }
+  end
 
   def verify_token(token) when not is_nil(token) and is_bitstring(token) do
     "#{@google_token_info_url}?access_token=#{token}"
@@ -68,8 +78,13 @@ defmodule ServerWeb.Provider.OauthGoogle do
     |> parse_body_response()
   end
 
-  def verify_token(token) when is_integer(token), do: {:error, [field: :token, message: "Token is invalid and not string"]}
-  def verify_token(_), do: {:error, [field: :token, message: "Token is invalid or can't be blank"]}
+  def verify_token(_) do
+    {:ok, %{
+        "error" => "invalid_verify_token",
+        "error_description" => "Invalid Value"
+      }
+    }
+  end
 
   def user_profile(token) when not is_nil(token) and is_bitstring(token) do
     "#{@google_user_profile_url}?access_token=#{token}"
@@ -77,8 +92,13 @@ defmodule ServerWeb.Provider.OauthGoogle do
     |> parse_body_response()
   end
 
-  def user_profile(token) when is_integer(token), do: {:error, [field: :token, message: "Token is invalid and not string"]}
-  def user_profile(_), do: {:error, [field: :token, message: "Token is invalid or can't be blank"]}
+  def user_profile(_) do
+    {:ok, %{
+        "error" => "invalid_request",
+        "error_description" => "Invalid Credentials"
+      }
+    }
+  end
 
   def user_email(token) when not is_nil(token) and is_bitstring(token) do
     "#{@google_user_email_url}?access_token=#{token}"
@@ -86,8 +106,13 @@ defmodule ServerWeb.Provider.OauthGoogle do
     |> parse_body_response()
   end
 
-  def user_email(token) when is_integer(token), do: {:error, [field: :token, message: "Token is invalid and not string"]}
-  def user_email(_), do: {:error, [field: :token, message: "Token is invalid or can't be blank"]}
+  def user_email(_) do
+    {:ok, %{
+        "error" => "UNAUTHENTICATED",
+        "error_description" => "Request is missing required authentication credential. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project. Status 401"
+      }
+    }
+  end
 
   defp parse_body_response({:error, err}), do: {:error, err}
   defp parse_body_response({:ok, response}) do

@@ -60,13 +60,27 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
+  def show(_parent, _args, _info) do
+    {:error, [[field: :id, message: "Can't be blank"]]}
+  end
+
   @spec create(map(), map(), map()) :: result
-  def create(_parent, args, _info) do
+  def create(_parent, %{} = args, _info) do
     args
     |> Accounts.create_user()
     |> case do
       {:ok, struct} ->
         {:ok, struct}
+      {:error, changeset} ->
+        {:error, extract_error_msg(changeset)}
+    end
+  end
+
+  def create(_parent, _args, _info) do
+    %User{}
+    |> User.changeset(%{})
+    |> Repo.insert
+    |> case do
       {:error, changeset} ->
         {:error, extract_error_msg(changeset)}
     end
@@ -81,11 +95,28 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         Repo.get!(User, id)
         |> User.changeset(params)
         |> Repo.update
+        |> case do
+          {:ok, struct} ->
+            {:ok, struct}
+          {:error, changeset} ->
+            {:error, extract_error_msg(changeset)}
+        end
       rescue
         Ecto.NoResultsError ->
           {:error, "An User #{id} not found!"}
       end
     end
+  end
+
+  def update(_root, _args, _info) do
+    {:error, [
+        [field: :id, message: "Can't be blank"],
+        [field: :user, message: "Can't be blank"],
+        [field: :password, message: "Can't be blank"],
+        [field: :password_confirmation, message: "Can't be blank"]
+      ]
+    }
+
   end
 
   @spec delete(map(), %{id: bitstring}, map()) :: result
@@ -103,33 +134,35 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
+  def delete(_parent, _args, _info) do
+    {:error, [[field: :id, message: "Can't be blank"]]}
+  end
+
   def get_code(_parent, args, _resolution) do
     case required_keys(@keys, args) do
       true ->
         case args[:provider] do
           "facebook" ->
-            {:ok, %{code: :ok}}
+            {:ok, %{code: :ok, provider: args[:provider]}}
           "google" ->
             case OauthGoogle.generate_url() do
               nil ->
-                {:ok, %{error: @error_code, error_description: error_des(args[:provider])}}
+                {:ok, %{error: @error_code, error_description: error_des(args[:provider]), provider: args[:provider]}}
               code ->
-                {:ok, %{code: code}}
+                {:ok, %{code: code, provider: args[:provider]}}
             end
           "linkedin" ->
             case OauthLinkedIn.generate_url() do
-              nil ->
-                {:ok, %{error: @error_code, error_description: error_des(args[:provider])}}
-              code ->
-                {:ok, %{code: code}}
+              {:ok, data} ->
+                {:ok, %{code: data["url"], provider: args[:provider]}}
             end
           "twitter" ->
-            {:ok, %{code: :ok}}
+            {:ok, %{code: :ok, provider: args[:provider]}}
           _ ->
-            {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+            {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
         end
       false ->
-        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+        {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
     end
   end
 
@@ -141,11 +174,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             if(args[:provider] == "localhost" && is_bitstring(args[:email])) do
               case User.find_by(email: String.downcase(args[:email])) do
                 nil ->
-                  {:ok, %{error: @error_email, error_description: @error_email_des}}
+                  {:ok, %{error: @error_email, error_description: @error_email_des, provider: args[:provider]}}
                 user ->
                   case Argon2.check_pass(user, args[:password]) do
                     {:error, _} ->
-                      {:ok, %{error: @error_password, error_description: @error_password_des}}
+                      {:ok, %{error: @error_password, error_description: @error_password_des, provider: args[:provider]}}
                     {:ok, user} ->
                       with data <- generate_token(user) do
                         {:ok, %{access_token: data, provider: args[:provider]}}
@@ -154,9 +187,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
               end
             else
               if(args[:provider] == "facebook" || args[:provider] == "twitter") do
-                {:ok, %{access_token: :ok}}
+                {:ok, %{access_token: :ok, provider: args[:provider]}}
               else
-                {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+                {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
               end
             end
           _ ->
@@ -165,7 +198,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                 case OauthGoogle.token(args[:code]) do
                   {:error, data} ->
                     %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
-                    {:ok, %{error: @error_code, error_description: msg}}
+                    {:ok, %{error: @error_code, error_description: msg, provider: args[:provider]}}
                   {:ok, data} ->
                     {:ok,
                       %{
@@ -174,7 +207,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                         error_description: data["error_description"],
                         expires_in:               data["expires_in"],
                         id_token:                   data["id_token"],
-                        provider:                           "google",
+                        provider:                    args[:provider],
                         refresh_token:         data["refresh_token"],
                         scope:                         data["scope"],
                         token_type:               data["token_type"]
@@ -184,24 +217,22 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
               "linkedin" ->
                 case OauthLinkedIn.token(args[:code]) do
                   nil ->
-                    {:ok, %{error: @error_email, error_description: @error_email_des}}
+                    {:ok, %{error: @error_email, error_description: @error_email_des, provider: args[:provider]}}
                   {:ok, data} ->
-                    {:ok,
-                      %{
-                        access_token:           data["access_token"],
-                        error:                         data["error"],
+                    {:ok, %{
+                        access_token: data["access_token"],
+                        error: data["error"],
                         error_description: data["error_description"],
-                        expires_in:               data["expires_in"],
-                        provider:                         "linkedin"
-                      }
-                    }
+                        expires_in: data["expires_in"],
+                        provider: args[:provider]
+                      }}
                 end
               _ ->
-                {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+                {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
             end
         end
       false ->
-        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+        {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
     end
   end
 
@@ -210,27 +241,28 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       true ->
         case args[:provider] do
           "facebook" ->
-            {:ok, %{code: :ok}}
+            {:ok, %{code: :ok, provider: args[:provider]}}
           "google" ->
             case OauthGoogle.generate_refresh_token_url() do
               nil ->
-                {:ok, %{error: @error_code, error_description: error_des(args[:provider])}}
+                {:ok, %{error: @error_code, error_description: error_des(args[:provider]), provider: args[:provider]}}
               code ->
-                {:ok, %{code: code}}
+                {:ok, %{code: code, provider: args[:provider]}}
             end
           "linkedin" ->
             case OauthLinkedIn.generate_refresh_token_url(args[:token]) do
-              nil ->
-                {:ok, %{error: @error_code, error_description: error_des(args[:provider])}}
-              code ->
-                {:ok, %{code: code}}
+              {:ok, data} ->
+                {:ok, %{
+                    code: data["code"],
+                    provider: args[:provider]
+                  }}
             end
-          "twitter" -> {:ok, %{code: :ok}}
+          "twitter" -> {:ok, %{code: :ok, provider: args[:provider]}}
           _ ->
-            {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+            {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
         end
       false ->
-        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+        {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
     end
   end
 
@@ -239,14 +271,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       if (args[:provider] == "google" || args[:provider] == "linkedin") do
         case args[:provider] do
           nil ->
-            {:ok, %{error: @error_token, error_description: @error_token_des}}
+            {:ok, %{error: @error_token, error_description: @error_token_des, provider: args[:provider]}}
           "google" ->
             case OauthGoogle.refresh_token(args[:token]) do
               nil ->
-                {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+                {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
               {:error, data} ->
                 %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
-                {:ok, %{error: @error_token, error_description: msg}}
+                {:ok, %{error: @error_token, error_description: msg, provider: args[:provider]}}
               {:ok, data} ->
                 {:ok,
                   %{
@@ -255,7 +287,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                     error_description: data["error_description"],
                     expires_in:               data["expires_in"],
                     id_token:                   data["id_token"],
-                    provider:                           "google",
+                    provider:                    args[:provider],
                     refresh_token:         data["refresh_token"],
                     scope:                         data["scope"],
                     token_type:               data["token_type"]
@@ -265,10 +297,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
           "linkedin" ->
             case OauthLinkedIn.refresh_token(args[:token]) do
               nil ->
-                {:ok, %{error: @error_token, error_description: error_des(args[:provider])}}
+                {:ok, %{error: @error_token, error_description: error_des(args[:provider]), provider: args[:provider]}}
               {:error, data} ->
                 %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
-                {:ok, %{error: @error_token, error_description: msg}}
+                {:ok, %{error: @error_token, error_description: msg, provider: args[:provider]}}
               {:ok, data} ->
                 {:ok,
                   %{
@@ -287,13 +319,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         end
       else
         if (args[:provider] == "facebook" || args[:provider] == "twitter") do
-          {:ok, %{access_token: :ok}}
+          {:ok, %{access_token: :ok, provider: args[:provider]}}
         else
-          {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+          {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
         end
       end
     else
-      {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+      {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
     end
   end
 
@@ -304,7 +336,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
           "google" ->
             case OauthGoogle.verify_token(args[:token]) do
               nil ->
-                {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+                {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
               {:ok, data} ->
                 {:ok,
                   %{
@@ -322,41 +354,61 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                 }
               {:error, data} ->
                 %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
-                {:ok, %{error: @error_token, error_description: msg}}
+                {:ok, %{error: @error_token, error_description: msg, provider: args[:provider]}}
             end
           "linkedin" ->
             case OauthLinkedIn.verify_token(args[:token]) do
               nil ->
-                {:ok, %{error: @error_pro, error_description: @error_pro_des}}
-              {:error, error} ->
-                {:ok, %{error: error, provider: args[:provider]}}
-              email ->
-                {:ok, %{email: email, provider: args[:provider]}}
+                {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
+              {:ok, data} ->
+                if is_nil(data["error"]) do
+                  {:ok, %{
+                      email: data["email"],
+                      provider: args[:provider]
+                    }}
+                else
+                  {:ok, %{
+                      error: data["error"],
+                      error_description: data["error_description"]
+                    }}
+                end
             end
         end
       else
         if (args[:provider] == "facebook" || args[:provider] == "twitter") do
-          {:ok, %{access_token: :ok}}
+          {:ok, %{access_token: :ok, provider: args[:provider]}}
         else
-          {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+          {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
         end
       end
     else
-      {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+      {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
     end
   end
 
   def signup(_parent, args, _resolution) do
     case args[:provider] do
       nil ->
-        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+        {:ok, %{
+            error: @error_pro,
+            error_description: @error_pro_des,
+            provider: args[:provider]
+          }}
       "facebook" ->
-        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+        {:ok, %{
+            error: @error_pro,
+            error_description: @error_pro_des,
+            provider: args[:provider]
+          }}
       "google" ->
         case OauthGoogle.token(args[:code]) do
           {:error, data} ->
             %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
-            {:ok, %{error: @error_code, error_description: msg}}
+            {:ok, %{
+                error: @error_code,
+                error_description: msg,
+                provider: args[:provider]
+              }}
           {:ok, data} ->
             if is_nil(data["error"]) do
               with {:ok, profile} <- OauthGoogle.user_profile(data["access_token"]) do
@@ -376,54 +428,80 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                   case Accounts.create_user(user_params) do
                     {:ok, created} ->
                       with data <- generate_token(created) do
-                        {:ok, %{access_token: data, provider: args[:provider]}}
+                        {:ok, %{
+                            access_token: data,
+                            provider: args[:provider]
+                          }}
                       end
                     {:error, %Ecto.Changeset{}} ->
                       {:error, %Ecto.Changeset{}}
                   end
                 else
-                  {:ok, %{error: @error_email, error_description: "An email has already been taken"}}
+                  {:ok, %{
+                      error: @error_email,
+                      error_description: "An email has already been taken",
+                      provider: args[:provider]
+                    }}
                 end
               end
             else
-              {:ok, %{error: @error_request, error_description: @error_request_des}}
+              {:ok, %{
+                  error: @error_request,
+                  error_description: @error_request_des,
+                  provider: args[:provider]
+                }}
             end
         end
       "linkedin" ->
         case OauthLinkedIn.token(args[:code]) do
           {:error, data} ->
             %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
-            {:ok, %{error: @error_code, error_description: msg}}
+            {:ok, %{
+                error: @error_code,
+                error_description: msg,
+                provider: args[:provider]
+              }}
           {:ok, data} ->
             if is_nil(data["error"]) do
               with {:ok, info} <- OauthLinkedIn.user_email(data["access_token"]),
                    {:ok, profile} <- OauthLinkedIn.user_profile(data["access_token"]) do
-                user = User.find_by(email: info_email(info))
+                user = User.find_by(email: info["email"])
                 if is_nil(user) do
                   user_params =
                     %{
-                      avatar:               info_image(profile),
-                      email:                   info_email(info),
-                      first_name: profile["localizedFirstName"],
-                      last_name:   profile["localizedLastName"],
-                      provider:                      "linkedin",
-                      password:                        "qwerty",
-                      password_confirmation:           "qwerty"
+                      avatar:         profile["avatar"],
+                      email:              info["email"],
+                      first_name: profile["first_name"],
+                      last_name:   profile["last_name"],
+                      provider:         args[:provider],
+                      password:                "qwerty",
+                      password_confirmation:   "qwerty"
                     }
                   case Accounts.create_user(user_params) do
                     {:ok, created} ->
                       with data <- generate_token(created) do
-                        {:ok, %{access_token: data, provider: args[:provider]}}
+                        {:ok, %{
+                            access_token: data,
+                            provider: args[:provider]
+                          }}
                       end
                     {:error, %Ecto.Changeset{}} ->
                       {:error, %Ecto.Changeset{}}
                   end
                 else
-                  {:ok, %{error: @error_email, error_description: "Has already been taken"}}
+                  {:ok, %{
+                      error: @error_email,
+                      error_description: "Has already been taken",
+                      provider: args[:provider]
+                    }}
                 end
               end
             else
-              {:ok, %{error: data["error"], error_description: data["error_description"]}}
+              {:ok, %{
+                  error: data["error"],
+                  error_description: data["error_description"],
+                  provider: args[:provider]
+                }}
             end
         end
       "localhost" ->
@@ -432,111 +510,202 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         |> case do
           {:ok, user} ->
             with data <- generate_token(user) do
-              {:ok, %{access_token: data, provider: args[:provider]}}
+              {:ok, %{
+                  access_token: data,
+                  provider: args[:provider]
+                }}
             end
           {:error, changeset} ->
             {:error, extract_error_msg(changeset)}
         end
       "twitter" ->
-        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+        {:ok, %{
+            error: @error_pro,
+            error_description: @error_pro_des,
+            provider: args[:provider]
+          }}
       _ ->
-        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+        {:ok, %{
+            error: @error_pro,
+            error_description: @error_pro_des,
+            provider: args[:provider]
+          }}
     end
   end
 
   def signin(_parent, args, _resolution) do
     case args[:provider] do
       nil ->
-        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+        {:ok, %{
+            error: @error_pro,
+            error_description: @error_pro_des,
+            provider: args[:provider]
+          }}
       "facebook" ->
-        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+        {:ok, %{
+            error: @error_pro,
+            error_description: @error_pro_des,
+            provider: args[:provider]
+          }}
       "linkedin" ->
         case OauthLinkedIn.token(args[:code]) do
           {:error, data} ->
             %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
-            {:ok, %{error: @error_code, error_description: msg}}
+            {:ok, %{
+                error: @error_code,
+                error_description: msg,
+                provider: args[:provider]
+              }}
           {:ok, data} ->
             if is_nil(data["error"]) do
               {:ok, info} = OauthLinkedIn.user_email(data["access_token"])
-              user = User.find_by(email: info_email(info))
+              user = User.find_by(email: info["email"])
               if is_nil(user) do
-                {:ok, %{error: data["error"], error_description: data["error_description"]}}
+                {:ok, %{
+                    error: info["error"],
+                    error_description: info["error_description"],
+                    provider: args[:provider]
+                  }}
               else
-                verifed = OauthLinkedIn.verify_token(data["access_token"])
-                case verifed == user.email do
+                {:ok, verifed} = OauthLinkedIn.verify_token(data["access_token"])
+                case verifed["email"] == user.email do
                   true ->
                     with token <- generate_token(user) do
-                      {:ok, %{access_token: token, provider: args[:provider]}}
+                      {:ok, %{
+                          access_token: token,
+                          provider: args[:provider]
+                        }}
                     end
                   false ->
-                    {:ok, %{error: @error_email, error_description: @error_email_des}}
+                    {:ok, %{
+                        error: verifed["error"],
+                        error_description: verifed["error_description"],
+                        provider: args[:provider]
+                      }}
                 end
               end
             else
-              {:ok, %{error: data["error"], error_description: data["error_description"]}}
+              {:ok, %{
+                  error: data["error"],
+                  error_description: data["error_description"],
+                  provider: args[:provider]
+                }}
             end
         end
       "google" ->
         case OauthGoogle.token(args[:code]) do
           {:error, data} ->
             %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
-            {:ok, %{error: @error_code, error_description: msg}}
+            {:ok, %{
+                error: @error_code,
+                error_description: msg,
+                provider: args[:provider]
+              }}
           {:ok, data} ->
             if is_nil(data["error"]) do
               {:ok, profile} = OauthGoogle.user_profile(data["access_token"])
               user = User.find_by(email: profile["email"])
               if is_nil(user) do
-                {:ok, %{error: @error_email, error_description: @error_email_des}}
+                {:ok, %{
+                    error: @error_email,
+                    error_description: @error_email_des,
+                    provider: args[:provider]
+                  }}
               else
                 {:ok, verifed} = OauthGoogle.verify_token(data["access_token"])
                 case verifed["access_type"] == "online" || verifed["email_verified"] == "true" do
                   true ->
                     with token <- generate_token(user) do
-                      {:ok, %{access_token: token, provider: args[:provider]}}
+                      {:ok, %{
+                          access_token: token,
+                          provider: args[:provider]
+                        }}
                     end
                   false ->
-                    {:ok, %{error: @error_request, error_description: @error_request_des}}
+                    {:ok, %{
+                        error: @error_request,
+                        error_description: @error_request_des,
+                        provider: args[:provider]
+                      }}
                   _ ->
-                    {:ok, %{error: @error_request, error_description: @error_request_des}}
+                    {:ok, %{
+                        error: @error_request,
+                        error_description: @error_request_des,
+                        provider: args[:provider]
+                      }}
                 end
               end
             else
-              {:ok, %{error: @error_request, error_description: @error_request_des}}
+              {:ok, %{
+                  error: @error_request,
+                  error_description: @error_request_des,
+                  provider: args[:provider]
+                }}
             end
         end
       "localhost" ->
         case args[:email] do
           nil ->
-            {:ok, %{error: @error_email, error_description: @error_email_des}}
+            {:ok, %{
+                error: @error_email,
+                error_description: @error_email_des,
+                provider: args[:provider]
+              }}
           "" ->
-            {:ok, %{error: @error_email, error_description: @error_email_des}}
+            {:ok, %{
+                error: @error_email,
+                error_description: @error_email_des,
+                provider: args[:provider]
+              }}
           _ ->
             if is_bitstring(args[:email]) do
               case User.find_by(email: String.downcase(args[:email])) do
                 nil ->
-                  {:ok, %{error: @error_email, error_description: @error_email_des}}
+                  {:ok, %{
+                      error: @error_email,
+                      error_description: @error_email_des,
+                      provider: args[:provider]
+                    }}
                 user ->
                   case Argon2.check_pass(user, args[:password]) do
                     {:error, data} ->
-                      {:ok, %{error: @error_password, error_description: data}}
+                      {:ok, %{
+                          error: @error_password,
+                          error_description: data,
+                          provider: args[:provider]
+                        }}
                     {:ok, user} ->
                       with token <- generate_token(user) do
-                        {:ok, %{access_token: token, provider: args[:provider]}}
+                        {:ok, %{
+                            access_token: token,
+                            provider: args[:provider]
+                          }}
                       end
                   end
 
               end
             else
-              {:ok, %{error: @error_email, error_description: @error_email_des}}
+              {:ok, %{
+                  error: @error_email,
+                  error_description: @error_email_des,
+                  provider: args[:provider]
+                }}
             end
         end
       "twitter" ->
-        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+        {:ok, %{
+            error: @error_pro,
+            error_description: @error_pro_des,
+            provider: args[:provider]
+          }}
       _ ->
-        {:ok, %{error: @error_pro, error_description: @error_pro_des}}
+        {:ok, %{
+            error: @error_pro,
+            error_description: @error_pro_des,
+            provider: args[:provider]
+          }}
     end
   end
-
 
   @spec required_keys([atom()], map()) :: boolean()
   defp required_keys(keys, args) do
@@ -554,24 +723,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     with token <- Phoenix.Token.sign(@secret, @salt, user.id) do
       token
     end
-  end
-
-  @spec info_email(list()) :: String.t()
-  defp info_email(data) do
-    if email =
-      data["elements"]
-      |> List.last
-      |> get_in(["handle~", "emailAddress"]), do: email, else: nil
-  end
-
-  @spec info_image(list()) :: String.t()
-  defp info_image(data) do
-    data
-    |> get_in(["profilePicture", "displayImage~", "elements"])
-    |> List.last()
-    |> get_in(["identifiers"])
-    |> List.last()
-    |> get_in(["identifier"])
   end
 
   @spec extract_error_msg(%Ecto.Changeset{}) :: %Ecto.Changeset{}

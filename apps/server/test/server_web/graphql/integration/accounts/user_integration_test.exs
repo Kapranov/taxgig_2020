@@ -5,10 +5,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
   alias ServerWeb.GraphQL.Schema
 
   describe "#list" do
-    it "returns accounts an user" do
+    it "returns accounts an user - `AbsintheHelpers`" do
       struct = insert(:user)
-
-      context = %{}
 
       query = """
       {
@@ -94,6 +92,40 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert List.last(data)["languages"] |> length                       == 1
       assert List.last(data)["languages"] |> List.last |> Map.get("name") == "chinese"
       assert List.last(data)["languages"] |> List.last |> Map.get("abbr") == "chi"
+    end
+
+    it "returns accounts an user - `Absinthe.run`" do
+      struct = insert(:user)
+
+      context = %{}
+
+      query = """
+      {
+        allUsers{
+          id
+          active
+          admin_role
+          avatar
+          bio
+          birthday
+          email
+          first_name
+          init_setup
+          languages {id abbr name inserted_at updated_at}
+          last_name
+          middle_name
+          phone
+          pro_role
+          provider
+          sex
+          ssn
+          street
+          zip
+          inserted_at
+          updated_at
+        }
+      }
+      """
 
       {:ok, %{data: %{"allUsers" => data}}} =
         Absinthe.run(query, Schema, context: context)
@@ -128,10 +160,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
   end
 
   describe "#show" do
-    it "returns specific accounts an user by id" do
+    it "returns specific accounts an user by id - `AbsintheHelpers`" do
       struct = insert(:user)
-
-      context = %{}
 
       query = """
       {
@@ -193,6 +223,40 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["languages"] |> length                       == 1
       assert found["languages"] |> List.last |> Map.get("name") == "chinese"
       assert found["languages"] |> List.last |> Map.get("abbr") == "chi"
+    end
+
+    it "returns specific accounts an user by id - `Absinthe.run`" do
+      struct = insert(:user)
+
+      context = %{}
+
+      query = """
+      {
+        showUser(id: \"#{struct.id}\") {
+          id
+          active
+          admin_role
+          avatar
+          bio
+          birthday
+          email
+          first_name
+          init_setup
+          languages {id abbr name inserted_at updated_at}
+          last_name
+          middle_name
+          phone
+          pro_role
+          provider
+          sex
+          ssn
+          street
+          zip
+          inserted_at
+          updated_at
+        }
+      }
+      """
 
       {:ok, %{data: %{"showUser" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -223,7 +287,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["languages"] |> List.last |> Map.get("abbr") == "chi"
     end
 
-    it "returns not found when accounts an user does not exist" do
+    it "returns not found when accounts an user does not exist - `AbsintheHelpers`" do
       id =  Ecto.UUID.generate()
 
       query = """
@@ -261,12 +325,84 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert hd(json_response(res, 200)["errors"])["message"] == "An User #{id} not found!"
     end
 
-    it "returns error for missing params" do
+    it "returns not found when accounts an user does not exist - `Absinthe.run`" do
+      id =  Ecto.UUID.generate()
+
+      context = %{}
+
+      query = """
+      {
+        showUser(id: \"#{id}\") {
+          id
+          active
+          admin_role
+          avatar
+          bio
+          birthday
+          email
+          first_name
+          init_setup
+          languages {id abbr name inserted_at updated_at}
+          last_name
+          middle_name
+          phone
+          pro_role
+          provider
+          sex
+          ssn
+          street
+          zip
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{data: %{"showUser" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found == nil
+    end
+
+    it "returns error for missing params - `AbsintheHelpers`" do
+      query = """
+      {
+        showUser(id: nil) {
+          id
+          active
+          admin_role
+          avatar
+          bio
+          birthday
+          email
+          first_name
+          init_setup
+          languages {id abbr name inserted_at updated_at}
+          last_name
+          middle_name
+          phone
+          pro_role
+          provider
+          sex
+          ssn
+          street
+          zip
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "showUser"))
+
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
   end
 
   describe "#create" do
-    it "creates accounts an user" do
+    it "creates accounts an user - `AbsintheHelpers`" do
       insert(:language)
 
       mutation = """
@@ -349,12 +485,170 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert created["languages"] |> List.last |> Map.get("abbr") == "chi"
     end
 
-    it "returns error for missing params" do
+    it "creates accounts an user - `Absinthe.run`" do
+      insert(:language)
+
+      context = %{}
+
+      query = """
+      mutation{
+        createUser(
+          active: false,
+          admin_role: false,
+          avatar: "some text",
+          bio: "some text",
+          birthday: \"#{Timex.today}\",
+          email: "lugatex@yahoo.com",
+          first_name: "some text",
+          init_setup: false,
+          languages: "chinese",
+          last_name: "some text",
+          middle_name: "some text",
+          password: "qwerty",
+          password_confirmation: "qwerty",
+          phone: "some text",
+          pro_role: false,
+          provider: "google",
+          sex: "some text",
+          ssn: 123456789,
+          street: "some text",
+          zip: 123456789
+        ) {
+          id
+          active
+          admin_role
+          avatar
+          bio
+          birthday
+          email
+          first_name
+          init_setup
+          languages {id abbr name inserted_at updated_at}
+          last_name
+          middle_name
+          phone
+          pro_role
+          provider
+          sex
+          ssn
+          street
+          zip
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{data: %{"createUser" => created}}} = Absinthe.run(query, Schema, context: context)
+
+      assert created["active"]      == false
+      assert created["admin_role"]  == false
+      assert created["avatar"]      == "some text"
+      assert created["bio"]         == "some text"
+      assert created["birthday"]    == to_string(Timex.today)
+      assert created["email"]       == "lugatex@yahoo.com"
+      assert created["first_name"]  == "some text"
+      assert created["init_setup"]  == false
+      assert created["last_name"]   == "some text"
+      assert created["middle_name"] == "some text"
+      assert created["phone"]       == "some text"
+      assert created["pro_role"]    == false
+      assert created["provider"]    == "google"
+      assert created["sex"]         == "some text"
+      assert created["ssn"]         == 123456789
+      assert created["street"]      == "some text"
+      assert created["zip"]         == 123456789
+
+      assert created["languages"] |> length                       == 1
+      assert created["languages"] |> List.last |> Map.get("name") == "chinese"
+      assert created["languages"] |> List.last |> Map.get("abbr") == "chi"
+    end
+
+    it "returns error for missing params - `AbsintheHelpers`" do
+      mutation = """
+      {
+        createUser(
+          email: "",
+          password: "",
+          password_confirmation: "",
+          provider: ""
+        ) {
+          email
+          provider
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
+
+      assert json_response(res, 200)["errors"] == [
+        %{"field" => "email",
+          "locations" => [
+            %{
+              "column" => 0,
+              "line" => 2
+            }
+          ],
+          "message" => "Can't be blank",
+          "path" => ["createUser"]
+        },
+        %{
+          "field" => "password",
+          "locations" => [
+            %{
+              "column" => 0,
+              "line" => 2
+            }
+          ],
+          "message" => "Can't be blank",
+          "path" => [
+            "createUser"
+          ]
+        },
+        %{
+          "field" => "password_confirmation",
+          "locations" => [
+            %{
+              "column" => 0,
+              "line" => 2
+            }
+          ],
+          "message" => "Can't be blank",
+          "path" => [
+            "createUser"
+          ]
+        }
+      ]
+    end
+
+    it "returns error for missing params - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation{
+        createUser(
+          email: "",
+          password: "",
+          password_confirmation: "",
+          provider: ""
+        ) {
+          email
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"createUser" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created == nil
     end
   end
 
   describe "#update" do
-    it "update specific accounts an user by id" do
+    it "update specific accounts an user by id - `AbsintheHelpers`" do
       struct = insert(:user)
 
       mutation = """
@@ -442,15 +736,246 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert updated["languages"] |> List.last |> Map.get("abbr") == "chi"
     end
 
-    it "nothing change for missing params" do
+    it "update specific accounts an user by id - `Absinthe.run`" do
+      struct = insert(:user)
+
+      context = %{}
+
+      query = """
+      mutation{
+        updateUser(
+          id: \"#{struct.id}\",
+          user: {
+            active: true,
+            admin_role: true,
+            avatar: "updated text",
+            bio: "updated text",
+            birthday: \"#{Timex.today}\",
+            email: "kapranov.lugatex@gmail.com",
+            first_name: "updated text",
+            init_setup: true,
+            languages: "chinese",
+            last_name: "updated text",
+            middle_name: "updated text",
+            password: "qwertyyy",
+            password_confirmation: "qwertyyy",
+            phone: "updated text",
+            pro_role: true,
+            provider: "facebook",
+            sex: "updated text",
+            ssn: 987654321,
+            street: "updated text",
+            zip: 987654321
+          }
+        ) {
+          id
+          active
+          admin_role
+          avatar
+          bio
+          birthday
+          email
+          first_name
+          init_setup
+          languages {id abbr name inserted_at updated_at}
+          last_name
+          middle_name
+          phone
+          pro_role
+          provider
+          sex
+          ssn
+          street
+          zip
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{data: %{"updateUser" => updated}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert updated["id"]          == struct.id
+      assert updated["active"]      == true
+      assert updated["admin_role"]  == true
+      assert updated["avatar"]      == "updated text"
+      assert updated["bio"]         == "updated text"
+      assert updated["birthday"]    == to_string(Timex.today)
+      assert updated["email"]       == "kapranov.lugatex@gmail.com"
+      assert updated["first_name"]  == "updated text"
+      assert updated["init_setup"]  == true
+      assert updated["last_name"]   == "updated text"
+      assert updated["middle_name"] == "updated text"
+      assert updated["phone"]       == "updated text"
+      assert updated["pro_role"]    == true
+      assert updated["provider"]    == "facebook"
+      assert updated["sex"]         == "updated text"
+      assert updated["ssn"]         == 987654321
+      assert updated["street"]      == "updated text"
+      assert updated["zip"]         == 987654321
+      assert updated["inserted_at"] == format_time(struct.inserted_at)
+
+      assert updated["languages"] |> length                       == 1
+      assert updated["languages"] |> List.last |> Map.get("name") == "chinese"
+      assert updated["languages"] |> List.last |> Map.get("abbr") == "chi"
     end
 
-    it "returns error for missing params" do
+    it "nothing change for missing params - `AbsintheHelpers`" do
+      struct = insert(:user)
+
+      mutation = """
+      {
+        updateUser(
+          id: \"#{struct.id}\",
+          user: {}
+        ) {
+          id
+          active
+          admin_role
+          avatar
+          bio
+          birthday
+          email
+          first_name
+          init_setup
+          languages {id abbr name inserted_at updated_at}
+          last_name
+          middle_name
+          phone
+          pro_role
+          provider
+          sex
+          ssn
+          street
+          zip
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
+
+      assert json_response(res, 200)["errors"] == [
+        %{
+          "field" => "password",
+          "locations" => [
+            %{
+              "column" => 0,
+              "line" => 2
+            }
+          ],
+          "message" => "Can't be blank",
+          "path" => ["updateUser"]
+        },
+        %{
+          "field" => "password_confirmation",
+          "locations" => [
+            %{
+              "column" => 0,
+              "line" => 2
+            }
+          ],
+          "message" => "Can't be blank",
+          "path" => ["updateUser"]
+        }
+      ]
+    end
+
+    it "nothing change for missing params - `Absinthe.run`" do
+      struct = insert(:user)
+
+      context = %{}
+
+      query = """
+      mutation {
+        updateUser(
+          id: \"#{struct.id}\",
+          user: {}
+        ) {
+          id
+          active
+          admin_role
+          avatar
+          bio
+          birthday
+          email
+          first_name
+          init_setup
+          languages {id abbr name inserted_at updated_at}
+          last_name
+          middle_name
+          phone
+          pro_role
+          provider
+          sex
+          ssn
+          street
+          zip
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{data: %{"updateUser" => updated}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert updated == nil
+    end
+
+    it "returns error for missing params - `AbsintheHelpers`" do
+      mutation = """
+      {
+        updateUser(
+          id: nil,
+          user: {}
+        ) {
+          id
+          active
+          admin_role
+          avatar
+          bio
+          birthday
+          email
+          first_name
+          init_setup
+          languages {id abbr name inserted_at updated_at}
+          last_name
+          middle_name
+          phone
+          pro_role
+          provider
+          sex
+          ssn
+          street
+          zip
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
+
+      assert json_response(res, 200)["errors"] == [%{
+          "locations" => [%{
+              "column" => 0,
+              "line" => 3
+            }
+          ],
+          "message" => "Argument \"id\" has invalid value nil."
+        }]
     end
   end
 
   describe "#delete" do
-    it "delete specific accounts an user by id" do
+    it "delete specific accounts an user by id - `AbsintheHelpers`" do
       struct = insert(:user)
 
       mutation = """
@@ -469,7 +994,24 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert deleted["id"] == struct.id
     end
 
-    it "returns not found when accounts an user does not exist" do
+    it "delete specific accounts an user by id - `Absinthe.run`" do
+      struct = insert(:user)
+
+      context = %{}
+
+      query = """
+      mutation {
+        deleteUser(id: \"#{struct.id}\") {id}
+      }
+      """
+
+      {:ok, %{data: %{"deleteUser" => deleted}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert deleted["id"] == struct.id
+    end
+
+    it "returns not found when accounts an user does not exist - `AbsintheHelpers`" do
       id = Ecto.UUID.generate()
 
       mutation = """
@@ -485,18 +1027,92 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert hd(json_response(res, 200)["errors"])["message"] == "An User #{id} not found!"
     end
 
-    it "returns error for missing params" do
+    it "returns not found when accounts an user does not exist - `Absinthe.run`" do
+      id = Ecto.UUID.generate()
+
+      context = %{}
+
+      query = """
+      mutation {
+        deleteUser(id: \"#{id}\") {id}
+      }
+      """
+
+      {:ok, %{data: %{"deleteUser" => deleted}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert deleted == nil
+    end
+
+    it "returns error for missing params - `AbsintheHelpers`" do
+      mutation = """
+      {
+        deleteUser(id: nil) {id}
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
+
+      assert json_response(res, 200)["errors"] == [%{
+          "locations" => [%{
+              "column" => 0,
+              "line" => 2
+            }],
+          "message" => "Argument \"id\" has invalid value nil."
+        }]
     end
   end
 
   describe "#get_code" do
-    it "return code by google" do
+    it "return code by google - `AbsintheHelpers`" do
+      query = """
+      {
+        getCode(provider: "google") {
+          code
+          provider
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getCode"]
+
+      assert found["code"]     =~ "https://accounts.google.com/o/oauth2/v2/auth?"
+      assert found["provider"] == "google"
+    end
+
+    it "return code by google - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getCode(provider: "google") {
           code
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"]     =~ "https://accounts.google.com/o/oauth2/v2/auth?"
+      assert found["provider"] == "google"
+    end
+
+    it "return code by linkedin - `AbsintheHelpers`" do
+      query = """
+      {
+        getCode(provider: "linkedin") {
+          code
+          provider
         }
       }
       """
@@ -509,21 +1125,35 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getCode"]
 
-      assert found["code"] =~ "https://accounts.google.com/o/oauth2/v2/auth?"
-
-      {:ok, %{data: %{"getCode" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["code"] =~ "https://accounts.google.com/o/oauth2/v2/auth?"
+      assert found["code"]     =~ "https://www.linkedin.com/oauth/v2/authorization?"
+      assert found["provider"] == "linkedin"
     end
 
-    it "return code by linkedin" do
+    it "return code by linkedin - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getCode(provider: "linkedin") {
           code
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"]     =~ "https://www.linkedin.com/oauth/v2/authorization?"
+      assert found["provider"] == "linkedin"
+    end
+
+    it "return code by facebook - `AbsintheHelpers`" do
+      query = """
+      {
+        getCode(provider: "facebook") {
+          code
+          provider
         }
       }
       """
@@ -536,21 +1166,34 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getCode"]
 
-      assert found["code"] =~ "https://www.linkedin.com/oauth/v2/authorization?"
-
-      {:ok, %{data: %{"getCode" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["code"] =~ "https://www.linkedin.com/oauth/v2/authorization?"
+      assert found["code"]     == "ok"
+      assert found["provider"] == "facebook"
     end
 
-    it "return code by facebook" do
+    it "return code by facebook - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getCode(provider: "facebook") {
           code
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] == "ok"
+    end
+
+    it "return code by twitter - `AbsintheHelpers`" do
+      query = """
+      {
+        getCode(provider: "twitter") {
+          code
+          provider
         }
       }
       """
@@ -563,21 +1206,35 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getCode"]
 
-      assert found["code"] == "ok"
-
-      {:ok, %{data: %{"getCode" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["code"] == "ok"
+      assert found["code"]     == "ok"
+      assert found["provider"] == "twitter"
     end
 
-    it "return code by twitter" do
+    it "return code by twitter - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getCode(provider: "twitter") {
           code
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"]     == "ok"
+      assert found["provider"] == "twitter"
+    end
+
+    it "return null by localhost - `AbsintheHelpers`" do
+      query = """
+      {
+        getCode(provider: "localhost") {
+          code
+          provider
         }
       }
       """
@@ -590,21 +1247,35 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getCode"]
 
-      assert found["code"] == "ok"
-
-      {:ok, %{data: %{"getCode" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["code"] == "ok"
+      assert found["code"]     == nil
+      assert found["provider"] == "localhost"
     end
 
-    it "return null by localhost" do
+    it "return null by localhost - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getCode(provider: "localhost") {
           code
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"]     == nil
+      assert found["provider"] == "localhost"
+    end
+
+    it "return null when provider is nil - `AbsintheHelpers`" do
+      query = """
+      {
+        getCode(provider: \"#{nil}") {
+          code
+          provider
         }
       }
       """
@@ -617,21 +1288,35 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getCode"]
 
-      assert found["code"] == nil
-
-      {:ok, %{data: %{"getCode" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["code"] == nil
+      assert found["code"]     == nil
+      assert found["provider"] == ""
     end
 
-    it "return null when provider is nil" do
+    it "return null when provider is nil - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
-        getCode(provider: \"\#{nil}") {
+        getCode(provider: \"#{nil}") {
           code
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"] == nil
+      assert found["provider"] == ""
+    end
+
+    it "return null when provider isn't exist - `AbsintheHelpers`" do
+      query = """
+      {
+        getCode(provider: "proba") {
+          code
+          provider
         }
       }
       """
@@ -644,21 +1329,35 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getCode"]
 
-      assert found["code"] == nil
-
-      {:ok, %{data: %{"getCode" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["code"] == nil
+      assert found["code"]     == nil
+      assert found["provider"] == "proba"
     end
 
-    it "return null when provider isn't exist" do
+    it "return null when provider isn't exist - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getCode(provider: "proba") {
           code
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"]     == nil
+      assert found["provider"] == "proba"
+    end
+
+    it "return null when string is blank - `AbsintheHelpers`" do
+      query = """
+      {
+        getCode(provider: "") {
+          code
+          provider
         }
       }
       """
@@ -671,46 +1370,32 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getCode"]
 
-      assert found["code"] == nil
-
-      {:ok, %{data: %{"getCode" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["code"] == nil
+      assert found["code"]     == nil
+      assert found["provider"] == ""
     end
 
-    it "return null when string is blank" do
+    it "return null when string is blank - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getCode(provider: "") {
           code
+          provider
         }
       }
       """
 
-      res =
-        build_conn()
-        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getCode"))
-
-      assert json_response(res, 200)["errors"] == nil
-
-      found = json_response(res, 200)["data"]["getCode"]
-
-      assert found["code"] == nil
-
       {:ok, %{data: %{"getCode" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["code"] == nil
+      assert found["code"]     == nil
+      assert found["provider"] == ""
     end
   end
 
   describe "#get_token" do
-    it "return token by google" do
-      context = %{}
-
+    it "return token by google - `AbsintheHelpers`" do
       query = """
       {
         getToken(provider: "google", code: "ok_code") {
@@ -738,12 +1423,32 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["access_token"]      == "token1"
       assert found["error"]             == nil
       assert found["error_description"] == nil
-      assert found["expires_in"]        == nil
-      assert found["id_token"]          == nil
+      assert found["expires_in"]        == 3570
+      assert found["id_token"]          == "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE3ZDU1ZmY0ZTEwOTkxZDZiMGVmZDM5MmI5MWEzM2U1NGMwZTIxOGIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI2NzAxMTY3MDA4MDMtYjc2bmh1Y2Z2dGJjaTFjOWN1cmE2OXY1NnZmaml0YWQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI2NzAxMTY3MDA4MDMtYjc2bmh1Y2Z2dGJjaTFjOWN1cmE2OXY1NnZmaml0YWQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDgyMDA5MzI5NjI2MjE1NzU4MTgiLCJlbWFpbCI6ImthcHJhbm92Lmx1Z2F0ZXhAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJYY3p0RVZCTTI1VUFFRkZyYWpyR3lBIiwibmFtZSI6IkthcHJhbm92IE9sZWciLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FPaDE0R2ctbEl3VEZYVnFUZXFBUWEzbGJVV01HSXAwS3RzQkZFeHV4WTdlPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IkthcHJhbm92IiwiZmFtaWx5X25hbWUiOiJPbGVnIiwibG9jYWxlIjoiZW4iLCJpYXQiOjE1ODMwODIzMDMsImV4cCI6MTU4MzA4NTkwM30.jb20PuqB2-ZqMCALYi9t2iKxiCgaYxh5ccjSzmLoS_GkxpegtVu0GnGocbHifieJCrU4K-XpjWkFtSaL9mOmVVWQXnUtXuZKIoPDQFRsD3WMlmCmXAw-fLf_cMGZqf2FbEu1uSvIWrgRIXhnZHfaGXJDp3_kWPyU-5bBNrzdSTmMmnVf2kr5b-lMHueNikTHRk2ovFn6HV_NZX318LV8Yf5EU68j-tWIEIL3IrloFTN0c7zvqIT77S2oY473fNUmRQQJ-ch9myyHMpOExm85t1duYWp8oDVScM9d3P09s_qIDAtxQAUldYjc6eszAVdfd5jPafH-5VEDq_CcYr7peA"
       assert found["provider"]          == "google"
       assert found["refresh_token"]     == nil
-      assert found["scope"]             == nil
-      assert found["token_type"]        == nil
+      assert found["scope"]             == "openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+      assert found["token_type"]        == "Bearer"
+    end
+
+    it "return token by google - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getToken(provider: "google", code: "ok_code") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
 
       {:ok, %{data: %{"getToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -751,17 +1456,15 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["access_token"]      == "token1"
       assert found["error"]             == nil
       assert found["error_description"] == nil
-      assert found["expires_in"]        == nil
-      assert found["id_token"]          == nil
+      assert found["expires_in"]        == 3570
+      assert found["id_token"]          == "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE3ZDU1ZmY0ZTEwOTkxZDZiMGVmZDM5MmI5MWEzM2U1NGMwZTIxOGIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI2NzAxMTY3MDA4MDMtYjc2bmh1Y2Z2dGJjaTFjOWN1cmE2OXY1NnZmaml0YWQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI2NzAxMTY3MDA4MDMtYjc2bmh1Y2Z2dGJjaTFjOWN1cmE2OXY1NnZmaml0YWQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDgyMDA5MzI5NjI2MjE1NzU4MTgiLCJlbWFpbCI6ImthcHJhbm92Lmx1Z2F0ZXhAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJYY3p0RVZCTTI1VUFFRkZyYWpyR3lBIiwibmFtZSI6IkthcHJhbm92IE9sZWciLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FPaDE0R2ctbEl3VEZYVnFUZXFBUWEzbGJVV01HSXAwS3RzQkZFeHV4WTdlPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IkthcHJhbm92IiwiZmFtaWx5X25hbWUiOiJPbGVnIiwibG9jYWxlIjoiZW4iLCJpYXQiOjE1ODMwODIzMDMsImV4cCI6MTU4MzA4NTkwM30.jb20PuqB2-ZqMCALYi9t2iKxiCgaYxh5ccjSzmLoS_GkxpegtVu0GnGocbHifieJCrU4K-XpjWkFtSaL9mOmVVWQXnUtXuZKIoPDQFRsD3WMlmCmXAw-fLf_cMGZqf2FbEu1uSvIWrgRIXhnZHfaGXJDp3_kWPyU-5bBNrzdSTmMmnVf2kr5b-lMHueNikTHRk2ovFn6HV_NZX318LV8Yf5EU68j-tWIEIL3IrloFTN0c7zvqIT77S2oY473fNUmRQQJ-ch9myyHMpOExm85t1duYWp8oDVScM9d3P09s_qIDAtxQAUldYjc6eszAVdfd5jPafH-5VEDq_CcYr7peA"
       assert found["provider"]          == "google"
       assert found["refresh_token"]     == nil
-      assert found["scope"]             == nil
-      assert found["token_type"]        == nil
+      assert found["scope"]             == "openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+      assert found["token_type"]        == "Bearer"
     end
 
-    it "return token by linkedin" do
-      context = %{}
-
+    it "return token by linkedin - `AbsintheHelpers`" do
       query = """
       {
         getToken(provider: "linkedin", code: "ok_code") {
@@ -789,20 +1492,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["access_token"]      == "token1"
       assert found["error"]             == nil
       assert found["error_description"] == nil
-      assert found["expires_in"]        == nil
-      assert found["id_token"]          == nil
-      assert found["provider"]          == "linkedin"
-      assert found["refresh_token"]     == nil
-      assert found["scope"]             == nil
-      assert found["token_type"]        == nil
-
-      {:ok, %{data: %{"getToken" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["access_token"]      == "token1"
-      assert found["error"]             == nil
-      assert found["error_description"] == nil
-      assert found["expires_in"]        == nil
+      assert found["expires_in"]        == 5183999
       assert found["id_token"]          == nil
       assert found["provider"]          == "linkedin"
       assert found["refresh_token"]     == nil
@@ -810,9 +1500,39 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["token_type"]        == nil
     end
 
-    it "return token by facebook" do
+    it "return token by linkedin - `Absinthe.run`" do
       context = %{}
 
+      query = """
+      {
+        getToken(provider: "linkedin", code: "ok_code") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
+      {:ok, %{data: %{"getToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == "token1"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == 5183999
+      assert found["id_token"]          == nil
+      assert found["provider"]          == "linkedin"
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+    end
+
+    it "return token by facebook - `AbsintheHelpers`" do
       query = """
       {
         getToken(provider: "facebook") {
@@ -842,10 +1562,30 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == nil
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "facebook"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
+    end
+
+    it "return token by facebook - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getToken(provider: "facebook") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
 
       {:ok, %{data: %{"getToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -855,15 +1595,13 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == nil
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "facebook"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
     end
 
-    it "return token by twitter" do
-      context = %{}
-
+    it "return token by twitter - `AbsintheHelpers`" do
       query = """
       {
         getToken(provider: "twitter") {
@@ -893,10 +1631,30 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == nil
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "twitter"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
+    end
+
+    it "return token by twitter - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getToken(provider: "twitter") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
 
       {:ok, %{data: %{"getToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -906,15 +1664,13 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == nil
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "twitter"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
     end
 
-    it "return null token by localhost" do
-      context = %{}
-
+    it "return null token by localhost - `AbsintheHelpers`" do
       query = """
       {
         getToken(provider: "localhost") {
@@ -944,10 +1700,30 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "localhost"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
+    end
+
+    it "return null token by localhost - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getToken(provider: "localhost") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
 
       {:ok, %{data: %{"getToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -957,15 +1733,13 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "localhost"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
     end
 
-    it "return null when provider isn't exist" do
-      context = %{}
-
+    it "return null when provider isn't exist - `AbsintheHelpers`" do
       query = """
       {
         getToken(provider: "xxx") {
@@ -995,10 +1769,30 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "xxx"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
+    end
+
+    it "return null when provider isn't exist - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getToken(provider: "xxx") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
 
       {:ok, %{data: %{"getToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -1008,15 +1802,13 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "xxx"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
     end
 
-    it "return null when provider is empty string" do
-      context = %{}
-
+    it "return null when provider is empty string - `AbsintheHelpers`" do
       query = """
       {
         getToken(provider: \"#{nil}\") {
@@ -1046,10 +1838,30 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == ""
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
+    end
+
+    it "return null when provider is empty string - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getToken(provider: \"#{nil}\") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
 
       {:ok, %{data: %{"getToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -1059,15 +1871,13 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == ""
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
     end
 
-    it "return null when code doesn't exist" do
-      context = %{}
-
+    it "return null when code doesn't exist - `AbsintheHelpers`" do
       query = """
       {
         getToken(provider: "google") {
@@ -1097,10 +1907,30 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "google"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
+    end
+
+    it "return null when code doesn't exist - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getToken(provider: "google") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
 
       {:ok, %{data: %{"getToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -1110,7 +1940,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "google"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
@@ -1118,13 +1948,53 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
   end
 
   describe "#get_refresh_token_code" do
-    it "return refresh code by google" do
+    it "return refresh code by google - `AbsintheHelpers`" do
+      query = """
+      {
+        getRefreshTokenCode(provider: "google", token: "token1") {
+          code
+          provider
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshTokenCode"]
+
+      assert found["code"]     =~ "https://accounts.google.com/o/oauth2/v2/auth?"
+      assert found["provider"] == "google"
+    end
+
+    it "return refresh code by google - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getRefreshTokenCode(provider: "google", token: "token1") {
           code
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"]     =~ "https://accounts.google.com/o/oauth2/v2/auth?"
+      assert found["provider"] == "google"
+    end
+
+    it "return refresh code by linkedin - `AbsintheHelpers`" do
+      query = """
+      {
+        getRefreshTokenCode(provider: "linkedin", token: "token1") {
+          code
+          provider
         }
       }
       """
@@ -1137,21 +2007,35 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getRefreshTokenCode"]
 
-      assert found["code"] =~ "https://accounts.google.com/o/oauth2/v2/auth?"
-
-      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["code"] =~ "https://accounts.google.com/o/oauth2/v2/auth?"
+      assert found["code"]     =~ "https://www.linkedin.com/oauth/v2/accessToken"
+      assert found["provider"] == "linkedin"
     end
 
-    it "return refresh code by linkedin" do
+    it "return refresh code by linkedin - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getRefreshTokenCode(provider: "linkedin", token: "token1") {
           code
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"]   =~ "https://www.linkedin.com/oauth/v2/accessToken"
+      assert found["provider"] == "linkedin"
+    end
+
+    it "return refresh code by linkedin when token is nil - `AbsintheHelpers`" do
+      query = """
+      {
+        getRefreshTokenCode(provider: "linkedin", token: \"#{nil}\") {
+          code
+          provider
         }
       }
       """
@@ -1164,21 +2048,35 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getRefreshTokenCode"]
 
-      assert found["code"] =~ "https://www.linkedin.com/oauth/v2/accessToken"
-
-      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["code"] =~ "https://www.linkedin.com/oauth/v2/accessToken"
+      assert found["code"]     =~ "https://www.linkedin.com/oauth/v2/accessToken"
+      assert found["provider"] == "linkedin"
     end
 
-    it "return refresh code by linkedin when token is nil" do
+    it "return refresh code by linkedin when token is nil - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getRefreshTokenCode(provider: "linkedin", token: \"#{nil}\") {
           code
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"]     =~ "https://www.linkedin.com/oauth/v2/accessToken&grant_type=refresh_token&refresh_token=&"
+      assert found["provider"] == "linkedin"
+    end
+
+    it "return refresh code by google when token is nil - `AbsintheHelpers`" do
+      query = """
+      {
+        getRefreshTokenCode(provider: "google", token: \"#{nil}\") {
+          code
+          provider
         }
       }
       """
@@ -1191,21 +2089,35 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getRefreshTokenCode"]
 
-      assert found["code"] =~ "https://www.linkedin.com/oauth/v2/accessToken"
-
-      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["code"] =~ "https://www.linkedin.com/oauth/v2/accessToken&grant_type=refresh_token&refresh_token=&"
+      assert found["code"]     =~ "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&access_type=offline&"
+      assert found["provider"] == "google"
     end
 
-    it "return refresh code by google when token is nil" do
+    it "return refresh code by google when token is nil - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getRefreshTokenCode(provider: "google", token: \"#{nil}\") {
           code
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"]     =~ "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&access_type=offline&"
+      assert found["provider"] == "google"
+    end
+
+    it "return refresh code by facebook - `AbsintheHelpers`" do
+      query = """
+      {
+        getRefreshTokenCode(provider: "facebook", token: \"#{nil}\") {
+          code
+          provider
         }
       }
       """
@@ -1218,21 +2130,35 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getRefreshTokenCode"]
 
-      assert found["code"] =~ "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&access_type=offline&"
-
-      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["code"] =~ "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&access_type=offline&"
+      assert found["code"]     == "ok"
+      assert found["provider"] == "facebook"
     end
 
-    it "return refresh code by facebook" do
+    it "return refresh code by facebook - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getRefreshTokenCode(provider: "facebook", token: \"#{nil}\") {
           code
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"]     == "ok"
+      assert found["provider"] == "facebook"
+    end
+
+    it "return refresh code by twitter - `AbsintheHelpers`" do
+      query = """
+      {
+        getRefreshTokenCode(provider: "twitter", token: \"#{nil}\") {
+          code
+          provider
         }
       }
       """
@@ -1245,21 +2171,35 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getRefreshTokenCode"]
 
-      assert found["code"] == "ok"
-
-      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["code"] == "ok"
+      assert found["code"]     == "ok"
+      assert found["provider"] == "twitter"
     end
 
-    it "return refresh code by twitter" do
+    it "return refresh code by twitter - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getRefreshTokenCode(provider: "twitter", token: \"#{nil}\") {
           code
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"]     == "ok"
+      assert found["provider"] == "twitter"
+    end
+
+    it "return null when provider is localhost - `AbsintheHelpers`" do
+      query = """
+      {
+        getRefreshTokenCode(provider: "localhost", token: \"#{nil}\") {
+          code
+          provider
         }
       }
       """
@@ -1272,21 +2212,35 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getRefreshTokenCode"]
 
-      assert found["code"] == "ok"
-
-      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["code"] == "ok"
+      assert found["code"]     == nil
+      assert found["provider"] == "localhost"
     end
 
-    it "return null when provider is localhost" do
+    it "return null when provider is localhost - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getRefreshTokenCode(provider: "localhost", token: \"#{nil}\") {
           code
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"]     == nil
+      assert found["provider"] == "localhost"
+    end
+
+    it "return error when provider is nil - `AbsintheHelpers`" do
+      query = """
+      {
+        getRefreshTokenCode(provider: \"#{nil}\", token: \"#{nil}\") {
+          code
+          provider
         }
       }
       """
@@ -1299,21 +2253,35 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getRefreshTokenCode"]
 
-      assert found["code"] == nil
-
-      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["code"] == nil
+      assert found["code"]     == nil
+      assert found["provider"] == ""
     end
 
-    it "return error when provider is nil" do
+    it "return error when provider is nil - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getRefreshTokenCode(provider: \"#{nil}\", token: \"#{nil}\") {
           code
+          provider
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["code"]     == nil
+      assert found["provider"] == ""
+    end
+
+    it "return error when provider doesn't exist - `AbsintheHelpers`" do
+      query = """
+      {
+        getRefreshTokenCode(provider: "xxx", token: \"#{nil}\") {
+          code
+          provider
         }
       }
       """
@@ -1326,46 +2294,31 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getRefreshTokenCode"]
 
-      assert found["code"] == nil
-
-      {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["code"] == nil
+      assert found["code"]     == nil
+      assert found["provider"] == "xxx"
     end
 
-    it "return error when provider doesn't exist" do
+    it "return error when provider doesn't exist - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
         getRefreshTokenCode(provider: "xxx", token: \"#{nil}\") {
           code
+          provider
         }
       }
       """
-
-      res =
-        build_conn()
-        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
-
-      assert json_response(res, 200)["errors"] == nil
-
-      found = json_response(res, 200)["data"]["getRefreshTokenCode"]
-
-      assert found["code"] == nil
-
       {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["code"] == nil
+      assert found["code"]     == nil
+      assert found["provider"] == "xxx"
     end
   end
 
   describe "#get_refresh_token" do
-    it "return refresh token by google" do
-      context = %{}
-
+    it "return refresh token by google - `AbsintheHelpers`" do
       query = """
       {
         getRefreshToken(provider: "google", token: "token1") {
@@ -1399,6 +2352,26 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
+    end
+
+    it "return refresh token by google - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshToken(provider: "google", token: "token1") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
 
       {:ok, %{data: %{"getRefreshToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -1414,9 +2387,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["token_type"]        == nil
     end
 
-    it "return refresh token by linkedin" do
-      context = %{}
-
+    it "return refresh token by linkedin - `AbsintheHelpers`" do
       query = """
       {
         getRefreshToken(provider: "linkedin", token: "token1") {
@@ -1441,22 +2412,9 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getRefreshToken"]
 
-      assert found["access_token"]      == "token1"
-      assert found["error"]             == nil
-      assert found["error_description"] == nil
-      assert found["expires_in"]        == nil
-      assert found["id_token"]          == nil
-      assert found["provider"]          == "linkedin"
-      assert found["refresh_token"]     == nil
-      assert found["scope"]             == nil
-      assert found["token_type"]        == nil
-
-      {:ok, %{data: %{"getRefreshToken" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["access_token"]      == "token1"
-      assert found["error"]             == nil
-      assert found["error_description"] == nil
+      assert found["access_token"]      == nil
+      assert found["error"]             == "access_denied"
+      assert found["error_description"] == "Refresh token not allowed"
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
       assert found["provider"]          == "linkedin"
@@ -1465,9 +2423,40 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["token_type"]        == nil
     end
 
-    it "return refresh token  by facebook" do
+    it "return refresh token by linkedin - `Absinthe.run`" do
       context = %{}
 
+      query = """
+      {
+        getRefreshToken(provider: "linkedin", token: "token1") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getRefreshToken" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_token"]      == nil
+      assert found["error"]             == "access_denied"
+      assert found["error_description"] == "Refresh token not allowed"
+      assert found["expires_in"]        == nil
+      assert found["id_token"]          == nil
+      assert found["provider"]          == "linkedin"
+      assert found["refresh_token"]     == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == nil
+    end
+
+    it "return refresh token  by facebook - `AbsintheHelpers`" do
       query = """
       {
         getRefreshToken(provider: "facebook", token: "token1") {
@@ -1497,10 +2486,30 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == nil
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "facebook"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
+    end
+
+    it "return refresh token  by facebook - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshToken(provider: "facebook", token: "token1") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
 
       {:ok, %{data: %{"getRefreshToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -1510,15 +2519,13 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == nil
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "facebook"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
     end
 
-    it "return refresh token  by twitter" do
-      context = %{}
-
+    it "return refresh token  by twitter - `AbsintheHelpers`" do
       query = """
       {
         getRefreshToken(provider: "twitter", token: "token1") {
@@ -1548,10 +2555,30 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == nil
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "twitter"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
+    end
+
+    it "return refresh token  by twitter - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshToken(provider: "twitter", token: "token1") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
 
       {:ok, %{data: %{"getRefreshToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -1561,15 +2588,13 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == nil
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "twitter"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
     end
 
-    it "return null when provider isn't correct" do
-      context = %{}
-
+    it "return null when provider isn't correct - `AbsintheHelpers`" do
       query = """
       {
         getRefreshToken(provider: "xxx", token: "token1") {
@@ -1599,11 +2624,30 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "xxx"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
+    end
 
+    it "return null when provider isn't correct - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshToken(provider: "xxx", token: "token1") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
       {:ok, %{data: %{"getRefreshToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
@@ -1612,15 +2656,13 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "xxx"
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
     end
 
-    it "return error when provider dosn't exist" do
-      context = %{}
-
+    it "return error when provider dosn't exist - `AbsintheHelpers`" do
       query = """
       {
         getRefreshToken(provider: \"#{nil}\", token: "token1") {
@@ -1650,10 +2692,30 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == ""
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
+    end
+
+    it "return error when provider dosn't exist - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getRefreshToken(provider: \"#{nil}\", token: "token1") {
+          access_token
+          error
+          error_description
+          expires_in
+          id_token
+          provider
+          refresh_token
+          scope
+          token_type
+        }
+      }
+      """
 
       {:ok, %{data: %{"getRefreshToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -1663,7 +2725,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == ""
       assert found["refresh_token"]     == nil
       assert found["scope"]             == nil
       assert found["token_type"]        == nil
@@ -1671,9 +2733,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
   end
 
   describe "#verify_token" do
-    it "return checked out token by google" do
-      context = %{}
-
+    it "return checked out token by google - `AbsintheHelpers`" do
       query = """
       {
         getVerify(provider: "google", token: "token1") {
@@ -1700,40 +2760,60 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getVerify"]
 
-      assert found["access_type"]       == nil
-      assert found["aud"]               == nil
-      assert found["azp"]               == nil
+      assert found["access_type"]       == "online"
+      assert found["aud"]               == "670116700803-b76nhucfvtbci1c9cura69v56vfjitad.apps.googleusercontent.com"
+      assert found["azp"]               == "670116700803-b76nhucfvtbci1c9cura69v56vfjitad.apps.googleusercontent.com"
       assert found["email"]             == nil
       assert found["error"]             == nil
       assert found["error_description"] == nil
-      assert found["exp"]               == nil
-      assert found["expires_in"]        == nil
+      assert found["exp"]               == "1583085800"
+      assert found["expires_in"]        == "3320"
       assert found["provider"]          == "google"
-      assert found["scope"]             == nil
-      assert found["sub"]               == nil
-
-      {:ok, %{data: %{"getVerify" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["access_type"]       == nil
-      assert found["aud"]               == nil
-      assert found["azp"]               == nil
-      assert found["email"]             == nil
-      assert found["error"]             == nil
-      assert found["error_description"] == nil
-      assert found["exp"]               == nil
-      assert found["expires_in"]        == nil
-      assert found["provider"]          == "google"
-      assert found["scope"]             == nil
-      assert found["sub"]               == nil
+      assert found["scope"]             == "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid"
+      assert found["sub"]               == "108200932962621575818"
     end
 
-    it "return null new token by google when isn't correct" do
+    it "return checked out token by google - `Absinthe.run`" do
       context = %{}
 
       query = """
       {
-        getVerify(provider: "google", token: \"#{nil}\") {
+        getVerify(provider: "google", token: "token1") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getVerify" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_type"]       == "online"
+      assert found["aud"]               == "670116700803-b76nhucfvtbci1c9cura69v56vfjitad.apps.googleusercontent.com"
+      assert found["azp"]               == "670116700803-b76nhucfvtbci1c9cura69v56vfjitad.apps.googleusercontent.com"
+      assert found["email"]             == nil
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["exp"]               == "1583085800"
+      assert found["expires_in"]        == "3320"
+      assert found["provider"]          == "google"
+      assert found["scope"]             == "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid"
+      assert found["sub"]               == "108200932962621575818"
+    end
+
+    it "return null new token by google when isn't correct - `AbsintheHelpers`" do
+      query = """
+      {
+        getVerify(provider: "google", token: nil) {
           access_type
           aud
           azp
@@ -1753,41 +2833,16 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getVerify"))
 
-      assert json_response(res, 200)["errors"] == nil
-
-      found = json_response(res, 200)["data"]["getVerify"]
-
-      assert found["access_type"]       == nil
-      assert found["aud"]               == nil
-      assert found["azp"]               == nil
-      assert found["email"]             == nil
-      assert found["error"]             == nil
-      assert found["error_description"] == nil
-      assert found["exp"]               == nil
-      assert found["expires_in"]        == nil
-      assert found["provider"]          == "google"
-      assert found["scope"]             == nil
-      assert found["sub"]               == nil
-
-      {:ok, %{data: %{"getVerify" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["access_type"]       == nil
-      assert found["aud"]               == nil
-      assert found["azp"]               == nil
-      assert found["email"]             == nil
-      assert found["error"]             == nil
-      assert found["error_description"] == nil
-      assert found["exp"]               == nil
-      assert found["expires_in"]        == nil
-      assert found["provider"]          == "google"
-      assert found["scope"]             == nil
-      assert found["sub"]               == nil
+      assert json_response(res, 200)["errors"] == [%{
+          "locations" => [%{
+              "column" => 0,
+              "line" => 2
+            }],
+          "message" => "Argument \"token\" has invalid value nil."
+        }]
     end
 
-    it "return error new token by google when doesn't exist" do
-      context = %{}
-
+    it "return error new token by google when doesn't exist - `AbsintheHelpers`" do
       query = """
       {
         getVerify(provider: "xxx", token: \"#{nil}\") {
@@ -1822,9 +2877,31 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["exp"]               == nil
       assert found["expires_in"]        == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "xxx"
       assert found["scope"]             == nil
       assert found["sub"]               == nil
+    end
+
+    it "return error new token by google when doesn't exist - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getVerify(provider: "xxx", token: \"#{nil}\") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
 
       {:ok, %{data: %{"getVerify" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -1837,14 +2914,12 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["exp"]               == nil
       assert found["expires_in"]        == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "xxx"
       assert found["scope"]             == nil
       assert found["sub"]               == nil
     end
 
-    it "return checked out token by linkedin" do
-      context = %{}
-
+    it "return checked out token by linkedin - `AbsintheHelpers`" do
       query = """
       {
         getVerify(provider: "linkedin", token: "token1") {
@@ -1874,23 +2949,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["access_type"]       == nil
       assert found["aud"]               == nil
       assert found["azp"]               == nil
-      assert found["email"]             == nil
-      assert found["error"]             == "Invalid access token"
-      assert found["error_description"] == nil
-      assert found["exp"]               == nil
-      assert found["expires_in"]        == nil
-      assert found["provider"]          == "linkedin"
-      assert found["scope"]             == nil
-      assert found["sub"]               == nil
-
-      {:ok, %{data: %{"getVerify" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["access_type"]       == nil
-      assert found["aud"]               == nil
-      assert found["azp"]               == nil
-      assert found["email"]             == nil
-      assert found["error"]             == "Invalid access token"
+      assert found["email"]             == "lugatex@yahoo.com"
+      assert found["error"]             == nil
       assert found["error_description"] == nil
       assert found["exp"]               == nil
       assert found["expires_in"]        == nil
@@ -1899,9 +2959,44 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["sub"]               == nil
     end
 
-    it "return error token by linkedin when token is nil" do
+    it "return checked out token by linkedin - `Absinthe.run`" do
       context = %{}
 
+      query = """
+      {
+        getVerify(provider: "linkedin", token: "token1") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getVerify" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == "lugatex@yahoo.com"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == "linkedin"
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
+    end
+
+    it "return error token by linkedin when token is nil - `AbsintheHelpers`" do
       query = """
       {
         getVerify(provider: "linkedin", token: \"#{nil}\") {
@@ -1931,23 +3026,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["access_type"]       == nil
       assert found["aud"]               == nil
       assert found["azp"]               == nil
-      assert found["email"]             == nil
-      assert found["error"]             == "Invalid access token"
-      assert found["error_description"] == nil
-      assert found["exp"]               == nil
-      assert found["expires_in"]        == nil
-      assert found["provider"]          == "linkedin"
-      assert found["scope"]             == nil
-      assert found["sub"]               == nil
-
-      {:ok, %{data: %{"getVerify" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["access_type"]       == nil
-      assert found["aud"]               == nil
-      assert found["azp"]               == nil
-      assert found["email"]             == nil
-      assert found["error"]             == "Invalid access token"
+      assert found["email"]             == "lugatex@yahoo.com"
+      assert found["error"]             == nil
       assert found["error_description"] == nil
       assert found["exp"]               == nil
       assert found["expires_in"]        == nil
@@ -1956,9 +3036,44 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["sub"]               == nil
     end
 
-    it "return error token by linkedin when token doesn't exist" do
+    it "return error token by linkedin when token is nil - `Absinthe.run`" do
       context = %{}
 
+      query = """
+      {
+        getVerify(provider: "linkedin", token: \"#{nil}\") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getVerify" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == "lugatex@yahoo.com"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == "linkedin"
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
+    end
+
+    it "return error token by linkedin when token doesn't exist - `AbsintheHelpers`" do
       query = """
       {
         getVerify(provider: "linkedin", token: "xxx") {
@@ -1988,23 +3103,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["access_type"]       == nil
       assert found["aud"]               == nil
       assert found["azp"]               == nil
-      assert found["email"]             == nil
-      assert found["error"]             == "Invalid access token"
-      assert found["error_description"] == nil
-      assert found["exp"]               == nil
-      assert found["expires_in"]        == nil
-      assert found["provider"]          == "linkedin"
-      assert found["scope"]             == nil
-      assert found["sub"]               == nil
-
-      {:ok, %{data: %{"getVerify" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["access_type"]       == nil
-      assert found["aud"]               == nil
-      assert found["azp"]               == nil
-      assert found["email"]             == nil
-      assert found["error"]             == "Invalid access token"
+      assert found["email"]             == "lugatex@yahoo.com"
+      assert found["error"]             == nil
       assert found["error_description"] == nil
       assert found["exp"]               == nil
       assert found["expires_in"]        == nil
@@ -2013,9 +3113,44 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["sub"]               == nil
     end
 
-    it "return checked out token by facebook" do
+    it "return error token by linkedin when token doesn't exist - `Absinthe.run`" do
       context = %{}
 
+      query = """
+      {
+        getVerify(provider: "linkedin", token: "xxx") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
+
+      {:ok, %{data: %{"getVerify" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["access_type"]       == nil
+      assert found["aud"]               == nil
+      assert found["azp"]               == nil
+      assert found["email"]             == "lugatex@yahoo.com"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["exp"]               == nil
+      assert found["expires_in"]        == nil
+      assert found["provider"]          == "linkedin"
+      assert found["scope"]             == nil
+      assert found["sub"]               == nil
+    end
+
+    it "return checked out token by facebook - `AbsintheHelpers`" do
       query = """
       {
         getVerify(provider: "facebook", token: "token1") {
@@ -2050,9 +3185,32 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == nil
       assert found["exp"]               == nil
       assert found["expires_in"]        == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "facebook"
       assert found["scope"]             == nil
       assert found["sub"]               == nil
+    end
+
+    it "return checked out token by facebook - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getVerify(provider: "facebook", token: "token1") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
+
 
       {:ok, %{data: %{"getVerify" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -2065,14 +3223,12 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == nil
       assert found["exp"]               == nil
       assert found["expires_in"]        == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "facebook"
       assert found["scope"]             == nil
       assert found["sub"]               == nil
     end
 
-    it "return checked out token by twitter" do
-      context = %{}
-
+    it "return checked out token by twitter - `AbsintheHelpers`" do
       query = """
       {
         getVerify(provider: "twitter", token: "token1") {
@@ -2107,10 +3263,31 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == nil
       assert found["exp"]               == nil
       assert found["expires_in"]        == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "twitter"
       assert found["scope"]             == nil
       assert found["sub"]               == nil
+    end
 
+    it "return checked out token by twitter - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getVerify(provider: "twitter", token: "token1") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
       {:ok, %{data: %{"getVerify" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
@@ -2122,14 +3299,12 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == nil
       assert found["exp"]               == nil
       assert found["expires_in"]        == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "twitter"
       assert found["scope"]             == nil
       assert found["sub"]               == nil
     end
 
-    it "return error token by linkedin when provider doesn't correct" do
-      context = %{}
-
+    it "return error token by linkedin when provider doesn't correct - `AbsintheHelpers`" do
       query = """
       {
         getVerify(provider: "xxx", token: "token1") {
@@ -2164,9 +3339,32 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["exp"]               == nil
       assert found["expires_in"]        == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "xxx"
       assert found["scope"]             == nil
       assert found["sub"]               == nil
+    end
+
+    it "return error token by linkedin when provider doesn't correct - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        getVerify(provider: "xxx", token: "token1") {
+          access_type
+          aud
+          azp
+          email
+          error
+          error_description
+          exp
+          expires_in
+          provider
+          scope
+          sub
+        }
+      }
+      """
+
 
       {:ok, %{data: %{"getVerify" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -2179,81 +3377,1142 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error_description"] == "invalid url by provider"
       assert found["exp"]               == nil
       assert found["expires_in"]        == nil
-      assert found["provider"]          == nil
+      assert found["provider"]          == "xxx"
       assert found["scope"]             == nil
       assert found["sub"]               == nil
     end
   end
 
   describe "#signup" do
-    it "create user used code by google and return access token" do
+    it "create user used code by google and return access token - `AbsintheHelpers`" do
+      query = """
+      mutation {
+        signUp(
+          code: "ok_code",
+          provider: "google"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signUp"]
+
+      assert created["access_token"]      =~ "SFMyNTY.g"
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == "google"
     end
 
-    it "return error by google when code is nil" do
+    it "create user used code by google and return access token - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        signUp(
+          code: "ok_code",
+          provider: "google"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signUp" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      =~ "FMyNTY.g"
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == "google"
     end
 
-    it "return error by google when code doesn't exist" do
+    it "create user used code by linkedin and return access token - `AbsintheHelpers`" do
+      query = """
+      mutation {
+        signUp(
+          code: "ok_code",
+          provider: "linkedin"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signUp"]
+
+      assert created["access_token"]      =~ "SFMyNTY."
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == "linkedin"
     end
 
-    it "create user used code by linkedin and return access token" do
+    it "create user used code by linkedin and return access token - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        signUp(
+          code: "ok_code",
+          provider: "linkedin"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signUp" => created}}} = Absinthe.run(query, Schema, context: context)
+      assert created["access_token"]      =~ "FMyNTY.g"
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == "linkedin"
     end
 
-    it "return error by linkedin when code is nil" do
+    it "return error by linkedin when code is fault - `AbsintheHelpers`" do
+      query = """
+      mutation {
+        signUp(
+          code: "wrong_code",
+          provider: "linkedin"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signUp"]
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid_request"
+      assert created["error_description"] == "Unable to retrieve access token: authorization code not found"
+      assert created["provider"]          == "linkedin"
     end
 
-    it "create user used code by facebook and return access token" do
+    it "return error by linkedin when code is fault - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        signUp(
+          code: "wrong_code",
+          provider: "linkedin"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signUp" => created}}} = Absinthe.run(query, Schema, context: context)
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid_request"
+      assert created["error_description"] == "Unable to retrieve access token: authorization code not found"
+      assert created["provider"]          == "linkedin"
     end
 
-    it "create user used code by twitter and return access token" do
+    it "create user used code by facebook and return access token - `AbsintheHelpers`" do
+      query = """
+      mutation {
+        signUp(
+          email: "oleg@yahoo.com",
+          provider: "facebook"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signUp"]
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid provider"
+      assert created["error_description"] == "invalid url by provider"
+      assert created["provider"]          == "facebook"
     end
 
-    it "create user via localhost and return access token" do
+    it "create user used code by facebook and return access token - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        signUp(
+          email: "oleg@yahoo.com",
+          provider: "facebook"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signUp" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid provider"
+      assert created["error_description"] == "invalid url by provider"
+      assert created["provider"]          == "facebook"
     end
 
-    it "return error via localhost when args nil" do
+    it "create user used code by twitter and return access token - `AbsintheHelpers`" do
+      query = """
+      mutation {
+        signUp(
+          email: "oleg@yahoo.com",
+          provider: "twitter"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signUp"]
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid provider"
+      assert created["error_description"] == "invalid url by provider"
+      assert created["provider"]          == "twitter"
+    end
+
+    it "create user used code by twitter and return access token - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        signUp(
+          email: "oleg@yahoo.com",
+          provider: "twitter"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signUp" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid provider"
+      assert created["error_description"] == "invalid url by provider"
+      assert created["provider"]          == "twitter"
+    end
+
+    it "create user via localhost and return access token - `AbsintheHelpers`" do
+      query = """
+      mutation {
+        signUp(
+          email: "oleg@yahoo.com",
+          password: "qwerty",
+          password_confirmation: "qwerty",
+          provider: "localhost"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signUp"]
+
+      assert created["access_token"]      =~ "FMyNTY.g"
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == "localhost"
+    end
+
+    it "create user via localhost and return access token - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        signUp(
+          email: "oleg@yahoo.com",
+          password: "qwerty",
+          password_confirmation: "qwerty",
+          provider: "localhost"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signUp" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      =~ "FMyNTY.g"
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == "localhost"
+    end
+
+    it "return error via localhost when provider is nil - `AbsintheHelpers`" do
+      query = """
+      mutation {
+        signUp(
+          email: "oleg@yahoo.com",
+          password: "qwerty",
+          password_confirmation: "qwerty",
+          provider: \"#{nil}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signUp"]
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid provider"
+      assert created["error_description"] == "invalid url by provider"
+      assert created["provider"]          == ""
+    end
+
+    it "return error via localhost when provider is nil - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        signUp(
+          email: "oleg@yahoo.com",
+          password: "qwerty",
+          password_confirmation: "qwerty",
+          provider: \"#{nil}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signUp" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid provider"
+      assert created["error_description"] == "invalid url by provider"
+      assert created["provider"]          == ""
+    end
+
+    it "return errors via localhost when args nil - `AbsintheHelpers`" do
+      query = """
+      mutation {
+        signUp(
+          email: \"#{nil}\",
+          password: \"#{nil}\",
+          password_confirmation: \"#{nil}\",
+          provider: "localhost"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      [field1, field2, field3] = json_response(res, 200)["errors"]
+
+      assert field1["field"]   == "email"
+      assert field1["message"] == "Can't be blank"
+      assert field1["path"]    == ["signUp"]
+
+      assert field2["field"]   == "password"
+      assert field2["message"] == "Can't be blank"
+      assert field2["path"]    == ["signUp"]
+
+      assert field3["field"]   == "password_confirmation"
+      assert field3["message"] == "Can't be blank"
+      assert field3["path"]    == ["signUp"]
+    end
+
+    it "return errors via localhost when args nil - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        signUp(
+          email: \"#{nil}\",
+          password: \"#{nil}\",
+          password_confirmation: \"#{nil}\",
+          provider: "localhost"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signUp" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == nil
     end
   end
 
   describe "#signin" do
-    it "signin via google and return access token" do
+    it "signin via google and return access token - `AbsintheHelpers`" do
+      struct = insert(:user, email: "kapranov.lugatex@gmail.com", provider: "google")
+
+      query = """
+      {
+        signIn(
+          code: "ok_code",
+          email: \"#{struct.email}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signIn"]
+
+      assert created["access_token"]      =~ "SFMyNTY.g"
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == "google"
     end
 
-    it "return error via google when code is nil" do
+    it "signin via google and return access token - `Absinthe.run`" do
+      struct = insert(:user, email: "kapranov.lugatex@gmail.com", provider: "google")
+
+      context = %{}
+
+      query = """
+      {
+        signIn(
+          code: "ok_code",
+          email: \"#{struct.email}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signIn" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      =~ "SFMyNTY.g"
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == "google"
     end
 
-    it "return error via google when code doesn't exist" do
+    it "return error via google when code doesn't exist - `AbsintheHelpers`" do
+      struct = insert(:user, email: "kapranov.lugatex@gmail.com", provider: "google")
+
+      query = """
+      {
+        signIn(
+          code: "wrong_code",
+          email: \"#{struct.email}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signIn"]
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid grant"
+      assert created["error_description"] == "Bad Request"
+      assert created["provider"]          == "google"
     end
 
-    it "signin via linkedin and return access token" do
+    it "return error via google when code doesn't exist - `Absinthe.run`" do
+      struct = insert(:user, email: "kapranov.lugatex@gmail.com", provider: "google")
+
+      context = %{}
+
+      query = """
+      {
+        signIn(
+          code: "wrong_code",
+          email: \"#{struct.email}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signIn" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid grant"
+      assert created["error_description"] == "Bad Request"
+      assert created["provider"]          == "google"
     end
 
-    it "return error via linkedin when code is nil" do
+    it "return error via google when code is nil - `AbsintheHelpers`" do
+      struct = insert(:user, email: "kapranov.lugatex@gmail.com", provider: "google")
+
+      query = """
+      {
+        signIn(
+          code: nil,
+          email: \"#{struct.email}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
+
+      assert json_response(res, 200)["errors"] == [%{
+          "locations" => [%{
+              "column" => 0,
+              "line" => 3
+            }],
+          "message" => "Argument \"code\" has invalid value nil."
+        }]
     end
 
-    it "return error via linkedin when code doesn't exist" do
+    it "signin via linkedin and return access token - `AbsintheHelpers`" do
+      struct = insert(:user, email: "lugatex@yahoo.com", provider: "linkedin")
+
+      query = """
+      {
+        signIn(
+          code: "ok_code",
+          email: \"#{struct.email}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signIn"]
+
+      assert created["access_token"]      =~ "SFMyNTY.g"
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == "linkedin"
     end
 
-    it "signin via facebook and return access token" do
+    it "signin via linkedin and return access token - `Absinthe.run`" do
+      struct = insert(:user, email: "lugatex@yahoo.com", provider: "linkedin")
+
+      context = %{}
+
+      query = """
+      {
+        signIn(
+          code: "ok_code",
+          email: \"#{struct.email}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signIn" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      =~ "SFMyNTY.g"
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == "linkedin"
     end
 
-    it "signin via twitter and return access token" do
+    it "return error via linkedin when code doesn't exist - `AbsintheHelpers`" do
+      struct = insert(:user, email: "lugatex@yahoo.com", provider: "linkedin")
+
+      query = """
+      {
+        signIn(
+          code: "wrong_code",
+          email: \"#{struct.email}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signIn"]
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid_request"
+      assert created["error_description"] == "Unable to retrieve access token: authorization code not found"
+      assert created["provider"]          == "linkedin"
     end
 
-    it "signin via localhost and return access token" do
+    it "return error via linkedin when code doesn't exist - `Absinthe.run`" do
+      struct = insert(:user, email: "lugatex@yahoo.com", provider: "linkedin")
+
+      context = %{}
+
+      query = """
+      {
+        signIn(
+          code: "wrong_code",
+          email: \"#{struct.email}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signIn" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid_request"
+      assert created["error_description"] == "Unable to retrieve access token: authorization code not found"
+      assert created["provider"]          == "linkedin"
     end
 
-    it "return error via localhost when email is nil" do
+    it "return error via linkedin when code is nil - `AbsintheHelpers`" do
+      struct = insert(:user, email: "lugatex@yahoo.com", provider: "linkedin")
+
+      query = """
+      {
+        signIn(
+          code: nil,
+          email: \"#{struct.email}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
+
+      assert json_response(res, 200)["errors"] == [%{
+          "locations" => [%{
+              "column" => 0,
+              "line" => 3
+            }],
+          "message" => "Argument \"code\" has invalid value nil."
+        }]
     end
 
-    it "return error via localhost when password is nil" do
+    it "signin via facebook and return access token - `AbsintheHelpers`" do
+      struct = insert(:user, provider: "facebook")
+
+      query = """
+      {
+        signIn(
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signIn"]
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid provider"
+      assert created["error_description"] == "invalid url by provider"
+      assert created["provider"]          == "facebook"
     end
 
-    it "return error when args is nil" do
+    it "signin via facebook and return access token - `Argument.run`" do
+      struct = insert(:user, provider: "facebook")
+
+      context = %{}
+
+      query = """
+      {
+        signIn(
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signIn" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid provider"
+      assert created["error_description"] == "invalid url by provider"
+      assert created["provider"]          == "facebook"
+    end
+
+    it "signin via twitter and return access token - `AbsintheHelpers`" do
+      struct = insert(:user, provider: "twitter")
+
+      query = """
+      {
+        signIn(
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signIn"]
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid provider"
+      assert created["error_description"] == "invalid url by provider"
+      assert created["provider"]          == "twitter"
+    end
+
+    it "signin via twitter and return access token - `Absinthe.run`" do
+      struct = insert(:user, provider: "twitter")
+
+      context = %{}
+
+      query = """
+      {
+        signIn(
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signIn" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid provider"
+      assert created["error_description"] == "invalid url by provider"
+      assert created["provider"]          == "twitter"
+    end
+
+    it "signin via localhost and return access token - `AbsintheHelpers`" do
+      struct =
+        insert(:user,
+          provider: "localhost",
+          email: "oleg@yahoo.com",
+          password: "qwerty",
+          password_confirmation: "qwerty",
+          password_hash: "$argon2id$v=19$m=131072,t=8,p=4$UXqzl/WwvwNsP/f95t2Tew$FGIeOOerDnGEVa8R79xxmCXHJ1nkSnSm/am58ng0A8s"
+        )
+      Argon2.verify_pass(struct.password, "$argon2id$v=19$m=131072,t=8,p=4$UXqzl/WwvwNsP/f95t2Tew$FGIeOOerDnGEVa8R79xxmCXHJ1nkSnSm/am58ng0A8s")
+      args = %{provider: "localhost", email: struct.email, password: "qwerty"}
+
+      query = """
+      {
+        signIn(
+          email: \"#{args.email}\",
+          password: \"#{args.password}\",
+          password_confirmation: \"#{args.password}\",
+          provider: \"#{args.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
+
+      created = json_response(res, 200)["data"]["signIn"]
+
+      assert created["access_token"]      =~ "SFMyNTY."
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == "localhost"
+    end
+
+    it "signin via localhost and return access token - `Absinthe.run`" do
+      struct =
+        insert(:user,
+          provider: "localhost",
+          email: "oleg@yahoo.com",
+          password: "qwerty",
+          password_confirmation: "qwerty",
+          password_hash: "$argon2id$v=19$m=131072,t=8,p=4$UXqzl/WwvwNsP/f95t2Tew$FGIeOOerDnGEVa8R79xxmCXHJ1nkSnSm/am58ng0A8s"
+        )
+      Argon2.verify_pass(struct.password, "$argon2id$v=19$m=131072,t=8,p=4$UXqzl/WwvwNsP/f95t2Tew$FGIeOOerDnGEVa8R79xxmCXHJ1nkSnSm/am58ng0A8s")
+      args = %{provider: "localhost", email: struct.email, password: "qwerty"}
+
+      context = %{}
+
+      query = """
+      {
+        signIn(
+          email: \"#{args.email}\",
+          password: \"#{args.password}\",
+          password_confirmation: \"#{args.password}\",
+          provider: \"#{args.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signIn" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      =~ "SFMyNTY."
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == "localhost"
+    end
+
+    it "return error via localhost when email is nil - `AbsintheHelpers`" do
+      struct = insert(:user, provider: "localhost")
+
+      query = """
+      {
+        signIn(
+          email: \"#{nil}\",
+          password: \"#{nil}\",
+          password_confirmation: \"#{nil}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signIn"]
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid an email"
+      assert created["error_description"] == "an email is empty or doesn't correct"
+      assert created["provider"]          == "localhost"
+    end
+
+    it "return error via localhost when email is nil - `Absinthe.run`" do
+      struct = insert(:user, provider: "localhost")
+
+      context = %{}
+
+      query = """
+      {
+        signIn(
+          email: \"#{nil}\",
+          password: \"#{nil}\",
+          password_confirmation: \"#{nil}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signIn" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "invalid an email"
+      assert created["error_description"] == "an email is empty or doesn't correct"
+      assert created["provider"]          == "localhost"
+    end
+
+    it "return error via localhost when password is nil - `AbsintheHelpers`" do
+      struct = insert(:user, provider: "localhost")
+
+      query = """
+      {
+        signIn(
+          email: \"#{struct.email}\",
+          password: \"#{nil}\",
+          password_confirmation: \"#{nil}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signIn"]
+
+      assert created["access_token"]      == nil
+      assert created["provider"]          == "localhost"
+      assert created["error"]             == "invalid password"
+      assert created["error_description"] == "invalid password"
+    end
+
+    it "return error via localhost when password is nil - `Absinthe.run`" do
+      struct = insert(:user, provider: "localhost")
+
+      context = %{}
+
+      query = """
+      {
+        signIn(
+          email: \"#{struct.email}\",
+          password: \"#{nil}\",
+          password_confirmation: \"#{nil}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signIn" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      == nil
+      assert created["provider"]          == "localhost"
+      assert created["error"]             == "invalid password"
+      assert created["error_description"] == "invalid password"
+    end
+
+    it "return error when args is nil - `AbsintheHelpers`" do
+      query = """
+      {
+        signIn(
+          email: nil,
+          password: nil,
+          password_confirmation: nil,
+          provider: nil
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
+
+      assert json_response(res, 200)["errors"] == [%{
+          "locations" => [%{
+              "column" => 0,
+              "line" => 3
+            }],
+          "message" => "Argument \"email\" has invalid value nil."
+        },
+        %{
+          "locations" => [%{
+              "column" => 0,
+              "line" => 4
+            }],
+          "message" => "Argument \"password\" has invalid value nil."
+        },
+        %{
+          "locations" => [%{
+              "column" => 0,
+              "line" => 5
+            }],
+          "message" => "Argument \"password_confirmation\" has invalid value nil."
+        },
+        %{
+          "locations" => [%{
+              "column" => 0,
+              "line" => 6
+            }],
+          "message" => "Argument \"provider\" has invalid value nil."
+        }]
     end
   end
 
   defp format_time(timestamp) do
     Timex.format!(Timex.to_datetime(timestamp, "Europe/Kiev"), "{ISO:Extended:Z}")
   end
-
 end

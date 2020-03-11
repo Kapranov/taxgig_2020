@@ -227,11 +227,10 @@ defmodule LetMeSee do
   @search_zipcode %{zipcode: 602}
   @profession %{bus_addr_zip: "84074", bus_st_code: "UT", first_name: "LiSa", last_name: "StEwArT"}
   @provider_key ~w(provider)a
-  @code_provider_key ~w(code provider)a
   @token_provider_key ~w(provider token)a
   @localhost_key ~w(email password provider)a
   @localhost_keys ~w(email password password_confirmation provider)a
-  @social_keys ~w(code email provider)a
+  @social_keys ~w(code provider)a
 
   @spec index_faq() :: list()
   def index_faq do
@@ -883,6 +882,7 @@ defmodule LetMeSee do
             provider: \"#{args.provider}\"
           ) {
             code
+            provider
           }
         }
         """
@@ -901,7 +901,7 @@ defmodule LetMeSee do
   @spec get_token(map()) :: map() | error_tuple
   def get_token(args) do
     case Map.keys(args) do
-      @code_provider_key ->
+      @social_keys ->
         request = """
         query {
           getToken(
@@ -962,7 +962,7 @@ defmodule LetMeSee do
   @spec get_refresh_token_code(map()) :: map() | error_tuple
   def get_refresh_token_code(args \\ %{provider: "localhost", token: nil}) do
     case Map.keys(args) do
-      @code_provider_key ->
+      @token_provider_key ->
         request = """
         query {
           getRefreshTokenCode(
@@ -970,6 +970,7 @@ defmodule LetMeSee do
             token: \"#{args.token}\"
           ) {
             code
+            provider
           }
         }
         """
@@ -1085,7 +1086,6 @@ defmodule LetMeSee do
         mutation {
           signUp(
             code: \"#{args.code}\",
-            email: \"#{args.email}\",
             provider: \"#{args.provider}\"
           ) {
             access_token
@@ -1132,7 +1132,7 @@ defmodule LetMeSee do
 
         IO.puts("\nThe Result:")
         result
-      @code_provider_key ->
+      @social_keys ->
         request = """
         query {
           signIn(
