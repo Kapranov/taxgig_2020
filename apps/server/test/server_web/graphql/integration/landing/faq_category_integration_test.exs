@@ -5,10 +5,8 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
   alias ServerWeb.GraphQL.Schema
 
   describe "#list" do
-    it "returns faq categories" do
+    it "returns faq categories - `AbsintheHelpers`" do
       struct = insert(:faq_category)
-
-      context = %{}
 
       query = """
       {
@@ -40,6 +38,23 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert List.last(data)["title"]       == struct.title
       assert List.last(data)["inserted_at"] == format_time(struct.inserted_at)
       assert List.last(data)["updated_at"]  == format_time(struct.updated_at)
+    end
+
+    it "returns faq categories - `Absinthe.run`" do
+      struct = insert(:faq_category)
+      context = %{}
+
+      query = """
+      {
+        allFaqCategories {
+          id
+          faqs_count
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
 
       {:ok, %{data: %{"allFaqCategories" => data}}} =
         Absinthe.run(query, Schema, context: context)
@@ -55,11 +70,9 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
   end
 
   describe "#findFaqCategory" do
-    it "found Faq with specific FaqCategory by id" do
+    it "found Faq with specific FaqCategory by id - `AbsintheHelpers`" do
       struct_a = insert(:faq_category)
       struct_b = insert(:faq, faq_categories: struct_a)
-
-      context = %{}
 
       query = """
       {
@@ -100,6 +113,32 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert found["faq_categories"]["title"]       == struct_a.title
       assert found["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
       assert found["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
+    end
+
+    it "found Faq with specific FaqCategory by id - `Absinthe.run`" do
+      struct_a = insert(:faq_category)
+      struct_b = insert(:faq, faq_categories: struct_a)
+
+      context = %{}
+
+      query = """
+      {
+        findFaqCategory(id: \"#{struct_a.id}\") {
+          id
+          content
+          title
+          inserted_at
+          updated_at
+          faq_categories {
+            id
+            faqs_count
+            title
+            inserted_at
+            updated_at
+          }
+        }
+      }
+      """
 
       {:ok, %{data: %{"findFaqCategory" => [found]}}} =
         Absinthe.run(query, Schema, context: context)
@@ -116,10 +155,8 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert found["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
     end
 
-    it "returns not found Faq with specific FaqCategory by id" do
+    it "returns not found Faq with specific FaqCategory by id - `AbsintheHelpers`" do
       id = Ecto.UUID.generate
-
-      context = %{}
 
       query = """
       {
@@ -148,9 +185,31 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
 
       found = json_response(res, 200)["data"]["findFaqCategory"]
 
-      assert json_response(res, 200)["errors"] == nil
-
       assert found == []
+    end
+
+    it "returns not found Faq with specific FaqCategory by id - `Absinthe.run`" do
+      id = Ecto.UUID.generate
+      context = %{}
+
+      query = """
+      {
+        findFaqCategory(id: \"#{id}\") {
+          id
+          content
+          title
+          inserted_at
+          updated_at
+          faq_categories {
+            id
+            faqs_count
+            title
+            inserted_at
+            updated_at
+          }
+        }
+      }
+      """
 
       {:ok, %{data: %{"findFaqCategory" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -158,15 +217,71 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert found == []
     end
 
-    it "returns error when nil FaqCategory by id" do
+    it "returns error when nil FaqCategory by id - `AbsintheHelpers`" do
+      query = """
+      {
+        findFaqCategory(id: nil) {
+          id
+          content
+          title
+          inserted_at
+          updated_at
+          faq_categories {
+            id
+            faqs_count
+            title
+            inserted_at
+            updated_at
+          }
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "findFaqCategory"))
+
+      assert json_response(res, 200)["errors"] == [
+        %{"locations" => [%{"column" => 0, "line" => 2}],
+          "message" => "Argument \"id\" has invalid value nil."}
+      ]
+    end
+
+    it "returns error when nil FaqCategory by id - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        findFaqCategory(id: nil) {
+          id
+          content
+          title
+          inserted_at
+          updated_at
+          faq_categories {
+            id
+            faqs_count
+            title
+            inserted_at
+            updated_at
+          }
+        }
+      }
+      """
+
+      {:ok, %{errors: error}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert error == [
+        %{locations: [%{column: 0, line: 2}],
+          message: "Argument \"id\" has invalid value nil."}
+      ]
     end
   end
 
   describe "#show" do
-    it "returns specific faq category by id" do
+    it "returns specific faq category by id - `AbsintheHelpers`" do
       struct = insert(:faq_category)
-
-      context = %{}
 
       query = """
       {
@@ -193,6 +308,23 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert found["title"]       == struct.title
       assert found["inserted_at"] == format_time(struct.inserted_at)
       assert found["updated_at"]  == format_time(struct.updated_at)
+    end
+
+    it "returns specific faq category by id - `Absinthe.run`" do
+      struct = insert(:faq_category)
+      context = %{}
+
+      query = """
+      {
+        showFaqCategory(id: \"#{struct.id}\") {
+          id
+          faqs_count
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
 
       {:ok, %{data: %{"showFaqCategory" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -204,7 +336,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert found["updated_at"]  == format_time(struct.updated_at)
     end
 
-    it "returns not found when faq category does not exist" do
+    it "returns not found when faq category does not exist - `AbsintheHelpers`" do
       id =  Ecto.UUID.generate()
 
       query = """
@@ -226,14 +358,80 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert hd(json_response(res, 200)["errors"])["message"] == "The Faq Category #{id} not found!"
     end
 
-    it "returns error for missing params" do
+    it "returns not found when faq category does not exist - `Absinthe.run`" do
+      id =  Ecto.UUID.generate()
+      context = %{}
+
+      query = """
+      {
+        showFaqCategory(id: \"#{id}\") {
+          id
+          faqs_count
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{data: %{"showFaqCategory" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found == nil
+    end
+
+    it "returns error for missing params - `AbsintheHelpers`" do
+      query = """
+      {
+        showFaqCategory(id: nil) {
+          id
+          faqs_count
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "showFaqCategory"))
+
+      assert json_response(res, 200)["errors"] == [
+        %{"locations" => [%{"column" => 0, "line" => 2}],
+          "message" => "Argument \"id\" has invalid value nil."}
+      ]
+    end
+
+    it "returns error for missing params - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        showFaqCategory(id: nil) {
+          id
+          faqs_count
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{errors: error}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert error == [
+        %{locations: [%{column: 0, line: 2}],
+          message: "Argument \"id\" has invalid value nil."}
+      ]
     end
   end
 
   describe "#create" do
-    it "creates faq category" do
-      mutation = """
-      {
+    it "creates faq category - `AbsintheHelpers`" do
+      query = """
+      mutation {
         createFaqCategory(
           title: "some text"
         ) {
@@ -247,7 +445,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
 
       res =
         build_conn()
-        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
       assert json_response(res, 200)["errors"] == nil
 
@@ -257,16 +455,85 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert created["faqs_count"] == nil
     end
 
-    it "returns error for missing params" do
+    it "creates faq category - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        createFaqCategory(
+          title: "some text"
+        ) {
+          id
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{data: %{"createFaqCategory" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["title"]      == "some text"
+      assert created["faqs_count"] == nil
+    end
+
+    it "returns error for missing params - `AbsintheHelpers`" do
+      query = """
+      mutation {
+        createFaqCategory(
+          title: nil
+        ) {
+          id
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == [
+        %{"locations" => [%{"column" => 0, "line" => 3}],
+          "message" => "Argument \"title\" has invalid value nil."}
+      ]
+    end
+
+    it "returns error for missing params - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        createFaqCategory(
+          title: nil
+        ) {
+          id
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{errors: error}} =
+        Absinthe.run(query, Schema, context: context)
+
+        assert error == [
+          %{locations: [%{column: 0, line: 3}],
+            message: "Argument \"title\" has invalid value nil."}
+        ]
     end
   end
 
   describe "#update" do
-    it "update specific faq category by id" do
+    it "update specific faq category by id - `AbsintheHelpers`" do
       struct = insert(:faq_category)
 
-      mutation = """
-      {
+      query = """
+      mutation {
         updateFaqCategory(
           id: \"#{struct.id}\",
           faq_category: {
@@ -284,7 +551,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
 
       res =
         build_conn()
-        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
       assert json_response(res, 200)["errors"] == nil
 
@@ -297,26 +564,168 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert updated["updated_at"]  == format_time(struct.updated_at)
     end
 
-    it "nothing change for missing params" do
+    it "update specific faq category by id - `Absinthe.run`" do
+      struct = insert(:faq_category)
+      context = %{}
+
+      query = """
+      mutation {
+        updateFaqCategory(
+          id: \"#{struct.id}\",
+          faq_category: {
+            title: "updated text"
+          }
+        ) {
+          id
+          faqs_count
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{data: %{"updateFaqCategory" => updated}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert updated["id"]          == struct.id
+      assert updated["faqs_count"]  == 0
+      assert updated["title"]       == "updated text"
+      assert updated["inserted_at"] == format_time(struct.inserted_at)
+      assert updated["updated_at"]  == format_time(struct.updated_at)
     end
 
-    it "returns error for missing params" do
+    it "return error when title for missing params - `AbsintheHelpers`" do
+      struct = insert(:faq_category)
+
+      query = """
+      mutation {
+        updateFaqCategory(
+          id: \"#{struct.id}\",
+          faq_category: {}
+        ) {
+          id
+          faqs_count
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == [
+        %{"locations" => [%{"column" => 0, "line" => 4}],
+          "message" => "Argument \"faq_category\" has invalid value {}.\nIn field \"title\": Expected type \"String!\", found null."}
+      ]
+    end
+
+    it "return error when title for missing params - `Absinthe.run`" do
+      struct = insert(:faq_category)
+      context = %{}
+
+      query = """
+      mutation {
+        updateFaqCategory(
+          id: \"#{struct.id}\",
+          faq_category: {}
+        ) {
+          id
+          faqs_count
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{errors: error}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert error == [
+        %{locations: [%{column: 0, line: 4}],
+          message: "Argument \"faq_category\" has invalid value {}.\nIn field \"title\": Expected type \"String!\", found null."}
+      ]
+    end
+
+    it "returns error for missing params - `AbsintheHelpers`" do
+      query = """
+      mutation {
+        updateFaqCategory(
+          id: nil,
+          faq_category: {
+            title: nil
+          }
+        ) {
+          id
+          faqs_count
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == [
+        %{"locations" => [%{"column" => 0, "line" => 3}],
+          "message" => "Argument \"id\" has invalid value nil."},
+        %{"locations" => [%{"column" => 0, "line" => 4}],
+          "message" => "Argument \"faq_category\" has invalid value {title: nil}.\nIn field \"title\": Expected type \"String!\", found nil."}
+      ]
+    end
+
+    it "returns error for missing params - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        updateFaqCategory(
+          id: nil,
+          faq_category: {
+            title: nil
+          }
+        ) {
+          id
+          faqs_count
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{errors: error}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert error == [
+        %{locations: [%{column: 0, line: 3}],
+          message: "Argument \"id\" has invalid value nil."},
+        %{locations: [%{column: 0, line: 4}],
+          message: "Argument \"faq_category\" has invalid value {title: nil}.\nIn field \"title\": Expected type \"String!\", found nil."}
+      ]
     end
   end
 
   describe "#delete" do
-    it "delete specific faq category by id" do
+    it "delete specific faq category by id - `AbsintheHelpers`" do
       struct = insert(:faq_category)
 
-      mutation = """
-      {
+      query = """
+      mutation {
         deleteFaqCategory(id: \"#{struct.id}\") {id}
       }
       """
 
       res =
         build_conn()
-        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
       assert json_response(res, 200)["errors"] == nil
 
@@ -324,23 +733,89 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert deleted["id"] == struct.id
     end
 
-    it "returns not found when FaqCategory does not exist" do
+    it "delete specific faq category by id - `Absinthe.run`" do
+      struct = insert(:faq_category)
+      context = %{}
+
+      query = """
+      mutation {
+        deleteFaqCategory(id: \"#{struct.id}\") {id}
+      }
+      """
+
+      {:ok, %{data: %{"deleteFaqCategory" => deleted}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert deleted["id"] == struct.id
+    end
+
+
+    it "returns not found when FaqCategory does not exist - `AbsintheHelpers`" do
       id = Ecto.UUID.generate()
 
-      mutation = """
-      {
+      query = """
+      mutation {
         deleteFaqCategory(id: \"#{id}\") {id}
       }
       """
 
       res =
         build_conn()
-        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
       assert hd(json_response(res, 200)["errors"])["message"] == "The Faq Category #{id} not found!"
     end
 
-    it "returns error for missing params" do
+    it "returns not found when FaqCategory does not exist - `Absinthe.run`" do
+      id = Ecto.UUID.generate()
+      context = %{}
+
+      query = """
+      mutation {
+        deleteFaqCategory(id: \"#{id}\") {id}
+      }
+      """
+
+      {:ok, %{data: %{"deleteFaqCategory" => deleted}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert deleted == nil
+    end
+
+
+    it "returns error for missing params - `AbsintheHelpers`" do
+      query = """
+      mutation {
+        deleteFaqCategory(id: nil) {id}
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == [
+        %{"locations" => [%{"column" => 0, "line" => 2}],
+          "message" => "Argument \"id\" has invalid value nil."}
+      ]
+    end
+
+    it "returns error for missing params - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        deleteFaqCategory(id: nil) {id}
+      }
+      """
+
+      {:ok, %{errors: error}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert error == [
+        %{locations: [%{column: 0, line: 2}],
+          message: "Argument \"id\" has invalid value nil."}
+      ]
     end
   end
 

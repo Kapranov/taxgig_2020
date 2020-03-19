@@ -7,10 +7,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
   @bernie_path Path.absname("../core/test/fixtures/bernie.jpg")
 
   describe "#list" do
-    it "returns profiles" do
+    it "returns profile - `AbsintheHelpers`" do
       struct = insert(:profile)
-
-      context = %{}
 
       query = """
       {
@@ -137,6 +135,49 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert List.last(data)["user"]["languages"][:name]        == nil
       assert List.last(data)["user"]["languages"][:inserted_at] == nil
       assert List.last(data)["user"]["languages"][:updated_at]  == nil
+    end
+
+    it "returns profile - `Absinthe.run`" do
+      struct = insert(:profile)
+
+      context = %{}
+
+      query = """
+      {
+        allProfiles{
+          address
+          banner
+          description
+          logo {id content_type name size url inserted_at updated_at}
+          us_zipcode {id city state zipcode}
+          user {
+            id
+            active
+            admin_role
+            avatar
+            bio
+            birthday
+            email
+            first_name
+            init_setup
+            languages {id abbr name inserted_at updated_at}
+            last_name
+            middle_name
+            phone
+            pro_role
+            provider
+            sex
+            ssn
+            street
+            zip
+            inserted_at
+            updated_at
+          }
+          inserted_at
+          updated_at
+        }
+      }
+      """
 
       {:ok, %{data: %{"allProfiles" => data}}} =
         Absinthe.run(query, Schema, context: context)
@@ -186,10 +227,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
   end
 
   describe "#show" do
-    it "returns specific profile by user_id" do
+    it "returns specific profile by user_id - `AbsintheHelpers`" do
       struct = insert(:profile)
-
-      context = %{}
 
       query = """
       {
@@ -275,6 +314,49 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert found["user"]["languages"][:name]        == nil
       assert found["user"]["languages"][:inserted_at] == nil
       assert found["user"]["languages"][:updated_at]  == nil
+    end
+
+    it "returns specific profile by user_id - `Absinthe.run`" do
+      struct = insert(:profile)
+
+      context = %{}
+
+      query = """
+      {
+        showProfile(id: \"#{struct.user_id}\") {
+          address
+          banner
+          description
+          logo {id content_type name size url inserted_at updated_at}
+          us_zipcode {id city state zipcode}
+          user {
+            id
+            active
+            admin_role
+            avatar
+            bio
+            birthday
+            email
+            first_name
+            init_setup
+            languages {id abbr name inserted_at updated_at}
+            last_name
+            middle_name
+            phone
+            pro_role
+            provider
+            sex
+            ssn
+            street
+            zip
+            inserted_at
+            updated_at
+          }
+          inserted_at
+          updated_at
+        }
+      }
+      """
 
       {:ok, %{data: %{"showProfile" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -320,12 +402,40 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert found["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
     end
 
-    it "returns not found when accounts subscriber does not exist" do
+    it "returns not found when accounts subscriber does not exist - `AbsintheHelpers`" do
       user_id =  Ecto.UUID.generate()
 
       query = """
       {
         showProfile(id: \"#{user_id}\") {
+          address
+          banner
+          description
+          logo {id content_type name size url inserted_at updated_at}
+          us_zipcode {id city state zipcode}
+          user {
+            id
+            active
+            admin_role
+            avatar
+            bio
+            birthday
+            email
+            first_name
+            init_setup
+            languages {id abbr name inserted_at updated_at}
+            last_name
+            middle_name
+            phone
+            pro_role
+            provider
+            sex
+            ssn
+            street
+            zip
+            inserted_at
+            updated_at
+          }
           inserted_at
           updated_at
         }
@@ -339,17 +449,107 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert hd(json_response(res, 200)["errors"])["message"] == "An User #{user_id} not found!"
     end
 
-    it "returns error for missing params" do
+    it "returns not found when accounts subscriber does not exist - `Absinthe.run`" do
+      user_id =  Ecto.UUID.generate()
+
+      context = %{}
+
+      query = """
+      {
+        showProfile(id: \"#{user_id}\") {
+          address
+          banner
+          description
+          logo {id content_type name size url inserted_at updated_at}
+          us_zipcode {id city state zipcode}
+          user {
+            id
+            active
+            admin_role
+            avatar
+            bio
+            birthday
+            email
+            first_name
+            init_setup
+            languages {id abbr name inserted_at updated_at}
+            last_name
+            middle_name
+            phone
+            pro_role
+            provider
+            sex
+            ssn
+            street
+            zip
+            inserted_at
+            updated_at
+          }
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{data: %{"showProfile" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found == nil
+    end
+
+    it "returns error for missing params - `AbsintheHelpers`" do
+      query = """
+      {
+        showProfile(id: nil) {
+          address
+          banner
+          description
+          logo {id content_type name size url inserted_at updated_at}
+          us_zipcode {id city state zipcode}
+          user {
+            id
+            active
+            admin_role
+            avatar
+            bio
+            birthday
+            email
+            first_name
+            init_setup
+            languages {id abbr name inserted_at updated_at}
+            last_name
+            middle_name
+            phone
+            pro_role
+            provider
+            sex
+            ssn
+            street
+            zip
+            inserted_at
+            updated_at
+          }
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "showProfile"))
+
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
   end
 
   describe "#update" do
-    it "update specific profile by user_id" do
+    it "update specific profile by user_id - `AbsintheHelpers`" do
       struct = insert(:profile)
       zipcode = insert(:zipcode)
       logo = %{name: "Time for #NeverBernie", alt: "I woke up this morning wondering whether it’s time to unfurl the #NeverBernie banner.", file: "bernie.jpg"}
 
-      mutation = """
+      query = """
       {
         updateProfile(
           id: \"#{struct.user_id}\",
@@ -403,7 +603,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       """
 
       map = %{
-        "query" => "mutation #{mutation}",
+        "query" => "mutation #{query}",
         logo.file => %Plug.Upload{
           filename: logo.file,
           path: @bernie_path
@@ -460,6 +660,221 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert updated["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
     end
 
+    it "update specific profile by user_id - `Absinthe.run`" do
+      struct = insert(:profile)
+      zipcode = insert(:zipcode)
+      logo = %{name: "Time for #NeverBernie", alt: "I woke up this morning wondering whether it’s time to unfurl the #NeverBernie banner.", file: "bernie.jpg"}
+      context = %{}
+
+      # Expected behavior
+      # Based on the documentation for `Absinthe.run/3`, I would expect to be
+      # able to pass the following document:
+      #
+      # absinthe out of the box does not actually accept file uploads due to
+      # the send request type resulting in files not being able to be read:
+      # `picture: {}` result.
+      #
+      # Absinthe out of the box doesn’t even support HTTP. Absinthe doesn't
+      # know anything about transport mechanisms. Absinthe.Plug is what lets
+      # you wire in Absinthe to plug to answer HTTP requests. If you want to
+      # upload a file alongside a GraphQL query your GraphQL client will need
+      # to be able to make a `multipart/form-data` request.
+      #
+      # The way that works, is that you have a part that contains the actual
+      # file content, and you name that part something, let's say `picture`.
+      # Then, your GraphQL variable `picture` should be the NAME of the http
+      # part, not the data itself. So in this case it should be the string
+      # `"picture"` Then it will work. There's a complete example with `curl`
+      # as the client here:
+      # ```
+      # curl -X POST \
+      #      -F query='mutation { uploadFile(users: "users_csv", metadata: "metadata_json") }' \
+      #      -F users_csv=@users.csv \
+      #      -F metadata_json=@metadata.json \
+      #      localhost:4000/graphql
+      #
+      # mutation Create($createResource: CreateResourceInput!) { create(resource: $createResource) { name, id } }
+      # mutation Update($updateResource: UpdateResourceInput!) { create(resource: $updateResource) { name, id } }
+      #
+      # and run `Absinthe.run(document, MyApp.Schema, variables: %{...}, operation_name: "Create")`,
+      # which would in turn only execute the first mutation in the document.
+      #
+      # mutation updateProfile($picture: PictureInput!) { updateProfile( logo: $picture) { logo {id content_type name size url inserted_at updated_at} } }
+      # mutation UpdateProfile($picture: Upload!) { updateProfile()}
+      # Parameters: %{
+      #   "operationName" => "CreateProduct",
+      #   "query" => "mutation CreateProduct(
+      #     $storeID: Int!,
+      #     $productName: String!,
+      #     $productDescription: String!,
+      #     $productPrice: Decimal!,
+      #     $productType: Int!,
+      #     $isReturnable: Boolean!,
+      #     $fileData: Upload!
+      #   ) {
+      #     createProduct(
+      #       product: {
+      #         productName: $productName,
+      #         productDescription: $productDescription,
+      #         productPrice: $productPrice,
+      #         productType: $productType,
+      #         isReturnable: $isReturnable
+      #       },
+      #       storeId: $storeID,
+      #       fileData: $fileData
+      #     ) {
+      #         id
+      #         productName
+      #         productDescription
+      #         productPrice
+      #         __typename
+      #       }
+      #     },
+      #  "variables" => %{
+      #    "fileData" => %{},
+      #    "isReturnable" => false,
+      #    "productDescription" => "",
+      #    "productName" => "",
+      #    "productPrice" => 1,
+      #    "productType" => 1,
+      #    "storeID" => 2
+      #  }
+      #}
+      #
+      # query = """
+      # mutation CreateKittenMutation($input: KittenInput!) {
+      #   newKitten(input: $input) {
+      #     kitten {
+      #       id
+      #       name
+      #     }
+      #   }
+      # }
+      # """
+      # variables: "{\"input\": { \"name\": \"Noodlez\", image: \"kitten\" }}"
+      # variables: %{"input" => %{"name" =>"Noodlez", "image" => "kitten"}}
+
+      query = """
+      mutation f(
+          $id: String!,
+          $address: String!,
+          $banner: String!,
+          $description: String!,
+          $us_zipcodeId: String!,
+          $userId: String!,
+          $input: PictureInput
+        ) {
+        updateProfile(
+          id: $id,
+          logo: {
+            picture: $input
+          },
+          profile: {
+            address: $address,
+            banner: $banner,
+            description: $description,
+            us_zipcodeId: $us_zipcodeId,
+            userId: $userId
+          },
+        ) {
+          address
+          banner
+          description
+          logo {id content_type name size url inserted_at updated_at}
+          us_zipcode {id city state zipcode}
+          user {
+            id
+            active
+            admin_role
+            avatar
+            bio
+            birthday
+            email
+            first_name
+            init_setup
+            languages {id abbr name inserted_at updated_at}
+            last_name
+            middle_name
+            phone
+            pro_role
+            provider
+            sex
+            ssn
+            street
+            zip
+            inserted_at
+            updated_at
+          }
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      variables = %{
+        "id" => struct.user_id,
+        "address" => "updated text",
+        "banner" => "updated text",
+        "description" => "updated text",
+        "us_zipcodeId" => zipcode.id,
+        "userId" => struct.user_id,
+        "picture" => %{
+          "alt" => logo.alt,
+          "file" => logo.file,
+          "name" => logo.name
+        },
+        logo.file => %Plug.Upload{
+          content_type: "image/jpg",
+          filename: logo.file,
+          path: @bernie_path
+        }
+      }
+
+      {:ok, %{data: %{"updateProfile" => updated}}} =
+        Absinthe.run(query, Schema, [context: context, operation_name: "f", variables: variables])
+
+      assert updated["id"]                              == struct.id
+      assert updated["address"]                         == "updated text"
+      assert updated["banner"]                          == "updated text"
+      assert updated["description"]                     == "updated text"
+      assert updated["logo"]["id"]
+      assert updated["logo"]["content_type"]            == "image/jpg"
+      assert updated["logo"]["name"]                    == "Logo"
+      assert updated["logo"]["size"]                    == 5024
+      assert updated["logo"]["url"]                     =~ ServerWeb.Endpoint.url() <> "/media/"
+      assert updated["logo"]["inserted_at"]
+      assert updated["logo"]["updated_at"]
+      assert updated["inserted_at"]                     == format_time(struct.inserted_at)
+      assert updated["updated_at"]                      == format_time(struct.updated_at)
+      assert updated["user"]["languages"][:id]          == nil
+      assert updated["user"]["languages"][:abbr]        == nil
+      assert updated["user"]["languages"][:name]        == nil
+      assert updated["user"]["languages"][:inserted_at] == nil
+      assert updated["user"]["languages"][:updated_at]  == nil
+      assert updated["user"]["id"]                      == struct.user_id
+      assert updated["user"]["active"]                  == struct.user.active
+      assert updated["user"]["admin_role"]              == struct.user.admin_role
+      assert updated["user"]["avatar"]                  == struct.user.avatar
+      assert updated["user"]["bio"]                     == struct.user.bio
+      assert updated["user"]["birthday"]                == to_string(struct.user.birthday)
+      assert updated["user"]["email"]                   == struct.user.email
+      assert updated["user"]["first_name"]              == struct.user.first_name
+      assert updated["user"]["init_setup"]              == struct.user.init_setup
+      assert updated["user"]["last_name"]               == struct.user.last_name
+      assert updated["user"]["middle_name"]             == struct.user.middle_name
+      assert updated["user"]["phone"]                   == struct.user.phone
+      assert updated["user"]["pro_role"]                == struct.user.pro_role
+      assert updated["user"]["provider"]                == struct.user.provider
+      assert updated["user"]["sex"]                     == struct.user.sex
+      assert updated["user"]["ssn"]                     == struct.user.ssn
+      assert updated["user"]["street"]                  == struct.user.street
+      assert updated["user"]["zip"]                     == struct.user.zip
+      assert updated["us_zipcode"]["id"]                == zipcode.id
+      assert updated["us_zipcode"]["city"]              == struct.us_zipcode.city
+      assert updated["us_zipcode"]["state"]             == struct.us_zipcode.state
+      assert updated["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
+    end
+
     it "nothing change for missing params" do
     end
 
@@ -468,10 +883,10 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
   end
 
   describe "#delete" do
-    it "delete specific profile by user_id" do
+    it "delete specific profile by user_id - `AbsintheHelpers`" do
       struct = insert(:profile)
 
-      mutation = """
+      query = """
       {
         deleteProfile(id: \"#{struct.user_id}\") {
           user {id}
@@ -481,7 +896,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
       res =
         build_conn()
-        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
       assert json_response(res, 200)["errors"] == nil
 
@@ -489,10 +904,28 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert deleted["user"]["id"] == struct.user_id
     end
 
-    it "returns not found when profile does not exist" do
+    it "delete specific profile by user_id - `Absinthe.run`" do
+      struct = insert(:profile)
+      context = %{}
+
+      query = """
+      mutation {
+        deleteProfile(id: \"#{struct.user_id}\") {
+          user {id}
+        }
+      }
+      """
+
+      {:ok, %{data: %{"deleteProfile" => deleted}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert deleted["id"] == struct.id
+    end
+
+    it "returns not found when profile does not exist - `AbsintheHelpers`" do
       id = Ecto.UUID.generate()
 
-      mutation = """
+      query = """
       {
         deleteProfile(id: \"#{id}\") {
           user {id}
@@ -502,12 +935,49 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
       res =
         build_conn()
-        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
       assert hd(json_response(res, 200)["errors"])["message"] == "The Profile #{id} not found!"
     end
 
-    it "returns error for missing params" do
+    it "returns not found when profile does not exist - `Absinthe.run" do
+      id = Ecto.UUID.generate()
+      context = %{}
+
+      query = """
+      mutation {
+        deleteProfile(id: \"#{id}\") {
+          user {id}
+        }
+      }
+      """
+
+      {:ok, %{data: %{"deleteProfile" => deleted}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert deleted == nil
+    end
+
+    it "returns error for missing params - `AbsintheHelpers`" do
+      query = """
+      {
+        deleteProfile(id: id) {
+          user {id}
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == [%{
+          "locations" => [%{
+              "column" => 0,
+              "line" => 2
+            }],
+          "message" => "Argument \"id\" has invalid value id."
+        }]
     end
   end
 

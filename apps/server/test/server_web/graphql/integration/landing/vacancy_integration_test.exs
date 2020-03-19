@@ -5,11 +5,9 @@ defmodule ServerWeb.GraphQL.Integration.Landing.VacancyIntegrationTest do
   alias ServerWeb.GraphQL.Schema
 
   describe "#list" do
-    it "returns vacancies" do
+    it "returns vacancies - `AbsintheHelpers`" do
       struct_a = insert(:vacancy)
       struct_b = insert(:vacancy)
-
-      context = %{}
 
       query = """
       {
@@ -44,6 +42,26 @@ defmodule ServerWeb.GraphQL.Integration.Landing.VacancyIntegrationTest do
       assert List.last(data)["title"]       == struct_b.title
       assert List.last(data)["inserted_at"] == format_time(struct_b.inserted_at)
       assert List.last(data)["updated_at"]  == format_time(struct_b.updated_at)
+    end
+
+    it "returns vacancies - `Absinthe.run`" do
+      struct_a = insert(:vacancy)
+      struct_b = insert(:vacancy)
+
+      context = %{}
+
+      query = """
+      {
+        allVacancies{
+          id
+          content
+          department
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
 
       {:ok, %{data: %{"allVacancies" => data}}} =
         Absinthe.run(query, Schema, context: context)
@@ -69,10 +87,8 @@ defmodule ServerWeb.GraphQL.Integration.Landing.VacancyIntegrationTest do
   end
 
   describe "#show" do
-    it "returns specific vacancy by id" do
+    it "returns specific vacancy by id - `AbsintheHelpers`" do
       struct = insert(:vacancy)
-
-      context = %{}
 
       query = """
       {
@@ -101,6 +117,24 @@ defmodule ServerWeb.GraphQL.Integration.Landing.VacancyIntegrationTest do
       assert found["title"]       == struct.title
       assert found["inserted_at"] == format_time(struct.inserted_at)
       assert found["updated_at"]  == format_time(struct.updated_at)
+    end
+
+    it "returns specific vacancy by id - `Absinthe.run`" do
+      struct = insert(:vacancy)
+      context = %{}
+
+      query = """
+      {
+        showVacancy(id: \"#{struct.id}\") {
+          id
+          content
+          department
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
 
       {:ok, %{data: %{"showVacancy" => found}}} =
         Absinthe.run(query, Schema, context: context)
@@ -113,7 +147,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.VacancyIntegrationTest do
       assert found["updated_at"]  == format_time(struct.updated_at)
     end
 
-    it "returns not found when vacancy does not exist" do
+    it "returns not found when vacancy does not exist - `AbsintheHelpers`" do
       id =  Ecto.UUID.generate()
 
       query = """
@@ -136,14 +170,83 @@ defmodule ServerWeb.GraphQL.Integration.Landing.VacancyIntegrationTest do
       assert hd(json_response(res, 200)["errors"])["message"] == "The Vacancy #{id} not found!"
     end
 
-    it "returns error for missing params" do
+    it "returns not found when vacancy does not exist - `Absinthe.run`" do
+      id =  Ecto.UUID.generate()
+      context = %{}
+
+      query = """
+      {
+        showVacancy(id: \"#{id}\") {
+          id
+          content
+          department
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{data: %{"showVacancy" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found == nil
+    end
+
+    it "returns error for missing params - `AbsintheHelpers`" do
+      query = """
+      {
+        showVacancy(id: nil) {
+          id
+          content
+          department
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "showVacancy"))
+
+      assert json_response(res, 200)["errors"] == [
+        %{"locations" => [%{"column" => 0, "line" => 2}],
+          "message" => "Argument \"id\" has invalid value nil."}
+      ]
+    end
+
+    it "returns error for missing params - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      {
+        showVacancy(id: nil) {
+          id
+          content
+          department
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{errors: error}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert error == [
+        %{locations: [%{column: 0, line: 2}],
+          message: "Argument \"id\" has invalid value nil."}
+      ]
     end
   end
 
   describe "#create" do
-    it "creates vacancy" do
-      mutation = """
-      {
+    it "creates vacancy - `AbsintheHelpers`" do
+      query = """
+      mutation {
         createVacancy(
           content: "some text",
           department: "some text",
@@ -161,7 +264,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.VacancyIntegrationTest do
 
       res =
         build_conn()
-        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
       assert json_response(res, 200)["errors"] == nil
 
@@ -172,16 +275,106 @@ defmodule ServerWeb.GraphQL.Integration.Landing.VacancyIntegrationTest do
       assert created["title"]      == "some text"
     end
 
-    it "returns error for missing params" do
+    it "creates vacancy - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        createVacancy(
+          content: "some text",
+          department: "some text",
+          title: "some text"
+        ) {
+          id
+          content
+          department
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{data: %{"createVacancy" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["content"]    == "some text"
+      assert created["department"] == "some text"
+      assert created["title"]      == "some text"
+    end
+
+    it "returns error for missing params - `AbsintheHelpers`" do
+      query = """
+      mutation {
+        createVacancy(
+          content: nil,
+          department: nil,
+          title: nil
+        ) {
+          id
+          content
+          department
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == [
+        %{"locations" => [%{"column" => 0, "line" => 3}],
+          "message" => "Argument \"content\" has invalid value nil."},
+        %{"locations" => [%{"column" => 0, "line" => 4}],
+          "message" => "Argument \"department\" has invalid value nil."},
+        %{"locations" => [%{"column" => 0, "line" => 5}],
+          "message" => "Argument \"title\" has invalid value nil."}
+      ]
+    end
+
+    it "returns error for missing params - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        createVacancy(
+          content: nil,
+          department: nil,
+          title: nil
+        ) {
+          id
+          content
+          department
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{errors: error}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert error == [
+        %{locations: [%{column: 0, line: 3}],
+          message: "Argument \"content\" has invalid value nil."},
+        %{locations: [%{column: 0, line: 4}],
+          message: "Argument \"department\" has invalid value nil."},
+        %{locations: [%{column: 0, line: 5}],
+          message: "Argument \"title\" has invalid value nil."}
+      ]
     end
   end
 
   describe "#update" do
-    it "update specific vacancy by id" do
+    it "update specific vacancy by id - `AbsintheHelpers`" do
       struct = insert(:vacancy)
 
-      mutation = """
-      {
+      query = """
+      mutation {
         updateVacancy(
           id: \"#{struct.id}\",
           vacancy: {
@@ -202,7 +395,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.VacancyIntegrationTest do
 
       res =
         build_conn()
-        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
       assert json_response(res, 200)["errors"] == nil
 
@@ -216,26 +409,176 @@ defmodule ServerWeb.GraphQL.Integration.Landing.VacancyIntegrationTest do
       assert updated["updated_at"]  == format_time(struct.updated_at)
     end
 
-    it "nothing change for missing params" do
+    it "update specific vacancy by id - `Absinthe.run`" do
+      struct = insert(:vacancy)
+      context = %{}
+
+      query = """
+      mutation {
+        updateVacancy(
+          id: \"#{struct.id}\",
+          vacancy: {
+            content: "updated text",
+            department: "updated text",
+            title: "updated text"
+          }
+        ) {
+          id
+          content
+          department
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{data: %{"updateVacancy" => updated}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert updated["id"]          == struct.id
+      assert updated["content"]     == "updated text"
+      assert updated["department"]  == "updated text"
+      assert updated["title"]       == "updated text"
+      assert updated["inserted_at"] == format_time(struct.inserted_at)
+      assert updated["updated_at"]  == format_time(struct.updated_at)
     end
 
-    it "returns error for missing params" do
+    it "nothing change for missing params - `AbsintheHelpers`" do
+      struct = insert(:vacancy)
+
+      query = """
+      mutation {
+        updateVacancy(
+          id: \"#{struct.id}\",
+          vacancy: {}
+        ) {
+          id
+          content
+          department
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      updated = json_response(res, 200)["data"]["updateVacancy"]
+
+      assert updated["id"]          == struct.id
+      assert updated["content"]     == struct.content
+      assert updated["department"]  == struct.department
+      assert updated["title"]       == struct.title
+      assert updated["inserted_at"] == format_time(struct.inserted_at)
+      assert updated["updated_at"]  == format_time(struct.updated_at)
+    end
+
+    it "nothing change for missing params - `Absinthe.run`" do
+      struct = insert(:vacancy)
+      context = %{}
+
+      query = """
+      mutation {
+        updateVacancy(
+          id: \"#{struct.id}\",
+          vacancy: {}
+        ) {
+          id
+          content
+          department
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{data: %{"updateVacancy" => updated}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert updated["id"]          == struct.id
+      assert updated["content"]     == struct.content
+      assert updated["department"]  == struct.department
+      assert updated["title"]       == struct.title
+      assert updated["inserted_at"] == format_time(struct.inserted_at)
+      assert updated["updated_at"]  == format_time(struct.updated_at)
+    end
+
+    it "returns error for missing params - `AbsintheHelpers`" do
+      query = """
+      mutation {
+        updateVacancy(
+          id: nil,
+          vacancy: {}
+        ) {
+          id
+          content
+          department
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == [
+        %{"locations" => [%{"column" => 0, "line" => 3}],
+          "message" => "Argument \"id\" has invalid value nil."}
+      ]
+    end
+
+    it "returns error for missing params - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        updateVacancy(
+          id: nil,
+          vacancy: {}
+        ) {
+          id
+          content
+          department
+          title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+
+      {:ok, %{errors: error}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert error == [
+        %{locations: [%{column: 0, line: 3}],
+          message: "Argument \"id\" has invalid value nil."}
+      ]
     end
   end
 
   describe "#delete" do
-    it "delete specific vacancy by id" do
+    it "delete specific vacancy by id - `AbsintheHelpers`" do
       struct = insert(:vacancy)
 
-      mutation = """
-      {
+      query = """
+      mutation {
         deleteVacancy(id: \"#{struct.id}\") {id}
       }
       """
 
       res =
         build_conn()
-        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
       assert json_response(res, 200)["errors"] == nil
 
@@ -243,23 +586,90 @@ defmodule ServerWeb.GraphQL.Integration.Landing.VacancyIntegrationTest do
       assert deleted["id"] == struct.id
     end
 
-    it "returns not found when vacancy does not exist" do
+    it "delete specific vacancy by id - `Absinthe.run`" do
+      struct = insert(:vacancy)
+      context = %{}
+
+      query = """
+      mutation {
+        deleteVacancy(id: \"#{struct.id}\") {id}
+      }
+      """
+
+      {:ok, %{data: %{"deleteVacancy" => deleted}}} =
+        Absinthe.run(query, Schema, context: context)
+      assert deleted["id"] == struct.id
+    end
+
+    it "returns not found when vacancy does not exist - `AbsintheHelpers`" do
       id = Ecto.UUID.generate()
 
-      mutation = """
-      {
+      query = """
+      mutation {
         deleteVacancy(id: \"#{id}\") {id}
       }
       """
 
       res =
         build_conn()
-        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
       assert hd(json_response(res, 200)["errors"])["message"] == "The Vacancy #{id} not found!"
     end
 
-    it "returns error for missing params" do
+    it "returns not found when vacancy does not exist - `Absinthe.run`" do
+      id = Ecto.UUID.generate()
+      context = %{}
+
+      query = """
+      mutation {
+        deleteVacancy(id: \"#{id}\") {id}
+      }
+      """
+
+      {:ok, %{errors: error}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert error == [
+        %{locations: [%{column: 0, line: 2}],
+          message: "The Vacancy #{id} not found!",
+          path: ["deleteVacancy"]}
+      ]
+    end
+
+    it "returns error for missing params - `AbsintheHelpers`" do
+      query = """
+      mutation {
+        deleteVacancy(id: nil) {id}
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == [
+        %{"locations" => [%{"column" => 0, "line" => 2}],
+          "message" => "Argument \"id\" has invalid value nil."}
+      ]
+    end
+
+    it "returns error for missing params - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        deleteVacancy(id: nil) {id}
+      }
+      """
+
+      {:ok, %{errors: error}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert error == [
+        %{locations: [%{column: 0, line: 2}],
+          message: "Argument \"id\" has invalid value nil."}
+      ]
     end
   end
 

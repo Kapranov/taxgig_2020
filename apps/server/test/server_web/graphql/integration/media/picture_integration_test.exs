@@ -9,20 +9,21 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
   }
   alias Ecto.UUID
   alias Server.AbsintheHelpers
+  alias ServerWeb.GraphQL.Schema
 
   @image_path Path.absname("../core/test/fixtures/picture.png")
 
   describe "Resolver: Get picture" do
-    test "picture/3 returns the information on a picture" do
+    test "picture/3 returns the information on a picture - `AbsintheHelpers`" do
       %Picture{id: id} = picture = insert(:picture)
 
       query = """
       {
         picture(id: \"#{id}\") {
-          alt,
-          content_type,
-          name,
-          size,
+          alt
+          content_type
+          name
+          size
           url
         }
       }
@@ -38,16 +39,42 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
       assert json_response(res, 200)["data"]["picture"]["url"]          =~ ServerWeb.Endpoint.url()
     end
 
-    test "picture/3 returns nothing on a non-existent picture" do
+    test "picture/3 returns the information on a picture - `Absinthe.run`" do
+      %Picture{id: id} = picture = insert(:picture)
+      context = %{}
+
+      query = """
+      {
+        picture(id: \"#{id}\") {
+          alt
+          content_type
+          name
+          size
+          url
+        }
+      }
+      """
+
+      {:ok, %{data: %{"picture" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found["content_type"] == picture.file.content_type
+      assert found["name"]         == picture.file.name
+      assert found["size"]         == 5024
+      assert found["url"]          =~ ServerWeb.Endpoint.url()
+    end
+
+
+    test "picture/3 returns nothing on a non-existent picture - `AbsintheHelpers`" do
       id = UUID.generate()
 
       query = """
       {
         picture(id: \"#{id}\") {
-          alt,
-          content_type,
-          name,
-          size,
+          alt
+          content_type
+          name
+          size
           url
         }
       }
@@ -59,31 +86,53 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
 
       assert hd(json_response(res, 200)["errors"])["message"] == "Picture with ID #{id} was not found"
     end
+
+    test "picture/3 returns nothing on a non-existent picture - `Absinthe.run`" do
+      id = UUID.generate()
+      context = %{}
+
+      query = """
+      {
+        picture(id: \"#{id}\") {
+          alt
+          content_type
+          name
+          size
+          url
+        }
+      }
+      """
+
+      {:ok, %{data: %{"picture" => found}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert found == nil
+    end
   end
 
   describe "Resolver: Upload picture" do
-    test "upload_picture/3 uploads a new picture" do
+    test "upload_picture/3 uploads a new picture - `AbsintheHelpers`" do
       profile = insert(:profile, logo: nil)
       user = Accounts.get_user!(profile.user_id)
       picture = %{name: "my pic", alt: "represents something", file: "picture.png"}
 
-      mutation = """
+      query = """
       mutation { uploadPicture(
           alt: \"#{picture.alt}\",
           file: \"#{picture.file}\",
           name: \"#{picture.name}\",
           profileId: \"#{profile.user_id}\"
         ) {
-          content_type,
-          name,
-          size,
+          content_type
+          name
+          size
           url
         }
       }
       """
 
       map = %{
-        "query" => mutation,
+        "query" => query,
         picture.file => %Plug.Upload{
           content_type: "image/png",
           filename: picture.file,
@@ -103,27 +152,30 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
       assert json_response(res, 200)["data"]["uploadPicture"]["url"]
     end
 
-    test "upload_picture/3 forbids uploading if no auth" do
+    test "upload_picture/3 uploads a new picture - `Absinthe.run`" do
+    end
+
+    test "upload_picture/3 forbids uploading if no auth - AbsintheHelpers" do
       profile = build(:profile)
       picture = %{name: "my pic", alt: "represents something", file: "picture.png"}
 
-      mutation = """
+      query = """
       mutation { uploadPicture(
           alt: \"#{picture.alt}\",
           file: \"#{picture.file}\",
           name: \"#{picture.name}\",
           profileId: \"#{profile.user_id}\"
         ) {
-          content_type,
-          name,
-          size,
+          content_type
+          name
+          size
           url
         }
       }
       """
 
       map = %{
-        "query" => mutation,
+        "query" => query,
         picture.file => %Plug.Upload{
           content_type: "image/png",
           filename: picture.file,
@@ -137,6 +189,9 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
         |> post("/graphiql", map)
 
       assert hd(json_response(res, 200)["errors"])["message"] == "Unauthenticated"
+    end
+
+    test "upload_picture/3 forbids uploading if no auth - Absinthe.run" do
     end
   end
 

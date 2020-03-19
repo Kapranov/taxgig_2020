@@ -11,10 +11,10 @@ defmodule Core.Media.File do
   ]
 
   @type t :: %__MODULE__{
-    name: String.t(),
-    url: String.t(),
     content_type: String.t(),
-    size: integer
+    name: String.t(),
+    size: integer,
+    url: String.t()
   }
 
   @required_attrs [:name, :url]
@@ -22,10 +22,10 @@ defmodule Core.Media.File do
   @attrs @required_attrs ++ @optional_attrs
 
   embedded_schema do
-    field(:name, :string)
-    field(:url, :string)
     field(:content_type, :string)
+    field(:name, :string)
     field(:size, :integer)
+    field(:url, :string)
 
     timestamps()
   end
