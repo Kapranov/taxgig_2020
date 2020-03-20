@@ -9,7 +9,4 @@ erl_crash.dump
 *.ez
 
 DAXX.md
-
-/config/*.secret.exs
-
 mix.lock

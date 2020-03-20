@@ -5,6 +5,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   alias Core.{
     Accounts,
+    Accounts.Profile,
     Accounts.User,
     Repo
   }
@@ -39,10 +40,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   @error_request "invalid grant"
   @error_request_des "Bad Request"
 
-  @spec list(map(), map(), map()) :: success_list | error_tuple
-  def list(_parent, _args, _info) do
-    struct = Accounts.list_user()
-    {:ok, struct}
+  # @spec list(map(), map(), map()) :: success_list | error_tuple
+  @spec list(map(), map(), %{context: %{current_user: User.t()}}) :: success_list | error_tuple
+  def list(_parent, _args, %{context: %{current_user: user}}) do
+    with %Profile{} <- Accounts.get_profile!(user.id), struct <- Accounts.list_user() do
+      # struct = Accounts.list_user()
+      {:ok, struct}
+    end
   end
 
   @spec show(map(), %{id: bitstring}, map()) :: result
