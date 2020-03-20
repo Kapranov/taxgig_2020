@@ -100,6 +100,19 @@ defmodule Core.Accounts.User do
   end
 
   @doc """
+  List all via CurrentUser and sorted.
+  """
+  def all(current_user_id) do
+    query =
+      from row in @name,
+      order_by: [desc: row.id],
+      where: row.id == ^current_user_id
+
+    Repo.all(query)
+    |> Repo.preload([:languages])
+  end
+
+  @doc """
   Create changeset for User, registration only requires
   an email, password and password_confirmation are fields.
   """

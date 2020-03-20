@@ -6,7 +6,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
   describe "#list" do
     it "returns accounts an user" do
       struct = insert(:user)
-      {:ok, data} = UserResolver.list(%{}, %{}, %{})
+      context = %{context: %{current_user: struct}}
+      {:ok, data} = UserResolver.list(%{}, %{}, context)
       assert length(data) == 1
       assert List.first(data).id          == struct.id
       assert List.first(data).active      == struct.active
@@ -33,7 +34,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
   describe "#show" do
     it "returns specific accounts an user by id" do
       struct = insert(:user)
-      {:ok, found} = UserResolver.show(%{}, %{id: struct.id}, %{})
+      context = %{context: %{current_user: struct}}
+      {:ok, found} = UserResolver.show(%{}, %{id: struct.id}, context)
       assert found.id          == struct.id
       assert found.active      == struct.active
       assert found.admin_role  == struct.admin_role
@@ -55,17 +57,20 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       assert found.zip         == struct.zip
     end
 
-    it "returns not found when accounts an user does not exist" do
+    it "returns error permission denied when accounts an user does not exist" do
       id = Ecto.UUID.generate
-      {:error, error} = UserResolver.show(%{}, %{id: id}, %{})
-      assert error == "An User #{id} not found!"
+      struct = insert(:user)
+      context = %{context: %{current_user: struct}}
+      {:error, error} = UserResolver.show(%{}, %{id: id}, context)
+      assert error == "permission denied"
     end
 
     it "returns error for missing params" do
-      insert(:user)
+      struct = insert(:user)
+      context = %{context: %{current_user: struct}}
       args = %{id: nil, email: nil, password: nil, password_confirmation: nil}
-      {:error, error} = UserResolver.show(%{}, args, %{})
-      assert error == [[field: :id, message: "Can't be blank"]]
+      {:error, error} = UserResolver.show(%{}, args, context)
+      assert error == [[field: :id, message: "Can't be blank or Unauthenticated"]]
     end
   end
 
@@ -131,6 +136,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
     it "update specific accounts an user by id" do
       struct_a = insert(:language, abbr: "fra", name: "french")
       struct_b = insert(:user)
+      context = %{context: %{current_user: struct_b}}
 
       params = %{
         active: true,
@@ -155,7 +161,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
         zip: 987654321
       }
       args = %{id: struct_b.id, user: params}
-      {:ok, updated} = UserResolver.update(%{}, args, %{})
+      {:ok, updated} = UserResolver.update(%{}, args, context)
       assert updated.id          == struct_b.id
       assert updated.active      == true
       assert updated.admin_role  == true
@@ -179,9 +185,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
 
     it "return error when some params for missing params" do
       struct = insert(:user)
+      context = %{context: %{current_user: struct}}
       params = %{}
       args = %{id: struct.id, user: params}
-      {:error, error} = UserResolver.update(%{}, args, %{})
+      {:error, error} = UserResolver.update(%{}, args, context)
       assert error == [
         [field: :password, message: "Can't be blank"],
         [field: :password_confirmation, message: "Can't be blank"]
@@ -189,32 +196,40 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
     end
 
     it "returns error for missing params" do
-      insert(:user)
+      struct = insert(:user)
+      context = %{context: %{current_user: struct}}
       params = %{email: nil, password: nil, password_confirmation: nil}
       args = %{id: nil, user: params}
-      {:error, error} = UserResolver.update(%{}, args, %{})
-      assert error == [[field: :id, message: "Can't be blank"]]
+      {:error, error} = UserResolver.update(%{}, args, context)
+      assert error == [[field: :id, message: "Can't be blank or Unauthenticated"]]
     end
   end
 
   describe "#delete" do
     it "delete specific accounts an user by id" do
       struct = insert(:user)
-      {:ok, deleted} = UserResolver.delete(%{}, %{id: struct.id}, %{})
+      context = %{context: %{current_user: struct}}
+      {:ok, deleted} = UserResolver.delete(%{}, %{id: struct.id}, context)
       assert deleted.id == struct.id
     end
 
     it "returns not found when accounts an user does not exist" do
       id = Ecto.UUID.generate
       {:error, error} = UserResolver.delete(%{}, %{id: id}, %{})
-      assert error == "An User #{id} not found!"
+      assert error == [
+        [field: :id, message: "Can't be blank"],
+        [field: :current_user, message: "Unauthenticated"]
+      ]
     end
 
     it "returns error for missing params" do
       insert(:user)
       args = %{id: nil}
       {:error, error} = UserResolver.delete(%{}, args, %{})
-      assert error == [[field: :id, message: "Can't be blank"]]
+      assert error == [
+        [field: :id, message: "Can't be blank"],
+        [field: :current_user, message: "Unauthenticated"]
+      ]
     end
   end
 

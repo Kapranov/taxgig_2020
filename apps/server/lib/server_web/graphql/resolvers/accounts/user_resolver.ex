@@ -5,7 +5,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   alias Core.{
     Accounts,
-    Accounts.Profile,
     Accounts.User,
     Repo
   }
@@ -40,23 +39,35 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   @error_request "invalid grant"
   @error_request_des "Bad Request"
 
-  # @spec list(map(), map(), map()) :: success_list | error_tuple
   @spec list(map(), map(), %{context: %{current_user: User.t()}}) :: success_list | error_tuple
-  def list(_parent, _args, %{context: %{current_user: user}}) do
-    with %Profile{} <- Accounts.get_profile!(user.id), struct <- Accounts.list_user() do
-      # struct = Accounts.list_user()
-      {:ok, struct}
+  def list(_parent, _args, %{context: %{current_user: current_user}}) do
+    if is_nil(current_user) do
+      {:error, [[field: :user_id, message: "An User not found! or Unauthenticated"]]}
+    else
+      case User.all(current_user.id) do
+        nil -> {:error, "Not found"}
+        struct -> {:ok, struct}
+      end
     end
   end
 
-  @spec show(map(), %{id: bitstring}, map()) :: result
-  def show(_parent, %{id: id}, _info) do
-    if is_nil(id) do
-      {:error, [[field: :id, message: "Can't be blank"]]}
+  def list(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
+  end
+
+  @spec show(map(), %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result
+  def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
+    if is_nil(id) || is_nil(current_user) do
+      {:error, [[field: :id, message: "Can't be blank or Unauthenticated"]]}
     else
       try do
-        struct = Accounts.get_user!(id)
-        {:ok, struct}
+        case id == current_user.id do
+          true ->
+            struct = Accounts.get_user!(id)
+            {:ok, struct}
+          false ->
+            {:error, "permission denied"}
+        end
       rescue
         Ecto.NoResultsError ->
           {:error, "An User #{id} not found!"}
@@ -65,7 +76,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   end
 
   def show(_parent, _args, _info) do
-    {:error, [[field: :id, message: "Can't be blank"]]}
+    {:error, "Unauthenticated"}
   end
 
   @spec create(map(), map(), map()) :: result
@@ -90,20 +101,25 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  @spec update(map(), %{id: bitstring, user: map()}, map()) :: result
-  def update(_root, %{id: id, user: params}, _info) do
-    if is_nil(id) do
-      {:error, [[field: :id, message: "Can't be blank"]]}
+  @spec update(map(), %{id: bitstring, user: map()}, %{context: %{current_user: User.t()}}) :: result
+  def update(_root, %{id: id, user: params}, %{context: %{current_user: current_user}}) do
+    if is_nil(id) || is_nil(current_user) do
+      {:error, [[field: :id, message: "Can't be blank or Unauthenticated"]]}
     else
       try do
-        Repo.get!(User, id)
-        |> User.changeset(params)
-        |> Repo.update
-        |> case do
-          {:ok, struct} ->
-            {:ok, struct}
-          {:error, changeset} ->
-            {:error, extract_error_msg(changeset)}
+        case id == current_user.id do
+          true ->
+            Repo.get!(User, id)
+            |> User.changeset(params)
+            |> Repo.update
+            |> case do
+              {:ok, struct} ->
+                {:ok, struct}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
+          false ->
+            {:error, "permission denied"}
         end
       rescue
         Ecto.NoResultsError ->
@@ -117,20 +133,25 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         [field: :id, message: "Can't be blank"],
         [field: :user, message: "Can't be blank"],
         [field: :password, message: "Can't be blank"],
-        [field: :password_confirmation, message: "Can't be blank"]
+        [field: :password_confirmation, message: "Can't be blank"],
+        [field: :current_user,  message: "Unauthenticated"]
       ]
     }
-
   end
 
-  @spec delete(map(), %{id: bitstring}, map()) :: result
-  def delete(_parent, %{id: id}, _info) do
+  @spec delete(map(), %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result
+  def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) do
       {:error, [[field: :id, message: "Can't be blank"]]}
     else
       try do
-        struct = Accounts.get_user!(id)
-        Repo.delete(struct)
+        case !is_nil(current_user) and id == current_user.id do
+          true ->
+            struct = Accounts.get_user!(id)
+            Repo.delete(struct)
+          false ->
+            {:error, "permission denied"}
+        end
       rescue
         Ecto.NoResultsError ->
           {:error, "An User #{id} not found!"}
@@ -139,7 +160,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   end
 
   def delete(_parent, _args, _info) do
-    {:error, [[field: :id, message: "Can't be blank"]]}
+    {:error, [
+        [field: :id, message: "Can't be blank"],
+        [field: :current_user,  message: "Unauthenticated"]
+      ]
+    }
   end
 
   def get_code(_parent, args, _resolution) do
