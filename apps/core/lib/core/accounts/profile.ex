@@ -9,7 +9,7 @@ defmodule Core.Accounts.Profile do
   alias Core.{
     Accounts.User,
     Lookup.UsZipcode,
-    Media.File,
+    Media.File
   }
 
   @type t :: %__MODULE__{

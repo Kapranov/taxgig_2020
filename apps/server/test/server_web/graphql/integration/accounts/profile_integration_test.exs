@@ -9,6 +9,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
   describe "#list" do
     it "returns profile - `AbsintheHelpers`" do
       struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
 
       query = """
       {
@@ -48,6 +49,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       """
       res =
         build_conn()
+        |> auth_conn(user)
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "allProfiles"))
 
       assert json_response(res, 200)["errors"] == nil
@@ -139,8 +141,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
     it "returns profile - `Absinthe.run`" do
       struct = insert(:profile)
-
-      context = %{}
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{current_user: user}
 
       query = """
       {
@@ -229,6 +231,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
   describe "#show" do
     it "returns specific profile by user_id - `AbsintheHelpers`" do
       struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
 
       query = """
       {
@@ -269,6 +272,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
       res =
         build_conn()
+        |> auth_conn(user)
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "showProfile"))
 
       assert json_response(res, 200)["errors"] == nil
@@ -318,8 +322,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
     it "returns specific profile by user_id - `Absinthe.run`" do
       struct = insert(:profile)
-
-      context = %{}
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{current_user: user}
 
       query = """
       {
@@ -404,6 +408,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
     it "returns not found when accounts subscriber does not exist - `AbsintheHelpers`" do
       user_id =  Ecto.UUID.generate()
+      struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
 
       query = """
       {
@@ -444,15 +450,17 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
       res =
         build_conn()
+        |> auth_conn(user)
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "showProfile"))
 
-      assert hd(json_response(res, 200)["errors"])["message"] == "An User #{user_id} not found!"
+      assert hd(json_response(res, 200)["errors"])["message"] == "permission denied"
     end
 
     it "returns not found when accounts subscriber does not exist - `Absinthe.run`" do
       user_id =  Ecto.UUID.generate()
-
-      context = %{}
+      struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{current_user: user}
 
       query = """
       {
@@ -498,6 +506,9 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
     end
 
     it "returns error for missing params - `AbsintheHelpers`" do
+      struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+
       query = """
       {
         showProfile(id: nil) {
@@ -537,6 +548,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
       res =
         build_conn()
+        |> auth_conn(user)
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "showProfile"))
 
       assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
@@ -546,6 +558,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
   describe "#update" do
     it "update specific profile by user_id - `AbsintheHelpers`" do
       struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
       zipcode = insert(:zipcode)
       logo = %{name: "Time for #NeverBernie", alt: "I woke up this morning wondering whether it’s time to unfurl the #NeverBernie banner.", file: "bernie.jpg"}
 
@@ -612,6 +625,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
       res =
         build_conn()
+        |> auth_conn(user)
         |> put_req_header("content-type", "multipart/form-data")
         |> post("/graphiql", map)
 
@@ -662,9 +676,10 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
     it "update specific profile by user_id - `Absinthe.run`" do
       struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{current_user: user}
       zipcode = insert(:zipcode)
       logo = %{name: "Time for #NeverBernie", alt: "I woke up this morning wondering whether it’s time to unfurl the #NeverBernie banner.", file: "bernie.jpg"}
-      context = %{}
 
       # Expected behavior
       # Based on the documentation for `Absinthe.run/3`, I would expect to be
@@ -885,6 +900,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
   describe "#delete" do
     it "delete specific profile by user_id - `AbsintheHelpers`" do
       struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
 
       query = """
       {
@@ -896,6 +912,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
       res =
         build_conn()
+        |> auth_conn(user)
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
       assert json_response(res, 200)["errors"] == nil
@@ -906,7 +923,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
     it "delete specific profile by user_id - `Absinthe.run`" do
       struct = insert(:profile)
-      context = %{}
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{current_user: user}
 
       query = """
       mutation {
@@ -924,6 +942,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
     it "returns not found when profile does not exist - `AbsintheHelpers`" do
       id = Ecto.UUID.generate()
+      struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
 
       query = """
       {
@@ -935,14 +955,17 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
       res =
         build_conn()
+        |> auth_conn(user)
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert hd(json_response(res, 200)["errors"])["message"] == "The Profile #{id} not found!"
+      assert hd(json_response(res, 200)["errors"])["message"] == "permission denied"
     end
 
     it "returns not found when profile does not exist - `Absinthe.run" do
       id = Ecto.UUID.generate()
-      context = %{}
+      struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{current_user: user}
 
       query = """
       mutation {
@@ -959,6 +982,9 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
     end
 
     it "returns error for missing params - `AbsintheHelpers`" do
+      struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+
       query = """
       {
         deleteProfile(id: id) {
@@ -969,6 +995,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
       res =
         build_conn()
+        |> auth_conn(user)
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
       assert json_response(res, 200)["errors"] == [%{

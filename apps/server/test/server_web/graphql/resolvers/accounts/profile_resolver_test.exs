@@ -11,7 +11,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
   describe "#list" do
     it "returns accounts profile" do
       struct = insert(:profile)
-      {:ok, profile} = ProfileResolver.list(nil, nil, nil)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{context: %{current_user: user}}
+      {:ok, profile} = ProfileResolver.list(nil, nil, context)
       data =
         profile
         |> Core.Repo.preload([:us_zipcode, user: [:languages]])
@@ -69,7 +71,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
   describe "#show" do
     it "returns specific profile by user_id" do
       struct = insert(:profile)
-      {:ok, found} = ProfileResolver.show(nil, %{id: struct.user_id}, nil)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{context: %{current_user: user}}
+      {:ok, found} = ProfileResolver.show(nil, %{id: struct.user_id}, context)
       assert found.address           == struct.address
       assert found.banner            == struct.banner
       assert found.description       == struct.description
@@ -121,15 +125,22 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
 
     it "returns not found when profile does not exist" do
       id = Ecto.UUID.generate
-      {:error, error} = ProfileResolver.show(nil, %{id: id}, nil)
-      assert error == "An User #{id} not found!"
+      struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{context: %{current_user: user}}
+      {:error, error} = ProfileResolver.show(nil, %{id: id}, context)
+      assert error == "permission denied"
     end
 
     it "returns error for missing params" do
-      insert(:profile)
+      struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{context: %{current_user: user}}
       args = %{id: nil}
-      {:error, error} = ProfileResolver.show(nil, args, nil)
-      assert error == [[field: :id, message: "Can't be blank"]]
+      {:error, error} = ProfileResolver.show(nil, args, context)
+      assert error == [
+        [field: :id, message: "Can't be blank or Unauthenticated"]
+      ]
     end
   end
 
@@ -162,7 +173,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
 
       {:ok, user} = UserResolver.create(nil, args, nil)
 
-      {:ok, created} = ProfileResolver.show(nil, %{id: user.id}, nil)
+      data = Core.Accounts.User.find_by(id: user.id)
+      context = %{context: %{current_user: data}}
+
+      {:ok, created} = ProfileResolver.show(nil, %{id: user.id}, context)
       assert created.address          == nil
       assert created.banner           == nil
       assert created.description      == nil
@@ -206,6 +220,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
     it "update specific profile by user_id" do
       struct = insert(:profile)
       zipcode = insert(:zipcode)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{context: %{current_user: user}}
 
       file = %Plug.Upload{
         content_type: "image/jpg",
@@ -232,7 +248,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
         }
       }
 
-      {:ok, updated} = ProfileResolver.update(nil, args, nil)
+      {:ok, updated} = ProfileResolver.update(nil, args, context)
       assert updated.address           == "updated text"
       assert updated.banner            == "updated text"
       assert updated.logo.content_type == "image/jpg"
@@ -245,8 +261,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
 
     it "nothing change for missing params" do
       struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{context: %{current_user: user}}
       args = %{id: struct.user_id, logo: %{}, profile: %{}}
-      {:ok, updated} = ProfileResolver.update(nil, args, nil)
+      {:ok, updated} = ProfileResolver.update(nil, args, context)
       assert updated.address           == "some text"
       assert updated.banner            == "some text"
       assert updated.description       == "some text"
@@ -262,30 +280,41 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
     end
 
     it "returns error for missing params" do
-      insert(:profile)
+      struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{context: %{current_user: user}}
       args = %{id: nil, logo: nil, profile: nil}
-      {:error, error} = ProfileResolver.update(nil, args, nil)
-      assert error == [[field: :id, message: "Can't be blank"]]
+      {:error, error} = ProfileResolver.update(nil, args, context)
+      assert error == [
+        [field: :user_id, message: "Can't be blank or Unauthenticated"]
+      ]
     end
   end
 
   describe "#delete" do
     it "delete specific accounts subscriber by id" do
       struct = insert(:profile)
-      {:ok, deleted} = ProfileResolver.delete(nil, %{id: struct.user_id}, nil)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{context: %{current_user: user}}
+      {:ok, deleted} = ProfileResolver.delete(nil, %{id: struct.user_id}, context)
       assert deleted.id == struct.user_id
     end
 
     it "returns not found when profile does not exist" do
       id = Ecto.UUID.generate
-      {:error, error} = ProfileResolver.delete(nil, %{id: id}, nil)
-      assert error == "The Profile #{id} not found!"
+      struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{context: %{current_user: user}}
+      {:error, error} = ProfileResolver.delete(nil, %{id: id}, context)
+      assert error == "permission denied"
     end
 
     it "returns error for missing params" do
-      insert(:profile)
+      struct = insert(:profile)
+      user = Core.Accounts.User.find_by(id: struct.user_id)
+      context = %{context: %{current_user: user}}
       args = %{id: nil}
-      {:error, error} = ProfileResolver.delete(nil, args, nil)
+      {:error, error} = ProfileResolver.delete(nil, args, context)
       assert error == [[field: :id, message: "Can't be blank"]]
     end
   end

@@ -11,6 +11,26 @@ defmodule Core.Accounts do
     User
   }
 
+  @type name() :: atom()
+  @type order_by() :: list()
+  @type where() :: list()
+  @type preload() :: atom()
+  @type return :: list()
+
+  @doc """
+  List all via CurrentUser and sorted.
+  """
+  @spec all(name(), order_by(), where(), preload()) :: return
+  def all(module, order_by, where, preload) do
+    query =
+      from module,
+      order_by: ^order_by,
+      where: ^where
+
+    Repo.all(query)
+    |> Repo.preload([preload])
+  end
+
   @doc """
   Returns the list of Subscriber.
 
