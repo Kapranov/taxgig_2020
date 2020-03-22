@@ -1,4 +1,11 @@
 V ?= @
+APP_NAME_SERVER ?= `grep 'app:' apps/server/mix.exs | sed -e 's/\[//g' -e 's/ //g' -e 's/app://' -e 's/[:,]//g'`
+APP_NAME_CORE ?= `grep 'app:' apps/core/mix.exs | sed -e 's/\[//g' -e 's/ //g' -e 's/app://' -e 's/[:,]//g'`
+APP_VSN_SERVER ?= `grep 'version:' apps/server/mix.exs | cut -d '"' -f2`
+APP_VSN_CORE ?= `grep 'version:' apps/core/mix.exs | cut -d '"' -f2`
+BUILD ?= `git rev-parse --short HEAD`
+SERVER_VERSION ?= '0.1'
+TZ ?= 'Pacific/Honolulu'
 SHELL := /usr/bin/env bash
 ERLSERVICE := $(shell pgrep beam.smp)
 NUM := {1..3}
@@ -13,7 +20,8 @@ SHOW_COLOR=\033[1;5;31m
 STAT_COLOR=\033[2;33m
 
 help:
-													$(V)echo Please use \'make help\' or \'make ..any_parameters..\'
+													@echo "$(APP_NAME_SERVER):$(APP_VSN_SERVER)-$(BUILD)"
+													@perl -nle'print $& if m{^[a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 git-%:
 													$(V)git add .

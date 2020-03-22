@@ -40,7 +40,7 @@ defmodule Core.Landing.Faq do
   @doc """
   Create changeset for Faq.
   """
-  @spec changeset(t, map) :: Ecto.Changeset.t()
+  @spec changeset(t, %{atom => any}) :: Ecto.Changeset.t()
   def changeset(struct, attrs) do
     struct
     |> cast(attrs, @allowed_params)

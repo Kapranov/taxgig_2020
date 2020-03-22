@@ -3,6 +3,7 @@ defmodule ServerWeb.ErrorView do
 
   alias Phoenix.Controller
 
+  @spec template_not_found(atom, map) :: String.t()
   def template_not_found(template, _assigns) do
     %{
       errors: %{

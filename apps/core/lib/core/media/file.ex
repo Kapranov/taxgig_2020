@@ -33,7 +33,7 @@ defmodule Core.Media.File do
   @doc """
   Create changeset for File.
   """
-  @spec changeset(t, map) :: Ecto.Changeset.t()
+  @spec changeset(t, %{atom => any}) :: Ecto.Changeset.t()
   def changeset(%__MODULE__{} = file, attrs) do
     file
     |> cast(attrs, @attrs)

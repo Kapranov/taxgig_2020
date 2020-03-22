@@ -15,7 +15,7 @@ defmodule Core.Localization do
       iex> list_language()
       [%Language{}, ...]
   """
-  @spec list_language() :: list
+  @spec list_language() :: [%Language{}]
   def list_language, do: Repo.all(Language)
 
   @doc """
@@ -32,7 +32,7 @@ defmodule Core.Localization do
       ** (Ecto.NoResultsError)
 
   """
-  @spec get_language!(String.t) :: map | error_tuple
+  @spec get_language!(String.t) :: %Language{} | error_tuple
   def get_language!(id), do: Repo.get!(Language, id)
 
   @doc """
@@ -47,7 +47,7 @@ defmodule Core.Localization do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_language(map) :: result | error_tuple
+  @spec create_language(%{atom => any}) :: result | error_tuple
   def create_language(attrs \\ %{}) do
     %Language{}
     |> Language.changeset(attrs)
@@ -66,7 +66,7 @@ defmodule Core.Localization do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_language(map, map) :: result | error_tuple
+  @spec update_language(%Language{}, %{atom => any}) :: result | error_tuple
   def update_language(struct, attrs) do
     struct
     |> Language.changeset(attrs)
@@ -85,7 +85,7 @@ defmodule Core.Localization do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec delete_language(map) :: result
+  @spec delete_language(%Language{}) :: result
   def delete_language(%Language{} = struct) do
     Repo.delete(struct)
   end
@@ -99,7 +99,7 @@ defmodule Core.Localization do
       %Ecto.Changeset{source: %Language{}}
 
   """
-  @spec change_language(map) :: Ecto.Changeset.t()
+  @spec change_language(%Language{}) :: Ecto.Changeset.t()
   def change_language(%Language{} = struct) do
     Language.changeset(struct, %{})
   end

@@ -19,13 +19,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
 
-  @spec list(map(), map(), map()) :: success_list | error_tuple
+  @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: success_list
   def list(_parent, _args, _info) do
     struct = Accounts.list_subscriber()
     {:ok, struct}
   end
 
-  @spec show(map(), %{id: bitstring}, map()) :: result
+  @spec show(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result
   def show(_parent, %{id: id}, _info) do
     if is_nil(id) do
       {:error, [[field: :id, message: "Can't be blank"]]}
@@ -40,7 +40,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
     end
   end
 
-  @spec create(map(), map(), map()) :: result
+  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result
   def create(_parent, args, _info) do
     with :ok <- Task.await(mailgun(args.email, args.pro_role), 3000),
           {:ok, struct} <- Accounts.create_subscriber(args)
@@ -54,7 +54,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
     end
   end
 
-  @spec update(map(), %{id: bitstring, subscriber: map()}, map()) :: result
+  @spec update(any, %{id: bitstring, subscriber: map()}, Absinthe.Resolution.t()) :: result
   def update(_root, %{id: id, subscriber: params}, _info) do
     if is_nil(id) do
       {:error, [[field: :id, message: "Can't be blank"]]}
@@ -70,7 +70,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
     end
   end
 
-  @spec delete(map(), %{id: bitstring}, map()) :: result
+  @spec delete(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result
   def delete(_parent, %{id: id}, _info) do
     if is_nil(id) do
       {:error, [[field: :id, message: "Can't be blank"]]}
@@ -99,6 +99,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
     end
   end
 
+  @spec mailgun(any, any) :: error_tuple
   defp mailgun(_, _) do
     Task.async(fn ->
       try do

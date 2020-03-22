@@ -32,7 +32,7 @@ defmodule Core.Accounts.Subscriber do
   @doc """
   Create changeset for Subscriber.
   """
-  @spec changeset(t, map) :: Ecto.Changeset.t()
+  @spec changeset(t, %{atom => any}) :: Ecto.Changeset.t()
   def changeset(struct, attrs) do
     struct
     |> cast(attrs, @allowed_params)

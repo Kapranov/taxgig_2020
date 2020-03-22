@@ -19,7 +19,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
   @doc """
   Get picture for an event's pic
   """
-  @spec picture(%{picture_id: bitstring}, map(), map()) :: result
+  @spec picture(%{picture_id: bitstring}, %{atom => any}, Absinthe.Resolution.t()) :: result
   def picture(%{picture_id: picture_id} = _parent, _args, _resolution) do
      with {:ok, picture} <- do_fetch_picture(picture_id), do: {:ok, picture}
   end
@@ -29,11 +29,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
 
   See ServerWeb.GraphQL.Resolvers.EventsResolver.create_event/3
   """
+  @spec picture(%{picture: t}, %{atom => any}, Absinthe.Resolution.t()) :: result
   def picture(%{picture: picture} = _parent, _args, _resolution), do: {:ok, picture}
+  @spec picture(any, %{id: bitstring}, Absinthe.Resolution.t()) :: success_tuple | error_tuple
   def picture(_parent, %{id: picture_id}, _resolution), do: do_fetch_picture(picture_id)
+  @spec picture(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
   def picture(_parent, _args, _resolution), do: {:error, "There are args can't be blank"}
 
-  @spec upload_picture(map(), %{file: %Plug.Upload{}, profile_id: bitstring}, %{context: %{current_user: User.t()}}) :: result
+  @spec upload_picture(any, %{file: %Plug.Upload{}, profile_id: bitstring}, %{context: %{current_user: User.t()}}) :: result
   def upload_picture(_parent, %{file: %Plug.Upload{} = file, profile_id: profile_id} = args, %{context: %{current_user: user}}) do
     with %Profile{} <- Accounts.get_profile!(user.id),
          {:ok, %{name: _name, url: url, content_type: content_type, size: size}} <-
@@ -61,6 +64,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
     end
   end
 
+  @spec upload_picture(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
   def upload_picture(_parent, _args, _resolution) do
     {:error, "Unauthenticated"}
   end

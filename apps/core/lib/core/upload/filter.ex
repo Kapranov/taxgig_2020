@@ -12,8 +12,8 @@ defmodule Core.Upload.Filter do
   require Logger
 
   @callback filter(Core.Upload.t()) :: :ok | {:ok, Core.Upload.t()} | {:error, any()}
-  @spec filter([module()], Core.Upload.t()) :: {:ok, Core.Upload.t()} | {:error, any()}
 
+  @spec filter([module()], Core.Upload.t()) :: {:ok, Core.Upload.t()} | {:error, any()}
   def filter([], upload) do
     {:ok, upload}
   end

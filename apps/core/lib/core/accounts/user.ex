@@ -87,6 +87,7 @@ defmodule Core.Accounts.User do
     field :sex, :string
     field :ssn, :integer
     field :street, :string
+    field :token, :string, virtual: true
     field :zip, :integer
 
     has_one :profile, Profile,
@@ -100,10 +101,19 @@ defmodule Core.Accounts.User do
   end
 
   @doc """
+  virtual field via token
+  """
+  @spec store_token_changeset(map, %{atom => any}) :: map
+  def store_token_changeset(struct, attrs) do
+    struct
+    |> cast(attrs, [:token])
+  end
+
+  @doc """
   Create changeset for User, registration only requires
   an email, password and password_confirmation are fields.
   """
-  @spec changeset(t, map) :: Ecto.Changeset.t()
+  @spec changeset(t, %{atom => any}) :: Ecto.Changeset.t()
   def changeset(struct, attrs) do
     struct
     |> cast(attrs, @allowed_params)
@@ -111,7 +121,7 @@ defmodule Core.Accounts.User do
     |> changeset_preload(:languages)
     |> put_assoc_nochange(:languages, parse_name(attrs))
     |> validate_format(:email, email_regex())
-    |> validate_length(:password, min: 6)
+    |> validate_length(:password, min: 5, max: 20)
     |> validate_confirmation(:password)
     |> update_change(:email, &String.downcase/1)
     |> unique_constraint(:email, name: :users_email_index, message: "Only one an Email Record")
@@ -131,7 +141,7 @@ defmodule Core.Accounts.User do
     end
   end
 
-  @spec parse_name(map) :: map
+  @spec parse_name(%{atom => any}) :: map
   defp parse_name(params)  do
     (params[:languages] || "")
     |> String.split(",")

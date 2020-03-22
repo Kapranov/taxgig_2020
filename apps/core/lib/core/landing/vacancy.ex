@@ -34,7 +34,7 @@ defmodule Core.Landing.Vacancy do
   @doc """
   Create changeset for Vacancy.
   """
-  @spec changeset(t, map) :: Ecto.Changeset.t()
+  @spec changeset(t, %{atom => any}) :: Ecto.Changeset.t()
   def changeset(struct, attrs) do
     struct
     |> cast(attrs, @allowed_params)

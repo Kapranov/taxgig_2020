@@ -17,19 +17,19 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver do
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
 
-  @spec list(map(), map(), map()) :: success_list | error_tuple
+  @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: success_list
   def list(_parent, _args, _info) do
     struct = Landing.list_faq_category()
     {:ok, struct}
   end
 
-  @spec show(map(), %{id: bitstring}, map()) :: success_tuple | nil
+  @spec show(any, %{id: bitstring}, Absinthe.Resolution.t()) :: success_tuple | nil
   def find_faq_category(_parent, %{id: id}, _info) do
     struct = Landing.find_by_faq_category_id(id)
     {:ok, struct}
   end
 
-  @spec show(map(), %{id: bitstring}, map()) :: result
+  @spec show(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result
   def show(_parent, %{id: id}, _info) do
     if is_nil(id) do
       {:error, [[field: :id, message: "Can't be blank"]]}
@@ -44,7 +44,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver do
     end
   end
 
-  @spec create(map(), map(), map()) :: result
+  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result
   def create(_parent, args, _info) do
     args
     |> Landing.create_faq_category()
@@ -56,7 +56,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver do
     end
   end
 
-  @spec update(map(), %{id: bitstring, faq_category: map()}, map()) :: result
+  @spec update(any, %{id: bitstring, faq_category: map()}, Absinthe.Resolution.t()) :: result
   def update(_root, %{id: id, faq_category: params}, _info) do
     if is_nil(id) do
       {:error, [[field: :id, message: "Can't be blank"]]}
@@ -72,7 +72,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver do
     end
   end
 
-  @spec delete(map(), %{id: bitstring}, map()) :: result
+  @spec delete(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result
   def delete(_parent, %{id: id}, _info) do
     if is_nil(id) do
       {:error, [[field: :id, message: "Can't be blank"]]}

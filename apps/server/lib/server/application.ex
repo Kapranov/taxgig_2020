@@ -8,9 +8,8 @@ defmodule Server.Application do
   @doc """
   Starts the endpoint supervision tree.
   """
-  @spec start(Application.start_type(), term()) ::
-        {:error, reason :: term()} | {:ok, pid()} |
-        {:ok, pid(), Application.state()}
+  @spec start(Application.start_type(), start_args :: term()) ::
+          {:ok, pid()} | {:ok, pid(), Application.state()} | {:error, reason :: term()}
   def start(_type, _args) do
     import Supervisor.Spec
 
@@ -28,6 +27,7 @@ defmodule Server.Application do
   @doc """
   Callback that changes the configuration from the app callback.
   """
+  @spec config_change(list(tuple), list(tuple), list(any)) :: :ok
   def config_change(changed, _new, removed) do
     ServerWeb.Endpoint.config_change(changed, removed)
     :ok

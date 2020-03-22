@@ -40,7 +40,7 @@ defmodule Core.Media do
   @doc """
   Creates a picture.
   """
-  @spec create_picture(map) :: {:ok, Picture.t()} | {:error, Ecto.Changeset.t()}
+  @spec create_picture(%{atom => any}) :: {:ok, Picture.t()} | {:error, Ecto.Changeset.t()}
   def create_picture(attrs \\ %{}) do
     %Picture{}
     |> Picture.changeset(attrs)
@@ -50,7 +50,7 @@ defmodule Core.Media do
   @doc """
   Updates a picture.
   """
-  @spec update_picture(Picture.t(), map) :: {:ok, Picture.t()} | {:error, Ecto.Changeset.t()}
+  @spec update_picture(Picture.t(), %{atom => any}) :: {:ok, Picture.t()} | {:error, Ecto.Changeset.t()}
   def update_picture(%Picture{} = picture, attrs) do
     picture
     |> Picture.changeset(attrs)

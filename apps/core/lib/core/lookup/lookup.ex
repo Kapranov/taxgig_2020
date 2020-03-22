@@ -15,7 +15,7 @@ defmodule Core.Lookup do
       iex> list_zipcode()
       [%UsZipcode{}, ...]
   """
-  @spec list_zipcode() :: list
+  @spec list_zipcode() :: [%UsZipcode{}]
   def list_zipcode, do: Repo.all(UsZipcode)
 
   @doc """
@@ -32,13 +32,13 @@ defmodule Core.Lookup do
       ** (Ecto.NoResultsError)
 
   """
-  @spec get_zipcode!(String.t) :: map | error_tuple
+  @spec get_zipcode!(String.t) :: %UsZipcode{} | error_tuple
   def get_zipcode!(id), do: Repo.get!(UsZipcode, id)
 
   @doc """
   Search record by UsZipcode via `zipcode`.
   """
-  @spec search_zipcode(integer) :: map
+  @spec search_zipcode(integer) :: %UsZipcode{}
   def search_zipcode(zipcode) do
     Repo.one(
       from u in UsZipcode,
@@ -58,7 +58,7 @@ defmodule Core.Lookup do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_zipcode(map) :: result | error_tuple
+  @spec create_zipcode(%{atom => map}) :: result | error_tuple
   def create_zipcode(attrs \\ %{}) do
     %UsZipcode{}
     |> UsZipcode.changeset(attrs)
@@ -77,7 +77,7 @@ defmodule Core.Lookup do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_zipcode(map, map) :: result | error_tuple
+  @spec update_zipcode(%UsZipcode{}, %{atom => any}) :: result | error_tuple
   def update_zipcode(struct, attrs) do
     struct
     |> UsZipcode.changeset(attrs)
@@ -96,7 +96,7 @@ defmodule Core.Lookup do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec delete_zipcode(map) :: result
+  @spec delete_zipcode(%UsZipcode{}) :: result
   def delete_zipcode(%UsZipcode{} = struct) do
     Repo.delete(struct)
   end
@@ -110,7 +110,7 @@ defmodule Core.Lookup do
       %Ecto.Changeset{source: %UsZipcode{}}
 
   """
-  @spec change_zipcode(map) :: Ecto.Changeset.t()
+  @spec change_zipcode(%UsZipcode{}) :: Ecto.Changeset.t()
   def change_zipcode(%UsZipcode{} = struct) do
     UsZipcode.changeset(struct, %{})
   end

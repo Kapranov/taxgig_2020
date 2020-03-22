@@ -44,7 +44,7 @@ defmodule Core.Media.Picture do
   @doc """
   Create changeset for Picture.
   """
-  @spec changeset(t, map) :: Ecto.Changeset.t()
+  @spec changeset(t, %{atom => any}) :: Ecto.Changeset.t()
   def changeset(%__MODULE__{} = picture, attrs) do
     picture
     |> cast(attrs, @allowed_params)
