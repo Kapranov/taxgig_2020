@@ -70,7 +70,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
   end
 
   @desc "Get token for an authentication of user"
-  object :token do
+  object :session do
     field :access_token, :string, description: "token "
     field :provider, :string, description: "accounts user provider"
     field :error, :string
@@ -150,7 +150,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     end
 
     @desc "SignIn via localhost and social networks"
-    field :sign_in, :token do
+    field :sign_in, :session do
       arg(:code, :string, description: "code by social networks, except by localhost")
       arg(:email, :string, description: "set email for localhost")
       arg(:password, :string, description: "set password for localhost")
@@ -188,7 +188,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     end
 
     @desc "Sign up via localhost and social networks"
-    field :sign_up, :token do
+    field :sign_up, :session do
       arg(:code, :string, description: "code by social networks, except for localhost")
       arg(:email, :string, description: "set email for localhost")
       arg(:password, :string, description: "set password for localhost")
@@ -196,6 +196,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       arg(:provider, non_null(:string), description: "set provider localhost or social networks")
       resolve(&UserResolver.signup/3)
     end
+
 
     @desc "Update a specific accounts an user"
     field :update_user, :user do

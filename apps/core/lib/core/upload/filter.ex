@@ -18,6 +18,7 @@ defmodule Core.Upload.Filter do
     {:ok, upload}
   end
 
+  @spec filter(list(), Core.Upload.t()) :: {:ok, Core.Upload.t()} | {:error, any()}
   def filter([filter | rest], upload) do
     case filter.filter(upload) do
       :ok ->

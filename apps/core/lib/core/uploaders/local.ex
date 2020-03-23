@@ -4,13 +4,17 @@ defmodule Core.Uploaders.Local do
   """
 
   @behaviour Core.Uploaders.Uploader
+  @type posix :: :file.posix()
 
   alias Core.Config
 
+  @spec get_file(any) :: {:ok, {:static_dir, String.t()}}
   def get_file(_) do
     {:ok, {:static_dir, upload_path()}}
   end
 
+
+  @spec put_file(map()) :: :ok | {:error, posix()}
   def put_file(upload) do
     {path, file} = local_path(upload.path)
     result_file = Path.join(path, file)
@@ -22,6 +26,7 @@ defmodule Core.Uploaders.Local do
     :ok
   end
 
+  @spec remove_file(String.t()) :: {:ok, String.t()} | {:error, String.t()}
   def remove_file(path) do
     with {path, file} <- local_path(path),
          full_path <- Path.join(path, file),
@@ -34,6 +39,7 @@ defmodule Core.Uploaders.Local do
     end
   end
 
+  @spec remove_folder(String.t) :: :ok | {:error, atom()} | {:error, String.t()}
   defp remove_folder(path) do
     with {:subfolder, true} <- {:subfolder, path != upload_path()},
          {:empty_folder, {:ok, [] = _files}} <- {:empty_folder, File.ls(path)} do
@@ -44,6 +50,7 @@ defmodule Core.Uploaders.Local do
     end
   end
 
+  @spec local_path(String.t) :: {String.t(), binary()}
   defp local_path(path) do
     case Enum.reverse(String.split(path, "/", trim: true)) do
       [file] ->
@@ -55,6 +62,7 @@ defmodule Core.Uploaders.Local do
     end
   end
 
+  @spec upload_path() :: String.t
   def upload_path do
     Config.get!([__MODULE__, :uploads])
   end

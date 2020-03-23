@@ -24,6 +24,7 @@ defmodule Core.Media.Uploaders.LocalTest do
         tempfile: @image_path
       }
 
+
       assert Local.put_file(file) == :ok
       assert Path.join([Local.upload_path(), file_path])
              |> File.exists?()

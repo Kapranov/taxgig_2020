@@ -88,6 +88,7 @@ defmodule Core.Upload do
      end
    end
 
+  @spec remove(String.t(), list()) :: String.t() | {:error, String.t()}
   def remove(url, opts \\ []) do
     with opts <- get_opts(opts), %URI{path: "/media/" <> path, host: host} <- URI.parse(url), {:same_host, true} <- {:same_host, host == @host} do
       Uploaders.Uploader.remove_file(opts.uploader, path)
@@ -99,10 +100,12 @@ defmodule Core.Upload do
     end
   end
 
+  @spec char_unescaped?(char()) :: boolean()
   def char_unescaped?(char) do
     URI.char_unreserved?(char) or char == ?/
   end
 
+  @spec get_opts(keyword(t)) :: integer()
   defp get_opts(opts) do
     {size_limit, activity_type} =
       case Keyword.get(opts, :type) do
@@ -126,12 +129,15 @@ defmodule Core.Upload do
     }
   end
 
+  @spec prepare_upload(%Plug.Upload{}, map()) ::
+    {:ok, %__MODULE__{id: String.t(), name: String.t(), tempfile: String.t(), content_type: String.t(), size: integer()}}
   defp prepare_upload(%Plug.Upload{} = file, opts) do
     with {:ok, size} <- check_file_size(file.path, opts.size_limit), {:ok, content_type, name} <- MIME.file_mime_type(file.path, file.filename) do
       {:ok, %__MODULE__{id: UUID.generate(), name: name, tempfile: file.path, content_type: content_type, size: size}}
     end
   end
 
+  @spec check_file_size(String.t(), integer()) :: {:ok, integer()} | {:error, atom()} | atom()
   defp check_file_size(path, size_limit) when is_integer(size_limit) and size_limit > 0 do
     with {:ok, %{size: size}} <- File.stat(path), true <- size <= size_limit do
       {:ok, size}
@@ -141,8 +147,10 @@ defmodule Core.Upload do
     end
   end
 
+  @spec check_file_size(any, any) :: atom()
   defp check_file_size(_, _), do: :ok
 
+  @spec url_from_spec(%__MODULE__{name: String.t()}, String.t(), {:file, String.t}) :: String.t
   defp url_from_spec(%__MODULE__{name: name}, base_url, {:file, path}) do
     path =
       URI.encode(path, &char_unescaped?/1) <>
@@ -156,5 +164,6 @@ defmodule Core.Upload do
     |> Path.join()
   end
 
+  @spec url_from_spec(any, any, {:url, String.t()}) :: String.t()
   defp url_from_spec(_upload, _base_url, {:url, url}), do: url
 end

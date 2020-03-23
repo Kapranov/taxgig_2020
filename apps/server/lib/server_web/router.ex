@@ -24,11 +24,16 @@ defmodule ServerWeb.Router do
   scope "/" do
     pipe_through :api
 
+    if Mix.env() == :dev do
+      forward "/graphiql", GraphiQL,
+        analyze_complexity: true,
+        max_complexity: 200,
+        interface: :advanced,
+        json_codec: Jason,
+        schema: Schema,
+        socket: UserSocket
+    end
+
     forward "/api", Plug, schema: Schema
-    forward "/graphiql", GraphiQL,
-      interface: :advanced,
-      json_codec: Jason,
-      schema: Schema,
-      socket: UserSocket
   end
 end

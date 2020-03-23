@@ -11,6 +11,7 @@ defmodule Core.Uploaders.S3 do
 
   @name __MODULE__
 
+  @spec get_file(String.t()) :: {:ok, {:url, String.t()}}
   def get_file(file) do
     config = Config.get([@name])
     bucket = Keyword.fetch!(config, :bucket)
@@ -36,6 +37,8 @@ defmodule Core.Uploaders.S3 do
         ])}}
   end
 
+  @spec put_file(%Core.Upload{name: String.t(), content_type: String.t(), path: String.t(), tempfile: String.t()}) ::
+          {:ok, {:file, String.t()}} | {:error, String.t()}
   def put_file(%Core.Upload{} = upload) do
     config = Config.get([@name])
     bucket = Keyword.get(config, :bucket)
@@ -69,6 +72,7 @@ defmodule Core.Uploaders.S3 do
     end
   end
 
+  @spec remove_file(String.t()) :: ExAws.Operation.S3.t()
   def remove_file(file) do
     if strict_encode(URI.decode(file)) do
       list = ExAws.S3.list_objects(System.get_env("AWS_S3_BUCKET_UPLOADS"), prefix: "uploads/users")
@@ -86,6 +90,7 @@ defmodule Core.Uploaders.S3 do
   end
 
   @regex Regex.compile!("[^0-9a-zA-Z!.*/'()_-]")
+  @spec strict_encode(String.t()) :: String.t()
   def strict_encode(name) do
     String.replace(name, @regex, "-")
   end
