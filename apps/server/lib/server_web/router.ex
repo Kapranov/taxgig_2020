@@ -24,7 +24,7 @@ defmodule ServerWeb.Router do
   scope "/" do
     pipe_through :api
 
-    if Mix.env() == :dev do
+    if Mix.env() == :dev || :test do
       forward "/graphiql", GraphiQL,
         analyze_complexity: true,
         max_complexity: 200,

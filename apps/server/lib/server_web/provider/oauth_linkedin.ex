@@ -13,6 +13,7 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
   @linkedin_profile_url "https://api.linkedin.com/v2/me?projection=(localizedFirstName,localizedLastName,profilePicture(displayImage~:playableStreams))"
   @avatar_url "https://robohash.org/set_set3/bgset_bg2/dky6Sd"
 
+  @spec generate_url() :: {:ok, %{atom() => String.t()}}
   def generate_url do
     client_id = Application.get_env(:server, LinkedIn)[:client_id]
     redirect_uri = Application.get_env(:server, LinkedIn)[:redirect_uri]
@@ -23,6 +24,7 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
     {:ok, %{"url" => url}}
   end
 
+  @spec generate_refresh_token_url(String.t()) :: {:ok, %{atom() => String.t()}}
   def generate_refresh_token_url(token) when not is_nil(token) and is_bitstring(token) do
     grant_type = "refresh_token"
     refresh_token = token
@@ -34,6 +36,7 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
     {:ok, %{"code" => url}}
   end
 
+  @spec generate_refresh_token_url(any()) :: {:ok, %{atom => String.t()}}
   def generate_refresh_token_url(_) do
     {:ok, %{
         "error" => "invalid_request",
@@ -41,6 +44,7 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
       }}
   end
 
+  @spec token(String.t()) :: {:ok, %{atom => String.t()}}
   def token(code) when not is_nil(code) and is_bitstring(code) do
     decode = URI.decode(code)
     headers = [{"Content-type", "application/x-www-form-urlencoded"}]
@@ -64,6 +68,7 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
         }}
   end
 
+  @spec token(any()) :: {:ok, %{atom => String.t()}}
   def token(_) do
     {:ok, %{
         "error" => "invalid_request",
@@ -71,6 +76,7 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
       }}
   end
 
+  @spec refresh_token(String.t()) :: {:ok, %{atom => String.t()}}
   def refresh_token(token) when not is_nil(token) and is_bitstring(token) do
     headers = [{"Content-type", "application/x-www-form-urlencoded"}]
     body = URI.encode_query(%{
@@ -90,6 +96,7 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
       }}
   end
 
+  @spec refresh_token(any()) :: {:ok, %{atom => String.t()}}
   def refresh_token(_) do
     {:ok, %{
         "error" => "invalid_grant",
@@ -97,6 +104,7 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
       }}
   end
 
+  @spec verify_token(String.t()) :: {:ok, %{atom => String.t()}}
   def verify_token(token) when not is_nil(token) and is_bitstring(token) do
     headers = [{"Authorization", "Bearer #{token}"}, {"Accept", "application/json"}]
 
@@ -115,6 +123,7 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
     end
   end
 
+  @spec verify_token(any()) :: {:ok, %{atom => String.t()}}
   def verify_token(_) do
     {:ok, %{
         "error" => "Invalid access token",
@@ -122,6 +131,7 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
       }}
   end
 
+  @spec user_profile(String.t()) :: {:ok, %{atom => String.t()}}
   def user_profile(token) when not is_nil(token) and is_bitstring(token) do
     headers = [{"Authorization", "Bearer #{token}"}, {"Accept", "application/json"}]
 
@@ -144,6 +154,7 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
     end
   end
 
+  @spec user_profile(any()) :: {:ok, %{atom => String.t()}}
   def user_profile(_) do
     {:ok, %{
         "error" => "Invalid access token",
@@ -151,6 +162,7 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
       }}
   end
 
+  @spec user_email(String.t()) :: {:ok, %{atom => String.t()}}
   def user_email(token) when not is_nil(token) and is_bitstring(token) do
     headers = [{"Authorization", "Bearer #{token}"}, {"Accept", "application/json"}]
 
@@ -171,6 +183,7 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
     end
   end
 
+  @spec user_email(any()) :: {:ok, %{atom => String.t()}}
   def user_email(_) do
     {:ok, %{
         "error" => "Invalid access token",
@@ -178,6 +191,7 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
       }}
   end
 
+  @spec info_image(map()) :: String.t()
   defp info_image(data) do
     avatar =
       data
@@ -190,6 +204,7 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
     if is_nil(avatar), do: @avatar_url, else: avatar
   end
 
+  @spec info_email(map()) :: String.t()
   defp info_email(data) do
     email =
       data
@@ -200,7 +215,10 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
     if is_nil(email), do: nil, else: email
   end
 
+  @spec parse_body_response({:error, any()}) :: {:error, any()}
   defp parse_body_response({:error, err}), do: {:error, err}
+
+  @spec parse_body_response({:ok, any()}) :: {:error, :no_body} | %{atom => any}
   defp parse_body_response({:ok, response}) do
     body = Map.get(response, :body)
 

@@ -86,38 +86,91 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     grant_type: "authorization_code"
   })
 
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
   def get(@google_email_ok), do: {:ok, %{body: Jason.encode!(google_email_ok())}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
   def get(@google_email_wrong), do: {:ok, %{body: Jason.encode!(google_email_wrong())}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
   def get(@google_profile_ok), do: {:ok, %{body: Jason.encode!(google_profile_ok())}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
   def get(@google_profile_wrong), do: {:ok, %{body: Jason.encode!(google_profile_wrong())}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
   def get(@google_verify_ok), do: {:ok, %{body: Jason.encode!(google_verify_ok())}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
   def get(@google_verify_wrong), do: {:ok, %{body: Jason.encode!(google_verify_wrong())}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
   def get(@linkedin_token), do: {:ok, %{body: Jason.encode!(%{email: "lugatex@yahoo.com"})}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
   def get(@google_token), do: {:ok, %{body: Jason.encode!(%{email: "kapranov.lugatex@gmail.com"})}}
+
+  @spec get(any()) :: {:ok, %{atom => %{atom => any}}}
   def get(_url), do: {:ok, %{body: Jason.encode!(google_verify_ok())}}
 
+  @spec get(String.t(), [{Stringt.t(), String.t()}]) :: {:ok, %{atom => %{atom => any}}}
   def get(@linkedin_email, @headers1), do: {:ok, %{body: Jason.encode!(linkedin_email_ok())}}
+
+  @spec get(String.t(), [{Stringt.t(), String.t()}]) :: {:ok, %{atom => %{atom => any}}}
   def get(@linkedin_email, @headers2), do: {:ok, %{body: Jason.encode!(linkedin_email_wrong())}}
+
+  @spec get(String.t(), any()) :: {:ok, %{atom => %{atom => any}}}
   def get(@linkedin_email, _options), do: {:ok, %{body: Jason.encode!(linkedin_verify_ok())}}
+
+  @spec get(String.t(), [{Stringt.t(), String.t()}]) :: {:ok, %{atom => %{atom => any}}}
   def get(@linkedin_profile, @headers1), do: {:ok, %{body: Jason.encode!(linkedin_profile_ok())}}
+
+  @spec get(String.t(), [{Stringt.t(), String.t()}]) :: {:ok, %{atom => %{atom => any}}}
   def get(@linkedin_profile, @headers2), do: {:ok, %{body: Jason.encode!(linkedin_profile_wrong())}}
+
+  @spec get(String.t(), any()) :: {:ok, %{atom => %{atom => any}}}
   def get(@linkedin_profile, _options), do: {:ok, %{body: Jason.encode!(linkedin_profile_ok())}}
+
+  @spec get(any(), [{Stringt.t(), String.t()}]) :: {:ok, %{atom => %{atom => any}}}
   def get(_url, @headers1), do: {:ok, %{body: Jason.encode!(linkedin_verify_ok())}}
+
+  @spec get(any(), [{Stringt.t(), String.t()}]) :: {:ok, %{atom => %{atom => any}}}
   def get(_url, @headers2), do: {:ok, %{body: Jason.encode!(linkedin_verify_wrong())}}
+
+  @spec get(any(), any()) :: {:ok, %{atom => %{atom => any}}}
   def get(_url, _options), do: {:ok, %{body: Jason.encode!(linkedin_verify_ok())}}
 
+  @spec post(String.t(), String.t()) :: {:ok, %{atom => %{atom => any}}}
   def post(@google_token, @body5), do: {:ok, %{body: Jason.encode!(google_refresh_ok())}}
+
+  @spec post(String.t(), String.t()) :: {:ok, %{atom => %{atom => any}}}
   def post(@google_token, @body6), do: {:ok, %{body: Jason.encode!(google_refresh_wrong())}}
+
+  @spec post(String.t(), String.t()) :: {:ok, %{atom => %{atom => any}}}
   def post(@google_token, @body7), do: {:ok, %{body: Jason.encode!(google_token_ok())}}
+
+  @spec post(String.t(), String.t()) :: {:ok, %{atom => %{atom => any}}}
   def post(@google_token, @body8), do: {:ok, %{body: Jason.encode!(google_token_wrong())}}
+
+  @spec post(any(), any()) :: {:ok, %{atom => %{atom => any}}}
   def post(_url, _token), do: {:ok, %{body: Jason.encode!(%{access_token: "token1"})}}
 
+  @spec post(String.t(), %{atom => String.t()}, [{Stringt.t(), String.t()}]) :: {:ok, %{atom => %{atom => any}}}
   def post(@linkedin_refresh, @body1, @headers3), do: {:ok, %{body: Jason.encode!(linkedin_refresh_denied())}}
+
+  @spec post(String.t(), %{atom => String.t()}, [{Stringt.t(), String.t()}]) :: {:ok, %{atom => %{atom => any}}}
   def post(@linkedin_refresh, @body2, @headers3), do: {:ok, %{body: Jason.encode!(linkedin_refresh_invalid())}}
+
+  @spec post(String.t(), %{atom => String.t()}, [{Stringt.t(), String.t()}]) :: {:ok, %{atom => %{atom => any}}}
   def post(@linkedin_refresh, @body3, @headers3), do: {:ok, %{body: Jason.encode!(linkedin_token_ok())}}
+
+  @spec post(String.t(), %{atom => String.t()}, [{Stringt.t(), String.t()}]) :: {:ok, %{atom => %{atom => any}}}
   def post(@linkedin_refresh, @body4, @headers3), do: {:ok, %{body: Jason.encode!(linkedin_token_wrong())}}
+
+  @spec post(any(), any(), any()) :: {:ok, %{atom => %{atom => any}}}
   def post(_url, _token, _options), do: {:ok, %{body: Jason.encode!(linkedin_refresh_denied())}}
 
+  @spec google_email_ok() :: %{atom => String.t() | boolean()}
   defp google_email_ok() do
     %{
       "email" => "kapranov.lugatex@gmail.com",
@@ -131,6 +184,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec google_email_wrong() :: %{atom => %{atom => String.t()}}
   defp google_email_wrong() do
     %{
       "error" => %{
@@ -141,6 +195,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec google_profile_ok() :: %{atom => String.t()}
   defp google_profile_ok() do
     %{
       "email" => "kapranov.lugatex@gmail.com",
@@ -154,6 +209,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec google_profile_wrong() :: %{atom => String.t()}
   defp google_profile_wrong() do
     %{
       "error" => "invalid_request",
@@ -161,6 +217,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec google_verify_ok() :: %{atom => String.t()}
   defp google_verify_ok() do
     %{
       "access_type" => "online",
@@ -175,10 +232,12 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec google_verify_wrong() :: %{atom => String.t()}
   defp google_verify_wrong() do
     %{"error_description" => "Invalid Value"}
   end
 
+  @spec google_token_ok() :: %{atom => String.t() | integer()}
   defp google_token_ok() do
     %{
       "access_token" => "token1",
@@ -189,6 +248,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec google_token_wrong() :: %{atom => String.t()}
   defp google_token_wrong() do
     %{
       "error" => "invalid_grant",
@@ -196,6 +256,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec google_refresh_ok() :: %{atom => String.t() | integer()}
   defp google_refresh_ok() do
     %{
       "access_token" => "token1",
@@ -206,6 +267,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec google_refresh_wrong() :: %{atom => String.t()}
   defp google_refresh_wrong() do
     %{
       "error" => "invalid_grant",
@@ -213,6 +275,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec linkedin_profile_ok() :: %{atom => any}
   defp linkedin_profile_ok() do
     %{
       "localizedFirstName" => "Oleg",
@@ -400,6 +463,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec linkedin_profile_wrong() :: %{atom => String.t() | integer()}
   defp linkedin_profile_wrong() do
     %{
       "serviceErrorCode" => 65600,
@@ -408,6 +472,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec linkedin_verify_ok() :: %{atom => [map()]}
   defp linkedin_verify_ok() do
     %{
       "elements" => [
@@ -421,6 +486,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec linkedin_verify_wrong() :: %{atom => String.t() | integer()}
   defp linkedin_verify_wrong() do
     %{
       "serviceErrorCode" => 65600,
@@ -429,6 +495,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec linkedin_email_ok() :: %{atom => [map()]}
   defp linkedin_email_ok() do
     %{
       "elements" => [
@@ -442,6 +509,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec linkedin_email_wrong() :: %{atom => String.t() | integer()}
   defp linkedin_email_wrong() do
     %{
       "serviceErrorCode" => 65600,
@@ -450,6 +518,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec linkedin_refresh_denied() :: %{atom => String.t()}
   defp linkedin_refresh_denied() do
     %{
       "error" => "access_denied",
@@ -457,6 +526,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec linkedin_refresh_invalid() :: %{atom => String.t()}
   defp linkedin_refresh_invalid() do
     %{
       "error" => "invalid_grant",
@@ -464,6 +534,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec linkedin_token_ok() :: %{atom => String.t() | integer()}
   defp linkedin_token_ok() do
     %{
       "access_token" => "token1",
@@ -471,6 +542,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     }
   end
 
+  @spec linkedin_token_wrong() :: %{atom => String.t()}
   defp linkedin_token_wrong() do
     %{
       "error" => "invalid_request",

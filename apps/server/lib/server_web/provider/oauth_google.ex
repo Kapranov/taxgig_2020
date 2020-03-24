@@ -14,6 +14,7 @@ defmodule ServerWeb.Provider.OauthGoogle do
   @google_user_profile_url "https://www.googleapis.com/oauth2/v3/userinfo"
   @google_user_email_url "https://www.googleapis.com/userinfo/v2/me"
 
+  @spec generate_url() :: String.t()
   def generate_url do
     client_id = Application.get_env(:server, Google)[:client_id]
     scope = Application.get_env(:server, Google)[:scope] || "profile+email"
@@ -22,6 +23,7 @@ defmodule ServerWeb.Provider.OauthGoogle do
     "#{@google_auth_url}&client_id=#{client_id}&scope=#{scope}&redirect_uri=#{redirect_uri}"
   end
 
+  @spec generate_refresh_token_url() :: String.t()
   def generate_refresh_token_url do
     client_id = Application.get_env(:server, Google)[:client_id]
     scope = Application.get_env(:server, Google)[:scope] || "profile"
@@ -30,6 +32,7 @@ defmodule ServerWeb.Provider.OauthGoogle do
     "#{@google_auth_refresh_token_url}&client_id=#{client_id}&scope=#{scope}&redirect_uri=#{redirect_uri}"
   end
 
+  @spec token(String.t()) :: %{atom => any}
   def token(code) when not is_nil(code) and is_bitstring(code) do
     decode = URI.decode(code)
     body = Jason.encode!(%{
@@ -44,6 +47,7 @@ defmodule ServerWeb.Provider.OauthGoogle do
     |> parse_body_response()
   end
 
+  @spec token(any()) :: {:ok, %{String.t() => String.t()}}
   def token(_) do
     {:ok, %{
         "error" => "invalid_grant",
@@ -52,6 +56,7 @@ defmodule ServerWeb.Provider.OauthGoogle do
     }
   end
 
+  @spec refresh_token(String.t()) :: %{atom => any}
   def refresh_token(token) when not is_nil(token) and is_bitstring(token) do
     body = Jason.encode!(%{
       refresh_token: token,
@@ -64,6 +69,7 @@ defmodule ServerWeb.Provider.OauthGoogle do
     |> parse_body_response()
   end
 
+  @spec refresh_token(any()) :: {:ok, %{String.t() => String.t()}}
   def refresh_token(_) do
     {:ok, %{
         "error" => "invalid_grant",
@@ -72,6 +78,7 @@ defmodule ServerWeb.Provider.OauthGoogle do
     }
   end
 
+  @spec verify_token(String.t()) :: %{atom => any}
   def verify_token(token) when not is_nil(token) and is_bitstring(token) do
     "#{@google_token_info_url}?access_token=#{token}"
     |> @httpoison.get()
@@ -86,12 +93,14 @@ defmodule ServerWeb.Provider.OauthGoogle do
     }
   end
 
+  @spec user_profile(String.t()) :: %{atom => any}
   def user_profile(token) when not is_nil(token) and is_bitstring(token) do
     "#{@google_user_profile_url}?access_token=#{token}"
     |> @httpoison.get()
     |> parse_body_response()
   end
 
+  @spec user_profile(any()) :: {:ok, %{atom => any}}
   def user_profile(_) do
     {:ok, %{
         "error" => "invalid_request",
@@ -100,12 +109,14 @@ defmodule ServerWeb.Provider.OauthGoogle do
     }
   end
 
+  @spec user_email(String.t()) :: %{atom => any}
   def user_email(token) when not is_nil(token) and is_bitstring(token) do
     "#{@google_user_email_url}?access_token=#{token}"
     |> @httpoison.get()
     |> parse_body_response()
   end
 
+  @spec user_email(any()) :: {:ok, %{String.t() => String.t()}}
   def user_email(_) do
     {:ok, %{
         "error" => "UNAUTHENTICATED",
@@ -114,7 +125,10 @@ defmodule ServerWeb.Provider.OauthGoogle do
     }
   end
 
+  @spec parse_body_response({:error, any()}) :: {:error, any()}
   defp parse_body_response({:error, err}), do: {:error, err}
+
+  @spec parse_body_response({:ok, any()}) :: %{atom => any()} | {:error, :no_body}
   defp parse_body_response({:ok, response}) do
     body = Map.get(response, :body)
 

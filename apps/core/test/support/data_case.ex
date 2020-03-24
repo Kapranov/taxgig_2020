@@ -96,7 +96,7 @@ defmodule Core.DataCase do
   refute validation_triggered?(changeset, :bar) ==  :required
   ```
   """
-  @spec assert_validation_triggered(Ecto.Changeset.t(), Atom.t()) :: boolean()
+  @spec assert_validation_triggered(Ecto.Changeset.t(), Atom.t(), Atom.t()) :: boolean()
   def assert_validation_triggered(changeset, field, type) do
     assert validation_triggered(changeset, field) == type
   end

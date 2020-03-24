@@ -54,6 +54,7 @@ defmodule ServerWeb do
     end
   end
 
+  @spec base_url() :: String.t()
   def base_url do
     ServerWeb.Endpoint.url()
   end

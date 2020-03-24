@@ -33,7 +33,7 @@ defmodule Server.Application do
     :ok
   end
 
-  @spec load_version() :: String.t()
+  @spec load_version() :: map()
   def load_version do
     [vsn, hash, date] =
       case File.read("VERSION") do

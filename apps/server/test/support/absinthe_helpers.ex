@@ -19,6 +19,7 @@ defmodule Server.AbsintheHelpers do
     |> Plug.Conn.put_req_header("accept", "application/json")
   end
 
+  @spec query_skeleton(String.t(), String.t()) :: %{atom => String.t()}
   def query_skeleton(query, query_name) do
     %{
       "operationName" => "#{query_name}",
@@ -27,6 +28,7 @@ defmodule Server.AbsintheHelpers do
     }
   end
 
+  @spec mutation_skeleton(String.t()) :: %{atom => String.t()}
   def mutation_skeleton(query) do
     %{
       "operationName" => "",
@@ -35,12 +37,14 @@ defmodule Server.AbsintheHelpers do
     }
   end
 
+  @spec graphql_query(%Plug.Conn{}, map()) :: %{atom => map()}
   def graphql_query(conn, options) do
     conn
     |> post("/graphiql", build_query(options[:query], options[:variables]))
     |> json_response(200)
   end
 
+  @spec build_query(String.t(), String.t()) :: %{atom => any}
   defp build_query(query, variables) do
     %{
       "query" => query,
