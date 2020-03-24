@@ -12,9 +12,9 @@ defmodule Ptin.Context do
       import Ecto.Query
 
       @type t :: __MODULE__.t()
-      @type reason :: any
-      @type success_tuple :: {:ok, t}
-      @type error_tuple :: {:error, reason}
+      @type reason :: any()
+      @type success_tuple :: {:ok, t()}
+      @type error_tuple :: {:error, reason()}
       @type result :: success_tuple | error_tuple
     end
   end

@@ -7,6 +7,7 @@ defmodule Core.Accounts.User do
 
   alias Core.{
     Accounts.Profile,
+    Accounts.User,
     Localization.Language,
     Repo
   }
@@ -103,7 +104,7 @@ defmodule Core.Accounts.User do
   @doc """
   virtual field via token
   """
-  @spec store_token_changeset(map, %{atom => any}) :: map
+  @spec store_token_changeset(%User{}, %{atom => any}) :: Ecto.Changeset.t()
   def store_token_changeset(struct, attrs) do
     struct
     |> cast(attrs, [:token])
@@ -129,11 +130,11 @@ defmodule Core.Accounts.User do
     |> put_password_hash()
   end
 
-  @spec changeset_preload(map, Keyword.t) :: map
+  @spec changeset_preload(map, Keyword.t()) :: Ecto.Changeset.t()
   defp changeset_preload(ch, field),
     do: update_in(ch.data, &Repo.preload(&1, field))
 
-  @spec put_assoc_nochange(map, Keyword.t, map) :: map
+  @spec put_assoc_nochange(map, Keyword.t(), map) :: Ecto.Changeset.t()
   defp put_assoc_nochange(ch, field, new_change) do
     case get_change(ch, field) do
       nil -> put_assoc(ch, field, new_change)
@@ -141,7 +142,7 @@ defmodule Core.Accounts.User do
     end
   end
 
-  @spec parse_name(%{atom => any}) :: map
+  @spec parse_name(%{atom => any}) :: map()
   defp parse_name(params)  do
     (params[:languages] || "")
     |> String.split(",")
@@ -150,12 +151,12 @@ defmodule Core.Accounts.User do
     |> Enum.map(&get_or_insert_lang/1)
   end
 
-  @spec get_or_insert_lang(String.t) :: map
+  @spec get_or_insert_lang(String.t()) :: map()
   defp get_or_insert_lang(name) do
     Repo.get_by(Language, name: name) || maybe_insert_lang(name)
   end
 
-  @spec maybe_insert_lang(String.t) :: map
+  @spec maybe_insert_lang(String.t()) :: map()
   defp maybe_insert_lang(name) do
     %Language{}
     |> Ecto.Changeset.change(name: name)

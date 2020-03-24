@@ -92,7 +92,7 @@ defmodule Core.Landing do
       ** (Ecto.NoResultsError)
 
   """
-  @spec get_faq!(String.t) :: %Faq{} | error_tuple
+  @spec get_faq!(String.t()) :: %Faq{} | error_tuple()
   def get_faq!(id), do: Repo.get!(Faq, id)
 
   @doc """
@@ -109,7 +109,7 @@ defmodule Core.Landing do
       ** (Ecto.NoResultsError)
 
   """
-  @spec get_faq_category!(String.t) :: %FaqCategory{} | error_tuple
+  @spec get_faq_category!(String.t()) :: %FaqCategory{} | error_tuple()
   def get_faq_category!(id) do
     data = Repo.get!(FaqCategory, id)
 
@@ -133,7 +133,7 @@ defmodule Core.Landing do
       ** (Ecto.NoResultsError)
 
   """
-  @spec get_press_article!(String.t) :: %PressArticle{} | error_tuple
+  @spec get_press_article!(String.t()) :: %PressArticle{} | error_tuple()
   def get_press_article!(id), do: Repo.get!(PressArticle, id)
 
   @doc """
@@ -150,7 +150,7 @@ defmodule Core.Landing do
       ** (Ecto.NoResultsError)
 
   """
-  @spec get_vacancy!(String.t) :: %Vacancy{} | error_tuple
+  @spec get_vacancy!(String.t()) :: %Vacancy{} | error_tuple()
   def get_vacancy!(id), do: Repo.get!(Vacancy, id)
 
   @doc """
@@ -165,7 +165,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec search_title(String.t) :: [%Faq{}] | error_tuple
+  @spec search_title(String.t()) :: [%Faq{}] | error_tuple()
   def search_title(word) do
     if is_nil(word) do
       {:error, %Ecto.Changeset{}}
@@ -190,7 +190,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec count_title(String.t) :: integer | error_tuple
+  @spec count_title(String.t()) :: integer() | error_tuple()
   def count_title(word) do
     if is_nil(word) do
       {:error, %Ecto.Changeset{}}
@@ -224,7 +224,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec count(String.t) :: integer | error_tuple
+  @spec count(String.t()) :: integer() | error_tuple()
   def count(id) do
     if is_nil(id) do
       {:error, %Ecto.Changeset{}}
@@ -257,7 +257,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec find_by_faq_category_id(String.t) :: [%Faq{}] | error_tuple
+  @spec find_by_faq_category_id(String.t()) :: [%Faq{}] | error_tuple()
   def find_by_faq_category_id(id) do
     if is_nil(id) do
       {:error, %Ecto.Changeset{}}
@@ -287,7 +287,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_count(String.t) :: %FaqCategory{} | nil
+  @spec create_count(String.t()) :: %FaqCategory{} | nil
   def create_count(word) do
     if is_nil(word) do
       {:error, %Ecto.Changeset{}}
@@ -314,7 +314,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_faq(%{atom => any}) :: result | error_tuple
+  @spec create_faq(%{atom => any}) :: result() | error_tuple()
   def create_faq(attrs \\ %{}) do
     %Faq{}
     |> Faq.changeset(attrs)
@@ -333,7 +333,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_faq_category(%{atom => any}) :: result | error_tuple
+  @spec create_faq_category(%{atom => any}) :: result() | error_tuple()
   def create_faq_category(attrs \\ %{}) do
     %FaqCategory{}
     |> FaqCategory.changeset(attrs)
@@ -352,7 +352,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_press_article(%{atom => any}) :: result | error_tuple
+  @spec create_press_article(%{atom => any}) :: result() | error_tuple()
   def create_press_article(attrs \\ %{}) do
     %PressArticle{}
     |> PressArticle.changeset(attrs)
@@ -371,7 +371,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_vacancy(%{atom => any}) :: result | error_tuple
+  @spec create_vacancy(%{atom => any}) :: result() | error_tuple()
   def create_vacancy(attrs \\ %{}) do
     %Vacancy{}
     |> Vacancy.changeset(attrs)
@@ -390,7 +390,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_faq(%Faq{}, %{atom => any}) :: result | error_tuple
+  @spec update_faq(%Faq{}, %{atom => any}) :: result() | error_tuple()
   def update_faq(%Faq{} = struct, attrs) do
     struct
     |> Faq.changeset(attrs)
@@ -409,7 +409,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_faq_category(%FaqCategory{}, %{atom => any}) :: result | error_tuple
+  @spec update_faq_category(%FaqCategory{}, %{atom => any}) :: result() | error_tuple()
   def update_faq_category(%FaqCategory{} = struct, attrs) do
     struct
     |> FaqCategory.changeset(attrs)
@@ -428,7 +428,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_press_article(%PressArticle{}, %{atom => any}) :: result | error_tuple
+  @spec update_press_article(%PressArticle{}, %{atom => any}) :: result() | error_tuple()
   def update_press_article(%PressArticle{} = struct, attrs) do
     struct
     |> PressArticle.changeset(attrs)
@@ -447,7 +447,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_vacancy(%Vacancy{}, %{atom => any}) :: result | error_tuple
+  @spec update_vacancy(%Vacancy{}, %{atom => any}) :: result() | error_tuple()
   def update_vacancy(%Vacancy{} = struct, attrs) do
     struct
     |> Vacancy.changeset(attrs)
@@ -466,7 +466,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec delete_faq(%Faq{}) :: result
+  @spec delete_faq(%Faq{}) :: result()
   def delete_faq(%Faq{} = struct) do
     Repo.delete(struct)
   end
@@ -483,7 +483,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec delete_faq_category(%FaqCategory{}) :: result | error_tuple
+  @spec delete_faq_category(%FaqCategory{}) :: result() | error_tuple()
   def delete_faq_category(%FaqCategory{} = struct) do
     Repo.delete(struct)
   end
@@ -500,7 +500,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec delete_press_article(%PressArticle{}) :: result | error_tuple
+  @spec delete_press_article(%PressArticle{}) :: result() | error_tuple()
   def delete_press_article(%PressArticle{} = struct) do
     Repo.delete(struct)
   end
@@ -517,7 +517,7 @@ defmodule Core.Landing do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec delete_vacancy(%Vacancy{}) :: result | error_tuple
+  @spec delete_vacancy(%Vacancy{}) :: result() | error_tuple()
   def delete_vacancy(%Vacancy{} = struct) do
     Repo.delete(struct)
   end

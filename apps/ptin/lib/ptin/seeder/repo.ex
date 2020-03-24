@@ -6,4 +6,3 @@ defmodule Ptin.Seeder.Repo do
   def seed! do
   end
 end
-

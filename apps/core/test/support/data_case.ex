@@ -50,7 +50,7 @@ defmodule Core.DataCase do
       assert %{password: ["password is too short"]} = errors_on(changeset)
 
   """
-  @spec errors_on(%Ecto.Changeset{}) :: map
+  @spec errors_on(%Ecto.Changeset{}) :: %{atom => any}
   def errors_on(changeset) do
     Changeset.traverse_errors(changeset, fn {message, opts} ->
       Regex.replace(~r"%{(\w+)}", message, fn _, key ->
@@ -75,6 +75,7 @@ defmodule Core.DataCase do
   refute error_message?(changeset, :foo) ==  "baz"
   ```
   """
+  @spec assert_error_message(Ecto.Changeset.t(), Atom.t(), String.t()) :: boolean()
   def assert_error_message(changeset, field, expected_message) do
     assert error_message(changeset, field) == expected_message
   end
@@ -95,6 +96,7 @@ defmodule Core.DataCase do
   refute validation_triggered?(changeset, :bar) ==  :required
   ```
   """
+  @spec assert_validation_triggered(Ecto.Changeset.t(), Atom.t()) :: boolean()
   def assert_validation_triggered(changeset, field, type) do
     assert validation_triggered(changeset, field) == type
   end
@@ -103,7 +105,7 @@ defmodule Core.DataCase do
   Returns an atom indicating the type of validation that was triggered on a
   field in a changeset.
   """
-  @spec validation_triggered(Ecto.Changeset.t, Atom.t) :: Atom.t
+  @spec validation_triggered(Ecto.Changeset.t(), Atom.t()) :: Atom.t()
   def validation_triggered(changeset, field) do
     {_message, status} = changeset.errors[field]
     status[:validation]
@@ -113,7 +115,7 @@ defmodule Core.DataCase do
   Returns true or false depending on if an assoc_constraint validation has been
   triggered in the provided changeset on the specified field.
   """
-  @spec assoc_constraint_triggered?(Ecto.Changeset.t, Atom.t) :: boolean
+  @spec assoc_constraint_triggered?(Ecto.Changeset.t(), Atom.t()) :: boolean()
   def assoc_constraint_triggered?(changeset, field) do
     error_message(changeset, field) == "does not exist"
   end
@@ -121,12 +123,13 @@ defmodule Core.DataCase do
   @doc """
   Returns an error message on a specific field on the specified changeset
   """
-  @spec error_message(Ecto.Changeset.t, Atom.t) :: String.t
+  @spec error_message(Ecto.Changeset.t(), Atom.t()) :: String.t()
   def error_message(changeset, field) do
     {message, _} = changeset.errors[field]
     message
   end
 
+  @spec ensure_local_uploader(any()) :: :ok
   def ensure_local_uploader(_context) do
     uploader = Config.get([Upload, :uploader])
     filters = Config.get([Upload, :filters])

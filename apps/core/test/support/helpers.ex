@@ -49,20 +49,23 @@ defmodule Core.Tests.Helpers do
           clear_config_all: 2
         ]
 
+      @spec collect_ids([%{atom => any}]) :: list()
       def collect_ids(collection) do
         collection
         |> Enum.map(& &1.id)
         |> Enum.sort()
       end
 
+      @spec refresh_record(model()) :: Ecto.Schema.t() | nil
       def refresh_record(%{id: id, __struct__: model} = _),
         do: refresh_record(model, %{id: id})
 
+      @spec refresh_record(model(), %{atom => any}) :: Ecto.Schema.t() | nil
       def refresh_record(model, %{id: id} = _) do
         Core.Repo.get_by(model, id: id)
       end
 
-
+      @spec render_json(module(), String.t(), %{atom => any}) :: %{atom => any}
       def render_json(view, template, assigns) do
         assigns = Map.new(assigns)
 
@@ -71,21 +74,28 @@ defmodule Core.Tests.Helpers do
         |> Jason.decode!()
       end
 
+      @spec stringify_keys(nil) :: nil
       def stringify_keys(nil), do: nil
 
+      @spec stringify_keys(boolean()) :: boolean()
       def stringify_keys(key) when key in [true, false], do: key
+
+      @spec stringify_keys(atom()) :: String.t()
       def stringify_keys(key) when is_atom(key), do: Atom.to_string(key)
 
+      @spec stringify_keys(%{atom => any}) :: %{atom => any}
       def stringify_keys(map) when is_map(map) do
         map
         |> Enum.map(fn {k, v} -> {stringify_keys(k), stringify_keys(v)} end)
         |> Enum.into(%{})
       end
 
+      @spec stringify_keys(list()) :: list()
       def stringify_keys([head | rest] = list) when is_list(list) do
         [stringify_keys(head) | stringify_keys(rest)]
       end
 
+      @spec stringify_keys(Keyword.t()) :: Keyword.t()
       def stringify_keys(key), do: key
 
       defmacro guards_config(config_path) do

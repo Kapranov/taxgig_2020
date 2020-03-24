@@ -19,13 +19,13 @@ defmodule Ptin.Services do
       iex> list_expire()
       %Expire{}, ...[]
   """
-  @spec list_expire() :: list
+  @spec list_expire() :: list()
   def list_expire, do: Repo.all(Expire)
 
   @doc """
   Search record by Ptin via `first_name`.
   """
-  @spec search_profession(map) :: String.t()
+  @spec search_profession(%{atom => any}) :: String.t()
   def search_profession(attrs) do
     %{
       bus_addr_zip: bus_addr_zip,
@@ -55,14 +55,14 @@ defmodule Ptin.Services do
       iex> create_ptin(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
   """
-  @spec create_ptin(map) :: result | error_tuple
+  @spec create_ptin(%{atom => any}) :: result() | error_tuple()
   def create_ptin(attrs \\ %{}) do
     %Ptin{}
     |> Ptin.changeset(attrs)
     |> Repo.insert()
   end
 
-  @spec create_multi_ptin(map) :: result | error_tuple
+  @spec create_multi_ptin(%{atom => any}) :: result() | error_tuple()
   def create_multi_ptin(attrs \\ %{}) do
     ptin_changeset = Ptin.changeset(%Ptin{}, attrs)
     case Map.keys(attrs) do
@@ -94,7 +94,7 @@ defmodule Ptin.Services do
       iex> create_expire(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
   """
-  @spec create_expire(map) :: result | error_tuple
+  @spec create_expire(%{atom => any}) :: result() | error_tuple()
   def create_expire(attrs \\ %{}) do
     query = from c in Expire
 
@@ -122,7 +122,7 @@ defmodule Ptin.Services do
     end
   end
 
-  @spec create_multi_expire(map) :: result | error_tuple
+  @spec create_multi_expire(%{atom => any}) :: result() | error_tuple()
   def create_multi_expire(attrs \\ %{}) do
     query = from c in Expire
     expire_changeset = Expire.changeset(%Expire{}, attrs)
@@ -157,7 +157,7 @@ defmodule Ptin.Services do
       iex> delete_ptin(ptin)
       {:error, %Ecto.Changeset{}}
   """
-  @spec delete_ptin(map) :: result
+  @spec delete_ptin(%{atom => any}) :: result()
   def delete_ptin(%Ptin{} = ptin), do: Repo.delete(ptin)
 
   @doc """
@@ -168,7 +168,7 @@ defmodule Ptin.Services do
       iex> change_ptin(ptin)
       %Ecto.Changeset{source: %Ptin{}}
   """
-  @spec change_ptin(map) :: Ecto.Changeset.t()
+  @spec change_ptin(%{atom => any}) :: Ecto.Changeset.t()
   def change_ptin(%Ptin{} = ptin) do
     Ptin.changeset(ptin, %{})
   end
@@ -181,7 +181,7 @@ defmodule Ptin.Services do
       iex> change_expire(expire)
       %Ecto.Changeset{source: %Expire{}}
   """
-  @spec change_expire(map) :: Ecto.Changeset.t()
+  @spec change_expire(%{atom => any}) :: Ecto.Changeset.t()
   def change_expire(%Expire{} = expire) do
     Expire.changeset(expire, %{})
   end

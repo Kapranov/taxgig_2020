@@ -13,17 +13,20 @@ defmodule Core.Seeder.Accounts do
     Repo
   }
 
+  @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
     Repo.delete_all(Subscriber)
     Repo.delete_all(User)
   end
 
+  @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_subscriber()
     seed_user()
     seed_users_languages()
   end
 
+  @spec seed_subscriber() :: nil | Ecto.Schema.t()
   defp seed_subscriber do
     case Repo.aggregate(Subscriber, :count, :id) > 0 do
       true -> nil
@@ -31,6 +34,7 @@ defmodule Core.Seeder.Accounts do
     end
   end
 
+  @spec seed_user() :: [Ecto.Schema.t()]
   defp seed_user do
     case Repo.aggregate(User, :count, :id) > 0 do
       true ->
@@ -45,6 +49,7 @@ defmodule Core.Seeder.Accounts do
     end
   end
 
+  @spec seed_users_languages() :: Ecto.Schema.t()
   defp seed_users_languages do
     language_ids =
       Enum.map(Repo.all(Language), fn(data) -> data end)
@@ -99,6 +104,7 @@ defmodule Core.Seeder.Accounts do
     Repo.update!(user_lang_changeset2)
   end
 
+  @spec insert_subscriber() :: Ecto.Schema.t()
   defp insert_subscriber do
     [
       Repo.insert!(%Subscriber{
@@ -112,6 +118,7 @@ defmodule Core.Seeder.Accounts do
     ]
   end
 
+  @spec insert_user() :: {:ok, any()} | {:error, any()}
   defp insert_user do
     [
       Accounts.create_user(%{

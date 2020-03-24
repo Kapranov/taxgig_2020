@@ -19,6 +19,7 @@ defmodule Core.Seeder.Landing do
     Name
   }
 
+  @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
     Repo.delete_all(FaqCategory)
     Repo.delete_all(Faq)
@@ -26,6 +27,7 @@ defmodule Core.Seeder.Landing do
     Repo.delete_all(Vacancy)
   end
 
+  @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_faq_category()
     seed_faq()
@@ -33,6 +35,7 @@ defmodule Core.Seeder.Landing do
     seed_vacancy()
   end
 
+  @spec seed_faq_category() :: nil | Ecto.Schema.t()
   defp seed_faq_category do
     case Repo.aggregate(FaqCategory, :count, :id) > 0 do
       true -> nil
@@ -40,6 +43,7 @@ defmodule Core.Seeder.Landing do
     end
   end
 
+  @spec seed_faq() :: nil | Ecto.Schema.t()
   defp seed_faq do
     case Repo.aggregate(Faq, :count, :id) > 0 do
       true -> nil
@@ -47,6 +51,7 @@ defmodule Core.Seeder.Landing do
     end
   end
 
+  @spec seed_press_article() :: nil | Ecto.Schema.t()
   defp seed_press_article do
     case Repo.aggregate(PressArticle, :count, :id) > 0 do
       true -> nil
@@ -54,6 +59,7 @@ defmodule Core.Seeder.Landing do
     end
   end
 
+  @spec seed_vacancy() :: nil | Ecto.Schema.t()
   defp seed_vacancy do
     case Repo.aggregate(Vacancy, :count, :id) > 0 do
       true -> nil
@@ -61,6 +67,7 @@ defmodule Core.Seeder.Landing do
     end
   end
 
+  @spec insert_faq_category() :: Ecto.Schema.t()
   defp insert_faq_category do
     [
       Repo.insert!(%FaqCategory{
@@ -72,6 +79,7 @@ defmodule Core.Seeder.Landing do
     ]
   end
 
+  @spec insert_faq() :: Ecto.Schema.t()
   defp insert_faq do
     faq_category_ids =
       Enum.map(Repo.all(FaqCategory), fn(data) -> data.id end)
@@ -95,6 +103,7 @@ defmodule Core.Seeder.Landing do
     ]
   end
 
+  @spec insert_press_article() :: Ecto.Schema.t()
   defp insert_press_article do
     [
       Repo.insert!(%PressArticle{
@@ -114,6 +123,7 @@ defmodule Core.Seeder.Landing do
     ]
   end
 
+  @spec insert_vacancy() :: Ecto.Schema.t()
   defp insert_vacancy do
     [
       Repo.insert!(%Vacancy{

@@ -18,7 +18,7 @@ defmodule Core.Upload.Filter.Mogrify do
     :ok
   end
 
-  @spec filter(any) :: :ok
+  @spec filter(any()) :: :ok
   def filter(_), do: :ok
 
   @spec do_filter(bitstring(), list()) :: bitstring()

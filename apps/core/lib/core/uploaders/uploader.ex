@@ -44,10 +44,12 @@ defmodule Core.Uploaders.Uploader do
     end
   end
 
+  @spec remove_file(module(), String.t()) :: :ok | {:ok, file_spec()} | {:error, String.t()}
   def remove_file(uploader, path) do
     uploader.remove_file(path)
   end
 
+  @spec handle_callback(module(), Core.Upload.t()) :: {:ok, any()} | {:error, any()}
   defp handle_callback(uploader, upload) do
     :global.register_name({__MODULE__, upload.path}, self())
 

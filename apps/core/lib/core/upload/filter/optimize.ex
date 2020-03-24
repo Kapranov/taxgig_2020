@@ -31,6 +31,6 @@ defmodule Core.Upload.Filter.Optimize do
     end
   end
 
-  @spec filter(any) :: :ok
+  @spec filter(any()) :: :ok
   def filter(_), do: :ok
 end

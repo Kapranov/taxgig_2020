@@ -8,7 +8,7 @@ defmodule Core.Uploaders.Local do
 
   alias Core.Config
 
-  @spec get_file(any) :: {:ok, {:static_dir, String.t()}}
+  @spec get_file(any()) :: {:ok, {:static_dir, String.t()}}
   def get_file(_) do
     {:ok, {:static_dir, upload_path()}}
   end
@@ -62,7 +62,7 @@ defmodule Core.Uploaders.Local do
     end
   end
 
-  @spec upload_path() :: String.t
+  @spec upload_path() :: String.t()
   def upload_path do
     Config.get!([__MODULE__, :uploads])
   end

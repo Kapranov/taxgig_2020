@@ -39,6 +39,6 @@ defmodule Core.Upload.Filter.Mogrifun do
     :ok
   end
 
-  @spec filter(any) :: :ok
+  @spec filter(any()) :: :ok
   def filter(_), do: :ok
 end

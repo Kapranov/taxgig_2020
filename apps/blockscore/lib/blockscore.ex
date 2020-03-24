@@ -10,12 +10,12 @@ defmodule Blockscore do
   @headers [accept: "#{@header}"]
   @adapter Application.get_env(:blockscore, :adapter)
 
-  @type b :: bitstring
-  @type i :: integer
-  @type success_tuple :: {:ok, String.t}
-  @type result :: success_tuple
+  @type b :: bitstring()
+  @type i :: integer()
+  @type success_tuple() :: {:ok, String.t}
+  @type result() :: success_tuple()
 
-  @spec get_status(b,b,b,b,b,b,i,i,i,b,b,b,b,b) :: result
+  @spec get_status(b,b,b,b,b,b,i,i,i,b,b,b,b,b) :: result()
   def get_status(
       address_city, address_country_code, address_postal_code,
       address_street1, address_street2, address_subdivision,

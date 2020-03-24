@@ -61,5 +61,6 @@ defmodule Core.Accounts.Subscriber do
     end
   end
 
+  @spec validate_email(%Ecto.Changeset{}) :: %Ecto.Changeset{}
   defp validate_email(changeset), do: changeset
 end

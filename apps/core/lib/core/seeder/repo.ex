@@ -10,6 +10,7 @@ defmodule Core.Seeder.Repo do
     Lookup
   }
 
+  @spec seed!() :: :ok | any()
   def seed! do
     Localization.seed!()
     Accounts.seed!()

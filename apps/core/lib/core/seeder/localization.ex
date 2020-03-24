@@ -8,14 +8,17 @@ defmodule Core.Seeder.Localization do
     Repo
   }
 
+  @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
     Repo.delete_all(Language)
   end
 
+  @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_language()
   end
 
+  @spec seed_language() :: nil | Ecto.Schema.t()
   defp seed_language do
     case Repo.aggregate(Language, :count, :id) > 0 do
       true -> nil
@@ -23,6 +26,7 @@ defmodule Core.Seeder.Localization do
     end
   end
 
+  @spec insert_language() :: Ecto.Schema.t()
   defp insert_language do
     [
       Repo.insert!(%Language{

@@ -11,16 +11,18 @@ defmodule Core.Accounts do
     User
   }
 
-  @type name() :: atom()
-  @type order_by() :: list()
-  @type where() :: list()
-  @type preload() :: atom()
+  @type name :: atom()
+  @type order_by :: list()
+  @type where :: list()
+  @type preload :: atom()
   @type return :: list()
+
+  @search [Subscriber, User]
 
   @doc """
   List all via CurrentUser and sorted.
   """
-  @spec all(name(), order_by(), where(), preload()) :: return
+  @spec all(name(), order_by(), where(), preload()) :: return()
   def all(module, order_by, where, preload) do
     query =
       from module,
@@ -31,14 +33,13 @@ defmodule Core.Accounts do
     |> Repo.preload([preload])
   end
 
-  @search [Subscriber, User]
-  @spec search(String.t) :: return
+  @spec search(String.t()) :: return()
   def search(term) do
     pattern = "%#{term}%"
     Enum.flat_map(@search, &search_ecto(&1, pattern))
   end
 
-  @spec search_ecto(atom(), String.t) :: return
+  @spec search_ecto(atom(), String.t()) :: return()
   defp search_ecto(ecto_schema, pattern) do
     Repo.all(
       from(q in ecto_schema, where: ilike(fragment("?::text", q.email), ^"%#{pattern}%") or ilike(fragment("?::text", q.id), ^"%#{pattern}%"))
@@ -56,14 +57,14 @@ defmodule Core.Accounts do
       iex> store_token(struct, 456)
       {:error, %Ecto.Changeset{}}
   """
-  @spec store_token(%User{}, String.t) :: %User{} | error_tuple
+  @spec store_token(%User{}, String.t()) :: %User{} | error_tuple()
   def store_token(%User{} = user, token) do
     user
     |> User.store_token_changeset(%{token: token})
     |> Repo.update()
   end
 
-  @spec store_token(nil, String.t) :: %User{}
+  @spec store_token(nil, String.t()) :: %User{}
   def store_token(nil, token) do
     User.changeset(%User{}, %{token: token})
   end
@@ -123,7 +124,7 @@ defmodule Core.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  @spec get_subscriber!(String.t) :: %Subscriber{} | error_tuple
+  @spec get_subscriber!(String.t()) :: %Subscriber{} | error_tuple()
   def get_subscriber!(id) do
     Repo.get!(Subscriber, id)
   end
@@ -142,7 +143,7 @@ defmodule Core.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  @spec get_user!(String.t) :: %User{} | error_tuple
+  @spec get_user!(String.t()) :: %User{} | error_tuple()
   def get_user!(id) do
     Repo.get!(User, id)
     |> Repo.preload([:languages])
@@ -162,7 +163,7 @@ defmodule Core.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  @spec get_profile!(String.t) :: %Profile{} | error_tuple
+  @spec get_profile!(String.t()) :: %Profile{} | error_tuple()
   def get_profile!(id) do
     Repo.get!(Profile, id)
     |> Repo.preload([:us_zipcode, user: [:profile, :languages]])
@@ -180,7 +181,7 @@ defmodule Core.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_subscriber(%{atom => any}) :: result | error_tuple
+  @spec create_subscriber(%{atom => any}) :: result() | error_tuple()
   def create_subscriber(attrs \\ %{}) do
     %Subscriber{}
     |> Subscriber.changeset(attrs)
@@ -199,7 +200,7 @@ defmodule Core.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_user(%{atom => any}) :: result | error_tuple
+  @spec create_user(%{atom => any}) :: result() | error_tuple()
   def create_user(attrs \\ %{}) do
     user_changeset = User.changeset(%User{}, attrs)
 
@@ -230,7 +231,7 @@ defmodule Core.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_profile(%{atom => any}) :: result | error_tuple
+  @spec create_profile(%{atom => any}) :: result() | error_tuple()
   def create_profile(attrs \\ %{}) do
     %Profile{}
     |> Profile.changeset(attrs)
@@ -249,7 +250,7 @@ defmodule Core.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_subscriber(%Subscriber{}, %{atom => any}) :: result | error_tuple
+  @spec update_subscriber(%Subscriber{}, %{atom => any}) :: result() | error_tuple()
   def update_subscriber(struct, attrs) do
     struct
     |> Subscriber.changeset(attrs)
@@ -268,7 +269,7 @@ defmodule Core.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_user(%User{}, %{atom => any}) :: result | error_tuple
+  @spec update_user(%User{}, %{atom => any}) :: result() | error_tuple()
   def update_user(struct, attrs) do
     struct
     |> User.changeset(attrs)
@@ -287,7 +288,7 @@ defmodule Core.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_profile(%Profile{}, %{atom => any}) :: result | error_tuple
+  @spec update_profile(%Profile{}, %{atom => any}) :: result() | error_tuple()
   def update_profile(struct, attrs) do
     struct
     |> Profile.changeset(attrs)
@@ -306,7 +307,7 @@ defmodule Core.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec delete_subscriber(%Subscriber{}) :: result
+  @spec delete_subscriber(%Subscriber{}) :: result()
   def delete_subscriber(%Subscriber{} = struct) do
     Repo.delete(struct)
   end
@@ -323,7 +324,7 @@ defmodule Core.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec delete_user(%User{}) :: result
+  @spec delete_user(%User{}) :: result()
   def delete_user(%User{} = struct) do
     Repo.delete(struct)
   end
@@ -340,7 +341,7 @@ defmodule Core.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec delete_profile(%Profile{}) :: result
+  @spec delete_profile(%Profile{}) :: result()
   def delete_profile(%Profile{} = struct) do
     Repo.delete(struct)
   end

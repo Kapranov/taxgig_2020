@@ -14,7 +14,7 @@ defmodule Ptin.Services.Downloads do
   }
 
   @type posix :: :file.posix()
-  @type reason :: any
+  @type reason :: any()
   @type error_tuple :: {:error, reason}
   @type success_tuple :: {:ok}
   @type result :: success_tuple | error_tuple
@@ -87,7 +87,7 @@ defmodule Ptin.Services.Downloads do
   you have created Expires table in DB will be created only one record, previously record
   will be destroyed after repeat create action, only one record saved in DB.
   """
-  @spec create(map) :: list
+  @spec create(%{atom => any}) :: list()
   def create(attrs) do
     case Services.create_multi_expire(attrs) do
       {:ok, _} ->
@@ -102,7 +102,7 @@ defmodule Ptin.Services.Downloads do
   `Ptin.Services.Downloads.get()` or
   `Ptin.Services.Downloads.get("priv/data")`
   """
-  @spec get(bitstring) :: list
+  @spec get(bitstring()) :: list()
   def get(path \\ base_data()) when is_bitstring(path) do
     case repository(path) do
       {:error, msg} ->
@@ -115,7 +115,7 @@ defmodule Ptin.Services.Downloads do
   @doc """
   Download file, rename unpack and insert into DB.
   """
-  @spec get!(bitstring) :: list
+  @spec get!(bitstring()) :: list()
   def get!(path \\ base_data()) when is_bitstring(path) do
     case repository(path) do
       {:error, msg} ->
@@ -130,7 +130,7 @@ defmodule Ptin.Services.Downloads do
   `path` - directory by date, `file` - name CSV file.
   `Ptin.Services.Downloads.import("2020-1-16", "foia_west_virginia_extract.csv")`
   """
-  @spec insert(bitstring, bitstring) :: result
+  @spec insert(bitstring(), bitstring()) :: result()
   def insert(path, file \\ "foia_utah_extract.csv") when is_bitstring(path) and is_bitstring(file) do
     data =
       Path.join(base_data(), path)
@@ -182,7 +182,7 @@ defmodule Ptin.Services.Downloads do
   `path` - directory by date, `file` - name CSV file.
   `Ptin.Services.Downloads.import("2020-1-16", "foia_west_virginia_extract.csv")`
   """
-  @spec insert!(bitstring, bitstring) :: result
+  @spec insert!(bitstring(), bitstring()) :: result()
   def insert!(path, file \\ "foia_utah_extract.csv") when is_bitstring(path) and is_bitstring(file) do
     data =
       Path.join(base_data(), path)
@@ -233,7 +233,7 @@ defmodule Ptin.Services.Downloads do
   Destroy only directory by date with files.
   `Ptin.Services.Downloads.remove_repo("2020-1-15")`
   """
-  @spec remove_repo(bitstring) :: result
+  @spec remove_repo(bitstring()) :: result()
   def remove_repo(path) when is_bitstring(path) do
     data = Path.join(base_data(), path)
     if File.exists?(data) do
@@ -249,7 +249,7 @@ defmodule Ptin.Services.Downloads do
   `file` - name file by delete.
   `Ptin.Services.Downloads.remove_file("2020-1-15", "foia_vermont_extract.csv")`
   """
-  @spec remove_file(bitstring, bitstring) :: result
+  @spec remove_file(bitstring(), bitstring()) :: result()
   def remove_file(path, file) when is_bitstring(path) and is_bitstring(file)do
     data = Path.join(base_data(), path)
     if File.exists?(data) do
@@ -264,7 +264,7 @@ defmodule Ptin.Services.Downloads do
     end
   end
 
-  @spec get_csv(bitstring) :: result
+  @spec get_csv(bitstring()) :: result()
   def get_csv(path) when is_bitstring(path) do
     for csv <- @csv_url do
       %URI{path: "/pub/irs-utl/" <> name_csv} = URI.parse(csv)
@@ -273,7 +273,7 @@ defmodule Ptin.Services.Downloads do
     end
   end
 
-  @spec get_zip(bitstring) :: result
+  @spec get_zip(bitstring()) :: result()
   defp get_zip(path) when is_bitstring(path) do
     for zip <- @zip_url do
       %URI{path: "/pub/irs-utl/" <> name_zip} = URI.parse(zip)
@@ -289,7 +289,7 @@ defmodule Ptin.Services.Downloads do
     end
   end
 
-  @spec get_zip!(bitstring) :: result
+  @spec get_zip!(bitstring()) :: result()
   defp get_zip!(path) when is_bitstring(path) do
     [data] = Repo.all(Expire)
     for zip <- [data.url] do
@@ -306,7 +306,7 @@ defmodule Ptin.Services.Downloads do
     end
   end
 
-  @spec repository(bitstring) :: result
+  @spec repository(bitstring()) :: result()
   defp repository(path) when is_bitstring(path) do
     data = full_path(path)
     time = storage_data()
@@ -318,7 +318,7 @@ defmodule Ptin.Services.Downloads do
     end
   end
 
-  @spec download(String.t) :: result
+  @spec download(String.t()) :: result()
   defp download(url) when is_bitstring(url) do
     {:ok, data} = HTTPoison.head(url)
     case data.status_code do
@@ -331,13 +331,13 @@ defmodule Ptin.Services.Downloads do
     end
   end
 
-  @spec save_files(bitstring, bitstring, bitstring) :: result
+  @spec save_files(bitstring(), bitstring(), bitstring()) :: result()
   defp save_files(data, name, file) when is_bitstring(data) and is_bitstring(name) and is_bitstring(file) do
     new_name = filename(name)
     File.write!("#{data}/#{new_name}", file)
   end
 
-  @spec filename(String.t) :: String.t
+  @spec filename(String.t()) :: String.t()
   defp filename(name) when is_bitstring(name) do
     base_name =
       name
@@ -349,7 +349,7 @@ defmodule Ptin.Services.Downloads do
     "#{base_name}#{Path.extname(name)}"
   end
 
-  @spec extract(bitstring, bitstring) :: result
+  @spec extract(bitstring(), bitstring()) :: result()
   defp extract(file, path) when is_bitstring(file) and is_bitstring(path) do
     case Z.extract(~c'#{file}', cwd: ~c'#{path}') do
       {:ok, content} ->
@@ -363,18 +363,18 @@ defmodule Ptin.Services.Downloads do
     end
   end
 
-  @spec full_path(String.t) :: String.t
+  @spec full_path(String.t()) :: String.t()
   defp full_path(path) when is_bitstring(path) do
     Path.join(path, storage_data())
   end
 
-  @spec storage_data() :: String.t
+  @spec storage_data() :: String.t()
   defp storage_data do
     d = Date.utc_today
     "#{d.year}-#{d.month}-#{d.day}"
   end
 
-  @spec base_data() :: String.t
+  @spec base_data() :: String.t()
   defp base_data, do: Application.get_env(:ptin, :base_data)
 end
 

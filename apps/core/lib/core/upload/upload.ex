@@ -65,7 +65,7 @@ defmodule Core.Upload do
 
   defstruct [:id, :name, :tempfile, :content_type, :path, :size]
 
-   @spec store(source, options :: [option()]) :: {:ok, Map.t()} | {:error, any()}
+   @spec store(source(), [option()]) :: {:ok, Map.t()} | {:error, any()}
    def store(upload, opts \\ []) do
      opts = get_opts(opts)
 
@@ -147,7 +147,7 @@ defmodule Core.Upload do
     end
   end
 
-  @spec check_file_size(any, any) :: atom()
+  @spec check_file_size(any(), any()) :: atom()
   defp check_file_size(_, _), do: :ok
 
   @spec url_from_spec(%__MODULE__{name: String.t()}, String.t(), {:file, String.t}) :: String.t
@@ -164,6 +164,6 @@ defmodule Core.Upload do
     |> Path.join()
   end
 
-  @spec url_from_spec(any, any, {:url, String.t()}) :: String.t()
+  @spec url_from_spec(any(), any(), {:url, String.t()}) :: String.t()
   defp url_from_spec(_upload, _base_url, {:url, url}), do: url
 end

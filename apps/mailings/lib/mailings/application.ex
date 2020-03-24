@@ -3,6 +3,8 @@ defmodule Mailings.Application do
 
   use Application
 
+  @spec start(Application.start_type(), start_args :: term()) ::
+          {:ok, pid()} | {:ok, pid(), Application.state()} | {:error, reason :: term()}
   def start(_type, _args) do
     children = [ ]
 
@@ -10,6 +12,7 @@ defmodule Mailings.Application do
     Supervisor.start_link(children, opts)
   end
 
+  @spec version() :: String.t()
   def version() do
     case :application.get_key(:mailings, :vsn) do
       {:ok, version} -> to_string(version)

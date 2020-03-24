@@ -33,12 +33,14 @@ defmodule Core.Factory do
     UUID
   }
 
+  @spec faq_category_factory() :: %FaqCategory{}
   def faq_category_factory do
     %FaqCategory{
       title: Lorem.word()
     }
   end
 
+  @spec faq_factory() :: %Faq{}
   def faq_factory do
     %Faq{
       content: Lorem.sentence(),
@@ -47,6 +49,7 @@ defmodule Core.Factory do
     }
   end
 
+  @spec language_factory() :: %Language{}
   def language_factory do
     case random_language() do
       {abbr, name} ->
@@ -57,6 +60,7 @@ defmodule Core.Factory do
     end
   end
 
+  @spec picture_factory() :: %Picture{}
   def picture_factory do
     %Picture{
       file: build(:file),
@@ -64,6 +68,7 @@ defmodule Core.Factory do
     }
   end
 
+  @spec file_factory() :: %Core.Media.File{}
   def file_factory do
     File.cp!("test/fixtures/image.jpg", "test/fixtures/image_tmp.jpg")
 
@@ -93,6 +98,7 @@ defmodule Core.Factory do
     }
   end
 
+  @spec press_article_factory() :: %PressArticle{}
   def press_article_factory do
     %PressArticle{
       author: App.author(),
@@ -103,6 +109,7 @@ defmodule Core.Factory do
     }
   end
 
+  @spec profile_factory() :: %Profile{}
   def profile_factory do
     %Profile{
       address: Address.street_address(),
@@ -114,6 +121,7 @@ defmodule Core.Factory do
     }
   end
 
+  @spec subscriber_factory() :: %Subscriber{}
   def subscriber_factory do
     %Subscriber{
       email: random_email(),
@@ -121,6 +129,7 @@ defmodule Core.Factory do
     }
   end
 
+  @spec us_zipcode_factory() :: %UsZipcode{}
   def us_zipcode_factory do
     case random_zipcode() do
       {city, state, zipcode} ->
@@ -132,6 +141,7 @@ defmodule Core.Factory do
     end
   end
 
+  @spec user_factory() :: %User{}
   def user_factory do
     %User{
       active: random_boolean(),
@@ -156,6 +166,7 @@ defmodule Core.Factory do
     }
   end
 
+  @spec users_languages_factory() :: map()
   def users_languages_factory do
     lang = insert(:language)
     user = insert(:user)
@@ -172,6 +183,7 @@ defmodule Core.Factory do
     user_languages_changeset
   end
 
+  @spec vacancy_factory() :: %Vacancy{}
   def vacancy_factory do
     %Vacancy{
       content: Commerce.product_name(),

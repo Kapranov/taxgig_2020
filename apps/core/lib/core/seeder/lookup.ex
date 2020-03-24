@@ -13,14 +13,17 @@ defmodule Core.Seeder.Lookup do
   @usa_zipcodes_part2 "#{@root_dir}/us_zip_part2.json"
   @usa_zipcodes_part3 "#{@root_dir}/us_zip_part3.json"
 
+  @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
     Repo.delete_all(UsZipcode)
   end
 
+  @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_zipcode()
   end
 
+  @spec seed_zipcode() :: nil | Ecto.Schema.t()
   defp seed_zipcode do
     case Repo.aggregate(UsZipcode, :count, :id) > 0 do
       true -> nil
@@ -28,6 +31,7 @@ defmodule Core.Seeder.Lookup do
     end
   end
 
+  @spec insert_zipcode() :: {integer(), nil | [term()]}
   defp insert_zipcode do
     decoded_zipcode1 =
       @usa_zipcodes_part1

@@ -27,13 +27,13 @@ defmodule Server.Application do
   @doc """
   Callback that changes the configuration from the app callback.
   """
-  @spec config_change(list(tuple), list(tuple), list(any)) :: :ok
+  @spec config_change(list(tuple()), list(tuple()), list(any())) :: :ok
   def config_change(changed, _new, removed) do
     ServerWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 
-  @spec load_version :: String.t()
+  @spec load_version() :: String.t()
   def load_version do
     [vsn, hash, date] =
       case File.read("VERSION") do

@@ -26,7 +26,7 @@ defmodule Ptin.Services.Expire do
   @doc """
   Builds a changeset based on the `%Expire{}` and `attrs`.
   """
-  @spec changeset(t, map) :: Ecto.Changeset.t()
+  @spec changeset(t, %{atom => any}) :: Ecto.Changeset.t()
   def changeset(struct, attrs) do
     struct
     |> cast(attrs, @allowed_params)
