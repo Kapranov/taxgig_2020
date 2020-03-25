@@ -12,7 +12,7 @@ defmodule Core.Upload.Filter.AnonymizeFilename do
     Upload
   }
 
-  @spec filter(%Upload{}) :: {:ok, %Upload{}}
+  @spec filter(Upload.t()) :: {:ok, Upload.t()}
   def filter(%Upload{name: name} = upload) do
     extension = List.last(String.split(name, "."))
     name = predefined_name(extension) || random(extension)

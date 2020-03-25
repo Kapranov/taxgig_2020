@@ -56,11 +56,11 @@ defmodule Core.Tests.Helpers do
         |> Enum.sort()
       end
 
-      @spec refresh_record(model()) :: Ecto.Schema.t() | nil
+      @spec refresh_record(map()) :: Ecto.Schema.t() | nil
       def refresh_record(%{id: id, __struct__: model} = _),
         do: refresh_record(model, %{id: id})
 
-      @spec refresh_record(model(), %{atom => any}) :: Ecto.Schema.t() | nil
+      @spec refresh_record(map(), map()) :: Ecto.Schema.t() | nil
       def refresh_record(model, %{id: id} = _) do
         Core.Repo.get_by(model, id: id)
       end

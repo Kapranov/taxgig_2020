@@ -11,12 +11,20 @@ defmodule Server.AbsintheHelpers do
   @salt Application.get_env(:server, ServerWeb.Endpoint)[:salt]
   @secret Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_base]
 
+  @spec authenticate_conn(Plug.Conn.t(), User.t()) :: Plug.Conn.t()
   def authenticate_conn(%Plug.Conn{} = conn, %User{} = user) do
-    token = Phoenix.Token.sign(@secret, @salt, user.id)
+
+    token =
+      if is_nil(user), do: nil, else: Phoenix.Token.sign(@secret, @salt, user.id)
 
     conn
     |> Plug.Conn.put_req_header("authorization", "Bearer #{token}")
     |> Plug.Conn.put_req_header("accept", "application/json")
+  end
+
+  @spec authenticate_conn(Plug.Conn.t(), any()) :: Plug.Conn.t()
+  def authenticate_conn(%Plug.Conn{} = conn, _opts) do
+    conn
   end
 
   @spec query_skeleton(String.t(), String.t()) :: %{atom => String.t()}
@@ -37,7 +45,7 @@ defmodule Server.AbsintheHelpers do
     }
   end
 
-  @spec graphql_query(%Plug.Conn{}, map()) :: %{atom => map()}
+  @spec graphql_query(Plug.Conn.t(), map()) :: %{atom => map()}
   def graphql_query(conn, options) do
     conn
     |> post("/graphiql", build_query(options[:query], options[:variables]))

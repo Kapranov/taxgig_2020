@@ -5,7 +5,8 @@ defmodule Core.MIME do
   @default "application/octet-stream"
   @read_bytes 35
 
-  @spec file_mime_type(String.t()) :: {:ok, content_type :: String.t(), filename :: String.t()} | {:error, any()} | :error
+  @spec file_mime_type(String.t()) ::
+          {:ok, content_type :: String.t(), filename :: String.t()} | {:error, any()} | :error
   def file_mime_type(path, filename) do
     with {:ok, content_type} <- file_mime_type(path), filename <- fix_extension(filename, content_type) do
       {:ok, content_type, filename}

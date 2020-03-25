@@ -33,14 +33,14 @@ defmodule Core.Factory do
     UUID
   }
 
-  @spec faq_category_factory() :: %FaqCategory{}
+  @spec faq_category_factory() :: FaqCategory.t()
   def faq_category_factory do
     %FaqCategory{
       title: Lorem.word()
     }
   end
 
-  @spec faq_factory() :: %Faq{}
+  @spec faq_factory() :: Faq.t()
   def faq_factory do
     %Faq{
       content: Lorem.sentence(),
@@ -49,7 +49,7 @@ defmodule Core.Factory do
     }
   end
 
-  @spec language_factory() :: %Language{}
+  @spec language_factory() :: Language.t()
   def language_factory do
     case random_language() do
       {abbr, name} ->
@@ -60,7 +60,7 @@ defmodule Core.Factory do
     end
   end
 
-  @spec picture_factory() :: %Picture{}
+  @spec picture_factory() :: Picture.t()
   def picture_factory do
     %Picture{
       file: build(:file),
@@ -68,7 +68,7 @@ defmodule Core.Factory do
     }
   end
 
-  @spec file_factory() :: %Core.Media.File{}
+  @spec file_factory() :: Core.Media.File.t()
   def file_factory do
     File.cp!("test/fixtures/image.jpg", "test/fixtures/image_tmp.jpg")
 
@@ -98,7 +98,7 @@ defmodule Core.Factory do
     }
   end
 
-  @spec press_article_factory() :: %PressArticle{}
+  @spec press_article_factory() :: PressArticle.t()
   def press_article_factory do
     %PressArticle{
       author: App.author(),
@@ -109,7 +109,7 @@ defmodule Core.Factory do
     }
   end
 
-  @spec profile_factory() :: %Profile{}
+  @spec profile_factory() :: Profile.t()
   def profile_factory do
     %Profile{
       address: Address.street_address(),
@@ -121,7 +121,7 @@ defmodule Core.Factory do
     }
   end
 
-  @spec subscriber_factory() :: %Subscriber{}
+  @spec subscriber_factory() :: Subscriber.t()
   def subscriber_factory do
     %Subscriber{
       email: random_email(),
@@ -129,7 +129,7 @@ defmodule Core.Factory do
     }
   end
 
-  @spec us_zipcode_factory() :: %UsZipcode{}
+  @spec us_zipcode_factory() :: UsZipcode.t()
   def us_zipcode_factory do
     case random_zipcode() do
       {city, state, zipcode} ->
@@ -141,7 +141,7 @@ defmodule Core.Factory do
     end
   end
 
-  @spec user_factory() :: %User{}
+  @spec user_factory() :: User.t()
   def user_factory do
     %User{
       active: random_boolean(),
@@ -166,7 +166,7 @@ defmodule Core.Factory do
     }
   end
 
-  @spec users_languages_factory() :: map()
+  @spec users_languages_factory() ::  {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
   def users_languages_factory do
     lang = insert(:language)
     user = insert(:user)
@@ -183,7 +183,7 @@ defmodule Core.Factory do
     user_languages_changeset
   end
 
-  @spec vacancy_factory() :: %Vacancy{}
+  @spec vacancy_factory() :: Vacancy.t()
   def vacancy_factory do
     %Vacancy{
       content: Commerce.product_name(),
@@ -192,7 +192,7 @@ defmodule Core.Factory do
     }
   end
 
-  @spec random_language() :: tuple()
+  @spec random_language() :: {atom, String.t()}
   defp random_language do
     data = [
       ara: "arabic",
@@ -252,7 +252,7 @@ defmodule Core.Factory do
     Enum.random(data)
   end
 
-  @spec random_zipcode() :: tuple()
+  @spec random_zipcode() :: {atom(), String.t(), integer()}
   def random_zipcode do
     data = [
       %{city: "AGUADA", state: "PR", zipcode: 631},

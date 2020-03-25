@@ -40,7 +40,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   @error_request "invalid grant"
   @error_request_des "Bad Request"
 
-  @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: success_list | error_tuple
+  @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: success_list() | error_tuple()
   def list(_parent, _args, %{context: %{current_user: current_user}}) do
     if is_nil(current_user) do
       {:error, [[field: :user_id, message: "An User not found! or Unauthenticated"]]}
@@ -57,7 +57,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     {:error, "Unauthenticated"}
   end
 
-  @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result
+  @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
       {:error, [[field: :id, message: "Can't be blank or Unauthenticated"]]}
@@ -77,12 +77,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def show(_parent, _args, _info) do
     {:error, "Unauthenticated"}
   end
 
-  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result
+  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
   def create(_parent, %{} = args, _info) do
     args
     |> Accounts.create_user()
@@ -94,7 +94,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def create(_parent, _args, _info) do
     %User{}
     |> User.changeset(%{})
@@ -105,7 +105,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  @spec update(any, %{id: bitstring, user: map()}, %{context: %{current_user: User.t()}}) :: result
+  @spec update(any, %{id: bitstring, user: map()}, %{context: %{current_user: User.t()}}) :: result()
   def update(_root, %{id: id, user: params}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
       {:error, [[field: :id, message: "Can't be blank or Unauthenticated"]]}
@@ -132,7 +132,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def update(_root, _args, _info) do
     {:error, [
         [field: :id, message: "Can't be blank"],
@@ -144,7 +144,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     }
   end
 
-  @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result
+  @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) do
       {:error, [[field: :id, message: "Can't be blank"]]}
@@ -164,7 +164,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def delete(_parent, _args, _info) do
     {:error, [
         [field: :id, message: "Can't be blank"],
@@ -173,7 +173,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     }
   end
 
-  @spec get_code(any, %{atom => any}, Absinthe.Resolution.t()) :: result | error_map
+  @spec get_code(any, %{atom => any}, Absinthe.Resolution.t()) :: result() | error_map()
   def get_code(_parent, args, _resolution) do
     case required_keys(@keys, args) do
       true ->
@@ -202,7 +202,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  @spec get_token(any, %{atom => any}, Absinthe.Resolution.t()) :: result | error_map
+  @spec get_token(any, %{atom => any}, Absinthe.Resolution.t()) :: result() | error_map()
   def get_token(_parent, args, _resolution) do
     case required_keys(@keys, args) do
       true ->
@@ -273,7 +273,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  @spec get_refresh_token_code(any, %{atom => any}, Absinthe.Resolution.t()) :: result | error_map
+  @spec get_refresh_token_code(any, %{atom => any}, Absinthe.Resolution.t()) :: result() | error_map()
   def get_refresh_token_code(_parent, args, _resolution) do
     case required_keys(@keys, args) do
       true ->
@@ -304,7 +304,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  @spec get_refresh_token(any, %{atom => any}, Absinthe.Resolution.t()) :: result | error_map
+  @spec get_refresh_token(any, %{atom => any}, Absinthe.Resolution.t()) :: result() | error_map()
   def get_refresh_token(_parent, args, _resolution) do
     if required_keys(@keys, args) do
       if (args[:provider] == "google" || args[:provider] == "linkedin") do
@@ -368,7 +368,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  @spec verify_token(any, %{atom => any}, Absinthe.Resolution.t()) :: result | error_map
+  @spec verify_token(any, %{atom => any}, Absinthe.Resolution.t()) :: result() | error_map()
   def verify_token(_parent, args, _resolution) do
     if required_keys(@keys, args) do
       if (args[:provider] == "google" || args[:provider] == "linkedin") do
@@ -426,7 +426,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  @spec signup(any, %{atom => any}, Absinthe.Resolution.t()) :: result | error_map
+  @spec signup(any, %{atom => any}, Absinthe.Resolution.t()) :: result() | error_map()
   def signup(_parent, args, _resolution) do
     case args[:provider] do
       nil ->
@@ -574,7 +574,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  @spec signin(any, %{atom => any}, Absinthe.Resolution.t()) :: result | error_map
+  @spec signin(any, %{atom => any}, Absinthe.Resolution.t()) :: result() | error_map()
   def signin(_parent, args, _resolution) do
     case args[:provider] do
       nil ->
@@ -760,14 +760,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     @error_des <> " " <>  provider
   end
 
-  @spec generate_token(User.t) :: tuple()
+  @spec generate_token(User.t()) :: tuple()
   defp generate_token(user) do
     with token <- Phoenix.Token.sign(@secret, @salt, user.id) do
       token
     end
   end
 
-  @spec extract_error_msg(%Ecto.Changeset{}) :: %Ecto.Changeset{}
+  @spec extract_error_msg(Ecto.Changeset.t()) :: Ecto.Changeset.t()
   defp extract_error_msg(changeset) do
     changeset.errors
     |> Enum.map(fn {field, {error, _details}} ->

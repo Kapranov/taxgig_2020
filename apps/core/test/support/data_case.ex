@@ -50,7 +50,7 @@ defmodule Core.DataCase do
       assert %{password: ["password is too short"]} = errors_on(changeset)
 
   """
-  @spec errors_on(%Ecto.Changeset{}) :: %{atom => any}
+  @spec errors_on(Ecto.Changeset.t()) :: %{atom => any}
   def errors_on(changeset) do
     Changeset.traverse_errors(changeset, fn {message, opts} ->
       Regex.replace(~r"%{(\w+)}", message, fn _, key ->

@@ -12,7 +12,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.BlockscoreResolver do
   @doc """
   Get the status by Blockscore service
   """
-  @spec get_status(any, %{atom => any}, Absinthe.Resolution.t()) :: result
+  @spec get_status(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
   def get_status(_root, %{address_city: address_city,
                           address_country_code: address_country_code,
                           address_postal_code: address_postal_code,

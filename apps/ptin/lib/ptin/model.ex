@@ -17,12 +17,14 @@ defmodule Ptin.Model do
        @foreign_key_type :binary_id
        @timestamps_opts [type: :utc_datetime, usec: true]
 
+       @spec create(map()) :: {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
        def create(attrs) do
          attrs
          |> changeset()
          |> Repo.insert()
        end
 
+       @spec changeset(map()) :: Ecto.Changeset.t()
        def changeset(attrs) do
          @name.__struct__()
          |> changeset(attrs)

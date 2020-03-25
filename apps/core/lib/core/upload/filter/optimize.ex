@@ -16,7 +16,7 @@ defmodule Core.Upload.Filter.Optimize do
     Cwebp
   ]
 
-  @spec filter(%Core.Upload{}) :: :ok | String.t()
+  @spec filter(Core.Upload.t()) :: :ok | String.t()
   def filter(%Core.Upload{tempfile: file, content_type: "image" <> _}) do
     optimizers = Config.get([__MODULE__, :optimizers], @default_optimizers)
 

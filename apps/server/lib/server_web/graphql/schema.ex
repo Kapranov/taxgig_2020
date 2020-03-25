@@ -79,6 +79,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:vacancy_subscriptions)
   end
 
+  @spec context(map()) :: map()
   def context(ctx) do
     loader =
       Dataloader.new()
@@ -87,10 +88,12 @@ defmodule ServerWeb.GraphQL.Schema do
     Map.put(ctx, :loader, loader)
   end
 
+  @spec plugins() :: list()
   def plugins do
     [Middleware.Dataloader] ++ Plugin.defaults()
   end
 
+  @spec middleware(list(), any(), any()) :: list()
   def middleware(middleware, _field, _object) do
     middleware ++ [ServerWeb.GraphQL.Schemas.Middleware.ChangesetErrors]
   end

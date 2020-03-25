@@ -12,7 +12,7 @@ defmodule Blockscore do
 
   @type b :: bitstring()
   @type i :: integer()
-  @type success_tuple() :: {:ok, String.t}
+  @type success_tuple() :: {:ok, String.t()}
   @type result() :: success_tuple()
 
   @spec get_status(b,b,b,b,b,b,i,i,i,b,b,b,b,b) :: result()

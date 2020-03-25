@@ -44,7 +44,7 @@ defmodule Core.Landing.FaqCategory do
     |> unique_constraint(:title)
   end
 
-  @spec build_count(%Ecto.Changeset{}) :: %Ecto.Changeset{}
+  @spec build_count(Ecto.Changeset.t()) :: Ecto.Changeset.t()
   defp build_count(changeset) do
     count =
       get_field(changeset, :title)

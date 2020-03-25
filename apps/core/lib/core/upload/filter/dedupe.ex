@@ -7,7 +7,7 @@ defmodule Core.Upload.Filter.Dedupe do
 
   alias Core.Upload
 
-  @spec filter(%Upload{}) :: {:ok, %Upload{}}
+  @spec filter(Upload.t()) :: {:ok, Upload.t()}
   def filter(%Upload{name: name, tempfile: tempfile} = upload) do
     extension =
       name

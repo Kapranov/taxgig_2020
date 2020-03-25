@@ -33,12 +33,19 @@ defmodule ServerWeb.ConnCase do
       @salt Application.get_env(:server, ServerWeb.Endpoint)[:salt]
       @secret Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_base]
 
+      @spec auth_conn(Plug.Conn.t(), User.t()) :: Plug.Conn.t()
       def auth_conn(%Plug.Conn{} = conn, %User{} = user) do
-        token = Phoenix.Token.sign(@secret, @salt, user.id)
+        token =
+          if is_nil(user), do: nil, else: Phoenix.Token.sign(@secret, @salt, user.id)
 
         conn
         |> Plug.Conn.put_req_header("authorization", "Bearer #{token}")
         |> Plug.Conn.put_req_header("accept", "application/json")
+      end
+
+      @spec auth_conn(Plug.Conn.t(), any()) :: Plug.Conn.t()
+      def auth_conn(%Plug.Conn{} = conn, _opts) do
+        conn
       end
 
       @endpoint ServerWeb.Endpoint

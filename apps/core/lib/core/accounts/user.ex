@@ -104,7 +104,7 @@ defmodule Core.Accounts.User do
   @doc """
   virtual field via token
   """
-  @spec store_token_changeset(%User{}, %{atom => any}) :: Ecto.Changeset.t()
+  @spec store_token_changeset(User.t(), %{atom => any}) :: Ecto.Changeset.t()
   def store_token_changeset(struct, attrs) do
     struct
     |> cast(attrs, [:token])
@@ -168,10 +168,10 @@ defmodule Core.Accounts.User do
     end
   end
 
-  @spec email_regex() :: %Regex{}
+  @spec email_regex() :: Regex.t()
   defp email_regex, do: @email_regex
 
-  @spec validate_email(%Ecto.Changeset{}) :: %Ecto.Changeset{}
+  @spec validate_email(Ecto.Changeset.t()) :: Ecto.Changeset.t()
   defp validate_email(%{changes: %{email: email}} = changeset) do
     case Regex.match?(@email_regex, email) do
       true ->
@@ -187,7 +187,7 @@ defmodule Core.Accounts.User do
   end
   defp validate_email(changeset), do: changeset
 
-  @spec put_password_hash(%Ecto.Changeset{}) :: %Ecto.Changeset{}
+  @spec put_password_hash(Ecto.Changeset.t()) :: Ecto.Changeset.t()
   defp put_password_hash(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: password}} ->

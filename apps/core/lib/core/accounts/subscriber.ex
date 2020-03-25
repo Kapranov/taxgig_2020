@@ -43,10 +43,10 @@ defmodule Core.Accounts.Subscriber do
     |> validate_email()
   end
 
-  @spec email_regex() :: %Regex{}
+  @spec email_regex() :: Regex.t()
   defp email_regex, do: @email_regex
 
-  @spec validate_email(%Ecto.Changeset{}) :: %Ecto.Changeset{}
+  @spec validate_email(Ecto.Changeset.t()) :: %Ecto.Changeset{}
   defp validate_email(%{changes: %{email: email}} = changeset) do
     case Regex.match?(@email_regex, email) do
       true ->
@@ -61,6 +61,6 @@ defmodule Core.Accounts.Subscriber do
     end
   end
 
-  @spec validate_email(%Ecto.Changeset{}) :: %Ecto.Changeset{}
+  @spec validate_email(Ecto.Changeset.t()) :: Ecto.Changeset.t()
   defp validate_email(changeset), do: changeset
 end

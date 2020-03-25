@@ -10,7 +10,7 @@ defmodule Core.Upload.Filter.Mogrify do
   @type conversion :: action :: String.t() | {action :: String.t(), opts :: String.t()}
   @type conversions :: conversion() | [conversion()]
 
-  @spec filter(%Core.Upload{}) :: :ok
+  @spec filter(Core.Upload.t()) :: :ok
   def filter(%Core.Upload{tempfile: file, content_type: "image" <> _}) do
     filters = Config.get!([__MODULE__, :args])
 

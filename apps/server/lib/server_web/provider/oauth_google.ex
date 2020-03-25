@@ -47,7 +47,7 @@ defmodule ServerWeb.Provider.OauthGoogle do
     |> parse_body_response()
   end
 
-  @spec token(any()) :: {:ok, %{String.t() => String.t()}}
+  @spec token(any()) :: {:ok, %{atom => String.t()}}
   def token(_) do
     {:ok, %{
         "error" => "invalid_grant",
@@ -69,7 +69,7 @@ defmodule ServerWeb.Provider.OauthGoogle do
     |> parse_body_response()
   end
 
-  @spec refresh_token(any()) :: {:ok, %{String.t() => String.t()}}
+  @spec refresh_token(any()) :: {:ok, %{atom => String.t()}}
   def refresh_token(_) do
     {:ok, %{
         "error" => "invalid_grant",
@@ -116,7 +116,7 @@ defmodule ServerWeb.Provider.OauthGoogle do
     |> parse_body_response()
   end
 
-  @spec user_email(any()) :: {:ok, %{String.t() => String.t()}}
+  @spec user_email(any()) :: {:ok, %{atom => String.t()}}
   def user_email(_) do
     {:ok, %{
         "error" => "UNAUTHENTICATED",

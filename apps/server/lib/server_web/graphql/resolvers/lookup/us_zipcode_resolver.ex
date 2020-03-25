@@ -12,7 +12,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolver do
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
 
-  @spec show(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result
+  @spec show(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()
   def show(_parent, %{id: id}, _info) do
     if is_nil(id) do
       {:error, [[field: :id, message: "Can't be blank"]]}
@@ -27,7 +27,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolver do
     end
   end
 
-  @spec search(any, %{zipcode: integer}, Absinthe.Resolution.t()) :: result
+  @spec search(any, %{zipcode: integer}, Absinthe.Resolution.t()) :: result()
   def search(_parent, %{zipcode: zipcode}, _info) do
     if is_nil(zipcode) do
       {:error, [[field: :zipcode, message: "Can't be blank"]]}

@@ -34,12 +34,14 @@ defmodule Server.Factory do
   @image1_path Path.absname("../core/test/fixtures/image.jpg")
   @image2_path Path.absname("../core/test/fixtures/image_tmp.jpg")
 
+  @spec faq_category_factory() :: FaqCategory.t()
   def faq_category_factory do
     %FaqCategory{
       title: Lorem.word()
     }
   end
 
+  @spec faq_factory() :: Faq.t()
   def faq_factory do
     %Faq{
       content: Lorem.sentence(),
@@ -48,6 +50,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec press_article_factory() :: PressArticle.t()
   def press_article_factory do
     %PressArticle{
       author: Name.name(),
@@ -58,6 +61,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec vacancy_factory() :: Vacancy.t()
   def vacancy_factory do
     %Vacancy{
       content: Lorem.sentence(),
@@ -66,6 +70,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec language_factory() :: Language.t()
   def language_factory do
     %Language{
       abbr: "chi",
@@ -73,6 +78,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec subscriber_factory() :: Subscriber.t()
   def subscriber_factory do
     %Subscriber{
       email: "lugatex@yahoo.com",
@@ -80,6 +86,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec user_factory() :: User.t()
   def user_factory do
     %User{
       active: false,
@@ -105,6 +112,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec ptin_factory() :: Ptin.t()
   def ptin_factory do
     %Ptin{
       bus_addr_zip: "84116",
@@ -115,6 +123,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec zipcode_factory() :: UsZipcode.t()
   def zipcode_factory do
     %UsZipcode{
       city: "AGUADA",
@@ -123,6 +132,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec profile_factory() :: Profile.t()
   def profile_factory do
     %Profile{
       address: "some text",
@@ -134,6 +144,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec picture_factory() :: Picture.t()
   def picture_factory do
     profile = build(:profile)
     %Picture{
@@ -142,6 +153,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec file_factory() :: Core.Media.File.t()
   def file_factory do
     File.cp!(@image1_path, @image2_path)
 

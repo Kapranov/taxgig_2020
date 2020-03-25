@@ -33,7 +33,7 @@ defmodule Core.Upload.Filter.Mogrifun do
     [{"fill", "yellow"}, {"tint", "40"}]
   ]
 
-  @spec filter(%Core.Upload{}) :: :ok
+  @spec filter(Core.Upload.t()) :: :ok
   def filter(%Core.Upload{tempfile: file, content_type: "image" <> _}) do
     Filter.Mogrify.do_filter(file, [Enum.random(@filters)])
     :ok

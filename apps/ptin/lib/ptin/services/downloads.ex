@@ -87,7 +87,7 @@ defmodule Ptin.Services.Downloads do
   you have created Expires table in DB will be created only one record, previously record
   will be destroyed after repeat create action, only one record saved in DB.
   """
-  @spec create(%{atom => any}) :: list()
+  @spec create(%{atom => any}) :: result()
   def create(attrs) do
     case Services.create_multi_expire(attrs) do
       {:ok, _} ->
@@ -102,7 +102,7 @@ defmodule Ptin.Services.Downloads do
   `Ptin.Services.Downloads.get()` or
   `Ptin.Services.Downloads.get("priv/data")`
   """
-  @spec get(bitstring()) :: list()
+  @spec get(bitstring()) :: result()
   def get(path \\ base_data()) when is_bitstring(path) do
     case repository(path) do
       {:error, msg} ->
@@ -115,7 +115,7 @@ defmodule Ptin.Services.Downloads do
   @doc """
   Download file, rename unpack and insert into DB.
   """
-  @spec get!(bitstring()) :: list()
+  @spec get!(bitstring()) :: result()
   def get!(path \\ base_data()) when is_bitstring(path) do
     case repository(path) do
       {:error, msg} ->

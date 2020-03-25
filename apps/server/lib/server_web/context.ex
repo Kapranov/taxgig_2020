@@ -29,7 +29,7 @@ defmodule ServerWeb.Context do
   @doc """
   Return the current user context based on the authorization header
   """
-  @spec build_context(Plug.Conn.t()) :: %{current_user: %User{}} | map()
+  @spec build_context(Plug.Conn.t()) :: %{current_user: User.t()} | map()
   def build_context(conn) do
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
          {:ok, user_id} <- Token.verify(@secret, @salt, token, max_age: @max_age),

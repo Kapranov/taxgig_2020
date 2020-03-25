@@ -37,8 +37,7 @@ defmodule Core.Uploaders.S3 do
         ])}}
   end
 
-  @spec put_file(%Core.Upload{name: String.t(), content_type: String.t(), path: String.t(), tempfile: String.t()}) ::
-          {:ok, {:file, String.t()}} | {:error, String.t()}
+  @spec put_file(%Core.Upload{name: String.t(), content_type: String.t(), path: String.t(), tempfile: String.t()}) :: {:ok, {:file, String.t()}} | {:error, String.t()}
   def put_file(%Core.Upload{} = upload) do
     config = Config.get([@name])
     bucket = Keyword.get(config, :bucket)

@@ -48,7 +48,7 @@ defmodule Ptin.DataCase do
       assert %{password: ["password is too short"]} = errors_on(changeset)
 
   """
-  # @spec errors_on(%Ecto.Changeset{}) :: map()
+  @spec errors_on(Ecto.Changeset.t()) :: map()
   def errors_on(changeset) do
     Changeset.traverse_errors(changeset, fn {message, opts} ->
       Regex.replace(~r"%{(\w+)}", message, fn _, key ->
@@ -73,7 +73,7 @@ defmodule Ptin.DataCase do
   refute error_message?(changeset, :foo) ==  "baz"
   ```
   """
-  # @spec assert_error_message(Ecto.Changeset.t(), Atom.t()) :: String.t()
+  @spec assert_error_message(Ecto.Changeset.t(), Atom.t(), String.t()) :: boolean()
   def assert_error_message(changeset, field, expected_message) do
     assert error_message(changeset, field) == expected_message
   end
@@ -94,7 +94,7 @@ defmodule Ptin.DataCase do
   refute validation_triggered?(changeset, :bar) ==  :required
   ```
   """
-  # @spec assert_validation_triggered(Ecto.Changeset.t(), Atom.t(), Atom.t()) :: Atom.t()
+  @spec assert_validation_triggered(Ecto.Changeset.t(), Atom.t(), Atom.t()) :: boolean()
   def assert_validation_triggered(changeset, field, type) do
     assert validation_triggered(changeset, field) == type
   end
@@ -103,7 +103,7 @@ defmodule Ptin.DataCase do
   Returns an atom indicating the type of validation that was triggered on a
   field in a changeset.
   """
-  # @spec validation_triggered(Ecto.Changeset.t(), Atom.t()) :: Atom.t()
+  @spec validation_triggered(Ecto.Changeset.t(), Atom.t()) :: Atom.t()
   def validation_triggered(changeset, field) do
     {_message, status} = changeset.errors[field]
     status[:validation]
@@ -113,7 +113,7 @@ defmodule Ptin.DataCase do
   Returns true or false depending on if an assoc_constraint validation has been
   triggered in the provided changeset on the specified field.
   """
-  # @spec assoc_constraint_triggered?(Ecto.Changeset.t(), Atom.t()) :: boolean()
+  @spec assoc_constraint_triggered?(Ecto.Changeset.t(), Atom.t()) :: boolean()
   def assoc_constraint_triggered?(changeset, field) do
     error_message(changeset, field) == "does not exist"
   end
@@ -121,7 +121,7 @@ defmodule Ptin.DataCase do
   @doc """
   Returns an error message on a specific field on the specified changeset
   """
-  # @spec error_message(Ecto.Changeset.t(), Atom.t()) :: String.t()
+  @spec error_message(Ecto.Changeset.t(), Atom.t()) :: String.t()
   def error_message(changeset, field) do
     {message, _} = changeset.errors[field]
     message

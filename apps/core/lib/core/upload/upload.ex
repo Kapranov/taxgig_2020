@@ -65,28 +65,28 @@ defmodule Core.Upload do
 
   defstruct [:id, :name, :tempfile, :content_type, :path, :size]
 
-   @spec store(source(), [option()]) :: {:ok, Map.t()} | {:error, any()}
-   def store(upload, opts \\ []) do
-     opts = get_opts(opts)
+  @spec store(source(), [option()]) :: {:ok, Map.t()} | {:error, any()}
+  def store(upload, opts \\ []) do
+   opts = get_opts(opts)
 
-     with {:ok, upload} <- prepare_upload(upload, opts),
-          upload = %__MODULE__{upload | path: upload.path || "#{upload.id}/#{upload.name}"},
-          {:ok, upload} <- Upload.Filter.filter(opts.filters, upload),
-          {:ok, url_spec} <- Uploaders.Uploader.put_file(opts.uploader, upload) do
-       {:ok,
-         %{
-           name: Map.get(opts, :description) || upload.name,
-           url: url_from_spec(upload, opts.base_url, url_spec),
-           content_type: upload.content_type,
-           size: upload.size
-         }
+   with {:ok, upload} <- prepare_upload(upload, opts),
+        upload = %__MODULE__{upload | path: upload.path || "#{upload.id}/#{upload.name}"},
+        {:ok, upload} <- Upload.Filter.filter(opts.filters, upload),
+        {:ok, url_spec} <- Uploaders.Uploader.put_file(opts.uploader, upload) do
+     {:ok,
+       %{
+         name: Map.get(opts, :description) || upload.name,
+         url: url_from_spec(upload, opts.base_url, url_spec),
+         content_type: upload.content_type,
+         size: upload.size
        }
-     else
-       {:error, error} ->
-         Logger.info("#{@name} store (using #{inspect(opts.uploader)}) failed: #{inspect(error)}")
-         {:error, :enoent}
-     end
+     }
+   else
+     {:error, error} ->
+       Logger.info("#{@name} store (using #{inspect(opts.uploader)}) failed: #{inspect(error)}")
+       {:error, :enoent}
    end
+  end
 
   @spec remove(String.t(), list()) :: String.t() | {:error, String.t()}
   def remove(url, opts \\ []) do
@@ -129,8 +129,7 @@ defmodule Core.Upload do
     }
   end
 
-  @spec prepare_upload(%Plug.Upload{}, map()) ::
-    {:ok, %__MODULE__{id: String.t(), name: String.t(), tempfile: String.t(), content_type: String.t(), size: integer()}}
+  @spec prepare_upload(Plug.Upload.t(), map()) :: {:ok, %__MODULE__{id: String.t(), name: String.t(), tempfile: String.t(), content_type: String.t(), size: integer()}}
   defp prepare_upload(%Plug.Upload{} = file, opts) do
     with {:ok, size} <- check_file_size(file.path, opts.size_limit), {:ok, content_type, name} <- MIME.file_mime_type(file.path, file.filename) do
       {:ok, %__MODULE__{id: UUID.generate(), name: name, tempfile: file.path, content_type: content_type, size: size}}

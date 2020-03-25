@@ -26,7 +26,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PtinResolver do
   @doc """
   Download, unpack zip, convert csv to json and insert into DB.
   """
-  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result
+  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
   def create(_root, args, _info) do
     case Map.keys(args) do
       [:expired, :url] ->
@@ -46,7 +46,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PtinResolver do
   @doc """
   Search value by profession in Ptin DB.
   """
-  @spec search(any, %{atom => any}, Absinthe.Resolution.t()) :: result
+  @spec search(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
   def search(_root, args, _info) do
     case Map.keys(args) do
       @search_fields ->
@@ -64,7 +64,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PtinResolver do
   @doc """
   Destroy whole ptin table without args.
   """
-  @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: result
+  @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
   def delete(_root, _args, _info) do
     {_, _} =
       Repo.delete_all(Ptin)
@@ -79,7 +79,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PtinResolver do
   @doc """
   Destroy directory with timestamp in `apps/ptin/priv/data`.
   """
-  @spec delete_dir(any, %{date: :datetime}, Absinthe.Resolution.t()) :: result
+  @spec delete_dir(any, %{date: :datetime}, Absinthe.Resolution.t()) :: result()
   def delete_dir(_root, args, _info) do
     case Map.keys(args) do
       [:date] ->

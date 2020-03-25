@@ -860,7 +860,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert updated["logo"]["inserted_at"]
       assert updated["logo"]["updated_at"]
       assert updated["inserted_at"]                     == format_time(struct.inserted_at)
-      assert updated["updated_at"]                      == format_time(struct.updated_at)
       assert updated["user"]["languages"][:id]          == nil
       assert updated["user"]["languages"][:abbr]        == nil
       assert updated["user"]["languages"][:name]        == nil
