@@ -23,7 +23,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver do
     {:ok, struct}
   end
 
-  @spec show(any, %{id: bitstring}, Absinthe.Resolution.t()) :: success_tuple() | nil
+  @spec find_faq_category(any, %{id: bitstring}, Absinthe.Resolution.t()) :: success_tuple() | nil
   def find_faq_category(_parent, %{id: id}, _info) do
     struct = Landing.find_by_faq_category_id(id)
     {:ok, struct}
