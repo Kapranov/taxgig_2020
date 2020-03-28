@@ -58,15 +58,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolver do
     {:error, "Unauthenticated"}
   end
 
-  @spec update(any, %{id: bitstring, logo: map(), profile: map()}, %{context: %{current_user: User.t()}}) :: result()
-  def update(_root, %{id: user_id, logo: logo_params, profile: profile_params}, %{context: %{current_user: current_user}}) do
+  # @spec update(any, %{id: bitstring(), logo: map(), profile: map()}, %{context: %{current_user: User.t()}}) :: result()
+  # def update(_root, %{id: user_id, logo: logo_params, profile: profile_params}, %{context: %{current_user: current_user}}) do
+  @spec update(any, %{id: bitstring(), profile: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update(_root, %{id: user_id, profile: profile_params}, %{context: %{current_user: current_user}}) do
     if is_nil(user_id) || is_nil(current_user) do
       {:error, [[field: :user_id, message: "Can't be blank or Unauthenticated"]]}
     else
       try do
         case user_id == current_user.id do
           true ->
-            params = Map.merge(logo_params, profile_params)
+            params = Map.merge(%{}, profile_params)
             Repo.get!(Profile, user_id)
             |> Profile.changeset(params)
             |> Repo.update

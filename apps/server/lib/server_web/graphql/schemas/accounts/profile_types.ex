@@ -30,7 +30,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProfileTypes do
     field :banner, :string
     field :description, :string
     field :us_zipcode_id, :string
-    field :user_id, non_null(:string)
   end
 
   object :profile_queries do
