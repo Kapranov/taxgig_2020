@@ -1779,8 +1779,8 @@ defmodule LetMeSee do
     end
   end
 
-  @spec find_faq_category() :: FaqCategory.t() | list() | error_tuple()
-  def find_faq_category() do
+  @spec find_faq_category() :: map()
+  def find_faq_category do
     request = """
     query {
       findFaqCategory(id: \"#{@last_faq_category}\") {
@@ -1805,7 +1805,7 @@ defmodule LetMeSee do
     run(request)
   end
 
-  @spec find_faq_category(%{atom => String.t()}) :: FaqCategory.t() | list() | error_tuple()
+  @spec find_faq_category(%{atom => String.t()}) :: map() | error_tuple()
   def find_faq_category(args) when is_map(args) do
     if Map.has_key?(args, :id) do
       case Ecto.UUID.cast(args.id) do
@@ -1975,7 +1975,7 @@ defmodule LetMeSee do
 
   @keys List.delete(@zipcode_keys, :id)
 
-  @spec search_zipcode(%{atom => integer()}) :: map() | nil | error_tuple()
+  @spec search_zipcode(%{atom => integer()}) :: map() | error_tuple()
   def search_zipcode(args) when is_map(args) do
     if Map.has_key?(args, :zipcode) and !is_nil(args.zipcode) do
       case Map.keys(args) do
