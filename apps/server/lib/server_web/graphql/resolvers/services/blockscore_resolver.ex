@@ -12,7 +12,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.BlockscoreResolver do
   @doc """
   Get the status by Blockscore service
   """
-  @spec get_status(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
+  @spec get_status(any(), %{atom => String.t()}, Absinthe.Resolution.t()) :: result()
   def get_status(_root, %{address_city: address_city,
                           address_country_code: address_country_code,
                           address_postal_code: address_postal_code,
@@ -50,5 +50,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.BlockscoreResolver do
           _ ->
           {:error, "Something wrong with args or don't respond service"}
         end
+  end
+
+  @spec get_status(any(), any(), Absinthe.Resolution.t()) :: result()
+  def get_status(_root, _args, _info) do
+    {:error, "Something wrong with args or don't respond service"}
   end
 end

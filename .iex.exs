@@ -315,23 +315,6 @@ defmodule LetMeSee do
 
   @current_user Repo.all(User) |> List.last
 
-  @blockscore_params %{
-    address_city: "Cupertino",
-    address_country_code: "US",
-    address_postal_code: "95014",
-    address_street1: "1 Infinite Loop",
-    address_street2: "Apt 6",
-    address_subdivision: "CA",
-    birth_day: 23,
-    birth_month: 8,
-    birth_year: 1993,
-    document_type: "ssn",
-    document_value: "0000",
-    name_first: "John",
-    name_last: "Doe",
-    name_middle: "Pearce"
-  }
-
   @faq_params %{
     id: @last_faq,
     content: "updated text",
@@ -923,7 +906,7 @@ defmodule LetMeSee do
 
   @keys List.delete(@faq_keys, :id)
 
-  @spec create_faq(%{atom => String.t()}) :: map() | error_map | error_tuple
+  @spec create_faq(%{atom => String.t()}) :: map() | error_map() | error_tuple()
   def create_faq(args) do
     case Map.keys(args) do
       @keys ->
@@ -952,11 +935,8 @@ defmodule LetMeSee do
             """
             IO.puts("The Request:")
             IO.puts(request)
-
-            {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
             IO.puts("\nThe Result:")
-            result
+            run(request)
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
@@ -967,7 +947,7 @@ defmodule LetMeSee do
 
   @keys List.delete(@faq_category_keys, :id)
 
-  @spec create_faq_category(%{atom => String.t()}) :: map() | error_map | error_tuple
+  @spec create_faq_category(%{atom => String.t()}) :: map() | error_map() | error_tuple()
   def create_faq_category(args) do
     case Map.keys(args) do
       @keys ->
@@ -985,11 +965,8 @@ defmodule LetMeSee do
         """
         IO.puts("The Request:")
         IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
         IO.puts("\nThe Result:")
-        result
+        run(request)
       _ ->
         {:error, message: "Oops! Something Wrong with an args"}
     end
@@ -997,7 +974,7 @@ defmodule LetMeSee do
 
   @keys List.delete(@language_keys, :id)
 
-  @spec create_language(%{atom => String.t()}) :: map() | error_map | error_tuple
+  @spec create_language(%{atom => String.t()}) :: map() | error_map() | error_tuple()
   def create_language(args) do
     case Map.keys(args) do
       @keys ->
@@ -1017,11 +994,8 @@ defmodule LetMeSee do
         """
         IO.puts("The Request:")
         IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
         IO.puts("\nThe Result:")
-        result
+        run(request)
       _ ->
         {:error, message: "Oops! Something Wrong with an args"}
     end
@@ -1029,7 +1003,7 @@ defmodule LetMeSee do
 
   @keys List.delete(@press_article_keys, :id)
 
-  @spec create_press_article(%{atom => String.t()}) :: map() | error_map | error_tuple
+  @spec create_press_article(%{atom => String.t()}) :: map() | error_map() | error_tuple()
   def create_press_article(args) do
     case Map.keys(args) do
       @keys ->
@@ -1055,11 +1029,8 @@ defmodule LetMeSee do
         """
         IO.puts("The Request:")
         IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
         IO.puts("\nThe Result:")
-        result
+        run(request)
       _ ->
         {:error, message: "Oops! Something Wrong with an args"}
     end
@@ -1071,7 +1042,7 @@ defmodule LetMeSee do
 
   @keys List.delete(@subscriber_keys, :id)
 
-  @spec create_subscriber(%{atom => String.t() | boolean()}) :: map() | error | error_map | error_tuple
+  @spec create_subscriber(%{atom => String.t() | boolean()}) :: map() | error() | error_map() | error_tuple()
   def create_subscriber(args) do
     case Map.keys(args) do
       @keys ->
@@ -1091,11 +1062,8 @@ defmodule LetMeSee do
         """
         IO.puts("The Request:")
         IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
         IO.puts("\nThe Result:")
-        result
+        run(request)
       _ ->
         {:error, message: "Oops! Something Wrong with an args"}
     end
@@ -1103,7 +1071,7 @@ defmodule LetMeSee do
 
   @keys List.delete(@user_keys, :id)
 
-  @spec create_user(%{atom => String.t() | boolean() | integer()}) :: map() | error | error_map | error_tuple
+  @spec create_user(%{atom => String.t() | boolean() | integer()}) :: map() | error() | error_map() | error_tuple()
   def create_user(args) do
     case Map.keys(args) do
       @keys ->
@@ -1157,11 +1125,8 @@ defmodule LetMeSee do
         """
         IO.puts("The Request:")
         IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
         IO.puts("\nThe Result:")
-        result
+        run(request)
       @user_mini_keys ->
         request = """
         mutation {
@@ -1197,11 +1162,8 @@ defmodule LetMeSee do
         """
         IO.puts("The Request:")
         IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
         IO.puts("\nThe Result:")
-        result
+        run(request)
       _ ->
         {:error, message: "Oops! Something Wrong with an args"}
     end
@@ -1209,7 +1171,7 @@ defmodule LetMeSee do
 
   @keys List.delete(@vacancy_keys, :id)
 
-  @spec create_vacancy(%{atom => String.t()}) :: map() | error_map | error_tuple
+  @spec create_vacancy(%{atom => String.t()}) :: map() | error_map() | error_tuple()
   def create_vacancy(args) do
     case Map.keys(args) do
       @keys ->
@@ -1231,11 +1193,8 @@ defmodule LetMeSee do
         """
         IO.puts("The Request:")
         IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
         IO.puts("\nThe Result:")
-        result
+        run(request)
       _ ->
         {:error, message: "Oops! Something Wrong with an args"}
     end
@@ -1324,7 +1283,7 @@ defmodule LetMeSee do
     end
   end
 
-  @spec update_language(%{atom => String.t()}) :: map() | error | error_map | error_tuple
+  @spec update_language(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
   def update_language(args \\ @language_params) do
     if is_map(args) and Map.has_key?(args, :id) do
       case Ecto.UUID.cast(args.id) do
@@ -1363,7 +1322,7 @@ defmodule LetMeSee do
     end
   end
 
-  @spec update_press_article(%{atom => String.t()}) :: map() | error | error_map | error_tuple
+  @spec update_press_article(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
   def update_press_article(args \\ @press_article_params) do
     if is_map(args) and Map.has_key?(args, :id) do
       case Ecto.UUID.cast(args.id) do
@@ -1408,7 +1367,7 @@ defmodule LetMeSee do
     end
   end
 
-  @spec update_profile(%{atom => String.t()}) :: map() | error | error_map | error_tuple
+  @spec update_profile(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
   def update_profile(args \\ @profile_params) do
     if is_map(args) and Map.has_key?(args, :user_id) do
       case Ecto.UUID.cast(args.user_id) do
@@ -1477,7 +1436,7 @@ defmodule LetMeSee do
     end
   end
 
-  @spec update_subscriber(%{atom => String.t() | boolean()}) :: map() | error | error_map | error_tuple
+  @spec update_subscriber(%{atom => String.t() | boolean()}) :: map() | error() | error_map() | error_tuple()
   def update_subscriber(args \\ @subscriber_params) do
     if is_map(args) and Map.has_key?(args, :id) do
       case Ecto.UUID.cast(args.id) do
@@ -1516,7 +1475,7 @@ defmodule LetMeSee do
     end
   end
 
-  @spec update_user(%{atom => String.t() | boolean() | integer()}) :: map() | error | error_map | error_tuple
+  @spec update_user(%{atom => String.t() | boolean() | integer()}) :: map() | error() | error_map() | error_tuple()
   def update_user(args \\ @user_params) do
     if is_map(args) and Map.has_key?(args, :id) do
       case Ecto.UUID.cast(args.id) do
@@ -1592,7 +1551,7 @@ defmodule LetMeSee do
     end
   end
 
-  @spec update_vacancy(%{atom => String.t()}) :: map() | error | error_map | error_tuple
+  @spec update_vacancy(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
   def update_vacancy(args \\ @vacancy_params) do
     if is_map(args) and Map.has_key?(args, :id) do
       case Ecto.UUID.cast(args.id) do
@@ -1637,7 +1596,7 @@ defmodule LetMeSee do
     args
   end
 
-  @spec delete_faq(%{atom => String.t()}) :: map() | error | error_map | error_tuple
+  @spec delete_faq(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
   def delete_faq(args \\ %{id: @last_faq}) do
     if is_map(args) and Map.has_key?(args, :id) do
       case Ecto.UUID.cast(args.id) do
@@ -1659,7 +1618,7 @@ defmodule LetMeSee do
     end
   end
 
-  @spec delete_faq_category(%{atom => String.t()}) :: map() | error | error_map | error_tuple
+  @spec delete_faq_category(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
   def delete_faq_category(args \\ %{id: @last_faq_category}) do
     if is_map(args) and Map.has_key?(args, :id) do
       case Ecto.UUID.cast(args.id) do
@@ -1681,7 +1640,7 @@ defmodule LetMeSee do
     end
   end
 
-  @spec delete_language(%{atom => String.t()}) :: map() | error | error_map | error_tuple
+  @spec delete_language(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
   def delete_language(args \\ %{id: @last_language}) do
     if is_map(args) and Map.has_key?(args, :id) do
       case Ecto.UUID.cast(args.id) do
@@ -1703,7 +1662,7 @@ defmodule LetMeSee do
     end
   end
 
-  @spec delete_press_article(%{atom => String.t()}) :: map() | error | error_map | error_tuple
+  @spec delete_press_article(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
   def delete_press_article(args \\ %{id: @last_press_article}) do
     if is_map(args) and Map.has_key?(args, :id) do
       case Ecto.UUID.cast(args.id) do
@@ -1725,7 +1684,7 @@ defmodule LetMeSee do
     end
   end
 
-  @spec delete_profile(%{atom => String.t()}) :: map() | error | error_map | error_tuple
+  @spec delete_profile(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
   def delete_profile(args \\ %{id: @last_user}) do
     if is_map(args) and Map.has_key?(args, :id) do
       case Ecto.UUID.cast(args.id) do
@@ -1753,7 +1712,7 @@ defmodule LetMeSee do
   def delete_ptin() do
   end
 
-  @spec delete_subscriber(%{atom => String.t()}) :: map() | error | error_map | error_tuple
+  @spec delete_subscriber(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
   def delete_subscriber(args \\ %{id: @last_subscriber}) do
     if is_map(args) and Map.has_key?(args, :id) do
       case Ecto.UUID.cast(args.id) do
@@ -1775,7 +1734,7 @@ defmodule LetMeSee do
     end
   end
 
-  @spec delete_user(%{atom => String.t()}) :: map() | error | error_map | error_tuple
+  @spec delete_user(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
   def delete_user(args \\ %{id: @last_user}) do
     if is_map(args) and Map.has_key?(args, :id) do
       case Ecto.UUID.cast(args.id) do
@@ -1800,7 +1759,7 @@ defmodule LetMeSee do
     end
   end
 
-  @spec delete_vacancy(%{atom => String.t()}) :: map() | error | error_map | error_tuple
+  @spec delete_vacancy(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
   def delete_vacancy(args \\ %{id: @last_vacancy}) do
     if is_map(args) and Map.has_key?(args, :id) do
       case Ecto.UUID.cast(args.id) do
@@ -1847,11 +1806,8 @@ defmodule LetMeSee do
           """
           IO.puts("The Request:")
           IO.puts(request)
-
-          {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
           IO.puts("\nThe Result:")
-          result
+          run(request)
         :error ->
           {:error, message: "Oops! Something Wrong with Id"}
       end
@@ -1860,87 +1816,92 @@ defmodule LetMeSee do
     end
   end
 
-  @spec search_profession(map()) :: map() | error_tuple
+  @spec search_profession(%{atom => String.t()}) :: map() | error_tuple()
   def search_profession(args \\ @profession) do
-    case Map.keys(args) do
-      @profession_keys ->
-        request = """
-        query {
-          searchProfession(
-            bus_addr_zip: \"#{args.bus_addr_zip}\",
-            bus_st_code: \"#{args.bus_st_code}\",
-            first_name: \"#{args.first_name}\",
-            last_name: \"#{args.last_name}\"
-          ) {
-            profession
+    if is_map(args) do
+      case Map.keys(args) do
+        @profession_keys ->
+          request = """
+          query {
+            searchProfession(
+              bus_addr_zip: \"#{args.bus_addr_zip}\",
+              bus_st_code: \"#{args.bus_st_code}\",
+              first_name: \"#{args.first_name}\",
+              last_name: \"#{args.last_name}\"
+            ) {
+              profession
+            }
           }
-        }
-        """
-        IO.puts("The Request:")
-        IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-        IO.puts("\nThe Result:")
-        result
-      _ ->
-        {:error, message: "Oops! Something Wrong with an args"}
+          """
+          IO.puts("The Request:")
+          IO.puts(request)
+          IO.puts("\nThe Result:")
+          run(request)
+        _ ->
+          {:error, message: "Oops! Something Wrong with an args"}
+      end
+    else
+      {:error, "Please fill out all required arguments!"}
     end
   end
 
-  @spec search_title(map()) :: map() | error_map | error_tuple
+  @spec search_title(%{atom => String.t()}) :: map() | list() | error_tuple()
   def search_title(args \\ %{title: @search_word}) do
-    request = """
-    query {
-      searchTitles(title: \"#{args.title}\") {
-        id
-        content
-        title
-        inserted_at
-        updated_at
-        faq_categories {
+    if is_map(args) and !is_nil(args.title) and Map.has_key?(args, :title) do
+      request = """
+      query {
+        searchTitles(title: \"#{args.title}\") {
           id
+          content
           title
           inserted_at
           updated_at
-        }
-      }
-    }
-    """
-    IO.puts("The Request:")
-    IO.puts(request)
-
-    {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-    IO.puts("\nThe Result:")
-    result
-  end
-
-  @spec search_zipcode(map()) :: map() | error_tuple
-  def search_zipcode(args \\ @search_zipcode) do
-    case Map.keys(args) do
-      @zipcode_keys ->
-        request = """
-        query {
-          searchZipcode(
-            zipcode: #{args.zipcode}
-          ) {
+          faq_categories {
             id
-            city
-            state
-            zipcode
+            title
+            inserted_at
+            updated_at
           }
         }
-        """
-        IO.puts("The Request:")
-        IO.puts(request)
+      }
+      """
+      IO.puts("The Request:")
+      IO.puts(request)
+      IO.puts("\nThe Result:")
+      run(request)
+    else
+      {:error, "Please fill out all required arguments!"}
+    end
+  end
 
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
+  @keys List.delete(@zipcode_keys, :id)
 
-        IO.puts("\nThe Result:")
-        result
-      _ ->
-        {:error, message: "Oops! Something Wrong with an args"}
+  @spec search_zipcode(%{atom => integer()}) :: map() | nil | error_tuple()
+  def search_zipcode(args \\ @search_zipcode) do
+    if is_map(args) and !is_nil(args.zipcode) and Map.has_key?(args, :zipcode) do
+      case Map.keys(args) do
+        @keys ->
+          request = """
+          query {
+            searchZipcode(
+              zipcode: #{args.zipcode}
+            ) {
+              id
+              city
+              state
+              zipcode
+            }
+          }
+          """
+          IO.puts("The Request:")
+          IO.puts(request)
+          IO.puts("\nThe Result:")
+          run(request)
+        _ ->
+          {:error, message: "Oops! Something Wrong with an args"}
+      end
+    else
+      {:error, "Please fill out all required arguments!"}
     end
   end
 
@@ -1948,95 +1909,206 @@ defmodule LetMeSee do
     args
   end
 
-  @spec get_code(map()) :: map() | error_tuple
-  def get_code(args \\ %{provider: "localhost"}) do
-    case Map.keys(args) do
-      @provider_key ->
-        request = """
-        query {
-          getCode(
-            provider: \"#{args.provider}\"
-          ) {
-            code
-            provider
+  @spec get_code() :: map()
+  def get_code do
+    request = """
+    query {
+      getCode(
+        provider: "localhost"
+      ) {
+        code
+        provider
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+    IO.puts("\nThe Result:")
+    run(request)
+  end
+
+  @spec get_code(%{atom => String.t()}) :: map() | error_tuple()
+  def get_code(args) when is_map(args) do
+    if Map.has_key?(args, :provider) and !is_nil(args.provider) do
+      case Map.keys(args) do
+        @provider_key ->
+          request = """
+          query {
+            getCode(
+              provider: \"#{args.provider}\"
+            ) {
+              code
+              provider
+            }
           }
-        }
-        """
-        IO.puts("The Request:")
-        IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-        IO.puts("\nThe Result:")
-        result
-      _ ->
-        {:error, message: "Oops! Something Wrong with an args"}
+          """
+          IO.puts("The Request:")
+          IO.puts(request)
+          IO.puts("\nThe Result:")
+          run(request)
+        _ ->
+          {:error, message: "Oops! Something Wrong with an args"}
+      end
+    else
+      {:error, "Please fill out all required arguments!"}
     end
   end
 
-  @spec get_refresh_token(map()) :: map() | error_tuple()
-  def get_refresh_token(args \\ %{provider: "localhost", token: "xxx"}) do
-    case Map.keys(args) do
-      @token_provider_key ->
-        request = """
-        query {
-          getRefreshToken(
-            provider: \"#{args.provider}\",
-            token: \"#{args.token}\"
-          ) {
-            access_token
-            error
-            error_description
-            expires_in
-            id_token
-            provider
-            refresh_token
-            scope
-            token_type
+  @spec get_code(any()) :: error_tuple()
+  def get_code(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
+  @spec get_refresh_token() :: map()
+  def get_refresh_token do
+    request = """
+    query {
+      getRefreshToken(
+        provider: "localhost",
+        token: "xxx"
+      ) {
+        access_token
+        error
+        error_description
+        expires_in
+        id_token
+        provider
+        refresh_token
+        scope
+        token_type
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+    IO.puts("\nThe Result:")
+    run(request)
+  end
+
+  @spec get_refresh_token(%{atom => String.t()}) :: map() | error_tuple()
+  def get_refresh_token(args) when is_map(args) do
+    if Map.has_key?(args, :provider) and Map.has_key?(args, :token) do
+      case Map.keys(args) do
+        @token_provider_key ->
+          request = """
+          query {
+            getRefreshToken(
+              provider: \"#{args.provider}\",
+              token: \"#{args.token}\"
+            ) {
+              access_token
+              error
+              error_description
+              expires_in
+              id_token
+              provider
+              refresh_token
+              scope
+              token_type
+            }
           }
-        }
-        """
-        IO.puts("The Request:")
-        IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-        IO.puts("\nThe Result:")
-        result
-      _ ->
-        {:error, message: "Oops! Something Wrong with an args"}
+          """
+          IO.puts("The Request:")
+          IO.puts(request)
+          IO.puts("\nThe Result:")
+          run(request)
+        _ ->
+          {:error, message: "Oops! Something Wrong with an args"}
+      end
+    else
+      {:error, "Please fill out all required arguments!"}
     end
   end
 
-  @spec get_refresh_token_code(map()) :: map() | error_tuple()
-  def get_refresh_token_code(args \\ %{provider: "localhost", token: nil}) do
-    case Map.keys(args) do
-      @token_provider_key ->
-        request = """
-        query {
-          getRefreshTokenCode(
-            provider: \"#{args.provider}\",
-            token: \"#{args.token}\"
-          ) {
-            code
-            provider
+  @spec get_refresh_token(any()) :: error_tuple()
+  def get_refresh_token(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
+  @spec get_refresh_token_code() :: map()
+  def get_refresh_token_code do
+    request = """
+    query {
+      getRefreshTokenCode(
+        provider: "localhost",
+        token: "nil"
+      ) {
+        code
+        provider
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+    IO.puts("\nThe Result:")
+    run(request)
+  end
+
+  @spec get_refresh_token_code(%{atom => String.t()}) :: map() | error_tuple()
+  def get_refresh_token_code(args) when is_map(args) do
+    if Map.has_key?(args, :provider) and Map.has_key?(args, :token) do
+      case Map.keys(args) do
+        @token_provider_key ->
+          request = """
+          query {
+            getRefreshTokenCode(
+              provider: \"#{args.provider}\",
+              token: \"#{args.token}\"
+            ) {
+              code
+              provider
+            }
           }
-        }
-        """
-        IO.puts("The Request:")
-        IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
-        IO.puts("\nThe Result:")
-        result
-      _ ->
-        {:error, message: "Oops! Something Wrong with an args"}
+          """
+          IO.puts("The Request:")
+          IO.puts(request)
+          IO.puts("\nThe Result:")
+          run(request)
+        _ ->
+          {:error, message: "Oops! Something Wrong with an args"}
+      end
+    else
+      {:error, "Please fill out all required arguments!"}
     end
   end
 
-  @spec get_status(map()) :: {:ok, %{atom => String.t()}}
-  def get_status(args \\ @blockscore_params) do
+  @spec get_refresh_token_code() :: error_tuple()
+  def get_refresh_token_code(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
+  @spec get_status() :: map()
+  def get_status() do
+    request = """
+    query {
+      getStatusBlockscore(
+        address_city: "Cupertino",
+        address_country_code: "US",
+        address_postal_code: "95014",
+        address_street1: "1 Infinite Loop",
+        address_street2: "Apt 6",
+        address_subdivision: "CA",
+        birth_day: 23,
+        birth_month: 8,
+        birth_year: 1993,
+        document_type: "ssn",
+        document_value: "0000",
+        name_first: "John",
+        name_last: "Doe",
+        name_middle: "Pearce"
+      ) {
+        status
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+    IO.puts("\nThe Result:")
+    run(request)
+  end
+
+  @spec get_status(%{atom => String.t() | integer()}) :: map()
+  def get_status(args) when is_map(args) do
     case Map.keys(args) do
       @blockscore_keys ->
         request = """
@@ -2063,19 +2135,20 @@ defmodule LetMeSee do
         """
         IO.puts("The Request:")
         IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
         IO.puts("\nThe Result:")
-        result
+        run(request)
       _ ->
         {:error, message: "Oops! Something Wrong with an args"}
     end
   end
 
+  @spec get_status() :: error_tuple()
+  def get_status(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
 
-  @spec get_token(map()) :: map() | error_tuple
-  def get_token(args) do
+  @spec get_token(%{atom => String.t()}) :: map() | error_tuple()
+  def get_token(args) when is_map(args) do
     case Map.keys(args) do
       @social_keys ->
         request = """
@@ -2098,11 +2171,8 @@ defmodule LetMeSee do
         """
         IO.puts("The Request:")
         IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
         IO.puts("\nThe Result:")
-        result
+        run(request)
       @localhost_key ->
         request = """
         query {
@@ -2125,18 +2195,20 @@ defmodule LetMeSee do
         """
         IO.puts("The Request:")
         IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
         IO.puts("\nThe Result:")
-        result
+        run(request)
       _ ->
         {:error, message: "Oops! Something Wrong with an args"}
     end
   end
 
-  @spec verify_token(map()) :: map() | error_tuple()
-  def verify_token(args) do
+  @spec get_token(any()) :: error_tuple()
+  def get_token(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
+  @spec verify_token(%{atom => String.t()}) :: map() | error_tuple()
+  def verify_token(args) when is_map(args) do
     case Map.keys(args) do
       @token_provider_key ->
         request = """
@@ -2161,14 +2233,16 @@ defmodule LetMeSee do
         """
         IO.puts("The Request:")
         IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
         IO.puts("\nThe Result:")
-        result
+        run(request)
       _ ->
         {:error, message: "Oops! Something Wrong with an args"}
     end
+  end
+
+  @spec verify_token(any()) :: error_tuple()
+  def verify_token(_) do
+    {:error, "Please fill out all required arguments!"}
   end
 
   def picture(args) do
