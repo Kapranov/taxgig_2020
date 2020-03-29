@@ -1929,28 +1929,24 @@ defmodule LetMeSee do
 
   @spec get_code(%{atom => String.t()}) :: map() | error_tuple()
   def get_code(args) when is_map(args) do
-    if Map.has_key?(args, :provider) and !is_nil(args.provider) do
-      case Map.keys(args) do
-        @provider_key ->
-          request = """
-          query {
-            getCode(
-              provider: \"#{args.provider}\"
-            ) {
-              code
-              provider
-            }
+    case Map.keys(args) do
+      @provider_key ->
+        request = """
+        query {
+          getCode(
+            provider: \"#{args.provider}\"
+          ) {
+            code
+            provider
           }
-          """
-          IO.puts("The Request:")
-          IO.puts(request)
-          IO.puts("\nThe Result:")
-          run(request)
-        _ ->
-          {:error, message: "Oops! Something Wrong with an args"}
-      end
-    else
-      {:error, "Please fill out all required arguments!"}
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+        IO.puts("\nThe Result:")
+        run(request)
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
     end
   end
 
@@ -1987,36 +1983,32 @@ defmodule LetMeSee do
 
   @spec get_refresh_token(%{atom => String.t()}) :: map() | error_tuple()
   def get_refresh_token(args) when is_map(args) do
-    if Map.has_key?(args, :provider) and Map.has_key?(args, :token) do
-      case Map.keys(args) do
-        @token_provider_key ->
-          request = """
-          query {
-            getRefreshToken(
-              provider: \"#{args.provider}\",
-              token: \"#{args.token}\"
-            ) {
-              access_token
-              error
-              error_description
-              expires_in
-              id_token
-              provider
-              refresh_token
-              scope
-              token_type
-            }
+    case Map.keys(args) do
+      @token_provider_key ->
+        request = """
+        query {
+          getRefreshToken(
+            provider: \"#{args.provider}\",
+            token: \"#{args.token}\"
+          ) {
+            access_token
+            error
+            error_description
+            expires_in
+            id_token
+            provider
+            refresh_token
+            scope
+            token_type
           }
-          """
-          IO.puts("The Request:")
-          IO.puts(request)
-          IO.puts("\nThe Result:")
-          run(request)
-        _ ->
-          {:error, message: "Oops! Something Wrong with an args"}
-      end
-    else
-      {:error, "Please fill out all required arguments!"}
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+        IO.puts("\nThe Result:")
+        run(request)
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
     end
   end
 
@@ -2046,29 +2038,25 @@ defmodule LetMeSee do
 
   @spec get_refresh_token_code(%{atom => String.t()}) :: map() | error_tuple()
   def get_refresh_token_code(args) when is_map(args) do
-    if Map.has_key?(args, :provider) and Map.has_key?(args, :token) do
-      case Map.keys(args) do
-        @token_provider_key ->
-          request = """
-          query {
-            getRefreshTokenCode(
-              provider: \"#{args.provider}\",
-              token: \"#{args.token}\"
-            ) {
-              code
-              provider
-            }
+    case Map.keys(args) do
+      @token_provider_key ->
+        request = """
+        query {
+          getRefreshTokenCode(
+            provider: \"#{args.provider}\",
+            token: \"#{args.token}\"
+          ) {
+            code
+            provider
           }
-          """
-          IO.puts("The Request:")
-          IO.puts(request)
-          IO.puts("\nThe Result:")
-          run(request)
-        _ ->
-          {:error, message: "Oops! Something Wrong with an args"}
-      end
-    else
-      {:error, "Please fill out all required arguments!"}
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+        IO.puts("\nThe Result:")
+        run(request)
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
     end
   end
 
