@@ -2253,7 +2253,8 @@ defmodule LetMeSee do
     args
   end
 
-  def signup(args) do
+  @spec signup(%{atom => String.t()}) :: map() | error_tuple()
+  def signup(args) when is_map(args) do
     case Map.keys(args) do
       @localhost_keys ->
         request = """
@@ -2273,11 +2274,8 @@ defmodule LetMeSee do
         """
         IO.puts("The Request:")
         IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
         IO.puts("\nThe Result:")
-        result
+        run(request)
       @social_keys ->
         request = """
         mutation {
@@ -2294,17 +2292,20 @@ defmodule LetMeSee do
         """
         IO.puts("The Request:")
         IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
         IO.puts("\nThe Result:")
-        result
+        run(request)
       _ ->
         {:error, message: "Oops! Something Wrong with an args"}
     end
   end
 
-  def signin(args) do
+  @spec signup(any()) :: error_tuple()
+  def signup(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
+  @spec signin(%{atom => String.t()}) :: map() | error_tuple()
+  def signin(args) when is_map(args) do
     case Map.keys(args) do
       @localhost_keys ->
         request = """
@@ -2324,11 +2325,8 @@ defmodule LetMeSee do
         """
         IO.puts("The Request:")
         IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
         IO.puts("\nThe Result:")
-        result
+        run(request)
       @social_keys ->
         request = """
         query {
@@ -2345,14 +2343,16 @@ defmodule LetMeSee do
         """
         IO.puts("The Request:")
         IO.puts(request)
-
-        {:ok, result} = Absinthe.run(request, ServerWeb.GraphQL.Schema)
-
         IO.puts("\nThe Result:")
-        result
+        run(request)
       _ ->
         {:error, message: "Oops! Something Wrong with an args"}
     end
+  end
+
+  @spec signin(any()) :: error_tuple()
+  def signin(_) do
+    {:error, "Please fill out all required arguments!"}
   end
 
   @spec run(
