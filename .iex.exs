@@ -270,9 +270,7 @@ defmodule LetMeSee do
   @last_user Repo.all(User) |> List.last |> Map.get(:id)
   @last_vacancy Repo.all(Vacancy) |> List.last |> Map.get(:id)
   @last_zipcode Repo.all(UsZipcode) |> List.last |> Map.get(:id)
-  @profession %{bus_addr_zip: "84074", bus_st_code: "UT", first_name: "LiSa", last_name: "StEwArT"}
   @search_word ~s(Article)
-  @search_zipcode %{zipcode: 602}
   @blockscore_keys ~w(address_city address_country_code address_postal_code address_street1 address_street2 address_subdivision birth_day birth_month birth_year document_type document_value name_first name_last name_middle)a
   @faq_category_keys ~w(id title)a |> Enum.sort
   @faq_keys ~w(id content title faq_category_id)a |> Enum.sort
@@ -1781,9 +1779,35 @@ defmodule LetMeSee do
     end
   end
 
+  @spec find_faq_category() :: FaqCategory.t() | list() | error_tuple()
+  def find_faq_category() do
+    request = """
+    query {
+      findFaqCategory(id: \"#{@last_faq_category}\") {
+        id
+        content
+        title
+        inserted_at
+        updated_at
+        faq_categories {
+          id
+          faqs_count
+          title
+          inserted_at
+          updated_at
+        }
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+    IO.puts("\nThe Result:")
+    run(request)
+  end
+
   @spec find_faq_category(%{atom => String.t()}) :: FaqCategory.t() | list() | error_tuple()
-  def find_faq_category(args \\ %{id: @last_faq_category}) do
-    if is_map(args) and Map.has_key?(args, :id) do
+  def find_faq_category(args) when is_map(args) do
+    if Map.has_key?(args, :id) do
       case Ecto.UUID.cast(args.id) do
         {:ok, binaryId} ->
           request = """
@@ -1816,38 +1840,89 @@ defmodule LetMeSee do
     end
   end
 
+  @spec find_faq_category(any()) :: error_tuple()
+  def find_faq_category(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
+  @spec search_profession() :: map()
+  def search_profession do
+    request = """
+    query {
+      searchProfession(
+        bus_addr_zip: "84074",
+        bus_st_code: "UT",
+        first_name: "LiSa",
+        last_name: "StEwArT"
+      ) {
+        profession
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+    IO.puts("\nThe Result:")
+    run(request)
+  end
+
   @spec search_profession(%{atom => String.t()}) :: map() | error_tuple()
-  def search_profession(args \\ @profession) do
-    if is_map(args) do
-      case Map.keys(args) do
-        @profession_keys ->
-          request = """
-          query {
-            searchProfession(
-              bus_addr_zip: \"#{args.bus_addr_zip}\",
-              bus_st_code: \"#{args.bus_st_code}\",
-              first_name: \"#{args.first_name}\",
-              last_name: \"#{args.last_name}\"
-            ) {
-              profession
-            }
+  def search_profession(args) when is_map(args) do
+    case Map.keys(args) do
+      @profession_keys ->
+        request = """
+        query {
+          searchProfession(
+            bus_addr_zip: \"#{args.bus_addr_zip}\",
+            bus_st_code: \"#{args.bus_st_code}\",
+            first_name: \"#{args.first_name}\",
+            last_name: \"#{args.last_name}\"
+          ) {
+            profession
           }
-          """
-          IO.puts("The Request:")
-          IO.puts(request)
-          IO.puts("\nThe Result:")
-          run(request)
-        _ ->
-          {:error, message: "Oops! Something Wrong with an args"}
-      end
-    else
-      {:error, "Please fill out all required arguments!"}
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+        IO.puts("\nThe Result:")
+        run(request)
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
     end
   end
 
-  @spec search_title(%{atom => String.t()}) :: map() | list() | error_tuple()
-  def search_title(args \\ %{title: @search_word}) do
-    if is_map(args) and !is_nil(args.title) and Map.has_key?(args, :title) do
+  @spec search_profession(any()) :: error_tuple()
+  def search_profession(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
+  @spec search_title() :: map()
+  def search_title do
+    request = """
+    query {
+      searchTitles(title: \"#{@search_word}\") {
+        id
+        content
+        title
+        inserted_at
+        updated_at
+        faq_categories {
+          id
+          title
+          inserted_at
+          updated_at
+        }
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+    IO.puts("\nThe Result:")
+    run(request)
+  end
+
+  @spec search_title(%{atom => String.t()}) :: map() | error_tuple()
+  def search_title(args) when is_map(args) do
+    if Map.has_key?(args, :title) and !is_nil(args.title) do
       request = """
       query {
         searchTitles(title: \"#{args.title}\") {
@@ -1874,11 +1949,35 @@ defmodule LetMeSee do
     end
   end
 
+  def search_title(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
+  @spec search_zipcode() :: map()
+  def search_zipcode do
+    request = """
+    query {
+      searchZipcode(
+        zipcode: 602
+      ) {
+        id
+        city
+        state
+        zipcode
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+    IO.puts("\nThe Result:")
+    run(request)
+  end
+
   @keys List.delete(@zipcode_keys, :id)
 
   @spec search_zipcode(%{atom => integer()}) :: map() | nil | error_tuple()
-  def search_zipcode(args \\ @search_zipcode) do
-    if is_map(args) and !is_nil(args.zipcode) and Map.has_key?(args, :zipcode) do
+  def search_zipcode(args) when is_map(args) do
+    if Map.has_key?(args, :zipcode) and !is_nil(args.zipcode) do
       case Map.keys(args) do
         @keys ->
           request = """
@@ -1903,6 +2002,10 @@ defmodule LetMeSee do
     else
       {:error, "Please fill out all required arguments!"}
     end
+  end
+
+  def search_zipcode(_) do
+    {:error, "Please fill out all required arguments!"}
   end
 
   def search_ptin(args) do
