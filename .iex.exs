@@ -201,9 +201,9 @@ defmodule LetMeSee do
   LetMeSee.find_faq_category(args)
 
   LetMeSee.search_profession(args)
+  LetMeSee.search_ptin(args)
   LetMeSee.search_titles(args)
   LetMeSee.search_zipcode(args)
-  LetMeSee.search_ptin(args)
 
   LetMeSee.get_code(args)
   LetMeSee.get_refresh_token(args)
@@ -216,8 +216,8 @@ defmodule LetMeSee do
   LetMeSee.picture(args)
   LetMeSee.upload_picture(args)
 
-  LetMeSee.signup(args)
   LetMeSee.signin(args)
+  LetMeSee.signup(args)
   """
 
   IO.puts(
@@ -1895,6 +1895,56 @@ defmodule LetMeSee do
     {:error, "Please fill out all required arguments!"}
   end
 
+  @spec search_ptin() :: map()
+  def search_ptin do
+    request = """
+    query {
+      searchProfession(
+        bus_addr_zip: "84074",
+        bus_st_code: "UT",
+        first_name: "LiSa",
+        last_name: "StEwArT"
+      ) {
+        profession
+      }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+    IO.puts("\nThe Result:")
+    run(request)
+  end
+
+  @spec search_ptin(%{atom => String.t()}) :: map() | error_tuple()
+  def search_ptin(args) when is_map(args) do
+    case Map.keys(args) do
+      @profession_keys ->
+        request = """
+        query {
+          searchProfession(
+            bus_addr_zip: \"#{args.bus_addr_zip}\",
+            bus_st_code: \"#{args.bus_st_code}\",
+            first_name: \"#{args.first_name}\",
+            last_name: \"#{args.last_name}\"
+          ) {
+            profession
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+        IO.puts("\nThe Result:")
+        run(request)
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
+  end
+
+  @spec search_ptin(any()) :: error_tuple()
+  def search_ptin(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
   @spec search_title() :: map()
   def search_title do
     request = """
@@ -2006,10 +2056,6 @@ defmodule LetMeSee do
 
   def search_zipcode(_) do
     {:error, "Please fill out all required arguments!"}
-  end
-
-  def search_ptin(args) do
-    args
   end
 
   @spec get_code() :: map()
@@ -2344,57 +2390,6 @@ defmodule LetMeSee do
     args
   end
 
-  @spec signup(%{atom => String.t()}) :: map() | error_tuple()
-  def signup(args) when is_map(args) do
-    case Map.keys(args) do
-      @localhost_keys ->
-        request = """
-        mutation {
-          signUp(
-            email: \"#{args.email}\",
-            password: \"#{args.password}\",
-            password_confirmation: \"#{args.password_confirmation}\",
-            provider: \"#{args.provider}\"
-          ) {
-            access_token
-            provider
-            error
-            error_description
-          }
-        }
-        """
-        IO.puts("The Request:")
-        IO.puts(request)
-        IO.puts("\nThe Result:")
-        run(request)
-      @social_keys ->
-        request = """
-        mutation {
-          signUp(
-            code: \"#{args.code}\",
-            provider: \"#{args.provider}\"
-          ) {
-            access_token
-            provider
-            error
-            error_description
-          }
-        }
-        """
-        IO.puts("The Request:")
-        IO.puts(request)
-        IO.puts("\nThe Result:")
-        run(request)
-      _ ->
-        {:error, message: "Oops! Something Wrong with an args"}
-    end
-  end
-
-  @spec signup(any()) :: error_tuple()
-  def signup(_) do
-    {:error, "Please fill out all required arguments!"}
-  end
-
   @spec signin(%{atom => String.t()}) :: map() | error_tuple()
   def signin(args) when is_map(args) do
     case Map.keys(args) do
@@ -2443,6 +2438,57 @@ defmodule LetMeSee do
 
   @spec signin(any()) :: error_tuple()
   def signin(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
+  @spec signup(%{atom => String.t()}) :: map() | error_tuple()
+  def signup(args) when is_map(args) do
+    case Map.keys(args) do
+      @localhost_keys ->
+        request = """
+        mutation {
+          signUp(
+            email: \"#{args.email}\",
+            password: \"#{args.password}\",
+            password_confirmation: \"#{args.password_confirmation}\",
+            provider: \"#{args.provider}\"
+          ) {
+            access_token
+            provider
+            error
+            error_description
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+        IO.puts("\nThe Result:")
+        run(request)
+      @social_keys ->
+        request = """
+        mutation {
+          signUp(
+            code: \"#{args.code}\",
+            provider: \"#{args.provider}\"
+          ) {
+            access_token
+            provider
+            error
+            error_description
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+        IO.puts("\nThe Result:")
+        run(request)
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
+  end
+
+  @spec signup(any()) :: error_tuple()
+  def signup(_) do
     {:error, "Please fill out all required arguments!"}
   end
 
