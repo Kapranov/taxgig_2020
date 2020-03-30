@@ -905,7 +905,7 @@ defmodule LetMeSee do
   @keys List.delete(@faq_keys, :id)
 
   @spec create_faq(%{atom => String.t()}) :: map() | error_map() | error_tuple()
-  def create_faq(args) do
+  def create_faq(args) when is_map(args) do
     case Map.keys(args) do
       @keys ->
         case Ecto.UUID.cast(args.faq_category_id) do
@@ -943,10 +943,15 @@ defmodule LetMeSee do
     end
   end
 
+  @spec create_faq(any()) :: error_tuple()
+  def create_faq(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
   @keys List.delete(@faq_category_keys, :id)
 
   @spec create_faq_category(%{atom => String.t()}) :: map() | error_map() | error_tuple()
-  def create_faq_category(args) do
+  def create_faq_category(args) when is_map(args) do
     case Map.keys(args) do
       @keys ->
         request = """
@@ -970,10 +975,15 @@ defmodule LetMeSee do
     end
   end
 
+  @spec create_faq_category(any()) :: error_tuple()
+  def create_faq_category(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
   @keys List.delete(@language_keys, :id)
 
   @spec create_language(%{atom => String.t()}) :: map() | error_map() | error_tuple()
-  def create_language(args) do
+  def create_language(args) when is_map(args) do
     case Map.keys(args) do
       @keys ->
         request = """
@@ -999,10 +1009,15 @@ defmodule LetMeSee do
     end
   end
 
+  @spec create_language(any()) :: error_tuple()
+  def create_language(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
   @keys List.delete(@press_article_keys, :id)
 
   @spec create_press_article(%{atom => String.t()}) :: map() | error_map() | error_tuple()
-  def create_press_article(args) do
+  def create_press_article(args) when is_map(args) do
     case Map.keys(args) do
       @keys ->
         request = """
@@ -1034,6 +1049,11 @@ defmodule LetMeSee do
     end
   end
 
+  @spec create_press_article(any()) :: error_tuple()
+  def create_press_article(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
   def create_ptin(args) do
     args
   end
@@ -1041,7 +1061,7 @@ defmodule LetMeSee do
   @keys List.delete(@subscriber_keys, :id)
 
   @spec create_subscriber(%{atom => String.t() | boolean()}) :: map() | error() | error_map() | error_tuple()
-  def create_subscriber(args) do
+  def create_subscriber(args) when is_map(args) do
     case Map.keys(args) do
       @keys ->
         request = """
@@ -1067,10 +1087,15 @@ defmodule LetMeSee do
     end
   end
 
+  @spec create_subscriber(any()) :: error_tuple()
+  def create_subscriber(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
   @keys List.delete(@user_keys, :id)
 
   @spec create_user(%{atom => String.t() | boolean() | integer()}) :: map() | error() | error_map() | error_tuple()
-  def create_user(args) do
+  def create_user(args) when is_map(args) do
     case Map.keys(args) do
       @keys ->
         request = """
@@ -1167,10 +1192,15 @@ defmodule LetMeSee do
     end
   end
 
+  @spec create_user(any()) :: error_tuple()
+  def create_user(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
   @keys List.delete(@vacancy_keys, :id)
 
   @spec create_vacancy(%{atom => String.t()}) :: map() | error_map() | error_tuple()
-  def create_vacancy(args) do
+  def create_vacancy(args) when is_map(args) do
     case Map.keys(args) do
       @keys ->
         request = """
@@ -1196,6 +1226,11 @@ defmodule LetMeSee do
       _ ->
         {:error, message: "Oops! Something Wrong with an args"}
     end
+  end
+
+  @spec create_vacancy(any()) :: error_tuple()
+  def create_vacancy(_) do
+    {:error, "Please fill out all required arguments!"}
   end
 
   @spec update_faq(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
@@ -1561,7 +1596,7 @@ defmodule LetMeSee do
                 updateVacancy(
                   id: \"#{binaryId}\",
                   vacancy: {
-                  content: \"#{args.content}\",
+                    content: \"#{args.content}\",
                     department: \"#{args.department}\",
                     title: \"#{args.title}\"
                   }
