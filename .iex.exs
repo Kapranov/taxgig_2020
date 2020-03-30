@@ -277,6 +277,7 @@ defmodule LetMeSee do
   @language_keys ~w(id abbr name)a |> Enum.sort
   @localhost_key ~w(email password provider)a
   @localhost_keys ~w(email password password_confirmation provider)a
+  @ptin_keys ~w(expired url)a |> Enum.sort
   @press_article_keys ~w(id author img_url preview_text title url)a |> Enum.sort
   @profession_keys ~w(bus_addr_zip bus_st_code first_name last_name)a |> Enum.sort
   @profile_keys ~w(address banner description us_zipcode_id user_id)a |> Enum.sort
@@ -1054,8 +1055,32 @@ defmodule LetMeSee do
     {:error, "Please fill out all required arguments!"}
   end
 
-  def create_ptin(args) do
-    args
+  @spec create_ptin(%{atom => String.t()}) :: map()
+  def create_ptin(args) when is_map(args) do
+    case Map.keys(args) do
+      @ptin_keys ->
+        request = """
+        mutation {
+          createPtin(
+            expired:\"#{args.expired}\",
+            url: \"#{args.url}\"
+          ) {
+            path
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+        IO.puts("\nThe Result:")
+        run(request)
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
+  end
+
+  @spec create_ptin(any()) :: error_tuple()
+  def create_ptin(_) do
+    {:error, "Please fill out all required arguments!"}
   end
 
   @keys List.delete(@subscriber_keys, :id)
@@ -1626,8 +1651,26 @@ defmodule LetMeSee do
     end
   end
 
-  def delete_dir_ptin(args) do
-    args
+  @spec delete_dir_ptin(%{atom => String.t()}) :: map() | error_tuple()
+  def delete_dir_ptin(args) when is_map(args) do
+    if Map.has_key?(args, :date) do
+      request = """
+      mutation {
+        deleteDir(date: \"#{args.date}\") { path }
+      }
+      """
+      IO.puts("The Request:")
+      IO.puts(request)
+      IO.puts("\nThe Result:")
+      run(request)
+    else
+      {:error, "Please fill out all required arguments!"}
+    end
+  end
+
+  @spec delete_dir_ptin(any()) :: error_tuple()
+  def delete_dir_ptin(_) do
+    {:error, "Please fill out all required arguments!"}
   end
 
   @spec delete_faq(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
@@ -1743,7 +1786,17 @@ defmodule LetMeSee do
     end
   end
 
-  def delete_ptin() do
+  @spec delete_ptin() :: map()
+  def delete_ptin do
+    request = """
+    mutation {
+      deletePtin() { ptin }
+    }
+    """
+    IO.puts("The Request:")
+    IO.puts(request)
+    IO.puts("\nThe Result:")
+    run(request)
   end
 
   @spec delete_subscriber(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
