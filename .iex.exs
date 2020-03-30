@@ -277,6 +277,7 @@ defmodule LetMeSee do
   @language_keys ~w(id abbr name)a |> Enum.sort
   @localhost_key ~w(email password provider)a
   @localhost_keys ~w(email password password_confirmation provider)a
+  @picture_keys ~w(alt name file profile_id)a |> Enum.sort
   @ptin_keys ~w(expired url)a |> Enum.sort
   @press_article_keys ~w(id author img_url preview_text title url)a |> Enum.sort
   @profession_keys ~w(bus_addr_zip bus_st_code first_name last_name)a |> Enum.sort
@@ -2471,12 +2472,71 @@ defmodule LetMeSee do
     {:error, "Please fill out all required arguments!"}
   end
 
-  def picture(args) do
-    args
+  @spec picture(%{atom => String.t()}) :: map()
+  def picture(args) when is_map(args) do
+    if Map.has_key?(args, :id) and !is_nil(args.id) do
+      request = """
+      query {
+        picture(id: \"#{args.id}\") {
+          id
+          alt
+          content_type
+          name
+          size
+          url
+          inserted_at
+          updated_at
+        }
+      }
+      """
+      IO.puts("The Request:")
+      IO.puts(request)
+      IO.puts("\nThe Result:")
+      run(request)
+    else
+      {:error, "Please fill out all required arguments!"}
+    end
   end
 
-  def upload_picture(args) do
-    args
+  @spec picture(any()) :: error_tuple()
+  def picture(_) do
+    {:error, "Please fill out all required arguments!"}
+  end
+
+  def upload_picture(args) when is_map(args) do
+    case Map.keys(args) do
+      @picture_keys ->
+        request = """
+        mutation {
+          uploadPicture(
+            alt: \"#{args.alt}\",
+            name: \"#{args.name}\",
+            file: \"#{args.file}\",
+            profileId: \"#{args.profile_id}\"
+          ) {
+            id
+            alt
+            content_type
+            name
+            size
+            url
+            inserted_at
+            updated_at
+          }
+        }
+        """
+        IO.puts("The Request:")
+        IO.puts(request)
+        IO.puts("\nThe Result:")
+        run(request)
+      _ ->
+        {:error, message: "Oops! Something Wrong with an args"}
+    end
+  end
+
+  @spec upload_picture(any()) :: error_tuple()
+  def upload_picture(_) do
+    {:error, "Please fill out all required arguments!"}
   end
 
   @spec signin(%{atom => String.t()}) :: map() | error_tuple()
