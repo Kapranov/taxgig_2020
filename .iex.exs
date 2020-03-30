@@ -1414,6 +1414,7 @@ defmodule LetMeSee do
               mutation {
                 updateProfile(
                   id: \"#{binaryId}\",
+                  logo: {},
                   profile: {
                     address: \"#{args.address}\",
                     banner: \"#{args.banner}\",

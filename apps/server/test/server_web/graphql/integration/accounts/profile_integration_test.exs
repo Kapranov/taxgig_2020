@@ -577,8 +577,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             address: "updated text",
             banner: "updated text",
             description: "updated text",
-            us_zipcodeId: \"#{zipcode.id}\",
-            userId: \"#{struct.user_id}\"
+            us_zipcodeId: \"#{zipcode.id}\"
           },
         ) {
           address
@@ -776,7 +775,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           $banner: String!,
           $description: String!,
           $us_zipcodeId: String!,
-          $userId: String!,
           $input: PictureInput
         ) {
         updateProfile(
@@ -788,8 +786,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             address: $address,
             banner: $banner,
             description: $description,
-            us_zipcodeId: $us_zipcodeId,
-            userId: $userId
+            us_zipcodeId: $us_zipcodeId
           },
         ) {
           address
@@ -832,7 +829,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
         "banner" => "updated text",
         "description" => "updated text",
         "us_zipcodeId" => zipcode.id,
-        "userId" => struct.user_id,
         "picture" => %{
           "alt" => logo.alt,
           "file" => logo.file,

@@ -872,7 +872,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
           password_hash: "$argon2id$v=19$m=131072,t=8,p=4$UXqzl/WwvwNsP/f95t2Tew$FGIeOOerDnGEVa8R79xxmCXHJ1nkSnSm/am58ng0A8s"
         )
       Argon2.verify_pass(struct.password, "$argon2id$v=19$m=131072,t=8,p=4$UXqzl/WwvwNsP/f95t2Tew$FGIeOOerDnGEVa8R79xxmCXHJ1nkSnSm/am58ng0A8s")
-      args = %{provider: "localhost", email: struct.email, password: "qwerty"}
+      args = %{provider: "localhost", email: struct.email, password: "qwerty", password_confirmation: "qwerty"}
       {:ok, data} = UserResolver.signin(%{}, args, %{})
       assert %{
         access_token: access_token,

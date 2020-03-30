@@ -717,9 +717,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                           provider: args[:provider]
                         }}
                     {:ok, user} ->
-                      with token <- generate_token(user) do
+                      if {:ok, user} == Argon2.check_pass(user, args[:password_confirmation]) do
+                        with token <- generate_token(user) do
+                          {:ok, %{
+                              access_token: token,
+                              provider: args[:provider]
+                            }}
+                        end
+                      else
                         {:ok, %{
-                            access_token: token,
+                            error: @error_password,
+                            error_description: "Your password is not correct!",
                             provider: args[:provider]
                           }}
                       end
