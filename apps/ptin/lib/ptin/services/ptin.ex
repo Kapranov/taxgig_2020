@@ -31,7 +31,7 @@ defmodule Ptin.Services.Ptin do
     field :bus_st_code, :string, null: false
     field :first_name, :string, null: false
     field :last_name, :string, null: false
-    field :profession, :string, null: false
+    field :profession, :string, null: true
   end
 
   @doc """

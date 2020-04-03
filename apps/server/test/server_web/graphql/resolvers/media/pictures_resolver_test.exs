@@ -75,7 +75,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
 
       assert uploaded.content_type == "image/png"
       assert uploaded.name         == picture.name
-      assert uploaded.size         == 10097
+      assert uploaded.size         == 4002
       assert uploaded.url          =~ ServerWeb.Endpoint.url()
     end
 

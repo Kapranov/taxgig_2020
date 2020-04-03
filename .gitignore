@@ -4,6 +4,11 @@
 /doc/dist/*
 /doc/.build
 
+uploads/*.gif
+uploads/*.jpg
+uploads/*.pdf
+uploads/*.png
+
 /.fetch
 erl_crash.dump
 *.ez

@@ -11,6 +11,7 @@ defmodule Server.MixProject do
       lockfile: "../../mix.lock",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
+      releases: releases(),
       compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       deps: deps()
@@ -20,12 +21,23 @@ defmodule Server.MixProject do
   def application do
     [
       mod: {Server.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools],
+      included_applications: [:ex_syslogger]
     ]
   end
 
+  defp elixirc_paths(:benchmark), do: ["lib", "benchmarks"]
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
+
+  defp releases do
+    [
+      server: [
+        include_executables_for: [:unix],
+        applications: [ex_syslogger: :load, syslog: :load]
+      ]
+    ]
+  end
 
   defp deps do
     [
@@ -36,10 +48,12 @@ defmodule Server.MixProject do
       {:absinthe_plug, "~> 1.4", override: true},
       {:absinthe_relay, "~> 1.4", override: true},
       {:argon2_elixir, "~> 2.2"},
+      {:benchee, "~> 1.0"},
       {:cors_plug, "~> 2.0"},
       {:dataloader, "~> 1.0"},
       {:ex_machina, "~> 2.4"},
       {:ex_spec, "~> 2.0", only: [:test]},
+      {:ex_syslogger, "~> 1.5"},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:faker, "~> 0.13", only: [:dev, :test]},
       {:httpoison, "~> 1.6"},
@@ -54,7 +68,8 @@ defmodule Server.MixProject do
       {:blockscore, in_umbrella: true},
       {:core, in_umbrella: true},
       {:mailings, in_umbrella: true},
-      {:ptin, in_umbrella: true}
+      {:ptin, in_umbrella: true},
+      {:restarter, path: "./restarter"}
     ]
   end
 end

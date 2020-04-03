@@ -80,11 +80,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
       %Picture{id: id, file: file} ->
         {:ok,
           %{
-            name: file.name,
-            url: file.url,
             id: id,
             content_type: file.content_type,
-            size: file.size
+            name: file.name,
+            size: file.size,
+            url: file.url,
+            inserted_at: file.inserted_at,
+            updated_at: file.updated_at
           }}
         _error ->
           {:error, "Picture with ID #{picture_id} was not found"}

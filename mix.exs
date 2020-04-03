@@ -13,7 +13,7 @@ defmodule TaxgigEx.MixProject do
       deps: deps(),
       description: description(),
       docs: docs(),
-      elixirc_options: [warnings_as_errors: true],
+      elixirc_options: [warnings_as_errors: warnings_as_errors(Mix.env())],
       homepage_url: "https://api.taxgig.com/",
       name: "Taxgig",
       preferred_cli_env: preferred_cli_env(),
@@ -21,6 +21,7 @@ defmodule TaxgigEx.MixProject do
       source_url: "https://gitlab.com/taxgig/taxgig_ex/tree/master",
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: ["coveralls.html": :test],
       updated: update_version(@version),
       version: version(@version)
     ]
@@ -40,6 +41,8 @@ defmodule TaxgigEx.MixProject do
       "ecto.migrate.ptin": ["ecto.migrate -r Ptin.Repo", "ecto.dump -r Ptin.Repo",],
       "ecto.create.core": ["cmd --app core mix ecto.create -r Core.Repo"],
       "ecto.create.ptin": ["cmd --app ptin mix ecto.create -r Ptin.Repo"],
+      "benchmark.reset.core": ["ecto.drop -r Core.Repo", "ecto.create -r Core.Repo", "ecto.migrate -r Core.Repo"],
+      "benchmark.reset.ptin": ["ecto.drop -r Ptin.Repo", "ecto.create -r Ptin.Repo", "ecto.migrate -r Ptin.Repo"],
       "test.core": ["ecto.drop -r Core.Repo", "ecto.create --quiet -r Core.Repo", "ecto.migrate -r Core.Repo"],
       "test.ptin": ["ecto.drop -r Ptin.Repo", "ecto.create --quiet -r Ptin.Repo", "ecto.migrate -r Ptin.Repo"],
       "test.reset.core": ["ecto.drop -r Core.Repo", "ecto.create -r Core.Repo", "ecto.migrate -r Core.Repo"],
@@ -92,9 +95,32 @@ defmodule TaxgigEx.MixProject do
   end
 
   defp releases do
+    [
+      taxgig_ex: [
+        include_executables_for: [:unix],
+        steps: [:assemble, &copy_files/1, &copy_nginx_config/1]
+      ]
+    ]
   end
 
-  def update_version(_) do
+  def copy_files(%{path: target_path} = release) do
+    File.cp_r!("./uploads", target_path)
+    release
+  end
+
+  def copy_nginx_config(%{path: target_path} = release) do
+    File.cp!(
+      "./doc/taxgig.nginx",
+      Path.join([target_path, "doc", "taxgig.nginx"])
+    )
+
+    release
+  end
+
+  defp warnings_as_errors(:prod), do: false
+  defp warnings_as_errors(_), do: true
+
+  defp update_version(_) do
     contents = [
       version(@version),
       get_commit_sha(),

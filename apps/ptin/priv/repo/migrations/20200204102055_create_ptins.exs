@@ -8,7 +8,7 @@ defmodule Ptin.Repo.Migrations.CreatePtins do
       add :bus_st_code, :string, null: false
       add :first_name, :string, null: false
       add :last_name, :string, null: false
-      add :profession, :string, null: false
+      add :profession, :string, null: true
     end
   end
 end

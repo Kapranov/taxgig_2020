@@ -15,6 +15,7 @@ defmodule ServerWeb.Router do
   pipeline :api do
     plug Context
     plug :accepts, ["json"]
+    plug :inspect_conn, []
   end
 
   scope "/api", ServerWeb do
@@ -35,5 +36,16 @@ defmodule ServerWeb.Router do
     end
 
     forward "/api", Plug, schema: Schema
+  end
+
+  def inspect_conn(conn, _) do
+    "\n" |> IO.inspect()
+    IO.inspect("#{inspect(conn.params)}")
+    conn.request_path |> IO.inspect(label: :path)
+    conn.params["operationName"] |> IO.inspect(label: :operationName)
+    :io.format("~nquery: ~n~s~n", [conn.params["query"]])
+    conn.params["variables"] |> IO.inspect(label: :variables)
+
+    conn
   end
 end

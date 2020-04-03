@@ -14,13 +14,12 @@ defmodule ServerWeb.GraphQL.Schemas.Media.PictureTypes do
 
   @desc "A picture"
   object :picture do
-    field :id, :string, description: "The picture's ID"
-    field :alt, :string, description: "The picture's alternative text"
-    field :content_type, :string, description: "The picture's detected content type"
-    field :name, :string, description: "The picture's name"
-    field :size, :integer, description: "The picture's size"
-    field :url, :string, description: "The picture's full URL"
-    field :profile, :string, resolve: dataloader(Data)
+    field :id, non_null(:string), description: "The picture's ID"
+    field :content_type, non_null(:string), description: "The picture's detected content type"
+    field :name, non_null(:string), description: "The picture's name"
+    field :size, non_null(:integer), description: "The picture's size"
+    field :url, non_null(:string), description: "The picture's full URL"
+    field :profile, non_null(:string), resolve: dataloader(Data)
     field :inserted_at, non_null(:datetime)
     field :updated_at, non_null(:datetime)
   end

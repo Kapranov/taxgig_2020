@@ -27,6 +27,7 @@ defmodule ServerWeb.Endpoint do
     case Mix.env() do
       :prod -> ["https://api.taxgig.com"]
       :dev -> ["http://" <> host <> ":" <> port]
+      :benchmark -> ["http://" <> host <> ":" <> port]
       _ -> false
     end
 
@@ -46,6 +47,7 @@ defmodule ServerWeb.Endpoint do
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
 
+  plug CORSPlug
   plug Router
 
   @doc """

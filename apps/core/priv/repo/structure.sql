@@ -83,6 +83,19 @@ CREATE TABLE public.languages (
 
 
 --
+-- Name: pictures; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE public.pictures (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    file jsonb,
+    profile_id uuid NOT NULL,
+    inserted_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: press_articles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -229,6 +242,14 @@ ALTER TABLE ONLY public.languages
 
 
 --
+-- Name: pictures_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY public.pictures
+    ADD CONSTRAINT pictures_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: press_articles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -241,7 +262,7 @@ ALTER TABLE ONLY public.press_articles
 --
 
 ALTER TABLE ONLY public.profiles
-    ADD CONSTRAINT profiles_pkey PRIMARY KEY (id, user_id);
+    ADD CONSTRAINT profiles_pkey PRIMARY KEY (id);
 
 
 --
@@ -314,6 +335,13 @@ CREATE UNIQUE INDEX languages_name_index ON public.languages USING btree (name);
 
 
 --
+-- Name: pictures_profile_id_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX pictures_profile_id_index ON public.pictures USING btree (profile_id);
+
+
+--
 -- Name: profiles_user_id_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -364,6 +392,14 @@ ALTER TABLE ONLY public.faqs
 
 
 --
+-- Name: pictures_profile_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pictures
+    ADD CONSTRAINT pictures_profile_id_fkey FOREIGN KEY (profile_id) REFERENCES public.profiles(user_id) ON DELETE CASCADE;
+
+
+--
 -- Name: profiles_us_zipcode_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -399,5 +435,5 @@ ALTER TABLE ONLY public.users_languages
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO public."schema_migrations" (version) VALUES (20200122105003), (20200122105123), (20200122105355), (20200122105757), (20200122110042), (20200128082230), (20200128130133), (20200128161601), (20200129081948), (20200129180858), (20200206081607), (20200206155920);
+INSERT INTO public."schema_migrations" (version) VALUES (20200122105003), (20200122105123), (20200122105355), (20200122105757), (20200122110042), (20200128082230), (20200128130133), (20200128161601), (20200129081948), (20200129180858), (20200206081607), (20200206155920), (20200208193510);
 

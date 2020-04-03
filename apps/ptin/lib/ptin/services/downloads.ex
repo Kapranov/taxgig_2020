@@ -20,7 +20,7 @@ defmodule Ptin.Services.Downloads do
   @type result :: success_tuple | error_tuple
 
   @zip_url ~w(
-    https://www.irs.gov/pub/irs-utl/foia_utah_extract.zip
+    https://www.irs.gov/pub/irs-utl/FOIA_Extract.zip
   )s
 
   @csv_url ~w(
@@ -68,6 +68,7 @@ defmodule Ptin.Services.Downloads do
     https://www.irs.gov/pub/irs-utl/FOIA_South%20Dakota_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Tennessee_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Texas_extract.csv
+    https://www.irs.gov/pub/irs-utl/FOIA_Utah_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_US_Territories_Extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Vermont_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Virginia_extract.csv

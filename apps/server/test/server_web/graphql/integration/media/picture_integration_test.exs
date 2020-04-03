@@ -20,7 +20,6 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
       query = """
       {
         picture(id: \"#{id}\") {
-          alt
           content_type
           name
           size
@@ -46,7 +45,6 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
       query = """
       {
         picture(id: \"#{id}\") {
-          alt
           content_type
           name
           size
@@ -71,7 +69,6 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
       query = """
       {
         picture(id: \"#{id}\") {
-          alt
           content_type
           name
           size
@@ -94,7 +91,6 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
       query = """
       {
         picture(id: \"#{id}\") {
-          alt
           content_type
           name
           size
@@ -148,7 +144,7 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
 
       assert json_response(res, 200)["data"]["uploadPicture"]["name"]         == picture.name
       assert json_response(res, 200)["data"]["uploadPicture"]["content_type"] == "image/png"
-      assert json_response(res, 200)["data"]["uploadPicture"]["size"]         == 10_097
+      assert json_response(res, 200)["data"]["uploadPicture"]["size"]         == 40_02
       assert json_response(res, 200)["data"]["uploadPicture"]["url"]
     end
 
