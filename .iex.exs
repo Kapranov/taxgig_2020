@@ -221,7 +221,8 @@ defmodule LetMeSee do
   """
 
   if Mix.env == :dev do
-    IO.puts("\nAaron - This is your self from the past. Remember to reset the DB! mix ecto.reset.core and mix ecto.reset.ptin\n\n\t\tApplication started in Development Enviroment\n")
+    IO.puts "\n______________________________________________________________________________________________________________\n\nAaron - This is your self from the past. Remember to reset the DB! mix ecto.reset.core and mix ecto.reset.ptin\n______________________________________________________________________________________________________________\n"
+    IO.puts "\n\t\t\t\tApplication has started in Development ENV\n"
 
     @type t :: __MODULE__.t()
     @type action :: bitstring()
@@ -259,6 +260,13 @@ defmodule LetMeSee do
             max_complexity: non_neg_integer | :infinity
           ]
     @type run_result :: {:ok, result_t} | {:error, String.t()}
+
+    @format [
+      frames: :strokes,
+      spinner_color: IO.ANSI.magenta,
+      text: "The Request:",
+      done: [IO.ANSI.green, "✓", IO.ANSI.reset, " The Result:"],
+    ]
 
     @first_zipcode Repo.all(UsZipcode) |> List.first |> Map.get(:id)
     @last_faq Repo.all(Faq) |> List.last |> Map.get(:id)
@@ -406,9 +414,9 @@ defmodule LetMeSee do
         }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -425,9 +433,9 @@ defmodule LetMeSee do
         }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -444,9 +452,9 @@ defmodule LetMeSee do
         }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -466,9 +474,9 @@ defmodule LetMeSee do
         }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -512,9 +520,9 @@ defmodule LetMeSee do
           }
         }
         """
-        IO.puts("The Request:")
         IO.puts(request)
-        IO.puts("\nThe Result:")
+        format = Keyword.merge(@format, [frames: :braille])
+        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
         run(request, ServerWeb.GraphQL.Schema, [context: context])
       else
         {:error, "Please fill out all required arguments!"}
@@ -534,9 +542,9 @@ defmodule LetMeSee do
         }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -571,9 +579,9 @@ defmodule LetMeSee do
           }
         }
         """
-        IO.puts("The Request:")
         IO.puts(request)
-        IO.puts("\nThe Result:")
+        format = Keyword.merge(@format, [frames: :braille])
+        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
         run(request, ServerWeb.GraphQL.Schema, [context: context])
       else
         {:error, "Please fill out all required arguments!"}
@@ -594,9 +602,9 @@ defmodule LetMeSee do
         }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -622,9 +630,9 @@ defmodule LetMeSee do
               }
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -650,9 +658,9 @@ defmodule LetMeSee do
               }
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -678,9 +686,9 @@ defmodule LetMeSee do
               }
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -709,9 +717,9 @@ defmodule LetMeSee do
               }
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -762,9 +770,9 @@ defmodule LetMeSee do
               }
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request, ServerWeb.GraphQL.Schema, [context: context])
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -790,9 +798,9 @@ defmodule LetMeSee do
               }
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -835,9 +843,9 @@ defmodule LetMeSee do
               }
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request, ServerWeb.GraphQL.Schema, [context: context])
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -864,9 +872,9 @@ defmodule LetMeSee do
               }
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -891,9 +899,9 @@ defmodule LetMeSee do
               }
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -932,9 +940,9 @@ defmodule LetMeSee do
                 }
               }
               """
-              IO.puts("The Request:")
               IO.puts(request)
-              IO.puts("\nThe Result:")
+              format = Keyword.merge(@format, [frames: :braille])
+              ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
               run(request)
             :error ->
               {:error, message: "Oops! Something Wrong with Id"}
@@ -967,9 +975,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -1001,9 +1009,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -1041,9 +1049,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -1069,9 +1077,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -1103,9 +1111,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -1208,9 +1216,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -1244,9 +1252,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -1289,9 +1297,9 @@ defmodule LetMeSee do
                   }
                 }
                 """
-                IO.puts("The Request:")
                 IO.puts(request)
-                IO.puts("\nThe Result:")
+                format = Keyword.merge(@format, [frames: :braille])
+                ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
                 run(request)
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
@@ -1326,9 +1334,9 @@ defmodule LetMeSee do
                   }
                 }
                 """
-                IO.puts("The Request:")
                 IO.puts(request)
-                IO.puts("\nThe Result:")
+                format = Keyword.merge(@format, [frames: :braille])
+                ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
                 run(request)
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
@@ -1365,9 +1373,9 @@ defmodule LetMeSee do
                   }
                 }
                 """
-                IO.puts("The Request:")
                 IO.puts(request)
-                IO.puts("\nThe Result:")
+                format = Keyword.merge(@format, [frames: :braille])
+                ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
                 run(request)
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
@@ -1410,9 +1418,9 @@ defmodule LetMeSee do
                   }
                 }
                 """
-                IO.puts("The Request:")
                 IO.puts(request)
-                IO.puts("\nThe Result:")
+                format = Keyword.merge(@format, [frames: :braille])
+                ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
                 run(request)
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
@@ -1480,9 +1488,9 @@ defmodule LetMeSee do
                   }
                 }
                 """
-                IO.puts("The Request:")
                 IO.puts(request)
-                IO.puts("\nThe Result:")
+                format = Keyword.merge(@format, [frames: :braille])
+                ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
                 run(request, ServerWeb.GraphQL.Schema, [context: context, variables: variables])
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
@@ -1519,9 +1527,9 @@ defmodule LetMeSee do
                   }
                 }
                 """
-                IO.puts("The Request:")
                 IO.puts(request)
-                IO.puts("\nThe Result:")
+                format = Keyword.merge(@format, [frames: :braille])
+                ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
                 run(request)
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
@@ -1595,9 +1603,9 @@ defmodule LetMeSee do
                   }
                 }
                 """
-                IO.puts("The Request:")
                 IO.puts(request)
-                IO.puts("\nThe Result:")
+                format = Keyword.merge(@format, [frames: :braille])
+                ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
                 run(request, ServerWeb.GraphQL.Schema, [context: context, variables: variables])
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
@@ -1636,9 +1644,9 @@ defmodule LetMeSee do
                   }
                 }
                 """
-                IO.puts("The Request:")
                 IO.puts(request)
-                IO.puts("\nThe Result:")
+                format = Keyword.merge(@format, [frames: :braille])
+                ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
                 run(request)
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
@@ -1659,9 +1667,9 @@ defmodule LetMeSee do
           deleteDir(date: \"#{args.date}\") { path }
         }
         """
-        IO.puts("The Request:")
         IO.puts(request)
-        IO.puts("\nThe Result:")
+        format = Keyword.merge(@format, [frames: :braille])
+        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
         run(request)
       else
         {:error, "Please fill out all required arguments!"}
@@ -1683,9 +1691,9 @@ defmodule LetMeSee do
               deleteFaq(id: \"#{binaryId}\") {id}
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -1705,9 +1713,9 @@ defmodule LetMeSee do
               deleteFaqCategory(id: \"#{binaryId}\") {id}
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -1727,9 +1735,9 @@ defmodule LetMeSee do
               deleteLanguage(id: \"#{binaryId}\") {id}
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -1749,9 +1757,9 @@ defmodule LetMeSee do
               deletePressArticle(id: \"#{binaryId}\") {id}
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -1774,9 +1782,9 @@ defmodule LetMeSee do
               deleteProfile(id: \"#{binaryId}\") {user {id}}
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request, ServerWeb.GraphQL.Schema, [context: context, variables: variables])
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -1793,9 +1801,9 @@ defmodule LetMeSee do
         deletePtin() { ptin }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -1809,9 +1817,9 @@ defmodule LetMeSee do
               deleteSubscriber(id: \"#{binaryId}\") {id}
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -1834,9 +1842,9 @@ defmodule LetMeSee do
               deleteUser(id: \"#{binaryId}\") {id}
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request, ServerWeb.GraphQL.Schema, [context: context, variables: variables])
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -1856,9 +1864,9 @@ defmodule LetMeSee do
               deleteVacancy(id: \"#{binaryId}\") {id}
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -1888,9 +1896,9 @@ defmodule LetMeSee do
         }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -1917,9 +1925,9 @@ defmodule LetMeSee do
               }
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
@@ -1948,9 +1956,9 @@ defmodule LetMeSee do
         }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -1970,9 +1978,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -1998,9 +2006,9 @@ defmodule LetMeSee do
         }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -2020,9 +2028,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -2053,9 +2061,9 @@ defmodule LetMeSee do
         }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -2079,9 +2087,9 @@ defmodule LetMeSee do
           }
         }
         """
-        IO.puts("The Request:")
         IO.puts(request)
-        IO.puts("\nThe Result:")
+        format = Keyword.merge(@format, [frames: :braille])
+        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
         run(request)
       else
         {:error, "Please fill out all required arguments!"}
@@ -2106,9 +2114,9 @@ defmodule LetMeSee do
         }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -2131,9 +2139,9 @@ defmodule LetMeSee do
               }
             }
             """
-            IO.puts("The Request:")
             IO.puts(request)
-            IO.puts("\nThe Result:")
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           _ ->
             {:error, message: "Oops! Something Wrong with an args"}
@@ -2159,9 +2167,9 @@ defmodule LetMeSee do
         }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -2179,9 +2187,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -2213,9 +2221,9 @@ defmodule LetMeSee do
         }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -2241,9 +2249,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -2268,9 +2276,9 @@ defmodule LetMeSee do
         }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -2289,9 +2297,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -2327,9 +2335,9 @@ defmodule LetMeSee do
         }
       }
       """
-      IO.puts("The Request:")
       IO.puts(request)
-      IO.puts("\nThe Result:")
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
       run(request)
     end
 
@@ -2359,9 +2367,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -2395,9 +2403,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         @localhost_key ->
           request = """
@@ -2419,9 +2427,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -2457,9 +2465,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -2487,9 +2495,9 @@ defmodule LetMeSee do
           }
         }
         """
-        IO.puts("The Request:")
         IO.puts(request)
-        IO.puts("\nThe Result:")
+        format = Keyword.merge(@format, [frames: :braille])
+        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
         run(request)
       else
         {:error, "Please fill out all required arguments!"}
@@ -2538,9 +2546,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request, ServerWeb.GraphQL.Schema, [
             context: context,
             operation_name: "f",
@@ -2575,9 +2583,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         @social_keys ->
           request = """
@@ -2593,9 +2601,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}
@@ -2626,9 +2634,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         @social_keys ->
           request = """
@@ -2644,9 +2652,9 @@ defmodule LetMeSee do
             }
           }
           """
-          IO.puts("The Request:")
           IO.puts(request)
-          IO.puts("\nThe Result:")
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
           run(request)
         _ ->
           {:error, message: "Oops! Something Wrong with an args"}

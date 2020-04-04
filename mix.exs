@@ -61,7 +61,8 @@ defmodule TaxgigEx.MixProject do
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:excoveralls, "~> 0.12", only: [:test]},
       {:junit_formatter, "~> 3.0"},
-      {:mix_test_watch, "~> 1.0", only: [:dev], runtime: false}
+      {:mix_test_watch, "~> 1.0", only: [:dev], runtime: false},
+      {:progress_bar, "~> 2.0"}
     ]
   end
 
