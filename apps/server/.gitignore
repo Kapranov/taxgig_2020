@@ -4,6 +4,8 @@
 /doc/
 /.fetch
 
+/config/*.secret.exs
+
 erl_crash.dump
 *.ez
 server-*.tar

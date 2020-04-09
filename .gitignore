@@ -4,6 +4,8 @@
 /doc/dist/*
 /doc/.build
 
+/config/*.secret.exs
+
 uploads/*.gif
 uploads/*.jpg
 uploads/*.pdf
