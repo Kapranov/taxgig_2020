@@ -39,7 +39,7 @@ defmodule Core.Seeder.Lookup do
       |> Jason.decode!()
       |> Enum.map(fn %{"Zipcode" => zipcode, "City" => city, "State" => state} ->
         %{zipcode: zipcode, city: city, state: state}
-      end)
+      end) |> Enum.map(&Map.put(&1, :id, FlakeId.get()))
 
     decoded_zipcode2 =
       @usa_zipcodes_part2
@@ -47,7 +47,7 @@ defmodule Core.Seeder.Lookup do
       |> Jason.decode!()
       |> Enum.map(fn %{"Zipcode" => zipcode, "City" => city, "State" => state} ->
         %{zipcode: zipcode, city: city, state: state}
-      end)
+      end) |> Enum.map(&Map.put(&1, :id, FlakeId.get()))
 
     decoded_zipcode3 =
       @usa_zipcodes_part3
@@ -55,7 +55,7 @@ defmodule Core.Seeder.Lookup do
       |> Jason.decode!()
       |> Enum.map(fn %{"Zipcode" => zipcode, "City" => city, "State" => state} ->
         %{zipcode: zipcode, city: city, state: state}
-      end)
+      end) |> Enum.map(&Map.put(&1, :id, FlakeId.get()))
 
     Repo.insert_all(UsZipcode, decoded_zipcode1)
     Repo.insert_all(UsZipcode, decoded_zipcode2)

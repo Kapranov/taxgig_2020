@@ -8,6 +8,7 @@ defmodule Core.Accounts.User do
   alias Core.{
     Accounts.Profile,
     Accounts.User,
+    Config,
     Localization.Language,
     Repo
   }
@@ -116,8 +117,19 @@ defmodule Core.Accounts.User do
   """
   @spec changeset(t, %{atom => any}) :: Ecto.Changeset.t()
   def changeset(struct, attrs) do
+    bio_limit = Config.get([:instance, :user_bio_length], 25)
+    name_limit = Config.get([:instance, :user_name_length], 25)
+
+    attr =
+      attrs
+      |> truncate_if_exists(:bio, bio_limit)
+      |> truncate_if_exists(:first_name, name_limit)
+      |> truncate_if_exists(:last_name, name_limit)
+      |> truncate_if_exists(:middle_name, name_limit)
+      |> truncate_if_exists(:street, name_limit)
+
     struct
-    |> cast(attrs, @allowed_params)
+    |> cast(attr, @allowed_params)
     |> validate_required(@required_params)
     |> changeset_preload(:languages)
     |> put_assoc_nochange(:languages, parse_name(attrs))
@@ -127,7 +139,60 @@ defmodule Core.Accounts.User do
     |> update_change(:email, &String.downcase/1)
     |> unique_constraint(:email, name: :users_email_index, message: "Only one an Email Record")
     |> validate_email()
+    |> validate_length(:bio, max: bio_limit)
+    |> validate_length(:first_name, max: name_limit)
+    |> validate_length(:last_name, max: name_limit)
+    |> validate_length(:middle_name, max: name_limit)
     |> put_password_hash()
+  end
+
+  @doc "Returns status account"
+  @spec account_status(User.t()) :: Atom.t()
+  def account_status(%User{active: true}), do: :active
+  def account_status(%User{}), do: :deactivated
+
+  @spec superuser?(User.t()) :: boolean()
+  def superuser?(%User{admin_role: true}), do: true
+  def superuser?(_), do: false
+
+  @spec avatar_url(User.t(), list()) :: String.t()
+  def avatar_url(user, options \\ []) do
+    base_url = Application.get_env(:core, :base_url)
+    case user.avatar do
+      %{"url" => [%{"href" => href} | _]} -> href
+      _ -> !options[:no_default] && "#{base_url}/images/default.png"
+    end
+  end
+
+  @doc """
+  Dumps Flake Id to SQL-compatible format (16-byte UUID).
+  E.g. "9pQtDGXuq4p3VlcJEm" -> <<0, 0, 1, 110, 179, 218, 42, 92, 213, 41, 44, 227, 95, 213, 0, 0>>
+  """
+  @spec binary_id(String.t()) :: String.t()
+  def binary_id(source_id) when is_binary(source_id) do
+    with {:ok, dumped_id} <- FlakeId.Ecto.CompatType.dump(source_id) do
+      dumped_id
+    else
+      _ -> source_id
+    end
+  end
+
+  @spec binary_id([String.t()]) :: String.t()
+  def binary_id(source_ids) when is_list(source_ids) do
+    Enum.map(source_ids, &binary_id/1)
+  end
+
+  @spec binary_id(User.t()) :: String.t()
+  def binary_id(%User{} = user), do: binary_id(user.id)
+
+  @spec truncate_if_exists(map(), Atom.t(), integer()) :: map()
+  def truncate_if_exists(params, key, max_length) do
+    if Map.has_key?(params, key) and is_binary(params[key]) do
+      {value, _chopped} = String.split_at(params[key], max_length)
+      Map.put(params, key, value)
+    else
+      params
+    end
   end
 
   @spec changeset_preload(map, Keyword.t()) :: Ecto.Changeset.t()

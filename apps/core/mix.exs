@@ -41,6 +41,7 @@ defmodule Core.MixProject do
       {:ex_optimizer, "~> 0.1"},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:faker, "~> 0.13", only: [:benchmark, :dev, :test]},
+      {:flake_id, "~> 0.1"},
       {:gravity, "~> 1.0"},
       {:jason, "~> 1.0"},
       {:mogrify, "~> 0.7"},

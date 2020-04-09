@@ -31,7 +31,7 @@ defmodule Core.Landing.Faq do
 
     belongs_to :faq_categories, FaqCategory,
       foreign_key: :faq_category_id,
-      type: :binary_id,
+      type: FlakeId.Ecto.CompatType,
       references: :id
 
     timestamps()

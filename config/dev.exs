@@ -1,8 +1,14 @@
 use Mix.Config
 
-config :logger, :console, format: "[$date $time] $message\n", colors: [enabled: true], metadata: [:module, :function, :line]
+config :logger, :console,
+  format: "[$date $time] $message\n",
+  colors: [enabled: true],
+  metadata: [:module, :function, :line]
+
 config :phoenix, :plug_init_mode, :runtime
+
 config :phoenix, :stacktrace_depth, 20
+
 config :remix, escript: false, silent: true
 
 root_path = Path.expand("../config/", __DIR__)

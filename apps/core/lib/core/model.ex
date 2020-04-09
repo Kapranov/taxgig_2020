@@ -12,8 +12,8 @@ defmodule Core.Model do
 
        @name __MODULE__
 
-       @primary_key {:id, :binary_id, autogenerate: true}
-       @foreign_key_type :binary_id
+       @primary_key {:id, FlakeId.Ecto.CompatType, autogenerate: true}
+       @foreign_key_type FlakeId.Ecto.CompatType
        @timestamps_opts [type: :utc_datetime, usec: true]
 
        @spec find(String.t()) :: Ecto.Schema.t() | nil

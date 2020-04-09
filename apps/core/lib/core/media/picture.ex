@@ -35,7 +35,7 @@ defmodule Core.Media.Picture do
 
     belongs_to :profile, Profile,
       foreign_key: :profile_id,
-      type: :binary_id,
+      type: FlakeId.Ecto.CompatType,
       references: :user_id
 
     timestamps()

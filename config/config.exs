@@ -34,6 +34,8 @@ config :core, Core.Upload,
 config :core, Core.Uploaders.Local,
   uploads: "uploads"
 
+config :core, base_url: "http://localhost:4000"
+
 config :core, Core.Uploaders.S3,
   bucket: nil,
   streaming_enabled: true,
@@ -49,7 +51,13 @@ config :core, :instance,
   logo_upload_limit: 4_000_000,
   background_upload_limit: 4_000_000,
   upload_limit: 16_000_000,
-  email: "example@example.com"
+  email: "example@example.com",
+  user_bio_length: 100,
+  user_name_length: 25,
+  account_field_name_length: 512,
+  account_field_value_length: 2048,
+  external_user_synchronization: true,
+  extended_nickname_format: true
 
 config :ptin,
   base_data: "apps/ptin/priv/data",

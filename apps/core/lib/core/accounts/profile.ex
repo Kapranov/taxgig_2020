@@ -21,7 +21,7 @@ defmodule Core.Accounts.Profile do
     user_id: User.t()
   }
 
-  @primary_key {:id, :binary_id, autogenerate: false, source: :user_id}
+  @primary_key {:id, FlakeId.Ecto.CompatType, autogenerate: false, source: :user_id}
   @timestamps_opts [type: :utc_datetime, usec: true]
 
   @allowed_params ~w(
@@ -45,11 +45,11 @@ defmodule Core.Accounts.Profile do
 
     belongs_to :user, User,
       foreign_key: :user_id,
-      type: :binary_id,
+      type: FlakeId.Ecto.CompatType,
       references: :id
     belongs_to :us_zipcode, UsZipcode,
       foreign_key: :us_zipcode_id,
-      type: :binary_id,
+      type: FlakeId.Ecto.CompatType,
       references: :id
 
     timestamps()
