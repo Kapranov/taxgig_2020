@@ -34,8 +34,9 @@ defmodule ServerWeb.Provider.OauthFacebook do
 
   @spec token(String.t()) :: %{atom => String.t()}
   def token(code) when not is_nil(code) and is_bitstring(code) do
-    body = "#{@facebook_token_url}client_id=#{Application.get_env(:server, Facebook)[:client_id]}&redirect_uri=#{Application.get_env(:server, Facebook)[:redirect_uri]}&client_secret=#{Application.get_env(:server, Facebook)[:client_secret]}&code=#{code}"
+    body = "#{@facebook_token_url}client_id=#{Application.get_env(:server, Facebook)[:client_id]}&redirect_uri=#{Application.get_env(:server, Facebook)[:redirect_uri]}&client_secret=#{Application.get_env(:server, Facebook)[:client_secret]}&code=#{code}?me=id,email,gender,link,locale,name,first_name,last_name,timezone,updated_time,verified"
     @httpoison.get(body)
+    |> parse_body_response()
   end
 
   @spec token(any()) :: {:ok, %{atom => String.t()}}
@@ -89,6 +90,16 @@ defmodule ServerWeb.Provider.OauthFacebook do
     "#{@google_user_profile_url}?access_token=#{token}"
     |> @httpoison.get()
     |> parse_body_response()
+
+    # https://graph.facebook.com/2823281904434541/accounts?access_token=EAAJ3B40DJTcBAOZAd74wxMcfuwoq0MIpeTMIloG23NpQzPcXaqbFqR64O6pm21WXaPO9sSJe2YzVLJZBBQT777z6GEh5ZABYeKcbKtrQgJventYK1X9wzQkMWxiJnzCZBuJ8ed8JSQYz6LdyiwwC31Bd1cx102XG3uZBoeDd9DgZDZD
+    # https://graph.facebook.com/me?fields=email&access_token=EAAJ3B40DJTcBAOZAd74wxMcfuwoq0MIpeTMIloG23NpQzPcXaqbFqR64O6pm21WXaPO9sSJe2YzVLJZBBQT777z6GEh5ZABYeKcbKtrQgJventYK1X9wzQkMWxiJnzCZBuJ8ed8JSQYz6LdyiwwC31Bd1cx102XG3uZBoeDd9DgZDZD
+    # https://graph.facebook.com/me?fields=id,email,gender,link,locale,name,first_name,last_name,timezone,updated_time,verified&access_token=EAAJ3B40DJTcBAOZAd74wxMcfuwoq0MIpeTMIloG23NpQzPcXaqbFqR64O6pm21WXaPO9sSJe2YzVLJZBBQT777z6GEh5ZABYeKcbKtrQgJventYK1X9wzQkMWxiJnzCZBuJ8ed8JSQYz6LdyiwwC31Bd1cx102XG3uZBoeDd9DgZDZD
+    # https://graph.facebook.com/2823281904434541/picture?type=large&width=720&height=720
+    # https://graph.facebook.com/me?fields=id,email,name,first_name,last_name&access_token=token"
+    # https://graph.facebook.com/me?fields=email&access_token=${token}
+    "https://graph.facebook.com/{your-user-id}/accounts?access_token=#{token}"
+    # |> @httpoison.get()
+    # |> parse_body_response()
   end
 
   @spec user_profile(any()) :: {:ok, %{atom => any}}
