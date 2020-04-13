@@ -18,21 +18,25 @@ defmodule ServerWeb.Endpoint do
     UserSocket
   }
 
-  [val1, val2, _] = Application.get_env(:server, ServerWeb.Endpoint)[:url]
-
-  host = val1 |> elem(1)
-  port = val2 |> elem(1) |> to_string
-
-  origin =
-    case Mix.env() do
-      :prod -> ["https://api.taxgig.com"]
-      :dev -> ["http://" <> host <> ":" <> port]
-      :benchmark -> ["http://" <> host <> ":" <> port]
-      _ -> false
-    end
+#  [val1, val2, _] = Application.get_env(:server, ServerWeb.Endpoint)[:url]
+#
+#  host = val1 |> elem(1)
+#  port = val2 |> elem(1) |> to_string
+#
+#  origin =
+#    case Mix.env() do
+#      :prod -> ["https://api.taxgig.com"]
+#      :dev -> ["http://" <> host <> ":" <> port]
+#      :benchmark -> ["http://" <> host <> ":" <> port]
+#      _ -> false
+#    end
+#
+#  socket "/socket", UserSocket,
+#    websocket: [check_origin: origin],
+#    longpoll: false
 
   socket "/socket", UserSocket,
-    websocket: [check_origin: origin],
+    websocket: true,
     longpoll: false
 
   if code_reloading? do

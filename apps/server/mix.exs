@@ -69,6 +69,7 @@ defmodule Server.MixProject do
       {:core, in_umbrella: true},
       {:mailings, in_umbrella: true},
       {:ptin, in_umbrella: true},
+      {:stripe, in_umbrella: true},
       {:restarter, path: "./restarter"}
     ]
   end

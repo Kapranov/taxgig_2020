@@ -48,14 +48,14 @@ config :server, Google,
   redirect_uri: "http://axion.me:4000/graphiql"
 
 config :server, Facebook,
-  client_id: System.get_env("FACEBOOK_CLIENT_ID"),
-  client_secret: System.get_env("FACEBOOK_CLIENT_SECRET"),
-  redirect_uri: System.get_env("FACEBOOK_REDIRECT_URI")
+  client_id: "693824267691319",
+  client_secret: "250e5db3f21f6138c75f551f758a8652",
+  redirect_uri: "https://taxgig.me:4001/graphiql"
 
 config :server, Twitter,
-  client_id: System.get_env("TWITTER_CLIENT_ID"),
-  client_secret: System.get_env("TWITTER_CLIENT_ID_CLIENT_SECRET"),
-  redirect_uri: System.get_env("TWITTER_REDIRECT_URI")
+  client_id: "86o1wzfjly49rc",
+  client_secret: "DyOjOFidMtPJQIlu",
+  redirect_uri: "http://axion.me:4000/graphiql"
 
 config :server, LinkedIn,
   client_id: "860xyy244a8ocj",

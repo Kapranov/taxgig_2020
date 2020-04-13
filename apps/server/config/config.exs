@@ -1,9 +1,10 @@
 use Mix.Config
 
 config :server, ServerWeb.Endpoint,
-  url: [host: "localhost", port: 4000, ip: {127, 0, 0, 1}],
+  url: [host: "taxgig.me", ip: {127, 0, 0, 1}],
+  # url: [host: "taxgig.me", port: 4000, ip: {127, 0, 0, 1}],
   salt: "user",
-  redirect_uri: "http://taxgig.me:4000/graphiql",
+  redirect_uri: "https://taxgig.me:4001/graphiql",
   secret_key_base: "4rKBiN5BznqeClNzy1t+4LmfMH48TxlPCUT996MELKJ2t/zwrvQsPrG71vhE7vKu",
   max_age: :timer.minutes(5) / 1000,
   render_errors: [view: ServerWeb.ErrorView, accepts: ~w(json)],
