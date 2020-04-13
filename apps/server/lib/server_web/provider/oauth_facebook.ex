@@ -34,16 +34,8 @@ defmodule ServerWeb.Provider.OauthFacebook do
 
   @spec token(String.t()) :: %{atom => String.t()}
   def token(code) when not is_nil(code) and is_bitstring(code) do
-    decode = URI.decode(code)
-    body = Jason.encode!(%{
-      code: decode,
-      client_id: Application.get_env(:server, Facebook)[:client_id],
-      client_secret: Application.get_env(:server, Facebook)[:client_secret],
-      redirect_uri: Application.get_env(:server, Facebook)[:redirect_uri]
-    })
-
-    @httpoison.post(@facebook_token_url, body)
-    |> parse_body_response()
+    body = "#{@facebook_token_url}client_id=#{Application.get_env(:server, Facebook)[:client_id]}&redirect_uri=#{Application.get_env(:server, Facebook)[:redirect_uri]}&client_secret=#{Application.get_env(:server, Facebook)[:client_secret]}&code=#{code}"
+    @httpoison.get(body)
   end
 
   @spec token(any()) :: {:ok, %{atom => String.t()}}
