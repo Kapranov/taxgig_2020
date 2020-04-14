@@ -2,8 +2,6 @@ defmodule ServerWeb.Provider.OauthFacebook do
   @moduledoc """
   Minimalist Facebook OAuth Authentication.
   birthday, email, firstName, id, languages, lastName, middleName, name, profilePic
-
-  https://graph.facebook.com/oauth/client_code?client_id=&client_secret=&redirect_uri=&access_token=
   """
 
   @behaviour ServerWeb.HTTPoison.FacebookBehaviour
