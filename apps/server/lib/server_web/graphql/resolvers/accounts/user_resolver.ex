@@ -10,6 +10,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   }
 
   alias ServerWeb.Provider.{
+    OauthFacebook,
     OauthGoogle,
     OauthLinkedIn
   }
@@ -179,7 +180,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       true ->
         case args[:provider] do
           "facebook" ->
-            {:ok, %{code: :ok, provider: args[:provider]}}
+            case OauthFacebook.generate_url() do
+              nil ->
+                {:ok, %{error: @error_code, error_description: error_des(args[:provider]), provider: args[:provider]}}
+              code ->
+                {:ok, %{code: code, provider: args[:provider]}}
+            end
           "google" ->
             case OauthGoogle.generate_url() do
               nil ->
@@ -223,7 +229,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                   end
               end
             else
-              if(args[:provider] == "facebook" || args[:provider] == "twitter") do
+              if(args[:provider] == "twitter") do
                 {:ok, %{access_token: :ok, provider: args[:provider]}}
               else
                 {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
@@ -231,6 +237,20 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             end
           _ ->
             case args[:provider] do
+              "facebook" ->
+                case OauthFacebook.token(args[:code]) do
+                  {:error, data} ->
+                    %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
+                    {:ok, %{error: @error_code, error_description: msg, provider: args[:provider]}}
+                  {:ok, data} ->
+                    {:ok, %{
+                        access_token: data["access_token"],
+                        error: "#{data["error"]["message"]} #{data["error"]["code"]} #{data["error"]["type"]}",
+                        error_description: data["error_description"],
+                        expires_in: data["expires_in"],
+                        provider: args[:provider]
+                      }}
+                end
               "google" ->
                 case OauthGoogle.token(args[:code]) do
                   {:error, data} ->
@@ -279,7 +299,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       true ->
         case args[:provider] do
           "facebook" ->
-            {:ok, %{code: :ok, provider: args[:provider]}}
+            case OauthFacebook.generate_refresh_token_url(args[:token]) do
+              {:ok, data} ->
+                {:ok, %{
+                    code: data["code"],
+                    provider: args[:provider]
+                  }}
+            end
           "google" ->
             case OauthGoogle.generate_refresh_token_url() do
               nil ->
@@ -307,7 +333,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   @spec get_refresh_token(any, %{atom => any}, Absinthe.Resolution.t()) :: result() | error_map()
   def get_refresh_token(_parent, args, _resolution) do
     if required_keys(@keys, args) do
-      if (args[:provider] == "google" || args[:provider] == "linkedin") do
+      if (args[:provider] == "google" || args[:provider] == "linkedin" || args[:provider] == "facebook") do
         case args[:provider] do
           nil ->
             {:ok, %{error: @error_token, error_description: @error_token_des, provider: args[:provider]}}
@@ -355,9 +381,31 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                   }
                 }
             end
+          "facebook" ->
+            case OauthFacebook.refresh_token(args[:token]) do
+              nil ->
+                {:ok, %{error: @error_token, error_description: error_des(args[:provider]), provider: args[:provider]}}
+              {:error, data} ->
+                %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
+                {:ok, %{error: @error_token, error_description: msg, provider: args[:provider]}}
+              {:ok, data} ->
+                {:ok,
+                  %{
+                    access_token:           data["access_token"],
+                    error: "#{data["error"]["message"]} #{data["error"]["code"]} #{data["error"]["type"]}",
+                    error_description: data["error_description"],
+                    expires_in:               data["expires_in"],
+                    id_token:                   data["id_token"],
+                    provider:                    args[:provider],
+                    refresh_token:         data["refresh_token"],
+                    scope:                         data["scope"],
+                    token_type:               data["token_type"]
+                  }
+                }
+            end
         end
       else
-        if (args[:provider] == "facebook" || args[:provider] == "twitter") do
+        if (args[:provider] == "twitter") do
           {:ok, %{access_token: :ok, provider: args[:provider]}}
         else
           {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
@@ -371,7 +419,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   @spec verify_token(any, %{atom => any}, Absinthe.Resolution.t()) :: result() | error_map()
   def verify_token(_parent, args, _resolution) do
     if required_keys(@keys, args) do
-      if (args[:provider] == "google" || args[:provider] == "linkedin") do
+      if (args[:provider] == "google" || args[:provider] == "linkedin" || args[:provider] == "facebook") do
         case args[:provider] do
           "google" ->
             case OauthGoogle.verify_token(args[:token]) do
@@ -413,9 +461,27 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                     }}
                 end
             end
+          "facebook" ->
+            case OauthFacebook.verify_token(args[:token]) do
+              nil ->
+                {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
+              {:ok, data} ->
+                if is_nil(data["error"]) do
+                  {:ok, %{
+                      access_token: data["access_token"],
+                      expires_in:     data["expires_in"],
+                      provider:          args[:provider]
+                    }}
+                else
+                  {:ok, %{
+                      error: "#{data["error"]["type"]} #{data["error"]["code"]}",
+                      error_description: data["error"]["message"]
+                    }}
+                end
+            end
         end
       else
-        if (args[:provider] == "facebook" || args[:provider] == "twitter") do
+        if (args[:provider] == "twitter") do
           {:ok, %{access_token: :ok, provider: args[:provider]}}
         else
           {:ok, %{error: @error_pro, error_description: @error_pro_des, provider: args[:provider]}}
@@ -436,11 +502,56 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             provider: args[:provider]
           }}
       "facebook" ->
-        {:ok, %{
-            error: @error_pro,
-            error_description: @error_pro_des,
-            provider: args[:provider]
-          }}
+        case OauthFacebook.token(args[:code]) do
+          {:error, data} ->
+            %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
+            {:ok, %{
+                error: @error_code,
+                error_description: msg,
+                provider: args[:provider]
+              }}
+          {:ok, data} ->
+            if is_nil(data["error"]) do
+              with {:ok, profile} <- OauthFacebook.user_profile(data["access_token"]) do
+                user = User.find_by(email: profile["email"])
+                if is_nil(user) do
+                  user_params =
+                    %{
+                      avatar: profile["picture"]["data"]["url"],
+                      email:                   profile["email"],
+                      first_name:         profile["first_name"],
+                      last_name:           profile["last_name"],
+                      provider:                 args[:provider],
+                      password:                        "qwerty",
+                      password_confirmation:           "qwerty"
+                    }
+                  case Accounts.create_user(user_params) do
+                    {:ok, created} ->
+                      with data <- generate_token(created) do
+                        {:ok, %{
+                            access_token: data,
+                            provider: args[:provider]
+                          }}
+                      end
+                    {:error, %Ecto.Changeset{}} ->
+                      {:error, %Ecto.Changeset{}}
+                  end
+                else
+                  {:ok, %{
+                      error: @error_email,
+                      error_description: "Has already been taken",
+                      provider: args[:provider]
+                    }}
+                end
+              end
+            else
+              {:ok, %{
+                  error: "#{data["error"]["type"]} #{data["error"]["code"]}",
+                  error_description: "#{data["error"]["message"]}",
+                  provider: args[:provider]
+                }}
+            end
+        end
       "google" ->
         case OauthGoogle.token(args[:code]) do
           {:error, data} ->
@@ -584,11 +695,50 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             provider: args[:provider]
           }}
       "facebook" ->
-        {:ok, %{
-            error: @error_pro,
-            error_description: @error_pro_des,
-            provider: args[:provider]
-          }}
+        case OauthFacebook.token(args[:code]) do
+          {:error, data} ->
+            %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
+            {:ok, %{
+                error: @error_code,
+                error_description: msg,
+                provider: args[:provider]
+              }}
+          {:ok, data} ->
+            if is_nil(data["error"]) do
+              {:ok, profile} = OauthFacebook.user_profile(data["access_token"])
+              user = User.find_by(email: profile["email"])
+              if is_nil(user) do
+                {:ok, %{
+                    error: @error_email,
+                    error_description: @error_email_des,
+                    provider: args[:provider]
+                  }}
+              else
+                {:ok, verifed} = OauthFacebook.verify_token(data["access_token"])
+                case verifed["expires_in"] > 0 do
+                  true ->
+                    with token <- generate_token(user) do
+                      {:ok, %{
+                          access_token: token,
+                          provider: args[:provider]
+                        }}
+                    end
+                  false ->
+                    {:ok, %{
+                        error: @error_request,
+                        error_description: @error_request_des,
+                        provider: args[:provider]
+                      }}
+                end
+              end
+            else
+              {:ok, %{
+                  error: "#{data["error"]["type"]}, #{data["error"]["code"]}",
+                  error_description: data["error"]["message"],
+                  provider: args[:provider]
+                }}
+            end
+        end
       "linkedin" ->
         case OauthLinkedIn.token(args[:code]) do
           {:error, data} ->

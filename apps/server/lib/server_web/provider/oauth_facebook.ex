@@ -24,8 +24,8 @@ defmodule ServerWeb.Provider.OauthFacebook do
     "#{@facebook_auth_url}client_id=#{client_id}&client_secret=#{client_secret}&redirect_uri=#{redirect_uri}"
   end
 
-  @spec code(String.t()) :: %{atom => any}
-  def code(token) when not is_nil(token) and is_bitstring(token) do
+  @spec generate_refresh_token_url(String.t()) :: {:ok, %{atom() => String.t()}}
+  def generate_refresh_token_url(token) when not is_nil(token) and is_bitstring(token) do
     client_id = Application.get_env(:server, Facebook)[:client_id]
     client_secret = Application.get_env(:server, Facebook)[:client_secret]
     redirect_uri = Application.get_env(:server, Facebook)[:redirect_uri]
@@ -35,13 +35,12 @@ defmodule ServerWeb.Provider.OauthFacebook do
     |> parse_body_response()
   end
 
-  @spec code(any()) :: {:ok, %{atom => String.t()}}
-  def code(_) do
+  @spec generate_refresh_token_url(any()) :: {:ok, %{atom => String.t()}}
+  def generate_refresh_token_url(_) do
     {:ok, %{
-        "error" => "invalid_code",
-        "error_description" => "Invalid OAuth access token."
-      }
-    }
+        "error" => "invalid_request",
+        "error_description" => "Unable to retrieve access token: authorization code not found"
+      }}
   end
 
   @spec token(String.t()) :: %{atom => String.t()}
