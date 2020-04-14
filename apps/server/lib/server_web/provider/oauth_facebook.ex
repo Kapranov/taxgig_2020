@@ -48,8 +48,12 @@ defmodule ServerWeb.Provider.OauthFacebook do
 
   @spec token(String.t()) :: %{atom => String.t()}
   def token(code) when not is_nil(code) and is_bitstring(code) do
-    body = "#{@facebook_token_url}client_id=#{Application.get_env(:server, Facebook)[:client_id]}&redirect_uri=#{Application.get_env(:server, Facebook)[:redirect_uri]}&client_secret=#{Application.get_env(:server, Facebook)[:client_secret]}&code=#{code}"
-    @httpoison.get(body)
+    client_id = Application.get_env(:server, Facebook)[:client_id]
+    client_secret = Application.get_env(:server, Facebook)[:client_secret]
+    redirect_uri = Application.get_env(:server, Facebook)[:redirect_uri]
+
+    "#{@facebook_token_url}client_id=#{client_id}&redirect_uri=#{redirect_uri}&client_secret=#{client_secret}&code=#{code}"
+    |> @httpoison.get()
     |> parse_body_response()
   end
 
