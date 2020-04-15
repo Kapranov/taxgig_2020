@@ -563,6 +563,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                       email:                   profile["email"],
                       first_name:         profile["first_name"],
                       last_name:           profile["last_name"],
+                      middle_name:       profile["middle_name"],
                       provider:                 args[:provider],
                       password:                        "qwerty",
                       password_confirmation:           "qwerty"
