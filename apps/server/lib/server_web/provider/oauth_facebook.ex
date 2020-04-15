@@ -20,8 +20,9 @@ defmodule ServerWeb.Provider.OauthFacebook do
     client_id = Application.get_env(:server, Facebook)[:client_id]
     client_secret = Application.get_env(:server, Facebook)[:client_secret]
     redirect_uri = Application.get_env(:server, Facebook)[:redirect_uri]
+    scope = Application.get_env(:server, Facebook)[:scope]
 
-    "#{@facebook_auth_url}client_id=#{client_id}&client_secret=#{client_secret}&redirect_uri=#{redirect_uri}"
+    "#{@facebook_auth_url}client_id=#{client_id}&client_secret=#{client_secret}&redirect_uri=#{redirect_uri}&scope=#{scope}"
   end
 
   @spec generate_refresh_token_url(String.t()) :: {:ok, %{atom() => String.t()}}
@@ -48,9 +49,8 @@ defmodule ServerWeb.Provider.OauthFacebook do
     client_id = Application.get_env(:server, Facebook)[:client_id]
     client_secret = Application.get_env(:server, Facebook)[:client_secret]
     redirect_uri = Application.get_env(:server, Facebook)[:redirect_uri]
-    scope = Application.get_env(:server, Facebook)[:scope]
 
-    "#{@facebook_token_url}client_id=#{client_id}&redirect_uri=#{redirect_uri}&client_secret=#{client_secret}&code=#{code}&scope=#{scope}"
+    "#{@facebook_token_url}client_id=#{client_id}&redirect_uri=#{redirect_uri}&client_secret=#{client_secret}&code=#{code}"
     |> @httpoison.get()
     |> parse_body_response()
   end
