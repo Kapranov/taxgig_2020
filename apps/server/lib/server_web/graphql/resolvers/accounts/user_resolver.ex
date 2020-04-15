@@ -555,43 +555,51 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
           {:ok, data} ->
             if is_nil(data["error"]) do
               with {:ok, profile} <- OauthFacebook.user_profile(data["access_token"]) do
-                user = User.find_by(email: profile["email"])
-                if is_nil(user) do
-                  user_params =
-                    %{
-                      avatar: profile["picture"]["data"]["url"],
-                      email:                   profile["email"],
-                      first_name:         profile["first_name"],
-                      last_name:           profile["last_name"],
-                      middle_name:       profile["middle_name"],
-                      provider:                 args[:provider],
-                      password:                        "qwerty",
-                      password_confirmation:           "qwerty"
-                    }
-                  case Accounts.create_user(user_params) do
-                    {:ok, created} ->
-                      with data <- generate_token(created) do
-                        {:ok, %{
-                            access_token: data,
-                            provider: args[:provider]
-                          }}
-                      end
-                    {:error, %Ecto.Changeset{}} ->
-                      {:error, %Ecto.Changeset{}}
-                  end
+                if is_nil(profile["email"]) do
+                  {:ok, %{
+                      error: @error_email,
+                      error_description: "Email dosn't exist in Facebook profile",
+                      provider: args[:provider]
+                    }}
                 else
-                  if is_map(data["error"]) do
-                    {:ok, %{
-                        error: "#{data["error"]["type"]}, #{data["error"]["code"]}",
-                        error_description: data["error"]["message"],
-                        provider: args[:provider]
-                      }}
+                  user = User.find_by(email: profile["email"])
+                  if is_nil(user) do
+                    user_params =
+                      %{
+                        avatar: profile["picture"]["data"]["url"],
+                        email:                   profile["email"],
+                        first_name:         profile["first_name"],
+                        last_name:           profile["last_name"],
+                        middle_name:       profile["middle_name"],
+                        provider:                 args[:provider],
+                        password:                        "qwerty",
+                        password_confirmation:           "qwerty"
+                      }
+                    case Accounts.create_user(user_params) do
+                      {:ok, created} ->
+                        with data <- generate_token(created) do
+                          {:ok, %{
+                              access_token: data,
+                              provider: args[:provider]
+                            }}
+                        end
+                      {:error, %Ecto.Changeset{}} ->
+                        {:error, %Ecto.Changeset{}}
+                    end
                   else
-                    {:ok, %{
-                        error: @error_email,
-                        error_description: "Has already been taken",
-                        provider: args[:provider]
-                      }}
+                    if is_map(data["error"]) do
+                      {:ok, %{
+                          error: "#{data["error"]["type"]}, #{data["error"]["code"]}",
+                          error_description: data["error"]["message"],
+                          provider: args[:provider]
+                        }}
+                    else
+                      {:ok, %{
+                          error: @error_email,
+                          error_description: "Has already been taken",
+                          provider: args[:provider]
+                        }}
+                    end
                   end
                 end
               end
