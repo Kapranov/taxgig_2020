@@ -17,14 +17,19 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
   @google_email_wrong   "https://www.googleapis.com/userinfo/v2/me?access_token=#{@token_wrong}"
   @google_profile_ok    "https://www.googleapis.com/oauth2/v3/userinfo?access_token=#{@token_ok}"
   @google_profile_wrong "https://www.googleapis.com/oauth2/v3/userinfo?access_token=#{@token_wrong}"
+  @google_token         "https://oauth2.googleapis.com/token"
   @google_verify_ok     "https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=#{@token_ok}"
   @google_verify_wrong  "https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=#{@token_wrong}"
-  @google_token         "https://oauth2.googleapis.com/token"
 
   @linkedin_email   "https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))"
   @linkedin_profile "https://api.linkedin.com/v2/me?projection=(localizedFirstName,localizedLastName,profilePicture(displayImage~:playableStreams))"
   @linkedin_refresh "https://www.linkedin.com/oauth/v2/accessToken"
   @linkedin_token   "https://api.linkedin.com/v2/me?oauth2_access_token=#{@token_wrong}"
+
+  @facebook_profile "https://graph.facebook.com/me?"
+  @facebook_refresh "https://graph.facebook.com/oauth/client_code?"
+  @facebook_token   "https://graph.facebook.com/oauth/access_token?"
+  @facebook_verify  "https://graph.facebook.com/oauth/access_token_info?"
 
   @body1 URI.encode_query(%{
     client_id: Application.get_env(:server, LinkedIn)[:client_id],
@@ -109,6 +114,18 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
 
   @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
   def get(@google_token), do: {:ok, %{body: Jason.encode!(%{email: "kapranov.lugatex@gmail.com"})}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
+  def get(@facebook_profile), do: {:ok, %{body: Jason.encode!(%{email: "lugatex@yahoo.com"})}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
+  def get(@facebook_refresh), do: {:ok, %{body: Jason.encode!(%{email: "lugatex@yahoo.com"})}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
+  def get(@facebook_token), do: {:ok, %{body: Jason.encode!(%{email: "lugatex@yahoo.com"})}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
+  def get(@facebook_verify), do: {:ok, %{body: Jason.encode!(%{email: "lugatex@yahoo.com"})}}
 
   @spec get(any()) :: {:ok, %{atom => %{atom => any}}}
   def get(_url), do: {:ok, %{body: Jason.encode!(google_verify_ok())}}
