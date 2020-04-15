@@ -16,4 +16,5 @@ erl_crash.dump
 *.ez
 
 DAXX.md
+VERSION
 mix.lock
