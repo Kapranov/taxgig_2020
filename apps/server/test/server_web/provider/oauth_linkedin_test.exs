@@ -6,7 +6,7 @@ defmodule ServerWeb.Provider.OauthLinkedInTest do
   test "get login url" do
     linkedin_auth_url = "https://www.linkedin.com/oauth/v2/authorization?response_type=code"
     client_id = Application.get_env(:server, :client_id, 123)
-    redirect_uri = Application.get_env(:community, :redirect_uri, "http://axion.me:4000/graphiql")
+    redirect_uri = Application.get_env(:community, :redirect_uri, "https://taxgig.me:4001/graphiql")
     state = Application.get_env(:server, :state, "pureagency")
     scope = Application.get_env(:server, :scope, "r_liteprofile%20r_emailaddress%20")
 

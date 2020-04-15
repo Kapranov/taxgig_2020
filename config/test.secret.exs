@@ -50,7 +50,7 @@ config :server, Google,
 config :server, Facebook,
   client_id: "693824267691319",
   client_secret: "250e5db3f21f6138c75f551f758a8652",
-  redirect_uri: "http://axion.me:4000/graphiql"
+  redirect_uri: "https://taxgig.me:4001/graphiql"
 
 config :server, Twitter,
   client_id: "86o1wzfjly49rc",

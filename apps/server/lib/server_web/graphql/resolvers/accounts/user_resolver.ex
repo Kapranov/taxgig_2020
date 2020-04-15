@@ -239,17 +239,28 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             case args[:provider] do
               "facebook" ->
                 case OauthFacebook.token(args[:code]) do
-                  {:error, data} ->
-                    %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
-                    {:ok, %{error: @error_code, error_description: msg, provider: args[:provider]}}
                   {:ok, data} ->
-                    {:ok, %{
-                        access_token: data["access_token"],
-                        error: "#{data["error"]["message"]} #{data["error"]["code"]} #{data["error"]["type"]}",
-                        error_description: data["error_description"],
-                        expires_in: data["expires_in"],
-                        provider: args[:provider]
-                      }}
+                    if is_nil(data["error"]) do
+                      {:ok, %{
+                          access_token: data["access_token"],
+                          expires_in: data["expires_in"],
+                          provider: args[:provider]
+                        }}
+                    else
+                      if is_map(data["error"]) do
+                        {:ok, %{
+                            error: "#{data["error"]["type"]}, #{data["error"]["code"]}",
+                            error_description: data["error"]["message"],
+                            provider: args[:provider]
+                          }}
+                      else
+                        {:ok, %{
+                            error: data["error"],
+                            error_description: data["error_description"],
+                            provider: args[:provider]
+                          }}
+                      end
+                    end
                 end
               "google" ->
                 case OauthGoogle.token(args[:code]) do
@@ -301,10 +312,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
           "facebook" ->
             case OauthFacebook.generate_refresh_token_url(args[:token]) do
               {:ok, data} ->
-                {:ok, %{
-                    code: data["code"],
-                    provider: args[:provider]
-                  }}
+                if is_nil(data["error"]) do
+                  {:ok, %{
+                      code: data["code"],
+                      provider: args[:provider]
+                    }}
+                else
+                  if is_map(data["error"]) do
+                    {:ok, %{
+                        error: "#{data["error"]["type"]}, #{data["error"]["code"]}",
+                        error_description: data["error"]["message"],
+                        provider: args[:provider]
+                      }}
+                  else
+                    {:ok, %{
+                        error: data["error"],
+                        error_description: data["error_description"],
+                        provider: args[:provider]
+                      }}
+                  end
+                end
             end
           "google" ->
             case OauthGoogle.generate_refresh_token_url() do
@@ -385,23 +412,36 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             case OauthFacebook.refresh_token(args[:token]) do
               nil ->
                 {:ok, %{error: @error_token, error_description: error_des(args[:provider]), provider: args[:provider]}}
-              {:error, data} ->
-                %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
-                {:ok, %{error: @error_token, error_description: msg, provider: args[:provider]}}
               {:ok, data} ->
-                {:ok,
-                  %{
-                    access_token:           data["access_token"],
-                    error: "#{data["error"]["message"]} #{data["error"]["code"]} #{data["error"]["type"]}",
-                    error_description: data["error_description"],
-                    expires_in:               data["expires_in"],
-                    id_token:                   data["id_token"],
-                    provider:                    args[:provider],
-                    refresh_token:         data["refresh_token"],
-                    scope:                         data["scope"],
-                    token_type:               data["token_type"]
+                if is_nil(data["error"]) do
+                  {:ok,
+                    %{
+                      access_token:           data["access_token"],
+                      error:                         data["error"],
+                      error_description: data["error_description"],
+                      expires_in:               data["expires_in"],
+                      id_token:                   data["id_token"],
+                      provider:                    args[:provider],
+                      refresh_token:         data["refresh_token"],
+                      scope:                         data["scope"],
+                      token_type:               data["token_type"]
+                    }
                   }
-                }
+                else
+                  if is_map(data["error"]) do
+                    {:ok, %{
+                        error: "#{data["error"]["type"]}, #{data["error"]["code"]}",
+                        error_description: data["error"]["message"],
+                        provider: args[:provider]
+                      }}
+                  else
+                    {:ok, %{
+                        error: data["error"],
+                        error_description: data["error_description"],
+                        provider: args[:provider]
+                      }}
+                  end
+                end
             end
         end
       else
@@ -473,10 +513,19 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                       provider:          args[:provider]
                     }}
                 else
-                  {:ok, %{
-                      error: "#{data["error"]["type"]} #{data["error"]["code"]}",
-                      error_description: data["error"]["message"]
-                    }}
+                  if is_map(data["error"]) do
+                    {:ok, %{
+                        error: "#{data["error"]["type"]}, #{data["error"]["code"]}",
+                        error_description: data["error"]["message"],
+                        provider: args[:provider]
+                      }}
+                  else
+                    {:ok, %{
+                        error: data["error"],
+                        error_description: data["error_description"],
+                        provider: args[:provider]
+                      }}
+                  end
                 end
             end
         end
@@ -503,13 +552,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
           }}
       "facebook" ->
         case OauthFacebook.token(args[:code]) do
-          {:error, data} ->
-            %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
-            {:ok, %{
-                error: @error_code,
-                error_description: msg,
-                provider: args[:provider]
-              }}
           {:ok, data} ->
             if is_nil(data["error"]) do
               with {:ok, profile} <- OauthFacebook.user_profile(data["access_token"]) do
@@ -537,19 +579,35 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                       {:error, %Ecto.Changeset{}}
                   end
                 else
-                  {:ok, %{
-                      error: @error_email,
-                      error_description: "Has already been taken",
-                      provider: args[:provider]
-                    }}
+                  if is_map(data["error"]) do
+                    {:ok, %{
+                        error: "#{data["error"]["type"]}, #{data["error"]["code"]}",
+                        error_description: data["error"]["message"],
+                        provider: args[:provider]
+                      }}
+                  else
+                    {:ok, %{
+                        error: @error_email,
+                        error_description: "Has already been taken",
+                        provider: args[:provider]
+                      }}
+                  end
                 end
               end
             else
-              {:ok, %{
-                  error: "#{data["error"]["type"]} #{data["error"]["code"]}",
-                  error_description: "#{data["error"]["message"]}",
-                  provider: args[:provider]
-                }}
+              if is_map(data["error"]) do
+                {:ok, %{
+                    error: "#{data["error"]["type"]}, #{data["error"]["code"]}",
+                    error_description: data["error"]["message"],
+                    provider: args[:provider]
+                  }}
+              else
+                {:ok, %{
+                    error: data["error"],
+                    error_description: data["error_description"],
+                    provider: args[:provider]
+                  }}
+              end
             end
         end
       "google" ->
@@ -732,11 +790,19 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                 end
               end
             else
-              {:ok, %{
-                  error: "#{data["error"]["type"]}, #{data["error"]["code"]}",
-                  error_description: data["error"]["message"],
-                  provider: args[:provider]
-                }}
+              if is_map(data["error"]) do
+                {:ok, %{
+                    error: "#{data["error"]["type"]}, #{data["error"]["code"]}",
+                    error_description: data["error"]["message"],
+                    provider: args[:provider]
+                  }}
+              else
+                {:ok, %{
+                    error: @error_code,
+                    error_description: "code doesn't correct",
+                    provider: args[:provider]
+                  }}
+              end
             end
         end
       "linkedin" ->

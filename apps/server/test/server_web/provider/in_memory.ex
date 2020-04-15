@@ -3,6 +3,7 @@ defmodule ServerWeb.Provider.InMemoryTest do
   doctest ServerWeb.Provider.OauthGoogle
 
   alias ServerWeb.Provider.{
+    OauthFacebook,
     OauthGoogle,
     OauthLinkedIn
   }
@@ -365,5 +366,38 @@ defmodule ServerWeb.Provider.InMemoryTest do
         "error" => "Invalid access token",
         "error_description" => "serviceErrorCode 65600 and 401 status"
       }}
+  end
+
+  test "generate Facebook url" do
+    client_id = Application.get_env(:server, Facebook)[:client_id]
+    client_secret = Application.get_env(:server, Facebook)[:client_secret]
+    redirect_uri = Application.get_env(:server, Facebook)[:redirect_uri]
+    url = "https://www.facebook.com/v6.0/dialog/oauth?client_id=#{client_id}&client_secret=#{client_secret}&redirect_uri=#{redirect_uri}"
+    assert OauthFacebook.generate_url() =~ url
+  end
+
+  test "get Facebook refresh token url" do
+    # facebook_code_url = "https://graph.facebook.com/oauth/client_code?"
+    # client_id = Application.put_env(:server, :client_id, 123)
+    # client_secret = Application.put_env(:server, :client_secret, 123)
+    # redirect_uri = Application.put_env(:server, :redirect_uri, "https://taxgig.me:4001/graphiql")
+    # token = "1234"
+    # url = "#{facebook_code_url}client_id=#{client_id}&client_secret=#{client_secret}&redirect_uri=#{redirect_uri}&access_token=#{token}"
+    # assert OauthFacebook.generate_refresh_token_url(token) =~ url
+  end
+
+  test "get Facebook token" do
+  end
+
+  test "get Facebook refresh token" do
+  end
+
+  test "get Facebook verify token" do
+  end
+
+  test "get Facebook user profile" do
+  end
+
+  test "return Facebook's error with incorrect token" do
   end
 end
