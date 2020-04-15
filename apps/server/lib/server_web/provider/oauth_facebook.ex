@@ -48,8 +48,9 @@ defmodule ServerWeb.Provider.OauthFacebook do
     client_id = Application.get_env(:server, Facebook)[:client_id]
     client_secret = Application.get_env(:server, Facebook)[:client_secret]
     redirect_uri = Application.get_env(:server, Facebook)[:redirect_uri]
+    scope = Application.get_env(:server, Facebook)[:scope]
 
-    "#{@facebook_token_url}client_id=#{client_id}&redirect_uri=#{redirect_uri}&client_secret=#{client_secret}&code=#{code}"
+    "#{@facebook_token_url}client_id=#{client_id}&redirect_uri=#{redirect_uri}&client_secret=#{client_secret}&code=#{code}&scope=#{scope}"
     |> @httpoison.get()
     |> parse_body_response()
   end
