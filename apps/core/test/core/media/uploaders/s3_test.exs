@@ -4,6 +4,7 @@ defmodule Core.Media.Uploaders.S3Test do
 
   import Mox
   import SweetXml
+  import ExUnit.CaptureLog
 
   alias Core.{
     Config,
@@ -11,58 +12,137 @@ defmodule Core.Media.Uploaders.S3Test do
     Uploaders.S3
   }
 
-  import ExUnit.CaptureLog
-
   @image_path Path.absname("test/fixtures/image_tmp.jpg")
 
   clear_config([S3]) do
     Config.put([S3],
-      bucket: "test_bucket",
-      public_endpoint: "https://s3.amazonaws.com"
+      bucket: "taxgig",
+      public_endpoint: "https://nyc3.digitaloceanspaces.com"
     )
   end
 
   describe "get_file/1" do
     test "it returns path to local folder for files" do
-      assert S3.get_file("test_image.jpg") == {
+      assert S3.get_file("corner.png") == {
         :ok,
-        {:url, "https://s3.amazonaws.com/test_bucket/test_image.jpg"}
+        {:url, "https://nyc3.digitaloceanspaces.com/taxgig/corner.png"}
       }
     end
 
     test "it returns path without bucket when truncated_namespace set to ''" do
       Config.put([S3],
-        bucket: "test_bucket",
-        public_endpoint: "https://s3.amazonaws.com",
+        bucket: "taxgig",
+        public_endpoint: "https://nyc3.digitaloceanspaces.com",
         truncated_namespace: ""
       )
 
-      assert S3.get_file("test_image.jpg") == {
+      assert S3.get_file("corner.png") == {
         :ok,
-        {:url, "https://s3.amazonaws.com/test_image.jpg"}
+        {:url, "https://nyc3.digitaloceanspaces.com/corner.png"}
+      }
+    end
+
+    test "it returns path with bucket when truncated_namespace set to 'taxgig'" do
+      Config.put([S3],
+        bucket: "taxgig",
+        public_endpoint: "https://nyc3.digitaloceanspaces.com",
+        truncated_namespace: "taxgig"
+      )
+
+      assert S3.get_file("corner.png") == {
+        :ok,
+        {:url, "https://nyc3.digitaloceanspaces.com/taxgig/corner.png"}
       }
     end
 
     test "it returns path with bucket namespace when namespace is set" do
       Config.put([S3],
-        bucket: "test_bucket",
-        public_endpoint: "https://s3.amazonaws.com",
-        bucket_namespace: "family"
+        bucket: "taxgig",
+        public_endpoint: "https://nyc3.digitaloceanspaces.com",
+        bucket_namespace: "avatar"
       )
 
-      assert S3.get_file("test_image.jpg") == {
+      assert S3.get_file("corner.png") == {
         :ok,
-        {:url, "https://s3.amazonaws.com/family:test_bucket/test_image.jpg"}
+        {:url, "https://nyc3.digitaloceanspaces.com/avatar:taxgig/corner.png"}
       }
+    end
+  end
+
+  describe "list_objects/1" do
+    test "it returns list the objects in body" do
+      data =
+        ExAws.S3.list_objects("taxgig")
+        |> ExAws.request!
+
+      %{
+        body: %{
+          common_prefixes: [],
+          contents: [
+            %{
+              e_tag: "\"3328ee9dc1ae9d0571abf44defb8d7b2\"",
+              key: "corner.png",
+              last_modified: "2020-04-09T17:45:15.532Z",
+              owner: %{display_name: "4771735", id: "4771735"},
+              size: "1066066",
+              storage_class: "STANDARD"
+            }
+          ],
+          is_truncated: "false",
+          marker: "",
+          max_keys: "1000",
+          name: "taxgig",
+          next_marker: "",
+          prefix: ""
+        },
+        headers: [
+          {"x-amz-request-id", _x_amz_request_id},
+          {"Content-Type", "application/xml"},
+          {"Content-Length", "505"},
+          {"Date", _time_now},
+          {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+        ],
+        status_code: 200
+      } = data
+    end
+
+    test "it returns list the objects in this space" do
+      assert ExAws.S3.list_objects("taxgig")
+        |> ExAws.request!()
+        |> get_in([:body, :contents]) == [
+          %{
+            e_tag: "\"3328ee9dc1ae9d0571abf44defb8d7b2\"",
+            key: "corner.png",
+            last_modified: "2020-04-09T17:45:15.532Z",
+            owner: %{display_name: "4771735", id: "4771735"},
+            size: "1066066",
+            storage_class: "STANDARD"
+          }
+        ]
+    end
+
+    test "it returns list the objects via streem" do
+      assert ExAws.S3.list_objects("taxgig")
+        |> ExAws.stream!
+        |> Enum.to_list == [
+            %{
+              e_tag: "\"3328ee9dc1ae9d0571abf44defb8d7b2\"",
+              key: "corner.png",
+              last_modified: "2020-04-09T17:45:15.532Z",
+              owner: %{display_name: "4771735", id: "4771735"},
+              size: "1066066",
+              storage_class: "STANDARD"
+            }
+          ]
     end
   end
 
   describe "put_file/1" do
     setup do
       file_upload = %Upload{
-        name: "image-tet.jpg",
+        name: "image_tmp.jpg",
         content_type: "image/jpg",
-        path: "test_folder/image-tet.jpg",
+        path: "image_tmp.jpg",
         tempfile: @image_path
       }
 
@@ -70,18 +150,19 @@ defmodule Core.Media.Uploaders.S3Test do
     end
 
     test "save file", %{file_upload: file_upload} do
-      # HTTPoisonS3Mock
-      # |> expect(:put_file, fn _ -> {:ok, {:file, "test_folder/image-tet.jpg"}} end)
+      HTTPoisonS3Mock
+      |> expect(:put_file, fn _ -> {:ok, {:file, "image_tmp.jpg"}} end)
 
-      # assert S3.put_file(file_upload) == "Elixir.CommunityWeb.Uploaders.S3: #{body}"
+      assert HTTPoisonS3Mock.put_file(file_upload) == {:ok, {:file, "image_tmp.jpg"}}
+    end
+
+    test "save file with capture_log", %{file_upload: file_upload} do
+      HTTPoisonS3Mock
+      |> expect(:put_file, fn _ -> {:ok, {:file, "image_tmp.jpg"}} end)
 
       assert capture_log(fn ->
-        assert S3.put_file(file_upload) == {:error, "S3 Upload failed"}
-      end) =~ "Elixir.Core.Uploaders.S3: {:error, {:http_error, 400, %{body:"
-
-      # assert HTTPoisonS3Mock.put_file(file_upload) == S3.put_file(file_upload)
-      # assert HTTPoisonS3Mock.put_file(file_upload) == {:ok, {:file, "test_folder/image-tet.jpg"}}
-      # assert S3.put_file(file_upload) == {:ok, {:file, "test_folder/image-tet.jpg"}}
+        assert HTTPoisonS3Mock.put_file(file_upload) == {:ok, {:file, "image_tmp.jpg"}}
+      end)
     end
 
     test "returns error", %{file_upload: file_upload} do
@@ -89,9 +170,15 @@ defmodule Core.Media.Uploaders.S3Test do
       |> expect(:put_file, fn _ -> {:error, "S3 Upload failed"} end)
 
       assert HTTPoisonS3Mock.put_file(file_upload) == {:error, "S3 Upload failed"}
+    end
+
+    test "returns error with capture_log", %{file_upload: file_upload} do
+      HTTPoisonS3Mock
+      |> expect(:put_file, fn _ -> {:error, "S3 Upload failed"} end)
+
       assert capture_log(fn ->
-        assert S3.put_file(file_upload) == {:error, "S3 Upload failed"}
-      end) =~ "Elixir.Core.Uploaders.S3: {:error, {:http_error, 400, %{body:"
+        assert HTTPoisonS3Mock.put_file(file_upload) == {:error, "S3 Upload failed"}
+      end) =~ ""
 
       doc = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Error><Code>InvalidAccessKeyId</Code><Message>The AWS Access Key Id you provided does not exist in our records.</Message><AWSAccessKeyId>AKIAIAOAONIULXQGMOUA</AWSAccessKeyId><RequestId>F31EBDE03D5F510F</RequestId><HostId>q6qnFuIpraNtY7RJ+Rab6wAKwRPZXGEGT9Cta+IFM1P26NgkFT4OqnFFN8NcSp+8wAiHgnkWuzw=</HostId></Error>"
 
@@ -106,6 +193,24 @@ defmodule Core.Media.Uploaders.S3Test do
       assert result3 == "AKIAIAOAONIULXQGMOUA"
       assert result4 == "F31EBDE03D5F510F"
       assert result5 == "q6qnFuIpraNtY7RJ+Rab6wAKwRPZXGEGT9Cta+IFM1P26NgkFT4OqnFFN8NcSp+8wAiHgnkWuzw="
+    end
+  end
+
+  describe "deleted_object/1" do
+    setup do
+      file_upload = %Upload{
+        name: "image_tmp.jpg",
+        content_type: "image/jpg",
+        path: "image_tmp.jpg",
+        tempfile: @image_path
+      }
+
+      [file_upload: file_upload]
+    end
+
+    test "delete file", %{file_upload: file_upload} do
+      assert S3.put_file(file_upload) == {:ok, {:file, "image_tmp.jpg"}}
+      ExAws.S3.delete_object("taxgig", "image_tmp.jpg") |> ExAws.request!()
     end
   end
 end

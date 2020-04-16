@@ -26,21 +26,49 @@ config :blockscore,
   token: "sk_test_6596def12b6a0fba8784ce0bd381a8e6:",
   url: "https://sk_test_6596def12b6a0fba8784ce0bd381a8e6:@api.blockscore.com/people"
 
+#config :ex_aws,
+#  access_key_id: [{:system, "AKIAIAOAONIULXQGMOUA"}, :instance_role],
+#  bucket_url: "http://s3-eu-west-1.amazonaws.com/konbucket2",
+#  debug_requests: true,
+#  json_codec: Jason,
+#  region: "eu-west-1",
+#  secret_access_key: [{:system, "dGhlcmUgYXJlIG5vIGVhc3RlciBlZ2dzIGhlcmVf"}, :instance_role],
+#  s3: [
+#    access_key_id: "AKIAIAOAONIULXQGMOUA",
+#    host: "s3-eu-west-1.amazonaws.com/konbucket2",
+#    region: "eu-west-1",
+#    port: 443,
+#    scheme: "http://",
+#    secret_access_key: "dGhlcmUgYXJlIG5vIGVhc3RlciBlZ2dzIGhlcmVf"
+#  ]
+
 config :ex_aws,
-  access_key_id: [{:system, "AKIAIAOAONIULXQGMOUA"}, :instance_role],
-  bucket_url: "http://s3-eu-west-1.amazonaws.com/konbucket2",
+  access_key_id: [{:system, "VYPQIQWQEFQ3PWORFF4Y"}, :instance_role],
+  bucket_url: "https://taxgig.nyc3.digitaloceanspaces.com",
   debug_requests: true,
   json_codec: Jason,
-  region: "eu-west-1",
-  secret_access_key: [{:system, "dGhlcmUgYXJlIG5vIGVhc3RlciBlZ2dzIGhlcmVf"}, :instance_role],
+  region: "nyc3",
+  secret_access_key: [{:system, "qKDzXvnTdQxhVmp4hBa9MnJw/5A/SG35m8AvQMBCwOI"}, :instance_role],
   s3: [
-    access_key_id: "AKIAIAOAONIULXQGMOUA",
-    host: "s3-eu-west-1.amazonaws.com/konbucket2",
-    region: "eu-west-1",
-    port: 443,
-    scheme: "http://",
-    secret_access_key: "dGhlcmUgYXJlIG5vIGVhc3RlciBlZ2dzIGhlcmVf"
+    access_key_id: "VYPQIQWQEFQ3PWORFF4Y",
+    host: "nyc3.digitaloceanspaces.com",
+    region: "nyc3",
+    scheme: "https://",
+    secret_access_key: "qKDzXvnTdQxhVmp4hBa9MnJw/5A/SG35m8AvQMBCwOI"
   ]
+
+#config :ex_aws,
+#  debug_requests: true,
+#  json_codec: Jason,
+#  access_key_id: {:system, "VYPQIQWQEFQ3PWORFF4Y"},
+#  secret_access_key: {:system, "qKDzXvnTdQxhVmp4hBa9MnJw/5A/SG35m8AvQMBCwOI"}
+#
+#config :ex_aws, :s3,
+#  access_key_id: "VYPQIQWQEFQ3PWORFF4Y",
+#  host: "nyc3.digitaloceanspaces.com",
+#  region: "nyc3",
+#  scheme: "https://",
+#  secret_access_key: "qKDzXvnTdQxhVmp4hBa9MnJw/5A/SG35m8AvQMBCwOI"
 
 config :server, Google,
   client_id: "670116700803-b76nhucfvtbci1c9cura69v56vfjitad.apps.googleusercontent.com",

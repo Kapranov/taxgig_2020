@@ -631,36 +631,44 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
           {:ok, data} ->
             if is_nil(data["error"]) do
               with {:ok, profile} <- OauthGoogle.user_profile(data["access_token"]) do
-                user = User.find_by(email: profile["email"])
-                if is_nil(user) do
-                  user_params =
-                    %{
-                      avatar:         profile["picture"],
-                      email:            profile["email"],
-                      first_name: profile["family_name"],
-                      last_name:   profile["given_name"],
-                      provider:                 "google",
-                      password:                 "qwerty",
-                      password_confirmation:    "qwerty"
-                    }
-
-                  case Accounts.create_user(user_params) do
-                    {:ok, created} ->
-                      with data <- generate_token(created) do
-                        {:ok, %{
-                            access_token: data,
-                            provider: args[:provider]
-                          }}
-                      end
-                    {:error, %Ecto.Changeset{}} ->
-                      {:error, %Ecto.Changeset{}}
-                  end
-                else
+                if is_nil(profile["email"]) do
                   {:ok, %{
                       error: @error_email,
-                      error_description: "An email has already been taken",
+                      error_description: "Email dosn't exist in Google profile",
                       provider: args[:provider]
                     }}
+                else
+                  user = User.find_by(email: profile["email"])
+                  if is_nil(user) do
+                    user_params =
+                      %{
+                        avatar:         profile["picture"],
+                        email:            profile["email"],
+                        first_name: profile["family_name"],
+                        last_name:   profile["given_name"],
+                        provider:                 "google",
+                        password:                 "qwerty",
+                        password_confirmation:    "qwerty"
+                      }
+
+                    case Accounts.create_user(user_params) do
+                      {:ok, created} ->
+                        with data <- generate_token(created) do
+                          {:ok, %{
+                              access_token: data,
+                              provider: args[:provider]
+                            }}
+                        end
+                      {:error, %Ecto.Changeset{}} ->
+                        {:error, %Ecto.Changeset{}}
+                    end
+                  else
+                    {:ok, %{
+                        error: @error_email,
+                        error_description: "An email has already been taken",
+                        provider: args[:provider]
+                      }}
+                  end
                 end
               end
             else
@@ -684,35 +692,43 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             if is_nil(data["error"]) do
               with {:ok, info} <- OauthLinkedIn.user_email(data["access_token"]),
                    {:ok, profile} <- OauthLinkedIn.user_profile(data["access_token"]) do
-                user = User.find_by(email: info["email"])
-                if is_nil(user) do
-                  user_params =
-                    %{
-                      avatar:         profile["avatar"],
-                      email:              info["email"],
-                      first_name: profile["first_name"],
-                      last_name:   profile["last_name"],
-                      provider:         args[:provider],
-                      password:                "qwerty",
-                      password_confirmation:   "qwerty"
-                    }
-                  case Accounts.create_user(user_params) do
-                    {:ok, created} ->
-                      with data <- generate_token(created) do
-                        {:ok, %{
-                            access_token: data,
-                            provider: args[:provider]
-                          }}
-                      end
-                    {:error, %Ecto.Changeset{}} ->
-                      {:error, %Ecto.Changeset{}}
-                  end
-                else
+                if is_nil(profile["email"]) do
                   {:ok, %{
                       error: @error_email,
-                      error_description: "Has already been taken",
+                      error_description: "Email dosn't exist in Linkedin profile",
                       provider: args[:provider]
                     }}
+                else
+                  user = User.find_by(email: info["email"])
+                  if is_nil(user) do
+                    user_params =
+                      %{
+                        avatar:         profile["avatar"],
+                        email:              info["email"],
+                        first_name: profile["first_name"],
+                        last_name:   profile["last_name"],
+                        provider:         args[:provider],
+                        password:                "qwerty",
+                        password_confirmation:   "qwerty"
+                      }
+                    case Accounts.create_user(user_params) do
+                      {:ok, created} ->
+                        with data <- generate_token(created) do
+                          {:ok, %{
+                              access_token: data,
+                              provider: args[:provider]
+                            }}
+                        end
+                      {:error, %Ecto.Changeset{}} ->
+                        {:error, %Ecto.Changeset{}}
+                    end
+                  else
+                    {:ok, %{
+                        error: @error_email,
+                        error_description: "Has already been taken",
+                        provider: args[:provider]
+                      }}
+                  end
                 end
               end
             else
