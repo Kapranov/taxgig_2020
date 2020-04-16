@@ -12,17 +12,19 @@ defmodule Core.Media.Uploaders.S3Test do
     Uploaders.S3
   }
 
+  @bucket Application.get_env(:ex_aws, :bucket)
   @image_path Path.absname("test/fixtures/image_tmp.jpg")
+  @public_endpoint Application.get_env(:ex_aws, :public_endpoint)
 
   clear_config([S3]) do
     Config.put([S3],
-      bucket: "taxgig",
-      public_endpoint: "https://nyc3.digitaloceanspaces.com"
+      bucket: @bucket,
+      public_endpoint: @public_endpoint
     )
   end
 
   describe "get_file/1" do
-    test "it returns path to local folder for files" do
+    test "it returns link for files" do
       assert S3.get_file("corner.png") == {
         :ok,
         {:url, "https://nyc3.digitaloceanspaces.com/taxgig/corner.png"}
@@ -31,8 +33,8 @@ defmodule Core.Media.Uploaders.S3Test do
 
     test "it returns path without bucket when truncated_namespace set to ''" do
       Config.put([S3],
-        bucket: "taxgig",
-        public_endpoint: "https://nyc3.digitaloceanspaces.com",
+        bucket: @bucket,
+        public_endpoint: @public_endpoint,
         truncated_namespace: ""
       )
 
@@ -44,9 +46,9 @@ defmodule Core.Media.Uploaders.S3Test do
 
     test "it returns path with bucket when truncated_namespace set to 'taxgig'" do
       Config.put([S3],
-        bucket: "taxgig",
-        public_endpoint: "https://nyc3.digitaloceanspaces.com",
-        truncated_namespace: "taxgig"
+        bucket: @bucket,
+        public_endpoint: @public_endpoint,
+        truncated_namespace: @bucket
       )
 
       assert S3.get_file("corner.png") == {
@@ -57,8 +59,8 @@ defmodule Core.Media.Uploaders.S3Test do
 
     test "it returns path with bucket namespace when namespace is set" do
       Config.put([S3],
-        bucket: "taxgig",
-        public_endpoint: "https://nyc3.digitaloceanspaces.com",
+        bucket: @bucket,
+        public_endpoint: @public_endpoint,
         bucket_namespace: "avatar"
       )
 
@@ -72,7 +74,7 @@ defmodule Core.Media.Uploaders.S3Test do
   describe "list_objects/1" do
     test "it returns list the objects in body" do
       data =
-        ExAws.S3.list_objects("taxgig")
+        ExAws.S3.list_objects(@bucket)
         |> ExAws.request!
 
       %{
@@ -107,7 +109,7 @@ defmodule Core.Media.Uploaders.S3Test do
     end
 
     test "it returns list the objects in this space" do
-      assert ExAws.S3.list_objects("taxgig")
+      assert ExAws.S3.list_objects(@bucket)
         |> ExAws.request!()
         |> get_in([:body, :contents]) == [
           %{
@@ -122,7 +124,7 @@ defmodule Core.Media.Uploaders.S3Test do
     end
 
     test "it returns list the objects via streem" do
-      assert ExAws.S3.list_objects("taxgig")
+      assert ExAws.S3.list_objects(@bucket)
         |> ExAws.stream!
         |> Enum.to_list == [
             %{
@@ -210,7 +212,16 @@ defmodule Core.Media.Uploaders.S3Test do
 
     test "delete file", %{file_upload: file_upload} do
       assert S3.put_file(file_upload) == {:ok, {:file, "image_tmp.jpg"}}
+      assert S3.delete_file("image_tmp.jpg")
+    end
+
+    test "delete object", %{file_upload: file_upload} do
+      assert S3.put_file(file_upload) == {:ok, {:file, "image_tmp.jpg"}}
       ExAws.S3.delete_object("taxgig", "image_tmp.jpg") |> ExAws.request!()
+    end
+
+    test "returns error", %{file_upload: _file_upload} do
+      assert S3.delete_file("image.jpg") == {:error, "S3 Upload failed"}
     end
   end
 end

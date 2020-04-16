@@ -1,6 +1,6 @@
 defmodule Core.Uploaders.S3 do
   @moduledoc """
-  Amazon AWS S3 uploader for files
+  Digital Ocean Spaces with Amazon AWS S3 uploader for files
   """
 
   @behaviour Core.Uploaders.Uploader
@@ -68,6 +68,29 @@ defmodule Core.Uploaders.S3 do
       error ->
         Logger.error("#{@name}: #{inspect(error)}")
         {:error, "S3 Upload failed"}
+    end
+  end
+
+  @spec delete_file(String.t()) :: ExAws.Operation.S3.t() | {:error, String.t()}
+  def delete_file(file) do
+    bucket = Application.get_env(:ex_aws, :bucket)
+    if strict_encode(URI.decode(file)) do
+      list =
+        ExAws.S3.list_objects(bucket)
+        |> ExAws.stream!
+        |> Enum.to_list
+
+      data =
+        Enum.find(list,
+          fn obj -> obj.key == file
+        end)
+
+      if is_nil(data) do
+        {:error, "S3 Upload failed"}
+      else
+        ExAws.S3.delete_object(bucket, file)
+        |> ExAws.request()
+      end
     end
   end
 

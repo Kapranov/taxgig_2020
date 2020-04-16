@@ -44,9 +44,11 @@ config :blockscore,
 
 config :ex_aws,
   access_key_id: [{:system, "VYPQIQWQEFQ3PWORFF4Y"}, :instance_role],
+  bucket: "taxgig",
   bucket_url: "https://taxgig.nyc3.digitaloceanspaces.com",
   debug_requests: true,
   json_codec: Jason,
+  public_endpoint: "https://nyc3.digitaloceanspaces.com",
   region: "nyc3",
   secret_access_key: [{:system, "qKDzXvnTdQxhVmp4hBa9MnJw/5A/SG35m8AvQMBCwOI"}, :instance_role],
   s3: [
