@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.21.3">
+    <meta name="project" content="Taxgig v1.0.0-beta.1-0-g3a745c7+dev">
+    <title>Core.Accounts — Taxgig v1.0.0-beta.1-0-g3a745c7+dev</title>
+    <link rel="stylesheet" href="dist/elixir-0ab8a6a80ebaaa287431.css" />
+    <script src="dist/sidebar_items-98b77324d9.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-a225d03098e64fef431a.js"></script>
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://api.taxgig.com/" class="sidebar-projectName">
+Taxgig      </a>
+      <h2 class="sidebar-projectVersion">
+        v1.0.0-beta.1-0-g3a745c7+dev
+      </h2>
+    </div>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="tasks-list" href="#full-list">Mix Tasks</a></li>
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+        <small class="app-vsn">Taxgig v1.0.0-beta.1-0-g3a745c7+dev</small>
+Core.Accounts          <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>The Accounts context.</p>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:error_tuple/0">error_tuple()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:name/0">name()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:order_by/0">order_by()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:preload/0">preload()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:reason/0">reason()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:result/0">result()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:return/0">return()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:success_tuple/0">success_tuple()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:t/0">t()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:where/0">where()</a>
+  </div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#all/4">all(module, order_by, where, preload)</a>
+  </div>
+    <div class="summary-synopsis"><p>List all via CurrentUser and sorted.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#change_profile/1">change_profile(struct)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking Profile changes.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#change_subscriber/1">change_subscriber(struct)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking Subscriber changes.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#change_user/1">change_user(struct)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking User changes.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#create_profile/1">create_profile(attrs \\ %{})</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates Profile.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#create_subscriber/1">create_subscriber(attrs \\ %{})</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates Subscriber.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#create_user/1">create_user(attrs \\ %{})</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates User.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_profile/1">delete_profile(struct)</a>
+  </div>
+    <div class="summary-synopsis"><p>Deletes Profile.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_subscriber/1">delete_subscriber(struct)</a>
+  </div>
+    <div class="summary-synopsis"><p>Deletes Subscriber.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_user/1">delete_user(struct)</a>
+  </div>
+    <div class="summary-synopsis"><p>Deletes User.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_profile!/1">get_profile!(id)</a>
+  </div>
+    <div class="summary-synopsis"><p>Gets a single Profile.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_subscriber!/1">get_subscriber!(id)</a>
+  </div>
+    <div class="summary-synopsis"><p>Gets a single Subscriber.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_user!/1">get_user!(id)</a>
+  </div>
+    <div class="summary-synopsis"><p>Gets a single User.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#list_profile/0">list_profile()</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the list of profile.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#list_subscriber/0">list_subscriber()</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the list of Subscriber.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#list_user/0">list_user()</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the list of user.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#search/1">search(term)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#store_token/2">store_token(user, token)</a>
+  </div>
+    <div class="summary-synopsis"><p>Return saved token only virtual field.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#update_profile/2">update_profile(struct, attrs)</a>
+  </div>
+    <div class="summary-synopsis"><p>Updates Profile.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#update_subscriber/2">update_subscriber(struct, attrs)</a>
+  </div>
+    <div class="summary-synopsis"><p>Updates Subscriber.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#update_user/2">update_user(struct, attrs)</a>
+  </div>
+    <div class="summary-synopsis"><p>Updates User.</p></div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<section class="detail" id="t:error_tuple/0">
+  <div class="detail-header">
+    <a href="#t:error_tuple/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">error_tuple()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L6" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>error_tuple() :: {:error, <a href="#t:reason/0">reason</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:name/0">
+  <div class="detail-header">
+    <a href="#t:name/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">name()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L14" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>name() :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:order_by/0">
+  <div class="detail-header">
+    <a href="#t:order_by/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">order_by()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L15" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>order_by() :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:preload/0">
+  <div class="detail-header">
+    <a href="#t:preload/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">preload()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L17" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>preload() :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:reason/0">
+  <div class="detail-header">
+    <a href="#t:reason/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">reason()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L6" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>reason() :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:result/0">
+  <div class="detail-header">
+    <a href="#t:result/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">result()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L6" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>result() :: <a href="#t:success_tuple/0">success_tuple</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:return/0">
+  <div class="detail-header">
+    <a href="#t:return/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">return()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L18" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>return() :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:success_tuple/0">
+  <div class="detail-header">
+    <a href="#t:success_tuple/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">success_tuple()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L6" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>success_tuple() :: {:ok, <a href="#t:t/0">t</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:t/0">
+  <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">t()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L6" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>t() :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:where/0">
+  <div class="detail-header">
+    <a href="#t:where/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">where()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L16" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>where() :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<section class="detail" id="all/4">
+  <div class="detail-header">
+    <a href="#all/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">all(module, order_by, where, preload)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L26" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>all(<a href="#t:name/0">name</a>(), <a href="#t:order_by/0">order_by</a>(), <a href="#t:where/0">where</a>(), <a href="#t:preload/0">preload</a>()) :: <a href="#t:return/0">return</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>List all via CurrentUser and sorted.</p>
+  </section>
+</section>
+<section class="detail" id="change_profile/1">
+  <div class="detail-header">
+    <a href="#change_profile/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">change_profile(struct)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L387" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>change_profile(<a href="Core.Accounts.Profile.html#t:t/0">Core.Accounts.Profile.t</a>()) :: <a href="https://hexdocs.pm/ecto/3.4.1/Ecto.Changeset.html#t:t/0">Ecto.Changeset.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking Profile changes.</p>
+<h2 id="change_profile/1-examples" class="section-heading">
+  <a href="#change_profile/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">change_profile</span><span class="p" data-group-id="1623206716-1">(</span><span class="n">struct</span><span class="p" data-group-id="1623206716-1">)</span><span class="w">
+</span><span class="p" data-group-id="1623206716-2">%</span><span class="nc" data-group-id="1623206716-2">Ecto.Changeset</span><span class="p" data-group-id="1623206716-2">{</span><span class="ss">source</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1623206716-3">%</span><span class="nc" data-group-id="1623206716-3">Profile</span><span class="p" data-group-id="1623206716-3">{</span><span class="p" data-group-id="1623206716-3">}</span><span class="p" data-group-id="1623206716-2">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="change_subscriber/1">
+  <div class="detail-header">
+    <a href="#change_subscriber/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">change_subscriber(struct)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L359" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>change_subscriber(<a href="Core.Accounts.Subscriber.html#t:t/0">Core.Accounts.Subscriber.t</a>()) :: <a href="https://hexdocs.pm/ecto/3.4.1/Ecto.Changeset.html#t:t/0">Ecto.Changeset.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking Subscriber changes.</p>
+<h2 id="change_subscriber/1-examples" class="section-heading">
+  <a href="#change_subscriber/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">change_subscriber</span><span class="p" data-group-id="6173878508-1">(</span><span class="n">struct</span><span class="p" data-group-id="6173878508-1">)</span><span class="w">
+</span><span class="p" data-group-id="6173878508-2">%</span><span class="nc" data-group-id="6173878508-2">Ecto.Changeset</span><span class="p" data-group-id="6173878508-2">{</span><span class="ss">source</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6173878508-3">%</span><span class="nc" data-group-id="6173878508-3">Subscriber</span><span class="p" data-group-id="6173878508-3">{</span><span class="p" data-group-id="6173878508-3">}</span><span class="p" data-group-id="6173878508-2">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="change_user/1">
+  <div class="detail-header">
+    <a href="#change_user/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">change_user(struct)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L373" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>change_user(<a href="Core.Accounts.User.html#t:t/0">Core.Accounts.User.t</a>()) :: <a href="https://hexdocs.pm/ecto/3.4.1/Ecto.Changeset.html#t:t/0">Ecto.Changeset.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking User changes.</p>
+<h2 id="change_user/1-examples" class="section-heading">
+  <a href="#change_user/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">change_user</span><span class="p" data-group-id="8200808673-1">(</span><span class="n">struct</span><span class="p" data-group-id="8200808673-1">)</span><span class="w">
+</span><span class="p" data-group-id="8200808673-2">%</span><span class="nc" data-group-id="8200808673-2">Ecto.Changeset</span><span class="p" data-group-id="8200808673-2">{</span><span class="ss">source</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8200808673-3">%</span><span class="nc" data-group-id="8200808673-3">User</span><span class="p" data-group-id="8200808673-3">{</span><span class="p" data-group-id="8200808673-3">}</span><span class="p" data-group-id="8200808673-2">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="create_profile/1">
+    <span id="create_profile/0"></span>
+  <div class="detail-header">
+    <a href="#create_profile/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">create_profile(attrs \\ %{})</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L235" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>create_profile(%{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) :: <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates Profile.</p>
+<h2 id="create_profile/1-examples" class="section-heading">
+  <a href="#create_profile/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">create_profile</span><span class="p" data-group-id="6387292064-1">(</span><span class="p" data-group-id="6387292064-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="6387292064-2">}</span><span class="p" data-group-id="6387292064-1">)</span><span class="w">
+</span><span class="p" data-group-id="6387292064-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6387292064-4">%</span><span class="nc" data-group-id="6387292064-4">Profile</span><span class="p" data-group-id="6387292064-4">{</span><span class="p" data-group-id="6387292064-4">}</span><span class="p" data-group-id="6387292064-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_profile</span><span class="p" data-group-id="6387292064-5">(</span><span class="p" data-group-id="6387292064-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="6387292064-6">}</span><span class="p" data-group-id="6387292064-5">)</span><span class="w">
+</span><span class="p" data-group-id="6387292064-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6387292064-8">%</span><span class="nc" data-group-id="6387292064-8">Ecto.Changeset</span><span class="p" data-group-id="6387292064-8">{</span><span class="p" data-group-id="6387292064-8">}</span><span class="p" data-group-id="6387292064-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="create_subscriber/1">
+    <span id="create_subscriber/0"></span>
+  <div class="detail-header">
+    <a href="#create_subscriber/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">create_subscriber(attrs \\ %{})</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L185" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>create_subscriber(%{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) :: <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates Subscriber.</p>
+<h2 id="create_subscriber/1-examples" class="section-heading">
+  <a href="#create_subscriber/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">create_subscriber</span><span class="p" data-group-id="4578596362-1">(</span><span class="p" data-group-id="4578596362-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="4578596362-2">}</span><span class="p" data-group-id="4578596362-1">)</span><span class="w">
+</span><span class="p" data-group-id="4578596362-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4578596362-4">%</span><span class="nc" data-group-id="4578596362-4">Subscriber</span><span class="p" data-group-id="4578596362-4">{</span><span class="p" data-group-id="4578596362-4">}</span><span class="p" data-group-id="4578596362-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_subscriber</span><span class="p" data-group-id="4578596362-5">(</span><span class="p" data-group-id="4578596362-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="4578596362-6">}</span><span class="p" data-group-id="4578596362-5">)</span><span class="w">
+</span><span class="p" data-group-id="4578596362-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4578596362-8">%</span><span class="nc" data-group-id="4578596362-8">Ecto.Changeset</span><span class="p" data-group-id="4578596362-8">{</span><span class="p" data-group-id="4578596362-8">}</span><span class="p" data-group-id="4578596362-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="create_user/1">
+    <span id="create_user/0"></span>
+  <div class="detail-header">
+    <a href="#create_user/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">create_user(attrs \\ %{})</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L204" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>create_user(%{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) :: <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates User.</p>
+<h2 id="create_user/1-examples" class="section-heading">
+  <a href="#create_user/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">create_user</span><span class="p" data-group-id="7021551483-1">(</span><span class="p" data-group-id="7021551483-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="7021551483-2">}</span><span class="p" data-group-id="7021551483-1">)</span><span class="w">
+</span><span class="p" data-group-id="7021551483-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7021551483-4">%</span><span class="nc" data-group-id="7021551483-4">User</span><span class="p" data-group-id="7021551483-4">{</span><span class="p" data-group-id="7021551483-4">}</span><span class="p" data-group-id="7021551483-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_user</span><span class="p" data-group-id="7021551483-5">(</span><span class="p" data-group-id="7021551483-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="7021551483-6">}</span><span class="p" data-group-id="7021551483-5">)</span><span class="w">
+</span><span class="p" data-group-id="7021551483-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7021551483-8">%</span><span class="nc" data-group-id="7021551483-8">Ecto.Changeset</span><span class="p" data-group-id="7021551483-8">{</span><span class="p" data-group-id="7021551483-8">}</span><span class="p" data-group-id="7021551483-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="delete_profile/1">
+  <div class="detail-header">
+    <a href="#delete_profile/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">delete_profile(struct)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L345" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>delete_profile(<a href="Core.Accounts.Profile.html#t:t/0">Core.Accounts.Profile.t</a>()) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Deletes Profile.</p>
+<h2 id="delete_profile/1-examples" class="section-heading">
+  <a href="#delete_profile/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">delete_profile</span><span class="p" data-group-id="8967183751-1">(</span><span class="n">struct</span><span class="p" data-group-id="8967183751-1">)</span><span class="w">
+</span><span class="p" data-group-id="8967183751-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8967183751-3">%</span><span class="nc" data-group-id="8967183751-3">Profile</span><span class="p" data-group-id="8967183751-3">{</span><span class="p" data-group-id="8967183751-3">}</span><span class="p" data-group-id="8967183751-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_profile</span><span class="p" data-group-id="8967183751-4">(</span><span class="n">struct</span><span class="p" data-group-id="8967183751-4">)</span><span class="w">
+</span><span class="p" data-group-id="8967183751-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8967183751-6">%</span><span class="nc" data-group-id="8967183751-6">Ecto.Changeset</span><span class="p" data-group-id="8967183751-6">{</span><span class="p" data-group-id="8967183751-6">}</span><span class="p" data-group-id="8967183751-5">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="delete_subscriber/1">
+  <div class="detail-header">
+    <a href="#delete_subscriber/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">delete_subscriber(struct)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L311" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>delete_subscriber(<a href="Core.Accounts.Subscriber.html#t:t/0">Core.Accounts.Subscriber.t</a>()) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Deletes Subscriber.</p>
+<h2 id="delete_subscriber/1-examples" class="section-heading">
+  <a href="#delete_subscriber/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">delete_subscriber</span><span class="p" data-group-id="5771178664-1">(</span><span class="n">struct</span><span class="p" data-group-id="5771178664-1">)</span><span class="w">
+</span><span class="p" data-group-id="5771178664-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5771178664-3">%</span><span class="nc" data-group-id="5771178664-3">Subscriber</span><span class="p" data-group-id="5771178664-3">{</span><span class="p" data-group-id="5771178664-3">}</span><span class="p" data-group-id="5771178664-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_subscriber</span><span class="p" data-group-id="5771178664-4">(</span><span class="n">struct</span><span class="p" data-group-id="5771178664-4">)</span><span class="w">
+</span><span class="p" data-group-id="5771178664-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5771178664-6">%</span><span class="nc" data-group-id="5771178664-6">Ecto.Changeset</span><span class="p" data-group-id="5771178664-6">{</span><span class="p" data-group-id="5771178664-6">}</span><span class="p" data-group-id="5771178664-5">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="delete_user/1">
+  <div class="detail-header">
+    <a href="#delete_user/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">delete_user(struct)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L328" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>delete_user(<a href="Core.Accounts.User.html#t:t/0">Core.Accounts.User.t</a>()) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Deletes User.</p>
+<h2 id="delete_user/1-examples" class="section-heading">
+  <a href="#delete_user/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">delete_user</span><span class="p" data-group-id="9967290906-1">(</span><span class="n">struct</span><span class="p" data-group-id="9967290906-1">)</span><span class="w">
+</span><span class="p" data-group-id="9967290906-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9967290906-3">%</span><span class="nc" data-group-id="9967290906-3">User</span><span class="p" data-group-id="9967290906-3">{</span><span class="p" data-group-id="9967290906-3">}</span><span class="p" data-group-id="9967290906-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_user</span><span class="p" data-group-id="9967290906-4">(</span><span class="n">struct</span><span class="p" data-group-id="9967290906-4">)</span><span class="w">
+</span><span class="p" data-group-id="9967290906-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9967290906-6">%</span><span class="nc" data-group-id="9967290906-6">Ecto.Changeset</span><span class="p" data-group-id="9967290906-6">{</span><span class="p" data-group-id="9967290906-6">}</span><span class="p" data-group-id="9967290906-5">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="get_profile!/1">
+  <div class="detail-header">
+    <a href="#get_profile!/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get_profile!(id)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L167" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>get_profile!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="Core.Accounts.Profile.html#t:t/0">Core.Accounts.Profile.t</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Gets a single Profile.</p>
+<p>Raises <a href="https://hexdocs.pm/ecto/3.4.1/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the Profile does not exist.</p>
+<h2 id="get_profile!/1-examples" class="section-heading">
+  <a href="#get_profile!/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">get_profile!</span><span class="p" data-group-id="5803911194-1">(</span><span class="mi">123</span><span class="p" data-group-id="5803911194-1">)</span><span class="w">
+</span><span class="p" data-group-id="5803911194-2">%</span><span class="nc" data-group-id="5803911194-2">Profile</span><span class="p" data-group-id="5803911194-2">{</span><span class="p" data-group-id="5803911194-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_profile!</span><span class="p" data-group-id="5803911194-3">(</span><span class="mi">456</span><span class="p" data-group-id="5803911194-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="get_subscriber!/1">
+  <div class="detail-header">
+    <a href="#get_subscriber!/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get_subscriber!(id)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L128" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>get_subscriber!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="Core.Accounts.Subscriber.html#t:t/0">Core.Accounts.Subscriber.t</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Gets a single Subscriber.</p>
+<p>Raises <a href="https://hexdocs.pm/ecto/3.4.1/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the Subscriber does not exist.</p>
+<h2 id="get_subscriber!/1-examples" class="section-heading">
+  <a href="#get_subscriber!/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">get_subscriber!</span><span class="p" data-group-id="9734806189-1">(</span><span class="mi">123</span><span class="p" data-group-id="9734806189-1">)</span><span class="w">
+</span><span class="p" data-group-id="9734806189-2">%</span><span class="nc" data-group-id="9734806189-2">Subscriber</span><span class="p" data-group-id="9734806189-2">{</span><span class="p" data-group-id="9734806189-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_subscriber!</span><span class="p" data-group-id="9734806189-3">(</span><span class="mi">456</span><span class="p" data-group-id="9734806189-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="get_user!/1">
+  <div class="detail-header">
+    <a href="#get_user!/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get_user!(id)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L147" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>get_user!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="Core.Accounts.User.html#t:t/0">Core.Accounts.User.t</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Gets a single User.</p>
+<p>Raises <a href="https://hexdocs.pm/ecto/3.4.1/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the User does not exist.</p>
+<h2 id="get_user!/1-examples" class="section-heading">
+  <a href="#get_user!/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">get_user!</span><span class="p" data-group-id="0268082185-1">(</span><span class="mi">123</span><span class="p" data-group-id="0268082185-1">)</span><span class="w">
+</span><span class="p" data-group-id="0268082185-2">%</span><span class="nc" data-group-id="0268082185-2">User</span><span class="p" data-group-id="0268082185-2">{</span><span class="p" data-group-id="0268082185-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_user!</span><span class="p" data-group-id="0268082185-3">(</span><span class="mi">456</span><span class="p" data-group-id="0268082185-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="list_profile/0">
+  <div class="detail-header">
+    <a href="#list_profile/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">list_profile()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L108" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>list_profile() :: [<a href="Core.Accounts.Profile.html#t:t/0">Core.Accounts.Profile.t</a>()]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the list of profile.</p>
+<h2 id="list_profile/0-examples" class="section-heading">
+  <a href="#list_profile/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">list_profile</span><span class="p" data-group-id="7204878382-1">(</span><span class="p" data-group-id="7204878382-1">)</span><span class="w">
+</span><span class="p" data-group-id="7204878382-2">[</span><span class="p" data-group-id="7204878382-3">%</span><span class="nc" data-group-id="7204878382-3">Profile</span><span class="p" data-group-id="7204878382-3">{</span><span class="p" data-group-id="7204878382-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="7204878382-2">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="list_subscriber/0">
+  <div class="detail-header">
+    <a href="#list_subscriber/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">list_subscriber()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L81" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>list_subscriber() :: [<a href="Core.Accounts.Subscriber.html#t:t/0">Core.Accounts.Subscriber.t</a>()]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the list of Subscriber.</p>
+<h2 id="list_subscriber/0-examples" class="section-heading">
+  <a href="#list_subscriber/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">list_subscriber</span><span class="p" data-group-id="4660681999-1">(</span><span class="p" data-group-id="4660681999-1">)</span><span class="w">
+</span><span class="p" data-group-id="4660681999-2">[</span><span class="p" data-group-id="4660681999-3">%</span><span class="nc" data-group-id="4660681999-3">Subscriber</span><span class="p" data-group-id="4660681999-3">{</span><span class="p" data-group-id="4660681999-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="4660681999-2">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="list_user/0">
+  <div class="detail-header">
+    <a href="#list_user/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">list_user()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L94" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>list_user() :: [<a href="Core.Accounts.User.html#t:t/0">Core.Accounts.User.t</a>()]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the list of user.</p>
+<h2 id="list_user/0-examples" class="section-heading">
+  <a href="#list_user/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">list_user</span><span class="p" data-group-id="6455841753-1">(</span><span class="p" data-group-id="6455841753-1">)</span><span class="w">
+</span><span class="p" data-group-id="6455841753-2">[</span><span class="p" data-group-id="6455841753-3">%</span><span class="nc" data-group-id="6455841753-3">User</span><span class="p" data-group-id="6455841753-3">{</span><span class="p" data-group-id="6455841753-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="6455841753-2">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="search/1">
+  <div class="detail-header">
+    <a href="#search/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">search(term)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L37" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>search(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="#t:return/0">return</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="store_token/2">
+  <div class="detail-header">
+    <a href="#store_token/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">store_token(user, token)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L61" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>store_token(<a href="Core.Accounts.User.html#t:t/0">Core.Accounts.User.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) ::
+  <a href="Core.Accounts.User.html#t:t/0">Core.Accounts.User.t</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+          <pre>store_token(nil, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="Core.Accounts.User.html#t:t/0">Core.Accounts.User.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Return saved token only virtual field.</p>
+<h2 id="store_token/2-examples" class="section-heading">
+  <a href="#store_token/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">store_token</span><span class="p" data-group-id="3405714791-1">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="mi">123</span><span class="p" data-group-id="3405714791-1">)</span><span class="w">
+</span><span class="p" data-group-id="3405714791-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3405714791-3">%</span><span class="nc" data-group-id="3405714791-3">User</span><span class="p" data-group-id="3405714791-3">{</span><span class="p" data-group-id="3405714791-3">}</span><span class="p" data-group-id="3405714791-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">store_token</span><span class="p" data-group-id="3405714791-4">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="mi">456</span><span class="p" data-group-id="3405714791-4">)</span><span class="w">
+</span><span class="p" data-group-id="3405714791-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3405714791-6">%</span><span class="nc" data-group-id="3405714791-6">Ecto.Changeset</span><span class="p" data-group-id="3405714791-6">{</span><span class="p" data-group-id="3405714791-6">}</span><span class="p" data-group-id="3405714791-5">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="update_profile/2">
+  <div class="detail-header">
+    <a href="#update_profile/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">update_profile(struct, attrs)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L292" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>update_profile(<a href="Core.Accounts.Profile.html#t:t/0">Core.Accounts.Profile.t</a>(), %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) ::
+  <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Updates Profile.</p>
+<h2 id="update_profile/2-examples" class="section-heading">
+  <a href="#update_profile/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">update_profile</span><span class="p" data-group-id="6002314239-1">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6002314239-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="6002314239-2">}</span><span class="p" data-group-id="6002314239-1">)</span><span class="w">
+</span><span class="p" data-group-id="6002314239-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6002314239-4">%</span><span class="nc" data-group-id="6002314239-4">Profile</span><span class="p" data-group-id="6002314239-4">{</span><span class="p" data-group-id="6002314239-4">}</span><span class="p" data-group-id="6002314239-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_profile</span><span class="p" data-group-id="6002314239-5">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6002314239-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="6002314239-6">}</span><span class="p" data-group-id="6002314239-5">)</span><span class="w">
+</span><span class="p" data-group-id="6002314239-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6002314239-8">%</span><span class="nc" data-group-id="6002314239-8">Ecto.Changeset</span><span class="p" data-group-id="6002314239-8">{</span><span class="p" data-group-id="6002314239-8">}</span><span class="p" data-group-id="6002314239-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="update_subscriber/2">
+  <div class="detail-header">
+    <a href="#update_subscriber/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">update_subscriber(struct, attrs)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L254" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>update_subscriber(<a href="Core.Accounts.Subscriber.html#t:t/0">Core.Accounts.Subscriber.t</a>(), %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) ::
+  <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Updates Subscriber.</p>
+<h2 id="update_subscriber/2-examples" class="section-heading">
+  <a href="#update_subscriber/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">update_subscriber</span><span class="p" data-group-id="4400211711-1">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4400211711-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="4400211711-2">}</span><span class="p" data-group-id="4400211711-1">)</span><span class="w">
+</span><span class="p" data-group-id="4400211711-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4400211711-4">%</span><span class="nc" data-group-id="4400211711-4">Subscriber</span><span class="p" data-group-id="4400211711-4">{</span><span class="p" data-group-id="4400211711-4">}</span><span class="p" data-group-id="4400211711-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_subscriber</span><span class="p" data-group-id="4400211711-5">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4400211711-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="4400211711-6">}</span><span class="p" data-group-id="4400211711-5">)</span><span class="w">
+</span><span class="p" data-group-id="4400211711-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4400211711-8">%</span><span class="nc" data-group-id="4400211711-8">Ecto.Changeset</span><span class="p" data-group-id="4400211711-8">{</span><span class="p" data-group-id="4400211711-8">}</span><span class="p" data-group-id="4400211711-7">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="update_user/2">
+  <div class="detail-header">
+    <a href="#update_user/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">update_user(struct, attrs)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/accounts/accounts.ex#L273" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>update_user(<a href="Core.Accounts.User.html#t:t/0">Core.Accounts.User.t</a>(), %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) ::
+  <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Updates User.</p>
+<h2 id="update_user/2-examples" class="section-heading">
+  <a href="#update_user/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">update_user</span><span class="p" data-group-id="3775280590-1">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3775280590-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="3775280590-2">}</span><span class="p" data-group-id="3775280590-1">)</span><span class="w">
+</span><span class="p" data-group-id="3775280590-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3775280590-4">%</span><span class="nc" data-group-id="3775280590-4">User</span><span class="p" data-group-id="3775280590-4">{</span><span class="p" data-group-id="3775280590-4">}</span><span class="p" data-group-id="3775280590-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_user</span><span class="p" data-group-id="3775280590-5">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3775280590-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="3775280590-6">}</span><span class="p" data-group-id="3775280590-5">)</span><span class="w">
+</span><span class="p" data-group-id="3775280590-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3775280590-8">%</span><span class="nc" data-group-id="3775280590-8">Ecto.Changeset</span><span class="p" data-group-id="3775280590-8">{</span><span class="p" data-group-id="3775280590-8">}</span><span class="p" data-group-id="3775280590-7">}</span></code></pre>
+  </section>
+</section>
+          </div>
+        </section>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.21.3),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

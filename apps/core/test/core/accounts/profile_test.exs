@@ -283,12 +283,34 @@ defmodule Core.Accounts.ProfileTest do
       assert updated.logo.url          == "https://taxgig.me:4001/media/#{logo_id}.jpg?name=bernie.jpg"
       assert updated.logo.content_type == "image/jpg"
       assert updated.logo.size         == 63657
+
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(data.url)
     end
 
     test "update_profile/2 with invalid data returns error changeset" do
       struct = insert(:profile)
       assert {:error, %Ecto.Changeset{}} =
         Accounts.update_profile(struct, @invalid_attrs)
+
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     test "delete_profile/1 deletes the profile" do
@@ -296,6 +318,17 @@ defmodule Core.Accounts.ProfileTest do
       data = Accounts.get_profile!(struct.user_id)
       assert {:ok, %Profile{}} = Accounts.delete_profile(data)
       assert_raise Ecto.NoResultsError, fn -> Accounts.get_profile!(data.user_id) end
+
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     test "delete_profile/1 deletes the profile with media files version 1" do
@@ -313,6 +346,17 @@ defmodule Core.Accounts.ProfileTest do
       assert {:ok, %Profile{}} = Accounts.delete_profile(data)
       assert_raise Ecto.NoResultsError, fn -> Accounts.get_profile!(user_id) end
       refute File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
+
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(data.logo.url)
     end
 
     test "delete_profile/1 deletes the profile with media files version 2" do
@@ -330,12 +374,34 @@ defmodule Core.Accounts.ProfileTest do
       assert {:ok, %Profile{}} = Accounts.delete_profile(data)
       assert_raise Ecto.NoResultsError, fn -> Accounts.get_profile!(user_id) end
       refute File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
+
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(data.logo.url)
     end
 
     test "change_profile/1 returns profile changeset" do
       struct = insert(:profile)
       data = Accounts.get_profile!(struct.user_id)
       assert %Ecto.Changeset{} = Accounts.change_profile(data)
+
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
   end
 

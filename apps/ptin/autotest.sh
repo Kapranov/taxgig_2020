@@ -6,7 +6,7 @@ then
     inotifywait -r -e modify,move,create,delete apps/ && mix test --include integration
   done
 else
-  while true; do 
+  while true; do
     inotifywait -r -e modify,move,create,delete lib/ test/ && mix test --include integration
   done
 fi

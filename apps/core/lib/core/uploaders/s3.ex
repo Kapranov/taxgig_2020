@@ -71,42 +71,21 @@ defmodule Core.Uploaders.S3 do
     end
   end
 
-  @spec delete_file(String.t()) :: ExAws.Operation.S3.t() | {:error, String.t()}
-  def delete_file(file) do
+  @spec remove_file(String.t()) :: ExAws.Operation.S3.t() | {:error, String.t()}
+  def remove_file(file) do
     bucket = Application.get_env(:core, Core.Uploaders.S3)[:bucket]
     if strict_encode(URI.decode(file)) do
-      list =
+      data =
         ExAws.S3.list_objects(bucket)
         |> ExAws.stream!
         |> Enum.to_list
-
-      data =
-        Enum.find(list,
-          fn obj -> obj.key == file
-        end)
+        |> Enum.find(&(&1.key == file))
 
       if is_nil(data) do
         {:error, "S3 Upload failed"}
       else
         ExAws.S3.delete_object(bucket, file)
         |> ExAws.request()
-      end
-    end
-  end
-
-  @spec remove_file(String.t()) :: ExAws.Operation.S3.t()
-  def remove_file(file) do
-    if strict_encode(URI.decode(file)) do
-      list = ExAws.S3.list_objects(System.get_env("AWS_S3_BUCKET_UPLOADS"), prefix: "uploads/users")
-      |> ExAws.stream!
-      |> Enum.to_list
-
-      Enum.each list, fn obj ->
-        [_, _, _, file_name] = String.split obj.key, "/"
-        if file_name do
-          ExAws.S3.delete_object(System.get_env("AWS_S3_BUCKET_UPLOADS"), obj.key)
-          |> ExAws.request()
-        end
       end
     end
   end

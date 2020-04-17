@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.21.2">
-    <meta name="project" content="taxgig_ex v0.1.0">
-    <title>API Reference — taxgig_ex v0.1.0</title>
-    <link rel="stylesheet" href="dist/html-de2388dc2f8074b0a4db.css" />
-    <script src="dist/sidebar_items-e098d7f848.js"></script>
+    <meta name="generator" content="ExDoc v0.21.3">
+    <meta name="project" content="Taxgig v1.0.0-beta.1-0-g3a745c7+dev">
+    <title>API Reference — Taxgig v1.0.0-beta.1-0-g3a745c7+dev</title>
+    <link rel="stylesheet" href="dist/elixir-0ab8a6a80ebaaa287431.css" />
+    <script src="dist/sidebar_items-98b77324d9.js"></script>
       <script src="docs_config.js"></script>
-    <script async src="dist/html-de2388dc2f8074b0a4db.js"></script>
+    <script async src="dist/app-a225d03098e64fef431a.js"></script>
   </head>
   <body data-type="extras">
     <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
@@ -40,10 +40,10 @@
 
   <div class="sidebar-header">
     <div class="sidebar-projectDetails">
-      <a href="http://localhost:4000" class="sidebar-projectName">
-taxgig_ex      </a>
+      <a href="https://api.taxgig.com/" class="sidebar-projectName">
+Taxgig      </a>
       <h2 class="sidebar-projectVersion">
-        v0.1.0
+        v1.0.0-beta.1-0-g3a745c7+dev
       </h2>
     </div>
   </div>
@@ -53,7 +53,7 @@ taxgig_ex      </a>
 
       <li><a id="modules-list" href="#full-list">Modules</a></li>
 
-
+      <li><a id="tasks-list" href="#full-list">Mix Tasks</a></li>
   </ul>
   <div class="gradient"></div>
   <ul id="full-list" class="sidebar-fullList"></ul>
@@ -64,7 +64,7 @@ taxgig_ex      </a>
     <div id="content" class="content-inner">
 
 <h1>
-  <small class="app-vsn">taxgig_ex v0.1.0</small>
+  <small class="app-vsn">Taxgig v1.0.0-beta.1-0-g3a745c7+dev</small>
   API Reference
 </h1>
 
@@ -77,27 +77,282 @@ taxgig_ex      </a>
     <div class="summary">
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="Core.DemoPtin.html">Core.DemoPtin</a>
+    <a href="Blockscore.html">Blockscore</a>
   </div>
-    <div class="summary-synopsis"><p>Seeds for <a href="Core.Ptin.html"><code class="inline">Core.Ptin</code></a> repository.</p></div>
+    <div class="summary-synopsis"><p>Blockscore service <code class="inline">&amp;Blockscore.get_status/14</code>
+fields are <code class="inline">document_type: &quot;ssn&quot;</code> and <code class="inline">document_value: &quot;0000&quot;</code>
+return <code class="inline">{:ok, &quot;valid&quot;}</code> if value is <code class="inline">&quot;0000&quot;</code> or return
+<code class="inline">{:ok, &quot;invalid&quot;}</code> if value is any but except <code class="inline">&quot;0000&quot;</code>.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="Core.DemoRepo.html">Core.DemoRepo</a>
+    <a href="Core.Accounts.html">Core.Accounts</a>
   </div>
-    <div class="summary-synopsis"><p>Seeds for <a href="Core.Repo.html"><code class="inline">Core.Repo</code></a> repository.</p></div>
+    <div class="summary-synopsis"><p>The Accounts context.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="Core.Ptin.html">Core.Ptin</a>
+    <a href="Core.Accounts.Profile.html">Core.Accounts.Profile</a>
   </div>
-    <div class="summary-synopsis"><p>Core Ptin.</p></div>
+    <div class="summary-synopsis"><p>Schema for Profile.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Accounts.Subscriber.html">Core.Accounts.Subscriber</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for Subscriber.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Accounts.User.html">Core.Accounts.User</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for User.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Config.html">Core.Config</a>
+  </div>
+    <div class="summary-synopsis"><p>Configuration wrapper.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Context.html">Core.Context</a>
+  </div>
+    <div class="summary-synopsis"><p>Extention Ecto.* for context</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Landing.html">Core.Landing</a>
+  </div>
+    <div class="summary-synopsis"><p>The Landing context.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Landing.Faq.html">Core.Landing.Faq</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for Faqs.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Landing.FaqCategory.html">Core.Landing.FaqCategory</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for FaqCategories.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Landing.PressArticle.html">Core.Landing.PressArticle</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for PressArticles.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Landing.Vacancy.html">Core.Landing.Vacancy</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for Vacancies.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Localization.html">Core.Localization</a>
+  </div>
+    <div class="summary-synopsis"><p>The Localization context.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Localization.Language.html">Core.Localization.Language</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for Language.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Lookup.html">Core.Lookup</a>
+  </div>
+    <div class="summary-synopsis"><p>The Lookup context.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Lookup.UsZipcode.html">Core.Lookup.UsZipcode</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for UsZipcode.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.MIME.html">Core.MIME</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the mime-type of a binary and optionally a normalized file-name.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Media.html">Core.Media</a>
+  </div>
+    <div class="summary-synopsis"><p>The Media context.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Media.File.html">Core.Media.File</a>
+  </div>
+    <div class="summary-synopsis"><p>Represents a file entity.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Media.Picture.html">Core.Media.Picture</a>
+  </div>
+    <div class="summary-synopsis"><p>Represents a picture entity.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Model.html">Core.Model</a>
+  </div>
+    <div class="summary-synopsis"><p>Extention Ecto.* for schemas</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="Core.Repo.html">Core.Repo</a>
   </div>
     <div class="summary-synopsis"><p>Core Repo.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Seeder.Accounts.html">Core.Seeder.Accounts</a>
+  </div>
+    <div class="summary-synopsis"><p>Seeds for <a href="Core.Accounts.html"><code class="inline">Core.Accounts</code></a> context.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Seeder.Landing.html">Core.Seeder.Landing</a>
+  </div>
+    <div class="summary-synopsis"><p>Seeds for <a href="Core.Landing.html"><code class="inline">Core.Landing</code></a> context.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Seeder.Localization.html">Core.Seeder.Localization</a>
+  </div>
+    <div class="summary-synopsis"><p>Seeds for <a href="Core.Localization.html"><code class="inline">Core.Localization</code></a> context.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Seeder.Lookup.html">Core.Seeder.Lookup</a>
+  </div>
+    <div class="summary-synopsis"><p>Seeds for <a href="Core.Lookup.html"><code class="inline">Core.Lookup</code></a> context.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Seeder.Repo.html">Core.Seeder.Repo</a>
+  </div>
+    <div class="summary-synopsis"><p>Seeds for <a href="#content"><code class="inline">Core.Seeder.Repo</code></a> repository.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Upload.html">Core.Upload</a>
+  </div>
+    <div class="summary-synopsis"><p>Manage user uploads</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Upload.Filter.html">Core.Upload.Filter</a>
+  </div>
+    <div class="summary-synopsis"><p>Upload Filter behaviour</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Upload.Filter.AnonymizeFilename.html">Core.Upload.Filter.AnonymizeFilename</a>
+  </div>
+    <div class="summary-synopsis"><p>Replaces the original filename with a pre-defined text or randomly generated string.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Upload.Filter.Dedupe.html">Core.Upload.Filter.Dedupe</a>
+  </div>
+    <div class="summary-synopsis"><p>Names the file after its hash to avoid dedupes</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Upload.Filter.Mogrify.html">Core.Upload.Filter.Mogrify</a>
+  </div>
+    <div class="summary-synopsis"><p>Handle mogrify transformations</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Upload.Filter.Optimize.html">Core.Upload.Filter.Optimize</a>
+  </div>
+    <div class="summary-synopsis"><p>Handle picture optimizations</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Uploaders.Local.html">Core.Uploaders.Local</a>
+  </div>
+    <div class="summary-synopsis"><p>Local uploader for files</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Uploaders.S3.html">Core.Uploaders.S3</a>
+  </div>
+    <div class="summary-synopsis"><p>Digital Ocean Spaces with Amazon AWS S3 uploader for files</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Uploaders.Uploader.html">Core.Uploaders.Uploader</a>
+  </div>
+    <div class="summary-synopsis"><p>Defines the contract to put and get an uploaded file to any backend.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Mailings.html">Mailings</a>
+  </div>
+    <div class="summary-synopsis"><p>Mailings is microservice sent by mailgun.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Mailings.Mailer.html">Mailings.Mailer</a>
+  </div>
+    <div class="summary-synopsis"><p>A client API to the Mailgun .</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Mix.Server.html">Mix.Server</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Parser.html">Parser</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Ptin.Context.html">Ptin.Context</a>
+  </div>
+    <div class="summary-synopsis"><p>Extention Ecto.* for context</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Ptin.Model.html">Ptin.Model</a>
+  </div>
+    <div class="summary-synopsis"><p>Extention Ecto.* for schemas</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Ptin.Repo.html">Ptin.Repo</a>
+  </div>
+    <div class="summary-synopsis"><p>Ptin Repo.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Ptin.Seeder.Repo.html">Ptin.Seeder.Repo</a>
+  </div>
+    <div class="summary-synopsis"><p>Seeds for <a href="#content"><code class="inline">Ptin.Seeder.Repo</code></a> repository.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Ptin.Services.html">Ptin.Services</a>
+  </div>
+    <div class="summary-synopsis"><p>The Services context.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Ptin.Services.Downloads.html">Ptin.Services.Downloads</a>
+  </div>
+    <div class="summary-synopsis"><p>This module contains functions to manipulate files.
+<code class="inline">https://www.irs.gov/pub/irs-utl/FOIA_Extract.zip</code>
+<code class="inline">https://www.irs.gov/tax-professionals/ptin-information-and-the-freedom-of-information-act</code></p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -120,20 +375,251 @@ as controllers, views, channels and so on.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="ServerWeb.ErrorHelpers.html">ServerWeb.ErrorHelpers</a>
-  </div>
-    <div class="summary-synopsis"><p>Conveniences for translating and building error messages.</p></div>
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
     <a href="ServerWeb.ErrorView.html">ServerWeb.ErrorView</a>
   </div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="ServerWeb.Gettext.html">ServerWeb.Gettext</a>
+    <a href="ServerWeb.GraphQL.Data.html">ServerWeb.GraphQL.Data</a>
   </div>
-    <div class="summary-synopsis"><p>A module providing Internationalization with a gettext-based API.</p></div>
+    <div class="summary-synopsis"><p>A single Dataloader struct can have many different sources,
+which represent different ways to load data, provides an easy
+way efficiently load data in batches.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolver.html">ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The Profile GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver.html">ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The Subscriber GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Accounts.UserResolver.html">ServerWeb.GraphQL.Resolvers.Accounts.UserResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The User GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver.html">ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The FaqCategory GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Landing.FaqResolver.html">ServerWeb.GraphQL.Resolvers.Landing.FaqResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The Faq GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Landing.PressArticleResolver.html">ServerWeb.GraphQL.Resolvers.Landing.PressArticleResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The PressArticle GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Landing.VacancyResolver.html">ServerWeb.GraphQL.Resolvers.Landing.VacancyResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The Vacancy GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Localization.LanguageResolver.html">ServerWeb.GraphQL.Resolvers.Localization.LanguageResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The Language GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolver.html">ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The UsZipcode GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Media.PicturesResolver.html">ServerWeb.GraphQL.Resolvers.Media.PicturesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The Picture GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Services.BlockscoreResolver.html">ServerWeb.GraphQL.Resolvers.Services.BlockscoreResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The Blockscore GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Services.PtinResolver.html">ServerWeb.GraphQL.Resolvers.Services.PtinResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The Ptin GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schema.html">ServerWeb.GraphQL.Schema</a>
+  </div>
+    <div class="summary-synopsis"><p>The GraphQL schema.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Accounts.ProfileTypes.html">ServerWeb.GraphQL.Schemas.Accounts.ProfileTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The Profile GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Accounts.SubscriberTypes.html">ServerWeb.GraphQL.Schemas.Accounts.SubscriberTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The Subscriber GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Accounts.UserTypes.html">ServerWeb.GraphQL.Schemas.Accounts.UserTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The User GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Landing.FaqCategoryTypes.html">ServerWeb.GraphQL.Schemas.Landing.FaqCategoryTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The FaqCategory GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Landing.FaqTypes.html">ServerWeb.GraphQL.Schemas.Landing.FaqTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The Faq GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Landing.PressArticleTypes.html">ServerWeb.GraphQL.Schemas.Landing.PressArticleTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The PressArticle GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Landing.VacancyTypes.html">ServerWeb.GraphQL.Schemas.Landing.VacancyTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The Vacancy GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Localization.LanguageTypes.html">ServerWeb.GraphQL.Schemas.Localization.LanguageTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The Language GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Lookup.UsZipcodeTypes.html">ServerWeb.GraphQL.Schemas.Lookup.UsZipcodeTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The UsZipcode GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Media.PictureTypes.html">ServerWeb.GraphQL.Schemas.Media.PictureTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The Picture GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Middleware.ChangesetErrors.html">ServerWeb.GraphQL.Schemas.Middleware.ChangesetErrors</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Services.BlockscoreTypes.html">ServerWeb.GraphQL.Schemas.Services.BlockscoreTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The Blockscore GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Services.PtinTypes.html">ServerWeb.GraphQL.Schemas.Services.PtinTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The Ptin GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.UuidTypes.html">ServerWeb.GraphQL.Schemas.UuidTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The UUID4 scalar type allows UUID4 compliant strings to be passed in and out.
+Requires <code class="inline">{ :ecto, &quot;&gt;= 0.0.0&quot; }</code> package: <a href="https://github.com/elixir-ecto/ecto">https://github.com/elixir-ecto/ecto</a></p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.HTTPoison.FacebookBehaviour.html">ServerWeb.HTTPoison.FacebookBehaviour</a>
+  </div>
+    <div class="summary-synopsis"><p>Because we are mocking the api requests in ServerWeb.Provider.OauthFacebook
+we have to have a separate module to delegate the functions
+we use to the actual HTTPoison module, so that&#39;s all we do here.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.HTTPoison.GoogleBehaviour.html">ServerWeb.HTTPoison.GoogleBehaviour</a>
+  </div>
+    <div class="summary-synopsis"><p>Because we are mocking the api requests in ServerWeb.Provider.OauthGoogle
+we have to have a separate module to delegate the functions
+we use to the actual HTTPoison module, so that&#39;s all we do here.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.HTTPoison.LinkedInBehaviour.html">ServerWeb.HTTPoison.LinkedInBehaviour</a>
+  </div>
+    <div class="summary-synopsis"><p>Because we are mocking the api requests in ServerWeb.Provider.OauthLinkedIn
+we have to have a separate module to delegate the functions
+we use to the actual HTTPoison module, so that&#39;s all we do here.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.HTTPoison.S3Behaviour.html">ServerWeb.HTTPoison.S3Behaviour</a>
+  </div>
+    <div class="summary-synopsis"><p>AWS S3 mocking the api requests in Core.Uploaders.S3
+we have to have a separate module to delegate the functions
+we use to the actual HTTPoison module, so that&#39;s all we do here.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.HTTPoison.TwitterBehaviour.html">ServerWeb.HTTPoison.TwitterBehaviour</a>
+  </div>
+    <div class="summary-synopsis"><p>Because we are mocking the api requests in ServerWeb.Provider.OauthTwitter
+we have to have a separate module to delegate the functions
+we use to the actual HTTPoison module, so that&#39;s all we do here.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.Provider.HTTPoison.InMemory.html">ServerWeb.Provider.HTTPoison.InMemory</a>
+  </div>
+    <div class="summary-synopsis"><p>In memory for test enviroment.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.Provider.OauthFacebook.html">ServerWeb.Provider.OauthFacebook</a>
+  </div>
+    <div class="summary-synopsis"><p>Minimalist Facebook OAuth Authentication.
+birthday, email, firstName, id, languages, lastName, middleName, name, profilePic</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.Provider.OauthGoogle.html">ServerWeb.Provider.OauthGoogle</a>
+  </div>
+    <div class="summary-synopsis"><p>Minimalist Google OAuth Authentication.
+email, familyName, givenName, locale, name, picture, verifiedEmail</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.Provider.OauthLinkedIn.html">ServerWeb.Provider.OauthLinkedIn</a>
+  </div>
+    <div class="summary-synopsis"><p>Minimalist LinkedIn OAuth Authentication.
+emailAddress, firstName, lastName, profilePicture</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.Provider.OauthTwitter.html">ServerWeb.Provider.OauthTwitter</a>
+  </div>
+    <div class="summary-synopsis"><p>Minimalist Twitter OAuth Authentication.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -154,12 +640,39 @@ as controllers, views, channels and so on.</p></div>
     </div>
   </section>
 
+  <section class="details-list">
+    <h2 id="mix-tasks" class="section-heading">
+  <a href="#mix-tasks" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Mix Tasks
+</h2>
 
+    <div class="summary">
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Mix.Tasks.Server.Ecto.html">mix server.ecto</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Mix.Tasks.Server.Ecto.Migrate.html">mix server.ecto.migrate</a>
+  </div>
+    <div class="summary-synopsis"><p>Changes <a href="https://hexdocs.pm/logger/Logger.html"><code class="inline">Logger</code></a> level to <code class="inline">:info</code> before start migration.
+Changes level back when migration ends.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Mix.Tasks.Server.Ecto.Rollback.html">mix server.ecto.rollback</a>
+  </div>
+    <div class="summary-synopsis"><p>Changes <a href="https://hexdocs.pm/logger/Logger.html"><code class="inline">Logger</code></a> level to <code class="inline">:info</code> before start rollback.
+Changes level back when rollback ends.</p></div>
+</div>
+    </div>
+  </section>
       <footer class="footer">
         <p>
           <span class="line">
             Built using
-            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.21.2),
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.21.3),
           </span>
           <span class="line">
             designed by
@@ -167,18 +680,18 @@ as controllers, views, channels and so on.</p></div>
           </span>
         </p>
         <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
           <button class="line footer-button night-mode-toggle">
             Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
           </button>
           <button class="line footer-button tooltips-toggle">
             <span class="tooltips-option-disable">Disable tooltips</span>
             <span class="tooltips-option-enable">Enable tooltips</span>
-          </button>
-          <button class="line footer-button display-shortcuts-help">
-            Display keyboard shortcuts
-          </button>
-          <button class="line footer-button display-quick-switch">
-            Go to a HexDocs package
           </button>
         </p>
       </footer>

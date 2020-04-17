@@ -4,7 +4,8 @@ defmodule Core.Media.PictureTest do
   alias Core.{
     Config,
     Media,
-    Uploaders.Local
+    Uploaders.Local,
+    Uploaders.S3
   }
 
   import Core.Factory
@@ -58,10 +59,21 @@ defmodule Core.Media.PictureTest do
 
       %URI{path: "/media/" <> path} = URI.parse(picture.file.url)
 
-      assert File.exists?(Config.get!([Local, :uploads]) <> "/" <> path)
+      refute File.exists?(Config.get!([Local, :uploads]) <> "/" <> path)
       assert {:ok, %Picture{}} = Media.delete_picture(picture)
       assert_raise Ecto.NoResultsError, fn -> Media.get_picture!(picture.id) end
       refute File.exists?(Config.get!([Local, :uploads]) <> "/" <> path)
+    end
+
+    test "delete_picture/1 deletes the picture via S3" do
+      picture = insert(:picture)
+
+      %URI{path: "/media/" <> path} = URI.parse(picture.file.url)
+
+      refute File.exists?(Config.get!([S3, :public_endpoint]) <> "/" <> Config.get!([S3, :bucket]) <> "/" <> path)
+      assert {:ok, %Picture{}} = Media.delete_picture(picture)
+      assert_raise Ecto.NoResultsError, fn -> Media.get_picture!(picture.id) end
+      refute File.exists?(Config.get!([S3, :public_endpoint]) <> "/" <> Config.get!([S3, :bucket]) <> "/" <> path)
     end
   end
 end

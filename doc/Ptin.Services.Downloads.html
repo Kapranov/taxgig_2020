@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.21.3">
+    <meta name="project" content="Taxgig v1.0.0-beta.1-0-g3a745c7+dev">
+    <title>Ptin.Services.Downloads — Taxgig v1.0.0-beta.1-0-g3a745c7+dev</title>
+    <link rel="stylesheet" href="dist/elixir-0ab8a6a80ebaaa287431.css" />
+    <script src="dist/sidebar_items-98b77324d9.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-a225d03098e64fef431a.js"></script>
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://api.taxgig.com/" class="sidebar-projectName">
+Taxgig      </a>
+      <h2 class="sidebar-projectVersion">
+        v1.0.0-beta.1-0-g3a745c7+dev
+      </h2>
+    </div>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="tasks-list" href="#full-list">Mix Tasks</a></li>
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+        <small class="app-vsn">Taxgig v1.0.0-beta.1-0-g3a745c7+dev</small>
+Ptin.Services.Downloads          <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/ptin/lib/ptin/services/downloads.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>This module contains functions to manipulate files.
+<code class="inline">https://www.irs.gov/pub/irs-utl/FOIA_Extract.zip</code>
+<code class="inline">https://www.irs.gov/tax-professionals/ptin-information-and-the-freedom-of-information-act</code></p>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:error_tuple/0">error_tuple()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:posix/0">posix()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:reason/0">reason()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:result/0">result()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:success_tuple/0">success_tuple()</a>
+  </div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#create/1">create(attrs)</a>
+  </div>
+    <div class="summary-synopsis"><p>Insert into table an Expires with data, attrs is <code class="inline">expired</code> - &quot;Updated August 30, 2019&quot;
+and <code class="inline">url</code> - source archive or zip &quot;<a href="https://www.irs.gov/pub/irs-utl/foia_utah_extract.zip">https://www.irs.gov/pub/irs-utl/foia_utah_extract.zip</a>&quot;
+after couple minutes unpack zip archive and inserted in table an Expires then has been
+created ptins table and saved data in directory <code class="inline">priv/data</code> by <code class="inline">path</code> - <code class="inline">base_data()</code>
+from file with extention csv convert to json in bottom line deleted it. Every time when
+you have created Expires table in DB will be created only one record, previously record
+will be destroyed after repeat create action, only one record saved in DB.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get/1">get(path \\ base_data())</a>
+  </div>
+    <div class="summary-synopsis"><p>Download files, rename and unpack it.
+<code class="inline">Ptin.Services.Downloads.get()</code> or
+<code class="inline">Ptin.Services.Downloads.get(&quot;priv/data&quot;)</code></p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get!/1">get!(path \\ base_data())</a>
+  </div>
+    <div class="summary-synopsis"><p>Download file, rename unpack and insert into DB.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_csv/1">get_csv(path)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#insert/2">insert(path, file \\ &quot;foia_utah_extract.csv&quot;)</a>
+  </div>
+    <div class="summary-synopsis"><p>Take CSV file and import via stream only custom fields with Ecto.Repo to Database,
+<code class="inline">path</code> - directory by date, <code class="inline">file</code> - name CSV file.
+<code class="inline">Ptin.Services.Downloads.import(&quot;2020-1-16&quot;, &quot;foia_west_virginia_extract.csv&quot;)</code></p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#insert!/2">insert!(path, file \\ &quot;foia_utah_extract.csv&quot;)</a>
+  </div>
+    <div class="summary-synopsis"><p>Take CSV file and import via stream only custom fields with Ecto.Multi to Repo,
+<code class="inline">path</code> - directory by date, <code class="inline">file</code> - name CSV file.
+<code class="inline">Ptin.Services.Downloads.import(&quot;2020-1-16&quot;, &quot;foia_west_virginia_extract.csv&quot;)</code></p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#remove_file/2">remove_file(path, file)</a>
+  </div>
+    <div class="summary-synopsis"><p>Delete only files into directory by date.
+<code class="inline">path</code> - name directory by date,
+<code class="inline">file</code> - name file by delete.
+<code class="inline">Ptin.Services.Downloads.remove_file(&quot;2020-1-15&quot;, &quot;foia_vermont_extract.csv&quot;)</code></p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#remove_repo/1">remove_repo(path)</a>
+  </div>
+    <div class="summary-synopsis"><p>Destroy only directory by date with files.
+<code class="inline">Ptin.Services.Downloads.remove_repo(&quot;2020-1-15&quot;)</code></p></div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<section class="detail" id="t:error_tuple/0">
+  <div class="detail-header">
+    <a href="#t:error_tuple/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">error_tuple()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/ptin/lib/ptin/services/downloads.ex#L18" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>error_tuple() :: {:error, <a href="#t:reason/0">reason</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:posix/0">
+  <div class="detail-header">
+    <a href="#t:posix/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">posix()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/ptin/lib/ptin/services/downloads.ex#L16" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>posix() :: <a href="http://www.erlang.org/doc/man/file.html#type-posix">:file.posix</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:reason/0">
+  <div class="detail-header">
+    <a href="#t:reason/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">reason()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/ptin/lib/ptin/services/downloads.ex#L17" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>reason() :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:result/0">
+  <div class="detail-header">
+    <a href="#t:result/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">result()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/ptin/lib/ptin/services/downloads.ex#L20" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>result() :: <a href="#t:success_tuple/0">success_tuple</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:success_tuple/0">
+  <div class="detail-header">
+    <a href="#t:success_tuple/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">success_tuple()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/ptin/lib/ptin/services/downloads.ex#L19" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>success_tuple() :: {:ok}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<section class="detail" id="create/1">
+  <div class="detail-header">
+    <a href="#create/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">create(attrs)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/ptin/lib/ptin/services/downloads.ex#L92" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>create(%{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Insert into table an Expires with data, attrs is <code class="inline">expired</code> - &quot;Updated August 30, 2019&quot;
+and <code class="inline">url</code> - source archive or zip &quot;<a href="https://www.irs.gov/pub/irs-utl/foia_utah_extract.zip">https://www.irs.gov/pub/irs-utl/foia_utah_extract.zip</a>&quot;
+after couple minutes unpack zip archive and inserted in table an Expires then has been
+created ptins table and saved data in directory <code class="inline">priv/data</code> by <code class="inline">path</code> - <code class="inline">base_data()</code>
+from file with extention csv convert to json in bottom line deleted it. Every time when
+you have created Expires table in DB will be created only one record, previously record
+will be destroyed after repeat create action, only one record saved in DB.</p>
+  </section>
+</section>
+<section class="detail" id="get/1">
+    <span id="get/0"></span>
+  <div class="detail-header">
+    <a href="#get/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get(path \\ base_data())</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/ptin/lib/ptin/services/downloads.ex#L107" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>get(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>()) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Download files, rename and unpack it.
+<code class="inline">Ptin.Services.Downloads.get()</code> or
+<code class="inline">Ptin.Services.Downloads.get(&quot;priv/data&quot;)</code></p>
+  </section>
+</section>
+<section class="detail" id="get!/1">
+    <span id="get!/0"></span>
+  <div class="detail-header">
+    <a href="#get!/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get!(path \\ base_data())</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/ptin/lib/ptin/services/downloads.ex#L120" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>get!(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>()) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Download file, rename unpack and insert into DB.</p>
+  </section>
+</section>
+<section class="detail" id="get_csv/1">
+  <div class="detail-header">
+    <a href="#get_csv/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get_csv(path)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/ptin/lib/ptin/services/downloads.ex#L269" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>get_csv(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>()) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="insert/2">
+    <span id="insert/1"></span>
+  <div class="detail-header">
+    <a href="#insert/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">insert(path, file \\ &quot;foia_utah_extract.csv&quot;)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/ptin/lib/ptin/services/downloads.ex#L135" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>insert(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>()) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Take CSV file and import via stream only custom fields with Ecto.Repo to Database,
+<code class="inline">path</code> - directory by date, <code class="inline">file</code> - name CSV file.
+<code class="inline">Ptin.Services.Downloads.import(&quot;2020-1-16&quot;, &quot;foia_west_virginia_extract.csv&quot;)</code></p>
+  </section>
+</section>
+<section class="detail" id="insert!/2">
+    <span id="insert!/1"></span>
+  <div class="detail-header">
+    <a href="#insert!/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">insert!(path, file \\ &quot;foia_utah_extract.csv&quot;)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/ptin/lib/ptin/services/downloads.ex#L187" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>insert!(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>()) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Take CSV file and import via stream only custom fields with Ecto.Multi to Repo,
+<code class="inline">path</code> - directory by date, <code class="inline">file</code> - name CSV file.
+<code class="inline">Ptin.Services.Downloads.import(&quot;2020-1-16&quot;, &quot;foia_west_virginia_extract.csv&quot;)</code></p>
+  </section>
+</section>
+<section class="detail" id="remove_file/2">
+  <div class="detail-header">
+    <a href="#remove_file/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">remove_file(path, file)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/ptin/lib/ptin/services/downloads.ex#L254" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>remove_file(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>()) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Delete only files into directory by date.
+<code class="inline">path</code> - name directory by date,
+<code class="inline">file</code> - name file by delete.
+<code class="inline">Ptin.Services.Downloads.remove_file(&quot;2020-1-15&quot;, &quot;foia_vermont_extract.csv&quot;)</code></p>
+  </section>
+</section>
+<section class="detail" id="remove_repo/1">
+  <div class="detail-header">
+    <a href="#remove_repo/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">remove_repo(path)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/ptin/lib/ptin/services/downloads.ex#L238" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>remove_repo(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">bitstring</a>()) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Destroy only directory by date with files.
+<code class="inline">Ptin.Services.Downloads.remove_repo(&quot;2020-1-15&quot;)</code></p>
+  </section>
+</section>
+          </div>
+        </section>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.21.3),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

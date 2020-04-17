@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.21.3">
+    <meta name="project" content="Taxgig v1.0.0-beta.1-0-g3a745c7+dev">
+    <title>Core.Upload — Taxgig v1.0.0-beta.1-0-g3a745c7+dev</title>
+    <link rel="stylesheet" href="dist/elixir-0ab8a6a80ebaaa287431.css" />
+    <script src="dist/sidebar_items-98b77324d9.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-a225d03098e64fef431a.js"></script>
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://api.taxgig.com/" class="sidebar-projectName">
+Taxgig      </a>
+      <h2 class="sidebar-projectVersion">
+        v1.0.0-beta.1-0-g3a745c7+dev
+      </h2>
+    </div>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="tasks-list" href="#full-list">Mix Tasks</a></li>
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+        <small class="app-vsn">Taxgig v1.0.0-beta.1-0-g3a745c7+dev</small>
+Core.Upload          <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/upload/upload.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>Manage user uploads</p>
+<p>Options:</p>
+<ul>
+<li><code class="inline">:type</code>: presets for activity type (defaults to Document) and size limits from app configuration
+</li>
+<li><code class="inline">:description</code>: upload alternative text
+</li>
+<li><code class="inline">:base_url</code>: override base url
+</li>
+<li><code class="inline">:uploader</code>: override uploader
+</li>
+<li><code class="inline">:filters</code>: override filters
+</li>
+<li><code class="inline">:size_limit</code>: override size limit
+</li>
+<li><code class="inline">:activity_type</code>: override activity type
+</li>
+</ul>
+<p>The <code class="inline">%Core.Upload{}</code> struct: all documented fields are meant to be overwritten in filters:</p>
+<ul>
+<li><code class="inline">:id</code> - the upload id.
+</li>
+<li><code class="inline">:name</code> - the upload file name.
+</li>
+<li><code class="inline">:path</code> - the upload path: set at first to <code class="inline">id/name</code> but can be changed. Keep in mind that the path
+is once created permanent and changing it (especially in uploaders) is probably a bad idea!
+</li>
+<li><code class="inline">:tempfile</code> - path to the temporary file. Prefer in-place changes on the file rather than changing the
+path as the temporary file is also tracked by <code class="inline">Plug.Upload{}</code> and automatically deleted once the request is over.
+</li>
+</ul>
+<p>Related behaviors:</p>
+<ul>
+<li><a href="Core.Uploaders.Uploader.html"><code class="inline">Core.Uploaders.Uploader</code></a>
+</li>
+<li><a href="Core.Upload.Filter.html"><code class="inline">Core.Upload.Filter</code></a>
+</li>
+</ul>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:option/0">option()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:source/0">source()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:t/0">t()</a>
+  </div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#char_unescaped?/1">char_unescaped?(char)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#remove/2">remove(url, opts \\ [])</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#store/2">store(upload, opts \\ [])</a>
+  </div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<section class="detail" id="t:option/0">
+  <div class="detail-header">
+    <a href="#t:option/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">option()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/upload/upload.ex#L49" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>option() ::
+  {:type, :avatar | :banner | :background}
+  | {:description, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}
+  | {:activity_type, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}
+  | {:size_limit, nil | <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>()}
+  | {:uploader, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">module</a>()}
+  | {:filters, [<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">module</a>()]}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:source/0">
+  <div class="detail-header">
+    <a href="#t:source/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">source()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/upload/upload.ex#L44" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>source() ::
+  <a href="https://hexdocs.pm/plug/1.10.0/Plug.Upload.html#t:t/0">Plug.Upload.t</a>()
+  | (data_uri_string :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>())
+  | {:from_local, name :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), id :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), path :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:t/0">
+  <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">t()</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/upload/upload.ex#L57" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>t() :: %Core.Upload{
+  content_type: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  name: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  path: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  size: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>(),
+  tempfile: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()
+}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<section class="detail" id="char_unescaped?/1">
+  <div class="detail-header">
+    <a href="#char_unescaped?/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">char_unescaped?(char)</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/upload/upload.ex#L104" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>char_unescaped?(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">char</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="remove/2">
+    <span id="remove/1"></span>
+  <div class="detail-header">
+    <a href="#remove/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">remove(url, opts \\ [])</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/upload/upload.ex#L92" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>remove(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()) :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | {:error, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="store/2">
+    <span id="store/1"></span>
+  <div class="detail-header">
+    <a href="#store/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">store(upload, opts \\ [])</h1>
+      <a href="https://gitlab.com/taxgig/taxgig_ex/tree/master/blob/master/apps/core/lib/core/upload/upload.ex#L69" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>store(<a href="#t:source/0">source</a>(), [<a href="#t:option/0">option</a>()]) :: {:ok, <a href="https://hexdocs.pm/elixir/Map.html#t:t/0">Map.t</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+          </div>
+        </section>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.21.3),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

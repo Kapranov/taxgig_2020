@@ -212,7 +212,7 @@ defmodule Core.Media.Uploaders.S3Test do
 
     test "delete file", %{file_upload: file_upload} do
       assert S3.put_file(file_upload) == {:ok, {:file, "image_tmp.jpg"}}
-      assert S3.delete_file("image_tmp.jpg")
+      assert S3.remove_file("image_tmp.jpg")
     end
 
     test "delete object", %{file_upload: file_upload} do
@@ -221,7 +221,7 @@ defmodule Core.Media.Uploaders.S3Test do
     end
 
     test "returns error", %{file_upload: _file_upload} do
-      assert S3.delete_file("image.jpg") == {:error, "S3 Upload failed"}
+      assert S3.remove_file("image.jpg") == {:error, "S3 Upload failed"}
     end
   end
 end
