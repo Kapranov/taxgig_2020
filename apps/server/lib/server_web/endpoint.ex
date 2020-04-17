@@ -43,6 +43,8 @@ defmodule ServerWeb.Endpoint do
     plug CodeReloader
   end
 
+  plug Plug.Static, at: "/", from: {:server, "priv/docs"}, gzip: false
+
   plug RequestId
   plug Telemetry, event_prefix: [:phoenix, :endpoint]
 

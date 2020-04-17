@@ -18,7 +18,7 @@ defmodule TaxgigEx.MixProject do
       name: "Taxgig",
       preferred_cli_env: preferred_cli_env(),
       releases: releases(),
-      source_url: "https://gitlab.com/taxgig/taxgig_ex/tree/master",
+      source_url: "https://github.com/kapranov/taxgig_2020",
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: ["coveralls.html": :test],
@@ -74,8 +74,8 @@ defmodule TaxgigEx.MixProject do
   defp docs do
     [
       name: "TaxgigEx",
-      source_url: "https://gitlab.com/taxgig/taxgig_ex",
-      homepage_url: "http://localhost:4000",
+      source_url: "https://github.com/kapranov/taxgig_2020",
+      homepage_url: "htts://api.taxgig.me:4001/docs",
       docs: [
         main: "TaxgigEx",
         logo: "",
