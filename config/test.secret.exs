@@ -1,5 +1,9 @@
 use Mix.Config
 
+config :logger, level: :warn
+
+config :argon2_elixir, t_cost: 2, m_cost: 12
+
 config :core, Core.Repo,
   username: "kapranov",
   password: "nicmos6922",
@@ -26,29 +30,11 @@ config :blockscore,
   token: "sk_test_6596def12b6a0fba8784ce0bd381a8e6:",
   url: "https://sk_test_6596def12b6a0fba8784ce0bd381a8e6:@api.blockscore.com/people"
 
-#config :ex_aws,
-#  access_key_id: [{:system, "AKIAIAOAONIULXQGMOUA"}, :instance_role],
-#  bucket_url: "http://s3-eu-west-1.amazonaws.com/konbucket2",
-#  debug_requests: true,
-#  json_codec: Jason,
-#  region: "eu-west-1",
-#  secret_access_key: [{:system, "dGhlcmUgYXJlIG5vIGVhc3RlciBlZ2dzIGhlcmVf"}, :instance_role],
-#  s3: [
-#    access_key_id: "AKIAIAOAONIULXQGMOUA",
-#    host: "s3-eu-west-1.amazonaws.com/konbucket2",
-#    port: 443,
-#    region: "eu-west-1",
-#    scheme: "http://",
-#    secret_access_key: "dGhlcmUgYXJlIG5vIGVhc3RlciBlZ2dzIGhlcmVf"
-#  ]
-
 config :ex_aws,
   access_key_id: [{:system, "VYPQIQWQEFQ3PWORFF4Y"}, :instance_role],
-  bucket: "taxgig",
   bucket_url: "https://taxgig.nyc3.digitaloceanspaces.com",
   debug_requests: true,
   json_codec: Jason,
-  public_endpoint: "https://nyc3.digitaloceanspaces.com",
   region: "nyc3",
   secret_access_key: [{:system, "qKDzXvnTdQxhVmp4hBa9MnJw/5A/SG35m8AvQMBCwOI"}, :instance_role],
   s3: [
@@ -58,6 +44,33 @@ config :ex_aws,
     scheme: "https://",
     secret_access_key: "qKDzXvnTdQxhVmp4hBa9MnJw/5A/SG35m8AvQMBCwOI"
   ]
+
+config :core, Core.Upload,
+  uploader: Core.Uploaders.S3,
+  filters: [
+    Core.Upload.Filter.Dedupe,
+    Core.Upload.Filter.Optimize
+  ],
+  link_name: true,
+  proxy_remote: true,
+  proxy_opts: [
+    redirect_on_failure: false,
+    max_body_length: 25 * 1_048_576,
+    http: [
+      follow_redirect: true,
+      pool: :upload
+    ],
+    https: [
+      follow_redirect: true,
+      pool: :upload
+    ]
+  ]
+
+config :core, Core.Uploaders.Local, uploads: "test/uploads"
+config :core, Core.Uploaders.S3,
+  bucket: "taxgig",
+  streaming_enabled: true,
+  public_endpoint: "https://nyc3.digitaloceanspaces.com"
 
 config :server, Google,
   client_id: "670116700803-b76nhucfvtbci1c9cura69v56vfjitad.apps.googleusercontent.com",

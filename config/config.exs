@@ -2,8 +2,6 @@ import Config
 
 import_config "../apps/server/config/config.exs"
 
-config :phoenix, :json_library, Jason
-
 elixir_logger_level = System.get_env("ELIXIR_LOGGER_LEVEL") || "info"
 
 level =
@@ -16,6 +14,8 @@ level =
       :info
   end
 
+config :phoenix, :json_library, Jason
+
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id],
@@ -23,23 +23,7 @@ config :logger, :console,
 
 config :core, ecto_repos: [Core.Repo, Ptin.Repo]
 
-config :core, Core.Upload,
-  uploader: Core.Uploaders.Local,
-  filters: [
-    Core.Upload.Filter.Dedupe,
-    Core.Upload.Filter.Optimize
-  ],
-  link_name: true
-
-config :core, Core.Uploaders.Local,
-  uploads: "uploads"
-
 config :core, base_url: "http://localhost:4000"
-
-config :core, Core.Uploaders.S3,
-  bucket: nil,
-  streaming_enabled: true,
-  public_endpoint: "https://s3.amazonaws.com"
 
 config :core, :instance,
   name: System.get_env("CORE_INSTANCE_NAME") || "Core Instance",

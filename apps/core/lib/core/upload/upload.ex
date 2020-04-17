@@ -39,7 +39,7 @@ defmodule Core.Upload do
   @name __MODULE__
   @host Application.get_env(:server, ServerWeb.Endpoint)[:url][:host]
   @port Application.get_env(:server, ServerWeb.Endpoint)[:url][:port]
-  @url "http://" <> @host <> ":" <> "#{@port}"
+  @url "https://" <> @host <> ":" <> "#{@port}"
 
   @type source ::
           Plug.Upload.t()

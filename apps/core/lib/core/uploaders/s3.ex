@@ -73,7 +73,7 @@ defmodule Core.Uploaders.S3 do
 
   @spec delete_file(String.t()) :: ExAws.Operation.S3.t() | {:error, String.t()}
   def delete_file(file) do
-    bucket = Application.get_env(:ex_aws, :bucket)
+    bucket = Application.get_env(:core, Core.Uploaders.S3)[:bucket]
     if strict_encode(URI.decode(file)) do
       list =
         ExAws.S3.list_objects(bucket)

@@ -230,7 +230,7 @@ defmodule Core.Accounts.ProfileTest do
 
       assert {:ok, %Profile{} = updated} = Accounts.update_profile(data, params)
 
-      <<"http://localhost:4000/media/", logo_id::binary-size(36), "/image_tmp.jpg" >> = updated.logo.url
+      <<"https://taxgig.me:4001/media/", logo_id::binary-size(64), ".jpg?name=image_tmp.jpg" >> = updated.logo.url
 
       assert updated.address           == "updated text"
       assert updated.banner            == "updated text"
@@ -239,7 +239,7 @@ defmodule Core.Accounts.ProfileTest do
       assert updated.us_zipcode_id     == struct.us_zipcode_id
 
       assert updated.logo.name         == "Logo"
-      assert updated.logo.url          == "http://localhost:4000/media/#{logo_id}/image_tmp.jpg"
+      assert updated.logo.url          == "https://taxgig.me:4001/media/#{logo_id}.jpg?name=image_tmp.jpg"
       assert updated.logo.content_type == "image/jpg"
       assert updated.logo.size         == 5024
 
@@ -247,7 +247,7 @@ defmodule Core.Accounts.ProfileTest do
 
       %URI{path: "/media/" <> logo_path} = URI.parse(logo_url)
 
-      assert File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
+      refute File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
 
       file = %Plug.Upload{
         content_type: "image/jpg",
@@ -272,17 +272,17 @@ defmodule Core.Accounts.ProfileTest do
           )
         )
 
-      <<"http://localhost:4000/media/", logo_id::binary-size(36), "/bernie.jpg" >> = updated.logo.url
+      <<"https://taxgig.me:4001/media/", logo_id::binary-size(64), ".jpg?name=bernie.jpg" >> = updated.logo.url
 
       assert %Profile{} = updated
       assert updated.id == user_id
 
-      assert File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
+      refute File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
 
       assert updated.logo.name         == "bernie.jpg"
-      assert updated.logo.url          == "http://localhost:4000/media/#{logo_id}/bernie.jpg"
+      assert updated.logo.url          == "https://taxgig.me:4001/media/#{logo_id}.jpg?name=bernie.jpg"
       assert updated.logo.content_type == "image/jpg"
-      assert updated.logo.size         == 72338
+      assert updated.logo.size         == 63657
     end
 
     test "update_profile/2 with invalid data returns error changeset" do
@@ -308,11 +308,11 @@ defmodule Core.Accounts.ProfileTest do
       %Profile{logo: %{url: logo_url}, id: user_id} = data
       %URI{path: "/media/" <> logo_path} = URI.parse(logo_url)
 
-      assert File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
+      refute File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
 
       assert {:ok, %Profile{}} = Accounts.delete_profile(data)
       assert_raise Ecto.NoResultsError, fn -> Accounts.get_profile!(user_id) end
-      assert File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
+      refute File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
     end
 
     test "delete_profile/1 deletes the profile with media files version 2" do
@@ -326,10 +326,10 @@ defmodule Core.Accounts.ProfileTest do
 
       %URI{path: "/media/" <> logo_path} = URI.parse(logo_url)
 
-      assert File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
+      refute File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
       assert {:ok, %Profile{}} = Accounts.delete_profile(data)
       assert_raise Ecto.NoResultsError, fn -> Accounts.get_profile!(user_id) end
-      assert File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
+      refute File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
     end
 
     test "change_profile/1 returns profile changeset" do

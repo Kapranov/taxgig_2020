@@ -1,6 +1,7 @@
 use Mix.Config
 
-config :logger, level: :warn
+root_path = Path.expand("../config/", __DIR__)
+file_path = "#{root_path}/test.secret.exs"
 
 case System.cmd "uname", [] do
   {"FreeBSD\n",0} -> nil
@@ -18,14 +19,6 @@ if System.get_env("CI") do
   print_report_file: true,
   prepend_project_name?: true
 end
-
-config :argon2_elixir, t_cost: 2, m_cost: 12
-
-config :core, Core.Upload, filters: [], link_name: false
-config :core, Core.Uploaders.Local, uploads: "test/uploads"
-
-root_path = Path.expand("../config/", __DIR__)
-file_path = "#{root_path}/test.secret.exs"
 
 if File.exists?(file_path) do
   import_config "test.secret.exs"

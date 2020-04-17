@@ -1,7 +1,5 @@
 use Mix.Config
 
-config :logger, level: :info
-
 root_path = Path.expand("../config/", __DIR__)
 file_path = "#{root_path}/prod.secret.exs"
 
