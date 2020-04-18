@@ -169,7 +169,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
     end
 
     it "returns not found when press article does not exist - `AbsintheHelpers`" do
-      id =  Ecto.UUID.generate()
+      id = FlakeId.get()
 
       query = """
       {
@@ -194,7 +194,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
     end
 
     it "returns not found when press article does not exist - `Absinthe.run`" do
-      id =  Ecto.UUID.generate()
+      id = FlakeId.get()
       context = %{}
 
       query = """
@@ -684,7 +684,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
     end
 
     it "returns not found when press article does not exist - `AbsintheHelpers`" do
-      id = Ecto.UUID.generate()
+      id = FlakeId.get()
 
       query = """
       mutation {
@@ -700,7 +700,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
     end
 
     it "returns not found when press article does not exist - `Absinthe.run`" do
-      id = Ecto.UUID.generate()
+      id = FlakeId.get()
       context = %{}
 
       query = """

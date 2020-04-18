@@ -289,7 +289,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
     end
 
     it "returns not found when accounts an user does not exist - `AbsintheHelpers`" do
-      id =  Ecto.UUID.generate()
+      id = FlakeId.get()
       struct = insert(:user)
 
       query = """
@@ -329,7 +329,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
     end
 
     it "returns not found when accounts an user does not exist - `Absinthe.run`" do
-      id =  Ecto.UUID.generate()
+      id = FlakeId.get()
       struct = insert(:user)
       context = %{current_user: struct}
 
@@ -1059,7 +1059,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
     end
 
     it "returns not found when accounts an user does not exist - `AbsintheHelpers`" do
-      id = Ecto.UUID.generate()
+      id = FlakeId.get()
       struct = insert(:user)
 
       query = """
@@ -1077,7 +1077,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
     end
 
     it "returns not found when accounts an user does not exist - `Absinthe.run`" do
-      id = Ecto.UUID.generate()
+      id = FlakeId.get()
       struct = insert(:user)
       context = %{current_user: struct}
 
@@ -1234,7 +1234,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getCode"]
 
-      assert found["code"]     == "ok"
+      assert found["code"]     =~ "https://www.facebook.com/v6.0/dialog/oauth?"
       assert found["provider"] == "facebook"
     end
 
@@ -1253,7 +1253,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{data: %{"getCode" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["code"] == "ok"
+      assert found["code"] =~ "https://www.facebook.com/v6.0/dialog/oauth?"
     end
 
     it "return code by twitter - `AbsintheHelpers`" do
@@ -1630,9 +1630,9 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getToken"]
 
-      assert found["access_token"]      == "ok"
-      assert found["error"]             == nil
-      assert found["error_description"] == nil
+      assert found["access_token"]      == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
       assert found["provider"]          == "facebook"
@@ -1663,9 +1663,9 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{data: %{"getToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["access_token"]      == "ok"
-      assert found["error"]             == nil
-      assert found["error_description"] == nil
+      assert found["access_token"]      == nil
+      assert found["error"]             == "invalid provider"
+      assert found["error_description"] == "invalid url by provider"
       assert found["expires_in"]        == nil
       assert found["id_token"]          == nil
       assert found["provider"]          == "facebook"
@@ -2218,7 +2218,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["code"]     == "ok"
+      assert found["code"]     == nil
       assert found["provider"] == "facebook"
     end
 
@@ -2554,14 +2554,14 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getRefreshToken"]
 
-      assert found["access_token"]      == "ok"
+      assert found["access_token"]      == nil
       assert found["error"]             == nil
       assert found["error_description"] == nil
-      assert found["expires_in"]        == nil
+      assert found["expires_in"]        == "3320"
       assert found["id_token"]          == nil
       assert found["provider"]          == "facebook"
       assert found["refresh_token"]     == nil
-      assert found["scope"]             == nil
+      assert found["scope"]             == "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid"
       assert found["token_type"]        == nil
     end
 
@@ -2587,14 +2587,14 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{data: %{"getRefreshToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["access_token"]      == "ok"
+      assert found["access_token"]      == nil
       assert found["error"]             == nil
       assert found["error_description"] == nil
-      assert found["expires_in"]        == nil
+      assert found["expires_in"]        == "3320"
       assert found["id_token"]          == nil
       assert found["provider"]          == "facebook"
       assert found["refresh_token"]     == nil
-      assert found["scope"]             == nil
+      assert found["scope"]             == "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid"
       assert found["token_type"]        == nil
     end
 
@@ -3204,7 +3204,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error"]             == nil
       assert found["error_description"] == nil
       assert found["exp"]               == nil
-      assert found["expires_in"]        == nil
+      assert found["expires_in"]        == "3320"
       assert found["provider"]          == "facebook"
       assert found["scope"]             == nil
       assert found["sub"]               == nil
@@ -3242,7 +3242,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error"]             == nil
       assert found["error_description"] == nil
       assert found["exp"]               == nil
-      assert found["expires_in"]        == nil
+      assert found["expires_in"]        == "3320"
       assert found["provider"]          == "facebook"
       assert found["scope"]             == nil
       assert found["sub"]               == nil
@@ -3591,8 +3591,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       created = json_response(res, 200)["data"]["signUp"]
 
       assert created["access_token"]      == nil
-      assert created["error"]             == "invalid provider"
-      assert created["error_description"] == "invalid url by provider"
+      assert created["error"]             == "invalid_grant"
+      assert created["error_description"] == "Malformed auth code."
       assert created["provider"]          == "facebook"
     end
 
@@ -3617,8 +3617,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         Absinthe.run(query, Schema, context: context)
 
       assert created["access_token"]      == nil
-      assert created["error"]             == "invalid provider"
-      assert created["error_description"] == "invalid url by provider"
+      assert created["error"]             == "invalid_grant"
+      assert created["error_description"] == "Malformed auth code."
       assert created["provider"]          == "facebook"
     end
 
@@ -4174,8 +4174,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       created = json_response(res, 200)["data"]["signIn"]
 
       assert created["access_token"]      == nil
-      assert created["error"]             == "invalid provider"
-      assert created["error_description"] == "invalid url by provider"
+      assert created["error"]             == "invalid code"
+      assert created["error_description"] == "code doesn't correct"
       assert created["provider"]          == "facebook"
     end
 
@@ -4200,8 +4200,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         Absinthe.run(query, Schema, context: context)
 
       assert created["access_token"]      == nil
-      assert created["error"]             == "invalid provider"
-      assert created["error_description"] == "invalid url by provider"
+      assert created["error"]             == "invalid code"
+      assert created["error_description"] == "code doesn't correct"
       assert created["provider"]          == "facebook"
     end
 

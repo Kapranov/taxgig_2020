@@ -5,7 +5,7 @@ ssl_cer_path = "#{ssl_dir}/fullchain.pem"
 ssl_key_path = "#{ssl_dir}/privkey.pem"
 
 config :server, ServerWeb.Endpoint,
-  url: [scheme: "https", host: "api.taxgig.me", port: 4001],
+  url: [scheme: "https", host: "taxgig.me", port: 4001],
   https: [
     port: 4001,
     cipher_suite: :strong,

@@ -1,9 +1,7 @@
 use Mix.Config
 
 config :server, ServerWeb.Endpoint,
-  # url: [host: "taxgig.me", ip: {127, 0, 0, 1}],
-  # url: [host: "taxgig.me", port: 4001, ip: {127, 0, 0, 1}],
-  url: [host: "taxgig.me", port: 4001, ip: {192, 168, 2, 145}],
+  url: [host: "taxgig.me", port: 4001, ip: {127, 0, 0, 1}],
   salt: "user",
   redirect_uri: "https://taxgig.me:4001/graphiql",
   secret_key_base: "4rKBiN5BznqeClNzy1t+4LmfMH48TxlPCUT996MELKJ2t/zwrvQsPrG71vhE7vKu",

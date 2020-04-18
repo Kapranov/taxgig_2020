@@ -58,7 +58,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
     end
 
     it "returns error permission denied when accounts an user does not exist" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       struct = insert(:user)
       context = %{context: %{current_user: struct}}
       {:error, error} = UserResolver.show(%{}, %{id: id}, context)
@@ -214,7 +214,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
     end
 
     it "returns not found when accounts an user does not exist" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       {:error, error} = UserResolver.delete(%{}, %{id: id}, %{})
       assert error == [
         [field: :id, message: "Can't be blank"],
@@ -317,8 +317,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       {:ok, data} = UserResolver.get_token(%{}, args, %{})
       assert data == %{
         access_token: nil,
-        error: "  ",
-        error_description: nil,
         expires_in: "3320",
         provider: "facebook"
       }
@@ -431,9 +429,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
     end
 
     it "return refresh code by facebook" do
-#      args = %{provider: "facebook"}
-#      {:ok, data} = UserResolver.get_refresh_token_code(%{}, args, %{})
-#      assert data == %{code: :ok, provider: "facebook"}
+      # args = %{provider: "facebook"}
+      #   {:ok, data} = UserResolver.get_refresh_token_code(%{}, args, %{})
+      #      assert data == %{code: :ok, provider: "facebook"}
     end
 
     it "return refresh code by twitter" do
@@ -571,9 +569,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
     end
 
     it "return refresh token  by facebook" do
-#      args = %{provider: "facebook"}
-#      {:ok, %{access_token: data}} = UserResolver.get_refresh_token(%{}, args, %{})
-#      assert data == :ok
+      # args = %{provider: "facebook"}
+      # {:ok, %{access_token: data}} = UserResolver.get_refresh_token(%{}, args, %{})
+      # assert data == :ok
     end
 
     it "return refresh token  by twitter" do
@@ -728,7 +726,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       args = %{provider: "linkedin", code: "ok_code"}
       {:ok, data} = UserResolver.signup(%{}, args, %{})
       assert data.access_token =~ "SFMyNTY"
-      assert data.provider     == "linkedin"
+      assert data.provider == "linkedin"
     end
 
     it "return error by linkedin when code is nil" do
@@ -845,13 +843,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
     end
 
     it "signin via facebook and return access token" do
-#      args = %{provider: "facebook"}
-#      {:ok, error} = UserResolver.signin(%{}, args, %{})
-#      assert error == %{
-#        error: "invalid provider",
-#        error_description: "invalid url by provider",
-#        provider: "facebook"
-#      }
+      # args = %{provider: "facebook"}
+      # {:ok, error} = UserResolver.signin(%{}, args, %{})
+      # assert error == %{
+      #   error: "invalid provider",
+      #   error_description: "invalid url by provider",
+      #   provider: "facebook"
+      # }
     end
 
     it "signin via twitter and return access token" do

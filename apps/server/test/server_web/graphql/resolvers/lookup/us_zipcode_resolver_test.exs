@@ -14,7 +14,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolverTest do
     end
 
     it "returns not found when UsZipcode does not exist" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       {:error, error} = UsZipcodeResolver.show(nil, %{id: id}, nil)
       assert error == "The UsZipcode #{id} not found!"
     end

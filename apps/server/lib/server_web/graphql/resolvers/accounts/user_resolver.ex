@@ -692,7 +692,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             if is_nil(data["error"]) do
               with {:ok, info} <- OauthLinkedIn.user_email(data["access_token"]),
                    {:ok, profile} <- OauthLinkedIn.user_profile(data["access_token"]) do
-                if is_nil(profile["email"]) do
+                if is_nil(info["email"]) do
                   {:ok, %{
                       error: @error_email,
                       error_description: "Email dosn't exist in Linkedin profile",

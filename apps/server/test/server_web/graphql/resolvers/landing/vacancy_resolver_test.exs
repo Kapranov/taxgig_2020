@@ -26,7 +26,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.VacancyResolverTest do
     end
 
     it "returns not found when Vacancy does not exist" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       {:error, error} = VacancyResolver.show(nil, %{id: id}, nil)
       assert error == "The Vacancy #{id} not found!"
     end
@@ -108,7 +108,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.VacancyResolverTest do
     end
 
     it "returns not found when Vacancy does not exist" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       {:error, error} = VacancyResolver.delete(nil, %{id: id}, nil)
       assert error == "The Vacancy #{id} not found!"
     end

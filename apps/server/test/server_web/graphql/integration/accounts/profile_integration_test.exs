@@ -137,6 +137,17 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert List.last(data)["user"]["languages"][:name]        == nil
       assert List.last(data)["user"]["languages"][:inserted_at] == nil
       assert List.last(data)["user"]["languages"][:updated_at]  == nil
+
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "returns profile - `Absinthe.run`" do
@@ -225,6 +236,17 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert first["user"]["languages"][:name]        == nil
       assert first["user"]["languages"][:inserted_at] == nil
       assert first["user"]["languages"][:updated_at]  == nil
+
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
   end
 
@@ -318,6 +340,17 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert found["user"]["languages"][:name]        == nil
       assert found["user"]["languages"][:inserted_at] == nil
       assert found["user"]["languages"][:updated_at]  == nil
+
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "returns specific profile by user_id - `Absinthe.run`" do
@@ -404,10 +437,21 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert found["us_zipcode"]["city"]              == struct.us_zipcode.city
       assert found["us_zipcode"]["state"]             == struct.us_zipcode.state
       assert found["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
+
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "returns not found when accounts subscriber does not exist - `AbsintheHelpers`" do
-      user_id =  Ecto.UUID.generate()
+      user_id = FlakeId.get()
       struct = insert(:profile)
       user = Core.Accounts.User.find_by(id: struct.user_id)
 
@@ -454,10 +498,21 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "showProfile"))
 
       assert hd(json_response(res, 200)["errors"])["message"] == "permission denied"
+
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "returns not found when accounts subscriber does not exist - `Absinthe.run`" do
-      user_id =  Ecto.UUID.generate()
+      user_id = FlakeId.get()
       struct = insert(:profile)
       user = Core.Accounts.User.find_by(id: struct.user_id)
       context = %{current_user: user}
@@ -503,6 +558,16 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
         Absinthe.run(query, Schema, context: context)
 
       assert found == nil
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "returns error for missing params - `AbsintheHelpers`" do
@@ -552,6 +617,16 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "showProfile"))
 
       assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
   end
 
@@ -671,6 +746,16 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert updated["us_zipcode"]["city"]              == struct.us_zipcode.city
       assert updated["us_zipcode"]["state"]             == struct.us_zipcode.state
       assert updated["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "update specific profile by user_id - `Absinthe.run`" do
@@ -883,6 +968,16 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert updated["us_zipcode"]["city"]              == struct.us_zipcode.city
       assert updated["us_zipcode"]["state"]             == struct.us_zipcode.state
       assert updated["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "nothing change for missing params" do
@@ -914,6 +1009,16 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
       deleted = json_response(res, 200)["data"]["deleteProfile"]
       assert deleted["user"]["id"] == struct.user_id
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "delete specific profile by user_id - `Absinthe.run`" do
@@ -933,10 +1038,20 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
         Absinthe.run(query, Schema, context: context)
 
       assert deleted["id"] == struct.id
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "returns not found when profile does not exist - `AbsintheHelpers`" do
-      id = Ecto.UUID.generate()
+      id = FlakeId.get()
       struct = insert(:profile)
       user = Core.Accounts.User.find_by(id: struct.user_id)
 
@@ -954,10 +1069,20 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
       assert hd(json_response(res, 200)["errors"])["message"] == "permission denied"
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "returns not found when profile does not exist - `Absinthe.run" do
-      id = Ecto.UUID.generate()
+      id = FlakeId.get()
       struct = insert(:profile)
       user = Core.Accounts.User.find_by(id: struct.user_id)
       context = %{current_user: user}
@@ -974,6 +1099,16 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
         Absinthe.run(query, Schema, context: context)
 
       assert deleted == nil
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "returns error for missing params - `AbsintheHelpers`" do

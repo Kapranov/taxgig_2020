@@ -32,6 +32,16 @@ defmodule Core.Media.PictureTest do
     test "get_picture!/1 returns the picture with given user_id" do
       picture = insert(:picture)
       assert Media.get_picture!(picture.id).id == picture.id
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(picture.file.url)
     end
 
     test "create_picture/1 with valid data creates a picture" do
@@ -63,6 +73,7 @@ defmodule Core.Media.PictureTest do
       assert {:ok, %Picture{}} = Media.delete_picture(picture)
       assert_raise Ecto.NoResultsError, fn -> Media.get_picture!(picture.id) end
       refute File.exists?(Config.get!([Local, :uploads]) <> "/" <> path)
+      assert Core.Upload.remove(picture.file.url)
     end
 
     test "delete_picture/1 deletes the picture via S3" do
@@ -74,6 +85,7 @@ defmodule Core.Media.PictureTest do
       assert {:ok, %Picture{}} = Media.delete_picture(picture)
       assert_raise Ecto.NoResultsError, fn -> Media.get_picture!(picture.id) end
       refute File.exists?(Config.get!([S3, :public_endpoint]) <> "/" <> Config.get!([S3, :bucket]) <> "/" <> path)
+      assert Core.Upload.remove(picture.file.url)
     end
   end
 end

@@ -24,7 +24,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Localization.LanguageResolverTest do
     end
 
     it "returns not found when Language does not exist" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       {:error, error} = LanguageResolver.show(nil, %{id: id}, nil)
       assert error == "The Language #{id} not found!"
     end
@@ -99,7 +99,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Localization.LanguageResolverTest do
     end
 
     it "returns not found when Language does not exist" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       {:error, error} = LanguageResolver.delete(nil, %{id: id}, nil)
       assert error == "The Language #{id} not found!"
     end

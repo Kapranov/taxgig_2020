@@ -65,6 +65,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
           updated_at: _
         }
       ] = List.first(data).user.languages
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
   end
 
@@ -121,15 +131,35 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
           updated_at: _
         }
       ] = found.user.languages
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "returns not found when profile does not exist" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       struct = insert(:profile)
       user = Core.Accounts.User.find_by(id: struct.user_id)
       context = %{context: %{current_user: user}}
       {:error, error} = ProfileResolver.show(nil, %{id: id}, context)
       assert error == "permission denied"
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "returns error for missing params" do
@@ -141,6 +171,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       assert error == [
         [field: :id, message: "Can't be blank or Unauthenticated"]
       ]
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
   end
 
@@ -257,6 +297,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       assert updated.description   == "updated text"
       assert updated.us_zipcode_id == zipcode.id
       assert updated.user_id       == struct.user_id
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(data.url)
     end
 
     it "nothing change for missing params" do
@@ -277,6 +337,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       assert updated.logo.updated_at   == struct.logo.updated_at
       assert updated.us_zipcode_id     == struct.us_zipcode_id
       assert updated.user_id           == struct.user_id
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "returns error for missing params" do
@@ -288,6 +358,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       assert error == [
         [field: :user_id, message: "Can't be blank or Unauthenticated"]
       ]
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
   end
 
@@ -298,15 +378,35 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       context = %{context: %{current_user: user}}
       {:ok, deleted} = ProfileResolver.delete(nil, %{id: struct.user_id}, context)
       assert deleted.id == struct.user_id
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "returns not found when profile does not exist" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       struct = insert(:profile)
       user = Core.Accounts.User.find_by(id: struct.user_id)
       context = %{context: %{current_user: user}}
       {:error, error} = ProfileResolver.delete(nil, %{id: id}, context)
       assert error == "permission denied"
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
 
     it "returns error for missing params" do
@@ -316,6 +416,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       args = %{id: nil}
       {:error, error} = ProfileResolver.delete(nil, args, context)
       assert error == [[field: :id, message: "Can't be blank"]]
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.logo.url)
     end
   end
 end

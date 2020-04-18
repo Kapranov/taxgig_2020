@@ -60,7 +60,7 @@ defmodule ServerWeb.GraphQL.Integration.Lookup.UsZipcodeIntegrationTest do
     end
 
     it "returns not found when UsZipcode does not exist - `AbsintheHelpers`" do
-      id =  Ecto.UUID.generate()
+      id = FlakeId.get()
 
       query = """
       {
@@ -81,7 +81,7 @@ defmodule ServerWeb.GraphQL.Integration.Lookup.UsZipcodeIntegrationTest do
     end
 
     it "returns not found when UsZipcode does not exist - `Absinthe.run`" do
-      id =  Ecto.UUID.generate()
+      id = FlakeId.get()
       context = %{}
 
       query = """

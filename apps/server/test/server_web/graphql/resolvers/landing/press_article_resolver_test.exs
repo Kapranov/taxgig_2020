@@ -30,7 +30,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.PressArticleResolverTest do
     end
 
     it "returns not found when PressArticle does not exist" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       {:error, error} = PressArticleResolver.show(nil, %{id: id}, nil)
       assert error == "The Press Article #{id} not found!"
     end
@@ -123,7 +123,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.PressArticleResolverTest do
     end
 
     it "returns not found when PressArticle does not exist" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       {:error, error} = PressArticleResolver.delete(nil, %{id: id}, nil)
       assert error == "The Press Article #{id} not found!"
     end

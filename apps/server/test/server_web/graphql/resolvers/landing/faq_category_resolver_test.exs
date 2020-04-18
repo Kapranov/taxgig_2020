@@ -25,7 +25,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolverTest do
     end
 
     it "returns not found Faq with specific FaqCategory by id" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       {:ok, found} = FaqCategoryResolver.find_faq_category(nil, %{id: id}, nil)
       assert found == []
     end
@@ -46,7 +46,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolverTest do
     end
 
     it "returns not found when FaqCategory does not exist" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       {:error, error} = FaqCategoryResolver.show(nil, %{id: id}, nil)
       assert error == "The Faq Category #{id} not found!"
     end
@@ -109,7 +109,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolverTest do
     end
 
     it "returns not found when FaqCategory does not exist" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       {:error, error} = FaqCategoryResolver.delete(nil, %{id: id}, nil)
       assert error == "The Faq Category #{id} not found!"
     end

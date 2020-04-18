@@ -24,7 +24,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolverTest do
     end
 
     it "returns not found when accounts subscriber does not exist" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       {:error, error} = SubscriberResolver.show(nil, %{id: id}, nil)
       assert error == "The Subscriber #{id} not found!"
     end
@@ -96,7 +96,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolverTest do
     end
 
     it "returns not found when accounts subscriber does not exist" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       {:error, error} = SubscriberResolver.delete(nil, %{id: id}, nil)
       assert error == "The Subscriber #{id} not found!"
     end

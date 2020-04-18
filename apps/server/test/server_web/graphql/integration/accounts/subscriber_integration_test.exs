@@ -127,7 +127,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
     end
 
     it "returns not found when accounts subscriber does not exist - `AbsintheHelpers`" do
-      id =  Ecto.UUID.generate()
+      id = FlakeId.get()
 
       query = """
       {
@@ -149,7 +149,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
     end
 
     it "returns not found when accounts subscriber does not exist - `Absinthe.run`" do
-      id =  Ecto.UUID.generate()
+      id = FlakeId.get()
       context = %{}
 
       query = """
@@ -348,7 +348,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
       assert updated["email"]       == "kapranov.lugatex@gmail.com"
       assert updated["pro_role"]    == true
       assert updated["inserted_at"] == format_time(struct.inserted_at)
-      assert updated["updated_at"]  == format_time(struct.updated_at)
     end
 
     it "update specific accounts subscriber by id - `Absinthe.run`" do
@@ -541,7 +540,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
     end
 
     it "returns not found when accounts subscriber does not exist - ``AbsintheHelpers`" do
-      id = Ecto.UUID.generate()
+      id = FlakeId.get()
 
       query = """
       mutation {
@@ -557,7 +556,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
     end
 
     it "returns not found when accounts subscriber does not exist - ``Absinthe.run`" do
-      id = Ecto.UUID.generate()
+      id = FlakeId.get()
       context = %{}
 
       query = """

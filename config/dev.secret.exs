@@ -80,9 +80,9 @@ config :ex_aws,
   ]
 
 config :server, Google,
-  client_id: "670116700803-b76nhucfvtbci1c9cura69v56vfjitad.apps.googleusercontent.com",
-  client_secret: "FrxEG-A7o9fyItv6C-XASXkK",
-  redirect_uri: "http://axion.me:4000/graphiql"
+  client_id: "991262252553-18hlqfkgmkmk9l9o1niuq0ehcqvd097u.apps.googleusercontent.com",
+  client_secret: "GYyCMYA1hLMYAJrfBZoJxHa0",
+  redirect_uri: "https://taxgig.me:4001/graphiql"
 
 config :server, Facebook,
   client_id: "693824267691319",
@@ -93,9 +93,9 @@ config :server, Facebook,
 config :server, Twitter,
   client_id: "86o1wzfjly49rc",
   client_secret: "DyOjOFidMtPJQIlu",
-  redirect_uri: "http://axion.me:4000/graphiql"
+  redirect_uri: "https://taxgig.me:4001/graphiql"
 
 config :server, LinkedIn,
-  client_id: "860xyy244a8ocj",
-  client_secret: "eUqH3A3YTbZqmMRC",
-  redirect_uri: "http://axion.me:4000/graphiql"
+  client_id: "86o1wzfjly49rc",
+  client_secret: "DyOjOFidMtPJQIlu",
+  redirect_uri: "https://taxgig.me:4001/graphiql"

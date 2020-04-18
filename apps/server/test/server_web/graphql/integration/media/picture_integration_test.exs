@@ -7,7 +7,6 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
     Media.Picture,
     Repo
   }
-  alias Ecto.UUID
   alias Server.AbsintheHelpers
   alias ServerWeb.GraphQL.Schema
 
@@ -36,6 +35,16 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
       assert json_response(res, 200)["data"]["picture"]["content_type"] == picture.file.content_type
       assert json_response(res, 200)["data"]["picture"]["size"]         == 5024
       assert json_response(res, 200)["data"]["picture"]["url"]          =~ ServerWeb.Endpoint.url()
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(picture.file.url)
     end
 
     test "picture/3 returns the information on a picture - `Absinthe.run`" do
@@ -60,11 +69,21 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
       assert found["name"]         == picture.file.name
       assert found["size"]         == 5024
       assert found["url"]          =~ ServerWeb.Endpoint.url()
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(picture.file.url)
     end
 
 
     test "picture/3 returns nothing on a non-existent picture - `AbsintheHelpers`" do
-      id = UUID.generate()
+      id = FlakeId.get()
 
       query = """
       {
@@ -85,7 +104,7 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
     end
 
     test "picture/3 returns nothing on a non-existent picture - `Absinthe.run`" do
-      id = UUID.generate()
+      id = FlakeId.get()
       context = %{}
 
       query = """
@@ -146,6 +165,16 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
       assert json_response(res, 200)["data"]["uploadPicture"]["content_type"] == "image/png"
       assert json_response(res, 200)["data"]["uploadPicture"]["size"]         == 40_02
       assert json_response(res, 200)["data"]["uploadPicture"]["url"]
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(json_response(res, 200)["data"]["uploadPicture"]["url"])
     end
 
     test "upload_picture/3 uploads a new picture - `Absinthe.run`" do
@@ -185,6 +214,16 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
         |> post("/graphiql", map)
 
       assert hd(json_response(res, 200)["errors"])["message"] == "Unauthenticated"
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(profile.logo.url)
     end
 
     test "upload_picture/3 forbids uploading if no auth - Absinthe.run" do

@@ -23,12 +23,12 @@ config :logger, :console,
 
 config :core, ecto_repos: [Core.Repo, Ptin.Repo]
 
-config :core, base_url: "http://localhost:4000"
+config :core, base_url: "https://taxgig.me:4001"
 
 config :core, :instance,
   name: System.get_env("CORE_INSTANCE_NAME") || "Core Instance",
   description: System.get_env("CORE_INSTANCE_DESCRIPTION") || "Change this to a proper description of your instance", version: "1.0.0-dev",
-  hostname: System.get_env("CORE_INSTANCE_HOST") || "localhost",
+  hostname: System.get_env("CORE_INSTANCE_HOST") || "taxgig.me",
   repository: Mix.Project.config()[:source_url],
   avatar_upload_limit: 4_000_000,
   banner_upload_limit: 4_000_000,
