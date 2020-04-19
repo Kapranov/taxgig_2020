@@ -4,10 +4,9 @@
 /doc/
 /.fetch
 
-/config/*.secret.exs
+# /config/*.secret.exs
 
 erl_crash.dump
 *.ez
-server-*.tar
 /priv/static/
 /priv/docs/

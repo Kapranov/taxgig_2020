@@ -4,7 +4,7 @@
 /doc/dist/*
 /doc/.build
 
-/config/*.secret.exs
+# /config/*.secret.exs
 
 uploads/*.gif
 uploads/*.jpg
