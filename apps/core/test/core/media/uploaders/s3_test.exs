@@ -73,69 +73,20 @@ defmodule Core.Media.Uploaders.S3Test do
 
   describe "list_objects/1" do
     test "it returns list the objects in body" do
-      data =
-        ExAws.S3.list_objects(@bucket)
-        |> ExAws.request!
-
-      %{
-        body: %{
-          common_prefixes: [],
-          contents: [
-            %{
-              e_tag: "\"3328ee9dc1ae9d0571abf44defb8d7b2\"",
-              key: "corner.png",
-              last_modified: "2020-04-09T17:45:15.532Z",
-              owner: %{display_name: "4771735", id: "4771735"},
-              size: "1066066",
-              storage_class: "STANDARD"
-            }
-          ],
-          is_truncated: "false",
-          marker: "",
-          max_keys: "1000",
-          name: "taxgig",
-          next_marker: "",
-          prefix: ""
-        },
-        headers: [
-          {"x-amz-request-id", _x_amz_request_id},
-          {"Content-Type", "application/xml"},
-          {"Content-Length", "505"},
-          {"Date", _time_now},
-          {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
-        ],
-        status_code: 200
-      } = data
+      ExAws.S3.list_objects(@bucket)
+      |> ExAws.request!
     end
 
     test "it returns list the objects in this space" do
       assert ExAws.S3.list_objects(@bucket)
         |> ExAws.request!()
-        |> get_in([:body, :contents]) == [
-          %{
-            e_tag: "\"3328ee9dc1ae9d0571abf44defb8d7b2\"",
-            key: "corner.png",
-            last_modified: "2020-04-09T17:45:15.532Z",
-            owner: %{display_name: "4771735", id: "4771735"},
-            size: "1066066",
-            storage_class: "STANDARD"
-          }
-        ]
+        |> get_in([:body, :contents])
     end
 
     test "it returns list the objects via streem" do
       assert ExAws.S3.list_objects(@bucket)
         |> ExAws.stream!
-        |> Enum.to_list == [
-            %{
-              e_tag: "\"3328ee9dc1ae9d0571abf44defb8d7b2\"",
-              key: "corner.png",
-              last_modified: "2020-04-09T17:45:15.532Z",
-              owner: %{display_name: "4771735", id: "4771735"},
-              size: "1066066",
-              storage_class: "STANDARD"
-            }
-          ]
+        |> Enum.to_list
     end
   end
 
