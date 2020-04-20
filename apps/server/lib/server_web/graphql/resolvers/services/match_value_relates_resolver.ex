@@ -1,15 +1,15 @@
-defmodule ServerWeb.GraphQL.Resolvers.Localization.LanguageResolver do
+defmodule ServerWeb.GraphQL.Resolvers.Services.MatchValueRelatesResolver do
   @moduledoc """
-  The Language GraphQL resolvers.
+  The MatchValueRelate GraphQL resolvers.
   """
 
   alias Core.{
-    Localization,
-    Localization.Language,
-    Repo
+    Repo,
+    Services,
+    Services.MatchValueRelate
   }
 
-  @type t :: Language.t()
+  @type t :: MatchValueRelate.t()
   @type reason :: any
   @type ok :: {:ok}
   @type success_tuple :: {:ok, t}
@@ -17,9 +17,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Localization.LanguageResolver do
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
 
+
   @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: success_list()
   def list(_parent, _args, _info) do
-    struct = Localization.list_language()
+    struct = Services.list_match_value_relate()
     {:ok, struct}
   end
 
@@ -29,11 +30,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Localization.LanguageResolver do
       {:error, [[field: :id, message: "Can't be blank"]]}
     else
       try do
-        struct = Localization.get_language!(id)
+        struct = Services.get_match_value_relate!(id)
         {:ok, struct}
       rescue
         Ecto.NoResultsError ->
-          {:error, "The Language #{id} not found!"}
+          {:error, "The MatchValueRelate #{id} not found!"}
       end
     end
   end
@@ -41,27 +42,27 @@ defmodule ServerWeb.GraphQL.Resolvers.Localization.LanguageResolver do
   @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
   def create(_parent, args, _info) do
     args
-    |> Localization.create_language()
+    |> Services.create_match_value_relate()
     |> case do
-      {:ok, struct} ->
-        {:ok, struct}
+      {:ok, data} ->
+        {:ok, data}
       {:error, changeset} ->
         {:error, extract_error_msg(changeset)}
     end
   end
 
-  @spec update(any, %{id: bitstring, language: map()}, Absinthe.Resolution.t()) :: result()
-  def update(_parent, %{id: id, language: params}, _info) do
+  @spec update(any, %{id: bitstring, match_value_relate: map()}, Absinthe.Resolution.t()) :: result()
+  def update(_parent, %{id: id, match_value_relate: params}, _info) do
     if is_nil(id) do
       {:error, [[field: :id, message: "Can't be blank"]]}
     else
       try do
-        Repo.get!(Language, id)
-        |> Language.changeset(params)
+        Repo.get!(MatchValueRelate, id)
+        |> MatchValueRelate.changeset(params)
         |> Repo.update
       rescue
         Ecto.NoResultsError ->
-          {:error, "The Language #{id} not found!"}
+          {:error, "The MatchValueRelate #{id} not found!"}
       end
     end
   end
@@ -72,11 +73,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Localization.LanguageResolver do
       {:error, [[field: :id, message: "Can't be blank"]]}
     else
       try do
-        struct = Localization.get_language!(id)
+        struct = Services.get_match_value_relate!(id)
         Repo.delete(struct)
       rescue
         Ecto.NoResultsError ->
-          {:error, "The Language #{id} not found!"}
+          {:error, "The MatchValueRelate #{id} not found!"}
+      end
+    end
+  end
+
+  @spec find(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()
+  def find(_parent, %{id: id}, _info) do
+    if is_nil(id) do
+      {:error, [[field: :id, message: "Can't be blank"]]}
+    else
+      try do
+        struct = Services.get_match_value_relate!(id)
+        {:ok, struct}
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "The MatchValueRelate #{id} not found!"}
       end
     end
   end

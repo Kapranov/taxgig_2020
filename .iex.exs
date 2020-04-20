@@ -124,7 +124,9 @@ alias Core.{
   Lookup.UsZipcode,
   Media,
   Media.Picture,
-  Repo
+  Repo,
+  Services.MatchValueRelate
+
 }
 
 alias Ptin.Repo, as: PtinRepo
@@ -158,6 +160,7 @@ defmodule LetMeSee do
   LetMeSee.index_subscriber()
   LetMeSee.index_user(args)
   LetMeSee.index_vacancy()
+  LetMeSee.index_match_value_relate()
 
   LetMeSee.show_faq(args)
   LetMeSee.show_faq_category(args)
@@ -168,6 +171,7 @@ defmodule LetMeSee do
   LetMeSee.show_user(args)
   LetMeSee.show_vacancy(args)
   LetMeSee.show_zipcode(args)
+  LetMeSee.show_match_value_relate(args)
 
   LetMeSee.create_faq(args)
   LetMeSee.create_faq_category(args)
@@ -177,6 +181,7 @@ defmodule LetMeSee do
   LetMeSee.create_subscriber(args)
   LetMeSee.create_user(args)
   LetMeSee.create_vacancy(args)
+  LetMeSee.create_match_value_relate(args)
 
   LetMeSee.update_faq(args)
   LetMeSee.update_faq_category(args)
@@ -186,6 +191,7 @@ defmodule LetMeSee do
   LetMeSee.update_subscriber(args)
   LetMeSee.update_user(args)
   LetMeSee.update_vacancy(args)
+  LetMeSee.update_match_value_relate(args)
 
   LetMeSee.delete_dir_ptin(args)
   LetMeSee.delete_faq(args)
@@ -197,8 +203,10 @@ defmodule LetMeSee do
   LetMeSee.delete_subscriber(args)
   LetMeSee.delete_user(args)
   LetMeSee.delete_vacancy(args)
+  LetMeSee.delete_match_value_relate(args)
 
   LetMeSee.find_faq_category(args)
+  LetMeSee.find_match_value_relate(args)
 
   LetMeSee.search_profession(args)
   LetMeSee.search_ptin(args)
@@ -277,6 +285,7 @@ defmodule LetMeSee do
     @last_user Repo.all(User) |> List.last |> Map.get(:id)
     @last_vacancy Repo.all(Vacancy) |> List.last |> Map.get(:id)
     @last_zipcode Repo.all(UsZipcode) |> List.last |> Map.get(:id)
+    @last_match_value_relate Repo.all(MatchValueRelate) |> List.first |> Map.get(:id)
     @search_word ~s(Article)
     @blockscore_keys ~w(address_city address_country_code address_postal_code address_street1 address_street2 address_subdivision birth_day birth_month birth_year document_type document_value name_first name_last name_middle)a
     @faq_category_keys ~w(id title)a |> Enum.sort
@@ -592,11 +601,72 @@ defmodule LetMeSee do
     def index_vacancy do
       request = """
       query {
-        allVacancies{
+        allVacancies {
           id
           content
           department
           title
+          inserted_at
+          updated_at
+        }
+      }
+      """
+      IO.puts(request)
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
+      run(request)
+    end
+
+    @spec index_match_value_relate() :: [%{atom => any}] | list()
+    def index_match_value_relate do
+      request = """
+      query {
+        allMatchValueRelates {
+          id
+          match_for_book_keeping_additional_need
+          match_for_book_keeping_annual_revenue
+          match_for_book_keeping_industry
+          match_for_book_keeping_number_employee
+          match_for_book_keeping_payroll
+          match_for_book_keeping_type_client
+          match_for_business_enity_type
+          match_for_business_number_of_employee
+          match_for_business_total_revenue
+          match_for_individual_employment_status
+          match_for_individual_filing_status
+          match_for_individual_foreign_account
+          match_for_individual_home_owner
+          match_for_individual_itemized_deduction
+          match_for_individual_living_abroad
+          match_for_individual_non_resident_earning
+          match_for_individual_own_stock_crypto
+          match_for_individual_rental_prop_income
+          match_for_individual_stock_divident
+          match_for_sale_tax_count
+          match_for_sale_tax_frequency
+          match_for_sale_tax_industry
+          value_for_book_keeping_payroll
+          value_for_book_keeping_tax_year
+          value_for_business_accounting_software
+          value_for_business_dispose_property
+          value_for_business_foreign_shareholder
+          value_for_business_income_over_thousand
+          value_for_business_invest_research
+          value_for_business_k1_count
+          value_for_business_make_distribution
+          value_for_business_state
+          value_for_business_tax_exemption
+          value_for_business_total_asset_over
+          value_for_individual_employment_status
+          value_for_individual_foreign_account_limit
+          value_for_individual_foreign_financial_interest
+          value_for_individual_home_owner
+          value_for_individual_k1_count
+          value_for_individual_rental_prop_income
+          value_for_individual_sole_prop_count
+          value_for_individual_state
+          value_for_individual_tax_year
+          value_for_sale_tax_count
           inserted_at
           updated_at
         }
@@ -906,6 +976,71 @@ defmodule LetMeSee do
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
+      else
+        {:error, "Please fill out all required arguments!"}
+      end
+    end
+
+    @spec show_match_value_relate(%{atom => String.t()}) :: map() | error_map() | error_tuple()
+    def show_match_value_relate(args \\ %{id: @last_match_value_relate}) do
+      if is_map(args) and Map.has_key?(args, :id) do
+        request = """
+        {
+          show_match_value_relate(id: "#{args.id}") {
+            id
+            match_for_book_keeping_additional_need
+            match_for_book_keeping_annual_revenue
+            match_for_book_keeping_industry
+            match_for_book_keeping_number_employee
+            match_for_book_keeping_payroll
+            match_for_book_keeping_type_client
+            match_for_business_enity_type
+            match_for_business_number_of_employee
+            match_for_business_total_revenue
+            match_for_individual_employment_status
+            match_for_individual_filing_status
+            match_for_individual_foreign_account
+            match_for_individual_home_owner
+            match_for_individual_itemized_deduction
+            match_for_individual_living_abroad
+            match_for_individual_non_resident_earning
+            match_for_individual_own_stock_crypto
+            match_for_individual_rental_prop_income
+            match_for_individual_stock_divident
+            match_for_sale_tax_count
+            match_for_sale_tax_frequency
+            match_for_sale_tax_industry
+            value_for_book_keeping_payroll
+            value_for_book_keeping_tax_year
+            value_for_business_accounting_software
+            value_for_business_dispose_property
+            value_for_business_foreign_shareholder
+            value_for_business_income_over_thousand
+            value_for_business_invest_research
+            value_for_business_k1_count
+            value_for_business_make_distribution
+            value_for_business_state
+            value_for_business_tax_exemption
+            value_for_business_total_asset_over
+            value_for_individual_employment_status
+            value_for_individual_foreign_account_limit
+            value_for_individual_foreign_financial_interest
+            value_for_individual_home_owner
+            value_for_individual_k1_count
+            value_for_individual_rental_prop_income
+            value_for_individual_sole_prop_count
+            value_for_individual_state
+            value_for_individual_tax_year
+            value_for_sale_tax_count
+            inserted_at
+            updated_at
+          }
+        }
+        """
+        IO.puts(request)
+        format = Keyword.merge(@format, [frames: :braille])
+        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
+        run(request)
       else
         {:error, "Please fill out all required arguments!"}
       end
@@ -1871,6 +2006,23 @@ defmodule LetMeSee do
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
+      else
+        {:error, "Please fill out all required arguments!"}
+      end
+    end
+
+    @spec delete_match_value_relate(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
+    def delete_match_value_relate(args \\ %{id: @last_match_value_relate}) do
+      if is_map(args) and Map.has_key?(args, :id) do
+        request = """
+        mutation {
+          deleteMatchValueRelate(id: \"#{args.id}\") {id}
+        }
+        """
+        IO.puts(request)
+        format = Keyword.merge(@format, [frames: :braille])
+        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
+        run(request)
       else
         {:error, "Please fill out all required arguments!"}
       end
