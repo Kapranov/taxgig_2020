@@ -7,7 +7,8 @@ defmodule Core.Seeder.Repo do
     Accounts,
     Landing,
     Localization,
-    Lookup
+    Lookup,
+    Services
   }
 
   @spec seed!() :: :ok
@@ -16,6 +17,7 @@ defmodule Core.Seeder.Repo do
     Accounts.seed!()
     Landing.seed!()
     Lookup.seed!()
+    Services.seed!()
     :ok
   end
 end

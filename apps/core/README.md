@@ -21,6 +21,7 @@ bash> mix ecto.gen.migration -r Core.Repo create_us_zipcodes
 bash> mix ecto.gen.migration -r Core.Repo create_profiles
 bash> mix ecto.gen.migration -r Core.Repo create_user_languages
 bash> mix ecto.gen.migration -r Core.Repo create_pictures
+bash> mix ecto.gen.migration -r Core.Repo create_match_value_relates
 
 iex> language1 = %Language{abbr: "fra", name: "french"
 iex> language2 = %Language{abbr: "ger", name: "german"}
