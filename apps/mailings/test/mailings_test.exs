@@ -65,4 +65,11 @@ defmodule MailingsTest do
   test "send email with message in format html for role TP" do
     assert Mailings.Mailer.send_tp_html("test@example.com") == :ok
   end
+
+  test "send email with message in format html if forgot password" do
+    id = "9uEEEkibDr3IVla8Wm"
+    email = "kapranov.lugatex@gmail.com"
+    name = "Josh"
+    assert Mailings.Mailer.send_forgot_password_html(id, email, name) == :ok
+  end
 end
