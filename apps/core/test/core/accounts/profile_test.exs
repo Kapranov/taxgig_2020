@@ -76,7 +76,6 @@ defmodule Core.Accounts.ProfileTest do
 
       assert data.user.id          == struct.user.id
       assert data.user.active      == struct.user.active
-      assert data.user.admin_role  == struct.user.admin_role
       assert data.user.avatar      == struct.user.avatar
       assert data.user.bio         == struct.user.bio
       assert data.user.birthday    == struct.user.birthday
@@ -132,7 +131,6 @@ defmodule Core.Accounts.ProfileTest do
 
       assert data.user.id          == user.id
       assert data.user.active      == user.active
-      assert data.user.admin_role  == user.admin_role
       assert data.user.avatar      == user.avatar
       assert data.user.bio         == user.bio
       assert data.user.birthday    == user.birthday
@@ -194,7 +192,6 @@ defmodule Core.Accounts.ProfileTest do
 
       assert updated.user.id          == struct.user.id
       assert updated.user.active      == struct.user.active
-      assert updated.user.admin_role  == struct.user.admin_role
       assert updated.user.avatar      == struct.user.avatar
       assert updated.user.bio         == struct.user.bio
       assert updated.user.birthday    == struct.user.birthday

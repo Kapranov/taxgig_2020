@@ -14,7 +14,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
   object :user do
     field :id, non_null(:string), description: "language id"
     field :active, :boolean, description: "accounts user active"
-    field :admin_role, :boolean, description: "accounts user admin_role"
     field :avatar, :string, description: "accounts user avatar"
     field :bio, :string, description: "accounts user bio"
     field :birthday, :date, description: "accounts user birthday"
@@ -80,7 +79,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
   @desc "The accounts an user update via params"
   input_object :update_user_params do
     field :active, :boolean
-    field :admin_role, :boolean
     field :avatar, :string
     field :bio, :string
     field :birthday, :date
@@ -164,7 +162,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     @desc "Create an accounts user"
     field :create_user, :user do
       arg :active, :boolean
-      arg :admin_role, :boolean
       arg :avatar, :string
       arg :bio, :string
       arg :birthday, :date

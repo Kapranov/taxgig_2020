@@ -91,7 +91,6 @@ defmodule Server.Factory do
   def user_factory do
     %User{
       active: false,
-      admin_role: false,
       avatar: "some text",
       bio: "some text",
       birthday: Date.add(Timex.now, 0),

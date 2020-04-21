@@ -13,7 +13,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         allUsers{
           id
           active
-          admin_role
           avatar
           bio
           birthday
@@ -47,7 +46,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       assert List.first(data)["id"]          == struct.id
       assert List.first(data)["active"]      == struct.active
-      assert List.first(data)["admin_role"]  == struct.admin_role
       assert List.first(data)["avatar"]      == struct.avatar
       assert List.first(data)["bio"]         == struct.bio
       assert List.first(data)["birthday"]    == to_string(struct.birthday)
@@ -72,7 +70,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       assert List.last(data)["id"]          == struct.id
       assert List.last(data)["active"]      == struct.active
-      assert List.last(data)["admin_role"]  == struct.admin_role
       assert List.last(data)["avatar"]      == struct.avatar
       assert List.last(data)["bio"]         == struct.bio
       assert List.last(data)["birthday"]    == to_string(struct.birthday)
@@ -105,7 +102,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         allUsers{
           id
           active
-          admin_role
           avatar
           bio
           birthday
@@ -135,7 +131,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       assert first["id"]          == struct.id
       assert first["active"]      == struct.active
-      assert first["admin_role"]  == struct.admin_role
       assert first["avatar"]      == struct.avatar
       assert first["bio"]         == struct.bio
       assert first["birthday"]    == to_string(struct.birthday)
@@ -169,7 +164,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         showUser(id: \"#{struct.id}\") {
           id
           active
-          admin_role
           avatar
           bio
           birthday
@@ -203,7 +197,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       assert found["id"]          == struct.id
       assert found["active"]      == struct.active
-      assert found["admin_role"]  == struct.admin_role
       assert found["avatar"]      == struct.avatar
       assert found["bio"]         == struct.bio
       assert found["birthday"]    == to_string(struct.birthday)
@@ -236,7 +229,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         showUser(id: \"#{struct.id}\") {
           id
           active
-          admin_role
           avatar
           bio
           birthday
@@ -264,7 +256,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       assert found["id"]          == struct.id
       assert found["active"]      == struct.active
-      assert found["admin_role"]  == struct.admin_role
       assert found["avatar"]      == struct.avatar
       assert found["bio"]         == struct.bio
       assert found["birthday"]    == to_string(struct.birthday)
@@ -297,7 +288,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         showUser(id: \"#{id}\") {
           id
           active
-          admin_role
           avatar
           bio
           birthday
@@ -338,7 +328,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         showUser(id: \"#{id}\") {
           id
           active
-          admin_role
           avatar
           bio
           birthday
@@ -375,7 +364,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         showUser(id: nil) {
           id
           active
-          admin_role
           avatar
           bio
           birthday
@@ -415,7 +403,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         showUser(id: nil) {
           id
           active
-          admin_role
           avatar
           bio
           birthday
@@ -456,7 +443,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       mutation {
         createUser(
           active: false,
-          admin_role: false,
           avatar: "some text",
           bio: "some text",
           birthday: \"#{Timex.today}\",
@@ -478,7 +464,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         ) {
           id
           active
-          admin_role
           avatar
           bio
           birthday
@@ -510,7 +495,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       created = json_response(res, 200)["data"]["createUser"]
 
       assert created["active"]      == false
-      assert created["admin_role"]  == false
       assert created["avatar"]      == "some text"
       assert created["bio"]         == "some text"
       assert created["birthday"]    == to_string(Timex.today)
@@ -540,7 +524,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       mutation{
         createUser(
           active: false,
-          admin_role: false,
           avatar: "some text",
           bio: "some text",
           birthday: \"#{Timex.today}\",
@@ -562,7 +545,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         ) {
           id
           active
-          admin_role
           avatar
           bio
           birthday
@@ -588,7 +570,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{data: %{"createUser" => created}}} = Absinthe.run(query, Schema, context: context)
 
       assert created["active"]      == false
-      assert created["admin_role"]  == false
       assert created["avatar"]      == "some text"
       assert created["bio"]         == "some text"
       assert created["birthday"]    == to_string(Timex.today)
@@ -676,7 +657,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           id: \"#{struct.id}\",
           user: {
             active: true,
-            admin_role: true,
             avatar: "updated text",
             bio: "updated text",
             birthday: \"#{Timex.today}\",
@@ -699,7 +679,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         ) {
           id
           active
-          admin_role
           avatar
           bio
           birthday
@@ -733,7 +712,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       assert updated["id"]          == struct.id
       assert updated["active"]      == true
-      assert updated["admin_role"]  == true
       assert updated["avatar"]      == "updated text"
       assert updated["bio"]         == "updated text"
       assert updated["birthday"]    == to_string(Timex.today)
@@ -766,7 +744,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           id: \"#{struct.id}\",
           user: {
             active: true,
-            admin_role: true,
             avatar: "updated text",
             bio: "updated text",
             birthday: \"#{Timex.today}\",
@@ -789,7 +766,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         ) {
           id
           active
-          admin_role
           avatar
           bio
           birthday
@@ -817,7 +793,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       assert updated["id"]          == struct.id
       assert updated["active"]      == true
-      assert updated["admin_role"]  == true
       assert updated["avatar"]      == "updated text"
       assert updated["bio"]         == "updated text"
       assert updated["birthday"]    == to_string(Timex.today)
@@ -851,7 +826,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         ) {
           id
           active
-          admin_role
           avatar
           bio
           birthday
@@ -903,7 +877,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         ) {
           id
           active
-          admin_role
           avatar
           bio
           birthday
@@ -943,7 +916,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         ) {
           id
           active
-          admin_role
           avatar
           bio
           birthday
@@ -989,7 +961,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         ) {
           id
           active
-          admin_role
           avatar
           bio
           birthday

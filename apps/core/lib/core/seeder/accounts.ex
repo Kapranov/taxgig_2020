@@ -25,6 +25,22 @@ defmodule Core.Seeder.Accounts do
     seed_user()
     seed_users_languages()
     seed_multi_users_languages()
+    admin_permission()
+  end
+
+  @spec admin_permission() :: %Postgrex.Result{columns: nil, command: Atom.t(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
+  def admin_permission do
+    Ecto.Adapters.SQL.query!(Repo, "UPDATE users SET admin_role = $2 WHERE email = $1", ["kapranov.pure@gmail.com", true])
+  end
+
+  @spec admin_permission(String.t(), boolean()) :: %Postgrex.Result{columns: nil, command: Atom.t(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
+  def admin_permission(email, role) when is_bitstring(email) and is_boolean(role) do
+    Ecto.Adapters.SQL.query!(Repo, "UPDATE users SET admin_role = $2 WHERE email = $1", [email, role])
+  end
+
+  @spec admin_permission(any(), any()) :: {:error, String.t()}
+  def admin_permission(_, _) do
+    {:error, "Oops! email and role is an empty"}
   end
 
   @spec seed_subscriber() :: nil | Ecto.Schema.t()
@@ -42,8 +58,9 @@ defmodule Core.Seeder.Accounts do
         Repo.all(
           from u in User,
           where: u.email in [
-            "lugatex@yahoo.com",
-            "kapranov.lugatex@gmail.com"
+            "kapranov.lugatex@gmail.com",
+            "kapranov.pure@gmail.com",
+            "lugatex@yahoo.com"
           ]
         )
       false -> insert_user()
@@ -185,6 +202,11 @@ defmodule Core.Seeder.Accounts do
         email: "kapranov.lugatex@gmail.com",
         password: "qwerty",
         password_confirmation: "qwerty"
+      }),
+      Accounts.create_user(%{
+        email: "kapranov.pure@gmail.com",
+        password: "nES0p04pVklw",
+        password_confirmation: "nES0p04pVklw"
       })
     ]
   end

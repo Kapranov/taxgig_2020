@@ -33,7 +33,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       assert List.first(data).user.id           == struct.user.id
       assert List.first(data).user.avatar       == struct.user.avatar
       assert List.first(data).user.active       == struct.user.active
-      assert List.first(data).user.admin_role   == struct.user.admin_role
       assert List.first(data).user.avatar       == struct.user.avatar
       assert List.first(data).user.bio          == struct.user.bio
       assert List.first(data).user.birthday     == struct.user.birthday
@@ -98,7 +97,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       assert found.user_id           == struct.user_id
       assert found.user.id           == struct.user.id
       assert found.user.active       == struct.user.active
-      assert found.user.admin_role   == struct.user.admin_role
       assert found.user.avatar       == struct.user.avatar
       assert found.user.bio          == struct.user.bio
       assert found.user.birthday     == struct.user.birthday
@@ -190,7 +188,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
 
       args = %{
         active: false,
-        admin_role: false,
         avatar: "some text",
         bio: "some text",
         birthday: Timex.today,
@@ -226,7 +223,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       assert created.user_id          == user.id
       assert created.user.id          == user.id
       assert created.user.active      == user.active
-      assert created.user.admin_role  == user.admin_role
       assert created.user.avatar      == user.avatar
       assert created.user.bio         == user.bio
       assert created.user.birthday    == user.birthday

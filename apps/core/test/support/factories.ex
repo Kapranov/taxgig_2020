@@ -146,7 +146,6 @@ defmodule Core.Factory do
   def user_factory do
     %User{
       active: random_boolean(),
-      admin_role: random_boolean(),
       avatar: Avatar.image_url(),
       bio: Lorem.sentence(),
       birthday: Timex.today,

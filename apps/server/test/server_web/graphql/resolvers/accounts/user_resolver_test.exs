@@ -11,7 +11,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       assert length(data) == 1
       assert List.first(data).id          == struct.id
       assert List.first(data).active      == struct.active
-      assert List.first(data).admin_role  == struct.admin_role
       assert List.first(data).avatar      == struct.avatar
       assert List.first(data).bio         == struct.bio
       assert List.first(data).birthday    == struct.birthday
@@ -38,7 +37,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       {:ok, found} = UserResolver.show(%{}, %{id: struct.id}, context)
       assert found.id          == struct.id
       assert found.active      == struct.active
-      assert found.admin_role  == struct.admin_role
       assert found.avatar      == struct.avatar
       assert found.bio         == struct.bio
       assert found.birthday    == struct.birthday
@@ -80,7 +78,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
 
       args = %{
         active: false,
-        admin_role: false,
         avatar: "some text",
         bio: "some text",
         birthday: Timex.today,
@@ -102,7 +99,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       }
       {:ok, created} = UserResolver.create(%{}, args, %{})
       assert created.active      == false
-      assert created.admin_role  == false
       assert created.avatar      == "some text"
       assert created.bio         == "some text"
       assert created.birthday    == Timex.today
@@ -140,7 +136,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
 
       params = %{
         active: true,
-        admin_role: true,
         avatar: "updated text",
         bio: "updated text",
         birthday: Timex.today,
@@ -164,7 +159,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       {:ok, updated} = UserResolver.update(%{}, args, context)
       assert updated.id          == struct_b.id
       assert updated.active      == true
-      assert updated.admin_role  == true
       assert updated.avatar      == "updated text"
       assert updated.bio         == "updated text"
       assert updated.birthday    == Timex.today

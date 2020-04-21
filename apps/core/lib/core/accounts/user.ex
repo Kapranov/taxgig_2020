@@ -71,7 +71,7 @@ defmodule Core.Accounts.User do
 
   schema "users" do
     field :active, :boolean
-    field :admin_role, :boolean
+    field :admin_role, :boolean, default: false, null: false
     field :avatar, :string
     field :bio, :string
     field :birthday, :date

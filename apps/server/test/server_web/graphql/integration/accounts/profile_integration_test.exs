@@ -22,7 +22,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           user {
             id
             active
-            admin_role
             avatar
             bio
             birthday
@@ -73,7 +72,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert List.first(data)["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
       assert List.first(data)["user"]["id"]                      == struct.user.id
       assert List.first(data)["user"]["active"]                  == struct.user.active
-      assert List.first(data)["user"]["admin_role"]              == struct.user.admin_role
       assert List.first(data)["user"]["avatar"]                  == struct.user.avatar
       assert List.first(data)["user"]["bio"]                     == struct.user.bio
       assert List.first(data)["user"]["birthday"]                == to_string(struct.user.birthday)
@@ -114,7 +112,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert List.last(data)["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
       assert List.last(data)["user"]["id"]                      == struct.user.id
       assert List.last(data)["user"]["active"]                  == struct.user.active
-      assert List.last(data)["user"]["admin_role"]              == struct.user.admin_role
       assert List.last(data)["user"]["avatar"]                  == struct.user.avatar
       assert List.last(data)["user"]["bio"]                     == struct.user.bio
       assert List.last(data)["user"]["birthday"]                == to_string(struct.user.birthday)
@@ -166,7 +163,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           user {
             id
             active
-            admin_role
             avatar
             bio
             birthday
@@ -215,7 +211,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert first["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
       assert first["user"]["id"]                      == struct.user_id
       assert first["user"]["active"]                  == struct.user.active
-      assert first["user"]["admin_role"]              == struct.user.admin_role
       assert first["user"]["avatar"]                  == struct.user.avatar
       assert first["user"]["bio"]                     == struct.user.bio
       assert first["user"]["birthday"]                == to_string(struct.user.birthday)
@@ -266,7 +261,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           user {
             id
             active
-            admin_role
             avatar
             bio
             birthday
@@ -319,7 +313,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert found["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
       assert found["user"]["id"]                      == struct.user_id
       assert found["user"]["active"]                  == struct.user.active
-      assert found["user"]["admin_role"]              == struct.user.admin_role
       assert found["user"]["avatar"]                  == struct.user.avatar
       assert found["user"]["bio"]                     == struct.user.bio
       assert found["user"]["birthday"]                == to_string(struct.user.birthday)
@@ -369,7 +362,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           user {
             id
             active
-            admin_role
             avatar
             bio
             birthday
@@ -417,7 +409,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert found["user"]["languages"][:updated_at]  == nil
       assert found["user"]["id"]                      == struct.user_id
       assert found["user"]["active"]                  == struct.user.active
-      assert found["user"]["admin_role"]              == struct.user.admin_role
       assert found["user"]["avatar"]                  == struct.user.avatar
       assert found["user"]["bio"]                     == struct.user.bio
       assert found["user"]["birthday"]                == to_string(struct.user.birthday)
@@ -466,7 +457,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           user {
             id
             active
-            admin_role
             avatar
             bio
             birthday
@@ -528,7 +518,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           user {
             id
             active
-            admin_role
             avatar
             bio
             birthday
@@ -585,7 +574,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           user {
             id
             active
-            admin_role
             avatar
             bio
             birthday
@@ -663,7 +651,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           user {
             id
             active
-            admin_role
             avatar
             bio
             birthday
@@ -726,7 +713,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert updated["user"]["languages"][:updated_at]  == nil
       assert updated["user"]["id"]                      == struct.user_id
       assert updated["user"]["active"]                  == struct.user.active
-      assert updated["user"]["admin_role"]              == struct.user.admin_role
       assert updated["user"]["avatar"]                  == struct.user.avatar
       assert updated["user"]["bio"]                     == struct.user.bio
       assert updated["user"]["birthday"]                == to_string(struct.user.birthday)
@@ -882,7 +868,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           user {
             id
             active
-            admin_role
             avatar
             bio
             birthday
@@ -948,7 +933,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert updated["user"]["languages"][:updated_at]  == nil
       assert updated["user"]["id"]                      == struct.user_id
       assert updated["user"]["active"]                  == struct.user.active
-      assert updated["user"]["admin_role"]              == struct.user.admin_role
       assert updated["user"]["avatar"]                  == struct.user.avatar
       assert updated["user"]["bio"]                     == struct.user.bio
       assert updated["user"]["birthday"]                == to_string(struct.user.birthday)

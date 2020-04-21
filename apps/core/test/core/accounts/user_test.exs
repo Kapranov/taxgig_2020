@@ -9,7 +9,6 @@ defmodule Core.Accounts.UserTest do
 
     @valid_attrs %{
       active: false,
-      admin_role: false,
       avatar: "some text",
       bio: "some text",
       birthday: Timex.today,
@@ -31,7 +30,6 @@ defmodule Core.Accounts.UserTest do
 
     @update_attrs %{
       active: true,
-      admin_role: true,
       avatar: "updated text",
       bio: "updated text",
       birthday: Timex.today,
@@ -82,7 +80,6 @@ defmodule Core.Accounts.UserTest do
 
       assert data.id          == struct.id
       assert data.active      == struct.active
-      assert data.admin_role  == struct.admin_role
       assert data.avatar      == struct.avatar
       assert data.bio         == struct.bio
       assert data.birthday    == struct.birthday
@@ -115,7 +112,6 @@ defmodule Core.Accounts.UserTest do
         %Language{id: id2, abbr: abbr2, name: name2}
       ] = struct.languages
       assert struct.active      == false
-      assert struct.admin_role  == false
       assert struct.avatar      == "some text"
       assert struct.bio         == "some text"
       assert struct.birthday    == Timex.today
@@ -159,7 +155,6 @@ defmodule Core.Accounts.UserTest do
         %Language{id: id, abbr: abbr, name: name}
       ] = updated.languages
       assert updated.active      == true
-      assert updated.admin_role  == true
       assert updated.avatar      == "updated text"
       assert updated.bio         == "updated text"
       assert updated.birthday    == Timex.today
