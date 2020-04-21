@@ -1,4 +1,4 @@
-defmodule ServerWeb.GraphQL.Resolvers.Services.MatchValueRelatesResolver do
+defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolver do
   @moduledoc """
   The MatchValueRelate GraphQL resolvers.
   """

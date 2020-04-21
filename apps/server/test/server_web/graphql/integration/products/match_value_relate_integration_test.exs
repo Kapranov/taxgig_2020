@@ -1,4 +1,4 @@
-defmodule ServerWeb.GraphQL.Integration.Services.MatchValueRelateIntegrationTest do
+defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest do
   use ServerWeb.ConnCase
 
   alias Server.AbsintheHelpers

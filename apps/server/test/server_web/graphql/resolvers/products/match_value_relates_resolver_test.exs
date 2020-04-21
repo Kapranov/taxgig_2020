@@ -1,7 +1,7 @@
-defmodule ServerWeb.GraphQL.Resolvers.Services.MatchValueRelateResolverTest do
+defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelateResolverTest do
   use ServerWeb.ConnCase
 
-  alias ServerWeb.GraphQL.Resolvers.Services.MatchValueRelatesResolver
+  alias ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolver
 
   describe "#index" do
     it "returns MatchValueRelates" do

@@ -1,11 +1,11 @@
-defmodule ServerWeb.GraphQL.Schemas.Services.MatchValueRelateTypes do
+defmodule ServerWeb.GraphQL.Schemas.Products.MatchValueRelateTypes do
   @moduledoc """
   The MatchValueRelate GraphQL interface.
   """
 
   use Absinthe.Schema.Notation
 
-  alias ServerWeb.GraphQL.Resolvers.Services.MatchValueRelatesResolver
+  alias ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolver
 
   @desc "The list match value relates"
   object :match_value_relate do

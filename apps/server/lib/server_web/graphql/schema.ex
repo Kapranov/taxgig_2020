@@ -14,6 +14,7 @@ defmodule ServerWeb.GraphQL.Schema do
 
   import_types(Absinthe.Plug.Types)
   import_types(Absinthe.Type.Custom)
+
   import_types(ServerWeb.GraphQL.Schemas.Accounts.ProfileTypes)
   import_types(ServerWeb.GraphQL.Schemas.Accounts.SubscriberTypes)
   import_types(ServerWeb.GraphQL.Schemas.Accounts.UserTypes)
@@ -24,11 +25,10 @@ defmodule ServerWeb.GraphQL.Schema do
   import_types(ServerWeb.GraphQL.Schemas.Localization.LanguageTypes)
   import_types(ServerWeb.GraphQL.Schemas.Lookup.UsZipcodeTypes)
   import_types(ServerWeb.GraphQL.Schemas.Media.PictureTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Products.MatchValueRelateTypes)
   import_types(ServerWeb.GraphQL.Schemas.Services.BlockscoreTypes)
-  import_types(ServerWeb.GraphQL.Schemas.Services.MatchValueRelateTypes)
   import_types(ServerWeb.GraphQL.Schemas.Services.PtinTypes)
   import_types(ServerWeb.GraphQL.Schemas.UuidTypes)
-
   @desc "The root query type."
   query do
     import_fields(:blockscore_queries)
