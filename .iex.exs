@@ -646,48 +646,53 @@ defmodule LetMeSee do
 
     @spec index_profile(User.t()) :: map() | list()
     def index_profile(args \\ @current_user) do
+      context = %{current_user: args}
       if is_map(args) and Map.has_key?(args, :id) do
-        context = %{current_user: args}
-        request = """
-        query {
-          allProfiles{
-            address
-            banner
-            description
-            logo {id content_type name size url inserted_at updated_at}
-            us_zipcode {id city state zipcode}
-            user {
-              id
-              active
-              admin_role
-              avatar
-              bio
-              birthday
-              email
-              first_name
-              init_setup
-              languages {id abbr name inserted_at updated_at}
-              last_name
-              middle_name
-              phone
-              pro_role
-              provider
-              sex
-              ssn
-              street
-              zip
-              inserted_at
-              updated_at
+        case FlakeId.flake_id?(args.id) do
+          true ->
+            request = """
+            query {
+              allProfiles{
+                address
+                banner
+                description
+                logo {id content_type name size url inserted_at updated_at}
+                us_zipcode {id city state zipcode}
+                user {
+                  id
+                  active
+                  admin_role
+                  avatar
+                  bio
+                  birthday
+                  email
+                  first_name
+                  init_setup
+                  languages {id abbr name inserted_at updated_at}
+                  last_name
+                  middle_name
+                  phone
+                  pro_role
+                  provider
+                  sex
+                  ssn
+                  street
+                  zip
+                  inserted_at
+                  updated_at
+                }
+                inserted_at
+                updated_at
+              }
             }
-            inserted_at
-            updated_at
-          }
-        }
-        """
-        IO.puts(request)
-        format = Keyword.merge(@format, [frames: :braille])
-        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
-        run(request, ServerWeb.GraphQL.Schema, [context: context])
+            """
+            IO.puts(request)
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
+            run(request, ServerWeb.GraphQL.Schema, [context: context])
+          false ->
+           {:error, message: "Oops! Something Wrong with Id"}
+        end
       else
         {:error, "Please fill out all required arguments!"}
       end
@@ -775,11 +780,11 @@ defmodule LetMeSee do
     @spec show_faq(%{atom => String.t()}) :: map() | error_map() | error_tuple()
     def show_faq(args \\ %{id: @last_faq}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             query {
-              showFaq(id: \"#{binaryId}\") {
+              showFaq(id: \"#{args.id}\") {
                 id
                 content
                 title
@@ -798,7 +803,7 @@ defmodule LetMeSee do
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -809,11 +814,11 @@ defmodule LetMeSee do
     @spec show_faq_category(%{atom => String.t()}) :: map() | error_map() | error_tuple()
     def show_faq_category(args \\ %{id: @last_faq_category}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             query {
-              showFaqCategory(id: \"#{binaryId}\") {
+              showFaqCategory(id: \"#{args.id}\") {
                 id
                 faqs_count
                 title
@@ -826,7 +831,7 @@ defmodule LetMeSee do
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -837,11 +842,11 @@ defmodule LetMeSee do
     @spec show_language(%{atom => String.t()}) :: map() | error_map() | error_tuple()
     def show_language(args \\ %{id: @last_language}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             query {
-              showLanguage(id: \"#{binaryId}\") {
+              showLanguage(id: \"#{args.id}\") {
                 id
                 abbr
                 name
@@ -854,7 +859,7 @@ defmodule LetMeSee do
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -865,63 +870,68 @@ defmodule LetMeSee do
     @spec show_match_value_relate(%{atom => String.t()}) :: map() | error_map() | error_tuple()
     def show_match_value_relate(args \\ %{id: @last_match_value_relate}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        request = """
-        {
-          show_match_value_relate(id: "#{args.id}") {
-            id
-            match_for_book_keeping_additional_need
-            match_for_book_keeping_annual_revenue
-            match_for_book_keeping_industry
-            match_for_book_keeping_number_employee
-            match_for_book_keeping_payroll
-            match_for_book_keeping_type_client
-            match_for_business_enity_type
-            match_for_business_number_of_employee
-            match_for_business_total_revenue
-            match_for_individual_employment_status
-            match_for_individual_filing_status
-            match_for_individual_foreign_account
-            match_for_individual_home_owner
-            match_for_individual_itemized_deduction
-            match_for_individual_living_abroad
-            match_for_individual_non_resident_earning
-            match_for_individual_own_stock_crypto
-            match_for_individual_rental_prop_income
-            match_for_individual_stock_divident
-            match_for_sale_tax_count
-            match_for_sale_tax_frequency
-            match_for_sale_tax_industry
-            value_for_book_keeping_payroll
-            value_for_book_keeping_tax_year
-            value_for_business_accounting_software
-            value_for_business_dispose_property
-            value_for_business_foreign_shareholder
-            value_for_business_income_over_thousand
-            value_for_business_invest_research
-            value_for_business_k1_count
-            value_for_business_make_distribution
-            value_for_business_state
-            value_for_business_tax_exemption
-            value_for_business_total_asset_over
-            value_for_individual_employment_status
-            value_for_individual_foreign_account_limit
-            value_for_individual_foreign_financial_interest
-            value_for_individual_home_owner
-            value_for_individual_k1_count
-            value_for_individual_rental_prop_income
-            value_for_individual_sole_prop_count
-            value_for_individual_state
-            value_for_individual_tax_year
-            value_for_sale_tax_count
-            inserted_at
-            updated_at
-          }
-        }
-        """
-        IO.puts(request)
-        format = Keyword.merge(@format, [frames: :braille])
-        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
-        run(request)
+        case FlakeId.flake_id?(args.id) do
+          true ->
+            request = """
+            {
+              show_match_value_relate(id: "#{args.id}") {
+                id
+                match_for_book_keeping_additional_need
+                match_for_book_keeping_annual_revenue
+                match_for_book_keeping_industry
+                match_for_book_keeping_number_employee
+                match_for_book_keeping_payroll
+                match_for_book_keeping_type_client
+                match_for_business_enity_type
+                match_for_business_number_of_employee
+                match_for_business_total_revenue
+                match_for_individual_employment_status
+                match_for_individual_filing_status
+                match_for_individual_foreign_account
+                match_for_individual_home_owner
+                match_for_individual_itemized_deduction
+                match_for_individual_living_abroad
+                match_for_individual_non_resident_earning
+                match_for_individual_own_stock_crypto
+                match_for_individual_rental_prop_income
+                match_for_individual_stock_divident
+                match_for_sale_tax_count
+                match_for_sale_tax_frequency
+                match_for_sale_tax_industry
+                value_for_book_keeping_payroll
+                value_for_book_keeping_tax_year
+                value_for_business_accounting_software
+                value_for_business_dispose_property
+                value_for_business_foreign_shareholder
+                value_for_business_income_over_thousand
+                value_for_business_invest_research
+                value_for_business_k1_count
+                value_for_business_make_distribution
+                value_for_business_state
+                value_for_business_tax_exemption
+                value_for_business_total_asset_over
+                value_for_individual_employment_status
+                value_for_individual_foreign_account_limit
+                value_for_individual_foreign_financial_interest
+                value_for_individual_home_owner
+                value_for_individual_k1_count
+                value_for_individual_rental_prop_income
+                value_for_individual_sole_prop_count
+                value_for_individual_state
+                value_for_individual_tax_year
+                value_for_sale_tax_count
+                inserted_at
+                updated_at
+              }
+            }
+            """
+            IO.puts(request)
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
+            run(request)
+          false ->
+            {:error, message: "Oops! Something Wrong with Id"}
+        end
       else
         {:error, "Please fill out all required arguments!"}
       end
@@ -930,11 +940,11 @@ defmodule LetMeSee do
     @spec show_press_article(%{atom => String.t()}) :: map() | error_map() | error_tuple()
     def show_press_article(args \\ %{id: @last_press_article}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             query {
-              showPressArticle(id: \"#{binaryId}\") {
+              showPressArticle(id: \"#{args.id}\") {
                 id
                 author
                 img_url
@@ -950,7 +960,7 @@ defmodule LetMeSee do
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -961,12 +971,12 @@ defmodule LetMeSee do
     @spec show_profile(User.t()) :: map() | error_map() | error_tuple()
     def show_profile(args \\ @current_user) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
-            context = %{current_user: args}
+        context = %{current_user: args}
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             query {
-              showProfile(id: \"#{binaryId}\") {
+              showProfile(id: \"#{args.id}\") {
                 address
                 banner
                 description
@@ -1003,7 +1013,7 @@ defmodule LetMeSee do
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request, ServerWeb.GraphQL.Schema, [context: context])
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -1014,11 +1024,11 @@ defmodule LetMeSee do
     @spec show_subscriber(%{atom => String.t()}) :: map() | error_map() | error_tuple()
     def show_subscriber(args \\ %{id: @last_subscriber}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             query {
-              showSubscriber(id: \"#{binaryId}\") {
+              showSubscriber(id: \"#{args.id}\") {
                 id
                 email
                 pro_role
@@ -1031,7 +1041,7 @@ defmodule LetMeSee do
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -1042,12 +1052,12 @@ defmodule LetMeSee do
     @spec show_user(User.t()) :: map() | error_map() | error_tuple()
     def show_user(args \\ @current_user) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
-            context = %{current_user: args}
+        context = %{current_user: args}
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             query {
-              showUser(id: \"#{binaryId}\") {
+              showUser(id: \"#{args.id}\") {
                 id
                 active
                 admin_role
@@ -1076,7 +1086,7 @@ defmodule LetMeSee do
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request, ServerWeb.GraphQL.Schema, [context: context])
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -1087,11 +1097,11 @@ defmodule LetMeSee do
     @spec show_vacancy(%{atom => String.t()}) :: map() | error_map() | error_tuple()
     def show_vacancy(args \\ %{id: @last_vacancy}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             query {
-              showVacancy(id: \"#{binaryId}\") {
+              showVacancy(id: \"#{args.id}\") {
                 id
                 content
                 department
@@ -1105,7 +1115,7 @@ defmodule LetMeSee do
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -1116,11 +1126,11 @@ defmodule LetMeSee do
     @spec show_zipcode(%{atom => String.t()}) :: map() | error_map() | error_tuple()
     def show_zipcode(args \\ %{id: @last_zipcode}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             query {
-              showZipcode(id: \"#{binaryId}\") {
+              showZipcode(id: \"#{args.id}\") {
                 id
                 city
                 state
@@ -1132,7 +1142,7 @@ defmodule LetMeSee do
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -1146,14 +1156,14 @@ defmodule LetMeSee do
     def create_faq(args) when is_map(args) do
       case Map.keys(args) do
         @keys ->
-          case Ecto.UUID.cast(args.faq_category_id) do
-            {:ok, binaryId} ->
+          case FlakeId.flake_id?(args.id) do
+            true ->
               request = """
               mutation {
                 createFaq(
                   content: "#{args.content}\",
                   title: \"#{args.title}\",
-                  faq_categoryId: \"#{binaryId}\"
+                  faq_categoryId: \"#{args.id}\"
                 ) {
                   id
                   content
@@ -1173,7 +1183,7 @@ defmodule LetMeSee do
               format = Keyword.merge(@format, [frames: :braille])
               ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
               run(request)
-            :error ->
+            false ->
               {:error, message: "Oops! Something Wrong with Id"}
           end
         _ ->
@@ -1616,14 +1626,14 @@ defmodule LetMeSee do
     @spec update_faq(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def update_faq(args \\ @faq_params) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             case Map.keys(args) do
               @faq_keys ->
                 request = """
                 mutation {
                   updateFaq(
-                    id: \"#{binaryId}\",
+                    id: \"#{args.id}\",
                     faq: {
                       content: \"#{args.content}\",
                       title: \"#{args.title}\",
@@ -1651,7 +1661,7 @@ defmodule LetMeSee do
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
             end
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -1662,14 +1672,14 @@ defmodule LetMeSee do
     @spec update_faq_category(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def update_faq_category(args \\ @faq_category_params) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             case Map.keys(args) do
               @faq_category_keys ->
                 request = """
                 mutation {
                   updateFaqCategory(
-                    id: \"#{binaryId}\",
+                    id: \"#{args.id}\",
                     faq_category: {
                       title: \"#{args.title}\"
                     }
@@ -1688,7 +1698,7 @@ defmodule LetMeSee do
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
             end
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -1699,14 +1709,14 @@ defmodule LetMeSee do
     @spec update_language(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def update_language(args \\ @language_params) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             case Map.keys(args) do
               @language_keys ->
                 request = """
                 mutation {
                   updateLanguage(
-                    id: \"#{binaryId}\",
+                    id: \"#{args.id}\",
                     language: {
                       abbr: \"#{args.abbr}\",
                       name: \"#{args.name}\"
@@ -1727,7 +1737,7 @@ defmodule LetMeSee do
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
             end
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -1740,111 +1750,116 @@ defmodule LetMeSee do
       if is_map(args) and Map.has_key?(args, :id) do
         case Map.keys(args) |> Enum.sort do
           @match_value_relate_keys ->
-            request = """
-            mutation {
-              updateMatchValueRelate(
-                id: \"#{args.id}\",
-                match_value_relate: {
-                  match_for_book_keeping_additional_need:                       #{args.match_for_book_keeping_additional_need},
-                  match_for_book_keeping_annual_revenue:                         #{args.match_for_book_keeping_annual_revenue},
-                  match_for_book_keeping_industry:                                     #{args.match_for_book_keeping_industry},
-                  match_for_book_keeping_number_employee:                       #{args.match_for_book_keeping_number_employee},
-                  match_for_book_keeping_payroll:                                       #{args.match_for_book_keeping_payroll},
-                  match_for_book_keeping_type_client:                               #{args.match_for_book_keeping_type_client},
-                  match_for_business_enity_type:                                         #{args.match_for_business_enity_type},
-                  match_for_business_number_of_employee:                         #{args.match_for_business_number_of_employee},
-                  match_for_business_total_revenue:                                   #{args.match_for_business_total_revenue},
-                  match_for_individual_employment_status:                       #{args.match_for_individual_employment_status},
-                  match_for_individual_filing_status:                               #{args.match_for_individual_filing_status},
-                  match_for_individual_foreign_account:                           #{args.match_for_individual_foreign_account},
-                  match_for_individual_home_owner:                                     #{args.match_for_individual_home_owner},
-                  match_for_individual_itemized_deduction:                     #{args.match_for_individual_itemized_deduction},
-                  match_for_individual_living_abroad:                               #{args.match_for_individual_living_abroad},
-                  match_for_individual_non_resident_earning:                 #{args.match_for_individual_non_resident_earning},
-                  match_for_individual_own_stock_crypto:                         #{args.match_for_individual_own_stock_crypto},
-                  match_for_individual_rental_prop_income:                     #{args.match_for_individual_rental_prop_income},
-                  match_for_individual_stock_divident:                             #{args.match_for_individual_stock_divident},
-                  match_for_sale_tax_count:                                                   #{args.match_for_sale_tax_count},
-                  match_for_sale_tax_frequency:                                           #{args.match_for_sale_tax_frequency},
-                  match_for_sale_tax_industry:                                             #{args.match_for_sale_tax_industry},
-                  value_for_book_keeping_payroll:                                   \"#{args.value_for_book_keeping_payroll}\",
-                  value_for_book_keeping_tax_year:                                 \"#{args.value_for_book_keeping_tax_year}\",
-                  value_for_business_accounting_software:                   \"#{args.value_for_business_accounting_software}\",
-                  value_for_business_dispose_property:                         \"#{args.value_for_business_dispose_property}\",
-                  value_for_business_foreign_shareholder:                   \"#{args.value_for_business_foreign_shareholder}\",
-                  value_for_business_income_over_thousand:                 \"#{args.value_for_business_income_over_thousand}\",
-                  value_for_business_invest_research:                           \"#{args.value_for_business_invest_research}\",
-                  value_for_business_k1_count:                                         \"#{args.value_for_business_k1_count}\",
-                  value_for_business_make_distribution:                       \"#{args.value_for_business_make_distribution}\",
-                  value_for_business_state:                                               \"#{args.value_for_business_state}\",
-                  value_for_business_tax_exemption:                               \"#{args.value_for_business_tax_exemption}\",
-                  value_for_business_total_asset_over:                         \"#{args.value_for_business_total_asset_over}\",
-                  value_for_individual_employment_status:                   \"#{args.value_for_individual_employment_status}\",
-                  value_for_individual_foreign_account_limit:           \"#{args.value_for_individual_foreign_account_limit}\",
-                  value_for_individual_foreign_financial_interest: \"#{args.value_for_individual_foreign_financial_interest}\",
-                  value_for_individual_home_owner:                                 \"#{args.value_for_individual_home_owner}\",
-                  value_for_individual_k1_count:                                     \"#{args.value_for_individual_k1_count}\",
-                  value_for_individual_rental_prop_income:                 \"#{args.value_for_individual_rental_prop_income}\",
-                  value_for_individual_sole_prop_count:                       \"#{args.value_for_individual_sole_prop_count}\",
-                  value_for_individual_state:                                           \"#{args.value_for_individual_state}\",
-                  value_for_individual_tax_year:                                     \"#{args.value_for_individual_tax_year}\",
-                  value_for_sale_tax_count:                                               \"#{args.value_for_sale_tax_count}\"
+            case FlakeId.flake_id?(args.id) do
+              true ->
+                request = """
+                mutation {
+                  updateMatchValueRelate(
+                    id: \"#{args.id}\",
+                    match_value_relate: {
+                      match_for_book_keeping_additional_need:                       #{args.match_for_book_keeping_additional_need},
+                      match_for_book_keeping_annual_revenue:                         #{args.match_for_book_keeping_annual_revenue},
+                      match_for_book_keeping_industry:                                     #{args.match_for_book_keeping_industry},
+                      match_for_book_keeping_number_employee:                       #{args.match_for_book_keeping_number_employee},
+                      match_for_book_keeping_payroll:                                       #{args.match_for_book_keeping_payroll},
+                      match_for_book_keeping_type_client:                               #{args.match_for_book_keeping_type_client},
+                      match_for_business_enity_type:                                         #{args.match_for_business_enity_type},
+                      match_for_business_number_of_employee:                         #{args.match_for_business_number_of_employee},
+                      match_for_business_total_revenue:                                   #{args.match_for_business_total_revenue},
+                      match_for_individual_employment_status:                       #{args.match_for_individual_employment_status},
+                      match_for_individual_filing_status:                               #{args.match_for_individual_filing_status},
+                      match_for_individual_foreign_account:                           #{args.match_for_individual_foreign_account},
+                      match_for_individual_home_owner:                                     #{args.match_for_individual_home_owner},
+                      match_for_individual_itemized_deduction:                     #{args.match_for_individual_itemized_deduction},
+                      match_for_individual_living_abroad:                               #{args.match_for_individual_living_abroad},
+                      match_for_individual_non_resident_earning:                 #{args.match_for_individual_non_resident_earning},
+                      match_for_individual_own_stock_crypto:                         #{args.match_for_individual_own_stock_crypto},
+                      match_for_individual_rental_prop_income:                     #{args.match_for_individual_rental_prop_income},
+                      match_for_individual_stock_divident:                             #{args.match_for_individual_stock_divident},
+                      match_for_sale_tax_count:                                                   #{args.match_for_sale_tax_count},
+                      match_for_sale_tax_frequency:                                           #{args.match_for_sale_tax_frequency},
+                      match_for_sale_tax_industry:                                             #{args.match_for_sale_tax_industry},
+                      value_for_book_keeping_payroll:                                   \"#{args.value_for_book_keeping_payroll}\",
+                      value_for_book_keeping_tax_year:                                 \"#{args.value_for_book_keeping_tax_year}\",
+                      value_for_business_accounting_software:                   \"#{args.value_for_business_accounting_software}\",
+                      value_for_business_dispose_property:                         \"#{args.value_for_business_dispose_property}\",
+                      value_for_business_foreign_shareholder:                   \"#{args.value_for_business_foreign_shareholder}\",
+                      value_for_business_income_over_thousand:                 \"#{args.value_for_business_income_over_thousand}\",
+                      value_for_business_invest_research:                           \"#{args.value_for_business_invest_research}\",
+                      value_for_business_k1_count:                                         \"#{args.value_for_business_k1_count}\",
+                      value_for_business_make_distribution:                       \"#{args.value_for_business_make_distribution}\",
+                      value_for_business_state:                                               \"#{args.value_for_business_state}\",
+                      value_for_business_tax_exemption:                               \"#{args.value_for_business_tax_exemption}\",
+                      value_for_business_total_asset_over:                         \"#{args.value_for_business_total_asset_over}\",
+                      value_for_individual_employment_status:                   \"#{args.value_for_individual_employment_status}\",
+                      value_for_individual_foreign_account_limit:           \"#{args.value_for_individual_foreign_account_limit}\",
+                      value_for_individual_foreign_financial_interest: \"#{args.value_for_individual_foreign_financial_interest}\",
+                      value_for_individual_home_owner:                                 \"#{args.value_for_individual_home_owner}\",
+                      value_for_individual_k1_count:                                     \"#{args.value_for_individual_k1_count}\",
+                      value_for_individual_rental_prop_income:                 \"#{args.value_for_individual_rental_prop_income}\",
+                      value_for_individual_sole_prop_count:                       \"#{args.value_for_individual_sole_prop_count}\",
+                      value_for_individual_state:                                           \"#{args.value_for_individual_state}\",
+                      value_for_individual_tax_year:                                     \"#{args.value_for_individual_tax_year}\",
+                      value_for_sale_tax_count:                                               \"#{args.value_for_sale_tax_count}\"
+                    }
+                  ) {
+                      id
+                      match_for_book_keeping_additional_need
+                      match_for_book_keeping_annual_revenue
+                      match_for_book_keeping_industry
+                      match_for_book_keeping_number_employee
+                      match_for_book_keeping_payroll
+                      match_for_book_keeping_type_client
+                      match_for_business_enity_type
+                      match_for_business_number_of_employee
+                      match_for_business_total_revenue
+                      match_for_individual_employment_status
+                      match_for_individual_filing_status
+                      match_for_individual_foreign_account
+                      match_for_individual_home_owner
+                      match_for_individual_itemized_deduction
+                      match_for_individual_living_abroad
+                      match_for_individual_non_resident_earning
+                      match_for_individual_own_stock_crypto
+                      match_for_individual_rental_prop_income
+                      match_for_individual_stock_divident
+                      match_for_sale_tax_count
+                      match_for_sale_tax_frequency
+                      match_for_sale_tax_industry
+                      value_for_book_keeping_payroll
+                      value_for_book_keeping_tax_year
+                      value_for_business_accounting_software
+                      value_for_business_dispose_property
+                      value_for_business_foreign_shareholder
+                      value_for_business_income_over_thousand
+                      value_for_business_invest_research
+                      value_for_business_k1_count
+                      value_for_business_make_distribution
+                      value_for_business_state
+                      value_for_business_tax_exemption
+                      value_for_business_total_asset_over
+                      value_for_individual_employment_status
+                      value_for_individual_foreign_account_limit
+                      value_for_individual_foreign_financial_interest
+                      value_for_individual_home_owner
+                      value_for_individual_k1_count
+                      value_for_individual_rental_prop_income
+                      value_for_individual_sole_prop_count
+                      value_for_individual_state
+                      value_for_individual_tax_year
+                      value_for_sale_tax_count
+                      inserted_at
+                      updated_at
+                    }
                 }
-              ) {
-                  id
-                  match_for_book_keeping_additional_need
-                  match_for_book_keeping_annual_revenue
-                  match_for_book_keeping_industry
-                  match_for_book_keeping_number_employee
-                  match_for_book_keeping_payroll
-                  match_for_book_keeping_type_client
-                  match_for_business_enity_type
-                  match_for_business_number_of_employee
-                  match_for_business_total_revenue
-                  match_for_individual_employment_status
-                  match_for_individual_filing_status
-                  match_for_individual_foreign_account
-                  match_for_individual_home_owner
-                  match_for_individual_itemized_deduction
-                  match_for_individual_living_abroad
-                  match_for_individual_non_resident_earning
-                  match_for_individual_own_stock_crypto
-                  match_for_individual_rental_prop_income
-                  match_for_individual_stock_divident
-                  match_for_sale_tax_count
-                  match_for_sale_tax_frequency
-                  match_for_sale_tax_industry
-                  value_for_book_keeping_payroll
-                  value_for_book_keeping_tax_year
-                  value_for_business_accounting_software
-                  value_for_business_dispose_property
-                  value_for_business_foreign_shareholder
-                  value_for_business_income_over_thousand
-                  value_for_business_invest_research
-                  value_for_business_k1_count
-                  value_for_business_make_distribution
-                  value_for_business_state
-                  value_for_business_tax_exemption
-                  value_for_business_total_asset_over
-                  value_for_individual_employment_status
-                  value_for_individual_foreign_account_limit
-                  value_for_individual_foreign_financial_interest
-                  value_for_individual_home_owner
-                  value_for_individual_k1_count
-                  value_for_individual_rental_prop_income
-                  value_for_individual_sole_prop_count
-                  value_for_individual_state
-                  value_for_individual_tax_year
-                  value_for_sale_tax_count
-                  inserted_at
-                  updated_at
-                }
-            }
-            """
-            IO.puts(request)
-            format = Keyword.merge(@format, [frames: :braille])
-            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
-            run(request)
+                """
+                IO.puts(request)
+                format = Keyword.merge(@format, [frames: :braille])
+                ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
+                run(request)
+              false ->
+                {:error, message: "Oops! Something Wrong with Id"}
+            end
           _ ->
             {:error, message: "Oops! Something Wrong with an args"}
         end
@@ -1856,14 +1871,14 @@ defmodule LetMeSee do
     @spec update_press_article(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def update_press_article(args \\ @press_article_params) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             case Map.keys(args) do
               @press_article_keys ->
                 request = """
                 mutation {
                   updatePressArticle(
-                    id: \"#{binaryId}\",
+                    id: \"#{args.id}\",
                     press_article: {
                       author: \"#{args.author}\",
                       img_url: \"#{args.img_url}\",
@@ -1890,7 +1905,7 @@ defmodule LetMeSee do
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
             end
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -1901,8 +1916,8 @@ defmodule LetMeSee do
     @spec update_profile(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def update_profile(args \\ @profile_params) do
       if is_map(args) and Map.has_key?(args, :user_id) do
-        case Ecto.UUID.cast(args.user_id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             case Map.keys(args) do
               @profile_keys ->
                 user = if is_nil(args.user_id), do: :error, else: Core.Repo.get(User, args.user_id)
@@ -1911,7 +1926,7 @@ defmodule LetMeSee do
                 request = """
                 mutation {
                   updateProfile(
-                    id: \"#{binaryId}\",
+                    id: \"#{args.id}\",
                     logo: {},
                     profile: {
                       address: \"#{args.address}\",
@@ -1960,7 +1975,7 @@ defmodule LetMeSee do
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
             end
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -1971,14 +1986,14 @@ defmodule LetMeSee do
     @spec update_subscriber(%{atom => String.t() | boolean()}) :: map() | error() | error_map() | error_tuple()
     def update_subscriber(args \\ @subscriber_params) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             case Map.keys(args) do
               @subscriber_keys ->
                 request = """
                 mutation {
                   updateSubscriber(
-                    id: \"#{binaryId}\",
+                    id: \"#{args.d}\",
                     subscriber: {
                       email: \"#{args.email}\",
                       pro_role: #{args.pro_role}
@@ -1999,7 +2014,7 @@ defmodule LetMeSee do
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
             end
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -2010,8 +2025,8 @@ defmodule LetMeSee do
     @spec update_user(%{atom => String.t() | boolean() | integer()}) :: map() | error() | error_map() | error_tuple()
     def update_user(args \\ @user_params) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             case Map.keys(args) do
               @user_keys ->
                 user = if is_nil(args.id), do: :error, else: Core.Repo.get(User, args.id)
@@ -2020,7 +2035,7 @@ defmodule LetMeSee do
                 request = """
                 mutation {
                   updateUser(
-                    id: \"#{binaryId}\",
+                    id: \"#{args.id}\",
                     user: {
                       active: #{args.active},
                       admin_role: #{args.admin_role},
@@ -2075,7 +2090,7 @@ defmodule LetMeSee do
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
             end
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -2086,14 +2101,14 @@ defmodule LetMeSee do
     @spec update_vacancy(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def update_vacancy(args \\ @vacancy_params) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             case Map.keys(args) do
               @vacancy_keys ->
                 request = """
                 mutation {
                   updateVacancy(
-                    id: \"#{binaryId}\",
+                    id: \"#{args.id}\",
                     vacancy: {
                       content: \"#{args.content}\",
                       department: \"#{args.department}\",
@@ -2116,7 +2131,7 @@ defmodule LetMeSee do
               _ ->
                 {:error, message: "Oops! Something Wrong with an args"}
             end
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -2149,18 +2164,18 @@ defmodule LetMeSee do
     @spec delete_faq(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def delete_faq(args \\ %{id: @last_faq}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             mutation {
-              deleteFaq(id: \"#{binaryId}\") {id}
+              deleteFaq(id: \"#{args.id}\") {id}
             }
             """
             IO.puts(request)
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -2171,18 +2186,18 @@ defmodule LetMeSee do
     @spec delete_faq_category(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def delete_faq_category(args \\ %{id: @last_faq_category}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             mutation {
-              deleteFaqCategory(id: \"#{binaryId}\") {id}
+              deleteFaqCategory(id: \"#{args.id}\") {id}
             }
             """
             IO.puts(request)
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -2193,18 +2208,18 @@ defmodule LetMeSee do
     @spec delete_language(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def delete_language(args \\ %{id: @last_language}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             mutation {
-              deleteLanguage(id: \"#{binaryId}\") {id}
+              deleteLanguage(id: \"#{args.id}\") {id}
             }
             """
             IO.puts(request)
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -2215,15 +2230,20 @@ defmodule LetMeSee do
     @spec delete_match_value_relate(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def delete_match_value_relate(args \\ %{id: @last_match_value_relate}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        request = """
-        mutation {
-          deleteMatchValueRelate(id: \"#{args.id}\") {id}
-        }
-        """
-        IO.puts(request)
-        format = Keyword.merge(@format, [frames: :braille])
-        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
-        run(request)
+        case FlakeId.flake_id?(args.id) do
+          true ->
+            request = """
+            mutation {
+              deleteMatchValueRelate(id: \"#{args.id}\") {id}
+            }
+            """
+            IO.puts(request)
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
+            run(request)
+          false ->
+            {:error, message: "Oops! Something Wrong with Id"}
+        end
       else
         {:error, "Please fill out all required arguments!"}
       end
@@ -2232,18 +2252,18 @@ defmodule LetMeSee do
     @spec delete_press_article(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def delete_press_article(args \\ %{id: @last_press_article}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             mutation {
-              deletePressArticle(id: \"#{binaryId}\") {id}
+              deletePressArticle(id: \"#{args.id}\") {id}
             }
             """
             IO.puts(request)
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -2254,21 +2274,21 @@ defmodule LetMeSee do
     @spec delete_profile(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def delete_profile(args \\ %{id: @last_user}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             user = if is_nil(args.id), do: :error, else: Core.Repo.get(User, args.id)
             context = %{current_user: user}
             variables = %{}
             request = """
             mutation {
-              deleteProfile(id: \"#{binaryId}\") {user {id}}
+              deleteProfile(id: \"#{args.id}\") {user {id}}
             }
             """
             IO.puts(request)
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request, ServerWeb.GraphQL.Schema, [context: context, variables: variables])
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -2292,18 +2312,18 @@ defmodule LetMeSee do
     @spec delete_subscriber(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def delete_subscriber(args \\ %{id: @last_subscriber}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             mutation {
-              deleteSubscriber(id: \"#{binaryId}\") {id}
+              deleteSubscriber(id: \"#{args.id}\") {id}
             }
             """
             IO.puts(request)
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -2314,21 +2334,21 @@ defmodule LetMeSee do
     @spec delete_user(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def delete_user(args \\ %{id: @last_user}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             user = if is_nil(args.id), do: :error, else: Core.Repo.get(User, args.id)
             context = %{current_user: user}
             variables = %{}
             request = """
             mutation {
-              deleteUser(id: \"#{binaryId}\") {id}
+              deleteUser(id: \"#{args.id}\") {id}
             }
             """
             IO.puts(request)
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request, ServerWeb.GraphQL.Schema, [context: context, variables: variables])
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -2339,18 +2359,18 @@ defmodule LetMeSee do
     @spec delete_vacancy(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def delete_vacancy(args \\ %{id: @last_vacancy}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             mutation {
-              deleteVacancy(id: \"#{binaryId}\") {id}
+              deleteVacancy(id: \"#{args.id}\") {id}
             }
             """
             IO.puts(request)
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -2387,11 +2407,11 @@ defmodule LetMeSee do
     @spec find_faq_category(%{atom => String.t()}) :: map() | error_tuple()
     def find_faq_category(args) when is_map(args) do
       if Map.has_key?(args, :id) do
-        case Ecto.UUID.cast(args.id) do
-          {:ok, binaryId} ->
+        case FlakeId.flake_id?(args.id) do
+          true ->
             request = """
             query {
-              findFaqCategory(id: \"#{binaryId}\") {
+              findFaqCategory(id: \"#{args.id}\") {
                 id
                 content
                 title
@@ -2411,7 +2431,7 @@ defmodule LetMeSee do
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
-          :error ->
+          false ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
       else
@@ -2427,63 +2447,68 @@ defmodule LetMeSee do
     @spec find_match_value_relate(%{atom => String.t()}) :: map() | error_map() | error_tuple()
     def find_match_value_relate(args \\ %{id: @last_match_value_relate}) do
       if is_map(args) and Map.has_key?(args, :id) do
-        request = """
-        {
-          findMatchValueRelate(id: "#{args.id}") {
-            id
-            match_for_book_keeping_additional_need
-            match_for_book_keeping_annual_revenue
-            match_for_book_keeping_industry
-            match_for_book_keeping_number_employee
-            match_for_book_keeping_payroll
-            match_for_book_keeping_type_client
-            match_for_business_enity_type
-            match_for_business_number_of_employee
-            match_for_business_total_revenue
-            match_for_individual_employment_status
-            match_for_individual_filing_status
-            match_for_individual_foreign_account
-            match_for_individual_home_owner
-            match_for_individual_itemized_deduction
-            match_for_individual_living_abroad
-            match_for_individual_non_resident_earning
-            match_for_individual_own_stock_crypto
-            match_for_individual_rental_prop_income
-            match_for_individual_stock_divident
-            match_for_sale_tax_count
-            match_for_sale_tax_frequency
-            match_for_sale_tax_industry
-            value_for_book_keeping_payroll
-            value_for_book_keeping_tax_year
-            value_for_business_accounting_software
-            value_for_business_dispose_property
-            value_for_business_foreign_shareholder
-            value_for_business_income_over_thousand
-            value_for_business_invest_research
-            value_for_business_k1_count
-            value_for_business_make_distribution
-            value_for_business_state
-            value_for_business_tax_exemption
-            value_for_business_total_asset_over
-            value_for_individual_employment_status
-            value_for_individual_foreign_account_limit
-            value_for_individual_foreign_financial_interest
-            value_for_individual_home_owner
-            value_for_individual_k1_count
-            value_for_individual_rental_prop_income
-            value_for_individual_sole_prop_count
-            value_for_individual_state
-            value_for_individual_tax_year
-            value_for_sale_tax_count
-            inserted_at
-            updated_at
-          }
-        }
-        """
-        IO.puts(request)
-        format = Keyword.merge(@format, [frames: :braille])
-        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
-        run(request)
+        case FlakeId.flake_id?(args.id) do
+          true ->
+            request = """
+            {
+              findMatchValueRelate(id: "#{args.id}") {
+                id
+                match_for_book_keeping_additional_need
+                match_for_book_keeping_annual_revenue
+                match_for_book_keeping_industry
+                match_for_book_keeping_number_employee
+                match_for_book_keeping_payroll
+                match_for_book_keeping_type_client
+                match_for_business_enity_type
+                match_for_business_number_of_employee
+                match_for_business_total_revenue
+                match_for_individual_employment_status
+                match_for_individual_filing_status
+                match_for_individual_foreign_account
+                match_for_individual_home_owner
+                match_for_individual_itemized_deduction
+                match_for_individual_living_abroad
+                match_for_individual_non_resident_earning
+                match_for_individual_own_stock_crypto
+                match_for_individual_rental_prop_income
+                match_for_individual_stock_divident
+                match_for_sale_tax_count
+                match_for_sale_tax_frequency
+                match_for_sale_tax_industry
+                value_for_book_keeping_payroll
+                value_for_book_keeping_tax_year
+                value_for_business_accounting_software
+                value_for_business_dispose_property
+                value_for_business_foreign_shareholder
+                value_for_business_income_over_thousand
+                value_for_business_invest_research
+                value_for_business_k1_count
+                value_for_business_make_distribution
+                value_for_business_state
+                value_for_business_tax_exemption
+                value_for_business_total_asset_over
+                value_for_individual_employment_status
+                value_for_individual_foreign_account_limit
+                value_for_individual_foreign_financial_interest
+                value_for_individual_home_owner
+                value_for_individual_k1_count
+                value_for_individual_rental_prop_income
+                value_for_individual_sole_prop_count
+                value_for_individual_state
+                value_for_individual_tax_year
+                value_for_sale_tax_count
+                inserted_at
+                updated_at
+              }
+            }
+            """
+            IO.puts(request)
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
+            run(request)
+          false ->
+            {:error, message: "Oops! Something Wrong with Id"}
+        end
       else
         {:error, "Please fill out all required arguments!"}
       end
