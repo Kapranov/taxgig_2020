@@ -24,9 +24,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolver do
     {:ok, struct}
   end
 
-  @spec show(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()
-  def show(_parent, %{id: id}, _info) do
-    if is_nil(id) do
+  @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
+    if is_nil(id) || is_nil(current_user) || current_user.admin_role == false do
       {:error, [[field: :id, message: "Can't be blank"]]}
     else
       try do
