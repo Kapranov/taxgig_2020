@@ -155,55 +155,55 @@ defmodule LetMeSee do
   LetMeSee.index_faq()
   LetMeSee.index_faq_category()
   LetMeSee.index_language()
+  LetMeSee.index_match_value_relate()
   LetMeSee.index_press_article()
   LetMeSee.index_profile(args)
   LetMeSee.index_subscriber()
   LetMeSee.index_user(args)
   LetMeSee.index_vacancy()
-  LetMeSee.index_match_value_relate()
 
   LetMeSee.show_faq(args)
   LetMeSee.show_faq_category(args)
   LetMeSee.show_language(args)
+  LetMeSee.show_match_value_relate(args)
   LetMeSee.show_press_article(args)
   LetMeSee.show_profile(args)
   LetMeSee.show_subscriber(args)
   LetMeSee.show_user(args)
   LetMeSee.show_vacancy(args)
   LetMeSee.show_zipcode(args)
-  LetMeSee.show_match_value_relate(args)
 
   LetMeSee.create_faq(args)
   LetMeSee.create_faq_category(args)
   LetMeSee.create_language(args)
+  LetMeSee.create_match_value_relate(args)
   LetMeSee.create_press_article(args)
   LetMeSee.create_ptin(args)
   LetMeSee.create_subscriber(args)
   LetMeSee.create_user(args)
   LetMeSee.create_vacancy(args)
-  LetMeSee.create_match_value_relate(args)
 
   LetMeSee.update_faq(args)
   LetMeSee.update_faq_category(args)
   LetMeSee.update_language(args)
+  LetMeSee.update_match_value_relate(args)
   LetMeSee.update_press_article(args)
   LetMeSee.update_profile(args)
   LetMeSee.update_subscriber(args)
   LetMeSee.update_user(args)
   LetMeSee.update_vacancy(args)
-  LetMeSee.update_match_value_relate(args)
 
   LetMeSee.delete_dir_ptin(args)
   LetMeSee.delete_faq(args)
   LetMeSee.delete_faq_category(args)
   LetMeSee.delete_language(args)
+  LetMeSee.delete_match_value_relate(args)
   LetMeSee.delete_press_article(args)
   LetMeSee.delete_profile(args)
   LetMeSee.delete_ptin()
   LetMeSee.delete_subscriber(args)
   LetMeSee.delete_user(args)
   LetMeSee.delete_vacancy(args)
-  LetMeSee.delete_match_value_relate(args)
 
   LetMeSee.find_faq_category(args)
   LetMeSee.find_match_value_relate(args)
@@ -293,6 +293,53 @@ defmodule LetMeSee do
     @language_keys ~w(id abbr name)a |> Enum.sort
     @localhost_key ~w(email password provider)a
     @localhost_keys ~w(email password password_confirmation provider)a
+    @match_value_relate_keys ~w(
+      id
+      match_for_book_keeping_additional_need
+      match_for_book_keeping_annual_revenue
+      match_for_book_keeping_industry
+      match_for_book_keeping_number_employee
+      match_for_book_keeping_payroll
+      match_for_book_keeping_type_client
+      match_for_business_enity_type
+      match_for_business_number_of_employee
+      match_for_business_total_revenue
+      match_for_individual_employment_status
+      match_for_individual_filing_status
+      match_for_individual_foreign_account
+      match_for_individual_home_owner
+      match_for_individual_itemized_deduction
+      match_for_individual_living_abroad
+      match_for_individual_non_resident_earning
+      match_for_individual_own_stock_crypto
+      match_for_individual_rental_prop_income
+      match_for_individual_stock_divident
+      match_for_sale_tax_count
+      match_for_sale_tax_frequency
+      match_for_sale_tax_industry
+      value_for_book_keeping_payroll
+      value_for_book_keeping_tax_year
+      value_for_business_accounting_software
+      value_for_business_dispose_property
+      value_for_business_foreign_shareholder
+      value_for_business_income_over_thousand
+      value_for_business_invest_research
+      value_for_business_k1_count
+      value_for_business_make_distribution
+      value_for_business_state
+      value_for_business_tax_exemption
+      value_for_business_total_asset_over
+      value_for_individual_employment_status
+      value_for_individual_foreign_account_limit
+      value_for_individual_foreign_financial_interest
+      value_for_individual_home_owner
+      value_for_individual_k1_count
+      value_for_individual_rental_prop_income
+      value_for_individual_sole_prop_count
+      value_for_individual_state
+      value_for_individual_tax_year
+      value_for_sale_tax_count
+    )a |> Enum.sort
     @picture_keys ~w(alt name file profile_id)a |> Enum.sort
     @ptin_keys ~w(expired url)a |> Enum.sort
     @press_article_keys ~w(id author img_url preview_text title url)a |> Enum.sort
@@ -347,6 +394,53 @@ defmodule LetMeSee do
       id: @last_language,
       abbr: "updated text",
       name: "updated text"
+    }
+
+    @match_value_relate_params %{
+      match_for_book_keeping_additional_need:              13,
+      match_for_book_keeping_annual_revenue:               13,
+      match_for_book_keeping_industry:                     13,
+      match_for_book_keeping_number_employee:              13,
+      match_for_book_keeping_payroll:                      13,
+      match_for_book_keeping_type_client:                  13,
+      match_for_business_enity_type:                       13,
+      match_for_business_number_of_employee:               13,
+      match_for_business_total_revenue:                    13,
+      match_for_individual_employment_status:              13,
+      match_for_individual_filing_status:                  13,
+      match_for_individual_foreign_account:                13,
+      match_for_individual_home_owner:                     13,
+      match_for_individual_itemized_deduction:             13,
+      match_for_individual_living_abroad:                  13,
+      match_for_individual_non_resident_earning:           13,
+      match_for_individual_own_stock_crypto:               13,
+      match_for_individual_rental_prop_income:             13,
+      match_for_individual_stock_divident:                 13,
+      match_for_sale_tax_count:                            13,
+      match_for_sale_tax_frequency:                        13,
+      match_for_sale_tax_industry:                         13,
+      value_for_book_keeping_payroll:                  "0.99",
+      value_for_book_keeping_tax_year:                 "0.99",
+      value_for_business_accounting_software:          "0.99",
+      value_for_business_dispose_property:             "0.99",
+      value_for_business_foreign_shareholder:          "0.99",
+      value_for_business_income_over_thousand:         "0.99",
+      value_for_business_invest_research:              "0.99",
+      value_for_business_k1_count:                     "0.99",
+      value_for_business_make_distribution:            "0.99",
+      value_for_business_state:                        "0.99",
+      value_for_business_tax_exemption:                "0.99",
+      value_for_business_total_asset_over:             "0.99",
+      value_for_individual_employment_status:          "0.99",
+      value_for_individual_foreign_account_limit:      "0.99",
+      value_for_individual_foreign_financial_interest: "0.99",
+      value_for_individual_home_owner:                 "0.99",
+      value_for_individual_k1_count:                   "0.99",
+      value_for_individual_rental_prop_income:         "0.99",
+      value_for_individual_sole_prop_count:            "0.99",
+      value_for_individual_state:                      "0.99",
+      value_for_individual_tax_year:                   "0.99",
+      value_for_sale_tax_count:                        "0.99"
     }
 
     @press_article_params %{
@@ -456,6 +550,67 @@ defmodule LetMeSee do
           id
           abbr
           name
+          inserted_at
+          updated_at
+        }
+      }
+      """
+      IO.puts(request)
+      format = Keyword.merge(@format, [frames: :braille])
+      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
+      run(request)
+    end
+
+    @spec index_match_value_relate() :: [%{atom => any}] | list()
+    def index_match_value_relate do
+      request = """
+      query {
+        allMatchValueRelates {
+          id
+          match_for_book_keeping_additional_need
+          match_for_book_keeping_annual_revenue
+          match_for_book_keeping_industry
+          match_for_book_keeping_number_employee
+          match_for_book_keeping_payroll
+          match_for_book_keeping_type_client
+          match_for_business_enity_type
+          match_for_business_number_of_employee
+          match_for_business_total_revenue
+          match_for_individual_employment_status
+          match_for_individual_filing_status
+          match_for_individual_foreign_account
+          match_for_individual_home_owner
+          match_for_individual_itemized_deduction
+          match_for_individual_living_abroad
+          match_for_individual_non_resident_earning
+          match_for_individual_own_stock_crypto
+          match_for_individual_rental_prop_income
+          match_for_individual_stock_divident
+          match_for_sale_tax_count
+          match_for_sale_tax_frequency
+          match_for_sale_tax_industry
+          value_for_book_keeping_payroll
+          value_for_book_keeping_tax_year
+          value_for_business_accounting_software
+          value_for_business_dispose_property
+          value_for_business_foreign_shareholder
+          value_for_business_income_over_thousand
+          value_for_business_invest_research
+          value_for_business_k1_count
+          value_for_business_make_distribution
+          value_for_business_state
+          value_for_business_tax_exemption
+          value_for_business_total_asset_over
+          value_for_individual_employment_status
+          value_for_individual_foreign_account_limit
+          value_for_individual_foreign_financial_interest
+          value_for_individual_home_owner
+          value_for_individual_k1_count
+          value_for_individual_rental_prop_income
+          value_for_individual_sole_prop_count
+          value_for_individual_state
+          value_for_individual_tax_year
+          value_for_sale_tax_count
           inserted_at
           updated_at
         }
@@ -617,67 +772,6 @@ defmodule LetMeSee do
       run(request)
     end
 
-    @spec index_match_value_relate() :: [%{atom => any}] | list()
-    def index_match_value_relate do
-      request = """
-      query {
-        allMatchValueRelates {
-          id
-          match_for_book_keeping_additional_need
-          match_for_book_keeping_annual_revenue
-          match_for_book_keeping_industry
-          match_for_book_keeping_number_employee
-          match_for_book_keeping_payroll
-          match_for_book_keeping_type_client
-          match_for_business_enity_type
-          match_for_business_number_of_employee
-          match_for_business_total_revenue
-          match_for_individual_employment_status
-          match_for_individual_filing_status
-          match_for_individual_foreign_account
-          match_for_individual_home_owner
-          match_for_individual_itemized_deduction
-          match_for_individual_living_abroad
-          match_for_individual_non_resident_earning
-          match_for_individual_own_stock_crypto
-          match_for_individual_rental_prop_income
-          match_for_individual_stock_divident
-          match_for_sale_tax_count
-          match_for_sale_tax_frequency
-          match_for_sale_tax_industry
-          value_for_book_keeping_payroll
-          value_for_book_keeping_tax_year
-          value_for_business_accounting_software
-          value_for_business_dispose_property
-          value_for_business_foreign_shareholder
-          value_for_business_income_over_thousand
-          value_for_business_invest_research
-          value_for_business_k1_count
-          value_for_business_make_distribution
-          value_for_business_state
-          value_for_business_tax_exemption
-          value_for_business_total_asset_over
-          value_for_individual_employment_status
-          value_for_individual_foreign_account_limit
-          value_for_individual_foreign_financial_interest
-          value_for_individual_home_owner
-          value_for_individual_k1_count
-          value_for_individual_rental_prop_income
-          value_for_individual_sole_prop_count
-          value_for_individual_state
-          value_for_individual_tax_year
-          value_for_sale_tax_count
-          inserted_at
-          updated_at
-        }
-      }
-      """
-      IO.puts(request)
-      format = Keyword.merge(@format, [frames: :braille])
-      ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
-      run(request)
-    end
-
     @spec show_faq(%{atom => String.t()}) :: map() | error_map() | error_tuple()
     def show_faq(args \\ %{id: @last_faq}) do
       if is_map(args) and Map.has_key?(args, :id) do
@@ -763,6 +857,71 @@ defmodule LetMeSee do
           :error ->
             {:error, message: "Oops! Something Wrong with Id"}
         end
+      else
+        {:error, "Please fill out all required arguments!"}
+      end
+    end
+
+    @spec show_match_value_relate(%{atom => String.t()}) :: map() | error_map() | error_tuple()
+    def show_match_value_relate(args \\ %{id: @last_match_value_relate}) do
+      if is_map(args) and Map.has_key?(args, :id) do
+        request = """
+        {
+          show_match_value_relate(id: "#{args.id}") {
+            id
+            match_for_book_keeping_additional_need
+            match_for_book_keeping_annual_revenue
+            match_for_book_keeping_industry
+            match_for_book_keeping_number_employee
+            match_for_book_keeping_payroll
+            match_for_book_keeping_type_client
+            match_for_business_enity_type
+            match_for_business_number_of_employee
+            match_for_business_total_revenue
+            match_for_individual_employment_status
+            match_for_individual_filing_status
+            match_for_individual_foreign_account
+            match_for_individual_home_owner
+            match_for_individual_itemized_deduction
+            match_for_individual_living_abroad
+            match_for_individual_non_resident_earning
+            match_for_individual_own_stock_crypto
+            match_for_individual_rental_prop_income
+            match_for_individual_stock_divident
+            match_for_sale_tax_count
+            match_for_sale_tax_frequency
+            match_for_sale_tax_industry
+            value_for_book_keeping_payroll
+            value_for_book_keeping_tax_year
+            value_for_business_accounting_software
+            value_for_business_dispose_property
+            value_for_business_foreign_shareholder
+            value_for_business_income_over_thousand
+            value_for_business_invest_research
+            value_for_business_k1_count
+            value_for_business_make_distribution
+            value_for_business_state
+            value_for_business_tax_exemption
+            value_for_business_total_asset_over
+            value_for_individual_employment_status
+            value_for_individual_foreign_account_limit
+            value_for_individual_foreign_financial_interest
+            value_for_individual_home_owner
+            value_for_individual_k1_count
+            value_for_individual_rental_prop_income
+            value_for_individual_sole_prop_count
+            value_for_individual_state
+            value_for_individual_tax_year
+            value_for_sale_tax_count
+            inserted_at
+            updated_at
+          }
+        }
+        """
+        IO.puts(request)
+        format = Keyword.merge(@format, [frames: :braille])
+        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
+        run(request)
       else
         {:error, "Please fill out all required arguments!"}
       end
@@ -981,71 +1140,6 @@ defmodule LetMeSee do
       end
     end
 
-    @spec show_match_value_relate(%{atom => String.t()}) :: map() | error_map() | error_tuple()
-    def show_match_value_relate(args \\ %{id: @last_match_value_relate}) do
-      if is_map(args) and Map.has_key?(args, :id) do
-        request = """
-        {
-          show_match_value_relate(id: "#{args.id}") {
-            id
-            match_for_book_keeping_additional_need
-            match_for_book_keeping_annual_revenue
-            match_for_book_keeping_industry
-            match_for_book_keeping_number_employee
-            match_for_book_keeping_payroll
-            match_for_book_keeping_type_client
-            match_for_business_enity_type
-            match_for_business_number_of_employee
-            match_for_business_total_revenue
-            match_for_individual_employment_status
-            match_for_individual_filing_status
-            match_for_individual_foreign_account
-            match_for_individual_home_owner
-            match_for_individual_itemized_deduction
-            match_for_individual_living_abroad
-            match_for_individual_non_resident_earning
-            match_for_individual_own_stock_crypto
-            match_for_individual_rental_prop_income
-            match_for_individual_stock_divident
-            match_for_sale_tax_count
-            match_for_sale_tax_frequency
-            match_for_sale_tax_industry
-            value_for_book_keeping_payroll
-            value_for_book_keeping_tax_year
-            value_for_business_accounting_software
-            value_for_business_dispose_property
-            value_for_business_foreign_shareholder
-            value_for_business_income_over_thousand
-            value_for_business_invest_research
-            value_for_business_k1_count
-            value_for_business_make_distribution
-            value_for_business_state
-            value_for_business_tax_exemption
-            value_for_business_total_asset_over
-            value_for_individual_employment_status
-            value_for_individual_foreign_account_limit
-            value_for_individual_foreign_financial_interest
-            value_for_individual_home_owner
-            value_for_individual_k1_count
-            value_for_individual_rental_prop_income
-            value_for_individual_sole_prop_count
-            value_for_individual_state
-            value_for_individual_tax_year
-            value_for_sale_tax_count
-            inserted_at
-            updated_at
-          }
-        }
-        """
-        IO.puts(request)
-        format = Keyword.merge(@format, [frames: :braille])
-        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
-        run(request)
-      else
-        {:error, "Please fill out all required arguments!"}
-      end
-    end
-
     @keys List.delete(@faq_keys, :id)
 
     @spec create_faq(%{atom => String.t()}) :: map() | error_map() | error_tuple()
@@ -1155,6 +1249,124 @@ defmodule LetMeSee do
 
     @spec create_language(any()) :: error_tuple()
     def create_language(_) do
+      {:error, "Please fill out all required arguments!"}
+    end
+
+    @keys List.delete(@match_value_relate_keys, :id)
+
+    @spec create_match_value_relate(%{atom => String.t()}) :: map() | error_map() | error_tuple()
+    def create_match_value_relate(args) when is_map(args) do
+      case Map.keys(args) |> Enum.sort do
+        @keys ->
+          request = """
+          mutation {
+            createMatchValueRelate(
+              match_for_book_keeping_additional_need:                       #{args.match_for_book_keeping_additional_need},
+              match_for_book_keeping_annual_revenue:                         #{args.match_for_book_keeping_annual_revenue},
+              match_for_book_keeping_industry:                                     #{args.match_for_book_keeping_industry},
+              match_for_book_keeping_number_employee:                       #{args.match_for_book_keeping_number_employee},
+              match_for_book_keeping_payroll:                                       #{args.match_for_book_keeping_payroll},
+              match_for_book_keeping_type_client:                               #{args.match_for_book_keeping_type_client},
+              match_for_business_enity_type:                                         #{args.match_for_business_enity_type},
+              match_for_business_number_of_employee:                         #{args.match_for_business_number_of_employee},
+              match_for_business_total_revenue:                                   #{args.match_for_business_total_revenue},
+              match_for_individual_employment_status:                       #{args.match_for_individual_employment_status},
+              match_for_individual_filing_status:                               #{args.match_for_individual_filing_status},
+              match_for_individual_foreign_account:                           #{args.match_for_individual_foreign_account},
+              match_for_individual_home_owner:                                     #{args.match_for_individual_home_owner},
+              match_for_individual_itemized_deduction:                     #{args.match_for_individual_itemized_deduction},
+              match_for_individual_living_abroad:                               #{args.match_for_individual_living_abroad},
+              match_for_individual_non_resident_earning:                 #{args.match_for_individual_non_resident_earning},
+              match_for_individual_own_stock_crypto:                         #{args.match_for_individual_own_stock_crypto},
+              match_for_individual_rental_prop_income:                     #{args.match_for_individual_rental_prop_income},
+              match_for_individual_stock_divident:                             #{args.match_for_individual_stock_divident},
+              match_for_sale_tax_count:                                                   #{args.match_for_sale_tax_count},
+              match_for_sale_tax_frequency:                                           #{args.match_for_sale_tax_frequency},
+              match_for_sale_tax_industry:                                             #{args.match_for_sale_tax_industry},
+              value_for_book_keeping_payroll:                                   \"#{args.value_for_book_keeping_payroll}\",
+              value_for_book_keeping_tax_year:                                 \"#{args.value_for_book_keeping_tax_year}\",
+              value_for_business_accounting_software:                   \"#{args.value_for_business_accounting_software}\",
+              value_for_business_dispose_property:                         \"#{args.value_for_business_dispose_property}\",
+              value_for_business_foreign_shareholder:                   \"#{args.value_for_business_foreign_shareholder}\",
+              value_for_business_income_over_thousand:                 \"#{args.value_for_business_income_over_thousand}\",
+              value_for_business_invest_research:                           \"#{args.value_for_business_invest_research}\",
+              value_for_business_k1_count:                                         \"#{args.value_for_business_k1_count}\",
+              value_for_business_make_distribution:                       \"#{args.value_for_business_make_distribution}\",
+              value_for_business_state:                                               \"#{args.value_for_business_state}\",
+              value_for_business_tax_exemption:                               \"#{args.value_for_business_tax_exemption}\",
+              value_for_business_total_asset_over:                         \"#{args.value_for_business_total_asset_over}\",
+              value_for_individual_employment_status:                   \"#{args.value_for_individual_employment_status}\",
+              value_for_individual_foreign_account_limit:           \"#{args.value_for_individual_foreign_account_limit}\",
+              value_for_individual_foreign_financial_interest: \"#{args.value_for_individual_foreign_financial_interest}\",
+              value_for_individual_home_owner:                                 \"#{args.value_for_individual_home_owner}\",
+              value_for_individual_k1_count:                                     \"#{args.value_for_individual_k1_count}\",
+              value_for_individual_rental_prop_income:                 \"#{args.value_for_individual_rental_prop_income}\",
+              value_for_individual_sole_prop_count:                       \"#{args.value_for_individual_sole_prop_count}\",
+              value_for_individual_state:                                           \"#{args.value_for_individual_state}\",
+              value_for_individual_tax_year:                                     \"#{args.value_for_individual_tax_year}\",
+              value_for_sale_tax_count:                                               \"#{args.value_for_sale_tax_count}\"
+            ) {
+                id
+                match_for_book_keeping_additional_need
+                match_for_book_keeping_annual_revenue
+                match_for_book_keeping_industry
+                match_for_book_keeping_number_employee
+                match_for_book_keeping_payroll
+                match_for_book_keeping_type_client
+                match_for_business_enity_type
+                match_for_business_number_of_employee
+                match_for_business_total_revenue
+                match_for_individual_employment_status
+                match_for_individual_filing_status
+                match_for_individual_foreign_account
+                match_for_individual_home_owner
+                match_for_individual_itemized_deduction
+                match_for_individual_living_abroad
+                match_for_individual_non_resident_earning
+                match_for_individual_own_stock_crypto
+                match_for_individual_rental_prop_income
+                match_for_individual_stock_divident
+                match_for_sale_tax_count
+                match_for_sale_tax_frequency
+                match_for_sale_tax_industry
+                value_for_book_keeping_payroll
+                value_for_book_keeping_tax_year
+                value_for_business_accounting_software
+                value_for_business_dispose_property
+                value_for_business_foreign_shareholder
+                value_for_business_income_over_thousand
+                value_for_business_invest_research
+                value_for_business_k1_count
+                value_for_business_make_distribution
+                value_for_business_state
+                value_for_business_tax_exemption
+                value_for_business_total_asset_over
+                value_for_individual_employment_status
+                value_for_individual_foreign_account_limit
+                value_for_individual_foreign_financial_interest
+                value_for_individual_home_owner
+                value_for_individual_k1_count
+                value_for_individual_rental_prop_income
+                value_for_individual_sole_prop_count
+                value_for_individual_state
+                value_for_individual_tax_year
+                value_for_sale_tax_count
+                inserted_at
+                updated_at
+              }
+          }
+          """
+          IO.puts(request)
+          format = Keyword.merge(@format, [frames: :braille])
+          ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
+          run(request)
+        _ ->
+          {:error, message: "Oops! Something Wrong with an args"}
+      end
+    end
+
+    @spec create_match_value_relate(any()) :: error_tuple()
+    def create_match_value_relate(_) do
       {:error, "Please fill out all required arguments!"}
     end
 
@@ -1523,6 +1735,124 @@ defmodule LetMeSee do
       end
     end
 
+    @spec update_match_value_relate(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
+    def update_match_value_relate(args \\ @match_value_relate_params) do
+      if is_map(args) and Map.has_key?(args, :id) do
+        case Map.keys(args) |> Enum.sort do
+          @match_value_relate_keys ->
+            request = """
+            mutation {
+              updateMatchValueRelate(
+                id: \"#{args.id}\",
+                match_value_relate: {
+                  match_for_book_keeping_additional_need:                       #{args.match_for_book_keeping_additional_need},
+                  match_for_book_keeping_annual_revenue:                         #{args.match_for_book_keeping_annual_revenue},
+                  match_for_book_keeping_industry:                                     #{args.match_for_book_keeping_industry},
+                  match_for_book_keeping_number_employee:                       #{args.match_for_book_keeping_number_employee},
+                  match_for_book_keeping_payroll:                                       #{args.match_for_book_keeping_payroll},
+                  match_for_book_keeping_type_client:                               #{args.match_for_book_keeping_type_client},
+                  match_for_business_enity_type:                                         #{args.match_for_business_enity_type},
+                  match_for_business_number_of_employee:                         #{args.match_for_business_number_of_employee},
+                  match_for_business_total_revenue:                                   #{args.match_for_business_total_revenue},
+                  match_for_individual_employment_status:                       #{args.match_for_individual_employment_status},
+                  match_for_individual_filing_status:                               #{args.match_for_individual_filing_status},
+                  match_for_individual_foreign_account:                           #{args.match_for_individual_foreign_account},
+                  match_for_individual_home_owner:                                     #{args.match_for_individual_home_owner},
+                  match_for_individual_itemized_deduction:                     #{args.match_for_individual_itemized_deduction},
+                  match_for_individual_living_abroad:                               #{args.match_for_individual_living_abroad},
+                  match_for_individual_non_resident_earning:                 #{args.match_for_individual_non_resident_earning},
+                  match_for_individual_own_stock_crypto:                         #{args.match_for_individual_own_stock_crypto},
+                  match_for_individual_rental_prop_income:                     #{args.match_for_individual_rental_prop_income},
+                  match_for_individual_stock_divident:                             #{args.match_for_individual_stock_divident},
+                  match_for_sale_tax_count:                                                   #{args.match_for_sale_tax_count},
+                  match_for_sale_tax_frequency:                                           #{args.match_for_sale_tax_frequency},
+                  match_for_sale_tax_industry:                                             #{args.match_for_sale_tax_industry},
+                  value_for_book_keeping_payroll:                                   \"#{args.value_for_book_keeping_payroll}\",
+                  value_for_book_keeping_tax_year:                                 \"#{args.value_for_book_keeping_tax_year}\",
+                  value_for_business_accounting_software:                   \"#{args.value_for_business_accounting_software}\",
+                  value_for_business_dispose_property:                         \"#{args.value_for_business_dispose_property}\",
+                  value_for_business_foreign_shareholder:                   \"#{args.value_for_business_foreign_shareholder}\",
+                  value_for_business_income_over_thousand:                 \"#{args.value_for_business_income_over_thousand}\",
+                  value_for_business_invest_research:                           \"#{args.value_for_business_invest_research}\",
+                  value_for_business_k1_count:                                         \"#{args.value_for_business_k1_count}\",
+                  value_for_business_make_distribution:                       \"#{args.value_for_business_make_distribution}\",
+                  value_for_business_state:                                               \"#{args.value_for_business_state}\",
+                  value_for_business_tax_exemption:                               \"#{args.value_for_business_tax_exemption}\",
+                  value_for_business_total_asset_over:                         \"#{args.value_for_business_total_asset_over}\",
+                  value_for_individual_employment_status:                   \"#{args.value_for_individual_employment_status}\",
+                  value_for_individual_foreign_account_limit:           \"#{args.value_for_individual_foreign_account_limit}\",
+                  value_for_individual_foreign_financial_interest: \"#{args.value_for_individual_foreign_financial_interest}\",
+                  value_for_individual_home_owner:                                 \"#{args.value_for_individual_home_owner}\",
+                  value_for_individual_k1_count:                                     \"#{args.value_for_individual_k1_count}\",
+                  value_for_individual_rental_prop_income:                 \"#{args.value_for_individual_rental_prop_income}\",
+                  value_for_individual_sole_prop_count:                       \"#{args.value_for_individual_sole_prop_count}\",
+                  value_for_individual_state:                                           \"#{args.value_for_individual_state}\",
+                  value_for_individual_tax_year:                                     \"#{args.value_for_individual_tax_year}\",
+                  value_for_sale_tax_count:                                               \"#{args.value_for_sale_tax_count}\"
+                }
+              ) {
+                  id
+                  match_for_book_keeping_additional_need
+                  match_for_book_keeping_annual_revenue
+                  match_for_book_keeping_industry
+                  match_for_book_keeping_number_employee
+                  match_for_book_keeping_payroll
+                  match_for_book_keeping_type_client
+                  match_for_business_enity_type
+                  match_for_business_number_of_employee
+                  match_for_business_total_revenue
+                  match_for_individual_employment_status
+                  match_for_individual_filing_status
+                  match_for_individual_foreign_account
+                  match_for_individual_home_owner
+                  match_for_individual_itemized_deduction
+                  match_for_individual_living_abroad
+                  match_for_individual_non_resident_earning
+                  match_for_individual_own_stock_crypto
+                  match_for_individual_rental_prop_income
+                  match_for_individual_stock_divident
+                  match_for_sale_tax_count
+                  match_for_sale_tax_frequency
+                  match_for_sale_tax_industry
+                  value_for_book_keeping_payroll
+                  value_for_book_keeping_tax_year
+                  value_for_business_accounting_software
+                  value_for_business_dispose_property
+                  value_for_business_foreign_shareholder
+                  value_for_business_income_over_thousand
+                  value_for_business_invest_research
+                  value_for_business_k1_count
+                  value_for_business_make_distribution
+                  value_for_business_state
+                  value_for_business_tax_exemption
+                  value_for_business_total_asset_over
+                  value_for_individual_employment_status
+                  value_for_individual_foreign_account_limit
+                  value_for_individual_foreign_financial_interest
+                  value_for_individual_home_owner
+                  value_for_individual_k1_count
+                  value_for_individual_rental_prop_income
+                  value_for_individual_sole_prop_count
+                  value_for_individual_state
+                  value_for_individual_tax_year
+                  value_for_sale_tax_count
+                  inserted_at
+                  updated_at
+                }
+            }
+            """
+            IO.puts(request)
+            format = Keyword.merge(@format, [frames: :braille])
+            ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
+            run(request)
+          _ ->
+            {:error, message: "Oops! Something Wrong with an args"}
+        end
+      else
+        {:error, "Please fill out all required arguments!"}
+      end
+    end
+
     @spec update_press_article(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def update_press_article(args \\ @press_article_params) do
       if is_map(args) and Map.has_key?(args, :id) do
@@ -1882,6 +2212,23 @@ defmodule LetMeSee do
       end
     end
 
+    @spec delete_match_value_relate(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
+    def delete_match_value_relate(args \\ %{id: @last_match_value_relate}) do
+      if is_map(args) and Map.has_key?(args, :id) do
+        request = """
+        mutation {
+          deleteMatchValueRelate(id: \"#{args.id}\") {id}
+        }
+        """
+        IO.puts(request)
+        format = Keyword.merge(@format, [frames: :braille])
+        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
+        run(request)
+      else
+        {:error, "Please fill out all required arguments!"}
+      end
+    end
+
     @spec delete_press_article(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
     def delete_press_article(args \\ %{id: @last_press_article}) do
       if is_map(args) and Map.has_key?(args, :id) do
@@ -2011,23 +2358,6 @@ defmodule LetMeSee do
       end
     end
 
-    @spec delete_match_value_relate(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
-    def delete_match_value_relate(args \\ %{id: @last_match_value_relate}) do
-      if is_map(args) and Map.has_key?(args, :id) do
-        request = """
-        mutation {
-          deleteMatchValueRelate(id: \"#{args.id}\") {id}
-        }
-        """
-        IO.puts(request)
-        format = Keyword.merge(@format, [frames: :braille])
-        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
-        run(request)
-      else
-        {:error, "Please fill out all required arguments!"}
-      end
-    end
-
     @spec find_faq_category() :: map()
     def find_faq_category do
       request = """
@@ -2092,6 +2422,71 @@ defmodule LetMeSee do
     @spec find_faq_category(any()) :: error_tuple()
     def find_faq_category(_) do
       {:error, "Please fill out all required arguments!"}
+    end
+
+    @spec find_match_value_relate(%{atom => String.t()}) :: map() | error_map() | error_tuple()
+    def find_match_value_relate(args \\ %{id: @last_match_value_relate}) do
+      if is_map(args) and Map.has_key?(args, :id) do
+        request = """
+        {
+          findMatchValueRelate(id: "#{args.id}") {
+            id
+            match_for_book_keeping_additional_need
+            match_for_book_keeping_annual_revenue
+            match_for_book_keeping_industry
+            match_for_book_keeping_number_employee
+            match_for_book_keeping_payroll
+            match_for_book_keeping_type_client
+            match_for_business_enity_type
+            match_for_business_number_of_employee
+            match_for_business_total_revenue
+            match_for_individual_employment_status
+            match_for_individual_filing_status
+            match_for_individual_foreign_account
+            match_for_individual_home_owner
+            match_for_individual_itemized_deduction
+            match_for_individual_living_abroad
+            match_for_individual_non_resident_earning
+            match_for_individual_own_stock_crypto
+            match_for_individual_rental_prop_income
+            match_for_individual_stock_divident
+            match_for_sale_tax_count
+            match_for_sale_tax_frequency
+            match_for_sale_tax_industry
+            value_for_book_keeping_payroll
+            value_for_book_keeping_tax_year
+            value_for_business_accounting_software
+            value_for_business_dispose_property
+            value_for_business_foreign_shareholder
+            value_for_business_income_over_thousand
+            value_for_business_invest_research
+            value_for_business_k1_count
+            value_for_business_make_distribution
+            value_for_business_state
+            value_for_business_tax_exemption
+            value_for_business_total_asset_over
+            value_for_individual_employment_status
+            value_for_individual_foreign_account_limit
+            value_for_individual_foreign_financial_interest
+            value_for_individual_home_owner
+            value_for_individual_k1_count
+            value_for_individual_rental_prop_income
+            value_for_individual_sole_prop_count
+            value_for_individual_state
+            value_for_individual_tax_year
+            value_for_sale_tax_count
+            inserted_at
+            updated_at
+          }
+        }
+        """
+        IO.puts(request)
+        format = Keyword.merge(@format, [frames: :braille])
+        ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
+        run(request)
+      else
+        {:error, "Please fill out all required arguments!"}
+      end
     end
 
     @spec search_profession() :: map()
