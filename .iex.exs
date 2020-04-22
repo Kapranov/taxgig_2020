@@ -159,7 +159,7 @@ defmodule LetMeSee do
   LetMeSee.index_press_article()
   LetMeSee.index_profile(args)
   LetMeSee.index_subscriber()
-  LetMeSee.index_user(args)
+  LetMeSee.index_user(current_user)
   LetMeSee.index_vacancy()
 
   LetMeSee.show_faq(args)
@@ -376,7 +376,7 @@ defmodule LetMeSee do
     )a |> Enum.sort
     @user_mini_keys ~w(email languages password password_confirmation)a |> Enum.sort
 
-    @current_user Repo.all(User) |> List.last
+    @current_user Repo.all(User) |> List.first
     @admin_user Repo.get_by(User, %{email: "kapranov.pure@gmail.com"})
 
     @faq_params %{
@@ -727,7 +727,6 @@ defmodule LetMeSee do
           allUsers{
             id
             active
-            admin_role
             avatar
             bio
             birthday
