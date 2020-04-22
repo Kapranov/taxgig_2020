@@ -165,7 +165,7 @@ defmodule LetMeSee do
   LetMeSee.show_faq(args)
   LetMeSee.show_faq_category(args)
   LetMeSee.show_language(args)
-  LetMeSee.show_match_value_relate(args)
+  LetMeSee.show_match_value_relate(args, current_user)
   LetMeSee.show_press_article(args)
   LetMeSee.show_profile(args)
   LetMeSee.show_subscriber(args)
@@ -176,7 +176,7 @@ defmodule LetMeSee do
   LetMeSee.create_faq(args)
   LetMeSee.create_faq_category(args)
   LetMeSee.create_language(args)
-  LetMeSee.create_match_value_relate(args)
+  LetMeSee.create_match_value_relate(args, current_user)
   LetMeSee.create_press_article(args)
   LetMeSee.create_ptin(args)
   LetMeSee.create_subscriber(args)
@@ -186,7 +186,7 @@ defmodule LetMeSee do
   LetMeSee.update_faq(args)
   LetMeSee.update_faq_category(args)
   LetMeSee.update_language(args)
-  LetMeSee.update_match_value_relate(args)
+  LetMeSee.update_match_value_relate(args, current_user)
   LetMeSee.update_press_article(args)
   LetMeSee.update_profile(args)
   LetMeSee.update_subscriber(args)
@@ -197,7 +197,7 @@ defmodule LetMeSee do
   LetMeSee.delete_faq(args)
   LetMeSee.delete_faq_category(args)
   LetMeSee.delete_language(args)
-  LetMeSee.delete_match_value_relate(args)
+  LetMeSee.delete_match_value_relate(args, current_user)
   LetMeSee.delete_press_article(args)
   LetMeSee.delete_profile(args)
   LetMeSee.delete_ptin()
@@ -206,7 +206,7 @@ defmodule LetMeSee do
   LetMeSee.delete_vacancy(args)
 
   LetMeSee.find_faq_category(args)
-  LetMeSee.find_match_value_relate(args)
+  LetMeSee.find_match_value_relate(args, current_user)
 
   LetMeSee.search_profession(args)
   LetMeSee.search_ptin(args)
@@ -377,6 +377,7 @@ defmodule LetMeSee do
     @user_mini_keys ~w(email languages password password_confirmation)a |> Enum.sort
 
     @current_user Repo.all(User) |> List.last
+    @admin_user Repo.get_by(User, %{email: "kapranov.pure@gmail.com"})
 
     @faq_params %{
       id: @last_faq,
@@ -867,11 +868,12 @@ defmodule LetMeSee do
       end
     end
 
-    @spec show_match_value_relate(%{atom => String.t()}) :: map() | error_map() | error_tuple()
-    def show_match_value_relate(args \\ %{id: @last_match_value_relate}) do
+    @spec show_match_value_relate(%{atom => String.t()}, User.t()) :: map() | error_map() | error_tuple()
+    def show_match_value_relate(args \\ %{id: @last_match_value_relate}, current_user \\ @admin_user) do
       if is_map(args) and Map.has_key?(args, :id) do
         case FlakeId.flake_id?(args.id) do
           true ->
+            context = %{current_user: current_user}
             request = """
             {
               show_match_value_relate(id: "#{args.id}") {
@@ -928,9 +930,9 @@ defmodule LetMeSee do
             IO.puts(request)
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
-            run(request)
+            run(request, ServerWeb.GraphQL.Schema, [context: context])
           false ->
-            {:error, message: "Oops! Something Wrong with Id"}
+            {:error, message: "Oops! Something Wrong with Id or Permission denied for user admin to perform action Show"}
         end
       else
         {:error, "Please fill out all required arguments!"}
@@ -1264,10 +1266,11 @@ defmodule LetMeSee do
 
     @keys List.delete(@match_value_relate_keys, :id)
 
-    @spec create_match_value_relate(%{atom => String.t()}) :: map() | error_map() | error_tuple()
-    def create_match_value_relate(args) when is_map(args) do
+    @spec create_match_value_relate(%{atom => String.t()}, User.t()) :: map() | error_map() | error_tuple()
+    def create_match_value_relate(args, current_user \\ @admin_user) when is_map(args) and is_map(current_user) do
       case Map.keys(args) |> Enum.sort do
         @keys ->
+          context = %{current_user: current_user}
           request = """
           mutation {
             createMatchValueRelate(
@@ -1369,15 +1372,10 @@ defmodule LetMeSee do
           IO.puts(request)
           format = Keyword.merge(@format, [frames: :braille])
           ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
-          run(request)
+          run(request, ServerWeb.GraphQL.Schema, [context: context])
         _ ->
-          {:error, message: "Oops! Something Wrong with an args"}
+          {:error, message: "Oops! Something Wrong with an args or Permission denied for user admin to perform action Create"}
       end
-    end
-
-    @spec create_match_value_relate(any()) :: error_tuple()
-    def create_match_value_relate(_) do
-      {:error, "Please fill out all required arguments!"}
     end
 
     @keys List.delete(@press_article_keys, :id)
@@ -1745,13 +1743,14 @@ defmodule LetMeSee do
       end
     end
 
-    @spec update_match_value_relate(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
-    def update_match_value_relate(args \\ @match_value_relate_params) do
+    @spec update_match_value_relate(%{atom => String.t()}, User.t()) :: map() | error() | error_map() | error_tuple()
+    def update_match_value_relate(args \\ @match_value_relate_params, current_user \\ @admin_user) do
       if is_map(args) and Map.has_key?(args, :id) do
         case Map.keys(args) |> Enum.sort do
           @match_value_relate_keys ->
             case FlakeId.flake_id?(args.id) do
               true ->
+                context = %{current_user: current_user}
                 request = """
                 mutation {
                   updateMatchValueRelate(
@@ -1856,9 +1855,9 @@ defmodule LetMeSee do
                 IO.puts(request)
                 format = Keyword.merge(@format, [frames: :braille])
                 ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
-                run(request)
+                run(request, ServerWeb.GraphQL.Schema, [context: context])
               false ->
-                {:error, message: "Oops! Something Wrong with Id"}
+                {:error, message: "Oops! Something Wrong with Id or Permission denied for user admin to perform action Update"}
             end
           _ ->
             {:error, message: "Oops! Something Wrong with an args"}
@@ -2227,11 +2226,12 @@ defmodule LetMeSee do
       end
     end
 
-    @spec delete_match_value_relate(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
-    def delete_match_value_relate(args \\ %{id: @last_match_value_relate}) do
+    @spec delete_match_value_relate(%{atom => String.t()}, User.t()) :: map() | error() | error_map() | error_tuple()
+    def delete_match_value_relate(args \\ %{id: @last_match_value_relate}, current_user \\ @admin_user) do
       if is_map(args) and Map.has_key?(args, :id) do
         case FlakeId.flake_id?(args.id) do
           true ->
+            context = %{current_user: current_user}
             request = """
             mutation {
               deleteMatchValueRelate(id: \"#{args.id}\") {id}
@@ -2240,9 +2240,9 @@ defmodule LetMeSee do
             IO.puts(request)
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
-            run(request)
+            run(request, ServerWeb.GraphQL.Schema, [context: context])
           false ->
-            {:error, message: "Oops! Something Wrong with Id"}
+            {:error, message: "Oops! Something Wrong with Id or Permission denied for user admin to perform action Delete"}
         end
       else
         {:error, "Please fill out all required arguments!"}
@@ -2444,11 +2444,12 @@ defmodule LetMeSee do
       {:error, "Please fill out all required arguments!"}
     end
 
-    @spec find_match_value_relate(%{atom => String.t()}) :: map() | error_map() | error_tuple()
-    def find_match_value_relate(args \\ %{id: @last_match_value_relate}) do
+    @spec find_match_value_relate(%{atom => String.t()}, User.t()) :: map() | error_map() | error_tuple()
+    def find_match_value_relate(args \\ %{id: @last_match_value_relate}, current_user \\ @admin_user) do
       if is_map(args) and Map.has_key?(args, :id) do
         case FlakeId.flake_id?(args.id) do
           true ->
+            context = %{current_user: current_user}
             request = """
             {
               findMatchValueRelate(id: "#{args.id}") {
@@ -2505,9 +2506,9 @@ defmodule LetMeSee do
             IO.puts(request)
             format = Keyword.merge(@format, [frames: :braille])
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
-            run(request)
+            run(request, ServerWeb.GraphQL.Schema, [context: context])
           false ->
-            {:error, message: "Oops! Something Wrong with Id"}
+            {:error, message: "Oops! Something Wrong with Id or Permission denied for user admin to perform action Find"}
         end
       else
         {:error, "Please fill out all required arguments!"}
