@@ -32,8 +32,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             last_name
             middle_name
             phone
-            pro_role
             provider
+            role
             sex
             ssn
             street
@@ -81,8 +81,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert List.first(data)["user"]["last_name"]               == struct.user.last_name
       assert List.first(data)["user"]["middle_name"]             == struct.user.middle_name
       assert List.first(data)["user"]["phone"]                   == struct.user.phone
-      assert List.first(data)["user"]["pro_role"]                == struct.user.pro_role
       assert List.first(data)["user"]["provider"]                == struct.user.provider
+      assert List.first(data)["user"]["role"]                    == struct.user.role
       assert List.first(data)["user"]["sex"]                     == struct.user.sex
       assert List.first(data)["user"]["ssn"]                     == struct.user.ssn
       assert List.first(data)["user"]["street"]                  == struct.user.street
@@ -121,8 +121,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert List.last(data)["user"]["last_name"]               == struct.user.last_name
       assert List.last(data)["user"]["middle_name"]             == struct.user.middle_name
       assert List.last(data)["user"]["phone"]                   == struct.user.phone
-      assert List.last(data)["user"]["pro_role"]                == struct.user.pro_role
       assert List.last(data)["user"]["provider"]                == struct.user.provider
+      assert List.last(data)["user"]["role"]                    == struct.user.role
       assert List.last(data)["user"]["sex"]                     == struct.user.sex
       assert List.last(data)["user"]["ssn"]                     == struct.user.ssn
       assert List.last(data)["user"]["street"]                  == struct.user.street
@@ -173,8 +173,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             last_name
             middle_name
             phone
-            pro_role
             provider
+            role
             sex
             ssn
             street
@@ -220,8 +220,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert first["user"]["last_name"]               == struct.user.last_name
       assert first["user"]["middle_name"]             == struct.user.middle_name
       assert first["user"]["phone"]                   == struct.user.phone
-      assert first["user"]["pro_role"]                == struct.user.pro_role
       assert first["user"]["provider"]                == struct.user.provider
+      assert first["user"]["role"]                    == struct.user.role
       assert first["user"]["sex"]                     == struct.user.sex
       assert first["user"]["ssn"]                     == struct.user.ssn
       assert first["user"]["street"]                  == struct.user.street
@@ -271,8 +271,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             last_name
             middle_name
             phone
-            pro_role
             provider
+            role
             sex
             ssn
             street
@@ -322,8 +322,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert found["user"]["last_name"]               == struct.user.last_name
       assert found["user"]["middle_name"]             == struct.user.middle_name
       assert found["user"]["phone"]                   == struct.user.phone
-      assert found["user"]["pro_role"]                == struct.user.pro_role
       assert found["user"]["provider"]                == struct.user.provider
+      assert found["user"]["role"]                    == struct.user.role
       assert found["user"]["sex"]                     == struct.user.sex
       assert found["user"]["ssn"]                     == struct.user.ssn
       assert found["user"]["street"]                  == struct.user.street
@@ -372,8 +372,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             last_name
             middle_name
             phone
-            pro_role
             provider
+            role
             sex
             ssn
             street
@@ -418,8 +418,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert found["user"]["last_name"]               == struct.user.last_name
       assert found["user"]["middle_name"]             == struct.user.middle_name
       assert found["user"]["phone"]                   == struct.user.phone
-      assert found["user"]["pro_role"]                == struct.user.pro_role
       assert found["user"]["provider"]                == struct.user.provider
+      assert found["user"]["role"]                    == struct.user.role
       assert found["user"]["sex"]                     == struct.user.sex
       assert found["user"]["ssn"]                     == struct.user.ssn
       assert found["user"]["street"]                  == struct.user.street
@@ -467,8 +467,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             last_name
             middle_name
             phone
-            pro_role
             provider
+            role
             sex
             ssn
             street
@@ -528,8 +528,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             last_name
             middle_name
             phone
-            pro_role
             provider
+            role
             sex
             ssn
             street
@@ -584,8 +584,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             last_name
             middle_name
             phone
-            pro_role
             provider
+            role
             sex
             ssn
             street
@@ -661,8 +661,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             last_name
             middle_name
             phone
-            pro_role
             provider
+            role
             sex
             ssn
             street
@@ -722,8 +722,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert updated["user"]["last_name"]               == struct.user.last_name
       assert updated["user"]["middle_name"]             == struct.user.middle_name
       assert updated["user"]["phone"]                   == struct.user.phone
-      assert updated["user"]["pro_role"]                == struct.user.pro_role
       assert updated["user"]["provider"]                == struct.user.provider
+      assert updated["user"]["role"]                    == struct.user.role
       assert updated["user"]["sex"]                     == struct.user.sex
       assert updated["user"]["ssn"]                     == struct.user.ssn
       assert updated["user"]["street"]                  == struct.user.street
@@ -878,8 +878,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             last_name
             middle_name
             phone
-            pro_role
             provider
+            role
             sex
             ssn
             street
@@ -942,8 +942,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert updated["user"]["last_name"]               == struct.user.last_name
       assert updated["user"]["middle_name"]             == struct.user.middle_name
       assert updated["user"]["phone"]                   == struct.user.phone
-      assert updated["user"]["pro_role"]                == struct.user.pro_role
       assert updated["user"]["provider"]                == struct.user.provider
+      assert updated["user"]["role"]                    == struct.user.role
       assert updated["user"]["sex"]                     == struct.user.sex
       assert updated["user"]["ssn"]                     == struct.user.ssn
       assert updated["user"]["street"]                  == struct.user.street

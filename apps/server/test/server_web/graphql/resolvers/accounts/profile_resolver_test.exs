@@ -42,8 +42,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       assert List.first(data).user.last_name    == struct.user.last_name
       assert List.first(data).user.middle_name  == struct.user.middle_name
       assert List.first(data).user.phone        == struct.user.phone
-      assert List.first(data).user.pro_role     == struct.user.pro_role
       assert List.first(data).user.provider     == struct.user.provider
+      assert List.first(data).user.role         == struct.user.role
       assert List.first(data).user.sex          == struct.user.sex
       assert List.first(data).user.ssn          == struct.user.ssn
       assert List.first(data).user.street       == struct.user.street
@@ -106,8 +106,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       assert found.user.last_name    == struct.user.last_name
       assert found.user.middle_name  == struct.user.middle_name
       assert found.user.phone        == struct.user.phone
-      assert found.user.pro_role     == struct.user.pro_role
       assert found.user.provider     == struct.user.provider
+      assert found.user.role         == struct.user.role
       assert found.user.sex          == struct.user.sex
       assert found.user.ssn          == struct.user.ssn
       assert found.user.street       == struct.user.street
@@ -200,8 +200,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
         password: "qwerty",
         password_confirmation: "qwerty",
         phone: "some text",
-        pro_role: false,
         provider: "google",
+        role: false,
         sex: "some text",
         ssn: 123456789,
         street: "some text",
@@ -232,8 +232,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       assert created.user.last_name   == user.last_name
       assert created.user.middle_name == user.middle_name
       assert created.user.phone       == user.phone
-      assert created.user.pro_role    == user.pro_role
       assert created.user.provider    == user.provider
+      assert created.user.role        == user.role
       assert created.user.sex         == user.sex
       assert created.user.ssn         == user.ssn
       assert created.user.street      == user.street

@@ -4,23 +4,48 @@ defmodule Core.Seeder.Lookup do
   """
 
   alias Core.{
+    Lookup.State,
     Lookup.UsZipcode,
     Repo
   }
 
   @root_dir Path.expand("../../../priv/data/", __DIR__)
+  @usa_states "#{@root_dir}/us_states.json"
   @usa_zipcodes_part1 "#{@root_dir}/us_zip_part1.json"
   @usa_zipcodes_part2 "#{@root_dir}/us_zip_part2.json"
   @usa_zipcodes_part3 "#{@root_dir}/us_zip_part3.json"
 
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
+    Repo.delete_all(State)
     Repo.delete_all(UsZipcode)
   end
 
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
+    seed_states()
     seed_zipcode()
+  end
+
+  @spec seed_states() :: nil | Ecto.Schema.t()
+  defp seed_states do
+    case Repo.aggregate(State, :count, :id) > 0 do
+      true -> nil
+      false -> insert_states()
+    end
+  end
+
+  @spec insert_states() :: {integer(), nil | [term()]}
+  defp insert_states do
+    states =
+      @usa_states
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"name" => name, "abbr" => abbr} ->
+         %{name: name, abbr: abbr}
+      end)
+
+    Repo.insert_all(State, states)
   end
 
   @spec seed_zipcode() :: nil | Ecto.Schema.t()

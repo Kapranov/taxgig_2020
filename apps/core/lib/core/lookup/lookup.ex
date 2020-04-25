@@ -5,7 +5,10 @@ defmodule Core.Lookup do
 
   use Core.Context
 
-  alias Core.Lookup.UsZipcode
+  alias Core.Lookup.{
+    State,
+    UsZipcode
+  }
 
   @doc """
   Returns the list of UsZipcodes.
@@ -19,7 +22,7 @@ defmodule Core.Lookup do
   def list_zipcode, do: Repo.all(UsZipcode)
 
   @doc """
-  o
+  Gets a single UsZipcode.
 
   Raises `Ecto.NoResultsError` if the UsZipcode does not exist.
 
@@ -113,5 +116,102 @@ defmodule Core.Lookup do
   @spec change_zipcode(UsZipcode.t()) :: Ecto.Changeset.t()
   def change_zipcode(%UsZipcode{} = struct) do
     UsZipcode.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns the list of States.
+
+  ## Examples
+
+      iex> list_state()
+      [%State{}, ...]
+  """
+  @spec list_state() :: [State.t()]
+  def list_state, do: Repo.all(State)
+
+  @doc """
+  Gets a single State.
+
+  Raises `Ecto.NoResultsError` if the State does not exist.
+
+  ## Examples
+
+      iex> get_state!(123)
+      %State{}
+
+      iex> get_state!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_state!(String.t()) :: State.t() | error_tuple()
+  def get_state!(id), do: Repo.get!(State, id)
+
+  @doc """
+  Creates State.
+
+  ## Examples
+
+      iex> create_state(%{field: value})
+      {:ok, %State{}}
+
+      iex> create_state(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_state(%{atom => any}) :: result() | error_tuple()
+  def create_state(attrs \\ %{}) do
+    %State{}
+    |> State.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates State.
+
+  ## Examples
+
+      iex> update_state(struct, %{field: new_value})
+      {:ok, %UsZipcode{}}
+
+      iex> update_state(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_state(State.t(), %{atom => any}) :: result() | error_tuple()
+  def update_state(struct, attrs) do
+    struct
+    |> State.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes State.
+
+  ## Examples
+
+      iex> delete_state(struct)
+      {:ok, %State{}}
+
+      iex> delete_state(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_state(State.t()) :: result()
+  def delete_state(%State{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking State changes.
+
+  ## Examples
+
+      iex> change_state(struct)
+      %Ecto.Changeset{source: %State{}}
+
+  """
+  @spec change_state(State.t()) :: Ecto.Changeset.t()
+  def change_state(%State{} = struct) do
+    State.changeset(struct, %{})
   end
 end

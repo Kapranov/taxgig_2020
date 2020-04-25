@@ -85,8 +85,8 @@ defmodule Core.Accounts.ProfileTest do
       assert data.user.last_name   == struct.user.last_name
       assert data.user.middle_name == struct.user.middle_name
       assert data.user.phone       == struct.user.phone
-      assert data.user.pro_role    == struct.user.pro_role
       assert data.user.provider    == struct.user.provider
+      assert data.user.role        == struct.user.role
       assert data.user.sex         == struct.user.sex
       assert data.user.ssn         == struct.user.ssn
       assert data.user.street      == struct.user.street
@@ -140,8 +140,8 @@ defmodule Core.Accounts.ProfileTest do
       assert data.user.last_name   == user.last_name
       assert data.user.middle_name == user.middle_name
       assert data.user.phone       == user.phone
-      assert data.user.pro_role    == user.pro_role
       assert data.user.provider    == user.provider
+      assert data.user.role        == user.role
       assert data.user.sex         == user.sex
       assert data.user.ssn         == user.ssn
       assert data.user.street      == user.street
@@ -201,7 +201,7 @@ defmodule Core.Accounts.ProfileTest do
       assert updated.user.last_name   == struct.user.last_name
       assert updated.user.middle_name == struct.user.middle_name
       assert updated.user.phone       == struct.user.phone
-      assert updated.user.pro_role    == struct.user.pro_role
+      assert updated.user.role        == struct.user.role
       assert updated.user.provider    == struct.user.provider
       assert updated.user.sex         == struct.user.sex
       assert updated.user.ssn         == struct.user.ssn

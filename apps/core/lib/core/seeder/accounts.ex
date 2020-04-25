@@ -28,14 +28,24 @@ defmodule Core.Seeder.Accounts do
     admin_permission()
   end
 
+  @spec get_tp_user(String.t()) :: %Postgrex.Result{columns: nil, command: Atom.t(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
+  def get_tp_user(email) do
+    Ecto.Adapters.SQL.query!(Repo, "SELECT id from users WHERE email = $1", [email])
+  end
+
+  @spec get_pro_user(String.t()) :: %Postgrex.Result{columns: nil, command: Atom.t(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
+  def get_pro_user(email) do
+    Ecto.Adapters.SQL.query!(Repo, "SELECT id from users WHERE email = $1", [email])
+  end
+
   @spec admin_permission() :: %Postgrex.Result{columns: nil, command: Atom.t(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
   def admin_permission do
-    Ecto.Adapters.SQL.query!(Repo, "UPDATE users SET admin_role = $2 WHERE email = $1", ["kapranov.pure@gmail.com", true])
+    Ecto.Adapters.SQL.query!(Repo, "UPDATE users SET admin = $2 WHERE email = $1", ["kapranov.pure@gmail.com", true])
   end
 
   @spec admin_permission(String.t(), boolean()) :: %Postgrex.Result{columns: nil, command: Atom.t(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
   def admin_permission(email, role) when is_bitstring(email) and is_boolean(role) do
-    Ecto.Adapters.SQL.query!(Repo, "UPDATE users SET admin_role = $2 WHERE email = $1", [email, role])
+    Ecto.Adapters.SQL.query!(Repo, "UPDATE users SET admin = $2 WHERE email = $1", [email, role])
   end
 
   @spec admin_permission(any(), any()) :: {:error, String.t()}
@@ -60,7 +70,13 @@ defmodule Core.Seeder.Accounts do
           where: u.email in [
             "kapranov.lugatex@gmail.com",
             "kapranov.pure@gmail.com",
-            "lugatex@yahoo.com"
+            "lugatex@yahoo.com",
+            "v.kobzan@gmail.com",
+            "o.puryshev@gmail.com",
+            "vlacho777@gmail.com",
+            "support@taxgig.com",
+            "op@taxgig.com",
+            "vk@taxgig.com"
           ]
         )
       false -> insert_user()
@@ -207,6 +223,39 @@ defmodule Core.Seeder.Accounts do
         email: "kapranov.pure@gmail.com",
         password: "nES0p04pVklw",
         password_confirmation: "nES0p04pVklw"
+      }),
+      Accounts.create_user(%{
+        email: "v.kobzan@gmail.com",
+        password: "qwerty",
+        password_confirmation: "qwerty"
+      }),
+      Accounts.create_user(%{
+        email: "o.puryshev@gmail.com",
+        password: "qwerty",
+        password_confirmation: "qwerty"
+      }),
+      Accounts.create_user(%{
+        email: "vlacho777@gmail.com",
+        password: "qwerty",
+        password_confirmation: "qwerty"
+      }),
+      Accounts.create_user(%{
+        email: "support@taxgig.com",
+        password: "qwerty",
+        password_confirmation: "qwerty",
+        role: true
+      }),
+      Accounts.create_user(%{
+        email: "op@taxgig.com",
+        password: "qwerty",
+        password_confirmation: "qwerty",
+        role: true
+      }),
+      Accounts.create_user(%{
+        email: "vk@taxgig.com",
+        password: "qwerty",
+        password_confirmation: "qwerty",
+        role: true
       })
     ]
   end

@@ -5,7 +5,7 @@ defmodule Core.Repo.Migrations.CreateUsers do
     create table(:users, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
       add :active, :boolean
-      add :admin_role, :boolean, default: false, null: false
+      add :admin, :boolean, default: false, null: false
       add :avatar, :string
       add :bio, :string
       add :birthday, :date
@@ -16,7 +16,7 @@ defmodule Core.Repo.Migrations.CreateUsers do
       add :middle_name, :string
       add :password_hash, :string, null: false
       add :phone, :string
-      add :pro_role, :boolean
+      add :role, :boolean
       add :provider, :string, default: "localhost", null: false
       add :sex, :string
       add :ssn, :integer

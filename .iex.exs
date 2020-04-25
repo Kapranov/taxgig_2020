@@ -347,14 +347,14 @@ defmodule LetMeSee do
     @profile_keys ~w(address banner description us_zipcode_id user_id)a |> Enum.sort
     @provider_key ~w(provider)a
     @social_keys ~w(code provider)a
-    @subscriber_keys ~w(id email pro_role)a |> Enum.sort
+    @subscriber_keys ~w(id email role)a |> Enum.sort
     @token_provider_key ~w(provider token)a
     @vacancy_keys ~w(id content department title)a |> Enum.sort
     @zipcode_keys ~w(id zipcode)a
     @user_keys ~w(
       id
       active
-      admin_role
+      admin
       avatar
       bio
       birthday
@@ -367,7 +367,7 @@ defmodule LetMeSee do
       password
       password_confirmation
       phone
-      pro_role
+      role
       provider
       sex
       ssn
@@ -470,7 +470,7 @@ defmodule LetMeSee do
 
     @user_params %{
       active: true,
-      admin_role: true,
+      admin: true,
       avatar: "updated avatar",
       bio: "updated bio",
       birthday: Timex.today,
@@ -484,8 +484,8 @@ defmodule LetMeSee do
       password: "qwerty",
       password_confirmation: "qwerty",
       phone: "updated text",
-      pro_role: true,
       provider: "localhost",
+      role: true,
       sex: "updated text",
       ssn: 987654321,
       street: "updated text",
@@ -662,7 +662,7 @@ defmodule LetMeSee do
                 user {
                   id
                   active
-                  admin_role
+                  admin
                   avatar
                   bio
                   birthday
@@ -673,8 +673,8 @@ defmodule LetMeSee do
                   last_name
                   middle_name
                   phone
-                  pro_role
                   provider
+                  role
                   sex
                   ssn
                   street
@@ -737,8 +737,8 @@ defmodule LetMeSee do
             last_name
             middle_name
             phone
-            pro_role
             provider
+            role
             sex
             ssn
             street
@@ -985,7 +985,7 @@ defmodule LetMeSee do
                 user {
                   id
                   active
-                  admin_role
+                  admin
                   avatar
                   bio
                   birthday
@@ -996,8 +996,8 @@ defmodule LetMeSee do
                   last_name
                   middle_name
                   phone
-                  pro_role
                   provider
+                  role
                   sex
                   ssn
                   street
@@ -1061,7 +1061,7 @@ defmodule LetMeSee do
               showUser(id: \"#{args.id}\") {
                 id
                 active
-                admin_role
+                admin
                 avatar
                 bio
                 birthday
@@ -1072,8 +1072,8 @@ defmodule LetMeSee do
                 last_name
                 middle_name
                 phone
-                pro_role
                 provider
+                role
                 sex
                 ssn
                 street
@@ -1489,7 +1489,7 @@ defmodule LetMeSee do
           mutation {
             createUser(
               active: #{args.active},
-              admin_role: #{args.admin_role},
+              admin: #{args.admin},
               avatar: \"#{args.avatar}\",
               bio: \"#{args.bio}\",
               birthday: \"#{args.birthday}\",
@@ -1502,8 +1502,8 @@ defmodule LetMeSee do
               password: \"#{args.password}\",
               password_confirmation: "#{args.password_confirmation}\",
               phone: \"#{args.phone}\",
-              pro_role: #{args.pro_role},
               provider: \"#{args.provider}\",
+              role: #{args.role},
               sex: \"#{args.sex}\",
               ssn: #{args.ssn},
               street: "#{args.street}\",
@@ -1511,7 +1511,7 @@ defmodule LetMeSee do
             ) {
               id
               active
-              admin_role
+              admin
               avatar
               bio
               birthday
@@ -1522,8 +1522,8 @@ defmodule LetMeSee do
               last_name
               middle_name
               phone
-              pro_role
               provider
+              role
               sex
               ssn
               street
@@ -1548,7 +1548,7 @@ defmodule LetMeSee do
             ) {
               id
               active
-              admin_role
+              admin
               avatar
               bio
               birthday
@@ -1559,8 +1559,8 @@ defmodule LetMeSee do
               last_name
               middle_name
               phone
-              pro_role
               provider
+              role
               sex
               ssn
               street
@@ -1941,7 +1941,7 @@ defmodule LetMeSee do
                     user {
                       id
                       active
-                      admin_role
+                      admin
                       avatar
                       bio
                       birthday
@@ -1952,8 +1952,8 @@ defmodule LetMeSee do
                       last_name
                       middle_name
                       phone
-                      pro_role
                       provider
+                      role
                       sex
                       ssn
                       street
@@ -2036,7 +2036,7 @@ defmodule LetMeSee do
                     id: \"#{args.id}\",
                     user: {
                       active: #{args.active},
-                      admin_role: #{args.admin_role},
+                      admin: #{args.admin},
                       avatar: \"#{args.avatar}\",
                       bio: \"#{args.bio}\",
                       birthday: \"#{args.birthday}\",
@@ -2049,8 +2049,8 @@ defmodule LetMeSee do
                       password: \"#{args.password}\",
                       password_confirmation: \"#{args.password_confirmation}\",
                       phone: \"#{args.phone}\",
-                      pro_role: #{args.pro_role},
                       provider: \"#{args.provider}\",
+                      role: #{args.role},
                       sex: \"#{args.sex}\",
                       ssn: #{args.ssn},
                       street: \"#{args.street}\",
@@ -2059,7 +2059,7 @@ defmodule LetMeSee do
                   ) {
                     id
                     active
-                    admin_role
+                    admin
                     avatar
                     bio
                     birthday
@@ -2070,8 +2070,8 @@ defmodule LetMeSee do
                     last_name
                     middle_name
                     phone
-                    pro_role
                     provider
+                    role
                     sex
                     ssn
                     street

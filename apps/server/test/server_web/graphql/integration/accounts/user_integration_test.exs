@@ -23,8 +23,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street
@@ -55,8 +55,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert List.first(data)["last_name"]   == struct.last_name
       assert List.first(data)["middle_name"] == struct.middle_name
       assert List.first(data)["phone"]       == struct.phone
-      assert List.first(data)["pro_role"]    == struct.pro_role
       assert List.first(data)["provider"]    == struct.provider
+      assert List.first(data)["role"]        == struct.role
       assert List.first(data)["sex"]         == struct.sex
       assert List.first(data)["ssn"]         == struct.ssn
       assert List.first(data)["street"]      == struct.street
@@ -79,8 +79,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert List.last(data)["last_name"]   == struct.last_name
       assert List.last(data)["middle_name"] == struct.middle_name
       assert List.last(data)["phone"]       == struct.phone
-      assert List.last(data)["pro_role"]    == struct.pro_role
       assert List.last(data)["provider"]    == struct.provider
+      assert List.last(data)["role"]        == struct.role
       assert List.last(data)["sex"]         == struct.sex
       assert List.last(data)["ssn"]         == struct.ssn
       assert List.last(data)["street"]      == struct.street
@@ -112,8 +112,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street
@@ -140,8 +140,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert first["last_name"]   == struct.last_name
       assert first["middle_name"] == struct.middle_name
       assert first["phone"]       == struct.phone
-      assert first["pro_role"]    == struct.pro_role
       assert first["provider"]    == struct.provider
+      assert first["role"]        == struct.role
       assert first["sex"]         == struct.sex
       assert first["ssn"]         == struct.ssn
       assert first["street"]      == struct.street
@@ -174,8 +174,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street
@@ -206,8 +206,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["last_name"]   == struct.last_name
       assert found["middle_name"] == struct.middle_name
       assert found["phone"]       == struct.phone
-      assert found["pro_role"]    == struct.pro_role
       assert found["provider"]    == struct.provider
+      assert found["role"]        == struct.role
       assert found["sex"]         == struct.sex
       assert found["ssn"]         == struct.ssn
       assert found["street"]      == struct.street
@@ -239,8 +239,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street
@@ -265,8 +265,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["last_name"]   == struct.last_name
       assert found["middle_name"] == struct.middle_name
       assert found["phone"]       == struct.phone
-      assert found["pro_role"]    == struct.pro_role
       assert found["provider"]    == struct.provider
+      assert found["role"]        == struct.role
       assert found["sex"]         == struct.sex
       assert found["ssn"]         == struct.ssn
       assert found["street"]      == struct.street
@@ -298,8 +298,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street
@@ -338,8 +338,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street
@@ -374,8 +374,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street
@@ -413,8 +413,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street
@@ -455,8 +455,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           password: "qwerty",
           password_confirmation: "qwerty",
           phone: "some text",
-          pro_role: false,
           provider: "google",
+          role: false,
           sex: "some text",
           ssn: 123456789,
           street: "some text",
@@ -474,8 +474,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street
@@ -504,8 +504,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert created["last_name"]   == "some text"
       assert created["middle_name"] == "some text"
       assert created["phone"]       == "some text"
-      assert created["pro_role"]    == false
       assert created["provider"]    == "google"
+      assert created["role"]        == false
       assert created["sex"]         == "some text"
       assert created["ssn"]         == 123456789
       assert created["street"]      == "some text"
@@ -536,8 +536,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           password: "qwerty",
           password_confirmation: "qwerty",
           phone: "some text",
-          pro_role: false,
           provider: "google",
+          role: false,
           sex: "some text",
           ssn: 123456789,
           street: "some text",
@@ -555,8 +555,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street
@@ -579,8 +579,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert created["last_name"]   == "some text"
       assert created["middle_name"] == "some text"
       assert created["phone"]       == "some text"
-      assert created["pro_role"]    == false
       assert created["provider"]    == "google"
+      assert created["role"]        == false
       assert created["sex"]         == "some text"
       assert created["ssn"]         == 123456789
       assert created["street"]      == "some text"
@@ -669,8 +669,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
             password: "qwertyyy",
             password_confirmation: "qwertyyy",
             phone: "updated text",
-            pro_role: true,
             provider: "facebook",
+            role: true,
             sex: "updated text",
             ssn: 987654321,
             street: "updated text",
@@ -689,8 +689,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street
@@ -721,8 +721,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert updated["last_name"]   == "updated text"
       assert updated["middle_name"] == "updated text"
       assert updated["phone"]       == "updated text"
-      assert updated["pro_role"]    == true
       assert updated["provider"]    == "facebook"
+      assert updated["role"]        == true
       assert updated["sex"]         == "updated text"
       assert updated["ssn"]         == 987654321
       assert updated["street"]      == "updated text"
@@ -756,8 +756,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
             password: "qwertyyy",
             password_confirmation: "qwertyyy",
             phone: "updated text",
-            pro_role: true,
             provider: "facebook",
+            role: true,
             sex: "updated text",
             ssn: 987654321,
             street: "updated text",
@@ -776,8 +776,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street
@@ -802,8 +802,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert updated["last_name"]   == "updated text"
       assert updated["middle_name"] == "updated text"
       assert updated["phone"]       == "updated text"
-      assert updated["pro_role"]    == true
       assert updated["provider"]    == "facebook"
+      assert updated["role"]        == true
       assert updated["sex"]         == "updated text"
       assert updated["ssn"]         == 987654321
       assert updated["street"]      == "updated text"
@@ -836,8 +836,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street
@@ -887,8 +887,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street
@@ -926,8 +926,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street
@@ -971,8 +971,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           last_name
           middle_name
           phone
-          pro_role
           provider
+          role
           sex
           ssn
           street

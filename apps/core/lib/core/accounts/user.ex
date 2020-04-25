@@ -10,12 +10,13 @@ defmodule Core.Accounts.User do
     Accounts.User,
     Config,
     Localization.Language,
-    Repo
+    Repo,
+    Services.IndividualTaxReturn
   }
 
   @type t :: %__MODULE__{
     active: boolean,
-    admin_role: boolean,
+    admin: boolean,
     avatar: String.t(),
     bio: String.t(),
     birthday: %Date{},
@@ -29,12 +30,13 @@ defmodule Core.Accounts.User do
     password_confirmation: String.t(),
     password_hash: String.t(),
     phone: String.t(),
-    pro_role: boolean,
+    role: boolean,
     provider: String.t(),
     sex: String.t(),
     ssn: integer,
     street: String.t(),
-    zip: integer
+    zip: integer,
+    individual_tax_returns: [IndividualTaxReturn.t()]
   }
 
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
@@ -43,7 +45,7 @@ defmodule Core.Accounts.User do
 
   @allowed_params ~w(
     active
-    admin_role
+    admin
     avatar
     bio
     birthday
@@ -55,7 +57,7 @@ defmodule Core.Accounts.User do
     password
     password_confirmation
     phone
-    pro_role
+    role
     provider
     sex
     ssn
@@ -71,7 +73,7 @@ defmodule Core.Accounts.User do
 
   schema "users" do
     field :active, :boolean
-    field :admin_role, :boolean, default: false, null: false
+    field :admin, :boolean, default: false, null: false
     field :avatar, :string
     field :bio, :string
     field :birthday, :date
@@ -84,8 +86,8 @@ defmodule Core.Accounts.User do
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string, default: @pass_salt, null: false
     field :phone, :string
-    field :pro_role, :boolean
     field :provider, :string, default: "localhost", null: false
+    field :role, :boolean
     field :sex, :string
     field :ssn, :integer
     field :street, :string
@@ -94,6 +96,8 @@ defmodule Core.Accounts.User do
 
     has_one :profile, Profile,
       on_delete: :delete_all
+
+    has_many :individual_tax_returns, IndividualTaxReturn
 
     many_to_many :languages, Language,
       join_through: "users_languages",
@@ -152,7 +156,7 @@ defmodule Core.Accounts.User do
   def account_status(%User{}), do: :deactivated
 
   @spec superuser?(User.t()) :: boolean()
-  def superuser?(%User{admin_role: true}), do: true
+  def superuser?(%User{admin: true}), do: true
   def superuser?(_), do: false
 
   @spec avatar_url(User.t(), list()) :: String.t()

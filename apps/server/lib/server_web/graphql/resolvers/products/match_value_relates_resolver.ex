@@ -26,7 +26,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolver do
 
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.admin_role == false do
+    if is_nil(id) || is_nil(current_user) || current_user.admin == false do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for user admin to perform action Show"]]}
     else
       try do
@@ -41,7 +41,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolver do
 
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) || current_user.admin_role == false do
+    if is_nil(current_user) || current_user.admin == false do
       {:error, [[field: :current_user, message: "Permission denied for user admin to perform action Create"]]}
     else
       args
@@ -57,7 +57,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolver do
 
   @spec update(any, %{id: bitstring, match_value_relate: map()}, %{context: %{current_user: User.t()}}) :: result()
   def update(_parent, %{id: id, match_value_relate: params}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.admin_role == false do
+    if is_nil(id) || is_nil(current_user) || current_user.admin == false do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for user admin to perform action Update"]]}
     else
       try do
@@ -73,7 +73,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolver do
 
   @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.admin_role == false do
+    if is_nil(id) || is_nil(current_user) || current_user.admin == false do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for user admin to perform action Delete"]]}
     else
       try do
@@ -88,7 +88,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolver do
 
   @spec find(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def find(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.admin_role == false do
+    if is_nil(id) || is_nil(current_user) || current_user.admin == false do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for user admin to perform action Find"]]}
     else
       try do

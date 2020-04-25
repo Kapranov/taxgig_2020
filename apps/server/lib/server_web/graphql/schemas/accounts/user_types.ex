@@ -24,8 +24,8 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :last_name, :string, description: "accounts user last_name"
     field :middle_name, :string, description: "accounts user middle_name"
     field :phone, :string, description: "accounts user phone"
-    field :pro_role, :boolean, description: "accounts user pro_role"
     field :provider, non_null(:string), description: "accounts user provider"
+    field :role, :boolean, description: "accounts user role"
     field :sex, :string, description: "accounts user sex"
     field :ssn, :integer, description: "accounts user ssn"
     field :street, :string, description: "accounts user street"
@@ -91,8 +91,8 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :password, :string
     field :password_confirmation, :string
     field :phone, :string
-    field :pro_role, :boolean
     field :provider, :string
+    field :role, :boolean
     field :sex, :string
     field :ssn, :integer
     field :street, :string
@@ -174,8 +174,8 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       arg :password, :string
       arg :password_confirmation, :string
       arg :phone, :string
-      arg :pro_role, :boolean
       arg :provider, :string
+      arg :role, :boolean
       arg :sex, :string
       arg :ssn, :integer
       arg :street, :string

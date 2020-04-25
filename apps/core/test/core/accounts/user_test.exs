@@ -20,8 +20,8 @@ defmodule Core.Accounts.UserTest do
       password: "qwerty",
       password_confirmation: "qwerty",
       phone: "some text",
-      pro_role: false,
       provider: "localhost",
+      role: false,
       sex: "some text",
       ssn: 123456789,
       street: "some text",
@@ -41,8 +41,8 @@ defmodule Core.Accounts.UserTest do
       password: "qwertyyy",
       password_confirmation: "qwertyyy",
       phone: "updated text",
-      pro_role: true,
       provider: "google",
+      role: true,
       sex: "updated text",
       ssn: 987654321,
       street: "updated text",
@@ -89,15 +89,15 @@ defmodule Core.Accounts.UserTest do
       assert data.languages   == []
       assert data.last_name   == struct.last_name
       assert data.middle_name == struct.middle_name
+      assert data.inserted_at == struct.inserted_at
       assert data.phone       == struct.phone
-      assert data.pro_role    == struct.pro_role
       assert data.provider    == struct.provider
+      assert data.role        == struct.role
       assert data.sex         == struct.sex
       assert data.ssn         == struct.ssn
       assert data.street      == struct.street
-      assert data.zip         == struct.zip
-      assert data.inserted_at == struct.inserted_at
       assert data.updated_at  == struct.updated_at
+      assert data.zip         == struct.zip
 
     end
 
@@ -121,8 +121,8 @@ defmodule Core.Accounts.UserTest do
       assert struct.last_name   == "some text"
       assert struct.middle_name == "some text"
       assert struct.phone       == "some text"
-      assert struct.pro_role    == false
       assert struct.provider    == "localhost"
+      assert struct.role        == false
       assert struct.sex         == "some text"
       assert struct.ssn         == 123456789
       assert struct.street      == "some text"
@@ -164,8 +164,8 @@ defmodule Core.Accounts.UserTest do
       assert updated.last_name   == "updated text"
       assert updated.middle_name == "updated text"
       assert updated.phone       == "updated text"
-      assert updated.pro_role    == true
       assert updated.provider    == "google"
+      assert updated.role        == true
       assert updated.sex         == "updated text"
       assert updated.ssn         == 987654321
       assert updated.street      == "updated text"

@@ -21,7 +21,15 @@ bash> mix ecto.gen.migration -r Core.Repo create_us_zipcodes
 bash> mix ecto.gen.migration -r Core.Repo create_profiles
 bash> mix ecto.gen.migration -r Core.Repo create_user_languages
 bash> mix ecto.gen.migration -r Core.Repo create_pictures
+bash> mix ecto.gen.migration -r Core.Repo create_states
 bash> mix ecto.gen.migration -r Core.Repo create_match_value_relates
+
+bash> mix ecto.gen.migration -r Core.Repo create_individual_tax_returns
+bash> mix ecto.gen.migration -r Core.Repo create_individual_filing_statuses
+bash> mix ecto.gen.migration -r Core.Repo create_individual_foreign_account_counts
+bash> mix ecto.gen.migration -r Core.Repo create_individual_employment_statuses
+bash> mix ecto.gen.migration -r Core.Repo create_individual_stock_transaction_counts
+bash> mix ecto.gen.migration -r Core.Repo create_individual_itemized_deductions
 
 iex> language1 = %Language{abbr: "fra", name: "french"
 iex> language2 = %Language{abbr: "ger", name: "german"}
