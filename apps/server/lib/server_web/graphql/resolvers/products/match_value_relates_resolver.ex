@@ -17,7 +17,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolver do
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
 
-
   @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: success_list()
   def list(_parent, _args, _info) do
     struct = Services.list_match_value_relate()
