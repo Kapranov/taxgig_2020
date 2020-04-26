@@ -1022,7 +1022,7 @@ defmodule Core.Services do
   @spec list_individual_employment_status() :: [IndividualEmploymentStatus.t()]
   def list_individual_employment_status do
     Repo.all(IndividualEmploymentStatus)
-    # |> Repo.preload([individual_tax_returns: [:user]])
+    |> Repo.preload([individual_tax_returns: [:user]])
   end
 
   @doc """

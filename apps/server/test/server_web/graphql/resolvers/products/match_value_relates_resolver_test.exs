@@ -1,4 +1,4 @@
-defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelateResolverTest do
+defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolverTest do
   use ServerWeb.ConnCase
 
   alias ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolver
@@ -63,9 +63,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelateResolverTest do
 
   describe "#show" do
     it "returns specific MatchValueRelate by id" do
+      current_user = insert(:user, admin: true)
+      context = %{context: %{current_user: current_user}}
       match_value_relate = insert(:match_value_relat)
 
-      {:ok, found} = MatchValueRelatesResolver.show(nil, %{id: match_value_relate.id}, nil)
+      {:ok, found} = MatchValueRelatesResolver.show(nil, %{id: match_value_relate.id}, context)
 
       assert found.id                                              == match_value_relate.id
       assert found.inserted_at                                     == match_value_relate.inserted_at
@@ -117,26 +119,31 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelateResolverTest do
     end
 
     it "returns not found when MatchValueRelate does not exist" do
+      current_user = insert(:user, admin: true)
+      context = %{context: %{current_user: current_user}}
       id = FlakeId.get()
-      {:error, error} = MatchValueRelatesResolver.show(nil, %{id: id}, nil)
+      {:error, error} = MatchValueRelatesResolver.show(nil, %{id: id}, context)
 
       assert error == "The MatchValueRelate #{id} not found!"
     end
 
     it "returns error for missing params" do
+      current_user = insert(:user, admin: true)
+      context = %{context: %{current_user: current_user}}
       insert(:match_value_relat)
       args = %{id: nil}
-      {:error, error} = MatchValueRelatesResolver.show(nil, args, nil)
-
-      assert error == [[field: :id, message: "Can't be blank"]]
+      {:error, error} = MatchValueRelatesResolver.show(nil, args, context)
+      assert error == [[field: :id, message: "Can't be blank or Permission denied for user admin to perform action Show"]]
     end
   end
 
   describe "#find" do
     it "find specific MatchValueRelate by id" do
+      current_user = insert(:user, admin: true)
+      context = %{context: %{current_user: current_user}}
       match_value_relate = insert(:match_value_relat)
 
-      {:ok, found} = MatchValueRelatesResolver.find(nil, %{id: match_value_relate.id}, nil)
+      {:ok, found} = MatchValueRelatesResolver.find(nil, %{id: match_value_relate.id}, context)
 
       assert found.id                                              == match_value_relate.id
       assert found.inserted_at                                     == match_value_relate.inserted_at
@@ -185,29 +192,31 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelateResolverTest do
       assert found.value_for_individual_state                      == match_value_relate.value_for_individual_state
       assert found.value_for_individual_tax_year                   == match_value_relate.value_for_individual_tax_year
       assert found.value_for_sale_tax_count                        == match_value_relate.value_for_sale_tax_count
-
     end
 
     it "returns not found when MatchValueRelate does not exist" do
+      current_user = insert(:user, admin: true)
+      context = %{context: %{current_user: current_user}}
       id = FlakeId.get()
-      {:error, error} = MatchValueRelatesResolver.find(nil, %{id: id}, nil)
+      {:error, error} = MatchValueRelatesResolver.find(nil, %{id: id}, context)
       assert error == "The MatchValueRelate #{id} not found!"
     end
 
     it "returns error for missing params" do
+      current_user = insert(:user, admin: true)
+      context = %{context: %{current_user: current_user}}
       insert(:match_value_relat)
       args = %{id: nil, match_value_relate: nil}
       {:error, error} =
-        MatchValueRelatesResolver.find(nil, args, nil)
-
-      assert error == [
-        [field: :id, message: "Can't be blank"]
-      ]
+        MatchValueRelatesResolver.find(nil, args, context)
+      assert error == [[field: :id, message: "Can't be blank or Permission denied for user admin to perform action Find"]]
     end
   end
 
   describe "#create" do
     it "creates MatchValueRelate" do
+      current_user = insert(:user, admin: true)
+      context = %{context: %{current_user: current_user}}
       args = %{
         match_for_book_keeping_additional_need:             12,
         match_for_book_keeping_annual_revenue:              12,
@@ -255,7 +264,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelateResolverTest do
         value_for_sale_tax_count:                        "9.99"
       }
 
-      {:ok, created} = MatchValueRelatesResolver.create(nil, args, nil)
+      {:ok, created} = MatchValueRelatesResolver.create(nil, args, context)
 
       assert created.match_for_book_keeping_additional_need          == 12
       assert created.match_for_book_keeping_additional_need          == 12
@@ -306,9 +315,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelateResolverTest do
     end
 
     it "returns error for missing params" do
+      current_user = insert(:user, admin: true)
+      context = %{context: %{current_user: current_user}}
       args = %{}
       {:error, error} =
-        MatchValueRelatesResolver.create(nil, args, nil)
+        MatchValueRelatesResolver.create(nil, args, context)
 
       assert error ==
         [
@@ -362,6 +373,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelateResolverTest do
 
   describe "#update" do
     it "update specific MatchValueRelate by id" do
+      current_user = insert(:user, admin: true)
+      context = %{context: %{current_user: current_user}}
       match_value_relate = insert(:match_value_relat)
       params = %{
         match_for_book_keeping_additional_need:             13,
@@ -411,7 +424,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelateResolverTest do
       }
 
       args = %{id: match_value_relate.id, match_value_relate: params}
-      {:ok, updated} = MatchValueRelatesResolver.update(nil, args, nil)
+      {:ok, updated} = MatchValueRelatesResolver.update(nil, args, context)
 
       assert updated.id                                              == match_value_relate.id
       assert updated.match_for_book_keeping_additional_need          == 13
@@ -465,48 +478,55 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelateResolverTest do
     end
 
     it "nothing change for missing params" do
+      current_user = insert(:user, admin: true)
+      context = %{context: %{current_user: current_user}}
       match_value_relate = insert(:match_value_relat)
       params = %{
         match_for_business_enity_type: 12
       }
       args = %{id: match_value_relate.id, match_value_relate: params}
-      {:ok, updated} = MatchValueRelatesResolver.update(nil, args, nil)
-
+      {:ok, updated} = MatchValueRelatesResolver.update(nil, args, context)
       assert updated.id                                              == match_value_relate.id
       assert updated.inserted_at                                     == match_value_relate.inserted_at
       assert updated.updated_at                                      == match_value_relate.updated_at
     end
 
     it "returns error for missing params" do
+      current_user = insert(:user, admin: true)
+      context = %{context: %{current_user: current_user}}
       insert(:match_value_relat)
       args = %{id: nil, match_value_relate: nil}
       {:error, error} =
-        MatchValueRelatesResolver.update(nil, args, nil)
-
-      assert error == [[field: :id, message: "Can't be blank"]]
+        MatchValueRelatesResolver.update(nil, args, context)
+      assert error == [[field: :id, message: "Can't be blank or Permission denied for user admin to perform action Update"]]
     end
   end
 
   describe "#delete" do
     it "delete specific MatchValueRelate by id" do
+      current_user = insert(:user, admin: true)
+      context = %{context: %{current_user: current_user}}
       match_value_relate = insert(:match_value_relat)
-      {:ok, delete} = MatchValueRelatesResolver.delete(nil, %{id: match_value_relate.id}, nil)
+      {:ok, delete} = MatchValueRelatesResolver.delete(nil, %{id: match_value_relate.id}, context)
       assert delete.id == match_value_relate.id
     end
 
     it "returns not found when MatchValueRelate does not exist" do
+      current_user = insert(:user, admin: true)
+      context = %{context: %{current_user: current_user}}
       id = FlakeId.get()
-      {:error, error} = MatchValueRelatesResolver.delete(nil, %{id: id}, nil)
+      {:error, error} = MatchValueRelatesResolver.delete(nil, %{id: id}, context)
       assert error == "The MatchValueRelate #{id} not found!"
     end
 
     it "returns error for missing params" do
+      current_user = insert(:user, admin: true)
+      context = %{context: %{current_user: current_user}}
       insert(:match_value_relat)
       args = %{id: nil}
       {:error, error} =
-        MatchValueRelatesResolver.delete(nil, args, nil)
-
-      assert error == [[field: :id, message: "Can't be blank"]]
+        MatchValueRelatesResolver.delete(nil, args, context)
+      assert error == [[field: :id, message: "Can't be blank or Permission denied for user admin to perform action Delete"]]
     end
   end
 end

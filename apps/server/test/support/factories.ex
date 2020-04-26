@@ -17,16 +17,24 @@ defmodule Server.Factory do
     Localization.Language,
     Lookup.UsZipcode,
     Media.Picture,
+    Services.IndividualEmploymentStatus,
+    Services.IndividualFilingStatus,
+    Services.IndividualForeignAccountCount,
+    Services.IndividualItemizedDeduction,
+    Services.IndividualStockTransactionCount,
+    Services.IndividualTaxReturn,
     Services.MatchValueRelate,
     Upload
   }
 
   alias Faker.{
+    Address,
     Avatar,
     Company.En,
     Internet,
     Lorem,
     Name,
+    Phone.EnUs,
     UUID
   }
 
@@ -109,6 +117,54 @@ defmodule Server.Factory do
       ssn: 123456789,
       street: "some text",
       zip: 123456789
+    }
+  end
+
+  def tp_user_factory do
+    %User{
+      active: random_boolean(),
+      avatar: Avatar.image_url(),
+      bio: Lorem.sentence(),
+      birthday: Date.add(Timex.now, 0),
+      email: "v.kobzan@gmail.com",
+      first_name: Name.first_name(),
+      init_setup: random_boolean(),
+      languages: [build(:language, name: "greek, italian, polish")],
+      last_name: Name.last_name(),
+      middle_name: Name.name(),
+      password: "qwerty",
+      password_confirmation: "qwerty",
+      phone: EnUs.phone(),
+      provider: "localhost",
+      role: false,
+      sex: random_gender(),
+      ssn: random_integer(),
+      street: Address.En.street_address(),
+      zip: random_integer()
+    }
+  end
+
+  def pro_user_factory do
+    %User{
+      active: random_boolean(),
+      avatar: Avatar.image_url(),
+      bio: Lorem.sentence(),
+      birthday: Date.add(Timex.now, 0),
+      email: "support@taxgig.com",
+      first_name: Name.first_name(),
+      init_setup: random_boolean(),
+      languages: [build(:language, name: "spanish, japanese, german, french")],
+      last_name: Name.last_name(),
+      middle_name: Name.name(),
+      password: "qwerty",
+      password_confirmation: "qwerty",
+      phone: EnUs.phone(),
+      provider: "localhost",
+      role: true,
+      sex: random_gender(),
+      ssn: random_integer(),
+      street: Address.En.street_address(),
+      zip: random_integer()
     }
   end
 
@@ -231,5 +287,289 @@ defmodule Server.Factory do
       value_for_individual_tax_year:                    40.0,
       value_for_sale_tax_count:                         30.0
     }
+  end
+
+  def individual_tax_return_factory do
+    %IndividualTaxReturn{
+      foreign_account: random_boolean(),
+      foreign_account_limit: random_boolean(),
+      foreign_financial_interest: random_boolean(),
+      home_owner: random_boolean(),
+      k1_count: random_integer(9),
+      k1_income: random_boolean(),
+      living_abroad: random_boolean(),
+      non_resident_earning: random_boolean(),
+      none_expat: random_boolean(),
+      own_stock_crypto: random_boolean(),
+      price_foreign_account: random_integer(9),
+      price_home_owner: random_integer(9),
+      price_living_abroad: random_integer(9),
+      price_non_resident_earning: random_integer(9),
+      price_own_stock_crypto: random_integer(9),
+      price_rental_property_income: random_integer(9),
+      price_sole_proprietorship_count: random_integer(9),
+      price_state: random_integer(9),
+      price_stock_divident: random_integer(9),
+      price_tax_year: random_integer(9),
+      rental_property_count: random_integer(9),
+      rental_property_income: random_boolean(),
+      sole_proprietorship_count: random_integer(9),
+      state: [random_state()],
+      stock_divident: random_boolean(),
+      tax_year: random_year(),
+      user: build(:user)
+    }
+  end
+
+  def tp_individual_tax_return_factory do
+    %IndividualTaxReturn{
+      foreign_account: random_boolean(),
+      foreign_account_limit: random_boolean(),
+      foreign_financial_interest: random_boolean(),
+      home_owner: random_boolean(),
+      k1_count: random_integer(),
+      k1_income: random_boolean(),
+      living_abroad: random_boolean(),
+      non_resident_earning: random_boolean(),
+      none_expat: random_boolean(),
+      own_stock_crypto: random_boolean(),
+      rental_property_count: random_integer(),
+      rental_property_income: random_boolean(),
+      sole_proprietorship_count: random_integer(),
+      state: [random_state()],
+      stock_divident: random_boolean(),
+      tax_year: random_year(),
+      user: build(:tp_user)
+    }
+  end
+
+  def pro_individual_tax_return_factory do
+    %IndividualTaxReturn{
+      foreign_account: random_boolean(),
+      home_owner: random_boolean(),
+      living_abroad: random_boolean(),
+      non_resident_earning: random_boolean(),
+      none_expat: random_boolean(),
+      own_stock_crypto: random_boolean(),
+      price_foreign_account: random_integer(),
+      price_home_owner: random_integer(),
+      price_living_abroad: random_integer(),
+      price_non_resident_earning: random_integer(),
+      price_own_stock_crypto: random_integer(),
+      price_rental_property_income: random_integer(),
+      price_sole_proprietorship_count: random_integer(),
+      price_state: random_integer(),
+      price_stock_divident: random_integer(),
+      price_tax_year: random_integer(),
+      rental_property_income: random_boolean(),
+      stock_divident: random_boolean(),
+      user: build(:pro_user)
+    }
+  end
+
+  def individual_employment_status_factory do
+    %IndividualEmploymentStatus{
+      individual_tax_returns: build(:individual_tax_return),
+      name: random_name_employment_status(),
+      price: Faker.random_between(1, 99)
+    }
+  end
+
+  def tp_individual_employment_status_factory do
+    %IndividualEmploymentStatus{
+      individual_tax_returns: build(:tp_individual_tax_return),
+      name: random_name_employment_status()
+    }
+  end
+
+  def pro_individual_employment_status_factory do
+    %IndividualEmploymentStatus{
+      individual_tax_returns: build(:pro_individual_tax_return),
+      name: random_name_employment_status(),
+      price: Faker.random_between(1, 99)
+    }
+  end
+
+  def individual_filing_status_factory do
+    %IndividualFilingStatus{
+      individual_tax_returns: build(:individual_tax_return),
+      name: random_name_filling_status(),
+      price: Faker.random_between(1, 99)
+    }
+  end
+
+  def tp_individual_filing_status_factory do
+    %IndividualFilingStatus{
+      individual_tax_returns: build(:tp_individual_tax_return),
+      name: random_name_filling_status()
+    }
+  end
+
+  def pro_individual_filing_status_factory do
+    %IndividualFilingStatus{
+      individual_tax_returns: build(:pro_individual_tax_return),
+      name: random_name_filling_status(),
+      price: Faker.random_between(1, 99)
+    }
+  end
+
+  def individual_foreign_account_count_factory do
+    %IndividualForeignAccountCount{
+      individual_tax_returns: build(:individual_tax_return),
+      name: random_name_foreign_account_count()
+    }
+  end
+
+  def tp_individual_foreign_account_count_factory do
+    %IndividualForeignAccountCount{
+      individual_tax_returns: build(:tp_individual_tax_return),
+      name: random_name_foreign_account_count()
+    }
+  end
+
+  def individual_itemized_deduction_factory do
+    %IndividualItemizedDeduction{
+      individual_tax_returns: build(:individual_tax_return),
+      name: random_name_itemized_deduction(),
+      price: Faker.random_between(1, 99)
+    }
+  end
+
+  def tp_individual_itemized_deduction_factory do
+    %IndividualItemizedDeduction{
+      individual_tax_returns: build(:tp_individual_tax_return),
+      name: random_name_itemized_deduction()
+    }
+  end
+
+  def pro_individual_itemized_deduction_factory do
+    %IndividualItemizedDeduction{
+      individual_tax_returns: build(:pro_individual_tax_return),
+      name: random_name_itemized_deduction(),
+      price: Faker.random_between(1, 99)
+    }
+  end
+
+  def individual_stock_transaction_count_factory do
+    %IndividualStockTransactionCount{
+      individual_tax_returns: build(:individual_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def tp_individual_stock_transaction_count_factory do
+    %IndividualStockTransactionCount{
+      individual_tax_returns: build(:tp_individual_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def pro_individual_stock_transaction_count_factory do
+    %IndividualStockTransactionCount{
+      individual_tax_returns: build(:pro_individual_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  @spec random_boolean :: boolean()
+  defp random_boolean do
+    value = ~W(true false)a
+    Enum.random(value)
+  end
+
+  @spec random_integer() :: integer()
+  defp random_integer() do
+    Enum.random(111111111..123456789)
+  end
+
+  @spec random_integer(integer) :: Integer
+  defp random_integer(n) when is_integer(n) do
+    Enum.random(1..n)
+  end
+
+  @spec random_gender() :: String.t()
+  defp random_gender do
+    gender = [
+      "Decline to Answer",
+      "Female/Woman",
+      "Genderqueer/Gender nonconforming",
+      "Male/Man",
+      "Something Else",
+      "TransFemail/TransWomen",
+      "TransMale/TransMan"
+    ]
+
+    gender
+    |> Enum.random
+  end
+
+  @spec random_state :: String.t()
+  defp random_state do
+    states =
+      ~w(Hawaii Georgia Iowa)s
+      |> Enum.random()
+
+    states
+  end
+
+  @spec random_year :: list()
+  defp random_year do
+    years = 2000..2020
+    numbers = 1..9
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(years)
+        |> Integer.to_string
+      end
+
+    Enum.uniq(result)
+  end
+
+  @spec random_name_employment_status :: String.t
+  defp random_name_employment_status do
+    names = [
+      "employed",
+      "self-employed",
+      "unemployed"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_filling_status :: String.t
+  defp random_name_filling_status do
+    names = [
+      "Head of Household",
+      "Married filing jointly",
+      "Married filing separately",
+      "Qualifying widow(-er) with dependent child",
+      "Single"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_foreign_account_count :: String.t
+  defp random_name_foreign_account_count do
+    names = [
+      "1",
+      "2-5",
+      "5+"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_itemized_deduction :: String.t
+  defp random_name_itemized_deduction do
+    names = [
+      "Charitable contributions",
+      "Health insurance",
+      "Medical and dental expenses"
+    ]
+
+    Enum.random(names)
   end
 end
