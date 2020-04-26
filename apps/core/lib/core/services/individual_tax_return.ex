@@ -2027,7 +2027,7 @@ defmodule Core.Services.IndividualTaxReturn do
           where: not is_nil(c.name),
           where: not is_nil(c.price),
           where: c.name == ^get_name_by_individual_filing_status,
-          select: {c.id, c.price}
+          select: {cu.id, c.price}
         )
       end
 
@@ -2121,7 +2121,7 @@ defmodule Core.Services.IndividualTaxReturn do
           where: c.individual_tax_return_id == cu.id and cu.user_id == ct.id and ct.role == true,
           where: not is_nil(c.name),
           where: c.name == ^get_name_by_individual_filing_status,
-          select: {c.id}
+          select: {cu.id}
         )
       end
 
@@ -2299,7 +2299,7 @@ defmodule Core.Services.IndividualTaxReturn do
           where: not is_nil(c.name),
           where: not is_nil(c.price),
           where: c.name == ^get_name_by_individual_itemized_deduction,
-          select: {c.id, c.price}
+          select: {cu.id, c.price}
         )
       end
 
@@ -2393,7 +2393,7 @@ defmodule Core.Services.IndividualTaxReturn do
           where: c.individual_tax_return_id == cu.id and cu.user_id == ct.id and ct.role == true,
           where: not is_nil(c.name),
           where: c.name == ^get_name_by_individual_itemized_deduction,
-          select: {c.id}
+          select: {cu.id}
         )
       end
 
@@ -2483,7 +2483,7 @@ defmodule Core.Services.IndividualTaxReturn do
           where: not is_nil(c.name),
           where: not is_nil(c.price),
           where: c.name == "self-employed",
-          select: {c.id, c.price}
+          select: {cu.id, c.price}
         )
       end
 
@@ -2578,7 +2578,7 @@ defmodule Core.Services.IndividualTaxReturn do
           where: c.individual_tax_return_id == cu.id and cu.user_id == ct.id and ct.role == true,
           where: not is_nil(c.name),
           where: c.name == "employed" or c.name == "unemployed" or c.name == "self-employed",
-          select: {c.id}
+          select: {cu.id}
         )
       end
 
