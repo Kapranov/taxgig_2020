@@ -427,6 +427,13 @@ defmodule Server.Factory do
     }
   end
 
+  def pro_individual_foreign_account_count_factory do
+    %IndividualForeignAccountCount{
+      individual_tax_returns: build(:pro_individual_tax_return),
+      name: random_name_foreign_account_count()
+    }
+  end
+
   def individual_itemized_deduction_factory do
     %IndividualItemizedDeduction{
       individual_tax_returns: build(:individual_tax_return),

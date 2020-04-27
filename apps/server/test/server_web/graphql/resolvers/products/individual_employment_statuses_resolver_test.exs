@@ -22,6 +22,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualEmploymentStatusesResol
       assert List.first(data).individual_tax_return_id           == individual_employment_status.individual_tax_return_id
       assert List.first(data).individual_tax_returns.inserted_at == individual_employment_status.individual_tax_returns.inserted_at
       assert List.first(data).individual_tax_returns.updated_at  == individual_employment_status.individual_tax_returns.updated_at
+
+      assert List.last(data).id          == individual_employment_status.id
+      assert List.last(data).inserted_at == individual_employment_status.inserted_at
+      assert List.last(data).name        == individual_employment_status.name
+      assert List.last(data).price       == individual_employment_status.price
+      assert List.last(data).updated_at  == individual_employment_status.updated_at
+
+      assert List.last(data).individual_tax_return_id           == individual_employment_status.individual_tax_return_id
+      assert List.last(data).individual_tax_returns.inserted_at == individual_employment_status.individual_tax_returns.inserted_at
+      assert List.last(data).individual_tax_returns.updated_at  == individual_employment_status.individual_tax_returns.updated_at
     end
 
     it "returns IndividualEmploymentStatuses via role's Pro" do
@@ -43,6 +53,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualEmploymentStatusesResol
       assert List.first(data).individual_tax_return_id           == individual_employment_status.individual_tax_return_id
       assert List.first(data).individual_tax_returns.inserted_at == individual_employment_status.individual_tax_returns.inserted_at
       assert List.first(data).individual_tax_returns.updated_at  == individual_employment_status.individual_tax_returns.updated_at
+
+      assert List.last(data).id          == individual_employment_status.id
+      assert List.last(data).inserted_at == individual_employment_status.inserted_at
+      assert List.last(data).name        == individual_employment_status.name
+      assert List.last(data).updated_at  == individual_employment_status.updated_at
+
+      assert List.last(data).individual_tax_return_id           == individual_employment_status.individual_tax_return_id
+      assert List.last(data).individual_tax_returns.inserted_at == individual_employment_status.individual_tax_returns.inserted_at
+      assert List.last(data).individual_tax_returns.updated_at  == individual_employment_status.individual_tax_returns.updated_at
     end
   end
 
@@ -83,40 +102,20 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualEmploymentStatusesResol
       assert found.individual_tax_returns.updated_at  == individual_employment_status.individual_tax_returns.updated_at
     end
 
-    it "returns not found when IndividualEmploymentStatus does not exist via role's Tp" do
+    it "returns not found when IndividualEmploymentStatus does not exist" do
       id = FlakeId.get()
-      user = insert(:tp_user)
-      individual_tax_return = insert(:tp_individual_tax_return, user: user)
-      insert(:tp_individual_employment_status, %{individual_tax_returns: individual_tax_return})
+      user = insert(:user)
+      individual_tax_return = insert(:individual_tax_return, user: user)
+      insert(:individual_employment_status, %{individual_tax_returns: individual_tax_return})
       context = %{context: %{current_user: user}}
       {:error, error} = IndividualEmploymentStatusesResolver.show(nil, %{id: id}, context)
       assert error == "The IndividualEmploymentStatus #{id} not found!"
     end
 
-    it "returns not found when IndividualEmploymentStatus does not exist via role's Pro" do
-      id = FlakeId.get()
-      user = insert(:pro_user)
-      individual_tax_return = insert(:pro_individual_tax_return, user: user)
-      insert(:pro_individual_employment_status, %{individual_tax_returns: individual_tax_return})
-      context = %{context: %{current_user: user}}
-      {:error, error} = IndividualEmploymentStatusesResolver.show(nil, %{id: id}, context)
-      assert error == "The IndividualEmploymentStatus #{id} not found!"
-    end
-
-    it "returns error for missing params via role's Tp" do
-      user = insert(:tp_user)
-      individual_tax_return = insert(:tp_individual_tax_return, user: user)
-      insert(:tp_individual_employment_status, %{individual_tax_returns: individual_tax_return})
-      context = %{context: %{current_user: user}}
-      args = %{id: nil}
-      {:error, error} = IndividualEmploymentStatusesResolver.show(nil, args, context)
-      assert error == [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Show"]]
-    end
-
-    it "returns error for missing params via role's Pro" do
-      user = insert(:pro_user)
-      individual_tax_return = insert(:pro_individual_tax_return, user: user)
-      insert(:pro_individual_employment_status, %{individual_tax_returns: individual_tax_return})
+    it "returns error for missing params" do
+      user = insert(:user)
+      individual_tax_return = insert(:individual_tax_return, user: user)
+      insert(:individual_employment_status, %{individual_tax_returns: individual_tax_return})
       context = %{context: %{current_user: user}}
       args = %{id: nil}
       {:error, error} = IndividualEmploymentStatusesResolver.show(nil, args, context)
@@ -162,30 +161,20 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualEmploymentStatusesResol
       assert found.individual_tax_returns.updated_at  == individual_employment_status.individual_tax_returns.updated_at
     end
 
-    it "returns not found when IndividualEmploymentStatus does not exist via role's Tp" do
+    it "returns not found when IndividualEmploymentStatus does not exist" do
       id = FlakeId.get()
-      user = insert(:tp_user)
-      individual_tax_return = insert(:tp_individual_tax_return, user: user)
-      insert(:tp_individual_employment_status, %{individual_tax_returns: individual_tax_return})
+      user = insert(:user)
+      individual_tax_return = insert(:individual_tax_return, user: user)
+      insert(:individual_employment_status, %{individual_tax_returns: individual_tax_return})
       context = %{context: %{current_user: user}}
       {:error, error} = IndividualEmploymentStatusesResolver.find(nil, %{id: id}, context)
       assert error == "The IndividualEmploymentStatus #{id} not found!"
     end
 
-    it "returns not found when IndividualEmploymentStatus does not exist via role's Pro" do
-      id = FlakeId.get()
-      user = insert(:pro_user)
-      individual_tax_return = insert(:pro_individual_tax_return, user: user)
-      insert(:pro_individual_employment_status, %{individual_tax_returns: individual_tax_return})
-      context = %{context: %{current_user: user}}
-      {:error, error} = IndividualEmploymentStatusesResolver.find(nil, %{id: id}, context)
-      assert error == "The IndividualEmploymentStatus #{id} not found!"
-    end
-
-    it "returns error for missing params via role's Pro" do
-      user = insert(:pro_user)
-      individual_tax_return = insert(:pro_individual_tax_return, user: user)
-      insert(:pro_individual_employment_status, %{individual_tax_returns: individual_tax_return})
+    it "returns error for missing params" do
+      user = insert(:user)
+      individual_tax_return = insert(:individual_tax_return, user: user)
+      insert(:individual_employment_status, %{individual_tax_returns: individual_tax_return})
       context = %{context: %{current_user: user}}
       args = %{id: nil, filing_status: nil}
       {:error, error} = IndividualEmploymentStatusesResolver.find(nil, args, context)
@@ -228,23 +217,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualEmploymentStatusesResol
       assert created.price                    == 12
     end
 
-    it "returns error for missing params by role's Tp" do
-      user = insert(:tp_user)
-      insert(:tp_individual_tax_return, user: user)
+    it "returns error for missing params" do
+      user = insert(:user)
+      insert(:individual_tax_return, user: user)
       context = %{context: %{current_user: user}}
       args = %{individual_tax_return_id: nil, name: nil}
-      {:error, error} =
-        IndividualEmploymentStatusesResolver.create(nil, args, context)
-      assert error == []
-    end
-
-    it "returns error for missing params by role's Pro" do
-      user = insert(:pro_user)
-      insert(:pro_individual_tax_return, user: user)
-      context = %{context: %{current_user: user}}
-      args = %{individual_tax_return_id: nil, name: nil}
-      {:error, error} =
-        IndividualEmploymentStatusesResolver.create(nil, args, context)
+      {:error, error} = IndividualEmploymentStatusesResolver.create(nil, args, context)
       assert error == []
     end
   end
@@ -327,20 +305,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualEmploymentStatusesResol
       assert updated.updated_at               == individual_employment_status.updated_at
     end
 
-    it "returns error for missing params via role's Tp" do
-      user = insert(:tp_user)
-      individual_tax_return = insert(:tp_individual_tax_return, user: user)
-      insert(:individual_employment_status, individual_tax_returns: individual_tax_return, name: "some text")
-      context = %{context: %{current_user: user}}
-      args = %{id: nil, individual_employment_status: nil}
-      {:error, error} = IndividualEmploymentStatusesResolver.update(nil, args, context)
-      assert error == [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]
-    end
-
-    it "returns error for missing params via role's Pro" do
-      user = insert(:pro_user)
-      individual_tax_return = insert(:pro_individual_tax_return, user: user)
-      insert(:individual_employment_status, individual_tax_returns: individual_tax_return, price: 12)
+    it "returns error for missing params" do
+      user = insert(:user)
+      individual_tax_return = insert(:individual_tax_return, user: user)
+      insert(:individual_employment_status, individual_tax_returns: individual_tax_return)
       context = %{context: %{current_user: user}}
       args = %{id: nil, individual_employment_status: nil}
       {:error, error} = IndividualEmploymentStatusesResolver.update(nil, args, context)
