@@ -147,6 +147,48 @@ defmodule Core.Lookup do
   def get_state!(id), do: Repo.get!(State, id)
 
   @doc """
+  Search Abbr by The US State
+
+  ## Examples
+
+      iex> search_abbr(123)
+      {:ok, %State{}}
+
+      iex> search_abbr(456)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec search_abbr(String.t) :: [State.t()]
+  def search_abbr(search_term) do
+    Repo.all(
+      from u in State,
+      where: ilike(u.abbr, ^("%" <> search_term <> "%")),
+      limit: 25
+    )
+  end
+
+  @doc """
+  Search Name by The US State
+
+  ## Examples
+
+      iex> search_name(123)
+      {:ok, %State{}}
+
+      iex> search_name(456)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec search_name(String.t) :: [State.t()]
+  def search_name(search_term) do
+    Repo.all(
+      from u in State,
+      where: ilike(u.name, ^("%" <> search_term <> "%")),
+      limit: 25
+    )
+  end
+
+  @doc """
   Creates State.
 
   ## Examples

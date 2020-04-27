@@ -15,6 +15,7 @@ defmodule Server.Factory do
     Landing.PressArticle,
     Landing.Vacancy,
     Localization.Language,
+    Lookup.State,
     Lookup.UsZipcode,
     Media.Picture,
     Services.IndividualEmploymentStatus,
@@ -120,6 +121,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec tp_user_factory() :: User.t()
   def tp_user_factory do
     %User{
       active: random_boolean(),
@@ -144,6 +146,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec pro_user_factory() :: User.t()
   def pro_user_factory do
     %User{
       active: random_boolean(),
@@ -289,6 +292,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec individual_tax_return_factory() :: IndividualTaxReturn.t()
   def individual_tax_return_factory do
     %IndividualTaxReturn{
       foreign_account: random_boolean(),
@@ -321,6 +325,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec tp_individual_tax_return_factory() :: IndividualTaxReturn.t()
   def tp_individual_tax_return_factory do
     %IndividualTaxReturn{
       foreign_account: random_boolean(),
@@ -343,6 +348,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec pro_individual_tax_return_factory() :: IndividualTaxReturn.t()
   def pro_individual_tax_return_factory do
     %IndividualTaxReturn{
       foreign_account: random_boolean(),
@@ -367,6 +373,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec individual_employment_status_factory() :: IndividualEmploymentStatus.t()
   def individual_employment_status_factory do
     %IndividualEmploymentStatus{
       individual_tax_returns: build(:individual_tax_return),
@@ -375,6 +382,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec tp_individual_employment_status_factory() :: IndividualEmploymentStatus.t()
   def tp_individual_employment_status_factory do
     %IndividualEmploymentStatus{
       individual_tax_returns: build(:tp_individual_tax_return),
@@ -382,6 +390,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec pro_individual_employment_status_factory() :: IndividualEmploymentStatus.t()
   def pro_individual_employment_status_factory do
     %IndividualEmploymentStatus{
       individual_tax_returns: build(:pro_individual_tax_return),
@@ -390,6 +399,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec individual_filing_status_factory() :: IndividualFilingStatus.t()
   def individual_filing_status_factory do
     %IndividualFilingStatus{
       individual_tax_returns: build(:individual_tax_return),
@@ -398,6 +408,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec tp_individual_filing_status_factory() :: IndividualFilingStatus.t()
   def tp_individual_filing_status_factory do
     %IndividualFilingStatus{
       individual_tax_returns: build(:tp_individual_tax_return),
@@ -405,6 +416,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec pro_individual_filing_status_factory() :: IndividualFilingStatus.t()
   def pro_individual_filing_status_factory do
     %IndividualFilingStatus{
       individual_tax_returns: build(:pro_individual_tax_return),
@@ -413,6 +425,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec individual_foreign_account_count_factory() :: IndividualForeignAccountCoun.t()
   def individual_foreign_account_count_factory do
     %IndividualForeignAccountCount{
       individual_tax_returns: build(:individual_tax_return),
@@ -420,6 +433,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec tp_individual_foreign_account_count_factory() :: IndividualForeignAccountCoun.t()
   def tp_individual_foreign_account_count_factory do
     %IndividualForeignAccountCount{
       individual_tax_returns: build(:tp_individual_tax_return),
@@ -427,6 +441,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec pro_individual_foreign_account_count_factory() :: IndividualForeignAccountCoun.t()
   def pro_individual_foreign_account_count_factory do
     %IndividualForeignAccountCount{
       individual_tax_returns: build(:pro_individual_tax_return),
@@ -434,6 +449,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec individual_itemized_deduction_factory() :: IndividualItemizedDeduction.t()
   def individual_itemized_deduction_factory do
     %IndividualItemizedDeduction{
       individual_tax_returns: build(:individual_tax_return),
@@ -442,6 +458,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec tp_individual_itemized_deduction_factory() :: IndividualItemizedDeduction.t()
   def tp_individual_itemized_deduction_factory do
     %IndividualItemizedDeduction{
       individual_tax_returns: build(:tp_individual_tax_return),
@@ -449,6 +466,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec pro_individual_itemized_deduction_factory() :: IndividualItemizedDeduction.t()
   def pro_individual_itemized_deduction_factory do
     %IndividualItemizedDeduction{
       individual_tax_returns: build(:pro_individual_tax_return),
@@ -457,6 +475,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec individual_stock_transaction_count_factory() :: IndividualStockTransactionCount.t()
   def individual_stock_transaction_count_factory do
     %IndividualStockTransactionCount{
       individual_tax_returns: build(:individual_tax_return),
@@ -464,6 +483,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec tp_individual_stock_transaction_count_factory() :: IndividualStockTransactionCount.t()
   def tp_individual_stock_transaction_count_factory do
     %IndividualStockTransactionCount{
       individual_tax_returns: build(:tp_individual_tax_return),
@@ -471,9 +491,18 @@ defmodule Server.Factory do
     }
   end
 
+  @spec pro_individual_stock_transaction_count_factory() :: IndividualStockTransactionCount.t()
   def pro_individual_stock_transaction_count_factory do
     %IndividualStockTransactionCount{
       individual_tax_returns: build(:pro_individual_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  @spec state_factory() :: State.t()
+  def state_factory do
+    %State{
+      abbr: Lorem.word(),
       name: Lorem.word()
     }
   end
