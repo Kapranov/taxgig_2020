@@ -597,9 +597,9 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualEmploymentStatusInteg
   end
 
   describe "#dataloads" do
-    it "created IndividualEmploymentStatus by role's Tp" do
-       user = insert(:tp_user)
-       %{id: individual_tax_return_id} = insert(:tp_individual_tax_return, user: user)
+    it "created IndividualEmploymentStatus" do
+       user = insert(:user)
+       %{id: individual_tax_return_id} = insert(:individual_tax_return, user: user)
 
       source = Dataloader.Ecto.new(Core.Repo)
 
