@@ -177,9 +177,9 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
 
   describe "#show" do
     it "returns specific MatchValueRelate" do
+      user = insert(:user, admin: true)
       match_value_relate = insert(:match_value_relat)
-
-      context = %{}
+      context = %{current_user: user}
 
       query = """
       {
@@ -238,10 +238,57 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
       {:ok, %{data: %{"showMatchValueRelate" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["id"] == match_value_relate.id
+      assert found["id"]                                              == match_value_relate.id
+      assert found["match_for_book_keeping_additional_need"]          == match_value_relate.match_for_book_keeping_additional_need
+      assert found["match_for_book_keeping_annual_revenue"]           == match_value_relate.match_for_book_keeping_annual_revenue
+      assert found["match_for_book_keeping_industry"]                 == match_value_relate.match_for_book_keeping_industry
+      assert found["match_for_book_keeping_number_employee"]          == match_value_relate.match_for_book_keeping_number_employee
+      assert found["match_for_book_keeping_payroll"]                  == match_value_relate.match_for_book_keeping_payroll
+      assert found["match_for_book_keeping_type_client"]              == match_value_relate.match_for_book_keeping_type_client
+      assert found["match_for_business_enity_type"]                   == match_value_relate.match_for_business_enity_type
+      assert found["match_for_business_number_of_employee"]           == match_value_relate.match_for_business_number_of_employee
+      assert found["match_for_business_total_revenue"]                == match_value_relate.match_for_business_total_revenue
+      assert found["match_for_individual_employment_status"]          == match_value_relate.match_for_individual_employment_status
+      assert found["match_for_individual_filing_status"]              == match_value_relate.match_for_individual_filing_status
+      assert found["match_for_individual_foreign_account"]            == match_value_relate.match_for_individual_foreign_account
+      assert found["match_for_individual_home_owner"]                 == match_value_relate.match_for_individual_home_owner
+      assert found["match_for_individual_itemized_deduction"]         == match_value_relate.match_for_individual_itemized_deduction
+      assert found["match_for_individual_living_abroad"]              == match_value_relate.match_for_individual_living_abroad
+      assert found["match_for_individual_non_resident_earning"]       == match_value_relate.match_for_individual_non_resident_earning
+      assert found["match_for_individual_own_stock_crypto"]           == match_value_relate.match_for_individual_own_stock_crypto
+      assert found["match_for_individual_rental_prop_income"]         == match_value_relate.match_for_individual_rental_prop_income
+      assert found["match_for_individual_stock_divident"]             == match_value_relate.match_for_individual_stock_divident
+      assert found["match_for_sale_tax_count"]                        == match_value_relate.match_for_sale_tax_count
+      assert found["match_for_sale_tax_frequency"]                    == match_value_relate.match_for_sale_tax_frequency
+      assert found["match_for_sale_tax_industry"]                     == match_value_relate.match_for_sale_tax_industry
+      assert found["value_for_book_keeping_payroll"]                  == decimal_to_string(match_value_relate.value_for_book_keeping_payroll)
+      assert found["value_for_book_keeping_tax_year"]                 == decimal_to_string(match_value_relate.value_for_book_keeping_tax_year)
+      assert found["value_for_business_accounting_software"]          == decimal_to_string(match_value_relate.value_for_business_accounting_software)
+      assert found["value_for_business_dispose_property"]             == decimal_to_string(match_value_relate.value_for_business_dispose_property)
+      assert found["value_for_business_foreign_shareholder"]          == decimal_to_string(match_value_relate.value_for_business_foreign_shareholder)
+      assert found["value_for_business_income_over_thousand"]         == decimal_to_string(match_value_relate.value_for_business_income_over_thousand)
+      assert found["value_for_business_invest_research"]              == decimal_to_string(match_value_relate.value_for_business_invest_research)
+      assert found["value_for_business_k1_count"]                     == decimal_to_string(match_value_relate.value_for_business_k1_count)
+      assert found["value_for_business_make_distribution"]            == decimal_to_string(match_value_relate.value_for_business_make_distribution)
+      assert found["value_for_business_state"]                        == decimal_to_string(match_value_relate.value_for_business_state)
+      assert found["value_for_business_tax_exemption"]                == decimal_to_string(match_value_relate.value_for_business_tax_exemption)
+      assert found["value_for_business_total_asset_over"]             == decimal_to_string(match_value_relate.value_for_business_total_asset_over)
+      assert found["value_for_individual_employment_status"]          == decimal_to_string(match_value_relate.value_for_individual_employment_status)
+      assert found["value_for_individual_foreign_account_limit"]      == decimal_to_string(match_value_relate.value_for_individual_foreign_account_limit)
+      assert found["value_for_individual_foreign_financial_interest"] == decimal_to_string(match_value_relate.value_for_individual_foreign_financial_interest)
+      assert found["value_for_individual_home_owner"]                 == decimal_to_string(match_value_relate.value_for_individual_home_owner)
+      assert found["value_for_individual_k1_count"]                   == decimal_to_string(match_value_relate.value_for_individual_k1_count)
+      assert found["value_for_individual_rental_prop_income"]         == decimal_to_string(match_value_relate.value_for_individual_rental_prop_income)
+      assert found["value_for_individual_sole_prop_count"]            == decimal_to_string(match_value_relate.value_for_individual_sole_prop_count)
+      assert found["value_for_individual_state"]                      == decimal_to_string(match_value_relate.value_for_individual_state)
+      assert found["value_for_individual_tax_year"]                   == decimal_to_string(match_value_relate.value_for_individual_tax_year)
+      assert found["value_for_sale_tax_count"]                        == decimal_to_string(match_value_relate.value_for_sale_tax_count)
+      assert found["inserted_at"]                                     == formatting_time(match_value_relate.inserted_at)
+      assert found["updated_at"]                                      == formatting_time(match_value_relate.updated_at)
 
       res =
         build_conn()
+        |> AbsintheHelpers.authenticate_conn(user)
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "showMatchValueRelate"))
 
       assert json_response(res, 200)["errors"] == nil
@@ -300,9 +347,9 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
 
   describe "#find" do
     it "find specific MatchValueRelate" do
+      user = insert(:user, admin: true)
       match_value_relate = insert(:match_value_relat)
-
-      context = %{}
+      context = %{current_user: user}
 
       query = """
       {
@@ -411,6 +458,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
 
       res =
         build_conn()
+        |> AbsintheHelpers.authenticate_conn(user)
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "findMatchValueRelate"))
 
       assert json_response(res, 200)["errors"] == nil
@@ -469,6 +517,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
 
   describe "#create" do
     it "created MatchValueRelate" do
+      user = insert(:user, admin: true)
       mutation = """
       {
         createMatchValueRelate(
@@ -570,6 +619,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
 
       res =
         build_conn()
+        |> AbsintheHelpers.authenticate_conn(user)
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
 
       assert json_response(res, 200)["errors"] == nil
@@ -626,6 +676,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
 
   describe "#update" do
     it "updated specific MatchValueRelate" do
+      user = insert(:user, admin: true)
       match_value_relate = insert(:match_value_relat)
 
       mutation = """
@@ -732,6 +783,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
 
       res =
         build_conn()
+        |> AbsintheHelpers.authenticate_conn(user)
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
 
       assert json_response(res, 200)["errors"] == nil
@@ -791,8 +843,8 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
 
   describe "#delete" do
     it "delete specific MatchValueRelate" do
+      user = insert(:user, admin: true)
       match_value_relate = insert(:match_value_relat)
-
       mutation = """
       {
         deleteMatchValueRelate(id: \"#{match_value_relate.id}\") {id}
@@ -801,6 +853,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
 
       res =
         build_conn()
+        |> AbsintheHelpers.authenticate_conn(user)
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
 
       assert json_response(res, 200)["errors"] == nil
