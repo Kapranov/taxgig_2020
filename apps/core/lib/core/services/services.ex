@@ -1034,9 +1034,6 @@ defmodule Core.Services do
   """
   @spec update_business_tax_return(BusinessTaxReturn.t(), %{atom => any}) :: result() | error_tuple()
   def update_business_tax_return(%BusinessTaxReturn{} = struct, attrs) do
-    struct
-    |> BusinessTaxReturn.changeset(attrs)
-    |> Repo.update()
     get_role_by_user =
       case struct.user_id do
         nil ->

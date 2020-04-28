@@ -31,7 +31,8 @@ defmodule Core.Services.IndividualEmploymentStatusTest do
     end
 
     test "list_individual_employment_statuses/0 returns all individual_employment_statuses via role's Tp" do
-      individual_tax_return = insert(:tp_individual_tax_return)
+      user = insert(:tp_user)
+      individual_tax_return = insert(:tp_individual_tax_return, user: user)
       struct = insert(:tp_individual_employment_status, individual_tax_returns: individual_tax_return)
       [data] = Services.list_individual_employment_status
       attrs = [:password, :password_cofirmation]
@@ -151,7 +152,8 @@ defmodule Core.Services.IndividualEmploymentStatusTest do
     end
 
     test "list_individual_employment_statuses/0 returns all individual_employment_statuses via role's Pro" do
-      individual_tax_return = insert(:pro_individual_tax_return)
+      user = insert(:pro_user)
+      individual_tax_return = insert(:pro_individual_tax_return, user: user)
       struct = insert(:pro_individual_employment_status, individual_tax_returns: individual_tax_return)
       [data] = Services.list_individual_employment_status
       attrs = [:password, :password_cofirmation]

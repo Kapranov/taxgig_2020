@@ -29,7 +29,8 @@ defmodule Core.Services.IndividualForeignAccountCountTest do
     end
 
     test "list_individual_foreign_account_counts/0 returns all individual_foreign_account_count via role's Tp" do
-      individual_tax_return = insert(:tp_individual_tax_return)
+      user = insert(:tp_user)
+      individual_tax_return = insert(:tp_individual_tax_return, user: user)
       struct = insert(:tp_individual_foreign_account_count, individual_tax_returns: individual_tax_return)
       [data] = Services.list_individual_foreign_account_count
       attrs = [:password, :password_cofirmation]
@@ -143,7 +144,8 @@ defmodule Core.Services.IndividualForeignAccountCountTest do
     end
 
     test "list_individual_foreign_account_counts/0 returns all individual_foreign_account_count via role's Pro" do
-      individual_tax_return = insert(:pro_individual_tax_return)
+      user = insert(:pro_user)
+      individual_tax_return = insert(:pro_individual_tax_return, user: user)
       struct = insert(:pro_individual_foreign_account_count, individual_tax_returns: individual_tax_return)
       [data] = Services.list_individual_foreign_account_count
       attrs = [:password, :password_cofirmation]

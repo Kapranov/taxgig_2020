@@ -30,7 +30,8 @@ defmodule Core.Services.IndividualFilingStatusTest do
     end
 
     test "list_individual_filing_statuses/0 returns all individual_filing_status via role's Tp" do
-      individual_tax_return = insert(:tp_individual_tax_return)
+      user = insert(:tp_user)
+      individual_tax_return = insert(:tp_individual_tax_return, user: user)
       struct = insert(:tp_individual_filing_status, individual_tax_returns: individual_tax_return)
       [data] = Services.list_individual_filing_status
       attrs = [:password, :password_cofirmation]
@@ -147,7 +148,8 @@ defmodule Core.Services.IndividualFilingStatusTest do
     end
 
     test "list_individual_filing_statuses/0 returns all individual_filing_status via role's Pro" do
-      individual_tax_return = insert(:pro_individual_tax_return)
+      user = insert(:pro_user)
+      individual_tax_return = insert(:pro_individual_tax_return, user: user)
       struct = insert(:pro_individual_filing_status, individual_tax_returns: individual_tax_return)
       [data] = Services.list_individual_filing_status
       attrs = [:password, :password_cofirmation]
