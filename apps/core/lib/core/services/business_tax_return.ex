@@ -1035,7 +1035,7 @@ defmodule Core.Services.BusinessTaxReturn do
           where: not is_nil(c.name),
           where: not is_nil(c.price),
           where: c.name == ^get_name_by_business_total_revenue,
-          select: {c.id, c.price}
+          select: {cu.id, c.price}
         )
       end
 
@@ -1129,7 +1129,7 @@ defmodule Core.Services.BusinessTaxReturn do
           where: c.business_tax_return_id == cu.id and cu.user_id == ct.id and ct.role == true,
           where: not is_nil(c.name),
           where: c.name == ^get_name_by_business_total_revenue,
-          select: {c.id}
+          select: {cu.id}
         )
       end
 
@@ -1309,7 +1309,7 @@ defmodule Core.Services.BusinessTaxReturn do
           where: not is_nil(c.name),
           where: not is_nil(c.price),
           where: c.name == ^get_name_by_business_number_of_employee,
-          select: {c.id, c.price}
+          select: {cu.id, c.price}
         )
       end
 
@@ -1403,7 +1403,7 @@ defmodule Core.Services.BusinessTaxReturn do
           where: c.business_tax_return_id == cu.id and cu.user_id == ct.id and ct.role == true,
           where: not is_nil(c.name),
           where: c.name == ^get_name_by_business_number_of_employee,
-          select: {c.id}
+          select: {cu.id}
         )
       end
 
@@ -1663,7 +1663,7 @@ defmodule Core.Services.BusinessTaxReturn do
           where: not is_nil(c.name),
           where: not is_nil(c.price),
           where: c.name == ^get_name_by_business_entity_type,
-          select: {c.id, c.price}
+          select: {cu.id, c.price}
         )
       end
 
@@ -1757,7 +1757,7 @@ defmodule Core.Services.BusinessTaxReturn do
           where: c.business_tax_return_id == cu.id and cu.user_id == ct.id and ct.role == true,
           where: not is_nil(c.name),
           where: c.name == ^get_name_by_business_entity_type,
-          select: {c.id}
+          select: {cu.id}
         )
       end
 
