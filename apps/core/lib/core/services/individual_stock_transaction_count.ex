@@ -11,6 +11,7 @@ defmodule Core.Services.IndividualStockTransactionCount do
 
   @type t :: %__MODULE__{
     name: String.t(),
+    individual_tax_return_id: IndividualTaxReturn.t()
   }
 
   @allowed_params ~w(

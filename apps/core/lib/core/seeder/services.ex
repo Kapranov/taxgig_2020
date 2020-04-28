@@ -7,6 +7,14 @@ defmodule Core.Seeder.Services do
     Accounts.User,
     Lookup.State,
     Repo,
+    Services.BusinessTaxReturn,
+    Services.BusinessEntityType,
+    Services.BusinessForeignAccountCount,
+    Services.BusinessForeignOwnershipCount,
+    Services.BusinessLlcType,
+    Services.BusinessNumberEmployee,
+    Services.BusinessTotalRevenue,
+    Services.BusinessTransactionCount,
     Services.IndividualEmploymentStatus,
     Services.IndividualFilingStatus,
     Services.IndividualForeignAccountCount,
@@ -16,8 +24,18 @@ defmodule Core.Seeder.Services do
     Services.MatchValueRelate
   }
 
+  alias Faker.Lorem
+
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
+    Repo.delete_all(BusinessEntityType)
+    Repo.delete_all(BusinessForeignAccountCount)
+    Repo.delete_all(BusinessForeignOwnershipCount)
+    Repo.delete_all(BusinessLlcType)
+    Repo.delete_all(BusinessNumberEmployee)
+    Repo.delete_all(BusinessTaxReturn)
+    Repo.delete_all(BusinessTotalRevenue)
+    Repo.delete_all(BusinessTransactionCount)
     Repo.delete_all(IndividualEmploymentStatus)
     Repo.delete_all(IndividualFilingStatus)
     Repo.delete_all(IndividualForeignAccountCount)
@@ -30,6 +48,14 @@ defmodule Core.Seeder.Services do
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_match_value_relate()
+    seed_business_tax_return()
+    seed_business_entity_type()
+    seed_business_foreign_account_count()
+    seed_business_foreign_ownership_count()
+    seed_business_llc_type()
+    seed_business_number_employee()
+    seed_business_total_revenue()
+    seed_business_transaction_count()
     seed_individual_tax_return()
     seed_individual_employment_status()
     seed_individual_filing_status()
@@ -96,6 +122,673 @@ defmodule Core.Seeder.Services do
         value_for_sale_tax_count:                         30.0
       })
     ]
+  end
+
+  @spec seed_business_tax_return() :: Ecto.Schema.t()
+  defp seed_business_tax_return do
+    user_ids =
+      Enum.map(Repo.all(User), fn(data) -> data.id end)
+
+    {user_id} = {Enum.at(user_ids, 0)}
+
+     tp1 = User.find_by(email: "v.kobzan@gmail.com")
+     tp2 = User.find_by(email: "o.puryshev@gmail.com")
+     tp3 = User.find_by(email: "vlacho777@gmail.com")
+    pro1 = User.find_by(email: "support@taxgig.com")
+    pro2 = User.find_by(email: "op@taxgig.com")
+    pro3 = User.find_by(email: "vk@taxgig.com")
+
+    case Repo.aggregate(BusinessTaxReturn, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BusinessTaxReturn{
+            accounting_software: random_boolean(),
+            capital_asset_sale: random_boolean(),
+            church_hospital: random_boolean(),
+            dispose_asset: random_boolean(),
+            dispose_property: random_boolean(),
+            educational_facility: random_boolean(),
+            financial_situation: Lorem.sentence(),
+            foreign_account_interest: random_boolean(),
+            foreign_account_value_more: random_boolean(),
+            foreign_entity_interest: random_boolean(),
+            foreign_partner_count: random_integer(),
+            foreign_shareholder: random_boolean(),
+            foreign_value: random_boolean(),
+            fundraising_over: random_boolean(),
+            has_contribution: random_boolean(),
+            has_loan: random_boolean(),
+            income_over_thousand: random_boolean(),
+            invest_research: random_boolean(),
+            k1_count: random_integer(),
+            lobbying: random_boolean(),
+            make_distribution: random_boolean(),
+            none_expat: random_boolean(),
+            operate_facility: random_boolean(),
+            price_state: random_integer(),
+            price_tax_year: random_integer(),
+            property_sale: random_boolean(),
+            public_charity: random_boolean(),
+            rental_property_count: random_integer(),
+            reported_grant: random_boolean(),
+            restricted_donation: random_boolean(),
+            tax_exemption: random_boolean(),
+            tax_year: random_year(),
+            total_asset_less: random_boolean(),
+            total_asset_over: random_boolean(),
+            user_id: user_id
+          }),
+          Repo.insert!(%BusinessTaxReturn{
+            accounting_software: random_boolean(),
+            capital_asset_sale: random_boolean(),
+            church_hospital: random_boolean(),
+            dispose_asset: random_boolean(),
+            dispose_property: random_boolean(),
+            educational_facility: random_boolean(),
+            financial_situation: Lorem.sentence(),
+            foreign_account_interest: random_boolean(),
+            foreign_account_value_more: random_boolean(),
+            foreign_entity_interest: random_boolean(),
+            foreign_partner_count: random_integer(),
+            foreign_shareholder: random_boolean(),
+            foreign_value: random_boolean(),
+            fundraising_over: random_boolean(),
+            has_contribution: random_boolean(),
+            has_loan: random_boolean(),
+            income_over_thousand: random_boolean(),
+            invest_research: random_boolean(),
+            k1_count: random_integer(),
+            lobbying: random_boolean(),
+            make_distribution: random_boolean(),
+            none_expat: random_boolean(),
+            operate_facility: random_boolean(),
+            price_state: random_integer(),
+            price_tax_year: random_integer(),
+            property_sale: random_boolean(),
+            public_charity: random_boolean(),
+            rental_property_count: random_integer(),
+            reported_grant: random_boolean(),
+            restricted_donation: random_boolean(),
+            state: random_state(),
+            tax_exemption: random_boolean(),
+            tax_year: random_year(),
+            total_asset_less: random_boolean(),
+            total_asset_over: random_boolean(),
+            user_id: tp1.id
+          }),
+          Repo.insert!(%BusinessTaxReturn{
+            accounting_software: random_boolean(),
+            capital_asset_sale: random_boolean(),
+            church_hospital: random_boolean(),
+            dispose_asset: random_boolean(),
+            dispose_property: random_boolean(),
+            educational_facility: random_boolean(),
+            financial_situation: Lorem.sentence(),
+            foreign_account_interest: random_boolean(),
+            foreign_account_value_more: random_boolean(),
+            foreign_entity_interest: random_boolean(),
+            foreign_partner_count: random_integer(),
+            foreign_shareholder: random_boolean(),
+            foreign_value: random_boolean(),
+            fundraising_over: random_boolean(),
+            has_contribution: random_boolean(),
+            has_loan: random_boolean(),
+            income_over_thousand: random_boolean(),
+            invest_research: random_boolean(),
+            k1_count: random_integer(),
+            lobbying: random_boolean(),
+            make_distribution: random_boolean(),
+            none_expat: random_boolean(),
+            operate_facility: random_boolean(),
+            price_state: random_integer(),
+            price_tax_year: random_integer(),
+            property_sale: random_boolean(),
+            public_charity: random_boolean(),
+            rental_property_count: random_integer(),
+            reported_grant: random_boolean(),
+            restricted_donation: random_boolean(),
+            state: random_state(),
+            tax_exemption: random_boolean(),
+            tax_year: random_year(),
+            total_asset_less: random_boolean(),
+            total_asset_over: random_boolean(),
+            user_id: tp2.id
+          }),
+          Repo.insert!(%BusinessTaxReturn{
+            accounting_software: random_boolean(),
+            capital_asset_sale: random_boolean(),
+            church_hospital: random_boolean(),
+            dispose_asset: random_boolean(),
+            dispose_property: random_boolean(),
+            educational_facility: random_boolean(),
+            financial_situation: Lorem.sentence(),
+            foreign_account_interest: random_boolean(),
+            foreign_account_value_more: random_boolean(),
+            foreign_entity_interest: random_boolean(),
+            foreign_partner_count: random_integer(),
+            foreign_shareholder: random_boolean(),
+            foreign_value: random_boolean(),
+            fundraising_over: random_boolean(),
+            has_contribution: random_boolean(),
+            has_loan: random_boolean(),
+            income_over_thousand: random_boolean(),
+            invest_research: random_boolean(),
+            k1_count: random_integer(),
+            lobbying: random_boolean(),
+            make_distribution: random_boolean(),
+            none_expat: random_boolean(),
+            operate_facility: random_boolean(),
+            price_state: random_integer(),
+            price_tax_year: random_integer(),
+            property_sale: random_boolean(),
+            public_charity: random_boolean(),
+            rental_property_count: random_integer(),
+            reported_grant: random_boolean(),
+            restricted_donation: random_boolean(),
+            state: random_state(),
+            tax_exemption: random_boolean(),
+            tax_year: random_year(),
+            total_asset_less: random_boolean(),
+            total_asset_over: random_boolean(),
+            user_id: tp3.id
+          }),
+          Repo.insert!(%BusinessTaxReturn{
+            accounting_software: random_boolean(),
+            capital_asset_sale: random_boolean(),
+            church_hospital: random_boolean(),
+            dispose_asset: random_boolean(),
+            dispose_property: random_boolean(),
+            educational_facility: random_boolean(),
+            financial_situation: Lorem.sentence(),
+            foreign_account_interest: random_boolean(),
+            foreign_account_value_more: random_boolean(),
+            foreign_entity_interest: random_boolean(),
+            foreign_partner_count: random_integer(),
+            foreign_shareholder: random_boolean(),
+            foreign_value: random_boolean(),
+            fundraising_over: random_boolean(),
+            has_contribution: random_boolean(),
+            has_loan: random_boolean(),
+            income_over_thousand: random_boolean(),
+            invest_research: random_boolean(),
+            k1_count: random_integer(),
+            lobbying: random_boolean(),
+            make_distribution: random_boolean(),
+            none_expat: random_boolean(),
+            operate_facility: random_boolean(),
+            price_state: random_integer(),
+            price_tax_year: random_integer(),
+            property_sale: random_boolean(),
+            public_charity: random_boolean(),
+            rental_property_count: random_integer(),
+            reported_grant: random_boolean(),
+            restricted_donation: random_boolean(),
+            tax_exemption: random_boolean(),
+            tax_year: random_year(),
+            total_asset_less: random_boolean(),
+            total_asset_over: random_boolean(),
+            user_id: pro1.id
+          }),
+          Repo.insert!(%BusinessTaxReturn{
+            accounting_software: random_boolean(),
+            capital_asset_sale: random_boolean(),
+            church_hospital: random_boolean(),
+            dispose_asset: random_boolean(),
+            dispose_property: random_boolean(),
+            educational_facility: random_boolean(),
+            financial_situation: Lorem.sentence(),
+            foreign_account_interest: random_boolean(),
+            foreign_account_value_more: random_boolean(),
+            foreign_entity_interest: random_boolean(),
+            foreign_partner_count: random_integer(),
+            foreign_shareholder: random_boolean(),
+            foreign_value: random_boolean(),
+            fundraising_over: random_boolean(),
+            has_contribution: random_boolean(),
+            has_loan: random_boolean(),
+            income_over_thousand: random_boolean(),
+            invest_research: random_boolean(),
+            k1_count: random_integer(),
+            lobbying: random_boolean(),
+            make_distribution: random_boolean(),
+            none_expat: random_boolean(),
+            operate_facility: random_boolean(),
+            price_state: random_integer(),
+            price_tax_year: random_integer(),
+            property_sale: random_boolean(),
+            public_charity: random_boolean(),
+            rental_property_count: random_integer(),
+            reported_grant: random_boolean(),
+            restricted_donation: random_boolean(),
+            tax_exemption: random_boolean(),
+            tax_year: random_year(),
+            total_asset_less: random_boolean(),
+            total_asset_over: random_boolean(),
+            user_id: pro2.id
+          }),
+          Repo.insert!(%BusinessTaxReturn{
+            accounting_software: random_boolean(),
+            capital_asset_sale: random_boolean(),
+            church_hospital: random_boolean(),
+            dispose_asset: random_boolean(),
+            dispose_property: random_boolean(),
+            educational_facility: random_boolean(),
+            financial_situation: Lorem.sentence(),
+            foreign_account_interest: random_boolean(),
+            foreign_account_value_more: random_boolean(),
+            foreign_entity_interest: random_boolean(),
+            foreign_partner_count: random_integer(),
+            foreign_shareholder: random_boolean(),
+            foreign_value: random_boolean(),
+            fundraising_over: random_boolean(),
+            has_contribution: random_boolean(),
+            has_loan: random_boolean(),
+            income_over_thousand: random_boolean(),
+            invest_research: random_boolean(),
+            k1_count: random_integer(),
+            lobbying: random_boolean(),
+            make_distribution: random_boolean(),
+            none_expat: random_boolean(),
+            operate_facility: random_boolean(),
+            price_state: random_integer(),
+            price_tax_year: random_integer(),
+            property_sale: random_boolean(),
+            public_charity: random_boolean(),
+            rental_property_count: random_integer(),
+            reported_grant: random_boolean(),
+            restricted_donation: random_boolean(),
+            tax_exemption: random_boolean(),
+            tax_year: random_year(),
+            total_asset_less: random_boolean(),
+            total_asset_over: random_boolean(),
+            user_id: pro3.id
+          })
+        ]
+    end
+  end
+
+  @spec seed_business_entity_type() :: Ecto.Schema.t()
+  defp seed_business_entity_type do
+    business_tax_returns_ids =
+      Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
+
+    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+      {
+        Enum.at(business_tax_returns_ids, 0),
+        Enum.at(business_tax_returns_ids, 1),
+        Enum.at(business_tax_returns_ids, 2),
+        Enum.at(business_tax_returns_ids, 3),
+        Enum.at(business_tax_returns_ids, 4),
+        Enum.at(business_tax_returns_ids, 5),
+        Enum.at(business_tax_returns_ids, 6)
+      }
+
+    case Repo.aggregate(BusinessEntityType, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BusinessEntityType{
+            business_tax_return_id: btr1,
+            name: random_name_entity_type(),
+            price: Enum.random(1..99)
+          }),
+          Repo.insert!(%BusinessEntityType{
+            business_tax_return_id: btr2,
+            name: random_name_entity_type()
+          }),
+          Repo.insert!(%BusinessEntityType{
+            business_tax_return_id: btr3,
+            name: random_name_entity_type()
+          }),
+          Repo.insert!(%BusinessEntityType{
+            business_tax_return_id: btr4,
+            name: random_name_entity_type()
+          }),
+          Repo.insert!(%BusinessEntityType{
+            business_tax_return_id: btr5,
+            name: random_name_entity_type(),
+            price: Enum.random(1..99)
+          }),
+          Repo.insert!(%BusinessEntityType{
+            business_tax_return_id: btr6,
+            name: random_name_entity_type(),
+            price: Enum.random(1..99)
+          }),
+          Repo.insert!(%BusinessEntityType{
+            business_tax_return_id: btr7,
+            name: random_name_entity_type(),
+            price: Enum.random(1..99)
+          })
+        ]
+    end
+  end
+
+  @spec seed_business_foreign_account_count() :: Ecto.Schema.t()
+  defp seed_business_foreign_account_count do
+    business_tax_returns_ids =
+      Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
+
+    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+      {
+        Enum.at(business_tax_returns_ids, 0),
+        Enum.at(business_tax_returns_ids, 1),
+        Enum.at(business_tax_returns_ids, 2),
+        Enum.at(business_tax_returns_ids, 3),
+        Enum.at(business_tax_returns_ids, 4),
+        Enum.at(business_tax_returns_ids, 5),
+        Enum.at(business_tax_returns_ids, 6)
+      }
+
+    case Repo.aggregate(BusinessForeignAccountCount, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BusinessForeignAccountCount{
+            business_tax_return_id: btr1,
+            name: random_name_foreign_account_count()
+          }),
+          Repo.insert!(%BusinessForeignAccountCount{
+            business_tax_return_id: btr2,
+            name: random_name_foreign_account_count()
+          }),
+          Repo.insert!(%BusinessForeignAccountCount{
+            business_tax_return_id: btr3,
+            name: random_name_foreign_account_count()
+          }),
+          Repo.insert!(%BusinessForeignAccountCount{
+            business_tax_return_id: btr4,
+            name: random_name_foreign_account_count()
+          }),
+          Repo.insert!(%BusinessForeignAccountCount{
+            business_tax_return_id: btr5,
+            name: random_name_foreign_account_count()
+          }),
+          Repo.insert!(%BusinessForeignAccountCount{
+            business_tax_return_id: btr6,
+            name: random_name_foreign_account_count()
+          }),
+          Repo.insert!(%BusinessForeignAccountCount{
+            business_tax_return_id: btr7,
+            name: random_name_foreign_account_count()
+          })
+        ]
+    end
+  end
+
+  @spec seed_business_foreign_ownership_count() :: Ecto.Schema.t()
+  defp seed_business_foreign_ownership_count do
+    business_tax_returns_ids =
+      Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
+
+    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+      {
+        Enum.at(business_tax_returns_ids, 0),
+        Enum.at(business_tax_returns_ids, 1),
+        Enum.at(business_tax_returns_ids, 2),
+        Enum.at(business_tax_returns_ids, 3),
+        Enum.at(business_tax_returns_ids, 4),
+        Enum.at(business_tax_returns_ids, 5),
+        Enum.at(business_tax_returns_ids, 6)
+      }
+
+    case Repo.aggregate(BusinessForeignOwnershipCount, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BusinessForeignOwnershipCount{
+            business_tax_return_id: btr1,
+            name: random_name_foreign_ownership_count()
+          }),
+          Repo.insert!(%BusinessForeignOwnershipCount{
+            business_tax_return_id: btr2,
+            name: random_name_foreign_ownership_count()
+          }),
+          Repo.insert!(%BusinessForeignOwnershipCount{
+            business_tax_return_id: btr3,
+            name: random_name_foreign_ownership_count()
+          }),
+          Repo.insert!(%BusinessForeignOwnershipCount{
+            business_tax_return_id: btr4,
+            name: random_name_foreign_ownership_count()
+          }),
+          Repo.insert!(%BusinessForeignOwnershipCount{
+            business_tax_return_id: btr5,
+            name: random_name_foreign_ownership_count()
+          }),
+          Repo.insert!(%BusinessForeignOwnershipCount{
+            business_tax_return_id: btr6,
+            name: random_name_foreign_ownership_count()
+          }),
+          Repo.insert!(%BusinessForeignOwnershipCount{
+            business_tax_return_id: btr7,
+            name: random_name_foreign_ownership_count()
+          })
+        ]
+    end
+  end
+
+  @spec seed_business_llc_type() :: Ecto.Schema.t()
+  defp seed_business_llc_type do
+    business_tax_returns_ids =
+      Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
+
+    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+      {
+        Enum.at(business_tax_returns_ids, 0),
+        Enum.at(business_tax_returns_ids, 1),
+        Enum.at(business_tax_returns_ids, 2),
+        Enum.at(business_tax_returns_ids, 3),
+        Enum.at(business_tax_returns_ids, 4),
+        Enum.at(business_tax_returns_ids, 5),
+        Enum.at(business_tax_returns_ids, 6)
+      }
+
+    case Repo.aggregate(BusinessLlcType, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BusinessLlcType{
+            business_tax_return_id: btr1,
+            name: random_name_llc_type()
+          }),
+          Repo.insert!(%BusinessLlcType{
+            business_tax_return_id: btr2,
+            name: random_name_llc_type()
+          }),
+          Repo.insert!(%BusinessLlcType{
+            business_tax_return_id: btr3,
+            name: random_name_llc_type()
+          }),
+          Repo.insert!(%BusinessLlcType{
+            business_tax_return_id: btr4,
+            name: random_name_llc_type()
+          }),
+          Repo.insert!(%BusinessLlcType{
+            business_tax_return_id: btr5,
+            name: random_name_llc_type()
+          }),
+          Repo.insert!(%BusinessLlcType{
+            business_tax_return_id: btr6,
+            name: random_name_llc_type()
+          }),
+          Repo.insert!(%BusinessLlcType{
+            business_tax_return_id: btr7,
+            name: random_name_llc_type()
+          })
+        ]
+    end
+  end
+  @spec seed_business_number_employee() :: Ecto.Schema.t()
+  defp seed_business_number_employee do
+    business_tax_returns_ids =
+      Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
+
+    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+      {
+        Enum.at(business_tax_returns_ids, 0),
+        Enum.at(business_tax_returns_ids, 1),
+        Enum.at(business_tax_returns_ids, 2),
+        Enum.at(business_tax_returns_ids, 3),
+        Enum.at(business_tax_returns_ids, 4),
+        Enum.at(business_tax_returns_ids, 5),
+        Enum.at(business_tax_returns_ids, 6)
+      }
+
+    case Repo.aggregate(BusinessNumberEmployee, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BusinessNumberEmployee{
+            business_tax_return_id: btr1,
+            name: random_name_number_of_employee(),
+            price: Enum.random(1..99)
+          }),
+          Repo.insert!(%BusinessNumberEmployee{
+            business_tax_return_id: btr2,
+            name: random_name_number_of_employee()
+          }),
+          Repo.insert!(%BusinessNumberEmployee{
+            business_tax_return_id: btr3,
+            name: random_name_number_of_employee()
+          }),
+          Repo.insert!(%BusinessNumberEmployee{
+            business_tax_return_id: btr4,
+            name: random_name_number_of_employee()
+          }),
+          Repo.insert!(%BusinessNumberEmployee{
+            business_tax_return_id: btr5,
+            name: random_name_number_of_employee(),
+            price: Enum.random(1..99)
+          }),
+          Repo.insert!(%BusinessNumberEmployee{
+            business_tax_return_id: btr6,
+            name: random_name_number_of_employee(),
+            price: Enum.random(1..99)
+          }),
+          Repo.insert!(%BusinessNumberEmployee{
+            business_tax_return_id: btr7,
+            name: random_name_number_of_employee(),
+            price: Enum.random(1..99)
+          })
+        ]
+    end
+  end
+
+  @spec seed_business_total_revenue() :: Ecto.Schema.t()
+  defp seed_business_total_revenue do
+    business_tax_returns_ids =
+      Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
+
+    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+      {
+        Enum.at(business_tax_returns_ids, 0),
+        Enum.at(business_tax_returns_ids, 1),
+        Enum.at(business_tax_returns_ids, 2),
+        Enum.at(business_tax_returns_ids, 3),
+        Enum.at(business_tax_returns_ids, 4),
+        Enum.at(business_tax_returns_ids, 5),
+        Enum.at(business_tax_returns_ids, 6)
+      }
+
+    case Repo.aggregate(BusinessTotalRevenue, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BusinessTotalRevenue{
+            business_tax_return_id: btr1,
+            name: random_name_total_revenue(),
+            price: Enum.random(1..99)
+          }),
+          Repo.insert!(%BusinessTotalRevenue{
+            business_tax_return_id: btr2,
+            name: random_name_total_revenue()
+          }),
+          Repo.insert!(%BusinessTotalRevenue{
+            business_tax_return_id: btr3,
+            name: random_name_total_revenue()
+          }),
+          Repo.insert!(%BusinessTotalRevenue{
+            business_tax_return_id: btr4,
+            name: random_name_total_revenue()
+          }),
+          Repo.insert!(%BusinessTotalRevenue{
+            business_tax_return_id: btr5,
+            name: random_name_total_revenue(),
+            price: Enum.random(1..99)
+          }),
+          Repo.insert!(%BusinessTotalRevenue{
+            business_tax_return_id: btr6,
+            name: random_name_total_revenue(),
+            price: Enum.random(1..99)
+          }),
+          Repo.insert!(%BusinessTotalRevenue{
+            business_tax_return_id: btr7,
+            name: random_name_total_revenue(),
+            price: Enum.random(1..99)
+          })
+        ]
+    end
+  end
+
+  @spec seed_business_transaction_count() :: Ecto.Schema.t()
+  defp seed_business_transaction_count do
+    business_tax_returns_ids =
+      Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
+
+    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+      {
+        Enum.at(business_tax_returns_ids, 0),
+        Enum.at(business_tax_returns_ids, 1),
+        Enum.at(business_tax_returns_ids, 2),
+        Enum.at(business_tax_returns_ids, 3),
+        Enum.at(business_tax_returns_ids, 4),
+        Enum.at(business_tax_returns_ids, 5),
+        Enum.at(business_tax_returns_ids, 6)
+      }
+
+    case Repo.aggregate(BusinessTransactionCount, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BusinessTransactionCount{
+            business_tax_return_id: btr1,
+            name: random_name_transactions_count()
+          }),
+          Repo.insert!(%BusinessTransactionCount{
+            business_tax_return_id: btr2,
+            name: random_name_transactions_count()
+          }),
+          Repo.insert!(%BusinessTransactionCount{
+            business_tax_return_id: btr3,
+            name: random_name_transactions_count()
+          }),
+          Repo.insert!(%BusinessTransactionCount{
+            business_tax_return_id: btr4,
+            name: random_name_transactions_count()
+          }),
+          Repo.insert!(%BusinessTransactionCount{
+            business_tax_return_id: btr5,
+            name: random_name_transactions_count()
+          }),
+          Repo.insert!(%BusinessTransactionCount{
+            business_tax_return_id: btr6,
+            name: random_name_transactions_count()
+          }),
+          Repo.insert!(%BusinessTransactionCount{
+            business_tax_return_id: btr7,
+            name: random_name_transactions_count()
+          })
+        ]
+    end
   end
 
   @spec seed_individual_tax_return() :: Ecto.Schema.t()
@@ -563,6 +1256,84 @@ defmodule Core.Seeder.Services do
       end
 
     Enum.uniq(result)
+  end
+
+  @spec random_name_entity_type() :: String.t()
+  defp random_name_entity_type do
+    names = [
+      "C-Corp / Corporation",
+      "LLC",
+      "Non-profit corp",
+      "Partnership",
+      "S-Corp",
+      "Sole proprietorship"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_foreign_ownership_count() :: String.t()
+  defp random_name_foreign_ownership_count do
+    names = [
+      "1",
+      "2-5",
+      "5+"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_llc_type() :: String.t()
+  defp random_name_llc_type do
+    names = [
+      "C-Corp / Corporation",
+      "LLC",
+      "Non-profit corp",
+      "Partnership",
+      "S-Corp"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_number_of_employee() :: String.t()
+  defp random_name_number_of_employee do
+    names = [
+      "1 employee",
+      "101 - 500 employees",
+      "2 - 20 employees",
+      "21 - 50 employees",
+      "500+ employee",
+      "51 - 100 employees"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_total_revenue() :: String.t()
+  defp random_name_total_revenue do
+    names = [
+      "$100K - $500K",
+      "$10M+",
+      "$1M - $5M",
+      "$500K - $1M",
+      "$5M - $10M",
+      "Less than $100K"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_transactions_count() :: String.t()
+  defp random_name_transactions_count do
+    names = [
+      "1-10",
+      "11-25",
+      "26-75",
+      "75+"
+    ]
+
+    Enum.random(names)
   end
 
   @spec random_name_employment_status() :: String.t()

@@ -18,6 +18,14 @@ defmodule Core.Factory do
     Lookup.UsZipcode,
     Media.Picture,
     Repo,
+    Services.BusinessEntityType,
+    Services.BusinessForeignAccountCount,
+    Services.BusinessForeignOwnershipCount,
+    Services.BusinessLlcType,
+    Services.BusinessNumberEmployee,
+    Services.BusinessTaxReturn,
+    Services.BusinessTotalRevenue,
+    Services.BusinessTransactionCount,
     Services.IndividualEmploymentStatus,
     Services.IndividualFilingStatus,
     Services.IndividualForeignAccountCount,
@@ -302,6 +310,248 @@ defmodule Core.Factory do
       value_for_individual_state:                       40.0,
       value_for_individual_tax_year:                    40.0,
       value_for_sale_tax_count:                         30.0
+    }
+  end
+
+  def business_tax_return_factory do
+    %BusinessTaxReturn{
+      accounting_software: random_boolean(),
+      capital_asset_sale: random_boolean(),
+      church_hospital: random_boolean(),
+      dispose_asset: random_boolean(),
+      dispose_property: random_boolean(),
+      educational_facility: random_boolean(),
+      financial_situation: Lorem.sentence(),
+      foreign_account_interest: random_boolean(),
+      foreign_account_value_more: random_boolean(),
+      foreign_entity_interest: random_boolean(),
+      foreign_partner_count: random_integer(),
+      foreign_shareholder: random_boolean(),
+      foreign_value: random_boolean(),
+      fundraising_over: random_boolean(),
+      has_contribution: random_boolean(),
+      has_loan: random_boolean(),
+      income_over_thousand: random_boolean(),
+      invest_research: random_boolean(),
+      k1_count: random_integer(),
+      lobbying: random_boolean(),
+      make_distribution: random_boolean(),
+      none_expat: random_boolean(),
+      operate_facility: random_boolean(),
+      price_state: random_integer(),
+      price_tax_year: random_integer(),
+      property_sale: random_boolean(),
+      public_charity: random_boolean(),
+      rental_property_count: random_integer(),
+      reported_grant: random_boolean(),
+      restricted_donation: random_boolean(),
+      state: [random_state()],
+      tax_exemption: random_boolean(),
+      tax_year: random_year(),
+      total_asset_less: random_boolean(),
+      total_asset_over: random_boolean(),
+      user: build(:user)
+    }
+  end
+
+  def tp_business_tax_return_factory do
+    %BusinessTaxReturn{
+      accounting_software: random_boolean(),
+      capital_asset_sale: random_boolean(),
+      church_hospital: random_boolean(),
+      dispose_asset: random_boolean(),
+      dispose_property: random_boolean(),
+      educational_facility: random_boolean(),
+      financial_situation: Lorem.sentence(),
+      foreign_account_interest: random_boolean(),
+      foreign_account_value_more: random_boolean(),
+      foreign_entity_interest: random_boolean(),
+      foreign_partner_count: random_integer(),
+      foreign_shareholder: random_boolean(),
+      foreign_value: random_boolean(),
+      fundraising_over: random_boolean(),
+      has_contribution: random_boolean(),
+      has_loan: random_boolean(),
+      income_over_thousand: random_boolean(),
+      invest_research: random_boolean(),
+      k1_count: random_integer(),
+      lobbying: random_boolean(),
+      make_distribution: random_boolean(),
+      none_expat: random_boolean(),
+      operate_facility: random_boolean(),
+      property_sale: random_boolean(),
+      public_charity: random_boolean(),
+      rental_property_count: random_integer(),
+      reported_grant: random_boolean(),
+      restricted_donation: random_boolean(),
+      state: [random_state()],
+      tax_exemption: random_boolean(),
+      tax_year: random_year(),
+      total_asset_less: random_boolean(),
+      total_asset_over: random_boolean(),
+      user: build(:tp_user)
+    }
+  end
+
+  def pro_business_tax_return_factory do
+    %BusinessTaxReturn{
+      none_expat: random_boolean(),
+      price_state: random_integer(),
+      price_tax_year: random_integer(),
+      user: build(:pro_user)
+    }
+  end
+
+  def business_entity_type_factory do
+    %BusinessEntityType{
+      business_tax_returns: build(:business_tax_return),
+      name: Lorem.word(),
+      price: random_integer()
+    }
+  end
+
+  def tp_business_entity_type_factory do
+    %BusinessEntityType{
+      business_tax_returns: build(:tp_business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def pro_business_entity_type_factory do
+    %BusinessEntityType{
+      business_tax_returns: build(:pro_business_tax_return),
+      name: Lorem.word(),
+      price: random_integer()
+    }
+  end
+
+  def business_foreign_account_count_factory do
+    %BusinessForeignAccountCount{
+      business_tax_returns: build(:business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def tp_business_foreign_account_count_factory do
+    %BusinessForeignAccountCount{
+      business_tax_returns: build(:tp_business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def pro_business_foreign_account_count_factory do
+    %BusinessForeignAccountCount{
+      business_tax_returns: build(:pro_business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def business_foreign_ownership_count_factory do
+    %BusinessForeignOwnershipCount{
+      business_tax_returns: build(:business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def tp_business_foreign_ownership_count_factory do
+    %BusinessForeignOwnershipCount{
+      business_tax_returns: build(:tp_business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def pro_business_foreign_ownership_count_factory do
+    %BusinessForeignOwnershipCount{
+      business_tax_returns: build(:pro_business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def business_llc_type_factory do
+    %BusinessLlcType{
+      business_tax_returns: build(:business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def tp_business_llc_type_factory do
+    %BusinessLlcType{
+      business_tax_returns: build(:tp_business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def pro_business_llc_type_factory do
+    %BusinessLlcType{
+      business_tax_returns: build(:pro_business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def business_number_employee_factory do
+    %BusinessNumberEmployee{
+      business_tax_returns: build(:business_tax_return),
+      name: Lorem.word(),
+      price: random_integer()
+    }
+  end
+
+  def tp_business_number_employee_factory do
+    %BusinessNumberEmployee{
+      business_tax_returns: build(:tp_business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def pro_business_number_employee_factory do
+    %BusinessNumberEmployee{
+      business_tax_returns: build(:pro_business_tax_return),
+      name: Lorem.word(),
+      price: random_integer()
+    }
+  end
+
+  def business_total_revenue_factory do
+    %BusinessTotalRevenue{
+      business_tax_returns: build(:business_tax_return),
+      name: Lorem.word(),
+      price: random_integer()
+    }
+  end
+
+  def tp_business_total_revenue_factory do
+    %BusinessTotalRevenue{
+      business_tax_returns: build(:tp_business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def pro_business_total_revenue_factory do
+    %BusinessTotalRevenue{
+      business_tax_returns: build(:pro_business_tax_return),
+      name: Lorem.word(),
+      price: random_integer()
+    }
+  end
+
+  def business_transaction_count_factory do
+    %BusinessTransactionCount{
+      business_tax_returns: build(:business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def tp_business_transaction_count_factory do
+    %BusinessTransactionCount{
+      business_tax_returns: build(:tp_business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  def pro_business_transaction_count_factory do
+    %BusinessTransactionCount{
+      business_tax_returns: build(:pro_business_tax_return),
+      name: Lorem.word()
     }
   end
 

@@ -11,7 +11,8 @@ defmodule Core.Services.IndividualEmploymentStatus do
 
   @type t :: %__MODULE__{
     name: String.t(),
-    price: integer
+    price: integer,
+    individual_tax_return_id: IndividualTaxReturn.t()
   }
 
   @allowed_params ~w(

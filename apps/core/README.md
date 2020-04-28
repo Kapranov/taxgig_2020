@@ -31,6 +31,15 @@ bash> mix ecto.gen.migration -r Core.Repo create_individual_employment_statuses
 bash> mix ecto.gen.migration -r Core.Repo create_individual_stock_transaction_counts
 bash> mix ecto.gen.migration -r Core.Repo create_individual_itemized_deductions
 
+bash> mix ecto.gen.migration -r Core.Repo create_business_tax_returns
+bash> mix ecto.gen.migration -r Core.Repo create_business_foreign_account_counts
+bash> mix ecto.gen.migration -r Core.Repo create_business_foreign_ownership_counts
+bash> mix ecto.gen.migration -r Core.Repo create_business_number_employees
+bash> mix ecto.gen.migration -r Core.Repo create_business_total_revenues
+bash> mix ecto.gen.migration -r Core.Repo create_business_transaction_counts
+bash> mix ecto.gen.migration -r Core.Repo create_business_entity_types
+bash> mix ecto.gen.migration -r Core.Repo create_business_llc_types
+
 iex> language1 = %Language{abbr: "fra", name: "french"
 iex> language2 = %Language{abbr: "ger", name: "german"}
 iex> language1 = Repo.insert!(language1)

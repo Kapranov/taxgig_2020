@@ -48,9 +48,9 @@ defmodule Core.Services.IndividualTaxReturn do
     rental_property_count: integer,
     rental_property_income: boolean,
     sole_proprietorship_count: integer,
-    state: map,
+    state: tuple,
     stock_divident: boolean,
-    tax_year: map,
+    tax_year: tuple,
     user_id: User.t()
   }
 
