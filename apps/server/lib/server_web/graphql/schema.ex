@@ -56,6 +56,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:business_number_employee_queries)
     import_fields(:business_tax_return_queries)
     import_fields(:business_total_revenue_queries)
+    import_fields(:business_transaction_count_queries)
     import_fields(:faq_category_queries)
     import_fields(:faq_queries)
     import_fields(:individual_employment_status_queries)

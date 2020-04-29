@@ -568,7 +568,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualEmploymentStatusInteg
       assert updated["updated_at"]                            == formatting_time(individual_employment_status.updated_at)
       assert updated["individual_tax_returns"]["id"]          == individual_tax_return.id
       assert updated["individual_tax_returns"]["inserted_at"] == formatting_time(individual_employment_status.individual_tax_returns.inserted_at)
-      assert updated["individual_tax_returns"]["updated_at"]  == formatting_time(individual_employment_status.individual_tax_returns.updated_at)
     end
   end
 

@@ -64,7 +64,7 @@ defmodule Server.MixProject do
       {:phoenix_pubsub, "~> 1.1"},
       {:plug_cowboy, "~> 2.0"},
       {:timex, "~> 3.6"},
-      {:websocket_client, "~> 1.3"},
+      # {:websocket_client, "~> 1.3"},
       {:blockscore, in_umbrella: true},
       {:core, in_umbrella: true},
       {:mailings, in_umbrella: true},
