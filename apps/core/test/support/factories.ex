@@ -18,6 +18,14 @@ defmodule Core.Factory do
     Lookup.UsZipcode,
     Media.Picture,
     Repo,
+    Services.BookKeeping,
+    Services.BookKeepingAdditionalNeed,
+    Services.BookKeepingAnnualRevenue,
+    Services.BookKeepingClassifyInventory,
+    Services.BookKeepingIndustry,
+    Services.BookKeepingNumberEmployee,
+    Services.BookKeepingTransactionVolume,
+    Services.BookKeepingTypeClient,
     Services.BusinessEntityType,
     Services.BusinessForeignAccountCount,
     Services.BusinessForeignOwnershipCount,
@@ -310,6 +318,194 @@ defmodule Core.Factory do
       value_for_individual_state:                       40.0,
       value_for_individual_tax_year:                    40.0,
       value_for_sale_tax_count:                         30.0
+    }
+  end
+
+  def book_keeping_factory do
+    %BookKeeping{
+      account_count: random_integer(),
+      balance_sheet: random_boolean(),
+      financial_situation: Lorem.sentence(),
+      inventory: random_boolean(),
+      inventory_count: random_integer(),
+      payroll: random_boolean(),
+      price_payroll: random_integer(),
+      tax_return_current: random_boolean(),
+      tax_year: random_year(),
+      user: build(:user)
+    }
+  end
+
+
+  def tp_book_keeping_factory do
+    %BookKeeping{
+      account_count: random_integer(),
+      balance_sheet: random_boolean(),
+      financial_situation: Lorem.sentence(),
+      inventory: random_boolean(),
+      inventory_count: random_integer(),
+      payroll: random_boolean(),
+      tax_return_current: random_boolean(),
+      tax_year: random_year(),
+      user: build(:tp_user)
+    }
+  end
+
+  def pro_book_keeping_factory do
+    %BookKeeping{
+      payroll: random_boolean(),
+      price_payroll: random_integer(),
+      user: build(:pro_user)
+    }
+  end
+
+  def book_keeping_additional_need_factory do
+    %BookKeepingAdditionalNeed{
+      book_keepings: build(:book_keeping),
+      name: random_name_additional_need(),
+      price: random_integer()
+    }
+  end
+
+  def tp_book_keeping_additional_need_factory do
+    %BookKeepingAdditionalNeed{
+      book_keepings: build(:tp_book_keeping),
+      name: random_name_additional_need()
+    }
+  end
+
+  def pro_book_keeping_additional_need_factory do
+    %BookKeepingAdditionalNeed{
+      book_keepings: build(:pro_book_keeping),
+      name: random_name_additional_need(),
+      price: random_integer()
+    }
+  end
+
+  def book_keeping_annual_revenue_factory do
+    %BookKeepingAnnualRevenue{
+      book_keepings: build(:book_keeping),
+      name: random_name_annual_revenue(),
+      price: random_integer()
+    }
+  end
+
+  def tp_book_keeping_annual_revenue_factory do
+    %BookKeepingAnnualRevenue{
+      book_keepings: build(:tp_book_keeping),
+      name: random_name_annual_revenue()
+    }
+  end
+
+  def pro_book_keeping_annual_revenue_factory do
+    %BookKeepingAnnualRevenue{
+      book_keepings: build(:pro_book_keeping),
+      name: random_name_annual_revenue(),
+      price: random_integer()
+    }
+  end
+
+  def book_keeping_classify_inventory_factory do
+    %BookKeepingClassifyInventory{
+      book_keepings: build(:book_keeping),
+      name: random_name_classify_inventory()
+    }
+  end
+
+  def tp_book_keeping_classify_inventory_factory do
+    %BookKeepingClassifyInventory{
+      book_keepings: build(:tp_book_keeping),
+      name: random_name_classify_inventory()
+    }
+  end
+
+  def book_keeping_industry_factory do
+    %BookKeepingIndustry{
+      book_keepings: build(:book_keeping),
+      name: random_name_industry()
+    }
+  end
+
+  def tp_book_keeping_industry_factory do
+    %BookKeepingIndustry{
+      book_keepings: build(:tp_book_keeping),
+      name: random_name_for_tp_industry()
+    }
+  end
+
+  def pro_book_keeping_industry_factory do
+    %BookKeepingIndustry{
+      book_keepings: build(:pro_book_keeping),
+      name: random_name_for_pro_industry()
+    }
+  end
+
+  def book_keeping_number_employee_factory do
+    %BookKeepingNumberEmployee{
+      book_keepings: build(:book_keeping),
+      name: random_name_number_employee(),
+      price: random_integer()
+    }
+  end
+
+  def tp_book_keeping_number_employee_factory do
+    %BookKeepingNumberEmployee{
+      book_keepings: build(:tp_book_keeping),
+      name: random_name_number_employee()
+    }
+  end
+
+  def pro_book_keeping_number_employee_factory do
+    %BookKeepingNumberEmployee{
+      book_keepings: build(:pro_book_keeping),
+      name: random_name_number_employee(),
+      price: random_integer()
+    }
+  end
+
+  def book_keeping_transaction_volume_factory do
+    %BookKeepingTransactionVolume{
+      book_keepings: build(:book_keeping),
+      name: random_name_transaction_volume(),
+      price: random_integer()
+    }
+  end
+
+  def tp_book_keeping_transaction_volume_factory do
+    %BookKeepingTransactionVolume{
+      book_keepings: build(:tp_book_keeping),
+      name: random_name_transaction_volume()
+    }
+  end
+
+  def pro_book_keeping_transaction_volume_factory do
+    %BookKeepingTransactionVolume{
+      book_keepings: build(:pro_book_keeping),
+      name: random_name_transaction_volume(),
+      price: random_integer()
+    }
+  end
+
+  def book_keeping_type_client_factory do
+    %BookKeepingTypeClient{
+      book_keepings: build(:book_keeping),
+      name: random_name_type_client(),
+      price: random_integer()
+    }
+  end
+
+  def tp_book_keeping_type_client_factory do
+    %BookKeepingTypeClient{
+      book_keepings: build(:tp_book_keeping),
+      name: random_name_type_client()
+    }
+  end
+
+  def pro_book_keeping_type_client_factory do
+    %BookKeepingTypeClient{
+      book_keepings: build(:pro_book_keeping),
+      name: random_name_type_client(),
+      price: random_integer()
     }
   end
 
@@ -885,6 +1081,203 @@ defmodule Core.Factory do
       end
 
     Enum.uniq(result)
+  end
+
+  @spec random_name_additional_need :: String.t
+  defp random_name_additional_need do
+    names = [
+      "accounts payable",
+      "accounts receivable",
+      "bank reconciliation",
+      "financial report preparation",
+      "sales tax"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_annual_revenue :: String.t
+  defp random_name_annual_revenue do
+    names = [
+      "$100K - $500K",
+      "$10M+",
+      "$1M - $5M",
+      "$500K - $1M",
+      "$5M - $10M",
+      "Less than $100K"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_classify_inventory :: String.t
+  defp random_name_classify_inventory do
+    names = [
+      "Assets",
+      "Expenses"
+    ]
+
+    numbers = 1..2
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
+  end
+
+  @spec random_name_industry :: String.t
+  defp random_name_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    numbers = 1..24
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
+  end
+
+  @spec random_name_for_tp_industry :: String.t
+  defp random_name_for_tp_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    [Enum.random(names)]
+  end
+
+  @spec random_name_for_pro_industry :: String.t
+  defp random_name_for_pro_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    numbers = 1..24
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
+  end
+
+  @spec random_name_number_employee :: String.t
+  defp random_name_number_employee do
+    names = [
+      "1 employee",
+      "101 - 500 employees",
+      "2 - 20 employees",
+      "21 - 50 employees",
+      "500+ employees",
+      "51 - 100 employees"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_transaction_volume :: String.t
+  defp random_name_transaction_volume do
+    names = [
+      "1-25",
+      "200+",
+      "26-75",
+      "76-199"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_type_client :: String.t
+  defp random_name_type_client do
+    names = [
+      "C-Corp / Corporation",
+      "Individual or Sole proprietorship",
+      "LLC",
+      "Non-profit corp",
+      "Partnership",
+      "S-Corp"
+    ]
+
+    Enum.random(names)
   end
 
   @spec random_name_employment_status :: String.t()
