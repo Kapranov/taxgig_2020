@@ -7,12 +7,20 @@ defmodule Core.Seeder.Services do
     Accounts.User,
     Lookup.State,
     Repo,
-    Services.BusinessTaxReturn,
+    Services.BookKeeping,
+    Services.BookKeepingAdditionalNeed,
+    Services.BookKeepingAnnualRevenue,
+    Services.BookKeepingClassifyInventory,
+    Services.BookKeepingIndustry,
+    Services.BookKeepingNumberEmployee,
+    Services.BookKeepingTransactionVolume,
+    Services.BookKeepingTypeClient,
     Services.BusinessEntityType,
     Services.BusinessForeignAccountCount,
     Services.BusinessForeignOwnershipCount,
     Services.BusinessLlcType,
     Services.BusinessNumberEmployee,
+    Services.BusinessTaxReturn,
     Services.BusinessTotalRevenue,
     Services.BusinessTransactionCount,
     Services.IndividualEmploymentStatus,
@@ -28,6 +36,14 @@ defmodule Core.Seeder.Services do
 
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
+    Repo.delete_all(BookKeeping)
+    Repo.delete_all(BookKeepingAdditionalNeed)
+    Repo.delete_all(BookKeepingAnnualRevenue)
+    Repo.delete_all(BookKeepingClassifyInventory)
+    Repo.delete_all(BookKeepingIndustry)
+    Repo.delete_all(BookKeepingNumberEmployee)
+    Repo.delete_all(BookKeepingTransactionVolume)
+    Repo.delete_all(BookKeepingTypeClient)
     Repo.delete_all(BusinessEntityType)
     Repo.delete_all(BusinessForeignAccountCount)
     Repo.delete_all(BusinessForeignOwnershipCount)
@@ -48,7 +64,16 @@ defmodule Core.Seeder.Services do
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_match_value_relate()
+    seed_book_keeping()
     seed_business_tax_return()
+    seed_individual_tax_return()
+    seed_book_keeping_additional_need()
+    seed_book_keeping_annual_revenue()
+    seed_book_keeping_classify_inventory()
+    seed_book_keeping_industry()
+    seed_book_keeping_number_employee()
+    seed_book_keeping_transaction_volume()
+    seed_book_keeping_type_client()
     seed_business_entity_type()
     seed_business_foreign_account_count()
     seed_business_foreign_ownership_count()
@@ -56,7 +81,6 @@ defmodule Core.Seeder.Services do
     seed_business_number_employee()
     seed_business_total_revenue()
     seed_business_transaction_count()
-    seed_individual_tax_return()
     seed_individual_employment_status()
     seed_individual_filing_status()
     seed_individual_foreign_account_count()
@@ -122,6 +146,451 @@ defmodule Core.Seeder.Services do
         value_for_sale_tax_count:                         30.0
       })
     ]
+  end
+
+  @spec seed_book_keeping() :: Ecto.Schema.t()
+  defp seed_book_keeping() do
+    user_ids =
+      Enum.map(Repo.all(User), fn(data) -> data.id end)
+
+    {user_id} = {Enum.at(user_ids, 0)}
+
+     tp1 = User.find_by(email: "v.kobzan@gmail.com")
+     tp2 = User.find_by(email: "o.puryshev@gmail.com")
+     tp3 = User.find_by(email: "vlacho777@gmail.com")
+    pro1 = User.find_by(email: "support@taxgig.com")
+    pro2 = User.find_by(email: "op@taxgig.com")
+    pro3 = User.find_by(email: "vk@taxgig.com")
+
+    case Repo.aggregate(BookKeeping, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BookKeeping{
+            payroll: random_boolean(),
+            price_payroll: random_integer(),
+            user_id: user_id
+          }),
+          Repo.insert!(%BookKeeping{
+            account_count: random_integer(),
+            balance_sheet: random_boolean(),
+            financial_situation: Lorem.sentence(),
+            inventory: random_boolean(),
+            inventory_count: random_integer(),
+            payroll: random_boolean(),
+            tax_return_current: random_boolean(),
+            tax_year: random_year(),
+            user_id: tp1.id
+          }),
+          Repo.insert!(%BookKeeping{
+            account_count: random_integer(),
+            balance_sheet: random_boolean(),
+            financial_situation: Lorem.sentence(),
+            inventory: random_boolean(),
+            inventory_count: random_integer(),
+            payroll: random_boolean(),
+            tax_return_current: random_boolean(),
+            tax_year: random_year(),
+            user_id: tp2.id
+          }),
+          Repo.insert!(%BookKeeping{
+            account_count: random_integer(),
+            balance_sheet: random_boolean(),
+            financial_situation: Lorem.sentence(),
+            inventory: random_boolean(),
+            inventory_count: random_integer(),
+            payroll: random_boolean(),
+            tax_return_current: random_boolean(),
+            tax_year: random_year(),
+            user_id: tp3.id
+          }),
+          Repo.insert!(%BookKeeping{
+            payroll: random_boolean(),
+            price_payroll: random_integer(),
+            user_id: pro1.id
+          }),
+          Repo.insert!(%BookKeeping{
+            payroll: random_boolean(),
+            price_payroll: random_integer(),
+            user_id: pro2.id
+          }),
+          Repo.insert!(%BookKeeping{
+            payroll: random_boolean(),
+            price_payroll: random_integer(),
+            user_id: pro3.id
+          })
+        ]
+    end
+  end
+
+  @spec seed_book_keeping_additional_need() :: Ecto.Schema.t()
+  defp seed_book_keeping_additional_need() do
+    book_keeping_ids =
+      Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
+
+    {bk1, bk2, bk3, bk4, bk5, bk6, bk7} =
+      {
+        Enum.at(book_keeping_ids, 0),
+        Enum.at(book_keeping_ids, 1),
+        Enum.at(book_keeping_ids, 2),
+        Enum.at(book_keeping_ids, 3),
+        Enum.at(book_keeping_ids, 4),
+        Enum.at(book_keeping_ids, 5),
+        Enum.at(book_keeping_ids, 6)
+      }
+
+    case Repo.aggregate(BookKeepingAdditionalNeed, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BookKeepingAdditionalNeed{
+            book_keeping_id: bk1,
+            name: random_name_additional_need(),
+            price: random_integer()
+          }),
+          Repo.insert!(%BookKeepingAdditionalNeed{
+            book_keeping_id: bk2,
+            name: random_name_additional_need()
+          }),
+          Repo.insert!(%BookKeepingAdditionalNeed{
+            book_keeping_id: bk3,
+            name: random_name_additional_need()
+          }),
+          Repo.insert!(%BookKeepingAdditionalNeed{
+            book_keeping_id: bk4,
+            name: random_name_additional_need()
+          }),
+          Repo.insert!(%BookKeepingAdditionalNeed{
+            book_keeping_id: bk5,
+            name: random_name_additional_need(),
+            price: random_integer()
+          }),
+          Repo.insert!(%BookKeepingAdditionalNeed{
+            book_keeping_id: bk6,
+            name: random_name_additional_need(),
+            price: random_integer()
+          }),
+          Repo.insert!(%BookKeepingAdditionalNeed{
+            book_keeping_id: bk7,
+            name: random_name_additional_need(),
+            price: random_integer()
+          })
+        ]
+    end
+  end
+
+  @spec seed_book_keeping_annual_revenue() :: Ecto.Schema.t()
+  defp seed_book_keeping_annual_revenue() do
+    book_keeping_ids =
+      Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
+
+    {bk1, bk2, bk3, bk4, bk5, bk6, bk7} =
+      {
+        Enum.at(book_keeping_ids, 0),
+        Enum.at(book_keeping_ids, 1),
+        Enum.at(book_keeping_ids, 2),
+        Enum.at(book_keeping_ids, 3),
+        Enum.at(book_keeping_ids, 4),
+        Enum.at(book_keeping_ids, 5),
+        Enum.at(book_keeping_ids, 6)
+      }
+
+    case Repo.aggregate(BookKeepingAnnualRevenue, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BookKeepingAnnualRevenue{
+            book_keeping_id: bk1,
+            name: random_name_annual_revenue(),
+            price: random_integer()
+          }),
+          Repo.insert!(%BookKeepingAnnualRevenue{
+            book_keeping_id: bk2,
+            name: random_name_annual_revenue()
+          }),
+          Repo.insert!(%BookKeepingAnnualRevenue{
+            book_keeping_id: bk3,
+            name: random_name_annual_revenue()
+          }),
+          Repo.insert!(%BookKeepingAnnualRevenue{
+            book_keeping_id: bk4,
+            name: random_name_annual_revenue()
+          }),
+          Repo.insert!(%BookKeepingAnnualRevenue{
+            book_keeping_id: bk5,
+            name: random_name_annual_revenue(),
+            price: random_integer()
+          }),
+          Repo.insert!(%BookKeepingAnnualRevenue{
+            book_keeping_id: bk6,
+            name: random_name_annual_revenue(),
+            price: random_integer()
+          }),
+          Repo.insert!(%BookKeepingAnnualRevenue{
+            book_keeping_id: bk7,
+            name: random_name_annual_revenue(),
+            price: random_integer()
+          })
+        ]
+    end
+  end
+
+  @spec seed_book_keeping_classify_inventory() :: Ecto.Schema.t()
+  defp seed_book_keeping_classify_inventory() do
+     tp1 = User.find_by(email: "v.kobzan@gmail.com") |> Map.get(:id)
+     tp2 = User.find_by(email: "o.puryshev@gmail.com") |> Map.get(:id)
+     tp3 = User.find_by(email: "vlacho777@gmail.com") |> Map.get(:id)
+
+    book_keeping_tp1 = BookKeeping |> Repo.get_by!(user_id: tp1) |> Map.get(:id)
+    book_keeping_tp2 = BookKeeping |> Repo.get_by!(user_id: tp2) |> Map.get(:id)
+    book_keeping_tp3 = BookKeeping |> Repo.get_by!(user_id: tp3) |> Map.get(:id)
+
+    case Repo.aggregate(BookKeepingClassifyInventory, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BookKeepingClassifyInventory{
+            book_keeping_id: book_keeping_tp1,
+            name: random_name_classify_inventory()
+          }),
+          Repo.insert!(%BookKeepingClassifyInventory{
+            book_keeping_id: book_keeping_tp2,
+            name: random_name_classify_inventory()
+          }),
+          Repo.insert!(%BookKeepingClassifyInventory{
+            book_keeping_id: book_keeping_tp3,
+            name: random_name_classify_inventory()
+          })
+        ]
+    end
+  end
+
+  @spec seed_book_keeping_industry() :: Ecto.Schema.t()
+  defp seed_book_keeping_industry() do
+    book_keeping_ids =
+      Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
+
+    {bk1, bk2, bk3, bk4, bk5, bk6, bk7} =
+      {
+        Enum.at(book_keeping_ids, 0),
+        Enum.at(book_keeping_ids, 1),
+        Enum.at(book_keeping_ids, 2),
+        Enum.at(book_keeping_ids, 3),
+        Enum.at(book_keeping_ids, 4),
+        Enum.at(book_keeping_ids, 5),
+        Enum.at(book_keeping_ids, 6)
+      }
+
+    case Repo.aggregate(BookKeepingIndustry, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BookKeepingIndustry{
+            book_keeping_id: bk1,
+            name: random_name_for_pro_industry()
+          }),
+          Repo.insert!(%BookKeepingIndustry{
+            book_keeping_id: bk2,
+            name: random_name_for_tp_industry(),
+          }),
+          Repo.insert!(%BookKeepingIndustry{
+            book_keeping_id: bk3,
+            name: random_name_for_tp_industry()
+          }),
+          Repo.insert!(%BookKeepingIndustry{
+            book_keeping_id: bk4,
+            name: random_name_for_tp_industry()
+          }),
+          Repo.insert!(%BookKeepingIndustry{
+            book_keeping_id: bk5,
+            name: random_name_for_pro_industry()
+          }),
+          Repo.insert!(%BookKeepingIndustry{
+            book_keeping_id: bk6,
+            name: random_name_for_pro_industry()
+          }),
+          Repo.insert!(%BookKeepingIndustry{
+            book_keeping_id: bk7,
+            name: random_name_for_pro_industry()
+          })
+        ]
+    end
+  end
+
+  @spec seed_book_keeping_number_employee() :: Ecto.Schema.t()
+  defp seed_book_keeping_number_employee() do
+    book_keeping_ids =
+      Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
+
+    {bk1, bk2, bk3, bk4, bk5, bk6, bk7} =
+      {
+        Enum.at(book_keeping_ids, 0),
+        Enum.at(book_keeping_ids, 1),
+        Enum.at(book_keeping_ids, 2),
+        Enum.at(book_keeping_ids, 3),
+        Enum.at(book_keeping_ids, 4),
+        Enum.at(book_keeping_ids, 5),
+        Enum.at(book_keeping_ids, 6)
+      }
+
+    case Repo.aggregate(BookKeepingNumberEmployee, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BookKeepingNumberEmployee{
+            book_keeping_id: bk1,
+            name: random_name_number_employee(),
+            price: random_integer()
+          }),
+          Repo.insert!(%BookKeepingNumberEmployee{
+            book_keeping_id: bk2,
+            name: random_name_number_employee()
+          }),
+          Repo.insert!(%BookKeepingNumberEmployee{
+            book_keeping_id: bk3,
+            name: random_name_number_employee()
+          }),
+          Repo.insert!(%BookKeepingNumberEmployee{
+            book_keeping_id: bk4,
+            name: random_name_number_employee()
+          }),
+          Repo.insert!(%BookKeepingNumberEmployee{
+            book_keeping_id: bk5,
+            name: random_name_number_employee(),
+            price: random_integer()
+          }),
+          Repo.insert!(%BookKeepingNumberEmployee{
+            book_keeping_id: bk6,
+            name: random_name_number_employee(),
+            price: random_integer()
+          }),
+          Repo.insert!(%BookKeepingNumberEmployee{
+            book_keeping_id: bk7,
+            name: random_name_number_employee(),
+            price: random_integer()
+          })
+        ]
+    end
+  end
+
+  @spec seed_book_keeping_transaction_volume() :: Ecto.Schema.t()
+  defp seed_book_keeping_transaction_volume() do
+    book_keeping_ids =
+      Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
+
+    {bk1, bk2, bk3, bk4, bk5, bk6, bk7} =
+      {
+        Enum.at(book_keeping_ids, 0),
+        Enum.at(book_keeping_ids, 1),
+        Enum.at(book_keeping_ids, 2),
+        Enum.at(book_keeping_ids, 3),
+        Enum.at(book_keeping_ids, 4),
+        Enum.at(book_keeping_ids, 5),
+        Enum.at(book_keeping_ids, 6)
+      }
+
+    case Repo.aggregate(BookKeepingTransactionVolume, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BookKeepingTransactionVolume{
+            book_keeping_id: bk1,
+            name: random_name_transaction_volume(),
+            price: random_integer()
+          }),
+          Repo.insert!(%BookKeepingTransactionVolume{
+            book_keeping_id: bk2,
+            name: random_name_transaction_volume()
+          }),
+          Repo.insert!(%BookKeepingTransactionVolume{
+            book_keeping_id: bk3,
+            name: random_name_transaction_volume()
+          }),
+          Repo.insert!(%BookKeepingTransactionVolume{
+            book_keeping_id: bk4,
+            name: random_name_transaction_volume()
+          }),
+          Repo.insert!(%BookKeepingTransactionVolume{
+            book_keeping_id: bk5,
+            name: random_name_transaction_volume(),
+            price: random_integer()
+          }),
+          Repo.insert!(%BookKeepingTransactionVolume{
+            book_keeping_id: bk6,
+            name: random_name_transaction_volume(),
+            price: random_integer()
+          }),
+          Repo.insert!(%BookKeepingTransactionVolume{
+            book_keeping_id: bk7,
+            name: random_name_transaction_volume(),
+            price: random_integer()
+          })
+        ]
+    end
+  end
+
+  @spec seed_book_keeping_type_client() :: Ecto.Schema.t()
+  defp seed_book_keeping_type_client() do
+    book_keeping_ids =
+      Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
+
+    {bk1, bk2, bk3, bk4, bk5, bk6, bk7} =
+      {
+        Enum.at(book_keeping_ids, 0),
+        Enum.at(book_keeping_ids, 1),
+        Enum.at(book_keeping_ids, 2),
+        Enum.at(book_keeping_ids, 3),
+        Enum.at(book_keeping_ids, 4),
+        Enum.at(book_keeping_ids, 5),
+        Enum.at(book_keeping_ids, 6)
+      }
+
+    case Repo.aggregate(BookKeepingTypeClient, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BookKeepingTypeClient{
+            book_keeping_id: bk1,
+            name: random_name_type_client(),
+            price: random_integer()
+          }),
+          Repo.insert!(%BookKeepingTypeClient{
+            book_keeping_id: bk2,
+            name: random_name_type_client()
+          }),
+          Repo.insert!(%BookKeepingTypeClient{
+            book_keeping_id: bk3,
+            name: random_name_type_client()
+          }),
+          Repo.insert!(%BookKeepingTypeClient{
+            book_keeping_id: bk4,
+            name: random_name_type_client()
+          }),
+          Repo.insert!(%BookKeepingTypeClient{
+            book_keeping_id: bk5,
+            name: random_name_type_client(),
+            price: random_integer()
+          }),
+          Repo.insert!(%BookKeepingTypeClient{
+            book_keeping_id: bk6,
+            name: random_name_type_client(),
+            price: random_integer()
+          }),
+          Repo.insert!(%BookKeepingTypeClient{
+            book_keeping_id: bk7,
+            name: random_name_type_client(),
+            price: random_integer()
+          })
+        ]
+    end
   end
 
   @spec seed_business_tax_return() :: Ecto.Schema.t()
@@ -1256,6 +1725,168 @@ defmodule Core.Seeder.Services do
       end
 
     Enum.uniq(result)
+  end
+
+  @spec random_name_additional_need() :: String.t()
+  defp random_name_additional_need do
+    names = [
+      "accounts payable",
+      "accounts receivable",
+      "bank reconciliation",
+      "financial report preparation",
+      "sales tax"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_annual_revenue() :: String.t()
+  defp random_name_annual_revenue do
+    names = [
+      "$100K - $500K",
+      "$10M+",
+      "$1M - $5M",
+      "$500K - $1M",
+      "$5M - $10M",
+      "Less than $100K"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_classify_inventory() :: String.t()
+  defp random_name_classify_inventory do
+    names = [
+      "Assets",
+      "Expenses"
+    ]
+
+    numbers = 1..2
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
+  end
+
+  @spec random_name_for_tp_industry() :: String.t()
+  defp random_name_for_tp_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    result =
+      for i <- 0..1, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
+  end
+
+  @spec random_name_for_pro_industry() :: String.t()
+  defp random_name_for_pro_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    numbers = 1..24
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
+  end
+
+  @spec random_name_number_employee() :: String.t()
+  defp random_name_number_employee do
+    names = [
+      "1 employee",
+      "101 - 500 employees",
+      "2 - 20 employees",
+      "21 - 50 employees",
+      "500+ employees",
+      "51 - 100 employees"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_transaction_volume() :: String.t()
+  defp random_name_transaction_volume do
+    names = [
+      "1-25",
+      "200+",
+      "26-75",
+      "76-199"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_type_client() :: String.t()
+  defp random_name_type_client do
+    names = [
+      "C-Corp / Corporation",
+      "Individual or Sole proprietorship",
+      "LLC",
+      "Non-profit corp",
+      "Partnership",
+      "S-Corp"
+    ]
+
+    Enum.random(names)
   end
 
   @spec random_name_entity_type() :: String.t()

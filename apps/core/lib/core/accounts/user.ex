@@ -11,6 +11,7 @@ defmodule Core.Accounts.User do
     Config,
     Localization.Language,
     Repo,
+    Services.BookKeeping,
     Services.BusinessTaxReturn,
     Services.IndividualTaxReturn
   }
@@ -37,6 +38,7 @@ defmodule Core.Accounts.User do
     ssn: integer,
     street: String.t(),
     zip: integer,
+    book_keepings: [BookKeeping.t()],
     business_tax_returns: [BusinessTaxReturn.t()],
     individual_tax_returns: [IndividualTaxReturn.t()]
   }
@@ -99,6 +101,7 @@ defmodule Core.Accounts.User do
     has_one :profile, Profile,
       on_delete: :delete_all
 
+    has_many :book_keepings, BookKeeping
     has_many :individual_tax_returns, IndividualTaxReturn
     has_many :business_tax_returns, BusinessTaxReturn
 

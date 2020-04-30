@@ -8,6 +8,14 @@ defmodule Core.Services do
   alias Core.{
     Accounts.User,
     Repo,
+    Services.BookKeeping,
+    Services.BookKeepingAdditionalNeed,
+    Services.BookKeepingAnnualRevenue,
+    Services.BookKeepingClassifyInventory,
+    Services.BookKeepingIndustry,
+    Services.BookKeepingNumberEmployee,
+    Services.BookKeepingTransactionVolume,
+    Services.BookKeepingTypeClient,
     Services.BusinessEntityType,
     Services.BusinessForeignAccountCount,
     Services.BusinessForeignOwnershipCount,
@@ -74,6 +82,113 @@ defmodule Core.Services do
     :value_for_individual_tax_year                   => 0.0,
     :value_for_sale_tax_count                        => 0.0
   }
+
+  @tp_book_keeping_params ~w(
+    account_count
+    balance_sheet
+    financial_situation
+    inventory
+    inventory_count
+    payroll
+    tax_return_current
+    tax_year
+    user_id
+  )a
+
+  @pro_book_keeping_params ~w(
+    payroll
+    price_payroll
+    user_id
+  )a
+
+  @tp_book_keeping_additional_need_params ~w(
+    book_keeping_id
+    name
+  )a
+
+  @pro_book_keeping_additional_need_params ~w(
+    book_keeping_id
+    name
+    price
+  )a
+
+  @tp_book_keeping_annual_revenue_params ~w(
+    book_keeping_id
+    name
+  )a
+
+  @pro_book_keeping_annual_revenue_params ~w(
+    book_keeping_id
+    name
+    price
+  )a
+
+  @tp_book_keeping_classify_inventory_params ~w(
+    book_keeping_id
+    name
+  )a
+
+  @tp_book_keeping_industry_params ~w(
+    book_keeping_id
+    name
+  )a
+
+  @pro_book_keeping_industry_params ~w(
+    book_keeping_id
+    name
+  )a
+
+  @tp_book_keeping_number_employee_params ~w(
+    book_keeping_id
+    name
+  )a
+
+  @pro_book_keeping_number_employee_params ~w(
+    book_keeping_id
+    name
+    price
+  )a
+
+  @tp_book_keeping_transaction_volume_params ~w(
+    book_keeping_id
+    name
+  )a
+
+  @pro_book_keeping_transaction_volume_params ~w(
+    book_keeping_id
+    name
+    price
+  )a
+
+  @tp_book_keeping_type_client_params ~w(
+    book_keeping_id
+    name
+  )a
+
+  @pro_book_keeping_type_client_params ~w(
+    book_keeping_id
+    name
+    price
+  )a
+
+  @tp_book_keeping_attrs %{
+    account_count: 12,
+    balance_sheet: true,
+    financial_situation: "some financial situation",
+    inventory: true,
+    inventory_count: 3,
+    payroll: true,
+    tax_return_current: true,
+    tax_year: ["2018", "2019"],
+    user_id: "#{tp_user}"
+  }
+
+  # @pro_book_keeping_attrs %{
+  #   payroll: true,
+  #   price_payroll: 100,
+  #   user_id: "#{pro_user}"
+  # }
+
 
   @tp_business_tax_return_params ~w(
     accounting_software
@@ -348,6 +463,2088 @@ defmodule Core.Services do
   @spec change_match_value_relate(MatchValueRelate.t()) :: Ecto.Changeset.t()
   def change_match_value_relate(%MatchValueRelate{} = struct) do
     MatchValueRelate.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns the list of book_keepings.
+
+  ## Examples
+
+      iex> list_book_keeping()
+      [%BookKeeping{}, ...]
+
+  """
+  @spec list_book_keeping() :: [BookKeeping.t()]
+  def list_book_keeping do
+    Repo.all(BookKeeping)
+    |> Repo.preload([:user])
+  end
+
+  @doc """
+  Gets a single book_keeping.
+
+  Raises `Ecto.NoResultsError` if the Book keeping does not exist.
+
+  ## Examples
+
+      iex> get_book_keeping!(123)
+      %BookKeeping{}
+
+      iex> get_book_keeping!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_book_keeping!(String.t) :: BookKeeping.t() | error_tuple()
+  def get_book_keeping!(id) do
+    Repo.get!(BookKeeping, id)
+    |> Repo.preload([:user])
+  end
+
+  @doc """
+  Creates a book_keeping.
+
+  ## Examples
+
+      iex> create_book_keeping(%{field: value})
+      {:ok, %BookKeeping{}}
+
+      iex> create_book_keeping(%{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  @spec create_book_keeping(%{atom => any}) :: result() | error_tuple()
+  def create_book_keeping(attrs \\ @tp_book_keeping_attrs) do
+    get_role_by_user =
+      case attrs[:user_id] do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^attrs.user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    query =
+      case attrs[:user_id] do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeeping,
+          where: c.user_id == ^attrs.user_id
+      end
+
+    match_value_relate_changeset =
+      MatchValueRelate.changeset(%MatchValueRelate{}, @match_value_relate_attrs)
+
+    book_keeping_changeset =
+      BookKeeping.changeset(%BookKeeping{}, attrs)
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Changeset{}}
+      false ->
+        case Repo.aggregate(query, :count, :user_id) do
+          0 ->
+            case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
+              false ->
+                case sort_keys(attrs) do
+                  @tp_book_keeping_params ->
+                    Multi.new
+                    |> Multi.insert(:match_value_relate, match_value_relate_changeset)
+                    |> Multi.insert(:book_keepings, book_keeping_changeset)
+                    |> Multi.run(:book_keeping_additional_need, fn _, %{book_keepings: book_keeping} ->
+                      book_keeping_additional_need_changeset =
+                        %BookKeepingAdditionalNeed{book_keeping_id: book_keeping.id}
+                      Repo.insert(book_keeping_additional_need_changeset)
+                    end)
+                    |> Multi.run(:book_keeping_annual_revenue, fn _, %{book_keepings: book_keeping} ->
+                      book_keeping_annual_revenue_changeset =
+                        %BookKeepingAnnualRevenue{book_keeping_id: book_keeping.id}
+                      Repo.insert(book_keeping_annual_revenue_changeset)
+                    end)
+                    |> Multi.run(:book_keeping_classify_inventory, fn _, %{book_keepings: book_keeping} ->
+                      book_keeping_classify_inventory_changeset =
+                        %BookKeepingClassifyInventory{book_keeping_id: book_keeping.id}
+                      Repo.insert(book_keeping_classify_inventory_changeset)
+                    end)
+                    |> Multi.run(:book_keeping_industry, fn _, %{book_keepings: book_keeping} ->
+                      book_keeping_industry_changeset =
+                        %BookKeepingIndustry{book_keeping_id: book_keeping.id}
+                      Repo.insert(book_keeping_industry_changeset)
+                    end)
+                    |> Multi.run(:book_keeping_number_employee, fn _, %{book_keepings: book_keeping} ->
+                      book_keeping_number_employee_changeset =
+                        %BookKeepingNumberEmployee{book_keeping_id: book_keeping.id}
+                      Repo.insert(book_keeping_number_employee_changeset)
+                    end)
+                    |> Multi.run(:book_keeping_transaction_volume, fn _, %{book_keepings: book_keeping} ->
+                      book_keeping_transaction_volume_changeset =
+                        %BookKeepingTransactionVolume{book_keeping_id: book_keeping.id}
+                      Repo.insert(book_keeping_transaction_volume_changeset)
+                    end)
+                    |> Multi.run(:book_keeping_type_client, fn _, %{book_keepings: book_keeping} ->
+                      book_keeping_type_client_changeset =
+                        %BookKeepingTypeClient{book_keeping_id: book_keeping.id}
+                      Repo.insert(book_keeping_type_client_changeset)
+                    end)
+                    |> Repo.transaction()
+                    |> case do
+                      {:ok, %{book_keepings: book_keeping}} ->
+                        {:ok, book_keeping}
+                      {:error, :book_keepings, %Changeset{} = changeset, _completed} ->
+                        {:error, extract_error_msg(changeset)}
+                      {:error, _model, changeset, _completed} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  _ ->
+                    {:error, %Changeset{}}
+                end
+              true ->
+                case sort_keys(attrs) do
+                  @tp_book_keeping_params ->
+                    Multi.new
+                    |> Multi.insert(:book_keepings, book_keeping_changeset)
+                    |> Multi.run(:book_keeping_additional_need, fn _, %{book_keepings: book_keeping} ->
+                      book_keeping_additional_need_changeset =
+                        %BookKeepingAdditionalNeed{book_keeping_id: book_keeping.id}
+                      Repo.insert(book_keeping_additional_need_changeset)
+                    end)
+                    |> Multi.run(:book_keeping_annual_revenue, fn _, %{book_keepings: book_keeping} ->
+                      book_keeping_annual_revenue_changeset =
+                        %BookKeepingAnnualRevenue{book_keeping_id: book_keeping.id}
+                      Repo.insert(book_keeping_annual_revenue_changeset)
+                    end)
+                    |> Multi.run(:book_keeping_classify_inventory, fn _, %{book_keepings: book_keeping} ->
+                      book_keeping_classify_inventory_changeset =
+                        %BookKeepingClassifyInventory{book_keeping_id: book_keeping.id}
+                      Repo.insert(book_keeping_classify_inventory_changeset)
+                    end)
+                    |> Multi.run(:book_keeping_industry, fn _, %{book_keepings: book_keeping} ->
+                      book_keeping_industry_changeset =
+                        %BookKeepingIndustry{book_keeping_id: book_keeping.id}
+                      Repo.insert(book_keeping_industry_changeset)
+                    end)
+                    |> Multi.run(:book_keeping_number_employee, fn _, %{book_keepings: book_keeping} ->
+                      book_keeping_number_employee_changeset =
+                        %BookKeepingNumberEmployee{book_keeping_id: book_keeping.id}
+                      Repo.insert(book_keeping_number_employee_changeset)
+                    end)
+                    |> Multi.run(:book_keeping_transaction_volume, fn _, %{book_keepings: book_keeping} ->
+                      book_keeping_transaction_volume_changeset =
+                        %BookKeepingTransactionVolume{book_keeping_id: book_keeping.id}
+                      Repo.insert(book_keeping_transaction_volume_changeset)
+                    end)
+                    |> Multi.run(:book_keeping_type_client, fn _, %{book_keepings: book_keeping} ->
+                      book_keeping_type_client_changeset =
+                        %BookKeepingTypeClient{book_keeping_id: book_keeping.id}
+                      Repo.insert(book_keeping_type_client_changeset)
+                    end)
+                    |> Repo.transaction()
+                    |> case do
+                      {:ok, %{book_keepings: book_keeping}} ->
+                        {:ok, book_keeping}
+                      {:error, :book_keepings, %Changeset{} = changeset, _completed} ->
+                        {:error, extract_error_msg(changeset)}
+                      {:error, _model, changeset, _completed} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  _ ->
+                    {:error, %Changeset{}}
+                end
+            end
+          _ ->
+            {:error, [field: :user_id, message: "Your role have been restricted for create BookKeeping"]}
+        end
+      true ->
+        case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
+          false ->
+            case sort_keys(attrs) do
+              @pro_book_keeping_params ->
+                Multi.new
+                |> Multi.insert(:match_value_relate, match_value_relate_changeset)
+                |> Multi.insert(:book_keepings, book_keeping_changeset)
+                |> Multi.run(:book_keeping_additional_need, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_additional_need_changeset =
+                    %BookKeepingAdditionalNeed{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_additional_need_changeset)
+                end)
+                |> Multi.run(:book_keeping_annual_revenue, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_annual_revenue_changeset =
+                    %BookKeepingAnnualRevenue{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_annual_revenue_changeset)
+                end)
+                |> Multi.run(:book_keeping_industry, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_industry_changeset =
+                    %BookKeepingIndustry{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_industry_changeset)
+                end)
+                |> Multi.run(:book_keeping_number_employee, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_number_employee_changeset =
+                    %BookKeepingNumberEmployee{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_number_employee_changeset)
+                end)
+                |> Multi.run(:book_keeping_transaction_volume, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_transaction_volume_changeset =
+                    %BookKeepingTransactionVolume{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_transaction_volume_changeset)
+                end)
+                |> Multi.run(:book_keeping_type_client, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_type_client_changeset =
+                    %BookKeepingTypeClient{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_type_client_changeset)
+                end)
+                |> Repo.transaction()
+                |> case do
+                  {:ok, %{book_keepings: book_keeping}} ->
+                    {:ok, book_keeping}
+                  {:error, :book_keepings, %Changeset{} = changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                  {:error, _model, changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                end
+              _ ->
+                {:error, %Changeset{}}
+            end
+          true ->
+            case sort_keys(attrs) do
+              @pro_book_keeping_params ->
+                Multi.new
+                |> Multi.insert(:book_keepings, book_keeping_changeset)
+                |> Multi.run(:book_keeping_additional_need, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_additional_need_changeset =
+                    %BookKeepingAdditionalNeed{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_additional_need_changeset)
+                end)
+                |> Multi.run(:book_keeping_annual_revenue, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_annual_revenue_changeset =
+                    %BookKeepingAnnualRevenue{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_annual_revenue_changeset)
+                end)
+                |> Multi.run(:book_keeping_industry, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_industry_changeset =
+                    %BookKeepingIndustry{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_industry_changeset)
+                end)
+                |> Multi.run(:book_keeping_number_employee, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_number_employee_changeset =
+                    %BookKeepingNumberEmployee{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_number_employee_changeset)
+                end)
+                |> Multi.run(:book_keeping_transaction_volume, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_transaction_volume_changeset =
+                    %BookKeepingTransactionVolume{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_transaction_volume_changeset)
+                end)
+                |> Multi.run(:book_keeping_type_client, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_type_client_changeset =
+                    %BookKeepingTypeClient{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_type_client_changeset)
+                end)
+                |> Repo.transaction()
+                |> case do
+                  {:ok, %{book_keepings: book_keeping}} ->
+                    {:ok, book_keeping}
+                  {:error, :book_keepings, %Changeset{} = changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                  {:error, _model, changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                end
+              _ ->
+                {:error, %Changeset{}}
+            end
+        end
+    end
+  end
+
+  @doc """
+  Updates a book_keeping.
+
+  ## Examples
+
+      iex> update_book_keeping(book_keeping, %{field: new_value})
+      {:ok, %BookKeeping{}}
+
+      iex> update_book_keeping(book_keeping, %{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  @spec update_book_keeping(BookKeeping.t(), %{atom => any}) :: result() | error_tuple()
+  def update_book_keeping(%BookKeeping{} = struct, attrs) do
+    get_role_by_user =
+      case struct.user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^struct.user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    query =
+      case struct.id do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeeping,
+          where: c.id == ^struct.id,
+          select: c.id
+      end
+
+    tp_params = ~w(
+      price_payroll
+      user_id
+    )a
+
+    pro_params = ~w(
+      account_count
+      balance_sheet
+      financial_situation
+      inventory
+      inventory_count
+      tax_return_current
+      tax_year
+      user_id
+    )a
+
+    tp_attrs =
+      attrs
+      |> Map.drop(tp_params)
+
+    pro_attrs =
+      attrs
+      |> Map.drop(pro_params)
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Changeset{}}
+      false ->
+        case Repo.aggregate(query, :count, :id) do
+          1 ->
+            struct
+            |> BookKeeping.changeset(tp_attrs)
+            |> Repo.update()
+          _ ->
+            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+        end
+      true ->
+        struct
+        |> BookKeeping.changeset(pro_attrs)
+        |> Repo.update()
+    end
+  end
+
+  @doc """
+  Deletes a BookKeeping.
+
+  ## Examples
+
+      iex> delete_book_keeping(struct)
+      {:ok, %BookKeeping{}}
+
+      iex> delete_book_keeping(struct)
+      {:error, %Changeset{}}
+
+  """
+  @spec delete_book_keeping(BookKeeping.t()) :: result()
+  def delete_book_keeping(%BookKeeping{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Changeset{}` for tracking book_keeping changes.
+
+  ## Examples
+
+      iex> change_book_keeping(struct)
+      %Changeset{source: %BookKeeping{}}
+
+  """
+  @spec change_book_keeping(BookKeeping.t()) :: Ecto.Changeset.t()
+  def change_book_keeping(%BookKeeping{} = struct) do
+    BookKeeping.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns the list of book_keeping_additional_needs.
+
+  ## Examples
+
+      iex> list_book_keeping_additional_need()
+      [%BookKeepingAdditionalNeed{}, ...]
+
+  """
+  @spec list_book_keeping_additional_need() :: [BookKeepingAdditionalNeed.t()]
+  def list_book_keeping_additional_need do
+    Repo.all(BookKeepingAdditionalNeed)
+    |> Repo.preload([book_keepings: [:user]])
+  end
+
+  @doc """
+  Gets a single book_keeping_additional_need.
+
+  Raises `Ecto.NoResultsError` if the Book keeping additional need does not exist.
+
+  ## Examples
+
+      iex> get_book_keeping_additional_need!(123)
+      %BookKeepingAdditionalNeed{}
+
+      iex> get_book_keeping_additional_need!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_book_keeping_additional_need!(String.t) :: BookKeepingAdditionalNeed.t() | error_tuple()
+  def get_book_keeping_additional_need!(id) do
+    Repo.get!(BookKeepingAdditionalNeed, id)
+    |> Repo.preload([book_keepings: [:user]])
+  end
+
+  @doc """
+  Creates a book_keeping_additional_need.
+
+  ## Examples
+
+      iex> create_book_keeping_additional_need(%{field: value})
+      {:ok, %BookKeepingAdditionalNeed{}}
+
+      iex> create_book_keeping_additional_need(%{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  @spec create_book_keeping_additional_need(%{atom => any}) :: result() | error_tuple()
+  def create_book_keeping_additional_need(attrs \\ %{}) do
+    book_keeping_ids =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+      end
+
+    user_id =
+      case book_keeping_ids do
+        nil ->
+          nil
+        _ ->
+          book_keeping_ids.user_id
+      end
+
+    get_role_by_user =
+      case user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    get_name_by_book_keeping_additional_need =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          Repo.all(
+            from c in BookKeepingAdditionalNeed,
+            where: c.book_keeping_id == ^attrs.book_keeping_id,
+            select: c.name
+          )
+      end
+
+    query =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeepingAdditionalNeed,
+          where: c.book_keeping_id == ^attrs.book_keeping_id
+      end
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Ecto.Changeset{}}
+      false ->
+        case Enum.any?(get_name_by_book_keeping_additional_need, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          false ->
+            case Repo.aggregate(query, :count, :id) do
+              0 ->
+                case sort_keys(attrs) do
+                  @tp_book_keeping_additional_need_params ->
+                    %BookKeepingAdditionalNeed{}
+                    |> BookKeepingAdditionalNeed.changeset(attrs)
+                    |> Repo.insert()
+                  _ ->
+                    {:error, %Ecto.Changeset{}}
+                end
+              _ ->
+                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+            end
+        end
+      true ->
+        case Enum.any?(get_name_by_book_keeping_additional_need, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "Name already is exist"]}
+          false ->
+            case sort_keys(attrs) do
+              @pro_book_keeping_additional_need_params ->
+                %BookKeepingAdditionalNeed{}
+                |> BookKeepingAdditionalNeed.changeset(attrs)
+                |> Repo.insert()
+              _ ->
+                {:error, [field: :id, message: "Please will fill are fields"]}
+            end
+        end
+    end
+  end
+
+  @doc """
+  Updates a book_keeping_additional_need.
+
+  ## Examples
+
+      iex> update_book_keeping_additional_need(book_keeping_additional_need, %{field: new_value})
+      {:ok, %BookKeepingAdditionalNeed{}}
+
+      iex> update_book_keeping_additional_need(book_keeping_additional_need, %{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  @spec update_book_keeping_additional_need(BookKeepingAdditionalNeed.t(), %{atom => any}) :: result() | error_tuple()
+  def update_book_keeping_additional_need(%BookKeepingAdditionalNeed{} = struct, attrs) do
+    book_keeping =
+      Repo.get_by(BookKeeping, %{id: struct.book_keeping_id})
+
+    get_role_by_user =
+      case book_keeping.user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^book_keeping.user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    query =
+      case struct.id do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeepingAdditionalNeed,
+          where: c.id == ^struct.id,
+          select: c.id
+      end
+
+    tp_params = ~w(
+      book_keeping_id
+      price
+    )a
+
+    tp_attrs =
+      attrs
+      |> Map.drop(tp_params)
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Changeset{}}
+      false ->
+        case Repo.aggregate(query, :count, :id) do
+          1 ->
+            struct
+            |> BookKeepingAdditionalNeed.changeset(tp_attrs)
+            |> Repo.update()
+          _ ->
+            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+        end
+      true ->
+        struct
+        |> BookKeepingAdditionalNeed.changeset(attrs)
+        |> Repo.update()
+    end
+  end
+
+  @doc """
+  Deletes a BookKeepingAdditionalNeed.
+
+  ## Examples
+
+      iex> delete_book_keeping_additional_need(struct)
+      {:ok, %BookKeepingAdditionalNeed{}}
+
+      iex> delete_book_keeping_additional_need(struct)
+      {:error, %Changeset{}}
+
+  """
+  @spec delete_book_keeping_additional_need(BookKeepingAdditionalNeed.t()) :: result()
+  def delete_book_keeping_additional_need(%BookKeepingAdditionalNeed{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Changeset{}` for tracking book_keeping_additional_need changes.
+
+  ## Examples
+
+      iex> change_book_keeping_additional_need(struct)
+      %Changeset{source: %BookKeepingAdditionalNeed{}}
+
+  """
+  @spec change_book_keeping_additional_need(BookKeepingAdditionalNeed.t()) :: Ecto.Changeset.t()
+  def change_book_keeping_additional_need(%BookKeepingAdditionalNeed{} = struct) do
+    BookKeepingAdditionalNeed.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns the list of book_keeping_annual_revenues.
+
+  ## Examples
+
+      iex> list_book_keeping_annual_revenues()
+      [%BookKeepingAnnualRevenue{}, ...]
+
+  """
+  @spec list_book_keeping_annual_revenue() :: [BookKeepingAnnualRevenue.t()]
+  def list_book_keeping_annual_revenue do
+    Repo.all(BookKeepingAnnualRevenue)
+    |> Repo.preload([book_keepings: [:user]])
+  end
+
+  @doc """
+  Gets a single book_keeping_annual_revenue.
+
+  Raises `Ecto.NoResultsError` if the Book keeping annual revenue does not exist.
+
+  ## Examples
+
+      iex> get_book_keeping_annual_revenue!(123)
+      %BookKeepingAnnualRevenue{}
+
+      iex> get_book_keeping_annual_revenue!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_book_keeping_annual_revenue!(String.t) :: BookKeepingAnnualRevenue.t() | error_tuple()
+  def get_book_keeping_annual_revenue!(id) do
+    Repo.get!(BookKeepingAnnualRevenue, id)
+    |> Repo.preload([book_keepings: [:user]])
+  end
+
+  @doc """
+  Creates a book_keeping_annual_revenue.
+
+  ## Examples
+
+      iex> create_book_keeping_annual_revenue(%{field: value})
+      {:ok, %BookKeepingAnnualRevenue{}}
+
+      iex> create_book_keeping_annual_revenue(%{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  @spec create_book_keeping_annual_revenue(%{atom => any}) :: result() | error_tuple()
+  def create_book_keeping_annual_revenue(attrs \\ %{}) do
+    book_keeping_ids =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+      end
+
+    user_id =
+      case book_keeping_ids do
+        nil ->
+          nil
+        _ ->
+          book_keeping_ids.user_id
+      end
+
+    get_role_by_user =
+      case user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    get_name_by_book_keeping_annual_revenue =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          Repo.all(
+            from c in BookKeepingAnnualRevenue,
+            where: c.book_keeping_id == ^attrs.book_keeping_id,
+            select: c.name
+          )
+      end
+
+    query =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeepingAnnualRevenue,
+          where: c.book_keeping_id == ^attrs.book_keeping_id
+      end
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Ecto.Changeset{}}
+      false ->
+        case Enum.any?(get_name_by_book_keeping_annual_revenue, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          false ->
+            case Repo.aggregate(query, :count, :id) do
+              0 ->
+                case sort_keys(attrs) do
+                  @tp_book_keeping_annual_revenue_params ->
+                    %BookKeepingAnnualRevenue{}
+                    |> BookKeepingAnnualRevenue.changeset(attrs)
+                    |> Repo.insert()
+                  _ ->
+                    {:error, %Ecto.Changeset{}}
+                end
+              _ ->
+                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+            end
+        end
+      true ->
+        case Enum.any?(get_name_by_book_keeping_annual_revenue, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "Name already is exist"]}
+          false ->
+            case sort_keys(attrs) do
+              @pro_book_keeping_annual_revenue_params ->
+                %BookKeepingAnnualRevenue{}
+                |> BookKeepingAnnualRevenue.changeset(attrs)
+                |> Repo.insert()
+              _ ->
+                {:error, [field: :id, message: "Please will fill are fields"]}
+            end
+        end
+    end
+  end
+
+  @doc """
+  Updates a book_keeping_annual_revenue.
+
+  ## Examples
+
+      iex> update_book_keeping_annual_revenue(book_keeping_annual_revenue, %{field: new_value})
+      {:ok, %BookKeepingAnnualRevenue{}}
+
+      iex> update_book_keeping_annual_revenue(book_keeping_annual_revenue, %{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  @spec update_book_keeping_annual_revenue(BookKeepingAnnualRevenue.t(), %{atom => any}) :: result() | error_tuple()
+  def update_book_keeping_annual_revenue(%BookKeepingAnnualRevenue{} = struct, attrs) do
+    book_keeping =
+      Repo.get_by(BookKeeping, %{id: struct.book_keeping_id})
+
+    get_role_by_user =
+      case book_keeping.user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^book_keeping.user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    query =
+      case struct.id do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeepingAnnualRevenue,
+          where: c.id == ^struct.id,
+          select: c.id
+      end
+
+    tp_params = ~w(
+      book_keeping_id
+      price
+    )a
+
+    pro_params = ~w()a
+
+    tp_attrs =
+      attrs
+      |> Map.drop(tp_params)
+
+    pro_attrs =
+      attrs
+      |> Map.drop(pro_params)
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Changeset{}}
+      false ->
+        case Repo.aggregate(query, :count, :id) do
+          1 ->
+            struct
+            |> BookKeepingAnnualRevenue.changeset(tp_attrs)
+            |> Repo.update()
+          _ ->
+            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+        end
+      true ->
+        struct
+        |> BookKeepingAnnualRevenue.changeset(pro_attrs)
+        |> Repo.update()
+    end
+  end
+
+  @doc """
+  Deletes a BookKeepingAnnualRevenue.
+
+  ## Examples
+
+      iex> delete_book_keeping_annual_revenue(struct)
+      {:ok, %BookKeepingAnnualRevenue{}}
+
+      iex> delete_book_keeping_annual_revenue(struct)
+      {:error, %Changeset{}}
+
+  """
+  @spec delete_book_keeping_annual_revenue(BookKeepingAnnualRevenue.t()) :: result()
+  def delete_book_keeping_annual_revenue(%BookKeepingAnnualRevenue{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Changeset{}` for tracking book_keeping_annual_revenue changes.
+
+  ## Examples
+
+      iex> change_book_keeping_annual_revenue(struct)
+      %Changeset{source: %BookKeepingAnnualRevenue{}}
+
+  """
+  @spec change_book_keeping_annual_revenue(BookKeepingAnnualRevenue.t()) :: Ecto.Changeset.t()
+  def change_book_keeping_annual_revenue(%BookKeepingAnnualRevenue{} = struct) do
+    BookKeepingAnnualRevenue.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns the list of book_keeping_classify_inventories.
+
+  ## Examples
+
+      iex> list_book_keeping_classify_inventory()
+      [%BookKeepingClassifyInventory{}, ...]
+
+  """
+  @spec list_book_keeping_classify_inventory() :: [BookKeepingClassifyInventory.t()]
+  def list_book_keeping_classify_inventory do
+    Repo.all(BookKeepingClassifyInventory)
+    |> Repo.preload([book_keepings: [:user]])
+  end
+
+  @doc """
+  Gets a single book_keeping_classify_inventory.
+
+  Raises `Ecto.NoResultsError` if the Book keeping classify inventory does not exist.
+
+  ## Examples
+
+      iex> get_book_keeping_classify_inventory!(123)
+      %BookKeepingClassifyInventory{}
+
+      iex> get_book_keeping_classify_inventory!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_book_keeping_classify_inventory!(String.t) :: BookKeepingClassifyInventory.t() | error_tuple()
+  def get_book_keeping_classify_inventory!(id) do
+    Repo.get!(BookKeepingClassifyInventory, id)
+    |> Repo.preload([book_keepings: [:user]])
+  end
+
+  @doc """
+  Creates a book_keeping_classify_inventory.
+
+  ## Examples
+
+      iex> create_book_keeping_classify_inventory(%{field: value})
+      {:ok, %BookKeepingClassifyInventory{}}
+
+      iex> create_book_keeping_classify_inventory(%{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  @spec create_book_keeping_classify_inventory(%{atom => any}) :: result() | error_tuple()
+  def create_book_keeping_classify_inventory(attrs \\ %{}) do
+    book_keeping_ids =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+      end
+
+    user_id =
+      case book_keeping_ids do
+        nil ->
+          nil
+        _ ->
+          book_keeping_ids.user_id
+      end
+
+    get_role_by_user =
+      case user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    get_name_by_book_keeping_classify_inventory =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          Repo.all(
+            from c in BookKeepingClassifyInventory,
+            where: c.book_keeping_id == ^attrs.book_keeping_id,
+            select: c.name
+          )
+      end
+
+    query =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeepingClassifyInventory,
+          where: c.book_keeping_id == ^attrs.book_keeping_id
+      end
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Ecto.Changeset{}}
+      false ->
+        case Enum.any?(get_name_by_book_keeping_classify_inventory, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          false ->
+            case Repo.aggregate(query, :count, :id) do
+              0 ->
+                case sort_keys(attrs) do
+                  @tp_book_keeping_classify_inventory_params ->
+                    %BookKeepingClassifyInventory{}
+                    |> BookKeepingClassifyInventory.changeset(attrs)
+                    |> Repo.insert()
+                  _ ->
+                    {:error, %Ecto.Changeset{}}
+                end
+              _ ->
+                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+            end
+        end
+      true ->
+        {:error, %Ecto.Changeset{}}
+    end
+  end
+
+  @doc """
+  Updates a book_keeping_classify_inventory.
+
+  ## Examples
+
+      iex> update_book_keeping_classify_inventory(book_keeping_classify_inventory, %{field: new_value})
+      {:ok, %BookKeepingClassifyInventory{}}
+
+      iex> update_book_keeping_classify_inventory(book_keeping_classify_inventory, %{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  def update_book_keeping_classify_inventory(%BookKeepingClassifyInventory{} = struct, attrs) do
+    book_keeping =
+      Repo.get_by(BookKeeping, %{id: struct.book_keeping_id})
+
+    get_role_by_user =
+      case book_keeping.user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^book_keeping.user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    query =
+      case struct.id do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeepingClassifyInventory,
+          where: c.id == ^struct.id,
+          select: c.id
+      end
+
+    tp_params = ~w(
+      book_keeping_id
+    )a
+
+    tp_attrs =
+      attrs
+      |> Map.drop(tp_params)
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Changeset{}}
+      false ->
+        case Repo.aggregate(query, :count, :id) do
+          1 ->
+            struct
+            |> BookKeepingClassifyInventory.changeset(tp_attrs)
+            |> Repo.update()
+          _ ->
+            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+        end
+      true ->
+        {:error, %Ecto.Changeset{}}
+    end
+  end
+
+  @doc """
+  Deletes a BookKeepingClassifyInventory.
+
+  ## Examples
+
+      iex> delete_book_keeping_classify_inventory(book_keeping_classify_inventory)
+      {:ok, %BookKeepingClassifyInventory{}}
+
+      iex> delete_book_keeping_classify_inventory(book_keeping_classify_inventory)
+      {:error, %Changeset{}}
+
+  """
+  @spec delete_book_keeping_classify_inventory(BookKeepingClassifyInventory.t()) :: result()
+  def delete_book_keeping_classify_inventory(%BookKeepingClassifyInventory{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Changeset{}` for tracking book_keeping_classify_inventory changes.
+
+  ## Examples
+
+      iex> change_book_keeping_classify_inventory(struct)
+      %Changeset{source: %BookKeepingClassifyInventory{}}
+
+  """
+  @spec change_book_keeping_classify_inventory(BookKeepingClassifyInventory.t()) :: Ecto.Changeset.t()
+  def change_book_keeping_classify_inventory(%BookKeepingClassifyInventory{} = struct) do
+    BookKeepingClassifyInventory.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns the list of book_keeping_industries.
+
+  ## Examples
+
+      iex> list_book_keeping_industry()
+      [%BookKeepingIndustry{}, ...]
+
+  """
+  @spec list_book_keeping_industry() :: [BookKeepingIndustry.t()]
+  def list_book_keeping_industry do
+    Repo.all(BookKeepingIndustry)
+    |> Repo.preload([book_keepings: [:user]])
+  end
+
+  @doc """
+  Gets a single book_keeping_industry.
+
+  Raises `Ecto.NoResultsError` if the Book keeping industry does not exist.
+
+  ## Examples
+
+      iex> get_book_keeping_industry!(123)
+      %BookKeepingIndustry{}
+
+      iex> get_book_keeping_industry!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_book_keeping_industry!(String.t) :: BookKeepingIndustry.t() | error_tuple()
+  def get_book_keeping_industry!(id) do
+    Repo.get!(BookKeepingIndustry, id)
+    |> Repo.preload([book_keepings: [:user]])
+  end
+
+  @doc """
+  Creates a book_keeping_industry.
+
+  ## Examples
+
+      iex> create_book_keeping_industry(%{field: value})
+      {:ok, %BookKeepingIndustry{}}
+
+      iex> create_book_keeping_industry(%{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  @spec create_book_keeping_industry(%{atom => any}) :: result() | error_tuple()
+  def create_book_keeping_industry(attrs \\ %{}) do
+    book_keeping_ids =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+      end
+
+    user_id =
+      case book_keeping_ids do
+        nil ->
+          nil
+        _ ->
+          book_keeping_ids.user_id
+      end
+
+    get_role_by_user =
+      case user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    get_name_by_book_keeping_industry =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          Repo.all(
+            from c in BookKeepingIndustry,
+            where: c.book_keeping_id == ^attrs.book_keeping_id,
+            select: c.name
+          )
+      end
+
+    query =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeepingIndustry,
+          where: c.book_keeping_id == ^attrs.book_keeping_id
+      end
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Ecto.Changeset{}}
+      false ->
+        case Enum.any?(get_name_by_book_keeping_industry, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          false ->
+            case Repo.aggregate(query, :count, :id) do
+              0 ->
+                case sort_keys(attrs) do
+                  @tp_book_keeping_industry_params ->
+                    %BookKeepingIndustry{}
+                    |> BookKeepingIndustry.changeset(attrs)
+                    |> Repo.insert()
+                  _ ->
+                    {:error, %Ecto.Changeset{}}
+                end
+              _ ->
+                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+            end
+        end
+      true ->
+        case Enum.any?(get_name_by_book_keeping_industry, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "Name already is exist"]}
+          false ->
+            case sort_keys(attrs) do
+              @pro_book_keeping_industry_params ->
+                %BookKeepingIndustry{}
+                |> BookKeepingIndustry.changeset(attrs)
+                |> Repo.insert()
+              _ ->
+                {:error, [field: :id, message: "Please will fill are fields"]}
+            end
+        end
+    end
+  end
+
+  @doc """
+  Updates a book_keeping_industry.
+
+  ## Examples
+
+      iex> update_book_keeping_industry(book_keeping_industry, %{field: new_value})
+      {:ok, %BookKeepingIndustry{}}
+
+      iex> update_book_keeping_industry(book_keeping_industry, %{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  @spec update_book_keeping_industry(BookKeepingIndustry.t(), %{atom => any}) :: result() | error_tuple()
+  def update_book_keeping_industry(%BookKeepingIndustry{} = struct, attrs) do
+    book_keeping =
+      Repo.get_by(BookKeeping, %{id: struct.book_keeping_id})
+
+    get_role_by_user =
+      case book_keeping.user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^book_keeping.user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    query =
+      case struct.id do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeepingIndustry,
+          where: c.id == ^struct.id,
+          select: c.id
+      end
+
+    tp_params = ~w(
+      book_keeping_id
+    )a
+
+    pro_params = ~w()a
+
+    tp_attrs =
+      attrs
+      |> Map.drop(tp_params)
+
+    pro_attrs =
+      attrs
+      |> Map.drop(pro_params)
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Changeset{}}
+      false ->
+        case Enum.any?(struct.name, &(&1 == attrs.name)) || Enum.count(attrs.name) > 1 do
+          true ->
+            {:error, [field: :name, message: "name already is exist or name more one, not permission for new record"]}
+          false ->
+            case Repo.aggregate(query, :count, :id) do
+              1 ->
+                struct
+                |> BookKeepingIndustry.changeset(tp_attrs)
+                |> Repo.update()
+              _ ->
+                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+            end
+        end
+      true ->
+        struct
+        |> BookKeepingIndustry.changeset(pro_attrs)
+        |> Repo.update()
+    end
+  end
+
+  @doc """
+  Deletes a BookKeepingIndustry.
+
+  ## Examples
+
+      iex> delete_book_keeping_industry(book_keeping_industry)
+      {:ok, %BookKeepingIndustry{}}
+
+      iex> delete_book_keeping_industry(book_keeping_industry)
+      {:error, %Changeset{}}
+
+  """
+  @spec delete_book_keeping_industry(BookKeepingIndustry.t()) :: result()
+  def delete_book_keeping_industry(%BookKeepingIndustry{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Changeset{}` for tracking book_keeping_industry changes.
+
+  ## Examples
+
+      iex> change_book_keeping_industry(struct)
+      %Changeset{source: %BookKeepingIndustry{}}
+
+  """
+  @spec change_book_keeping_industry(BookKeepingIndustry.t()) :: Ecto.Changeset.t()
+  def change_book_keeping_industry(%BookKeepingIndustry{} = struct) do
+    BookKeepingIndustry.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns the list of book_keeping_number_employees.
+
+  ## Examples
+
+      iex> list_book_keeping_number_employee()
+      [%BookKeepingNumberEmployee{}, ...]
+
+  """
+  @spec list_book_keeping_number_employee() :: [BookKeepingTransactionVolume.t()]
+  def list_book_keeping_number_employee do
+    Repo.all(BookKeepingNumberEmployee)
+    |> Repo.preload([book_keepings: [:user]])
+  end
+
+  @doc """
+  Gets a single book_keeping_number_employee.
+
+  Raises `Ecto.NoResultsError` if the Book keeping number employee does not exist.
+
+  ## Examples
+
+      iex> get_book_keeping_number_employee!(123)
+      %BookKeepingNumberEmployee{}
+
+      iex> get_book_keeping_number_employee!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_book_keeping_number_employee!(String.t) :: BookKeepingNumberEmployee.t() | error_tuple()
+  def get_book_keeping_number_employee!(id) do
+    Repo.get!(BookKeepingNumberEmployee, id)
+    |> Repo.preload([book_keepings: [:user]])
+  end
+
+  @doc """
+  Creates a book_keeping_number_employee.
+
+  ## Examples
+
+      iex> create_book_keeping_number_employee(%{field: value})
+      {:ok, %BookKeepingNumberEmployee{}}
+
+      iex> create_book_keeping_number_employee(%{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  @spec create_book_keeping_number_employee(%{atom => any}) :: result() | error_tuple()
+  def create_book_keeping_number_employee(attrs \\ %{}) do
+    book_keeping_ids =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+      end
+
+    user_id =
+      case book_keeping_ids do
+        nil ->
+          nil
+        _ ->
+          book_keeping_ids.user_id
+      end
+
+    get_role_by_user =
+      case user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    get_name_by_book_keeping_number_employee =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          Repo.all(
+            from c in BookKeepingNumberEmployee,
+            where: c.book_keeping_id == ^attrs.book_keeping_id,
+            select: c.name
+          )
+      end
+
+    query =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeepingNumberEmployee,
+          where: c.book_keeping_id == ^attrs.book_keeping_id
+      end
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Ecto.Changeset{}}
+      false ->
+        case Enum.any?(get_name_by_book_keeping_number_employee, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          false ->
+            case Repo.aggregate(query, :count, :id) do
+              0 ->
+                case sort_keys(attrs) do
+                  @tp_book_keeping_number_employee_params ->
+                    %BookKeepingNumberEmployee{}
+                    |> BookKeepingNumberEmployee.changeset(attrs)
+                    |> Repo.insert()
+                  _ ->
+                    {:error, %Ecto.Changeset{}}
+                end
+              _ ->
+                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+            end
+        end
+      true ->
+        case Enum.any?(get_name_by_book_keeping_number_employee, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "Name already is exist"]}
+          false ->
+            case sort_keys(attrs) do
+              @pro_book_keeping_number_employee_params ->
+                %BookKeepingNumberEmployee{}
+                |> BookKeepingNumberEmployee.changeset(attrs)
+                |> Repo.insert()
+              _ ->
+                {:error, [field: :id, message: "Please will fill are fields"]}
+            end
+        end
+    end
+  end
+
+  @doc """
+  Updates a book_keeping_number_employee.
+
+  ## Examples
+
+      iex> update_book_keeping_number_employee(book_keeping_number_employee, %{field: new_value})
+      {:ok, %BookKeepingNumberEmployee{}}
+
+      iex> update_book_keeping_number_employee(book_keeping_number_employee, %{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  @spec update_book_keeping_number_employee(BookKeepingNumberEmployee.t(), %{atom => any}) :: result() | error_tuple()
+  def update_book_keeping_number_employee(%BookKeepingNumberEmployee{} = struct, attrs) do
+    book_keeping =
+      Repo.get_by(BookKeeping, %{id: struct.book_keeping_id})
+
+    get_role_by_user =
+      case book_keeping.user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^book_keeping.user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    query =
+      case struct.id do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeepingNumberEmployee,
+          where: c.id == ^struct.id,
+          select: c.id
+      end
+
+    tp_params = ~w(
+      book_keeping_id
+      price
+    )a
+
+    pro_params = ~w()a
+
+    tp_attrs =
+      attrs
+      |> Map.drop(tp_params)
+
+    pro_attrs =
+      attrs
+      |> Map.drop(pro_params)
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Changeset{}}
+      false ->
+        case Repo.aggregate(query, :count, :id) do
+          1 ->
+            struct
+            |> BookKeepingNumberEmployee.changeset(tp_attrs)
+            |> Repo.update()
+          _ ->
+            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+        end
+      true ->
+        struct
+        |> BookKeepingNumberEmployee.changeset(pro_attrs)
+        |> Repo.update()
+    end
+  end
+
+  @doc """
+  Deletes a BookKeepingNumberEmployee.
+
+  ## Examples
+
+      iex> delete_book_keeping_number_employee(struct)
+      {:ok, %BookKeepingNumberEmployee{}}
+
+      iex> delete_book_keeping_number_employee(struct)
+      {:error, %Changeset{}}
+
+  """
+  @spec delete_book_keeping_number_employee(BookKeepingNumberEmployee.t()) :: result()
+  def delete_book_keeping_number_employee(%BookKeepingNumberEmployee{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Changeset{}` for tracking book_keeping_number_employee changes.
+
+  ## Examples
+
+      iex> change_book_keeping_number_employee(struct)
+      %Changeset{source: %BookKeepingNumberEmployee{}}
+
+  """
+  @spec change_book_keeping_number_employee(BookKeepingNumberEmployee.t()) :: Ecto.Changeset.t()
+  def change_book_keeping_number_employee(%BookKeepingNumberEmployee{} = struct) do
+    BookKeepingNumberEmployee.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns the list of book_keeping_transaction_volumes.
+
+  ## Examples
+
+      iex> list_book_keeping_transaction_volume()
+      [%BookKeepingTransactionVolume{}, ...]
+
+  """
+  @spec list_book_keeping_transaction_volume() :: [BookKeepingTransactionVolume.t()]
+  def list_book_keeping_transaction_volume do
+    Repo.all(BookKeepingTransactionVolume)
+    |> Repo.preload([book_keepings: [:user]])
+  end
+
+  @doc """
+  Gets a single book_keeping_transaction_volume.
+
+  Raises `Ecto.NoResultsError` if the Book keeping transaction volume does not exist.
+
+  ## Examples
+
+      iex> get_book_keeping_transaction_volume!(123)
+      %BookKeepingTransactionVolume{}
+
+      iex> get_book_keeping_transaction_volume!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_book_keeping_transaction_volume!(String.t) :: BookKeepingTransactionVolume.t() | error_tuple()
+  def get_book_keeping_transaction_volume!(id) do
+    Repo.get!(BookKeepingTransactionVolume, id)
+    |> Repo.preload([book_keepings: [:user]])
+  end
+
+  @doc """
+  Creates a book_keeping_transaction_volume.
+
+  ## Examples
+
+      iex> create_book_keeping_transaction_volume(%{field: value})
+      {:ok, %BookKeepingTransactionVolume{}}
+
+      iex> create_book_keeping_transaction_volume(%{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  @spec create_book_keeping_transaction_volume(%{atom => any}) :: result() | error_tuple()
+  def create_book_keeping_transaction_volume(attrs \\ %{}) do
+    book_keeping_ids =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+      end
+
+    user_id =
+      case book_keeping_ids do
+        nil ->
+          nil
+        _ ->
+          book_keeping_ids.user_id
+      end
+
+    get_role_by_user =
+      case user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    get_name_by_book_keeping_transaction_volume =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          Repo.all(
+            from c in BookKeepingTransactionVolume,
+            where: c.book_keeping_id == ^attrs.book_keeping_id,
+            select: c.name
+          )
+      end
+
+    query =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeepingTransactionVolume,
+          where: c.book_keeping_id == ^attrs.book_keeping_id
+      end
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Ecto.Changeset{}}
+      false ->
+        case Enum.any?(get_name_by_book_keeping_transaction_volume, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          false ->
+            case Repo.aggregate(query, :count, :id) do
+              0 ->
+                case sort_keys(attrs) do
+                  @tp_book_keeping_transaction_volume_params ->
+                    %BookKeepingTransactionVolume{}
+                    |> BookKeepingTransactionVolume.changeset(attrs)
+                    |> Repo.insert()
+                  _ ->
+                    {:error, %Ecto.Changeset{}}
+                end
+              _ ->
+                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+            end
+        end
+      true ->
+        case Enum.any?(get_name_by_book_keeping_transaction_volume, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "Name already is exist"]}
+          false ->
+            case sort_keys(attrs) do
+              @pro_book_keeping_transaction_volume_params ->
+                %BookKeepingTransactionVolume{}
+                |> BookKeepingTransactionVolume.changeset(attrs)
+                |> Repo.insert()
+              _ ->
+                {:error, [field: :id, message: "Please will fill are fields"]}
+            end
+        end
+    end
+  end
+
+  @doc """
+  Updates a book_keeping_transaction_volume.
+
+  ## Examples
+
+      iex> update_book_keeping_transaction_volume(book_keeping_transaction_volume, %{field: new_value})
+      {:ok, %BookKeepingTransactionVolume{}}
+
+      iex> update_book_keeping_transaction_volume(book_keeping_transaction_volume, %{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  @spec update_book_keeping_transaction_volume(BookKeepingTransactionVolume.t(), %{atom => any}) :: result() | error_tuple()
+  def update_book_keeping_transaction_volume(%BookKeepingTransactionVolume{} = struct, attrs) do
+    book_keeping =
+      Repo.get_by(BookKeeping, %{id: struct.book_keeping_id})
+
+    get_role_by_user =
+      case book_keeping.user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^book_keeping.user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    query =
+      case struct.id do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeepingTransactionVolume,
+          where: c.id == ^struct.id,
+          select: c.id
+      end
+
+    tp_params = ~w(
+      book_keeping_id
+      price
+    )a
+
+    pro_params = ~w()a
+
+    tp_attrs =
+      attrs
+      |> Map.drop(tp_params)
+
+    pro_attrs =
+      attrs
+      |> Map.drop(pro_params)
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Changeset{}}
+      false ->
+        case Repo.aggregate(query, :count, :id) do
+          1 ->
+            struct
+            |> BookKeepingTransactionVolume.changeset(tp_attrs)
+            |> Repo.update()
+          _ ->
+            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+        end
+      true ->
+        struct
+        |> BookKeepingTransactionVolume.changeset(pro_attrs)
+        |> Repo.update()
+    end
+  end
+
+  @doc """
+  Deletes a BookKeepingTransactionVolume.
+
+  ## Examples
+
+      iex> delete_book_keeping_transaction_volume(struct)
+      {:ok, %BookKeepingTransactionVolume{}}
+
+      iex> delete_book_keeping_transaction_volume(struct)
+      {:error, %Changeset{}}
+
+  """
+  @spec delete_book_keeping_transaction_volume(BookKeepingTransactionVolume.t()) :: result()
+  def delete_book_keeping_transaction_volume(%BookKeepingTransactionVolume{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Changeset{}` for tracking book_keeping_transaction_volume changes.
+
+  ## Examples
+
+      iex> change_book_keeping_transaction_volume(struct)
+      %Changeset{source: %BookKeepingTransactionVolume{}}
+
+  """
+  @spec change_book_keeping_transaction_volume(BookKeepingTransactionVolume.t()) :: Ecto.Changeset.t()
+  def change_book_keeping_transaction_volume(%BookKeepingTransactionVolume{} = struct) do
+    BookKeepingTransactionVolume.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns the list of book_keeping_type_clients.
+
+  ## Examples
+
+      iex> list_book_keeping_type_client()
+      [%BookKeepingTypeClient{}, ...]
+
+  """
+  @spec list_book_keeping_type_client() :: [BookKeepingTypeClient.t()]
+  def list_book_keeping_type_client do
+    Repo.all(BookKeepingTypeClient)
+    |> Repo.preload([book_keepings: [:user]])
+  end
+
+  @doc """
+  Gets a single book_keeping_type_client.
+
+  Raises `Ecto.NoResultsError` if the Book keeping type client does not exist.
+
+  ## Examples
+
+      iex> get_book_keeping_type_client!(123)
+      %BookKeepingTypeClient{}
+
+      iex> get_book_keeping_type_client!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_book_keeping_type_client!(String.t) :: BookKeepingTypeClient.t() | error_tuple()
+  def get_book_keeping_type_client!(id) do
+    Repo.get!(BookKeepingTypeClient, id)
+    |> Repo.preload([book_keepings: [:user]])
+  end
+
+  @doc """
+  Creates a book_keeping_type_client.
+
+  ## Examples
+
+      iex> create_book_keeping_type_client(%{field: value})
+      {:ok, %BookKeepingTypeClient{}}
+
+      iex> create_book_keeping_type_client(%{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  @spec create_book_keeping_type_client(%{atom => any}) :: result() | error_tuple()
+  def create_book_keeping_type_client(attrs \\ %{}) do
+    book_keeping_ids =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+      end
+
+    user_id =
+      case book_keeping_ids do
+        nil ->
+          nil
+        _ ->
+          book_keeping_ids.user_id
+      end
+
+    get_role_by_user =
+      case user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    get_name_by_book_keeping_type_client =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          Repo.all(
+            from c in BookKeepingTypeClient,
+            where: c.book_keeping_id == ^attrs.book_keeping_id,
+            select: c.name
+          )
+      end
+
+    query =
+      case attrs.book_keeping_id do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeepingTypeClient,
+          where: c.book_keeping_id == ^attrs.book_keeping_id
+      end
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Ecto.Changeset{}}
+      false ->
+        case Enum.any?(get_name_by_book_keeping_type_client, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          false ->
+            case Repo.aggregate(query, :count, :id) do
+              0 ->
+                case sort_keys(attrs) do
+                  @tp_book_keeping_type_client_params ->
+                    %BookKeepingTypeClient{}
+                    |> BookKeepingTypeClient.changeset(attrs)
+                    |> Repo.insert()
+                  _ ->
+                    {:error, %Ecto.Changeset{}}
+                end
+              _ ->
+                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+            end
+        end
+      true ->
+        case Enum.any?(get_name_by_book_keeping_type_client, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "Name already is exist"]}
+          false ->
+            case sort_keys(attrs) do
+              @pro_book_keeping_type_client_params ->
+                %BookKeepingTypeClient{}
+                |> BookKeepingTypeClient.changeset(attrs)
+                |> Repo.insert()
+              _ ->
+                {:error, [field: :id, message: "Please will fill are fields"]}
+            end
+        end
+    end
+  end
+
+  @doc """
+  Updates a book_keeping_type_client.
+
+  ## Examples
+
+      iex> update_book_keeping_type_client(book_keeping_type_client, %{field: new_value})
+      {:ok, %BookKeepingTypeClient{}}
+
+      iex> update_book_keeping_type_client(book_keeping_type_client, %{field: bad_value})
+      {:error, %Changeset{}}
+
+  """
+  @spec update_book_keeping_type_client(BookKeepingTypeClient.t(), %{atom => any}) :: result() | error_tuple()
+  def update_book_keeping_type_client(%BookKeepingTypeClient{} = struct, attrs) do
+    book_keeping =
+      Repo.get_by(BookKeeping, %{id: struct.book_keeping_id})
+
+    get_role_by_user =
+      case book_keeping.user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^book_keeping.user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    query =
+      case struct.id do
+        nil ->
+          nil
+        _ ->
+          from c in BookKeepingTypeClient,
+          where: c.id == ^struct.id,
+          select: c.id
+      end
+
+    tp_params = ~w(
+      price
+      book_keeping_id
+    )a
+
+    pro_params = ~w()a
+
+    tp_attrs =
+      attrs
+      |> Map.drop(tp_params)
+
+    pro_attrs =
+      attrs
+      |> Map.drop(pro_params)
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Changeset{}}
+      false ->
+        case Repo.aggregate(query, :count, :id) do
+          1 ->
+            struct
+            |> BookKeepingTypeClient.changeset(tp_attrs)
+            |> Repo.update()
+          _ ->
+            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+        end
+      true ->
+        struct
+        |> BookKeepingTypeClient.changeset(pro_attrs)
+        |> Repo.update()
+    end
+  end
+
+  @doc """
+  Deletes a BookKeepingTypeClient.
+
+  ## Examples
+
+      iex> delete_book_keeping_type_client(struct)
+      {:ok, %BookKeepingTypeClient{}}
+
+      iex> delete_book_keeping_type_client(struct)
+      {:error, %Changeset{}}
+
+  """
+  @spec delete_book_keeping_type_client(BookKeepingTypeClient.t()) :: result()
+  def delete_book_keeping_type_client(%BookKeepingTypeClient{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Changeset{}` for tracking book_keeping_type_client changes.
+
+  ## Examples
+
+      iex> change_book_keeping_type_client(struct)
+      %Changeset{source: %BookKeepingTypeClient{}}
+
+  """
+  @spec change_book_keeping_type_client(BookKeepingTypeClient.t()) :: Ecto.Changeset.t()
+  def change_book_keeping_type_client(%BookKeepingTypeClient{} = struct) do
+    BookKeepingTypeClient.changeset(struct, %{})
   end
 
   @doc """
