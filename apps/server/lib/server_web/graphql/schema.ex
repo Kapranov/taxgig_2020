@@ -26,6 +26,14 @@ defmodule ServerWeb.GraphQL.Schema do
   import_types(ServerWeb.GraphQL.Schemas.Lookup.StateTypes)
   import_types(ServerWeb.GraphQL.Schemas.Lookup.UsZipcodeTypes)
   import_types(ServerWeb.GraphQL.Schemas.Media.PictureTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Products.BookKeepingAdditionalNeedTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Products.BookKeepingAnnualRevenueTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Products.BookKeepingClassifyInventoryTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Products.BookKeepingIndustryTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Products.BookKeepingNumberEmployeeTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Products.BookKeepingTransactionVolumeTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Products.BookKeepingTypeClientTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Products.BookKeepingTypes)
   import_types(ServerWeb.GraphQL.Schemas.Products.BusinessEntityTypeTypes)
   import_types(ServerWeb.GraphQL.Schemas.Products.BusinessForeignAccountCountTypes)
   import_types(ServerWeb.GraphQL.Schemas.Products.BusinessForeignOwnershipCountTypes)
@@ -48,6 +56,14 @@ defmodule ServerWeb.GraphQL.Schema do
   @desc "The root query type."
   query do
     import_fields(:blockscore_queries)
+    import_fields(:book_keeping_additional_need_queries)
+    import_fields(:book_keeping_annual_revenue_queries)
+    import_fields(:book_keeping_classify_inventory_queries)
+    import_fields(:book_keeping_industry_queries)
+    import_fields(:book_keeping_number_employee_queries)
+    import_fields(:book_keeping_queries)
+    import_fields(:book_keeping_transaction_volume_queries)
+    import_fields(:book_keeping_type_client_queries)
     import_fields(:business_entity_type_queries)
     import_fields(:business_foreign_account_count_queries)
     import_fields(:business_foreign_ownership_count_queries)
@@ -80,6 +96,14 @@ defmodule ServerWeb.GraphQL.Schema do
 
   @desc "The root mutation type."
   mutation do
+    import_fields(:book_keeping_additional_need_mutations)
+    import_fields(:book_keeping_annual_revenue_mutations)
+    import_fields(:book_keeping_classify_inventory_mutations)
+    import_fields(:book_keeping_industry_mutations)
+    import_fields(:book_keeping_mutations)
+    import_fields(:book_keeping_number_employee_mutations)
+    import_fields(:book_keeping_transaction_volume_mutations)
+    import_fields(:book_keeping_type_client_mutations)
     import_fields(:business_entity_type_mutations)
     import_fields(:business_foreign_account_count_mutations)
     import_fields(:business_foreign_ownership_count_mutations)
@@ -105,6 +129,14 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:subscriber_mutations)
     import_fields(:user_mutations)
     import_fields(:vacancy_mutations)
+    import_fields(:update_book_keeping_additional_need_params)
+    import_fields(:update_book_keeping_annual_revenue_params)
+    import_fields(:update_book_keeping_classify_inventory_params)
+    import_fields(:update_book_keeping_industry_params)
+    import_fields(:update_book_keeping_number_employee_params)
+    import_fields(:update_book_keeping_params)
+    import_fields(:update_book_keeping_transaction_volume_params)
+    import_fields(:update_book_keeping_type_client_params)
     import_fields(:update_business_entity_type_params)
     import_fields(:update_business_foreign_account_count_params)
     import_fields(:update_business_foreign_ownership_count_params)
@@ -132,6 +164,7 @@ defmodule ServerWeb.GraphQL.Schema do
 
   @desc "The root subscription type."
   subscription do
+    import_fields(:book_keeping_subscriptions)
     import_fields(:blockscore_subscriptions)
     import_fields(:business_tax_return_subscriptions)
     import_fields(:faq_category_subscriptions)
