@@ -41,6 +41,9 @@ defmodule Core.Factory do
     Services.IndividualStockTransactionCount,
     Services.IndividualTaxReturn,
     Services.MatchValueRelate,
+    Services.SaleTax,
+    Services.SaleTaxFrequency,
+    Services.SaleTaxIndustry,
     Upload
   }
 
@@ -958,6 +961,85 @@ defmodule Core.Factory do
     }
   end
 
+  @spec sale_tax_factory() :: SaleTax.t()
+  def sale_tax_factory do
+    %SaleTax{
+      financial_situation: Lorem.sentence(),
+      price_sale_tax_count: random_integer(),
+      sale_tax_count: random_integer(),
+      state: ["Alabama", "New York"],
+      user: build(:user)
+    }
+  end
+
+  @spec tp_sale_tax_factory() :: SaleTax.t()
+  def tp_sale_tax_factory do
+    %SaleTax{
+      financial_situation: Lorem.sentence(),
+      sale_tax_count: random_integer(),
+      state: ["Alabama", "New York"],
+      user: build(:tp_user)
+    }
+  end
+
+  @spec pro_sale_tax_factory() :: SaleTax.t()
+  def pro_sale_tax_factory do
+    %SaleTax{
+      price_sale_tax_count: random_integer(),
+      user: build(:tp_user)
+    }
+  end
+
+  @spec sale_tax_frequency_factory() :: SaleTaxFrequency.t()
+  def sale_tax_frequency_factory do
+    %SaleTaxFrequency{
+      name: random_name_tax_frequency(),
+      price: random_integer(),
+      sale_taxes: build(:sale_tax)
+    }
+  end
+
+  @spec tp_sale_tax_frequency_factory() :: SaleTaxFrequency.t()
+  def tp_sale_tax_frequency_factory do
+    %SaleTaxFrequency{
+      name: random_name_tax_frequency(),
+      sale_taxes: build(:tp_sale_tax)
+    }
+  end
+
+  @spec pro_sale_tax_frequency_factory() :: SaleTaxFrequency.t()
+  def pro_sale_tax_frequency_factory do
+    %SaleTaxFrequency{
+      name: random_name_tax_frequency(),
+      price: random_integer(),
+      sale_taxes: build(:pro_sale_tax)
+    }
+  end
+
+  @spec sale_tax_industry_factory() :: SaleTaxIndustry.t()
+  def sale_tax_industry_factory do
+    %SaleTaxIndustry{
+      name: random_name_tax_industry(),
+      sale_taxes: build(:sale_tax)
+    }
+  end
+
+  @spec tp_sale_tax_industry_factory() :: SaleTaxIndustry.t()
+  def tp_sale_tax_industry_factory do
+    %SaleTaxIndustry{
+      name: random_name_for_tp_tax_industry(),
+      sale_taxes: build(:tp_sale_tax)
+    }
+  end
+
+  @spec pro_sale_tax_industry_factory() :: SaleTaxIndustry.t()
+  def pro_sale_tax_industry_factory do
+    %SaleTaxIndustry{
+      name: random_name_for_pro_tax_industry(),
+      sale_taxes: build(:pro_sale_tax)
+    }
+  end
+
   @spec random_language() :: {atom, String.t()}
   defp random_language do
     data = [
@@ -1324,5 +1406,136 @@ defmodule Core.Factory do
     ]
 
     Enum.random(names)
+  end
+
+  @spec random_name_tax_frequency :: String.t
+  defp random_name_tax_frequency do
+    names = [
+      "Annually",
+      "Monthly",
+      "Quaterly"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_tax_industry :: String.t
+  defp random_name_tax_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    numbers = 1..24
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
+  end
+
+  @spec random_name_for_tp_tax_industry :: String.t
+  defp random_name_for_tp_tax_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    numbers = 0..1
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
+  end
+
+  @spec random_name_for_pro_tax_industry :: String.t
+  defp random_name_for_pro_tax_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    numbers = 1..24
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 end

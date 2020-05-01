@@ -29,7 +29,10 @@ defmodule Core.Seeder.Services do
     Services.IndividualItemizedDeduction,
     Services.IndividualStockTransactionCount,
     Services.IndividualTaxReturn,
-    Services.MatchValueRelate
+    Services.MatchValueRelate,
+    Services.SaleTax,
+    Services.SaleTaxFrequency,
+    Services.SaleTaxIndustry
   }
 
   alias Faker.Lorem
@@ -59,6 +62,9 @@ defmodule Core.Seeder.Services do
     Repo.delete_all(IndividualStockTransactionCount)
     Repo.delete_all(IndividualTaxReturn)
     Repo.delete_all(MatchValueRelate)
+    Repo.delete_all(SaleTax)
+    Repo.delete_all(SaleTaxFrequency)
+    Repo.delete_all(SaleTaxIndustry)
   end
 
   @spec seed!() :: Ecto.Schema.t()
@@ -67,6 +73,7 @@ defmodule Core.Seeder.Services do
     seed_book_keeping()
     seed_business_tax_return()
     seed_individual_tax_return()
+    seed_sale_tax()
     seed_book_keeping_additional_need()
     seed_book_keeping_annual_revenue()
     seed_book_keeping_classify_inventory()
@@ -86,6 +93,8 @@ defmodule Core.Seeder.Services do
     seed_individual_foreign_account_count()
     seed_individual_itemized_deduction()
     seed_individual_stock_transaction_count()
+    seed_sale_tax_frequency()
+    seed_sale_tax_industry()
   end
 
   @spec seed_match_value_relate() :: nil | Ecto.Schema.t()
@@ -1686,6 +1695,179 @@ defmodule Core.Seeder.Services do
     end
   end
 
+  @spec seed_sale_tax() :: Ecto.Schema.t()
+  defp seed_sale_tax do
+    user_ids =
+      Enum.map(Repo.all(User), fn(data) -> data.id end)
+
+    {user_id} = {Enum.at(user_ids, 0)}
+
+     tp1 = User.find_by(email: "v.kobzan@gmail.com")
+     tp2 = User.find_by(email: "o.puryshev@gmail.com")
+     tp3 = User.find_by(email: "vlacho777@gmail.com")
+    pro1 = User.find_by(email: "support@taxgig.com")
+    pro2 = User.find_by(email: "op@taxgig.com")
+    pro3 = User.find_by(email: "vk@taxgig.com")
+
+    case Repo.aggregate(SaleTax, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%SaleTax{
+            price_sale_tax_count: random_integer(),
+            user_id: user_id
+          }),
+          Repo.insert!(%SaleTax{
+            financial_situation: "some situation",
+            sale_tax_count: 5,
+            state: ["Alabama", "New York"],
+            user_id: tp1.id
+          }),
+          Repo.insert!(%SaleTax{
+            financial_situation: Lorem.sentence(),
+            sale_tax_count: random_integer(),
+            state: random_state(),
+            user_id: tp2.id
+          }),
+          Repo.insert!(%SaleTax{
+            financial_situation: Lorem.sentence(),
+            sale_tax_count: random_integer(),
+            state: random_state(),
+            user_id: tp3.id
+          }),
+          Repo.insert!(%SaleTax{
+            price_sale_tax_count: 45,
+            user_id: pro1.id
+          }),
+          Repo.insert!(%SaleTax{
+            price_sale_tax_count: random_integer(),
+            user_id: pro2.id
+          }),
+          Repo.insert!(%SaleTax{
+            price_sale_tax_count: random_integer(),
+            user_id: pro3.id
+          })
+        ]
+    end
+  end
+
+  @spec seed_sale_tax_frequency() :: Ecto.Schema.t()
+  defp seed_sale_tax_frequency do
+    sale_tax_ids =
+      Enum.map(Repo.all(SaleTax), fn(data) -> data.id end)
+
+    {st1, st2, st3, st4, st5, st6, st7} =
+      {
+        Enum.at(sale_tax_ids, 0),
+        Enum.at(sale_tax_ids, 1),
+        Enum.at(sale_tax_ids, 2),
+        Enum.at(sale_tax_ids, 3),
+        Enum.at(sale_tax_ids, 4),
+        Enum.at(sale_tax_ids, 5),
+        Enum.at(sale_tax_ids, 6)
+      }
+
+    case Repo.aggregate(SaleTaxFrequency, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%SaleTaxFrequency{
+            name: random_name_tax_frequency(),
+            price: random_integer(),
+            sale_tax_id: st1
+          }),
+          Repo.insert!(%SaleTaxFrequency{
+            name: "Annually",
+            sale_tax_id: st2
+          }),
+          Repo.insert!(%SaleTaxFrequency{
+            name: random_name_tax_frequency(),
+            sale_tax_id: st3
+          }),
+          Repo.insert!(%SaleTaxFrequency{
+            name: random_name_tax_frequency(),
+            sale_tax_id: st4
+          }),
+          Repo.insert!(%SaleTaxFrequency{
+            name: "Annually",
+            price: 150,
+            sale_tax_id: st5
+          }),
+          Repo.insert!(%SaleTaxFrequency{
+            name: random_name_tax_frequency(),
+            price: random_integer(),
+            sale_tax_id: st6
+          }),
+          Repo.insert!(%SaleTaxFrequency{
+            name: random_name_tax_frequency(),
+            price: random_integer(),
+            sale_tax_id: st7
+          })
+        ]
+    end
+  end
+
+  @spec seed_sale_tax_industry() :: Ecto.Schema.t()
+  defp seed_sale_tax_industry do
+    sale_tax_ids =
+      Enum.map(Repo.all(SaleTax), fn(data) -> data.id end)
+
+    {st1, st2, st3, st4, st5, st6, st7} =
+      {
+        Enum.at(sale_tax_ids, 0),
+        Enum.at(sale_tax_ids, 1),
+        Enum.at(sale_tax_ids, 2),
+        Enum.at(sale_tax_ids, 3),
+        Enum.at(sale_tax_ids, 4),
+        Enum.at(sale_tax_ids, 5),
+        Enum.at(sale_tax_ids, 6)
+      }
+
+    case Repo.aggregate(SaleTaxIndustry, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%SaleTaxIndustry{
+            name: random_name_for_pro_tax_industry(),
+            sale_tax_id: st1
+          }),
+          Repo.insert!(%SaleTaxIndustry{
+            name: ["Computer/Software/IT"],
+            sale_tax_id: st2
+          }),
+          Repo.insert!(%SaleTaxIndustry{
+            name: random_name_for_tp_tax_industry(),
+            sale_tax_id: st3
+          }),
+          Repo.insert!(%SaleTaxIndustry{
+            name: random_name_for_tp_tax_industry(),
+            sale_tax_id: st4
+          }),
+          Repo.insert!(%SaleTaxIndustry{
+            name: [
+              "Agriculture/Farming",
+              "Automotive Sales/Repair",
+              "Computer/Software/IT",
+              "Construction/Contractors",
+              "Consulting"
+            ],
+            sale_tax_id: st5
+          }),
+          Repo.insert!(%SaleTaxIndustry{
+            name: random_name_for_pro_tax_industry(),
+            sale_tax_id: st6
+          }),
+          Repo.insert!(%SaleTaxIndustry{
+            name: random_name_for_pro_tax_industry(),
+            sale_tax_id: st7
+          })
+        ]
+    end
+  end
+
   @spec random_boolean() :: boolean()
   defp random_boolean do
     value = ~W(true false)a
@@ -2023,5 +2205,96 @@ defmodule Core.Seeder.Services do
     ]
 
     Enum.random(names)
+  end
+
+  @spec random_name_tax_frequency() :: String.t()
+  defp random_name_tax_frequency do
+    names = [
+      "Annually",
+      "Monthly",
+      "Quaterly"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_for_tp_tax_industry() :: String.t()
+  defp random_name_for_tp_tax_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    numbers = 0..1
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
+  end
+
+  @spec random_name_for_pro_tax_industry() :: String.t()
+  defp random_name_for_pro_tax_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    numbers = 1..24
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 end

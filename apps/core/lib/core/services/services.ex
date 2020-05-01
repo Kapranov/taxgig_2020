@@ -30,7 +30,10 @@ defmodule Core.Services do
     Services.IndividualItemizedDeduction,
     Services.IndividualStockTransactionCount,
     Services.IndividualTaxReturn,
-    Services.MatchValueRelate
+    Services.MatchValueRelate,
+    Services.SaleTax,
+    Services.SaleTaxFrequency,
+    Services.SaleTaxIndustry
   }
 
    tp_user = "9uLE33CFBwgiRCrF8S"
@@ -361,6 +364,56 @@ defmodule Core.Services do
     stock_divident: true,
     user_id: "#{pro_user}"
   }
+
+  @tp_sale_tax_params ~w(
+    financial_situation
+    sale_tax_count
+    state
+    user_id
+  )a
+
+  @pro_sale_tax_params ~w(
+    price_sale_tax_count
+    user_id
+  )a
+
+  @tp_sale_tax_frequency_params ~w(
+    name
+    sale_tax_id
+  )a
+
+  @pro_sale_tax_frequency_params ~w(
+    name
+    price
+    sale_tax_id
+  )a
+
+  @tp_sale_tax_industry_params ~w(
+    name
+    sale_tax_id
+  )a
+
+  @tp_sale_tax_industry_params ~w(
+    name
+    sale_tax_id
+  )a
+
+  @pro_sale_tax_industry_params ~w(
+    name
+    sale_tax_id
+  )a
+
+  @tp_sale_tax_attrs %{
+    financial_situation: "some situation",
+    sale_tax_count: 5,
+    state: ["Alabama", "New York"],
+    user_id: "#{tp_user}"
+  }
+
+  # @pro_sale_tax_attrs %{
+  #   price_sale_tax_count: 45,
+  #   user_id: "#{pro_user}"
+  # }
 
   @doc """
   Returns the list of match_value_relate.
@@ -7548,6 +7601,920 @@ defmodule Core.Services do
   @spec change_individual_stock_transaction_count(IndividualStockTransactionCount.t()) :: Ecto.Changeset.t()
   def change_individual_stock_transaction_count(%IndividualStockTransactionCount{} = struct) do
     IndividualStockTransactionCount.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns the list of sale_taxes.
+
+  ## Examples
+
+      iex> list_sale_taxe()
+      [%SaleTax{}, ...]
+
+  """
+  @spec list_sale_taxe() :: [SaleTax.t()]
+  def list_sale_taxe do
+    Repo.all(SaleTax)
+    |> Repo.preload([:user])
+  end
+
+  @doc """
+  Gets a single sale_tax.
+
+  Raises `Ecto.NoResultsError` if the Sale tax does not exist.
+
+  ## Examples
+
+      iex> get_sale_tax!(123)
+      %SaleTax{}
+
+      iex> get_sale_tax!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_sale_tax!(String.t) :: SaleTax.t() | error_tuple()
+  def get_sale_tax!(id) do
+    Repo.get!(SaleTax, id)
+    |> Repo.preload([:user])
+  end
+
+  @doc """
+  Creates a sale_tax.
+
+  ## Examples
+
+      iex> create_sale_tax(%{field: value})
+      {:ok, %SaleTax{}}
+
+      iex> create_sale_tax(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_sale_tax(%{atom => any}) :: result() | error_tuple()
+  def create_sale_tax(attrs \\ @tp_sale_tax_attrs) do
+    get_role_by_user =
+      case attrs[:user_id] do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^attrs.user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    query =
+      case attrs[:user_id] do
+        nil ->
+          nil
+        _ ->
+          from c in SaleTax,
+          where: c.user_id == ^attrs.user_id
+      end
+
+    match_value_relate_changeset =
+      MatchValueRelate.changeset(%MatchValueRelate{}, @match_value_relate_attrs)
+
+    sale_tax_changeset = SaleTax.changeset(%SaleTax{}, attrs)
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Changeset{}}
+      false ->
+        case Repo.aggregate(query, :count, :user_id) do
+          0 ->
+            case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
+              false ->
+                case sort_keys(attrs) do
+                  @tp_sale_tax_params ->
+                    Multi.new
+                    |> Multi.insert(:match_value_relate, match_value_relate_changeset)
+                    |> Multi.insert(:sale_taxes, sale_tax_changeset)
+                    |> Multi.run(:sale_tax_frequency, fn _, %{sale_taxes: sale_tax} ->
+                      sale_tax_frequency_changeset = %SaleTaxFrequency{sale_tax_id: sale_tax.id}
+                      Repo.insert(sale_tax_frequency_changeset)
+                    end)
+                    |> Multi.run(:sale_tax_industry, fn _, %{sale_taxes: sale_tax} ->
+                      sale_tax_industry_changeset = %SaleTaxIndustry{sale_tax_id: sale_tax.id}
+                      Repo.insert(sale_tax_industry_changeset)
+                    end)
+                    |> Repo.transaction()
+                    |> case do
+                      {:ok, %{sale_taxes: sale_tax}} ->
+                        {:ok, sale_tax}
+                      {:error, :sale_taxes, %Changeset{} = changeset, _completed} ->
+                        {:error, extract_error_msg(changeset)}
+                      {:error, _model, changeset, _completed} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  _ ->
+                    {:error, %Changeset{}}
+                end
+              true ->
+                case sort_keys(attrs) do
+                  @tp_sale_tax_params ->
+                    Multi.new
+                    |> Multi.insert(:sale_taxes, sale_tax_changeset)
+                    |> Multi.run(:sale_tax_frequency, fn _, %{sale_taxes: sale_tax} ->
+                      sale_tax_frequency_changeset = %SaleTaxFrequency{sale_tax_id: sale_tax.id}
+                      Repo.insert(sale_tax_frequency_changeset)
+                    end)
+                    |> Multi.run(:sale_tax_industry, fn _, %{sale_taxes: sale_tax} ->
+                      sale_tax_industry_changeset = %SaleTaxIndustry{sale_tax_id: sale_tax.id}
+                      Repo.insert(sale_tax_industry_changeset)
+                    end)
+                    |> Repo.transaction()
+                    |> case do
+                      {:ok, %{sale_taxes: sale_tax}} ->
+                        {:ok, sale_tax}
+                      {:error, :sale_taxes, %Changeset{} = changeset, _completed} ->
+                        {:error, extract_error_msg(changeset)}
+                      {:error, _model, changeset, _completed} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  _ ->
+                    {:error, %Changeset{}}
+                end
+            end
+          _ ->
+            {:error, [field: :user_id, message: "Your role have been restricted for create SaleTax"]}
+        end
+      true ->
+        case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
+          false ->
+            case sort_keys(attrs) do
+              @tp_sale_tax_params ->
+                Multi.new
+                |> Multi.insert(:match_value_relate, match_value_relate_changeset)
+                |> Multi.insert(:sale_taxes, sale_tax_changeset)
+                |> Multi.run(:sale_tax_frequency, fn _, %{sale_taxes: sale_tax} ->
+                  sale_tax_frequency_changeset = %SaleTaxFrequency{sale_tax_id: sale_tax.id}
+                  Repo.insert(sale_tax_frequency_changeset)
+                end)
+                |> Multi.run(:sale_tax_industry, fn _, %{sale_taxes: sale_tax} ->
+                  sale_tax_industry_changeset = %SaleTaxIndustry{sale_tax_id: sale_tax.id}
+                  Repo.insert(sale_tax_industry_changeset)
+                end)
+                |> Repo.transaction()
+                |> case do
+                  {:ok, %{sale_taxes: sale_tax}} ->
+                    {:ok, sale_tax}
+                  {:error, :sale_taxes, %Changeset{} = changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                  {:error, _model, changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                end
+              _ ->
+                {:error, %Changeset{}}
+            end
+          true ->
+            case sort_keys(attrs) do
+              @pro_sale_tax_params ->
+                Multi.new
+                |> Multi.insert(:sale_taxes, sale_tax_changeset)
+                |> Multi.run(:sale_tax_frequency, fn _, %{sale_taxes: sale_tax} ->
+                  sale_tax_frequency_changeset = %SaleTaxFrequency{sale_tax_id: sale_tax.id}
+                  Repo.insert(sale_tax_frequency_changeset)
+                end)
+                |> Multi.run(:sale_tax_industry, fn _, %{sale_taxes: sale_tax} ->
+                  sale_tax_industry_changeset = %SaleTaxIndustry{sale_tax_id: sale_tax.id}
+                  Repo.insert(sale_tax_industry_changeset)
+                end)
+                |> Repo.transaction()
+                |> case do
+                  {:ok, %{sale_taxes: sale_tax}} ->
+                    {:ok, sale_tax}
+                  {:error, :sale_taxes, %Changeset{} = changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                  {:error, _model, changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                end
+              _ ->
+                {:error, %Changeset{}}
+            end
+        end
+    end
+  end
+
+  @doc """
+  Updates a sale_tax.
+
+  ## Examples
+
+      iex> update_sale_tax(sale_tax, %{field: new_value})
+      {:ok, %SaleTax{}}
+
+      iex> update_sale_tax(sale_tax, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_sale_tax(SaleTax.t(), %{atom => any}) :: result() | error_tuple()
+  def update_sale_tax(%SaleTax{} = struct, attrs) do
+    get_role_by_user =
+      case struct.user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^struct.user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    query =
+      case struct.id do
+        nil ->
+          nil
+        _ ->
+          from c in SaleTax,
+          where: c.id == ^struct.id,
+          select: c.id
+      end
+
+    tp_attrs =
+      attrs
+      |> Map.drop([:price_sale_tax_count])
+
+    pro_attrs =
+      attrs
+      |> Map.drop([:financial_situation, :sale_tax_count, :state, :user_id])
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Changeset{}}
+      false ->
+        case Repo.aggregate(query, :count, :id) do
+          1 ->
+            struct
+            |> SaleTax.changeset(tp_attrs)
+            |> Repo.update()
+          _ ->
+            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+        end
+      true ->
+        struct
+        |> SaleTax.changeset(pro_attrs)
+        |> Repo.update()
+    end
+  end
+
+  @doc """
+  Deletes a SaleTax.
+
+  ## Examples
+
+      iex> delete_sale_tax(struct)
+      {:ok, %SaleTax{}}
+
+      iex> delete_sale_tax(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_sale_tax(SaleTax.t()) :: result()
+  def delete_sale_tax(%SaleTax{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking sale_tax changes.
+
+  ## Examples
+
+      iex> change_sale_tax(struct)
+      %Ecto.Changeset{source: %SaleTax{}}
+
+  """
+  @spec change_sale_tax(SaleTax.t()) :: Ecto.Changeset.t()
+  def change_sale_tax(%SaleTax{} = struct) do
+    SaleTax.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns the list of sale_tax_frequencies.
+
+  ## Examples
+
+      iex> list_sale_tax_frequencies()
+      [%SaleTaxFrequency{}, ...]
+
+  """
+  @spec list_sale_tax_frequency() :: [SaleTaxFrequency.t()]
+  def list_sale_tax_frequency do
+    Repo.all(SaleTaxFrequency)
+    |> Repo.preload([sale_taxes: [:user]])
+  end
+
+  @doc """
+  Gets a single sale_tax_frequency.
+
+  Raises `Ecto.NoResultsError` if the Sale tax frequency does not exist.
+
+  ## Examples
+
+      iex> get_sale_tax_frequency!(123)
+      %SaleTaxFrequency{}
+
+      iex> get_sale_tax_frequency!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_sale_tax_frequency!(String.t) :: SaleTaxFrequency.t() | error_tuple()
+  def get_sale_tax_frequency!(id) do
+    Repo.get!(SaleTaxFrequency, id)
+    |> Repo.preload([sale_taxes: [:user]])
+  end
+
+  @doc """
+  Creates a sale_tax_frequency.
+
+  ## Examples
+
+      iex> create_sale_tax_frequency(%{field: value})
+      {:ok, %SaleTaxFrequency{}}
+
+      iex> create_sale_tax_frequency(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_sale_tax_frequency(%{atom => any}) :: result() | error_tuple()
+  def create_sale_tax_frequency(attrs \\ %{}) do
+    sale_tax_ids =
+      case attrs.sale_tax_id do
+        nil ->
+          nil
+        _ ->
+          Repo.get_by(SaleTax, %{id: attrs.sale_tax_id})
+      end
+
+    user_id =
+      case sale_tax_ids do
+        nil ->
+          nil
+        _ ->
+          sale_tax_ids.user_id
+      end
+
+    get_role_by_user =
+      case user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    get_name_by_sale_tax_frequency =
+      case attrs.sale_tax_id do
+        nil ->
+          nil
+        _ ->
+          Repo.all(
+            from c in SaleTaxFrequency,
+            where: c.sale_tax_id == ^attrs.sale_tax_id,
+            select: c.name
+          )
+      end
+
+    query =
+      case attrs.sale_tax_id do
+        nil ->
+          nil
+        _ ->
+          from c in SaleTaxFrequency,
+          where: c.sale_tax_id == ^attrs.sale_tax_id
+      end
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Ecto.Changeset{}}
+      false ->
+        case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          false ->
+            case Repo.aggregate(query, :count, :id) do
+              0 ->
+                case sort_keys(attrs) do
+                  @tp_sale_tax_frequency_params ->
+                    %SaleTaxFrequency{}
+                    |> SaleTaxFrequency.changeset(attrs)
+                    |> Repo.insert()
+                  _ ->
+                    {:error, %Ecto.Changeset{}}
+                end
+              _ ->
+                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+            end
+        end
+      true ->
+        case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "Name already is exist"]}
+          false ->
+            case sort_keys(attrs) do
+              @pro_sale_tax_frequency_params ->
+                %SaleTaxFrequency{}
+                |> SaleTaxFrequency.changeset(attrs)
+                |> Repo.insert()
+              _ ->
+                {:error, [field: :id, message: "Please will fill are fields"]}
+            end
+        end
+    end
+  end
+
+  @doc """
+  Updates a sale_tax_frequency.
+
+  ## Examples
+
+      iex> update_sale_tax_frequency(sale_tax_frequency, %{field: new_value})
+      {:ok, %SaleTaxFrequency{}}
+
+      iex> update_sale_tax_frequency(sale_tax_frequency, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_sale_tax_frequency(SaleTaxFrequency.t(), %{atom => any}) :: result() | error_tuple()
+  def update_sale_tax_frequency(%SaleTaxFrequency{} = struct, attrs) do
+    sale_tax =
+      Repo.get_by(SaleTax, %{id: struct.sale_tax_id})
+
+    get_role_by_user =
+      case sale_tax.user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^sale_tax.user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    query =
+      case struct.sale_tax_id do
+        nil ->
+          nil
+        _ ->
+          from c in SaleTaxFrequency,
+          where: c.sale_tax_id == ^struct.sale_tax_id,
+          select: c.id
+      end
+
+    get_name_by_sale_tax_frequency =
+      case struct.sale_tax_id do
+        nil ->
+          nil
+        _ ->
+          Repo.all(
+            from c in SaleTaxFrequency,
+            where: c.sale_tax_id == ^struct.sale_tax_id
+          )
+      end
+
+    tp_attrs =
+      attrs
+      |> Map.drop([:price])
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Changeset{}}
+      false ->
+        case sort_keys(tp_attrs) do
+          [] ->
+            struct
+            |> SaleTaxFrequency.changeset(tp_attrs)
+            |> Repo.update()
+          [:name] ->
+            case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
+              true ->
+                {:error, [field: :name, message: "name already is exist, not permission for update record"]}
+              false ->
+                struct
+                |> SaleTaxFrequency.changeset(tp_attrs)
+                |> Repo.update()
+            end
+          [:sale_tax_id] ->
+            case struct.sale_tax_id == attrs.sale_tax_id do
+              true ->
+                {:error, [field: :name, message: "sale_tax_id already is exist, not permission for update record"]}
+              false ->
+                case Repo.aggregate(query, :count, :sale_tax_id) do
+                  0 ->
+                    struct
+                    |> SaleTaxFrequency.changeset(tp_attrs)
+                    |> Repo.update()
+                  _ ->
+                    {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+                end
+            end
+          [:name, :sale_tax_id] ->
+            case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) || struct.sale_tax_id == attrs.sale_tax_id do
+              true ->
+                {:error, [field: :name, message: "name or sale_tax_id already is exist, not permission for update record"]}
+              false ->
+                case Repo.aggregate(query, :count, :sale_tax_id) do
+                  0 ->
+                    struct
+                    |> SaleTaxFrequency.changeset(tp_attrs)
+                    |> Repo.update()
+                  _ ->
+                    {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+                end
+            end
+          _ ->
+            {:error, [field: :id, message: "Please will fill are fields"]}
+        end
+      true ->
+        case sort_keys(attrs) do
+          [] ->
+            struct
+            |> SaleTaxFrequency.changeset(attrs)
+            |> Repo.update()
+          [:name] ->
+            case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
+              true ->
+                {:error, [field: :name, message: "name already is exist, not permission for update record"]}
+              false ->
+                struct
+                |> SaleTaxFrequency.changeset(attrs)
+                |> Repo.update()
+            end
+          [:price] ->
+            struct
+            |> SaleTaxFrequency.changeset(attrs)
+            |> Repo.update()
+          [:sale_tax_id] ->
+            struct
+            |> SaleTaxFrequency.changeset(attrs)
+            |> Repo.update()
+          [:name, :price] ->
+            case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
+              true ->
+                {:error, [field: :name, message: "name already is exist, not permission for update record"]}
+              false ->
+                struct
+                |> SaleTaxFrequency.changeset(attrs)
+                |> Repo.update()
+            end
+          [:name, :sale_tax_id] ->
+            case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
+              true ->
+                {:error, [field: :name, message: "name already is exist, not permission for update record"]}
+              false ->
+                struct
+                |> SaleTaxFrequency.changeset(attrs)
+                |> Repo.update()
+            end
+          [:price, :sale_tax_id] ->
+            struct
+            |> SaleTaxFrequency.changeset(attrs)
+            |> Repo.update()
+          [:name, :price, :sale_tax_id] ->
+            struct
+            |> SaleTaxFrequency.changeset(attrs)
+            |> Repo.update()
+          _ ->
+            {:error, [field: :id, message: "Please will fill are fields"]}
+        end
+    end
+  end
+
+  @doc """
+  Deletes a SaleTaxFrequency.
+
+  ## Examples
+
+      iex> delete_sale_tax_frequency(struct)
+      {:ok, %SaleTaxFrequency{}}
+
+      iex> delete_sale_tax_frequency(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_sale_tax_frequency(SaleTaxFrequency.t()) :: result()
+  def delete_sale_tax_frequency(%SaleTaxFrequency{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking sale_tax_frequency changes.
+
+  ## Examples
+
+      iex> change_sale_tax_frequency(struct)
+      %Ecto.Changeset{source: %SaleTaxFrequency{}}
+
+  """
+  @spec change_sale_tax_frequency(SaleTaxFrequency.t()) :: Ecto.Changeset.t()
+  def change_sale_tax_frequency(%SaleTaxFrequency{} = struct) do
+    SaleTaxFrequency.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns the list of sale_tax_industries.
+
+  ## Examples
+
+      iex> list_sale_tax_industry()
+      [%SaleTaxIndustry{}, ...]
+
+  """
+  @spec list_sale_tax_industry() :: [SaleTaxIndustry.t()]
+  def list_sale_tax_industry do
+    Repo.all(SaleTaxIndustry)
+    |> Repo.preload([sale_taxes: [:user]])
+  end
+
+  @doc """
+  Gets a single sale_tax_industry.
+
+  Raises `Ecto.NoResultsError` if the Sale tax industry does not exist.
+
+  ## Examples
+
+      iex> get_sale_tax_industry!(123)
+      %SaleTaxIndustry{}
+
+      iex> get_sale_tax_industry!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_sale_tax_industry!(String.t) :: SaleTaxIndustry.t() | error_tuple()
+  def get_sale_tax_industry!(id) do
+    Repo.get!(SaleTaxIndustry, id)
+    |> Repo.preload([sale_taxes: [:user]])
+  end
+
+  @doc """
+  Creates a sale_tax_industry.
+
+  ## Examples
+
+      iex> create_sale_tax_industry(%{field: value})
+      {:ok, %SaleTaxIndustry{}}
+
+      iex> create_sale_tax_industry(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_sale_tax_industry(%{atom => any}) :: result() | error_tuple()
+  def create_sale_tax_industry(attrs \\ %{}) do
+    sale_tax_ids =
+      case attrs.sale_tax_id do
+        nil ->
+          nil
+        _ ->
+          Repo.get_by(SaleTax, %{id: attrs.sale_tax_id})
+      end
+
+    user_id =
+      case sale_tax_ids do
+        nil ->
+          nil
+        _ ->
+          sale_tax_ids.user_id
+      end
+
+    get_role_by_user =
+      case user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    get_name_by_sale_tax_industry =
+      case attrs.sale_tax_id do
+        nil ->
+          nil
+        _ ->
+          Repo.all(
+            from c in SaleTaxIndustry,
+            where: c.sale_tax_id == ^attrs.sale_tax_id,
+            select: c.name
+          )
+      end
+
+    query =
+      case attrs.sale_tax_id do
+        nil ->
+          nil
+        _ ->
+          from c in SaleTaxIndustry,
+          where: c.sale_tax_id == ^attrs.sale_tax_id
+      end
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Ecto.Changeset{}}
+      false ->
+        case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) || Enum.count(attrs.name) > 1 do
+          true ->
+            {:error, [field: :name, message: "name already is exist or name more one, not permission for new record"]}
+          false ->
+            case Repo.aggregate(query, :count, :id) do
+              0 ->
+                case sort_keys(attrs) do
+                  @tp_sale_tax_industry_params ->
+                    %SaleTaxIndustry{}
+                    |> SaleTaxIndustry.changeset(attrs)
+                    |> Repo.insert()
+                  _ ->
+                    {:error, %Ecto.Changeset{}}
+                end
+              _ ->
+                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+            end
+        end
+      true ->
+        case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "Name already is exist"]}
+          false ->
+            case sort_keys(attrs) do
+              @pro_sale_tax_industry_params ->
+                %SaleTaxIndustry{}
+                |> SaleTaxIndustry.changeset(attrs)
+                |> Repo.insert()
+              _ ->
+                {:error, [field: :id, message: "Please will fill are fields"]}
+            end
+        end
+    end
+  end
+
+  @doc """
+  Updates a sale_tax_industry.
+
+  ## Examples
+
+      iex> update_sale_tax_industry(sale_tax_industry, %{field: new_value})
+      {:ok, %SaleTaxIndustry{}}
+
+      iex> update_sale_tax_industry(sale_tax_industry, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_sale_tax_industry(SaleTaxIndustry.t(), %{atom => any}) :: result() | error_tuple()
+  def update_sale_tax_industry(%SaleTaxIndustry{} = struct, attrs) do
+    sale_tax =
+      Repo.get_by(SaleTax, %{id: struct.sale_tax_id})
+
+    get_role_by_user =
+      case sale_tax.user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^sale_tax.user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    get_name_by_sale_tax_industry =
+      case struct.sale_tax_id do
+        nil ->
+          nil
+        _ ->
+          Repo.all(
+            from c in SaleTaxIndustry,
+            where: c.sale_tax_id == ^struct.sale_tax_id,
+            select: c.name
+          )
+      end
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Changeset{}}
+      false ->
+        case sort_keys(attrs) do
+          [] ->
+            struct
+            |> SaleTaxIndustry.changeset(attrs)
+            |> Repo.update()
+          [:name] ->
+            if is_nil(attrs.sale_tax_id) do
+              {:error, %Changeset{}}
+            else
+              case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) || Enum.count(attrs.name) > 1 do
+                true ->
+                  {:error, [field: :name, message: "name already is exist or name more one, not permission for update record"]}
+                false ->
+                  struct
+                  |> SaleTaxIndustry.changeset(attrs)
+                  |> Repo.update()
+              end
+            end
+          [:sale_tax_id] ->
+            if is_nil(attrs.sale_tax_id) do
+              {:error, %Changeset{}}
+            else
+              case struct.sale_tax_id == attrs.sale_tax_id do
+                true ->
+                  {:error, [field: :name, message: "sale_tax_id already is exist, not permission for update record"]}
+                false ->
+                  struct
+                  |> SaleTaxIndustry.changeset(attrs)
+                  |> Repo.update()
+              end
+            end
+          [:name, :sale_tax_id] ->
+            if is_nil(attrs.name) || is_nil(attrs.sale_tax_id) do
+              {:error, %Changeset{}}
+            else
+              case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) || struct.sale_tax_id == attrs.sale_tax_id || Enum.count(attrs.name) > 1 do
+                true ->
+                  {:error, [field: :name, message: "name or sale_tax_id already is exist or name more one, not permission for update record"]}
+                false ->
+                  struct
+                  |> SaleTaxIndustry.changeset(attrs)
+                  |> Repo.update()
+              end
+            end
+          _ ->
+            {:error, [field: :id, message: "Please will fill are fields"]}
+        end
+      true ->
+        case sort_keys(attrs) do
+          [] ->
+            struct
+            |> SaleTaxIndustry.changeset(attrs)
+            |> Repo.update()
+          [:name] ->
+            case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) do
+              true ->
+                {:error, [field: :name, message: "name already is exist, not permission for update record"]}
+              false ->
+                struct
+                |> SaleTaxIndustry.changeset(attrs)
+                |> Repo.update()
+            end
+          [:sale_tax_id] ->
+            struct
+            |> SaleTaxIndustry.changeset(attrs)
+            |> Repo.update()
+          [:name, :sale_tax_id] ->
+            case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) do
+              true ->
+                {:error, [field: :name, message: "name already is exist, not permission for update record"]}
+              false ->
+                struct
+                |> SaleTaxIndustry.changeset(attrs)
+                |> Repo.update()
+            end
+          _ ->
+            {:error, [field: :id, message: "Please will fill are fields"]}
+        end
+    end
+  end
+
+  @doc """
+  Deletes a SaleTaxIndustry.
+
+  ## Examples
+
+      iex> delete_sale_tax_industry(struct)
+      {:ok, %SaleTaxIndustry{}}
+
+      iex> delete_sale_tax_industry(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_sale_tax_industry(SaleTaxIndustry.t()) :: result()
+  def delete_sale_tax_industry(%SaleTaxIndustry{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking sale_tax_industry changes.
+
+  ## Examples
+
+      iex> change_sale_tax_industry(struct)
+      %Ecto.Changeset{source: %SaleTaxIndustry{}}
+
+  """
+  @spec change_sale_tax_industry(SaleTaxIndustry.t()) :: Ecto.Changeset.t()
+  def change_sale_tax_industry(%SaleTaxIndustry{} = struct) do
+    SaleTaxIndustry.changeset(struct, %{})
   end
 
   @doc """

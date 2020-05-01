@@ -49,6 +49,10 @@ bash> > mix ecto.gen.migration -r Core.Repo create_book_keeping_annual_revenues
 bash> > mix ecto.gen.migration -r Core.Repo create_book_keeping_classify_inventories
 bash> > mix ecto.gen.migration -r Core.Repo create_book_keeping_additional_needs
 
+bash> > mix ecto.gen.migration -r Core.Repo create_sale_taxes
+bash> > mix ecto.gen.migration -r Core.Repo create_sale_tax_frequencies
+bash> > mix ecto.gen.migration -r Core.Repo create_sale_tax_industries
+
 iex> language1 = %Language{abbr: "fra", name: "french"
 iex> language2 = %Language{abbr: "ger", name: "german"}
 iex> language1 = Repo.insert!(language1)

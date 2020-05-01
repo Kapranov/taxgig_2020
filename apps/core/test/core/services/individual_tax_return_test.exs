@@ -17,7 +17,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
     end
 
     test "ensures user with specified id actually exists" do
-      id = Ecto.UUID.generate
+      id = FlakeId.get()
       attrs = %{id: id, user_id: nil}
       {result, changeset} =
         %IndividualTaxReturn{}

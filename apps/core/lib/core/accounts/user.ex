@@ -13,7 +13,8 @@ defmodule Core.Accounts.User do
     Repo,
     Services.BookKeeping,
     Services.BusinessTaxReturn,
-    Services.IndividualTaxReturn
+    Services.IndividualTaxReturn,
+    Services.SaleTax
   }
 
   @type t :: %__MODULE__{
@@ -40,7 +41,8 @@ defmodule Core.Accounts.User do
     zip: integer,
     book_keepings: [BookKeeping.t()],
     business_tax_returns: [BusinessTaxReturn.t()],
-    individual_tax_returns: [IndividualTaxReturn.t()]
+    individual_tax_returns: [IndividualTaxReturn.t()],
+    sale_taxes: [SaleTax.t()]
   }
 
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
@@ -102,8 +104,9 @@ defmodule Core.Accounts.User do
       on_delete: :delete_all
 
     has_many :book_keepings, BookKeeping
-    has_many :individual_tax_returns, IndividualTaxReturn
     has_many :business_tax_returns, BusinessTaxReturn
+    has_many :individual_tax_returns, IndividualTaxReturn
+    has_many :sale_taxes, SaleTax
 
     many_to_many :languages, Language,
       join_through: "users_languages",

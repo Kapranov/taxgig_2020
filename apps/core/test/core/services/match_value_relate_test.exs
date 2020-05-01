@@ -3,8 +3,9 @@ defmodule Core.Services.MatchValueRelateTest do
 
   alias Core.{
     Services,
-    Services.MatchValueRelate,
+    Services.MatchValueRelate
   }
+
   alias Decimal, as: D
 
   describe "match_value_relates" do
