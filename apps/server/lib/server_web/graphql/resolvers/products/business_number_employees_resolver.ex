@@ -20,7 +20,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolver d
   @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def list(_parent, _args, %{context: %{current_user: current_user}}) do
     if is_nil(current_user) do
-      {:error, [[field: :current_user, message: "Permission denied for user admin to perform action List"]]}
+      {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
       data = Services.list_business_number_employee()
       {:ok, data}

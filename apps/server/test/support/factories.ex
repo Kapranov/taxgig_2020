@@ -18,6 +18,14 @@ defmodule Server.Factory do
     Lookup.State,
     Lookup.UsZipcode,
     Media.Picture,
+    Services.BookKeeping,
+    Services.BookKeepingAdditionalNeed,
+    Services.BookKeepingAnnualRevenue,
+    Services.BookKeepingClassifyInventory,
+    Services.BookKeepingIndustry,
+    Services.BookKeepingNumberEmployee,
+    Services.BookKeepingTransactionVolume,
+    Services.BookKeepingTypeClient,
     Services.BusinessEntityType,
     Services.BusinessForeignAccountCount,
     Services.BusinessForeignOwnershipCount,
@@ -300,6 +308,218 @@ defmodule Server.Factory do
     }
   end
 
+  @spec book_keeping_factory() :: BookKeeping.t()
+  def book_keeping_factory do
+    %BookKeeping{
+      account_count: random_integer(),
+      balance_sheet: random_boolean(),
+      financial_situation: Lorem.sentence(),
+      inventory: random_boolean(),
+      inventory_count: random_integer(),
+      payroll: random_boolean(),
+      price_payroll: random_integer(),
+      tax_return_current: random_boolean(),
+      tax_year: random_year(),
+      user: build(:user)
+    }
+  end
+
+
+  @spec tp_book_keeping_factory() :: BookKeeping.t()
+  def tp_book_keeping_factory do
+    %BookKeeping{
+      account_count: random_integer(),
+      balance_sheet: random_boolean(),
+      financial_situation: Lorem.sentence(),
+      inventory: random_boolean(),
+      inventory_count: random_integer(),
+      payroll: random_boolean(),
+      tax_return_current: random_boolean(),
+      tax_year: random_year(),
+      user: build(:tp_user)
+    }
+  end
+
+  @spec pro_book_keeping_factory() :: BookKeeping.t()
+  def pro_book_keeping_factory do
+    %BookKeeping{
+      payroll: random_boolean(),
+      price_payroll: random_integer(),
+      user: build(:pro_user)
+    }
+  end
+
+  @spec book_keeping_additional_need_factory() :: BookKeepingAdditionalNeed.t()
+  def book_keeping_additional_need_factory do
+    %BookKeepingAdditionalNeed{
+      book_keepings: build(:book_keeping),
+      name: random_name_additional_need(),
+      price: random_integer()
+    }
+  end
+
+  @spec tp_book_keeping_additional_need_factory() :: BookKeepingAdditionalNeed.t()
+  def tp_book_keeping_additional_need_factory do
+    %BookKeepingAdditionalNeed{
+      book_keepings: build(:tp_book_keeping),
+      name: random_name_additional_need()
+    }
+  end
+
+  @spec pro_book_keeping_additional_need_factory() :: BookKeepingAdditionalNeed.t()
+  def pro_book_keeping_additional_need_factory do
+    %BookKeepingAdditionalNeed{
+      book_keepings: build(:pro_book_keeping),
+      name: random_name_additional_need(),
+      price: random_integer()
+    }
+  end
+
+  @spec book_keeping_annual_revenue_factory() :: BookKeepingAnnualRevenue.t()
+  def book_keeping_annual_revenue_factory do
+    %BookKeepingAnnualRevenue{
+      book_keepings: build(:book_keeping),
+      name: random_name_annual_revenue(),
+      price: random_integer()
+    }
+  end
+
+  @spec tp_book_keeping_annual_revenue_factory() :: BookKeepingAnnualRevenue.t()
+  def tp_book_keeping_annual_revenue_factory do
+    %BookKeepingAnnualRevenue{
+      book_keepings: build(:tp_book_keeping),
+      name: random_name_annual_revenue()
+    }
+  end
+
+  @spec pro_book_keeping_annual_revenue_factory() :: BookKeepingAnnualRevenue.t()
+  def pro_book_keeping_annual_revenue_factory do
+    %BookKeepingAnnualRevenue{
+      book_keepings: build(:pro_book_keeping),
+      name: random_name_annual_revenue(),
+      price: random_integer()
+    }
+  end
+
+  @spec book_keeping_classify_inventory_factory() :: BookKeepingClassifyInventory.t()
+  def book_keeping_classify_inventory_factory do
+    %BookKeepingClassifyInventory{
+      book_keepings: build(:book_keeping),
+      name: random_name_classify_inventory()
+    }
+  end
+
+  @spec tp_book_keeping_classify_inventory_factory() :: BookKeepingClassifyInventory.t()
+  def tp_book_keeping_classify_inventory_factory do
+    %BookKeepingClassifyInventory{
+      book_keepings: build(:tp_book_keeping),
+      name: random_name_classify_inventory()
+    }
+  end
+
+  @spec book_keeping_industry_factory() :: BookKeepingIndustry.t()
+  def book_keeping_industry_factory do
+    %BookKeepingIndustry{
+      book_keepings: build(:book_keeping),
+      name: random_name_industry()
+    }
+  end
+
+  @spec tp_book_keeping_industry_factory() :: BookKeepingIndustry.t()
+  def tp_book_keeping_industry_factory do
+    %BookKeepingIndustry{
+      book_keepings: build(:tp_book_keeping),
+      name: random_name_for_tp_industry()
+    }
+  end
+
+  @spec pro_book_keeping_industry_factory() :: BookKeepingIndustry.t()
+  def pro_book_keeping_industry_factory do
+    %BookKeepingIndustry{
+      book_keepings: build(:pro_book_keeping),
+      name: random_name_for_pro_industry()
+    }
+  end
+
+  @spec book_keeping_number_employee_factory() :: BookKeepingNumberEmployee.t()
+  def book_keeping_number_employee_factory do
+    %BookKeepingNumberEmployee{
+      book_keepings: build(:book_keeping),
+      name: random_name_number_employee(),
+      price: random_integer()
+    }
+  end
+
+  @spec tp_book_keeping_number_employee_factory() :: BookKeepingNumberEmployee.t()
+  def tp_book_keeping_number_employee_factory do
+    %BookKeepingNumberEmployee{
+      book_keepings: build(:tp_book_keeping),
+      name: random_name_number_employee()
+    }
+  end
+
+  @spec pro_book_keeping_number_employee_factory() :: BookKeepingNumberEmployee.t()
+  def pro_book_keeping_number_employee_factory do
+    %BookKeepingNumberEmployee{
+      book_keepings: build(:pro_book_keeping),
+      name: random_name_number_employee(),
+      price: random_integer()
+    }
+  end
+
+  @spec book_keeping_transaction_volume_factory() :: BookKeepingTransactionVolume.t()
+  def book_keeping_transaction_volume_factory do
+    %BookKeepingTransactionVolume{
+      book_keepings: build(:book_keeping),
+      name: random_name_transaction_volume(),
+      price: random_integer()
+    }
+  end
+
+  @spec tp_book_keeping_transaction_volume_factory() :: BookKeepingTransactionVolume.t()
+  def tp_book_keeping_transaction_volume_factory do
+    %BookKeepingTransactionVolume{
+      book_keepings: build(:tp_book_keeping),
+      name: random_name_transaction_volume()
+    }
+  end
+
+  @spec pro_book_keeping_transaction_volume_factory() :: BookKeepingTransactionVolume.t()
+  def pro_book_keeping_transaction_volume_factory do
+    %BookKeepingTransactionVolume{
+      book_keepings: build(:pro_book_keeping),
+      name: random_name_transaction_volume(),
+      price: random_integer()
+    }
+  end
+
+  @spec book_keeping_type_client_factory() :: BookKeepingTypeClient.t()
+  def book_keeping_type_client_factory do
+    %BookKeepingTypeClient{
+      book_keepings: build(:book_keeping),
+      name: random_name_type_client(),
+      price: random_integer()
+    }
+  end
+
+  @spec tp_book_keeping_type_client_factory() :: BookKeepingTypeClient.t()
+  def tp_book_keeping_type_client_factory do
+    %BookKeepingTypeClient{
+      book_keepings: build(:tp_book_keeping),
+      name: random_name_type_client()
+    }
+  end
+
+  @spec pro_book_keeping_type_client_factory() :: BookKeepingTypeClient.t()
+  def pro_book_keeping_type_client_factory do
+    %BookKeepingTypeClient{
+      book_keepings: build(:pro_book_keeping),
+      name: random_name_type_client(),
+      price: random_integer()
+    }
+  end
+
+  @spec business_tax_return_factory() :: BusinessTaxReturn.t()
   def business_tax_return_factory do
     %BusinessTaxReturn{
       accounting_software: random_boolean(),
@@ -341,6 +561,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec tp_business_tax_return_factory() :: BusinessTaxReturn.t()
   def tp_business_tax_return_factory do
     %BusinessTaxReturn{
       accounting_software: random_boolean(),
@@ -380,6 +601,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec pro_business_tax_return_factory() :: BusinessTaxReturn.t()
   def pro_business_tax_return_factory do
     %BusinessTaxReturn{
       none_expat: random_boolean(),
@@ -389,6 +611,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec business_entity_type_factory() :: BusinessEntityType.t()
   def business_entity_type_factory do
     %BusinessEntityType{
       business_tax_returns: build(:business_tax_return),
@@ -397,6 +620,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec tp_business_entity_type_factory() :: BusinessEntityType.t()
   def tp_business_entity_type_factory do
     %BusinessEntityType{
       business_tax_returns: build(:tp_business_tax_return),
@@ -404,6 +628,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec pro_business_entity_type_factory() :: BusinessEntityType.t()
   def pro_business_entity_type_factory do
     %BusinessEntityType{
       business_tax_returns: build(:pro_business_tax_return),
@@ -412,6 +637,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec business_foreign_account_count_factory() :: BusinessForeignAccountCount.t()
   def business_foreign_account_count_factory do
     %BusinessForeignAccountCount{
       business_tax_returns: build(:business_tax_return),
@@ -419,6 +645,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec tp_business_foreign_account_count_factory() :: BusinessForeignAccountCount.t()
   def tp_business_foreign_account_count_factory do
     %BusinessForeignAccountCount{
       business_tax_returns: build(:tp_business_tax_return),
@@ -426,6 +653,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec pro_business_foreign_account_count_factory() :: BusinessForeignAccountCount.t()
   def pro_business_foreign_account_count_factory do
     %BusinessForeignAccountCount{
       business_tax_returns: build(:pro_business_tax_return),
@@ -433,6 +661,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec business_foreign_ownership_count_factory() :: BusinessForeignOwnershipCount.t()
   def business_foreign_ownership_count_factory do
     %BusinessForeignOwnershipCount{
       business_tax_returns: build(:business_tax_return),
@@ -440,6 +669,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec tp_business_foreign_ownership_count_factory() :: BusinessForeignOwnershipCount.t()
   def tp_business_foreign_ownership_count_factory do
     %BusinessForeignOwnershipCount{
       business_tax_returns: build(:tp_business_tax_return),
@@ -447,6 +677,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec pro_business_foreign_ownership_count_factory() :: BusinessForeignOwnershipCount.t()
   def pro_business_foreign_ownership_count_factory do
     %BusinessForeignOwnershipCount{
       business_tax_returns: build(:pro_business_tax_return),
@@ -454,6 +685,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec business_llc_type_factory() :: BusinessLlcType.t()
   def business_llc_type_factory do
     %BusinessLlcType{
       business_tax_returns: build(:business_tax_return),
@@ -461,6 +693,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec tp_business_llc_type_factory() :: BusinessLlcType.t()
   def tp_business_llc_type_factory do
     %BusinessLlcType{
       business_tax_returns: build(:tp_business_tax_return),
@@ -468,6 +701,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec pro_business_llc_type_factory() :: BusinessLlcType.t()
   def pro_business_llc_type_factory do
     %BusinessLlcType{
       business_tax_returns: build(:pro_business_tax_return),
@@ -475,6 +709,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec business_number_employee_factory() :: BusinessNumberEmployee.t()
   def business_number_employee_factory do
     %BusinessNumberEmployee{
       business_tax_returns: build(:business_tax_return),
@@ -483,6 +718,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec tp_business_number_employee_factory() :: BusinessNumberEmployee.t()
   def tp_business_number_employee_factory do
     %BusinessNumberEmployee{
       business_tax_returns: build(:tp_business_tax_return),
@@ -490,6 +726,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec pro_business_number_employee_factory() :: BusinessNumberEmployee.t()
   def pro_business_number_employee_factory do
     %BusinessNumberEmployee{
       business_tax_returns: build(:pro_business_tax_return),
@@ -498,6 +735,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec business_total_revenue_factory() :: BusinessTotalRevenue.t()
   def business_total_revenue_factory do
     %BusinessTotalRevenue{
       business_tax_returns: build(:business_tax_return),
@@ -506,6 +744,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec tp_business_total_revenue_factory() :: BusinessTotalRevenue.t()
   def tp_business_total_revenue_factory do
     %BusinessTotalRevenue{
       business_tax_returns: build(:tp_business_tax_return),
@@ -513,6 +752,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec pro_business_total_revenue_factory() :: BusinessTotalRevenue.t()
   def pro_business_total_revenue_factory do
     %BusinessTotalRevenue{
       business_tax_returns: build(:pro_business_tax_return),
@@ -521,6 +761,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec business_transaction_count_factory() :: BusinessTransactionCount.t()
   def business_transaction_count_factory do
     %BusinessTransactionCount{
       business_tax_returns: build(:business_tax_return),
@@ -528,6 +769,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec tp_business_transaction_count_factory() :: BusinessTransactionCount.t()
   def tp_business_transaction_count_factory do
     %BusinessTransactionCount{
       business_tax_returns: build(:tp_business_tax_return),
@@ -535,6 +777,7 @@ defmodule Server.Factory do
     }
   end
 
+  @spec pro_business_transaction_count_factory() :: BusinessTransactionCount.t()
   def pro_business_transaction_count_factory do
     %BusinessTransactionCount{
       business_tax_returns: build(:pro_business_tax_return),
@@ -757,18 +1000,18 @@ defmodule Server.Factory do
     }
   end
 
-  @spec random_boolean :: boolean()
+  @spec random_boolean() :: boolean
   defp random_boolean do
     value = ~W(true false)a
     Enum.random(value)
   end
 
-  @spec random_integer() :: integer()
+  @spec random_integer() :: integer
   defp random_integer() do
     Enum.random(111111111..123456789)
   end
 
-  @spec random_integer(integer) :: Integer
+  @spec random_integer(integer) :: integer
   defp random_integer(n) when is_integer(n) do
     Enum.random(1..n)
   end
@@ -813,7 +1056,204 @@ defmodule Server.Factory do
     Enum.uniq(result)
   end
 
-  @spec random_name_employment_status :: String.t
+  @spec random_name_additional_need :: String.t()
+  defp random_name_additional_need do
+    names = [
+      "accounts payable",
+      "accounts receivable",
+      "bank reconciliation",
+      "financial report preparation",
+      "sales tax"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_annual_revenue :: String.t
+  defp random_name_annual_revenue do
+    names = [
+      "$100K - $500K",
+      "$10M+",
+      "$1M - $5M",
+      "$500K - $1M",
+      "$5M - $10M",
+      "Less than $100K"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_classify_inventory :: String.t
+  defp random_name_classify_inventory do
+    names = [
+      "Assets",
+      "Expenses"
+    ]
+
+    numbers = 1..2
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
+  end
+
+  @spec random_name_industry :: String.t
+  defp random_name_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    numbers = 1..24
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
+  end
+
+  @spec random_name_for_tp_industry :: String.t
+  defp random_name_for_tp_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    [Enum.random(names)]
+  end
+
+  @spec random_name_for_pro_industry :: String.t
+  defp random_name_for_pro_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    numbers = 1..24
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
+  end
+
+  @spec random_name_number_employee :: String.t
+  defp random_name_number_employee do
+    names = [
+      "1 employee",
+      "101 - 500 employees",
+      "2 - 20 employees",
+      "21 - 50 employees",
+      "500+ employees",
+      "51 - 100 employees"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_transaction_volume :: String.t
+  defp random_name_transaction_volume do
+    names = [
+      "1-25",
+      "200+",
+      "26-75",
+      "76-199"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_type_client :: String.t
+  defp random_name_type_client do
+    names = [
+      "C-Corp / Corporation",
+      "Individual or Sole proprietorship",
+      "LLC",
+      "Non-profit corp",
+      "Partnership",
+      "S-Corp"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_employment_status :: String.t()
   defp random_name_employment_status do
     names = [
       "employed",
@@ -824,7 +1264,7 @@ defmodule Server.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_filling_status :: String.t
+  @spec random_name_filling_status :: String.t()
   defp random_name_filling_status do
     names = [
       "Head of Household",
@@ -837,7 +1277,7 @@ defmodule Server.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_foreign_account_count :: String.t
+  @spec random_name_foreign_account_count :: String.t()
   defp random_name_foreign_account_count do
     names = [
       "1",
@@ -848,7 +1288,7 @@ defmodule Server.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_itemized_deduction :: String.t
+  @spec random_name_itemized_deduction :: String.t()
   defp random_name_itemized_deduction do
     names = [
       "Charitable contributions",
