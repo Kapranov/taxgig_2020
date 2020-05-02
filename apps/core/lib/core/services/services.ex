@@ -39,6 +39,8 @@ defmodule Core.Services do
    tp_user = "9uLE33CFBwgiRCrF8S"
   pro_user = "support@taxgig.com"
 
+  @limit_record 3
+
   @match_value_relate_attrs %{
     :match_for_book_keeping_additional_need          => 0,
     :match_for_book_keeping_annual_revenue           => 0,
@@ -5541,8 +5543,8 @@ defmodule Core.Services do
       nil ->
         {:error, %Changeset{}}
       false ->
-        case Repo.aggregate(query, :count, :user_id) do
-          0 ->
+        case Repo.aggregate(query, :count, :user_id) <= @limit_record do
+          true ->
             case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
               false ->
                 case sort_keys(attrs) do
@@ -5630,7 +5632,7 @@ defmodule Core.Services do
                     {:error, %Changeset{}}
                 end
             end
-          _ ->
+          false ->
             {:error, [field: :user_id, message: "Your role have been restricted for create IndividualTaxReturn"]}
         end
       true ->

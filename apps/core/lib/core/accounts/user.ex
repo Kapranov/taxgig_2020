@@ -93,7 +93,7 @@ defmodule Core.Accounts.User do
     field :password_hash, :string, default: @pass_salt, null: false
     field :phone, :string
     field :provider, :string, default: "localhost", null: false
-    field :role, :boolean
+    field :role, :boolean, default: false, null: false
     field :sex, :string
     field :ssn, :integer
     field :street, :string

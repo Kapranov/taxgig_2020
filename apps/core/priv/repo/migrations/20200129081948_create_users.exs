@@ -16,7 +16,7 @@ defmodule Core.Repo.Migrations.CreateUsers do
       add :middle_name, :string
       add :password_hash, :string, null: false
       add :phone, :string
-      add :role, :boolean
+      add :role, :boolean, default: false, null: false
       add :provider, :string, default: "localhost", null: false
       add :sex, :string
       add :ssn, :integer
