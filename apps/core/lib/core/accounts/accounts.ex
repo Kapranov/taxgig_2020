@@ -5,10 +5,36 @@ defmodule Core.Accounts do
 
   use Core.Context
 
-  alias Core.Accounts.{
-    Profile,
-    Subscriber,
-    User
+  alias Core.{
+    Accounts.Profile,
+    Accounts.Subscriber,
+    Accounts.User,
+    Services.BookKeeping,
+    Services.BookKeepingAdditionalNeed,
+    Services.BookKeepingAnnualRevenue,
+    Services.BookKeepingClassifyInventory,
+    Services.BookKeepingIndustry,
+    Services.BookKeepingNumberEmployee,
+    Services.BookKeepingTransactionVolume,
+    Services.BookKeepingTypeClient,
+    Services.BusinessEntityType,
+    Services.BusinessForeignAccountCount,
+    Services.BusinessForeignOwnershipCount,
+    Services.BusinessLlcType,
+    Services.BusinessNumberEmployee,
+    Services.BusinessTaxReturn,
+    Services.BusinessTotalRevenue,
+    Services.BusinessTransactionCount,
+    Services.IndividualEmploymentStatus,
+    Services.IndividualFilingStatus,
+    Services.IndividualForeignAccountCount,
+    Services.IndividualItemizedDeduction,
+    Services.IndividualStockTransactionCount,
+    Services.IndividualTaxReturn,
+    Services.MatchValueRelate,
+    Services.SaleTax,
+    Services.SaleTaxFrequency,
+    Services.SaleTaxIndustry
   }
 
   @type name :: atom()
@@ -18,6 +44,94 @@ defmodule Core.Accounts do
   @type return :: list()
 
   @search [Subscriber, User]
+
+  @tp_user %{
+    active: false,
+    avatar: "some avatar",
+    bio: "some bio",
+    birthday: Timex.today,
+    email: "lugatex@yahoo.com",
+    first_name: "Oleg",
+    init_setup: false,
+    last_name: "Kapranov",
+    middle_name: "G.",
+    password: "qwerty",
+    password_confirmation: "qwerty",
+    phone: "123456789",
+    provider: "localhost",
+    sex: "Male",
+    ssn: "123456789",
+    street: "410 Nahua St",
+    zip: "96815"
+  }
+
+#  @pro_user %{
+#    active: false,
+#    avatar: "some avatar",
+#    bio: "some bio",
+#    birthday: Timex.today,
+#    email: "lugatex@yahoo.com",
+#    first_name: "Oleg",
+#    init_setup: false,
+#    last_name: "Kapranov",
+#    middle_name: "G.",
+#    password: "qwerty",
+#    password_confirmation: "qwerty",
+#    phone: "123456789",
+#    provider: "localhost",
+#    role: true,
+#    sex: "Male",
+#    ssn: "123456789",
+#    street: "410 Nahua St",
+#    zip: "96815"
+#  }
+
+  @match_value_relate_attrs %{
+    :match_for_book_keeping_additional_need          => 0,
+    :match_for_book_keeping_annual_revenue           => 0,
+    :match_for_book_keeping_industry                 => 0,
+    :match_for_book_keeping_number_employee          => 0,
+    :match_for_book_keeping_payroll                  => 0,
+    :match_for_book_keeping_type_client              => 0,
+    :match_for_business_enity_type                   => 0,
+    :match_for_business_number_of_employee           => 0,
+    :match_for_business_total_revenue                => 0,
+    :match_for_individual_employment_status          => 0,
+    :match_for_individual_filing_status              => 0,
+    :match_for_individual_foreign_account            => 0,
+    :match_for_individual_home_owner                 => 0,
+    :match_for_individual_itemized_deduction         => 0,
+    :match_for_individual_living_abroad              => 0,
+    :match_for_individual_non_resident_earning       => 0,
+    :match_for_individual_own_stock_crypto           => 0,
+    :match_for_individual_rental_prop_income         => 0,
+    :match_for_individual_stock_divident             => 0,
+    :match_for_sale_tax_count                        => 0,
+    :match_for_sale_tax_frequency                    => 0,
+    :match_for_sale_tax_industry                     => 0,
+    :value_for_book_keeping_payroll                  => 0.0,
+    :value_for_book_keeping_tax_year                 => 0.0,
+    :value_for_business_accounting_software          => 0.0,
+    :value_for_business_dispose_property             => 0.0,
+    :value_for_business_foreign_shareholder          => 0.0,
+    :value_for_business_income_over_thousand         => 0.0,
+    :value_for_business_invest_research              => 0.0,
+    :value_for_business_k1_count                     => 0.0,
+    :value_for_business_make_distribution            => 0.0,
+    :value_for_business_state                        => 0.0,
+    :value_for_business_tax_exemption                => 0.0,
+    :value_for_business_total_asset_over             => 0.0,
+    :value_for_individual_employment_status          => 0.0,
+    :value_for_individual_foreign_account_limit      => 0.0,
+    :value_for_individual_foreign_financial_interest => 0.0,
+    :value_for_individual_home_owner                 => 0.0,
+    :value_for_individual_k1_count                   => 0.0,
+    :value_for_individual_rental_prop_income         => 0.0,
+    :value_for_individual_sole_prop_count            => 0.0,
+    :value_for_individual_state                      => 0.0,
+    :value_for_individual_tax_year                   => 0.0,
+    :value_for_sale_tax_count                        => 0.0
+  }
 
   @doc """
   List all via CurrentUser and sorted.
@@ -150,6 +264,16 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Gets an user with preloaded relations.
+  """
+  @spec get_user_with_preload(String.t()) :: User.t() | nil
+  def get_user_with_preload(id) do
+    id
+    |> user_with_preload_query()
+    |> Repo.one()
+  end
+
+  @doc """
   Gets a single Profile.
 
   Raises `Ecto.NoResultsError` if the Profile does not exist.
@@ -216,6 +340,489 @@ defmodule Core.Accounts do
         {:ok, user}
       {:error, _model, changeset, _completed} ->
         {:error, changeset}
+    end
+  end
+
+  @doc """
+  Creates a new user with other services.
+  """
+  @spec create_multi_user(map) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
+  def create_multi_user(attrs \\ @tp_user) do
+    user_changeset =
+      User.changeset(%User{}, attrs)
+
+    match_value_relate_changeset =
+      MatchValueRelate.changeset(%MatchValueRelate{}, @match_value_relate_attrs)
+
+    try do
+      case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
+        false ->
+          case attrs.role do
+            true ->
+              Multi.new
+              |> Multi.insert(:match_value_relate, match_value_relate_changeset)
+              |> Multi.insert(:users, user_changeset)
+              |> Multi.run(:profiles, fn _, %{users: user} ->
+                profile_changeset = %Profile{user_id: user.id}
+                Repo.insert(profile_changeset)
+              end)
+              |> Multi.run(:book_keepings, fn _, %{users: user} ->
+                book_keeping_changeset = %BookKeeping{user_id: user.id}
+                Repo.insert(book_keeping_changeset)
+              end)
+              |> Multi.run(:book_keeping_additional_need, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_additional_need_changeset = %BookKeepingAdditionalNeed{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_additional_need_changeset)
+              end)
+              |> Multi.run(:book_keeping_annual_revenue, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_annual_revenue_changeset = %BookKeepingAnnualRevenue{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_annual_revenue_changeset)
+              end)
+              |> Multi.run(:book_keeping_industry, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_industry_changeset = %BookKeepingIndustry{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_industry_changeset)
+              end)
+              |> Multi.run(:book_keeping_number_employee, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_number_employee_changeset = %BookKeepingNumberEmployee{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_number_employee_changeset)
+              end)
+              |> Multi.run(:book_keeping_transaction_volume, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_transaction_volume_changeset = %BookKeepingTransactionVolume{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_transaction_volume_changeset)
+              end)
+              |> Multi.run(:book_keeping_type_client, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_type_client_changeset = %BookKeepingTypeClient{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_type_client_changeset)
+              end)
+              |> Multi.run(:business_tax_returns, fn _, %{users: user} ->
+                business_tax_return_changeset = %BusinessTaxReturn{user_id: user.id}
+                Repo.insert(business_tax_return_changeset)
+              end)
+              |> Multi.run(:business_entity_type, fn _, %{business_tax_returns: business_tax_return} ->
+                business_entity_type_changeset = %BusinessEntityType{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_entity_type_changeset)
+              end)
+              |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
+                business_foreign_account_count_changeset = %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_foreign_account_count_changeset)
+              end)
+              |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
+                business_foreign_ownership_count_changeset = %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_foreign_ownership_count_changeset)
+              end)
+              |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
+                business_llc_type_changeset = %BusinessLlcType{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_llc_type_changeset)
+              end)
+              |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
+                business_number_employee_changeset = %BusinessNumberEmployee{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_number_employee_changeset)
+              end)
+              |> Multi.run(:business_total_revenue, fn _, %{business_tax_returns: business_tax_return} ->
+                business_total_revenue_changeset = %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_total_revenue_changeset)
+              end)
+              |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
+                business_transaction_count_changeset = %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_transaction_count_changeset)
+              end)
+              |> Multi.run(:individual_tax_returns, fn _, %{users: user} ->
+                individual_tax_return_changeset = %IndividualTaxReturn{user_id: user.id}
+                Repo.insert(individual_tax_return_changeset)
+              end)
+              |> Multi.run(:individual_employment_status, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_employment_status_changeset = %IndividualEmploymentStatus{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_employment_status_changeset)
+              end)
+              |> Multi.run(:individual_filing_status, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_filing_status_changeset = %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_filing_status_changeset)
+              end)
+              |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_foreign_account_count_changeset = %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_foreign_account_count_changeset)
+              end)
+              |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_itemized_deduction_changeset = %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_itemized_deduction_changeset)
+              end)
+              |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_stock_transaction_count_changeset = %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_stock_transaction_count_changeset)
+              end)
+              |> Multi.run(:sale_taxes, fn _, %{users: user} ->
+                sale_tax_changeset = %SaleTax{user_id: user.id}
+                Repo.insert(sale_tax_changeset)
+              end)
+              |> Multi.run(:sale_tax_frequency, fn _, %{sale_taxes: sale_tax} ->
+                sale_tax_frequency_changeset = %SaleTaxFrequency{sale_tax_id: sale_tax.id}
+                Repo.insert(sale_tax_frequency_changeset)
+              end)
+              |> Multi.run(:sale_tax_industry, fn _, %{sale_taxes: sale_tax} ->
+                sale_tax_industry_changeset = %SaleTaxIndustry{sale_tax_id: sale_tax.id}
+                Repo.insert(sale_tax_industry_changeset)
+              end)
+              |> Repo.transaction()
+              |> case do
+                {:ok, %{users: user}} ->
+                  {:ok, user}
+                {:error, :users, %Changeset{} = changeset, _completed} ->
+                  {:error, extract_error_msg(changeset)}
+                {:error, _model, changeset, _completed} ->
+                  {:error, extract_error_msg(changeset)}
+              end
+            false ->
+              Multi.new
+              |> Multi.insert(:users, user_changeset)
+              |> Multi.run(:profiles, fn _, %{users: user} ->
+                profile_changeset = %Profile{user_id: user.id}
+                Repo.insert(profile_changeset)
+              end)
+              |> Multi.run(:book_keepings, fn _, %{users: user} ->
+                book_keeping_changeset = %BookKeeping{user_id: user.id}
+                Repo.insert(book_keeping_changeset)
+              end)
+              |> Multi.run(:book_keeping_additional_need, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_additional_need_changeset = %BookKeepingAdditionalNeed{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_additional_need_changeset)
+              end)
+              |> Multi.run(:book_keeping_annual_revenue, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_annual_revenue_changeset = %BookKeepingAnnualRevenue{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_annual_revenue_changeset)
+              end)
+              |> Multi.run(:book_keeping_classify_inventory, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_classify_inventory_changeset = %BookKeepingClassifyInventory{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_classify_inventory_changeset)
+              end)
+              |> Multi.run(:book_keeping_industry, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_industry_changeset = %BookKeepingIndustry{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_industry_changeset)
+              end)
+              |> Multi.run(:book_keeping_number_employee, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_number_employee_changeset = %BookKeepingNumberEmployee{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_number_employee_changeset)
+              end)
+              |> Multi.run(:book_keeping_transaction_volume, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_transaction_volume_changeset = %BookKeepingTransactionVolume{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_transaction_volume_changeset)
+              end)
+              |> Multi.run(:book_keeping_type_client, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_type_client_changeset = %BookKeepingTypeClient{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_type_client_changeset)
+              end)
+              |> Multi.run(:business_tax_returns, fn _, %{users: user} ->
+                business_tax_return_changeset = %BusinessTaxReturn{user_id: user.id}
+                Repo.insert(business_tax_return_changeset)
+              end)
+              |> Multi.run(:business_entity_type, fn _, %{business_tax_returns: business_tax_return} ->
+                business_entity_type_changeset = %BusinessEntityType{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_entity_type_changeset)
+              end)
+              |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
+                business_foreign_account_count_changeset = %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_foreign_account_count_changeset)
+              end)
+              |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
+                business_foreign_ownership_count_changeset = %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_foreign_ownership_count_changeset)
+              end)
+              |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
+                business_llc_type_changeset = %BusinessLlcType{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_llc_type_changeset)
+              end)
+              |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
+                business_number_employee_changeset = %BusinessNumberEmployee{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_number_employee_changeset)
+              end)
+              |> Multi.run(:business_total_revenue, fn _, %{business_tax_returns: business_tax_return} ->
+                business_total_revenue_changeset = %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_total_revenue_changeset)
+              end)
+              |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
+                business_transaction_count_changeset = %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_transaction_count_changeset)
+              end)
+              |> Multi.run(:individual_tax_returns, fn _, %{users: user} ->
+                individual_tax_return_changeset = %IndividualTaxReturn{user_id: user.id}
+                Repo.insert(individual_tax_return_changeset)
+              end)
+              |> Multi.run(:individual_employment_status, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_employment_status_changeset = %IndividualEmploymentStatus{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_employment_status_changeset)
+              end)
+              |> Multi.run(:individual_filing_status, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_filing_status_changeset = %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_filing_status_changeset)
+              end)
+              |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_foreign_account_count_changeset = %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_foreign_account_count_changeset)
+              end)
+              |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_itemized_deduction_changeset = %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_itemized_deduction_changeset)
+              end)
+              |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_stock_transaction_count_changeset = %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_stock_transaction_count_changeset)
+              end)
+              |> Multi.run(:sale_taxes, fn _, %{users: user} ->
+                sale_tax_changeset = %SaleTax{user_id: user.id}
+                Repo.insert(sale_tax_changeset)
+              end)
+              |> Multi.run(:sale_tax_frequency, fn _, %{sale_taxes: sale_tax} ->
+                sale_tax_frequency_changeset = %SaleTaxFrequency{sale_tax_id: sale_tax.id}
+                Repo.insert(sale_tax_frequency_changeset)
+              end)
+              |> Multi.run(:sale_tax_industry, fn _, %{sale_taxes: sale_tax} ->
+                sale_tax_industry_changeset = %SaleTaxIndustry{sale_tax_id: sale_tax.id}
+                Repo.insert(sale_tax_industry_changeset)
+              end)
+              |> Repo.transaction()
+              |> case do
+                {:ok, %{users: user}} ->
+                  {:ok, user}
+                {:error, :users, %Changeset{} = changeset, _completed} ->
+                  {:error, extract_error_msg(changeset)}
+                {:error, _model, changeset, _completed} ->
+                  {:error, extract_error_msg(changeset)}
+              end
+          end
+        true ->
+          case attrs.role do
+            true ->
+              Multi.new
+              |> Multi.insert(:users, user_changeset)
+              |> Multi.run(:profiles, fn _, %{users: user} ->
+                profile_changeset = %Profile{user_id: user.id}
+                Repo.insert(profile_changeset)
+              end)
+              |> Multi.run(:book_keepings, fn _, %{users: user} ->
+                book_keeping_changeset = %BookKeeping{user_id: user.id}
+                Repo.insert(book_keeping_changeset)
+              end)
+              |> Multi.run(:book_keeping_additional_need, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_additional_need_changeset = %BookKeepingAdditionalNeed{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_additional_need_changeset)
+              end)
+              |> Multi.run(:book_keeping_annual_revenue, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_annual_revenue_changeset = %BookKeepingAnnualRevenue{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_annual_revenue_changeset)
+              end)
+              |> Multi.run(:book_keeping_industry, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_industry_changeset = %BookKeepingIndustry{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_industry_changeset)
+              end)
+              |> Multi.run(:book_keeping_number_employee, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_number_employee_changeset = %BookKeepingNumberEmployee{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_number_employee_changeset)
+              end)
+              |> Multi.run(:book_keeping_transaction_volume, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_transaction_volume_changeset = %BookKeepingTransactionVolume{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_transaction_volume_changeset)
+              end)
+              |> Multi.run(:book_keeping_type_client, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_type_client_changeset = %BookKeepingTypeClient{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_type_client_changeset)
+              end)
+              |> Multi.run(:business_tax_returns, fn _, %{users: user} ->
+                business_tax_return_changeset = %BusinessTaxReturn{user_id: user.id}
+                Repo.insert(business_tax_return_changeset)
+              end)
+              |> Multi.run(:business_entity_type, fn _, %{business_tax_returns: business_tax_return} ->
+                business_entity_type_changeset = %BusinessEntityType{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_entity_type_changeset)
+              end)
+              |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
+                business_foreign_account_count_changeset = %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_foreign_account_count_changeset)
+              end)
+              |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
+                business_foreign_ownership_count_changeset = %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_foreign_ownership_count_changeset)
+              end)
+              |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
+                business_llc_type_changeset = %BusinessLlcType{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_llc_type_changeset)
+              end)
+              |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
+                business_number_employee_changeset = %BusinessNumberEmployee{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_number_employee_changeset)
+              end)
+              |> Multi.run(:business_total_revenue, fn _, %{business_tax_returns: business_tax_return} ->
+                business_total_revenue_changeset = %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_total_revenue_changeset)
+              end)
+              |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
+                business_transaction_count_changeset = %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_transaction_count_changeset)
+              end)
+              |> Multi.run(:individual_tax_returns, fn _, %{users: user} ->
+                individual_tax_return_changeset = %IndividualTaxReturn{user_id: user.id}
+                Repo.insert(individual_tax_return_changeset)
+              end)
+              |> Multi.run(:individual_employment_status, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_employment_status_changeset = %IndividualEmploymentStatus{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_employment_status_changeset)
+              end)
+              |> Multi.run(:individual_filing_status, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_filing_status_changeset = %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_filing_status_changeset)
+              end)
+              |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_foreign_account_count_changeset = %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_foreign_account_count_changeset)
+              end)
+              |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_itemized_deduction_changeset = %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_itemized_deduction_changeset)
+              end)
+              |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_stock_transaction_count_changeset = %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_stock_transaction_count_changeset)
+              end)
+              |> Multi.run(:sale_taxes, fn _, %{users: user} ->
+                sale_tax_changeset = %SaleTax{user_id: user.id}
+                Repo.insert(sale_tax_changeset)
+              end)
+              |> Multi.run(:sale_tax_frequency, fn _, %{sale_taxes: sale_tax} ->
+                sale_tax_frequency_changeset = %SaleTaxFrequency{sale_tax_id: sale_tax.id}
+                Repo.insert(sale_tax_frequency_changeset)
+              end)
+              |> Multi.run(:sale_tax_industry, fn _, %{sale_taxes: sale_tax} ->
+                sale_tax_industry_changeset = %SaleTaxIndustry{sale_tax_id: sale_tax.id}
+                Repo.insert(sale_tax_industry_changeset)
+              end)
+              |> Repo.transaction()
+              |> case do
+                {:ok, %{users: user}} ->
+                  {:ok, user}
+                {:error, :users, %Changeset{} = changeset, _completed} ->
+                  {:error, extract_error_msg(changeset)}
+                {:error, _model, changeset, _completed} ->
+                  {:error, extract_error_msg(changeset)}
+              end
+            false ->
+              Multi.new
+              |> Multi.insert(:users, user_changeset)
+              |> Multi.run(:profiles, fn _, %{users: user} ->
+                profile_changeset = %Profile{user_id: user.id}
+                Repo.insert(profile_changeset)
+              end)
+              |> Multi.run(:book_keepings, fn _, %{users: user} ->
+                book_keeping_changeset = %BookKeeping{user_id: user.id}
+                Repo.insert(book_keeping_changeset)
+              end)
+              |> Multi.run(:book_keeping_additional_need, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_additional_need_changeset = %BookKeepingAdditionalNeed{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_additional_need_changeset)
+              end)
+              |> Multi.run(:book_keeping_annual_revenue, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_annual_revenue_changeset = %BookKeepingAnnualRevenue{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_annual_revenue_changeset)
+              end)
+              |> Multi.run(:book_keeping_classify_inventory, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_classify_inventory_changeset = %BookKeepingClassifyInventory{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_classify_inventory_changeset)
+              end)
+              |> Multi.run(:book_keeping_industry, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_industry_changeset = %BookKeepingIndustry{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_industry_changeset)
+              end)
+              |> Multi.run(:book_keeping_number_employee, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_number_employee_changeset = %BookKeepingNumberEmployee{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_number_employee_changeset)
+              end)
+              |> Multi.run(:book_keeping_transaction_volume, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_transaction_volume_changeset = %BookKeepingTransactionVolume{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_transaction_volume_changeset)
+              end)
+              |> Multi.run(:book_keeping_type_client, fn _, %{book_keepings: book_keeping} ->
+                book_keeping_type_client_changeset = %BookKeepingTypeClient{book_keeping_id: book_keeping.id}
+                Repo.insert(book_keeping_type_client_changeset)
+              end)
+              |> Multi.run(:business_tax_returns, fn _, %{users: user} ->
+                business_tax_return_changeset = %BusinessTaxReturn{user_id: user.id}
+                Repo.insert(business_tax_return_changeset)
+              end)
+              |> Multi.run(:business_entity_type, fn _, %{business_tax_returns: business_tax_return} ->
+                business_entity_type_changeset = %BusinessEntityType{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_entity_type_changeset)
+              end)
+              |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
+                business_foreign_account_count_changeset = %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_foreign_account_count_changeset)
+              end)
+              |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
+                business_foreign_ownership_count_changeset = %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_foreign_ownership_count_changeset)
+              end)
+              |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
+                business_llc_type_changeset = %BusinessLlcType{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_llc_type_changeset)
+              end)
+              |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
+                business_number_employee_changeset = %BusinessNumberEmployee{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_number_employee_changeset)
+              end)
+              |> Multi.run(:business_total_revenue, fn _, %{business_tax_returns: business_tax_return} ->
+                business_total_revenue_changeset = %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_total_revenue_changeset)
+              end)
+              |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
+                business_transaction_count_changeset = %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_transaction_count_changeset)
+              end)
+              |> Multi.run(:individual_tax_returns, fn _, %{users: user} ->
+                individual_tax_return_changeset = %IndividualTaxReturn{user_id: user.id}
+                Repo.insert(individual_tax_return_changeset)
+              end)
+              |> Multi.run(:individual_employment_status, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_employment_status_changeset = %IndividualEmploymentStatus{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_employment_status_changeset)
+              end)
+              |> Multi.run(:individual_filing_status, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_filing_status_changeset = %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_filing_status_changeset)
+              end)
+              |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_foreign_account_count_changeset = %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_foreign_account_count_changeset)
+              end)
+              |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_itemized_deduction_changeset = %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_itemized_deduction_changeset)
+              end)
+              |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_stock_transaction_count_changeset = %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_stock_transaction_count_changeset)
+              end)
+              |> Multi.run(:sale_taxes, fn _, %{users: user} ->
+                sale_tax_changeset = %SaleTax{user_id: user.id}
+                Repo.insert(sale_tax_changeset)
+              end)
+              |> Multi.run(:sale_tax_frequency, fn _, %{sale_taxes: sale_tax} ->
+                sale_tax_frequency_changeset = %SaleTaxFrequency{sale_tax_id: sale_tax.id}
+                Repo.insert(sale_tax_frequency_changeset)
+              end)
+              |> Multi.run(:sale_tax_industry, fn _, %{sale_taxes: sale_tax} ->
+                sale_tax_industry_changeset = %SaleTaxIndustry{sale_tax_id: sale_tax.id}
+                Repo.insert(sale_tax_industry_changeset)
+              end)
+              |> Repo.transaction()
+              |> case do
+                {:ok, %{users: user}} ->
+                  {:ok, user}
+                {:error, :users, %Changeset{} = changeset, _completed} ->
+                  {:error, extract_error_msg(changeset)}
+                {:error, _model, changeset, _completed} ->
+                  {:error, extract_error_msg(changeset)}
+              end
+          end
+      end
+    rescue
+      KeyError ->
+        {:error, "Field 'Role' must be filled in."}
     end
   end
 
@@ -386,5 +993,31 @@ defmodule Core.Accounts do
   @spec change_profile(Profile.t()) :: Ecto.Changeset.t()
   def change_profile(%Profile{} = struct) do
     Profile.changeset(struct, %{})
+  end
+
+  @spec user_with_preload_query(String.t()) :: Ecto.Query.t()
+  defp user_with_preload_query(user_id) do
+    from(
+      a in User,
+      where: a.id == ^user_id,
+      preload: [
+        :book_keepings,
+        :business_tax_returns,
+        :individual_tax_returns,
+        :languages,
+        :sale_taxes
+      ]
+    )
+  end
+
+  @spec extract_error_msg(Ecto.Changeset.t()) :: Ecto.Changeset.t()
+  defp extract_error_msg(changeset) do
+    changeset.errors
+    |> Enum.map(fn {field, {error, _details}} ->
+      [
+        field: field,
+        message: String.capitalize(error)
+      ]
+    end)
   end
 end
