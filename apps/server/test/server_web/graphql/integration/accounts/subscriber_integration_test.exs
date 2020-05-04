@@ -509,7 +509,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
 
       query = """
       mutation {
-        deleteSubscriber(id: \"#{struct.id}\") {id}
+        deleteSubscriber(email: \"#{struct.email}\") {id}
       }
       """
 
@@ -529,7 +529,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
 
       query = """
       mutation {
-        deleteSubscriber(id: \"#{struct.id}\") {id}
+        deleteSubscriber(email: \"#{struct.email}\") {id}
       }
       """
 
@@ -540,11 +540,11 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
     end
 
     it "returns not found when accounts subscriber does not exist - ``AbsintheHelpers`" do
-      id = FlakeId.get()
+      email = "xxx"
 
       query = """
       mutation {
-        deleteSubscriber(id: \"#{id}\") {id}
+        deleteSubscriber(email: \"#{email}\") {id}
       }
       """
 
@@ -552,16 +552,16 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert hd(json_response(res, 200)["errors"])["message"] == "The Subscriber #{id} not found!"
+      assert hd(json_response(res, 200)["errors"])["message"] == "The Subscriber #{email} not found!"
     end
 
     it "returns not found when accounts subscriber does not exist - ``Absinthe.run`" do
-      id = FlakeId.get()
+      email = "xxx"
       context = %{}
 
       query = """
       mutation {
-        deleteSubscriber(id: \"#{id}\") {id}
+        deleteSubscriber(email: \"#{email}\") {id}
       }
       """
 
@@ -571,11 +571,10 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
       assert deleted == nil
     end
 
-
     it "returns error for missing params - `AbsintheHelpers`" do
       query = """
       mutation {
-        deleteSubscriber(id: nil) {id}
+        deleteSubscriber(email: nil) {id}
       }
       """
 
@@ -585,7 +584,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
 
       assert json_response(res, 200)["errors"] == [%{
           "locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"id\" has invalid value nil."
+          "message" => "Argument \"email\" has invalid value nil."
         }]
     end
 
@@ -594,7 +593,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
 
       query = """
       mutation {
-        deleteSubscriber(id: nil) {id}
+        deleteSubscriber(email: nil) {id}
       }
       """
 
@@ -603,7 +602,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
 
       assert error == [%{
           locations: [%{column: 0, line: 2}],
-          message: "Argument \"id\" has invalid value nil."
+          message: "Argument \"email\" has invalid value nil."
         }]
     end
   end

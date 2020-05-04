@@ -70,17 +70,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
     end
   end
 
-  @spec delete(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()
-  def delete(_parent, %{id: id}, _info) do
-    if is_nil(id) do
-      {:error, [[field: :id, message: "Can't be blank"]]}
+  @spec delete(any, %{email: bitstring}, Absinthe.Resolution.t()) :: result()
+  def delete(_parent, %{email: email}, _info) do
+    if is_nil(email) do
+      {:error, [[field: :email, message: "Can't be blank"]]}
     else
       try do
-        struct = Accounts.get_subscriber!(id)
+        struct = Subscriber.find_by(email: email)
         Repo.delete(struct)
       rescue
-        Ecto.NoResultsError ->
-          {:error, "The Subscriber #{id} not found!"}
+        _ ->
+          {:error, "The Subscriber #{email} not found!"}
       end
     end
   end

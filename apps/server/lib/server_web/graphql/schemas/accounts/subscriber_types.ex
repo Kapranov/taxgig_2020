@@ -52,7 +52,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.SubscriberTypes do
 
     @desc "Delete a specific accounts subscriber"
     field :delete_subscriber, :subscriber do
-      arg :id, non_null(:string)
+      arg :email, non_null(:string)
       resolve &SubscriberResolver.delete/3
     end
   end

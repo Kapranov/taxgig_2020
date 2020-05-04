@@ -89,23 +89,23 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolverTest do
   end
 
   describe "#delete" do
-    it "delete specific accounts subscriber by id" do
+    it "delete specific accounts subscriber by email" do
       struct = insert(:subscriber)
-      {:ok, deleted} = SubscriberResolver.delete(nil, %{id: struct.id}, nil)
+      {:ok, deleted} = SubscriberResolver.delete(nil, %{email: struct.email}, nil)
       assert deleted.id == struct.id
     end
 
     it "returns not found when accounts subscriber does not exist" do
-      id = FlakeId.get()
-      {:error, error} = SubscriberResolver.delete(nil, %{id: id}, nil)
-      assert error == "The Subscriber #{id} not found!"
+      email = "xxx"
+      {:error, error} = SubscriberResolver.delete(nil, %{email: email}, nil)
+      assert error == "The Subscriber #{email} not found!"
     end
 
     it "returns error for missing params" do
       insert(:subscriber)
-      args = %{id: nil}
+      args = %{email: nil}
       {:error, error} = SubscriberResolver.delete(nil, args, nil)
-      assert error == [[field: :id, message: "Can't be blank"]]
+      assert error == [[field: :email, message: "Can't be blank"]]
     end
   end
 end
