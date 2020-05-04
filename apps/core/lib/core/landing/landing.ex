@@ -114,8 +114,11 @@ defmodule Core.Landing do
     data = Repo.get!(FaqCategory, id)
 
     case Landing.create_count(Map.get(data, :title)) do
-      nil -> data
-      changeset -> changeset
+      nil ->
+        data
+      changeset ->
+        changeset
+        |> Repo.preload([:faqs])
     end
   end
 

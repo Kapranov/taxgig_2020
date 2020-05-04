@@ -291,6 +291,11 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           title
           inserted_at
           updated_at
+          faqs {
+            id
+            title
+            content
+          }
         }
       }
       """
@@ -308,6 +313,8 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert found["title"]       == struct.title
       assert found["inserted_at"] == format_time(struct.inserted_at)
       assert found["updated_at"]  == format_time(struct.updated_at)
+      assert found["faqs"]        == []
+
     end
 
     it "returns specific faq category by id - `Absinthe.run`" do
@@ -322,6 +329,11 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           title
           inserted_at
           updated_at
+          faqs {
+            id
+            title
+            content
+          }
         }
       }
       """
@@ -334,6 +346,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert found["title"]       == struct.title
       assert found["inserted_at"] == format_time(struct.inserted_at)
       assert found["updated_at"]  == format_time(struct.updated_at)
+      assert found["faqs"]        == []
     end
 
     it "returns not found when faq category does not exist - `AbsintheHelpers`" do
@@ -347,6 +360,11 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           title
           inserted_at
           updated_at
+          faqs {
+            id
+            title
+            content
+          }
         }
       }
       """
@@ -370,6 +388,11 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           title
           inserted_at
           updated_at
+          faqs {
+            id
+            title
+            content
+          }
         }
       }
       """
@@ -389,6 +412,11 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           title
           inserted_at
           updated_at
+          faqs {
+            id
+            title
+            content
+          }
         }
       }
       """
@@ -414,6 +442,11 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           title
           inserted_at
           updated_at
+          faqs {
+            id
+            title
+            content
+          }
         }
       }
       """

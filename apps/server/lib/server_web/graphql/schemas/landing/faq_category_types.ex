@@ -5,7 +5,12 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.FaqCategoryTypes do
 
   use Absinthe.Schema.Notation
 
-  alias ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
+
+  alias ServerWeb.GraphQL.{
+    Data,
+    Resolvers.Landing.FaqCategoryResolver
+  }
 
   @desc "A faq category on the site"
   object :faq_category, description: "Faq Category" do
@@ -14,6 +19,7 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.FaqCategoryTypes do
     field :faqs_count, :integer, description: "count total used faqs for this category"
     field :inserted_at, non_null(:datetime), description: "Created at"
     field :updated_at, non_null(:datetime), description: "Last updated at"
+    field :faqs, list_of(:faq), resolve: dataloader(Data)
   end
 
   @desc "The faq category update via params"

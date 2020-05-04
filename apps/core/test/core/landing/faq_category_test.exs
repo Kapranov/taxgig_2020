@@ -20,6 +20,19 @@ defmodule Core.Landing.FaqCategoryTest do
       assert Landing.get_faq_category!(struct.id) == struct
     end
 
+    test "get_faq_category!/1 returns the faq category with given id and faqs" do
+      struct = insert(:faq_category)
+      insert(:faq, faq_categories: struct)
+
+      data =
+        %FaqCategory{struct | faqs_count: 1}
+        |> Repo.preload([:faqs])
+
+      assert Landing.get_faq_category!(data.id) ==
+        Repo.preload(Map.merge(struct, %{faqs_count: 1}), [:faqs])
+      assert data.id == struct.id
+    end
+
     test "create_faq_category/1 with valid data creates a faq category" do
       assert {:ok, %FaqCategory{} = struct} =
         Landing.create_faq_category(@valid_attrs)

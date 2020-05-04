@@ -45,6 +45,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolverTest do
       assert found.title == struct.title
     end
 
+    it "returns specific FaqCategory by id and faqs" do
+      struct = insert(:faq_category)
+      insert(:faq, faq_categories: struct)
+      {:ok, found} = FaqCategoryResolver.show(nil, %{id: struct.id}, nil)
+      assert found.id         == struct.id
+      assert found.title      == struct.title
+      assert found.faqs_count == 1
+    end
+
     it "returns not found when FaqCategory does not exist" do
       id = FlakeId.get()
       {:error, error} = FaqCategoryResolver.show(nil, %{id: id}, nil)
