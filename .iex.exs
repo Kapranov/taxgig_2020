@@ -282,6 +282,7 @@ defmodule LetMeSee do
     @last_language Repo.all(Language) |> List.last |> Map.get(:id)
     @last_press_article Repo.all(PressArticle) |> List.last |> Map.get(:id)
     @last_subscriber Repo.all(Subscriber) |> List.last |> Map.get(:id)
+    @last_subscriber_email Repo.all(Subscriber) |> List.last |> Map.get(:email)
     @last_user Repo.all(User) |> List.last |> Map.get(:id)
     @last_vacancy Repo.all(Vacancy) |> List.last |> Map.get(:id)
     @last_zipcode Repo.all(UsZipcode) |> List.last |> Map.get(:id)
@@ -824,6 +825,13 @@ defmodule LetMeSee do
                 title
                 inserted_at
                 updated_at
+                faqs {
+                  id
+                  content
+                  title
+                  inserted_at
+                  updated_at
+                }
               }
             }
             """
@@ -2309,13 +2317,14 @@ defmodule LetMeSee do
     end
 
     @spec delete_subscriber(%{atom => String.t()}) :: map() | error() | error_map() | error_tuple()
-    def delete_subscriber(args \\ %{id: @last_subscriber}) do
-      if is_map(args) and Map.has_key?(args, :id) do
-        case FlakeId.flake_id?(args.id) do
+    def delete_subscriber(args \\ %{email: @last_subscriber_email}) do
+      if is_map(args) and Map.has_key?(args, :email) do
+        query = from p in Subscriber, where: p.email == ^args.email
+        case Repo.exists?(query) do
           true ->
             request = """
             mutation {
-              deleteSubscriber(id: \"#{args.id}\") {id}
+              deleteSubscriber(email: \"#{args.email}\") {id}
             }
             """
             IO.puts(request)
@@ -2323,7 +2332,7 @@ defmodule LetMeSee do
             ProgressBar.render_spinner(format, fn -> :timer.sleep 3000 end)
             run(request)
           false ->
-            {:error, message: "Oops! Something Wrong with Id"}
+            {:error, message: "Oops! Something Wrong with Email"}
         end
       else
         {:error, "Please fill out all required arguments!"}
