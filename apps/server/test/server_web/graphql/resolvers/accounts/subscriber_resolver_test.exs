@@ -48,10 +48,23 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolverTest do
       assert created.pro_role == false
     end
 
+    test "create_subscriber/1 with valid data when email has exist but pro_role was changed" do
+      insert(:subscriber)
+      args = %{
+        email: "lugatex@yahoo.com",
+        pro_role: true
+      }
+      {:ok, created} = SubscriberResolver.create(nil, args, nil)
+      assert created.email    == "lugatex@yahoo.com"
+      assert created.pro_role == true
+    end
+
     it "returns error for missing params" do
       args = %{email: nil, pro_role: nil}
       {:error, error} = SubscriberResolver.create(nil, args, nil)
-      assert error == [[field: :pro_role, message: "Check that an email address or role has been entered"]]
+      assert error == [
+        [field: :email, message: "Can't be blank"], [field: :pro_role, message: "Can't be blank"]
+      ]
     end
   end
 

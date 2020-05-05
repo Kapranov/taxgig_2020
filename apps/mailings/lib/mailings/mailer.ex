@@ -6,16 +6,22 @@ defmodule Mailings.Mailer do
   alias Faker.{Lorem, Lorem.Shakespeare.En}
 
   @config domain: Application.get_env(:mailings, :mailgun_domain),
-    key: Application.get_env(:mailings, :mailgun_key)
+    key: Application.get_env(:mailings, :mailgun_key),
+    httpc_opts: [connect_timeout: 2000, timeout: 3000]
 
   @root_dir Path.expand("../../../mailings/data/", __DIR__)
   @tp_html_path "#{@root_dir}/email_tp.html"
   @pro_html_path "#{@root_dir}/email_pro.html"
   @forgot_password_html_path "#{@root_dir}/forgot_password.html"
+  @tp_email_subject "Join this tax season"
+  @pro_email_subject "Become a Tax Pro"
+  @tp_template "subscriber_client"
+  @pro_template "subscriber_pro"
+  @forgot_password_template "forgot_password"
 
   use Mailgun.Client, @config
 
-  @from "contact@mail.taxgig.com"
+  @from "noreply@mail.taxgig.com"
 
   @doc """
   Send an email in format txt for customer TP.
@@ -63,9 +69,8 @@ defmodule Mailings.Mailer do
   def send_tp_html(customer) do
     send_email to: customer,
                from: @from,
-               subject: email_subject(),
-               html: welcome_tp_html()
-
+               subject: @tp_email_subject,
+               template: @tp_template
     :ok
   end
 
@@ -81,8 +86,8 @@ defmodule Mailings.Mailer do
   def send_pro_html(customer) do
     send_email to: customer,
                from: @from,
-               subject: email_subject(),
-               html: welcome_pro_html()
+               subject: @pro_email_subject,
+               template: @pro_template
 
     :ok
   end
@@ -95,13 +100,18 @@ defmodule Mailings.Mailer do
       iex> Mailings.Mailer.send_forgot_password_html("123", "test@example.com", "John")
       :ok
   """
+  @user_link "https://taxgig.com/?id=9ukGONGpyZZz0XYiVE"
   @spec send_forgot_password_html(String.t(), String.t(), String.t()) :: :ok
   def send_forgot_password_html(id, email, name) do
+    year = Timex.format!(Timex.now, "%Y", :strftime)
     send_email to: email,
                from: @from,
                subject: forgot_password_subject(),
-               html: forgot_password_html(id, name)
-
+               template: @forgot_password_template,
+               'v:firstname': name,
+               'v:user_id': id,
+               'v:year': year,
+               'v:user_link': @user_link
     :ok
   end
 
@@ -131,21 +141,21 @@ defmodule Mailings.Mailer do
 
   @doc false
   @spec welcome_tp_html() :: String.t() | {:error, :enoent}
-  defp welcome_tp_html do
+  def welcome_tp_html do
     {:ok, data} = File.read("#{@tp_html_path}")
     data
   end
 
   @doc false
   @spec welcome_pro_html() :: String.t() | {:error, :enoent}
-  defp welcome_pro_html do
+  def welcome_pro_html do
     {:ok, data} = File.read("#{@pro_html_path}")
     data
   end
 
   @doc false
   @spec forgot_password_html(String.t(), String.t()) :: String.t() | {:error, :enoent}
-  defp forgot_password_html(id, name) do
+  def forgot_password_html(id, name) do
     {:ok, data} = File.read("#{@forgot_password_html_path}")
 
     data

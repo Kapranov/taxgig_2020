@@ -37,6 +37,27 @@ defmodule Core.Accounts.SubscriberTest do
       assert struct.pro_role == false
     end
 
+    test "create_subscriber/1 with valid data when email has exist but pro_role was changed" do
+      attrs = %{
+        email: "lugatex@yahoo.com",
+        pro_role: true,
+      }
+      assert {:ok, %Subscriber{} = struct} = Accounts.create_subscriber(@valid_attrs)
+      assert struct.email    == "lugatex@yahoo.com"
+      assert struct.pro_role == false
+
+      assert {:ok, %Subscriber{} = struct} = Accounts.create_subscriber(attrs)
+      assert struct.email    == "lugatex@yahoo.com"
+      assert struct.pro_role == true
+    end
+
+    test "create_subscriber/1 with return error when user has been created same attributes" do
+      assert {:ok, %Subscriber{} = struct} = Accounts.create_subscriber(@valid_attrs)
+      assert struct.email    == "lugatex@yahoo.com"
+      assert struct.pro_role == false
+      assert :error = Accounts.create_subscriber(@valid_attrs)
+    end
+
     test "create_subscriber/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} =
         Accounts.create_subscriber(@invalid_attrs)

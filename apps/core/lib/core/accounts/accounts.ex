@@ -307,9 +307,30 @@ defmodule Core.Accounts do
   """
   @spec create_subscriber(%{atom => any}) :: result() | error_tuple()
   def create_subscriber(attrs \\ %{}) do
-    %Subscriber{}
-    |> Subscriber.changeset(attrs)
-    |> Repo.insert()
+    query =
+      if is_nil(attrs.email) or is_nil(attrs.pro_role) do
+        nil
+      else
+        Repo.one(
+          from s in Subscriber,
+          where: s.email == ^attrs.email
+        )
+      end
+
+    case is_nil(query) do
+      true ->
+        %Subscriber{}
+        |> Subscriber.changeset(attrs)
+        |> Repo.insert()
+      false ->
+        if query.pro_role == attrs.pro_role do
+          :error
+        else
+          query
+          |> Subscriber.changeset(attrs)
+          |> Repo.update()
+        end
+    end
   end
 
   @doc """

@@ -42,9 +42,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
 
   @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
   def create(_parent, args, _info) do
-    with :ok <- Task.await(mailgun(args.email, args.pro_role), 3000),
-          {:ok, struct} <- Accounts.create_subscriber(args)
-        do
+    with {:ok, struct} <- Accounts.create_subscriber(args) do
+      :ok = Task.await(mailgun(args.email, args.pro_role), 3000)
       {:ok, struct}
     else
       :error ->
