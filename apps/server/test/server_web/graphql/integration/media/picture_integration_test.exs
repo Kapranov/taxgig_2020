@@ -240,7 +240,10 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
     end
   end
 
-  describe "#delete" do
+  describe "Resolver: Update picture" do
+  end
+
+  describe "Resolver: Delete picture" do
     it "delete specific picture by profile_id - `AbsintheHelpers`" do
       %Picture{profile_id: profile_id} = picture = insert(:picture)
       user = Core.Accounts.User.find_by(id: picture.profile_id)
