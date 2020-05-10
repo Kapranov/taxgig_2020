@@ -8,13 +8,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
 
   describe "#picture" do
     it "get picture for an event's pic" do
-      picture = insert(:picture)
-      {:ok, found} = PicturesResolver.picture(%{picture_id: picture.id}, nil, nil)
-      assert found.id           == picture.id
-      assert found.content_type == picture.file.content_type
-      assert found.name         == picture.file.name
-      assert found.size         == picture.file.size
-      assert found.url          == picture.file.url
+      struct = insert(:picture)
+      {:ok, found} = PicturesResolver.picture(%{picture_id: struct.id}, nil, nil)
+      assert found.id           == struct.id
+      assert found.content_type == struct.file.content_type
+      assert found.name         == struct.file.name
+      assert found.size         == struct.file.size
+      assert found.url          == struct.file.url
       assert {:ok, %{
           body: "",
           headers: [
@@ -24,17 +24,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
           ],
           status_code: 204
         }
-      } = Core.Upload.remove(picture.file.url)
+      } = Core.Upload.remove(struct.file.url)
     end
 
     it "get picture for an event that has an attached" do
-      picture = insert(:picture)
-      {:ok, found} = PicturesResolver.picture(nil, %{id: picture.id}, nil)
-      assert found.id           == picture.id
-      assert found.content_type == picture.file.content_type
-      assert found.name         == picture.file.name
-      assert found.size         == picture.file.size
-      assert found.url          == picture.file.url
+      struct = insert(:picture)
+      {:ok, found} = PicturesResolver.picture(nil, %{id: struct.id}, nil)
+      assert found.id           == struct.id
+      assert found.content_type == struct.file.content_type
+      assert found.name         == struct.file.name
+      assert found.size         == struct.file.size
+      assert found.url          == struct.file.url
       assert {:ok, %{
           body: "",
           headers: [
@@ -44,7 +44,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
           ],
           status_code: 204
         }
-      } = Core.Upload.remove(picture.file.url)
+      } = Core.Upload.remove(struct.file.url)
     end
 
     it "returns not found when Picture does not exist for an event's pic" do
@@ -66,7 +66,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
     end
 
     it "returns error for missing params for an event that has an attached" do
-      picture = insert(:picture)
+      struct = insert(:picture)
       args = %{id: nil}
       {:error, error} = PicturesResolver.picture(nil, args, nil)
       assert error == nil
@@ -79,7 +79,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
           ],
           status_code: 204
         }
-      } = Core.Upload.remove(picture.file.url)
+      } = Core.Upload.remove(struct.file.url)
     end
   end
 
@@ -234,14 +234,116 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
     end
   end
 
-  describe "#delete" do
+  describe "#updatePicture" do
+    it "update specific profile by user_id" do
+      struct = insert(:picture)
+      user = Accounts.get_user!(struct.profile_id)
+      public_endpoint = Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
+      context = %{context: %{current_user: user}}
+
+      file = %Plug.Upload{
+        content_type: "image/jpg",
+        path: "/tmp/logo.png",
+        filename: "logo.png"
+      }
+
+      {:ok, updated} = PicturesResolver.update_picture(nil, %{profile_id: struct.profile_id, file: file}, context)
+      assert updated.id                == struct.id
+      assert updated.file.content_type == "image/png"
+      assert updated.file.name         == "logo.png"
+      assert updated.file.size         == 5057
+      assert updated.file.url          =~ public_endpoint
+      assert updated.profile_id        == struct.profile_id
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(updated.file.url)
+    end
+
+    it "nothing change for file missing params" do
+      struct = insert(:picture)
+      user = Accounts.get_user!(struct.profile_id)
+      context = %{context: %{current_user: user}}
+
+      {:ok, updated} = PicturesResolver.update_picture(nil, %{profile_id: struct.profile_id}, context)
+      assert updated.id                == struct.id
+      assert updated.file.content_type == struct.file.content_type
+      assert updated.file.name         == struct.file.name
+      assert updated.file.size         == struct.file.size
+      assert updated.file.url          =~ struct.file.url
+      assert updated.profile_id        == struct.profile_id
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.file.url)
+    end
+
+    it "returns error for missing params" do
+      struct = insert(:picture)
+      user = Core.Accounts.User.find_by(id: struct.profile_id)
+      context = %{context: %{current_user: user}}
+      args = %{profile_id: nil, file: nil}
+      {:error, error} = PicturesResolver.update_picture(nil, args, context)
+      assert error == [
+        [field: :user_id, message: "Can't be blank or Unauthenticated"]
+      ]
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.file.url)
+    end
+
+    test "update_picture/3 forbids deleting if no auth" do
+      struct = insert(:picture)
+      context = %{context: %{current_user: nil}}
+
+      file = %Plug.Upload{
+        content_type: "image/jpg",
+        path: "/tmp/logo.png",
+        filename: "logo.png"
+      }
+
+      {:error, [[field: :user_id, message: "Can't be blank or Unauthenticated"]]} =
+        PicturesResolver.update_picture(nil, %{profile_id: struct.profile_id, file: file}, context)
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.file.url)
+    end
+  end
+
+  describe "#deletePicture" do
     it "delete specific picture by profile_id" do
-      picture = insert(:picture)
-      user = Accounts.get_user!(picture.profile_id)
+      struct = insert(:picture)
+      user = Accounts.get_user!(struct.profile_id)
       context = %{context: %{current_user: user}}
       {:ok, deleted} =
-        PicturesResolver.remove_picture(nil, %{profile_id: picture.profile_id}, context)
-      assert deleted.id == picture.id
+        PicturesResolver.remove_picture(nil, %{profile_id: struct.profile_id}, context)
+      assert deleted.id == struct.id
     end
 
     it "returns not found when picture does not exist" do

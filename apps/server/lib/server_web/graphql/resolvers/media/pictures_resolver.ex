@@ -38,6 +38,73 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
   @spec picture(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def picture(_parent, _args, _resolution), do: {:error, "There are args can't be blank"}
 
+  @spec update_picture(any, %{profile_id: bitstring(), file: %Plug.Upload{}}, %{context: %{current_user: User.t()}}) :: result()
+  def update_picture(_parent, %{profile_id: profile_id, file: %Plug.Upload{} = file}, %{context: %{current_user: current_user}}) do
+    if is_nil(profile_id) || is_nil(current_user) do
+      {:error, [[field: :user_id, message: "Can't be blank or Unauthenticated"]]}
+    else
+      try do
+        case profile_id == current_user.id do
+          true ->
+            struct = Media.get_picture!(profile_id)
+            params =
+              with {:ok, %{name: name, url: url, content_type: content_type, size: size}} <- Core.Upload.store(file) do
+                Map.merge(%{file: %{url: url, size: size, content_type: content_type, name: name}}, %{profile_id: profile_id})
+              end
+            with {:ok, data} <- Media.update_picture(struct, params) do
+              {:ok, data}
+            else
+              nil ->
+                {:error, "User id is not owned by authenticated user"}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
+          false ->
+            {:error, "permission denied"}
+        end
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "An User #{profile_id} not found!"}
+      end
+    end
+  end
+
+  @spec update_picture(any, %{profile_id: bitstring()}, %{context: %{current_user: User.t()}}) :: result()
+  def update_picture(_parent, %{profile_id: profile_id}, %{context: %{current_user: current_user}}) do
+    if is_nil(profile_id) || is_nil(current_user) do
+      {:error, [[field: :user_id, message: "Can't be blank or Unauthenticated"]]}
+    else
+      try do
+        case profile_id == current_user.id do
+          true ->
+            struct = Media.get_picture!(profile_id)
+            params = Map.merge(%{file: %{url: struct.file.url, size: struct.file.size, content_type: struct.file.content_type, name: struct.file.name}}, %{profile_id: profile_id})
+            with {:ok, %{picture: data}} <- Media.update_picture(struct, params) do
+              {:ok, data}
+            else
+              nil ->
+                {:error, "User id is not owned by authenticated user"}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
+          false ->
+            {:error, "permission denied"}
+        end
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "An User #{profile_id} not found!"}
+      end
+    end
+  end
+
+  @spec update_picture(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update_picture(_parent, _args, _resolution) do
+    {:error, [
+        [field: :current_user,  message: "Unauthenticated"]
+      ]
+    }
+  end
+
   @spec upload_picture(any, %{file: Plug.Upload.t(), profile_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def upload_picture(_parent, %{file: %Plug.Upload{} = file, profile_id: profile_id} = args, %{context: %{current_user: user}}) do
     with %Profile{} <- Accounts.get_profile!(user.id),

@@ -99,6 +99,24 @@ iex> params2 = Map.put(attrs2, :logo, %{name: file2.filename, content_type: file
 iex> {:ok, updated} = Accounts.update_profile(profile, params1)
 iex> {:ok, updated} = Accounts.update_profile(profile, params2)
 
+iex> bucket = Application.get_env(:core, Core.Uploaders.S3)[:bucket]
+iex> user = Accounts.User.find_by(email: "kapranov.lugatex@gmail.com")
+iex> profile = Accounts.get_profile!(user.id)
+iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
+iex> file = %Plug.Upload{content_type: "image/png", path: "/tmp/elixir.png", filename: "elixir.png"}
+iex> {:ok, data} = Core.Upload.store(file)
+iex> profile_id = profile.user_id
+iex> %{profile_id: profile_id, file: %Plug.Upload{} = file}
+iex> struct = Media.get_picture!(profile_id)
+iex> params = if is_nil(file) do
+                Map.merge(%{}, %{profile_id: profile_id})
+              else
+                with {:ok, %{name: name, url: url, content_type: content_type, size: size}} <- Core.Upload.store(file) do
+                  Map.merge(%{file: %{url: url, size: size, content_type: content_type, name: name}}, %{profile_id: profile_id})
+                end
+              end
+iex> {:ok, data} = Media.update_picture(struct, params)
+
 iex> profile = Accounts.get_profile!(user.id)
 iex> user = Accounts.get_user!(profile.user_id)
 iex> authenticated = %{context: %{current_user: user}}
