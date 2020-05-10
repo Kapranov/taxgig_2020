@@ -41,13 +41,20 @@ defmodule ServerWeb.GraphQL.Schemas.Media.PictureTypes do
   end
 
   object :picture_mutations do
-    @desc "Upload a picture"
+    @desc "Create a specific picture by profile_id"
     field :upload_picture, :picture do
       arg(:alt, :string)
       arg(:name, non_null(:string))
       arg(:file, non_null(:upload))
       arg(:profile_id, non_null(:string))
       resolve(&PicturesResolver.upload_picture/3)
+    end
+
+    @desc "Update a specific profile's picture"
+    field :update_picture, :picture do
+      arg :profile_id, non_null(:string)
+      arg :file, :picture_input, description: "The params for picture, either as an object"
+      resolve(&PicturesResolver.update_picture/3)
     end
 
     @desc "Delete a specific picture by profile_id"
