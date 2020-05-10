@@ -5,12 +5,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.PictureTypes do
 
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
-
-  alias ServerWeb.GraphQL.{
-    Data,
-    Resolvers.Media.PicturesResolver
-  }
+  alias ServerWeb.GraphQL.Resolvers.Media.PicturesResolver
 
   @desc "A picture"
   object :picture do
@@ -19,7 +14,6 @@ defmodule ServerWeb.GraphQL.Schemas.Media.PictureTypes do
     field :name, non_null(:string), description: "The picture's name"
     field :size, non_null(:integer), description: "The picture's size"
     field :url, non_null(:string), description: "The picture's full URL"
-    field :profile, non_null(:string), resolve: dataloader(Data)
     field :inserted_at, non_null(:datetime)
     field :updated_at, non_null(:datetime)
   end
@@ -54,6 +48,12 @@ defmodule ServerWeb.GraphQL.Schemas.Media.PictureTypes do
       arg(:file, non_null(:upload))
       arg(:profile_id, non_null(:string))
       resolve(&PicturesResolver.upload_picture/3)
+    end
+
+    @desc "Delete a specific picture by profile_id"
+    field :delete_picture, :picture do
+      arg :profile_id, non_null(:string)
+      resolve(&PicturesResolver.remove_picture/3)
     end
   end
 end

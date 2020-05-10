@@ -37,9 +37,15 @@ defmodule Core.Upload do
   require Logger
 
   @name __MODULE__
-  @host Application.get_env(:server, ServerWeb.Endpoint)[:url][:host]
-  @port Application.get_env(:server, ServerWeb.Endpoint)[:url][:port]
-  @url "https://" <> @host <> ":" <> "#{@port}"
+  # @host Application.get_env(:server, ServerWeb.Endpoint)[:url][:host]
+  # @host Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
+  @host "nyc3.digitaloceanspaces.com"
+  # @bucket Application.get_env(:core, Core.Uploaders.S3)[:bucket]
+  # @port Application.get_env(:server, ServerWeb.Endpoint)[:url][:port]
+  # @url "https://" <> @host <> ":" <> "#{@port}"
+  # https://nyc3.digitaloceanspaces.com/taxgig/
+  # @url @host <> "/" <> @bucket
+  @url "https://" <> @host
 
   @type source ::
           Plug.Upload.t()
@@ -90,7 +96,8 @@ defmodule Core.Upload do
 
   @spec remove(String.t(), list()) :: String.t() | {:error, String.t()}
   def remove(url, opts \\ []) do
-    with opts <- get_opts(opts), %URI{path: "/media/" <> path, host: host} <- URI.parse(url), {:same_host, true} <- {:same_host, host == @host} do
+    # with opts <- get_opts(opts), %URI{path: "/media/" <> path, host: host} <- URI.parse(url), {:same_host, true} <- {:same_host, host == @host} do
+    with opts <- get_opts(opts), %URI{path: "/taxgig/" <> path, host: host} <- URI.parse(url), {:same_host, true} <- {:same_host, host == @host} do
       Uploaders.Uploader.remove_file(opts.uploader, path)
     else
       %URI{} = _uri ->
@@ -159,8 +166,8 @@ defmodule Core.Upload do
           ""
         end
 
-    [base_url, "media", path]
-    |> Path.join()
+    # [base_url, "media", path] |> Path.join()
+    [base_url, "taxgig", path] |> Path.join()
   end
 
   @spec url_from_spec(any(), any(), {:url, String.t()}) :: String.t()

@@ -87,6 +87,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
     it "uploads a new picture" do
       profile = insert(:profile)
       user = Accounts.get_user!(profile.user_id)
+      public_endpoint = Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
       authenticated = %{context: %{current_user: user}}
       picture = %{name: "my pic", alt: "represents something", file: "picture.png"}
       file = %Plug.Upload{
@@ -104,7 +105,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
       assert uploaded.content_type == "image/png"
       assert uploaded.name         == picture.name
       assert uploaded.size         == 4002
-      assert uploaded.url          =~ ServerWeb.Endpoint.url()
+      assert uploaded.url          =~ public_endpoint
       assert {:ok, %{
           body: "",
           headers: [
@@ -230,6 +231,72 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
         }, authenticated)
 
       assert error == "Unauthenticated"
+    end
+  end
+
+  describe "#delete" do
+    it "delete specific picture by profile_id" do
+      picture = insert(:picture)
+      user = Accounts.get_user!(picture.profile_id)
+      context = %{context: %{current_user: user}}
+      {:ok, deleted} =
+        PicturesResolver.remove_picture(nil, %{profile_id: picture.profile_id}, context)
+      assert deleted.id == picture.id
+    end
+
+    it "returns not found when picture does not exist" do
+      id = FlakeId.get()
+      struct = insert(:picture)
+      user = Core.Accounts.User.find_by(id: struct.profile_id)
+      context = %{context: %{current_user: user}}
+      {:error, error} = PicturesResolver.remove_picture(nil, %{profile_id: id}, context)
+      assert error == "permission denied"
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.file.url)
+    end
+
+    it "returns error for missing params" do
+      struct = insert(:picture)
+      user = Core.Accounts.User.find_by(id: struct.profile_id)
+      context = %{context: %{current_user: user}}
+      args = %{profile_id: nil, file: nil, name: nil}
+      {:error, error} = PicturesResolver.remove_picture(nil, args, context)
+      assert error == [[field: :profile_id, message: "Can't be blank"]]
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.file.url)
+    end
+
+    test "delete_picture/3 forbids deleting if no auth" do
+      struct = insert(:picture)
+      context = %{context: %{current_user: nil}}
+      {:error, "permission denied"} =
+        PicturesResolver.remove_picture(nil, %{profile_id: struct.profile_id}, context)
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.file.url)
     end
   end
 end

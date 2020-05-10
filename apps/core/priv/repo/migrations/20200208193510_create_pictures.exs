@@ -10,6 +10,6 @@ defmodule Core.Repo.Migrations.CreatePictures do
       timestamps(type: :utc_datetime_usec)
     end
 
-    create index(:pictures, [:profile_id])
+    create unique_index(:pictures, [:profile_id])
   end
 end

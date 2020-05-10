@@ -221,7 +221,7 @@ defmodule Core.Accounts do
   @spec list_profile() :: [Profile.t()]
   def list_profile do
     Repo.all(Profile)
-    |> Repo.preload([:us_zipcode, user: [:profile, :languages]])
+    |> Repo.preload([:picture, :us_zipcode, user: [:languages, profile: [:picture]]])
   end
 
   @doc """
@@ -290,7 +290,7 @@ defmodule Core.Accounts do
   @spec get_profile!(String.t()) :: Profile.t() | error_tuple()
   def get_profile!(id) do
     Repo.get!(Profile, id)
-    |> Repo.preload([:us_zipcode, user: [:profile, :languages]])
+    |> Repo.preload([:picture, :us_zipcode, user: [:languages, profile: [:picture]]])
   end
 
   @doc """

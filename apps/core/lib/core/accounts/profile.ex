@@ -9,7 +9,8 @@ defmodule Core.Accounts.Profile do
   alias Core.{
     Accounts.User,
     Lookup.UsZipcode,
-    Media.File
+    Media.File,
+    Media.Picture
   }
 
   @type t :: %__MODULE__{
@@ -51,6 +52,9 @@ defmodule Core.Accounts.Profile do
       foreign_key: :us_zipcode_id,
       type: FlakeId.Ecto.CompatType,
       references: :id
+
+    has_one :picture, Picture,
+      on_delete: :delete_all
 
     timestamps()
   end

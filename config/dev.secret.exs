@@ -33,7 +33,7 @@ config :core, Core.Upload,
     Core.Upload.Filter.Dedupe,
     Core.Upload.Filter.Optimize
   ],
-  link_name: true,
+  link_name: false,
   proxy_remote: false,
   proxy_opts: [
     redirect_on_failure: false,

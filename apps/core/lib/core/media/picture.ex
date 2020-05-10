@@ -9,7 +9,8 @@ defmodule Core.Media.Picture do
     cast: 3,
     cast_embed: 2,
     validate_required: 2,
-    foreign_key_constraint: 3
+    foreign_key_constraint: 3,
+    unique_constraint: 3
   ]
 
   alias Core.{
@@ -51,5 +52,6 @@ defmodule Core.Media.Picture do
     |> cast_embed(:file)
     |> validate_required(@required_params)
     |> foreign_key_constraint(:profile_id, name: :pictures_profile_id_fkey, message: "Select the Profile")
+    |> unique_constraint(:profile_id, name: :pictures_profile_id_index, message: "Only one an Profile Record")
   end
 end

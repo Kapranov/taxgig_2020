@@ -6,7 +6,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.SaleTaxFrequenciesResolver do
   alias Core.{
     Repo,
     Services,
-    Services.SaleTax
+    Services.SaleTaxFrequency
   }
 
   @type t :: SaleTaxFrequency.t()

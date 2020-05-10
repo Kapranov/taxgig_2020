@@ -1,4 +1,4 @@
-defmodule ServerWeb.GraphQL.Resolvers.Products.Resolvers.SaleTaxesResolver do
+defmodule ServerWeb.GraphQL.Resolvers.Products.SaleTaxesResolver do
   @moduledoc """
   The SaleTaxe GraphQL resolvers.
   """

@@ -71,6 +71,31 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
     {:error, "Unauthenticated"}
   end
 
+  @spec remove_picture(any, %{profile_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def remove_picture(_parent, %{profile_id: profile_id}, %{context: %{current_user: current_user}}) do
+    if is_nil(profile_id) do
+      {:error, [[field: :profile_id, message: "Can't be blank"]]}
+    else
+      try do
+        case !is_nil(current_user) and profile_id == current_user.id do
+          true ->
+            struct = Media.get_picture!(profile_id)
+            Media.delete_picture(struct)
+          false ->
+            {:error, "permission denied"}
+        end
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "An User #{profile_id} not found!"}
+      end
+    end
+  end
+
+  @spec upload_picture(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def remove_picture(_parent, _args, _resolution) do
+    {:error, "Unauthenticated"}
+  end
+
   @spec do_fetch_picture(nil) :: {:error, nil}
   defp do_fetch_picture(nil), do: {:error, nil}
 

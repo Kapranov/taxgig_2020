@@ -27,6 +27,20 @@ bash> mix new blockscore --sup
 bash> mix phx.new server --no-html --no-webpack --no-ecto
 ```
 
+```
+bash> curl -X POST -H "Content-Type: application/json" --data '{ "query": "{ allMatchValueRelates { id } }" }' http://taxgig.me:4000/graphiql | jq .
+bash> curl -X POST -H "Content-Type: application/json" --data '{ "query": "{ allMatchValueRelates { id } }" }' http://taxgig.me:4000/api | jq .
+bash> curl -X POST -H "Content-Type: application/json" --data '{ "query": "{ allLanguages { id abbr name inserted_at updated_at} }" }' http://taxgig.me:4000/api | jq .
+
+bash> curl -k -X POST -H "Content-Type: application/json" --data '{ "query": "{ allLanguages { id abbr name inserted_at updated_at} }" }' https://taxgig.me:4001/api | jq .
+bash> curl -k \\
+           -X POST \\
+           -H "Content-Type: application/json" \\
+           -F query="mutation { uploadPicture(file: \"my_file\", name: \"logo\", alt:\"curl example\", profileId: \"9uqHdgI0URR5OKC8DQ\")}" \\
+           -F my_file=@logo.png \\
+           https://taxgig.me:4001/api | jq .
+```
+
 #### Backend API
 
 **umbrella app name**: `taxgig_ex`
