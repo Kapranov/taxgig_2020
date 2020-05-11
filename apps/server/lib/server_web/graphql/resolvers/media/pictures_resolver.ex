@@ -51,8 +51,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
               with {:ok, %{name: name, url: url, content_type: content_type, size: size}} <- Core.Upload.store(file) do
                 Map.merge(%{file: %{url: url, size: size, content_type: content_type, name: name}}, %{profile_id: profile_id})
               end
-            with {:ok, data} <- Media.update_picture(struct, params) do
-              {:ok, data}
+            with {:ok, picture = %Picture{}} <- Media.update_picture(struct, params) do
+              {:ok,
+                %{
+                  name: picture.file.name,
+                  url: picture.file.url,
+                  id: picture.id,
+                  content_type: picture.file.content_type,
+                  size: picture.file.size
+                }}
             else
               nil ->
                 {:error, "User id is not owned by authenticated user"}
@@ -79,8 +86,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
           true ->
             struct = Media.get_picture!(profile_id)
             params = Map.merge(%{file: %{url: struct.file.url, size: struct.file.size, content_type: struct.file.content_type, name: struct.file.name}}, %{profile_id: profile_id})
-            with {:ok, %{picture: data}} <- Media.update_picture(struct, params) do
-              {:ok, data}
+            with {:ok, %{picture: picture}} <- Media.update_picture(struct, params) do
+              {:ok, %{
+                  name: picture.file.name,
+                  url: picture.file.url,
+                  id: picture.id,
+                  content_type: picture.file.content_type,
+                  size: picture.file.size
+                }}
             else
               nil ->
                 {:error, "User id is not owned by authenticated user"}

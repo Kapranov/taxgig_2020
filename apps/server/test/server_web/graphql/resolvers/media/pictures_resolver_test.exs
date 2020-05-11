@@ -5,6 +5,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
   alias ServerWeb.GraphQL.Resolvers.Media.PicturesResolver
 
   @image_path Path.absname("../core/test/fixtures/picture.png")
+  @trump_path Path.absname("../core/test/fixtures/trump.jpg")
 
   describe "#picture" do
     it "get picture for an event's pic" do
@@ -243,17 +244,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
 
       file = %Plug.Upload{
         content_type: "image/jpg",
-        path: "/tmp/logo.png",
-        filename: "logo.png"
+        filename: "trump.jpg",
+        path: @trump_path
       }
 
       {:ok, updated} = PicturesResolver.update_picture(nil, %{profile_id: struct.profile_id, file: file}, context)
       assert updated.id                == struct.id
-      assert updated.file.content_type == "image/png"
-      assert updated.file.name         == "logo.png"
-      assert updated.file.size         == 5057
-      assert updated.file.url          =~ public_endpoint
-      assert updated.profile_id        == struct.profile_id
+      assert updated.content_type == "image/jpg"
+      assert updated.name         == "trump.jpg"
+      assert updated.size         == 126346
+      assert updated.url          =~ public_endpoint
       assert {:ok, %{
           body: "",
           headers: [
@@ -263,7 +263,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
           ],
           status_code: 204
         }
-      } = Core.Upload.remove(updated.file.url)
+      } = Core.Upload.remove(updated.url)
     end
 
     it "nothing change for file missing params" do
@@ -272,12 +272,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
       context = %{context: %{current_user: user}}
 
       {:ok, updated} = PicturesResolver.update_picture(nil, %{profile_id: struct.profile_id}, context)
-      assert updated.id                == struct.id
-      assert updated.file.content_type == struct.file.content_type
-      assert updated.file.name         == struct.file.name
-      assert updated.file.size         == struct.file.size
-      assert updated.file.url          =~ struct.file.url
-      assert updated.profile_id        == struct.profile_id
+      assert updated.id           == struct.id
+      assert updated.content_type == struct.file.content_type
+      assert updated.name         == struct.file.name
+      assert updated.size         == struct.file.size
+      assert updated.url          =~ struct.file.url
       assert {:ok, %{
           body: "",
           headers: [

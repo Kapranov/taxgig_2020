@@ -10,6 +10,7 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
   alias Server.AbsintheHelpers
   alias ServerWeb.GraphQL.Schema
 
+  @bernie_path Path.absname("../core/test/fixtures/bernie.jpg")
   @image_path Path.absname("../core/test/fixtures/picture.png")
 
   describe "Resolver: Get picture" do
@@ -241,6 +242,82 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
   end
 
   describe "Resolver: Update picture" do
+    it "update specific picture by id - `AbsintheHelpers`" do
+      struct = insert(:picture)
+      user = Core.Accounts.User.find_by(id: struct.profile_id)
+      public_endpoint = Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
+      picture = %{name: "Time for #NeverBernie", alt: "I woke up this morning wondering whether it’s time to unfurl the #NeverBernie banner.", file: "bernie.jpg"}
+
+      query = """
+      {
+        updatePicture(
+          profileId: \"#{struct.profile_id}\",
+          file: {
+            picture: {
+              alt: \"#{picture.alt}\",
+              file: \"#{picture.file}\",
+              name: \"#{picture.name}\"
+            }
+          }
+        ) {
+          id
+          content_type
+          name
+          size
+          url
+        }
+      }
+      """
+
+      map = %{
+        "query" => "mutation #{query}",
+        picture.file => %Plug.Upload{
+          filename: picture.file,
+          path: @bernie_path
+        }
+      }
+
+      res =
+        build_conn()
+        |> auth_conn(user)
+        |> put_req_header("content-type", "multipart/form-data")
+        |> post("/graphiql", map)
+
+      assert json_response(res, 200)["errors"] == nil
+
+      updated = json_response(res, 200)["data"]["updatePicture"]
+
+      assert updated["id"]           == struct.id
+      assert updated["content_type"] == "image/jpg"
+      assert updated["name"]         == "Logo"
+      assert updated["size"]         == 5024
+      assert updated["url"]          =~ public_endpoint
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(updated["url"])
+    end
+
+    it "update specific picture by id - `Absinthe.run`" do
+    end
+
+    it "nothing change for missing params - `AbsintheHelpers`" do
+    end
+
+    it "nothing change for missing params - `Absinthe.run`" do
+    end
+
+    it "returns error for missing params - `AbsintheHelpers`" do
+    end
+
+    it "returns error for missing params - `Absinthe.run`" do
+    end
   end
 
   describe "Resolver: Delete picture" do
