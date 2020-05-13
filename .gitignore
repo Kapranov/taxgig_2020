@@ -15,9 +15,6 @@ uploads/*.png
 erl_crash.dump
 *.ez
 
-elixir_logo.png
-S3UploadPicture.sh
-
 DAXX.md
 VERSION
 mix.lock

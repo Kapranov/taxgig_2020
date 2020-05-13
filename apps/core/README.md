@@ -81,14 +81,55 @@ iex> attrs = %{localhost: "facebook", languages: "spanish", password: "qwerty", 
 iex> Accounts.update_user(user, attrs)
 ```
 
+### Upload New Picture
+
 ```
 iex> bucket = Application.get_env(:core, Core.Uploaders.S3)[:bucket]
+iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
 iex> user = Accounts.User.find_by(email: "kapranov.lugatex@gmail.com")
-iex> profile = Accounts.get_profile!(user.id)
+iex> authenticated = %{context: %{current_user: user}}
+iex> picture = %{alt: "created picture", file: "elixir.png", name: "avatar"}
+iex> file = %Plug.Upload{content_type: "image/png", filename: picture.file, path: Path.absname("/tmp/elixir.png")}
+iex> args = %{alt: picture.alt, file: file, name: picture.name, profile_id: user.id}
+iex> ServerWeb.GraphQL.Resolvers.Media.PicturesResolver.upload_picture(%{}, args, authenticated)
+iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
+```
+
+### Update Picture
+
+```
+iex> bucket = Application.get_env(:core, Core.Uploaders.S3)[:bucket]
+iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
+iex> user = Accounts.User.find_by(email: "kapranov.lugatex@gmail.com")
+iex> authenticated = %{context: %{current_user: user}}
+iex> picture = %{alt: "updated picture", file: "trump.jpg", name: "trump"}
+iex> file = %Plug.Upload{content_type: "image/jpg", filename: picture.file, path: Path.absname("/tmp/trump.jpg")}
+iex> args = %{file: %{picture: %{file: file}}, profile_id: user.id}
+iex> ServerWeb.GraphQL.Resolvers.Media.PicturesResolver.update_picture(%{}, args, authenticated)
+iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
+```
+
+### Delete Picture
+
+```
+iex> bucket = Application.get_env(:core, Core.Uploaders.S3)[:bucket]
+iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
+iex> user = Accounts.User.find_by(email: "kapranov.lugatex@gmail.com")
+iex> authenticated = %{context: %{current_user: user}}
+iex> args = %{profile_id: user.id}
+iex> ServerWeb.GraphQL.Resolvers.Media.PicturesResolver.remove_picture(%{}, args, authenticated)
+iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
+```
+
+
+```
+iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
+iex> file = %Plug.Upload{content_type: "image/jpg", path: Path.absname("apps/core/test/fixtures/bernie.jpg"), filename: "bernie.jpg"}
+
+```
 
 iex> attrs1 = %{address: "updated text", banner: "updated text", description: "updated text"}
 iex> attrs2 = %{}
-iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
 iex> file1 = %Plug.Upload{content_type: "image/jpg", path: Path.absname("apps/core/test/fixtures/bernie.jpg"), filename: "bernie.jpg"}
 iex> file2 = %Plug.Upload{content_type: "image/jpg", path: Path.absname("apps/core/test/fixtures/book.jpg"),   filename: "book.jpg"}
 iex> {:ok, data1} = Core.Upload.store(file1)
@@ -103,11 +144,12 @@ iex> bucket = Application.get_env(:core, Core.Uploaders.S3)[:bucket]
 iex> user = Accounts.User.find_by(email: "kapranov.lugatex@gmail.com")
 iex> profile = Accounts.get_profile!(user.id)
 iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
+iex> authenticated = %{context: %{current_user: user}}
 iex> file = %Plug.Upload{content_type: "image/png", path: "/tmp/elixir.png", filename: "elixir.png"}
 iex> {:ok, data} = Core.Upload.store(file)
-iex> profile_id = profile.user_id
-iex> %{profile_id: profile_id, file: %Plug.Upload{} = file}
-iex> struct = Media.get_picture!(profile_id)
+iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
+iex> picture = Media.get_picture!(user.id)
+
 iex> params = if is_nil(file) do
                 Map.merge(%{}, %{profile_id: profile_id})
               else
@@ -117,51 +159,16 @@ iex> params = if is_nil(file) do
               end
 iex> {:ok, data} = Media.update_picture(struct, params)
 
-iex> profile = Accounts.get_profile!(user.id)
+iex> bucket = Application.get_env(:core, Core.Uploaders.S3)[:bucket]
+iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
 iex> user = Accounts.get_user!(profile.user_id)
+iex> profile = Accounts.get_profile!(user.id)
 iex> authenticated = %{context: %{current_user: user}}
-iex> picture = %{name: "my pic", alt: "represents something", file: "elixir_logo.png"}
+iex> picture = %{name: "my pic", alt: "created new pic", file: "elixir.png"}
 iex> file = %Plug.Upload{content_type: "image/png", filename: picture.file, path: Path.absname("/tmp/elixir_logo.png")}
 iex> args = %{file: file, name: picture.name, profile_id: user.id}
 iex> authenticated = %{context: %{current_user: user}}
 iex> ServerWeb.GraphQL.Resolvers.Media.PicturesResolver.upload_picture(%{}, args, authenticated)
-
-{:ok,
-  %{
-    picture:
-      %{
-        body: "",
-        headers: [
-          {"x-amz-request-id", "tx000000000000004f9dea9-005eb3b755-1cff85-nyc3b"},
-          {"Date", "Thu, 07 May 2020 07:23:01 GMT"},
-          {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
-        ],
-        status_code: 204
-      },
-    update:
-      %Core.Media.Picture{
-        __meta__: #Ecto.Schema.Metadata<:loaded, "pictures">,
-        file: %Core.Media.File{
-          content_type: "image/jpg",
-          name: "book.jpg",
-          size: 183887,
-          url: "https://nyc3.digitaloceanspaces.com/taxgig/8f6a76f870ed9e6889a60682f9f17f8b72bbab6887d6e7bd839a1e84cd68d287.jpg"
-        },
-        id: "9umHYmk1S9p0FaViUa",
-        inserted_at: ~U[2020-05-06 18:13:04Z],
-        profile: #Ecto.Association.NotLoaded<association :profile is not loaded>,
-        profile_id: "9umE8Q2UCleHi51kY4",
-        updated_at: ~U[2020-05-07 07:23:01Z]
-      }
-  }
-}
-
-try do
-  ExAws.S3.get_object(bucket, "c766483f95644e3838a31bf180edb1899ebf620f2ab1dffe5acf1983a14dd977.png") |> ExAws.request! |> get_in([:status_code])
-rescue
-  ExAws.Error ->
-    {:error, 404}
-end
 
 iex> ExAws.S3.put_object(bucket, "avatar/elixir_logo.png", local_image) |> ExAws.request!()
 iex> ExAws.S3.put_object(bucket, "avatar/elixir_logo.png", local_image) |> ExAws.request!() |> get_in([:status_code])

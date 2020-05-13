@@ -6,12 +6,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
 
   @image_path Path.absname("../core/test/fixtures/picture.png")
   @trump_path Path.absname("../core/test/fixtures/trump.jpg")
+  @logo_path Path.absname("../core/test/fixtures/image_tmp.jpg")
 
   describe "#picture" do
     it "get picture for an event's pic" do
       struct = insert(:picture)
-      {:ok, found} = PicturesResolver.picture(%{picture_id: struct.id}, nil, nil)
-      assert found.id           == struct.id
+      {:ok, found} = PicturesResolver.picture(%{profile_id: struct.profile_id}, nil, nil)
+      assert found.id           == struct.profile_id
       assert found.content_type == struct.file.content_type
       assert found.name         == struct.file.name
       assert found.size         == struct.file.size
@@ -28,10 +29,31 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
       } = Core.Upload.remove(struct.file.url)
     end
 
-    it "get picture for an event that has an attached" do
+    it "get picture for an event that has an attached #1" do
       struct = insert(:picture)
-      {:ok, found} = PicturesResolver.picture(nil, %{id: struct.id}, nil)
-      assert found.id           == struct.id
+      {:ok, found} = PicturesResolver.picture(%{picture: struct}, nil, nil)
+      assert found.id                == struct.id
+      assert found.profile_id        == struct.profile_id
+      assert found.file.content_type == struct.file.content_type
+      assert found.file.name         == struct.file.name
+      assert found.file.size         == struct.file.size
+      assert found.file.url          == struct.file.url
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.file.url)
+    end
+
+    it "get picture for an event that has an attached #2" do
+      struct = insert(:picture)
+      {:ok, found} = PicturesResolver.picture(nil, %{profile_id: struct.profile_id}, nil)
+      assert found.id           == struct.profile_id
       assert found.content_type == struct.file.content_type
       assert found.name         == struct.file.name
       assert found.size         == struct.file.size
@@ -50,25 +72,38 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
 
     it "returns not found when Picture does not exist for an event's pic" do
       id = FlakeId.get()
-      {:error, error} = PicturesResolver.picture(%{picture_id: id}, nil, nil)
+      {:error, error} = PicturesResolver.picture(%{profile_id: id}, nil, nil)
       assert error == "Picture with ID #{id} was not found"
     end
 
     it "returns not found when Picture does not exist for an event that has an attached" do
       id = FlakeId.get()
-      {:error, error} = PicturesResolver.picture(nil, %{id: id}, nil)
+      {:error, error} = PicturesResolver.picture(nil, %{profile_id: id}, nil)
       assert error == "Picture with ID #{id} was not found"
     end
 
     it "returns error for missing params for an event's pic" do
-      args = %{picture_id: nil}
+      args = %{profile_id: nil}
       {:error, error} = PicturesResolver.picture(args, nil, nil)
       assert error == nil
     end
 
+    defmodule StructTest, do: defstruct name: "Foo!"
+
+    it "returns error for missing params for struct" do
+      args = %StructTest{}
+      {:error, error} = PicturesResolver.picture(args, nil, nil)
+      assert error == "There are args can't be blank"
+    end
+
+    it "returns error for missing params" do
+      {:error, error} = PicturesResolver.picture(nil, nil, nil)
+      assert error == "There are args can't be blank"
+    end
+
     it "returns error for missing params for an event that has an attached" do
       struct = insert(:picture)
-      args = %{id: nil}
+      args = %{profile_id: nil}
       {:error, error} = PicturesResolver.picture(nil, args, nil)
       assert error == nil
       assert {:ok, %{
@@ -248,7 +283,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
         path: @trump_path
       }
 
-      {:ok, updated} = PicturesResolver.update_picture(nil, %{profile_id: struct.profile_id, file: file}, context)
+      {:ok, updated} = PicturesResolver.update_picture(nil, %{profile_id: struct.profile_id, file: %{picture: %{file: file}}}, context)
       assert updated.id                == struct.id
       assert updated.content_type == "image/jpg"
       assert updated.name         == "trump.jpg"
@@ -266,6 +301,46 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
       } = Core.Upload.remove(updated.url)
     end
 
+    it "nothing change for duplicate file params" do
+      struct = insert(:picture)
+      user = Accounts.get_user!(struct.profile_id)
+      authenticated = %{context: %{current_user: user}}
+      picture = %{alt: "represents something", file: "image_tmp.jpg", name: "Logo"}
+
+      file = %Plug.Upload{
+        content_type: "image/jpg",
+        filename: picture.name,
+        path: @logo_path
+      }
+
+      {:ok, updated} = PicturesResolver.update_picture(nil, %{
+        file: %{
+          picture: %{
+            file: file,
+            name: picture.name,
+          }
+        },
+        profile_id: struct.profile_id
+      }, authenticated)
+
+      assert updated.id           == struct.id
+      assert updated.content_type == struct.file.content_type
+      assert updated.name         == struct.file.name
+      assert updated.size         == struct.file.size
+      assert updated.url          == struct.file.url
+
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.file.url)
+    end
+
     it "nothing change for file missing params" do
       struct = insert(:picture)
       user = Accounts.get_user!(struct.profile_id)
@@ -273,10 +348,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
 
       {:ok, updated} = PicturesResolver.update_picture(nil, %{profile_id: struct.profile_id}, context)
       assert updated.id           == struct.id
-      assert updated.content_type == struct.file.content_type
-      assert updated.name         == struct.file.name
-      assert updated.size         == struct.file.size
-      assert updated.url          =~ struct.file.url
       assert {:ok, %{
           body: "",
           headers: [

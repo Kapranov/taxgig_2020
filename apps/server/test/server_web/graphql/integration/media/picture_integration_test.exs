@@ -15,13 +15,13 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
 
   describe "Resolver: Get picture" do
     test "picture/3 returns the information on a picture - `AbsintheHelpers`" do
-      %Picture{id: id} = picture = insert(:picture)
+      %Picture{profile_id: id} = picture = insert(:picture)
 
       public_endpoint = Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
 
       query = """
       {
-        picture(id: \"#{id}\") {
+        picture(profileId: \"#{id}\") {
           id
           content_type
           name
@@ -35,7 +35,7 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
         build_conn()
         |> get("/graphiql", AbsintheHelpers.query_skeleton(query, "picture"))
 
-      assert json_response(res, 200)["data"]["picture"]["id"]           == picture.id
+      assert json_response(res, 200)["data"]["picture"]["id"]           == picture.profile_id
       assert json_response(res, 200)["data"]["picture"]["content_type"] == picture.file.content_type
       assert json_response(res, 200)["data"]["picture"]["name"]         == picture.file.name
       assert json_response(res, 200)["data"]["picture"]["size"]         == 5024
@@ -53,13 +53,13 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
     end
 
     test "picture/3 returns the information on a picture - `Absinthe.run`" do
-      %Picture{id: id} = picture = insert(:picture)
+      %Picture{profile_id: id} = picture = insert(:picture)
       context = %{}
       public_endpoint = Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
 
       query = """
       {
-        picture(id: \"#{id}\") {
+        picture(profileId: \"#{id}\") {
           id
           content_type
           name
@@ -72,7 +72,7 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
       {:ok, %{data: %{"picture" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["id"]           == picture.id
+      assert found["id"]           == picture.profile_id
       assert found["content_type"] == picture.file.content_type
       assert found["name"]         == picture.file.name
       assert found["size"]         == 5024
@@ -94,7 +94,7 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
 
       query = """
       {
-        picture(id: \"#{id}\") {
+        picture(profileId: \"#{id}\") {
           id
           content_type
           name
@@ -117,7 +117,7 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
 
       query = """
       {
-        picture(id: \"#{id}\") {
+        picture(profileId: \"#{id}\") {
           id
           content_type
           name
@@ -272,6 +272,7 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
       map = %{
         "query" => "mutation #{query}",
         picture.file => %Plug.Upload{
+          content_type: "image/jpg",
           filename: picture.file,
           path: @bernie_path
         }
@@ -287,10 +288,17 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
 
       updated = json_response(res, 200)["data"]["updatePicture"]
 
+      assert struct.id                == updated["id"]
+      assert struct.profile_id        == user.id
+      assert struct.file.content_type == "image/jpg"
+      assert struct.file.name         == "Logo"
+      assert struct.file.size         == 5024
+      assert struct.file.url          =~ "https://nyc3.digitaloceanspaces.com/taxgig/225603daa1f4501e10312aef7d8eda2fae6264abb450b327ba6e51b35be1f79e.jpg"
+
       assert updated["id"]           == struct.id
       assert updated["content_type"] == "image/jpg"
-      assert updated["name"]         == "Logo"
-      assert updated["size"]         == 5024
+      assert updated["name"]         == "bernie.jpg"
+      assert updated["size"]         == 63657
       assert updated["url"]          =~ public_endpoint
       assert {:ok, %{
           body: "",
@@ -488,21 +496,12 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
       assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{
-              "column" => 0,
-              "line" => 3
-            }
-          ],
-          "message" => "Argument \"profileId\" has invalid value nil."
-        },
-        %{
-          "locations" => [%{
-              "column" => 0,
-              "line" => 4
-            }
-          ],
-          "message" => "Argument \"file\" has invalid value {picture: {alt: nil, file: nil, name: nil}}.\nIn field \"picture\": Expected type \"PictureInputObject\", found {alt: nil, file: nil, name: nil}.\nIn field \"alt\": Expected type \"String\", found nil.\nIn field \"file\": Expected type \"Upload!\", found nil.\nIn field \"name\": Expected type \"String!\", found nil."
-        }]
+          %{"locations" => [%{"column" => 0, "line" => 3}], "message" => "Argument \"profileId\" has invalid value nil."},
+          %{
+            "locations" => [%{"column" => 0, "line" => 4}],
+            "message" => "Argument \"file\" has invalid value {picture: {alt: nil, file: nil, name: nil}}.\nIn field \"picture\": Expected type \"PictureInputObject\", found {alt: nil, file: nil, name: nil}.\nIn field \"alt\": Expected type \"String\", found nil.\nIn field \"file\": Expected type \"Upload!\", found nil.\nIn field \"name\": Expected type \"String\", found nil."
+          }
+        ]
       assert {:ok, %{
           body: "",
           headers: [
@@ -692,7 +691,7 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
       assert json_response(res, 200)["errors"] == nil
 
       deleted = json_response(res, 200)["data"]["deletePicture"]
-      assert deleted["id"] == picture.id
+      assert deleted["id"]  == picture.id
     end
 
     it "delete specific picture by profile_id - `Absinthe.run`" do
