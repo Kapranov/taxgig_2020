@@ -7,16 +7,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
   @image_path Path.absname("../core/test/fixtures/picture.png")
   @trump_path Path.absname("../core/test/fixtures/trump.jpg")
   @logo_path Path.absname("../core/test/fixtures/image_tmp.jpg")
+  @public_endpoint Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
 
   describe "#picture" do
     it "get picture for an event's pic" do
       struct = insert(:picture)
       {:ok, found} = PicturesResolver.picture(%{profile_id: struct.profile_id}, nil, nil)
       assert found.id           == struct.profile_id
-      assert found.content_type == struct.file.content_type
-      assert found.name         == struct.file.name
-      assert found.size         == struct.file.size
-      assert found.url          == struct.file.url
+      assert found.content_type == "image/jpg"
+      assert found.name         == "Logo"
+      assert found.size         == 5024
+      assert found.url          =~ @public_endpoint
       assert {:ok, %{
           body: "",
           headers: [
@@ -34,10 +35,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
       {:ok, found} = PicturesResolver.picture(%{picture: struct}, nil, nil)
       assert found.id                == struct.id
       assert found.profile_id        == struct.profile_id
-      assert found.file.content_type == struct.file.content_type
-      assert found.file.name         == struct.file.name
-      assert found.file.size         == struct.file.size
-      assert found.file.url          == struct.file.url
+      assert found.file.content_type == "image/jpg"
+      assert found.file.name         == "Logo"
+      assert found.file.size         == 5024
+      assert found.file.url          =~ @public_endpoint
       assert {:ok, %{
           body: "",
           headers: [
@@ -54,10 +55,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
       struct = insert(:picture)
       {:ok, found} = PicturesResolver.picture(nil, %{profile_id: struct.profile_id}, nil)
       assert found.id           == struct.profile_id
-      assert found.content_type == struct.file.content_type
-      assert found.name         == struct.file.name
-      assert found.size         == struct.file.size
-      assert found.url          == struct.file.url
+      assert found.content_type == "image/jpg"
+      assert found.name         == "Logo"
+      assert found.size         == 5024
+      assert found.url          =~ @public_endpoint
       assert {:ok, %{
           body: "",
           headers: [
@@ -123,12 +124,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
     it "uploads a new picture" do
       profile = insert(:profile)
       user = Accounts.get_user!(profile.user_id)
-      public_endpoint = Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
       authenticated = %{context: %{current_user: user}}
-      picture = %{name: "my pic", alt: "represents something", file: "picture.png"}
+      picture = %{alt: "represents something", name: "my pic", file: "picture"}
       file = %Plug.Upload{
         content_type: "image/png",
-        filename: picture.file,
+        filename: picture.name,
         path: @image_path
       }
 
@@ -141,7 +141,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
       assert uploaded.content_type == "image/png"
       assert uploaded.name         == picture.name
       assert uploaded.size         == 4002
-      assert uploaded.url          =~ public_endpoint
+      assert uploaded.url          =~ @public_endpoint
       assert {:ok, %{
           body: "",
           headers: [
@@ -162,6 +162,39 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
           status_code: 204
         }
       } = Core.Upload.remove(uploaded.url)
+    end
+
+    it "uploads a new picture when user id is not owned by authenticated" do
+      user = insert(:tp_user)
+      profile = insert(:profile, user: user)
+      current_user = Accounts.get_user!(user.id)
+      authenticated = %{context: %{current_user: current_user}}
+      user_id = FlakeId.get()
+      picture = %{name: "my pic", alt: "represents something", file: "picture.png"}
+      file = %Plug.Upload{
+        content_type: "image/png",
+        filename: picture.file,
+        path: @image_path
+      }
+
+      {:error, error} =
+        PicturesResolver.upload_picture(nil, %{
+          file: file,
+          name: picture.name,
+          profile_id: user_id
+        }, authenticated)
+
+      assert error == "Unauthenticated"
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(profile.logo.url)
     end
 
     it "unauthenticated uploads a new picture" do
@@ -195,7 +228,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
       } = Core.Upload.remove(profile.logo.url)
     end
 
-    it "uploads a new picture when user id is not owned by authenticated" do
+    it "returns error for uploads a new picture when user id is not correct" do
       profile = insert(:profile)
       user = Accounts.get_user!(profile.user_id)
       authenticated = %{context: %{current_user: user}}
@@ -214,7 +247,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
           profile_id: user_id
         }, authenticated)
 
-      assert error == [[field: :profile_id, message: "Select the profile"]]
+      assert error == "Unauthenticated"
       assert {:ok, %{
           body: "",
           headers: [
@@ -348,6 +381,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
 
       {:ok, updated} = PicturesResolver.update_picture(nil, %{profile_id: struct.profile_id}, context)
       assert updated.id           == struct.id
+      assert updated.content_type == struct.file.content_type
+      assert updated.name         == struct.file.name
+      assert updated.size         == struct.file.size
+      assert updated.url          == struct.file.url
       assert {:ok, %{
           body: "",
           headers: [
@@ -381,7 +418,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
       } = Core.Upload.remove(struct.file.url)
     end
 
-    test "update_picture/3 forbids deleting if no auth" do
+    it "update_picture/3 forbids uploading if no auth" do
       struct = insert(:picture)
       context = %{context: %{current_user: nil}}
 
@@ -454,9 +491,28 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
       } = Core.Upload.remove(struct.file.url)
     end
 
-    test "delete_picture/3 forbids deleting if no auth" do
+    it "delete_picture/3 forbids deleting if no auth" do
       struct = insert(:picture)
       context = %{context: %{current_user: nil}}
+      {:error, "permission denied"} =
+        PicturesResolver.remove_picture(nil, %{profile_id: struct.profile_id}, context)
+      assert {:ok, %{
+          body: "",
+          headers: [
+            {"x-amz-request-id", _x_amz_request_id},
+            {"Date", _time_remove_file},
+            {"Strict-Transport-Security", "max-age=15552000; includeSubDomains; preload"}
+          ],
+          status_code: 204
+        }
+      } = Core.Upload.remove(struct.file.url)
+    end
+
+    it "delete_picture/3 forbids deleting if user is not owned" do
+      user = insert(:tp_user)
+      struct = insert(:picture)
+      user = Accounts.get_user!(user.id)
+      context = %{context: %{current_user: user}}
       {:error, "permission denied"} =
         PicturesResolver.remove_picture(nil, %{profile_id: struct.profile_id}, context)
       assert {:ok, %{

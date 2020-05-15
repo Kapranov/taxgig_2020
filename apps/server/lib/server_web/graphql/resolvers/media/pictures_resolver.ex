@@ -6,8 +6,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
   alias Core.{
     Accounts,
     Accounts.Profile,
+    Accounts.User,
     Media,
-    Media.Picture
+    Media.Picture,
+    Repo
   }
 
   @type t :: Picture.t()
@@ -40,29 +42,33 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
 
   @spec upload_picture(any, %{file: Plug.Upload.t(), profile_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def upload_picture(_parent, %{file: %Plug.Upload{} = file, profile_id: profile_id} = args, %{context: %{current_user: user}}) do
-    with %Profile{} <- Accounts.get_profile!(user.id),
-         {:ok, %{name: _name, url: url, content_type: content_type, size: size}} <-
-           Core.Upload.store(file),
-         args <-
-           args
-           |> Map.put(:url, url)
-           |> Map.put(:size, size)
-           |> Map.put(:content_type, content_type),
-         {:ok, picture = %Picture{}} <-
-           Media.create_picture(%{"file" => args, "profile_id" => profile_id}) do
-      {:ok,
-        %{
-          name: picture.file.name,
-          url: picture.file.url,
-          id: picture.id,
-          content_type: picture.file.content_type,
-          size: picture.file.size
-        }}
+    if Repo.get(User, profile_id) != nil do
+      with %Profile{} <- Accounts.get_profile!(user.id),
+           {:ok, %{name: _name, url: url, content_type: content_type, size: size}} <-
+             Core.Upload.store(file),
+           args <-
+             args
+             |> Map.put(:url, url)
+             |> Map.put(:size, size)
+             |> Map.put(:content_type, content_type),
+           {:ok, picture = %Picture{}} <-
+             Media.create_picture(%{"file" => args, "profile_id" => profile_id}) do
+        {:ok,
+          %{
+            name: picture.file.name,
+            url: picture.file.url,
+            id: picture.id,
+            content_type: picture.file.content_type,
+            size: picture.file.size
+          }}
+      else
+        nil ->
+          {:error, "User id is not owned by authenticated user"}
+        {:error, changeset} ->
+          {:error, extract_error_msg(changeset)}
+      end
     else
-      nil ->
-        {:error, "User id is not owned by authenticated user"}
-      {:error, changeset} ->
-        {:error, extract_error_msg(changeset)}
+      {:error, "Unauthenticated"}
     end
   end
 
