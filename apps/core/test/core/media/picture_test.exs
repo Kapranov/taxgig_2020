@@ -29,9 +29,14 @@ defmodule Core.Media.PictureTest do
       }
     }
 
+    @public_endpoint Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
+
     test "get_picture!/1 returns the picture with given user_id" do
       picture = insert(:picture)
-      assert Media.get_picture!(picture.id).id == picture.id
+      assert picture.file.content_type == "image/jpg"
+      assert picture.file.name         == "image_tmp.jpg"
+      assert picture.file.size         == 5024
+      assert picture.file.url          =~ @public_endpoint
       assert {:ok, %{
           body: "",
           headers: [
@@ -67,11 +72,11 @@ defmodule Core.Media.PictureTest do
     test "delete_picture/1 deletes the picture" do
       picture = insert(:picture)
 
-      %URI{path: "/media/" <> path} = URI.parse(picture.file.url)
+      %URI{path: "/taxgig/" <> path} = URI.parse(picture.file.url)
 
       refute File.exists?(Config.get!([Local, :uploads]) <> "/" <> path)
       assert {:ok, %Picture{}} = Media.delete_picture(picture)
-      assert_raise Ecto.NoResultsError, fn -> Media.get_picture!(picture.id) end
+      assert Media.get_picture!(picture.profile_id) == nil
       refute File.exists?(Config.get!([Local, :uploads]) <> "/" <> path)
       assert Core.Upload.remove(picture.file.url)
     end
@@ -79,11 +84,11 @@ defmodule Core.Media.PictureTest do
     test "delete_picture/1 deletes the picture via S3" do
       picture = insert(:picture)
 
-      %URI{path: "/media/" <> path} = URI.parse(picture.file.url)
+      %URI{path: "/taxgig/" <> path} = URI.parse(picture.file.url)
 
       refute File.exists?(Config.get!([S3, :public_endpoint]) <> "/" <> Config.get!([S3, :bucket]) <> "/" <> path)
       assert {:ok, %Picture{}} = Media.delete_picture(picture)
-      assert_raise Ecto.NoResultsError, fn -> Media.get_picture!(picture.id) end
+      assert Media.get_picture!(picture.profile_id) == nil
       refute File.exists?(Config.get!([S3, :public_endpoint]) <> "/" <> Config.get!([S3, :bucket]) <> "/" <> path)
       assert Core.Upload.remove(picture.file.url)
     end

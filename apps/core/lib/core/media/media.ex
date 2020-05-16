@@ -62,7 +62,21 @@ defmodule Core.Media do
       |> Picture.changeset(attrs)
 
     if picture.file.url == attrs.file.url do
-      {:ok, picture}
+      transaction =
+        Multi.new()
+        |> Multi.update(:update, picture_changeset)
+        |> Repo.transaction()
+
+      case transaction do
+        {:ok, %{update: %Picture{} = picture}} ->
+          {:ok, picture}
+        {:error, error} ->
+          {:error, error}
+        {:error, :update, error, _} ->
+          {:error, error}
+        {:error, _model, changeset, _completed} ->
+          {:error, changeset}
+      end
     else
       transaction =
         Multi.new()
