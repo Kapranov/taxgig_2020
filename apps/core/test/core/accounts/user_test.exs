@@ -19,7 +19,7 @@ defmodule Core.Accounts.UserTest do
       middle_name: "some text",
       password: "qwerty",
       password_confirmation: "qwerty",
-      phone: "some text",
+      phone: "555-555-5555",
       provider: "localhost",
       role: false,
       sex: "some text",
@@ -40,7 +40,7 @@ defmodule Core.Accounts.UserTest do
       middle_name: "updated text",
       password: "qwertyyy",
       password_confirmation: "qwertyyy",
-      phone: "updated text",
+      phone: "999-999-9999",
       provider: "google",
       role: true,
       sex: "updated text",
@@ -120,7 +120,7 @@ defmodule Core.Accounts.UserTest do
       assert struct.init_setup  == false
       assert struct.last_name   == "some text"
       assert struct.middle_name == "some text"
-      assert struct.phone       == "some text"
+      assert struct.phone       == "555-555-5555"
       assert struct.provider    == "localhost"
       assert struct.role        == false
       assert struct.sex         == "some text"
@@ -163,7 +163,7 @@ defmodule Core.Accounts.UserTest do
       assert updated.init_setup  == true
       assert updated.last_name   == "updated text"
       assert updated.middle_name == "updated text"
-      assert updated.phone       == "updated text"
+      assert updated.phone       == "999-999-9999"
       assert updated.provider    == "google"
       assert updated.role        == true
       assert updated.sex         == "updated text"

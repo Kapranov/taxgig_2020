@@ -7,10 +7,14 @@ defmodule Core.Accounts.ProfileTest do
     alias Core.{
       Accounts.Profile,
       Config,
-      Repo
+      Repo,
+      Uploaders
     }
 
     alias Core.Media.File, as: FileModel
+
+    @bucket Config.get!([Uploaders.S3, :bucket])
+    @public_endpoint Config.get!([Core.Uploaders.S3, :public_endpoint])
 
     @valid_attrs %{
       address: "some text",
@@ -227,7 +231,7 @@ defmodule Core.Accounts.ProfileTest do
 
       assert {:ok, %Profile{} = updated} = Accounts.update_profile(data, params)
 
-      <<"https://taxgig.me:4001/media/", logo_id::binary-size(64), ".jpg?name=image_tmp.jpg" >> = updated.logo.url
+      <<"#{@public_endpoint}/#{@bucket}/", logo_id::binary-size(64), ".jpg" >> = updated.logo.url
 
       assert updated.address           == "updated text"
       assert updated.banner            == "updated text"
@@ -236,15 +240,15 @@ defmodule Core.Accounts.ProfileTest do
       assert updated.us_zipcode_id     == struct.us_zipcode_id
 
       assert updated.logo.name         == "Logo"
-      assert updated.logo.url          == "https://taxgig.me:4001/media/#{logo_id}.jpg?name=image_tmp.jpg"
+      assert updated.logo.url          == "#{@public_endpoint}/#{@bucket}/#{logo_id}.jpg"
       assert updated.logo.content_type == "image/jpg"
       assert updated.logo.size         == 5024
 
       %Profile{logo: %{url: logo_url}, id: user_id} = updated
 
-      %URI{path: "/media/" <> logo_path} = URI.parse(logo_url)
+      %URI{path: "/#{@bucket}/" <> logo_path} = URI.parse(logo_url)
 
-      refute File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
+      refute File.exists?(Config.get!([Uploaders.Local, :uploads]) <> "/" <> logo_path)
 
       file = %Plug.Upload{
         content_type: "image/jpg",
@@ -269,15 +273,15 @@ defmodule Core.Accounts.ProfileTest do
           )
         )
 
-      <<"https://taxgig.me:4001/media/", logo_id::binary-size(64), ".jpg?name=bernie.jpg" >> = updated.logo.url
+      <<"#{@public_endpoint}/#{@bucket}/", logo_id::binary-size(64), ".jpg" >> = updated.logo.url
 
       assert %Profile{} = updated
       assert updated.id == user_id
 
-      refute File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
+      refute File.exists?(Config.get!([Uploaders.Local, :uploads]) <> "/" <> logo_path)
 
       assert updated.logo.name         == "bernie.jpg"
-      assert updated.logo.url          == "https://taxgig.me:4001/media/#{logo_id}.jpg?name=bernie.jpg"
+      assert updated.logo.url          == "#{@public_endpoint}/#{@bucket}/#{logo_id}.jpg"
       assert updated.logo.content_type == "image/jpg"
       assert updated.logo.size         == 63657
 
@@ -336,13 +340,13 @@ defmodule Core.Accounts.ProfileTest do
         |> Repo.preload([:us_zipcode, :user])
 
       %Profile{logo: %{url: logo_url}, id: user_id} = data
-      %URI{path: "/media/" <> logo_path} = URI.parse(logo_url)
+      %URI{path: "/#{@bucket}/" <> logo_path} = URI.parse(logo_url)
 
-      refute File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
+      refute File.exists?(Config.get!([Uploaders.Local, :uploads]) <> "/" <> logo_path)
 
       assert {:ok, %Profile{}} = Accounts.delete_profile(data)
       assert_raise Ecto.NoResultsError, fn -> Accounts.get_profile!(user_id) end
-      refute File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
+      refute File.exists?(Config.get!([Uploaders.Local, :uploads]) <> "/" <> logo_path)
 
       assert {:ok, %{
           body: "",
@@ -365,12 +369,12 @@ defmodule Core.Accounts.ProfileTest do
 
       %{profile: %Profile{logo: %{url: logo_url}, id: user_id} = data}
 
-      %URI{path: "/media/" <> logo_path} = URI.parse(logo_url)
+      %URI{path: "/#{@bucket}/" <> logo_path} = URI.parse(logo_url)
 
-      refute File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
+      refute File.exists?(Config.get!([Uploaders.Local, :uploads]) <> "/" <> logo_path)
       assert {:ok, %Profile{}} = Accounts.delete_profile(data)
       assert_raise Ecto.NoResultsError, fn -> Accounts.get_profile!(user_id) end
-      refute File.exists?(Config.get!([Core.Uploaders.Local, :uploads]) <> "/" <> logo_path)
+      refute File.exists?(Config.get!([Uploaders.Local, :uploads]) <> "/" <> logo_path)
 
       assert {:ok, %{
           body: "",
