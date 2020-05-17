@@ -60,7 +60,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :access_token, :string
     field :error, :string
     field :error_description, :string
-    field :expires_in, :integer
+    field :expires_in, :string
     field :id_token, :string
     field :provider, :string
     field :refresh_token, :string

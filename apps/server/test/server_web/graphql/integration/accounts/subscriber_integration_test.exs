@@ -265,20 +265,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [%{
-          "locations" => [%{
-              "column" => 0,
-              "line" => 3
-            }],
-          "message" => "Argument \"email\" has invalid value nil."
-        },
-        %{
-          "locations" => [%{
-              "column" => 0,
-              "line" => 4
-            }],
-          "message" => "Argument \"pro_role\" has invalid value nil."
-        }]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"email\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -302,15 +289,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [%{
-          locations: [%{column: 0, line: 3}],
-          message: "Argument \"email\" has invalid value nil."
-        },
-        %{
-          locations: [%{column: 0, line: 4}],
-          message: "Argument \"pro_role\" has invalid value nil."
-        }
-      ]
+      assert hd(error).message == "Argument \"email\" has invalid value nil."
     end
   end
 
@@ -466,10 +445,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [%{
-          "locations" => [%{"column" => 0, "line" => 3}],
-          "message" => "Argument \"id\" has invalid value nil."
-        }]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -496,10 +472,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [%{
-          locations: [%{column: 0, line: 3}],
-          message: "Argument \"id\" has invalid value nil."
-        }]
+      assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
   end
 
@@ -582,10 +555,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [%{
-          "locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"email\" has invalid value nil."
-        }]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"email\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -600,10 +570,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [%{
-          locations: [%{column: 0, line: 2}],
-          message: "Argument \"email\" has invalid value nil."
-        }]
+      assert hd(error).message == "Argument \"email\" has invalid value nil."
     end
   end
 

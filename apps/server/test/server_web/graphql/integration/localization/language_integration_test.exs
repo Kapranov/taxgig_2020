@@ -199,10 +199,7 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "showLanguage"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -223,10 +220,7 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
   end
 
@@ -304,12 +298,7 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 3}],
-          "message" => "Argument \"abbr\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 4}],
-          "message" => "Argument \"name\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"abbr\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -333,12 +322,7 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 3}],
-          message: "Argument \"abbr\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 4}],
-          message: "Argument \"name\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"abbr\" has invalid value nil."
     end
   end
 
@@ -485,10 +469,7 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 3}],
-          "message" => "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -512,10 +493,7 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 3}],
-          message: "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
   end
 
@@ -598,10 +576,7 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -616,10 +591,7 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
   end
 

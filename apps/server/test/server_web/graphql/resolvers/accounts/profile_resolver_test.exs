@@ -199,7 +199,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
         middle_name: "some text",
         password: "qwerty",
         password_confirmation: "qwerty",
-        phone: "some text",
+        phone: "555-555-5555",
         provider: "google",
         role: false,
         sex: "some text",

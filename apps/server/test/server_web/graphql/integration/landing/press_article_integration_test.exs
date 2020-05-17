@@ -238,10 +238,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "showPressArticle"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -265,10 +262,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
   end
 
@@ -370,18 +364,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 3}],
-          "message" => "Argument \"author\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 4}],
-          "message" => "Argument \"img_url\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 5}],
-          "message" => "Argument \"preview_text\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 6}],
-          "message" => "Argument \"title\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 7}],
-          "message" => "Argument \"url\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"author\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -411,18 +394,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-        assert error == [
-          %{locations: [%{column: 0, line: 3}],
-            message: "Argument \"author\" has invalid value nil."},
-          %{locations: [%{column: 0, line: 4}],
-            message: "Argument \"img_url\" has invalid value nil."},
-          %{locations: [%{column: 0, line: 5}],
-            message: "Argument \"preview_text\" has invalid value nil."},
-          %{locations: [%{column: 0, line: 6}],
-            message: "Argument \"title\" has invalid value nil."},
-          %{locations: [%{column: 0, line: 7}],
-            message: "Argument \"url\" has invalid value nil."}
-        ]
+      assert hd(error).message == "Argument \"author\" has invalid value nil."
     end
   end
 
@@ -610,10 +582,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 3}],
-          "message" => "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -640,10 +609,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 3}],
-          message: "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
   end
 
@@ -726,10 +692,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -744,10 +707,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
   end
 

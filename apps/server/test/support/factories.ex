@@ -180,7 +180,7 @@ defmodule Server.Factory do
       middle_name: Name.name(),
       password: "qwerty",
       password_confirmation: "qwerty",
-      phone: EnUs.phone(),
+      phone: "555-555-5555",
       provider: "localhost",
       role: true,
       sex: random_gender(),

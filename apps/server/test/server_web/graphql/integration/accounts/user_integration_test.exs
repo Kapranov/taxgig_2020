@@ -428,10 +428,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [%{
-          locations: [%{column: 0, line: 2}],
-          message: "Argument \"id\" has invalid value nil."
-        }]
+      assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
   end
 
@@ -454,7 +451,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           middle_name: "some text",
           password: "qwerty",
           password_confirmation: "qwerty",
-          phone: "some text",
+          phone: "555-555-5555",
           provider: "google",
           role: false,
           sex: "some text",
@@ -503,7 +500,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert created["init_setup"]  == false
       assert created["last_name"]   == "some text"
       assert created["middle_name"] == "some text"
-      assert created["phone"]       == "some text"
+      assert created["phone"]       == "555-555-5555"
       assert created["provider"]    == "google"
       assert created["role"]        == false
       assert created["sex"]         == "some text"
@@ -535,7 +532,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           middle_name: "some text",
           password: "qwerty",
           password_confirmation: "qwerty",
-          phone: "some text",
+          phone: "555-555-5555",
           provider: "google",
           role: false,
           sex: "some text",
@@ -578,7 +575,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert created["init_setup"]  == false
       assert created["last_name"]   == "some text"
       assert created["middle_name"] == "some text"
-      assert created["phone"]       == "some text"
+      assert created["phone"]       == "555-555-5555"
       assert created["provider"]    == "google"
       assert created["role"]        == false
       assert created["sex"]         == "some text"
@@ -610,12 +607,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 3}], "message" => "Argument \"email\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 4}], "message" => "Argument \"password\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 5}], "message" => "Argument \"password_confirmation\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 6}], "message" => "Argument \"provider\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"email\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -638,12 +630,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 3}], message: "Argument \"email\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 4}], message: "Argument \"password\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 5}], message: "Argument \"password_confirmation\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 6}], message: "Argument \"provider\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"email\" has invalid value nil."
     end
   end
 
@@ -668,7 +655,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
             middle_name: "updated text",
             password: "qwertyyy",
             password_confirmation: "qwertyyy",
-            phone: "updated text",
+            phone: "999-999-9999",
             provider: "facebook",
             role: true,
             sex: "updated text",
@@ -720,7 +707,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert updated["init_setup"]  == true
       assert updated["last_name"]   == "updated text"
       assert updated["middle_name"] == "updated text"
-      assert updated["phone"]       == "updated text"
+      assert updated["phone"]       == "999-999-9999"
       assert updated["provider"]    == "facebook"
       assert updated["role"]        == true
       assert updated["sex"]         == "updated text"
@@ -755,7 +742,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
             middle_name: "updated text",
             password: "qwertyyy",
             password_confirmation: "qwertyyy",
-            phone: "updated text",
+            phone: "999-999-9999",
             provider: "facebook",
             role: true,
             sex: "updated text",
@@ -801,7 +788,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert updated["init_setup"]  == true
       assert updated["last_name"]   == "updated text"
       assert updated["middle_name"] == "updated text"
-      assert updated["phone"]       == "updated text"
+      assert updated["phone"]       == "999-999-9999"
       assert updated["provider"]    == "facebook"
       assert updated["role"]        == true
       assert updated["sex"]         == "updated text"
@@ -853,16 +840,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         |> auth_conn(struct)
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"field" => "password",
-          "locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Can't be blank",
-          "path" => ["updateUser"]},
-        %{"field" => "password_confirmation",
-          "locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Can't be blank",
-          "path" => ["updateUser"]}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Can't be blank"
     end
 
     it "nothing change for missing params - `Absinthe.run`" do
@@ -943,10 +921,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         |> auth_conn(struct)
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 3}],
-          "message" => "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -986,9 +961,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 3}], message: "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
   end
 
@@ -1078,10 +1051,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         |> auth_conn(struct)
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -1097,10 +1067,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
   end
 
@@ -1323,10 +1290,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getCode"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"provider\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"provider\" has invalid value nil."
 
       found = json_response(res, 200)["data"]["getCode"]
 
@@ -1349,10 +1313,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-        assert error == [
-          %{locations: [%{column: 0, line: 2}],
-            message: "Argument \"provider\" has invalid value nil."}
-        ]
+      assert hd(error).message == "Argument \"provider\" has invalid value nil."
     end
 
     it "return null when provider isn't exist - `AbsintheHelpers`" do
@@ -1467,7 +1428,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["access_token"]      == "token1"
       assert found["error"]             == nil
       assert found["error_description"] == nil
-      assert found["expires_in"]        == 3570
+      assert found["expires_in"]        == "3570"
       assert found["id_token"]          == "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE3ZDU1ZmY0ZTEwOTkxZDZiMGVmZDM5MmI5MWEzM2U1NGMwZTIxOGIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI2NzAxMTY3MDA4MDMtYjc2bmh1Y2Z2dGJjaTFjOWN1cmE2OXY1NnZmaml0YWQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI2NzAxMTY3MDA4MDMtYjc2bmh1Y2Z2dGJjaTFjOWN1cmE2OXY1NnZmaml0YWQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDgyMDA5MzI5NjI2MjE1NzU4MTgiLCJlbWFpbCI6ImthcHJhbm92Lmx1Z2F0ZXhAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJYY3p0RVZCTTI1VUFFRkZyYWpyR3lBIiwibmFtZSI6IkthcHJhbm92IE9sZWciLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FPaDE0R2ctbEl3VEZYVnFUZXFBUWEzbGJVV01HSXAwS3RzQkZFeHV4WTdlPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IkthcHJhbm92IiwiZmFtaWx5X25hbWUiOiJPbGVnIiwibG9jYWxlIjoiZW4iLCJpYXQiOjE1ODMwODIzMDMsImV4cCI6MTU4MzA4NTkwM30.jb20PuqB2-ZqMCALYi9t2iKxiCgaYxh5ccjSzmLoS_GkxpegtVu0GnGocbHifieJCrU4K-XpjWkFtSaL9mOmVVWQXnUtXuZKIoPDQFRsD3WMlmCmXAw-fLf_cMGZqf2FbEu1uSvIWrgRIXhnZHfaGXJDp3_kWPyU-5bBNrzdSTmMmnVf2kr5b-lMHueNikTHRk2ovFn6HV_NZX318LV8Yf5EU68j-tWIEIL3IrloFTN0c7zvqIT77S2oY473fNUmRQQJ-ch9myyHMpOExm85t1duYWp8oDVScM9d3P09s_qIDAtxQAUldYjc6eszAVdfd5jPafH-5VEDq_CcYr7peA"
       assert found["provider"]          == "google"
       assert found["refresh_token"]     == nil
@@ -1500,7 +1461,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["access_token"]      == "token1"
       assert found["error"]             == nil
       assert found["error_description"] == nil
-      assert found["expires_in"]        == 3570
+      assert found["expires_in"]        == "3570"
       assert found["id_token"]          == "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE3ZDU1ZmY0ZTEwOTkxZDZiMGVmZDM5MmI5MWEzM2U1NGMwZTIxOGIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI2NzAxMTY3MDA4MDMtYjc2bmh1Y2Z2dGJjaTFjOWN1cmE2OXY1NnZmaml0YWQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI2NzAxMTY3MDA4MDMtYjc2bmh1Y2Z2dGJjaTFjOWN1cmE2OXY1NnZmaml0YWQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDgyMDA5MzI5NjI2MjE1NzU4MTgiLCJlbWFpbCI6ImthcHJhbm92Lmx1Z2F0ZXhAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJYY3p0RVZCTTI1VUFFRkZyYWpyR3lBIiwibmFtZSI6IkthcHJhbm92IE9sZWciLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FPaDE0R2ctbEl3VEZYVnFUZXFBUWEzbGJVV01HSXAwS3RzQkZFeHV4WTdlPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IkthcHJhbm92IiwiZmFtaWx5X25hbWUiOiJPbGVnIiwibG9jYWxlIjoiZW4iLCJpYXQiOjE1ODMwODIzMDMsImV4cCI6MTU4MzA4NTkwM30.jb20PuqB2-ZqMCALYi9t2iKxiCgaYxh5ccjSzmLoS_GkxpegtVu0GnGocbHifieJCrU4K-XpjWkFtSaL9mOmVVWQXnUtXuZKIoPDQFRsD3WMlmCmXAw-fLf_cMGZqf2FbEu1uSvIWrgRIXhnZHfaGXJDp3_kWPyU-5bBNrzdSTmMmnVf2kr5b-lMHueNikTHRk2ovFn6HV_NZX318LV8Yf5EU68j-tWIEIL3IrloFTN0c7zvqIT77S2oY473fNUmRQQJ-ch9myyHMpOExm85t1duYWp8oDVScM9d3P09s_qIDAtxQAUldYjc6eszAVdfd5jPafH-5VEDq_CcYr7peA"
       assert found["provider"]          == "google"
       assert found["refresh_token"]     == nil
@@ -1536,7 +1497,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["access_token"]      == "token1"
       assert found["error"]             == nil
       assert found["error_description"] == nil
-      assert found["expires_in"]        == 5183999
+      assert found["expires_in"]        == "5183999"
       assert found["id_token"]          == nil
       assert found["provider"]          == "linkedin"
       assert found["refresh_token"]     == nil
@@ -1568,7 +1529,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["access_token"]      == "token1"
       assert found["error"]             == nil
       assert found["error_description"] == nil
-      assert found["expires_in"]        == 5183999
+      assert found["expires_in"]        == "5183999"
       assert found["id_token"]          == nil
       assert found["provider"]          == "linkedin"
       assert found["refresh_token"]     == nil
@@ -1873,10 +1834,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getToken"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"provider\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"provider\" has invalid value nil."
 
       found = json_response(res, 200)["data"]["getToken"]
 
@@ -1913,10 +1871,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-        assert error == [
-          %{locations: [%{column: 0, line: 2}],
-            message: "Argument \"provider\" has invalid value nil."}
-        ]
+      assert hd(error).message == "Argument \"provider\" has invalid value nil."
     end
 
     it "return null when code doesn't exist - `AbsintheHelpers`" do
@@ -2086,10 +2041,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"token\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"token\" has invalid value nil."
     end
 
     it "return refresh code by linkedin when token is nil - `Absinthe.run`" do
@@ -2107,10 +2059,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"token\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"token\" has invalid value nil."
     end
 
     it "return refresh code by google when token is nil - `AbsintheHelpers`" do
@@ -2127,10 +2076,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"token\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"token\" has invalid value nil."
     end
 
     it "return refresh code by google when token is nil - `Absinthe.run`" do
@@ -2148,10 +2094,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"token\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"token\" has invalid value nil."
     end
 
     it "return refresh code by facebook - `AbsintheHelpers`" do
@@ -2168,10 +2111,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"token\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"token\" has invalid value nil."
     end
 
     it "return refresh code by facebook - `Absinthe.run`" do
@@ -2248,10 +2188,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"token\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"token\" has invalid value nil."
     end
 
     it "return null when provider is localhost - `Absinthe.run`" do
@@ -2269,10 +2206,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"token\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"token\" has invalid value nil."
     end
 
     it "return error when provider is nil - `AbsintheHelpers`" do
@@ -2289,12 +2223,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"provider\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"token\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"provider\" has invalid value nil."
     end
 
     it "return error when provider is nil - `Absinthe.run`" do
@@ -2312,12 +2241,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"provider\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"token\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"provider\" has invalid value nil."
     end
 
     it "return error when provider doesn't exist - `AbsintheHelpers`" do
@@ -2334,10 +2258,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"token\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"token\" has invalid value nil."
     end
 
     it "return error when provider doesn't exist - `Absinthe.run`" do
@@ -2354,10 +2275,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"token\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"token\" has invalid value nil."
     end
   end
 
@@ -2727,10 +2645,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshToken"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"provider\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"provider\" has invalid value nil."
     end
 
     it "return error when provider dosn't exist - `Absinthe.run`" do
@@ -2755,10 +2670,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-        assert error == [
-          %{locations: [%{column: 0, line: 2}],
-            message: "Argument \"provider\" has invalid value nil."}
-        ]
+      assert hd(error).message == "Argument \"provider\" has invalid value nil."
     end
   end
 
@@ -2863,10 +2775,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getVerify"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"token\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"token\" has invalid value nil."
     end
 
     it "return error new token by google when doesn't exist - `AbsintheHelpers`" do
@@ -2892,10 +2801,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getVerify"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"token\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"token\" has invalid value nil."
     end
 
     it "return error new token by google when doesn't exist - `Absinthe.run`" do
@@ -2922,10 +2828,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-        assert error == [
-          %{locations: [%{column: 0, line: 2}],
-            message: "Argument \"token\" has invalid value nil."}
-        ]
+      assert hd(error).message == "Argument \"token\" has invalid value nil."
     end
 
     it "return checked out token by linkedin - `AbsintheHelpers`" do
@@ -3028,10 +2931,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getVerify"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"token\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"token\" has invalid value nil."
     end
 
     it "return error token by linkedin when token is nil - `Absinthe.run`" do
@@ -3058,10 +2958,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"token\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"token\" has invalid value nil."
     end
 
     it "return error token by linkedin when token doesn't exist - `AbsintheHelpers`" do
@@ -3728,10 +3625,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 6}],
-          "message" => "Argument \"provider\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"provider\" has invalid value nil."
     end
 
     it "return error via localhost when provider is nil - `Absinthe.run`" do
@@ -3756,10 +3650,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-        assert error == [
-          %{locations: [%{column: 0, line: 6}],
-            message: "Argument \"provider\" has invalid value nil."}
-        ]
+      assert hd(error).message == "Argument \"provider\" has invalid value nil."
     end
 
     it "return errors via localhost when args nil - `AbsintheHelpers`" do
@@ -3783,14 +3674,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 3}],
-          "message" => "Argument \"email\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 4}],
-          "message" => "Argument \"password\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 5}],
-          "message" => "Argument \"password_confirmation\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"email\" has invalid value nil."
     end
 
     it "return errors via localhost when args nil - `Absinthe.run`" do
@@ -3815,14 +3699,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 3}],
-          message: "Argument \"email\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 4}],
-          message: "Argument \"password\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 5}],
-          message: "Argument \"password_confirmation\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"email\" has invalid value nil."
     end
   end
 
@@ -3968,10 +3845,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 3}],
-          "message" => "Argument \"code\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"code\" has invalid value nil."
     end
 
     it "signin via linkedin and return access token - `AbsintheHelpers`" do
@@ -4114,10 +3988,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 3}],
-          "message" => "Argument \"code\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"code\" has invalid value nil."
     end
 
     it "signin via facebook and return access token - `AbsintheHelpers`" do
@@ -4334,14 +4205,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 3}],
-          "message" => "Argument \"email\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 4}],
-          "message" => "Argument \"password\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 5}],
-          "message" => "Argument \"password_confirmation\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"email\" has invalid value nil."
     end
 
     it "return error via localhost when email is nil - `Absinthe.run`" do
@@ -4367,14 +4231,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 3}],
-          message: "Argument \"email\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 4}],
-          message: "Argument \"password\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 5}],
-          message: "Argument \"password_confirmation\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"email\" has invalid value nil."
     end
 
     it "return error via localhost when password is nil - `AbsintheHelpers`" do
@@ -4400,12 +4257,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 4}],
-          "message" => "Argument \"password\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 5}],
-          "message" => "Argument \"password_confirmation\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"password\" has invalid value nil."
     end
 
     it "return error via localhost when password is nil - `Absinthe.run`" do
@@ -4432,12 +4284,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 4}],
-          message: "Argument \"password\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 5}],
-          message: "Argument \"password_confirmation\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"password\" has invalid value nil."
     end
 
     it "return error when args is nil - `AbsintheHelpers`" do
@@ -4461,16 +4308,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 3}],
-          "message" => "Argument \"email\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 4}],
-          "message" => "Argument \"password\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0,"line" => 5}],
-          "message" => "Argument \"password_confirmation\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 6}],
-          "message" => "Argument \"provider\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"email\" has invalid value nil."
     end
 
     it "return error when args is nil - `Absinthe.run`" do
@@ -4495,16 +4333,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 3}],
-          message: "Argument \"email\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 4}],
-          message: "Argument \"password\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 5}],
-          message: "Argument \"password_confirmation\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 6}],
-          message: "Argument \"provider\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"email\" has invalid value nil."
     end
   end
 

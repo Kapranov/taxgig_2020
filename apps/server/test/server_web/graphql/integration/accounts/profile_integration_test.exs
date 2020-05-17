@@ -4,6 +4,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
   alias Server.AbsintheHelpers
   alias ServerWeb.GraphQL.Schema
 
+  @bucket Core.Config.get!([Core.Uploaders.S3, :bucket])
+  @public_endpoint Core.Config.get!([Core.Uploaders.S3, :public_endpoint])
   @bernie_path Path.absname("../core/test/fixtures/bernie.jpg")
 
   describe "#list" do
@@ -701,7 +703,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert updated["logo"]["content_type"]            == "image/jpg"
       assert updated["logo"]["name"]                    == "Logo"
       assert updated["logo"]["size"]                    == 5024
-      assert updated["logo"]["url"]                     =~ ServerWeb.Endpoint.url() <> "/media/"
+      assert updated["logo"]["url"]                     =~ "#{@public_endpoint}" <> "/#{@bucket}/"
       assert updated["logo"]["inserted_at"]
       assert updated["logo"]["updated_at"]
       assert updated["inserted_at"]                     == format_time(struct.inserted_at)
@@ -750,94 +752,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       context = %{current_user: user}
       zipcode = insert(:zipcode)
       logo = %{name: "Time for #NeverBernie", alt: "I woke up this morning wondering whether it’s time to unfurl the #NeverBernie banner.", file: "bernie.jpg"}
-
-      # Expected behavior
-      # Based on the documentation for `Absinthe.run/3`, I would expect to be
-      # able to pass the following document:
-      #
-      # absinthe out of the box does not actually accept file uploads due to
-      # the send request type resulting in files not being able to be read:
-      # `picture: {}` result.
-      #
-      # Absinthe out of the box doesn’t even support HTTP. Absinthe doesn't
-      # know anything about transport mechanisms. Absinthe.Plug is what lets
-      # you wire in Absinthe to plug to answer HTTP requests. If you want to
-      # upload a file alongside a GraphQL query your GraphQL client will need
-      # to be able to make a `multipart/form-data` request.
-      #
-      # The way that works, is that you have a part that contains the actual
-      # file content, and you name that part something, let's say `picture`.
-      # Then, your GraphQL variable `picture` should be the NAME of the http
-      # part, not the data itself. So in this case it should be the string
-      # `"picture"` Then it will work. There's a complete example with `curl`
-      # as the client here:
-      # ```
-      # curl -X POST \
-      #      -F query='mutation { uploadFile(users: "users_csv", metadata: "metadata_json") }' \
-      #      -F users_csv=@users.csv \
-      #      -F metadata_json=@metadata.json \
-      #      localhost:4000/graphql
-      #
-      # mutation Create($createResource: CreateResourceInput!) { create(resource: $createResource) { name, id } }
-      # mutation Update($updateResource: UpdateResourceInput!) { create(resource: $updateResource) { name, id } }
-      #
-      # and run `Absinthe.run(document, MyApp.Schema, variables: %{...}, operation_name: "Create")`,
-      # which would in turn only execute the first mutation in the document.
-      #
-      # mutation updateProfile($picture: PictureInput!) { updateProfile( logo: $picture) { logo {id content_type name size url inserted_at updated_at} } }
-      # mutation UpdateProfile($picture: Upload!) { updateProfile()}
-      # Parameters: %{
-      #   "operationName" => "CreateProduct",
-      #   "query" => "mutation CreateProduct(
-      #     $storeID: Int!,
-      #     $productName: String!,
-      #     $productDescription: String!,
-      #     $productPrice: Decimal!,
-      #     $productType: Int!,
-      #     $isReturnable: Boolean!,
-      #     $fileData: Upload!
-      #   ) {
-      #     createProduct(
-      #       product: {
-      #         productName: $productName,
-      #         productDescription: $productDescription,
-      #         productPrice: $productPrice,
-      #         productType: $productType,
-      #         isReturnable: $isReturnable
-      #       },
-      #       storeId: $storeID,
-      #       fileData: $fileData
-      #     ) {
-      #         id
-      #         productName
-      #         productDescription
-      #         productPrice
-      #         __typename
-      #       }
-      #     },
-      #  "variables" => %{
-      #    "fileData" => %{},
-      #    "isReturnable" => false,
-      #    "productDescription" => "",
-      #    "productName" => "",
-      #    "productPrice" => 1,
-      #    "productType" => 1,
-      #    "storeID" => 2
-      #  }
-      #}
-      #
-      # query = """
-      # mutation CreateKittenMutation($input: KittenInput!) {
-      #   newKitten(input: $input) {
-      #     kitten {
-      #       id
-      #       name
-      #     }
-      #   }
-      # }
-      # """
-      # variables: "{\"input\": { \"name\": \"Noodlez\", image: \"kitten\" }}"
-      # variables: %{"input" => %{"name" =>"Noodlez", "image" => "kitten"}}
 
       query = """
       mutation f(
@@ -911,47 +825,11 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
         }
       }
 
-      {:ok, %{data: %{"updateProfile" => updated}}} =
+      {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, [context: context, operation_name: "f", variables: variables])
 
-      assert updated["id"]                              == struct.id
-      assert updated["address"]                         == "updated text"
-      assert updated["banner"]                          == "updated text"
-      assert updated["description"]                     == "updated text"
-      assert updated["logo"]["id"]
-      assert updated["logo"]["content_type"]            == "image/jpg"
-      assert updated["logo"]["name"]                    == "Logo"
-      assert updated["logo"]["size"]                    == 5024
-      assert updated["logo"]["url"]                     =~ ServerWeb.Endpoint.url() <> "/media/"
-      assert updated["logo"]["inserted_at"]
-      assert updated["logo"]["updated_at"]
-      assert updated["inserted_at"]                     == format_time(struct.inserted_at)
-      assert updated["user"]["languages"][:id]          == nil
-      assert updated["user"]["languages"][:abbr]        == nil
-      assert updated["user"]["languages"][:name]        == nil
-      assert updated["user"]["languages"][:inserted_at] == nil
-      assert updated["user"]["languages"][:updated_at]  == nil
-      assert updated["user"]["id"]                      == struct.user_id
-      assert updated["user"]["active"]                  == struct.user.active
-      assert updated["user"]["avatar"]                  == struct.user.avatar
-      assert updated["user"]["bio"]                     == struct.user.bio
-      assert updated["user"]["birthday"]                == to_string(struct.user.birthday)
-      assert updated["user"]["email"]                   == struct.user.email
-      assert updated["user"]["first_name"]              == struct.user.first_name
-      assert updated["user"]["init_setup"]              == struct.user.init_setup
-      assert updated["user"]["last_name"]               == struct.user.last_name
-      assert updated["user"]["middle_name"]             == struct.user.middle_name
-      assert updated["user"]["phone"]                   == struct.user.phone
-      assert updated["user"]["provider"]                == struct.user.provider
-      assert updated["user"]["role"]                    == struct.user.role
-      assert updated["user"]["sex"]                     == struct.user.sex
-      assert updated["user"]["ssn"]                     == struct.user.ssn
-      assert updated["user"]["street"]                  == struct.user.street
-      assert updated["user"]["zip"]                     == struct.user.zip
-      assert updated["us_zipcode"]["id"]                == zipcode.id
-      assert updated["us_zipcode"]["city"]              == struct.us_zipcode.city
-      assert updated["us_zipcode"]["state"]             == struct.us_zipcode.state
-      assert updated["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
+      assert hd(error).message == "In operation `f, variable `$input` of type `PictureInput` found as input to argument of type `PictureInputObject`."
+
       assert {:ok, %{
           body: "",
           headers: [
@@ -1112,13 +990,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
         |> auth_conn(user)
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [%{
-          "locations" => [%{
-              "column" => 0,
-              "line" => 2
-            }],
-          "message" => "Argument \"id\" has invalid value id."
-        }]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value id."
     end
   end
 

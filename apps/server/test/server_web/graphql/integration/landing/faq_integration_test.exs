@@ -284,10 +284,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "showFaq"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -315,10 +312,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
   end
 
@@ -488,10 +482,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "searchTitles"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"title\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"title\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -519,10 +510,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"title\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"title\" has invalid value nil."
     end
   end
 
@@ -639,14 +627,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 3}],
-          "message" => "Argument \"content\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 4}],
-          "message" => "Argument \"title\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 5}],
-          "message" => "Argument \"faq_categoryId\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"content\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -678,14 +659,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 3}],
-          message: "Argument \"content\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 4}],
-          message: "Argument \"title\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 5}],
-          message: "Argument \"faq_categoryId\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"content\" has invalid value nil."
     end
   end
 
@@ -817,10 +791,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 4}],
-          "message" => "Argument \"faq\" has invalid value {}.\nIn field \"faqCategoryId\": Expected type \"String!\", found null."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"faq\" has invalid value {}.\nIn field \"faqCategoryId\": Expected type \"String!\", found null."
     end
 
     it "return error faq for missing params - `Absinthe.run`" do
@@ -852,10 +823,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 4}],
-          message: "Argument \"faq\" has invalid value {}.\nIn field \"faqCategoryId\": Expected type \"String!\", found null."}
-      ]
+      assert hd(error).message == "Argument \"faq\" has invalid value {}.\nIn field \"faqCategoryId\": Expected type \"String!\", found null."
     end
 
     it "returns error for missing params - `AbsintheHelpers`" do
@@ -889,12 +857,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 3}],
-          "message" => "Argument \"id\" has invalid value nil."},
-        %{"locations" => [%{"column" => 0, "line" => 4}],
-          "message" => "Argument \"faq\" has invalid value {content: nil, title: nil, faq_categoryId: nil}.\nIn field \"content\": Expected type \"String\", found nil.\nIn field \"title\": Expected type \"String\", found nil.\nIn field \"faq_categoryId\": Expected type \"String!\", found nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -929,12 +892,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 3}],
-          message: "Argument \"id\" has invalid value nil."},
-        %{locations: [%{column: 0, line: 4}],
-          message: "Argument \"faq\" has invalid value {content: nil, title: nil, faq_categoryId: nil}.\nIn field \"content\": Expected type \"String\", found nil.\nIn field \"title\": Expected type \"String\", found nil.\nIn field \"faq_categoryId\": Expected type \"String!\", found nil."}
-      ]
+      assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
   end
 
@@ -1017,10 +975,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -1035,10 +990,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
   end
 

@@ -13,6 +13,8 @@ defmodule ServerWeb.Media.UploadTest do
 
   alias ServerWeb.Endpoint
 
+  @bucket Config.get!([S3, :bucket])
+  @public_endpoint Config.get!([S3, :public_endpoint])
   @image1_path Path.absname("../core/test/fixtures/image.jpg")
   @image2_path Path.absname("../core/test/fixtures/image_tmp.jpg")
   @file_path Path.absname("../core/test/fixtures/test_tmp.txt")
@@ -36,9 +38,9 @@ defmodule ServerWeb.Media.UploadTest do
 
       {:ok, data} = Upload.store(file)
 
-      <<"https://taxgig.me:4001/media/", logo_id::binary-size(64), ".jpg?name=image_tmp.jpg" >> = data.url
+      <<"#{@public_endpoint}/#{@bucket}/", logo_id::binary-size(64), ".jpg" >> = data.url
 
-      assert String.starts_with?(data.url, Endpoint.url() <> "/media/")
+      assert String.starts_with?(data.url, "#{@public_endpoint}" <> "/#{@bucket}/")
       assert S3.remove_file("#{logo_id}.jpg")
     end
 
@@ -55,9 +57,9 @@ defmodule ServerWeb.Media.UploadTest do
 
       {:ok, data} = Upload.store(file, base_url: base_url)
 
-      <<"https://cache.mobilizon.social/media/", logo_id::binary-size(64), ".jpg?name=image.jpg" >> = data.url
+      <<"https://cache.mobilizon.social/#{@bucket}/", logo_id::binary-size(64), ".jpg" >> = data.url
 
-      assert String.starts_with?(data.url, base_url <> "/media/")
+      assert String.starts_with?(data.url, base_url <> "/#{@bucket}/")
       assert S3.remove_file("#{logo_id}.jpg")
     end
 
@@ -72,9 +74,9 @@ defmodule ServerWeb.Media.UploadTest do
 
       {:ok, data} = Upload.store(file, filters: [Filter.Dedupe])
 
-      <<"https://taxgig.me:4001/media/", logo_id::binary-size(64), ".jpg?name=an%20%5Bimage.jpg" >> = data.url
+      <<"#{@public_endpoint}/#{@bucket}/", logo_id::binary-size(64), ".jpg" >> = data.url
 
-      assert data.url == Endpoint.url() <> "/media/#{logo_id}.jpg?name=an%20%5Bimage.jpg"
+      assert data.url == "#{@public_endpoint}" <> "/#{@bucket}/#{logo_id}.jpg"
       assert S3.remove_file("#{logo_id}.jpg")
     end
 
@@ -89,7 +91,7 @@ defmodule ServerWeb.Media.UploadTest do
 
       {:ok, data} = Upload.store(file)
 
-      <<"https://taxgig.me:4001/media/", logo_id::binary-size(64), ".jpg?name=an%20%5Bimage.jpg" >> = data.url
+      <<"#{@public_endpoint}/#{@bucket}/", logo_id::binary-size(64), ".jpg" >> = data.url
 
       assert data.name == "an [image.jpg"
       assert S3.remove_file("#{logo_id}.jpg")
@@ -105,7 +107,7 @@ defmodule ServerWeb.Media.UploadTest do
       }
 
       {:ok, data} = Upload.store(file, filters: [Filter.Dedupe])
-      <<"https://taxgig.me:4001/media/", logo_id::binary-size(64), ".jpg?name=an%20%5Bimage.jpg" >> = data.url
+      <<"#{@public_endpoint}/#{@bucket}/", logo_id::binary-size(64), ".jpg" >> = data.url
 
       assert data.content_type == "image/jpg"
       assert S3.remove_file("#{logo_id}.jpg")
@@ -121,7 +123,7 @@ defmodule ServerWeb.Media.UploadTest do
       }
 
       {:ok, data} = Upload.store(file)
-      <<"https://taxgig.me:4001/media/", logo_id::binary-size(64), ".jpg?name=an%20%5Bimage.jpg" >> = data.url
+      <<"#{@public_endpoint}/#{@bucket}/", logo_id::binary-size(64), ".jpg" >> = data.url
 
       assert data.name == "an [image.jpg"
       assert S3.remove_file("#{logo_id}.jpg")
@@ -137,7 +139,7 @@ defmodule ServerWeb.Media.UploadTest do
       }
 
       {:ok, data} = Upload.store(file)
-      <<"https://taxgig.me:4001/media/", logo_id::binary-size(64), ".jpg?name=an%20%5Bimage.jpg" >> = data.url
+      <<"#{@public_endpoint}/#{@bucket}/", logo_id::binary-size(64), ".jpg" >> = data.url
 
       assert data.name == "an [image.jpg"
       assert S3.remove_file("#{logo_id}.jpg")
@@ -166,7 +168,7 @@ defmodule ServerWeb.Media.UploadTest do
       }
 
       {:ok, data} = Upload.store(file, filters: [Filter.AnonymizeFilename])
-      <<"https://taxgig.me:4001/media/", logo_id::binary-size(36), "/an--image.jpg?name=", _anony_id::binary-size(14), ".jpg" >> = data.url
+      <<"#{@public_endpoint}/#{@bucket}/", logo_id::binary-size(36), "/an--image.jpg">> = data.url
 
       refute data.name == "an [image.jpg"
       assert S3.remove_file("#{logo_id}/an--image.jpg")
@@ -182,9 +184,9 @@ defmodule ServerWeb.Media.UploadTest do
       }
 
       {:ok, data} = Upload.store(file)
-      <<"https://taxgig.me:4001/media/", logo_id::binary-size(64), ".jpg?name=an%E2%80%A6%20image.jpg" >> = data.url
+      <<"#{@public_endpoint}/#{@bucket}/", logo_id::binary-size(64), ".jpg" >> = data.url
 
-      assert Path.basename(data.url) == "#{logo_id}.jpg?name=an%E2%80%A6%20image.jpg"
+      assert Path.basename(data.url) == "#{logo_id}.jpg"
       assert S3.remove_file("#{logo_id}.jpg")
     end
 
@@ -198,9 +200,9 @@ defmodule ServerWeb.Media.UploadTest do
       }
 
       {:ok, data} = Upload.store(file)
-      <<"https://taxgig.me:4001/media/", logo_id::binary-size(64), ".jpg?name=%3A%3F%23%5B%5D%40%21%24%26%5C%27%28%29%2A%2B%2C%3B%3D.jpg" >> = data.url
+      <<"#{@public_endpoint}/#{@bucket}/", logo_id::binary-size(64), ".jpg" >> = data.url
 
-      assert Path.basename(data.url) == "#{logo_id}.jpg?name=%3A%3F%23%5B%5D%40%21%24%26%5C%27%28%29%2A%2B%2C%3B%3D.jpg"
+      assert Path.basename(data.url) == "#{logo_id}.jpg"
       assert S3.remove_file("#{logo_id}.jpg")
     end
 
@@ -218,7 +220,7 @@ defmodule ServerWeb.Media.UploadTest do
         Config.get!([Local, :uploads]) <> "/not_existing/definitely.jpg"
 
       refute File.exists?(file)
-      assert {:error, "S3 Upload failed"} = Upload.remove("https://taxgig.me:4001/media/not_existing/definitely.jpg")
+      assert {:error, "S3 Upload failed"} = Upload.remove("#{@public_endpoint}/#{@bucket}/not_existing/definitely.jpg")
     end
   end
 
@@ -261,7 +263,7 @@ defmodule ServerWeb.Media.UploadTest do
           content_type: "image/jpg",
           name: "image.jpg",
           size: 5024,
-          url: "https://taxgig.me:4001/media/225603daa1f4501e10312aef7d8eda2fae6264abb450b327ba6e51b35be1f79e.jpg?name=image.jpg"
+          url: "#{@public_endpoint}/#{@bucket}/225603daa1f4501e10312aef7d8eda2fae6264abb450b327ba6e51b35be1f79e.jpg"
         }
       }
     end
@@ -289,7 +291,7 @@ defmodule ServerWeb.Media.UploadTest do
             content_type: "image/jpg",
             name: "image.jpg",
             size: 5024,
-            url: "https://taxgig.me:4001/media/225603daa1f4501e10312aef7d8eda2fae6264abb450b327ba6e51b35be1f79e.jpg?name=image.jpg"
+            url: "#{@public_endpoint}/#{@bucket}/225603daa1f4501e10312aef7d8eda2fae6264abb450b327ba6e51b35be1f79e.jpg"
           }
         }
       end) =~ ""
@@ -312,7 +314,7 @@ defmodule ServerWeb.Media.UploadTest do
             content_type: "image/jpg",
             name: "image.jpg",
             size: 5024,
-            url: "https://taxgig.me:4001/media/225603daa1f4501e10312aef7d8eda2fae6264abb450b327ba6e51b35be1f79e.jpg?name=image.jpg"
+            url: "#{@public_endpoint}/#{@bucket}/225603daa1f4501e10312aef7d8eda2fae6264abb450b327ba6e51b35be1f79e.jpg"
           }
         }
       end) == ""
@@ -337,9 +339,9 @@ defmodule ServerWeb.Media.UploadTest do
 
       {:ok, data} = Upload.store(file, base_url: base_url)
 
-      <<"https://taxgig.me:4001/media/", logo_id::binary-size(64), ".jpg?name=image.jpg" >> = data.url
+      <<"https://taxgig.me:4001/#{@bucket}/", logo_id::binary-size(64), ".jpg" >> = data.url
 
-      assert data.url == Endpoint.url() <> "/media/#{logo_id}.jpg?name=image.jpg"
+      assert data.url == Endpoint.url() <> "/#{@bucket}/#{logo_id}.jpg"
       assert %{
         content_type: "image/jpg",
         name: "image.jpg",
@@ -347,7 +349,7 @@ defmodule ServerWeb.Media.UploadTest do
         url: url
       } = data
 
-      assert String.starts_with?(url, base_url <> "/media/#{logo_id}.jpg?name=image.jpg")
+      assert String.starts_with?(url, base_url <> "/#{@bucket}/#{logo_id}.jpg")
     end
   end
 
@@ -369,9 +371,9 @@ defmodule ServerWeb.Media.UploadTest do
        url: url,
      } = data
 
-     assert String.starts_with?(url, Endpoint.url() <> "/media/")
+     assert String.starts_with?(url, "#{@public_endpoint}" <> "/#{@bucket}/")
 
-     %URI{path: "/media/" <> path} = URI.parse(url)
+     %URI{path: "/#{@bucket}/" <> path} = URI.parse(url)
      {Config.get!([Local, :uploads]) <> "/" <> path, url}
   end
 end

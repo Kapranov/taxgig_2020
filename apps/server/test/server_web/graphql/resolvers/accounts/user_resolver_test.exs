@@ -89,7 +89,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
         middle_name: "some text",
         password: "qwerty",
         password_confirmation: "qwerty",
-        phone: "some text",
+        phone: "555-555-5555",
         provider: "google",
         role: false,
         sex: "some text",
@@ -108,7 +108,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       assert created.languages   == [struct]
       assert created.last_name   == "some text"
       assert created.middle_name == "some text"
-      assert created.phone       == "some text"
+      assert created.phone       == "555-555-5555"
       assert created.provider    == "google"
       assert created.role        == false
       assert created.sex         == "some text"
@@ -147,7 +147,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
         middle_name: "updated text",
         password: "qwertyyy",
         password_confirmation: "qwertyyy",
-        phone: "updated text",
+        phone: "999-999-9999",
         provider: "facebook",
         role: true,
         sex: "updated text",
@@ -168,7 +168,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       assert updated.languages   == [struct_a]
       assert updated.last_name   == "updated text"
       assert updated.middle_name == "updated text"
-      assert updated.phone       == "updated text"
+      assert updated.phone       == "999-999-9999"
       assert updated.provider    == "facebook"
       assert updated.role        == true
       assert updated.sex         == "updated text"

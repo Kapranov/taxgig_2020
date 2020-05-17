@@ -117,10 +117,7 @@ defmodule ServerWeb.GraphQL.Integration.Lookup.UsZipcodeIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "showZipcode"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -140,10 +137,7 @@ defmodule ServerWeb.GraphQL.Integration.Lookup.UsZipcodeIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"id\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
   end
 
@@ -266,10 +260,7 @@ defmodule ServerWeb.GraphQL.Integration.Lookup.UsZipcodeIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "searchZipcode"))
 
-      assert json_response(res, 200)["errors"] == [
-        %{"locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "Argument \"zipcode\" has invalid value nil."}
-      ]
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"zipcode\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
@@ -289,10 +280,7 @@ defmodule ServerWeb.GraphQL.Integration.Lookup.UsZipcodeIntegrationTest do
       {:ok, %{errors: error}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert error == [
-        %{locations: [%{column: 0, line: 2}],
-          message: "Argument \"zipcode\" has invalid value nil."}
-      ]
+      assert hd(error).message == "Argument \"zipcode\" has invalid value nil."
     end
   end
 end
