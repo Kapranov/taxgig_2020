@@ -11,6 +11,8 @@ ERLSERVICE := $(shell pgrep beam.smp)
 NUM := {1..3}
 
 ELIXIR = elixir
+MIX=mix
+GIT=git
 
 VERSION = $(shell git describe --tags --abbrev=0 | sed 's/^v//')
 
@@ -24,26 +26,26 @@ help:
 													@perl -nle'print $& if m{^[a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 git-%:
-													$(V)git add .
-													$(V)git commit -m "$(@:git-%=%)"
-													$(V)git push -u origin master
+													$(V)$(GIT) add .
+													$(V)$(GIT) commit -m "$(@:git-%=%)"
+													$(V)$(GIT) push -u origin master
 
 gitlog:
-													$(V)git log -p -$(NUM)
+													$(V)$(GIT) log -p -$(NUM)
 gitpretty:
-													$(v)git log --pretty=oneline
+													$(v)$(GIT) log --pretty=oneline
 
 gitshort:
-													$(V)git log --pretty=format:"%h - %an, %ar : %s"
+													$(V)$(GIT) log --pretty=format:"%h - %an, %ar : %s"
 
 pull:
-													$(V)git pull
+													$(V)$(GIT) pull
 
 log:
 													$(V)clear
 													$(V)echo -e "\n"
 													$(V)echo -e "\t$(SHOW_COLOR) There are commits:$(NO_COLOR) \n"
-													$(V)git log --pretty="format:%ae|%an|%s"
+													$(V)$(GIT) log --pretty="format:%ae|%an|%s"
 													$(V)echo -e "\n"
 
 kill:
@@ -51,22 +53,22 @@ kill:
 													$(V)if [ "$(ERLSERVICE)" ]; then killall beam.smp && echo "Running Erlang Service Killed"; else echo "No Running Erlang Service!"; fi
 
 clean:
-													$(V)mix deps.clean --all
-													$(V)mix do clean
+													$(V)$(MIX) deps.clean --all
+													$(V)$(MIX) do clean
 													$(V)rm -fr _build/ ./deps/
 
 packs:
-													$(V)mix deps.get
-													$(V)mix deps.update --all
-													$(V)mix deps.get
+													$(V)$(MIX) deps.get
+													$(V)$(MIX) deps.update --all
+													$(V)$(MIX) deps.get
 recovery:
-													$(V)mix deps.compile
-													$(V)mix compile
+													$(V)$(MIX) deps.compile
+													$(V)$(MIX) compile
 
 test:
 													$(V)clear
 													$(V)echo -en "\n\t$(INFO_COLOR)Run server tests:$(NO_COLOR)\n\n"
-													$(V)mix test --color
+													$(V)$(MIX) test --color
 
 run: kill clean packs
 													$(V)echo -en "\n\t$(STAT_COLOR) Run server https://localhost:$(NO_COLOR)$(INFO_COLOR)4001$(NO_COLOR)\n"
@@ -74,7 +76,7 @@ run: kill clean packs
 
 halt: kill
 													$(V)echo -en "\n\t$(STAT_COLOR) Run server https://localhost:$(NO_COLOR)$(INFO_COLOR)4001$(NO_COLOR)\n"
-													$(V)mix run --no-halt
+													$(V)$(MIX) run --no-halt
 
 start: kill clean packs
 													$(V)echo -en "\n\t$(STAT_COLOR) Run server https://localhost:$(NO_COLOR)$(INFO_COLOR)4001$(NO_COLOR)\n"

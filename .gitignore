@@ -15,6 +15,7 @@ uploads/*.png
 erl_crash.dump
 *.ez
 
+phx-1.5-upgrade.md
 DAXX.md
 VERSION
 mix.lock

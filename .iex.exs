@@ -139,7 +139,8 @@ alias Ptin.{
 
 :timer.sleep(8000);
 
-# clear
+clear
+
 ######################################################################
 
 defmodule LetMeSee do
