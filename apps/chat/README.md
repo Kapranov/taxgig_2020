@@ -5,7 +5,7 @@
 This is the chat server built in Elixir with the goal to show a
 real life application of Websockets.
 
-![the sketch](/sketch.png?raw=true)
+![the sketch](sketch.png?raw=true)
 
 ## Features roadmap
 
