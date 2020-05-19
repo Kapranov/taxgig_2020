@@ -1,9 +1,9 @@
 # Chat
 
-**TODO: Add description**
-
 This is the chat server built in Elixir with the goal to show a
 real life application of Websockets.
+
+**TODO: Add description**
 
 ![the sketch](sketch.png?raw=true)
 
