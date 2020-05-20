@@ -15,13 +15,16 @@ real life application of Websockets.
 
 ## How to use the chat
 
-The web client will be available at `http://localhost:4000/chat.html`
-or `https://localhost:4001/chat.html`
+The web client will be available at `http://localhost:4005/chat.html`
+or `https://localhost:4005/chat.html`
 
 ## Scratchpad
 
 ```
 bash> mix new chat --sup
+bash> iex -S mix
+bash> w3m http://localhost:4005/
+bash> w3m http://localhost:4005/chat
 ```
 
 ### 20 May 2020 by Oleg G.Kapranov

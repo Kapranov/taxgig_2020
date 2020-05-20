@@ -11,6 +11,7 @@ defmodule Chat.MixProject do
       lockfile: "../../mix.lock",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
+      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -18,16 +19,21 @@ defmodule Chat.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {Chat.Application, []}
+      mod: {Chat, []}
+    ]
+  end
+
+  defp aliases do
+    [
+      test: "test --no-start"
     ]
   end
 
   defp deps do
     [
-      {:cowboy, "~> 2.7"},
       {:jason, "~> 1.2"},
       {:mock, "~> 0.3.4", only: :test},
-      {:plug, "~> 1.10"},
+      {:plug_cowboy, "~> 2.2"},
       {:websocket_client, "~> 1.4"},
       {:websockex, "~> 0.4.2", only: :test}
     ]

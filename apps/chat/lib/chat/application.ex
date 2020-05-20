@@ -1,14 +1,24 @@
 defmodule Chat.Application do
   @moduledoc false
 
-  use Application
+  use Supervisor
 
-  @spec start(Application.start_type(), start_args :: term()) ::
-          {:ok, pid()} | {:ok, pid(), Application.state()} | {:error, reason :: term()}
-  def start(_type, _args) do
-    children = []
+  @http_options [
+    dispatch: Chat.Web.Router.dispatch,
+    port: 4005
+  ]
 
-    opts = [strategy: :one_for_one, name: Chat.Supervisor]
-    Supervisor.start_link(children, opts)
+  @name __MODULE__
+
+  def start_link(opts) do
+    Supervisor.start_link(@name, :ok, opts)
+  end
+
+  def init(:ok) do
+    children = [
+      Plug.Cowboy.child_spec(scheme: :http, plug: Chat.Web.Router, options: @http_options)
+    ]
+
+    Supervisor.init(children, strategy: :one_for_one)
   end
 end
