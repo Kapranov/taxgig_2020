@@ -7,9 +7,13 @@ defmodule Chat.Web.Router do
 
   @name __MODULE__
 
-  plug Plug.Static, at: "/", from: :chat
+  plug Plug.Static, at: "/", from: :chat, only: ~w(index.html)
   plug :match
   plug :dispatch
+
+  get "/" do
+    send_resp(conn, 200, "God Bless Trumpy Bear!")
+  end
 
   match _ do
     send_resp(conn, 404, "Not Found")

@@ -12,11 +12,10 @@ defmodule Chat.Web.WebSocketController do
   end
 
   def websocket_handle({:text, message}, state) do
-    json = Jason.decode!(message)
-    websocket_handle({:json, json}, state)
+    {:reply, {:text, message}, state}
   end
 
-  def websocket_handle({:json, _}, state) do
+  def websocket_handle(_, state) do
     {:reply, {:text, "hello world"}, state}
   end
 

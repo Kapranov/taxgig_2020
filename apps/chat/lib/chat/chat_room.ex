@@ -22,14 +22,11 @@ defmodule Chat.ChatRoom do
   end
 
   def handle_call({:join, subscriber}, _from, subscribers) do
-    {:reply, :ok, subscribers ++ [subscriber]}
+    {:reply, :ok, [subscriber|subscribers]}
   end
 
   def handle_cast({:send, message}, subscribers) do
-    Enum.each(subscribers, fn(subscriber) ->
-      Kernel.send(subscriber, message)
-    end);
-
+    Enum.each(subscribers, &(Kernel.send(&1, message)));
     {:noreply,  subscribers}
   end
 end

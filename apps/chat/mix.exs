@@ -33,10 +33,10 @@ defmodule Chat.MixProject do
     [
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:jason, "~> 1.2"},
-      {:mock, "~> 0.3.4", only: :test},
+      {:mock, "~> 0.3", only: :test},
       {:plug_cowboy, "~> 2.2"},
       {:websocket_client, "~> 1.4"},
-      {:websockex, "~> 0.4.2", only: :test}
+      {:websockex, "~> 0.4", only: :test}
     ]
   end
 end

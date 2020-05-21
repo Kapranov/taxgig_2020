@@ -22,9 +22,13 @@ real life application of Websockets.
 
 ## Todo
 
-- As user I can subscribe to a chat room so that I can receive all the messages sent
 - Everytime a message is sent to that chat room, all the subscribed user
   get notified about that message
+
+## Done
+
+- As a client I can subscribe to a chat room so that I can receive all the messages sent
+- Expose a websocket endpoint to join a chatroom and receive messages
 
 ## How to use the chat
 
