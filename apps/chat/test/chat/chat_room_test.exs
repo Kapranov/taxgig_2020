@@ -3,9 +3,19 @@ defmodule Chat.ChatRoomTest do
 
   alias Chat.ChatRoom
 
+  setup do
+    start_supervised ChatRoom
+    %{}
+  end
+
   test "not receive messages when not subscribed" do
-    ChatRoom.start
     ChatRoom.send("hello world")
     refute_receive "hello world"
+  end
+
+  test "receive messages when subscribed" do
+    ChatRoom.join(self())
+    ChatRoom.send("hello world")
+    assert_receive "hello world"
   end
 end

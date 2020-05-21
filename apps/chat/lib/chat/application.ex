@@ -18,7 +18,7 @@ defmodule Chat.Application do
 
   def init(:ok) do
     children = [
-      Chat.AccessTokenRepository,
+      Chat.ChatRoom,
       Plug.Cowboy.child_spec(scheme: :http, plug: Router, options: @http_options)
     ]
 
