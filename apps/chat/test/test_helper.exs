@@ -5,7 +5,7 @@ ExUnit.configure(exclude: [pending: true],
   formatters: [JUnitFormatter, ExUnit.CLIFormatter, ExUnitNotifier])
 ExUnit.start(exclude: [:skip | os_exclude], trace: true)
 
-defmodule WebSocketClient do
+ defmodule WebSocketClient do
   use WebSockex
 
   @name __MODULE__
@@ -15,13 +15,19 @@ defmodule WebSocketClient do
     WebSockex.start_link(endpoint, @name, pid, extra_headers: [])
   end
 
-  def send_as_text(client, message) do
-    WebSockex.send_frame(client, {:text, message})
+  def send_as_text(client, msg) do
+    WebSockex.send_frame(client, {:text, msg})
   end
 
-  def handle_frame({:text, message}, test_process) do
-    send test_process, message;
+  def handle_frame({:text, msg}, test_process) do
+    IO.puts "Received Message - Type: #{inspect :text} -- Message: #{inspect msg}"
+    send test_process, msg;
     {:ok, test_process}
+  end
+
+  def handle_cast({:send, {:text, msg} = frame}, test_process) do
+    IO.puts "Sending #{:text} frame with payload: #{msg}"
+    {:reply, frame, test_process}
   end
 end
 

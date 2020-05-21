@@ -27,8 +27,9 @@ real life application of Websockets.
 
 ## Done
 
+- How to test the websocket endpoint in Elixir
+- Expose a websocket endpoint to allow clients join a chatroom and receive messages
 - As a client I can subscribe to a chat room so that I can receive all the messages sent
-- Expose a websocket endpoint to join a chatroom and receive messages
 
 ## How to use the chat
 

@@ -26,7 +26,7 @@ defmodule Chat.ChatRoom do
   end
 
   def handle_cast({:send, message}, subscribers) do
-    Enum.each(subscribers, &(Kernel.send(&1, message)));
+    Enum.each(subscribers, &Kernel.send(&1, message));
     {:noreply,  subscribers}
   end
 end
