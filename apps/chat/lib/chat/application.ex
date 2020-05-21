@@ -3,8 +3,10 @@ defmodule Chat.Application do
 
   use Supervisor
 
+  alias Chat.Web.Router
+
   @http_options [
-    dispatch: Chat.Web.Router.dispatch,
+    dispatch: Router.dispatch,
     port: 4005
   ]
 
@@ -16,7 +18,7 @@ defmodule Chat.Application do
 
   def init(:ok) do
     children = [
-      Plug.Cowboy.child_spec(scheme: :http, plug: Chat.Web.Router, options: @http_options)
+      Plug.Cowboy.child_spec(scheme: :http, plug: Router, options: @http_options)
     ]
 
     Supervisor.init(children, strategy: :one_for_one)

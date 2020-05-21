@@ -31,6 +31,7 @@ defmodule Chat.MixProject do
 
   defp deps do
     [
+      {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:jason, "~> 1.2"},
       {:mock, "~> 0.3.4", only: :test},
       {:plug_cowboy, "~> 2.2"},

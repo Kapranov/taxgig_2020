@@ -20,6 +20,12 @@ or `https://localhost:4005/chat.html`
 
 ## Scratchpad
 
+- `Chat`
+- `Chat.Application`
+- `Chat.Web.Router`
+- `Chat.Web.WebSocketController`
+- `Chat.AccessTokenRepository`
+
 ```
 bash> mix new chat --sup
 bash> iex -S mix

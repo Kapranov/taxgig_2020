@@ -3,6 +3,8 @@ defmodule Chat.Web.Router do
 
   use Plug.Router
 
+  alias Chat.Web.WebSocketController
+
   @name __MODULE__
 
   plug Plug.Static, at: "/", from: :chat
@@ -17,7 +19,7 @@ defmodule Chat.Web.Router do
     [
       {:_,
         [
-          {"/chat", Chat.Web.WebSocketController, []},
+          {"/chat", WebSocketController, []},
           {:_, Plug.Cowboy.Handler, {@name, []}}
         ]
       }
