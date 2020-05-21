@@ -4,6 +4,7 @@ defmodule Chat.Web.Router do
   use Plug.Router
 
   alias Chat.Web.WebSocketController
+  alias Chat.Web.ChatRoomWebSocketController
 
   @name __MODULE__
 
@@ -24,6 +25,7 @@ defmodule Chat.Web.Router do
       {:_,
         [
           {"/chat", WebSocketController, []},
+          {"/room", ChatRoomWebSocketController, []},
           {:_, Plug.Cowboy.Handler, {@name, []}}
         ]
       }

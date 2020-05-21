@@ -19,11 +19,12 @@ real life application of Websockets.
 
 ## Doing
 
+- Allow web clients to join a chatroom
+
 
 ## Todo
 
-- Everytime a message is sent to that chat room, all the subscribed user
-  get notified about that message
+- Expose a websocket endpoint to allow clients join a chatroom and receive messages
 
 ## Done
 
