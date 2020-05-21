@@ -9,9 +9,22 @@ real life application of Websockets.
 
 ## Features roadmap
 
+- Multiple Rooms support
+- A Websockets server implementation so that we can support web clients
+- A minimal frontend to allow users to subscribe to each room, sending
+  messages and receiving messages
 - As a client I want to create a user so that I can use the chat system
 - As a user I can send a private message to an existing user to that I
   can talk directly without using an existing room
+
+## Doing
+
+
+## Todo
+
+- As user I can subscribe to a chat room so that I can receive all the messages sent
+- Everytime a message is sent to that chat room, all the subscribed user
+  get notified about that message
 
 ## How to use the chat
 
@@ -24,7 +37,7 @@ or `https://localhost:4005/chat.html`
 - `Chat.Application`
 - `Chat.Web.Router`
 - `Chat.Web.WebSocketController`
-- `Chat.AccessTokenRepository`
+- `Chat.ChatRoom`
 
 ```
 bash> mix new chat --sup
