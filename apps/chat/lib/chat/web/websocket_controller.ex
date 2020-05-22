@@ -12,12 +12,18 @@ defmodule Chat.Web.WebSocketController do
   end
 
   def websocket_handle({:text, "join"}, state) do
-    :ok = Chat.ChatRoom.join(self())
-    {:reply, {:text, "welcome to the awesome chat room!"}, state}
+    :ok = Chat.ChatRooms.join("default", self())
+
+    response = %{
+      message: "welcome to the default chat room!",
+      room: "default"
+    }
+
+    {:reply, {:text, as_json(response)}, state}
   end
 
   def websocket_handle({:text, msg}, state) do
-    :ok = Chat.ChatRoom.send(msg)
+    :ok = Chat.ChatRooms.send("default", msg)
     {:ok, state}
   end
 
@@ -32,4 +38,6 @@ defmodule Chat.Web.WebSocketController do
   def websocket_terminate(_reason, _req, _state) do
     :ok
   end
+
+  defp as_json(response), do: Jason.encode!(response)
 end

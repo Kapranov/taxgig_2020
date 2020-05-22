@@ -25,14 +25,19 @@ real life application of Websockets.
 
 ## Todo
 
-- try to write some acceptance test (e.g. gherkin/cucumber for elixir?
+- Improve the way we make assertion on received messages (e.g.
+  assert_receive wants pattern match and not functions or variables)
+- Think to rename the websocket endpoint
+- Leave the chatroom when a ws handler terminate
+- Try to write some acceptance test (e.g. gherkin/cucumber for elixir?
   or use ExUnit?)
-- leave the chatroom when a ws handler terminate
+- Leave the chatroom when a ws handler terminate
 - Handle multiple chat rooms
 - Expose a websocket endpoint to allow clients join a chatroom and receive messages
 
 ## Done
 
+- Change the format of the response for other tests (add the room name)
 - Allow web clients to write and send messages
 - We have to create a better web UI to allows user to write and send
   messages
