@@ -12,10 +12,26 @@ defmodule Chat.WebSocketControllerTest do
     :ok
   end
 
-  test "receive back the message sent" do
+  test "get state process" do
+    {:ok, client} = connect_to("ws://localhost:4005/chat", forward_to: self())
+    assert WebSockex.cast(client, {:send_conn, self()}) == :ok
+  end
+
+  test "receive back the message sent - ok" do
     {:ok, client} = connect_to("ws://localhost:4005/chat", forward_to: self())
     send_as_text(client, "hello world")
     assert_receive "hello world"
+  end
+
+  test "receive back the message sent - reply" do
+    {:ok, client} = connect_to("ws://localhost:4005/chat", forward_to: self())
+    send_as_text(client, "Can you please reply yourself?")
+    assert_receive "Sure can!"
+  end
+
+  test "receive back the message sent - close" do
+    {:ok, client} = connect_to("ws://localhost:4005/chat", forward_to: self())
+    send_as_text(client, "Close the things!")
   end
 
   test "when join a chat room a welcome message is received" do
