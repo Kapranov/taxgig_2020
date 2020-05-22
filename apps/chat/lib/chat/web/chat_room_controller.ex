@@ -1,4 +1,4 @@
-defmodule Chat.Web.ChatRoomWebSocketController do
+defmodule Chat.Web.ChatRoomController do
   @moduledoc false
 
   @behaviour :cowboy_websocket
@@ -16,8 +16,8 @@ defmodule Chat.Web.ChatRoomWebSocketController do
     {:reply, {:text, "welcome to the awesome chat room!"}, state}
   end
 
-  def websocket_handle({:text, message}, state) do
-    :ok = Chat.ChatRoom.send(message)
+  def websocket_handle({:text, msg}, state) do
+    :ok = Chat.ChatRoom.send(msg)
     {:ok, state}
   end
 
@@ -25,8 +25,8 @@ defmodule Chat.Web.ChatRoomWebSocketController do
     {:ok, state}
   end
 
-  def websocket_info(_info, state) do
-    {:ok, state}
+  def websocket_info(msg, state) do
+    {:reply, {:text, msg}, state}
   end
 
   def websocket_terminate(_reason, _req, _state) do

@@ -3,12 +3,12 @@ defmodule Chat.Web.Router do
 
   use Plug.Router
 
+  alias Chat.Web.ChatRoomController
   alias Chat.Web.WebSocketController
-  alias Chat.Web.ChatRoomWebSocketController
 
   @name __MODULE__
 
-  plug Plug.Static, at: "/", from: :chat, only: ~w(index.html)
+  plug Plug.Static, at: "/", from: :chat, only: ~w(index.html chat.html)
   plug :match
   plug :dispatch
 
@@ -25,7 +25,7 @@ defmodule Chat.Web.Router do
       {:_,
         [
           {"/chat", WebSocketController, []},
-          {"/room", ChatRoomWebSocketController, []},
+          {"/room", ChatRoomController, []},
           {:_, Plug.Cowboy.Handler, {@name, []}}
         ]
       }

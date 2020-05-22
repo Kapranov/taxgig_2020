@@ -19,24 +19,42 @@ defmodule Chat.WebSocketControllerTest do
 
   test "receive back the message sent - ok" do
     {:ok, client} = connect_to("ws://localhost:4005/chat", forward_to: self())
-    send_as_text(client, "hello world")
+    send_as_text client, "hello world"
     assert_receive "hello world"
   end
 
   test "receive back the message sent - reply" do
     {:ok, client} = connect_to("ws://localhost:4005/chat", forward_to: self())
-    send_as_text(client, "Can you please reply yourself?")
+    send_as_text client, "Can you please reply yourself?"
     assert_receive "Sure can!"
   end
 
   test "receive back the message sent - close" do
     {:ok, client} = connect_to("ws://localhost:4005/chat", forward_to: self())
-    send_as_text(client, "Close the things!")
+    send_as_text client, "Close the things!"
   end
 
-  test "when join a chat room a welcome message is received" do
-    {:ok, client} = connect_to("ws://localhost:4005/room", forward_to: self())
-    send_as_text(client, "join")
-    assert_receive "welcome to the awesome chat room!"
+  describe "when join a chat room" do
+    setup do
+      {:ok, client} = connect_to("ws://localhost:4005/room", forward_to: self())
+      send_as_text client, "join"
+      {:ok, client: client}
+    end
+
+    test "a welcome message is received" do
+      assert_receive "welcome to the awesome chat room!"
+    end
+
+    test "each message sent is received back", %{client: client} do
+      send_as_text client, "Hello folks!"
+      assert_receive "Hello folks!"
+    end
+
+    test "we receive all the messages sent by other clients" do
+      {:ok, another_client} = connect_to "ws://localhost:4005/room", forward_to: NullProcess.start
+      send_as_text another_client, "join"
+      send_as_text another_client, "Hello from Twitch!"
+      assert_receive "Hello from Twitch!"
+    end
   end
 end

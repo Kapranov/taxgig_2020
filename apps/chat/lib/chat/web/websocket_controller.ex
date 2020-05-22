@@ -11,16 +11,16 @@ defmodule Chat.Web.WebSocketController do
     {:ok, state}
   end
 
-  def websocket_handle({:text, message}, state) do
-    {:reply, {:text, message}, state}
+  def websocket_handle({:text, msg}, state) do
+    {:reply, {:text, msg}, state}
   end
 
   def websocket_handle(_message, state) do
     {:ok, state}
   end
 
-  def websocket_info(_info, state) do
-    {:ok, state}
+  def websocket_info(msg, state) do
+    {:reply, {:text, msg}, state}
   end
 
   def websocket_terminate(_reason, _req, _state) do

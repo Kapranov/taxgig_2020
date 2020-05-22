@@ -19,6 +19,8 @@ real life application of Websockets.
 
 ## Doing
 
+- We have to create a better web UI to allows user to write and send
+  messages
 - Allow web clients to join a chatroom
 
 
