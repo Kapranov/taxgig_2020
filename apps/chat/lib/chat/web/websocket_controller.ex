@@ -11,8 +11,14 @@ defmodule Chat.Web.WebSocketController do
     {:ok, state}
   end
 
+  def websocket_handle({:text, "join"}, state) do
+    :ok = Chat.ChatRoom.join(self())
+    {:reply, {:text, "welcome to the awesome chat room!"}, state}
+  end
+
   def websocket_handle({:text, msg}, state) do
-    {:reply, {:text, msg}, state}
+    :ok = Chat.ChatRoom.send(msg)
+    {:ok, state}
   end
 
   def websocket_handle(_message, state) do

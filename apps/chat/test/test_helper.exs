@@ -5,7 +5,7 @@ ExUnit.configure(exclude: [pending: true],
   formatters: [JUnitFormatter, ExUnit.CLIFormatter, ExUnitNotifier])
 ExUnit.start(exclude: [:skip | os_exclude], trace: true)
 
- defmodule WebSocketClient do
+defmodule WebSocketClient do
   use WebSockex
 
   require Logger

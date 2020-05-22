@@ -12,33 +12,15 @@ defmodule Chat.WebSocketControllerTest do
     :ok
   end
 
-  test "get state process" do
-    {:ok, client} = connect_to("ws://localhost:4005/chat", forward_to: self())
-    assert WebSockex.cast(client, {:send_conn, self()}) == :ok
-  end
-
-  test "receive back the message sent - ok" do
-    {:ok, client} = connect_to("ws://localhost:4005/chat", forward_to: self())
-    send_as_text client, "hello world"
-    assert_receive "hello world"
-  end
-
-  test "receive back the message sent - reply" do
-    {:ok, client} = connect_to("ws://localhost:4005/chat", forward_to: self())
-    send_as_text client, "Can you please reply yourself?"
-    assert_receive "Sure can!"
-  end
-
-  test "receive back the message sent - close" do
-    {:ok, client} = connect_to("ws://localhost:4005/chat", forward_to: self())
-    send_as_text client, "Close the things!"
-  end
-
   describe "when join a chat room" do
     setup do
-      {:ok, client} = connect_to("ws://localhost:4005/room", forward_to: self())
+      {:ok, client} = connect_to("ws://localhost:4005/chat", forward_to: self())
       send_as_text client, "join"
       {:ok, client: client}
+    end
+
+    test "get state process", %{client: client} do
+      assert WebSockex.cast(client, {:send_conn, self()}) == :ok
     end
 
     test "a welcome message is received" do
@@ -51,7 +33,7 @@ defmodule Chat.WebSocketControllerTest do
     end
 
     test "we receive all the messages sent by other clients" do
-      {:ok, another_client} = connect_to "ws://localhost:4005/room", forward_to: NullProcess.start
+      {:ok, another_client} = connect_to "ws://localhost:4005/chat", forward_to: NullProcess.start
       send_as_text another_client, "join"
       send_as_text another_client, "Hello from Twitch!"
       assert_receive "Hello from Twitch!"
