@@ -21,7 +21,9 @@ real life application of Websockets.
 
 ## Todo
 
-- handle the welcome message in the `ChatRoom` itself and not in the
+- Promote the `ChatRooms` to be a `Supervisor` instead of being a
+  `GenServer`
+- Handle the welcome message in the `ChatRoom` itself and not in the
   `websocket_controller`
 - Change the format of the response for other tests (add the room name)
 - Improve the way we make assertion on received messages (e.g.
@@ -36,6 +38,7 @@ real life application of Websockets.
 
 ## Done
 
+- Rename `subscriber` to `client` in `ChatRooms`
 - Change the format of the response for other tests (add the room name)
 - Allow web clients to write and send messages
 - We have to create a better web UI to allows user to write and send

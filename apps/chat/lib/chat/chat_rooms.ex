@@ -1,11 +1,33 @@
 defmodule Chat.ChatRooms do
   @moduledoc false
 
-  def join(_room_name, subscriber) do
-    Chat.ChatRoom.join(subscriber)
+  use GenServer
+
+  @name __MODULE__
+
+  def start_link(_opts) do
+    GenServer.start_link(@name, [], name: :chatrooms)
   end
 
-  def send(_room_name, message) do
+  def init(chatrooms) do
+    {:ok, chatrooms}
+  end
+
+  def join(room, pid) do
+    :ok = GenServer.call(:chatrooms, {:join, pid, :room, room})
+  end
+
+  def send(_room, message) do
+    :ok = GenServer.call(:chatrooms, {:send, message})
+  end
+
+  def handle_call({:join, pid, :room, _room}, _from, chatrooms) do
+    Chat.ChatRoom.join(pid)
+    {:reply, :ok, chatrooms}
+  end
+
+  def handle_call({:send, message}, _from, chatrooms) do
     Chat.ChatRoom.send(message)
+    {:reply, :ok, chatrooms}
   end
 end
