@@ -19,6 +19,9 @@ real life application of Websockets.
 
 ## Doing
 
+- handle the chat room creation when client wants to join to an
+  unexisting chat room
+
 ## Todo
 
 - Promote the `ChatRooms` to be a `Supervisor` instead of being a
