@@ -21,6 +21,8 @@ real life application of Websockets.
 
 ## Todo
 
+- handle the welcome message in the `ChatRoom` itself and not in the
+  `websocket_controller`
 - Change the format of the response for other tests (add the room name)
 - Improve the way we make assertion on received messages (e.g.
   assert_receive wants pattern match and not functions or variables)

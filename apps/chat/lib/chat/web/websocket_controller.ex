@@ -32,15 +32,19 @@ defmodule Chat.Web.WebSocketController do
     :ok
   end
 
-  defp handle(%{"command" => "join"}, state) do
-    :ok = Chat.ChatRooms.join("default", self())
+  defp handle(%{"command" => "join", "room" => room}, state) do
+    :ok = Chat.ChatRooms.join(room, self())
 
     response = %{
-      message: "welcome to the default chat room!",
-      room: "default"
+      message: "welcome to the " <> room <> " chat room!",
+      room: room
     }
 
     {:reply, {:text, to_json(response)}, state}
+  end
+
+  defp handle(command = %{"command" => "join"}, state) do
+    handle(Map.put(command, "room", "default"), state)
   end
 
   defp handle(%{"room" => room, "message" => msg}, state) do

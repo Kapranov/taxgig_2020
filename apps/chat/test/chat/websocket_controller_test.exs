@@ -14,7 +14,7 @@ defmodule Chat.WebSocketControllerTest do
 
   describe "when join the default chat room" do
     setup do
-      {:ok, client} = connect_to("ws://localhost:4005/chat", forward_to: self())
+      {:ok, client} = connect_to "ws://localhost:4005/chat", forward_to: self()
       send_as_text client, "{\"command\":\"join\"}"
       {:ok, client: client}
     end
@@ -37,6 +37,18 @@ defmodule Chat.WebSocketControllerTest do
       send_as_text other_client, "{\"command\":\"join\"}"
       send_as_text other_client, "{\"message\":\"Hello from Twitch!\",\"room\":\"default\"}"
       assert_receive "{\"message\":\"Hello from Twitch!\",\"room\":\"default\"}"
+    end
+  end
+
+  describe "when join a new chat room" do
+    setup do
+      {:ok, client} = connect_to "ws://localhost:4005/chat", forward_to: self()
+      send_as_text(client, "{\"command\":\"join\",\"room\":\"a_chat_room\"}")
+      {:ok, client: client}
+    end
+
+    test "a welcome message is received" do
+      assert_receive "{\"message\":\"welcome to the a_chat_room chat room!\",\"room\":\"a_chat_room\"}"
     end
   end
 end
