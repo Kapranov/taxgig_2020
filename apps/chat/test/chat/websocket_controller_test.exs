@@ -15,7 +15,7 @@ defmodule Chat.WebSocketControllerTest do
   describe "when join the default chat room" do
     setup do
       {:ok, client} = connect_to("ws://localhost:4005/chat", forward_to: self())
-      send_as_text client, "join"
+      send_as_text client, "{\"command\":\"join\"}"
       {:ok, client: client}
     end
 
@@ -28,15 +28,15 @@ defmodule Chat.WebSocketControllerTest do
     end
 
     test "each message sent is received back", %{client: client} do
-      send_as_text client, "{\"room\":\"default\",\"message\":\"Hello folks!\"}"
-      assert_receive "{\"room\":\"default\",\"message\":\"Hello folks!\"}"
+      send_as_text client, "{\"message\":\"Hello folks!\",\"room\":\"default\"}"
+      assert_receive "{\"message\":\"Hello folks!\",\"room\":\"default\"}"
     end
 
     test "we receive all the messages sent by other clients" do
       {:ok, other_client} = connect_to "ws://localhost:4005/chat", forward_to: NullProcess.start
-      send_as_text other_client, "join"
-      send_as_text other_client, "{\"room\":\"default\",\"message\":\"Hello from Twitch!\"}"
-      assert_receive "{\"room\":\"default\",\"message\":\"Hello from Twitch!\"}"
+      send_as_text other_client, "{\"command\":\"join\"}"
+      send_as_text other_client, "{\"message\":\"Hello from Twitch!\",\"room\":\"default\"}"
+      assert_receive "{\"message\":\"Hello from Twitch!\",\"room\":\"default\"}"
     end
   end
 end

@@ -19,12 +19,9 @@ real life application of Websockets.
 
 ## Doing
 
-- change the format of the response for other tests (add the room name)
-- improve the way we make assertion on received messages (e.g.
-  assert_receive wants pattern match and not functions or variables)
-
 ## Todo
 
+- Change the format of the response for other tests (add the room name)
 - Improve the way we make assertion on received messages (e.g.
   assert_receive wants pattern match and not functions or variables)
 - Think to rename the websocket endpoint

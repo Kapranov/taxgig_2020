@@ -11,7 +11,28 @@ defmodule Chat.Web.WebSocketController do
     {:ok, state}
   end
 
-  def websocket_handle({:text, "join"}, state) do
+  def websocket_handle({:text, command_as_json}, state) do
+    handle(from_json(command_as_json), state)
+  end
+
+  def websocket_handle(_msg, state) do
+    {:ok, state}
+  end
+
+  def websocket_info(msg, state) do
+    response = %{
+      message: msg,
+      room: "default"
+    }
+
+    {:reply, {:text, to_json(response)}, state}
+  end
+
+  def websocket_terminate(_reason, _req, _state) do
+    :ok
+  end
+
+  defp handle(%{"command" => "join"}, state) do
     :ok = Chat.ChatRooms.join("default", self())
 
     response = %{
@@ -19,25 +40,14 @@ defmodule Chat.Web.WebSocketController do
       room: "default"
     }
 
-    {:reply, {:text, as_json(response)}, state}
+    {:reply, {:text, to_json(response)}, state}
   end
 
-  def websocket_handle({:text, msg}, state) do
-    :ok = Chat.ChatRooms.send("default", msg)
+  defp handle(%{"room" => room, "message" => msg}, state) do
+    :ok = Chat.ChatRooms.send(room, msg)
     {:ok, state}
   end
 
-  def websocket_handle(_message, state) do
-    {:ok, state}
-  end
-
-  def websocket_info(msg, state) do
-    {:reply, {:text, msg}, state}
-  end
-
-  def websocket_terminate(_reason, _req, _state) do
-    :ok
-  end
-
-  defp as_json(response), do: Jason.encode!(response)
+  defp to_json(response), do: Jason.encode!(response)
+  defp from_json(json), do: Jason.decode!(json)
 end
