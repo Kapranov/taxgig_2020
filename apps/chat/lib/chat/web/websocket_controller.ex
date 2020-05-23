@@ -3,6 +3,8 @@ defmodule Chat.Web.WebSocketController do
 
   @behaviour :cowboy_websocket
 
+  alias Chat.ChatRooms
+
   def init(req, state) do
     {:cowboy_websocket, req, state}
   end
@@ -33,7 +35,7 @@ defmodule Chat.Web.WebSocketController do
   end
 
   defp handle(%{"command" => "join", "room" => room}, state) do
-    :ok = Chat.ChatRooms.join(room, self())
+    :ok = ChatRooms.join(room, self())
 
     response = %{
       message: "welcome to the " <> room <> " chat room!",
@@ -48,7 +50,7 @@ defmodule Chat.Web.WebSocketController do
   end
 
   defp handle(%{"room" => room, "message" => msg}, state) do
-    :ok = Chat.ChatRooms.send(room, msg)
+    :ok = ChatRooms.send(room, msg)
     {:ok, state}
   end
 
