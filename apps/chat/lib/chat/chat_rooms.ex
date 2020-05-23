@@ -25,13 +25,13 @@ defmodule Chat.ChatRooms do
   end
 
   def handle_call({:join, client, :room, _room}, _from, chatrooms) do
-    pid = Map.get(chatrooms, "default")
+    pid = find_chatroom(chatrooms, "default")
     ChatRoom.join(pid, client)
     {:reply, :ok, chatrooms}
   end
 
   def handle_call({:send, message}, _from, chatrooms) do
-    pid = Map.get(chatrooms, "default")
+    pid = find_chatroom(chatrooms, "default")
     ChatRoom.send(pid, message)
     {:reply, :ok, chatrooms}
   end
@@ -41,4 +41,6 @@ defmodule Chat.ChatRooms do
     new_chatrooms = Map.put(chatrooms, "default", pid)
     {:noreply, new_chatrooms}
   end
+
+  defp find_chatroom(chatrooms, name), do: Map.get(chatrooms, name)
 end
