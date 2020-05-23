@@ -24,6 +24,9 @@ real life application of Websockets.
 
 ## Todo
 
+- Think to separate the two actions `create chatroom` and `join
+  chatroom` (at the moment the chatroom creation happens when a client
+  try to join to an unexisting chatroom)
 - Promote the `ChatRooms` to be a `Supervisor` instead of being a
   `GenServer`
 - Handle the welcome message in the `ChatRoom` itself and not in the

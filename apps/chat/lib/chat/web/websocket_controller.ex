@@ -21,10 +21,10 @@ defmodule Chat.Web.WebSocketController do
     {:ok, state}
   end
 
-  def websocket_info(msg, state) do
+  def websocket_info({chatroom_name, msg}, state) do
     response = %{
       message: msg,
-      room: "default"
+      room: chatroom_name
     }
 
     {:reply, {:text, to_json(response)}, state}

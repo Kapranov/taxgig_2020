@@ -3,14 +3,20 @@ defmodule Chat.ChatRoom do
 
   use GenServer
 
+  defstruct subscribers: [], name: nil
+
   @name __MODULE__
 
-  def start_link(_opts) do
-    GenServer.start_link(@name, [])
+  def start_link([name: name]) do
+    GenServer.start_link(@name, %@name{name: name})
   end
 
-  def init(subscribers) do
-    {:ok, subscribers}
+  def start_link(_opts) do
+    GenServer.start_link(@name, %@name{name: "default"})
+  end
+
+  def init(state) do
+    {:ok, state}
   end
 
   def join(pid, subscriber) do
@@ -21,12 +27,17 @@ defmodule Chat.ChatRoom do
     GenServer.cast(pid, {:send, message})
   end
 
-  def handle_call({:join, subscriber}, _from, subscribers) do
-    {:reply, :ok, [subscriber|subscribers]}
+  def handle_call({:join, subscriber}, _from, state) do
+    new_state = add_subscriber(state, subscriber)
+    {:reply, :ok, new_state}
   end
 
-  def handle_cast({:send, message}, subscribers) do
-    Enum.each(subscribers, &Kernel.send(&1, message));
-    {:noreply,  subscribers}
+  def handle_cast({:send, message}, state = %@name{name: name}) do
+    Enum.each(state.subscribers, &Kernel.send(&1, {name, message}));
+    {:noreply,  state}
+  end
+
+  defp add_subscriber(state = %@name{subscribers: subscribers}, subscriber) do
+    %@name{state | subscribers: [subscriber|subscribers]}
   end
 end
