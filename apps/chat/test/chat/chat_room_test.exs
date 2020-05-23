@@ -4,18 +4,18 @@ defmodule Chat.ChatRoomTest do
   alias Chat.ChatRoom
 
   setup do
-    start_supervised ChatRoom
-    %{}
+    {:ok, pid} = start_supervised ChatRoom
+    %{chatroom: pid}
   end
 
-  test "not receive messages when not subscribed" do
-    ChatRoom.send("hello world")
+  test "not receive messages when not subscribed", %{chatroom: pid} do
+    ChatRoom.send(pid, "hello world")
     refute_receive "hello world"
   end
 
-  test "receive messages when subscribed" do
-    ChatRoom.join(self())
-    ChatRoom.send("hello world")
+  test "receive messages when subscribed", %{chatroom: pid} do
+    ChatRoom.join(pid, self())
+    ChatRoom.send(pid, "hello world")
     assert_receive "hello world"
   end
 end
