@@ -7,7 +7,7 @@ defmodule Chat.ChatRoom do
 
   @name __MODULE__
 
-  def start_link([name: name]) do
+  def create(name) do
     GenServer.start_link(@name, %@name{name: name})
   end
 

@@ -4,7 +4,7 @@ defmodule Chat.ChatRoomTest do
   alias Chat.ChatRoom
 
   setup do
-    {:ok, pid} = ChatRoom.start_link(name: "room_name")
+    {:ok, pid} = ChatRoom.create("room_name")
     %{chatroom: pid}
   end
 
