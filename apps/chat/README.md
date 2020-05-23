@@ -24,9 +24,13 @@ real life application of Websockets.
 
 ## Todo
 
+- Avoid that a subscribed client can subscribe twice to the same room
 - Think to separate the two actions `create chatroom` and `join
   chatroom` (at the moment the chatroom creation happens when a client
-  try to join to an unexisting chatroom)
+  try to join to an unexisting chatroom, look at the
+  `ChatRooms.create_and_join_chatroom/3` function)
+- As a client I want to connect with my username so that other can see
+  the name of the user who send the messages
 - Promote the `ChatRooms` to be a `Supervisor` instead of being a
   `GenServer`
 - Handle the welcome message in the `ChatRoom` itself and not in the
@@ -44,10 +48,8 @@ real life application of Websockets.
 
 ## Done
 
-- handle the chat room creation when client wants to join to an
-  unexisting chat room
-- Rename `subscriber` to `client` in `ChatRooms`
-- Change the format of the response for other tests (add the room name)
+- Handle multiple chat rooms
+- Adapt the UI to handle the room name
 - Allow web clients to write and send messages
 - We have to create a better web UI to allows user to write and send
   messages
