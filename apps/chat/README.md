@@ -31,6 +31,7 @@ real life application of Websockets.
   `ChatRooms.create_and_join_chatroom/3` function)
 - As a client I want to connect with my username so that other can see
   the name of the user who send the messages
+
 - Promote the `ChatRooms` to be a `Supervisor` instead of being a
   `GenServer`
 - Handle the welcome message in the `ChatRoom` itself and not in the
