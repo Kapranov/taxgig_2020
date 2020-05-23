@@ -44,6 +44,8 @@ real life application of Websockets.
 
 ## Done
 
+- handle the chat room creation when client wants to join to an
+  unexisting chat room
 - Rename `subscriber` to `client` in `ChatRooms`
 - Change the format of the response for other tests (add the room name)
 - Allow web clients to write and send messages
