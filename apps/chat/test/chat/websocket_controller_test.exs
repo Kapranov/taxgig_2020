@@ -55,5 +55,12 @@ defmodule Chat.WebSocketControllerTest do
       send_as_text(client, "{\"room\":\"a_chat_room\",\"message\":\"Hello folks!\"}")
       assert_receive "{\"message\":\"Hello folks!\",\"room\":\"a_chat_room\"}"
     end
+
+    test "we receive all the messages sent by other clients" do
+      {:ok, other_client} = connect_to "ws://localhost:4005/chat", forward_to: NullProcess.start
+      send_as_text(other_client, "{\"command\":\"join\",\"room\":\"a_chat_room\"}")
+      send_as_text(other_client, "{\"room\":\"a_chat_room\",\"message\":\"Hello from Twitch!\"}")
+      assert_receive "{\"message\":\"Hello from Twitch!\",\"room\":\"a_chat_room\"}"
+    end
   end
 end
