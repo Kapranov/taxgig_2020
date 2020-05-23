@@ -50,10 +50,5 @@ defmodule Chat.WebSocketControllerTest do
     test "a welcome message is received" do
       assert_receive "{\"message\":\"welcome to the a_chat_room chat room!\",\"room\":\"a_chat_room\"}"
     end
-
-    test "each message sent is received back", %{client: client} do
-      send_as_text(client, "{\"room\":\"a_chat_room\",\"message\":\"Hello folks!\"}")
-      assert_receive "{\"message\":\"Hello folks!\",\"room\":\"default\"}"
-    end
   end
 end
