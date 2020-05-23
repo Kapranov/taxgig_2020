@@ -27,7 +27,7 @@ defmodule Chat.ChatRooms do
   def handle_call({:join, client, :room, room}, _from, chatrooms) do
     new_chatrooms = case find_chatroom(chatrooms, room) do
       nil ->
-        {:ok, pid} = ChatRoom.start_link([])
+        {:ok, pid} = ChatRoom.start_link(name: room)
         ChatRoom.join(pid, client)
         Map.put(chatrooms, room, pid)
       pid ->
@@ -45,7 +45,7 @@ defmodule Chat.ChatRooms do
   end
 
   def handle_info(:create_default_chatroom, chatrooms) do
-    {:ok, pid} = ChatRoom.start_link([])
+    {:ok, pid} = ChatRoom.start_link(name: "default")
     new_chatrooms = Map.put(chatrooms, "default", pid)
     {:noreply, new_chatrooms}
   end

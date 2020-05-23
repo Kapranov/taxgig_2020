@@ -11,10 +11,6 @@ defmodule Chat.ChatRoom do
     GenServer.start_link(@name, %@name{name: name})
   end
 
-  def start_link(_opts) do
-    GenServer.start_link(@name, %@name{name: "default"})
-  end
-
   def init(state) do
     {:ok, state}
   end

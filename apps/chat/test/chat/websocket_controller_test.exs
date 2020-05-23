@@ -53,7 +53,7 @@ defmodule Chat.WebSocketControllerTest do
 
     test "each message sent is received back", %{client: client} do
       send_as_text(client, "{\"room\":\"a_chat_room\",\"message\":\"Hello folks!\"}")
-      assert_receive "{\"message\":\"Hello folks!\",\"room\":\"default\"}"
+      assert_receive "{\"message\":\"Hello folks!\",\"room\":\"a_chat_room\"}"
     end
   end
 end
