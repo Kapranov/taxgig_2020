@@ -35,12 +35,12 @@ defmodule Chat.Web.WebSocketController do
   end
 
   defp handle(%{"command" => "join", "room" => room}, state) do
-    :ok = ChatRooms.join(room, self())
-
-    response = %{
-      message: "welcome to the " <> room <> " chat room!",
-      room: room
-    }
+    response = case ChatRooms.join(room, self()) do
+      :ok ->
+        %{ room: room, message: "welcome to the " <> room <> " chat room!" }
+      {:error, :unexisting_room} ->
+        %{ error: room <> " does not exists" }
+    end
 
     {:reply, {:text, to_json(response)}, state}
   end
@@ -56,8 +56,8 @@ defmodule Chat.Web.WebSocketController do
 
   defp handle(%{"command" => "create", "room" => room}, state) do
     response = case ChatRooms.create(room) do
+      :ok -> %{success: room <> " has been created!"}
       {:error, :already_exists} ->  %{error: room <> " already exists"}
-      {:ok} -> %{success: room <> " has been created!"}
     end
 
     {:reply, {:text, to_json(response)}, state}

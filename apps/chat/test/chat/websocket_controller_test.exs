@@ -25,7 +25,7 @@ defmodule Chat.WebSocketControllerTest do
 
     test "an error message is received if the room does not exists", %{client: pid} do
       send_as_text(pid, "{\"command\":\"join\",\"room\":\"unexisting_room\"}")
-      assert_receive "{\"message\":\"welcome to the unexisting_room chat room!\",\"room\":\"unexisting_room\"}"
+      assert_receive "{\"error\":\"unexisting_room does not exists\"}"
     end
 
     test "a welcome message is received" do
@@ -67,6 +67,7 @@ defmodule Chat.WebSocketControllerTest do
   describe "when join a new chat room" do
     setup do
       {:ok, pid} = connect_to "ws://localhost:4005/chat", forward_to: self()
+      send_as_text(pid, "{\"command\":\"create\",\"room\":\"a_chat_room\"}")
       send_as_text(pid, "{\"command\":\"join\",\"room\":\"a_chat_room\"}")
       {:ok, client: pid}
     end

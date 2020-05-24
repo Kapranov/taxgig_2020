@@ -8,6 +8,7 @@
     <div id="message_box">
       Room: <input id="message_box_room_input" type="text" style="width:100px" value="default" />
       <button id="message_box_join_button" onclick="joinRoom()">join room</button>
+      <button id="message_box_create_button" onclick="createRoom()">create room</button>
       <br/>
       Message: <input id="message_box_input" type="text" style="width:400px" />
       <button id="message_box_send_button" onclick="sendMessage()">send message</button>
@@ -16,6 +17,15 @@
     <div id="output"></div>
 
     <script language="javascript" type="text/javascript">
+      function createRoom() {
+        var messageBoxRoomInput = document.getElementById("message_box_room_input");
+        request = {
+          command: "create",
+          room: messageBoxRoomInput.value
+        }
+        doSend(JSON.stringify(request))
+      }
+
       function joinRoom() {
         var messageBoxRoomInput = document.getElementById("message_box_room_input");
         request = {
@@ -38,10 +48,12 @@
       var wsUri = "ws://localhost:4005/chat";
       var output;
       var websocket;
+
       function init() {
         output = document.getElementById("output");
         testWebSocket();
       }
+
       function testWebSocket() {
         websocket = new WebSocket(wsUri);
         websocket.onopen = function(evt) { onOpen(evt) };
@@ -49,31 +61,51 @@
         websocket.onmessage = function(evt) { onMessage(evt) };
         websocket.onerror = function(evt) { onError(evt) };
       }
+
       function onOpen(evt) {
         writeToScreen("CONNECTED");
         doSend(JSON.stringify({command: "join"}));
       }
+
       function onClose(evt) {
         writeToScreen("DISCONNECTED");
       }
+
       function onMessage(evt) {
         response = JSON.parse(evt.data);
-        writeToScreen('<span style="color: blue;">MESSAGE: ' + response.room +': ' + response.message + '</span>');
+        if (isError(response)) {
+          writeToScreen('<span style="color: red;">ERROR: ' + response.error + '</span>');
+        } else if (isSuccess(response)) {
+          writeToScreen('<span style="color: green;">SUCCESS: ' + response.success + '</span>');
+        } else {
+          writeToScreen('<span style="color: blue;">MESSAGE: ' + response.room +': ' + response.message + '</span>');
+        }
       }
+
       function onError(evt) {
         writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
       }
+
       function doSend(message) {
         writeToScreen("SENT: " + message);
         websocket.send(message);
       }
+
       function writeToScreen(message) {
         var pre = document.createElement("p");
         pre.style.wordWrap = "break-word";
         pre.innerHTML = message;
         output.appendChild(pre);
       }
+
       window.addEventListener("load", init, false);
+
+      function isError(response) {
+        return response.error != undefined
+      }
+      function isSuccess(response) {
+        return response.success != undefined
+      }
     </script>
   </body>
 </html>

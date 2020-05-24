@@ -19,11 +19,12 @@ real life application of Websockets.
 
 ## Doing
 
-- handle the chat room creation when client wants to join to an
-  unexisting chat room
-
 ## Todo
 
+- Handle the case when we try to send a message to an unexisting chat
+  room
+- There seems that we have some flacky tests for "other clients"
+  scenarios
 - Handle invalid client messages
 - Try to write some acceptance test (e.g. gherkin/cucumber for elixir?
   or use ExUnit?)
@@ -53,6 +54,11 @@ real life application of Websockets.
 
 ## Done
 
+- Think to separate the two actions `create chatroom` and `join chatroom`
+  (at the moment the chatroom creation happens when a client try to join
+  an unexisting chatroom, look at the
+  `ChatRooms.create_and_join_chatroom/3` function)
+- Update the UI so that it can support the create command
 - Handle multiple chat rooms
 - Adapt the UI to handle the room name
 - Allow web clients to write and send messages
