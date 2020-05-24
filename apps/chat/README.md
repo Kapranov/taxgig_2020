@@ -25,7 +25,13 @@ real life application of Websockets.
 ## Todo
 
 - Handle invalid client messages
-- try to expose the chat using the [IRC protocol](https://tools.ietf.org/html/rfc1459)
+- Try to write some acceptance test (e.g. gherkin/cucumber for elixir?
+  or use ExUnit?)
+- Find a way to distribute the Chat, in order to use more than one nodes
+- In `ChatRooms` there is not need of `:room` atom for the messages
+  `{:join, client, :room, room}`, `{:send, message, :room, room}` and
+  `{:create, :room, room}`
+- Try to expose the chat using the [IRC protocol](https://tools.ietf.org/html/rfc1459)
 - Avoid that a subscribed client can subscribe twice to the same room
 - Think to separate the two actions `create chatroom` and `join
   chatroom` (at the moment the chatroom creation happens when a client
@@ -33,7 +39,6 @@ real life application of Websockets.
   `ChatRooms.create_and_join_chatroom/3` function)
 - As a client I want to connect with my username so that other can see
   the name of the user who send the messages
-
 - Promote the `ChatRooms` to be a `Supervisor` instead of being a
   `GenServer`
 - Handle the welcome message in the `ChatRoom` itself and not in the
@@ -42,9 +47,6 @@ real life application of Websockets.
 - Improve the way we make assertion on received messages (e.g.
   assert_receive wants pattern match and not functions or variables)
 - Think to rename the websocket endpoint
-- Leave the chatroom when a ws handler terminate
-- Try to write some acceptance test (e.g. gherkin/cucumber for elixir?
-  or use ExUnit?)
 - Leave the chatroom when a ws handler terminate
 - Handle multiple chat rooms
 - Expose a websocket endpoint to allow clients join a chatroom and receive messages

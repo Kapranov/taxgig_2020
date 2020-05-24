@@ -47,6 +47,12 @@ defmodule Chat.WebSocketControllerTest do
       send_as_text(client, "{\"command\":\"create\",\"room\":\"a_chat_room\"}")
       assert_receive "{\"error\":\"a_chat_room already exists\"}"
     end
+
+    test "a successful message is received" do
+      {:ok, client} = connect_to "ws://localhost:4005/chat", forward_to: self()
+      send_as_text(client, "{\"command\":\"create\",\"room\":\"a_room\"}")
+      assert_receive "{\"success\":\"a_room has been created!\"}"
+    end
   end
 
   describe "when join a new chat room" do

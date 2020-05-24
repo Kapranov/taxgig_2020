@@ -54,10 +54,11 @@ defmodule Chat.Web.WebSocketController do
     {:ok, state}
   end
 
-  defp handle(_command, state) do
-    response = %{
-      error: "a_chat_room already exists"
-    }
+  defp handle(%{"command" => "create", "room" => room}, state) do
+    response = case ChatRooms.create(room) do
+      {:error, :already_exists} ->  %{error: room <> " already exists"}
+      {:ok} -> %{success: room <> " has been created!"}
+    end
 
     {:reply, {:text, to_json(response)}, state}
   end
