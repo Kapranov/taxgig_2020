@@ -45,8 +45,6 @@ real life application of Websockets.
   the name of the user who send the messages
 - Promote the `ChatRooms` to be a `Supervisor` instead of being a
   `GenServer`
-- Handle the welcome message in the `ChatRoom` itself and not in the
-  `websocket_controller`
 - Change the format of the response for other tests (add the room name)
 - Improve the way we make assertion on received messages (e.g.
   assert_receive wants pattern match and not functions or variables)
@@ -57,6 +55,8 @@ real life application of Websockets.
 
 ## Done
 
+- Handle the welcome message in the `ChatRoom` itself and not in the
+  `websocket_controller`
 - Handle the case when we try to send a message to an unexisting chat
   room
 - Update the roadmap features in the readme

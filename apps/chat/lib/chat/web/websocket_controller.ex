@@ -21,6 +21,11 @@ defmodule Chat.Web.WebSocketController do
     {:ok, state}
   end
 
+  def websocket_info({:error, msg}, state) do
+    response = %{error: msg}
+    {:reply, {:text, to_json(response)}, state}
+  end
+
   def websocket_info({chatroom_name, msg}, state) do
     response = %{
       message: msg,
@@ -35,14 +40,8 @@ defmodule Chat.Web.WebSocketController do
   end
 
   defp handle(%{"command" => "join", "room" => room}, state) do
-    response = case ChatRooms.join(room, self()) do
-      :ok ->
-        %{ room: room, message: "welcome to the " <> room <> " chat room!" }
-      {:error, :unexisting_room} ->
-        %{ error: room <> " does not exists" }
-    end
-
-    {:reply, {:text, to_json(response)}, state}
+    ChatRooms.join(room, self())
+    {:ok, state}
   end
 
   defp handle(command = %{"command" => "join"}, state) do
