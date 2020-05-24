@@ -54,6 +54,14 @@ defmodule Chat.Web.WebSocketController do
     {:ok, state}
   end
 
+  defp handle(_command, state) do
+    response = %{
+      error: "a_chat_room already exists"
+    }
+
+    {:reply, {:text, to_json(response)}, state}
+  end
+
   defp to_json(response), do: Jason.encode!(response)
   defp from_json(json), do: Jason.decode!(json)
 end

@@ -24,6 +24,8 @@ real life application of Websockets.
 
 ## Todo
 
+- Handle invalid client messages
+- try to expose the chat using the [IRC protocol](https://tools.ietf.org/html/rfc1459)
 - Avoid that a subscribed client can subscribe twice to the same room
 - Think to separate the two actions `create chatroom` and `join
   chatroom` (at the moment the chatroom creation happens when a client
