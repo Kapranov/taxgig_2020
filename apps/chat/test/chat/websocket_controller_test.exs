@@ -41,17 +41,21 @@ defmodule Chat.WebSocketControllerTest do
   end
 
   describe "when create a new chat room" do
-    test "an error message is received if the room already exist" do
-      {:ok, client} = connect_to "ws://localhost:4005/chat", forward_to: self()
-      send_as_text(client, "{\"command\":\"create\",\"room\":\"a_chat_room\"}")
-      send_as_text(client, "{\"command\":\"create\",\"room\":\"a_chat_room\"}")
+    setup do
+      {:ok, pid} = connect_to "ws://localhost:4005/chat", forward_to: self()
+      send_as_text(pid, "{\"command\":\"create\",\"room\":\"a_chat_room\"}")
+      {:ok, client: pid}
+    end
+
+    test "an error message is received if the room already exist", %{client: pid} do
+      send_as_text(pid, "{\"command\":\"create\",\"room\":\"a_chat_room\"}")
+      send_as_text(pid, "{\"command\":\"create\",\"room\":\"a_chat_room\"}")
       assert_receive "{\"error\":\"a_chat_room already exists\"}"
     end
 
-    test "a successful message is received" do
-      {:ok, client} = connect_to "ws://localhost:4005/chat", forward_to: self()
-      send_as_text(client, "{\"command\":\"create\",\"room\":\"a_room\"}")
-      assert_receive "{\"success\":\"a_room has been created!\"}"
+    test "a successful message is received", %{client: pid} do
+      send_as_text(pid, "{\"command\":\"create\",\"room\":\"another_room\"}")
+      assert_receive "{\"success\":\"another_room has been created!\"}"
     end
   end
 
