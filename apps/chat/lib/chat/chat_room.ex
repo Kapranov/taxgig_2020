@@ -20,7 +20,7 @@ defmodule Chat.ChatRoom do
   end
 
   def send(pid, message) do
-    GenServer.cast(pid, {:send, message})
+    :ok = GenServer.cast(pid, {:send, message})
   end
 
   def handle_call({:join, subscriber}, _from, state) do

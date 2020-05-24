@@ -88,4 +88,12 @@ defmodule Chat.WebSocketControllerTest do
       assert_receive "{\"message\":\"Hello from Twitch!\",\"room\":\"a_chat_room\"}"
     end
   end
+
+  describe "when send a message to an unexisting room" do
+    test "an error message is received" do
+      {:ok, pid} = connect_to "ws://localhost:4005/chat", forward_to: self()
+      send_as_text(pid, "{\"room\":\"unexisting_room\",\"message\":\"a message\"}")
+      assert_receive "{\"error\":\"unexisting_room does not exists\"}"
+    end
+  end
 end

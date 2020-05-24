@@ -13,6 +13,7 @@ real life application of Websockets.
 - A Websockets server implementation so that we can support web clients
 - A minimal frontend to allow users to subscribe to each room, sending
   messages and receiving messages
+- Introduce the concept of User
 - As a client I want to create a user so that I can use the chat system
 - As a user I can send a private message to an existing user to that I
   can talk directly without using an existing room
@@ -21,6 +22,8 @@ real life application of Websockets.
 
 ## Todo
 
+- It seems that we have some flaky tests for "other clients" scenarios
+- Setup a continuous integration for the project (e.g. using TravisCI)
 - Handle the case when we try to send a message to an unexisting chat
   room
 - There seems that we have some flacky tests for "other clients"
@@ -54,6 +57,9 @@ real life application of Websockets.
 
 ## Done
 
+- Handle the case when we try to send a message to an unexisting chat
+  room
+- Update the roadmap features in the readme
 - Think to separate the two actions `create chatroom` and `join chatroom`
   (at the moment the chatroom creation happens when a client try to join
   an unexisting chatroom, look at the
