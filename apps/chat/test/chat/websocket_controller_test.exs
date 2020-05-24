@@ -14,21 +14,26 @@ defmodule Chat.WebSocketControllerTest do
 
   describe "when join the default chat room" do
     setup do
-      {:ok, client} = connect_to "ws://localhost:4005/chat", forward_to: self()
-      send_as_text client, "{\"command\":\"join\"}"
-      {:ok, client: client}
+      {:ok, pid} = connect_to "ws://localhost:4005/chat", forward_to: self()
+      send_as_text pid, "{\"command\":\"join\"}"
+      {:ok, client: pid}
     end
 
-    test "get state process", %{client: client} do
-      assert WebSockex.cast(client, {:send_conn, self()}) == :ok
+    test "get state process", %{client: pid} do
+      assert WebSockex.cast(pid, {:send_conn, self()}) == :ok
+    end
+
+    test "an error message is received if the room does not exists", %{client: pid} do
+      send_as_text(pid, "{\"command\":\"join\",\"room\":\"unexisting_room\"}")
+      assert_receive "{\"message\":\"welcome to the unexisting_room chat room!\",\"room\":\"unexisting_room\"}"
     end
 
     test "a welcome message is received" do
       assert_receive "{\"message\":\"welcome to the default chat room!\",\"room\":\"default\"}"
     end
 
-    test "each message sent is received back", %{client: client} do
-      send_as_text client, "{\"message\":\"Hello folks!\",\"room\":\"default\"}"
+    test "each message sent is received back", %{client: pid} do
+      send_as_text pid, "{\"message\":\"Hello folks!\",\"room\":\"default\"}"
       assert_receive "{\"message\":\"Hello folks!\",\"room\":\"default\"}"
     end
 
@@ -61,17 +66,17 @@ defmodule Chat.WebSocketControllerTest do
 
   describe "when join a new chat room" do
     setup do
-      {:ok, client} = connect_to "ws://localhost:4005/chat", forward_to: self()
-      send_as_text(client, "{\"command\":\"join\",\"room\":\"a_chat_room\"}")
-      {:ok, client: client}
+      {:ok, pid} = connect_to "ws://localhost:4005/chat", forward_to: self()
+      send_as_text(pid, "{\"command\":\"join\",\"room\":\"a_chat_room\"}")
+      {:ok, client: pid}
     end
 
     test "a welcome message is received" do
       assert_receive "{\"message\":\"welcome to the a_chat_room chat room!\",\"room\":\"a_chat_room\"}"
     end
 
-    test "each message sent is received back", %{client: client} do
-      send_as_text(client, "{\"room\":\"a_chat_room\",\"message\":\"Hello folks!\"}")
+    test "each message sent is received back", %{client: pid} do
+      send_as_text(pid, "{\"room\":\"a_chat_room\",\"message\":\"Hello folks!\"}")
       assert_receive "{\"message\":\"Hello folks!\",\"room\":\"a_chat_room\"}"
     end
 
