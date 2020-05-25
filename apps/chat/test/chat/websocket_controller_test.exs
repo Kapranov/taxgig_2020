@@ -106,5 +106,11 @@ defmodule Chat.WebSocketControllerTest do
       refute_receive "{\"message\":\"welcome to the default chat room!\",\"room\":\"default\"}"
       assert_receive "{\"error\":\"you already joined the default room!\"}"
     end
+
+    test "invalid messages are not handled" do
+      {:ok, pid} = connect_to "ws://localhost:4005/chat", forward_to: self()
+      send_as_text(pid, "this is an invalid message")
+      refute_receive _
+    end
   end
 end

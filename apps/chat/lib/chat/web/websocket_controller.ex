@@ -14,7 +14,10 @@ defmodule Chat.Web.WebSocketController do
   end
 
   def websocket_handle({:text, command_as_json}, state) do
-    handle(from_json(command_as_json), state)
+    case from_json(command_as_json) do
+      {:error, _reason} -> {:ok, state}
+      {:ok, command} -> handle(command, state)
+    end
   end
 
   def websocket_handle(_msg, state) do
@@ -68,5 +71,5 @@ defmodule Chat.Web.WebSocketController do
   end
 
   defp to_json(response), do: Jason.encode!(response)
-  defp from_json(json), do: Jason.decode!(json)
+  defp from_json(json), do: Jason.decode(json)
 end

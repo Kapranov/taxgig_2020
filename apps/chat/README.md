@@ -46,7 +46,6 @@ real life application of Websockets.
   room
 - There seems that we have some flacky tests for "other clients"
   scenarios
-- Handle invalid client messages
 - Try to write some acceptance test (e.g. gherkin/cucumber for elixir?
   or use ExUnit?)
 - Find a way to distribute the Chat, in order to use more than one nodes
@@ -73,6 +72,7 @@ real life application of Websockets.
 
 ## Done
 
+- handle invalid client messages
 - rename `subscribers` to `clients` in `ChatRoom`
 - Add a `Supervisor` to supervise all the `ChatRoom` processes
 - Handle the welcome message in the `ChatRoom` itself and not in the
