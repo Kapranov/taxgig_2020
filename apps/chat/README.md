@@ -27,8 +27,15 @@ Feature:
 
 ## Doing
 
+- Introduce the `User` processes (see the `sketch` image in the README
+  for a reference)
+- Start writing test from the point of view of the `User`
+
 ## Todo
 
+- Rename `Chat.Registry` in `Chat.ChatRoomRegistry`
+- We may have to think to store the `user_id` of the user in the `state`
+  of the `Chat.Web.WebSocketController`
 - When I join a chat room as an identified user I want to read my user
   name in the welcome message
 - We read in the console "Application logger stopped temporary" every

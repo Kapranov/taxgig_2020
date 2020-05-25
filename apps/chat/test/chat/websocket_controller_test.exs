@@ -10,7 +10,7 @@ defmodule Chat.WebSocketControllerTest do
   @tag :skip
   describe "when join the default chat room as an identified user" do
     setup do
-      {:ok, pid} = connect_to "ws://localhost:4005/chat?access_token=A_TOKEN", forward_to: self()
+      {:ok, pid} = connect_to "ws://localhost:4005/chat?access_token=ACCESS_TOKEN", forward_to: self()
       send_as_text(pid, "{\"command\":\"join\"}")
       {:ok, client: pid}
     end
