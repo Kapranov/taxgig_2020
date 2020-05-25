@@ -11,7 +11,6 @@ defmodule Chat.MixProject do
       lockfile: "../../mix.lock",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
-      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -20,12 +19,6 @@ defmodule Chat.MixProject do
     [
       extra_applications: [:logger],
       mod: {Chat, []}
-    ]
-  end
-
-  defp aliases do
-    [
-      test: "test --no-start"
     ]
   end
 

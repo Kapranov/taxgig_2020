@@ -9,11 +9,6 @@ defmodule Chat.WebSocketControllerTest do
     |> Enum.each(&(Application.start(&1)))
   end
 
-  setup do
-    start_supervised! Supervisor
-    :ok
-  end
-
   describe "when join the default chat room" do
     setup do
       {:ok, pid} = connect_to "ws://localhost:4005/chat", forward_to: self()
@@ -110,6 +105,12 @@ defmodule Chat.WebSocketControllerTest do
     test "invalid messages are not handled" do
       {:ok, pid} = connect_to "ws://localhost:4005/chat", forward_to: self()
       send_as_text(pid, "this is an invalid message")
+      refute_receive _
+    end
+
+    test "invalid commands are not handled" do
+      {:ok, pid} = connect_to "ws://localhost:4005/chat", forward_to: self()
+      send_as_text(pid, "{\"something\":\"invalid\"}")
       refute_receive _
     end
   end

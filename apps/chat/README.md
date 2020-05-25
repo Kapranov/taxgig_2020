@@ -27,6 +27,8 @@ real life application of Websockets.
 
 ## Todo
 
+- As a client I want to be associated to a user so that other client can
+  see who send messages
 - rename `subscribers` to `clients` in `ChatRoom`
 - bug: avoid that a client can join twice to a room
 - Improve the way we make assertions on received messages (e.g.
@@ -72,6 +74,9 @@ real life application of Websockets.
 
 ## Done
 
+- Issue during run the tests: It seems that `Elixir.Chat.Application`
+  is already started
+- handle invalid command
 - handle invalid client messages
 - rename `subscribers` to `clients` in `ChatRoom`
 - Add a `Supervisor` to supervise all the `ChatRoom` processes

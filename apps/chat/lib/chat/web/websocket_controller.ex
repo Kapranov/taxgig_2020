@@ -70,6 +70,8 @@ defmodule Chat.Web.WebSocketController do
     {:reply, {:text, to_json(response)}, state}
   end
 
+  defp handle(_not_handled_command, state), do: {:ok, state}
+
   defp to_json(response), do: Jason.encode!(response)
   defp from_json(json), do: Jason.decode(json)
 end
