@@ -97,5 +97,14 @@ defmodule Chat.WebSocketControllerTest do
       send_as_text(pid, "{\"room\":\"unexisting_room\",\"message\":\"a message\"}")
       assert_receive "{\"error\":\"unexisting_room does not exists\"}"
     end
+
+    test "avoid a client to join twice to a room" do
+      {:ok, pid} = connect_to "ws://localhost:4005/chat", forward_to: self()
+      send_as_text(pid, "{\"command\":\"join\"}")
+      send_as_text(pid, "{\"command\":\"join\"}")
+      assert_receive "{\"message\":\"welcome to the default chat room!\",\"room\":\"default\"}"
+      refute_receive "{\"message\":\"welcome to the default chat room!\",\"room\":\"default\"}"
+      assert_receive "{\"error\":\"you already joined the default room!\"}"
+    end
   end
 end

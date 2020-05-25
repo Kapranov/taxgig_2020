@@ -13,8 +13,11 @@ real life application of Websockets.
 - A Websockets server implementation so that we can support web clients
 - A minimal frontend to allow users to subscribe to each room, sending
   messages and receiving messages
-- Introduce the concept of User
 - As a client I want to create a user so that I can use the chat system
+- As a user I can send a private message to an existing user to that I
+  can talk directly without using an existing room
+- As a client I want to be associated to a user so that other client
+  can see who send messages
 - As a user I can send a private message to an existing user to that I
   can talk directly without using an existing room
 
@@ -24,11 +27,19 @@ real life application of Websockets.
 
 ## Todo
 
+- rename `subscribers` to `clients` in `ChatRoom`
+- bug: avoid that a client can join twice to a room
+- Improve the way we make assertions on received messages (e.g.
+  assert_receive wants pattern match and not functions or variables) in
+  the `websocket_controller_test.exs`
+- in `ChatRooms` there is no need of `:room` atom for the messages
+  `{:join, client, :room, room}`, `{:send, message, :room, room}` and
+  `{:create, :room, room}`
 - Promote the `ChatRooms` to act like `Supervisor` instead of being a
   `GenServer`
 - we have to think to introduce
   [`gproc`](https://github.com/uwiger/gproc) for distribute the lookup
-processes across different nodes
+  processes across different nodes
 - It seems that we have some flaky tests for "other clients" scenarios
 - Setup a continuous integration for the project (e.g. using TravisCI)
 - Handle the case when we try to send a message to an unexisting chat

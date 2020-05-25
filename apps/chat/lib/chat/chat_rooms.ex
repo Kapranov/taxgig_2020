@@ -22,8 +22,8 @@ defmodule Chat.ChatRooms do
     GenServer.call(:chatrooms, {:join, client, :room, room})
   end
 
-  def send(room, message) do
-    GenServer.call(:chatrooms, {:send, message, :room, room})
+  def send(room, msg) do
+    GenServer.call(:chatrooms, {:send, msg, :room, room})
   end
 
   def create(room) do
@@ -40,8 +40,8 @@ defmodule Chat.ChatRooms do
     {:reply, reply, @no_state}
   end
 
-  def handle_call({:send, message, :room, room}, _from, _state) do
-    reply = send_message(room, message)
+  def handle_call({:send, msg, :room, room}, _from, _state) do
+    reply = send_msg(room, msg)
     {:reply, reply, @no_state}
   end
 
@@ -63,16 +63,24 @@ defmodule Chat.ChatRooms do
   defp join_chatroom(room, client) do
     case find_chatroom(room) do
       {:ok, pid} ->
-        ChatRoom.join(pid, client)
-        send_welcome_message(client, room)
+        try_join_chatroom(room, client, pid)
       {:error, :unexisting_room} ->
-        send_error_message(client, room)
+        send_error_msg(client, room <> " does not exists")
     end
   end
 
-  defp send_message(room, message) do
+  defp try_join_chatroom(room, client, chatroom_pid) do
+    case ChatRoom.join(chatroom_pid, client) do
+      :ok ->
+        send_welcome_msg(client, room)
+      {:error, :already_joined} ->
+        send_error_msg(client, "you already joined the " <> room <> " room!")
+    end
+  end
+
+  defp send_msg(room, msg) do
     case find_chatroom(room) do
-      {:ok, pid} -> ChatRoom.send(pid, message)
+      {:ok, pid} -> ChatRoom.send(pid, msg)
       error -> error
     end
   end
@@ -84,11 +92,11 @@ defmodule Chat.ChatRooms do
     end
   end
 
-  def send_welcome_message(client, room) do
+  defp send_welcome_msg(client, room) do
     Kernel.send client, {room, "welcome to the " <> room <> " chat room!"}
   end
 
-  def send_error_message(client, room) do
-    Kernel.send client, {:error, room <> " does not exists"}
+  defp send_error_msg(client, msg) do
+    Kernel.send client, {:error, msg}
   end
 end
