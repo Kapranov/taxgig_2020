@@ -20,8 +20,15 @@ real life application of Websockets.
 
 ## Doing
 
+- add a `Supervisor` to supervise all the `ChatRoom` processes
+
 ## Todo
 
+- Promote the `ChatRooms` to act like `Supervisor` instead of being a
+  `GenServer`
+- we have to think to introduce
+  [`gproc`](https://github.com/uwiger/gproc) for distribute the lookup
+processes across different nodes
 - It seems that we have some flaky tests for "other clients" scenarios
 - Setup a continuous integration for the project (e.g. using TravisCI)
 - Handle the case when we try to send a message to an unexisting chat
@@ -55,6 +62,7 @@ real life application of Websockets.
 
 ## Done
 
+- Add a `Supervisor` to supervise all the `ChatRoom` processes
 - Handle the welcome message in the `ChatRoom` itself and not in the
   `websocket_controller`
 - Handle the case when we try to send a message to an unexisting chat

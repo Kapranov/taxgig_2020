@@ -2,13 +2,15 @@ defmodule Chat.WebSocketControllerTest do
   use ExUnit.Case, async: true
   import WebSocketClient
 
+  alias Chat.Application, as: Supervisor
+
   setup_all do
     [:cowlib, :cowboy, :ranch]
     |> Enum.each(&(Application.start(&1)))
   end
 
   setup do
-    start_supervised! Chat.Application
+    start_supervised! Supervisor
     :ok
   end
 

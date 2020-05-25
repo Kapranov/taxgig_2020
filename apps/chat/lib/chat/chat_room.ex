@@ -8,11 +8,17 @@ defmodule Chat.ChatRoom do
   @name __MODULE__
 
   def create(name) do
-    GenServer.start_link(@name, %@name{name: name})
+    GenServer.start_link(@name, %@name{name: name}, name: via_registry(name))
   end
+
+  def start_link(name), do: create(name)
 
   def init(state) do
     {:ok, state}
+  end
+
+  def find(room) do
+    Registry.lookup(Chat.Registry, room)
   end
 
   def join(pid, subscriber) do
@@ -36,4 +42,6 @@ defmodule Chat.ChatRoom do
   defp add_subscriber(state = %@name{subscribers: subscribers}, subscriber) do
     %@name{state | subscribers: [subscriber|subscribers]}
   end
+
+  defp via_registry(name), do: {:via, Registry, {Chat.Registry, name}}
 end

@@ -4,16 +4,18 @@ defmodule Chat.ChatRooms do
   use GenServer
 
   alias Chat.ChatRoom
+  alias Chat.ChatRoomSupervisor
 
   @name __MODULE__
+  @no_state nil
 
   def start_link(_opts) do
-    GenServer.start_link(@name, %{}, name: :chatrooms)
+    GenServer.start_link(@name, @no_state, name: :chatrooms)
   end
 
-  def init(chatrooms) do
+  def init(_state) do
     Kernel.send self(), :initialize
-    {:ok, chatrooms}
+    {:ok, @no_state}
   end
 
   def join(room, client) do
@@ -28,38 +30,38 @@ defmodule Chat.ChatRooms do
     GenServer.call(:chatrooms, {:create, :room, room})
   end
 
-  def handle_call({:create, :room, room}, _from, chatrooms) do
-    {reply, new_chatrooms} = create_chatroom(chatrooms, room)
-    {:reply, reply, new_chatrooms}
+  def handle_call({:create, :room, room}, _from, _state) do
+    reply = create_chatroom(room)
+    {:reply, reply, @no_state}
   end
 
-  def handle_call({:join, client, :room, room}, _from, chatrooms) do
-    reply = join_chatroom(chatrooms, room, client)
-    {:reply, reply, chatrooms}
+  def handle_call({:join, client, :room, room}, _from, _state) do
+    reply = join_chatroom(room, client)
+    {:reply, reply, @no_state}
   end
 
-  def handle_call({:send, message, :room, room}, _from, chatrooms) do
-    reply = send_message(chatrooms, room, message)
-    {:reply, reply, chatrooms}
+  def handle_call({:send, message, :room, room}, _from, _state) do
+    reply = send_message(room, message)
+    {:reply, reply, @no_state}
   end
 
-  def handle_info(:initialize, chatrooms) do
-    {_reply, new_chatrooms} = create_chatroom(chatrooms, "default")
-    {:noreply, new_chatrooms}
+  def handle_info(:initialize, _state) do
+    create_chatroom("default")
+    {:noreply, @no_state}
   end
 
-  defp create_chatroom(chatrooms, room) do
-    case find_chatroom(chatrooms, room) do
+  defp create_chatroom(room) do
+    case find_chatroom(room) do
       {:ok, _pid} ->
-        {{:error, :already_exists}, chatrooms}
+        {:error, :already_exists}
       {:error, :unexisting_room} ->
-        {:ok, pid} = ChatRoom.create(room)
-        {:ok, Map.put(chatrooms, room, pid)}
+        {:ok, _pid} = ChatRoomSupervisor.create(room)
+        :ok
     end
   end
 
-  defp join_chatroom(chatrooms, room, client) do
-    case find_chatroom(chatrooms, room) do
+  defp join_chatroom(room, client) do
+    case find_chatroom(room) do
       {:ok, pid} ->
         ChatRoom.join(pid, client)
         send_welcome_message(client, room)
@@ -68,17 +70,17 @@ defmodule Chat.ChatRooms do
     end
   end
 
-  defp send_message(chatrooms, room, message) do
-    case find_chatroom(chatrooms, room) do
+  defp send_message(room, message) do
+    case find_chatroom(room) do
       {:ok, pid} -> ChatRoom.send(pid, message)
       error -> error
     end
   end
 
-  defp find_chatroom(chatrooms, room) do
-    case Map.get(chatrooms, room) do
-      nil -> {:error, :unexisting_room}
-      pid -> {:ok, pid}
+  defp find_chatroom(room) do
+    case ChatRoom.find(room) do
+      [] -> {:error, :unexisting_room}
+      [{pid, nil}] -> {:ok, pid}
     end
   end
 

@@ -4,6 +4,7 @@ defmodule Chat.ChatRoomTest do
   alias Chat.ChatRoom
 
   setup do
+    Registry.start_link(keys: :unique, name: Chat.Registry)
     {:ok, pid} = ChatRoom.create("room_name")
     %{chatroom: pid}
   end
