@@ -14,7 +14,6 @@ defmodule Chat.ChatRooms do
   end
 
   def init(_state) do
-    Kernel.send self(), :initialize
     {:ok, @no_state}
   end
 
@@ -43,11 +42,6 @@ defmodule Chat.ChatRooms do
   def handle_call({:send, msg, :room, room}, _from, _state) do
     reply = send_msg(room, msg)
     {:reply, reply, @no_state}
-  end
-
-  def handle_info(:initialize, _state) do
-    create_chatroom("default")
-    {:noreply, @no_state}
   end
 
   defp create_chatroom(room) do

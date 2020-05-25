@@ -27,6 +27,8 @@ Feature:
 
 ## Doing
 
+- `Chat.ChatRooms` could be a "simple" module and not a process
+
 ## Todo
 
 - When I join a chat room as an identified user I want to read my user
