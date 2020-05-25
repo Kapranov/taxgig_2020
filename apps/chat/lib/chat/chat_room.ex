@@ -3,7 +3,7 @@ defmodule Chat.ChatRoom do
 
   use GenServer
 
-  defstruct subscribers: [], name: nil
+  defstruct clients: [], name: nil
 
   @name __MODULE__
 
@@ -21,36 +21,32 @@ defmodule Chat.ChatRoom do
     Registry.lookup(Chat.Registry, room)
   end
 
-  def join(pid, subscriber) do
-    GenServer.call(pid, {:join, subscriber})
+  def join(pid, client) do
+    GenServer.call(pid, {:join, client})
   end
 
-  def send(pid, message) do
-    :ok = GenServer.cast(pid, {:send, message})
+  def send(pid, msg) do
+    :ok = GenServer.cast(pid, {:send, msg})
   end
 
-  def handle_call({:join, subscriber}, _from, state) do
-    {message, new_state} = case Enum.member?(state.subscribers, subscriber) do
-      true ->
-        {{:error, :already_joined}, state}
-      false ->
-        {:ok, add_subscriber(state, subscriber)}
+  def handle_call({:join, client}, _from, state) do
+    {msg, new_state} = case joined?(state.clients, client) do
+      true -> {{:error, :already_joined}, state}
+      false -> {:ok, add_client(state, client)}
     end
-    {:reply, message, new_state}
+
+    {:reply, msg, new_state}
   end
 
-  def handle_call({:joined?, client}, _from, state) do
-    result = Enum.member?(state.subscribers, client)
-    {:reply, result, state}
-  end
-
-  def handle_cast({:send, message}, state = %@name{name: name}) do
-    Enum.each(state.subscribers, &Kernel.send(&1, {name, message}));
+  def handle_cast({:send, msg}, state = %@name{name: name}) do
+    Enum.each(state.clients, &Kernel.send(&1, {name, msg}));
     {:noreply,  state}
   end
 
-  defp add_subscriber(state = %@name{subscribers: subscribers}, subscriber) do
-    %@name{state | subscribers: [subscriber|subscribers]}
+  defp joined?(clients, client), do: Enum.member?(clients, client)
+
+  defp add_client(state = %@name{clients: clients}, client) do
+    %@name{state | clients: [client|clients]}
   end
 
   defp via_registry(name), do: {:via, Registry, {Chat.Registry, name}}

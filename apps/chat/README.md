@@ -73,6 +73,7 @@ real life application of Websockets.
 
 ## Done
 
+- rename `subscribers` to `clients` in `ChatRoom`
 - Add a `Supervisor` to supervise all the `ChatRoom` processes
 - Handle the welcome message in the `ChatRoom` itself and not in the
   `websocket_controller`
