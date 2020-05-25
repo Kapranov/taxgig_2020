@@ -27,8 +27,6 @@ Feature:
 
 ## Doing
 
-- `Chat.ChatRooms` could be a "simple" module and not a process
-
 ## Todo
 
 - When I join a chat room as an identified user I want to read my user
@@ -80,6 +78,7 @@ Feature:
 
 ## Done
 
+- `Chat.ChatRooms` could be a "simple" module and not a process
 - Issue during run the tests: It seems that `Elixir.Chat.Application`
   is already started
 - handle invalid command
