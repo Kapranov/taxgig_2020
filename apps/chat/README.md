@@ -9,6 +9,10 @@ real life application of Websockets.
 
 ## Features roadmap
 
+Feature:
+  As a client I want to be associated to a user so that other client can
+  see who send messages
+
 - Multiple Rooms support
 - A Websockets server implementation so that we can support web clients
 - A minimal frontend to allow users to subscribe to each room, sending
@@ -23,12 +27,12 @@ real life application of Websockets.
 
 ## Doing
 
-- add a `Supervisor` to supervise all the `ChatRoom` processes
-
 ## Todo
 
-- As a client I want to be associated to a user so that other client can
-  see who send messages
+- When I join a chat room as an identified user I want to read my user
+  name in the welcome message
+- We read in the console "Application logger stopped temporary" every
+  time we run tests
 - rename `subscribers` to `clients` in `ChatRoom`
 - bug: avoid that a client can join twice to a room
 - Improve the way we make assertions on received messages (e.g.

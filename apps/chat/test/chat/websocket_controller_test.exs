@@ -2,11 +2,22 @@ defmodule Chat.WebSocketControllerTest do
   use ExUnit.Case, async: true
   import WebSocketClient
 
-  alias Chat.Application, as: Supervisor
-
   setup_all do
     [:cowlib, :cowboy, :ranch]
     |> Enum.each(&(Application.start(&1)))
+  end
+
+  @tag :skip
+  describe "when join the default chat room as an identified user" do
+    setup do
+      {:ok, pid} = connect_to "ws://localhost:4005/chat?access_token=A_TOKEN", forward_to: self()
+      send_as_text(pid, "{\"command\":\"join\"}")
+      {:ok, client: pid}
+    end
+
+    test "a welcome message with the user name is received" do
+      assert_receive "{\"message\":\"welcome to the default chat room, joe!\",\"room\":\"default\"}"
+    end
   end
 
   describe "when join the default chat room" do
