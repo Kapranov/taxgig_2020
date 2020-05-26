@@ -19,9 +19,10 @@ defmodule Chat.Application do
   def init(:ok) do
     children = [
       {Registry, keys: :unique, name: Chat.Registry},
-      Chat.ChatRoomSupervisor,
+      {Registry, keys: :unique, name: Chat.UserSessionRegistry},
       Chat.ChatRoomInitialize,
-      Chat.UserSessions,
+      Chat.ChatRoomSupervisor,
+      Chat.UserSessionSupervisor,
       Plug.Cowboy.child_spec(scheme: :http, plug: Router, options: @http_options)
     ]
 

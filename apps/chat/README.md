@@ -27,16 +27,20 @@ real life application of Websockets.
 
 - Introduce the `User` processes (see the `sketch` image in the README
   for a reference)
-- Start writing test from the point of view of the `Client` who tries
-  to subscribe to `UserSessions`
-- Refactor the `UserSessions` module in order to achieve the obvious
-  implementation with Supervisors, UserSession Processes, etc, ...
-- Introduce the `User` processes (see the `sketch` image in the README
-  for a reference)
 - Start writing test from the point of view of the `User`
 
 ## Todo
 
+- Try to find a way to remove the shared state from the `UserSessions`
+  Tests
+- think to rename `clients` in `subscribers` in both `UserSession` and
+  `ChatRoom` process
+- remove the `UserSession.exists?` function in favor of the
+  `UserSession.find` function
+- as a `UserSession` I can join a chatroom
+- as a `UserSession` I can send messages to a chatroom
+- Think about to rename or remove `UserSessions.send` (it could be
+  renamed in `UserSessions.notify` ???)
 - Rename `Chat.Registry` in `Chat.ChatRoomRegistry`
 - We may have to think to store the `user_id` of the user in the `state`
   of the `Chat.Web.WebSocketController`
@@ -89,6 +93,10 @@ real life application of Websockets.
 
 ## Done
 
+- Refactor the `UserSessions` module in order to achieve the obvious
+  implementation with Supervisors, UserSession Processes, etc, ...
+- Start writing test from the point of view of the `Client` who tries to
+  subscribe to `UserSessions`
 - `Chat.ChatRooms` could be a "simple" module and not a process
 - Issue during run the tests: It seems that `Elixir.Chat.Application`
   is already started
