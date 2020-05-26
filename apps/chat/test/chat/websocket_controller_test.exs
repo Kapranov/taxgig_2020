@@ -5,6 +5,9 @@ defmodule Chat.WebSocketControllerTest do
   setup_all do
     [:cowlib, :cowboy, :ranch]
     |> Enum.each(&(Application.start(&1)))
+
+    start_supervised! Chat.Application
+    :ok
   end
 
   @tag :skip
