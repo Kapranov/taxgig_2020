@@ -17,9 +17,24 @@ Feature:
 
 - Try to find a way to remove the shared state (the
   `UserSessionRegistry`) from the `UserSessions` Tests
+- Try to investigate this strange issue:
+
+```
+** (exit) exited in: GenServer.call(:user_session_supervisor,
+{:start_child, [{:via, Registry, {Chat.TestRegistry, "xxx"}}]},
+:infinity)
+** (EXIT) no process: the process is not alive or there's no process
+currently associated with the given name, possibly because its
+application isn't started
+```
+
+When run `mix test`
 
 ## Todo
 
+- Maybe the `UserSessions` and `UserSessionSupervisor` can be merged in
+  a single module named `AllUserSessions`
+- rename `user_session_id` with `user_id`
 - think to rename `clients` in `subscribers` in both `UserSession` and
   `ChatRoom` process
 - as a `UserSession` I can join a chatroom

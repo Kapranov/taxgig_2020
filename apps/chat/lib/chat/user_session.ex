@@ -3,16 +3,14 @@ defmodule Chat.UserSession do
 
   use GenServer
 
-  alias Chat.UserSessionRegistry
-
   @name __MODULE__
 
-  defstruct clients: [], user_session_id: nil
+  defstruct clients: []
 
-  def start_link(user_session_id), do: create(user_session_id)
+  def start_link(name), do: create(name)
 
-  def create(user_session_id) do
-    GenServer.start_link(@name, %@name{user_session_id: user_session_id}, name: via_registry(user_session_id))
+  def create(name) do
+    GenServer.start_link(@name, %@name{}, name: name)
   end
 
   def init(state) do
@@ -27,21 +25,12 @@ defmodule Chat.UserSession do
     GenServer.cast(pid, {:send, msg})
   end
 
-  def find(user_session_id) do
-    case Registry.lookup(UserSessionRegistry, user_session_id) do
-      [] -> nil
-      [{pid, nil}] -> pid
-    end
-  end
-
   def handle_call({:subscribe, client_pid}, _from, state) do
-    {:reply, :ok, %__MODULE__{state | clients: [client_pid|state.clients]} }
+    {:reply, :ok, %@name{state | clients: [client_pid|state.clients]} }
   end
 
-  def handle_cast({:send, message}, state) do
-    Enum.each(state.clients, &Kernel.send(&1, message));
+  def handle_cast({:send, msg}, state) do
+    Enum.each(state.clients, &Kernel.send(&1, msg));
     {:noreply, state}
   end
-
-  defp via_registry(name), do: {:via, Registry, {UserSessionRegistry, name}}
 end

@@ -3,6 +3,8 @@ defmodule Chat.UserSessionSupervisor do
 
   use DynamicSupervisor
 
+  alias Chat.UserSessionRegistry
+
   @name __MODULE__
 
   def start_link(_arg) do
@@ -13,7 +15,16 @@ defmodule Chat.UserSessionSupervisor do
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 
-  def create(name) do
-    DynamicSupervisor.start_child(:user_session_supervisor, {Chat.UserSession, name})
+  def create(user_session_id, registry \\ UserSessionRegistry) do
+    name = {:via, Registry, {registry, user_session_id}}
+    spec = %{id: Chat.UserSession, start: {Chat.UserSession, :start_link, [name]}, restart: :temporary}
+    DynamicSupervisor.start_child(:user_session_supervisor, spec)
+  end
+
+  def find(user_session_id, registry \\ UserSessionRegistry) do
+    case Registry.lookup(registry, user_session_id) do
+      [] -> nil
+      [{pid, nil}] -> pid
+    end
   end
 end
