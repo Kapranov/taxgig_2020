@@ -4,6 +4,7 @@ defmodule Chat.ChatRoom do
   use GenServer
 
   alias Chat.ChatRoomRegistry
+  alias Chat.UserSessions
 
   defstruct session_ids: [], name: nil
 
@@ -41,7 +42,7 @@ defmodule Chat.ChatRoom do
   end
 
   def handle_cast({:send, msg}, state = %@name{name: name}) do
-    Enum.each(state.session_ids, &Kernel.send(&1, {name, msg}));
+    Enum.each(state.session_ids, &UserSessions.send({name, msg}, to: &1))
     {:noreply,  state}
   end
 

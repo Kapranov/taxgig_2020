@@ -6,6 +6,11 @@ defmodule Chat.WebSocketControllerTest do
     [:cowlib, :cowboy, :ranch]
     |> Enum.each(&(Application.start(&1)))
 
+    start_supervised! {Registry, keys: :unique, name: UserSessionRegistry}
+    :ok
+  end
+
+  setup do
     start_supervised! Chat.Application
     :ok
   end

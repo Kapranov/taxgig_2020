@@ -1,26 +1,23 @@
 defmodule Chat.ChatRoomTest do
   use ExUnit.Case, async: true
 
+  import Mock
+
+  alias Chat.{ChatRoomRegistry, UserSessions}
   alias Chat.ChatRoom
 
   setup_all do
-    start_supervised! {Registry, keys: :unique, name: Chat.ChatRoomRegistry}
+    start_supervised! {Registry, keys: :unique, name: ChatRoomRegistry}
     :ok
   end
 
-  setup do
-    {:ok, pid} = ChatRoom.create("room_name")
-    %{chatroom: pid}
-  end
+  test "notify subscribed user session when a chatroom receives message" do
+    {:ok, chatroom} = ChatRoom.create("room_name")
+    ChatRoom.join(chatroom, "a-user-session-id")
 
-  test "not receive messages when not subscribed", %{chatroom: pid} do
-    ChatRoom.send(pid, "hello world")
-    refute_receive {"room_name", "hello world"}
-  end
-
-  test "receive messages when subscribed", %{chatroom: pid} do
-    ChatRoom.join(pid, self())
-    ChatRoom.send(pid, "hello world")
-    assert_receive {"room_name", "hello world"}
+    with_mock UserSessions, [send: fn(_message, [to: _user_session_id]) -> :ok end] do
+      ChatRoom.send(chatroom, "a message")
+      assert called UserSessions.send({"room_name", "a message"}, to: "a-user-session-id")
+    end
   end
 end

@@ -15,10 +15,14 @@ Feature:
 
 ## Doing
 
+- As a `ChatRoom` I can notify of new messages to all the subscribed
+  `UserSession`s
+
 ## Todo
 
-- As a `ChatRoom` I can notify of new messages to all the subscribed
-  `UserSession`
+- The module `ChatRooms` should be reorganized like the `UserSessions`
+- Enhancement: Think if it could be useful to use `Mox` instead of
+  `Mock`
 - As a `UserSession` I can join a chatroom
 - As a `UserSession` I can send messages to a chatroom
 - Think about to rename or remove `UserSessions.send` (it could be

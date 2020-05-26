@@ -3,13 +3,14 @@ defmodule Chat.ChatRooms do
 
   alias Chat.ChatRoom
   alias Chat.ChatRoomSupervisor
+  alias Chat.UserSessions
 
-  def join(room, client) do
+  def join(room, session_id) do
     case find_chatroom(room) do
       {:ok, pid} ->
-        try_join_chatroom(room, client, pid)
+        try_join_chatroom(room, session_id, pid)
       {:error, :unexisting_room} ->
-        send_error_msg(client, room <> " does not exists")
+        send_error_message(session_id, room <> " does not exists")
     end
   end
 
@@ -30,12 +31,12 @@ defmodule Chat.ChatRooms do
     end
   end
 
-  defp try_join_chatroom(room, client, chatroom_pid) do
-    case ChatRoom.join(chatroom_pid, client) do
+  defp try_join_chatroom(room, session_id, chatroom_pid) do
+    case ChatRoom.join(chatroom_pid, session_id) do
       :ok ->
-        send_welcome_msg(client, room)
+        send_welcome_message(session_id, room)
       {:error, :already_joined} ->
-        send_error_msg(client, "you already joined the " <> room <> " room!")
+        send_error_message(session_id, "you already joined the " <> room <> " room!")
     end
   end
 
@@ -46,11 +47,11 @@ defmodule Chat.ChatRooms do
     end
   end
 
-  defp send_welcome_msg(client, room) do
-    Kernel.send client, {room, "welcome to the " <> room <> " chat room!"}
+  defp send_welcome_message(session_id, room) do
+    UserSessions.send({room, "welcome to the " <> room <> " chat room!"}, to: session_id)
   end
 
-  defp send_error_msg(client, msg) do
-    Kernel.send client, {:error, msg}
+  defp send_error_message(session_id, message) do
+    UserSessions.send({:error, message}, to: session_id)
   end
 end

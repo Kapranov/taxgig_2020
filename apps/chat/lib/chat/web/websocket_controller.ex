@@ -4,13 +4,15 @@ defmodule Chat.Web.WebSocketController do
   @behaviour :cowboy_websocket
 
   alias Chat.ChatRooms
+  alias Chat.UserSessions
 
   def init(req, state) do
     {:cowboy_websocket, req, state}
   end
 
-  def websocket_init(state \\ nil) do
-    {:ok, state}
+  def websocket_init(_) do
+    UserSessions.subscribe(self(), to: "default-user-session")
+    {:ok, nil}
   end
 
   def websocket_handle({:text, command_as_json}, state) do
@@ -38,12 +40,12 @@ defmodule Chat.Web.WebSocketController do
     {:reply, {:text, to_json(response)}, state}
   end
 
-  def websocket_terminate(_reason, _req, _state) do
+  def websocket_terminate(_reason, _state) do
     :ok
   end
 
   defp handle(%{"command" => "join", "room" => room}, state) do
-    ChatRooms.join(room, self())
+    ChatRooms.join(room, "default-user-session")
     {:ok, state}
   end
 

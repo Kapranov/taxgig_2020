@@ -1,9 +1,9 @@
-defmodule Chat.ChatRoomInitialize do
+defmodule Chat.Init do
   @moduledoc false
 
   use Task, restart: :transient
 
-  alias Chat.ChatRooms
+  alias Chat.{ChatRooms, UserSessions}
 
   @name __MODULE__
 
@@ -13,5 +13,6 @@ defmodule Chat.ChatRoomInitialize do
 
   def run do
     ChatRooms.create("default")
+    UserSessions.create("default-user-session")
   end
 end
