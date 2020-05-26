@@ -3,25 +3,24 @@ defmodule Chat.ChatRoom do
 
   use GenServer
 
-  alias Chat.ChatRoomRegistry
   alias Chat.UserSessions
 
   defstruct session_ids: [], name: nil
 
   @name __MODULE__
 
-  def create(name) do
-    GenServer.start_link(@name, %@name{name: name}, name: via_registry(name))
+  def create(name = {:via, Registry, {_registry_name, chatroom_name}}) do
+    GenServer.start_link(@name, %@name{name: chatroom_name}, name: name)
+  end
+
+  def create(chatroom_name) do
+    GenServer.start_link(@name, %@name{name: chatroom_name}, name: String.to_atom(chatroom_name))
   end
 
   def start_link(name), do: create(name)
 
   def init(state) do
     {:ok, state}
-  end
-
-  def find(room) do
-    Registry.lookup(ChatRoomRegistry, room)
   end
 
   def join(pid, session_id) do
@@ -51,6 +50,4 @@ defmodule Chat.ChatRoom do
   defp add_session_id(state = %@name{session_ids: session_ids}, session_id) do
     %@name{state | session_ids: [session_id|session_ids]}
   end
-
-  defp via_registry(name), do: {:via, Registry, {ChatRoomRegistry, name}}
 end

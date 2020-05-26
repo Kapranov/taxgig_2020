@@ -15,11 +15,8 @@ Feature:
 
 ## Doing
 
-- The module `ChatRooms` should be reorganized like the `UserSessions`
-
 ## Todo
 
-- `Chat.Web.WebSocketController` should collaborate only with `UserSessions`
   - As a `UserSession` I can join a chatroom
   - As a `UserSession` I can send messages to a chatroom
   - At the end we can remove the `ChatRooms` as a collaborator
@@ -51,6 +48,7 @@ Feature:
 
 ## Done
 
+- The module `ChatRooms` should be reorganized like the `UserSessions`
 - As a `ChatRoom` I can notify of new messages to all the subscribed
   `UserSession`
 - rename the `UserSessions.send` to `UserSessions.notify`

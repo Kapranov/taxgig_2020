@@ -3,12 +3,22 @@ defmodule Chat.ChatRooms do
 
   use DynamicSupervisor
 
-  alias Chat.{ChatRoom, UserSessions}
+  alias Chat.{ChatRoom, ChatRoomRegistry, UserSessions}
 
   @name __MODULE__
 
-  def join(room, session_id) do
-    case find_chatroom(room) do
+  def create(room) do
+    case find(room) do
+      {:ok, _pid} ->
+        {:error, :already_exists}
+      {:error, :unexisting_room} ->
+        {:ok, _pid} = start(room)
+        :ok
+    end
+  end
+
+  def join(room, [as: session_id]) do
+    case find(room) do
       {:ok, pid} ->
         try_join_chatroom(room, session_id, pid)
       {:error, :unexisting_room} ->
@@ -16,20 +26,10 @@ defmodule Chat.ChatRooms do
     end
   end
 
-  def send(room, msg) do
-    case find_chatroom(room) do
+  def send(msg, [to: room]) do
+    case find(room) do
       {:ok, pid} -> ChatRoom.send(pid, msg)
       error -> error
-    end
-  end
-
-  def create(room) do
-    case find_chatroom(room) do
-      {:ok, _pid} ->
-        {:error, :already_exists}
-      {:error, :unexisting_room} ->
-        {:ok, _pid} = start(room)
-        :ok
     end
   end
 
@@ -41,11 +41,6 @@ defmodule Chat.ChatRooms do
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 
-  defp start(name) do
-    spec = %{id: ChatRoom, start: {ChatRoom, :start_link, [name]}, restart: :temporary}
-    DynamicSupervisor.start_child(:chatroom_supervisor, spec)
-  end
-
   defp try_join_chatroom(room, session_id, chatroom_pid) do
     case ChatRoom.join(chatroom_pid, session_id) do
       :ok ->
@@ -55,8 +50,8 @@ defmodule Chat.ChatRooms do
     end
   end
 
-  defp find_chatroom(room) do
-    case ChatRoom.find(room) do
+  defp find(room) do
+    case Registry.lookup(ChatRoomRegistry, room) do
       [] -> {:error, :unexisting_room}
       [{pid, nil}] -> {:ok, pid}
     end
@@ -66,7 +61,13 @@ defmodule Chat.ChatRooms do
     UserSessions.notify({room, "welcome to the " <> room <> " chat room!"}, to: session_id)
   end
 
-  defp send_error_message(session_id, message) do
-    UserSessions.notify({:error, message}, to: session_id)
+  defp send_error_message(session_id, msg) do
+    UserSessions.notify({:error, msg}, to: session_id)
+  end
+
+  defp start(chatroom_name) do
+    name = {:via, Registry, {ChatRoomRegistry, chatroom_name}}
+    spec = %{id: ChatRoom, start: {ChatRoom, :start_link, [name]}, restart: :temporary}
+    DynamicSupervisor.start_child(:chatroom_supervisor, spec)
   end
 end

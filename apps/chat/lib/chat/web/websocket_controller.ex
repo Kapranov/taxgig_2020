@@ -44,7 +44,7 @@ defmodule Chat.Web.WebSocketController do
   end
 
   defp handle(%{"command" => "join", "room" => room}, state) do
-    ChatRooms.join(room, "default-user-session")
+    ChatRooms.join(room, as: "default-user-session")
     {:ok, state}
   end
 
@@ -53,7 +53,7 @@ defmodule Chat.Web.WebSocketController do
   end
 
   defp handle(%{"room" => room, "message" => msg}, state) do
-    case ChatRooms.send(room, msg) do
+    case ChatRooms.send(msg, [to: room]) do
       :ok ->
         {:ok, state}
       {:error, :unexisting_room} ->
