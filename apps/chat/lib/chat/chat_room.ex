@@ -5,7 +5,7 @@ defmodule Chat.ChatRoom do
 
   alias Chat.ChatRoomRegistry
 
-  defstruct clients: [], name: nil
+  defstruct session_ids: [], name: nil
 
   @name __MODULE__
 
@@ -23,32 +23,32 @@ defmodule Chat.ChatRoom do
     Registry.lookup(ChatRoomRegistry, room)
   end
 
-  def join(pid, client) do
-    GenServer.call(pid, {:join, client})
+  def join(pid, session_id) do
+    GenServer.call(pid, {:join, session_id})
   end
 
   def send(pid, msg) do
     :ok = GenServer.cast(pid, {:send, msg})
   end
 
-  def handle_call({:join, client}, _from, state) do
-    {msg, new_state} = case joined?(state.clients, client) do
+  def handle_call({:join, session_id}, _from, state) do
+    {msg, new_state} = case joined?(state.session_ids, session_id) do
       true -> {{:error, :already_joined}, state}
-      false -> {:ok, add_client(state, client)}
+      false -> {:ok, add_session_id(state, session_id)}
     end
 
     {:reply, msg, new_state}
   end
 
   def handle_cast({:send, msg}, state = %@name{name: name}) do
-    Enum.each(state.clients, &Kernel.send(&1, {name, msg}));
+    Enum.each(state.session_ids, &Kernel.send(&1, {name, msg}));
     {:noreply,  state}
   end
 
-  defp joined?(clients, client), do: Enum.member?(clients, client)
+  defp joined?(session_ids, session_id), do: Enum.member?(session_ids, session_id)
 
-  defp add_client(state = %@name{clients: clients}, client) do
-    %@name{state | clients: [client|clients]}
+  defp add_session_id(state = %@name{session_ids: session_ids}, session_id) do
+    %@name{state | session_ids: [session_id|session_ids]}
   end
 
   defp via_registry(name), do: {:via, Registry, {ChatRoomRegistry, name}}

@@ -17,11 +17,10 @@ Feature:
 
 ## Todo
 
-- think to rename `clients` to `session_ids` in the `ChatRoom` process
-- As a `UserSession` I can join a chatroom
-- As a `UserSession` I can send messages to a chatroom
 - As a `ChatRoom` I can notify of new messages to all the subscribed
   `UserSession`
+- As a `UserSession` I can join a chatroom
+- As a `UserSession` I can send messages to a chatroom
 - Think about to rename or remove `UserSessions.send` (it could be
   renamed in `UserSessions.notify` ???)
 - We may have to think to store the `user_id` of the user in the `state`
@@ -49,6 +48,7 @@ Feature:
 
 ## Done
 
+- think to rename `clients` to `session_ids` in the `ChatRoom` process
 - Rename `Chat.Registry` in `Chat.ChatRoomRegistry`
 - rename `user_session_id` to `session_id`
 - Maybe the `UserSessions` and `UserSessionSupervisor` can be merged in
