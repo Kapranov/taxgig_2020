@@ -3,6 +3,8 @@ defmodule Chat.ChatRoom do
 
   use GenServer
 
+  alias Chat.ChatRoomRegistry
+
   defstruct clients: [], name: nil
 
   @name __MODULE__
@@ -18,7 +20,7 @@ defmodule Chat.ChatRoom do
   end
 
   def find(room) do
-    Registry.lookup(Chat.Registry, room)
+    Registry.lookup(ChatRoomRegistry, room)
   end
 
   def join(pid, client) do
@@ -49,5 +51,5 @@ defmodule Chat.ChatRoom do
     %@name{state | clients: [client|clients]}
   end
 
-  defp via_registry(name), do: {:via, Registry, {Chat.Registry, name}}
+  defp via_registry(name), do: {:via, Registry, {ChatRoomRegistry, name}}
 end

@@ -17,21 +17,19 @@ Feature:
 
 ## Todo
 
-- Try to split the [API, the Server and the Application](https://pragdave.me/blog/2017/07/13/decoupling-interface-and-implementation-in-elixir.html)
-  Logic for the `AllUserSessions`
-- think to rename `clients` in `subscribers` in both `UserSession` and
-  `ChatRoom` process
-- as a `UserSession` I can join a chatroom
-- as a `UserSession` I can send messages to a chatroom
+- think to rename `clients` to `session_ids` in the `ChatRoom` process
+- As a `UserSession` I can join a chatroom
+- As a `UserSession` I can send messages to a chatroom
+- As a `ChatRoom` I can notify of new messages to all the subscribed
+  `UserSession`
 - Think about to rename or remove `UserSessions.send` (it could be
   renamed in `UserSessions.notify` ???)
-- Rename `Chat.Registry` in `Chat.ChatRoomRegistry`
 - We may have to think to store the `user_id` of the user in the `state`
   of the `Chat.Web.WebSocketController`
 - When I join a chat room as an identified user I want to read my user
   name in the welcome message
-- We read in the console "Application logger stopped temporary" every
-  time we run tests
+- Try to split the [API, the Server and the Application Logic](https://pragdave.me/blog/2017/07/13/decoupling-interface-and-implementation-in-elixir.html)
+  int the `UserSessions` module
 - unsubscribe a client to receive messages once it leaves the chat
 - improve the way we make assertions on received messages (e.g.
   assert_receive wants pattern match and not functions or variables) in
@@ -51,6 +49,7 @@ Feature:
 
 ## Done
 
+- Rename `Chat.Registry` in `Chat.ChatRoomRegistry`
 - rename `user_session_id` to `session_id`
 - Maybe the `UserSessions` and `UserSessionSupervisor` can be merged in
   a single module named `AllUserSessions`

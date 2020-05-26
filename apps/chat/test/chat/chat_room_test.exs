@@ -4,7 +4,7 @@ defmodule Chat.ChatRoomTest do
   alias Chat.ChatRoom
 
   setup_all do
-    start_supervised! {Registry, keys: :unique, name: Chat.Registry}
+    start_supervised! {Registry, keys: :unique, name: Chat.ChatRoomRegistry}
     :ok
   end
 

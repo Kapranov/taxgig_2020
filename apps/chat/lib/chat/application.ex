@@ -18,7 +18,7 @@ defmodule Chat.Application do
 
   def init(:ok) do
     children = [
-      {Registry, keys: :unique, name: Chat.Registry},
+      {Registry, keys: :unique, name: Chat.ChatRoomRegistry},
       {Registry, keys: :unique, name: Chat.UserSessionRegistry},
       Chat.ChatRoomSupervisor,
       Chat.ChatRoomInitialize,
