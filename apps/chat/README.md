@@ -15,17 +15,16 @@ Feature:
 
 ## Doing
 
-- As a `ChatRoom` I can notify of new messages to all the subscribed
-  `UserSession`s
+- The module `ChatRooms` should be reorganized like the `UserSessions`
 
 ## Todo
 
-- The module `ChatRooms` should be reorganized like the `UserSessions`
+- `Chat.Web.WebSocketController` should collaborate only with `UserSessions`
+  - As a `UserSession` I can join a chatroom
+  - As a `UserSession` I can send messages to a chatroom
+  - At the end we can remove the `ChatRooms` as a collaborator
 - Enhancement: Think if it could be useful to use `Mox` instead of
   `Mock`
-- As a `UserSession` I can join a chatroom
-- As a `UserSession` I can send messages to a chatroom
-- Think about to rename or remove `UserSessions.send` (it could be
   renamed in `UserSessions.notify` ???)
 - We may have to think to store the `user_id` of the user in the `state`
   of the `Chat.Web.WebSocketController`
@@ -52,6 +51,9 @@ Feature:
 
 ## Done
 
+- As a `ChatRoom` I can notify of new messages to all the subscribed
+  `UserSession`
+- rename the `UserSessions.send` to `UserSessions.notify`
 - think to rename `clients` to `session_ids` in the `ChatRoom` process
 - Rename `Chat.Registry` in `Chat.ChatRoomRegistry`
 - rename `user_session_id` to `session_id`

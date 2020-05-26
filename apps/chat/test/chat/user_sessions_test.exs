@@ -37,13 +37,13 @@ defmodule Chat.UserSessionsTest do
 
   describe "when send a message to a UserSession" do
     test "an error is received when the session does not exist" do
-      result = UserSessions.send("a message", to: "a-session-id")
+      result = UserSessions.notify("a message", to: "a-session-id")
       assert result == {:error, :session_not_exists}
     end
 
     test "a message is correctly delivered" do
       UserSessions.create("a-session-id")
-      result = UserSessions.send("a message", to: "a-session-id")
+      result = UserSessions.notify("a message", to: "a-session-id")
       assert result == :ok
     end
   end
@@ -52,7 +52,7 @@ defmodule Chat.UserSessionsTest do
     test "messages received are forwarded to subscribers" do
       UserSessions.create("a-session-id")
       UserSessions.subscribe(self(), to: "a-session-id")
-      UserSessions.send("a message", to: "a-session-id")
+      UserSessions.notify("a message", to: "a-session-id")
       assert_receive "a message"
     end
   end
@@ -60,7 +60,7 @@ defmodule Chat.UserSessionsTest do
   describe "when not subscribed to a UserSession" do
     test "messages received are not forwarded" do
       UserSessions.create("a-session-id")
-      UserSessions.send("a message", to: "a-session-id")
+      UserSessions.notify("a message", to: "a-session-id")
       refute_receive "a message"
     end
   end

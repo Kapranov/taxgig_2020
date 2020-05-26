@@ -21,7 +21,7 @@ defmodule Chat.UserSession do
     GenServer.call(pid, {:subscribe, client_pid})
   end
 
-  def send(pid, msg) do
+  def notify(pid, msg) do
     GenServer.cast(pid, {:send, msg})
   end
 

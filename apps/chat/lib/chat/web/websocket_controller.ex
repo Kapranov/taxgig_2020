@@ -3,8 +3,7 @@ defmodule Chat.Web.WebSocketController do
 
   @behaviour :cowboy_websocket
 
-  alias Chat.ChatRooms
-  alias Chat.UserSessions
+  alias Chat.{UserSessions, ChatRooms}
 
   def init(req, state) do
     {:cowboy_websocket, req, state}

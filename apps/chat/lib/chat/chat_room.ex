@@ -42,7 +42,7 @@ defmodule Chat.ChatRoom do
   end
 
   def handle_cast({:send, msg}, state = %@name{name: name}) do
-    Enum.each(state.session_ids, &UserSessions.send({name, msg}, to: &1))
+    Enum.each(state.session_ids, &UserSessions.notify({name, msg}, to: &1))
     {:noreply,  state}
   end
 
