@@ -3,7 +3,7 @@ defmodule Chat.UserSessions do
 
   use DynamicSupervisor
 
-  alias Chat.UserSession
+  alias Chat.{ChatRooms, UserSession}
 
   @name __MODULE__
 
@@ -28,6 +28,18 @@ defmodule Chat.UserSessions do
       nil -> {:error, :session_not_exists}
       pid -> UserSession.notify(pid, message)
     end
+  end
+
+  def join(room, [as: session_id]) do
+    ChatRooms.join(room, as: session_id)
+  end
+
+  def send(msg, [to: room, as: _session_id]) do
+    ChatRooms.send(msg, to: room)
+  end
+
+  def create_chatroom(room, [as: _session_id]) do
+    ChatRooms.create(room)
   end
 
   def start_link(_arg) do
