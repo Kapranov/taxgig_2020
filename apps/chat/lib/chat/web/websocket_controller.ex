@@ -39,6 +39,15 @@ defmodule Chat.Web.WebSocketController do
     {:reply, {:text, to_json(response)}, state}
   end
 
+  def websocket_info({_session_id, chatroom_name, msg}, state) do
+    response = %{
+      message: msg,
+      room: chatroom_name
+    }
+
+    {:reply, {:text, to_json(response)}, state}
+  end
+
   def websocket_terminate(_reason, _state) do
     :ok
   end
@@ -53,7 +62,7 @@ defmodule Chat.Web.WebSocketController do
   end
 
   defp handle(%{"room" => room, "message" => msg}, state) do
-    case ChatRooms.send(msg, [to: room]) do
+    case ChatRooms.send(msg, to: room, as: "default-user-session") do
       :ok ->
         {:ok, state}
       {:error, :unexisting_room} ->

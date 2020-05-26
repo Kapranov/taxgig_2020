@@ -11,8 +11,9 @@ defmodule Chat.ChatRoomTest do
     ChatRoom.join(chatroom, "a-user-session-id")
 
     with_mock UserSessions, [notify: fn(_message, [to: _user_session_id]) -> :ok end] do
-      ChatRoom.send(chatroom, "a message")
-      assert called UserSessions.notify({"room_name", "a message"}, to: "a-user-session-id")
+      expected_message = {"another-user-session-id", "room_name", "a message"}
+      ChatRoom.send(chatroom, "a message", as: "another-user-session-id")
+      assert called UserSessions.notify(expected_message, to: "a-user-session-id")
     end
   end
 end

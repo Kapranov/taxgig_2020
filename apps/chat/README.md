@@ -17,11 +17,11 @@ Feature:
 
 ## Todo
 
-- `Chat.Web.WebSocketController` should collaborate only with `UserSessions`
-  - As a `UserSession` I can join a chatroom (write a test)
-  - As a `UserSession` I can send messages to a chatroom (write a test)
-  - As a `UserSession` I can create a chatroom (write a test)
-  - At the end we can remove the `ChatRooms` as a collaborator
+- `ChatRooms.create` should use the `user-session-id`
+- Put the `user-session-id` as state of `Chat.Web.WebSocketController`
+- `Chat.Web.WebSocketController` consider to remove the duplication of
+  `websocket_info({_session_id, chatroom_name, message}, req, state)`
+and `websocket_info({chatroom_name, message}, req, state)`
 - Enhancement: Think if it could be useful to use `Mox` instead of
   `Mock`
   renamed in `UserSessions.notify` ???)
@@ -50,6 +50,7 @@ Feature:
 
 ## Done
 
+- `ChatRooms.send` should use the `user-session-id`
 - The module `ChatRooms` should be reorganized like the `UserSessions`
 - As a `ChatRoom` I can notify of new messages to all the subscribed
   `UserSession`

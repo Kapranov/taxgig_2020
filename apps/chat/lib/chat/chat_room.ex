@@ -27,8 +27,8 @@ defmodule Chat.ChatRoom do
     GenServer.call(pid, {:join, session_id})
   end
 
-  def send(pid, msg) do
-    :ok = GenServer.cast(pid, {:send, msg})
+  def send(pid, msg, [as: session_id]) do
+    :ok = GenServer.call(pid, {:send, msg, :as, session_id})
   end
 
   def handle_call({:join, session_id}, _from, state) do
@@ -40,9 +40,9 @@ defmodule Chat.ChatRoom do
     {:reply, msg, new_state}
   end
 
-  def handle_cast({:send, msg}, state = %@name{name: name}) do
-    Enum.each(state.session_ids, &UserSessions.notify({name, msg}, to: &1))
-    {:noreply,  state}
+  def handle_call({:send, msg, :as, session_id}, _from, state = %@name{name: name}) do
+    Enum.each(state.session_ids, &UserSessions.notify({session_id, name, msg}, to: &1))
+    {:reply, :ok, state}
   end
 
   defp joined?(session_ids, session_id), do: Enum.member?(session_ids, session_id)

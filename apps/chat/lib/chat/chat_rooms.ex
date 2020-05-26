@@ -26,9 +26,9 @@ defmodule Chat.ChatRooms do
     end
   end
 
-  def send(msg, [to: room]) do
+  def send(msg, [to: room, as: session_id]) do
     case find(room) do
-      {:ok, pid} -> ChatRoom.send(pid, msg)
+      {:ok, pid} -> ChatRoom.send(pid, msg, as: session_id)
       error -> error
     end
   end
