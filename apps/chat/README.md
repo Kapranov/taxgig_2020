@@ -19,7 +19,6 @@ Feature:
 
 - Try to split the [API, the Server and the Application](https://pragdave.me/blog/2017/07/13/decoupling-interface-and-implementation-in-elixir.html)
   Logic for the `AllUserSessions`
-- rename `user_session_id` with `user_id`
 - think to rename `clients` in `subscribers` in both `UserSession` and
   `ChatRoom` process
 - as a `UserSession` I can join a chatroom
@@ -52,6 +51,7 @@ Feature:
 
 ## Done
 
+- rename `user_session_id` to `session_id`
 - Maybe the `UserSessions` and `UserSessionSupervisor` can be merged in
   a single module named `AllUserSessions`
 - Fix the names used for the user sessions in the `UserSessionsTest`
