@@ -1,9 +1,11 @@
 defmodule Chat.ChatRooms do
   @moduledoc false
 
-  alias Chat.ChatRoom
-  alias Chat.ChatRoomSupervisor
-  alias Chat.UserSessions
+  use DynamicSupervisor
+
+  alias Chat.{ChatRoom, UserSessions}
+
+  @name __MODULE__
 
   def join(room, session_id) do
     case find_chatroom(room) do
@@ -26,9 +28,22 @@ defmodule Chat.ChatRooms do
       {:ok, _pid} ->
         {:error, :already_exists}
       {:error, :unexisting_room} ->
-        {:ok, _pid} = ChatRoomSupervisor.create(room)
+        {:ok, _pid} = start(room)
         :ok
     end
+  end
+
+  def start_link(_arg) do
+    DynamicSupervisor.start_link(@name, [], name: :chatroom_supervisor)
+  end
+
+  def init(_arg) do
+    DynamicSupervisor.init(strategy: :one_for_one)
+  end
+
+  defp start(name) do
+    spec = %{id: ChatRoom, start: {ChatRoom, :start_link, [name]}, restart: :temporary}
+    DynamicSupervisor.start_child(:chatroom_supervisor, spec)
   end
 
   defp try_join_chatroom(room, session_id, chatroom_pid) do
