@@ -50,8 +50,6 @@ Feature:
 
 ## Done
 
-- Remove `ChatRooms` from `Chat.Web.WebSocketController` (delegate to
-  `UserSessions`)
 - The module `ChatRooms` should be reorganized like the `UserSessions`
 - As a `ChatRoom` I can notify of new messages to all the subscribed
   `UserSession`

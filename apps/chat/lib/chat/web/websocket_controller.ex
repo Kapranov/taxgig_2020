@@ -3,7 +3,7 @@ defmodule Chat.Web.WebSocketController do
 
   @behaviour :cowboy_websocket
 
-  alias Chat.UserSessions
+  alias Chat.{UserSessions, ChatRooms}
 
   def init(req, state) do
     {:cowboy_websocket, req, state}
@@ -44,7 +44,7 @@ defmodule Chat.Web.WebSocketController do
   end
 
   defp handle(%{"command" => "join", "room" => room}, state) do
-    UserSessions.join(room, as: "default-user-session")
+    ChatRooms.join(room, as: "default-user-session")
     {:ok, state}
   end
 
@@ -53,7 +53,7 @@ defmodule Chat.Web.WebSocketController do
   end
 
   defp handle(%{"room" => room, "message" => msg}, state) do
-    case UserSessions.send(msg, to: room, as: "default-user-session") do
+    case ChatRooms.send(msg, [to: room]) do
       :ok ->
         {:ok, state}
       {:error, :unexisting_room} ->
@@ -63,7 +63,7 @@ defmodule Chat.Web.WebSocketController do
   end
 
   defp handle(%{"command" => "create", "room" => room}, state) do
-    response = case UserSessions.create_chatroom(room, as: "default-user-session") do
+    response = case ChatRooms.create(room) do
       :ok -> %{success: room <> " has been created!"}
       {:error, :already_exists} ->  %{error: room <> " already exists"}
     end
