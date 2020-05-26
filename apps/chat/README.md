@@ -17,20 +17,18 @@ Feature:
 
 ## Todo
 
-- `ChatRooms.create` should use the `user-session-id`
-- Put the `user-session-id` as state of `Chat.Web.WebSocketController`
 - `Chat.Web.WebSocketController` consider to remove the duplication of
   `websocket_info({_session_id, chatroom_name, message}, req, state)`
 and `websocket_info({chatroom_name, message}, req, state)`
+- Try to write unit tests for `Chat.WebSocketControllerTest`
 - Enhancement: Think if it could be useful to use `Mox` instead of
-  `Mock`
-  renamed in `UserSessions.notify` ???)
+  `Mock` (think about the use of Behaviour)
 - We may have to think to store the `user_id` of the user in the `state`
   of the `Chat.Web.WebSocketController`
 - When I join a chat room as an identified user I want to read my user
   name in the welcome message
 - Try to split the [API, the Server and the Application Logic](https://pragdave.me/blog/2017/07/13/decoupling-interface-and-implementation-in-elixir.html)
-  int the `UserSessions` module
+  in the `UserSessions` and in the `ChatRooms` module
 - unsubscribe a client to receive messages once it leaves the chat
 - improve the way we make assertions on received messages (e.g.
   assert_receive wants pattern match and not functions or variables) in
@@ -50,6 +48,7 @@ and `websocket_info({chatroom_name, message}, req, state)`
 
 ## Done
 
+- Put the `user-session-id` as state of `Chat.Web.WebSocketController`
 - `ChatRooms.send` should use the `user-session-id`
 - The module `ChatRooms` should be reorganized like the `UserSessions`
 - As a `ChatRoom` I can notify of new messages to all the subscribed

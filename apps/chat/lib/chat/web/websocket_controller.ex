@@ -11,76 +11,76 @@ defmodule Chat.Web.WebSocketController do
 
   def websocket_init(_) do
     UserSessions.subscribe(self(), to: "default-user-session")
-    {:ok, nil}
+    {:ok, "default-user-session"}
   end
 
-  def websocket_handle({:text, command_as_json}, state) do
+  def websocket_handle({:text, command_as_json}, session_id) do
     case from_json(command_as_json) do
-      {:error, _reason} -> {:ok, state}
-      {:ok, command} -> handle(command, state)
+      {:error, _reason} -> {:ok, session_id}
+      {:ok, command} -> handle(command, session_id)
     end
   end
 
-  def websocket_handle(_msg, state) do
-    {:ok, state}
+  def websocket_handle(_msg, session_id) do
+    {:ok, session_id}
   end
 
-  def websocket_info({:error, msg}, state) do
+  def websocket_info({:error, msg}, session_id) do
     response = %{error: msg}
-    {:reply, {:text, to_json(response)}, state}
+    {:reply, {:text, to_json(response)}, session_id}
   end
 
-  def websocket_info({chatroom_name, msg}, state) do
+  def websocket_info({chatroom_name, msg}, session_id) do
     response = %{
       message: msg,
       room: chatroom_name
     }
 
-    {:reply, {:text, to_json(response)}, state}
+    {:reply, {:text, to_json(response)}, session_id}
   end
 
-  def websocket_info({_session_id, chatroom_name, msg}, state) do
+  def websocket_info({_session_id, chatroom_name, msg}, session_id) do
     response = %{
       message: msg,
       room: chatroom_name
     }
 
-    {:reply, {:text, to_json(response)}, state}
+    {:reply, {:text, to_json(response)}, session_id}
   end
 
-  def websocket_terminate(_reason, _state) do
+  def websocket_terminate(_reason, _session_id) do
     :ok
   end
 
-  defp handle(%{"command" => "join", "room" => room}, state) do
-    ChatRooms.join(room, as: "default-user-session")
-    {:ok, state}
+  defp handle(%{"command" => "join", "room" => room}, session_id) do
+    ChatRooms.join(room, as: session_id)
+    {:ok, session_id}
   end
 
-  defp handle(command = %{"command" => "join"}, state) do
-    handle(Map.put(command, "room", "default"), state)
+  defp handle(command = %{"command" => "join"}, session_id) do
+    handle(Map.put(command, "room", "default"), session_id)
   end
 
-  defp handle(%{"room" => room, "message" => msg}, state) do
-    case ChatRooms.send(msg, to: room, as: "default-user-session") do
+  defp handle(%{"room" => room, "message" => msg}, session_id) do
+    case ChatRooms.send(msg, to: room, as: session_id) do
       :ok ->
-        {:ok, state}
+        {:ok, session_id}
       {:error, :unexisting_room} ->
         response = %{error: room <> " does not exists"}
-        {:reply, {:text, to_json(response)}, state}
+        {:reply, {:text, to_json(response)}, session_id}
     end
   end
 
-  defp handle(%{"command" => "create", "room" => room}, state) do
+  defp handle(%{"command" => "create", "room" => room}, session_id) do
     response = case ChatRooms.create(room) do
       :ok -> %{success: room <> " has been created!"}
       {:error, :already_exists} ->  %{error: room <> " already exists"}
     end
 
-    {:reply, {:text, to_json(response)}, state}
+    {:reply, {:text, to_json(response)}, session_id}
   end
 
-  defp handle(_not_handled_command, state), do: {:ok, state}
+  defp handle(_not_handled_command, session_id), do: {:ok, session_id}
 
   defp to_json(response), do: Jason.encode!(response)
   defp from_json(json), do: Jason.decode(json)
