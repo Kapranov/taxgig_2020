@@ -5,11 +5,12 @@ defmodule Chat.UserSessions do
   alias Chat.UserSessionSupervisor
 
   def create(user_session_id) do
-    case UserSession.exists?(user_session_id) do
-      true -> {:error, :already_exists}
-      false ->
+    case UserSession. find(user_session_id) do
+      nil ->
         UserSessionSupervisor.create(user_session_id)
         :ok
+      _pid ->
+        {:error, :already_exists}
     end
   end
 
