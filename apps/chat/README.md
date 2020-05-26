@@ -9,8 +9,6 @@ real life application of Websockets.
 
 ## Features roadmap
 
-- As a client I want to be associated to a user so that other client can
-  see who send messages
 - As a client I want to be associated to a user so that other clients can
   see who send messages
 - Multiple Rooms support
@@ -27,6 +25,8 @@ real life application of Websockets.
 
 ## Doing
 
+- Introduce the `User` processes (see the `sketch` image in the README
+  for a reference)
 - Start writing test from the point of view of the `Client` who tries
   to subscribe to `UserSessions`
 - Refactor the `UserSessions` module in order to achieve the obvious
@@ -37,11 +37,6 @@ real life application of Websockets.
 
 ## Todo
 
-- as a `UserSession` I can send messages to a chatroom
-- think about to rename the `UserSessions.send` function to
-  `UserSessions.notify`
-- Refactor the `UserSessions` module in order to achieve the obvious
-  implementation with Supervisors, UserSession Processes, etc, ...
 - Rename `Chat.Registry` in `Chat.ChatRoomRegistry`
 - We may have to think to store the `user_id` of the user in the `state`
   of the `Chat.Web.WebSocketController`
@@ -94,9 +89,6 @@ real life application of Websockets.
 
 ## Done
 
-- as a `UserSession` I can join a chatroom
-- Start writing test from the point of view of the `Client` who tries to
-  subscribe to `UserSessions`
 - `Chat.ChatRooms` could be a "simple" module and not a process
 - Issue during run the tests: It seems that `Elixir.Chat.Application`
   is already started

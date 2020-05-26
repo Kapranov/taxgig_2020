@@ -1,7 +1,6 @@
 defmodule Chat.UserSessionsTest do
   use ExUnit.Case, async: true
 
-  alias Chat.ChatRooms
   alias Chat.UserSessions
 
   describe "when create a UserSession" do
@@ -52,23 +51,6 @@ defmodule Chat.UserSessionsTest do
     test "messages received are not forwarded" do
       :ok = UserSessions.send("a message", to: "existing-user-session")
       refute_receive "a message"
-    end
-  end
-
-  describe "when join a chatroom" do
-    setup do
-      :ok = UserSessions.subscribe(self(), to: "existing-user-session")
-    end
-
-    test "an error is received when the room does not exist" do
-      UserSessions.join_chatroom("unexisting-chat-room", "existing-user-session")
-      assert_receive {:error, "unexisting-chat-room does not exists"}
-    end
-
-    test "welcome message is received when the room exists" do
-      :ok = ChatRooms.create("existing-chat-room")
-      UserSessions.join_chatroom("existing-chat-room", "existing-user-session")
-      assert_receive {"existing-chat-room", "welcome to the existing-chat-room chat room!"}
     end
   end
 end

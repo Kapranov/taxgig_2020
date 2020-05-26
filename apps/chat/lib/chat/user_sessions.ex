@@ -31,10 +31,6 @@ defmodule Chat.UserSessions do
     {:error, :session_not_exists}
   end
 
-  def join_chatroom(room_name, _user_session_name) do
-    ChatRooms.join(room_name, self())
-  end
-
   def send(msg, to: "existing-user-session") do
     GenServer.call(:user_sessions, {:send, msg})
   end
@@ -54,10 +50,5 @@ defmodule Chat.UserSessions do
   def handle_call({:send, msg}, _from, client_pid) do
     Kernel.send(client_pid, msg)
     {:reply, :ok, client_pid}
-  end
-
-  def handle_info(msg = {:error, _reason}, client_pid) do
-    Kernel.send(client_pid, msg)
-    {:noreply, client_pid}
   end
 end
