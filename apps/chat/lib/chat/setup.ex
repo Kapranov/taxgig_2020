@@ -1,4 +1,4 @@
-defmodule Chat.Init do
+defmodule Chat.Setup do
   @moduledoc false
 
   use Task, restart: :transient

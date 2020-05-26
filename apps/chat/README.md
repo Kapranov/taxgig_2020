@@ -17,12 +17,11 @@ Feature:
 
 ## Todo
 
-- `Chat.Web.WebSocketController` consider to remove the duplication of
-  `websocket_info({_session_id, chatroom_name, message}, req, state)`
-and `websocket_info({chatroom_name, message}, req, state)`
-- Try to write unit tests for `Chat.WebSocketControllerTest`
-- Enhancement: Think if it could be useful to use `Mox` instead of
-  `Mock` (think about the use of Behaviour)
+- Rename `Chat.Init` to `Chat.Setup` ?
+- In the `WebSocketController` module we consider to remove the duplication
+  of `websocket_info({_session_id, chatroom_name, message}, req, state)`
+  and `websocket_info({chatroom_name, message}, req, state)`
+- Maybe we can introduce a `system-user-id` ??????!!!!!
 - We may have to think to store the `user_id` of the user in the `state`
   of the `Chat.Web.WebSocketController`
 - When I join a chat room as an identified user I want to read my user
@@ -30,24 +29,28 @@ and `websocket_info({chatroom_name, message}, req, state)`
 - Try to split the [API, the Server and the Application Logic](https://pragdave.me/blog/2017/07/13/decoupling-interface-and-implementation-in-elixir.html)
   in the `UserSessions` and in the `ChatRooms` module
 - unsubscribe a client to receive messages once it leaves the chat
-- improve the way we make assertions on received messages (e.g.
-  assert_receive wants pattern match and not functions or variables) in
-  the `websocket_controller_test.exs`
+- Try to split the [API, the Server and the Application Logic](https://pragdave.me/blog/2017/07/13/decoupling-interface-and-implementation-in-elixir.html)
+  in the `UserSessions` and in the `ChatRooms` module
 - in `ChatRooms` there is no need of `:room` atom for the messages
   `{:join, client, :room, room}`, `{:send, message, :room, room}` and
   `{:create, :room, room}`
+- Think if it could be useful to use `Mox` instead of `Mock` (think
+  about the use of `Behaviour`)
 - find a way to distribute the Chat, in order to use more than one nodes
   - we have to think to introduce
     [`gproc`](https://github.com/uwiger/gproc) for distribute the lookup
     processes across different nodes
-- try to write some acceptance test (e.g. gherkin/cucumber for elixir?
-  or use ExUnit?)
+- try to write some acceptance test with Wallaby, for the frontend ?
+- improve the way we make assertions on received messages (e.g.
+  assert_receive wants pattern match and not functions or variables) in
+  the `websocket_controller_test.exs`
 - setup a continuous integration for the project (e.g. using TravisCI)
 - try to expose the chat using the [IRC protocol](https://tools.ietf.org/html/rfc1459)
 - it seems that we have some flaky tests for "other clients" scenarios
 
 ## Done
 
+- Rename `Chat.Init` to `Chat.Setup`
 - Put the `user-session-id` as state of `Chat.Web.WebSocketController`
 - `ChatRooms.send` should use the `user-session-id`
 - The module `ChatRooms` should be reorganized like the `UserSessions`
