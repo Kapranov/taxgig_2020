@@ -2,11 +2,10 @@ defmodule Chat.UserSessionsTest do
   use ExUnit.Case, async: true
 
   alias Chat.UserSessions
-  alias Chat.UserSessionSupervisor
 
   setup do
-    start_supervised! UserSessionSupervisor
-    start_supervised! {Registry, keys: :unique, name: Chat.UserSessionRegistry}
+    start_supervised! UserSessions
+    start_supervised! {Registry, keys: :unique, name: UserSessionRegistry}
     :ok
   end
 
