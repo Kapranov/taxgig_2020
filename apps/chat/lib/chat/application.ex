@@ -21,6 +21,7 @@ defmodule Chat.Application do
       {Registry, keys: :unique, name: Chat.Registry},
       Chat.ChatRoomSupervisor,
       Chat.ChatRoomInitialize,
+      Chat.UserSessions,
       Plug.Cowboy.child_spec(scheme: :http, plug: Router, options: @http_options)
     ]
 

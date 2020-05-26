@@ -27,6 +27,10 @@ Feature:
 
 ## Doing
 
+- Start writing test from the point of view of the `Client` who tries
+  to subscribe to `UserSessions`
+- Refactor the `UserSessions` module in order to achieve the obvious
+  implementation with Supervisors, UserSession Processes, etc, ...
 - Introduce the `User` processes (see the `sketch` image in the README
   for a reference)
 - Start writing test from the point of view of the `User`
