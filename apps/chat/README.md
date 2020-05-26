@@ -15,21 +15,6 @@ Feature:
 
 ## Doing
 
-- Try to find a way to remove the shared state (the
-  `UserSessionRegistry`) from the `UserSessions` Tests
-- Try to investigate this strange issue:
-
-```
-** (exit) exited in: GenServer.call(:user_session_supervisor,
-{:start_child, [{:via, Registry, {Chat.TestRegistry, "xxx"}}]},
-:infinity)
-** (EXIT) no process: the process is not alive or there's no process
-currently associated with the given name, possibly because its
-application isn't started
-```
-
-When run `mix test`
-
 ## Todo
 
 - Maybe the `UserSessions` and `UserSessionSupervisor` can be merged in
@@ -67,6 +52,10 @@ When run `mix test`
 
 ## Done
 
+- Fix the names used for the user sessions in the `UserSessionsTest`
+- Try to find a way to remove the shared state (the
+  `UserSessionRegistry`) from the `UserSessions` Tests
+- do not start the application when run all the tests
 - remove the `UserSession.exists?` function in favor of the
   `UserSession.find` function
 - Refactor the `UserSessions` module in order to achieve the obvious
