@@ -3,6 +3,8 @@ defmodule Chat.UserSessions do
 
   use GenServer
 
+  alias Chat.ChatRooms
+
   @name __MODULE__
 
   def start_link([]) do
@@ -29,11 +31,15 @@ defmodule Chat.UserSessions do
     {:error, :session_not_exists}
   end
 
-  def send(message, to: "existing-user-session") do
-    GenServer.call(:user_sessions, {:send, message})
+  def join_chatroom(room_name, _user_session_name) do
+    ChatRooms.join(room_name, self())
   end
 
-  def send(_message, to: _username) do
+  def send(msg, to: "existing-user-session") do
+    GenServer.call(:user_sessions, {:send, msg})
+  end
+
+  def send(_msg, to: _username) do
     {:error, :session_not_exists}
   end
 
@@ -41,12 +47,17 @@ defmodule Chat.UserSessions do
     {:reply, :ok, client_pid}
   end
 
-  def handle_call({:send, _message}, _from, nil) do
+  def handle_call({:send, _msg}, _from, nil) do
     {:reply, :ok, nil}
   end
 
-  def handle_call({:send, message}, _from, client_pid) do
-    Kernel.send(client_pid, message)
+  def handle_call({:send, msg}, _from, client_pid) do
+    Kernel.send(client_pid, msg)
     {:reply, :ok, client_pid}
+  end
+
+  def handle_info(msg = {:error, _reason}, client_pid) do
+    Kernel.send(client_pid, msg)
+    {:noreply, client_pid}
   end
 end
