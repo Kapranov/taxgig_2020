@@ -8,45 +8,22 @@ defmodule Chat.Web.WebSocketController do
   alias Chat.{UserSessions, ChatRooms}
 
   def init(req, state) do
-    {:cowboy_websocket, req, state}
+    access_token = access_token_from(req)
+
+    case find_user_session_by(access_token) do
+      nil ->
+        {:ok, :cowboy_req.reply(400, req), state}
+      user_session ->
+        {:cowboy_websocket, req, user_session}
+    end
   end
 
   @doc """
   Websocket callbacks
   """
-  def websocket_init(_) do
-    #
-    # {access_token, _req} = :cowboy_req.qs_val("access_token", req)
-    #
-    # {QVals, _} = cowboy_req:qs_vals(Req),
-    # QVals = cowboy_req:parse_qs(Req),
-    #
-    # {QVals, _} = cowboy_req:qs_vals(Req2)
-    # QVals = cowboy_req:parse_qs(Req2)
-    #
-    # {access_token, _req} = :cowboy_req.match_qs(["access_token"], req)
-    #
-    # data = :cowboy_req.parse_qs(req)
-    # {access_token, _req} = :lists.keyfind(<<"access_token">>, 1, data)
-    #
-    # {echo := Echo} = cowboy_req:match_qs([{echo, [], :undefined}], Req0),
-    #
-    # {access_token, _} = :cowboy_req.match_qs([{"access_token", [], :undefined}], req)
-    # access_token = ["A_USER_ACCESS_TOKEN", "default-user-session"] |> Enum.random
-    #
-
-    access_token = "A_USER_ACCESS_TOKEN"
-    # user_session = find_user_session_by(access_token)
-    # UserSessions.subscribe(self(), to: user_session)
-    # {:ok, user_session}
-
-    case find_user_session_by(access_token) do
-      nil ->
-        {:shutdown}
-      user_session ->
-        UserSessions.subscribe(self(), to: user_session)
-        {:ok, user_session}
-    end
+  def websocket_init(user_session) do
+    UserSessions.subscribe(self(), to: user_session)
+    {:ok, user_session}
   end
 
   def websocket_handle({:text, command_as_json}, session_id) do
@@ -82,16 +59,6 @@ defmodule Chat.Web.WebSocketController do
     }
 
     {:reply, {:text, to_json(response)}, session_id}
-  end
-
-  def websocket_terminate(_reason, _req, _session_id) do
-    :ok
-  end
-
-  def time_as_string do
-    {hh, mm, ss} = :erlang.time()
-    :io_lib.format("~2.10.0B:~2.10.0B:~2.10.0B", [hh, mm, ss])
-    |> :erlang.list_to_binary()
   end
 
   defp handle(%{"command" => "join", "room" => room}, session_id) do
@@ -133,5 +100,12 @@ defmodule Chat.Web.WebSocketController do
       "A_USER_ACCESS_TOKEN" -> "a-user"
       _ -> "default-user-session"
     end
+  end
+
+  defp access_token_from(req) do
+    {"access_token", access_token} =
+      :cowboy_req.parse_qs(req)
+      |> Enum.find(fn({key, _value}) -> key == "access_token" end)
+    access_token
   end
 end

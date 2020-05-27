@@ -17,7 +17,7 @@ Feature:
 
 - Find a way to handle all the access tokens
 - what happen when we try to connect to the chat with an invalid access
-  token (e.g. 1) the token not exist or 2) no token provided)
+   token (e.g. 1) the token not exist or 2) no token provided) [cowbody documentation](https://ninenines.eu/docs/en/cowboy/1.0/guide/ws_handlers/)
 
 ## Todo
 

@@ -13,10 +13,9 @@ defmodule Chat.WebSocketAcceptanceTest do
   end
 
   describe "As a Client when I provide an invalid token" do
-    test "xxx" do
-      {:ok, _pid} = connect_to websocket_chat_url(with: "AN_INVALID_ACCESS_TOKEN"), forward_to: self()
-      # assert_receive "xxx"
-      refute_receive _
+    test "I get a 400 Bad Request" do
+      result = connect_to websocket_chat_url(with: "AN_INVALID_ACCESS_TOKEN"), forward_to: self()
+      assert result == {:error, %WebSockex.RequestError{code: 400, message: "Bad Request"}}
     end
   end
 
@@ -25,7 +24,7 @@ defmodule Chat.WebSocketAcceptanceTest do
 
     test "I want to receive a welcome message containing my name", %{client: pid} do
       send_as_text(pid, "{\"command\":\"join\"}")
-       assert_receive "{\"message\":\"welcome to the default chat room, a-user!\",\"room\":\"default\"}"
+      assert_receive "{\"message\":\"welcome to the default chat room, a-user!\",\"room\":\"default\"}"
     end
   end
 
@@ -52,8 +51,7 @@ defmodule Chat.WebSocketAcceptanceTest do
       {:ok, other_client} = connect_to websocket_chat_url(with: "A_DEFAULT_USER_ACCESS_TOKEN"), forward_to: NullProcess.start
       send_as_text(other_client, "{\"command\":\"join\"}")
       send_as_text(other_client, "{\"room\":\"default\",\"message\":\"Hello from other user!\"}")
-      # assert_receive "{\"from\":\"default-user-session\",\"message\":\"Hello from other user!\",\"room\":\"default\"}"
-      assert_receive "{\"from\":\"a-user\",\"message\":\"Hello from other user!\",\"room\":\"default\"}"
+      assert_receive "{\"from\":\"default-user-session\",\"message\":\"Hello from other user!\",\"room\":\"default\"}"
     end
   end
 
