@@ -12,6 +12,14 @@ defmodule Chat.WebSocketAcceptanceTest do
     :ok
   end
 
+  describe "As a Client when I provide an invalid token" do
+    test "xxx" do
+      {:ok, _pid} = connect_to websocket_chat_url(with: "AN_INVALID_ACCESS_TOKEN"), forward_to: self()
+      # assert_receive "xxx"
+      refute_receive _
+    end
+  end
+
   describe "As a User when I join the default chat room" do
     setup :connect_as_a_user
 

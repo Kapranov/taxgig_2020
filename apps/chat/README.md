@@ -15,12 +15,14 @@ Feature:
 
 ## Doing
 
-- Review all the acceptance tests in order to align it with the User
-  Feature
+- Find a way to handle all the access tokens
+- what happen when we try to connect to the chat with an invalid access
+  token (e.g. 1) the token not exist or 2) no token provided)
 
 ## Todo
 
-- Find a way to handle all the access tokens
+
+- Update the UI in order to handle the new message format
 - Handle the connection when the provided access token is empty or not
   valid (no user session associated)
 - Consider to use the version 2.2 of Cowboy to [parse the request query parameters](https://ninenines.eu/docs/en/cowboy/2.2/guide/req/)
@@ -59,6 +61,7 @@ Feature:
 
 ## Done
 
+- Extract the websocket chat URL in the `WebSocketAcceptanceTests`
 - Try to remove all the setup duplication in the
   `WebSocketAcceptanceTests`
 - Review all the acceptance tests in order to align it with the User
