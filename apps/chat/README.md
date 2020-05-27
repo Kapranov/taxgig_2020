@@ -17,6 +17,7 @@ Feature:
 
 ## Todo
 
+- Consider to use the version 2.2 of Cowboy to [parse the request query parameters](https://ninenines.eu/docs/en/cowboy/2.2/guide/req/)
 - Rename `Chat.Init` to `Chat.Setup` ?
 - In the `WebSocketController` module we consider to remove the duplication
   of `websocket_info({_session_id, chatroom_name, message}, req, state)`
@@ -50,6 +51,9 @@ Feature:
 
 ## Done
 
+- Use the access_token to open websocket connection from the UI
+- Try to associate a WebSocketController to a UserSession
+- Draw the actual application architecture sketch
 - Rename `Chat.Init` to `Chat.Setup`
 - Put the `user-session-id` as state of `Chat.Web.WebSocketController`
 - `ChatRooms.send` should use the `user-session-id`

@@ -3,7 +3,7 @@ defmodule Chat.UserSessions do
 
   use DynamicSupervisor
 
-  alias Chat.UserSession
+  alias Chat.{UserSession, UserSessionRegistry}
 
   @name __MODULE__
 

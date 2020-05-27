@@ -55,8 +55,8 @@
       }
 
       function testWebSocket() {
-        websocket = new WebSocket(wsUri);
         websocket.onopen = function(evt) { onOpen(evt) };
+        websocket = new WebSocket(wsUri + "?access_token=" + getParameterByName("access_token"));
         websocket.onclose = function(evt) { onClose(evt) };
         websocket.onmessage = function(evt) { onMessage(evt) };
         websocket.onerror = function(evt) { onError(evt) };
@@ -105,6 +105,10 @@
       }
       function isSuccess(response) {
         return response.success != undefined
+      }
+      function getParameterByName(name) {
+        var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
       }
     </script>
   </body>

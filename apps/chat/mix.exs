@@ -31,6 +31,7 @@ defmodule Chat.MixProject do
 
   defp deps do
     [
+      {:entropy_string, "~> 1.3"},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:gproc, "~> 0.8"},
       {:jason, "~> 1.2"},

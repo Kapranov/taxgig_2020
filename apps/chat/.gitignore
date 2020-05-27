@@ -7,3 +7,6 @@
 erl_crash.dump
 *.ez
 chat-*.tar
+
+cowboy2.pdf
+websocket_controller.ex.save

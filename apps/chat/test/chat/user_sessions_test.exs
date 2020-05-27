@@ -3,9 +3,13 @@ defmodule Chat.UserSessionsTest do
 
   alias Chat.UserSessions
 
-  setup do
+  setup_all do
     start_supervised! UserSessions
-    start_supervised! {Registry, keys: :unique, name: UserSessionRegistry}
+    :ok
+  end
+
+  setup do
+    start_supervised! {Registry, keys: :unique, name: Chat.UserSessionRegistry}
     :ok
   end
 

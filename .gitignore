@@ -19,5 +19,3 @@ phx-1.5-upgrade.md
 DAXX.md
 VERSION
 mix.lock
-
-websocket_controller.ex.save

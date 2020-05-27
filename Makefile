@@ -81,6 +81,9 @@ halt: kill
 start: kill clean packs
 													$(V)echo -en "\n\t$(STAT_COLOR) Run server https://localhost:$(NO_COLOR)$(INFO_COLOR)4001$(NO_COLOR)\n"
 
+up: kill
+													$(V)mix run --no-halt
+
 all: test credo start
 
-.PHONY: help git-% pull log kill clean packs test run halt start
+.PHONY: help git-% pull log kill clean packs test run halt start up all
