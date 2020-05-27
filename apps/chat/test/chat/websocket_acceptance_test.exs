@@ -13,27 +13,19 @@ defmodule Chat.WebSocketAcceptanceTest do
   end
 
   describe "As a User when I join the default chat room" do
-    setup do
-      Chat.UserSessions.create("a-user")
-      {:ok, pid} = connect_to "ws://localhost:4005/chat?access_token=A_USER_ACCESS_TOKEN", forward_to: self()
-      send_as_text(pid, "{\"command\":\"join\"}")
-      {:ok, client: pid}
-    end
+    setup :connect_as_a_user
 
-    test "I want to receive a welcome message containing my name" do
-      assert_receive "{\"message\":\"welcome to the default chat room, a-user!\",\"room\":\"default\"}"
+    test "I want to receive a welcome message containing my name", %{client: pid} do
+      send_as_text(pid, "{\"command\":\"join\"}")
+       assert_receive "{\"message\":\"welcome to the default chat room, a-user!\",\"room\":\"default\"}"
     end
   end
 
   describe "As a User when I send a message" do
-    setup do
-      Chat.UserSessions.create("a-user")
-      {:ok, pid} = connect_to "ws://localhost:4005/chat?access_token=A_USER_ACCESS_TOKEN", forward_to: self()
-      send_as_text(pid, "{\"command\":\"join\"}")
-      {:ok, client: pid}
-    end
+    setup :connect_as_a_user
 
     test "I receive it back", %{client: pid} do
+      send_as_text(pid, "{\"command\":\"join\"}")
       send_as_text(pid, "{\"room\":\"default\",\"message\":\"Hello folks!\"}")
       assert_receive "{\"from\":\"a-user\",\"message\":\"Hello folks!\",\"room\":\"default\"}"
     end
@@ -45,14 +37,10 @@ defmodule Chat.WebSocketAcceptanceTest do
   end
 
   describe "As a User when I receive a message" do
-    setup do
-      Chat.UserSessions.create("a-user")
-      {:ok, pid} = connect_to "ws://localhost:4005/chat?access_token=A_USER_ACCESS_TOKEN", forward_to: self()
-      send_as_text(pid, "{\"command\":\"join\"}")
-      {:ok, client: pid}
-    end
+    setup :connect_as_a_user
 
-    test "I can read the name of the user who sent the message" do
+    test "I can read the name of the user who sent the message", %{client: pid} do
+      send_as_text(pid, "{\"command\":\"join\"}")
       {:ok, other_client} = connect_to "ws://localhost:4005/chat?access_token=A_DEFAULT_USER_ACCESS_TOKEN", forward_to: NullProcess.start
       send_as_text(other_client, "{\"command\":\"join\"}")
       send_as_text(other_client, "{\"room\":\"default\",\"message\":\"Hello from other user!\"}")
@@ -62,14 +50,10 @@ defmodule Chat.WebSocketAcceptanceTest do
   end
 
   describe "As a User when I create a new chat room" do
-    setup do
-      Chat.UserSessions.create("a-user")
-      {:ok, pid} = connect_to "ws://localhost:4005/chat?access_token=A_USER_ACCESS_TOKEN", forward_to: self()
-      send_as_text(pid, "{\"command\":\"create\",\"room\":\"a_chat_room\"}")
-      {:ok, client: pid}
-    end
+    setup :connect_as_a_user
 
     test "I receive an error message if the room already exist", %{client: pid} do
+      send_as_text(pid, "{\"command\":\"create\",\"room\":\"a_chat_room\"}")
       send_as_text(pid, "{\"command\":\"create\",\"room\":\"a_chat_room\"}")
       assert_receive "{\"error\":\"a_chat_room already exists\"}"
     end
@@ -81,25 +65,17 @@ defmodule Chat.WebSocketAcceptanceTest do
   end
 
   describe "As a User when I join a new chat room" do
-    setup do
-      Chat.UserSessions.create("a-user")
-      {:ok, pid} = connect_to "ws://localhost:4005/chat?access_token=A_USER_ACCESS_TOKEN", forward_to: self()
+    setup :connect_as_a_user
+
+    test "I want to receive a welcome message that contain my name and the chat room name", %{client: pid} do
       send_as_text(pid, "{\"command\":\"create\",\"room\":\"a_chat_room\"}")
       send_as_text(pid, "{\"command\":\"join\",\"room\":\"a_chat_room\"}")
-      {:ok, client: pid}
-    end
-
-    test "I want to receive a welcome message that contain my name and the chat room name" do
       assert_receive "{\"message\":\"welcome to the a_chat_room chat room, a-user!\",\"room\":\"a_chat_room\"}"
     end
   end
 
   describe "As a User I cannot" do
-    setup do
-      Chat.UserSessions.create("a-user")
-      {:ok, pid} = connect_to "ws://localhost:4005/chat?access_token=A_USER_ACCESS_TOKEN", forward_to: self()
-      {:ok, client: pid}
-    end
+    setup :connect_as_a_user
 
     test "join twice the same chat room", %{client: pid} do
       send_as_text(pid, "{\"command\":\"join\"}")
@@ -118,5 +94,11 @@ defmodule Chat.WebSocketAcceptanceTest do
       send_as_text(pid, "{\"something\":\"invalid\"}")
       refute_receive _
     end
+  end
+
+  defp connect_as_a_user(_context) do
+    Chat.UserSessions.create("a-user")
+    {:ok, pid} = connect_to "ws://localhost:4005/chat?access_token=A_USER_ACCESS_TOKEN", forward_to: self()
+    {:ok, client: pid}
   end
 end

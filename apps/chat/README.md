@@ -20,8 +20,6 @@ Feature:
 
 ## Todo
 
-- Try to remove all the setup duplication in the
-  `WebSocketAcceptanceTests`
 - Find a way to handle all the access tokens
 - Handle the connection when the provided access token is empty or not
   valid (no user session associated)
@@ -61,6 +59,8 @@ Feature:
 
 ## Done
 
+- Try to remove all the setup duplication in the
+  `WebSocketAcceptanceTests`
 - Review all the acceptance tests in order to align it with the User
   Feature
 - Use the access_token to open websocket connection from the UI
