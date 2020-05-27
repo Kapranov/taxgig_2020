@@ -76,7 +76,7 @@ defmodule Chat.WebSocketAcceptanceTest do
       {:ok, client: pid}
     end
 
-    test "I want to receive a welcome message that contain my name and the chat room name" do
+    test "I want to receive a welcome message containing my name and the chat room name" do
       assert_receive "{\"message\":\"welcome to the a_chat_room chat room, a-user!\",\"room\":\"a_chat_room\"}"
     end
   end
