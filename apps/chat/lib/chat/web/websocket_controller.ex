@@ -64,8 +64,9 @@ defmodule Chat.Web.WebSocketController do
     {:reply, {:text, to_json(response)}, session_id}
   end
 
-  def websocket_info({_session_id, chatroom_name, msg}, session_id) do
+  def websocket_info({from_user, chatroom_name, msg}, session_id) do
     response = %{
+      from: from_user,
       message: msg,
       room: chatroom_name
     }
