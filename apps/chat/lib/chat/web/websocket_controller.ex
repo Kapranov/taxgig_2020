@@ -32,6 +32,7 @@ defmodule Chat.Web.WebSocketController do
     # {echo := Echo} = cowboy_req:match_qs([{echo, [], :undefined}], Req0),
     #
     # {access_token, _} = :cowboy_req.match_qs([{"access_token", [], :undefined}], req)
+    # access_token = ["A_USER_ACCESS_TOKEN", "default-user-session"] |> Enum.random
     access_token = "A_USER_ACCESS_TOKEN"
     user_session = find_user_session_by(access_token)
     UserSessions.subscribe(self(), to: user_session)
@@ -117,8 +118,8 @@ defmodule Chat.Web.WebSocketController do
 
   defp find_user_session_by(access_token) do
     case access_token do
-      :undefined -> "default-user-session"
       "A_USER_ACCESS_TOKEN" -> "a-user"
+      _ -> "default-user-session"
     end
   end
 end
