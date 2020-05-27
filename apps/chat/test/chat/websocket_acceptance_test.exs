@@ -41,7 +41,7 @@ defmodule Chat.WebSocketAcceptanceTest do
 
     test "I can read the name of the user who sent the message", %{client: pid} do
       send_as_text(pid, "{\"command\":\"join\"}")
-      {:ok, other_client} = connect_to "ws://localhost:4005/chat?access_token=A_DEFAULT_USER_ACCESS_TOKEN", forward_to: NullProcess.start
+      {:ok, other_client} = connect_to websocket_chat_url(with: "A_DEFAULT_USER_ACCESS_TOKEN"), forward_to: NullProcess.start
       send_as_text(other_client, "{\"command\":\"join\"}")
       send_as_text(other_client, "{\"room\":\"default\",\"message\":\"Hello from other user!\"}")
       # assert_receive "{\"from\":\"default-user-session\",\"message\":\"Hello from other user!\",\"room\":\"default\"}"
@@ -98,7 +98,11 @@ defmodule Chat.WebSocketAcceptanceTest do
 
   defp connect_as_a_user(_context) do
     Chat.UserSessions.create("a-user")
-    {:ok, pid} = connect_to "ws://localhost:4005/chat?access_token=A_USER_ACCESS_TOKEN", forward_to: self()
+    {:ok, pid} = connect_to websocket_chat_url(with: "A_USER_ACCESS_TOKEN"), forward_to: self()
     {:ok, client: pid}
+  end
+
+  defp websocket_chat_url([with: access_token]) do
+    "ws://localhost:4005/chat?access_token=" <> access_token
   end
 end
