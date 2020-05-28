@@ -55,10 +55,10 @@ defmodule Chat.WebSocketAcceptanceTest do
 
     test "I can read the name of the user who sent the message", %{client: pid} do
       send_as_text(pid, "{\"command\":\"join\"}")
-      {:ok, other_client} = connect_to websocket_chat_url(with: "A_DEFAULT_USER_ACCESS_TOKEN"), forward_to: NullProcess.start
+      {:ok, other_client} = connect_to websocket_chat_url(with: "bar_token"), forward_to: NullProcess.start
       send_as_text(other_client, "{\"command\":\"join\"}")
       send_as_text(other_client, "{\"room\":\"default\",\"message\":\"Hello from other user!\"}")
-      assert_receive "{\"from\":\"default-user-session\",\"message\":\"Hello from other user!\",\"room\":\"default\"}"
+      assert_receive "{\"from\":\"bar_user\",\"message\":\"Hello from other user!\",\"room\":\"default\"}"
     end
   end
 

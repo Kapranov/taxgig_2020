@@ -9,19 +9,16 @@ real life application of Websockets.
 
 ## Features roadmap
 
-Feature:
+- As a client I want to create a user so that I can use the chat system
+- As a user I can send a private message to an existing user to that I
+  can talk directly without using an existing room
 
-As a client I want to be associated to a user so that other clients can
-see who send messages
-
-## DOING
-
-- Extract a collaborator for the `WebSocketController` that will be
-  responsible to understand if there is an existing `user_session`
-  for a given `access_token`
+### DOING
 
 ### TODO
 
+- Should the `WebSocketController` be renamed in
+  [`WebSocketController`](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) ?
 - Try to decouple the `WebSocketController` from the Application Domain
   (think if it could be useful to introduce the concept of use cases, or
   actions, for `validate_access_token`, `subscribe_client`, `join_chatroom`
@@ -44,8 +41,13 @@ see who send messages
 - try to expose the chat using the [IRC protocol](https://tools.ietf.org/html/rfc1459)
 - it seems that we have some flaky tests for "other clients" scenarios
 
-## DONE
+### DONE
 
+- As a client I want to be associated to a user so that other clients
+  can see who send messages
+- Prepare the system with some initial data:
+  - `foo_user` associated to the token `foo_token`
+  - `bar_user` associated to the token `bar_token`
 - Maybe the `AuthenticationService` is a "Repository" instead. Consider
   to rename it
 - Provide a real implementation of the `AuthenticationService`
@@ -114,6 +116,12 @@ see who send messages
 
 The web client will be available at `http://localhost:4005/chat.html`
 or `https://localhost:4005/chat.html`
+
+At the moment there are two users in the system. You can use two
+different URLs in order to get associated to them:
+
+- `http://localhost:4005/chat.html?access_token=foo_token` to enter as `_foo_user_`
+- `http://localhost:4005/chat.html?access_token=bar_token` to enter as `_bar_user_`
 
 ## Scratchpad
 
