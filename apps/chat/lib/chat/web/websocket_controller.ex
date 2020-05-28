@@ -9,7 +9,7 @@ defmodule Chat.Web.WebSocketController do
     CreateChatRoom,
     JoinChatRoom,
     SendMessageToChatRoom,
-    UserSessions,
+    SubscribeToUserSession,
     ValidateAccessToken
   }
 
@@ -28,7 +28,7 @@ defmodule Chat.Web.WebSocketController do
   Websocket callbacks
   """
   def websocket_init(user_session) do
-    UserSessions.subscribe(self(), to: user_session)
+    SubscribeToUserSession.on(self(), user_session)
     {:ok, user_session}
   end
 

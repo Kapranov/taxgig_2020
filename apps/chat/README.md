@@ -15,10 +15,6 @@ real life application of Websockets.
 
 ### DOING
 
-- Try to decouple the `WebSocketController` from the Application Domain
-  by introducing the Use Cases:
-  - `subscribe_client` TODO
-
 ### TODO
 
 - Rename `ChatRoom`, `ChatRooms` and `Chatroom` to `Room` (basically
@@ -46,6 +42,8 @@ real life application of Websockets.
 
 ### DONE
 
+- Try to decouple the `WebSocketController` from the Application Domain
+- Extract a use case for `SubscribeToUserSession`
 - Extract a use case for `JoinChatRoom`
 - Extract a use case for `CreateChatRoom`
 - Extract a use case for `SendMessageToChatRoom`
