@@ -20,7 +20,6 @@ Feature:
 
 ## Todo
 
-- Update the UI in order to handle the user id
 - Extract a collaborator for the `WebSocketController` that will be
   responsible to understand if there is a `user_session` for a given
   `access_token`
@@ -40,7 +39,7 @@ Feature:
 - Introduce the [ping/pong mechanism](https://ninenines.eu/docs/en/cowboy/2.4/guide/ws_handlers/#_keeping_the_connection_alive)
   between client and server in order to unsubscribe and disconnect a
   client due inactivity
-- Find a way to document the webosocket API
+- Find a way to document the websocket API
 - Try to split the [API, the Server and the Application Logic](https://pragdave.me/blog/2017/07/13/decoupling-interface-and-implementation-in-elixir.html)
   in the `UserSessions` and in the `ChatRooms` module
 - It could be interesting to open a related thread to the ElixirForum,
@@ -64,6 +63,7 @@ Feature:
 
 ## Done
 
+- Update the UI in order to handle the user id
 - It seems that we have a [websocket idle timeout issue](https://ninenines.eu/docs/en/cowboy/2.4/guide/ws_handlers/#_keeping_the_connection_alive).
   Increase the idle timeout to 10 minutes
 - what happen when we try to connect to the chat with an invalid access
