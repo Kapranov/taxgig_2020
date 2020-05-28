@@ -23,7 +23,7 @@ defmodule Chat.Application do
     children = [
       {Registry, keys: :unique, name: Chat.ChatRoomRegistry},
       {Registry, keys: :unique, name: Chat.UserSessionRegistry},
-      Chat.AuthenticationService,
+      Chat.AccessTokenRepository,
       Chat.ChatRooms,
       Chat.Setup,
       Chat.UserSessions,

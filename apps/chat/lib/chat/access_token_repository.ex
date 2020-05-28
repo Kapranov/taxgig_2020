@@ -1,4 +1,4 @@
-defmodule Chat.AuthenticationService do
+defmodule Chat.AccessTokenRepository do
   @moduledoc false
 
   use GenServer
@@ -6,15 +6,15 @@ defmodule Chat.AuthenticationService do
   @name __MODULE__
 
   def add(access_token, user_session) do
-    :ok = GenServer.call(:authentication_service, {:add, access_token, user_session})
+    :ok = GenServer.call(:access_token_repository, {:add, access_token, user_session})
   end
 
   def find_user_session_by(access_token) do
-    GenServer.call(:authentication_service, {:find_user_session_by, access_token})
+    GenServer.call(:access_token_repository, {:find_user_session_by, access_token})
   end
 
   def start_link(_opts) do
-    GenServer.start_link(@name, [], name: :authentication_service)
+    GenServer.start_link(@name, [], name: :access_token_repository)
   end
 
   def init(_args) do

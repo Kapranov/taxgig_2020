@@ -22,8 +22,10 @@ see who send messages
 
 ### TODO
 
-- Maybe the `AuthenticationService` is a "Repository" instead. Consider
-  to rename it
+- Try to decouple the `WebSocketController` from the Application Domain
+  (think if it could be useful to introduce the concept of use cases, or
+  actions, for `validate_access_token`, `subscribe_client`, `join_chatroom`
+  and `send_message_to_chatroom`)
 - Try to write unit tests for `WebSocketController`
 - In the `WebSocketController` module we consider to remove the duplication of `websocket_info({_session_id, chatroom_name, message}, req, state)` and `websocket_info({chatroom_name, message}, req, state)`
   - Maybe we can introduce a `system-user-id` ??????!!!!!
@@ -44,6 +46,8 @@ see who send messages
 
 ## DONE
 
+- Maybe the `AuthenticationService` is a "Repository" instead. Consider
+  to rename it
 - Provide a real implementation of the `AuthenticationService`
 - Update the UI in order to handle the user id
 - It seems that we have a [websocket idle timeout issue](https://ninenines.eu/docs/en/cowboy/2.4/guide/ws_handlers/#_keeping_the_connection_alive). Increase the idle timeout to 10 minutes

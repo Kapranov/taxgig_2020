@@ -6,7 +6,7 @@ defmodule Chat.Web.WebSocketController do
   @behaviour :cowboy_websocket
 
   alias Chat.{
-    AuthenticationService,
+    AccessTokenRepository,
     ChatRooms,
     UserSessions
   }
@@ -14,7 +14,7 @@ defmodule Chat.Web.WebSocketController do
   def init(req, state) do
     access_token = access_token_from(req)
 
-    case AuthenticationService.find_user_session_by(access_token) do
+    case AccessTokenRepository.find_user_session_by(access_token) do
       nil ->
         {:ok, :cowboy_req.reply(400, req), state}
       user_session ->
