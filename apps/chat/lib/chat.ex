@@ -5,7 +5,8 @@ defmodule Chat do
   require Logger
 
   def start(_type, _args) do
-    Logger.info("Starting application… Chat at port: #{port()}")
+    [ip: _ip, scheme: schema, host: host, port: _port] = Application.get_env(:server, ServerWeb.Endpoint)[:url]
+    Logger.info("Running #{inspect(__MODULE__)} with Cowboy using #{schema}://#{host}:#{port()}")
     Chat.Application.start_link([])
   end
 

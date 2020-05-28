@@ -1,9 +1,11 @@
-defmodule Chat.TokenGenerate do
-  @moduledoc false
+defmodule Chat.Token do
+  @moduledoc """
+  Custom token implementation using EntropyString behaviour and Phoenix Token.
+  """
 
   use EntropyString
 
-  alias Chat.TokenGenerate
+  alias Chat.Token
 
   @chars "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
   @max String.length(@chars)-1
@@ -14,7 +16,7 @@ defmodule Chat.TokenGenerate do
     end) |> Enum.join("")
   end
 
-  def flip(flips), do: TokenGenerate.random(flips)
+  def flip(flips), do: Token.random(flips)
 
   def random_string(len) do
     list = for _ <- :lists.seq(1,len), do: random_char()
@@ -38,4 +40,19 @@ defmodule Chat.TokenGenerate do
     ndx = Enum.random 0..@max
     String.slice @chars, ndx..ndx
   end
+
+#  alias Phoenix.Token
+#  alias Chat.Web.Router
+#
+#  @token_salt "gL33HZpG"
+#
+#  @impl true
+#  def sign(data, opts \\ []) do
+#    Token.sign(Router, @token_salt, data, opts)
+#  end
+#
+#  @impl true
+#  def verify(token, opts \\ []) do
+#    Token.verify(Router, @token_salt, token, opts)
+#  end
 end

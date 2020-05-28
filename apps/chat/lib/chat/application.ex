@@ -1,8 +1,11 @@
 defmodule Chat.Application do
-  @moduledoc false
+  @moduledoc """
+  OTP Application specification for Chat
+  """
 
   use Supervisor
 
+  alias Chat.Application
   alias Chat.Web.Router
 
   @http_options [
@@ -23,9 +26,10 @@ defmodule Chat.Application do
       Chat.ChatRooms,
       Chat.UserSessions,
       Chat.Setup,
-      Plug.Cowboy.child_spec(scheme: :http, plug: Router, options: @http_options)
+      Plug.Cowboy.child_spec(scheme: :http, plug: Router, options: @http_options),
+      Registry.child_spec(keys: :duplicate, name: Registry.Application)
     ]
 
-    Supervisor.init(children, strategy: :one_for_one)
+    Supervisor.init(children, [strategy: :one_for_one, name: Application])
   end
 end

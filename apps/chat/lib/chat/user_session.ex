@@ -1,9 +1,10 @@
 defmodule Chat.UserSession do
   @moduledoc false
 
-  use GenServer
+  use GenServer, shutdown: 15_000
 
   @name __MODULE__
+  @listener_ref :test_listener
 
   defstruct clients: []
 
@@ -32,5 +33,12 @@ defmodule Chat.UserSession do
   def handle_cast({:send, msg}, state) do
     Enum.each(state.clients, &Kernel.send(&1, msg));
     {:noreply, state}
+  end
+
+  def terminate(_reason, _state) do
+    IO.puts("DYING")
+    :timer.tc(:ranch, :stop_listener, [@listener_ref]) |> IO.inspect
+    IO.puts("DEAD")
+    :ignored
   end
 end

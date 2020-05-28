@@ -10,18 +10,20 @@ real life application of Websockets.
 ## Features roadmap
 
 Feature:
-  As a client I want to be associated to a user so that other client can
+- As a client I want to be associated to a user so that other client can
   see who send messages
+- As a client I want to create a user so that I can use the chat system
+- As a user I can send a private message to an existing user to that I
+  can talk directly without using an existing room
 
 ## Doing
-
-- Find a way to handle all the access tokens
-- what happen when we try to connect to the chat with an invalid access
-   token (e.g. 1) the token not exist or 2) no token provided) [cowbody documentation](https://ninenines.eu/docs/en/cowboy/1.0/guide/ws_handlers/)
 
 ## Todo
 
 
+- Extract a collaborator for the `WebSocketController`  that will be
+  responsible to understand if there is a `user_session` for a given
+  `access_token`
 - Update the UI in order to handle the new message format
 - Handle the connection when the provided access token is empty or not
   valid (no user session associated)
@@ -61,6 +63,10 @@ Feature:
 
 ## Done
 
+- what happen when we try to connect to the chat with an invalid access
+  token
+  - 1) the token not exist or is not valid [DONE]
+  - 2) no token provided [DONE]
 - Extract the websocket chat URL in the `WebSocketAcceptanceTests`
 - Try to remove all the setup duplication in the
   `WebSocketAcceptanceTests`
@@ -156,4 +162,105 @@ bash> w3m http://localhost:4005/
 bash> w3m http://localhost:4005/chat
 ```
 
+### How to get http params from Cowboy?
+
+For anyone who have upgrade to Cowboy 2, there are two ways of getting
+the query params.
+
+You can get them all by using `cowboy_req:parse_qs/1`:
+
+```
+QsVals = cowboy_req:parse_qs(Req),
+{_, Lang} = lists:keyfind(<<"lang">>, 1, QsVals).
+```
+
+Or specific ones by using `cowboy_req:match_qs/2`:
+
+```
+#{id := ID, lang := Lang} = cowboy_req:match_qs([id, lang], Req).
+```
+
+`cowboy_req:parse_qs(3)` - Parse the query string
+
+```
+parse_qs(Req :: cowboy_req:req())
+  -> [{Key :: binary(), Value :: binary() | true}]
+```
+
+Parse the query string as a list of key/value pairs.
+
+Req - The Req object.
+
+The parsed query string is returned as a list of key/value pairs. The
+key is a binary string. The value is either a binary string, or the atom
+true. Both key and value are case sensitive.
+
+The atom `true` is returned when a key is present in the query string
+without a value. For example, in the following URIs the key `<<"edit">>`
+will always have the value `true`
+
+- `/posts/42?edit`
+- `/posts/42?edit&exclusive=1`
+- `/posts/42?exclusive=1&edit`
+- `/posts/42?exclusive=1&edit&from=web`
+
+Parse the query string and convert the keys to atoms
+
+```
+ParsedQs = cowboy_req:parse_qs(Req),
+AtomsQs = [{binary_to_existing_atom(K, latin1), V}
+  || {K, V} <- ParsedQs].
+```
+
+Read more [cowboy docs][2] in the where these examples where found.
+
+### Is it secure to send the `access_token` as part of the websocket url query params?
+
+From a security perspective, it doesn't really matter where the access
+token is stored. In an ordinary HTTP request it would be stored in the
+header, or in a message after the websocket connection is established.
+However, many websockets for clients don't support client headers, and
+both of these are equally accessible to an attacker who can inspect
+traffic. Connections default to being over TLS these days, so from the
+outside you can't access query params, nor can you access the contents
+of messages.
+
+Traditionally it was considered poor practice to have credentials in
+query params because URLs can get stored in places such as logs for
+proxies, browser history, etc. However, neither of those concerns apply
+to websockets (a browser won't keep history of the connections made by a
+page), and proxies do not have access to the URL when there is a TLS
+tunnel. This concern arose when non-TLS interactions were the default.
+For comparison, most OAuth flows result in an endpoint access being made
+with an `access_token` query param.
+
+### Setup configuration
+
+```
+def child_spec(opts) do
+  %{
+    id: __MODULE__,
+    start: {__MODULE__, :start_link, [opts]}
+  }
+end
+
+def start_link(_opts) do
+  with {:ok, [port: port] = config} <- Application.fetch_env(:minimal_server, __MODULE__) do
+    Logger.info("Starting server at http://localhost:#{port}/")
+    Plug.Adapters.Cowboy2.http(__MODULE__, [], config)
+  end
+end
+```
+
 ### 20 May 2020 by Oleg G.Kapranov
+
+[1]: https://github.com/ninenines/cowboy
+[2]: https://github.com/ninenines/cowboy/tree/master/doc/src/manual
+[3]: https://github.com/ninenines/cowboy/blob/master/doc/src/manual/cowboy_req.asciidoc
+[4]: https://github.com/ninenines/cowboy/blob/master/doc/src/manual/cowboy_req.parse_qs.asciidoc
+[5]: https://github.com/ninenines/cowboy/blob/master/doc/src/manual/cowboy_req.match_qs.asciidoc
+[6]: https://github.com/ninenines/cowboy/blob/master/doc/src/manual/cowboy_req.parse_header.asciidoc
+[7]: https://github.com/ninenines/cowboy/blob/master/doc/src/manual/cowboy_req.qs.asciidoc
+[8]: https://www.ably.io/concepts/websockets
+[9]:
+[8]: https://support.ably.io/support/solutions/articles/3000075120-is-it-secure-to-send-the-access-token-as-part-of-the-websocket-url-query-params-

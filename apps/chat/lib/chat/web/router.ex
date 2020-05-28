@@ -1,6 +1,7 @@
 defmodule Chat.Web.Router do
   @moduledoc """
-  A Plug responsible for logging request info, parsing request body's as JSON,
+  This module handles all routing for the Server,
+  a plug responsible for logging request info, parsing request body's as JSON,
   matching routes, and dispatching responses.
   """
 
@@ -9,10 +10,14 @@ defmodule Chat.Web.Router do
   alias Chat.Web.WebSocketController
   alias Plug.Cowboy.Handler
   alias Plug.Static
+  alias Chat.API.Doc
+
+  if Mix.env == :dev, do: use Plug.Debugger
 
   @name __MODULE__
   @error "Oops... Nothing here :("
 
+  plug(Plug.Logger)
   plug Static, at: "/", from: :chat, only: ~w(chat.html)
   plug :match
   plug(Plug.Parsers, parsers: [:json], pass: ["application/json"], json_decoder: Jason)
@@ -20,6 +25,10 @@ defmodule Chat.Web.Router do
 
   get "/" do
     send(conn, 200, message())
+  end
+
+  get "/api/doc" do
+    Doc.show(conn)
   end
 
   match _ do
@@ -30,6 +39,7 @@ defmodule Chat.Web.Router do
     [
       {:_,
         [
+          {"/ws", WebSocketController, %{}},
           {"/chat", WebSocketController, []},
           {:_, Handler, {@name, []}}
         ]
