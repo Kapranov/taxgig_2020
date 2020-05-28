@@ -16,11 +16,16 @@ real life application of Websockets.
 ### DOING
 
 - Try to decouple the `WebSocketController` from the Application Domain
-  by introducing the Use Cases (or actions, `subscribe_client`,
-  `join_chatroom` and `send_message_to_chatroom`)
+  by introducing the Use Cases:
+  - `subscribe_client` TODO
+  - `create_chatroom` TODO
+  - `join_chatroom` TODO
 
 ### TODO
 
+- Rename `ChatRoom`, `ChatRooms` and `Chatroom` to `Room` (basically
+  remove the `Chat` term)
+- Rename `session_id` or `user_session_id` to `user_id`
 - Should the `WebSocketController` be renamed in
   [`WebSocketController`](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) ?
 - Try to write unit tests for `WebSocketController`
@@ -43,6 +48,7 @@ real life application of Websockets.
 
 ### DONE
 
+- Extract a use case for `SendMessageToChatRoom`
 - Extract a use case for `ValidateAccessToken`
 - As a client I want to be associated to a user so that other clients
   can see who send messages
