@@ -13,6 +13,8 @@ uploads/*.png
 
 /.fetch
 erl_crash.dump
+.idea
+*.iml
 *.ez
 
 phx-1.5-upgrade.md
