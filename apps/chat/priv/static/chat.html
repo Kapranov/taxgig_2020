@@ -46,7 +46,7 @@
         doSend(JSON.stringify(request))
       }
 
-      var wsUri = "ws://localhost:4005/chat";
+      var wsUri = "ws://" + location.host + "/chat";
       var output;
       var websocket;
 
