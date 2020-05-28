@@ -5,12 +5,16 @@ defmodule Chat.Web.WebSocketController do
 
   @behaviour :cowboy_websocket
 
-  alias Chat.{UserSessions, ChatRooms}
+  alias Chat.{
+    AuthenticationService,
+    ChatRooms,
+    UserSessions
+  }
 
   def init(req, state) do
     access_token = access_token_from(req)
 
-    case find_user_session_by(access_token) do
+    case AuthenticationService.find_user_session_by(access_token) do
       nil ->
         {:ok, :cowboy_req.reply(400, req), state}
       user_session ->
@@ -93,15 +97,6 @@ defmodule Chat.Web.WebSocketController do
 
   defp to_json(response), do: Jason.encode!(response)
   defp from_json(json), do: Jason.decode(json)
-
-  defp find_user_session_by(access_token) do
-    case access_token do
-      nil -> nil
-      "AN_INVALID_ACCESS_TOKEN" -> nil
-      "A_USER_ACCESS_TOKEN" -> "a-user"
-      _ -> "default-user-session"
-    end
-  end
 
   defp access_token_from(req) do
     query_parameter =
