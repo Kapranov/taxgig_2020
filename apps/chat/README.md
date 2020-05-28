@@ -15,14 +15,14 @@ real life application of Websockets.
 
 ### DOING
 
+- Try to decouple the `WebSocketController` from the Application Domain
+  by introducing the Use Cases (or actions, `subscribe_client`,
+  `join_chatroom` and `send_message_to_chatroom`)
+
 ### TODO
 
 - Should the `WebSocketController` be renamed in
   [`WebSocketController`](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) ?
-- Try to decouple the `WebSocketController` from the Application Domain
-  (think if it could be useful to introduce the concept of use cases, or
-  actions, for `validate_access_token`, `subscribe_client`, `join_chatroom`
-  and `send_message_to_chatroom`)
 - Try to write unit tests for `WebSocketController`
 - In the `WebSocketController` module we consider to remove the duplication of `websocket_info({_session_id, chatroom_name, message}, req, state)` and `websocket_info({chatroom_name, message}, req, state)`
   - Maybe we can introduce a `system-user-id` ??????!!!!!
@@ -43,6 +43,7 @@ real life application of Websockets.
 
 ### DONE
 
+- Extract a use case for `ValidateAccessToken`
 - As a client I want to be associated to a user so that other clients
   can see who send messages
 - Prepare the system with some initial data:
