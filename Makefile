@@ -30,13 +30,26 @@ git-%:
 													$(V)$(GIT) commit -m "$(@:git-%=%)"
 													$(V)$(GIT) push -u origin master
 
-gitlog:
+git_log:
 													$(V)$(GIT) log -p -$(NUM)
-gitpretty:
-													$(v)$(GIT) log --pretty=oneline
 
-gitshort:
-													$(V)$(GIT) log --pretty=format:"%h - %an, %ar : %s"
+git_pretty:
+													$(v)$(GIT) log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+git_log_line:
+													$(v)$(GIT) logline
+
+git_short:
+													$(V)$(GIT) log --graph --abbrev-commit --decorate --date=relative --all
+
+git_tree:
+													$(V)$(GIT) tree
+
+git_stree:
+													$(V)$(GIT) stree
+
+git_vtree:
+													$(V)$(GIT) vtree
 
 pull:
 													$(V)$(GIT) pull

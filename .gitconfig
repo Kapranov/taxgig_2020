@@ -1,0 +1,27 @@
+[user]
+	name = Oleg G.Kapranov
+	email = ok@pure-agency.co
+[gitlab]
+	user = Kapranov
+[credential]
+	helper = store --file ~/.git-credentials
+[alias]
+	logline = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+[alias]
+  tree = log --all --graph --decorate=short --color --format=format:'%C(bold blue)%h%C(reset) %C(auto)%d%C(reset)\n         %C(green)[%cr]%C(reset)  %x09%C(white)%an: %s %C(reset)'
+[alias]
+  logx = log --all --graph --decorate=short --color --format=format:'%C(bold blue)%h%C(reset)+%C(dim green)(%cr)%C(reset)+%C(auto)%d%C(reset)++\n+++       %C(bold magenta)%an%C(reset)%C(yellow): %s%C(reset)'
+  stree = !bash -c '" \
+    while IFS=+ read -r hash time branch message; do \
+      timelength=$(echo \"$time\" | sed -r \"s:[^ ][[]([0-9]{1,2}(;[0-9]{1,2})?)?m::g\"); \
+      timelength=$(echo \"16+${#time}-${#timelength}\" | bc); \
+      printf \"%${timelength}s    %s %s %s\n\" \"$time\" \"$hash\" \"$branch\" \"\"; \
+    done < <(git logx && echo);"'
+[alias]
+  logx = log --all --graph --decorate=short --color --format=format:'%C(bold blue)%h%C(reset)+%C(dim green)(%cr)%C(reset)+%C(auto)%d%C(reset)++\n+++       %C(bold magenta)%an%C(reset)%C(yellow): %s%C(reset)'
+  vtree = !bash -c '" \
+    while IFS=+ read -r hash time branch message; do \
+      timelength=$(echo \"$time\" | sed -r \"s:[^ ][[]([0-9]{1,2}(;[0-9]{1,2})?)?m::g\"); \
+      timelength=$(echo \"16+${#time}-${#timelength}\" | bc); \
+      printf \"%${timelength}s    %s %s %s\n\" \"$time\" \"$hash\" \"$branch\" \"$message\"; \
+    done < <(git logx && echo);"'
