@@ -33,6 +33,13 @@ defmodule Chat.WebSocketAcceptanceTest do
       send_as_text(pid, "{\"command\":\"join\"}")
       assert_receive "{\"message\":\"welcome to the default chat room, a-user!\",\"room\":\"default\"}"
     end
+
+    test "I want that each connected clients receives the welcome message", %{client: pid} do
+      connect_to websocket_chat_url(with: "A_USER_ACCESS_TOKEN"), forward_to: self()
+      send_as_text(pid, "{\"command\":\"join\"}")
+      assert_receive "{\"message\":\"welcome to the default chat room, a-user!\",\"room\":\"default\"}"
+      assert_receive "{\"message\":\"welcome to the default chat room, a-user!\",\"room\":\"default\"}"
+    end
   end
 
   describe "As a User when I send a message" do

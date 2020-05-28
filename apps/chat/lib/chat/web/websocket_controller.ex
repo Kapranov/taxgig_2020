@@ -43,33 +43,25 @@ defmodule Chat.Web.WebSocketController do
     {:ok, session_id}
   end
 
-  def websocket_info({:error, msg}, session_id) do
-    response = %{error: msg}
-    {:reply, {:text, to_json(response)}, session_id}
-  end
-
-  def websocket_info({chatroom_name, msg}, session_id) do
-    response = %{
-      message: msg,
-      room: chatroom_name
-    }
-
-    {:reply, {:text, to_json(response)}, session_id}
-  end
-
-  def websocket_info({from_user, chatroom_name, msg}, session_id) do
-    response = %{
-      from: from_user,
-      message: msg,
-      room: chatroom_name
-    }
-
-    {:reply, {:text, to_json(response)}, session_id}
+  def websocket_info(message, session_id) do
+    {:reply, {:text, to_json(message)}, session_id}
   end
 
   defp handle(%{"command" => "join", "room" => room}, session_id) do
-    ChatRooms.join(room, as: session_id)
-    {:ok, session_id}
+    result = case ChatRooms.join(room, as: session_id) do
+      :ok ->
+        UserSessions.notify(%{room: room, message: "welcome to the #{room} chat room, #{session_id}!"}, to: session_id)
+        :ok
+      {:error, :already_joined} -> {:error, "you already joined the #{room} room!"}
+      {:error, :unexisting_room} -> {:error, "#{room} does not exists"}
+    end
+
+    case result do
+      :ok ->
+        {:ok, session_id}
+      {:error, message} ->
+        {:reply, {:text, to_json(%{error: message})}, session_id}
+    end
   end
 
   defp handle(command = %{"command" => "join"}, session_id) do

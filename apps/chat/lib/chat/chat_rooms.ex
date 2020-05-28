@@ -3,7 +3,7 @@ defmodule Chat.ChatRooms do
 
   use DynamicSupervisor
 
-  alias Chat.{ChatRoom, ChatRoomRegistry, UserSessions}
+  alias Chat.{ChatRoom, ChatRoomRegistry}
 
   @name __MODULE__
 
@@ -20,9 +20,9 @@ defmodule Chat.ChatRooms do
   def join(room, [as: session_id]) do
     case find(room) do
       {:ok, pid} ->
-        try_join_chatroom(room, session_id, pid)
+        try_join_chatroom(pid, session_id)
       {:error, :unexisting_room} ->
-        send_error_message(session_id, room <> " does not exists")
+        {:error, :unexisting_room}
     end
   end
 
@@ -41,12 +41,12 @@ defmodule Chat.ChatRooms do
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 
-  defp try_join_chatroom(room, session_id, chatroom_pid) do
+  defp try_join_chatroom(chatroom_pid, session_id) do
     case ChatRoom.join(chatroom_pid, session_id) do
       :ok ->
-        send_welcome_message(session_id, room)
+        :ok
       {:error, :already_joined} ->
-        send_error_message(session_id, "you already joined the " <> room <> " room!")
+        {:error, :already_joined}
     end
   end
 
@@ -55,14 +55,6 @@ defmodule Chat.ChatRooms do
       [] -> {:error, :unexisting_room}
       [{pid, nil}] -> {:ok, pid}
     end
-  end
-
-  defp send_welcome_message(session_id, room) do
-    UserSessions.notify({room, "welcome to the " <> room <> " chat room, " <> session_id <> "!"}, to: session_id)
-  end
-
-  defp send_error_message(session_id, msg) do
-    UserSessions.notify({:error, msg}, to: session_id)
   end
 
   defp start(chatroom_name) do

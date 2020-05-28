@@ -41,7 +41,7 @@ defmodule Chat.ChatRoom do
   end
 
   def handle_call({:send, msg, :as, session_id}, _from, state = %@name{name: name}) do
-    Enum.each(state.session_ids, &UserSessions.notify({session_id, name, msg}, to: &1))
+    Enum.each(state.session_ids, &UserSessions.notify(%{from: session_id, room: name, message: msg}, to: &1))
     {:reply, :ok, state}
   end
 
