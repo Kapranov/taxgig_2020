@@ -3,7 +3,11 @@ defmodule Chat.Setup do
 
   use Task, restart: :transient
 
-  alias Chat.{ChatRooms, UserSessions}
+  alias Chat.{
+    AuthenticationService,
+    ChatRooms,
+    UserSessions
+  }
 
   @name __MODULE__
 
@@ -14,5 +18,6 @@ defmodule Chat.Setup do
   def run do
     ChatRooms.create("default")
     UserSessions.create("default-user-session")
+    AuthenticationService.add("A_DEFAULT_USER_ACCESS_TOKEN", "default-user-session")
   end
 end

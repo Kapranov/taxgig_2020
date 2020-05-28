@@ -110,8 +110,11 @@ defmodule Chat.WebSocketAcceptanceTest do
   end
 
   defp connect_as_a_user(_context) do
-    Chat.UserSessions.create("a-user")
-    {:ok, pid} = connect_to websocket_chat_url(with: "A_USER_ACCESS_TOKEN"), forward_to: self()
+    a_user = "a-user"
+    an_access_token = "A_USER_ACCESS_TOKEN"
+    Chat.UserSessions.create(a_user)
+    Chat.AuthenticationService.add(an_access_token, a_user)
+    {:ok, pid} = connect_to websocket_chat_url(with: an_access_token), forward_to: self()
     {:ok, client: pid}
   end
 

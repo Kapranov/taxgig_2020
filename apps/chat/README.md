@@ -11,7 +11,7 @@ real life application of Websockets.
 
 Feature:
 
-As a client I want to be associated to a user so that other client can
+As a client I want to be associated to a user so that other clients can
 see who send messages
 
 ## DOING
@@ -22,6 +22,8 @@ see who send messages
 
 ### TODO
 
+- Maybe the `AuthenticationService` is a "Repository" instead. Consider
+  to rename it
 - Try to write unit tests for `WebSocketController`
 - In the `WebSocketController` module we consider to remove the duplication of `websocket_info({_session_id, chatroom_name, message}, req, state)` and `websocket_info({chatroom_name, message}, req, state)`
   - Maybe we can introduce a `system-user-id` ??????!!!!!
@@ -42,6 +44,7 @@ see who send messages
 
 ## DONE
 
+- Provide a real implementation of the `AuthenticationService`
 - Update the UI in order to handle the user id
 - It seems that we have a [websocket idle timeout issue](https://ninenines.eu/docs/en/cowboy/2.4/guide/ws_handlers/#_keeping_the_connection_alive). Increase the idle timeout to 10 minutes
 - Handle the connection when the provided access token is empty or not valid (no user session associated)
