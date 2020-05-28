@@ -43,24 +43,16 @@ defmodule Chat.Web.WebSocketController do
     {:ok, session_id}
   end
 
-  def websocket_info(message, session_id) do
-    {:reply, {:text, to_json(message)}, session_id}
+  def websocket_info(msg, session_id) do
+    {:reply, {:text, to_json(msg)}, session_id}
   end
 
   defp handle(%{"command" => "join", "room" => room}, session_id) do
-    result = case ChatRooms.join(room, as: session_id) do
-      :ok ->
-        UserSessions.notify(%{room: room, message: "welcome to the #{room} chat room, #{session_id}!"}, to: session_id)
-        :ok
-      {:error, :already_joined} -> {:error, "you already joined the #{room} room!"}
-      {:error, :unexisting_room} -> {:error, "#{room} does not exists"}
-    end
-
-    case result do
+    case join_chat_room_on(room, session_id) do
       :ok ->
         {:ok, session_id}
-      {:error, message} ->
-        {:reply, {:text, to_json(%{error: message})}, session_id}
+      {:error, msg} ->
+        {:reply, {:text, to_json(%{error: msg})}, session_id}
     end
   end
 
@@ -79,8 +71,8 @@ defmodule Chat.Web.WebSocketController do
 
   defp handle(%{"command" => "create", "room" => room}, session_id) do
     response = case CreateChatRoom.on(room) do
-      {:ok, message} -> %{success: message}
-      {:error, message} -> %{error: message}
+      {:ok, msg} -> %{success: msg}
+      {:error, msg} -> %{error: msg}
     end
 
     {:reply, {:text, to_json(response)}, session_id}
@@ -99,6 +91,18 @@ defmodule Chat.Web.WebSocketController do
     case query_parameter do
       {"access_token", access_token} -> access_token
       _ -> nil
+    end
+  end
+
+  defp join_chat_room_on(room, user_id) do
+    case ChatRooms.join(room, as: user_id) do
+      :ok ->
+        UserSessions.notify(%{room: room, message: "welcome to the #{room} chat room, #{user_id}!"}, to: user_id)
+        :ok
+      {:error, :already_joined} ->
+        {:error, "you already joined the #{room} room!"}
+      {:error, :unexisting_room} ->
+        {:error, "#{room} does not exists"}
     end
   end
 end
