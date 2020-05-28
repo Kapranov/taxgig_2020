@@ -18,7 +18,6 @@ real life application of Websockets.
 - Try to decouple the `WebSocketController` from the Application Domain
   by introducing the Use Cases:
   - `subscribe_client` TODO
-  - `create_chatroom` TODO
   - `join_chatroom` TODO
 
 ### TODO
@@ -48,6 +47,7 @@ real life application of Websockets.
 
 ### DONE
 
+- Extract a use case for `CreateChatRoom`
 - Extract a use case for `SendMessageToChatRoom`
 - Extract a use case for `ValidateAccessToken`
 - As a client I want to be associated to a user so that other clients

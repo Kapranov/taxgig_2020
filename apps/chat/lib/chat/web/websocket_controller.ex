@@ -7,6 +7,7 @@ defmodule Chat.Web.WebSocketController do
 
   alias Chat.{
     ChatRooms,
+    CreateChatRoom,
     SendMessageToChatRoom,
     UserSessions,
     ValidateAccessToken
@@ -85,9 +86,9 @@ defmodule Chat.Web.WebSocketController do
   end
 
   defp handle(%{"command" => "create", "room" => room}, session_id) do
-    response = case ChatRooms.create(room) do
-      :ok -> %{success: room <> " has been created!"}
-      {:error, :already_exists} ->  %{error: room <> " already exists"}
+    response = case CreateChatRoom.on(room) do
+      {:ok, message} -> %{success: message}
+      {:error, message} -> %{error: message}
     end
 
     {:reply, {:text, to_json(response)}, session_id}
