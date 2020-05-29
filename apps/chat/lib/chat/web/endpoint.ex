@@ -1,4 +1,4 @@
-defmodule Chat.Web.Router do
+defmodule Chat.Web.Endpoint do
   @moduledoc """
   This module handles all routing for the Server,
   a plug responsible for logging request info, parsing request body's as JSON,
@@ -6,25 +6,37 @@ defmodule Chat.Web.Router do
   """
 
   use Plug.Router
+  use Plug.ErrorHandler
 
-  alias Chat.Web.WebSocketController
+  require EEx
+
+  alias Chat.API.Doc
+  alias Chat.Web.SocketHandler
   alias Plug.Cowboy.Handler
   alias Plug.Static
-  alias Chat.API.Doc
 
   if Mix.env == :dev, do: use Plug.Debugger
 
-  @name __MODULE__
+  @content_type "application/json"
   @error "Oops... Nothing here :("
+  @name __MODULE__
+  @token "taxgig"
 
-  plug(Plug.Logger)
+  plug(Plug.Logger, log: :debug)
+  plug Chat.Authenticate, token: @token
   plug Static, at: "/", from: :chat, only: ~w(chat.html)
   plug :match
-  plug(Plug.Parsers, parsers: [:json], pass: ["application/json"], json_decoder: Jason)
+  plug(Plug.Parsers, parsers: [:json], pass: [@content_type], json_decoder: Jason)
   plug :dispatch
 
   get "/" do
     send(conn, 200, message())
+  end
+
+  EEx.function_from_file(:defp, :chat_html, "priv/static/chat.html.eex", [])
+
+  get "/live" do
+    send_resp(conn, 200, chat_html())
   end
 
   get "/api/doc" do
@@ -39,8 +51,7 @@ defmodule Chat.Web.Router do
     [
       {:_,
         [
-          {"/ws", WebSocketController, %{}},
-          {"/chat", WebSocketController, []},
+          {"/chat", SocketHandler, []},
           {:_, Handler, {@name, []}}
         ]
       }
@@ -56,7 +67,7 @@ defmodule Chat.Web.Router do
 
   defp send(conn, code, data) when is_integer(code) do
     conn
-    |> put_resp_content_type("application/json")
+    |> put_resp_content_type(@content_type)
     |> send_resp(code, Jason.encode!(data))
   end
 
@@ -85,4 +96,12 @@ defmodule Chat.Web.Router do
     :io_lib.format("~2.10.0B:~2.10.0B:~2.10.0B", [hh, mm, ss])
     |> :erlang.list_to_binary()
   end
+
+  defp handle_errors(conn, %{kind: kind, reason: reason, stack: stack}) do
+    IO.inspect(kind, label: :kind)
+    IO.inspect(reason, label: :reason)
+    IO.inspect(stack, label: :stack)
+    send_resp(conn, conn.status, "Something went wrong")
+  end
 end
+

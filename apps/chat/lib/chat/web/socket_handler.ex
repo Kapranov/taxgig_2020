@@ -1,4 +1,4 @@
-defmodule Chat.Web.WebSocketController do
+defmodule Chat.Web.SocketHandler do
   @moduledoc """
   Implementation of the WebSocket transport
   """
@@ -6,6 +6,7 @@ defmodule Chat.Web.WebSocketController do
   @behaviour :cowboy_websocket
 
   alias Chat.{
+    Config,
     CreateChatRoom,
     JoinChatRoom,
     SendMessageToChatRoom,
@@ -18,7 +19,7 @@ defmodule Chat.Web.WebSocketController do
 
     case ValidateAccessToken.on(access_token) do
       {:ok, user_session} ->
-        {:cowboy_websocket, req, user_session, %{idle_timeout: 1000 * 60 * 10}}
+        {:cowboy_websocket, req, user_session, %{idle_timeout: Config.timer}}
       {:error, :access_token_not_valid} ->
         {:ok, :cowboy_req.reply(400, req), state}
     end

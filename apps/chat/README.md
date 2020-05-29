@@ -20,10 +20,10 @@ real life application of Websockets.
 - Rename `ChatRoom`, `ChatRooms` and `Chatroom` to `Room` (basically
   remove the `Chat` term)
 - Rename `session_id` or `user_session_id` to `user_id`
-- Should the `WebSocketController` be renamed in
-  [`WebSocketController`](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) ?
-- Try to write unit tests for `WebSocketController`
-- In the `WebSocketController` module we consider to remove the duplication of `websocket_info({_session_id, chatroom_name, message}, req, state)` and `websocket_info({chatroom_name, message}, req, state)`
+- Should the `SocketHandler` be renamed in
+  [`SocketHandler`](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) ?
+- Try to write unit tests for `SocketHandler`
+- In the `SocketHandler` module we consider to remove the duplication of `websocket_info({_session_id, chatroom_name, message}, req, state)` and `websocket_info({chatroom_name, message}, req, state)`
   - Maybe we can introduce a `system-user-id` ??????!!!!!
 - Introduce the [ping/pong mechanism](https://ninenines.eu/docs/en/cowboy/2.4/guide/ws_handlers/#_keeping_the_connection_alive) between client and server in order to unsubscribe and disconnect a client due inactivity
 - Find a way to document the websocket API
@@ -42,7 +42,7 @@ real life application of Websockets.
 
 ### DONE
 
-- Try to decouple the `WebSocketController` from the Application Domain
+- Try to decouple the `SocketHandler` from the Application Domain
 - Extract a use case for `SubscribeToUserSession`
 - Extract a use case for `JoinChatRoom`
 - Extract a use case for `CreateChatRoom`
@@ -68,10 +68,10 @@ real life application of Websockets.
 - Try to remove all the setup duplication in the `WebSocketAcceptanceTests`
 - Review all the acceptance tests in order to align it with the User Feature
 - Use the `access_token` to open websocket connection from the UI
-- Try to associate a WebSocketController to a UserSession
+- Try to associate a SocketHandler to a UserSession
 - Draw the actual application architecture sketch
 - Rename `Chat.Init` to `Chat.Setup`
-- Put the `user-session-id` as a state of `WebSocketController`
+- Put the `user-session-id` as a state of `SocketHandler`
 - Find a better name for the websocket tests
 - `ChatRooms.send` should use the `user-session-id`
 - The module `ChatRooms` should be reorganized like the `UserSessions`
@@ -133,7 +133,7 @@ different URLs in order to get associated to them:
 - `Chat`
 - `Chat.Application`
 - `Chat.Web.Router`
-- `Chat.Web.WebSocketController`
+- `Chat.Web.SocketHandler`
 - `Chat.ChatRoom`
 
 ```

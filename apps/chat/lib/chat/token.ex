@@ -42,7 +42,7 @@ defmodule Chat.Token do
   end
 
 #  alias Phoenix.Token
-#  alias Chat.Web.Router
+#  alias Chat.Web.Endpount, as: Router
 #
 #  @token_salt "gL33HZpG"
 #

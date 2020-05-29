@@ -1,4 +1,4 @@
-defmodule Chat.WebSocketAcceptanceTest do
+defmodule Chat.SocketHandlerTest do
   use ExUnit.Case, async: true
   import WebSocketClient
 

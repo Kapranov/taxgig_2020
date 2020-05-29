@@ -25,12 +25,13 @@ defmodule Chat.MixProject do
 
   def aliases do
     [
-      test: "test --no-start"
+      test: ["test --exclude deprecations --exclude benchmarks --no-start"]
     ]
   end
 
   defp deps do
     [
+      {:benchee, "~> 1.0", only: [:dev, :test]},
       {:entropy_string, "~> 1.3"},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:gproc, "~> 0.8"},

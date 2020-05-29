@@ -5,12 +5,12 @@ defmodule Chat.Application do
 
   use Supervisor
 
-  alias Chat.Application
-  alias Chat.Web.Router
+  alias Chat.Config
+  alias Chat.Web.Endpoint, as: Router
 
   @http_options [
     dispatch: Router.dispatch,
-    port: 4005
+    port: Config.http_port()
   ]
 
   @name __MODULE__
@@ -28,9 +28,9 @@ defmodule Chat.Application do
       Chat.Setup,
       Chat.UserSessions,
       Plug.Cowboy.child_spec(scheme: :http, plug: Router, options: @http_options),
-      Registry.child_spec(keys: :duplicate, name: Registry.Application)
+      Registry.child_spec(keys: :duplicate, name: Registry.Chat)
     ]
 
-    Supervisor.init(children, [strategy: :one_for_one, name: Application])
+    Supervisor.init(children, [strategy: :one_for_one, name: Chat.Application])
   end
 end
