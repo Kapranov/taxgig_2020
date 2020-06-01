@@ -22,6 +22,10 @@ defmodule Graphy.MixProject do
   end
 
   defp deps do
-    []
+    [
+      {:ex_doc, "~> 0.21", only: :dev, runtime: false},
+      {:jason, "~> 1.2"},
+      {:websockex, "~> 0.4"}
+    ]
   end
 end

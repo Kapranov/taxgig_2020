@@ -68,6 +68,7 @@ defmodule Server.MixProject do
       {:blockscore, in_umbrella: true},
       {:chat, in_umbrella: true},
       {:core, in_umbrella: true},
+      {:graphy, in_umbrella: true},
       {:mailings, in_umbrella: true},
       {:ptin, in_umbrella: true},
       {:stripe, in_umbrella: true},
