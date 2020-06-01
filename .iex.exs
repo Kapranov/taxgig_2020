@@ -230,8 +230,28 @@ defmodule LetMeSee do
   """
 
   if Mix.env == :dev do
-    IO.puts "\n______________________________________________________________________________________________________________\n\nAaron - This is your self from the past. Remember to reset the DB! mix ecto.reset.core and mix ecto.reset.ptin\n______________________________________________________________________________________________________________\n"
-    IO.puts "\n\t\t\t\tApplication has started in Development ENV\n"
+    IO.puts "\n___________________________________________________________________________________________\n\nAaron - This is your self from the past. Remember to reset the DB! mix ecto.reset.core ptin\n___________________________________________________________________________________________\n"
+    IO.puts "\n\t\t\tApplication has started in Development ENV\n"
+    IO.puts ~s"""
+          ###############################################################################
+          #                                                                             #
+          #         ██╗    ██╗ █████╗ ██████╗ ███╗   ██╗██╗███╗   ██╗ ██████╗           #
+          #         ██║    ██║██╔══██╗██╔══██╗████╗  ██║██║████╗  ██║██╔════╝           #
+          #         ██║ █╗ ██║███████║██████╔╝██╔██╗ ██║██║██╔██╗ ██║██║  ███╗          #
+          #         ██║███╗██║██╔══██║██╔══██╗██║╚██╗██║██║██║╚██╗██║██║   ██║          #
+          #         ╚███╔███╔╝██║  ██║██║  ██║██║ ╚████║██║██║ ╚████║╚██████╔╝          #
+          #         ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝ ╚═════╝            #
+          #                                                                             #
+          ###############################################################################
+          #                                                                             #
+          #  Seeded the minimum amount of data needed to run the acceptance tests.      #
+          #  BE CAREFUL, admins were generated using a simple password that is          #
+          #  included in the source code.                                               #
+          #  These seeds should only run in a test environment.                         #
+          #                                                                             #
+          ###############################################################################
+    """
+    IO.puts "\n"
 
     @type t :: __MODULE__.t()
     @type action :: bitstring()

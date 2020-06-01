@@ -18,4 +18,9 @@ defmodule Chat.Authenticate do
   defp authenticate({conn, _}, _token) do
     conn |> send_resp(401, "Not Authorized") |> halt()
   end
+
+  # [token] = Regex.run(~r/Bearer\s*(.*)/, header_content, capture: :all_but_first)
+  # [_, [token]] = Regex.scan(~r/^Bearer|\w+/, header_content)
+  # [_, token] = Regex.run(~r/Bearer\s*(.*)/, header_content)
+  # [_, token] = String.split(header_content)
 end

@@ -19,7 +19,14 @@ config :phoenix, :json_library, Jason
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id],
-  level: level
+  level: level,
+  colors: [
+    enabled: true,
+    debug: :cyan,
+    info: :green,
+    warn: :yellow,
+    error: :red
+  ]
 
 config :core, ecto_repos: [Core.Repo, Ptin.Repo]
 

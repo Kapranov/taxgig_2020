@@ -3,6 +3,7 @@ defmodule Chat.Config do
 
   @port 4005
   @ten_minutes 1000 * 60 * 10
+  @token "taxgig"
 
   def http_port do
     case System.get_env("PORT") do
@@ -19,6 +20,15 @@ defmodule Chat.Config do
         Application.get_env(:chat, :timer) || @ten_minutes
       timer_as_string ->
         String.to_integer(timer_as_string)
+    end
+  end
+
+  def token do
+    case System.get_env("TIMER") do
+      nil ->
+        Application.get_env(:chat, :token) || @token
+      token ->
+        token
     end
   end
 end

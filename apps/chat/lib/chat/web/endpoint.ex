@@ -11,6 +11,7 @@ defmodule Chat.Web.Endpoint do
   require EEx
 
   alias Chat.API.Doc
+  alias Chat.Config
   alias Chat.Web.SocketHandler
   alias Plug.Cowboy.Handler
   alias Plug.Static
@@ -20,10 +21,9 @@ defmodule Chat.Web.Endpoint do
   @content_type "application/json"
   @error "Oops... Nothing here :("
   @name __MODULE__
-  @token "taxgig"
 
   plug(Plug.Logger, log: :debug)
-  plug Chat.Authenticate, token: @token
+  plug Chat.Authenticate, token: Config.token()
   plug Static, at: "/", from: :chat, only: ~w(chat.html)
   plug :match
   plug(Plug.Parsers, parsers: [:json], pass: [@content_type], json_decoder: Jason)
