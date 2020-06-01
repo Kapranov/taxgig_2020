@@ -1,4 +1,4 @@
-defmodule Blockscore.Application do
+defmodule Graphy.Application do
   @moduledoc false
 
   use Application
@@ -7,7 +7,7 @@ defmodule Blockscore.Application do
           {:ok, pid()} | {:ok, pid(), Application.state()} | {:error, reason :: term()}
   def start(_type, _args) do
     children = []
-    opts = [strategy: :one_for_one, name: Blockscore.Supervisor]
+    opts = [strategy: :one_for_one, name: Graphy.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end
