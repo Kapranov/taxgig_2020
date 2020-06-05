@@ -28,7 +28,7 @@ config :logger, :console,
     error: :red
   ]
 
-config :core, ecto_repos: [Core.Repo, Ptin.Repo]
+config :core, ecto_repos: [Core.Repo, Graphy.Repo, Ptin.Repo]
 
 config :core, base_url: "https://taxgig.me:4001"
 

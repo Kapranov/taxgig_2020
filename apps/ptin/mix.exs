@@ -25,10 +25,10 @@ defmodule Ptin.MixProject do
 
   defp deps do
     [
-      {:ecto_sql, "~> 3.3"},
+      {:ecto_sql, "~> 3.4"},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:httpoison, "~> 1.6"},
-      {:nimble_csv, "~> 0.6"},
+      {:nimble_csv, "~> 0.7"},
       {:postgrex, "~> 0.15"}
     ]
   end

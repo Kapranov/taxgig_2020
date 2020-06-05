@@ -24,11 +24,14 @@ defmodule ServerWeb.ConnCase do
 
   using do
     quote do
-      use Phoenix.ConnTest
+      import Plug.Conn
+      import Phoenix.ConnTest
+      import Server.Factory
+
       use ExSpec
+
       alias Core.Accounts.User
       alias ServerWeb.Router.Helpers, as: Routes
-      import Server.Factory
 
       @salt Application.get_env(:server, ServerWeb.Endpoint)[:salt]
       @secret Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_base]

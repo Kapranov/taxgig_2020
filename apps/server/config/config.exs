@@ -7,7 +7,7 @@ config :server, ServerWeb.Endpoint,
   secret_key_base: "4rKBiN5BznqeClNzy1t+4LmfMH48TxlPCUT996MELKJ2t/zwrvQsPrG71vhE7vKu",
   max_age: :timer.minutes(5) / 1000,
   render_errors: [view: ServerWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: Server.PubSub, adapter: Phoenix.PubSub.PG2],
+  pubsub_server: Server.PubSub,
   version: Mix.Project.config()[:version]
 
 config :logger, :console,

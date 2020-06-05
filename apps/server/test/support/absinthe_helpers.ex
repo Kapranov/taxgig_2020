@@ -3,7 +3,7 @@ defmodule Server.AbsintheHelpers do
   Absinthe helpers for tests
   """
 
-  use Phoenix.ConnTest
+  import Phoenix.ConnTest
 
   alias Core.Accounts.User
 

@@ -18,15 +18,21 @@ defmodule Graphy.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {Graphy.Application, []}
+      mod: {Graphy, []}
     ]
   end
 
   defp deps do
     [
-      {:ex_doc, "~> 0.21", only: :dev, runtime: false},
+      # {:absinthe_websocket, "~> 0.2.2"},
+      # {:common_graphql_client, "~> 0.6.1"},
+      {:absinthe_websocket, path: "src/absinthe_websocket"},
+      {:ecto_sql, "~> 3.4"},
+      {:httpoison, "~> 1.6"},
       {:jason, "~> 1.2"},
-      {:websockex, "~> 0.4"}
+      {:plug_cowboy, "~> 2.2"},
+      {:postgrex, "~> 0.15"},
+      {:websocket_client, "~> 1.4"}
     ]
   end
 end

@@ -55,12 +55,12 @@ defmodule TaxgigEx.MixProject do
 
   defp deps do
     [
-      {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.21", only: :dev, runtime: false},
+      {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:ex_spec, "~> 2.0", only: [:test]},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
-      {:excoveralls, "~> 0.12", only: [:test]},
-      {:junit_formatter, "~> 3.0"},
+      {:excoveralls, "~> 0.13", only: [:test]},
+      {:junit_formatter, "~> 3.1"},
       {:mix_test_watch, "~> 1.0", only: [:dev], runtime: false},
       {:progress_bar, "~> 2.0"}
     ]

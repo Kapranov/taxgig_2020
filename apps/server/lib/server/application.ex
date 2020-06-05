@@ -11,13 +11,12 @@ defmodule Server.Application do
   @spec start(Application.start_type(), start_args :: term()) ::
           {:ok, pid()} | {:ok, pid(), Application.state()} | {:error, reason :: term()}
   def start(_type, _args) do
-    import Supervisor.Spec
-
     load_version()
 
     children = [
-      supervisor(ServerWeb.Endpoint, []),
-      supervisor(Absinthe.Subscription, [ServerWeb.Endpoint])
+      ServerWeb.Endpoint,
+      {Phoenix.PubSub, name: Server.PubSub},
+      {Absinthe.Subscription, ServerWeb.Endpoint}
     ]
 
     opts = [strategy: :one_for_one, name: Server.Supervisor]

@@ -31,10 +31,10 @@ defmodule Core.MixProject do
 
   defp deps do
     [
-      {:argon2_elixir, "~> 2.2"},
+      {:argon2_elixir, "~> 2.3"},
       {:burnex, "~> 1.1"},
       {:decimal, "~> 1.8", optional: true},
-      {:ecto_sql, "~> 3.3"},
+      {:ecto_sql, "~> 3.4"},
       {:ex_aws, "~> 2.1"},
       {:ex_aws_s3, "~> 2.0"},
       {:ex_machina, "~> 2.4"},
@@ -43,11 +43,11 @@ defmodule Core.MixProject do
       {:faker, "~> 0.13", only: [:benchmark, :dev, :test]},
       {:flake_id, "~> 0.1"},
       {:gravity, "~> 1.0"},
-      {:jason, "~> 1.0"},
+      {:jason, "~> 1.2"},
       {:mogrify, "~> 0.7"},
       {:mox, "~> 0.5"},
-      {:nimble_parsec, "~> 0.5"},
-      {:plug, "~> 1.9"},
+      {:nimble_parsec, "~> 0.6"},
+      {:plug, "~> 1.10"},
       {:postgrex, "~> 0.15"},
       {:remix, "~> 0.0", only: [:dev]},
       {:sweet_xml, "~> 0.6"},

@@ -19,6 +19,14 @@ config :core, Core.Repo,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
+config :core, Graphy.Repo,
+  username: "kapranov",
+  password: "nicmos6922",
+  database: "taxgig",
+  hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
 config :ptin, Ptin.Repo,
   username: "kapranov",
   password: "nicmos6922",

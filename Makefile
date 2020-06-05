@@ -74,6 +74,10 @@ packs:
 													$(V)$(MIX) deps.get
 													$(V)$(MIX) deps.update --all
 													$(V)$(MIX) deps.get
+
+outdated:
+													$(V)$(MIX) hex.outdated
+
 recovery:
 													$(V)$(MIX) deps.compile
 													$(V)$(MIX) compile

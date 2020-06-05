@@ -12,6 +12,14 @@ config :core, Core.Repo,
   show_sensitive_data_on_connection_error: true,
   pool: Ecto.Adapters.SQL.Sandbox
 
+config :core, Graphy.Repo,
+  username: "kapranov",
+  password: "nicmos6922",
+  database: "taxgig_test",
+  hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool: Ecto.Adapters.SQL.Sandbox
+
 config :ptin, Ptin.Repo,
   username: "kapranov",
   password: "nicmos6922",

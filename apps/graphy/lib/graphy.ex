@@ -1,5 +1,9 @@
 defmodule Graphy do
-  @moduledoc """
-  Documentation for `Graphy`.
-  """
+  @moduledoc false
+
+  use Application
+
+  def start(_type, _args) do
+    Graphy.Application.start_link([])
+  end
 end

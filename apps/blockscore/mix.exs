@@ -25,7 +25,7 @@ defmodule Blockscore.MixProject do
   defp deps do
     [
       {:httpoison, "~> 1.6"},
-      {:jason, "~> 1.1"}
+      {:jason, "~> 1.2"}
     ]
   end
 end
