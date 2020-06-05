@@ -3,7 +3,7 @@ defmodule Graphy.Application do
   OTP Application specification for Graphy.
   """
 
-  use Supervisor
+  use Application
 
   alias Graphy.Config
   alias Graphy.Endpoint, as: Router
@@ -13,18 +13,13 @@ defmodule Graphy.Application do
     port: Config.http_port()
   ]
 
-  @name __MODULE__
-
-  def start_link(opts) do
-    Supervisor.start_link(@name, :ok, opts)
-  end
-
-  def init(:ok) do
+  def start(_type, _args) do
     children = [
       Graphy.Repo,
-      Plug.Cowboy.child_spec(scheme: :http, plug: Router, options: @http_options),
-    ]
+      Plug.Cowboy.child_spec(scheme: :http, plug: Router, options: @http_options)
+    ] ++ [ServerQLApi.Client.supervisor()]
 
-    Supervisor.init(children, [strategy: :one_for_one, name: @name])
+    opts = [strategy: :one_for_one, name: Graphy.Supervisor]
+    Supervisor.start_link(children, opts)
   end
 end

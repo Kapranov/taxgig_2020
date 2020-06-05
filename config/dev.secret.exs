@@ -107,3 +107,10 @@ config :server, LinkedIn,
   client_id: "86o1wzfjly49rc",
   client_secret: "DyOjOFidMtPJQIlu",
   redirect_uri: "https://taxgig.me:4001/graphiql"
+
+config :graphy, ServerQLApi,
+  client: ServerQLApi.Client,
+  query_caller: CommonGraphQLClient.Caller.Http,
+  http_api_url: "http://127.0.0.1:4000/api",
+  subscription_caller: CommonGraphQLClient.Caller.WebSocket,
+  websocket_api_url: "ws://127.0.0.1:4000/socket/websocket"

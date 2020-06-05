@@ -17,8 +17,8 @@ defmodule Graphy.MixProject do
 
   def application do
     [
-      extra_applications: [:logger],
-      mod: {Graphy, []}
+      mod: {Graphy.Application, []},
+      extra_applications: [:logger]
     ]
   end
 
@@ -27,6 +27,7 @@ defmodule Graphy.MixProject do
       # {:absinthe_websocket, "~> 0.2.2"},
       # {:common_graphql_client, "~> 0.6.1"},
       {:absinthe_websocket, path: "src/absinthe_websocket"},
+      {:common_graphql_client, path: "src/common_graphql_client"},
       {:ecto_sql, "~> 3.4"},
       {:httpoison, "~> 1.6"},
       {:jason, "~> 1.2"},
