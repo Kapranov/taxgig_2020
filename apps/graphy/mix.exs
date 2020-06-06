@@ -17,7 +17,7 @@ defmodule Graphy.MixProject do
 
   def application do
     [
-      mod: {Graphy.Application, []},
+      mod: {Graphy, []},
       extra_applications: [:logger]
     ]
   end
