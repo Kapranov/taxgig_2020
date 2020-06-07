@@ -11,7 +11,6 @@ defmodule Server.LoadTesting.Users do
 
   @type criteria :: %{
     active: boolean(),
-    admin_role: boolean(),
     avatar: String.t(),
     bio: String.t(),
     birthday: String.t(),
@@ -24,7 +23,7 @@ defmodule Server.LoadTesting.Users do
     middle_name: String.t(),
     order_by: term(),
     phone: String.t(),
-    pro_role: boolean(),
+    role: boolean(),
     provider: String.t(),
     query: String.t(),
     select: term(),
@@ -43,7 +42,7 @@ defmodule Server.LoadTesting.Users do
 
     generate_users(opts[:users])
 
-    main_user = Repo.one(from(u in User, where: u.admin_role == true, order_by: fragment("RANDOM()"), limit: 1))
+    main_user = Repo.one(from(u in User, where: u.pro_role == true, order_by: fragment("RANDOM()"), limit: 1))
     make_profiles(main_user, opts[:profiles])
     Repo.get(User, main_user.id)
   end
@@ -80,37 +79,36 @@ defmodule Server.LoadTesting.Users do
     )s |> Enum.random()
 
     %User{
-      active: !remote,
-      admin_role: !remote,
-      avatar: "some text - #{i}",
-      bio: "some text - #{i}",
-      birthday: Date.add(Timex.now, -i),
-      email: "user#{i}@yahoo.com",
-      first_name: "some text - #{i}",
-      init_setup: !remote,
-      languages: languages,
-      last_name: "some text - #{i}",
-      middle_name: "some text - #{i}",
-      phone: "some text - #{i}",
-      password: "qwerty",
-      password_confirmation: "qwerty",
-      pro_role: !remote,
-      provider: provider,
-      sex: "some text - #{i}",
-      ssn: number,
-      street: "some text - #{i}",
-      zip: number
+       active: !remote,
+       avatar: "some text - #{i}",
+       bio: "some text - #{i}",
+       birthday: Date.add(Timex.now, -i),
+       email: "user#{i}@yahoo.com",
+       first_name: "some text - #{i}",
+       init_setup: !remote,
+       languages: languages,
+       last_name: "some text - #{i}",
+       middle_name: "some text - #{i}",
+       password: "qwerty",
+       password_confirmation: "qwerty",
+       phone: "some text - #{i}",
+       role: remote,
+       provider: provider,
+       sex: "some text - #{i}",
+       ssn: number,
+       street: "some text - #{i}",
+       zip: number
     }
     |> user_urls()
     |> Repo.insert!()
   end
 
-  defp user_urls(%{admin_role: true} = user) do
+  defp user_urls(%{role: true} = user) do
     urls = %{}
     Map.merge(user, urls)
   end
 
-  defp user_urls(%{admin_role: false} = user) do
+  defp user_urls(%{role: false} = user) do
     urls = %{}
     Map.merge(user, urls)
   end
@@ -125,7 +123,7 @@ defmodule Server.LoadTesting.Users do
           |> Kernel.trunc()
 
         main_user
-        |> get_users(%{limit: number_of_users, admin_role: :admin_role})
+        |> get_users(%{limit: number_of_users, role: :role})
         |> run_stream(main_user)
       end)
 
@@ -137,8 +135,8 @@ defmodule Server.LoadTesting.Users do
     criteria = %{limit: opts[:limit]}
 
     criteria =
-      if opts[:admin_role] do
-        Map.put(criteria, opts[:admin_role], true)
+      if opts[:pro_role] do
+        Map.put(criteria, opts[:pro_role], true)
       else
         criteria
       end

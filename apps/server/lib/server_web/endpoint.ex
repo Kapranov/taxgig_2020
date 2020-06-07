@@ -16,29 +16,6 @@ defmodule ServerWeb.Endpoint do
     UserSocket
   }
 
-#  alias ServerWeb.Endpoint, as: WebEndpoint
-#
-#  url = Application.get_env(:server, WebEndpoint)[:url]
-#
-#  origin =
-#    case Mix.env() do
-#      :prod ->
-#        ["https://api.taxgig.com"]
-#      :dev ->
-#        [_, _, val3, val4] = url
-#        host = val3 |> elem(1)
-#        port = val4 |> elem(1) |> to_string
-#        ["http://" <> host <> ":" <> port]
-#      :benchmark ->
-#        [val1, val2, _] = url
-#        host = val1 |> elem(1)
-#        port = val2 |> elem(1) |> to_string
-#        ["http://" <> host <> ":" <> port]
-#      _ -> false
-#    end
-#
-#  socket "/socket", UserSocket, websocket: [check_origin: origin], longpoll: false
-
   socket "/socket", UserSocket, websocket: true, longpoll: false
 
   if code_reloading? do
@@ -55,7 +32,7 @@ defmodule ServerWeb.Endpoint do
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
 
-  # plug CORSPlug
+  plug CORSPlug
   plug Router
 
   @doc """

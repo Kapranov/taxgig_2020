@@ -8,6 +8,14 @@ config :core, Core.Repo,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
+config :core, Graphy.Repo,
+  username: "kapranov",
+  password: "nicmos6922",
+  database: "taxgig_benchmark",
+  hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
 config :ptin, Ptin.Repo,
   username: "kapranov",
   password: "nicmos6922",
@@ -61,3 +69,10 @@ config :server, LinkedIn,
   client_id: "860xyy244a8ocj",
   client_secret: "eUqH3A3YTbZqmMRC",
   redirect_uri: "http://axion.me:4000/graphiql"
+
+config :graphy, ServerQLApi,
+  client: ServerQLApi.Client,
+  query_caller: CommonGraphQLClient.Caller.Http,
+  http_api_url: "http://127.0.0.1:4000/api",
+  subscription_caller: CommonGraphQLClient.Caller.WebSocket,
+  websocket_api_url: "ws://127.0.0.1:4000/socket/websocket"
