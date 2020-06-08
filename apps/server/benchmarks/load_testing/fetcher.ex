@@ -14,7 +14,6 @@ defmodule Server.LoadTesting.Fetcher do
       %{
         "By id" => fn -> Repo.get_by(User, id: user.id) end,
         "By active" => fn -> Repo.get_by(User, email: user.active) end,
-        "By admin_role" => fn -> Repo.get_by(User, email: user.admin_role) end,
         "By avatar" => fn -> Repo.get_by(User, email: user.avatar) end,
         "By bio" => fn -> Repo.get_by(User, email: user.bio) end,
         "By birthday" => fn -> Repo.get_by(User, email: user.birthday) end,
@@ -24,7 +23,7 @@ defmodule Server.LoadTesting.Fetcher do
         "By last_name" => fn -> Repo.get_by(User, email: user.last_name) end,
         "By middle_name" => fn -> Repo.get_by(User, email: user.middle_name) end,
         "By phone" => fn -> Repo.get_by(User, email: user.phone) end,
-        "By pro_role" => fn -> Repo.get_by(User, email: user.pro_role) end,
+        "By role" => fn -> Repo.get_by(User, email: user.role) end,
         "By provider" => fn -> Repo.get_by(User, email: user.provider) end,
         "By sex" => fn -> Repo.get_by(User, email: user.sex) end,
         "By ssn" => fn -> Repo.get_by(User, email: user.ssn) end,

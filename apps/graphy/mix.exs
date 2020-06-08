@@ -24,8 +24,6 @@ defmodule Graphy.MixProject do
 
   defp deps do
     [
-      # {:absinthe_websocket, "~> 0.2.2"},
-      # {:common_graphql_client, "~> 0.6.1"},
       {:absinthe_websocket, path: "src/absinthe_websocket"},
       {:common_graphql_client, path: "src/common_graphql_client"},
       {:ecto_sql, "~> 3.4"},

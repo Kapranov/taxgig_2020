@@ -3,6 +3,7 @@ defmodule Graphy.Config do
 
   @port 4006
 
+  @spec http_port :: integer()
   def http_port do
     case System.get_env("PORT") do
       nil ->
