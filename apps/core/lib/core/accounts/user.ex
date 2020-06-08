@@ -14,7 +14,9 @@ defmodule Core.Accounts.User do
     Services.BookKeeping,
     Services.BusinessTaxReturn,
     Services.IndividualTaxReturn,
-    Services.SaleTax
+    Services.SaleTax,
+    Talk.Message,
+    Talk.Room
   }
 
   @type t :: %__MODULE__{
@@ -42,7 +44,9 @@ defmodule Core.Accounts.User do
     book_keepings: [BookKeeping.t()],
     business_tax_returns: [BusinessTaxReturn.t()],
     individual_tax_returns: [IndividualTaxReturn.t()],
-    sale_taxes: [SaleTax.t()]
+    sale_taxes: [SaleTax.t()],
+    messages: [Message.t()],
+    rooms: [Room.t()]
   }
 
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
@@ -108,6 +112,8 @@ defmodule Core.Accounts.User do
     has_many :business_tax_returns, BusinessTaxReturn
     has_many :individual_tax_returns, IndividualTaxReturn
     has_many :sale_taxes, SaleTax
+    has_many :rooms, Room
+    has_many :messages, Message
 
     many_to_many :languages, Language,
       join_through: "users_languages",

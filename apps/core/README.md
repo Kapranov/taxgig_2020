@@ -40,18 +40,22 @@ bash> mix ecto.gen.migration -r Core.Repo create_business_transaction_counts
 bash> mix ecto.gen.migration -r Core.Repo create_business_entity_types
 bash> mix ecto.gen.migration -r Core.Repo create_business_llc_types
 
-bash> > mix ecto.gen.migration -r Core.Repo create_book_keepings
-bash> > mix ecto.gen.migration -r Core.Repo create_book_keeping_type_clients
-bash> > mix ecto.gen.migration -r Core.Repo create_book_keeping_industries
-bash> > mix ecto.gen.migration -r Core.Repo create_book_keeping_transaction_volumes
-bash> > mix ecto.gen.migration -r Core.Repo create_book_keeping_number_employees
-bash> > mix ecto.gen.migration -r Core.Repo create_book_keeping_annual_revenues
-bash> > mix ecto.gen.migration -r Core.Repo create_book_keeping_classify_inventories
-bash> > mix ecto.gen.migration -r Core.Repo create_book_keeping_additional_needs
+bash> mix ecto.gen.migration -r Core.Repo create_book_keepings
+bash> mix ecto.gen.migration -r Core.Repo create_book_keeping_type_clients
+bash> mix ecto.gen.migration -r Core.Repo create_book_keeping_industries
+bash> mix ecto.gen.migration -r Core.Repo create_book_keeping_transaction_volumes
+bash> mix ecto.gen.migration -r Core.Repo create_book_keeping_number_employees
+bash> mix ecto.gen.migration -r Core.Repo create_book_keeping_annual_revenues
+bash> mix ecto.gen.migration -r Core.Repo create_book_keeping_classify_inventories
+bash> mix ecto.gen.migration -r Core.Repo create_book_keeping_additional_needs
 
-bash> > mix ecto.gen.migration -r Core.Repo create_sale_taxes
-bash> > mix ecto.gen.migration -r Core.Repo create_sale_tax_frequencies
-bash> > mix ecto.gen.migration -r Core.Repo create_sale_tax_industries
+bash> mix ecto.gen.migration -r Core.Repo create_sale_taxes
+bash> mix ecto.gen.migration -r Core.Repo create_sale_tax_frequencies
+bash> mix ecto.gen.migration -r Core.Repo create_sale_tax_industries
+
+bash> mix ecto.gen.migration -r Core.Repo create_rooms
+bash> mix ecto.gen.migration -r Core.Repo create_messages
+
 
 iex> language1 = %Language{abbr: "fra", name: "french"
 iex> language2 = %Language{abbr: "ger", name: "german"}

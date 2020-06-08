@@ -8,7 +8,8 @@ defmodule Core.Seeder.Repo do
     Landing,
     Localization,
     Lookup,
-    Services
+    Services,
+    Talk
   }
 
   @spec seed!() :: :ok
@@ -18,6 +19,7 @@ defmodule Core.Seeder.Repo do
     Landing.seed!()
     Lookup.seed!()
     Services.seed!()
+    Talk.seed!()
     :ok
   end
 end
