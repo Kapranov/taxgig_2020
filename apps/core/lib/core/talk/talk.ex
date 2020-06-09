@@ -20,7 +20,10 @@ defmodule Core.Talk do
 
   """
   @spec list_room() :: [Room.t()]
-  def list_room, do: Repo.all(Room)
+  def list_room do
+    Repo.all(Room)
+    |> Repo.preload([user: [:languages, profile: [:picture]]])
+  end
 
   @doc """
   Gets a single Room.
@@ -37,7 +40,10 @@ defmodule Core.Talk do
 
   """
   @spec get_room!(String.t()) :: Room.t() | error_tuple()
-  def get_room!(id), do: Repo.get!(Room, id)
+  def get_room!(id) do
+    Repo.get!(Room, id)
+    |> Repo.preload([user: [:languages, profile: [:picture]]])
+  end
 
   @doc """
   Creates the Room.
@@ -123,8 +129,8 @@ defmodule Core.Talk do
       ** (Ecto.NoResultsError)
 
   """
-  @spec list_messages(String.t()) :: Message.t() | error_tuple()
-  def list_messages(room_id) do
+  @spec list_message(String.t()) :: Message.t() | error_tuple()
+  def list_message(room_id) do
     Repo.all(
       from msg in Message,
       join: user in assoc(msg, :user),

@@ -44,6 +44,8 @@ defmodule Core.Factory do
     Services.SaleTax,
     Services.SaleTaxFrequency,
     Services.SaleTaxIndustry,
+    Talk.Message,
+    Talk.Room,
     Upload
   }
 
@@ -1037,6 +1039,35 @@ defmodule Core.Factory do
     %SaleTaxIndustry{
       name: random_name_for_pro_tax_industry(),
       sale_taxes: build(:pro_sale_tax)
+    }
+  end
+
+  @spec room_factory() :: Room.t()
+  def room_factory do
+    %Room{
+      name: "defend the police",
+      description: "It Can't Get Any More Ridiculous or Frightening.",
+      topic: "lionel_nation",
+      user: build(:user)
+    }
+  end
+
+  @spec message_factory() :: Message.t()
+  def message_factory do
+    %Message{
+      body: "My area in Michigan is covered in Trump flags and we have every race there is",
+      room: build(:room),
+      user: build(:user)
+    }
+    %Message{
+      body: "People like to be Seen a victims. The love to be pitied by others",
+      room: build(:room),
+      user: build(:user)
+    }
+    %Message{
+      body: "I lived in Chicago. It is and always had been corrupt and lawless.",
+      room: build(:room),
+      user: build(:user)
     }
   end
 
