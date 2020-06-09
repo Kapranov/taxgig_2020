@@ -44,6 +44,8 @@ defmodule Server.Factory do
     Services.SaleTax,
     Services.SaleTaxFrequency,
     Services.SaleTaxIndustry,
+    Talk.Message,
+    Talk.Room,
     Upload
   }
 
@@ -1079,6 +1081,35 @@ defmodule Server.Factory do
     %State{
       abbr: Lorem.word(),
       name: Lorem.word()
+    }
+  end
+
+  @spec room_factory() :: Room.t()
+  def room_factory do
+    %Room{
+      name: "Pandemic with Steve Bannon",
+      description: "Citizens of the American Republic",
+      topic: "war_room",
+      user: build(:user)
+    }
+  end
+
+  @spec message_factory() :: Message.t()
+  def message_factory do
+    %Message{
+      body: "America isn't burning -- Democrat America is burning.",
+      room: build(:room),
+      user: build(:user)
+    }
+    %Message{
+      body: "Brilliant episode understanding why we are where we are with China",
+      room: build(:room),
+      user: build(:user)
+    }
+    %Message{
+      body: "love you Steve, enlightening!",
+      room: build(:room),
+      user: build(:user)
     }
   end
 
