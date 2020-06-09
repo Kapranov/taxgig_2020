@@ -16,6 +16,7 @@ defmodule Server.Application do
     children = [
       ServerWeb.Endpoint,
       {Phoenix.PubSub, name: Server.PubSub},
+      ServerWeb.Presence,
       {Absinthe.Subscription, ServerWeb.Endpoint}
     ]
 
