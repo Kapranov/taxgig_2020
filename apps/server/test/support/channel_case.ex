@@ -20,7 +20,7 @@ defmodule ServerWeb.ChannelCase do
 
   using do
     quote do
-      use Phoenix.ChannelTest
+      import Phoenix.ChannelTest
 
       @endpoint ServerWeb.Endpoint
     end
