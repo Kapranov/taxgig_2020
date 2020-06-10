@@ -211,6 +211,8 @@ defmodule ServerWeb.GraphQL.Schema do
 
   @spec middleware(list(), any(), any()) :: list()
   def middleware(middleware, _field, _object) do
-    middleware ++ [ServerWeb.GraphQL.Schemas.Middleware.ChangesetErrors]
+    middleware ++
+      [ServerWeb.GraphQL.Schemas.Middleware.ChangesetErrors] ++
+        [ServerWeb.GraphQL.Helpers.ErrorHelper]
   end
 end

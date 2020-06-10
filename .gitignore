@@ -17,6 +17,8 @@ erl_crash.dump
 *.iml
 *.ez
 
+Project-Aquamarine.tar.bz2
+
 phx-1.5-upgrade.md
 DAXX.md
 VERSION
