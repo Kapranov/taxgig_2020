@@ -12,6 +12,7 @@ defmodule ServerWeb.RoomChannel do
 
   alias ServerWeb.{
     ErrorView,
+    MessageView,
     Presence,
     RoomView
   }
@@ -123,6 +124,25 @@ defmodule ServerWeb.RoomChannel do
     end
   end
 
+  def handle_in("message:add", %{"message" => body}, socket) do
+    room = Talk.get_room!(socket.assigns[:room_id])
+    user = get_user(socket)
+
+    case Talk.create_message(user, room, %{body: body}) do
+      {:ok, message} ->
+        message = Repo.preload(message, :user)
+        message_template = %{
+          body: message.body,
+          user: %{
+            username: "#{message.user.first_name} #{message.user.middle_name} #{message.user.last_name}"}}
+        response = MessageView.render("show.json", %{messages: message})
+        broadcast!(socket, "room:#{room.id}:new_message", message_template)
+        {:reply, {:ok, response}, socket}
+      {:error, _} ->
+        {:reply, :error, socket}
+    end
+  end
+
   def handle_info(:after_join, socket) do
     push(socket, "presence_state", Presence.list(socket))
 
@@ -192,4 +212,6 @@ defmodule ServerWeb.RoomChannel do
 # socket_opts = [url: "ws://localhost:4000/socket/websocket"]
 # {:ok, socket} = PhoenixClient.Socket.start_link(socket_opts)
 # {:ok, response, channel} = PhoenixClient.Channel.join(socket, "rooms:#{room_id}")
+# body = "I think that's a ridiculous proposition,"
+# {:ok, data} = PhoenixClient.Channel.push(channel, "message:add", %{"message" => body})
 end

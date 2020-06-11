@@ -6,8 +6,8 @@ defmodule ServerWeb.RoomView do
     %{data: render_many(rooms, RoomView, "room.json")}
   end
 
-  def render("show.json", %{rooms: rooms}) do
-    %{data: render_one(rooms, RoomView, "room.json")}
+  def render("show.json", %{rooms: room}) do
+    %{data: render_one(room, RoomView, "room.json")}
   end
 
   def render("room.json", %{room: room}) do
