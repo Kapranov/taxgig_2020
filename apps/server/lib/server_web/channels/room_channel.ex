@@ -12,11 +12,17 @@ defmodule ServerWeb.RoomChannel do
 
   alias ServerWeb.{
     ErrorView,
+    Presence,
     RoomView
   }
 
   def join("rooms:lobby", _payload, socket) do
     {:ok, "Joined to TaxGig Channel", socket}
+  end
+
+  def join("rooms:" <> room_id, _params, socket) do
+    send(self(), :after_join)
+    {:ok, %{messages: Talk.list_message(room_id)}, assign(socket, :room_id, room_id)}
   end
 
   def handle_in("index", _payload, socket) do
@@ -117,6 +123,27 @@ defmodule ServerWeb.RoomChannel do
     end
   end
 
+  def handle_info(:after_join, socket) do
+    push(socket, "presence_state", Presence.list(socket))
+
+    user = get_user(socket)
+    {:ok, _} = Presence.track(socket, "user:#{user.id}", %{
+      typing: false,
+      typing_token: nil,
+      user_id: user.id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      middle_name: user.middle_name
+    })
+
+    {:noreply, socket}
+  end
+
+  def get_user(socket)  do
+    user_id = Repo.get(Room, socket.assigns[:room_id]).user_id
+    Repo.get(User, user_id)
+  end
+
 #  def handle_info({:after_join, "rooms:lobby"}, socket) do
 #    response =
 #      Talk.list_room
@@ -160,4 +187,9 @@ defmodule ServerWeb.RoomChannel do
 # {:ok, data} = PhoenixClient.Channel.push(channel, "update", payload)
 # {:ok, data} = PhoenixClient.Channel.push(channel, "delete", %{"id" => "9vsgUj0rX2aH8Iosgi"})
 # ServerWeb.Endpoint.broadcast("room:lobby", "index", data)
+
+# room_id = "9vsgUj0rX2aH8Iosgi"
+# socket_opts = [url: "ws://localhost:4000/socket/websocket"]
+# {:ok, socket} = PhoenixClient.Socket.start_link(socket_opts)
+# {:ok, response, channel} = PhoenixClient.Channel.join(socket, "rooms:#{room_id}")
 end
