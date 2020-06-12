@@ -2,16 +2,22 @@ defmodule ServerWeb.MessageView do
   use ServerWeb, :view
   alias ServerWeb.MessageView
 
-  def render("show.json", %{messages: message}) do
-    %{data: render_one(message, MessageView, "message.json")}
+  def render("index.json", %{messages: data}) do
+    %{data: render_many(data, MessageView, "message.json")}
   end
 
-  def render("message.json", %{message: message}) do
+  def render("show.json", %{messages: data}) do
+    %{data: render_one(data, MessageView, "message.json")}
+  end
+
+  def render("message.json", %{message: data}) do
     %{
-      body:       message.body,
-      room_id: message.room_id,
-      user_id: message.user_id
+      body:       data.body,
+      user: %{
+        first_name:   data.user.first_name,
+        middle_name: data.user.middle_name,
+        last_name:     data.user.last_name
+      }
     }
   end
 end
-
