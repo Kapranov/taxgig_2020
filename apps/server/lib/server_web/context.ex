@@ -32,11 +32,28 @@ defmodule ServerWeb.Context do
   @spec build_context(Plug.Conn.t()) :: %{current_user: User.t()} | map()
   def build_context(conn) do
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
-         {:ok, user_id} <- Token.verify(@secret, @salt, token, max_age: @max_age),
-         user when not is_nil(user) <- Accounts.get_user!(user_id) do
-      %{current_user: user}
+      {:ok, current_user} <- authorize(token) do
+        %{current_user: current_user}
     else
       _ -> %{}
+    end
+  end
+
+  defp authorize(token) do
+    case Token.verify(@secret, @salt, token, max_age: @max_age) do
+      {:error, :invalid} ->
+        {:error, "invalid authorization token"}
+      {:error, :expired} ->
+        {:error, "token has been expired or revoked"}
+      {:ok, user_id} ->
+        try do
+          with struct <- Accounts.get_user!(user_id) do
+            {:ok, struct}
+          end
+        rescue
+          Ecto.NoResultsError ->
+            {:error, "An User #{user_id} not found!"}
+        end
     end
   end
 end

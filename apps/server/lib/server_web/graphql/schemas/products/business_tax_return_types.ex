@@ -222,14 +222,12 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
     end
 
     @desc "Get all business tax returns via role's Tp"
-    field(:all_tp_business_tax_returns,
-      non_null(list_of(non_null(:tp_business_tax_return)))) do
+    field(:all_tp_business_tax_returns, non_null(list_of(non_null(:tp_business_tax_return)))) do
         resolve &BusinessTaxReturnsResolver.list/3
     end
 
     @desc "Get all business tax returns via role's Pro"
-    field(:all_pro_business_tax_returns,
-      non_null(list_of(non_null(:pro_business_tax_return)))) do
+    field(:all_pro_business_tax_returns, non_null(list_of(non_null(:pro_business_tax_return)))) do
         resolve &BusinessTaxReturnsResolver.list/3
     end
 

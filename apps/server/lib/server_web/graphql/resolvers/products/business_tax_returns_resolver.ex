@@ -17,14 +17,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTaxReturnsResolver do
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
 
-  @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: success_list() | error_tuple()
   def list(_parent, _args, %{context: %{current_user: current_user}}) do
     if is_nil(current_user) do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      data = Services.list_business_tax_return()
-      {:ok, data}
+      case Services.list_business_tax_return() do
+        nil -> {:error, "Not found"}
+        struct -> {:ok, struct}
+      end
     end
+  end
+
+  @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def list(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
   end
 
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
