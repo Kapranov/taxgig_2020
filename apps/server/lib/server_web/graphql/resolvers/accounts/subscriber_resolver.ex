@@ -40,16 +40,25 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
     end
   end
 
+  @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def show(_parent, _args, _info) do
+    {:error, [[field: :id, message: "Can't be blank"]]}
+  end
+
   @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
   def create(_parent, args, _info) do
-    with {:ok, struct} <- Accounts.create_subscriber(args) do
-      :ok = Task.await(mailgun(args.email, args.pro_role), 3000)
-      {:ok, struct}
+    if is_nil(args[:email]) || is_nil(args[:pro_role]) do
+      {:error, [[field: :email, message: "email and pro_role can't be blank"]]}
     else
-      :error ->
-        {:error, [[field: :pro_role, message: "Check that an email address or role has been entered"]]}
-      {:error, changeset} ->
-        {:error, extract_error_msg(changeset)}
+      with {:ok, struct} <- Accounts.create_subscriber(args) do
+        :ok = Task.await(mailgun(args.email, args.pro_role), 3000)
+        {:ok, struct}
+      else
+        :error ->
+          {:error, [[field: :pro_role, message: "Check that an email address or role has been entered"]]}
+        {:error, changeset} ->
+          {:error, extract_error_msg(changeset)}
+      end
     end
   end
 
@@ -69,6 +78,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
     end
   end
 
+  @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update(_root, _args, _info) do
+    {:error, [[field: :id, message: "id or subscriber params can't be blank"]]}
+  end
+
   @spec delete(any, %{email: bitstring}, Absinthe.Resolution.t()) :: result()
   def delete(_parent, %{email: email}, _info) do
     if is_nil(email) do
@@ -82,6 +96,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
           {:error, "The Subscriber #{email} not found!"}
       end
     end
+  end
+
+  @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def delete(_root, _args, _info) do
+    {:error, [[field: :email, message: "can't be blank"]]}
   end
 
   @spec mailgun(bitstring, boolean()) :: ok() | error_tuple()
