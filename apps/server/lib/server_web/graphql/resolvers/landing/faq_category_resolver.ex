@@ -56,7 +56,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver do
 
   @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
   def create(_parent, args, _info) do
-    if is_nil(args[:title]) || is_nil(args[:pro_role]) do
+    if is_nil(args[:title]) do
       {:error, [[field: :title, message: "Can't be blank"]]}
     else
       args
