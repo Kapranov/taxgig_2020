@@ -29,6 +29,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver do
     {:ok, struct}
   end
 
+  @spec find_faq_category(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def find_faq_category(_parent, _args, _info) do
+    {:error, [[field: :id, message: "Can't be blank"]]}
+  end
+
   @spec show(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()
   def show(_parent, %{id: id}, _info) do
     if is_nil(id) do
@@ -44,15 +49,24 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver do
     end
   end
 
+  @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def show(_parent, _args, _info) do
+    {:error, [[field: :id, message: "Can't be blank"]]}
+  end
+
   @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
   def create(_parent, args, _info) do
-    args
-    |> Landing.create_faq_category()
-    |> case do
-      {:ok, struct} ->
-        {:ok, struct}
-      {:error, changeset} ->
-        {:error, extract_error_msg(changeset)}
+    if is_nil(args[:title]) || is_nil(args[:pro_role]) do
+      {:error, [[field: :title, message: "Can't be blank"]]}
+    else
+      args
+      |> Landing.create_faq_category()
+      |> case do
+        {:ok, struct} ->
+          {:ok, struct}
+        {:error, changeset} ->
+          {:error, extract_error_msg(changeset)}
+      end
     end
   end
 
@@ -72,6 +86,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver do
     end
   end
 
+  @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update(_parent, _args, _info) do
+    {:error, [[field: :id, message: "id and faq_category params can't be blank"]]}
+  end
+
   @spec delete(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()
   def delete(_parent, %{id: id}, _info) do
     if is_nil(id) do
@@ -85,6 +104,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver do
           {:error, "The Faq Category #{id} not found!"}
       end
     end
+  end
+
+  @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def delete(_parent, _args, _info) do
+    {:error, [[field: :id, message: "Can't be blank"]]}
   end
 
   @spec extract_error_msg(Ecto.Changeset.t()) :: Ecto.Changeset.t()
