@@ -11,6 +11,7 @@ defmodule Core.Repo.Migrations.CreateMatchValueRelates do
       add :match_for_book_keeping_payroll, :integer, default: 0
       add :match_for_book_keeping_type_client, :integer, default: 0
       add :match_for_business_enity_type, :integer, default: 0
+      add :match_for_business_industry, :integer, default: 0
       add :match_for_business_number_of_employee, :integer, default: 0
       add :match_for_business_total_revenue, :integer, default: 0
       add :match_for_individual_employment_status, :integer, default: 0

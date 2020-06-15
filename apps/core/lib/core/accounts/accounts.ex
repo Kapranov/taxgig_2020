@@ -94,6 +94,7 @@ defmodule Core.Accounts do
     :match_for_book_keeping_payroll                  => 0,
     :match_for_book_keeping_type_client              => 0,
     :match_for_business_enity_type                   => 0,
+    :match_for_business_industry                     => 0,
     :match_for_business_number_of_employee           => 0,
     :match_for_business_total_revenue                => 0,
     :match_for_individual_employment_status          => 0,
@@ -494,6 +495,7 @@ defmodule Core.Accounts do
               end
             false ->
               Multi.new
+              |> Multi.insert(:match_value_relate, match_value_relate_changeset)
               |> Multi.insert(:users, user_changeset)
               |> Multi.run(:profiles, fn _, %{users: user} ->
                 profile_changeset = %Profile{user_id: user.id}

@@ -18,6 +18,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.MatchValueRelateTypes do
     field :match_for_book_keeping_payroll, non_null(:integer)
     field :match_for_book_keeping_type_client, non_null(:integer)
     field :match_for_business_enity_type, non_null(:integer)
+    field :match_for_business_industry, non_null(:integer)
     field :match_for_business_number_of_employee, non_null(:integer)
     field :match_for_business_total_revenue, non_null(:integer)
     field :match_for_individual_employment_status, non_null(:integer)
@@ -67,6 +68,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.MatchValueRelateTypes do
     field :match_for_book_keeping_payroll, :integer
     field :match_for_book_keeping_type_client, :integer
     field :match_for_business_enity_type, :integer
+    field :match_for_business_industry, :integer
     field :match_for_business_number_of_employee, :integer
     field :match_for_business_total_revenue, :integer
     field :match_for_individual_employment_status, :integer
@@ -138,6 +140,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.MatchValueRelateTypes do
       arg :match_for_book_keeping_payroll, non_null(:integer)
       arg :match_for_book_keeping_type_client, non_null(:integer)
       arg :match_for_business_enity_type, non_null(:integer)
+      arg :match_for_business_industry, non_null(:integer)
       arg :match_for_business_number_of_employee, non_null(:integer)
       arg :match_for_business_total_revenue, non_null(:integer)
       arg :match_for_individual_employment_status, non_null(:integer)

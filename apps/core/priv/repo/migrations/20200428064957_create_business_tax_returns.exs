@@ -4,6 +4,7 @@ defmodule Core.Repo.Migrations.CreateBusinessTaxReturns do
   def change do
     create table(:business_tax_returns, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
+      add :active, :boolean, default: true, null: false
       add :accounting_software, :boolean, default: nil, null: true
       add :capital_asset_sale, :boolean, default: nil, null: true
       add :church_hospital, :boolean, default: nil, null: true

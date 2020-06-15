@@ -19,6 +19,7 @@ defmodule Core.Services do
     Services.BusinessEntityType,
     Services.BusinessForeignAccountCount,
     Services.BusinessForeignOwnershipCount,
+    Services.BusinessIndustry,
     Services.BusinessLlcType,
     Services.BusinessNumberEmployee,
     Services.BusinessTaxReturn,
@@ -49,6 +50,7 @@ defmodule Core.Services do
     :match_for_book_keeping_payroll                  => 0,
     :match_for_book_keeping_type_client              => 0,
     :match_for_business_enity_type                   => 0,
+    :match_for_business_industry                     => 0,
     :match_for_business_number_of_employee           => 0,
     :match_for_business_total_revenue                => 0,
     :match_for_individual_employment_status          => 0,
@@ -2707,6 +2709,11 @@ defmodule Core.Services do
                         %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                       Repo.insert(business_foreign_ownership_count_changeset)
                     end)
+                    |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                      business_industry_changeset =
+                        %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                      Repo.insert(business_industry_changeset)
+                    end)
                     |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                       business_llc_type_changeset =
                         %BusinessLlcType{business_tax_return_id: business_tax_return.id}
@@ -2758,6 +2765,11 @@ defmodule Core.Services do
                       business_foreign_ownership_count_changeset =
                         %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                       Repo.insert(business_foreign_ownership_count_changeset)
+                    end)
+                    |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                      business_industry_changeset =
+                        %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                      Repo.insert(business_industry_changeset)
                     end)
                     |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                       business_llc_type_changeset =
@@ -2818,6 +2830,11 @@ defmodule Core.Services do
                     %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                   Repo.insert(business_foreign_ownership_count_changeset)
                 end)
+                |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_industry_changeset =
+                    %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_industry_changeset)
+                end)
                 |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                   business_llc_type_changeset =
                     %BusinessLlcType{business_tax_return_id: business_tax_return.id}
@@ -2869,6 +2886,11 @@ defmodule Core.Services do
                   business_foreign_ownership_count_changeset =
                     %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                   Repo.insert(business_foreign_ownership_count_changeset)
+                end)
+                |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_industry_changeset =
+                    %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_industry_changeset)
                 end)
                 |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                   business_llc_type_changeset =
@@ -2976,6 +2998,11 @@ defmodule Core.Services do
                         %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                       Repo.insert(business_foreign_ownership_count_changeset)
                     end)
+                    |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                      business_industry_changeset =
+                        %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                      Repo.insert(business_industry_changeset)
+                    end)
                     |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                       business_llc_type_changeset =
                         %BusinessLlcType{business_tax_return_id: business_tax_return.id}
@@ -3021,6 +3048,11 @@ defmodule Core.Services do
                           %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                         Repo.insert(business_foreign_ownership_count_changeset)
                       end)
+                      |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                        business_industry_changeset =
+                          %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                        Repo.insert(business_industry_changeset)
+                      end)
                       |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                         business_llc_type_changeset =
                           %BusinessLlcType{business_tax_return_id: business_tax_return.id}
@@ -3047,6 +3079,7 @@ defmodule Core.Services do
                           business_entity_type: business_entity_type,
                           business_foreign_account_count: business_foreign_account_count,
                           business_foreign_ownership_count: business_foreign_ownership_count,
+                          business_industry: business_industry,
                           business_llc_type: business_llc_type,
                           business_number_employee: business_number_employee,
                           business_tax_returns: business_tax_return,
@@ -3057,6 +3090,7 @@ defmodule Core.Services do
                             business_entity_type,
                             business_foreign_account_count,
                             business_foreign_ownership_count,
+                            business_industry,
                             business_llc_type,
                             business_number_employee,
                             business_tax_return,
@@ -3071,6 +3105,8 @@ defmodule Core.Services do
                         {:error, :business_foreign_ownership_count, changeset}
                       {:error, :business_number_employee, %Changeset{} = changeset, %{}} ->
                         {:error, :business_number_employee, changeset}
+                      {:error, :business_industry, %Changeset{} = changeset, %{}} ->
+                        {:error, :business_industry, changeset}
                       {:error, :business_total_revenue, %Changeset{} = changeset, %{}} ->
                         {:error, :business_total_revenue, changeset}
                       {:error, :business_transaction_count, %Changeset{} = changeset, %{}} ->
@@ -3115,6 +3151,11 @@ defmodule Core.Services do
                       %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                     Repo.insert(business_foreign_ownership_count_changeset)
                   end)
+                  |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                    business_industry_changeset =
+                      %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                    Repo.insert(business_industry_changeset)
+                  end)
                   |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                     business_llc_type_changeset =
                       %BusinessLlcType{business_tax_return_id: business_tax_return.id}
@@ -3141,6 +3182,7 @@ defmodule Core.Services do
                       business_entity_type: business_entity_type,
                       business_foreign_account_count: business_foreign_account_count,
                       business_foreign_ownership_count: business_foreign_ownership_count,
+                      business_industry: business_industry,
                       business_llc_type: business_llc_type,
                       business_number_employee: business_number_employee,
                       business_tax_returns: business_tax_return,
@@ -3151,6 +3193,7 @@ defmodule Core.Services do
                         business_entity_type,
                         business_foreign_account_count,
                         business_foreign_ownership_count,
+                        business_industry,
                         business_llc_type,
                         business_number_employee,
                         business_tax_return,
@@ -3163,6 +3206,8 @@ defmodule Core.Services do
                     {:error, :business_foreign_account_count, changeset}
                   {:error, :business_foreign_ownership_count, %Changeset{} = changeset, %{}} ->
                     {:error, :business_foreign_ownership_count, changeset}
+                  {:error, :business_industry, %Changeset{} = changeset, %{}} ->
+                    {:error, :business_industry, changeset}
                   {:error, :business_number_employee, %Changeset{} = changeset, %{}} ->
                     {:error, :business_number_employee, changeset}
                   {:error, :business_total_revenue, %Changeset{} = changeset, %{}} ->
@@ -3202,6 +3247,11 @@ defmodule Core.Services do
                       %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                     Repo.insert(business_foreign_ownership_count_changeset)
                   end)
+                  |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                    business_industry_changeset =
+                      %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                    Repo.insert(business_industry_changeset)
+                  end)
                   |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                     business_llc_type_changeset =
                       %BusinessLlcType{business_tax_return_id: business_tax_return.id}
@@ -3228,6 +3278,7 @@ defmodule Core.Services do
                       business_entity_type: business_entity_type,
                       business_foreign_account_count: business_foreign_account_count,
                       business_foreign_ownership_count: business_foreign_ownership_count,
+                      business_industry: business_industry,
                       business_llc_type: business_llc_type,
                       business_number_employee: business_number_employee,
                       business_tax_returns: business_tax_return,
@@ -3238,6 +3289,7 @@ defmodule Core.Services do
                         business_entity_type,
                         business_foreign_account_count,
                         business_foreign_ownership_count,
+                        business_industry,
                         business_llc_type,
                         business_number_employee,
                         business_tax_return,
@@ -3250,6 +3302,8 @@ defmodule Core.Services do
                     {:error, :business_foreign_account_count, changeset}
                   {:error, :business_foreign_ownership_count, %Changeset{} = changeset, %{}} ->
                     {:error, :business_foreign_ownership_count, changeset}
+                  {:error, :business_industry, %Changeset{} = changeset, %{}} ->
+                    {:error, :business_industry, changeset}
                   {:error, :business_number_employee, %Changeset{} = changeset, %{}} ->
                     {:error, :business_number_employee, changeset}
                   {:error, :business_total_revenue, %Changeset{} = changeset, %{}} ->
@@ -4285,6 +4339,272 @@ defmodule Core.Services do
   end
 
   @doc """
+  Returns the list of business_industries.
+
+  ## Examples
+
+      iex> list_business_industry()
+      [%BusinessIndustry{}, ...]
+
+  """
+  @spec list_business_industry() :: [BusinessIndustry.t()]
+  def list_business_industry do
+    Repo.all(BusinessIndustry)
+    |> Repo.preload([business_tax_returns: [:user]])
+  end
+
+  @doc """
+  Creates a business_industry.
+
+  ## Examples
+
+      iex> create_business_industry(%{field: value})
+      {:ok, %BusinessIndustry{}}
+
+      iex> create_business_industry(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_business_industry(%{atom => any}) :: result() | error_tuple()
+  def create_business_industry(attrs \\ %{}) do
+    business_tax_return_ids =
+      case attrs.business_tax_return_id do
+        nil ->
+          nil
+        _ ->
+          Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
+      end
+
+    user_id =
+      case business_tax_return_ids do
+        nil ->
+          nil
+        _ ->
+          business_tax_return_ids.user_id
+      end
+
+    get_role_by_user =
+      case user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    get_names_by_business_industry =
+      case attrs.business_tax_return_id do
+        nil ->
+          nil
+        _ ->
+          Repo.all(
+            from c in BusinessIndustry,
+            where: c.business_tax_return_id == ^attrs.business_tax_return_id,
+            select: c.name
+          )
+      end
+
+    query =
+      case attrs.business_tax_return_id do
+        nil ->
+          nil
+        _ ->
+          from c in BusinessIndustry,
+          where: c.business_tax_return_id == ^attrs.business_tax_return_id
+      end
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Ecto.Changeset{}}
+      false ->
+        case Enum.any?(get_names_by_business_industry, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          false ->
+            case Repo.aggregate(query, :count, :id) do
+              0 ->
+                case Map.keys(attrs) do
+                  [:business_tax_return_id, :name] ->
+                    %BusinessIndustry{}
+                    |> BusinessIndustry.changeset(attrs)
+                    |> Repo.insert()
+                  _ ->
+                    {:error, %Ecto.Changeset{}}
+                end
+              _ ->
+                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+            end
+        end
+      true ->
+        case Enum.any?(get_names_by_business_industry, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "Name already is exist"]}
+          false ->
+            case Map.keys(attrs) do
+              [:business_tax_return_id, :name] ->
+                %BusinessIndustry{}
+                |> BusinessIndustry.changeset(attrs)
+                |> Repo.insert()
+              _ ->
+                {:error, [field: :id, message: "Please will fill are fields"]}
+            end
+        end
+    end
+  end
+
+  @doc """
+  Updates a business_industry.
+
+  ## Examples
+
+      iex> update_business_industry(business_industry, %{field: new_value})
+      {:ok, %BusinessIndustry{}}
+
+      iex> update_business_industry(business_industry, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_business_industry(BusinessIndustry.t(), %{atom => any}) :: result() | error_tuple()
+  def update_business_industry(%BusinessIndustry{} = struct, attrs) do
+    business_tax_return_ids =
+      case struct do
+        nil ->
+          {:error, [field: :id, message: "BusinessIndustry is null"]}
+        _ ->
+          Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
+      end
+
+    user_id =
+      case business_tax_return_ids do
+        nil ->
+          {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
+        _ ->
+          business_tax_return_ids.user_id
+      end
+
+    get_role_by_user =
+      case user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    get_names_by_business_industry =
+      case struct.name do
+        nil ->
+          nil
+        _ ->
+          Repo.all(
+            from c in BusinessIndustry,
+            where: c.business_tax_return_id == ^struct.business_tax_return_id,
+            select: c.name
+          )
+      end
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Ecto.Changeset{}}
+      false ->
+        case get_names_by_business_industry do
+          nil ->
+            case Map.keys(attrs) do
+              [:name] ->
+                struct
+                |> BusinessIndustry.changeset(attrs)
+                |> Repo.update()
+              _ ->
+                {:error, %Ecto.Changeset{}}
+            end
+          _ ->
+            case Map.keys(attrs) do
+              [:name] ->
+                case Enum.any?(get_names_by_business_industry, &(&1 == attrs.name)) do
+                  true ->
+                    {:error, [field: :name, message: "Name already is exist"]}
+                  false ->
+                    struct
+                    |> BusinessIndustry.changeset(attrs)
+                    |> Repo.update()
+                end
+              _ ->
+                struct
+                |> BusinessIndustry.changeset(attrs)
+                |> Repo.update()
+            end
+        end
+      true ->
+        case get_names_by_business_industry do
+          nil ->
+            case Map.keys(attrs) do
+              [:name] ->
+                struct
+                |> BusinessIndustry.changeset(attrs)
+                |> Repo.update()
+              _ ->
+                {:error, %Ecto.Changeset{}}
+            end
+          _ ->
+            case Map.keys(attrs) do
+              [:name] ->
+                case Enum.any?(get_names_by_business_industry, &(&1 == attrs.name)) do
+                  true ->
+                    {:error, [field: :name, message: "Name already is exist"]}
+                  false ->
+                    struct
+                    |> BusinessIndustry.changeset(attrs)
+                    |> Repo.update()
+                end
+              _ ->
+                struct
+                |> BusinessIndustry.changeset(attrs)
+                |> Repo.update()
+            end
+        end
+    end
+  end
+
+  @doc """
+  Deletes a BusinessIndustry.
+
+  ## Examples
+
+      iex> delete_business_industry(struct)
+      {:ok, %business_industry{}}
+
+      iex> delete_business_industry(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_business_industry(BusinessIndustry.t()) :: result()
+  def delete_business_industry(%BusinessIndustry{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking business_industry changes.
+
+  ## Examples
+
+      iex> change_business_industry(struct)
+      %Ecto.Changeset{source: %BusinessIndustry{}}
+
+  """
+  @spec change_business_industry(BusinessIndustry.t()) :: Ecto.Changeset.t()
+  def change_business_industry(%BusinessIndustry{} = struct) do
+    BusinessIndustry.changeset(struct, %{})
+  end
+
+  @doc """
   Returns the list of business_llc_types.
 
   ## Examples
@@ -4296,6 +4616,26 @@ defmodule Core.Services do
   @spec list_business_llc_type() :: [BusinessLlcType.t()]
   def list_business_llc_type do
     Repo.all(BusinessLlcType)
+    |> Repo.preload([business_tax_returns: [:user]])
+  end
+
+  @doc """
+  Gets a single business_industry.
+
+  Raises `Ecto.NoResultsError` if the BusinessIndustry type does not exist.
+
+  ## Examples
+
+      iex> get_business_industry!(123)
+      %BusinessIndustry{}
+
+      iex> get_business_industry!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_business_industry!(String.t) :: BusinessIndustry.t() | error_tuple()
+  def get_business_industry!(id) do
+    Repo.get!(BusinessIndustry, id)
     |> Repo.preload([business_tax_returns: [:user]])
   end
 
@@ -8639,6 +8979,11 @@ defmodule Core.Services do
                           %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                         Repo.insert(business_foreign_ownership_count_changeset)
                       end)
+                      |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                        business_industry_changeset =
+                          %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                        Repo.insert(business_industry_changeset)
+                      end)
                       |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                         business_llc_type_changeset =
                           %BusinessLlcType{business_tax_return_id: business_tax_return.id}
@@ -8718,6 +9063,11 @@ defmodule Core.Services do
                             %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                           Repo.insert(business_foreign_ownership_count_changeset)
                         end)
+                        |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                          business_industry_changeset =
+                            %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                          Repo.insert(business_industry_changeset)
+                        end)
                         |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                           business_llc_type_changeset =
                             %BusinessLlcType{business_tax_return_id: business_tax_return.id}
@@ -8744,6 +9094,7 @@ defmodule Core.Services do
                             business_entity_type: business_entity_type,
                             business_foreign_account_count: business_foreign_account_count,
                             business_foreign_ownership_count: business_foreign_ownership_count,
+                            business_industry: business_industry,
                             business_llc_type: business_llc_type,
                             business_number_employee: business_number_employee,
                             business_tax_returns: business_tax_return,
@@ -8754,6 +9105,7 @@ defmodule Core.Services do
                               business_entity_type,
                               business_foreign_account_count,
                               business_foreign_ownership_count,
+                              business_industry,
                               business_llc_type,
                               business_number_employee,
                               business_tax_return,
@@ -8766,6 +9118,8 @@ defmodule Core.Services do
                           {:error, :business_foreign_account_count, changeset}
                         {:error, :business_foreign_ownership_count, %Changeset{} = changeset, %{}} ->
                           {:error, :business_foreign_ownership_count, changeset}
+                        {:error, :business_industry, %Changeset{} = changeset, %{}} ->
+                          {:error, :business_industry, changeset}
                         {:error, :business_number_employee, %Changeset{} = changeset, %{}} ->
                           {:error, :business_number_employee, changeset}
                         {:error, :business_total_revenue, %Changeset{} = changeset, %{}} ->
@@ -8846,6 +9200,11 @@ defmodule Core.Services do
                         %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                       Repo.insert(business_foreign_ownership_count_changeset)
                     end)
+                    |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                      business_industry_changeset =
+                        %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                      Repo.insert(business_industry_changeset)
+                    end)
                     |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                       business_llc_type_changeset =
                         %BusinessLlcType{business_tax_return_id: business_tax_return.id}
@@ -8872,6 +9231,7 @@ defmodule Core.Services do
                         business_entity_type: business_entity_type,
                         business_foreign_account_count: business_foreign_account_count,
                         business_foreign_ownership_count: business_foreign_ownership_count,
+                        business_industry: business_industry,
                         business_llc_type: business_llc_type,
                         business_number_employee: business_number_employee,
                         business_tax_returns: business_tax_return,
@@ -8882,6 +9242,7 @@ defmodule Core.Services do
                           business_entity_type,
                           business_foreign_account_count,
                           business_foreign_ownership_count,
+                          business_industry,
                           business_llc_type,
                           business_number_employee,
                           business_tax_return,
@@ -8894,6 +9255,8 @@ defmodule Core.Services do
                       {:error, :business_foreign_account_count, changeset}
                     {:error, :business_foreign_ownership_count, %Changeset{} = changeset, %{}} ->
                       {:error, :business_foreign_ownership_count, changeset}
+                    {:error, :business_industry, %Changeset{} = changeset, %{}} ->
+                      {:error, :business_industry, changeset}
                     {:error, :business_number_employee, %Changeset{} = changeset, %{}} ->
                       {:error, :business_number_employee, changeset}
                     {:error, :business_total_revenue, %Changeset{} = changeset, %{}} ->
@@ -8967,6 +9330,11 @@ defmodule Core.Services do
                         %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                       Repo.insert(business_foreign_ownership_count_changeset)
                     end)
+                    |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                      business_industry_changeset =
+                        %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                      Repo.insert(business_industry_changeset)
+                    end)
                     |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                       business_llc_type_changeset =
                         %BusinessLlcType{business_tax_return_id: business_tax_return.id}
@@ -8993,6 +9361,7 @@ defmodule Core.Services do
                         business_entity_type: business_entity_type,
                         business_foreign_account_count: business_foreign_account_count,
                         business_foreign_ownership_count: business_foreign_ownership_count,
+                        business_industry: business_industry,
                         business_llc_type: business_llc_type,
                         business_number_employee: business_number_employee,
                         business_tax_returns: business_tax_return,
@@ -9003,6 +9372,7 @@ defmodule Core.Services do
                           business_entity_type,
                           business_foreign_account_count,
                           business_foreign_ownership_count,
+                          business_industry,
                           business_llc_type,
                           business_number_employee,
                           business_tax_return,
@@ -9015,6 +9385,8 @@ defmodule Core.Services do
                       {:error, :business_foreign_account_count, changeset}
                     {:error, :business_foreign_ownership_count, %Changeset{} = changeset, %{}} ->
                       {:error, :business_foreign_ownership_count, changeset}
+                    {:error, :business_industry, %Changeset{} = changeset, %{}} ->
+                      {:error, :business_industry, changeset}
                     {:error, :business_number_employee, %Changeset{} = changeset, %{}} ->
                       {:error, :business_number_employee, changeset}
                     {:error, :business_total_revenue, %Changeset{} = changeset, %{}} ->

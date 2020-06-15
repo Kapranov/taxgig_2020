@@ -15,6 +15,7 @@ defmodule Core.Services.MatchValueRelate do
     match_for_book_keeping_payroll: integer,
     match_for_book_keeping_type_client: integer,
     match_for_business_enity_type: integer,
+    match_for_business_industry: integer,
     match_for_business_number_of_employee: integer,
     match_for_business_total_revenue: integer,
     match_for_individual_employment_status: integer,
@@ -62,6 +63,7 @@ defmodule Core.Services.MatchValueRelate do
     match_for_book_keeping_payroll
     match_for_book_keeping_type_client
     match_for_business_enity_type
+    match_for_business_industry
     match_for_business_number_of_employee
     match_for_business_total_revenue
     match_for_individual_employment_status
@@ -109,6 +111,7 @@ defmodule Core.Services.MatchValueRelate do
     match_for_book_keeping_payroll
     match_for_book_keeping_type_client
     match_for_business_enity_type
+    match_for_business_industry
     match_for_business_number_of_employee
     match_for_business_total_revenue
     match_for_individual_employment_status
@@ -156,6 +159,7 @@ defmodule Core.Services.MatchValueRelate do
     field :match_for_book_keeping_payroll, :integer
     field :match_for_book_keeping_type_client, :integer
     field :match_for_business_enity_type, :integer
+    field :match_for_business_industry, :integer
     field :match_for_business_number_of_employee, :integer
     field :match_for_business_total_revenue, :integer
     field :match_for_individual_employment_status, :integer
@@ -212,6 +216,7 @@ defmodule Core.Services.MatchValueRelate do
     |> validate_number(:match_for_book_keeping_payroll, greater_than_or_equal_to: @zero)
     |> validate_number(:match_for_book_keeping_type_client, greater_than_or_equal_to: @zero)
     |> validate_number(:match_for_business_enity_type, greater_than_or_equal_to: @zero)
+    |> validate_number(:match_for_business_industry, greater_than_or_equal_to: @zero)
     |> validate_number(:match_for_business_number_of_employee, greater_than_or_equal_to: @zero)
     |> validate_number(:match_for_business_total_revenue, greater_than_or_equal_to: @zero)
     |> validate_number(:match_for_individual_employment_status, greater_than_or_equal_to: @zero)

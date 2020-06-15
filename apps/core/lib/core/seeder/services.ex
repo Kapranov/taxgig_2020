@@ -18,6 +18,7 @@ defmodule Core.Seeder.Services do
     Services.BusinessEntityType,
     Services.BusinessForeignAccountCount,
     Services.BusinessForeignOwnershipCount,
+    Services.BusinessIndustry,
     Services.BusinessLlcType,
     Services.BusinessNumberEmployee,
     Services.BusinessTaxReturn,
@@ -50,6 +51,7 @@ defmodule Core.Seeder.Services do
     Repo.delete_all(BusinessEntityType)
     Repo.delete_all(BusinessForeignAccountCount)
     Repo.delete_all(BusinessForeignOwnershipCount)
+    Repo.delete_all(BusinessIndustry)
     Repo.delete_all(BusinessLlcType)
     Repo.delete_all(BusinessNumberEmployee)
     Repo.delete_all(BusinessTaxReturn)
@@ -84,6 +86,7 @@ defmodule Core.Seeder.Services do
     seed_business_entity_type()
     seed_business_foreign_account_count()
     seed_business_foreign_ownership_count()
+    seed_business_industry()
     seed_business_llc_type()
     seed_business_number_employee()
     seed_business_total_revenue()
@@ -116,6 +119,7 @@ defmodule Core.Seeder.Services do
         match_for_book_keeping_payroll:                     20,
         match_for_book_keeping_type_client:                 60,
         match_for_business_enity_type:                      50,
+        match_for_business_industry:                        10,
         match_for_business_number_of_employee:              20,
         match_for_business_total_revenue:                   20,
         match_for_individual_employment_status:             35,
@@ -1045,6 +1049,59 @@ defmodule Core.Seeder.Services do
           Repo.insert!(%BusinessForeignOwnershipCount{
             business_tax_return_id: btr7,
             name: random_name_foreign_ownership_count()
+          })
+        ]
+    end
+  end
+
+  @spec seed_business_industry() :: Ecto.Schema.t()
+  defp seed_business_industry do
+    business_tax_returns_ids =
+      Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
+
+    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+      {
+        Enum.at(business_tax_returns_ids, 0),
+        Enum.at(business_tax_returns_ids, 1),
+        Enum.at(business_tax_returns_ids, 2),
+        Enum.at(business_tax_returns_ids, 3),
+        Enum.at(business_tax_returns_ids, 4),
+        Enum.at(business_tax_returns_ids, 5),
+        Enum.at(business_tax_returns_ids, 6)
+      }
+
+    case Repo.aggregate(BusinessIndustry, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%BusinessIndustry{
+            business_tax_return_id: btr1,
+            name: random_name_industry()
+          }),
+          Repo.insert!(%BusinessIndustry{
+            business_tax_return_id: btr2,
+            name: random_name_industry()
+          }),
+          Repo.insert!(%BusinessIndustry{
+            business_tax_return_id: btr3,
+            name: random_name_industry()
+          }),
+          Repo.insert!(%BusinessIndustry{
+            business_tax_return_id: btr4,
+            name: random_name_industry()
+          }),
+          Repo.insert!(%BusinessIndustry{
+            business_tax_return_id: btr5,
+            name: random_name_industry()
+          }),
+          Repo.insert!(%BusinessIndustry{
+            business_tax_return_id: btr6,
+            name: random_name_industry()
+          }),
+          Repo.insert!(%BusinessIndustry{
+            business_tax_return_id: btr7,
+            name: random_name_industry()
           })
         ]
     end
@@ -2091,6 +2148,38 @@ defmodule Core.Seeder.Services do
       "1",
       "2-5",
       "5+"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_industry() :: String.t()
+  defp random_name_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
     ]
 
     Enum.random(names)

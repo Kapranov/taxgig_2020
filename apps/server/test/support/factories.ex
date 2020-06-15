@@ -29,6 +29,7 @@ defmodule Server.Factory do
     Services.BusinessEntityType,
     Services.BusinessForeignAccountCount,
     Services.BusinessForeignOwnershipCount,
+    Services.BusinessIndustry,
     Services.BusinessLlcType,
     Services.BusinessNumberEmployee,
     Services.BusinessTaxReturn,
@@ -273,6 +274,7 @@ defmodule Server.Factory do
       match_for_book_keeping_payroll:                     20,
       match_for_book_keeping_type_client:                 60,
       match_for_business_enity_type:                      50,
+      match_for_business_industry:                        10,
       match_for_business_number_of_employee:              20,
       match_for_business_total_revenue:                   20,
       match_for_individual_employment_status:             35,
@@ -685,6 +687,30 @@ defmodule Server.Factory do
   @spec pro_business_foreign_ownership_count_factory() :: BusinessForeignOwnershipCount.t()
   def pro_business_foreign_ownership_count_factory do
     %BusinessForeignOwnershipCount{
+      business_tax_returns: build(:pro_business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  @spec business_industry_factory() :: BusinessIndustry.t()
+  def business_industry_factory do
+    %BusinessIndustry{
+      business_tax_returns: build(:business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  @spec tp_business_industry_factory() :: BusinessIndustry.t()
+  def tp_business_industry_factory do
+    %BusinessIndustry{
+      business_tax_returns: build(:tp_business_tax_return),
+      name: Lorem.word()
+    }
+  end
+
+  @spec pro_business_industry_factory() :: BusinessIndustry.t()
+  def pro_business_industry_factory do
+    %BusinessIndustry{
       business_tax_returns: build(:pro_business_tax_return),
       name: Lorem.word()
     }

@@ -13,6 +13,7 @@ defmodule Core.Services.BusinessTaxReturn do
     Services.BusinessEntityType,
     Services.BusinessForeignAccountCount,
     Services.BusinessForeignOwnershipCount,
+    Services.BusinessIndustry,
     Services.BusinessLlcType,
     Services.BusinessNumberEmployee,
     Services.BusinessTotalRevenue,
@@ -147,6 +148,7 @@ defmodule Core.Services.BusinessTaxReturn do
     has_many :business_entity_types, BusinessEntityType
     has_many :business_foreign_account_counts, BusinessForeignAccountCount
     has_many :business_foreign_ownership_counts, BusinessForeignOwnershipCount
+    has_many :business_industries, BusinessIndustry
     has_many :business_llc_types, BusinessLlcType
     has_many :business_number_employees, BusinessNumberEmployee
     has_many :business_total_revenues, BusinessTotalRevenue
