@@ -25,6 +25,7 @@ defmodule Core.Services.IndividualTaxReturn do
   @type message() :: atom()
 
   @type t :: %__MODULE__{
+    deadline: DateTime.t(),
     foreign_account: boolean,
     foreign_account_limit: boolean,
     foreign_financial_interest: boolean,
@@ -89,6 +90,7 @@ defmodule Core.Services.IndividualTaxReturn do
   )a
 
   schema "individual_tax_returns" do
+    field :deadline, :utc_datetime_usec
     field :foreign_account, :boolean
     field :foreign_account_limit, :boolean
     field :foreign_financial_interest, :boolean

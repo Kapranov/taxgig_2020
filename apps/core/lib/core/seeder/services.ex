@@ -780,6 +780,7 @@ defmodule Core.Seeder.Services do
             accounting_software: random_boolean(),
             capital_asset_sale: random_boolean(),
             church_hospital: random_boolean(),
+            deadline: DateTime.utc_now(),
             dispose_asset: random_boolean(),
             dispose_property: random_boolean(),
             educational_facility: random_boolean(),
@@ -817,6 +818,7 @@ defmodule Core.Seeder.Services do
             accounting_software: random_boolean(),
             capital_asset_sale: random_boolean(),
             church_hospital: random_boolean(),
+            deadline: DateTime.utc_now(),
             dispose_asset: random_boolean(),
             dispose_property: random_boolean(),
             educational_facility: random_boolean(),
@@ -854,6 +856,7 @@ defmodule Core.Seeder.Services do
             accounting_software: random_boolean(),
             capital_asset_sale: random_boolean(),
             church_hospital: random_boolean(),
+            deadline: DateTime.utc_now(),
             dispose_asset: random_boolean(),
             dispose_property: random_boolean(),
             educational_facility: random_boolean(),
@@ -1421,6 +1424,7 @@ defmodule Core.Seeder.Services do
             user_id: tp3.id
           }),
           Repo.insert!(%IndividualTaxReturn{
+            deadline: DateTime.utc_now(),
             foreign_account: false,
             home_owner: true,
             living_abroad: false,
@@ -1436,6 +1440,7 @@ defmodule Core.Seeder.Services do
             user_id: pro1.id
           }),
           Repo.insert!(%IndividualTaxReturn{
+            deadline: DateTime.utc_now(),
             foreign_account: true,
             home_owner: true,
             living_abroad: true,
@@ -1456,6 +1461,7 @@ defmodule Core.Seeder.Services do
             user_id: pro2.id
           }),
           Repo.insert!(%IndividualTaxReturn{
+            deadline: DateTime.utc_now(),
             foreign_account: false,
             home_owner: true,
             living_abroad: false,

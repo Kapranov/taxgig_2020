@@ -30,6 +30,7 @@ defmodule Core.Services.BusinessTaxReturn do
     accounting_software: boolean,
     capital_asset_sale: boolean,
     church_hospital: boolean,
+    deadline: DateTime.t(),
     dispose_asset: boolean,
     dispose_property: boolean,
     educational_facility: boolean,
@@ -69,6 +70,7 @@ defmodule Core.Services.BusinessTaxReturn do
     accounting_software
     capital_asset_sale
     church_hospital
+    deadline
     dispose_asset
     dispose_property
     educational_facility
@@ -112,6 +114,7 @@ defmodule Core.Services.BusinessTaxReturn do
     field :accounting_software, :boolean
     field :capital_asset_sale, :boolean
     field :church_hospital, :boolean
+    field :deadline, :utc_datetime_usec
     field :dispose_asset, :boolean
     field :dispose_property, :boolean
     field :educational_facility, :boolean
