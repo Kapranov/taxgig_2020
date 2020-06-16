@@ -50,7 +50,7 @@ defmodule Core.Services.BusinessIndustryTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
 
       params = %{
-        name: "some name",
+        name: ["some name"],
         business_tax_return_id: business_tax_return.id
       }
 
@@ -61,7 +61,7 @@ defmodule Core.Services.BusinessIndustryTest do
       [loaded] =
         Repo.preload([business_industry], [:business_tax_returns])
 
-      assert loaded.name                                                     == "some name"
+      assert loaded.name                                                     == ["some name"]
       assert loaded.inserted_at                                              == business_industry.inserted_at
       assert loaded.updated_at                                               == business_industry.updated_at
       assert loaded.business_tax_return_id                                   == business_tax_return.id
@@ -78,12 +78,12 @@ defmodule Core.Services.BusinessIndustryTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
       struct = insert(:tp_business_industry, business_tax_returns: business_tax_return)
 
-      params = %{name: "updated some name", business_tax_return_id: business_tax_return.id}
+      params = %{name: ["updated some name"], business_tax_return_id: business_tax_return.id}
 
       assert {:ok, %BusinessIndustry{} = updated} =
         Services.update_business_industry(struct, params)
 
-      assert updated.name                                                     == "updated some name"
+      assert updated.name                                                     == ["updated some name"]
       assert updated.inserted_at                                              == struct.inserted_at
       assert updated.updated_at                                               == struct.updated_at
       assert updated.business_tax_return_id                                   == business_tax_return.id
@@ -162,7 +162,7 @@ defmodule Core.Services.BusinessIndustryTest do
       business_tax_return = insert(:pro_business_tax_return, user: user)
 
       params = %{
-        name: "some name",
+        name: ["some name"],
         business_tax_return_id: business_tax_return.id
       }
 
@@ -173,7 +173,7 @@ defmodule Core.Services.BusinessIndustryTest do
       [loaded] =
         Repo.preload([business_industry], [:business_tax_returns])
 
-      assert loaded.name                                                     == "some name"
+      assert loaded.name                                                     == ["some name"]
       assert loaded.inserted_at                                              == business_industry.inserted_at
       assert loaded.updated_at                                               == business_industry.updated_at
       assert loaded.business_tax_return_id                                   == business_tax_return.id
@@ -190,12 +190,12 @@ defmodule Core.Services.BusinessIndustryTest do
       business_tax_return = insert(:pro_business_tax_return, user: user)
       struct = insert(:pro_business_industry, business_tax_returns: business_tax_return)
 
-      params = %{name: "updated some name", business_tax_return_id: business_tax_return.id}
+      params = %{name: ["updated some name"], business_tax_return_id: business_tax_return.id}
 
       assert {:ok, %BusinessIndustry{} = updated} =
         Services.update_business_industry(struct, params)
 
-      assert updated.name                                                     == "updated some name"
+      assert updated.name                                                     == ["updated some name"]
       assert updated.inserted_at                                              == struct.inserted_at
       assert updated.updated_at                                               == struct.updated_at
       assert updated.business_tax_return_id                                   == business_tax_return.id

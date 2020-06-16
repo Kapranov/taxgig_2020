@@ -20,6 +20,7 @@ defmodule Core.Accounts do
     Services.BusinessEntityType,
     Services.BusinessForeignAccountCount,
     Services.BusinessForeignOwnershipCount,
+    Services.BusinessIndustry,
     Services.BusinessLlcType,
     Services.BusinessNumberEmployee,
     Services.BusinessTaxReturn,
@@ -28,6 +29,7 @@ defmodule Core.Accounts do
     Services.IndividualEmploymentStatus,
     Services.IndividualFilingStatus,
     Services.IndividualForeignAccountCount,
+    Services.IndividualIndustry,
     Services.IndividualItemizedDeduction,
     Services.IndividualStockTransactionCount,
     Services.IndividualTaxReturn,
@@ -101,6 +103,7 @@ defmodule Core.Accounts do
     :match_for_individual_filing_status              => 0,
     :match_for_individual_foreign_account            => 0,
     :match_for_individual_home_owner                 => 0,
+    :match_for_individual_industry                   => 0,
     :match_for_individual_itemized_deduction         => 0,
     :match_for_individual_living_abroad              => 0,
     :match_for_individual_non_resident_earning       => 0,
@@ -432,6 +435,10 @@ defmodule Core.Accounts do
                 business_foreign_ownership_count_changeset = %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                 Repo.insert(business_foreign_ownership_count_changeset)
               end)
+              |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                business_industry_changeset = %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_industry_changeset)
+              end)
               |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                 business_llc_type_changeset = %BusinessLlcType{business_tax_return_id: business_tax_return.id}
                 Repo.insert(business_llc_type_changeset)
@@ -463,6 +470,10 @@ defmodule Core.Accounts do
               |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
                 individual_foreign_account_count_changeset = %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
                 Repo.insert(individual_foreign_account_count_changeset)
+              end)
+              |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_industry_changeset = %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_industry_changeset)
               end)
               |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                 individual_itemized_deduction_changeset = %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
@@ -549,6 +560,10 @@ defmodule Core.Accounts do
                 business_foreign_ownership_count_changeset = %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                 Repo.insert(business_foreign_ownership_count_changeset)
               end)
+              |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                business_industry_changeset = %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_industry_changeset)
+              end)
               |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                 business_llc_type_changeset = %BusinessLlcType{business_tax_return_id: business_tax_return.id}
                 Repo.insert(business_llc_type_changeset)
@@ -580,6 +595,10 @@ defmodule Core.Accounts do
               |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
                 individual_foreign_account_count_changeset = %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
                 Repo.insert(individual_foreign_account_count_changeset)
+              end)
+              |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_industry_changeset = %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_industry_changeset)
               end)
               |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                 individual_itemized_deduction_changeset = %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
@@ -664,6 +683,10 @@ defmodule Core.Accounts do
                 business_foreign_ownership_count_changeset = %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                 Repo.insert(business_foreign_ownership_count_changeset)
               end)
+              |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                business_industry_changeset = %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_industry_changeset)
+              end)
               |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                 business_llc_type_changeset = %BusinessLlcType{business_tax_return_id: business_tax_return.id}
                 Repo.insert(business_llc_type_changeset)
@@ -695,6 +718,10 @@ defmodule Core.Accounts do
               |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
                 individual_foreign_account_count_changeset = %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
                 Repo.insert(individual_foreign_account_count_changeset)
+              end)
+              |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_industry_changeset = %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_industry_changeset)
               end)
               |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                 individual_itemized_deduction_changeset = %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
@@ -780,6 +807,10 @@ defmodule Core.Accounts do
                 business_foreign_ownership_count_changeset = %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
                 Repo.insert(business_foreign_ownership_count_changeset)
               end)
+              |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                business_industry_changeset = %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                Repo.insert(business_industry_changeset)
+              end)
               |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
                 business_llc_type_changeset = %BusinessLlcType{business_tax_return_id: business_tax_return.id}
                 Repo.insert(business_llc_type_changeset)
@@ -811,6 +842,10 @@ defmodule Core.Accounts do
               |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
                 individual_foreign_account_count_changeset = %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
                 Repo.insert(individual_foreign_account_count_changeset)
+              end)
+              |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                individual_industry_changeset = %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                Repo.insert(individual_industry_changeset)
               end)
               |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                 individual_itemized_deduction_changeset = %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}

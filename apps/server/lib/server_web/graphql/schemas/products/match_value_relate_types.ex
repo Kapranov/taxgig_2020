@@ -25,6 +25,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.MatchValueRelateTypes do
     field :match_for_individual_filing_status, non_null(:integer)
     field :match_for_individual_foreign_account, non_null(:integer)
     field :match_for_individual_home_owner, non_null(:integer)
+    field :match_for_individual_industry, non_null(:integer)
     field :match_for_individual_itemized_deduction, non_null(:integer)
     field :match_for_individual_living_abroad, non_null(:integer)
     field :match_for_individual_non_resident_earning, non_null(:integer)
@@ -75,6 +76,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.MatchValueRelateTypes do
     field :match_for_individual_filing_status, :integer
     field :match_for_individual_foreign_account, :integer
     field :match_for_individual_home_owner, :integer
+    field :match_for_individual_industry, :integer
     field :match_for_individual_itemized_deduction, :integer
     field :match_for_individual_living_abroad, :integer
     field :match_for_individual_non_resident_earning, :integer
@@ -147,6 +149,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.MatchValueRelateTypes do
       arg :match_for_individual_filing_status, non_null(:integer)
       arg :match_for_individual_foreign_account, non_null(:integer)
       arg :match_for_individual_home_owner, non_null(:integer)
+      arg :match_for_individual_industry, non_null(:integer)
       arg :match_for_individual_itemized_deduction, non_null(:integer)
       arg :match_for_individual_living_abroad, non_null(:integer)
       arg :match_for_individual_non_resident_earning, non_null(:integer)

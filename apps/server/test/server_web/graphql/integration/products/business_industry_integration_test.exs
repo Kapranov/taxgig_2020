@@ -334,7 +334,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
       mutation = """
       {
         createBusinessIndustry(
-          name: "some name",
+          name: ["some name"],
           business_tax_returnId: \"#{business_tax_return.id}\"
         ) {
           id
@@ -362,7 +362,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
 
       assert created["business_tax_returns"]["id"] == business_tax_return.id
       assert created["inserted_at"]                == formatting_time(DateTime.truncate(Timex.now(), :second))
-      assert created["name"]                       == "some name"
+      assert created["name"]                       == ["some name"]
       assert created["updated_at"]                 == formatting_time(DateTime.truncate(Timex.now(), :second))
     end
 
@@ -373,7 +373,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
       mutation = """
       {
         createBusinessIndustry(
-          name: "some name",
+          name: ["some name"],
           business_tax_returnId: \"#{business_tax_return.id}\"
         ) {
           id
@@ -401,7 +401,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
 
       assert created["business_tax_returns"]["id"] == business_tax_return.id
       assert created["inserted_at"]                == formatting_time(DateTime.truncate(Timex.now(), :second))
-      assert created["name"]                       == "some name"
+      assert created["name"]                       == ["some name"]
       assert created["updated_at"]                 == formatting_time(DateTime.truncate(Timex.now(), :second))
     end
   end
@@ -417,7 +417,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
         updateBusinessIndustry(
           id: \"#{business_industry.id}\",
           business_industry: {
-            name: "updated some name",
+            name: ["updated some name"],
             business_tax_returnId: \"#{business_tax_return.id}\"
           }
         )
@@ -450,7 +450,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
       assert updated["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
       assert updated["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
       assert updated["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert updated["name"]                                == "updated some name"
+      assert updated["name"]                                == ["updated some name"]
     end
 
     it "updated specific BusinessTaxReturn by role's Pro" do
@@ -464,7 +464,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
           id: \"#{business_industry.id}\",
           business_industry: {
             business_tax_returnId: \"#{business_tax_return.id}\"
-            name: "updated some name",
+            name: ["updated some name"],
           }
         )
         {
@@ -496,7 +496,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
       assert updated["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
       assert updated["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
       assert updated["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert updated["name"]                                == "updated some name"
+      assert updated["name"]                                == ["updated some name"]
       assert updated["updated_at"]                          == formatting_time(business_industry.updated_at)
     end
   end

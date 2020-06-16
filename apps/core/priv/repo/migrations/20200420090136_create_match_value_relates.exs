@@ -18,6 +18,7 @@ defmodule Core.Repo.Migrations.CreateMatchValueRelates do
       add :match_for_individual_filing_status, :integer, default: 0
       add :match_for_individual_foreign_account, :integer, default: 0
       add :match_for_individual_home_owner, :integer, default: 0
+      add :match_for_individual_industry, :integer, default: 0
       add :match_for_individual_itemized_deduction, :integer, default: 0
       add :match_for_individual_living_abroad, :integer, default: 0
       add :match_for_individual_non_resident_earning, :integer, default: 0

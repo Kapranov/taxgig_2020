@@ -38,6 +38,7 @@ defmodule Core.Factory do
     Services.IndividualEmploymentStatus,
     Services.IndividualFilingStatus,
     Services.IndividualForeignAccountCount,
+    Services.IndividualIndustry,
     Services.IndividualItemizedDeduction,
     Services.IndividualStockTransactionCount,
     Services.IndividualTaxReturn,
@@ -294,6 +295,7 @@ defmodule Core.Factory do
       match_for_individual_filing_status:                 50,
       match_for_individual_foreign_account:               20,
       match_for_individual_home_owner:                    20,
+      match_for_individual_industry:                      10,
       match_for_individual_itemized_deduction:            20,
       match_for_individual_living_abroad:                 20,
       match_for_individual_non_resident_earning:          20,
@@ -675,21 +677,21 @@ defmodule Core.Factory do
   def business_industry_factory do
     %BusinessIndustry{
       business_tax_returns: build(:business_tax_return),
-      name: Lorem.word()
+      name: random_name_for_tp_industry()
     }
   end
 
   def tp_business_industry_factory do
     %BusinessIndustry{
       business_tax_returns: build(:tp_business_tax_return),
-      name: Lorem.word()
+      name: random_name_for_tp_industry()
     }
   end
 
   def pro_business_industry_factory do
     %BusinessIndustry{
       business_tax_returns: build(:pro_business_tax_return),
-      name: Lorem.word()
+      name: random_name_for_pro_industry()
     }
   end
 
@@ -937,6 +939,30 @@ defmodule Core.Factory do
     %IndividualForeignAccountCount{
       individual_tax_returns: build(:pro_individual_tax_return),
       name: random_name_foreign_account_count()
+    }
+  end
+
+  @spec individual_industry_factory() :: IndividualIndustry.t()
+  def individual_industry_factory do
+    %IndividualIndustry{
+      individual_tax_returns: build(:individual_tax_return),
+      name: random_name_for_tp_industry()
+    }
+  end
+
+  @spec tp_individual_industry_factory() :: IndividualIndustry.t()
+  def tp_individual_industry_factory do
+    %IndividualIndustry{
+      individual_tax_returns: build(:tp_individual_tax_return),
+      name: random_name_for_tp_industry()
+    }
+  end
+
+  @spec pro_individual_industry_factory() :: IndividualIndustry.t()
+  def pro_individual_industry_factory do
+    %IndividualIndustry{
+      individual_tax_returns: build(:pro_individual_tax_return),
+      name: random_name_for_pro_industry()
     }
   end
 

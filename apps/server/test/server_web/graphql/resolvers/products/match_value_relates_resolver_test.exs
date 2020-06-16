@@ -20,12 +20,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolverTest do
       assert List.first(data).match_for_book_keeping_payroll                  == match_value_relate.match_for_book_keeping_payroll
       assert List.first(data).match_for_book_keeping_type_client              == match_value_relate.match_for_book_keeping_type_client
       assert List.first(data).match_for_business_enity_type                   == match_value_relate.match_for_business_enity_type
+      assert List.first(data).match_for_business_industry                     == match_value_relate.match_for_business_industry
       assert List.first(data).match_for_business_number_of_employee           == match_value_relate.match_for_business_number_of_employee
       assert List.first(data).match_for_business_total_revenue                == match_value_relate.match_for_business_total_revenue
       assert List.first(data).match_for_individual_employment_status          == match_value_relate.match_for_individual_employment_status
       assert List.first(data).match_for_individual_filing_status              == match_value_relate.match_for_individual_filing_status
       assert List.first(data).match_for_individual_foreign_account            == match_value_relate.match_for_individual_foreign_account
       assert List.first(data).match_for_individual_home_owner                 == match_value_relate.match_for_individual_home_owner
+      assert List.first(data).match_for_individual_industry                   == match_value_relate.match_for_individual_industry
       assert List.first(data).match_for_individual_itemized_deduction         == match_value_relate.match_for_individual_itemized_deduction
       assert List.first(data).match_for_individual_living_abroad              == match_value_relate.match_for_individual_living_abroad
       assert List.first(data).match_for_individual_non_resident_earning       == match_value_relate.match_for_individual_non_resident_earning
@@ -78,12 +80,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolverTest do
       assert found.match_for_book_keeping_payroll                  == match_value_relate.match_for_book_keeping_payroll
       assert found.match_for_book_keeping_type_client              == match_value_relate.match_for_book_keeping_type_client
       assert found.match_for_business_enity_type                   == match_value_relate.match_for_business_enity_type
+      assert found.match_for_business_industry                     == match_value_relate.match_for_business_industry
       assert found.match_for_business_number_of_employee           == match_value_relate.match_for_business_number_of_employee
       assert found.match_for_business_total_revenue                == match_value_relate.match_for_business_total_revenue
       assert found.match_for_individual_employment_status          == match_value_relate.match_for_individual_employment_status
       assert found.match_for_individual_filing_status              == match_value_relate.match_for_individual_filing_status
       assert found.match_for_individual_foreign_account            == match_value_relate.match_for_individual_foreign_account
       assert found.match_for_individual_home_owner                 == match_value_relate.match_for_individual_home_owner
+      assert found.match_for_individual_industry                   == match_value_relate.match_for_individual_industry
       assert found.match_for_individual_itemized_deduction         == match_value_relate.match_for_individual_itemized_deduction
       assert found.match_for_individual_living_abroad              == match_value_relate.match_for_individual_living_abroad
       assert found.match_for_individual_non_resident_earning       == match_value_relate.match_for_individual_non_resident_earning
@@ -154,12 +158,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolverTest do
       assert found.match_for_book_keeping_payroll                  == match_value_relate.match_for_book_keeping_payroll
       assert found.match_for_book_keeping_type_client              == match_value_relate.match_for_book_keeping_type_client
       assert found.match_for_business_enity_type                   == match_value_relate.match_for_business_enity_type
+      assert found.match_for_business_industry                     == match_value_relate.match_for_business_industry
       assert found.match_for_business_number_of_employee           == match_value_relate.match_for_business_number_of_employee
       assert found.match_for_business_total_revenue                == match_value_relate.match_for_business_total_revenue
       assert found.match_for_individual_employment_status          == match_value_relate.match_for_individual_employment_status
       assert found.match_for_individual_filing_status              == match_value_relate.match_for_individual_filing_status
       assert found.match_for_individual_foreign_account            == match_value_relate.match_for_individual_foreign_account
       assert found.match_for_individual_home_owner                 == match_value_relate.match_for_individual_home_owner
+      assert found.match_for_individual_industry                   == match_value_relate.match_for_individual_industry
       assert found.match_for_individual_itemized_deduction         == match_value_relate.match_for_individual_itemized_deduction
       assert found.match_for_individual_living_abroad              == match_value_relate.match_for_individual_living_abroad
       assert found.match_for_individual_non_resident_earning       == match_value_relate.match_for_individual_non_resident_earning
@@ -225,12 +231,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolverTest do
         match_for_book_keeping_payroll:                     12,
         match_for_book_keeping_type_client:                 12,
         match_for_business_enity_type:                      12,
+        match_for_business_industry:                        12,
         match_for_business_number_of_employee:              12,
         match_for_business_total_revenue:                   12,
         match_for_individual_employment_status:             12,
         match_for_individual_filing_status:                 12,
         match_for_individual_foreign_account:               12,
         match_for_individual_home_owner:                    12,
+        match_for_individual_industry:                      12,
         match_for_individual_itemized_deduction:            12,
         match_for_individual_living_abroad:                 12,
         match_for_individual_non_resident_earning:          12,
@@ -275,12 +283,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolverTest do
       assert created.match_for_book_keeping_payroll                  == 12
       assert created.match_for_book_keeping_type_client              == 12
       assert created.match_for_business_enity_type                   == 12
+      assert created.match_for_business_industry                     == 12
       assert created.match_for_business_number_of_employee           == 12
       assert created.match_for_business_total_revenue                == 12
       assert created.match_for_individual_employment_status          == 12
       assert created.match_for_individual_filing_status              == 12
       assert created.match_for_individual_foreign_account            == 12
       assert created.match_for_individual_home_owner                 == 12
+      assert created.match_for_individual_industry                   == 12
       assert created.match_for_individual_itemized_deduction         == 12
       assert created.match_for_individual_living_abroad              == 12
       assert created.match_for_individual_non_resident_earning       == 12
@@ -330,12 +340,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolverTest do
           [field: :match_for_book_keeping_payroll, message: "Can't be blank"],
           [field: :match_for_book_keeping_type_client, message: "Can't be blank"],
           [field: :match_for_business_enity_type, message: "Can't be blank"],
+          [field: :match_for_business_industry, message: "Can't be blank"],
           [field: :match_for_business_number_of_employee, message: "Can't be blank"],
           [field: :match_for_business_total_revenue, message: "Can't be blank"],
           [field: :match_for_individual_employment_status, message: "Can't be blank"],
           [field: :match_for_individual_filing_status, message: "Can't be blank"],
           [field: :match_for_individual_foreign_account, message: "Can't be blank"],
           [field: :match_for_individual_home_owner, message: "Can't be blank"],
+          [field: :match_for_individual_industry, message: "Can't be blank"],
           [field: :match_for_individual_itemized_deduction, message: "Can't be blank"],
           [field: :match_for_individual_living_abroad, message: "Can't be blank"],
           [field: :match_for_individual_non_resident_earning, message: "Can't be blank"],
@@ -384,12 +396,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolverTest do
         match_for_book_keeping_payroll:                     13,
         match_for_book_keeping_type_client:                 13,
         match_for_business_enity_type:                      13,
+        match_for_business_industry:                        13,
         match_for_business_number_of_employee:              13,
         match_for_business_total_revenue:                   13,
         match_for_individual_employment_status:             13,
         match_for_individual_filing_status:                 13,
         match_for_individual_foreign_account:               13,
         match_for_individual_home_owner:                    13,
+        match_for_individual_industry:                      13,
         match_for_individual_itemized_deduction:            13,
         match_for_individual_living_abroad:                 13,
         match_for_individual_non_resident_earning:          13,
@@ -436,12 +450,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolverTest do
       assert updated.match_for_book_keeping_payroll                  == 13
       assert updated.match_for_book_keeping_type_client              == 13
       assert updated.match_for_business_enity_type                   == 13
+      assert updated.match_for_business_industry                     == 13
       assert updated.match_for_business_number_of_employee           == 13
       assert updated.match_for_business_total_revenue                == 13
       assert updated.match_for_individual_employment_status          == 13
       assert updated.match_for_individual_filing_status              == 13
       assert updated.match_for_individual_foreign_account            == 13
       assert updated.match_for_individual_home_owner                 == 13
+      assert updated.match_for_individual_industry                   == 13
       assert updated.match_for_individual_itemized_deduction         == 13
       assert updated.match_for_individual_living_abroad              == 13
       assert updated.match_for_individual_non_resident_earning       == 13

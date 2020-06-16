@@ -26,7 +26,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingIndustryTypes do
     field :id, non_null(:string)
     field :book_keepings, :book_keeping, resolve: dataloader(Data)
     field :inserted_at, non_null(:datetime)
-    field :name, :string
+    field :name, list_of(:string)
     field :updated_at, non_null(:datetime)
   end
 
@@ -35,7 +35,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingIndustryTypes do
     field :id, non_null(:string)
     field :book_keepings, :book_keeping, resolve: dataloader(Data)
     field :inserted_at, non_null(:datetime)
-    field :name, :string
+    field :name, list_of(:string)
     field :updated_at, non_null(:datetime)
   end
 
@@ -48,13 +48,13 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingIndustryTypes do
   @desc "The book keeping industry via role's Tp update with params"
   input_object :update_tp_book_keeping_industry_params do
     field :book_keeping_id, non_null(:string)
-    field :name, :string
+    field :name, list_of(:string)
   end
 
   @desc "The book keeping industry via role's Pro update with params"
   input_object :update_pro_book_keeping_industry_params do
     field :book_keeping_id, non_null(:string)
-    field :name, :string
+    field :name, list_of(:string)
   end
 
   object :book_keeping_industry_queries do
@@ -130,7 +130,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingIndustryTypes do
     @desc "Create the book keeping industry via role's Tp"
     field :create_tp_book_keeping_industry, :tp_book_keeping_industry do
       arg :book_keeping_id, non_null(:string)
-      arg :name, :string
+      arg :name, list_of(:string)
 
       resolve &BookKeepingIndustriesResolver.create/3
     end
@@ -138,7 +138,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingIndustryTypes do
     @desc "Create the book keeping industry via role's Pro"
     field :create_pro_book_keeping_industry, :pro_book_keeping_industry do
       arg :book_keeping_id, non_null(:string)
-      arg :name, :string
+      arg :name, list_of(:string)
 
       resolve &BookKeepingIndustriesResolver.create/3
     end

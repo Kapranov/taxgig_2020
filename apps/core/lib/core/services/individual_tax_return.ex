@@ -13,6 +13,7 @@ defmodule Core.Services.IndividualTaxReturn do
     Services.IndividualEmploymentStatus,
     Services.IndividualFilingStatus,
     Services.IndividualForeignAccountCount,
+    Services.IndividualIndustry,
     Services.IndividualItemizedDeduction,
     Services.IndividualStockTransactionCount,
     Services.IndividualTaxReturn,
@@ -121,6 +122,7 @@ defmodule Core.Services.IndividualTaxReturn do
     has_many :individual_employment_statuses, IndividualEmploymentStatus
     has_many :individual_filing_statuses, IndividualFilingStatus
     has_many :individual_foreign_account_counts, IndividualForeignAccountCount
+    has_many :individual_industries, IndividualIndustry
     has_many :individual_itemized_deductions, IndividualItemizedDeduction
     has_many :individual_stock_transaction_counts, IndividualStockTransactionCount
 

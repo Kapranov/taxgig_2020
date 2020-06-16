@@ -16,7 +16,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxIndustryTypes do
   object :sale_tax_industry do
     field :id, non_null(:string)
     field :inserted_at, non_null(:datetime)
-    field :name, :string
+    field :name, list_of(:string)
     field :sale_taxes, :sale_tax, resolve: dataloader(Data)
     field :updated_at, non_null(:datetime)
   end
@@ -25,7 +25,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxIndustryTypes do
   object :tp_sale_tax_industry do
     field :id, non_null(:string)
     field :inserted_at, non_null(:datetime)
-    field :name, :string
+    field :name, list_of(:string)
     field :sale_taxes, :sale_tax, resolve: dataloader(Data)
     field :updated_at, non_null(:datetime)
   end
@@ -34,26 +34,26 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxIndustryTypes do
   object :pro_sale_tax_industry do
     field :id, non_null(:string)
     field :inserted_at, non_null(:datetime)
-    field :name, :string
+    field :name, list_of(:string)
     field :sale_taxes, :sale_tax, resolve: dataloader(Data)
     field :updated_at, non_null(:datetime)
   end
 
   @desc "The sale tax industry update via params"
   input_object :update_sale_tax_industry_params do
-    field :name, :string
+    field :name, list_of(:string)
     field :sale_tax_id, non_null(:string)
   end
 
   @desc "The sale tax industry via role's Tp update with params"
   input_object :update_tp_sale_tax_industry_params do
-    field :name, :string
+    field :name, list_of(:string)
     field :sale_tax_id, non_null(:string)
   end
 
   @desc "The sale tax industry via role's Pro update with params"
   input_object :update_pro_sale_tax_industry_params do
-    field :name, :string
+    field :name, list_of(:string)
     field :price, :integer
     field :sale_tax_id, non_null(:string)
   end
@@ -122,7 +122,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxIndustryTypes do
   object :sale_tax_industry_mutations do
     @desc "Create the sale tax industry"
     field :create_sale_tax_industry, :sale_tax_industry do
-      arg :name, :string
+      arg :name, list_of(:string)
       arg :sale_tax_id, non_null(:string)
 
       resolve &SaleTaxIndustriesResolver.create/3
@@ -130,7 +130,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxIndustryTypes do
 
     @desc "Create the sale tax industry via role's Tp"
     field :create_tp_sale_tax_industry, :tp_sale_tax_industry do
-      arg :name, :string
+      arg :name, list_of(:string)
       arg :sale_tax_id, non_null(:string)
 
       resolve &SaleTaxIndustriesResolver.create/3
@@ -138,7 +138,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxIndustryTypes do
 
     @desc "Create the sale tax industry via role's Pro"
     field :create_pro_sale_tax_industry, :pro_sale_tax_industry do
-      arg :name, :string
+      arg :name, list_of(:string)
       arg :sale_tax_id, non_null(:string)
 
       resolve &SaleTaxIndustriesResolver.create/3

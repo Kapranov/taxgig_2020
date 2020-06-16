@@ -38,6 +38,7 @@ defmodule Server.Factory do
     Services.IndividualEmploymentStatus,
     Services.IndividualFilingStatus,
     Services.IndividualForeignAccountCount,
+    Services.IndividualIndustry,
     Services.IndividualItemizedDeduction,
     Services.IndividualStockTransactionCount,
     Services.IndividualTaxReturn,
@@ -281,6 +282,7 @@ defmodule Server.Factory do
       match_for_individual_filing_status:                 50,
       match_for_individual_foreign_account:               20,
       match_for_individual_home_owner:                    20,
+      match_for_individual_industry:                      10,
       match_for_individual_itemized_deduction:            20,
       match_for_individual_living_abroad:                 20,
       match_for_individual_non_resident_earning:          20,
@@ -696,7 +698,7 @@ defmodule Server.Factory do
   def business_industry_factory do
     %BusinessIndustry{
       business_tax_returns: build(:business_tax_return),
-      name: Lorem.word()
+      name: random_name_industry()
     }
   end
 
@@ -704,7 +706,7 @@ defmodule Server.Factory do
   def tp_business_industry_factory do
     %BusinessIndustry{
       business_tax_returns: build(:tp_business_tax_return),
-      name: Lorem.word()
+      name: random_name_for_tp_industry()
     }
   end
 
@@ -712,7 +714,7 @@ defmodule Server.Factory do
   def pro_business_industry_factory do
     %BusinessIndustry{
       business_tax_returns: build(:pro_business_tax_return),
-      name: Lorem.word()
+      name: random_name_for_pro_industry()
     }
   end
 
@@ -973,6 +975,30 @@ defmodule Server.Factory do
     }
   end
 
+  @spec individual_industry_factory() :: IndividualIndustry.t()
+  def individual_industry_factory do
+    %IndividualIndustry{
+      individual_tax_returns: build(:individual_tax_return),
+      name: random_name_industry()
+    }
+  end
+
+  @spec tp_individual_industry_factory() :: IndividualIndustry.t()
+  def tp_individual_industry_factory do
+    %IndividualIndustry{
+      individual_tax_returns: build(:tp_business_tax_return),
+      name: random_name_for_tp_industry()
+    }
+  end
+
+  @spec pro_individual_industry_factory() :: IndividualIndustry.t()
+  def pro_individual_industry_factory do
+    %IndividualIndustry{
+      individual_tax_returns: build(:pro_individual_tax_return),
+      name: random_name_for_pro_industry()
+    }
+  end
+
   @spec individual_itemized_deduction_factory() :: IndividualItemizedDeduction.t()
   def individual_itemized_deduction_factory do
     %IndividualItemizedDeduction{
@@ -1081,7 +1107,7 @@ defmodule Server.Factory do
   @spec sale_tax_industry_factory() :: SaleTaxIndustry.t()
   def sale_tax_industry_factory do
     %SaleTaxIndustry{
-      name: random_name_tax_industry(),
+      name: random_name_industry(),
       sale_taxes: build(:sale_tax)
     }
   end
@@ -1089,7 +1115,7 @@ defmodule Server.Factory do
   @spec tp_sale_tax_industry_factory() :: SaleTaxIndustry.t()
   def tp_sale_tax_industry_factory do
     %SaleTaxIndustry{
-      name: random_name_for_tp_tax_industry(),
+      name: random_name_for_tp_industry(),
       sale_taxes: build(:tp_sale_tax)
     }
   end
@@ -1097,7 +1123,7 @@ defmodule Server.Factory do
   @spec pro_sale_tax_industry_factory() :: SaleTaxIndustry.t()
   def pro_sale_tax_industry_factory do
     %SaleTaxIndustry{
-      name: random_name_for_pro_tax_industry(),
+      name: random_name_for_pro_industry(),
       sale_taxes: build(:pro_sale_tax)
     }
   end
@@ -1447,125 +1473,5 @@ defmodule Server.Factory do
     ]
 
     Enum.random(names)
-  end
-
-  @spec random_name_tax_industry :: String.t
-  defp random_name_tax_industry do
-    names = [
-      "Agriculture/Farming",
-      "Automotive Sales/Repair",
-      "Computer/Software/IT",
-      "Construction/Contractors",
-      "Consulting",
-      "Design/Architecture/Engineering",
-      "Education",
-      "Financial Services",
-      "Government Agency",
-      "Hospitality",
-      "Insurance/Brokerage",
-      "Lawn Care/Landscaping",
-      "Legal",
-      "Manufacturing",
-      "Medical/Dental/Health Services",
-      "Non Profit",
-      "Property Management",
-      "Real Estate/Development",
-      "Restaurant/Bar",
-      "Retail",
-      "Salon/Beauty",
-      "Telecommunications",
-      "Transportation",
-      "Wholesale Distribution"
-    ]
-
-    numbers = 1..24
-    number = Enum.random(numbers)
-
-    result =
-      for i <- 1..number, i > 0 do
-        Enum.random(names)
-      end
-
-    Enum.uniq(result)
-  end
-
-  @spec random_name_for_tp_tax_industry :: String.t
-  defp random_name_for_tp_tax_industry do
-    names = [
-      "Agriculture/Farming",
-      "Automotive Sales/Repair",
-      "Computer/Software/IT",
-      "Construction/Contractors",
-      "Consulting",
-      "Design/Architecture/Engineering",
-      "Education",
-      "Financial Services",
-      "Government Agency",
-      "Hospitality",
-      "Insurance/Brokerage",
-      "Lawn Care/Landscaping",
-      "Legal",
-      "Manufacturing",
-      "Medical/Dental/Health Services",
-      "Non Profit",
-      "Property Management",
-      "Real Estate/Development",
-      "Restaurant/Bar",
-      "Retail",
-      "Salon/Beauty",
-      "Telecommunications",
-      "Transportation",
-      "Wholesale Distribution"
-    ]
-
-    numbers = 0..1
-    number = Enum.random(numbers)
-
-    result =
-      for i <- 1..number, i > 0 do
-        Enum.random(names)
-      end
-
-    Enum.uniq(result)
-  end
-
-  @spec random_name_for_pro_tax_industry :: String.t
-  defp random_name_for_pro_tax_industry do
-    names = [
-      "Agriculture/Farming",
-      "Automotive Sales/Repair",
-      "Computer/Software/IT",
-      "Construction/Contractors",
-      "Consulting",
-      "Design/Architecture/Engineering",
-      "Education",
-      "Financial Services",
-      "Government Agency",
-      "Hospitality",
-      "Insurance/Brokerage",
-      "Lawn Care/Landscaping",
-      "Legal",
-      "Manufacturing",
-      "Medical/Dental/Health Services",
-      "Non Profit",
-      "Property Management",
-      "Real Estate/Development",
-      "Restaurant/Bar",
-      "Retail",
-      "Salon/Beauty",
-      "Telecommunications",
-      "Transportation",
-      "Wholesale Distribution"
-    ]
-
-    numbers = 1..24
-    number = Enum.random(numbers)
-
-    result =
-      for i <- 1..number, i > 0 do
-        Enum.random(names)
-      end
-
-    Enum.uniq(result)
   end
 end

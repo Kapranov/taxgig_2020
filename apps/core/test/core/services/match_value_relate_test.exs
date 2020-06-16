@@ -29,12 +29,14 @@ defmodule Core.Services.MatchValueRelateTest do
         match_for_book_keeping_payroll:                    42,
         match_for_book_keeping_type_client:                42,
         match_for_business_enity_type:                     42,
+        match_for_business_industry:                       42,
         match_for_business_number_of_employee:             42,
         match_for_business_total_revenue:                  42,
         match_for_individual_employment_status:            42,
         match_for_individual_filing_status:                42,
         match_for_individual_foreign_account:              42,
         match_for_individual_home_owner:                   42,
+        match_for_individual_industry:                     42,
         match_for_individual_itemized_deduction:           42,
         match_for_individual_living_abroad:                42,
         match_for_individual_non_resident_earning:         42,
@@ -78,12 +80,14 @@ defmodule Core.Services.MatchValueRelateTest do
       assert match_value_relate.match_for_book_keeping_payroll                  == 42
       assert match_value_relate.match_for_book_keeping_type_client              == 42
       assert match_value_relate.match_for_business_enity_type                   == 42
+      assert match_value_relate.match_for_business_industry                     == 42
       assert match_value_relate.match_for_business_number_of_employee           == 42
       assert match_value_relate.match_for_business_total_revenue                == 42
       assert match_value_relate.match_for_individual_employment_status          == 42
       assert match_value_relate.match_for_individual_filing_status              == 42
       assert match_value_relate.match_for_individual_foreign_account            == 42
       assert match_value_relate.match_for_individual_home_owner                 == 42
+      assert match_value_relate.match_for_individual_industry                   == 42
       assert match_value_relate.match_for_individual_itemized_deduction         == 42
       assert match_value_relate.match_for_individual_living_abroad              == 42
       assert match_value_relate.match_for_individual_non_resident_earning       == 42
@@ -128,12 +132,14 @@ defmodule Core.Services.MatchValueRelateTest do
         match_for_book_keeping_payroll:                    42,
         match_for_book_keeping_type_client:                42,
         match_for_business_enity_type:                     42,
+        match_for_business_industry:                       42,
         match_for_business_number_of_employee:             42,
         match_for_business_total_revenue:                  42,
         match_for_individual_employment_status:            42,
         match_for_individual_filing_status:                42,
         match_for_individual_foreign_account:              42,
         match_for_individual_home_owner:                   42,
+        match_for_individual_industry:                     42,
         match_for_individual_itemized_deduction:           42,
         match_for_individual_living_abroad:                42,
         match_for_individual_non_resident_earning:         42,
@@ -182,12 +188,14 @@ defmodule Core.Services.MatchValueRelateTest do
         match_for_book_keeping_payroll:                  nil,
         match_for_book_keeping_type_client:              nil,
         match_for_business_enity_type:                   nil,
+        match_for_business_industry:                     nil,
         match_for_business_number_of_employee:           nil,
         match_for_business_total_revenue:                nil,
         match_for_individual_employment_status:          nil,
         match_for_individual_filing_status:              nil,
         match_for_individual_foreign_account:            nil,
         match_for_individual_home_owner:                 nil,
+        match_for_individual_industry:                   nil,
         match_for_individual_itemized_deduction:         nil,
         match_for_individual_living_abroad:              nil,
         match_for_individual_non_resident_earning:       nil,
@@ -236,12 +244,14 @@ defmodule Core.Services.MatchValueRelateTest do
         match_for_book_keeping_payroll:                    43,
         match_for_book_keeping_type_client:                43,
         match_for_business_enity_type:                     43,
+        match_for_business_industry:                       43,
         match_for_business_number_of_employee:             43,
         match_for_business_total_revenue:                  43,
         match_for_individual_employment_status:            43,
         match_for_individual_filing_status:                43,
         match_for_individual_foreign_account:              43,
         match_for_individual_home_owner:                   43,
+        match_for_individual_industry:                     43,
         match_for_individual_itemized_deduction:           43,
         match_for_individual_living_abroad:                43,
         match_for_individual_non_resident_earning:         43,
@@ -286,12 +296,14 @@ defmodule Core.Services.MatchValueRelateTest do
       assert updated_match_value_relate.match_for_book_keeping_payroll                  == 43
       assert updated_match_value_relate.match_for_book_keeping_type_client              == 43
       assert updated_match_value_relate.match_for_business_enity_type                   == 43
+      assert updated_match_value_relate.match_for_business_industry                     == 43
       assert updated_match_value_relate.match_for_business_number_of_employee           == 43
       assert updated_match_value_relate.match_for_business_total_revenue                == 43
       assert updated_match_value_relate.match_for_individual_employment_status          == 43
       assert updated_match_value_relate.match_for_individual_filing_status              == 43
       assert updated_match_value_relate.match_for_individual_foreign_account            == 43
       assert updated_match_value_relate.match_for_individual_home_owner                 == 43
+      assert updated_match_value_relate.match_for_individual_industry                   == 43
       assert updated_match_value_relate.match_for_individual_itemized_deduction         == 43
       assert updated_match_value_relate.match_for_individual_living_abroad              == 43
       assert updated_match_value_relate.match_for_individual_non_resident_earning       == 43
@@ -337,12 +349,14 @@ defmodule Core.Services.MatchValueRelateTest do
         match_for_book_keeping_payroll:                  nil,
         match_for_book_keeping_type_client:              nil,
         match_for_business_enity_type:                   nil,
+        match_for_business_industry:                     nil,
         match_for_business_number_of_employee:           nil,
         match_for_business_total_revenue:                nil,
         match_for_individual_employment_status:          nil,
         match_for_individual_filing_status:              nil,
         match_for_individual_foreign_account:            nil,
         match_for_individual_home_owner:                 nil,
+        match_for_individual_industry:                   nil,
         match_for_individual_itemized_deduction:         nil,
         match_for_individual_living_abroad:              nil,
         match_for_individual_non_resident_earning:       nil,

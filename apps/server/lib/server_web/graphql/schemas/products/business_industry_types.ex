@@ -17,7 +17,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessIndustryTypes do
     field :id, non_null(:string)
     field :business_tax_returns, :business_tax_return, resolve: dataloader(Data)
     field :inserted_at, non_null(:datetime)
-    field :name, :string
+    field :name, list_of(:string)
     field :updated_at, non_null(:datetime)
   end
 
@@ -26,7 +26,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessIndustryTypes do
     field :id, non_null(:string)
     field :business_tax_returns, :business_tax_return, resolve: dataloader(Data)
     field :inserted_at, non_null(:datetime)
-    field :name, :string
+    field :name, list_of(:string)
     field :updated_at, non_null(:datetime)
   end
 
@@ -35,26 +35,26 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessIndustryTypes do
     field :id, non_null(:string)
     field :business_tax_returns, :business_tax_return, resolve: dataloader(Data)
     field :inserted_at, non_null(:datetime)
-    field :name, :string
+    field :name, list_of(:string)
     field :updated_at, non_null(:datetime)
   end
 
   @desc "The business industry update via params"
   input_object :update_business_industry_params do
     field :business_tax_return_id, non_null(:string)
-    field :name, :string
+    field :name, list_of(:string)
   end
 
   @desc "The business industry via role's Tp update with params"
   input_object :update_tp_business_industry_params do
     field :business_tax_return_id, non_null(:string)
-    field :name, :string
+    field :name, list_of(:string)
   end
 
   @desc "The business industry via role's Pro update with params"
   input_object :update_pro_business_industry_params do
     field :business_tax_return_id, non_null(:string)
-    field :name, :string
+    field :name, list_of(:string)
   end
 
   object :business_industry_queries do
@@ -122,7 +122,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessIndustryTypes do
     @desc "Create the business industry"
     field :create_business_industry, :business_industry do
       arg :business_tax_return_id, non_null(:string)
-      arg :name, :string
+      arg :name, list_of(:string)
 
       resolve &BusinessIndustriesResolver.create/3
     end
@@ -130,7 +130,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessIndustryTypes do
     @desc "Create the business industry via role's Tp"
     field :create_tp_business_industry, :tp_business_industry do
       arg :business_tax_return_id, non_null(:string)
-      arg :name, :string
+      arg :name, list_of(:string)
 
       resolve &BusinessIndustriesResolver.create/3
     end
@@ -138,7 +138,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessIndustryTypes do
     @desc "Create the business industry via role's Pro"
     field :create_pro_business_industry, :pro_business_industry do
       arg :business_tax_return_id, non_null(:string)
-      arg :name, :string
+      arg :name, list_of(:string)
 
       resolve &BusinessIndustriesResolver.create/3
     end

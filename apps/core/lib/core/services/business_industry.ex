@@ -25,7 +25,7 @@ defmodule Core.Services.BusinessIndustry do
   )a
 
   schema "business_industries" do
-    field :name, :string
+    field :name, {:array, :string}
 
     belongs_to :business_tax_returns, BusinessTaxReturn,
       foreign_key: :business_tax_return_id, type: FlakeId.Ecto.CompatType, references: :id

@@ -28,6 +28,7 @@ defmodule Core.Services do
     Services.IndividualEmploymentStatus,
     Services.IndividualFilingStatus,
     Services.IndividualForeignAccountCount,
+    Services.IndividualIndustry,
     Services.IndividualItemizedDeduction,
     Services.IndividualStockTransactionCount,
     Services.IndividualTaxReturn,
@@ -57,6 +58,7 @@ defmodule Core.Services do
     :match_for_individual_filing_status              => 0,
     :match_for_individual_foreign_account            => 0,
     :match_for_individual_home_owner                 => 0,
+    :match_for_individual_industry                   => 0,
     :match_for_individual_itemized_deduction         => 0,
     :match_for_individual_living_abroad              => 0,
     :match_for_individual_non_resident_earning       => 0,
@@ -4354,6 +4356,26 @@ defmodule Core.Services do
   end
 
   @doc """
+  Gets a single business_industry.
+
+  Raises `Ecto.NoResultsError` if the BusinessIndustry type does not exist.
+
+  ## Examples
+
+      iex> get_business_industry!(123)
+      %BusinessIndustry{}
+
+      iex> get_business_industry!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_business_industry!(String.t) :: BusinessIndustry.t() | error_tuple()
+  def get_business_industry!(id) do
+    Repo.get!(BusinessIndustry, id)
+    |> Repo.preload([business_tax_returns: [:user]])
+  end
+
+  @doc """
   Creates a business_industry.
 
   ## Examples
@@ -4616,26 +4638,6 @@ defmodule Core.Services do
   @spec list_business_llc_type() :: [BusinessLlcType.t()]
   def list_business_llc_type do
     Repo.all(BusinessLlcType)
-    |> Repo.preload([business_tax_returns: [:user]])
-  end
-
-  @doc """
-  Gets a single business_industry.
-
-  Raises `Ecto.NoResultsError` if the BusinessIndustry type does not exist.
-
-  ## Examples
-
-      iex> get_business_industry!(123)
-      %BusinessIndustry{}
-
-      iex> get_business_industry!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  @spec get_business_industry!(String.t) :: BusinessIndustry.t() | error_tuple()
-  def get_business_industry!(id) do
-    Repo.get!(BusinessIndustry, id)
     |> Repo.preload([business_tax_returns: [:user]])
   end
 
@@ -5907,6 +5909,11 @@ defmodule Core.Services do
                         %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
                       Repo.insert(individual_foreign_account_count_changeset)
                     end)
+                    |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                      individual_industry_changeset =
+                        %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                      Repo.insert(individual_industry_changeset)
+                    end)
                     |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                       individual_itemized_deduction_changeset =
                         %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
@@ -5948,6 +5955,11 @@ defmodule Core.Services do
                       individual_foreign_account_count_changeset =
                         %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
                       Repo.insert(individual_foreign_account_count_changeset)
+                    end)
+                    |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                      individual_industry_changeset =
+                        %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                      Repo.insert(individual_industry_changeset)
                     end)
                     |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                       individual_itemized_deduction_changeset =
@@ -5998,6 +6010,11 @@ defmodule Core.Services do
                     %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
                   Repo.insert(individual_foreign_account_count_changeset)
                 end)
+                |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_industry_changeset =
+                    %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_industry_changeset)
+                end)
                 |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                   individual_itemized_deduction_changeset =
                     %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
@@ -6039,6 +6056,11 @@ defmodule Core.Services do
                   individual_foreign_account_count_changeset =
                     %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
                   Repo.insert(individual_foreign_account_count_changeset)
+                end)
+                |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_industry_changeset =
+                    %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_industry_changeset)
                 end)
                 |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                   individual_itemized_deduction_changeset =
@@ -6134,6 +6156,11 @@ defmodule Core.Services do
                         %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
                       Repo.insert(individual_filing_status_changeset)
                     end)
+                    |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                      individual_industry_changeset =
+                        %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                      Repo.insert(individual_industry_changeset)
+                    end)
                     |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                       individual_itemized_deduction_changeset =
                         %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
@@ -6165,6 +6192,11 @@ defmodule Core.Services do
                       individual_filing_status_changeset =
                         %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
                       Repo.insert(individual_filing_status_changeset)
+                    end)
+                    |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                      individual_industry_changeset =
+                        %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                      Repo.insert(individual_industry_changeset)
                     end)
                     |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                       individual_itemized_deduction_changeset =
@@ -6205,6 +6237,11 @@ defmodule Core.Services do
                     %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
                   Repo.insert(individual_filing_status_changeset)
                 end)
+                |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_industry_changeset =
+                    %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_industry_changeset)
+                end)
                 |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                   individual_itemized_deduction_changeset =
                     %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
@@ -6243,6 +6280,11 @@ defmodule Core.Services do
                       %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
                     Repo.insert(individual_itemized_deduction_changeset)
                   end)
+                  |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                    individual_industry_changeset =
+                      %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                    Repo.insert(individual_industry_changeset)
+                  end)
                   |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
                     individual_stock_transaction_count_changeset =
                       %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
@@ -6255,6 +6297,7 @@ defmodule Core.Services do
                       individual_employment_status: individual_employment_status,
                       individual_filing_status: individual_filing_status,
                       individual_foreign_account_count: individual_foreign_account_count,
+                      individual_industry: individual_industry,
                       individual_itemized_deduction: individual_itemized_deduction,
                       individual_stock_transaction_count: individual_stock_transaction_count
                     }} ->
@@ -6263,6 +6306,7 @@ defmodule Core.Services do
                         individual_employment_status,
                         individual_filing_status,
                         individual_foreign_account_count,
+                        individual_industry,
                         individual_itemized_deduction,
                         individual_stock_transaction_count
                       }
@@ -6274,6 +6318,8 @@ defmodule Core.Services do
                     {:error, :individual_filing_status, changeset}
                   {:error, :individual_foreign_account_count, %Changeset{} = changeset, %{}} ->
                     {:error, :individual_foreign_account_count, changeset}
+                  {:error, :individual_industry, %Changeset{} = changeset, %{}} ->
+                    {:error, :individual_industry, changeset}
                   {:error, :individual_itemized_deduction, %Changeset{} = changeset, %{}} ->
                     {:error, :individual_itemized_deduction, changeset}
                   {:error, :individual_stock_transaction_count, %Changeset{} = changeset, %{}} ->
@@ -7363,6 +7409,292 @@ defmodule Core.Services do
   @spec change_individual_foreign_account_count(IndividualForeignAccountCount.t()) :: Ecto.Changeset.t()
   def change_individual_foreign_account_count(%IndividualForeignAccountCount{} = struct) do
     IndividualForeignAccountCount.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns the list of individual_industries.
+
+  ## Examples
+
+      iex> list_individual_industry()
+      [%IndividualIndustry{}, ...]
+
+  """
+  @spec list_individual_industry() :: [IndividualIndustry.t()]
+  def list_individual_industry do
+    Repo.all(IndividualIndustry)
+    |> Repo.preload([individual_tax_returns: [:user]])
+  end
+
+  @doc """
+  Gets a single individual_industry.
+
+  Raises `Ecto.NoResultsError` if the IndividualIndustry type does not exist.
+
+  ## Examples
+
+      iex> get_individual_industry!(123)
+      %IndividualIndustry{}
+
+      iex> get_individual_industry!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_individual_industry!(String.t) :: IndividualIndustry.t() | error_tuple()
+  def get_individual_industry!(id) do
+    Repo.get!(IndividualIndustry, id)
+    |> Repo.preload([individual_tax_returns: [:user]])
+  end
+
+  @doc """
+  Creates a individual_industry.
+
+  ## Examples
+
+      iex> create_individual_industry(%{field: value})
+      {:ok, %IndividualIndustry{}}
+
+      iex> create_individual_industry(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_individual_industry(%{atom => any}) :: result() | error_tuple()
+  def create_individual_industry(attrs \\ %{}) do
+    individual_tax_return_ids =
+      case attrs.individual_tax_return_id do
+        nil ->
+          nil
+        _ ->
+          Repo.get_by(IndividualTaxReturn, %{id: attrs.individual_tax_return_id})
+      end
+
+    user_id =
+      case individual_tax_return_ids do
+        nil ->
+          nil
+        _ ->
+          individual_tax_return_ids.user_id
+      end
+
+    get_role_by_user =
+      case user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    get_names_by_individual_industry =
+      case attrs.individual_tax_return_id do
+        nil ->
+          nil
+        _ ->
+          Repo.all(
+            from c in IndividualIndustry,
+            where: c.individual_tax_return_id == ^attrs.individual_tax_return_id,
+            select: c.name
+          )
+      end
+
+    query =
+      case attrs.individual_tax_return_id do
+        nil ->
+          nil
+        _ ->
+          from c in IndividualIndustry,
+          where: c.individual_tax_return_id == ^attrs.individual_tax_return_id
+      end
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Ecto.Changeset{}}
+      false ->
+        case Enum.any?(get_names_by_individual_industry, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          false ->
+            case Repo.aggregate(query, :count, :id) do
+              0 ->
+                case Map.keys(attrs) do
+                  [:individual_tax_return_id, :name] ->
+                    %IndividualIndustry{}
+                    |> IndividualIndustry.changeset(attrs)
+                    |> Repo.insert()
+                  _ ->
+                    {:error, %Ecto.Changeset{}}
+                end
+              _ ->
+                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+            end
+        end
+      true ->
+        case Enum.any?(get_names_by_individual_industry, &(&1 == attrs.name)) do
+          true ->
+            {:error, [field: :name, message: "Name already is exist"]}
+          false ->
+            case Map.keys(attrs) do
+              [:individual_tax_return_id, :name] ->
+                %IndividualIndustry{}
+                |> IndividualIndustry.changeset(attrs)
+                |> Repo.insert()
+              _ ->
+                {:error, [field: :id, message: "Please will fill are fields"]}
+            end
+        end
+    end
+  end
+
+  @doc """
+  Updates an individual_industry.
+
+  ## Examples
+
+      iex> update_individual_industry(individual_industry, %{field: new_value})
+      {:ok, %IndividualIndustry{}}
+
+      iex> update_individual_industry(individual_industry, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_individual_industry(IndividualIndustry.t(), %{atom => any}) :: result() | error_tuple()
+  def update_individual_industry(%IndividualIndustry{} = struct, attrs) do
+    individual_tax_return_ids =
+      case struct do
+        nil ->
+          {:error, [field: :id, message: "IndividualIndustry is null"]}
+        _ ->
+          Repo.get_by(IndividualTaxReturn, %{id: struct.individual_tax_return_id})
+      end
+
+    user_id =
+      case individual_tax_return_ids do
+        nil ->
+          {:error, [field: :individual_tax_return_id, message: "IndividualTaxReturn Not Found"]}
+        _ ->
+          individual_tax_return_ids.user_id
+      end
+
+    get_role_by_user =
+      case user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            where: c.id == ^user_id,
+            where: not is_nil(c.role),
+            select: c.role
+          )
+      end
+
+    get_names_by_individual_industry =
+      case struct.name do
+        nil ->
+          nil
+        _ ->
+          Repo.all(
+            from c in IndividualIndustry,
+            where: c.individual_tax_return_id == ^struct.individual_tax_return_id,
+            select: c.name
+          )
+      end
+
+    case get_role_by_user do
+      nil ->
+        {:error, %Ecto.Changeset{}}
+      false ->
+        case get_names_by_individual_industry do
+          nil ->
+            case Map.keys(attrs) do
+              [:name] ->
+                struct
+                |> IndividualIndustry.changeset(attrs)
+                |> Repo.update()
+              _ ->
+                {:error, %Ecto.Changeset{}}
+            end
+          _ ->
+            case Map.keys(attrs) do
+              [:name] ->
+                case Enum.any?(get_names_by_individual_industry, &(&1 == attrs.name)) do
+                  true ->
+                    {:error, [field: :name, message: "Name already is exist"]}
+                  false ->
+                    struct
+                    |> IndividualIndustry.changeset(attrs)
+                    |> Repo.update()
+                end
+              _ ->
+                struct
+                |> IndividualIndustry.changeset(attrs)
+                |> Repo.update()
+            end
+        end
+      true ->
+        case get_names_by_individual_industry do
+          nil ->
+            case Map.keys(attrs) do
+              [:name] ->
+                struct
+                |> IndividualIndustry.changeset(attrs)
+                |> Repo.update()
+              _ ->
+                {:error, %Ecto.Changeset{}}
+            end
+          _ ->
+            case Map.keys(attrs) do
+              [:name] ->
+                case Enum.any?(get_names_by_individual_industry, &(&1 == attrs.name)) do
+                  true ->
+                    {:error, [field: :name, message: "Name already is exist"]}
+                  false ->
+                    struct
+                    |> IndividualIndustry.changeset(attrs)
+                    |> Repo.update()
+                end
+              _ ->
+                struct
+                |> IndividualIndustry.changeset(attrs)
+                |> Repo.update()
+            end
+        end
+    end
+  end
+
+  @doc """
+  Deletes an IndividualIndustry.
+
+  ## Examples
+
+      iex> delete_individual_industry(struct)
+      {:ok, %individual_industry{}}
+
+      iex> delete_individual_industry(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_individual_industry(IndividualIndustry.t()) :: result()
+  def delete_individual_industry(%IndividualIndustry{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking individual_industry changes.
+
+  ## Examples
+
+      iex> change_individual_industry(struct)
+      %Ecto.Changeset{source: %IndividualIndustry{}}
+
+  """
+  @spec change_individual_industry(IndividualIndustry.t()) :: Ecto.Changeset.t()
+  def change_individual_industry(%IndividualIndustry{} = struct) do
+    IndividualIndustry.changeset(struct, %{})
   end
 
   @doc """
@@ -8945,6 +9277,11 @@ defmodule Core.Services do
                           %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
                         Repo.insert(individual_foreign_account_count_changeset)
                       end)
+                      |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                        individual_industry_changeset =
+                          %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                        Repo.insert(individual_industry_changeset)
+                      end)
                       |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                         individual_itemized_deduction_changeset =
                           %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
@@ -9027,6 +9364,11 @@ defmodule Core.Services do
                         individual_foreign_account_count_changeset =
                           %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
                         Repo.insert(individual_foreign_account_count_changeset)
+                      end)
+                      |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                        individual_industry_changeset =
+                          %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                        Repo.insert(individual_industry_changeset)
                       end)
                       |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                         individual_itemized_deduction_changeset =
@@ -9165,6 +9507,11 @@ defmodule Core.Services do
                       %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
                     Repo.insert(individual_foreign_account_count_changeset)
                   end)
+                  |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                    individual_industry_changeset =
+                      %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                    Repo.insert(individual_industry_changeset)
+                  end)
                   |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                     individual_itemized_deduction_changeset =
                       %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
@@ -9294,6 +9641,11 @@ defmodule Core.Services do
                     individual_foreign_account_count_changeset =
                       %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
                     Repo.insert(individual_foreign_account_count_changeset)
+                  end)
+                  |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                    individual_industry_changeset =
+                      %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                    Repo.insert(individual_industry_changeset)
                   end)
                   |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                     individual_itemized_deduction_changeset =

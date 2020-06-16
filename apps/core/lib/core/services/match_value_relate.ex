@@ -22,6 +22,7 @@ defmodule Core.Services.MatchValueRelate do
     match_for_individual_filing_status: integer,
     match_for_individual_foreign_account: integer,
     match_for_individual_home_owner: integer,
+    match_for_individual_industry: integer,
     match_for_individual_itemized_deduction: integer,
     match_for_individual_living_abroad: integer,
     match_for_individual_non_resident_earning: integer,
@@ -70,6 +71,7 @@ defmodule Core.Services.MatchValueRelate do
     match_for_individual_filing_status
     match_for_individual_foreign_account
     match_for_individual_home_owner
+    match_for_individual_industry
     match_for_individual_itemized_deduction
     match_for_individual_living_abroad
     match_for_individual_non_resident_earning
@@ -118,6 +120,7 @@ defmodule Core.Services.MatchValueRelate do
     match_for_individual_filing_status
     match_for_individual_foreign_account
     match_for_individual_home_owner
+    match_for_individual_industry
     match_for_individual_itemized_deduction
     match_for_individual_living_abroad
     match_for_individual_non_resident_earning
@@ -166,6 +169,7 @@ defmodule Core.Services.MatchValueRelate do
     field :match_for_individual_filing_status, :integer
     field :match_for_individual_foreign_account, :integer
     field :match_for_individual_home_owner, :integer
+    field :match_for_individual_industry, :integer
     field :match_for_individual_itemized_deduction, :integer
     field :match_for_individual_living_abroad, :integer
     field :match_for_individual_non_resident_earning, :integer
@@ -223,6 +227,7 @@ defmodule Core.Services.MatchValueRelate do
     |> validate_number(:match_for_individual_filing_status, greater_than_or_equal_to: @zero)
     |> validate_number(:match_for_individual_foreign_account, greater_than_or_equal_to: @zero)
     |> validate_number(:match_for_individual_home_owner, greater_than_or_equal_to: @zero)
+    |> validate_number(:match_for_individual_industry, greater_than_or_equal_to: @zero)
     |> validate_number(:match_for_individual_itemized_deduction, greater_than_or_equal_to: @zero)
     |> validate_number(:match_for_individual_living_abroad, greater_than_or_equal_to: @zero)
     |> validate_number(:match_for_individual_non_resident_earning, greater_than_or_equal_to: @zero)

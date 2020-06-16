@@ -27,6 +27,7 @@ defmodule Core.Seeder.Services do
     Services.IndividualEmploymentStatus,
     Services.IndividualFilingStatus,
     Services.IndividualForeignAccountCount,
+    Services.IndividualIndustry,
     Services.IndividualItemizedDeduction,
     Services.IndividualStockTransactionCount,
     Services.IndividualTaxReturn,
@@ -60,6 +61,7 @@ defmodule Core.Seeder.Services do
     Repo.delete_all(IndividualEmploymentStatus)
     Repo.delete_all(IndividualFilingStatus)
     Repo.delete_all(IndividualForeignAccountCount)
+    Repo.delete_all(IndividualIndustry)
     Repo.delete_all(IndividualItemizedDeduction)
     Repo.delete_all(IndividualStockTransactionCount)
     Repo.delete_all(IndividualTaxReturn)
@@ -94,6 +96,7 @@ defmodule Core.Seeder.Services do
     seed_individual_employment_status()
     seed_individual_filing_status()
     seed_individual_foreign_account_count()
+    seed_individual_industry()
     seed_individual_itemized_deduction()
     seed_individual_stock_transaction_count()
     seed_sale_tax_frequency()
@@ -126,6 +129,7 @@ defmodule Core.Seeder.Services do
         match_for_individual_filing_status:                 50,
         match_for_individual_foreign_account:               20,
         match_for_individual_home_owner:                    20,
+        match_for_individual_industry:                      10,
         match_for_individual_itemized_deduction:            20,
         match_for_individual_living_abroad:                 20,
         match_for_individual_non_resident_earning:          20,
@@ -1080,31 +1084,31 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id: btr1,
-            name: random_name_industry()
+            name: random_name_for_tp_industry()
           }),
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id: btr2,
-            name: random_name_industry()
+            name: random_name_for_tp_industry()
           }),
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id: btr3,
-            name: random_name_industry()
+            name: random_name_for_tp_industry()
           }),
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id: btr4,
-            name: random_name_industry()
+            name: random_name_for_tp_industry()
           }),
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id: btr5,
-            name: random_name_industry()
+            name: random_name_for_pro_tax_industry()
           }),
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id: btr6,
-            name: random_name_industry()
+            name: random_name_for_pro_tax_industry()
           }),
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id: btr7,
-            name: random_name_industry()
+            name: random_name_for_pro_tax_industry()
           })
         ]
     end
@@ -1648,6 +1652,59 @@ defmodule Core.Seeder.Services do
     end
   end
 
+  @spec seed_individual_industry() :: Ecto.Schema.t()
+  defp seed_individual_industry do
+    individual_tax_returns_ids =
+      Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
+
+    {itr1, itr2, itr3, itr4, itr5, itr6, itr7} =
+      {
+        Enum.at(individual_tax_returns_ids, 0),
+        Enum.at(individual_tax_returns_ids, 1),
+        Enum.at(individual_tax_returns_ids, 2),
+        Enum.at(individual_tax_returns_ids, 3),
+        Enum.at(individual_tax_returns_ids, 4),
+        Enum.at(individual_tax_returns_ids, 5),
+        Enum.at(individual_tax_returns_ids, 6)
+      }
+
+    case Repo.aggregate(IndividualIndustry, :count, :id) > 0 do
+      true ->
+        nil
+      false ->
+        [
+          Repo.insert!(%IndividualIndustry{
+            individual_tax_return_id: itr1,
+            name: random_name_for_tp_industry()
+          }),
+          Repo.insert!(%IndividualIndustry{
+            individual_tax_return_id: itr2,
+            name: random_name_for_tp_industry()
+          }),
+          Repo.insert!(%IndividualIndustry{
+            individual_tax_return_id: itr3,
+            name: random_name_for_tp_industry()
+          }),
+          Repo.insert!(%IndividualIndustry{
+            individual_tax_return_id: itr4,
+            name: random_name_for_tp_industry()
+          }),
+          Repo.insert!(%IndividualIndustry{
+            individual_tax_return_id: itr5,
+            name: random_name_for_pro_tax_industry()
+          }),
+          Repo.insert!(%IndividualIndustry{
+            individual_tax_return_id: itr6,
+            name: random_name_for_pro_tax_industry()
+          }),
+          Repo.insert!(%IndividualIndustry{
+            individual_tax_return_id: itr7,
+            name: random_name_for_pro_tax_industry()
+          })
+        ]
+    end
+  end
+
   @spec seed_individual_itemized_deduction() :: Ecto.Schema.t()
   defp seed_individual_itemized_deduction do
     individual_tax_returns_ids =
@@ -2154,38 +2211,6 @@ defmodule Core.Seeder.Services do
       "1",
       "2-5",
       "5+"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_industry() :: String.t()
-  defp random_name_industry do
-    names = [
-      "Agriculture/Farming",
-      "Automotive Sales/Repair",
-      "Computer/Software/IT",
-      "Construction/Contractors",
-      "Consulting",
-      "Design/Architecture/Engineering",
-      "Education",
-      "Financial Services",
-      "Government Agency",
-      "Hospitality",
-      "Insurance/Brokerage",
-      "Lawn Care/Landscaping",
-      "Legal",
-      "Manufacturing",
-      "Medical/Dental/Health Services",
-      "Non Profit",
-      "Property Management",
-      "Real Estate/Development",
-      "Restaurant/Bar",
-      "Retail",
-      "Salon/Beauty",
-      "Telecommunications",
-      "Transportation",
-      "Wholesale Distribution"
     ]
 
     Enum.random(names)
