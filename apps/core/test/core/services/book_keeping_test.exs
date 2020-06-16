@@ -52,6 +52,7 @@ defmodule Core.Services.BookKeepingTest do
       params = %{
         account_count: 22,
         balance_sheet: true,
+        deadline: Date.utc_today(),
         financial_situation: "some financial situation",
         inventory: true,
         inventory_count: 22,
@@ -64,6 +65,7 @@ defmodule Core.Services.BookKeepingTest do
       assert {:ok, %BookKeeping{} = book_keeping} = Services.create_book_keeping(params)
       assert book_keeping.account_count                         == 22
       assert book_keeping.balance_sheet                         == true
+      assert book_keeping.deadline                              == Date.utc_today()
       assert book_keeping.financial_situation                   == "some financial situation"
       assert book_keeping.inventory                             == true
       assert book_keeping.inventory_count                       == 22
@@ -83,6 +85,7 @@ defmodule Core.Services.BookKeepingTest do
       params = %{
         account_count: 22,
         balance_sheet: true,
+        deadline: Date.utc_today(),
         financial_situation: "some financial situation",
         inventory: true,
         inventory_count: 22,
@@ -109,6 +112,7 @@ defmodule Core.Services.BookKeepingTest do
       params = %{
         account_count: 33,
         balance_sheet: false,
+        dealine: Date.utc_today(),
         financial_situation: "updated financial situation",
         inventory: false,
         inventory_count: 33,
@@ -123,6 +127,7 @@ defmodule Core.Services.BookKeepingTest do
 
       assert updated.account_count                              == 33
       assert updated.balance_sheet                              == false
+      assert updated.deadline                                   == Date.utc_today()
       assert updated.financial_situation                        == "updated financial situation"
       assert updated.inventory                                  == false
       assert updated.inventory_count                            == 33
@@ -144,6 +149,7 @@ defmodule Core.Services.BookKeepingTest do
       params = %{
         account_count: 33,
         balance_sheet: false,
+        deadline: Date.utc_today(),
         financial_situation: "updated financial situation",
         inventory: false,
         inventory_count: 33,
@@ -159,6 +165,7 @@ defmodule Core.Services.BookKeepingTest do
 
       assert updated.account_count                              == 33
       assert updated.balance_sheet                              == false
+      assert updated.deadline                                   == Date.utc_today()
       assert updated.financial_situation                        == "updated financial situation"
       assert updated.inventory                                  == false
       assert updated.inventory_count                            == 33
@@ -254,6 +261,7 @@ defmodule Core.Services.BookKeepingTest do
       assert {:ok, %BookKeeping{} = book_keeping} = Services.create_book_keeping(params)
       assert book_keeping.account_count                         == nil
       assert book_keeping.balance_sheet                         == nil
+      assert book_keeping.deadline                              == nil
       assert book_keeping.financial_situation                   == nil
       assert book_keeping.inventory                             == nil
       assert book_keeping.inventory_count                       == nil
@@ -320,6 +328,7 @@ defmodule Core.Services.BookKeepingTest do
 
       assert updated.account_count                              == nil
       assert updated.balance_sheet                              == nil
+      assert updated.deadline                                   == nil
       assert updated.financial_situation                        == nil
       assert updated.inventory                                  == nil
       assert updated.inventory_count                            == nil
@@ -356,6 +365,7 @@ defmodule Core.Services.BookKeepingTest do
 
       assert updated.account_count                              == nil
       assert updated.balance_sheet                              == nil
+      assert updated.deadline                                   == nil
       assert updated.financial_situation                        == nil
       assert updated.inventory                                  == nil
       assert updated.inventory_count                            == nil

@@ -53,6 +53,7 @@ defmodule Core.Services.BusinessTaxReturnTest do
         accounting_software:                       true,
         capital_asset_sale:                        true,
         church_hospital:                           true,
+        deadline:                      Date.utc_today(),
         dispose_asset:                             true,
         dispose_property:                          true,
         educational_facility:                      true,
@@ -99,6 +100,7 @@ defmodule Core.Services.BusinessTaxReturnTest do
       assert loaded.accounting_software        == true
       assert loaded.capital_asset_sale         == true
       assert loaded.church_hospital            == true
+      assert loaded.deadline                   == Date.utc_today()
       assert loaded.dispose_asset              == true
       assert loaded.dispose_property           == true
       assert loaded.educational_facility       == true
@@ -173,6 +175,7 @@ defmodule Core.Services.BusinessTaxReturnTest do
         accounting_software:                       true,
         capital_asset_sale:                        true,
         church_hospital:                           true,
+        deadline:                      Date.utc_today(),
         dispose_asset:                             true,
         dispose_property:                          true,
         educational_facility:                      true,
@@ -225,6 +228,7 @@ defmodule Core.Services.BusinessTaxReturnTest do
         accounting_software:                         false,
         capital_asset_sale:                          false,
         church_hospital:                             false,
+        deadline:                         Date.utc_today(),
         dispose_asset:                               false,
         dispose_property:                            false,
         educational_facility:                        false,
@@ -265,6 +269,7 @@ defmodule Core.Services.BusinessTaxReturnTest do
       assert updated.accounting_software        == false
       assert updated.capital_asset_sale         == false
       assert updated.church_hospital            == false
+      assert updated.deadline                   == Date.utc_today()
       assert updated.dispose_asset              == false
       assert updated.dispose_property           == false
       assert updated.educational_facility       == false
@@ -341,6 +346,7 @@ defmodule Core.Services.BusinessTaxReturnTest do
         accounting_software:                         false,
         capital_asset_sale:                          false,
         church_hospital:                             false,
+        deadline:                         Date.utc_today(),
         dispose_asset:                               false,
         dispose_property:                            false,
         educational_facility:                        false,
@@ -387,6 +393,7 @@ defmodule Core.Services.BusinessTaxReturnTest do
       assert updated.accounting_software        == false
       assert updated.capital_asset_sale         == false
       assert updated.church_hospital            == false
+      assert updated.deadline                   == Date.utc_today()
       assert updated.dispose_asset              == false
       assert updated.dispose_property           == false
       assert updated.educational_facility       == false
@@ -542,6 +549,7 @@ defmodule Core.Services.BusinessTaxReturnTest do
       assert loaded.accounting_software        == nil
       assert loaded.capital_asset_sale         == nil
       assert loaded.church_hospital            == nil
+      assert loaded.deadline                   == nil
       assert loaded.dispose_asset              == nil
       assert loaded.dispose_property           == nil
       assert loaded.educational_facility       == nil
@@ -679,6 +687,7 @@ defmodule Core.Services.BusinessTaxReturnTest do
       assert updated.accounting_software        == nil
       assert updated.capital_asset_sale         == nil
       assert updated.church_hospital            == nil
+      assert updated.deadline                   == nil
       assert updated.dispose_asset              == nil
       assert updated.dispose_property           == nil
       assert updated.educational_facility       == nil
@@ -773,6 +782,7 @@ defmodule Core.Services.BusinessTaxReturnTest do
       assert updated.accounting_software        == nil
       assert updated.capital_asset_sale         == nil
       assert updated.church_hospital            == nil
+      assert updated.deadline                   == nil
       assert updated.dispose_asset              == nil
       assert updated.dispose_property           == nil
       assert updated.educational_facility       == nil

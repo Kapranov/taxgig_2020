@@ -192,6 +192,7 @@ defmodule Core.Seeder.Services do
           Repo.insert!(%BookKeeping{
             account_count: random_integer(),
             balance_sheet: random_boolean(),
+            deadline: Date.utc_today(),
             financial_situation: Lorem.sentence(),
             inventory: random_boolean(),
             inventory_count: random_integer(),
@@ -203,6 +204,7 @@ defmodule Core.Seeder.Services do
           Repo.insert!(%BookKeeping{
             account_count: random_integer(),
             balance_sheet: random_boolean(),
+            deadline: Date.utc_today(),
             financial_situation: Lorem.sentence(),
             inventory: random_boolean(),
             inventory_count: random_integer(),
@@ -214,6 +216,7 @@ defmodule Core.Seeder.Services do
           Repo.insert!(%BookKeeping{
             account_count: random_integer(),
             balance_sheet: random_boolean(),
+            deadline: Date.utc_today(),
             financial_situation: Lorem.sentence(),
             inventory: random_boolean(),
             inventory_count: random_integer(),
@@ -633,6 +636,7 @@ defmodule Core.Seeder.Services do
             accounting_software: random_boolean(),
             capital_asset_sale: random_boolean(),
             church_hospital: random_boolean(),
+            deadline: Date.utc_today(),
             dispose_asset: random_boolean(),
             dispose_property: random_boolean(),
             educational_facility: random_boolean(),
@@ -670,6 +674,7 @@ defmodule Core.Seeder.Services do
             accounting_software: random_boolean(),
             capital_asset_sale: random_boolean(),
             church_hospital: random_boolean(),
+            deadline: Date.utc_today(),
             dispose_asset: random_boolean(),
             dispose_property: random_boolean(),
             educational_facility: random_boolean(),
@@ -708,6 +713,7 @@ defmodule Core.Seeder.Services do
             accounting_software: random_boolean(),
             capital_asset_sale: random_boolean(),
             church_hospital: random_boolean(),
+            deadline: Date.utc_today(),
             dispose_asset: random_boolean(),
             dispose_property: random_boolean(),
             educational_facility: random_boolean(),
@@ -746,6 +752,7 @@ defmodule Core.Seeder.Services do
             accounting_software: random_boolean(),
             capital_asset_sale: random_boolean(),
             church_hospital: random_boolean(),
+            deadline: Date.utc_today(),
             dispose_asset: random_boolean(),
             dispose_property: random_boolean(),
             educational_facility: random_boolean(),
@@ -784,7 +791,6 @@ defmodule Core.Seeder.Services do
             accounting_software: random_boolean(),
             capital_asset_sale: random_boolean(),
             church_hospital: random_boolean(),
-            deadline: DateTime.utc_now(),
             dispose_asset: random_boolean(),
             dispose_property: random_boolean(),
             educational_facility: random_boolean(),
@@ -822,7 +828,6 @@ defmodule Core.Seeder.Services do
             accounting_software: random_boolean(),
             capital_asset_sale: random_boolean(),
             church_hospital: random_boolean(),
-            deadline: DateTime.utc_now(),
             dispose_asset: random_boolean(),
             dispose_property: random_boolean(),
             educational_facility: random_boolean(),
@@ -860,7 +865,6 @@ defmodule Core.Seeder.Services do
             accounting_software: random_boolean(),
             capital_asset_sale: random_boolean(),
             church_hospital: random_boolean(),
-            deadline: DateTime.utc_now(),
             dispose_asset: random_boolean(),
             dispose_property: random_boolean(),
             educational_facility: random_boolean(),
@@ -1353,6 +1357,7 @@ defmodule Core.Seeder.Services do
       false ->
         [
           Repo.insert!(%IndividualTaxReturn{
+            deadline: Date.utc_today(),
             foreign_account: random_boolean(),
             foreign_account_limit: random_boolean(),
             foreign_financial_interest: random_boolean(),
@@ -1371,6 +1376,7 @@ defmodule Core.Seeder.Services do
             user_id: user_id
           }),
           Repo.insert!(%IndividualTaxReturn{
+            deadline: Date.utc_today(),
             foreign_account: true,
             foreign_account_limit: true,
             foreign_financial_interest: true,
@@ -1390,6 +1396,7 @@ defmodule Core.Seeder.Services do
             user_id: tp1.id
           }),
           Repo.insert!(%IndividualTaxReturn{
+            deadline: Date.utc_today(),
             foreign_account: true,
             foreign_account_limit: false,
             foreign_financial_interest: true,
@@ -1409,6 +1416,7 @@ defmodule Core.Seeder.Services do
             user_id: tp2.id
           }),
           Repo.insert!(%IndividualTaxReturn{
+            deadline: Date.utc_today(),
             foreign_account: true,
             foreign_account_limit: false,
             foreign_financial_interest: true,
@@ -1428,7 +1436,6 @@ defmodule Core.Seeder.Services do
             user_id: tp3.id
           }),
           Repo.insert!(%IndividualTaxReturn{
-            deadline: DateTime.utc_now(),
             foreign_account: false,
             home_owner: true,
             living_abroad: false,
@@ -1444,7 +1451,6 @@ defmodule Core.Seeder.Services do
             user_id: pro1.id
           }),
           Repo.insert!(%IndividualTaxReturn{
-            deadline: DateTime.utc_now(),
             foreign_account: true,
             home_owner: true,
             living_abroad: true,
@@ -1465,7 +1471,6 @@ defmodule Core.Seeder.Services do
             user_id: pro2.id
           }),
           Repo.insert!(%IndividualTaxReturn{
-            deadline: DateTime.utc_now(),
             foreign_account: false,
             home_owner: true,
             living_abroad: false,
@@ -1839,18 +1844,21 @@ defmodule Core.Seeder.Services do
             user_id: user_id
           }),
           Repo.insert!(%SaleTax{
+            deadline: Date.utc_today(),
             financial_situation: "some situation",
             sale_tax_count: 5,
             state: ["Alabama", "New York"],
             user_id: tp1.id
           }),
           Repo.insert!(%SaleTax{
+            deadline: Date.utc_today(),
             financial_situation: Lorem.sentence(),
             sale_tax_count: random_integer(),
             state: random_state(),
             user_id: tp2.id
           }),
           Repo.insert!(%SaleTax{
+            deadline: Date.utc_today(),
             financial_situation: Lorem.sentence(),
             sale_tax_count: random_integer(),
             state: random_state(),

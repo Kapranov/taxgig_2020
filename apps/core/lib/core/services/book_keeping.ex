@@ -29,6 +29,7 @@ defmodule Core.Services.BookKeeping do
   @type t :: %__MODULE__{
     account_count: integer,
     balance_sheet: boolean,
+    deadline: DateTime.t(),
     financial_situation: String.t(),
     inventory: boolean,
     inventory_count: integer,
@@ -49,6 +50,7 @@ defmodule Core.Services.BookKeeping do
   @allowed_params ~w(
     account_count
     balance_sheet
+    deadline
     financial_situation
     inventory
     inventory_count
@@ -66,6 +68,7 @@ defmodule Core.Services.BookKeeping do
   schema "book_keepings" do
     field :account_count, :integer
     field :balance_sheet, :boolean
+    field :deadline, :date
     field :financial_situation, :string
     field :inventory, :boolean
     field :inventory_count, :integer

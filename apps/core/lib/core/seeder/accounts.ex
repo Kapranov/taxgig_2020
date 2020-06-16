@@ -23,6 +23,7 @@ defmodule Core.Seeder.Accounts do
   def seed! do
     seed_subscriber()
     seed_user()
+    # seed_multi_user()
     seed_users_languages()
     seed_multi_users_languages()
     admin_permission()
@@ -62,7 +63,7 @@ defmodule Core.Seeder.Accounts do
   end
 
   @spec seed_user() :: [Ecto.Schema.t()]
-  defp seed_user do
+  def seed_user do
     case Repo.aggregate(User, :count, :id) > 0 do
       true ->
         Repo.all(
@@ -79,7 +80,31 @@ defmodule Core.Seeder.Accounts do
             "vk@taxgig.com"
           ]
         )
-      false -> insert_user()
+      false ->
+        insert_user()
+    end
+  end
+
+  @spec seed_multi_user() :: [Ecto.Schema.t()]
+  def seed_multi_user do
+    case Repo.aggregate(User, :count, :id) > 0 do
+      true ->
+        Repo.all(
+          from u in User,
+          where: u.email in [
+            "kapranov.lugatex@gmail.com",
+            "kapranov.pure@gmail.com",
+            "lugatex@yahoo.com",
+            "v.kobzan@gmail.com",
+            "o.puryshev@gmail.com",
+            "vlacho777@gmail.com",
+            "support@taxgig.com",
+            "op@taxgig.com",
+            "vk@taxgig.com"
+          ]
+        )
+      false ->
+        insert_multi_user()
     end
   end
 
@@ -207,7 +232,7 @@ defmodule Core.Seeder.Accounts do
   end
 
   @spec insert_user() :: {:ok, any()} | {:error, any()}
-  defp insert_user do
+  def insert_user do
     [
       Accounts.create_user(%{
         email: "lugatex@yahoo.com",
@@ -253,6 +278,61 @@ defmodule Core.Seeder.Accounts do
         role: true
       }),
       Accounts.create_user(%{
+        email: "vk@taxgig.com",
+        password: "qwerty",
+        password_confirmation: "qwerty",
+        role: true
+      })
+    ]
+  end
+
+  @spec insert_multi_user() :: {:ok, any()} | {:error, any()}
+  def insert_multi_user do
+    [
+      Accounts.create_multi_user(%{
+        email: "lugatex@yahoo.com",
+        password: "qwerty",
+        password_confirmation: "qwerty"
+      }),
+      Accounts.create_multi_user(%{
+        email: "kapranov.lugatex@gmail.com",
+        password: "qwerty",
+        password_confirmation: "qwerty",
+        role: true
+      }),
+      Accounts.create_multi_user(%{
+        email: "kapranov.pure@gmail.com",
+        password: "nES0p04pVklw",
+        password_confirmation: "nES0p04pVklw"
+      }),
+      Accounts.create_multi_user(%{
+        email: "v.kobzan@gmail.com",
+        password: "qwerty",
+        password_confirmation: "qwerty"
+      }),
+      Accounts.create_multi_user(%{
+        email: "o.puryshev@gmail.com",
+        password: "qwerty",
+        password_confirmation: "qwerty"
+      }),
+      Accounts.create_multi_user(%{
+        email: "vlacho777@gmail.com",
+        password: "qwerty",
+        password_confirmation: "qwerty"
+      }),
+      Accounts.create_multi_user(%{
+        email: "support@taxgig.com",
+        password: "qwerty",
+        password_confirmation: "qwerty",
+        role: true
+      }),
+      Accounts.create_multi_user(%{
+        email: "op@taxgig.com",
+        password: "qwerty",
+        password_confirmation: "qwerty",
+        role: true
+      }),
+      Accounts.create_multi_user(%{
         email: "vk@taxgig.com",
         password: "qwerty",
         password_confirmation: "qwerty",

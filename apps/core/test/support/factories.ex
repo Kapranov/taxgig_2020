@@ -350,6 +350,7 @@ defmodule Core.Factory do
     %BookKeeping{
       account_count: random_integer(),
       balance_sheet: random_boolean(),
+      deadline: Date.utc_today(),
       financial_situation: Lorem.sentence(),
       inventory: random_boolean(),
       inventory_count: random_integer(),
@@ -523,7 +524,7 @@ defmodule Core.Factory do
       accounting_software: random_boolean(),
       capital_asset_sale: random_boolean(),
       church_hospital: random_boolean(),
-      deadline: DateTime.utc_now(),
+      deadline: Date.utc_today(),
       dispose_asset: random_boolean(),
       dispose_property: random_boolean(),
       educational_facility: random_boolean(),
@@ -565,6 +566,7 @@ defmodule Core.Factory do
       accounting_software: random_boolean(),
       capital_asset_sale: random_boolean(),
       church_hospital: random_boolean(),
+      deadline: Date.utc_today(),
       dispose_asset: random_boolean(),
       dispose_property: random_boolean(),
       educational_facility: random_boolean(),
@@ -601,7 +603,6 @@ defmodule Core.Factory do
 
   def pro_business_tax_return_factory do
     %BusinessTaxReturn{
-      deadline: DateTime.utc_now(),
       none_expat: random_boolean(),
       price_state: random_integer(),
       price_tax_year: random_integer(),
@@ -786,7 +787,7 @@ defmodule Core.Factory do
   @spec individual_tax_return_factory() :: IndividualTaxReturn.t()
   def individual_tax_return_factory do
     %IndividualTaxReturn{
-      deadline: DateTime.utc_now(),
+      deadline: Date.utc_today(),
       foreign_account: random_boolean(),
       foreign_account_limit: random_boolean(),
       foreign_financial_interest: random_boolean(),
@@ -820,6 +821,7 @@ defmodule Core.Factory do
   @spec tp_individual_tax_return_factory() :: IndividualTaxReturn.t()
   def tp_individual_tax_return_factory do
     %IndividualTaxReturn{
+      deadline: Date.utc_today(),
       foreign_account: random_boolean(),
       foreign_account_limit: random_boolean(),
       foreign_financial_interest: random_boolean(),
@@ -843,7 +845,6 @@ defmodule Core.Factory do
   @spec pro_individual_tax_return_factory() :: IndividualTaxReturn.t()
   def pro_individual_tax_return_factory do
     %IndividualTaxReturn{
-      deadline: DateTime.utc_now(),
       foreign_account: random_boolean(),
       home_owner: random_boolean(),
       living_abroad: random_boolean(),
@@ -1019,6 +1020,7 @@ defmodule Core.Factory do
   @spec sale_tax_factory() :: SaleTax.t()
   def sale_tax_factory do
     %SaleTax{
+      deadline: Date.utc_today(),
       financial_situation: Lorem.sentence(),
       price_sale_tax_count: random_integer(),
       sale_tax_count: random_integer(),
@@ -1030,6 +1032,7 @@ defmodule Core.Factory do
   @spec tp_sale_tax_factory() :: SaleTax.t()
   def tp_sale_tax_factory do
     %SaleTax{
+      deadline: Date.utc_today(),
       financial_situation: Lorem.sentence(),
       sale_tax_count: random_integer(),
       state: ["Alabama", "New York"],

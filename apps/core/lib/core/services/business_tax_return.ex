@@ -114,7 +114,7 @@ defmodule Core.Services.BusinessTaxReturn do
     field :accounting_software, :boolean
     field :capital_asset_sale, :boolean
     field :church_hospital, :boolean
-    field :deadline, :utc_datetime_usec
+    field :deadline, :date
     field :dispose_asset, :boolean
     field :dispose_property, :boolean
     field :educational_facility, :boolean
@@ -1810,6 +1810,102 @@ defmodule Core.Services.BusinessTaxReturn do
     {:error, [field: :id, message: "Can't be blank"]}
   end
 
+  @spec check_match_business_industry(word) :: integer | {:error, nonempty_list(message)}
+  def check_match_business_industry(id) when not is_nil(id) do
+    business_tax_return =
+      Repo.get_by(BusinessTaxReturn, %{id: id})
+
+    user_id =
+      case business_tax_return do
+        nil ->
+          nil
+        _ ->
+          business_tax_return.user_id
+      end
+
+    find_match =
+      Repo.all(MatchValueRelate)
+      |> List.first
+      |> Map.get(:match_for_business_industry)
+
+    get_name_by_business_industry =
+      case user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            join: ct in BusinessTaxReturn,
+            join: cu in BusinessIndustry,
+            where: c.id == ^user_id and ct.user_id == c.id and cu.business_tax_return_id == ct.id,
+            where: c.role == false,
+            where: not is_nil(cu.name),
+            where: cu.name != ^[],
+            select: cu.name
+          )
+      end
+
+    check_pro_business_industry =
+      case get_name_by_business_industry do
+        nil ->
+          nil
+        _ ->
+        Repo.all(
+          from c in BusinessIndustry,
+          join: ct in User,
+          join: cu in BusinessTaxReturn,
+          where: c.business_tax_return_id == cu.id and cu.user_id == ct.id and ct.role == true,
+          where: not is_nil(c.name),
+          where: fragment("? @> ?", c.name, ^get_name_by_business_industry),
+          select: {c.id}
+        )
+      end
+
+    data =
+      case check_pro_business_industry do
+        nil ->
+          nil
+        _ ->
+          for {k} <- check_pro_business_industry, into: %{}, do: {k, find_match}
+      end
+
+    check_business_industry =
+      case user_id do
+        nil ->
+          :error
+        _ ->
+          Repo.one(
+            from c in User,
+            join: ct in BusinessTaxReturn,
+            join: cu in BusinessIndustry,
+            where: c.id == ^user_id and ct.user_id == c.id and cu.business_tax_return_id == ct.id,
+            where: c.role == false,
+            where: cu.name != ^[],
+            where: not is_nil(cu.name),
+            where: not is_nil(cu.business_tax_return_id)
+          )
+      end
+
+    case check_business_industry do
+      nil ->
+        {:error, [field: :id, message: "filled BusinessIndustry's are fields is null and user's role is not correct"]}
+      :error ->
+        {:error, [field: :id, message: "BusinessIndustry Not Found"]}
+      _ ->
+        data
+    end
+  end
+
+  @spec check_match_business_industry(nil) :: {:error, nonempty_list(message)}
+  def check_match_business_industry(id) when is_nil(id) do
+    {:error, [field: :id, message: "Can't be blank"]}
+  end
+
+  @spec check_match_business_industry :: {:error, nonempty_list(message)}
+  def check_match_business_industry do
+    {:error, [field: :id, message: "Can't be blank"]}
+  end
+
   @spec check_value_business_entity_type(word) :: integer | {:error, nonempty_list(message)}
   def check_value_business_entity_type(id) when not is_nil(id) do
     business_tax_return =
@@ -1984,6 +2080,7 @@ defmodule Core.Services.BusinessTaxReturn do
     # check_match_business_total_revenue(id)
     # check_match_business_number_of_employee(id)
     # check_match_business_entity_type(id)
+    # check_match_business_industry(id)
 
     cnt1 =
       case check_match_business_total_revenue(id) do
@@ -2017,8 +2114,20 @@ defmodule Core.Services.BusinessTaxReturn do
           check_match_business_entity_type(id)
       end
 
+    rst2 = Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
+
+    cnt4 =
+      case check_match_business_industry(id) do
+        {:error, [field: :id, message: "filled BusinessIndustry's are fields is null and user's role is not correct"]} ->
+          %{}
+        {:error, [field: :id, message: "BusinessIndustry Not Found"]} ->
+          %{}
+        _ ->
+          check_match_business_industry(id)
+      end
+
     result =
-      Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
+      Map.merge(rst2, cnt4, fn _k, v1, v2 -> v1 + v2 end)
 
     result
   end

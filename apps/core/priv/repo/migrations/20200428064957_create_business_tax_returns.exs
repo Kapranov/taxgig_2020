@@ -8,7 +8,7 @@ defmodule Core.Repo.Migrations.CreateBusinessTaxReturns do
       add :accounting_software, :boolean, default: nil, null: true
       add :capital_asset_sale, :boolean, default: nil, null: true
       add :church_hospital, :boolean, default: nil, null: true
-      add :deadline, :utc_datetime_usec, default: nil, null: true
+      add :deadline, :date, default: nil, null: true
       add :dispose_asset, :boolean, default: nil, null: true
       add :dispose_property, :boolean, default: nil, null: true
       add :educational_facility, :boolean, default: nil, null: true

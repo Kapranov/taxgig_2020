@@ -50,6 +50,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
       user = insert(:tp_user)
 
       params = %{
+        deadline:             Date.utc_today(),
         foreign_account:                  true,
         foreign_account_limit:            true,
         foreign_financial_interest:       true,
@@ -79,6 +80,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
         |> sort_by_id()
 
       assert loaded.id                              == individual_tax_return.id
+      assert loaded.deadline                        == Date.utc_today()
       assert loaded.foreign_account                 == true
       assert loaded.foreign_account_limit           == true
       assert loaded.foreign_financial_interest      == true
@@ -148,6 +150,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
       user = insert(:tp_user)
 
       params = %{
+        deadline:             Date.utc_today(),
         foreign_account:                  true,
         foreign_account_limit:            true,
         foreign_financial_interest:       true,
@@ -182,6 +185,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
 
     test "create_individual_tax_return/1 with invalid data returns error changeset" do
       params = %{
+        deadline:                   nil,
         foreign_account:            nil,
         foreign_account_limit:      nil,
         foreign_financial_interest: nil,
@@ -211,6 +215,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
 
       params = %{
+        deadline:             Date.utc_today(),
         foreign_account:                 false,
         foreign_account_limit:           false,
         foreign_financial_interest:      false,
@@ -239,6 +244,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
         |> sort_by_id()
 
       assert updated.id                              == individual_tax_return.id
+      assert updated.deadline                        == Date.utc_today()
       assert updated.foreign_account                 == false
       assert updated.foreign_account_limit           == false
       assert updated.foreign_financial_interest      == false
@@ -310,6 +316,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
 
       params = %{
+        deadline:             Date.utc_today(),
         foreign_account:                 false,
         foreign_account_limit:           false,
         foreign_financial_interest:      false,
@@ -348,6 +355,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
         |> sort_by_id()
 
       assert updated.id                              == individual_tax_return.id
+      assert updated.deadline                        == Date.utc_today()
       assert updated.foreign_account                 == false
       assert updated.foreign_account_limit           == false
       assert updated.foreign_financial_interest      == false
@@ -515,6 +523,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
         |> sort_by_id()
 
       assert loaded.id                              == individual_tax_return.id
+      assert loaded.deadline                        == nil
       assert loaded.foreign_account                 == true
       assert loaded.foreign_account_limit           == nil
       assert loaded.foreign_financial_interest      == nil
@@ -678,6 +687,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
         |> sort_by_id()
 
       assert updated.id                              == individual_tax_return.id
+      assert updated.deadline                        == nil
       assert updated.foreign_account                 == false
       assert updated.foreign_account_limit           == nil
       assert updated.foreign_financial_interest      == nil
@@ -786,6 +796,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
         |> sort_by_id()
 
       assert updated.id                              == individual_tax_return.id
+      assert updated.deadline                        == nil
       assert updated.foreign_account                 == false
       assert updated.foreign_account_limit           == nil
       assert updated.foreign_financial_interest      == nil

@@ -21,6 +21,7 @@ defmodule Core.Services.SaleTax do
   @type message() :: atom()
 
   @type t :: %__MODULE__{
+    deadline: DateTime.t(),
     financial_situation: String.t(),
     price_sale_tax_count: integer,
     sale_tax_count: integer,
@@ -31,6 +32,7 @@ defmodule Core.Services.SaleTax do
   }
 
   @allowed_params ~w(
+    deadline
     financial_situation
     price_sale_tax_count
     sale_tax_count
@@ -43,6 +45,7 @@ defmodule Core.Services.SaleTax do
   )a
 
   schema "sale_taxes" do
+    field :deadline, :date
     field :financial_situation, :string
     field :price_sale_tax_count, :integer
     field :sale_tax_count, :integer

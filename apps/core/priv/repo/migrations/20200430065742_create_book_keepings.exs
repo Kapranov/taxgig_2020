@@ -7,6 +7,7 @@ defmodule Core.Repo.Migrations.CreateBookKeepings do
       add :active, :boolean, default: true, null: false
       add :account_count, :integer, default: nil, null: true
       add :balance_sheet, :boolean, default: nil, null: true
+      add :deadline, :date, default: nil, null: true
       add :financial_situation, :text, default: nil, null: true
       add :inventory, :boolean, default: nil, null: true
       add :inventory_count, :integer, default: nil, null: true

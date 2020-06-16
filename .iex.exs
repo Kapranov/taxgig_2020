@@ -143,6 +143,22 @@ alias Ptin.{
 
 ######################################################################
 
+tp1_email = "v.kobzan@gmail.com"
+tp2_email = "o.puryshev@gmail.com"
+tp3_email = "vlacho777@gmail.com"
+
+pro1_email = "support@taxgig.com"
+pro2_email = "op@taxgig.com"
+pro3_email = "vk@taxgig.com"
+
+tp1 = User |> Repo.get_by!(email: tp1_email) |> Map.get(:id)
+tp2 = User |> Repo.get_by!(email: tp2_email) |> Map.get(:id)
+tp3 = User |> Repo.get_by!(email: tp3_email) |> Map.get(:id)
+
+pro1 = User |> Repo.get_by!(email: pro1_email) |> Map.get(:id)
+pro2 = User |> Repo.get_by!(email: pro2_email) |> Map.get(:id)
+pro3 = User |> Repo.get_by!(email: pro3_email) |> Map.get(:id)
+
 defmodule LetMeSee do
   @moduledoc """
   Open N+1 in a terminal
@@ -229,9 +245,20 @@ defmodule LetMeSee do
   LetMeSee.signup(args)
   """
 
+  pro1 = User |> Repo.get_by!(email: "support@taxgig.com") |> Map.get(:id)
+  pro2 = User |> Repo.get_by!(email: "op@taxgig.com") |> Map.get(:id)
+  pro3 = User |> Repo.get_by!(email: "vk@taxgig.com") |> Map.get(:id)
+
+  pro1 = User |> Repo.get_by!(email: "support@taxgig.com") |> Map.get(:id)
+  pro2 = User |> Repo.get_by!(email: "op@taxgig.com") |> Map.get(:id)
+  pro3 = User |> Repo.get_by!(email: "vk@taxgig.com") |> Map.get(:id)
+
   if Mix.env == :dev do
+    import Ecto.Query
+
     IO.puts "\n___________________________________________________________________________________________\n\nAaron - This is your self from the past. Remember to reset the DB! mix ecto.reset.core ptin\n___________________________________________________________________________________________\n"
     IO.puts "\n\t\t\tApplication has started in Development ENV\n"
+    IO.puts "\nUsers: tp1: #{tp1}, tp2: #{tp2}, tp3: #{tp3}, pro1: #{pro1}, pro2: #{pro2}, pro3: #{pro3}\n"
     IO.puts ~s"""
           ###############################################################################
           #                                                                             #

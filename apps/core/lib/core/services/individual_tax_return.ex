@@ -57,6 +57,7 @@ defmodule Core.Services.IndividualTaxReturn do
   }
 
   @allowed_params ~w(
+    deadline
     foreign_account
     foreign_account_limit
     foreign_financial_interest
@@ -91,7 +92,7 @@ defmodule Core.Services.IndividualTaxReturn do
   )a
 
   schema "individual_tax_returns" do
-    field :deadline, :utc_datetime_usec
+    field :deadline, :date
     field :foreign_account, :boolean
     field :foreign_account_limit, :boolean
     field :foreign_financial_interest, :boolean
@@ -2351,6 +2352,102 @@ defmodule Core.Services.IndividualTaxReturn do
     {:error, [field: :id, message: "Can't be blank"]}
   end
 
+  @spec check_match_individual_industry(word) :: integer | {:error, nonempty_list(message)}
+  def check_match_individual_industry(id) when not is_nil(id) do
+    individual_tax_return =
+      Repo.get_by(IndividualTaxReturn, %{id: id})
+
+    user_id =
+      case individual_tax_return do
+        nil ->
+          nil
+        _ ->
+          individual_tax_return.user_id
+      end
+
+    find_match =
+      Repo.all(MatchValueRelate)
+      |> List.first
+      |> Map.get(:match_for_individual_industry)
+
+    get_name_by_individual_industry =
+      case user_id do
+        nil ->
+          nil
+        _ ->
+          Repo.one(
+            from c in User,
+            join: ct in IndividualTaxReturn,
+            join: cu in IndividualIndustry,
+            where: c.id == ^user_id and ct.user_id == c.id and cu.individual_tax_return_id == ct.id,
+            where: c.role == false,
+            where: not is_nil(cu.name),
+            where: cu.name != ^[],
+            select: cu.name
+          )
+      end
+
+    check_pro_individual_industry =
+      case get_name_by_individual_industry do
+        nil ->
+          nil
+        _ ->
+        Repo.all(
+          from c in IndividualIndustry,
+          join: ct in User,
+          join: cu in IndividualTaxReturn,
+          where: c.individual_tax_return_id == cu.id and cu.user_id == ct.id and ct.role == true,
+          where: not is_nil(c.name),
+          where: fragment("? @> ?", c.name, ^get_name_by_individual_industry),
+          select: {c.id}
+        )
+      end
+
+    data =
+      case check_pro_individual_industry do
+        nil ->
+          nil
+        _ ->
+          for {k} <- check_pro_individual_industry, into: %{}, do: {k, find_match}
+      end
+
+    check_individual_industry =
+      case user_id do
+        nil ->
+          :error
+        _ ->
+          Repo.one(
+            from c in User,
+            join: ct in IndividualTaxReturn,
+            join: cu in IndividualIndustry,
+            where: c.id == ^user_id and ct.user_id == c.id and cu.individual_tax_return_id == ct.id,
+            where: c.role == false,
+            where: cu.name != ^[],
+            where: not is_nil(cu.name),
+            where: not is_nil(cu.individual_tax_return_id)
+          )
+      end
+
+    case check_individual_industry do
+      nil ->
+        {:error, [field: :id, message: "filled IndividualIndustry's are fields is null and user's role is not correct"]}
+      :error ->
+        {:error, [field: :id, message: "IndividualIndustry Not Found"]}
+      _ ->
+        data
+    end
+  end
+
+  @spec check_match_individual_industry(nil) :: {:error, nonempty_list(message)}
+  def check_match_individual_industry(id) when is_nil(id) do
+    {:error, [field: :id, message: "Can't be blank"]}
+  end
+
+  @spec check_match_individual_industry :: {:error, nonempty_list(message)}
+  def check_match_individual_industry do
+    {:error, [field: :id, message: "Can't be blank"]}
+  end
+
   @spec check_match_individual_itemized_deduction(word) :: integer | {:error, nonempty_list(message)}
   def check_match_individual_itemized_deduction(id) when not is_nil(id) do
     individual_tax_return =
@@ -2999,6 +3096,7 @@ defmodule Core.Services.IndividualTaxReturn do
     # check_match_rental_property_income(id)
     # check_match_stock_divident(id)
     # check_match_individual_filing_status(id)
+    # check_match_individual_industry(id)
     # check_match_individual_itemized_deduction(id)
     # check_match_individual_employment_status(id)
 
@@ -3097,6 +3195,18 @@ defmodule Core.Services.IndividualTaxReturn do
     rst7 = Map.merge(rst6, cnt8, fn _k, v1, v2 -> v1 + v2 end)
 
     cnt9 =
+      case check_match_individual_industry(id) do
+        {:error, [field: :id, message: "filled IndividualIndustry's are fields is null and user's role is not correct"]} ->
+          %{}
+        {:error, [field: :id, message: "IndividualIndustry Not Found"]} ->
+          %{}
+        _ ->
+          check_match_individual_industry(id)
+      end
+
+    rst8 = Map.merge(rst7, cnt9, fn _k, v1, v2 -> v1 + v2 end)
+
+    cnt10 =
       case check_match_individual_itemized_deduction(id) do
         {:error, [field: :id, message: "filled IndividualItemizedDeduction's are fields is null and user's role is not correct"]} ->
           %{}
@@ -3106,9 +3216,9 @@ defmodule Core.Services.IndividualTaxReturn do
           check_match_individual_itemized_deduction(id)
       end
 
-    rst8 = Map.merge(rst7, cnt9, fn _k, v1, v2 -> v1 + v2 end)
+    rst9 = Map.merge(rst8, cnt10, fn _k, v1, v2 -> v1 + v2 end)
 
-    cnt10 =
+    cnt11 =
       case check_match_individual_employment_status(id) do
         {:error, [field: :id, message: "filled IndividualEmploymentStatus's are fields is null and user's role is not correct"]} ->
           %{}
@@ -3119,7 +3229,7 @@ defmodule Core.Services.IndividualTaxReturn do
       end
 
     result =
-      Map.merge(rst8, cnt10, fn _k, v1, v2 -> v1 + v2 end)
+      Map.merge(rst9, cnt11, fn _k, v1, v2 -> v1 + v2 end)
 
     result
   end

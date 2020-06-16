@@ -50,6 +50,7 @@ defmodule Core.Services.SaleTaxTest do
       user = insert(:tp_user)
 
       params = %{
+        deadline: Date.utc_today(),
         financial_situation: "some financial situation",
         sale_tax_count: 22,
         state: ["Alabama", "New York"],
@@ -57,6 +58,7 @@ defmodule Core.Services.SaleTaxTest do
       }
 
       assert {:ok, %SaleTax{} = sale_tax} = Services.create_sale_tax(params)
+      assert sale_tax.deadline                           == Date.utc_today()
       assert sale_tax.financial_situation                == "some financial situation"
       assert sale_tax.price_sale_tax_count               == nil
       assert sale_tax.sale_tax_count                     == 22
@@ -68,6 +70,7 @@ defmodule Core.Services.SaleTaxTest do
 
     test "create_sale_tax/1 with invalid data returns error changeset" do
       params = %{
+        deadline: nil,
         financial_situation: nil,
         sale_tax_count: nil,
         state: [{}],
@@ -81,6 +84,7 @@ defmodule Core.Services.SaleTaxTest do
       user = insert(:tp_user)
 
       params = %{
+        deadline: Date.utc_today(),
         financial_situation: "some financial situation",
         price_sale_tax_count: 22,
         sale_tax_count: 22,
@@ -96,6 +100,7 @@ defmodule Core.Services.SaleTaxTest do
       struct = insert(:tp_sale_tax, user: user)
 
       params = %{
+        deadline: Date.utc_today(),
         financial_situation: "updated financial situation",
         sale_tax_count: 33,
         state: ["Arizona", "Iowa"],
@@ -103,6 +108,7 @@ defmodule Core.Services.SaleTaxTest do
       }
 
       assert {:ok, %SaleTax{} = updated} = Services.update_sale_tax(struct, params)
+      assert updated.deadline                            == Date.utc_today()
       assert updated.financial_situation                 == "updated financial situation"
       assert updated.price_sale_tax_count                == nil
       assert updated.sale_tax_count                      == 33
@@ -112,12 +118,13 @@ defmodule Core.Services.SaleTaxTest do
       assert match_value_relate.value_for_sale_tax_count == D.new("30.0")
     end
 
-    test "update_sale_tax/2 with valid data updates and ignore some fields by role's Pro" do
+    test "update_sale_tax/2 with valid data updates and ignore some fields by role's Tp" do
       match_value_relate = insert(:match_value_relat)
       user = insert(:tp_user)
       struct = insert(:tp_sale_tax, user: user)
 
       params = %{
+        deadline: Date.utc_today(),
         financial_situation: "updated financial situation",
         price_sale_tax_count: 33,
         sale_tax_count: 33,
@@ -126,6 +133,7 @@ defmodule Core.Services.SaleTaxTest do
       }
 
       assert {:ok, %SaleTax{} = updated} = Services.update_sale_tax(struct, params)
+      assert updated.deadline                            == Date.utc_today()
       assert updated.financial_situation                 == "updated financial situation"
       assert updated.price_sale_tax_count                == nil
       assert updated.sale_tax_count                      == 33
@@ -206,6 +214,7 @@ defmodule Core.Services.SaleTaxTest do
       }
 
       assert {:ok, %SaleTax{} = sale_tax} = Services.create_sale_tax(params)
+      assert sale_tax.deadline                           == nil
       assert sale_tax.financial_situation                == nil
       assert sale_tax.price_sale_tax_count               == 22
       assert sale_tax.sale_tax_count                     == nil
@@ -231,6 +240,7 @@ defmodule Core.Services.SaleTaxTest do
       }
 
       assert {:ok, %SaleTax{} = updated} = Services.update_sale_tax(struct, params)
+      assert updated.deadline                            == nil
       assert updated.financial_situation                 == nil
       assert updated.price_sale_tax_count                == 33
       assert updated.sale_tax_count                      == nil

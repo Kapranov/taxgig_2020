@@ -95,6 +95,7 @@ defmodule Core.Services do
   @tp_book_keeping_params ~w(
     account_count
     balance_sheet
+    deadline
     financial_situation
     inventory
     inventory_count
@@ -183,6 +184,7 @@ defmodule Core.Services do
   @tp_book_keeping_attrs %{
     account_count: 12,
     balance_sheet: true,
+    deadline: Date.utc_today(),
     financial_situation: "some financial situation",
     inventory: true,
     inventory_count: 3,
@@ -203,6 +205,7 @@ defmodule Core.Services do
     accounting_software
     capital_asset_sale
     church_hospital
+    deadline
     dispose_asset
     dispose_property
     educational_facility
@@ -247,6 +250,7 @@ defmodule Core.Services do
     accounting_software: true,
     capital_asset_sale: true,
     church_hospital: true,
+    deadline: Date.utc_today(),
     dispose_asset: true,
     dispose_property: true,
     educational_facility: true,
@@ -288,6 +292,7 @@ defmodule Core.Services do
   }
 
   @tp_individual_tax_return_params ~w(
+    deadline
     foreign_account
     foreign_account_limit
     foreign_financial_interest
@@ -330,6 +335,7 @@ defmodule Core.Services do
   )a
 
   @tp_individual_tax_return_attrs %{
+    deadline: Date.utc_today(),
     foreign_account: true,
     foreign_account_limit: true,
     foreign_financial_interest: true,
@@ -372,6 +378,7 @@ defmodule Core.Services do
   }
 
   @tp_sale_tax_params ~w(
+    deadline
     financial_situation
     sale_tax_count
     state
@@ -410,6 +417,7 @@ defmodule Core.Services do
   )a
 
   @tp_sale_tax_attrs %{
+    deadline: Date.utc_today(),
     financial_situation: "some situation",
     sale_tax_count: 5,
     state: ["Alabama", "New York"],
