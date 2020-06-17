@@ -871,6 +871,7 @@ defmodule Core.Services do
     pro_params = ~w(
       account_count
       balance_sheet
+      deadline
       financial_situation
       inventory
       inventory_count
@@ -3383,6 +3384,7 @@ defmodule Core.Services do
       accounting_software
       capital_asset_sale
       church_hospital
+      deadline
       dispose_asset
       dispose_property
       educational_facility
@@ -6394,6 +6396,7 @@ defmodule Core.Services do
     )a
 
     pro_params = ~w(
+      deadline
       foreign_account_limit
       foreign_financial_interest
       k1_count
@@ -8427,7 +8430,7 @@ defmodule Core.Services do
         case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
           false ->
             case sort_keys(attrs) do
-              @tp_sale_tax_params ->
+              @pro_sale_tax_params ->
                 Multi.new
                 |> Multi.insert(:match_value_relate, match_value_relate_changeset)
                 |> Multi.insert(:sale_taxes, sale_tax_changeset)
@@ -8523,7 +8526,7 @@ defmodule Core.Services do
 
     pro_attrs =
       attrs
-      |> Map.drop([:financial_situation, :sale_tax_count, :state, :user_id])
+      |> Map.drop([:financial_situation, :deadline, :sale_tax_count, :state, :user_id])
 
     case get_role_by_user do
       nil ->

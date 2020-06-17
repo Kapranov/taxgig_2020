@@ -14,6 +14,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
       {
         allIndividualTaxReturns {
           id
+          deadline
           foreign_account
           foreign_account_limit
           foreign_financial_interest
@@ -67,6 +68,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
       data = json_response(res, 200)["data"]["allIndividualTaxReturns"]
 
       assert List.first(data)["id"]                             == individual_tax_return.id
+      assert List.first(data)["deadline"]                       == to_string(individual_tax_return.deadline)
       assert List.first(data)["foreign_account"]                == individual_tax_return.foreign_account
       assert List.first(data)["foreign_account_limit"]          == individual_tax_return.foreign_account_limit
       assert List.first(data)["foreign_financial_interest"]     == individual_tax_return.foreign_financial_interest
@@ -111,6 +113,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
       first = hd(data)
 
       assert first["id"]                             == individual_tax_return.id
+      assert first["deadline"]                       == to_string(individual_tax_return.deadline)
       assert first["foreign_account"]                == individual_tax_return.foreign_account
       assert first["foreign_account_limit"]          == individual_tax_return.foreign_account_limit
       assert first["foreign_financial_interest"]     == individual_tax_return.foreign_financial_interest
@@ -312,6 +315,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
       {
         showIndividualTaxReturn(id: \"#{individual_tax_return.id}\") {
           id
+          deadline
           foreign_account
           foreign_account_limit
           foreign_financial_interest
@@ -359,6 +363,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
         Absinthe.run(query, Schema, context: context)
 
       assert found["id"]                              == individual_tax_return.id
+      assert found["deadline"]                        == to_string(individual_tax_return.deadline)
       assert found["foreign_account"]                 == individual_tax_return.foreign_account
       assert found["foreign_account_limit"]           == individual_tax_return.foreign_account_limit
       assert found["foreign_financial_interest"]      == individual_tax_return.foreign_financial_interest
@@ -407,6 +412,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
       found = json_response(res, 200)["data"]["showIndividualTaxReturn"]
 
       assert found["id"]                              == individual_tax_return.id
+      assert found["deadline"]                        == to_string(individual_tax_return.deadline)
       assert found["foreign_account"]                 == individual_tax_return.foreign_account
       assert found["foreign_account_limit"]           == individual_tax_return.foreign_account_limit
       assert found["foreign_financial_interest"]      == individual_tax_return.foreign_financial_interest
@@ -606,6 +612,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
       {
         findIndividualTaxReturn(id: \"#{individual_tax_return.id}\") {
           id
+          deadline
           foreign_account
           foreign_account_limit
           foreign_financial_interest
@@ -653,6 +660,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
         Absinthe.run(query, Schema, context: context)
 
       assert found["id"]                              == individual_tax_return.id
+      assert found["deadline"]                        == to_string(individual_tax_return.deadline)
       assert found["foreign_account"]                 == individual_tax_return.foreign_account
       assert found["foreign_account_limit"]           == individual_tax_return.foreign_account_limit
       assert found["foreign_financial_interest"]      == individual_tax_return.foreign_financial_interest
@@ -701,6 +709,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
       found = json_response(res, 200)["data"]["findIndividualTaxReturn"]
 
       assert found["id"]                              == individual_tax_return.id
+      assert found["deadline"]                        == to_string(individual_tax_return.deadline)
       assert found["foreign_account"]                 == individual_tax_return.foreign_account
       assert found["foreign_account_limit"]           == individual_tax_return.foreign_account_limit
       assert found["foreign_financial_interest"]      == individual_tax_return.foreign_financial_interest
@@ -897,6 +906,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
       mutation = """
       {
         createIndividualTaxReturn(
+          deadline: "#{Date.utc_today()}",
           foreign_account: true,
           foreign_account_limit: true,
           foreign_financial_interest: true,
@@ -916,6 +926,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
           userId: \"#{user.id}\"
         ) {
           id
+          deadline
           foreign_account
           foreign_account_limit
           foreign_financial_interest
@@ -968,6 +979,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
 
       created = json_response(res, 200)["data"]["createIndividualTaxReturn"]
 
+      assert created["deadline"]                       == to_string(Date.utc_today())
       assert created["foreign_account"]                == true
       assert created["foreign_account_limit"]          == true
       assert created["foreign_financial_interest"]     == true
@@ -1104,6 +1116,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
         updateIndividualTaxReturn(
           id: \"#{individual_tax_return.id}\",
           individual_tax_return: {
+            deadline: "#{Date.utc_today()}",
             foreign_account: false,
             foreign_account_limit: false,
             foreign_financial_interest: false,
@@ -1125,6 +1138,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
         )
         {
           id
+          deadline
           foreign_account
           foreign_account_limit
           foreign_financial_interest
@@ -1178,6 +1192,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
       updated = json_response(res, 200)["data"]["updateIndividualTaxReturn"]
 
       assert updated["id"]                             == individual_tax_return.id
+      assert updated["deadline"]                       == to_string(Date.utc_today())
       assert updated["foreign_account"]                == false
       assert updated["foreign_account_limit"]          == false
       assert updated["foreign_financial_interest"]     == false

@@ -593,6 +593,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
       user = insert(:tp_user)
 
       params = %{
+        deadline:             Date.utc_today(),
         foreign_account:                  true,
         foreign_account_limit:            true,
         foreign_financial_interest:       true,
@@ -627,6 +628,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
 
     test "create_individual_tax_return/1 with invalid data returns error changeset" do
       params = %{
+        deadline:            Date.utc_today(),
         foreign_account:                  nil,
         home_owner:                       nil,
         living_abroad:                    nil,
@@ -759,6 +761,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
       individual_tax_return = insert(:pro_individual_tax_return, user: user)
 
       params = %{
+        deadline:             Date.utc_today(),
         foreign_account:                 false,
         foreign_account_limit:           false,
         foreign_financial_interest:      false,

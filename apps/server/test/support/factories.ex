@@ -322,6 +322,7 @@ defmodule Server.Factory do
     %BookKeeping{
       account_count: random_integer(),
       balance_sheet: random_boolean(),
+      deadline: Date.utc_today(),
       financial_situation: Lorem.sentence(),
       inventory: random_boolean(),
       inventory_count: random_integer(),
@@ -339,6 +340,7 @@ defmodule Server.Factory do
     %BookKeeping{
       account_count: random_integer(),
       balance_sheet: random_boolean(),
+      deadline: Date.utc_today(),
       financial_situation: Lorem.sentence(),
       inventory: random_boolean(),
       inventory_count: random_integer(),
@@ -534,6 +536,7 @@ defmodule Server.Factory do
       accounting_software: random_boolean(),
       capital_asset_sale: random_boolean(),
       church_hospital: random_boolean(),
+      deadline: Date.utc_today(),
       dispose_asset: random_boolean(),
       dispose_property: random_boolean(),
       educational_facility: random_boolean(),
@@ -576,6 +579,7 @@ defmodule Server.Factory do
       accounting_software: random_boolean(),
       capital_asset_sale: random_boolean(),
       church_hospital: random_boolean(),
+      deadline: Date.utc_today(),
       dispose_asset: random_boolean(),
       dispose_property: random_boolean(),
       educational_facility: random_boolean(),
@@ -821,6 +825,7 @@ defmodule Server.Factory do
   @spec individual_tax_return_factory() :: IndividualTaxReturn.t()
   def individual_tax_return_factory do
     %IndividualTaxReturn{
+      deadline: Date.utc_today(),
       foreign_account: random_boolean(),
       foreign_account_limit: random_boolean(),
       foreign_financial_interest: random_boolean(),
@@ -854,6 +859,7 @@ defmodule Server.Factory do
   @spec tp_individual_tax_return_factory() :: IndividualTaxReturn.t()
   def tp_individual_tax_return_factory do
     %IndividualTaxReturn{
+      deadline: Date.utc_today(),
       foreign_account: random_boolean(),
       foreign_account_limit: random_boolean(),
       foreign_financial_interest: random_boolean(),
@@ -1052,6 +1058,7 @@ defmodule Server.Factory do
   @spec sale_tax_factory() :: SaleTax.t()
   def sale_tax_factory do
     %SaleTax{
+      deadline: Date.utc_today(),
       financial_situation: Lorem.sentence(),
       price_sale_tax_count: random_integer(),
       sale_tax_count: random_integer(),
@@ -1063,6 +1070,7 @@ defmodule Server.Factory do
   @spec tp_sale_tax_factory() :: SaleTax.t()
   def tp_sale_tax_factory do
     %SaleTax{
+      deadline: Date.utc_today(),
       financial_situation: Lorem.sentence(),
       sale_tax_count: random_integer(),
       state: ["Alabama", "New York"],

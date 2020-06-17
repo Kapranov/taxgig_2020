@@ -17,6 +17,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
           accounting_software
           capital_asset_sale
           church_hospital
+          deadline
           dispose_asset
           dispose_property
           educational_facility
@@ -87,6 +88,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
       assert List.first(data)["accounting_software"]            == business_tax_return.accounting_software
       assert List.first(data)["capital_asset_sale"]             == business_tax_return.capital_asset_sale
       assert List.first(data)["church_hospital"]                == business_tax_return.church_hospital
+      assert List.first(data)["deadline"]                       == to_string(business_tax_return.deadline)
       assert List.first(data)["dispose_asset"]                  == business_tax_return.dispose_asset
       assert List.first(data)["dispose_property"]               == business_tax_return.dispose_property
       assert List.first(data)["educational_facility"]           == business_tax_return.educational_facility
@@ -148,6 +150,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
       assert first["accounting_software"]            == business_tax_return.accounting_software
       assert first["capital_asset_sale"]             == business_tax_return.capital_asset_sale
       assert first["church_hospital"]                == business_tax_return.church_hospital
+      assert first["deadline"]                       == to_string(business_tax_return.deadline)
       assert first["dispose_asset"]                  == business_tax_return.dispose_asset
       assert first["dispose_property"]               == business_tax_return.dispose_property
       assert first["educational_facility"]           == business_tax_return.educational_facility
@@ -322,6 +325,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
           accounting_software
           capital_asset_sale
           church_hospital
+          deadline
           dispose_asset
           dispose_property
           educational_facility
@@ -386,6 +390,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
       assert found["accounting_software"]            == business_tax_return.accounting_software
       assert found["capital_asset_sale"]             == business_tax_return.capital_asset_sale
       assert found["church_hospital"]                == business_tax_return.church_hospital
+      assert found["deadline"]                       == to_string(business_tax_return.deadline)
       assert found["dispose_asset"]                  == business_tax_return.dispose_asset
       assert found["dispose_property"]               == business_tax_return.dispose_property
       assert found["educational_facility"]           == business_tax_return.educational_facility
@@ -451,6 +456,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
       assert found["accounting_software"]            == business_tax_return.accounting_software
       assert found["capital_asset_sale"]             == business_tax_return.capital_asset_sale
       assert found["church_hospital"]                == business_tax_return.church_hospital
+      assert found["deadline"]                       == to_string(business_tax_return.deadline)
       assert found["dispose_asset"]                  == business_tax_return.dispose_asset
       assert found["dispose_property"]               == business_tax_return.dispose_property
       assert found["educational_facility"]           == business_tax_return.educational_facility
@@ -622,6 +628,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
           accounting_software
           capital_asset_sale
           church_hospital
+          deadline
           dispose_asset
           dispose_property
           educational_facility
@@ -686,6 +693,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
       assert found["accounting_software"]            == business_tax_return.accounting_software
       assert found["capital_asset_sale"]             == business_tax_return.capital_asset_sale
       assert found["church_hospital"]                == business_tax_return.church_hospital
+      assert found["deadline"]                       == to_string(business_tax_return.deadline)
       assert found["dispose_asset"]                  == business_tax_return.dispose_asset
       assert found["dispose_property"]               == business_tax_return.dispose_property
       assert found["educational_facility"]           == business_tax_return.educational_facility
@@ -751,6 +759,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
       assert found["accounting_software"]            == business_tax_return.accounting_software
       assert found["capital_asset_sale"]             == business_tax_return.capital_asset_sale
       assert found["church_hospital"]                == business_tax_return.church_hospital
+      assert found["deadline"]                       == to_string(business_tax_return.deadline)
       assert found["dispose_asset"]                  == business_tax_return.dispose_asset
       assert found["dispose_property"]               == business_tax_return.dispose_property
       assert found["educational_facility"]           == business_tax_return.educational_facility
@@ -920,6 +929,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
           accounting_software: true,
           capital_asset_sale: true,
           church_hospital: true,
+          deadline: "#{Date.utc_today()}"
           dispose_asset: true,
           dispose_property: true,
           educational_facility: true,
@@ -956,6 +966,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
           accounting_software
           capital_asset_sale
           church_hospital
+          deadline
           dispose_asset
           dispose_property
           educational_facility
@@ -1025,6 +1036,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
       assert created["accounting_software"]            == true
       assert created["capital_asset_sale"]             == true
       assert created["church_hospital"]                == true
+      assert created["deadline"]                       == to_string(Date.utc_today())
       assert created["dispose_asset"]                  == true
       assert created["dispose_property"]               == true
       assert created["educational_facility"]           == true
@@ -1134,6 +1146,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
             accounting_software: false,
             capital_asset_sale: false,
             church_hospital: false,
+            deadline: "#{Date.utc_today()}",
             dispose_asset: false,
             dispose_property: false,
             educational_facility: false,
@@ -1172,6 +1185,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
           accounting_software
           capital_asset_sale
           church_hospital
+          deadline
           dispose_asset
           dispose_property
           educational_facility
@@ -1242,6 +1256,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
       assert updated["accounting_software"]            == false
       assert updated["capital_asset_sale"]             == false
       assert updated["church_hospital"]                == false
+      assert updated["deadline"]                       == to_string(Date.utc_today())
       assert updated["dispose_asset"]                  == false
       assert updated["dispose_property"]               == false
       assert updated["educational_facility"]           == false

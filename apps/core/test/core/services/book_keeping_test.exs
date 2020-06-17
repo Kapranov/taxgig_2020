@@ -281,6 +281,7 @@ defmodule Core.Services.BookKeepingTest do
       params = %{
         account_count: 22,
         balance_sheet: true,
+        deadline: Date.utc_today(),
         financial_situation: "some financial situation",
         inventory: true,
         inventory_count: 22,

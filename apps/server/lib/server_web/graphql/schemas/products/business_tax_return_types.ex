@@ -25,6 +25,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
     field :business_transaction_counts, list_of(:business_transaction_count), resolve: dataloader(Data)
     field :capital_asset_sale, non_null(:boolean)
     field :church_hospital, non_null(:boolean)
+    field :deadline, non_null(:date)
     field :dispose_asset, non_null(:boolean)
     field :dispose_property, non_null(:boolean)
     field :educational_facility, non_null(:boolean)
@@ -75,6 +76,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
     field :business_transaction_counts, list_of(:business_transaction_count), resolve: dataloader(Data)
     field :capital_asset_sale, non_null(:boolean)
     field :church_hospital, non_null(:boolean)
+    field :deadline, non_null(:date)
     field :dispose_asset, non_null(:boolean)
     field :dispose_property, non_null(:boolean)
     field :educational_facility, non_null(:boolean)
@@ -133,6 +135,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
     field :accounting_software, :boolean
     field :capital_asset_sale, :boolean
     field :church_hospital, :boolean
+    field :deadline, :date
     field :dispose_asset, :boolean
     field :dispose_property, :boolean
     field :educational_facility, :boolean
@@ -174,6 +177,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
     field :accounting_software, :boolean
     field :capital_asset_sale, :boolean
     field :church_hospital, :boolean
+    field :deadline, :date
     field :dispose_asset, :boolean
     field :dispose_property, :boolean
     field :educational_facility, :boolean
@@ -280,6 +284,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
       arg :accounting_software, :boolean
       arg :capital_asset_sale, :boolean
       arg :church_hospital, :boolean
+      arg :deadline, :date
       arg :dispose_asset, :boolean
       arg :dispose_property, :boolean
       arg :educational_facility, :boolean
@@ -322,6 +327,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
       arg :accounting_software, :boolean
       arg :capital_asset_sale, :boolean
       arg :church_hospital, :boolean
+      arg :deadline, :date
       arg :dispose_asset, :boolean
       arg :dispose_property, :boolean
       arg :educational_facility, :boolean

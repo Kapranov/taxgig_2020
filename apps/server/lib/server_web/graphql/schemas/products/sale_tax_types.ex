@@ -15,6 +15,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxTypes do
   @desc "The list sale taxes"
   object :sale_tax do
     field :id, non_null(:string)
+    field :deadline, non_null(:date)
     field :financial_situation, non_null(:string)
     field :inserted_at, non_null(:datetime)
     field :price_sale_tax_count, :integer
@@ -29,6 +30,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxTypes do
   @desc "The list sale taxes via role's Tp"
   object :tp_sale_tax do
     field :id, non_null(:string)
+    field :deadline, non_null(:date)
     field :financial_situation, non_null(:string)
     field :inserted_at, non_null(:datetime)
     field :sale_tax_count, non_null(:integer)
@@ -52,6 +54,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxTypes do
 
   @desc "The sale tax update via params"
   input_object :update_sale_tax_params do
+    field :deadline, :date
     field :financial_situation, :string
     field :price_sale_tax_count, :integer
     field :sale_tax_count, :integer
@@ -61,6 +64,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxTypes do
 
   @desc "The sale tax via role's Tp update with params"
   input_object :update_tp_sale_tax_params do
+    field :deadline, :date
     field :financial_situation, :string
     field :sale_tax_count, :integer
     field :state, list_of(:string)
@@ -137,6 +141,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxTypes do
   object :sale_tax_mutations do
     @desc "Create the sale tax"
     field :create_sale_tax, :sale_tax do
+      arg :deadline, :date
       arg :financial_situation, :string
       arg :price_sale_tax_count, :integer
       arg :sale_tax_count, :integer
@@ -148,6 +153,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxTypes do
 
     @desc "Create the sale tax via role's Tp"
     field :create_tp_sale_tax, :tp_sale_tax do
+      arg :deadline, :date
       arg :financial_situation, :string
       arg :sale_tax_count, :integer
       arg :state, list_of(:string)

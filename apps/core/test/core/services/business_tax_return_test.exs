@@ -624,6 +624,7 @@ defmodule Core.Services.BusinessTaxReturnTest do
         accounting_software:                       true,
         capital_asset_sale:                        true,
         church_hospital:                           true,
+        deadline:                      Date.utc_today(),
         dispose_asset:                             true,
         dispose_property:                          true,
         educational_facility:                      true,

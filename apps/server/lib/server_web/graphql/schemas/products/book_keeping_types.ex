@@ -24,6 +24,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingTypes do
     field :book_keeping_number_employees, list_of(:book_keeping_number_employee), resolve: dataloader(Data)
     field :book_keeping_transaction_volumes, list_of(:book_keeping_transaction_volume), resolve: dataloader(Data)
     field :book_keeping_type_clients, list_of(:book_keeping_type_client), resolve: dataloader(Data)
+    field :deadline, non_null(:date)
     field :financial_situation, non_null(:string)
     field :inserted_at, non_null(:datetime)
     field :inventory, non_null(:boolean)
@@ -48,6 +49,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingTypes do
     field :book_keeping_number_employees, list_of(:book_keeping_number_employee), resolve: dataloader(Data)
     field :book_keeping_transaction_volumes, list_of(:book_keeping_transaction_volume), resolve: dataloader(Data)
     field :book_keeping_type_clients, list_of(:book_keeping_type_client), resolve: dataloader(Data)
+    field :deadline, non_null(:date)
     field :financial_situation, non_null(:string)
     field :inserted_at, non_null(:datetime)
     field :inventory, non_null(:boolean)
@@ -79,6 +81,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingTypes do
   input_object :update_book_keeping_params do
     field :account_count, :integer
     field :balance_sheet, :boolean
+    field :deadline, :date
     field :financial_situation, :string
     field :inventory, :boolean
     field :inventory_count, :integer
@@ -93,6 +96,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingTypes do
   input_object :update_tp_book_keeping_params do
     field :account_count, :integer
     field :balance_sheet, :boolean
+    field :deadline, :date
     field :financial_situation, :string
     field :inventory, :boolean
     field :inventory_count, :integer
@@ -175,6 +179,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingTypes do
     field :create_book_keeping, :book_keeping do
       arg :account_count, :integer
       arg :balance_sheet, :boolean
+      arg :deadline, :date
       arg :financial_situation, :string
       arg :inventory, :boolean
       arg :inventory_count, :integer
@@ -191,6 +196,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingTypes do
     field :create_tp_book_keeping, :tp_book_keeping do
       arg :account_count, :integer
       arg :balance_sheet, :boolean
+      arg :deadline, :date
       arg :financial_situation, :string
       arg :inventory, :boolean
       arg :inventory_count, :integer
