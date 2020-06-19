@@ -9,7 +9,8 @@ defmodule Core.Seeder.Repo do
     Localization,
     Lookup,
     Services,
-    Talk
+    Talk,
+    Updated
   }
 
   @spec seed!() :: :ok
@@ -20,6 +21,12 @@ defmodule Core.Seeder.Repo do
     Lookup.seed!()
     Services.seed!()
     Talk.seed!()
+    :ok
+  end
+
+  @spec updated!() :: :ok
+  def updated! do
+    Updated.start!()
     :ok
   end
 end

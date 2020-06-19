@@ -11,6 +11,7 @@ defmodule Core.Services.SaleTax do
     Accounts.User,
     Repo,
     Services.MatchValueRelate,
+    Services.SaleTax,
     Services.SaleTaxFrequency,
     Services.SaleTaxIndustry
   }

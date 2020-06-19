@@ -121,18 +121,45 @@ alias Core.{
   Localization,
   Localization.Language,
   Lookup,
+  Lookup.State,
   Lookup.UsZipcode,
   Media,
   Media.Picture,
   Repo,
-  Services.MatchValueRelate
-
+  Services,
+  Services.BookKeeping,
+  Services.BookKeepingAdditionalNeed,
+  Services.BookKeepingAnnualRevenue,
+  Services.BookKeepingClassifyInventory,
+  Services.BookKeepingIndustry,
+  Services.BookKeepingNumberEmployee,
+  Services.BookKeepingTransactionVolume,
+  Services.BookKeepingTypeClient,
+  Services.BusinessEntityType,
+  Services.BusinessForeignAccountCount,
+  Services.BusinessForeignOwnershipCount,
+  Services.BusinessIndustry,
+  Services.BusinessLlcType,
+  Services.BusinessNumberEmployee,
+  Services.BusinessTaxReturn,
+  Services.BusinessTotalRevenue,
+  Services.BusinessTransactionCount,
+  Services.IndividualEmploymentStatus,
+  Services.IndividualFilingStatus,
+  Services.IndividualForeignAccountCount,
+  Services.IndividualIndustry,
+  Services.IndividualItemizedDeduction,
+  Services.IndividualStockTransactionCount,
+  Services.IndividualTaxReturn,
+  Services.MatchValueRelate,
+  Services.SaleTax,
+  Services.SaleTaxFrequency,
+  Services.SaleTaxIndustry
 }
 
 alias Ptin.Repo, as: PtinRepo
 
 alias Ptin.{
-  Services,
   Services.Downloads,
   Services.Ptin
 }
@@ -143,21 +170,69 @@ alias Ptin.{
 
 ######################################################################
 
-tp1_email = "v.kobzan@gmail.com"
-tp2_email = "o.puryshev@gmail.com"
-tp3_email = "vlacho777@gmail.com"
+user_ids =
+  Enum.map(Repo.all(User), fn(data) -> data.id end)
 
-pro1_email = "support@taxgig.com"
-pro2_email = "op@taxgig.com"
-pro3_email = "vk@taxgig.com"
+{tp1, tp2, tp3, pro1, pro2, pro3} = {
+  Enum.at(user_ids, 1),
+  Enum.at(user_ids, 2),
+  Enum.at(user_ids, 3),
+  Enum.at(user_ids, 4),
+  Enum.at(user_ids, 5),
+  Enum.at(user_ids, 6)
+}
 
-tp1 = User |> Repo.get_by!(email: tp1_email) |> Map.get(:id)
-tp2 = User |> Repo.get_by!(email: tp2_email) |> Map.get(:id)
-tp3 = User |> Repo.get_by!(email: tp3_email) |> Map.get(:id)
+book_keepenig_ids =
+  Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
 
-pro1 = User |> Repo.get_by!(email: pro1_email) |> Map.get(:id)
-pro2 = User |> Repo.get_by!(email: pro2_email) |> Map.get(:id)
-pro3 = User |> Repo.get_by!(email: pro3_email) |> Map.get(:id)
+{bk_tp1, bk_tp2, bk_tp3, bk_pro1, bk_pro2, bk_pro3} =
+  {
+    Enum.at(book_keepenig_ids, 1),
+    Enum.at(book_keepenig_ids, 2),
+    Enum.at(book_keepenig_ids, 3),
+    Enum.at(book_keepenig_ids, 4),
+    Enum.at(book_keepenig_ids, 5),
+    Enum.at(book_keepenig_ids, 6)
+  }
+
+business_tax_return_ids =
+  Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
+
+{btr_tp1, btr_tp2, btr_tp3, btr_pro1, btr_pro2, btr_pro3} =
+  {
+    Enum.at(business_tax_return_ids, 1),
+    Enum.at(business_tax_return_ids, 2),
+    Enum.at(business_tax_return_ids, 3),
+    Enum.at(business_tax_return_ids, 4),
+    Enum.at(business_tax_return_ids, 5),
+    Enum.at(business_tax_return_ids, 6)
+  }
+
+individual_tax_return_ids =
+  Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
+
+{itr_tp1, itr_tp2, itr_tp3, itr_pro1, itr_pro2, itr_pro3} =
+  {
+    Enum.at(individual_tax_return_ids, 1),
+    Enum.at(individual_tax_return_ids, 2),
+    Enum.at(individual_tax_return_ids, 3),
+    Enum.at(individual_tax_return_ids, 4),
+    Enum.at(individual_tax_return_ids, 5),
+    Enum.at(individual_tax_return_ids, 6)
+  }
+
+sale_tax_ids =
+  Enum.map(Repo.all(SaleTax), fn(data) -> data.id end)
+
+{st_tp1, st_tp2, st_tp3, st_pro1, st_pro2, st_pro3} =
+  {
+    Enum.at(sale_tax_ids, 1),
+    Enum.at(sale_tax_ids, 2),
+    Enum.at(sale_tax_ids, 3),
+    Enum.at(sale_tax_ids, 4),
+    Enum.at(sale_tax_ids, 5),
+    Enum.at(sale_tax_ids, 6)
+  }
 
 defmodule LetMeSee do
   @moduledoc """
@@ -245,16 +320,20 @@ defmodule LetMeSee do
   LetMeSee.signup(args)
   """
 
-  pro1 = User |> Repo.get_by!(email: "support@taxgig.com") |> Map.get(:id)
-  pro2 = User |> Repo.get_by!(email: "op@taxgig.com") |> Map.get(:id)
-  pro3 = User |> Repo.get_by!(email: "vk@taxgig.com") |> Map.get(:id)
-
-  pro1 = User |> Repo.get_by!(email: "support@taxgig.com") |> Map.get(:id)
-  pro2 = User |> Repo.get_by!(email: "op@taxgig.com") |> Map.get(:id)
-  pro3 = User |> Repo.get_by!(email: "vk@taxgig.com") |> Map.get(:id)
-
   if Mix.env == :dev do
     import Ecto.Query
+
+    user_ids =
+      Enum.map(Repo.all(User), fn(data) -> data.id end)
+
+    {tp1, tp2, tp3, pro1, pro2, pro3} = {
+      Enum.at(user_ids, 1),
+      Enum.at(user_ids, 2),
+      Enum.at(user_ids, 3),
+      Enum.at(user_ids, 4),
+      Enum.at(user_ids, 5),
+      Enum.at(user_ids, 6)
+    }
 
     IO.puts "\n___________________________________________________________________________________________\n\nAaron - This is your self from the past. Remember to reset the DB! mix ecto.reset.core ptin\n___________________________________________________________________________________________\n"
     IO.puts "\n\t\t\tApplication has started in Development ENV\n"

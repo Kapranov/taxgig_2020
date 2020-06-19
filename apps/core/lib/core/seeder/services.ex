@@ -106,7 +106,7 @@ defmodule Core.Seeder.Services do
   @spec seed_match_value_relate() :: nil | Ecto.Schema.t()
   defp seed_match_value_relate do
     case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
-      true -> nil
+       true -> nil
       false -> insert_match_value_relate()
     end
   end
@@ -115,52 +115,52 @@ defmodule Core.Seeder.Services do
   defp insert_match_value_relate do
     [
       Repo.insert!(%MatchValueRelate{
-        match_for_book_keeping_additional_need:             20,
-        match_for_book_keeping_annual_revenue:              25,
-        match_for_book_keeping_industry:                    10,
-        match_for_book_keeping_number_employee:             25,
-        match_for_book_keeping_payroll:                     20,
-        match_for_book_keeping_type_client:                 60,
-        match_for_business_enity_type:                      50,
-        match_for_business_industry:                        10,
-        match_for_business_number_of_employee:              20,
-        match_for_business_total_revenue:                   20,
-        match_for_individual_employment_status:             35,
-        match_for_individual_filing_status:                 50,
-        match_for_individual_foreign_account:               20,
-        match_for_individual_home_owner:                    20,
-        match_for_individual_industry:                      10,
-        match_for_individual_itemized_deduction:            20,
-        match_for_individual_living_abroad:                 20,
-        match_for_individual_non_resident_earning:          20,
-        match_for_individual_own_stock_crypto:              20,
-        match_for_individual_rental_prop_income:            20,
-        match_for_individual_stock_divident:                20,
-        match_for_sale_tax_count:                           50,
-        match_for_sale_tax_frequency:                       10,
-        match_for_sale_tax_industry:                        10,
-        value_for_book_keeping_payroll:                   80.0,
-        value_for_book_keeping_tax_year:                 150.0,
-        value_for_business_accounting_software:          29.99,
-        value_for_business_dispose_property:             99.99,
-        value_for_business_foreign_shareholder:          150.0,
-        value_for_business_income_over_thousand:         99.99,
-        value_for_business_invest_research:               20.0,
-        value_for_business_k1_count:                       6.0,
-        value_for_business_make_distribution:             20.0,
-        value_for_business_state:                         50.0,
-        value_for_business_tax_exemption:                400.0,
-        value_for_business_total_asset_over:             150.0,
-        value_for_individual_employment_status:          180.0,
-        value_for_individual_foreign_account_limit:      199.0,
-        value_for_individual_foreign_financial_interest: 299.0,
-        value_for_individual_home_owner:                 120.0,
-        value_for_individual_k1_count:                   17.99,
-        value_for_individual_rental_prop_income:          30.0,
-        value_for_individual_sole_prop_count:            180.0,
-        value_for_individual_state:                       40.0,
-        value_for_individual_tax_year:                    40.0,
-        value_for_sale_tax_count:                         30.0
+        match_for_book_keeping_additional_need:        random_integer(),
+        match_for_book_keeping_annual_revenue:         random_integer(),
+        match_for_book_keeping_industry:               random_integer(),
+        match_for_book_keeping_number_employee:        random_integer(),
+        match_for_book_keeping_payroll:                random_integer(),
+        match_for_book_keeping_type_client:            random_integer(),
+        match_for_business_enity_type:                 random_integer(),
+        match_for_business_industry:                   random_integer(),
+        match_for_business_number_of_employee:         random_integer(),
+        match_for_business_total_revenue:              random_integer(),
+        match_for_individual_employment_status:        random_integer(),
+        match_for_individual_filing_status:            random_integer(),
+        match_for_individual_foreign_account:          random_integer(),
+        match_for_individual_home_owner:               random_integer(),
+        match_for_individual_industry:                 random_integer(),
+        match_for_individual_itemized_deduction:       random_integer(),
+        match_for_individual_living_abroad:            random_integer(),
+        match_for_individual_non_resident_earning:     random_integer(),
+        match_for_individual_own_stock_crypto:         random_integer(),
+        match_for_individual_rental_prop_income:       random_integer(),
+        match_for_individual_stock_divident:           random_integer(),
+        match_for_sale_tax_count:                      random_integer(),
+        match_for_sale_tax_frequency:                  random_integer(),
+        match_for_sale_tax_industry:                   random_integer(),
+        value_for_book_keeping_payroll:                  random_float(),
+        value_for_book_keeping_tax_year:                 random_float(),
+        value_for_business_accounting_software:          random_float(),
+        value_for_business_dispose_property:             random_float(),
+        value_for_business_foreign_shareholder:          random_float(),
+        value_for_business_income_over_thousand:         random_float(),
+        value_for_business_invest_research:              random_float(),
+        value_for_business_k1_count:                     random_float(),
+        value_for_business_make_distribution:            random_float(),
+        value_for_business_state:                        random_float(),
+        value_for_business_tax_exemption:                random_float(),
+        value_for_business_total_asset_over:             random_float(),
+        value_for_individual_employment_status:          random_float(),
+        value_for_individual_foreign_account_limit:      random_float(),
+        value_for_individual_foreign_financial_interest: random_float(),
+        value_for_individual_home_owner:                 random_float(),
+        value_for_individual_k1_count:                   random_float(),
+        value_for_individual_rental_prop_income:         random_float(),
+        value_for_individual_sole_prop_count:            random_float(),
+        value_for_individual_state:                      random_float(),
+        value_for_individual_tax_year:                   random_float(),
+        value_for_sale_tax_count:                        random_float()
       })
     ]
   end
@@ -170,75 +170,75 @@ defmodule Core.Seeder.Services do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
-    {user_id} = {Enum.at(user_ids, 0)}
-
-     tp1 = User.find_by(email: "v.kobzan@gmail.com")
-     tp2 = User.find_by(email: "o.puryshev@gmail.com")
-     tp3 = User.find_by(email: "vlacho777@gmail.com")
-    pro1 = User.find_by(email: "support@taxgig.com")
-    pro2 = User.find_by(email: "op@taxgig.com")
-    pro3 = User.find_by(email: "vk@taxgig.com")
+    {user, tp1, tp2, tp3, pro1, pro2, pro3} = {
+      Enum.at(user_ids, 0),
+      Enum.at(user_ids, 1),
+      Enum.at(user_ids, 2),
+      Enum.at(user_ids, 3),
+      Enum.at(user_ids, 4),
+      Enum.at(user_ids, 5),
+      Enum.at(user_ids, 6)
+    }
 
     case Repo.aggregate(BookKeeping, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BookKeeping{
-            payroll: random_boolean(),
+            payroll:       random_boolean(),
             price_payroll: random_integer(),
-            user_id: user_id
+            user_id:       user
           }),
           Repo.insert!(%BookKeeping{
-            account_count: random_integer(),
-            balance_sheet: random_boolean(),
-            deadline: Date.utc_today(),
+            account_count:       random_integer(),
+            balance_sheet:       random_boolean(),
+            deadline:            Date.utc_today(),
             financial_situation: Lorem.sentence(),
-            inventory: random_boolean(),
-            inventory_count: random_integer(),
-            payroll: random_boolean(),
-            tax_return_current: random_boolean(),
-            tax_year: random_year(),
-            user_id: tp1.id
+            inventory:           random_boolean(),
+            inventory_count:     random_integer(),
+            payroll:             random_boolean(),
+            tax_return_current:  random_boolean(),
+            tax_year:            random_year(),
+            user_id:             tp1
           }),
           Repo.insert!(%BookKeeping{
-            account_count: random_integer(),
-            balance_sheet: random_boolean(),
-            deadline: Date.utc_today(),
+            account_count:       random_integer(),
+            balance_sheet:       random_boolean(),
+            deadline:            Date.utc_today(),
             financial_situation: Lorem.sentence(),
-            inventory: random_boolean(),
-            inventory_count: random_integer(),
-            payroll: random_boolean(),
-            tax_return_current: random_boolean(),
-            tax_year: random_year(),
-            user_id: tp2.id
+            inventory:           random_boolean(),
+            inventory_count:     random_integer(),
+            payroll:             random_boolean(),
+            tax_return_current:  random_boolean(),
+            tax_year:            random_year(),
+            user_id:             tp2
           }),
           Repo.insert!(%BookKeeping{
-            account_count: random_integer(),
-            balance_sheet: random_boolean(),
-            deadline: Date.utc_today(),
+            account_count:       random_integer(),
+            balance_sheet:       random_boolean(),
+            deadline:            Date.utc_today(),
             financial_situation: Lorem.sentence(),
-            inventory: random_boolean(),
-            inventory_count: random_integer(),
-            payroll: random_boolean(),
-            tax_return_current: random_boolean(),
-            tax_year: random_year(),
-            user_id: tp3.id
+            inventory:           random_boolean(),
+            inventory_count:     random_integer(),
+            payroll:             random_boolean(),
+            tax_return_current:  random_boolean(),
+            tax_year:            random_year(),
+            user_id:             tp3
           }),
           Repo.insert!(%BookKeeping{
-            payroll: random_boolean(),
+            payroll:       random_boolean(),
             price_payroll: random_integer(),
-            user_id: pro1.id
+            user_id:       pro1
           }),
           Repo.insert!(%BookKeeping{
-            payroll: random_boolean(),
+            payroll:       random_boolean(),
             price_payroll: random_integer(),
-            user_id: pro2.id
+            user_id:       pro2
           }),
           Repo.insert!(%BookKeeping{
-            payroll: random_boolean(),
+            payroll:       random_boolean(),
             price_payroll: random_integer(),
-            user_id: pro3.id
+            user_id:       pro3
           })
         ]
     end
@@ -261,40 +261,39 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(BookKeepingAdditionalNeed, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BookKeepingAdditionalNeed{
-            book_keeping_id: bk1,
-            name: random_name_additional_need(),
+            book_keeping_id:    bk1,
+            name:      Lorem.word(),
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingAdditionalNeed{
-            book_keeping_id: bk2,
-            name: random_name_additional_need()
+            book_keeping_id:    bk2,
+            name:      Lorem.word()
           }),
           Repo.insert!(%BookKeepingAdditionalNeed{
-            book_keeping_id: bk3,
-            name: random_name_additional_need()
+            book_keeping_id:    bk3,
+            name:      Lorem.word()
           }),
           Repo.insert!(%BookKeepingAdditionalNeed{
-            book_keeping_id: bk4,
-            name: random_name_additional_need()
+            book_keeping_id:    bk4,
+            name:      Lorem.word()
           }),
           Repo.insert!(%BookKeepingAdditionalNeed{
-            book_keeping_id: bk5,
-            name: random_name_additional_need(),
+            book_keeping_id:    bk5,
+            name:      Lorem.word(),
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingAdditionalNeed{
-            book_keeping_id: bk6,
-            name: random_name_additional_need(),
+            book_keeping_id:    bk6,
+            name:      Lorem.word(),
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingAdditionalNeed{
-            book_keeping_id: bk7,
-            name: random_name_additional_need(),
+            book_keeping_id:    bk7,
+            name:      Lorem.word(),
             price: random_integer()
           })
         ]
@@ -318,40 +317,39 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(BookKeepingAnnualRevenue, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BookKeepingAnnualRevenue{
-            book_keeping_id: bk1,
-            name: random_name_annual_revenue(),
+            book_keeping_id:    bk1,
+            name:      Lorem.word(),
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingAnnualRevenue{
-            book_keeping_id: bk2,
-            name: random_name_annual_revenue()
+            book_keeping_id:    bk2,
+            name:      Lorem.word()
           }),
           Repo.insert!(%BookKeepingAnnualRevenue{
-            book_keeping_id: bk3,
-            name: random_name_annual_revenue()
+            book_keeping_id:    bk3,
+            name:      Lorem.word()
           }),
           Repo.insert!(%BookKeepingAnnualRevenue{
-            book_keeping_id: bk4,
-            name: random_name_annual_revenue()
+            book_keeping_id:    bk4,
+            name:      Lorem.word()
           }),
           Repo.insert!(%BookKeepingAnnualRevenue{
-            book_keeping_id: bk5,
-            name: random_name_annual_revenue(),
+            book_keeping_id:    bk5,
+            name:      Lorem.word(),
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingAnnualRevenue{
-            book_keeping_id: bk6,
-            name: random_name_annual_revenue(),
+            book_keeping_id:    bk6,
+            name:      Lorem.word(),
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingAnnualRevenue{
-            book_keeping_id: bk7,
-            name: random_name_annual_revenue(),
+            book_keeping_id:    bk7,
+            name:      Lorem.word(),
             price: random_integer()
           })
         ]
@@ -360,30 +358,30 @@ defmodule Core.Seeder.Services do
 
   @spec seed_book_keeping_classify_inventory() :: Ecto.Schema.t()
   defp seed_book_keeping_classify_inventory() do
-     tp1 = User.find_by(email: "v.kobzan@gmail.com") |> Map.get(:id)
-     tp2 = User.find_by(email: "o.puryshev@gmail.com") |> Map.get(:id)
-     tp3 = User.find_by(email: "vlacho777@gmail.com") |> Map.get(:id)
+    book_keepenig_ids =
+      Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
 
-    book_keeping_tp1 = BookKeeping |> Repo.get_by!(user_id: tp1) |> Map.get(:id)
-    book_keeping_tp2 = BookKeeping |> Repo.get_by!(user_id: tp2) |> Map.get(:id)
-    book_keeping_tp3 = BookKeeping |> Repo.get_by!(user_id: tp3) |> Map.get(:id)
+    {bk1, bk2, bk3} = {
+      Enum.at(book_keepenig_ids, 1),
+      Enum.at(book_keepenig_ids, 2),
+      Enum.at(book_keepenig_ids, 3)
+    }
 
     case Repo.aggregate(BookKeepingClassifyInventory, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BookKeepingClassifyInventory{
-            book_keeping_id: book_keeping_tp1,
-            name: random_name_classify_inventory()
+            book_keeping_id: bk1,
+            name: [Lorem.word()]
           }),
           Repo.insert!(%BookKeepingClassifyInventory{
-            book_keeping_id: book_keeping_tp2,
-            name: random_name_classify_inventory()
+            book_keeping_id: bk2,
+            name: [Lorem.word()]
           }),
           Repo.insert!(%BookKeepingClassifyInventory{
-            book_keeping_id: book_keeping_tp3,
-            name: random_name_classify_inventory()
+            book_keeping_id: bk3,
+            name: [Lorem.word()]
           })
         ]
     end
@@ -406,37 +404,36 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(BookKeepingIndustry, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BookKeepingIndustry{
             book_keeping_id: bk1,
-            name: random_name_for_pro_industry()
+            name: [Lorem.word()]
           }),
           Repo.insert!(%BookKeepingIndustry{
             book_keeping_id: bk2,
-            name: random_name_for_tp_industry(),
+            name: [Lorem.word()]
           }),
           Repo.insert!(%BookKeepingIndustry{
             book_keeping_id: bk3,
-            name: random_name_for_tp_industry()
+            name: [Lorem.word()]
           }),
           Repo.insert!(%BookKeepingIndustry{
             book_keeping_id: bk4,
-            name: random_name_for_tp_industry()
+            name: [Lorem.word()]
           }),
           Repo.insert!(%BookKeepingIndustry{
             book_keeping_id: bk5,
-            name: random_name_for_pro_industry()
+            name: [Lorem.word()]
           }),
           Repo.insert!(%BookKeepingIndustry{
             book_keeping_id: bk6,
-            name: random_name_for_pro_industry()
+            name: [Lorem.word()]
           }),
           Repo.insert!(%BookKeepingIndustry{
             book_keeping_id: bk7,
-            name: random_name_for_pro_industry()
+            name: [Lorem.word()]
           })
         ]
     end
@@ -459,40 +456,39 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(BookKeepingNumberEmployee, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BookKeepingNumberEmployee{
-            book_keeping_id: bk1,
-            name: random_name_number_employee(),
+            book_keeping_id:    bk1,
+            name:      Lorem.word(),
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingNumberEmployee{
-            book_keeping_id: bk2,
-            name: random_name_number_employee()
+            book_keeping_id:    bk2,
+            name:      Lorem.word()
           }),
           Repo.insert!(%BookKeepingNumberEmployee{
-            book_keeping_id: bk3,
-            name: random_name_number_employee()
+            book_keeping_id:    bk3,
+            name:      Lorem.word()
           }),
           Repo.insert!(%BookKeepingNumberEmployee{
-            book_keeping_id: bk4,
-            name: random_name_number_employee()
+            book_keeping_id:    bk4,
+            name:      Lorem.word()
           }),
           Repo.insert!(%BookKeepingNumberEmployee{
-            book_keeping_id: bk5,
-            name: random_name_number_employee(),
+            book_keeping_id:    bk5,
+            name:      Lorem.word(),
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingNumberEmployee{
-            book_keeping_id: bk6,
-            name: random_name_number_employee(),
+            book_keeping_id:    bk6,
+            name:      Lorem.word(),
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingNumberEmployee{
-            book_keeping_id: bk7,
-            name: random_name_number_employee(),
+            book_keeping_id:    bk7,
+            name:      Lorem.word(),
             price: random_integer()
           })
         ]
@@ -516,40 +512,39 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(BookKeepingTransactionVolume, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BookKeepingTransactionVolume{
-            book_keeping_id: bk1,
-            name: random_name_transaction_volume(),
+            book_keeping_id:    bk1,
+            name:      Lorem.word(),
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingTransactionVolume{
-            book_keeping_id: bk2,
-            name: random_name_transaction_volume()
+            book_keeping_id:    bk2,
+            name:      Lorem.word()
           }),
           Repo.insert!(%BookKeepingTransactionVolume{
-            book_keeping_id: bk3,
-            name: random_name_transaction_volume()
+            book_keeping_id:    bk3,
+            name:      Lorem.word()
           }),
           Repo.insert!(%BookKeepingTransactionVolume{
-            book_keeping_id: bk4,
-            name: random_name_transaction_volume()
+            book_keeping_id:    bk4,
+            name:      Lorem.word()
           }),
           Repo.insert!(%BookKeepingTransactionVolume{
-            book_keeping_id: bk5,
-            name: random_name_transaction_volume(),
+            book_keeping_id:    bk5,
+            name:      Lorem.word(),
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingTransactionVolume{
-            book_keeping_id: bk6,
-            name: random_name_transaction_volume(),
+            book_keeping_id:    bk6,
+            name:      Lorem.word(),
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingTransactionVolume{
-            book_keeping_id: bk7,
-            name: random_name_transaction_volume(),
+            book_keeping_id:    bk7,
+            name:      Lorem.word(),
             price: random_integer()
           })
         ]
@@ -573,40 +568,39 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(BookKeepingTypeClient, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BookKeepingTypeClient{
-            book_keeping_id: bk1,
-            name: random_name_type_client(),
+            book_keeping_id:    bk1,
+            name:      Lorem.word(),
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingTypeClient{
-            book_keeping_id: bk2,
-            name: random_name_type_client()
+            book_keeping_id:    bk2,
+            name:      Lorem.word()
           }),
           Repo.insert!(%BookKeepingTypeClient{
-            book_keeping_id: bk3,
-            name: random_name_type_client()
+            book_keeping_id:    bk3,
+            name:      Lorem.word()
           }),
           Repo.insert!(%BookKeepingTypeClient{
-            book_keeping_id: bk4,
-            name: random_name_type_client()
+            book_keeping_id:    bk4,
+            name:      Lorem.word()
           }),
           Repo.insert!(%BookKeepingTypeClient{
-            book_keeping_id: bk5,
-            name: random_name_type_client(),
+            book_keeping_id:    bk5,
+            name:      Lorem.word(),
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingTypeClient{
-            book_keeping_id: bk6,
-            name: random_name_type_client(),
+            book_keeping_id:    bk6,
+            name:      Lorem.word(),
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingTypeClient{
-            book_keeping_id: bk7,
-            name: random_name_type_client(),
+            book_keeping_id:    bk7,
+            name:      Lorem.word(),
             price: random_integer()
           })
         ]
@@ -618,285 +612,284 @@ defmodule Core.Seeder.Services do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
-    {user_id} = {Enum.at(user_ids, 0)}
-
-     tp1 = User.find_by(email: "v.kobzan@gmail.com")
-     tp2 = User.find_by(email: "o.puryshev@gmail.com")
-     tp3 = User.find_by(email: "vlacho777@gmail.com")
-    pro1 = User.find_by(email: "support@taxgig.com")
-    pro2 = User.find_by(email: "op@taxgig.com")
-    pro3 = User.find_by(email: "vk@taxgig.com")
+    {user, tp1, tp2, tp3, pro1, pro2, pro3} = {
+      Enum.at(user_ids, 0),
+      Enum.at(user_ids, 1),
+      Enum.at(user_ids, 2),
+      Enum.at(user_ids, 3),
+      Enum.at(user_ids, 4),
+      Enum.at(user_ids, 5),
+      Enum.at(user_ids, 6)
+    }
 
     case Repo.aggregate(BusinessTaxReturn, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BusinessTaxReturn{
-            accounting_software: random_boolean(),
-            capital_asset_sale: random_boolean(),
-            church_hospital: random_boolean(),
-            deadline: Date.utc_today(),
-            dispose_asset: random_boolean(),
-            dispose_property: random_boolean(),
-            educational_facility: random_boolean(),
-            financial_situation: Lorem.sentence(),
-            foreign_account_interest: random_boolean(),
+            accounting_software:        random_boolean(),
+            capital_asset_sale:         random_boolean(),
+            church_hospital:            random_boolean(),
+            dispose_asset:              random_boolean(),
+            dispose_property:           random_boolean(),
+            educational_facility:       random_boolean(),
+            financial_situation:        Lorem.sentence(),
+            foreign_account_interest:   random_boolean(),
             foreign_account_value_more: random_boolean(),
-            foreign_entity_interest: random_boolean(),
-            foreign_partner_count: random_integer(),
-            foreign_shareholder: random_boolean(),
-            foreign_value: random_boolean(),
-            fundraising_over: random_boolean(),
-            has_contribution: random_boolean(),
-            has_loan: random_boolean(),
-            income_over_thousand: random_boolean(),
-            invest_research: random_boolean(),
-            k1_count: random_integer(),
-            lobbying: random_boolean(),
-            make_distribution: random_boolean(),
-            none_expat: random_boolean(),
-            operate_facility: random_boolean(),
-            price_state: random_integer(),
-            price_tax_year: random_integer(),
-            property_sale: random_boolean(),
-            public_charity: random_boolean(),
-            rental_property_count: random_integer(),
-            reported_grant: random_boolean(),
-            restricted_donation: random_boolean(),
-            tax_exemption: random_boolean(),
-            tax_year: random_year(),
-            total_asset_less: random_boolean(),
-            total_asset_over: random_boolean(),
-            user_id: user_id
+            foreign_entity_interest:    random_boolean(),
+            foreign_partner_count:      random_integer(),
+            foreign_shareholder:        random_boolean(),
+            foreign_value:              random_boolean(),
+            fundraising_over:           random_boolean(),
+            has_contribution:           random_boolean(),
+            has_loan:                   random_boolean(),
+            income_over_thousand:       random_boolean(),
+            invest_research:            random_boolean(),
+            k1_count:                   random_integer(),
+            lobbying:                   random_boolean(),
+            make_distribution:          random_boolean(),
+            none_expat:                 random_boolean(),
+            operate_facility:           random_boolean(),
+            price_state:                random_integer(),
+            price_tax_year:             random_integer(),
+            property_sale:              random_boolean(),
+            public_charity:             random_boolean(),
+            rental_property_count:      random_integer(),
+            reported_grant:             random_boolean(),
+            restricted_donation:        random_boolean(),
+            tax_exemption:              random_boolean(),
+            tax_year:                      random_year(),
+            total_asset_less:           random_boolean(),
+            total_asset_over:           random_boolean(),
+            user_id:                                user
           }),
           Repo.insert!(%BusinessTaxReturn{
-            accounting_software: random_boolean(),
-            capital_asset_sale: random_boolean(),
-            church_hospital: random_boolean(),
-            deadline: Date.utc_today(),
-            dispose_asset: random_boolean(),
-            dispose_property: random_boolean(),
-            educational_facility: random_boolean(),
-            financial_situation: Lorem.sentence(),
-            foreign_account_interest: random_boolean(),
+            accounting_software:        random_boolean(),
+            capital_asset_sale:         random_boolean(),
+            church_hospital:            random_boolean(),
+            deadline:                   Date.utc_today(),
+            dispose_asset:              random_boolean(),
+            dispose_property:           random_boolean(),
+            educational_facility:       random_boolean(),
+            financial_situation:        Lorem.sentence(),
+            foreign_account_interest:   random_boolean(),
             foreign_account_value_more: random_boolean(),
-            foreign_entity_interest: random_boolean(),
-            foreign_partner_count: random_integer(),
-            foreign_shareholder: random_boolean(),
-            foreign_value: random_boolean(),
-            fundraising_over: random_boolean(),
-            has_contribution: random_boolean(),
-            has_loan: random_boolean(),
-            income_over_thousand: random_boolean(),
-            invest_research: random_boolean(),
-            k1_count: random_integer(),
-            lobbying: random_boolean(),
-            make_distribution: random_boolean(),
-            none_expat: random_boolean(),
-            operate_facility: random_boolean(),
-            price_state: random_integer(),
-            price_tax_year: random_integer(),
-            property_sale: random_boolean(),
-            public_charity: random_boolean(),
-            rental_property_count: random_integer(),
-            reported_grant: random_boolean(),
-            restricted_donation: random_boolean(),
-            state: random_state(),
-            tax_exemption: random_boolean(),
-            tax_year: random_year(),
-            total_asset_less: random_boolean(),
-            total_asset_over: random_boolean(),
-            user_id: tp1.id
+            foreign_entity_interest:    random_boolean(),
+            foreign_partner_count:      random_integer(),
+            foreign_shareholder:        random_boolean(),
+            foreign_value:              random_boolean(),
+            fundraising_over:           random_boolean(),
+            has_contribution:           random_boolean(),
+            has_loan:                   random_boolean(),
+            income_over_thousand:       random_boolean(),
+            invest_research:            random_boolean(),
+            k1_count:                   random_integer(),
+            lobbying:                   random_boolean(),
+            make_distribution:          random_boolean(),
+            none_expat:                 random_boolean(),
+            operate_facility:           random_boolean(),
+            price_state:                random_integer(),
+            price_tax_year:             random_integer(),
+            property_sale:              random_boolean(),
+            public_charity:             random_boolean(),
+            rental_property_count:      random_integer(),
+            reported_grant:             random_boolean(),
+            restricted_donation:        random_boolean(),
+            state:                        random_state(),
+            tax_exemption:              random_boolean(),
+            tax_year:                      random_year(),
+            total_asset_less:           random_boolean(),
+            total_asset_over:           random_boolean(),
+            user_id:                                 tp1
           }),
           Repo.insert!(%BusinessTaxReturn{
-            accounting_software: random_boolean(),
-            capital_asset_sale: random_boolean(),
-            church_hospital: random_boolean(),
-            deadline: Date.utc_today(),
-            dispose_asset: random_boolean(),
-            dispose_property: random_boolean(),
-            educational_facility: random_boolean(),
-            financial_situation: Lorem.sentence(),
-            foreign_account_interest: random_boolean(),
+            accounting_software:        random_boolean(),
+            capital_asset_sale:         random_boolean(),
+            church_hospital:            random_boolean(),
+            deadline:                   Date.utc_today(),
+            dispose_asset:              random_boolean(),
+            dispose_property:           random_boolean(),
+            educational_facility:       random_boolean(),
+            financial_situation:        Lorem.sentence(),
+            foreign_account_interest:   random_boolean(),
             foreign_account_value_more: random_boolean(),
-            foreign_entity_interest: random_boolean(),
-            foreign_partner_count: random_integer(),
-            foreign_shareholder: random_boolean(),
-            foreign_value: random_boolean(),
-            fundraising_over: random_boolean(),
-            has_contribution: random_boolean(),
-            has_loan: random_boolean(),
-            income_over_thousand: random_boolean(),
-            invest_research: random_boolean(),
-            k1_count: random_integer(),
-            lobbying: random_boolean(),
-            make_distribution: random_boolean(),
-            none_expat: random_boolean(),
-            operate_facility: random_boolean(),
-            price_state: random_integer(),
-            price_tax_year: random_integer(),
-            property_sale: random_boolean(),
-            public_charity: random_boolean(),
-            rental_property_count: random_integer(),
-            reported_grant: random_boolean(),
-            restricted_donation: random_boolean(),
-            state: random_state(),
-            tax_exemption: random_boolean(),
-            tax_year: random_year(),
-            total_asset_less: random_boolean(),
-            total_asset_over: random_boolean(),
-            user_id: tp2.id
+            foreign_entity_interest:    random_boolean(),
+            foreign_partner_count:      random_integer(),
+            foreign_shareholder:        random_boolean(),
+            foreign_value:              random_boolean(),
+            fundraising_over:           random_boolean(),
+            has_contribution:           random_boolean(),
+            has_loan:                   random_boolean(),
+            income_over_thousand:       random_boolean(),
+            invest_research:            random_boolean(),
+            k1_count:                   random_integer(),
+            lobbying:                   random_boolean(),
+            make_distribution:          random_boolean(),
+            none_expat:                 random_boolean(),
+            operate_facility:           random_boolean(),
+            price_state:                random_integer(),
+            price_tax_year:             random_integer(),
+            property_sale:              random_boolean(),
+            public_charity:             random_boolean(),
+            rental_property_count:      random_integer(),
+            reported_grant:             random_boolean(),
+            restricted_donation:        random_boolean(),
+            state:                        random_state(),
+            tax_exemption:              random_boolean(),
+            tax_year:                      random_year(),
+            total_asset_less:           random_boolean(),
+            total_asset_over:           random_boolean(),
+            user_id:                                 tp2
           }),
           Repo.insert!(%BusinessTaxReturn{
-            accounting_software: random_boolean(),
-            capital_asset_sale: random_boolean(),
-            church_hospital: random_boolean(),
-            deadline: Date.utc_today(),
-            dispose_asset: random_boolean(),
-            dispose_property: random_boolean(),
-            educational_facility: random_boolean(),
-            financial_situation: Lorem.sentence(),
-            foreign_account_interest: random_boolean(),
+            accounting_software:        random_boolean(),
+            capital_asset_sale:         random_boolean(),
+            church_hospital:            random_boolean(),
+            deadline:                   Date.utc_today(),
+            dispose_asset:              random_boolean(),
+            dispose_property:           random_boolean(),
+            educational_facility:       random_boolean(),
+            financial_situation:        Lorem.sentence(),
+            foreign_account_interest:   random_boolean(),
             foreign_account_value_more: random_boolean(),
-            foreign_entity_interest: random_boolean(),
-            foreign_partner_count: random_integer(),
-            foreign_shareholder: random_boolean(),
-            foreign_value: random_boolean(),
-            fundraising_over: random_boolean(),
-            has_contribution: random_boolean(),
-            has_loan: random_boolean(),
-            income_over_thousand: random_boolean(),
-            invest_research: random_boolean(),
-            k1_count: random_integer(),
-            lobbying: random_boolean(),
-            make_distribution: random_boolean(),
-            none_expat: random_boolean(),
-            operate_facility: random_boolean(),
-            price_state: random_integer(),
-            price_tax_year: random_integer(),
-            property_sale: random_boolean(),
-            public_charity: random_boolean(),
-            rental_property_count: random_integer(),
-            reported_grant: random_boolean(),
-            restricted_donation: random_boolean(),
-            state: random_state(),
-            tax_exemption: random_boolean(),
-            tax_year: random_year(),
-            total_asset_less: random_boolean(),
-            total_asset_over: random_boolean(),
-            user_id: tp3.id
+            foreign_entity_interest:    random_boolean(),
+            foreign_partner_count:      random_integer(),
+            foreign_shareholder:        random_boolean(),
+            foreign_value:              random_boolean(),
+            fundraising_over:           random_boolean(),
+            has_contribution:           random_boolean(),
+            has_loan:                   random_boolean(),
+            income_over_thousand:       random_boolean(),
+            invest_research:            random_boolean(),
+            k1_count:                   random_integer(),
+            lobbying:                   random_boolean(),
+            make_distribution:          random_boolean(),
+            none_expat:                 random_boolean(),
+            operate_facility:           random_boolean(),
+            price_state:                random_integer(),
+            price_tax_year:             random_integer(),
+            property_sale:              random_boolean(),
+            public_charity:             random_boolean(),
+            rental_property_count:      random_integer(),
+            reported_grant:             random_boolean(),
+            restricted_donation:        random_boolean(),
+            state:                        random_state(),
+            tax_exemption:              random_boolean(),
+            tax_year:                      random_year(),
+            total_asset_less:           random_boolean(),
+            total_asset_over:           random_boolean(),
+            user_id:                                 tp3
           }),
           Repo.insert!(%BusinessTaxReturn{
-            accounting_software: random_boolean(),
-            capital_asset_sale: random_boolean(),
-            church_hospital: random_boolean(),
-            dispose_asset: random_boolean(),
-            dispose_property: random_boolean(),
-            educational_facility: random_boolean(),
-            financial_situation: Lorem.sentence(),
-            foreign_account_interest: random_boolean(),
+            accounting_software:        random_boolean(),
+            capital_asset_sale:         random_boolean(),
+            church_hospital:            random_boolean(),
+            dispose_asset:              random_boolean(),
+            dispose_property:           random_boolean(),
+            educational_facility:       random_boolean(),
+            financial_situation:        Lorem.sentence(),
+            foreign_account_interest:   random_boolean(),
             foreign_account_value_more: random_boolean(),
-            foreign_entity_interest: random_boolean(),
-            foreign_partner_count: random_integer(),
-            foreign_shareholder: random_boolean(),
-            foreign_value: random_boolean(),
-            fundraising_over: random_boolean(),
-            has_contribution: random_boolean(),
-            has_loan: random_boolean(),
-            income_over_thousand: random_boolean(),
-            invest_research: random_boolean(),
-            k1_count: random_integer(),
-            lobbying: random_boolean(),
-            make_distribution: random_boolean(),
-            none_expat: random_boolean(),
-            operate_facility: random_boolean(),
-            price_state: random_integer(),
-            price_tax_year: random_integer(),
-            property_sale: random_boolean(),
-            public_charity: random_boolean(),
-            rental_property_count: random_integer(),
-            reported_grant: random_boolean(),
-            restricted_donation: random_boolean(),
-            tax_exemption: random_boolean(),
-            tax_year: random_year(),
-            total_asset_less: random_boolean(),
-            total_asset_over: random_boolean(),
-            user_id: pro1.id
+            foreign_entity_interest:    random_boolean(),
+            foreign_partner_count:      random_integer(),
+            foreign_shareholder:        random_boolean(),
+            foreign_value:              random_boolean(),
+            fundraising_over:           random_boolean(),
+            has_contribution:           random_boolean(),
+            has_loan:                   random_boolean(),
+            income_over_thousand:       random_boolean(),
+            invest_research:            random_boolean(),
+            k1_count:                   random_integer(),
+            lobbying:                   random_boolean(),
+            make_distribution:          random_boolean(),
+            none_expat:                 random_boolean(),
+            operate_facility:           random_boolean(),
+            price_state:                random_integer(),
+            price_tax_year:             random_integer(),
+            property_sale:              random_boolean(),
+            public_charity:             random_boolean(),
+            rental_property_count:      random_integer(),
+            reported_grant:             random_boolean(),
+            restricted_donation:        random_boolean(),
+            tax_exemption:              random_boolean(),
+            tax_year:                      random_year(),
+            total_asset_less:           random_boolean(),
+            total_asset_over:           random_boolean(),
+            user_id:                                pro1
           }),
           Repo.insert!(%BusinessTaxReturn{
-            accounting_software: random_boolean(),
-            capital_asset_sale: random_boolean(),
-            church_hospital: random_boolean(),
-            dispose_asset: random_boolean(),
-            dispose_property: random_boolean(),
-            educational_facility: random_boolean(),
-            financial_situation: Lorem.sentence(),
-            foreign_account_interest: random_boolean(),
+            accounting_software:        random_boolean(),
+            capital_asset_sale:         random_boolean(),
+            church_hospital:            random_boolean(),
+            dispose_asset:              random_boolean(),
+            dispose_property:           random_boolean(),
+            educational_facility:       random_boolean(),
+            financial_situation:        Lorem.sentence(),
+            foreign_account_interest:   random_boolean(),
             foreign_account_value_more: random_boolean(),
-            foreign_entity_interest: random_boolean(),
-            foreign_partner_count: random_integer(),
-            foreign_shareholder: random_boolean(),
-            foreign_value: random_boolean(),
-            fundraising_over: random_boolean(),
-            has_contribution: random_boolean(),
-            has_loan: random_boolean(),
-            income_over_thousand: random_boolean(),
-            invest_research: random_boolean(),
-            k1_count: random_integer(),
-            lobbying: random_boolean(),
-            make_distribution: random_boolean(),
-            none_expat: random_boolean(),
-            operate_facility: random_boolean(),
-            price_state: random_integer(),
-            price_tax_year: random_integer(),
-            property_sale: random_boolean(),
-            public_charity: random_boolean(),
-            rental_property_count: random_integer(),
-            reported_grant: random_boolean(),
-            restricted_donation: random_boolean(),
-            tax_exemption: random_boolean(),
-            tax_year: random_year(),
-            total_asset_less: random_boolean(),
-            total_asset_over: random_boolean(),
-            user_id: pro2.id
+            foreign_entity_interest:    random_boolean(),
+            foreign_partner_count:      random_integer(),
+            foreign_shareholder:        random_boolean(),
+            foreign_value:              random_boolean(),
+            fundraising_over:           random_boolean(),
+            has_contribution:           random_boolean(),
+            has_loan:                   random_boolean(),
+            income_over_thousand:       random_boolean(),
+            invest_research:            random_boolean(),
+            k1_count:                   random_integer(),
+            lobbying:                   random_boolean(),
+            make_distribution:          random_boolean(),
+            none_expat:                 random_boolean(),
+            operate_facility:           random_boolean(),
+            price_state:                random_integer(),
+            price_tax_year:             random_integer(),
+            property_sale:              random_boolean(),
+            public_charity:             random_boolean(),
+            rental_property_count:      random_integer(),
+            reported_grant:             random_boolean(),
+            restricted_donation:        random_boolean(),
+            tax_exemption:              random_boolean(),
+            tax_year:                      random_year(),
+            total_asset_less:           random_boolean(),
+            total_asset_over:           random_boolean(),
+            user_id:                                pro2
           }),
           Repo.insert!(%BusinessTaxReturn{
-            accounting_software: random_boolean(),
-            capital_asset_sale: random_boolean(),
-            church_hospital: random_boolean(),
-            dispose_asset: random_boolean(),
-            dispose_property: random_boolean(),
-            educational_facility: random_boolean(),
-            financial_situation: Lorem.sentence(),
-            foreign_account_interest: random_boolean(),
+            accounting_software:        random_boolean(),
+            capital_asset_sale:         random_boolean(),
+            church_hospital:            random_boolean(),
+            dispose_asset:              random_boolean(),
+            dispose_property:           random_boolean(),
+            educational_facility:       random_boolean(),
+            financial_situation:        Lorem.sentence(),
+            foreign_account_interest:   random_boolean(),
             foreign_account_value_more: random_boolean(),
-            foreign_entity_interest: random_boolean(),
-            foreign_partner_count: random_integer(),
-            foreign_shareholder: random_boolean(),
-            foreign_value: random_boolean(),
-            fundraising_over: random_boolean(),
-            has_contribution: random_boolean(),
-            has_loan: random_boolean(),
-            income_over_thousand: random_boolean(),
-            invest_research: random_boolean(),
-            k1_count: random_integer(),
-            lobbying: random_boolean(),
-            make_distribution: random_boolean(),
-            none_expat: random_boolean(),
-            operate_facility: random_boolean(),
-            price_state: random_integer(),
-            price_tax_year: random_integer(),
-            property_sale: random_boolean(),
-            public_charity: random_boolean(),
-            rental_property_count: random_integer(),
-            reported_grant: random_boolean(),
-            restricted_donation: random_boolean(),
-            tax_exemption: random_boolean(),
-            tax_year: random_year(),
-            total_asset_less: random_boolean(),
-            total_asset_over: random_boolean(),
-            user_id: pro3.id
+            foreign_entity_interest:    random_boolean(),
+            foreign_partner_count:      random_integer(),
+            foreign_shareholder:        random_boolean(),
+            foreign_value:              random_boolean(),
+            fundraising_over:           random_boolean(),
+            has_contribution:           random_boolean(),
+            has_loan:                   random_boolean(),
+            income_over_thousand:       random_boolean(),
+            invest_research:            random_boolean(),
+            k1_count:                   random_integer(),
+            lobbying:                   random_boolean(),
+            make_distribution:          random_boolean(),
+            none_expat:                 random_boolean(),
+            operate_facility:           random_boolean(),
+            price_state:                random_integer(),
+            price_tax_year:             random_integer(),
+            property_sale:              random_boolean(),
+            public_charity:             random_boolean(),
+            rental_property_count:      random_integer(),
+            reported_grant:             random_boolean(),
+            restricted_donation:        random_boolean(),
+            tax_exemption:              random_boolean(),
+            tax_year:                      random_year(),
+            total_asset_less:           random_boolean(),
+            total_asset_over:           random_boolean(),
+            user_id:                                pro3
           })
         ]
     end
@@ -919,41 +912,40 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(BusinessEntityType, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id: btr1,
-            name: random_name_entity_type(),
-            price: Enum.random(1..99)
+            name:           Lorem.word(),
+            price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id: btr2,
-            name: random_name_entity_type()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id: btr3,
-            name: random_name_entity_type()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id: btr4,
-            name: random_name_entity_type()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id: btr5,
-            name: random_name_entity_type(),
-            price: Enum.random(1..99)
+            name:           Lorem.word(),
+            price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id: btr6,
-            name: random_name_entity_type(),
-            price: Enum.random(1..99)
+            name:           Lorem.word(),
+            price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id: btr7,
-            name: random_name_entity_type(),
-            price: Enum.random(1..99)
+            name:           Lorem.word(),
+            price:    Enum.random(1..99)
           })
         ]
     end
@@ -976,37 +968,36 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(BusinessForeignAccountCount, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BusinessForeignAccountCount{
             business_tax_return_id: btr1,
-            name: random_name_foreign_account_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessForeignAccountCount{
             business_tax_return_id: btr2,
-            name: random_name_foreign_account_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessForeignAccountCount{
             business_tax_return_id: btr3,
-            name: random_name_foreign_account_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessForeignAccountCount{
             business_tax_return_id: btr4,
-            name: random_name_foreign_account_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessForeignAccountCount{
             business_tax_return_id: btr5,
-            name: random_name_foreign_account_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessForeignAccountCount{
             business_tax_return_id: btr6,
-            name: random_name_foreign_account_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessForeignAccountCount{
             business_tax_return_id: btr7,
-            name: random_name_foreign_account_count()
+            name:           Lorem.word()
           })
         ]
     end
@@ -1029,37 +1020,36 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(BusinessForeignOwnershipCount, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BusinessForeignOwnershipCount{
             business_tax_return_id: btr1,
-            name: random_name_foreign_ownership_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessForeignOwnershipCount{
             business_tax_return_id: btr2,
-            name: random_name_foreign_ownership_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessForeignOwnershipCount{
             business_tax_return_id: btr3,
-            name: random_name_foreign_ownership_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessForeignOwnershipCount{
             business_tax_return_id: btr4,
-            name: random_name_foreign_ownership_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessForeignOwnershipCount{
             business_tax_return_id: btr5,
-            name: random_name_foreign_ownership_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessForeignOwnershipCount{
             business_tax_return_id: btr6,
-            name: random_name_foreign_ownership_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessForeignOwnershipCount{
             business_tax_return_id: btr7,
-            name: random_name_foreign_ownership_count()
+            name:           Lorem.word()
           })
         ]
     end
@@ -1082,37 +1072,36 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(BusinessIndustry, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id: btr1,
-            name: random_name_for_tp_industry()
+            name:         [Lorem.word()]
           }),
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id: btr2,
-            name: random_name_for_tp_industry()
+            name:         [Lorem.word()]
           }),
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id: btr3,
-            name: random_name_for_tp_industry()
+            name:         [Lorem.word()]
           }),
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id: btr4,
-            name: random_name_for_tp_industry()
+            name:         [Lorem.word()]
           }),
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id: btr5,
-            name: random_name_for_pro_tax_industry()
+            name:         [Lorem.word()]
           }),
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id: btr6,
-            name: random_name_for_pro_tax_industry()
+            name:         [Lorem.word()]
           }),
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id: btr7,
-            name: random_name_for_pro_tax_industry()
+            name:         [Lorem.word()]
           })
         ]
     end
@@ -1135,37 +1124,36 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(BusinessLlcType, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BusinessLlcType{
             business_tax_return_id: btr1,
-            name: random_name_llc_type()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessLlcType{
             business_tax_return_id: btr2,
-            name: random_name_llc_type()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessLlcType{
             business_tax_return_id: btr3,
-            name: random_name_llc_type()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessLlcType{
             business_tax_return_id: btr4,
-            name: random_name_llc_type()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessLlcType{
             business_tax_return_id: btr5,
-            name: random_name_llc_type()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessLlcType{
             business_tax_return_id: btr6,
-            name: random_name_llc_type()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessLlcType{
             business_tax_return_id: btr7,
-            name: random_name_llc_type()
+            name:           Lorem.word()
           })
         ]
     end
@@ -1187,41 +1175,40 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(BusinessNumberEmployee, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr1,
-            name: random_name_number_of_employee(),
-            price: Enum.random(1..99)
+            name:           Lorem.word(),
+            price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr2,
-            name: random_name_number_of_employee()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr3,
-            name: random_name_number_of_employee()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr4,
-            name: random_name_number_of_employee()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr5,
-            name: random_name_number_of_employee(),
-            price: Enum.random(1..99)
+            name:           Lorem.word(),
+            price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr6,
-            name: random_name_number_of_employee(),
-            price: Enum.random(1..99)
+            name:           Lorem.word(),
+            price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr7,
-            name: random_name_number_of_employee(),
-            price: Enum.random(1..99)
+            name:           Lorem.word(),
+            price:    Enum.random(1..99)
           })
         ]
     end
@@ -1244,41 +1231,40 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(BusinessTotalRevenue, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr1,
-            name: random_name_total_revenue(),
-            price: Enum.random(1..99)
+            name:           Lorem.word(),
+            price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr2,
-            name: random_name_total_revenue()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr3,
-            name: random_name_total_revenue()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr4,
-            name: random_name_total_revenue()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr5,
-            name: random_name_total_revenue(),
-            price: Enum.random(1..99)
+            name:           Lorem.word(),
+            price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr6,
-            name: random_name_total_revenue(),
-            price: Enum.random(1..99)
+            name:           Lorem.word(),
+            price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr7,
-            name: random_name_total_revenue(),
-            price: Enum.random(1..99)
+            name:           Lorem.word(),
+            price:    Enum.random(1..99)
           })
         ]
     end
@@ -1301,37 +1287,36 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(BusinessTransactionCount, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%BusinessTransactionCount{
             business_tax_return_id: btr1,
-            name: random_name_transactions_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessTransactionCount{
             business_tax_return_id: btr2,
-            name: random_name_transactions_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessTransactionCount{
             business_tax_return_id: btr3,
-            name: random_name_transactions_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessTransactionCount{
             business_tax_return_id: btr4,
-            name: random_name_transactions_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessTransactionCount{
             business_tax_return_id: btr5,
-            name: random_name_transactions_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessTransactionCount{
             business_tax_return_id: btr6,
-            name: random_name_transactions_count()
+            name:           Lorem.word()
           }),
           Repo.insert!(%BusinessTransactionCount{
             business_tax_return_id: btr7,
-            name: random_name_transactions_count()
+            name:           Lorem.word()
           })
         ]
     end
@@ -1342,149 +1327,159 @@ defmodule Core.Seeder.Services do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
-    {user_id} = {Enum.at(user_ids, 0)}
-
-     tp1 = User.find_by(email: "v.kobzan@gmail.com")
-     tp2 = User.find_by(email: "o.puryshev@gmail.com")
-     tp3 = User.find_by(email: "vlacho777@gmail.com")
-    pro1 = User.find_by(email: "support@taxgig.com")
-    pro2 = User.find_by(email: "op@taxgig.com")
-    pro3 = User.find_by(email: "vk@taxgig.com")
+    {user, tp1, tp2, tp3, pro1, pro2, pro3} = {
+      Enum.at(user_ids, 0),
+      Enum.at(user_ids, 1),
+      Enum.at(user_ids, 2),
+      Enum.at(user_ids, 3),
+      Enum.at(user_ids, 4),
+      Enum.at(user_ids, 5),
+      Enum.at(user_ids, 6)
+    }
 
     case Repo.aggregate(IndividualTaxReturn, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%IndividualTaxReturn{
-            deadline: Date.utc_today(),
-            foreign_account: random_boolean(),
-            foreign_account_limit: random_boolean(),
+            foreign_account:                 random_boolean(),
+            home_owner:                      random_boolean(),
+            living_abroad:                   random_boolean(),
+            non_resident_earning:            random_boolean(),
+            own_stock_crypto:                random_boolean(),
+            price_foreign_account:           random_integer(),
+            price_home_owner:                random_integer(),
+            price_living_abroad:             random_integer(),
+            price_non_resident_earning:      random_integer(),
+            price_own_stock_crypto:          random_integer(),
+            price_rental_property_income:    random_integer(),
+            price_sole_proprietorship_count: random_integer(),
+            price_state:                     random_integer(),
+            price_stock_divident:            random_integer(),
+            price_tax_year:                  random_integer(),
+            rental_property_income:          random_boolean(),
+            stock_divident:                  random_boolean(),
+            user_id:                                     user
+          }),
+          Repo.insert!(%IndividualTaxReturn{
+            deadline:                   Date.utc_today(),
+            foreign_account:            random_boolean(),
+            foreign_account_limit:      random_boolean(),
             foreign_financial_interest: random_boolean(),
-            home_owner: random_boolean(),
-            k1_count: random_integer(),
-            k1_income: random_boolean(),
-            living_abroad: random_boolean(),
-            non_resident_earning: random_boolean(),
-            own_stock_crypto: random_boolean(),
-            rental_property_count: random_integer(),
-            rental_property_income: random_boolean(),
-            sole_proprietorship_count: random_integer(),
-            state: random_state(),
-            stock_divident: random_boolean(),
-            tax_year: random_year(),
-            user_id: user_id
+            home_owner:                 random_boolean(),
+            k1_count:                   random_integer(),
+            k1_income:                  random_boolean(),
+            living_abroad:              random_boolean(),
+            non_resident_earning:       random_boolean(),
+            none_expat:                 random_boolean(),
+            own_stock_crypto:           random_boolean(),
+            rental_property_count:      random_integer(),
+            rental_property_income:     random_boolean(),
+            sole_proprietorship_count:  random_integer(),
+            state:                        random_state(),
+            stock_divident:             random_boolean(),
+            tax_year:                      random_year(),
+            user_id:                                 tp1
           }),
           Repo.insert!(%IndividualTaxReturn{
-            deadline: Date.utc_today(),
-            foreign_account: true,
-            foreign_account_limit: true,
-            foreign_financial_interest: true,
-            home_owner: true,
-            k1_count: 10,
-            k1_income: true,
-            living_abroad: true,
-            non_resident_earning: true,
-            none_expat: false,
-            own_stock_crypto: true,
-            rental_property_count: 2,
-            rental_property_income: true,
-            sole_proprietorship_count: 3,
-            state: ["Alabama", "Ohio", "New York"],
-            stock_divident: true,
-            tax_year: ["2018", "2017", "2016"],
-            user_id: tp1.id
+            deadline:                   Date.utc_today(),
+            foreign_account:            random_boolean(),
+            foreign_account_limit:      random_boolean(),
+            foreign_financial_interest: random_boolean(),
+            home_owner:                 random_boolean(),
+            k1_count:                   random_integer(),
+            k1_income:                  random_boolean(),
+            living_abroad:              random_boolean(),
+            non_resident_earning:       random_boolean(),
+            none_expat:                 random_boolean(),
+            own_stock_crypto:           random_boolean(),
+            rental_property_count:      random_integer(),
+            rental_property_income:     random_boolean(),
+            sole_proprietorship_count:  random_integer(),
+            state:                        random_state(),
+            stock_divident:             random_boolean(),
+            tax_year:                      random_year(),
+            user_id:                                 tp2
           }),
           Repo.insert!(%IndividualTaxReturn{
-            deadline: Date.utc_today(),
-            foreign_account: true,
-            foreign_account_limit: false,
-            foreign_financial_interest: true,
-            home_owner: false,
-            k1_count: 2,
-            k1_income: true,
-            living_abroad: true,
-            non_resident_earning: false,
-            none_expat: false,
-            own_stock_crypto: false,
-            rental_property_count: 5,
-            rental_property_income: true,
-            sole_proprietorship_count: 1,
-            state: ["Alabama", "Iowa"],
-            stock_divident: false,
-            tax_year: ["2018"],
-            user_id: tp2.id
+            deadline:                   Date.utc_today(),
+            foreign_account:            random_boolean(),
+            foreign_account_limit:      random_boolean(),
+            foreign_financial_interest: random_boolean(),
+            home_owner:                 random_boolean(),
+            k1_count:                   random_integer(),
+            k1_income:                  random_boolean(),
+            living_abroad:              random_boolean(),
+            non_resident_earning:       random_boolean(),
+            none_expat:                 random_boolean(),
+            own_stock_crypto:           random_boolean(),
+            rental_property_count:      random_integer(),
+            rental_property_income:     random_boolean(),
+            sole_proprietorship_count:  random_integer(),
+            state:                        random_state(),
+            stock_divident:             random_boolean(),
+            tax_year:                      random_year(),
+            user_id:                                 tp3
           }),
           Repo.insert!(%IndividualTaxReturn{
-            deadline: Date.utc_today(),
-            foreign_account: true,
-            foreign_account_limit: false,
-            foreign_financial_interest: true,
-            home_owner: true,
-            k1_count: 0,
-            k1_income: false,
-            living_abroad: true,
-            non_resident_earning: true,
-            none_expat: false,
-            own_stock_crypto: true,
-            rental_property_count: 10,
-            rental_property_income: false,
-            sole_proprietorship_count: 9,
-            state: ["Alabama", "Ohio", "New York", "Iowa", "New Jersey", "New Mexico"],
-            stock_divident: true,
-            tax_year: ["2018", "2017", "2016", "2015", "2019"],
-            user_id: tp3.id
+            foreign_account:                 random_boolean(),
+            home_owner:                      random_boolean(),
+            living_abroad:                   random_boolean(),
+            non_resident_earning:            random_boolean(),
+            own_stock_crypto:                random_boolean(),
+            price_foreign_account:           random_integer(),
+            price_home_owner:                random_integer(),
+            price_living_abroad:             random_integer(),
+            price_non_resident_earning:      random_integer(),
+            price_own_stock_crypto:          random_integer(),
+            price_rental_property_income:    random_integer(),
+            price_sole_proprietorship_count: random_integer(),
+            price_state:                     random_integer(),
+            price_stock_divident:            random_integer(),
+            price_tax_year:                  random_integer(),
+            rental_property_income:          random_boolean(),
+            stock_divident:                  random_boolean(),
+            user_id:                                     pro1
           }),
           Repo.insert!(%IndividualTaxReturn{
-            foreign_account: false,
-            home_owner: true,
-            living_abroad: false,
-            non_resident_earning: false,
-            own_stock_crypto: false,
-            price_home_owner: 80,
-            price_rental_property_income: 150,
-            price_sole_proprietorship_count: 100,
-            price_state: 20,
-            price_tax_year: 10,
-            rental_property_income: true,
-            stock_divident: false,
-            user_id: pro1.id
+            foreign_account:                 random_boolean(),
+            home_owner:                      random_boolean(),
+            living_abroad:                   random_boolean(),
+            non_resident_earning:            random_boolean(),
+            own_stock_crypto:                random_boolean(),
+            price_foreign_account:           random_integer(),
+            price_home_owner:                random_integer(),
+            price_living_abroad:             random_integer(),
+            price_non_resident_earning:      random_integer(),
+            price_own_stock_crypto:          random_integer(),
+            price_rental_property_income:    random_integer(),
+            price_sole_proprietorship_count: random_integer(),
+            price_state:                     random_integer(),
+            price_stock_divident:            random_integer(),
+            price_tax_year:                  random_integer(),
+            rental_property_income:          random_boolean(),
+            stock_divident:                  random_boolean(),
+            user_id:                                     pro2
           }),
           Repo.insert!(%IndividualTaxReturn{
-            foreign_account: true,
-            home_owner: true,
-            living_abroad: true,
-            non_resident_earning: true,
-            own_stock_crypto: true,
-            price_foreign_account: 250,
-            price_home_owner: 120,
-            price_living_abroad: 180,
-            price_non_resident_earning: 500,
-            price_own_stock_crypto: 255,
-            price_rental_property_income: 345,
-            price_sole_proprietorship_count: 165,
-            price_state: 45,
-            price_stock_divident: 185,
-            price_tax_year: 50,
-            rental_property_income: true,
-            stock_divident: true,
-            user_id: pro2.id
-          }),
-          Repo.insert!(%IndividualTaxReturn{
-            foreign_account: false,
-            home_owner: true,
-            living_abroad: false,
-            non_resident_earning: false,
-            own_stock_crypto: true,
-            price_home_owner: 85,
-            price_own_stock_crypto: 135,
-            price_rental_property_income: 75,
-            price_state: 12,
-            price_stock_divident: 115,
-            price_tax_year: 10,
-            rental_property_income: true,
-            stock_divident: true,
-            user_id: pro3.id
+            foreign_account:                 random_boolean(),
+            home_owner:                      random_boolean(),
+            living_abroad:                   random_boolean(),
+            non_resident_earning:            random_boolean(),
+            own_stock_crypto:                random_boolean(),
+            price_foreign_account:           random_integer(),
+            price_home_owner:                random_integer(),
+            price_living_abroad:             random_integer(),
+            price_non_resident_earning:      random_integer(),
+            price_own_stock_crypto:          random_integer(),
+            price_rental_property_income:    random_integer(),
+            price_sole_proprietorship_count: random_integer(),
+            price_state:                     random_integer(),
+            price_stock_divident:            random_integer(),
+            price_tax_year:                  random_integer(),
+            rental_property_income:          random_boolean(),
+            stock_divident:                  random_boolean(),
+            user_id:                                     pro3
           }),
         ]
     end
@@ -1507,41 +1502,40 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(IndividualEmploymentStatus, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id: itr1,
-            name: random_name_employment_status(),
-            price: Enum.random(1..99)
+            name:             Lorem.word(),
+            price:      Enum.random(1..99)
           }),
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id: itr2,
-            name: random_name_employment_status()
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id: itr3,
-            name: random_name_employment_status()
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id: itr4,
-            name: random_name_employment_status()
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id: itr5,
-            name: random_name_employment_status(),
-            price: Enum.random(1..99)
+            name:             Lorem.word(),
+            price:      Enum.random(1..99)
           }),
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id: itr6,
-            name: random_name_employment_status(),
-            price: Enum.random(1..99)
+            name:             Lorem.word(),
+            price:      Enum.random(1..99)
           }),
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id: itr7,
-            name: random_name_employment_status(),
-            price: Enum.random(1..99)
+            name:             Lorem.word(),
+            price:      Enum.random(1..99)
           })
         ]
     end
@@ -1564,41 +1558,40 @@ defmodule Core.Seeder.Services do
       }
 
       case Repo.aggregate(IndividualFilingStatus, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%IndividualFilingStatus{
             individual_tax_return_id: itr1,
-            name: random_name_filling_status(),
-            price: Enum.random(1..99)
+            name:             Lorem.word(),
+            price:      Enum.random(1..99)
           }),
           Repo.insert!(%IndividualFilingStatus{
             individual_tax_return_id: itr2,
-            name: random_name_filling_status()
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualFilingStatus{
             individual_tax_return_id: itr3,
-            name: random_name_filling_status()
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualFilingStatus{
             individual_tax_return_id: itr4,
-            name: "Head of Household"
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualFilingStatus{
             individual_tax_return_id: itr5,
-            name: random_name_filling_status(),
-            price: Enum.random(1..99)
+            name:             Lorem.word(),
+            price:      Enum.random(1..99)
           }),
           Repo.insert!(%IndividualFilingStatus{
             individual_tax_return_id: itr6,
-            name: random_name_filling_status(),
-            price: Enum.random(1..99)
+            name:             Lorem.word(),
+            price:      Enum.random(1..99)
           }),
           Repo.insert!(%IndividualFilingStatus{
             individual_tax_return_id: itr7,
-            name: random_name_filling_status(),
-            price: Enum.random(1..99)
+            name:             Lorem.word(),
+            price:      Enum.random(1..99)
           })
         ]
     end
@@ -1621,37 +1614,36 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(IndividualForeignAccountCount, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%IndividualForeignAccountCount{
             individual_tax_return_id: itr1,
-            name: random_name_foreign_account_count()
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualForeignAccountCount{
             individual_tax_return_id: itr2,
-            name: random_name_foreign_account_count()
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualForeignAccountCount{
             individual_tax_return_id: itr3,
-            name: random_name_foreign_account_count()
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualForeignAccountCount{
             individual_tax_return_id: itr4,
-            name: random_name_foreign_account_count()
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualForeignAccountCount{
             individual_tax_return_id: itr5,
-            name: random_name_foreign_account_count()
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualForeignAccountCount{
             individual_tax_return_id: itr6,
-            name: random_name_foreign_account_count()
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualForeignAccountCount{
             individual_tax_return_id: itr7,
-            name: random_name_foreign_account_count()
+            name:             Lorem.word()
           })
         ]
     end
@@ -1674,37 +1666,36 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(IndividualIndustry, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%IndividualIndustry{
             individual_tax_return_id: itr1,
-            name: random_name_for_tp_industry()
+            name:           [Lorem.word()]
           }),
           Repo.insert!(%IndividualIndustry{
             individual_tax_return_id: itr2,
-            name: random_name_for_tp_industry()
+            name:           [Lorem.word()]
           }),
           Repo.insert!(%IndividualIndustry{
             individual_tax_return_id: itr3,
-            name: random_name_for_tp_industry()
+            name:           [Lorem.word()]
           }),
           Repo.insert!(%IndividualIndustry{
             individual_tax_return_id: itr4,
-            name: random_name_for_tp_industry()
+            name:           [Lorem.word()]
           }),
           Repo.insert!(%IndividualIndustry{
             individual_tax_return_id: itr5,
-            name: random_name_for_pro_tax_industry()
+            name:           [Lorem.word()]
           }),
           Repo.insert!(%IndividualIndustry{
             individual_tax_return_id: itr6,
-            name: random_name_for_pro_tax_industry()
+            name:           [Lorem.word()]
           }),
           Repo.insert!(%IndividualIndustry{
             individual_tax_return_id: itr7,
-            name: random_name_for_pro_tax_industry()
+            name:           [Lorem.word()]
           })
         ]
     end
@@ -1727,41 +1718,40 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(IndividualItemizedDeduction, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%IndividualItemizedDeduction{
             individual_tax_return_id: itr1,
-            name: random_name_itemized_deduction(),
-            price: Enum.random(1..99)
+            name:             Lorem.word(),
+            price:      Enum.random(1..99)
           }),
           Repo.insert!(%IndividualItemizedDeduction{
             individual_tax_return_id: itr2,
-            name: random_name_itemized_deduction()
+            name:             Lorem.word(),
           }),
           Repo.insert!(%IndividualItemizedDeduction{
             individual_tax_return_id: itr3,
-            name: random_name_itemized_deduction()
+            name:             Lorem.word(),
           }),
           Repo.insert!(%IndividualItemizedDeduction{
             individual_tax_return_id: itr4,
-            name: random_name_itemized_deduction()
+            name:             Lorem.word(),
           }),
           Repo.insert!(%IndividualItemizedDeduction{
             individual_tax_return_id: itr5,
-            name: random_name_itemized_deduction(),
-            price: Enum.random(1..99)
+            name:             Lorem.word(),
+            price:      Enum.random(1..99)
           }),
           Repo.insert!(%IndividualItemizedDeduction{
             individual_tax_return_id: itr6,
-            name: random_name_itemized_deduction(),
-            price: Enum.random(1..99)
+            name:             Lorem.word(),
+            price:      Enum.random(1..99)
           }),
           Repo.insert!(%IndividualItemizedDeduction{
             individual_tax_return_id: itr7,
-            name: random_name_itemized_deduction(),
-            price: Enum.random(1..99)
+            name:             Lorem.word(),
+            price:      Enum.random(1..99)
           })
         ]
     end
@@ -1784,37 +1774,36 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(IndividualStockTransactionCount, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%IndividualStockTransactionCount{
             individual_tax_return_id: itr1,
-            name: random_name_stock_transaction_count()
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualStockTransactionCount{
             individual_tax_return_id: itr2,
-            name: "6-50"
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualStockTransactionCount{
             individual_tax_return_id: itr3,
-            name: "51-100"
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualStockTransactionCount{
             individual_tax_return_id: itr4,
-            name: "100+"
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualStockTransactionCount{
             individual_tax_return_id: itr5,
-            name: "51-100"
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualStockTransactionCount{
             individual_tax_return_id: itr6,
-            name: "6-50"
+            name:             Lorem.word()
           }),
           Repo.insert!(%IndividualStockTransactionCount{
             individual_tax_return_id: itr7,
-            name: "1-5"
+            name:             Lorem.word()
           })
         ]
     end
@@ -1825,56 +1814,56 @@ defmodule Core.Seeder.Services do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
-    {user_id} = {Enum.at(user_ids, 0)}
-
-     tp1 = User.find_by(email: "v.kobzan@gmail.com")
-     tp2 = User.find_by(email: "o.puryshev@gmail.com")
-     tp3 = User.find_by(email: "vlacho777@gmail.com")
-    pro1 = User.find_by(email: "support@taxgig.com")
-    pro2 = User.find_by(email: "op@taxgig.com")
-    pro3 = User.find_by(email: "vk@taxgig.com")
+    {user, tp1, tp2, tp3, pro1, pro2, pro3} = {
+      Enum.at(user_ids, 0),
+      Enum.at(user_ids, 1),
+      Enum.at(user_ids, 2),
+      Enum.at(user_ids, 3),
+      Enum.at(user_ids, 4),
+      Enum.at(user_ids, 5),
+      Enum.at(user_ids, 6)
+    }
 
     case Repo.aggregate(SaleTax, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%SaleTax{
             price_sale_tax_count: random_integer(),
-            user_id: user_id
+            user_id:                          user
           }),
           Repo.insert!(%SaleTax{
-            deadline: Date.utc_today(),
-            financial_situation: "some situation",
-            sale_tax_count: 5,
-            state: ["Alabama", "New York"],
-            user_id: tp1.id
+            deadline:             Date.utc_today(),
+            financial_situation:  Lorem.sentence(),
+            sale_tax_count:       random_integer(),
+            state:                  random_state(),
+            user_id:                           tp1
           }),
           Repo.insert!(%SaleTax{
-            deadline: Date.utc_today(),
-            financial_situation: Lorem.sentence(),
-            sale_tax_count: random_integer(),
-            state: random_state(),
-            user_id: tp2.id
+            deadline:             Date.utc_today(),
+            financial_situation:  Lorem.sentence(),
+            sale_tax_count:       random_integer(),
+            state:                  random_state(),
+            user_id:                           tp2
           }),
           Repo.insert!(%SaleTax{
-            deadline: Date.utc_today(),
-            financial_situation: Lorem.sentence(),
-            sale_tax_count: random_integer(),
-            state: random_state(),
-            user_id: tp3.id
-          }),
-          Repo.insert!(%SaleTax{
-            price_sale_tax_count: 45,
-            user_id: pro1.id
+            deadline:             Date.utc_today(),
+            financial_situation:  Lorem.sentence(),
+            sale_tax_count:       random_integer(),
+            state:                  random_state(),
+            user_id:                           tp3
           }),
           Repo.insert!(%SaleTax{
             price_sale_tax_count: random_integer(),
-            user_id: pro2.id
+            user_id:                          pro1
           }),
           Repo.insert!(%SaleTax{
             price_sale_tax_count: random_integer(),
-            user_id: pro3.id
+            user_id:                          pro2
+          }),
+          Repo.insert!(%SaleTax{
+            price_sale_tax_count: random_integer(),
+            user_id:                          pro3
           })
         ]
     end
@@ -1897,41 +1886,40 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(SaleTaxFrequency, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%SaleTaxFrequency{
-            name: random_name_tax_frequency(),
+            name:      Lorem.word(),
             price: random_integer(),
-            sale_tax_id: st1
+            sale_tax_id:        st1
           }),
           Repo.insert!(%SaleTaxFrequency{
-            name: "Annually",
-            sale_tax_id: st2
+            name:      Lorem.word(),
+            sale_tax_id:        st2
           }),
           Repo.insert!(%SaleTaxFrequency{
-            name: random_name_tax_frequency(),
-            sale_tax_id: st3
+            name:      Lorem.word(),
+            sale_tax_id:        st3
           }),
           Repo.insert!(%SaleTaxFrequency{
-            name: random_name_tax_frequency(),
-            sale_tax_id: st4
+            name:      Lorem.word(),
+            sale_tax_id:        st4
           }),
           Repo.insert!(%SaleTaxFrequency{
-            name: "Annually",
-            price: 150,
-            sale_tax_id: st5
-          }),
-          Repo.insert!(%SaleTaxFrequency{
-            name: random_name_tax_frequency(),
+            name:      Lorem.word(),
             price: random_integer(),
-            sale_tax_id: st6
+            sale_tax_id:        st5
           }),
           Repo.insert!(%SaleTaxFrequency{
-            name: random_name_tax_frequency(),
+            name:      Lorem.word(),
             price: random_integer(),
-            sale_tax_id: st7
+            sale_tax_id:        st6
+          }),
+          Repo.insert!(%SaleTaxFrequency{
+            name:      Lorem.word(),
+            price: random_integer(),
+            sale_tax_id:        st7
           })
         ]
     end
@@ -1954,46 +1942,46 @@ defmodule Core.Seeder.Services do
       }
 
     case Repo.aggregate(SaleTaxIndustry, :count, :id) > 0 do
-      true ->
-        nil
+       true -> nil
       false ->
         [
           Repo.insert!(%SaleTaxIndustry{
-            name: random_name_for_pro_tax_industry(),
-            sale_tax_id: st1
+            name: [Lorem.word()],
+            sale_tax_id:     st1
           }),
           Repo.insert!(%SaleTaxIndustry{
-            name: ["Computer/Software/IT"],
-            sale_tax_id: st2
+            name: [Lorem.word()],
+            sale_tax_id:     st2
           }),
           Repo.insert!(%SaleTaxIndustry{
-            name: random_name_for_tp_tax_industry(),
-            sale_tax_id: st3
+            name: [Lorem.word()],
+            sale_tax_id:     st3
           }),
           Repo.insert!(%SaleTaxIndustry{
-            name: random_name_for_tp_tax_industry(),
-            sale_tax_id: st4
+            name: [Lorem.word()],
+            sale_tax_id:     st4
+          }),
+
+          Repo.insert!(%SaleTaxIndustry{
+            name: [Lorem.word()],
+            sale_tax_id:     st5
           }),
           Repo.insert!(%SaleTaxIndustry{
-            name: [
-              "Agriculture/Farming",
-              "Automotive Sales/Repair",
-              "Computer/Software/IT",
-              "Construction/Contractors",
-              "Consulting"
-            ],
-            sale_tax_id: st5
+            name: [Lorem.word()],
+            sale_tax_id:     st6
           }),
           Repo.insert!(%SaleTaxIndustry{
-            name: random_name_for_pro_tax_industry(),
-            sale_tax_id: st6
-          }),
-          Repo.insert!(%SaleTaxIndustry{
-            name: random_name_for_pro_tax_industry(),
-            sale_tax_id: st7
+            name: [Lorem.word()],
+            sale_tax_id:     st7
           })
         ]
     end
+  end
+
+  @spec random_float() :: float()
+  def random_float do
+    :random.uniform() * 100
+    |> Float.round(2)
   end
 
   @spec random_boolean() :: boolean()
@@ -2009,9 +1997,7 @@ defmodule Core.Seeder.Services do
 
   @spec random_state() :: String.t()
   defp random_state do
-    name =
-      Enum.map(Repo.all(State), fn(data) -> data.name end)
-
+    name = Enum.map(Repo.all(State), fn(data) -> data.name end)
     numbers = 1..9
     number = Enum.random(numbers)
 
@@ -2032,395 +2018,6 @@ defmodule Core.Seeder.Services do
       for i <- 1..number, i > 0 do
         Enum.random(years)
         |> Integer.to_string
-      end
-
-    Enum.uniq(result)
-  end
-
-  @spec random_name_additional_need() :: String.t()
-  defp random_name_additional_need do
-    names = [
-      "accounts payable",
-      "accounts receivable",
-      "bank reconciliation",
-      "financial report preparation",
-      "sales tax"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_annual_revenue() :: String.t()
-  defp random_name_annual_revenue do
-    names = [
-      "$100K - $500K",
-      "$10M+",
-      "$1M - $5M",
-      "$500K - $1M",
-      "$5M - $10M",
-      "Less than $100K"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_classify_inventory() :: String.t()
-  defp random_name_classify_inventory do
-    names = [
-      "Assets",
-      "Expenses"
-    ]
-
-    numbers = 1..2
-    number = Enum.random(numbers)
-
-    result =
-      for i <- 1..number, i > 0 do
-        Enum.random(names)
-      end
-
-    Enum.uniq(result)
-  end
-
-  @spec random_name_for_tp_industry() :: String.t()
-  defp random_name_for_tp_industry do
-    names = [
-      "Agriculture/Farming",
-      "Automotive Sales/Repair",
-      "Computer/Software/IT",
-      "Construction/Contractors",
-      "Consulting",
-      "Design/Architecture/Engineering",
-      "Education",
-      "Financial Services",
-      "Government Agency",
-      "Hospitality",
-      "Insurance/Brokerage",
-      "Lawn Care/Landscaping",
-      "Legal",
-      "Manufacturing",
-      "Medical/Dental/Health Services",
-      "Non Profit",
-      "Property Management",
-      "Real Estate/Development",
-      "Restaurant/Bar",
-      "Retail",
-      "Salon/Beauty",
-      "Telecommunications",
-      "Transportation",
-      "Wholesale Distribution"
-    ]
-
-    result =
-      for i <- 0..1, i > 0 do
-        Enum.random(names)
-      end
-
-    Enum.uniq(result)
-  end
-
-  @spec random_name_for_pro_industry() :: String.t()
-  defp random_name_for_pro_industry do
-    names = [
-      "Agriculture/Farming",
-      "Automotive Sales/Repair",
-      "Computer/Software/IT",
-      "Construction/Contractors",
-      "Consulting",
-      "Design/Architecture/Engineering",
-      "Education",
-      "Financial Services",
-      "Government Agency",
-      "Hospitality",
-      "Insurance/Brokerage",
-      "Lawn Care/Landscaping",
-      "Legal",
-      "Manufacturing",
-      "Medical/Dental/Health Services",
-      "Non Profit",
-      "Property Management",
-      "Real Estate/Development",
-      "Restaurant/Bar",
-      "Retail",
-      "Salon/Beauty",
-      "Telecommunications",
-      "Transportation",
-      "Wholesale Distribution"
-    ]
-
-    numbers = 1..24
-    number = Enum.random(numbers)
-
-    result =
-      for i <- 1..number, i > 0 do
-        Enum.random(names)
-      end
-
-    Enum.uniq(result)
-  end
-
-  @spec random_name_number_employee() :: String.t()
-  defp random_name_number_employee do
-    names = [
-      "1 employee",
-      "101 - 500 employees",
-      "2 - 20 employees",
-      "21 - 50 employees",
-      "500+ employees",
-      "51 - 100 employees"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_transaction_volume() :: String.t()
-  defp random_name_transaction_volume do
-    names = [
-      "1-25",
-      "200+",
-      "26-75",
-      "76-199"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_type_client() :: String.t()
-  defp random_name_type_client do
-    names = [
-      "C-Corp / Corporation",
-      "Individual or Sole proprietorship",
-      "LLC",
-      "Non-profit corp",
-      "Partnership",
-      "S-Corp"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_entity_type() :: String.t()
-  defp random_name_entity_type do
-    names = [
-      "C-Corp / Corporation",
-      "LLC",
-      "Non-profit corp",
-      "Partnership",
-      "S-Corp",
-      "Sole proprietorship"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_foreign_ownership_count() :: String.t()
-  defp random_name_foreign_ownership_count do
-    names = [
-      "1",
-      "2-5",
-      "5+"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_llc_type() :: String.t()
-  defp random_name_llc_type do
-    names = [
-      "C-Corp / Corporation",
-      "LLC",
-      "Non-profit corp",
-      "Partnership",
-      "S-Corp"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_number_of_employee() :: String.t()
-  defp random_name_number_of_employee do
-    names = [
-      "1 employee",
-      "101 - 500 employees",
-      "2 - 20 employees",
-      "21 - 50 employees",
-      "500+ employee",
-      "51 - 100 employees"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_total_revenue() :: String.t()
-  defp random_name_total_revenue do
-    names = [
-      "$100K - $500K",
-      "$10M+",
-      "$1M - $5M",
-      "$500K - $1M",
-      "$5M - $10M",
-      "Less than $100K"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_transactions_count() :: String.t()
-  defp random_name_transactions_count do
-    names = [
-      "1-10",
-      "11-25",
-      "26-75",
-      "75+"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_employment_status() :: String.t()
-  defp random_name_employment_status do
-    names = [
-      "employed",
-      "self-employed",
-      "unemployed"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_filling_status() :: String.t()
-  defp random_name_filling_status do
-    names = [
-      "Head of Household",
-      "Married filing jointly",
-      "Married filing separately",
-      "Qualifying widow(-er) with dependent child",
-      "Single"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_foreign_account_count() :: String.t()
-  defp random_name_foreign_account_count do
-    names = [
-      "1",
-      "2-5",
-      "5+"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_itemized_deduction() :: String.t()
-  defp random_name_itemized_deduction do
-    names = [
-      "Charitable contributions",
-      "Health insurance",
-      "Medical and dental expenses"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_stock_transaction_count() :: String.t()
-  defp random_name_stock_transaction_count do
-    names = [
-      "1-5",
-      "100+",
-      "51-100",
-      "6-50"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_tax_frequency() :: String.t()
-  defp random_name_tax_frequency do
-    names = [
-      "Annually",
-      "Monthly",
-      "Quaterly"
-    ]
-
-    Enum.random(names)
-  end
-
-  @spec random_name_for_tp_tax_industry() :: String.t()
-  defp random_name_for_tp_tax_industry do
-    names = [
-      "Agriculture/Farming",
-      "Automotive Sales/Repair",
-      "Computer/Software/IT",
-      "Construction/Contractors",
-      "Consulting",
-      "Design/Architecture/Engineering",
-      "Education",
-      "Financial Services",
-      "Government Agency",
-      "Hospitality",
-      "Insurance/Brokerage",
-      "Lawn Care/Landscaping",
-      "Legal",
-      "Manufacturing",
-      "Medical/Dental/Health Services",
-      "Non Profit",
-      "Property Management",
-      "Real Estate/Development",
-      "Restaurant/Bar",
-      "Retail",
-      "Salon/Beauty",
-      "Telecommunications",
-      "Transportation",
-      "Wholesale Distribution"
-    ]
-
-    numbers = 0..1
-    number = Enum.random(numbers)
-
-    result =
-      for i <- 1..number, i > 0 do
-        Enum.random(names)
-      end
-
-    Enum.uniq(result)
-  end
-
-  @spec random_name_for_pro_tax_industry() :: String.t()
-  defp random_name_for_pro_tax_industry do
-    names = [
-      "Agriculture/Farming",
-      "Automotive Sales/Repair",
-      "Computer/Software/IT",
-      "Construction/Contractors",
-      "Consulting",
-      "Design/Architecture/Engineering",
-      "Education",
-      "Financial Services",
-      "Government Agency",
-      "Hospitality",
-      "Insurance/Brokerage",
-      "Lawn Care/Landscaping",
-      "Legal",
-      "Manufacturing",
-      "Medical/Dental/Health Services",
-      "Non Profit",
-      "Property Management",
-      "Real Estate/Development",
-      "Restaurant/Bar",
-      "Retail",
-      "Salon/Beauty",
-      "Telecommunications",
-      "Transportation",
-      "Wholesale Distribution"
-    ]
-
-    numbers = 1..24
-    number = Enum.random(numbers)
-
-    result =
-      for i <- 1..number, i > 0 do
-        Enum.random(names)
       end
 
     Enum.uniq(result)

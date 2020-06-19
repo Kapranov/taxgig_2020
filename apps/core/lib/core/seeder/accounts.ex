@@ -237,13 +237,13 @@ defmodule Core.Seeder.Accounts do
       Accounts.create_user(%{
         email: "lugatex@yahoo.com",
         password: "qwerty",
-        password_confirmation: "qwerty"
+        password_confirmation: "qwerty",
+        role: true
       }),
       Accounts.create_user(%{
         email: "kapranov.lugatex@gmail.com",
         password: "qwerty",
-        password_confirmation: "qwerty",
-        role: true
+        password_confirmation: "qwerty"
       }),
       Accounts.create_user(%{
         email: "kapranov.pure@gmail.com",

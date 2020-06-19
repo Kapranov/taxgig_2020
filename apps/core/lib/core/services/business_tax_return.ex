@@ -16,6 +16,7 @@ defmodule Core.Services.BusinessTaxReturn do
     Services.BusinessIndustry,
     Services.BusinessLlcType,
     Services.BusinessNumberEmployee,
+    Services.BusinessTaxReturn,
     Services.BusinessTotalRevenue,
     Services.BusinessTransactionCount,
     Services.MatchValueRelate
