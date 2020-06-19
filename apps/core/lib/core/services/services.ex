@@ -390,31 +390,15 @@ defmodule Core.Services do
     user_id
   )a
 
-  @tp_sale_tax_frequency_params ~w(
-    name
-    sale_tax_id
-  )a
+  @tp_sale_tax_frequency_params ~w(name)a
 
-  @pro_sale_tax_frequency_params ~w(
-    name
-    price
-    sale_tax_id
-  )a
+  @pro_sale_tax_frequency_params ~w(name price)a
 
-  @tp_sale_tax_industry_params ~w(
-    name
-    sale_tax_id
-  )a
+  @tp_sale_tax_industry_params ~w(name)a
 
-  @tp_sale_tax_industry_params ~w(
-    name
-    sale_tax_id
-  )a
+  @tp_sale_tax_industry_params ~w(name)a
 
-  @pro_sale_tax_industry_params ~w(
-    name
-    sale_tax_id
-  )a
+  @pro_sale_tax_industry_params ~w(name)a
 
   @tp_sale_tax_attrs %{
     deadline: Date.utc_today(),
@@ -473,8 +457,7 @@ defmodule Core.Services do
   @spec create_match_value_relate(%{atom => any}) :: result() | error_tuple()
   def create_match_value_relate(attrs \\ %{}) do
     case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
-      true ->
-        {:error, %Ecto.Changeset{}}
+      true -> {:error, %Ecto.Changeset{}}
       false ->
         %MatchValueRelate{}
         |> MatchValueRelate.changeset(attrs)
@@ -8746,16 +8729,6 @@ defmodule Core.Services do
           )
       end
 
-    query =
-      case struct.sale_tax_id do
-        nil ->
-          nil
-        _ ->
-          from c in SaleTaxFrequency,
-          where: c.sale_tax_id == ^struct.sale_tax_id,
-          select: c.id
-      end
-
     get_name_by_sale_tax_frequency =
       case struct.sale_tax_id do
         nil ->
@@ -8775,102 +8748,43 @@ defmodule Core.Services do
       nil ->
         {:error, %Changeset{}}
       false ->
-        case sort_keys(tp_attrs) do
-          [] ->
-            struct
-            |> SaleTaxFrequency.changeset(tp_attrs)
-            |> Repo.update()
-          [:name] ->
-            case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
-              true ->
-                {:error, [field: :name, message: "name already is exist, not permission for update record"]}
-              false ->
-                struct
-                |> SaleTaxFrequency.changeset(tp_attrs)
-                |> Repo.update()
+        case Map.has_key?(attrs, :name) do
+          false -> {:error, %Changeset{}}
+          true ->
+            if is_nil(attrs.name) do
+              {:error, %Changeset{}}
+            else
+              case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == tp_attrs.name)) do
+                true ->
+                  {:error, [field: :name, message: "name already is exist or name more one, not permission for new record"]}
+                false ->
+                  case sort_keys(tp_attrs) do
+                    @tp_sale_tax_frequency_params ->
+                      struct
+                      |> SaleTaxFrequency.changeset(tp_attrs)
+                      |> Repo.update()
+                    _ ->
+                      {:error, %Ecto.Changeset{}}
+                  end
+              end
             end
-          [:sale_tax_id] ->
-            case struct.sale_tax_id == attrs.sale_tax_id do
-              true ->
-                {:error, [field: :name, message: "sale_tax_id already is exist, not permission for update record"]}
-              false ->
-                case Repo.aggregate(query, :count, :sale_tax_id) do
-                  0 ->
-                    struct
-                    |> SaleTaxFrequency.changeset(tp_attrs)
-                    |> Repo.update()
-                  _ ->
-                    {:error, [field: :id, message: "record already is exist, not permission for new record"]}
-                end
-            end
-          [:name, :sale_tax_id] ->
-            case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) || struct.sale_tax_id == attrs.sale_tax_id do
-              true ->
-                {:error, [field: :name, message: "name or sale_tax_id already is exist, not permission for update record"]}
-              false ->
-                case Repo.aggregate(query, :count, :sale_tax_id) do
-                  0 ->
-                    struct
-                    |> SaleTaxFrequency.changeset(tp_attrs)
-                    |> Repo.update()
-                  _ ->
-                    {:error, [field: :id, message: "record already is exist, not permission for new record"]}
-                end
-            end
-          _ ->
-            {:error, [field: :id, message: "Please will fill are fields"]}
         end
       true ->
-        case sort_keys(attrs) do
-          [] ->
-            struct
-            |> SaleTaxFrequency.changeset(attrs)
-            |> Repo.update()
-          [:name] ->
-            case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
-              true ->
-                {:error, [field: :name, message: "name already is exist, not permission for update record"]}
-              false ->
-                struct
-                |> SaleTaxFrequency.changeset(attrs)
-                |> Repo.update()
+        case Map.has_key?(attrs, :name) and Map.has_key?(attrs, :price) do
+          false -> {:error, %Changeset{}}
+          true  ->
+            if is_nil(attrs.name) and is_nil(attrs.price) do
+              {:error, %Changeset{}}
+            else
+              case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
+                true ->
+                  {:error, [field: :name, message: "name already is exist, not permission for update record"]}
+                false ->
+                  struct
+                  |> SaleTaxFrequency.changeset(attrs)
+                  |> Repo.update()
+              end
             end
-          [:price] ->
-            struct
-            |> SaleTaxFrequency.changeset(attrs)
-            |> Repo.update()
-          [:sale_tax_id] ->
-            struct
-            |> SaleTaxFrequency.changeset(attrs)
-            |> Repo.update()
-          [:name, :price] ->
-            case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
-              true ->
-                {:error, [field: :name, message: "name already is exist, not permission for update record"]}
-              false ->
-                struct
-                |> SaleTaxFrequency.changeset(attrs)
-                |> Repo.update()
-            end
-          [:name, :sale_tax_id] ->
-            case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
-              true ->
-                {:error, [field: :name, message: "name already is exist, not permission for update record"]}
-              false ->
-                struct
-                |> SaleTaxFrequency.changeset(attrs)
-                |> Repo.update()
-            end
-          [:price, :sale_tax_id] ->
-            struct
-            |> SaleTaxFrequency.changeset(attrs)
-            |> Repo.update()
-          [:name, :price, :sale_tax_id] ->
-            struct
-            |> SaleTaxFrequency.changeset(attrs)
-            |> Repo.update()
-          _ ->
-            {:error, [field: :id, message: "Please will fill are fields"]}
         end
     end
   end
@@ -9094,6 +9008,7 @@ defmodule Core.Services do
           {:error, %Changeset{}}
         else
           case Map.keys(attrs) do
+            [] -> {:error, %Changeset{}}
             [:name] ->
               if Enum.count(attrs.name) == 1 do
                 case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) do
@@ -9108,7 +9023,7 @@ defmodule Core.Services do
                 {:error, %Changeset{}}
               end
             _ ->
-              {:error, [field: :id, message: "Please will fill are fields"]}
+              {:error, [field: :id, message: "Please filled the field out"]}
           end
         end
       true ->
@@ -9116,6 +9031,7 @@ defmodule Core.Services do
           {:error, %Changeset{}}
         else
           case Map.keys(attrs) do
+            [] -> {:error, %Changeset{}}
             [:name] ->
               case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) do
                 true ->
@@ -9126,7 +9042,7 @@ defmodule Core.Services do
                   |> Repo.update()
               end
             _ ->
-              {:error, [field: :name, message: "Please will filled"]}
+              {:error, [field: :name, message: "Please filled the field out"]}
           end
         end
     end

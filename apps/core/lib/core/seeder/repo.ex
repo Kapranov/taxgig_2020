@@ -26,7 +26,7 @@ defmodule Core.Seeder.Repo do
 
   @spec updated!() :: :ok
   def updated! do
-    Updated.start!()
+    Updated.Services.start!()
     :ok
   end
 end

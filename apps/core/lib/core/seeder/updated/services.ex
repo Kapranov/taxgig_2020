@@ -1,6 +1,6 @@
-defmodule Core.Seeder.Updated do
+defmodule Core.Seeder.Updated.Services do
   @moduledoc """
-  Seeds for `Core.Seeder.Updated` context.
+  An update are seeds whole services.
   """
 
   alias Core.{
@@ -73,7 +73,7 @@ defmodule Core.Seeder.Updated do
   end
 
   defp update_match_value_relate do
-    struct = Enum.map(Repo.all(MatchValueRelate), fn(data) -> [data] end)
+    [struct] = Enum.map(Repo.all(MatchValueRelate), fn(data) -> data end)
     attrs = %{
       match_for_book_keeping_additional_need:             20,
       match_for_book_keeping_annual_revenue:              25,
@@ -1842,19 +1842,6 @@ defmodule Core.Seeder.Updated do
   end
 
   defp update_sale_tax_frequency do
-    sale_tax_ids =
-      Enum.map(Repo.all(SaleTax), fn(data) -> data.id end)
-
-    {st1, st2, st3, st4, st5, st6} =
-      {
-        Enum.at(sale_tax_ids, 1),
-        Enum.at(sale_tax_ids, 2),
-        Enum.at(sale_tax_ids, 3),
-        Enum.at(sale_tax_ids, 4),
-        Enum.at(sale_tax_ids, 5),
-        Enum.at(sale_tax_ids, 6)
-      }
-
     sale_tax_frequency_ids =
       Enum.map(Repo.all(SaleTaxFrequency), fn(data) -> data end)
 
@@ -1870,49 +1857,30 @@ defmodule Core.Seeder.Updated do
 
     [
       Services.update_sale_tax_frequency(stf1, %{
-        name:                  "Annually",
-        sale_tax_id:                  st1
+        name:                  "Annually"
       }),
       Services.update_sale_tax_frequency(stf2, %{
-        name: random_name_tax_frequency(),
-        sale_tax_id:                  st2
+        name: random_name_tax_frequency()
       }),
       Services.update_sale_tax_frequency(stf3, %{
-        name: random_name_tax_frequency(),
-        sale_tax_id: st3
+        name: random_name_tax_frequency()
       }),
       Services.update_sale_tax_frequency(stf4, %{
         name:                  "Annually",
-        price:                        150,
-        sale_tax_id:                  st4
+        price:                        150
       }),
       Services.update_sale_tax_frequency(stf5, %{
         name: random_name_tax_frequency(),
-        price:           random_integer(),
-        sale_tax_id:                  st5
+        price:           random_integer()
       }),
       Services.update_sale_tax_frequency(stf6, %{
         name: random_name_tax_frequency(),
-        price:           random_integer(),
-        sale_tax_id:                  st6
+        price:           random_integer()
       })
     ]
   end
 
   defp update_sale_tax_industry do
-    sale_tax_ids =
-      Enum.map(Repo.all(SaleTax), fn(data) -> data.id end)
-
-    {st1, st2, st3, st4, st5, st6} =
-      {
-        Enum.at(sale_tax_ids, 1),
-        Enum.at(sale_tax_ids, 2),
-        Enum.at(sale_tax_ids, 3),
-        Enum.at(sale_tax_ids, 4),
-        Enum.at(sale_tax_ids, 5),
-        Enum.at(sale_tax_ids, 6)
-      }
-
     sale_tax_industry_ids =
       Enum.map(Repo.all(SaleTaxIndustry), fn(data) -> data end)
 
@@ -1928,28 +1896,22 @@ defmodule Core.Seeder.Updated do
 
     [
       Services.update_sale_tax_industry(sti1, %{
-        name: random_name_for_tp_industry(),
-        sale_tax_id:                    st1
+        name: random_name_for_tp_industry()
       }),
       Services.update_sale_tax_industry(sti2, %{
-        name: random_name_for_tp_industry(),
-        sale_tax_id:                    st2
+        name: random_name_for_tp_industry()
       }),
       Services.update_sale_tax_industry(sti3, %{
-        name: random_name_for_tp_industry(),
-        sale_tax_id:                    st3
+        name: random_name_for_tp_industry()
       }),
       Services.update_sale_tax_industry(sti4, %{
-        name: random_name_for_pro_industry(),
-        sale_tax_id:                     st4
+        name: random_name_for_pro_industry()
       }),
       Services.update_sale_tax_industry(sti5, %{
-        name: random_name_for_pro_industry(),
-        sale_tax_id:                     st5
+        name: random_name_for_pro_industry()
       }),
       Services.update_sale_tax_industry(sti6, %{
-        name: random_name_for_pro_industry(),
-        sale_tax_id:                     st6
+        name: random_name_for_pro_industry()
       })
     ]
   end

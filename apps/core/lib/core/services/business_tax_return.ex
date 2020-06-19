@@ -2324,7 +2324,7 @@ defmodule Core.Services.BusinessTaxReturn do
     data3 = %{id: id, sum_value: value}
 
     tax_year = value_tax_year(id)
-    data4 = %{id: id, sum_value_year: tax_year}
+    data4 = %{id: id, sum_value_year: to_string(tax_year)}
 
     result =
       [data4 | [data3 | [data2 | [data1]]]] |> List.flatten
