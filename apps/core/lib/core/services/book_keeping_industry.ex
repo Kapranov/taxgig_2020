@@ -7,7 +7,8 @@ defmodule Core.Services.BookKeepingIndustry do
 
   alias Core.{
     Repo,
-    Services.BookKeeping
+    Services.BookKeeping,
+    Services.Helpers.IndustryNameEnum
   }
 
   @type t :: %__MODULE__{
@@ -26,7 +27,7 @@ defmodule Core.Services.BookKeepingIndustry do
   )a
 
   schema "book_keeping_industries" do
-    field :name, {:array, :string}
+    field :name, {:array, IndustryNameEnum}
 
     belongs_to :book_keepings, BookKeeping,
       foreign_key: :book_keeping_id, type: FlakeId.Ecto.CompatType, references: :id

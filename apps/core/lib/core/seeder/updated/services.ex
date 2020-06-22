@@ -72,6 +72,7 @@ defmodule Core.Seeder.Updated.Services do
     update_sale_tax_industry()
   end
 
+  @spec update_match_value_relate() :: Ecto.Schema.t()
   defp update_match_value_relate do
     [struct] = Enum.map(Repo.all(MatchValueRelate), fn(data) -> data end)
     attrs = %{
@@ -129,6 +130,7 @@ defmodule Core.Seeder.Updated.Services do
     end
   end
 
+  @spec update_book_keeping() :: Ecto.Schema.t()
   defp update_book_keeping do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
@@ -145,6 +147,8 @@ defmodule Core.Seeder.Updated.Services do
     book_keepenig_ids =
       Enum.map(Repo.all(BookKeeping), fn(data) -> data end)
 
+    {:ok, date} = Date.new(2020, 05,02)
+
     {bk1, bk2, bk3, bk4, bk5, bk6} =
       {
         Enum.at(book_keepenig_ids, 1),
@@ -156,16 +160,16 @@ defmodule Core.Seeder.Updated.Services do
       }
     [
       Services.update_book_keeping(bk1, %{
-        account_count:       random_integer(),
-        balance_sheet:       random_boolean(),
-        deadline:            Date.utc_today(),
-        financial_situation: Lorem.sentence(),
-        inventory:           random_boolean(),
-        inventory_count:     random_integer(),
-        payroll:             random_boolean(),
-        tax_return_current:  random_boolean(),
-        tax_year:               random_year(),
-        user_id:                          tp1
+        account_count:                               12,
+        balance_sheet:                             true,
+        deadline:                                  date,
+        financial_situation: "some financial situation",
+        inventory:                                 true,
+        inventory_count:                              3,
+        payroll:                                   true,
+        tax_return_current:                        true,
+        tax_year:                      ["2018", "2019"],
+        user_id:                                    tp1
       }),
       Services.update_book_keeping(bk2, %{
         account_count:       random_integer(),
@@ -192,9 +196,9 @@ defmodule Core.Seeder.Updated.Services do
         user_id:                          tp3
       }),
       Services.update_book_keeping(bk4, %{
-        payroll:             random_boolean(),
-        price_payroll:       random_integer(),
-        user_id:                         pro1
+        payroll:       true,
+        price_payroll:  100,
+        user_id:       pro1
       }),
       Services.update_book_keeping(bk5, %{
         payroll:             random_boolean(),
@@ -209,6 +213,7 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_book_keeping_additional_need() :: Ecto.Schema.t()
   defp update_book_keeping_additional_need do
     book_keeping_ids =
       Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
@@ -238,8 +243,8 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_book_keeping_additional_need(ban1, %{
-        book_keeping_id:                bk1,
-        name: random_name_additional_need()
+        book_keeping_id:                 bk1,
+        name: "financial report preparation"
       }),
       Services.update_book_keeping_additional_need(ban2, %{
         book_keeping_id:                bk2,
@@ -250,9 +255,9 @@ defmodule Core.Seeder.Updated.Services do
         name: random_name_additional_need()
       }),
       Services.update_book_keeping_additional_need(ban4, %{
-        book_keeping_id:                bk4,
-        name: random_name_additional_need(),
-        price:             random_integer()
+        book_keeping_id:                 bk4,
+        name: "financial report preparation",
+        price:                            87
       }),
       Services.update_book_keeping_additional_need(ban5, %{
         book_keeping_id:                bk5,
@@ -267,6 +272,7 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_book_keeping_annual_revenue() :: Ecto.Schema.t()
   defp update_book_keeping_annual_revenue do
     book_keeping_ids =
       Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
@@ -296,8 +302,8 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_book_keeping_annual_revenue(bar1, %{
-        book_keeping_id:        bk1,
-        name: random_name_revenue()
+        book_keeping_id: bk1,
+        name:   "$5M - $10M"
       }),
       Services.update_book_keeping_annual_revenue(bar2, %{
         book_keeping_id:        bk2,
@@ -308,9 +314,9 @@ defmodule Core.Seeder.Updated.Services do
         name: random_name_revenue()
       }),
       Services.update_book_keeping_annual_revenue(bar4, %{
-        book_keeping_id:        bk4,
-        name: random_name_revenue(),
-        price:     random_integer()
+        book_keeping_id: bk4,
+        name:   "$5M - $10M",
+        price:            56
       }),
       Services.update_book_keeping_annual_revenue(bar5, %{
         book_keeping_id:        bk5,
@@ -325,6 +331,7 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_book_keeping_classify_inventory() :: Ecto.Schema.t()
   defp update_book_keeping_classify_inventory do
     book_keeping_ids =
       Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
@@ -348,8 +355,8 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_book_keeping_classify_inventory(bci1, %{
-        book_keeping_id:                   bk1,
-        name: random_name_classify_inventory()
+        book_keeping_id: bk1,
+        name:     "Expenses"
       }),
       Services.update_book_keeping_classify_inventory(bci2, %{
         book_keeping_id:                   bk2,
@@ -362,6 +369,7 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_book_keeping_industry() :: Ecto.Schema.t()
   defp update_book_keeping_industry do
     book_keeping_ids =
       Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
@@ -391,8 +399,8 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_book_keeping_industry(bki1, %{
-        book_keeping_id:                 bk1,
-        name:  random_name_for_tp_industry()
+        book_keeping_id:             bk1,
+        name: ["Construction/Contractors"]
       }),
       Services.update_book_keeping_industry(bki2, %{
         book_keeping_id:                 bk2,
@@ -403,8 +411,8 @@ defmodule Core.Seeder.Updated.Services do
         name:  random_name_for_tp_industry()
       }),
       Services.update_book_keeping_industry(bki4, %{
-        book_keeping_id:                 bk4,
-        name: random_name_for_pro_industry()
+        book_keeping_id:                             bk4,
+        name: ["Construction/Contractors", "Consulting"]
       }),
       Services.update_book_keeping_industry(bki5, %{
         book_keeping_id:                 bk5,
@@ -417,6 +425,7 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_book_keeping_number_employee() :: Ecto.Schema.t()
   defp update_book_keeping_number_employee do
     book_keeping_ids =
       Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
@@ -446,8 +455,8 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_book_keeping_number_employee(bne1, %{
-        book_keeping_id:         bk1,
-        name: random_name_employee()
+        book_keeping_id:       bk1,
+        name: "51 - 100 employees"
       }),
       Services.update_book_keeping_number_employee(bne2, %{
         book_keeping_id:         bk2,
@@ -458,9 +467,9 @@ defmodule Core.Seeder.Updated.Services do
         name: random_name_employee()
       }),
       Services.update_book_keeping_number_employee(bne4, %{
-        book_keeping_id:         bk4,
-        name: random_name_employee(),
-        price:      random_integer()
+        book_keeping_id:       bk4,
+        name: "51 - 100 employees",
+        price:                  60
       }),
       Services.update_book_keeping_number_employee(bne5, %{
         book_keeping_id:         bk5,
@@ -475,6 +484,7 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_book_keeping_transaction_volume() :: Ecto.Schema.t()
   defp update_book_keeping_transaction_volume do
     book_keeping_ids =
       Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
@@ -504,8 +514,8 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_book_keeping_transaction_volume(btv1, %{
-        book_keeping_id:                   bk1,
-        name: random_name_transaction_volume()
+        book_keeping_id: bk1,
+        name:         "200+"
       }),
       Services.update_book_keeping_transaction_volume(btv2, %{
         book_keeping_id:                   bk2,
@@ -516,9 +526,9 @@ defmodule Core.Seeder.Updated.Services do
         name: random_name_transaction_volume()
       }),
       Services.update_book_keeping_transaction_volume(btv4, %{
-        book_keeping_id:                   bk4,
-        name: random_name_transaction_volume(),
-        price:                random_integer()
+        book_keeping_id: bk4,
+        name:         "200+",
+        price:            50
       }),
       Services.update_book_keeping_transaction_volume(btv5, %{
         book_keeping_id:                   bk5,
@@ -533,6 +543,7 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_book_keeping_type_client() :: Ecto.Schema.t()
   defp update_book_keeping_type_client do
     book_keeping_ids =
       Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
@@ -562,8 +573,8 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_book_keeping_type_client(bkt1, %{
-        book_keeping_id:            bk1,
-        name: random_name_type_client()
+        book_keeping_id: bk1,
+        name:       "S-Corp"
       }),
       Services.update_book_keeping_type_client(bkt2, %{
         book_keeping_id:            bk2,
@@ -574,9 +585,9 @@ defmodule Core.Seeder.Updated.Services do
         name: random_name_type_client()
       }),
       Services.update_book_keeping_type_client(bkt4, %{
-        book_keeping_id:            bk4,
-        name: random_name_type_client(),
-        price:         random_integer()
+        book_keeping_id: bk4,
+        name:       "S-Corp",
+        price:           150
       }),
       Services.update_book_keeping_type_client(bkt5, %{
         book_keeping_id:            bk5,
@@ -591,6 +602,7 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_business_tax_return() :: Ecto.Schema.t()
   defp update_business_tax_return do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
@@ -617,45 +629,45 @@ defmodule Core.Seeder.Updated.Services do
         Enum.at(business_tax_return_ids, 6)
       }
 
+    {:ok, date} = Date.new(2020, 05,02)
+
     [
       Services.update_business_tax_return(btr1, %{
-        accounting_software:        random_boolean(),
-        capital_asset_sale:         random_boolean(),
-        church_hospital:            random_boolean(),
-        deadline:                   Date.utc_today(),
-        dispose_asset:              random_boolean(),
-        dispose_property:           random_boolean(),
-        educational_facility:       random_boolean(),
-        financial_situation:        Lorem.sentence(),
-        foreign_account_interest:   random_boolean(),
-        foreign_account_value_more: random_boolean(),
-        foreign_entity_interest:    random_boolean(),
-        foreign_partner_count:      random_integer(),
-        foreign_shareholder:        random_boolean(),
-        foreign_value:              random_boolean(),
-        fundraising_over:           random_boolean(),
-        has_contribution:           random_boolean(),
-        has_loan:                   random_boolean(),
-        income_over_thousand:       random_boolean(),
-        invest_research:            random_boolean(),
-        k1_count:                   random_integer(),
-        lobbying:                   random_boolean(),
-        make_distribution:          random_boolean(),
-        none_expat:                 random_boolean(),
-        operate_facility:           random_boolean(),
-        price_state:                random_integer(),
-        price_tax_year:             random_integer(),
-        property_sale:              random_boolean(),
-        public_charity:             random_boolean(),
-        rental_property_count:      random_integer(),
-        reported_grant:             random_boolean(),
-        restricted_donation:        random_boolean(),
-        state:                        random_state(),
-        tax_exemption:              random_boolean(),
-        tax_year:                      random_year(),
-        total_asset_less:           random_boolean(),
-        total_asset_over:           random_boolean(),
-        user_id:                                 tp1
+        accounting_software:             true,
+        capital_asset_sale:              true,
+        church_hospital:                 true,
+        deadline:                        date,
+        dispose_asset:                   true,
+        dispose_property:                true,
+        educational_facility:            true,
+        financial_situation: "some situation",
+        foreign_account_interest:        true,
+        foreign_account_value_more:      true,
+        foreign_entity_interest:         true,
+        foreign_partner_count:             42,
+        foreign_shareholder:             true,
+        foreign_value:                   true,
+        fundraising_over:                true,
+        has_contribution:                true,
+        has_loan:                        true,
+        income_over_thousand:            true,
+        invest_research:                 true,
+        k1_count:                          42,
+        lobbying:                        true,
+        make_distribution:               true,
+        none_expat:                      true,
+        operate_facility:                true,
+        property_sale:                   true,
+        public_charity:                  true,
+        rental_property_count:             42,
+        reported_grant:                  true,
+        restricted_donation:             true,
+        state:          ["Alabama", "Florida"],
+        tax_exemption:                    true,
+        tax_year:             ["2018", "2019"],
+        total_asset_less:                 true,
+        total_asset_over:                 true,
+        user_id:                           tp1
       }),
       Services.update_business_tax_return(btr2, %{
         accounting_software:        random_boolean(),
@@ -736,41 +748,10 @@ defmodule Core.Seeder.Updated.Services do
         user_id:                                 tp3
       }),
       Services.update_business_tax_return(btr4, %{
-        accounting_software:        random_boolean(),
-        capital_asset_sale:         random_boolean(),
-        church_hospital:            random_boolean(),
-        dispose_asset:              random_boolean(),
-        dispose_property:           random_boolean(),
-        educational_facility:       random_boolean(),
-        financial_situation:        Lorem.sentence(),
-        foreign_account_interest:   random_boolean(),
-        foreign_account_value_more: random_boolean(),
-        foreign_entity_interest:    random_boolean(),
-        foreign_partner_count:      random_integer(),
-        foreign_shareholder:        random_boolean(),
-        foreign_value:              random_boolean(),
-        fundraising_over:           random_boolean(),
-        has_contribution:           random_boolean(),
-        has_loan:                   random_boolean(),
-        income_over_thousand:       random_boolean(),
-        invest_research:            random_boolean(),
-        k1_count:                   random_integer(),
-        lobbying:                   random_boolean(),
-        make_distribution:          random_boolean(),
-        none_expat:                 random_boolean(),
-        operate_facility:           random_boolean(),
-        price_state:                random_integer(),
-        price_tax_year:             random_integer(),
-        property_sale:              random_boolean(),
-        public_charity:             random_boolean(),
-        rental_property_count:      random_integer(),
-        reported_grant:             random_boolean(),
-        restricted_donation:        random_boolean(),
-        tax_exemption:              random_boolean(),
-        tax_year:                      random_year(),
-        total_asset_less:           random_boolean(),
-        total_asset_over:           random_boolean(),
-        user_id:                                pro1
+        none_expat:  false,
+        price_state:    50,
+        price_tax_year: 40,
+        user_id:      pro1
       }),
       Services.update_business_tax_return(btr5, %{
         accounting_software:        random_boolean(),
@@ -849,6 +830,7 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_business_entity_type() :: Ecto.Schema.t()
   defp update_business_entity_type do
     business_tax_return_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
@@ -878,8 +860,8 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_business_entity_type(bet1, %{
-        business_tax_return_id:    btr1,
-        name: random_name_entity_type()
+        business_tax_return_id: btr1,
+        name: ["C-Corp / Corporation"]
       }),
       Services.update_business_entity_type(bet2, %{
         business_tax_return_id:    btr2,
@@ -890,9 +872,9 @@ defmodule Core.Seeder.Updated.Services do
         name: random_name_entity_type()
       }),
       Services.update_business_entity_type(bet4, %{
-        business_tax_return_id:    btr4,
-        name: random_name_entity_type(),
-        price:       Enum.random(1..99)
+        business_tax_return_id: btr4,
+        name:        ["S-Corp", "LLC"],
+        price:                   250
       }),
       Services.update_business_entity_type(bet5, %{
         business_tax_return_id:    btr5,
@@ -907,37 +889,32 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_business_foreign_account_count() :: Ecto.Schema.t()
   defp update_business_foreign_account_count do
     business_tax_return_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3, btr4, btr5, btr6} =
+    {btr1, btr2, btr3} =
       {
         Enum.at(business_tax_return_ids, 1),
         Enum.at(business_tax_return_ids, 2),
-        Enum.at(business_tax_return_ids, 3),
-        Enum.at(business_tax_return_ids, 4),
-        Enum.at(business_tax_return_ids, 5),
-        Enum.at(business_tax_return_ids, 6)
+        Enum.at(business_tax_return_ids, 3)
       }
 
     business_foreign_account_count_ids =
       Enum.map(Repo.all(BusinessForeignAccountCount), fn(data) -> data end)
 
-    {bfa1, bfa2, bfa3, bfa4, bfa5, bfa6} =
+    {bfa1, bfa2, bfa3} =
       {
+        Enum.at(business_foreign_account_count_ids, 0),
         Enum.at(business_foreign_account_count_ids, 1),
-        Enum.at(business_foreign_account_count_ids, 2),
-        Enum.at(business_foreign_account_count_ids, 3),
-        Enum.at(business_foreign_account_count_ids, 4),
-        Enum.at(business_foreign_account_count_ids, 5),
-        Enum.at(business_foreign_account_count_ids, 6)
+        Enum.at(business_foreign_account_count_ids, 2)
       }
 
     [
       Services.update_business_foreign_account_count(bfa1, %{
         business_tax_return_id: btr1,
-        name:    random_name_count()
+        name:                  "2-5"
       }),
       Services.update_business_foreign_account_count(bfa2, %{
         business_tax_return_id: btr2,
@@ -946,53 +923,36 @@ defmodule Core.Seeder.Updated.Services do
       Services.update_business_foreign_account_count(bfa3, %{
         business_tax_return_id: btr3,
         name:    random_name_count()
-      }),
-      Services.update_business_foreign_account_count(bfa4, %{
-        business_tax_return_id: btr4,
-        name:    random_name_count()
-      }),
-      Services.update_business_foreign_account_count(bfa5, %{
-        business_tax_return_id: btr5,
-        name:    random_name_count()
-      }),
-      Services.update_business_foreign_account_count(bfa6, %{
-        business_tax_return_id: btr6,
-        name:    random_name_count()
       })
     ]
   end
 
+  @spec update_business_foreign_ownership_count() :: Ecto.Schema.t()
   defp update_business_foreign_ownership_count do
     business_tax_return_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3, btr4, btr5, btr6} =
+    {btr1, btr2, btr3} =
       {
         Enum.at(business_tax_return_ids, 1),
         Enum.at(business_tax_return_ids, 2),
-        Enum.at(business_tax_return_ids, 3),
-        Enum.at(business_tax_return_ids, 4),
-        Enum.at(business_tax_return_ids, 5),
-        Enum.at(business_tax_return_ids, 6)
+        Enum.at(business_tax_return_ids, 3)
       }
 
     business_foreign_ownership_count_ids =
       Enum.map(Repo.all(BusinessForeignOwnershipCount), fn(data) -> data end)
 
-    {bfo1, bfo2, bfo3, bfo4, bfo5, bfo6} =
+    {bfo1, bfo2, bfo3} =
       {
+        Enum.at(business_foreign_ownership_count_ids, 0),
         Enum.at(business_foreign_ownership_count_ids, 1),
-        Enum.at(business_foreign_ownership_count_ids, 2),
-        Enum.at(business_foreign_ownership_count_ids, 3),
-        Enum.at(business_foreign_ownership_count_ids, 4),
-        Enum.at(business_foreign_ownership_count_ids, 5),
-        Enum.at(business_foreign_ownership_count_ids, 6)
+        Enum.at(business_foreign_ownership_count_ids, 2)
       }
 
     [
       Services.update_business_foreign_ownership_count(bfo1, %{
         business_tax_return_id: btr1,
-        name:    random_name_count()
+        name:                  "2-5"
       }),
       Services.update_business_foreign_ownership_count(bfo2, %{
         business_tax_return_id: btr2,
@@ -1001,22 +961,11 @@ defmodule Core.Seeder.Updated.Services do
       Services.update_business_foreign_ownership_count(bfo3, %{
         business_tax_return_id: btr3,
         name:    random_name_count()
-      }),
-      Services.update_business_foreign_ownership_count(bfo4, %{
-        business_tax_return_id: btr4,
-        name:    random_name_count()
-      }),
-      Services.update_business_foreign_ownership_count(bfo5, %{
-        business_tax_return_id: btr5,
-        name:    random_name_count()
-      }),
-      Services.update_business_foreign_ownership_count(bfo6, %{
-        business_tax_return_id: btr6,
-        name:    random_name_count()
       })
     ]
   end
 
+  @spec update_business_industry() :: Ecto.Schema.t()
   defp update_business_industry do
     business_tax_return_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
@@ -1046,8 +995,8 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_business_industry(bi1, %{
-        business_tax_return_id:         btr1,
-        name:  random_name_for_tp_industry()
+        business_tax_return_id:     btr1,
+        name: ["Construction/Contractors"]
       }),
       Services.update_business_industry(bi2, %{
         business_tax_return_id:         btr2,
@@ -1058,8 +1007,8 @@ defmodule Core.Seeder.Updated.Services do
         name:  random_name_for_tp_industry()
       }),
       Services.update_business_industry(bi4, %{
-        business_tax_return_id:         btr4,
-        name: random_name_for_pro_industry()
+        business_tax_return_id:       btr4,
+        name: ["Construction/Contractors"]
       }),
       Services.update_business_industry(bi5, %{
         business_tax_return_id:         btr5,
@@ -1072,37 +1021,32 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_business_llc_type() :: Ecto.Schema.t()
   defp update_business_llc_type do
     business_tax_return_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3, btr4, btr5, btr6} =
+    {btr1, btr2, btr3} =
       {
         Enum.at(business_tax_return_ids, 1),
         Enum.at(business_tax_return_ids, 2),
-        Enum.at(business_tax_return_ids, 3),
-        Enum.at(business_tax_return_ids, 4),
-        Enum.at(business_tax_return_ids, 5),
-        Enum.at(business_tax_return_ids, 6)
+        Enum.at(business_tax_return_ids, 3)
       }
 
     business_llc_type_ids =
       Enum.map(Repo.all(BusinessLlcType), fn(data) -> data end)
 
-    {blt1, blt2, blt3, blt4, blt5, blt6} =
+    {blt1, blt2, blt3} =
       {
+        Enum.at(business_llc_type_ids, 0),
         Enum.at(business_llc_type_ids, 1),
-        Enum.at(business_llc_type_ids, 2),
-        Enum.at(business_llc_type_ids, 3),
-        Enum.at(business_llc_type_ids, 4),
-        Enum.at(business_llc_type_ids, 5),
-        Enum.at(business_llc_type_ids, 6)
+        Enum.at(business_llc_type_ids, 2)
       }
 
     [
       Services.update_business_llc_type(blt1, %{
         business_tax_return_id: btr1,
-        name: random_name_llc_type()
+        name: "C-Corp / Corporation"
       }),
       Services.update_business_llc_type(blt2, %{
         business_tax_return_id: btr2,
@@ -1111,22 +1055,11 @@ defmodule Core.Seeder.Updated.Services do
       Services.update_business_llc_type(blt3, %{
         business_tax_return_id: btr3,
         name: random_name_llc_type()
-      }),
-      Services.update_business_llc_type(blt4, %{
-        business_tax_return_id: btr4,
-        name: random_name_llc_type()
-      }),
-      Services.update_business_llc_type(blt5, %{
-        business_tax_return_id: btr5,
-        name: random_name_llc_type()
-      }),
-      Services.update_business_llc_type(blt6, %{
-        business_tax_return_id: btr6,
-        name: random_name_llc_type()
       })
     ]
   end
 
+  @spec update_business_number_employee() :: Ecto.Schema.t()
   defp update_business_number_employee do
     business_tax_return_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
@@ -1157,7 +1090,7 @@ defmodule Core.Seeder.Updated.Services do
     [
       Services.update_business_number_employee(bne1, %{
         business_tax_return_id: btr1,
-        name: random_name_employee()
+        name:   "51 - 100 employees"
       }),
       Services.update_business_number_employee(bne2, %{
         business_tax_return_id: btr2,
@@ -1169,8 +1102,8 @@ defmodule Core.Seeder.Updated.Services do
       }),
       Services.update_business_number_employee(bne4, %{
         business_tax_return_id: btr4,
-        name: random_name_employee(),
-        price:    Enum.random(1..99)
+        name:    "21 - 50 employees",
+        price:                    35
       }),
       Services.update_business_number_employee(bne5, %{
         business_tax_return_id: btr5,
@@ -1185,6 +1118,7 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_business_total_revenue() :: Ecto.Schema.t()
   defp update_business_total_revenue do
     business_tax_return_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
@@ -1215,7 +1149,7 @@ defmodule Core.Seeder.Updated.Services do
     [
       Services.update_business_total_revenue(bor1, %{
         business_tax_return_id: btr1,
-        name:  random_name_revenue()
+        name:            "$1M - $5M"
       }),
       Services.update_business_total_revenue(bor2, %{
         business_tax_return_id: btr2,
@@ -1227,8 +1161,8 @@ defmodule Core.Seeder.Updated.Services do
       }),
       Services.update_business_total_revenue(bor4, %{
         business_tax_return_id: btr4,
-        name:  random_name_revenue(),
-        price:    Enum.random(1..99)
+        name:        "$100K - $500K",
+        price:                    45
       }),
       Services.update_business_total_revenue(bor5, %{
         business_tax_return_id: btr5,
@@ -1243,37 +1177,32 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_business_transaction_count() :: Ecto.Schema.t()
   defp update_business_transaction_count do
     business_tax_return_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3, btr4, btr5, btr6} =
+    {btr1, btr2, btr3} =
       {
         Enum.at(business_tax_return_ids, 1),
         Enum.at(business_tax_return_ids, 2),
-        Enum.at(business_tax_return_ids, 3),
-        Enum.at(business_tax_return_ids, 4),
-        Enum.at(business_tax_return_ids, 5),
-        Enum.at(business_tax_return_ids, 6)
+        Enum.at(business_tax_return_ids, 3)
       }
 
     business_transaction_count_ids =
       Enum.map(Repo.all(BusinessTransactionCount), fn(data) -> data end)
 
-    {btc1, btc2, btc3, btc4, btc5, btc6} =
+    {btc1, btc2, btc3} =
       {
+        Enum.at(business_transaction_count_ids, 0),
         Enum.at(business_transaction_count_ids, 1),
-        Enum.at(business_transaction_count_ids, 2),
-        Enum.at(business_transaction_count_ids, 3),
-        Enum.at(business_transaction_count_ids, 4),
-        Enum.at(business_transaction_count_ids, 5),
-        Enum.at(business_transaction_count_ids, 6)
+        Enum.at(business_transaction_count_ids, 2)
       }
 
     [
       Services.update_business_transaction_count(btc1, %{
-        business_tax_return_id:           btr1,
-        name: random_name_transactions_count()
+        business_tax_return_id: btr1,
+        name:                "26-75"
       }),
       Services.update_business_transaction_count(btc2, %{
         business_tax_return_id:           btr2,
@@ -1282,22 +1211,11 @@ defmodule Core.Seeder.Updated.Services do
       Services.update_business_transaction_count(btc3, %{
         business_tax_return_id:           btr3,
         name: random_name_transactions_count()
-      }),
-      Services.update_business_transaction_count(btc4, %{
-        business_tax_return_id:           btr4,
-        name: random_name_transactions_count()
-      }),
-      Services.update_business_transaction_count(btc5, %{
-        business_tax_return_id:           btr5,
-        name: random_name_transactions_count()
-      }),
-      Services.update_business_transaction_count(btc6, %{
-        business_tax_return_id:           btr6,
-        name: random_name_transactions_count()
       })
     ]
   end
 
+  @spec update_individual_tax_return() :: Ecto.Schema.t()
   defp update_individual_tax_return do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
@@ -1324,26 +1242,28 @@ defmodule Core.Seeder.Updated.Services do
         Enum.at(individual_tax_return_ids, 6)
       }
 
+    {:ok, date} = Date.new(2020, 05,02)
+
     [
       Services.update_individual_tax_return(itr1, %{
-        deadline:       Date.utc_today(),
-        foreign_account:                  true,
-        foreign_account_limit:            true,
-        foreign_financial_interest:       true,
-        home_owner:                       true,
-        k1_count:                           10,
-        k1_income:                        true,
-        living_abroad:                    true,
-        non_resident_earning:             true,
-        none_expat:                      false,
-        own_stock_crypto:                 true,
-        rental_property_count:               2,
-        rental_property_income:           true,
-        sole_proprietorship_count:           3,
-        state: ["Alabama", "Ohio", "New York"],
-        stock_divident:                   true,
-        tax_year:     ["2018", "2017", "2016"],
-        user_id:                           tp1
+        deadline:                   date,
+        foreign_account:            true,
+        foreign_account_limit:      true,
+        foreign_financial_interest: true,
+        home_owner:                 true,
+        k1_count:                     43,
+        k1_income:                  true,
+        living_abroad:              true,
+        non_resident_earning:       true,
+        none_expat:                false,
+        own_stock_crypto:           true,
+        rental_property_count:        15,
+        rental_property_income:     true,
+        sole_proprietorship_count:     4,
+        state:   ["Alabama", "New York"],
+        stock_divident:             true,
+        tax_year:       ["2017", "2018"],
+        user_id:                     tp1
       }),
       Services.update_individual_tax_return(itr2, %{
         deadline:             Date.utc_today(),
@@ -1366,7 +1286,7 @@ defmodule Core.Seeder.Updated.Services do
         user_id:                           tp2
       }),
       Services.update_individual_tax_return(itr3, %{
-        deadline:             Date.utc_today(),
+        deadline:                                                 Date.utc_today(),
         foreign_account:                                                      true,
         foreign_account_limit:                                               false,
         foreign_financial_interest:                                           true,
@@ -1386,59 +1306,72 @@ defmodule Core.Seeder.Updated.Services do
         user_id:                                                               tp3
       }),
       Services.update_individual_tax_return(itr4, %{
-        foreign_account:               false,
-        home_owner:                     true,
-        living_abroad:                 false,
-        non_resident_earning:          false,
-        own_stock_crypto:              false,
-        price_home_owner:                 80,
-        price_rental_property_income:    150,
-        price_sole_proprietorship_count: 100,
-        price_state:                      20,
-        price_tax_year:                   10,
-        rental_property_income:         true,
-        stock_divident:                false,
-        user_id:                        pro1
-      }),
-      Services.update_individual_tax_return(itr5, %{
         foreign_account:                true,
         home_owner:                     true,
         living_abroad:                  true,
         non_resident_earning:           true,
+        none_expat:                    false,
         own_stock_crypto:               true,
-        price_foreign_account:           250,
-        price_home_owner:                120,
-        price_living_abroad:             180,
-        price_non_resident_earning:      500,
-        price_own_stock_crypto:          255,
-        price_rental_property_income:    345,
-        price_sole_proprietorship_count: 165,
-        price_state:                      45,
-        price_stock_divident:            185,
-        price_tax_year:                   50,
+        price_foreign_account:            35,
+        price_home_owner:                 45,
+        price_living_abroad:              55,
+        price_non_resident_earning:       44,
+        price_own_stock_crypto:           33,
+        price_rental_property_income:     54,
+        price_sole_proprietorship_count: 150,
+        price_state:                       8,
+        price_stock_divident:             34,
+        price_tax_year:                   38,
         rental_property_income:         true,
         stock_divident:                 true,
+        user_id:                        pro1
+      }),
+      Services.update_individual_tax_return(itr5, %{
+        foreign_account:               false,
+        home_owner:                    false,
+        living_abroad:                  true,
+        non_resident_earning:          false,
+        none_expat:                    false,
+        own_stock_crypto:               true,
+        price_foreign_account:            67,
+        price_home_owner:                 78,
+        price_living_abroad:              22,
+        price_non_resident_earning:       89,
+        price_own_stock_crypto:           31,
+        price_rental_property_income:     74,
+        price_sole_proprietorship_count:  99,
+        price_state:                      88,
+        price_stock_divident:             55,
+        price_tax_year:                   68,
+        rental_property_income:        false,
+        stock_divident:                false,
         user_id:                        pro2
       }),
       Services.update_individual_tax_return(itr6, %{
-        foreign_account:           false,
-        home_owner:                 true,
-        living_abroad:             false,
-        non_resident_earning:      false,
-        own_stock_crypto:           true,
-        price_home_owner:             85,
-        price_own_stock_crypto:      135,
-        price_rental_property_income: 75,
-        price_state:                  12,
-        price_stock_divident:        115,
-        price_tax_year:               10,
-        rental_property_income:     true,
-        stock_divident:             true,
-        user_id:                    pro3
+        foreign_account:               false,
+        home_owner:                    false,
+        living_abroad:                 false,
+        non_resident_earning:          false,
+        none_expat:                    false,
+        own_stock_crypto:              false,
+        price_foreign_account:            11,
+        price_home_owner:                 12,
+        price_living_abroad:              13,
+        price_non_resident_earning:       14,
+        price_own_stock_crypto:           15,
+        price_rental_property_income:     16,
+        price_sole_proprietorship_count:  17,
+        price_state:                      18,
+        price_stock_divident:             19,
+        price_tax_year:                   20,
+        rental_property_income:        false,
+        stock_divident:                false,
+        user_id:                        pro3
       })
     ]
   end
 
+  @spec update_individual_employment_status() :: Ecto.Schema.t()
   defp update_individual_employment_status do
     individual_tax_return_ids =
       Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
@@ -1468,8 +1401,8 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_individual_employment_status(ies1, %{
-        individual_tax_return_id:        itr1,
-        name: random_name_employment_status()
+        individual_tax_return_id: itr1,
+        name:               "Employed"
       }),
       Services.update_individual_employment_status(ies2, %{
         individual_tax_return_id:        itr2,
@@ -1480,9 +1413,9 @@ defmodule Core.Seeder.Updated.Services do
         name: random_name_employment_status()
       }),
       Services.update_individual_employment_status(ies4, %{
-        individual_tax_return_id:        itr4,
-        name: random_name_employment_status(),
-        price:             Enum.random(1..99)
+        individual_tax_return_id: itr4,
+        name:                "Employed",
+        price:                      150
       }),
       Services.update_individual_employment_status(ies5, %{
         individual_tax_return_id:        itr5,
@@ -1497,6 +1430,7 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_individual_filing_status() :: Ecto.Schema.t()
   defp update_individual_filing_status do
     individual_tax_return_ids =
       Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
@@ -1526,8 +1460,8 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_individual_filing_status(ifs1, %{
-        individual_tax_return_id:     itr1,
-        name: random_name_filling_status()
+        individual_tax_return_id: itr1,
+        name:                 "Single"
       }),
       Services.update_individual_filing_status(ifs2, %{
         individual_tax_return_id:     itr2,
@@ -1538,9 +1472,9 @@ defmodule Core.Seeder.Updated.Services do
         name:          "Head of Household"
       }),
       Services.update_individual_filing_status(ifs4, %{
-        individual_tax_return_id:     itr4,
-        name: random_name_filling_status(),
-        price:          Enum.random(1..99)
+        individual_tax_return_id: itr4,
+        name:      "Head of Household",
+        price:                      55
       }),
       Services.update_individual_filing_status(ifs5, %{
         individual_tax_return_id:     itr5,
@@ -1555,37 +1489,32 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_individual_foreign_account_count() :: Ecto.Schema.t()
   defp update_individual_foreign_account_count do
     individual_tax_return_ids =
       Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
 
-    {itr1, itr2, itr3, itr4, itr5, itr6} =
+    {itr1, itr2, itr3} =
       {
         Enum.at(individual_tax_return_ids, 1),
         Enum.at(individual_tax_return_ids, 2),
-        Enum.at(individual_tax_return_ids, 3),
-        Enum.at(individual_tax_return_ids, 4),
-        Enum.at(individual_tax_return_ids, 5),
-        Enum.at(individual_tax_return_ids, 6)
+        Enum.at(individual_tax_return_ids, 3)
       }
 
     individual_foreign_account_count_ids =
       Enum.map(Repo.all(IndividualForeignAccountCount), fn(data) -> data end)
 
-    {ifa1, ifa2, ifa3, ifa4, ifa5, ifa6} =
+    {ifa1, ifa2, ifa3} =
       {
+        Enum.at(individual_foreign_account_count_ids, 0),
         Enum.at(individual_foreign_account_count_ids, 1),
-        Enum.at(individual_foreign_account_count_ids, 2),
-        Enum.at(individual_foreign_account_count_ids, 3),
-        Enum.at(individual_foreign_account_count_ids, 4),
-        Enum.at(individual_foreign_account_count_ids, 5),
-        Enum.at(individual_foreign_account_count_ids, 6)
+        Enum.at(individual_foreign_account_count_ids, 2)
       }
 
     [
       Services.update_individual_foreign_account_count(ifa1, %{
         individual_tax_return_id: itr1,
-        name:      random_name_count()
+        name:                    "2-5"
       }),
       Services.update_individual_foreign_account_count(ifa2, %{
         individual_tax_return_id: itr2,
@@ -1594,22 +1523,11 @@ defmodule Core.Seeder.Updated.Services do
       Services.update_individual_foreign_account_count(ifa3, %{
         individual_tax_return_id: itr3,
         name:      random_name_count()
-      }),
-      Services.update_individual_foreign_account_count(ifa4, %{
-        individual_tax_return_id: itr4,
-        name:      random_name_count()
-      }),
-      Services.update_individual_foreign_account_count(ifa5, %{
-        individual_tax_return_id: itr5,
-        name:      random_name_count()
-      }),
-      Services.update_individual_foreign_account_count(ifa6, %{
-        individual_tax_return_id: itr6,
-        name:      random_name_count()
       })
     ]
   end
 
+  @spec update_individual_industry() :: Ecto.Schema.t()
   defp update_individual_industry do
     individual_tax_return_ids =
       Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
@@ -1639,8 +1557,8 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_individual_industry(ii1, %{
-        individual_tax_return_id:       itr1,
-        name:  random_name_for_tp_industry()
+        individual_tax_return_id:     itr1,
+        name: ["Construction/Contractors"]
       }),
       Services.update_individual_industry(ii2, %{
         individual_tax_return_id:       itr2,
@@ -1652,7 +1570,7 @@ defmodule Core.Seeder.Updated.Services do
       }),
       Services.update_individual_industry(ii4, %{
         individual_tax_return_id:       itr4,
-        name: random_name_for_pro_industry()
+        name: ["Construction/Contractors"]
       }),
       Services.update_individual_industry(ii5, %{
         individual_tax_return_id:       itr5,
@@ -1665,6 +1583,7 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_individual_itemized_deduction() :: Ecto.Schema.t()
   defp update_individual_itemized_deduction do
     individual_tax_return_ids =
       Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
@@ -1694,8 +1613,8 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_individual_itemized_deduction(iid1, %{
-        individual_tax_return_id:         itr1,
-        name: random_name_itemized_deduction()
+        individual_tax_return_id: itr1,
+        name:       "Health insurance"
       }),
       Services.update_individual_itemized_deduction(iid2, %{
         individual_tax_return_id:         itr2,
@@ -1706,9 +1625,9 @@ defmodule Core.Seeder.Updated.Services do
         name: random_name_itemized_deduction()
       }),
       Services.update_individual_itemized_deduction(iid4, %{
-        individual_tax_return_id:         itr4,
-        name: random_name_itemized_deduction(),
-        price:              Enum.random(1..99)
+        individual_tax_return_id:   itr4,
+        name: "Charitable contributions",
+        price:                       105
       }),
       Services.update_individual_itemized_deduction(iid5, %{
         individual_tax_return_id:         itr5,
@@ -1723,31 +1642,26 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_individual_stock_transaction_count() :: Ecto.Schema.t()
   defp update_individual_stock_transaction_count do
     individual_tax_return_ids =
       Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
 
-    {itr1, itr2, itr3, itr4, itr5, itr6} =
+    {itr1, itr2, itr3} =
       {
         Enum.at(individual_tax_return_ids, 1),
         Enum.at(individual_tax_return_ids, 2),
-        Enum.at(individual_tax_return_ids, 3),
-        Enum.at(individual_tax_return_ids, 4),
-        Enum.at(individual_tax_return_ids, 5),
-        Enum.at(individual_tax_return_ids, 6)
+        Enum.at(individual_tax_return_ids, 3)
       }
 
     individual_stock_transaction_count_ids =
       Enum.map(Repo.all(IndividualStockTransactionCount), fn(data) -> data end)
 
-    {itc1, itc2, itc3, itc4, itc5, itc6} =
+    {itc1, itc2, itc3} =
       {
+        Enum.at(individual_stock_transaction_count_ids, 0),
         Enum.at(individual_stock_transaction_count_ids, 1),
-        Enum.at(individual_stock_transaction_count_ids, 2),
-        Enum.at(individual_stock_transaction_count_ids, 3),
-        Enum.at(individual_stock_transaction_count_ids, 4),
-        Enum.at(individual_stock_transaction_count_ids, 5),
-        Enum.at(individual_stock_transaction_count_ids, 6)
+        Enum.at(individual_stock_transaction_count_ids, 2)
       }
 
     [
@@ -1757,27 +1671,16 @@ defmodule Core.Seeder.Updated.Services do
       }),
       Services.update_individual_stock_transaction_count(itc2, %{
         individual_tax_return_id: itr2,
-        name:                 "51-100"
+        name: random_name_stock_transaction_count()
       }),
       Services.update_individual_stock_transaction_count(itc3, %{
         individual_tax_return_id: itr3,
-        name:                   "100+"
-      }),
-      Services.update_individual_stock_transaction_count(itc4, %{
-        individual_tax_return_id: itr4,
-        name:                 "51-100"
-      }),
-      Services.update_individual_stock_transaction_count(itc5, %{
-        individual_tax_return_id: itr5,
-        name:                   "6-50"
-      }),
-      Services.update_individual_stock_transaction_count(itc6, %{
-        individual_tax_return_id: itr6,
-        name:                    "1-5"
+        name: random_name_stock_transaction_count()
       })
     ]
   end
 
+  @spec update_sale_tax() :: Ecto.Schema.t()
   defp update_sale_tax do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
@@ -1804,9 +1707,11 @@ defmodule Core.Seeder.Updated.Services do
         Enum.at(sale_tax_ids, 6)
       }
 
+    {:ok, date} = Date.new(2020, 05,02)
+
     [
       Services.update_sale_tax(st1, %{
-        deadline:            Date.utc_today(),
+        deadline:            date,
         financial_situation: "some situation",
         sale_tax_count:                     5,
         state:        ["Alabama", "New York"],
@@ -1841,6 +1746,7 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_sale_tax_frequency() :: Ecto.Schema.t()
   defp update_sale_tax_frequency do
     sale_tax_frequency_ids =
       Enum.map(Repo.all(SaleTaxFrequency), fn(data) -> data end)
@@ -1880,6 +1786,7 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec update_sale_tax_industry() :: Ecto.Schema.t()
   defp update_sale_tax_industry do
     sale_tax_industry_ids =
       Enum.map(Repo.all(SaleTaxIndustry), fn(data) -> data end)
@@ -1896,7 +1803,7 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_sale_tax_industry(sti1, %{
-        name: random_name_for_tp_industry()
+        name: ["Computer/Software/IT"]
       }),
       Services.update_sale_tax_industry(sti2, %{
         name: random_name_for_tp_industry()
@@ -1905,7 +1812,7 @@ defmodule Core.Seeder.Updated.Services do
         name: random_name_for_tp_industry()
       }),
       Services.update_sale_tax_industry(sti4, %{
-        name: random_name_for_pro_industry()
+        name: ["Agriculture/Farming", "Automotive Sales/Repair", "Computer/Software/IT", "Construction/Contractors", "Consulting"]
       }),
       Services.update_sale_tax_industry(sti5, %{
         name: random_name_for_pro_industry()
@@ -1916,15 +1823,18 @@ defmodule Core.Seeder.Updated.Services do
     ]
   end
 
+  @spec random_integer() :: integer
   defp random_integer(n \\ 99) do
     Enum.random(1..n)
   end
 
+  @spec random_boolean() :: boolean
   defp random_boolean do
     value = ~W(true false)a
     Enum.random(value)
   end
 
+  @spec random_year() :: [String.t()]
   defp random_year do
     years = 2010..2020
     numbers = 1..9
@@ -1939,6 +1849,7 @@ defmodule Core.Seeder.Updated.Services do
     Enum.uniq(result)
   end
 
+  @spec random_state() :: [String.t()]
   defp random_state do
     name = Enum.map(Repo.all(State), fn(data) -> data.name end)
     numbers = 1..9
@@ -1951,6 +1862,7 @@ defmodule Core.Seeder.Updated.Services do
     |> Enum.uniq()
   end
 
+  @spec random_name_additional_need() :: String.t()
   defp random_name_additional_need do
     names = [
       "accounts payable",
@@ -1963,6 +1875,7 @@ defmodule Core.Seeder.Updated.Services do
     Enum.random(names)
   end
 
+  @spec random_name_revenue() :: String.t()
   defp random_name_revenue do
     names = [
       "$100K - $500K",
@@ -1976,6 +1889,7 @@ defmodule Core.Seeder.Updated.Services do
     Enum.random(names)
   end
 
+  @spec random_name_classify_inventory() :: String.t()
   defp random_name_classify_inventory do
     names = ["Assets", "Expenses"]
     numbers = 1..1
@@ -1984,6 +1898,7 @@ defmodule Core.Seeder.Updated.Services do
     Enum.uniq(result)
   end
 
+  @spec random_name_for_tp_industry() :: String.t()
   defp random_name_for_tp_industry do
     names = [
       "Agriculture/Farming",
@@ -2020,6 +1935,7 @@ defmodule Core.Seeder.Updated.Services do
     Enum.uniq(result)
   end
 
+  @spec random_name_for_pro_industry() :: [String.t()]
   defp random_name_for_pro_industry do
     names = [
       "Agriculture/Farming",
@@ -2059,6 +1975,7 @@ defmodule Core.Seeder.Updated.Services do
     Enum.uniq(result)
   end
 
+  @spec random_name_employee() :: String.t()
   defp random_name_employee do
     names = [
       "1 employee",
@@ -2072,11 +1989,13 @@ defmodule Core.Seeder.Updated.Services do
     Enum.random(names)
   end
 
+  @spec random_name_transaction_volume() :: String.t()
   defp random_name_transaction_volume do
     names = ["1-25", "200+", "26-75", "76-199"]
     Enum.random(names)
   end
 
+  @spec random_name_type_client() :: String.t()
   defp random_name_type_client do
     names = [
       "C-Corp / Corporation",
@@ -2090,6 +2009,7 @@ defmodule Core.Seeder.Updated.Services do
     Enum.random(names)
   end
 
+  @spec random_name_entity_type() :: String.t()
   defp random_name_entity_type do
     names = [
       "C-Corp / Corporation",
@@ -2103,12 +2023,13 @@ defmodule Core.Seeder.Updated.Services do
     Enum.random(names)
   end
 
+  @spec random_name_count() :: String.t()
   defp random_name_count do
     names = ["1", "2-5", "5+"]
-
     Enum.random(names)
   end
 
+  @spec random_name_llc_type() :: String.t()
   defp random_name_llc_type do
     names = [
       "C-Corp / Corporation",
@@ -2121,16 +2042,19 @@ defmodule Core.Seeder.Updated.Services do
     Enum.random(names)
   end
 
+  @spec random_name_transactions_count() :: String.t()
   defp random_name_transactions_count do
     names = ["1-10", "11-25", "26-75", "75+"]
     Enum.random(names)
   end
 
+  @spec random_name_employment_status() :: String.t()
   defp random_name_employment_status do
     names = ["employed", "self-employed", "unemployed"]
     Enum.random(names)
   end
 
+  @spec random_name_filling_status() :: String.t()
   defp random_name_filling_status do
     names = [
       "Head of Household",
@@ -2143,6 +2067,7 @@ defmodule Core.Seeder.Updated.Services do
     Enum.random(names)
   end
 
+  @spec random_name_itemized_deduction() :: String.t()
   defp random_name_itemized_deduction do
     names = [
       "Charitable contributions",
@@ -2153,8 +2078,15 @@ defmodule Core.Seeder.Updated.Services do
     Enum.random(names)
   end
 
+  @spec random_name_stock_transaction_count() :: String.t()
+  defp random_name_stock_transaction_count do
+    names = ["1-5", "100+", "51-100", "6-50"]
+    Enum.random(names)
+  end
+
+  @spec random_name_tax_frequency() :: String.t()
   defp random_name_tax_frequency do
-    names = ["Annually", "Monthly", "Quaterly"]
+    names = ["Annually", "Monthly", "Quarterly"]
     Enum.random(names)
   end
 end

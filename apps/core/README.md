@@ -169,4 +169,218 @@ iex> Core.Config.get!([Core.Uploaders.S3, :public_endpoint]) <> "/" <> Core.Conf
 iex> data = %URI{authority: "taxgig.me:4001", fragment: nil, host: "taxgig.me", path: "/media/9umIfi3xLVhzin.jpg", port: 4001, query: "name=image_tmp.jpg", scheme: "https", userinfo: nil}
 ```
 
+```
+SaleTax.check_match_sale_tax_count(sale_tax_tp1)
+%{
+  "0ea97a6c-7e6b-4a2c-80cd-be0758432555" => 50,
+  "2b7dd4fb-8d45-4bcf-afc0-a7ef9da62796" => 50,
+  "528611a3-63be-46ce-be75-60066b0a357b" => 50,
+  "57e643e0-5763-460d-adb0-5dd05c36ef50" => 50,
+  "b11ccbdd-6eb9-4b81-92fb-7394272f23ad" => 50,
+  "d1d0568c-2e55-42f7-94b6-7c436b62094a" => 50
+}
+SaleTax.check_match_sale_tax_count(sale_tax_pro1)
+%{
+  "0ea97a6c-7e6b-4a2c-80cd-be0758432555" => 50,
+  "2b7dd4fb-8d45-4bcf-afc0-a7ef9da62796" => 50,
+  "528611a3-63be-46ce-be75-60066b0a357b" => 50,
+  "57e643e0-5763-460d-adb0-5dd05c36ef50" => 50,
+  "b11ccbdd-6eb9-4b81-92fb-7394272f23ad" => 50,
+  "d1d0568c-2e55-42f7-94b6-7c436b62094a" => 50
+}
+```
+
+```
+struct = Repo.get_by(SaleTax, %{id: st_tp1})
+{:ok, date} = Date.new(2020, 05,02)
+state = ["Alabama", "New York"]
+Services.update_sale_tax(struct, %{financial_situation: "some situation", sale_tax_count: 5, state: state, deadline: date})
+
+struct = Repo.get_by(SaleTax, %{id: st_tp2})
+date = Date.utc_today |> Date.add(-66)
+state = ["Louisiana"]
+Services.update_sale_tax(struct, %{financial_situation: "some situation", sale_tax_count: 3, state: state, deadline: date})
+
+struct = Repo.get_by(SaleTax, %{id: st_tp3})
+date = Date.utc_today |> Date.add(-36)
+state = ["Michigan", "Nebraska", "Ohio", "Palau", "Wisconsin"]
+Services.update_sale_tax(struct, %{financial_situation: "some situation", sale_tax_count: 5, state: state, deadline: date})
+
+struct = Repo.get_by(SaleTax, %{id: st_pro1})
+Services.update_sale_tax(struct, %{price_sale_tax_count: 45})
+
+struct = Repo.get_by(SaleTax, %{id: st_pro2})
+Services.update_sale_tax(struct, %{price_sale_tax_count: 35})
+
+struct = Repo.get_by(SaleTax, %{id: st_pro3})
+Services.update_sale_tax(struct, %{price_sale_tax_count: 25})
+
+struct = Repo.get_by(SaleTaxFrequency, sale_tax_id: st_tp1)
+Services.update_sale_tax_frequency(struct, %{name: "Annually"})
+
+struct = Repo.get_by(SaleTaxFrequency, sale_tax_id: st_tp2)
+Services.update_sale_tax_frequency(struct, %{name: "Monthly"})
+
+struct = Repo.get_by(SaleTaxFrequency, sale_tax_id: st_tp3)
+Services.update_sale_tax_frequency(struct, %{name: "Quaterly"})
+
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_tp1)
+Services.update_sale_tax_industry(struct, %{name: ["Computer/Software/IT"]})
+
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_pro1)
+Services.update_sale_tax_industry(struct, %{name: "Annually", price: 150})
+
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_pro2)
+Services.update_sale_tax_industry(struct, %{name: "Monthly", price: 50})
+
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_pro3)
+Services.update_sale_tax_industry(struct, %{name: "Quaterly", price: 25})
+
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_tp1)
+Services.update_sale_tax_industry(struct, %{name: ["Computer/Software/IT"]})
+
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_tp2)
+Services.update_sale_tax_industry(struct, %{name: ["Consulting"]})
+
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_tp3)
+Services.update_sale_tax_industry(struct, %{name: ["Retail"]})
+
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_pro1)
+Services.update_sale_tax_industry(struct, %{name: ["Agriculture/Farming", "Automotive Sales/Repair","Computer/Software/IT", "Construction/Contractors", "Consulting"]})
+
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_pro2)
+Services.update_sale_tax_industry(struct, %{name: ["Construction/Contractors", "Consulting"]})
+
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_pro3)
+Services.update_sale_tax_industry(struct, %{name: ["Computer/Software/IT", "Consulting"]})
+```
+
+```
+struct = Repo.get_by(SaleTax, %{id: st_tp1})
+state = ["Alabama", "New York"]
+{:ok, date} = Date.new(2020, 05,02)
+Services.update_sale_tax(struct, %{financial_situation: "some situation", sale_tax_count: 5, state: state, deadline: date})
+
+struct = Repo.get_by(SaleTax, %{id: st_tp2})
+state = ["Montana", "Alabama", "Georgia", "Wisconsin"]
+date = Date.utc_today |> Date.add(-66)
+Services.update_sale_tax(struct, %{financial_situation: "Suscipit perferendis quia ab nisi ut vero in.", sale_tax_count: 23, state: state, deadline: date})
+
+struct = Repo.get_by(SaleTax, %{id: st_tp3})
+state = ["Wisconsin", "Washington"]
+date = Date.utc_today |> Date.add(-36)
+Services.update_sale_tax(struct, %{financial_situation: "Suscipit perferendis quia ab nisi ut vero in.", sale_tax_count: 88, state: state, deadline: date})
+
+struct = Repo.get_by(SaleTax, %{id: st_pro1})
+Services.update_sale_tax(struct, %{price_sale_tax_count: 45})
+struct = Repo.get_by(SaleTax, %{id: st_pro2})
+Services.update_sale_tax(struct, %{price_sale_tax_count: 20})
+struct = Repo.get_by(SaleTax, %{id: st_pro3})
+Services.update_sale_tax(struct, %{price_sale_tax_count: 21})
+
+struct = Repo.get_by(SaleTaxFrequency, sale_tax_id: st_tp1)
+Services.update_sale_tax_frequency(struct, %{name: "Annually"})
+struct = Repo.get_by(SaleTaxFrequency, sale_tax_id: st_tp2)
+Services.update_sale_tax_frequency(struct, %{name: "Quaterly"})
+struct = Repo.get_by(SaleTaxFrequency, sale_tax_id: st_tp3)
+Services.update_sale_tax_frequency(struct, %{name: "Quaterly"})
+
+struct = Repo.get_by(SaleTaxFrequency, sale_tax_id: st_pro1)
+Services.update_sale_tax_frequency(struct, %{name: "Annually", price: 150})
+struct = Repo.get_by(SaleTaxFrequency, sale_tax_id: st_pro2)
+Services.update_sale_tax_frequency(struct, %{name: "Annually", price: 99})
+struct = Repo.get_by(SaleTaxFrequency, sale_tax_id: st_pro3)
+Services.update_sale_tax_frequency(struct, %{name: "Monthly", price: 54})
+
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_tp1)
+Services.update_sale_tax_industry(struct, %{name: "Computer/Software/IT"})
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_tp2)
+Services.update_sale_tax_industry(struct, %{name: "Manufacturing"})
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_tp3)
+Services.update_sale_tax_industry(struct, %{name: "Manufacturing"})
+
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_pro1)
+name = [
+  "Medical/Dental/Health Services",
+  "Hospitality",
+  "Construction/Contractors",
+  "Design/Architecture/Engineering",
+  "Insurance/Brokerage",
+  "Wholesale Distribution",
+  "Agriculture/Farming",
+  "Computer/Software/IT",
+  "Manufacturing",
+  "Restaurant/Bar",
+  "Real Estate/Development",
+  "Automotive Sales/Repair",
+  "Education"
+]
+Services.update_sale_tax_industry(struct, %{name: ["Agriculture/Farming,"Automotive Sales/Repair",Computer/Software/IT,Construction/Contractors,Consulting"]})
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_pro2)
+Services.update_sale_tax_industry(struct, %{name: name})
+struct = Repo.get_by(SaleTaxIndustry, sale_tax_id: st_pro3)
+name: [
+  "Government Agency",
+  "Design/Architecture/Engineering",
+  "Non Profit",
+  "Construction/Contractors",
+  "Agriculture/Farming",
+  "Computer/Software/IT",
+  "Insurance/Brokerage",
+  "Wholesale Distribution",
+  "Agriculture/Farming",
+  "Computer/Software/IT",
+  "Manufacturing",
+  "Restaurant/Bar",
+  "Real Estate/Development",
+  "Automotive Sales/Repair",
+  "Education"
+]
+Services.update_sale_tax_industry(struct, %{name: name})
+```
+
+```
+Repo.get_by(SaleTax, %{id: sale_tax_tp1})
+%{financial_situation: "some situation", sale_tax_count: 5, state: ["Alabama", "New York"]}
+Repo.get_by(SaleTaxFrequency, %{sale_tax_id: sale_tax_tp1})
+%{name: "Annually"}
+Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_tp1})
+%{name: ["Computer/Software/IT"]}
+
+Repo.get_by(SaleTax, %{id: sale_tax_tp2})
+%{financial_situation: "Suscipit perferendis quia ab nisi ut vero in.", sale_tax_count: 23, state: ["Montana", "Alabama", "Georgia", "Wisconsin"]}
+Repo.get_by(SaleTaxFrequency, %{sale_tax_id: sale_tax_tp2})
+%{name: "Quaterly"}
+Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_tp2})
+%{name: ["Manufacturing"]}
+
+Repo.get_by(SaleTax, %{id: sale_tax_tp3})
+%{financial_situation: "Saepe odio occaecati sunt reprehenderit at id voluptates modi tenetur!", sale_tax_count: 88, state: ["Wisconsin", "Washington"]}
+Repo.get_by(SaleTaxFrequency, %{sale_tax_id: sale_tax_tp3})
+%{name: "Quaterly"}
+Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_tp3})
+%{name: ["Manufacturing"]}
+
+Repo.get_by(SaleTax, %{id: sale_tax_pro1})
+%{financial_situation: "some situation", price_sale_tax_count: nil, sale_tax_count: 5, state: ["Alabama", "New York"]}
+Repo.get_by(SaleTaxFrequency, %{sale_tax_id: sale_tax_pro1})
+%{name: "Annually"}
+Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro1})
+%{name: ["Computer/Software/IT"]}
+
+Repo.get_by(SaleTax, %{id: sale_tax_pro2})
+%{financial_situation: "Suscipit perferendis quia ab nisi ut vero in.", sale_tax_count: 23, state: ["Montana", "Alabama", "Georgia", "Wisconsin"]}
+Repo.get_by(SaleTaxFrequency, %{sale_tax_id: sale_tax_pro2})
+%{name: "Quaterly"}
+Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro2})
+%{name: ["Manufacturing"]}
+
+Repo.get_by(SaleTax, %{id: sale_tax_pro3})
+%{financial_situation: "Saepe odio occaecati sunt reprehenderit at id voluptates modi tenetur!", sale_tax_count: 88, state: ["Wisconsin", "Washington"]}
+Repo.get_by(SaleTaxFrequency, %{sale_tax_id: sale_tax_pro3})
+%{name: "Quaterly"}
+Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
+%{name: ["Manufacturing"]}
+```
+
 ### 21 Jan 2020 by Oleg G.Kapranov

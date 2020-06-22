@@ -42,7 +42,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxIndustryTypes do
   @desc "The sale tax industry update via params"
   input_object :update_sale_tax_industry_params do
     field :name, list_of(:string)
-    field :sale_tax_id, non_null(:string)
   end
 
   @desc "The sale tax industry via role's Tp update with params"

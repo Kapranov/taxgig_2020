@@ -7,6 +7,7 @@ defmodule Core.Services.SaleTaxIndustry do
 
   alias Core.{
     Repo,
+    Services.Helpers.IndustryNameEnum,
     Services.SaleTax
   }
 
@@ -26,7 +27,7 @@ defmodule Core.Services.SaleTaxIndustry do
   )a
 
   schema "sale_tax_industries" do
-    field :name, {:array, :string}
+    field :name, {:array, IndustryNameEnum}
 
     belongs_to :sale_taxes, SaleTax,
       foreign_key: :sale_tax_id, type: FlakeId.Ecto.CompatType, references: :id

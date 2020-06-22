@@ -7,7 +7,8 @@ defmodule Core.Services.BookKeepingClassifyInventory do
 
   alias Core.{
     Repo,
-    Services.BookKeeping
+    Services.BookKeeping,
+    Services.Helpers.ClassifyInventoryNameEnum
   }
 
   @type t :: %__MODULE__{
@@ -26,7 +27,7 @@ defmodule Core.Services.BookKeepingClassifyInventory do
   )a
 
   schema "book_keeping_classify_inventories" do
-    field :name, {:array, :string}
+    field :name, ClassifyInventoryNameEnum
 
     belongs_to :book_keepings, BookKeeping,
       foreign_key: :book_keeping_id, type: FlakeId.Ecto.CompatType, references: :id

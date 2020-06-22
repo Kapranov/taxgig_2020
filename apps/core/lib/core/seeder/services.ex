@@ -373,15 +373,15 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%BookKeepingClassifyInventory{
             book_keeping_id: bk1,
-            name: [Lorem.word()]
+            name:     "Expenses"
           }),
           Repo.insert!(%BookKeepingClassifyInventory{
             book_keeping_id: bk2,
-            name: [Lorem.word()]
+            name:     "Expenses"
           }),
           Repo.insert!(%BookKeepingClassifyInventory{
             book_keeping_id: bk3,
-            name: [Lorem.word()]
+            name:     "Expenses"
           })
         ]
     end
@@ -408,32 +408,32 @@ defmodule Core.Seeder.Services do
       false ->
         [
           Repo.insert!(%BookKeepingIndustry{
-            book_keeping_id: bk1,
-            name: [Lorem.word()]
+            book_keeping_id:             bk1,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%BookKeepingIndustry{
-            book_keeping_id: bk2,
-            name: [Lorem.word()]
+            book_keeping_id:             bk2,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%BookKeepingIndustry{
-            book_keeping_id: bk3,
-            name: [Lorem.word()]
+            book_keeping_id:             bk3,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%BookKeepingIndustry{
-            book_keeping_id: bk4,
-            name: [Lorem.word()]
+            book_keeping_id:             bk4,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%BookKeepingIndustry{
-            book_keeping_id: bk5,
-            name: [Lorem.word()]
+            book_keeping_id:             bk5,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%BookKeepingIndustry{
-            book_keeping_id: bk6,
-            name: [Lorem.word()]
+            book_keeping_id:             bk6,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%BookKeepingIndustry{
-            book_keeping_id: bk7,
-            name: [Lorem.word()]
+            book_keeping_id:             bk7,
+            name: ["Wholesale Distribution"]
           })
         ]
     end
@@ -956,15 +956,11 @@ defmodule Core.Seeder.Services do
     business_tax_returns_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+    {btr1, btr2, btr3} =
       {
-        Enum.at(business_tax_returns_ids, 0),
         Enum.at(business_tax_returns_ids, 1),
         Enum.at(business_tax_returns_ids, 2),
-        Enum.at(business_tax_returns_ids, 3),
-        Enum.at(business_tax_returns_ids, 4),
-        Enum.at(business_tax_returns_ids, 5),
-        Enum.at(business_tax_returns_ids, 6)
+        Enum.at(business_tax_returns_ids, 3)
       }
 
     case Repo.aggregate(BusinessForeignAccountCount, :count, :id) > 0 do
@@ -982,22 +978,6 @@ defmodule Core.Seeder.Services do
           Repo.insert!(%BusinessForeignAccountCount{
             business_tax_return_id: btr3,
             name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessForeignAccountCount{
-            business_tax_return_id: btr4,
-            name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessForeignAccountCount{
-            business_tax_return_id: btr5,
-            name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessForeignAccountCount{
-            business_tax_return_id: btr6,
-            name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessForeignAccountCount{
-            business_tax_return_id: btr7,
-            name:           Lorem.word()
           })
         ]
     end
@@ -1008,15 +988,11 @@ defmodule Core.Seeder.Services do
     business_tax_returns_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+    {btr1, btr2, btr3} =
       {
-        Enum.at(business_tax_returns_ids, 0),
         Enum.at(business_tax_returns_ids, 1),
         Enum.at(business_tax_returns_ids, 2),
-        Enum.at(business_tax_returns_ids, 3),
-        Enum.at(business_tax_returns_ids, 4),
-        Enum.at(business_tax_returns_ids, 5),
-        Enum.at(business_tax_returns_ids, 6)
+        Enum.at(business_tax_returns_ids, 3)
       }
 
     case Repo.aggregate(BusinessForeignOwnershipCount, :count, :id) > 0 do
@@ -1033,22 +1009,6 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%BusinessForeignOwnershipCount{
             business_tax_return_id: btr3,
-            name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessForeignOwnershipCount{
-            business_tax_return_id: btr4,
-            name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessForeignOwnershipCount{
-            business_tax_return_id: btr5,
-            name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessForeignOwnershipCount{
-            business_tax_return_id: btr6,
-            name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessForeignOwnershipCount{
-            business_tax_return_id: btr7,
             name:           Lorem.word()
           })
         ]
@@ -1076,32 +1036,32 @@ defmodule Core.Seeder.Services do
       false ->
         [
           Repo.insert!(%BusinessIndustry{
-            business_tax_return_id: btr1,
-            name:         [Lorem.word()]
+            business_tax_return_id:     btr1,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%BusinessIndustry{
-            business_tax_return_id: btr2,
-            name:         [Lorem.word()]
+            business_tax_return_id:     btr2,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%BusinessIndustry{
-            business_tax_return_id: btr3,
-            name:         [Lorem.word()]
+            business_tax_return_id:     btr3,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%BusinessIndustry{
-            business_tax_return_id: btr4,
-            name:         [Lorem.word()]
+            business_tax_return_id:     btr4,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%BusinessIndustry{
-            business_tax_return_id: btr5,
-            name:         [Lorem.word()]
+            business_tax_return_id:     btr5,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%BusinessIndustry{
-            business_tax_return_id: btr6,
-            name:         [Lorem.word()]
+            business_tax_return_id:     btr6,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%BusinessIndustry{
-            business_tax_return_id: btr7,
-            name:         [Lorem.word()]
+            business_tax_return_id:     btr7,
+            name: ["Wholesale Distribution"]
           })
         ]
     end
@@ -1112,15 +1072,11 @@ defmodule Core.Seeder.Services do
     business_tax_returns_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+    {btr1, btr2, btr3} =
       {
-        Enum.at(business_tax_returns_ids, 0),
         Enum.at(business_tax_returns_ids, 1),
         Enum.at(business_tax_returns_ids, 2),
-        Enum.at(business_tax_returns_ids, 3),
-        Enum.at(business_tax_returns_ids, 4),
-        Enum.at(business_tax_returns_ids, 5),
-        Enum.at(business_tax_returns_ids, 6)
+        Enum.at(business_tax_returns_ids, 3)
       }
 
     case Repo.aggregate(BusinessLlcType, :count, :id) > 0 do
@@ -1137,22 +1093,6 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%BusinessLlcType{
             business_tax_return_id: btr3,
-            name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessLlcType{
-            business_tax_return_id: btr4,
-            name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessLlcType{
-            business_tax_return_id: btr5,
-            name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessLlcType{
-            business_tax_return_id: btr6,
-            name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessLlcType{
-            business_tax_return_id: btr7,
             name:           Lorem.word()
           })
         ]
@@ -1275,15 +1215,11 @@ defmodule Core.Seeder.Services do
     business_tax_returns_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+    {btr1, btr2, btr3} =
       {
-        Enum.at(business_tax_returns_ids, 0),
         Enum.at(business_tax_returns_ids, 1),
         Enum.at(business_tax_returns_ids, 2),
-        Enum.at(business_tax_returns_ids, 3),
-        Enum.at(business_tax_returns_ids, 4),
-        Enum.at(business_tax_returns_ids, 5),
-        Enum.at(business_tax_returns_ids, 6)
+        Enum.at(business_tax_returns_ids, 3)
       }
 
     case Repo.aggregate(BusinessTransactionCount, :count, :id) > 0 do
@@ -1300,22 +1236,6 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%BusinessTransactionCount{
             business_tax_return_id: btr3,
-            name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessTransactionCount{
-            business_tax_return_id: btr4,
-            name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessTransactionCount{
-            business_tax_return_id: btr5,
-            name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessTransactionCount{
-            business_tax_return_id: btr6,
-            name:           Lorem.word()
-          }),
-          Repo.insert!(%BusinessTransactionCount{
-            business_tax_return_id: btr7,
             name:           Lorem.word()
           })
         ]
@@ -1426,6 +1346,7 @@ defmodule Core.Seeder.Services do
             home_owner:                      random_boolean(),
             living_abroad:                   random_boolean(),
             non_resident_earning:            random_boolean(),
+            none_expat:                      random_boolean(),
             own_stock_crypto:                random_boolean(),
             price_foreign_account:           random_integer(),
             price_home_owner:                random_integer(),
@@ -1446,6 +1367,7 @@ defmodule Core.Seeder.Services do
             home_owner:                      random_boolean(),
             living_abroad:                   random_boolean(),
             non_resident_earning:            random_boolean(),
+            none_expat:                      random_boolean(),
             own_stock_crypto:                random_boolean(),
             price_foreign_account:           random_integer(),
             price_home_owner:                random_integer(),
@@ -1466,6 +1388,7 @@ defmodule Core.Seeder.Services do
             home_owner:                      random_boolean(),
             living_abroad:                   random_boolean(),
             non_resident_earning:            random_boolean(),
+            none_expat:                      random_boolean(),
             own_stock_crypto:                random_boolean(),
             price_foreign_account:           random_integer(),
             price_home_owner:                random_integer(),
@@ -1602,15 +1525,11 @@ defmodule Core.Seeder.Services do
     individual_tax_returns_ids =
       Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
 
-    {itr1, itr2, itr3, itr4, itr5, itr6, itr7} =
+    {itr1, itr2, itr3} =
       {
-        Enum.at(individual_tax_returns_ids, 0),
         Enum.at(individual_tax_returns_ids, 1),
         Enum.at(individual_tax_returns_ids, 2),
-        Enum.at(individual_tax_returns_ids, 3),
-        Enum.at(individual_tax_returns_ids, 4),
-        Enum.at(individual_tax_returns_ids, 5),
-        Enum.at(individual_tax_returns_ids, 6)
+        Enum.at(individual_tax_returns_ids, 3)
       }
 
     case Repo.aggregate(IndividualForeignAccountCount, :count, :id) > 0 do
@@ -1627,22 +1546,6 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%IndividualForeignAccountCount{
             individual_tax_return_id: itr3,
-            name:             Lorem.word()
-          }),
-          Repo.insert!(%IndividualForeignAccountCount{
-            individual_tax_return_id: itr4,
-            name:             Lorem.word()
-          }),
-          Repo.insert!(%IndividualForeignAccountCount{
-            individual_tax_return_id: itr5,
-            name:             Lorem.word()
-          }),
-          Repo.insert!(%IndividualForeignAccountCount{
-            individual_tax_return_id: itr6,
-            name:             Lorem.word()
-          }),
-          Repo.insert!(%IndividualForeignAccountCount{
-            individual_tax_return_id: itr7,
             name:             Lorem.word()
           })
         ]
@@ -1670,32 +1573,32 @@ defmodule Core.Seeder.Services do
       false ->
         [
           Repo.insert!(%IndividualIndustry{
-            individual_tax_return_id: itr1,
-            name:           [Lorem.word()]
+            individual_tax_return_id:   itr1,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%IndividualIndustry{
-            individual_tax_return_id: itr2,
-            name:           [Lorem.word()]
+            individual_tax_return_id:   itr2,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%IndividualIndustry{
-            individual_tax_return_id: itr3,
-            name:           [Lorem.word()]
+            individual_tax_return_id:   itr3,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%IndividualIndustry{
-            individual_tax_return_id: itr4,
-            name:           [Lorem.word()]
+            individual_tax_return_id:   itr4,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%IndividualIndustry{
-            individual_tax_return_id: itr5,
-            name:           [Lorem.word()]
+            individual_tax_return_id:   itr5,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%IndividualIndustry{
-            individual_tax_return_id: itr6,
-            name:           [Lorem.word()]
+            individual_tax_return_id:   itr6,
+            name: ["Wholesale Distribution"]
           }),
           Repo.insert!(%IndividualIndustry{
-            individual_tax_return_id: itr7,
-            name:           [Lorem.word()]
+            individual_tax_return_id:   itr7,
+            name: ["Wholesale Distribution"]
           })
         ]
     end
@@ -1762,15 +1665,11 @@ defmodule Core.Seeder.Services do
     individual_tax_returns_ids =
       Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
 
-    {itr1, itr2, itr3, itr4, itr5, itr6, itr7} =
+    {itr1, itr2, itr3} =
       {
-        Enum.at(individual_tax_returns_ids, 0),
         Enum.at(individual_tax_returns_ids, 1),
         Enum.at(individual_tax_returns_ids, 2),
-        Enum.at(individual_tax_returns_ids, 3),
-        Enum.at(individual_tax_returns_ids, 4),
-        Enum.at(individual_tax_returns_ids, 5),
-        Enum.at(individual_tax_returns_ids, 6)
+        Enum.at(individual_tax_returns_ids, 3)
       }
 
     case Repo.aggregate(IndividualStockTransactionCount, :count, :id) > 0 do
@@ -1787,22 +1686,6 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%IndividualStockTransactionCount{
             individual_tax_return_id: itr3,
-            name:             Lorem.word()
-          }),
-          Repo.insert!(%IndividualStockTransactionCount{
-            individual_tax_return_id: itr4,
-            name:             Lorem.word()
-          }),
-          Repo.insert!(%IndividualStockTransactionCount{
-            individual_tax_return_id: itr5,
-            name:             Lorem.word()
-          }),
-          Repo.insert!(%IndividualStockTransactionCount{
-            individual_tax_return_id: itr6,
-            name:             Lorem.word()
-          }),
-          Repo.insert!(%IndividualStockTransactionCount{
-            individual_tax_return_id: itr7,
             name:             Lorem.word()
           })
         ]
@@ -1890,34 +1773,34 @@ defmodule Core.Seeder.Services do
       false ->
         [
           Repo.insert!(%SaleTaxFrequency{
-            name:      Lorem.word(),
+            name:        "Quarterly",
             price: random_integer(),
             sale_tax_id:        st1
           }),
           Repo.insert!(%SaleTaxFrequency{
-            name:      Lorem.word(),
+            name:        "Quarterly",
             sale_tax_id:        st2
           }),
           Repo.insert!(%SaleTaxFrequency{
-            name:      Lorem.word(),
+            name:        "Quarterly",
             sale_tax_id:        st3
           }),
           Repo.insert!(%SaleTaxFrequency{
-            name:      Lorem.word(),
+            name:        "Quarterly",
             sale_tax_id:        st4
           }),
           Repo.insert!(%SaleTaxFrequency{
-            name:      Lorem.word(),
+            name:        "Quarterly",
             price: random_integer(),
             sale_tax_id:        st5
           }),
           Repo.insert!(%SaleTaxFrequency{
-            name:      Lorem.word(),
+            name:        "Quarterly",
             price: random_integer(),
             sale_tax_id:        st6
           }),
           Repo.insert!(%SaleTaxFrequency{
-            name:      Lorem.word(),
+            name:        "Quarterly",
             price: random_integer(),
             sale_tax_id:        st7
           })
@@ -1946,33 +1829,33 @@ defmodule Core.Seeder.Services do
       false ->
         [
           Repo.insert!(%SaleTaxIndustry{
-            name: [Lorem.word()],
-            sale_tax_id:     st1
+            name: ["Wholesale Distribution"],
+            sale_tax_id:                 st1
           }),
           Repo.insert!(%SaleTaxIndustry{
-            name: [Lorem.word()],
-            sale_tax_id:     st2
+            name: ["Wholesale Distribution"],
+            sale_tax_id:                 st2
           }),
           Repo.insert!(%SaleTaxIndustry{
-            name: [Lorem.word()],
-            sale_tax_id:     st3
+            name: ["Wholesale Distribution"],
+            sale_tax_id:                 st3
           }),
           Repo.insert!(%SaleTaxIndustry{
-            name: [Lorem.word()],
-            sale_tax_id:     st4
+            name: ["Wholesale Distribution"],
+            sale_tax_id:                 st4
           }),
 
           Repo.insert!(%SaleTaxIndustry{
-            name: [Lorem.word()],
-            sale_tax_id:     st5
+            name: ["Wholesale Distribution"],
+            sale_tax_id:                 st5
           }),
           Repo.insert!(%SaleTaxIndustry{
-            name: [Lorem.word()],
-            sale_tax_id:     st6
+            name: ["Wholesale Distribution"],
+            sale_tax_id:                 st6
           }),
           Repo.insert!(%SaleTaxIndustry{
-            name: [Lorem.word()],
-            sale_tax_id:     st7
+            name: ["Wholesale Distribution"],
+            sale_tax_id:                 st7
           })
         ]
     end

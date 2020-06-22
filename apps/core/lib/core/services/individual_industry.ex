@@ -6,6 +6,7 @@ defmodule Core.Services.IndividualIndustry do
 
   alias Core.{
     Repo,
+    Services.Helpers.IndustryNameEnum,
     Services.IndividualTaxReturn
   }
 
@@ -25,7 +26,7 @@ defmodule Core.Services.IndividualIndustry do
   )a
 
   schema "individual_industries" do
-    field :name, {:array, :string}
+    field :name, {:array, IndustryNameEnum}
 
     belongs_to :individual_tax_returns, IndividualTaxReturn,
       foreign_key: :individual_tax_return_id, type: FlakeId.Ecto.CompatType, references: :id

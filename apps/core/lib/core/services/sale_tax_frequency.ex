@@ -7,6 +7,7 @@ defmodule Core.Services.SaleTaxFrequency do
 
   alias Core.{
     Repo,
+    Services.Helpers.FrequencyNameEnum,
     Services.SaleTax
   }
 
@@ -28,7 +29,7 @@ defmodule Core.Services.SaleTaxFrequency do
   )a
 
   schema "sale_tax_frequencies" do
-    field :name, :string
+    field :name, FrequencyNameEnum
     field :price, :integer
 
     belongs_to :sale_taxes, SaleTax,
