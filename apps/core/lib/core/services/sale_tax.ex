@@ -141,22 +141,30 @@ defmodule Core.Services.SaleTax do
 
   @spec check_price_sale_tax_count(word) :: integer | {:error, nonempty_list(message)}
   def check_price_sale_tax_count(id) when not is_nil(id) do
-    sale_tax =
-      Repo.get_by(SaleTax, %{id: id})
+    sale_tax = Repo.get_by(SaleTax, %{id: id})
 
     user_id =
       case sale_tax do
-        nil ->
-          nil
+        nil -> nil
+        _ -> sale_tax.user_id
+      end
+
+    get_role =
+      case user_id do
+        nil -> nil
         _ ->
-          sale_tax.user_id
+          Repo.one(
+            from c in User,
+            join: cu in SaleTax,
+            where: c.id == ^user_id and cu.user_id == c.id,
+            select: c.role
+          )
       end
 
     check_sale_tax_count =
-      case user_id do
-        nil ->
-          :error
-        _ ->
+      case get_role do
+          nil -> nil
+        false ->
           Repo.one(
             from c in User,
             join: cu in SaleTax,
@@ -165,6 +173,16 @@ defmodule Core.Services.SaleTax do
             where: not is_nil(cu.sale_tax_count),
             where: cu.sale_tax_count >= 1,
             select: cu.sale_tax_count
+          )
+        true ->
+          Repo.one(
+            from c in User,
+            join: cu in SaleTax,
+            where: c.id == ^user_id and cu.user_id == c.id,
+            where: c.role == true,
+            where: not is_nil(cu.price_sale_tax_count),
+            where: cu.price_sale_tax_count >= 1,
+            select: cu.price_sale_tax_count
           )
       end
 
@@ -179,22 +197,36 @@ defmodule Core.Services.SaleTax do
         select: {cu.id, cu.price_sale_tax_count}
       )
 
-    data =
-      case check_sale_tax_count do
-        nil ->
-          :error
-        _ ->
-          for {k, v} <- check_pro_sale_tax_count, into: %{}, do: {k, v * check_sale_tax_count}
-      end
+    check_tp_sale_tax_count =
+      Repo.all(
+        from c in User,
+        join: cu in SaleTax,
+        where: cu.user_id == c.id,
+        where: c.role == false,
+        where: cu.sale_tax_count != 0,
+        where: not is_nil(cu.sale_tax_count),
+        select: {cu.id, cu.sale_tax_count}
+      )
 
-    case check_sale_tax_count do
-      nil ->
-        {:error, [field: :id, message: "filled sale tax count is 0 or null and user's role is not correct"]}
-      :error ->
-        {:error, [field: :id, message: "SaleTax Not Found"]}
-      _ ->
-        data
-    end
+   case get_role do
+       nil -> {:error, [field: :id, message: "SaleTax Not Found"]}
+     false ->
+       if is_nil(check_sale_tax_count) do
+         0
+       else
+         for {k, v} <- check_pro_sale_tax_count, into: %{} do
+           {k, v * check_sale_tax_count}
+         end
+       end
+     true ->
+       if is_nil(check_sale_tax_count) do
+         0
+       else
+         for {k, v} <- check_tp_sale_tax_count, into: %{} do
+           {k, v  * check_sale_tax_count}
+         end
+       end
+   end
   end
 
   @spec check_price_sale_tax_count(nil) :: {:error, nonempty_list(message)}
