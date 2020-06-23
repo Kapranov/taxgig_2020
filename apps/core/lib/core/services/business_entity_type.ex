@@ -6,7 +6,8 @@ defmodule Core.Services.BusinessEntityType do
 
   alias Core.{
     Repo,
-    Services.BusinessTaxReturn
+    Services.BusinessTaxReturn,
+    Services.Helpers.EntityTypeNameEnum
   }
 
   @type t :: %__MODULE__{
@@ -27,7 +28,7 @@ defmodule Core.Services.BusinessEntityType do
   )a
 
   schema "business_entity_types" do
-    field :name, :string
+    field :name, EntityTypeNameEnum
     field :price, :integer
 
     belongs_to :business_tax_returns, BusinessTaxReturn,

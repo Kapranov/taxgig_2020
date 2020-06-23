@@ -266,34 +266,34 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%BookKeepingAdditionalNeed{
             book_keeping_id:    bk1,
-            name:      Lorem.word(),
+            name:       "sales tax",
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingAdditionalNeed{
             book_keeping_id:    bk2,
-            name:      Lorem.word()
+            name:       "sales tax"
           }),
           Repo.insert!(%BookKeepingAdditionalNeed{
             book_keeping_id:    bk3,
-            name:      Lorem.word()
+            name:       "sales tax"
           }),
           Repo.insert!(%BookKeepingAdditionalNeed{
             book_keeping_id:    bk4,
-            name:      Lorem.word()
+            name:       "sales tax"
           }),
           Repo.insert!(%BookKeepingAdditionalNeed{
             book_keeping_id:    bk5,
-            name:      Lorem.word(),
+            name:       "sales tax",
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingAdditionalNeed{
             book_keeping_id:    bk6,
-            name:      Lorem.word(),
+            name:       "sales tax",
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingAdditionalNeed{
             book_keeping_id:    bk7,
-            name:      Lorem.word(),
+            name:       "sales tax",
             price: random_integer()
           })
         ]
@@ -322,34 +322,34 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%BookKeepingAnnualRevenue{
             book_keeping_id:    bk1,
-            name:      Lorem.word(),
+            name: "Less than $100K",
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingAnnualRevenue{
             book_keeping_id:    bk2,
-            name:      Lorem.word()
+            name: "Less than $100K"
           }),
           Repo.insert!(%BookKeepingAnnualRevenue{
             book_keeping_id:    bk3,
-            name:      Lorem.word()
+            name: "Less than $100K"
           }),
           Repo.insert!(%BookKeepingAnnualRevenue{
             book_keeping_id:    bk4,
-            name:      Lorem.word()
+            name: "Less than $100K"
           }),
           Repo.insert!(%BookKeepingAnnualRevenue{
             book_keeping_id:    bk5,
-            name:      Lorem.word(),
+            name: "Less than $100K",
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingAnnualRevenue{
             book_keeping_id:    bk6,
-            name:      Lorem.word(),
+            name: "Less than $100K",
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingAnnualRevenue{
             book_keeping_id:    bk7,
-            name:      Lorem.word(),
+            name: "Less than $100K",
             price: random_integer()
           })
         ]
@@ -460,36 +460,36 @@ defmodule Core.Seeder.Services do
       false ->
         [
           Repo.insert!(%BookKeepingNumberEmployee{
-            book_keeping_id:    bk1,
-            name:      Lorem.word(),
-            price: random_integer()
+            book_keeping_id:       bk1,
+            name: "51 - 100 employees",
+            price:    random_integer()
           }),
           Repo.insert!(%BookKeepingNumberEmployee{
-            book_keeping_id:    bk2,
-            name:      Lorem.word()
+            book_keeping_id:       bk2,
+            name: "51 - 100 employees"
           }),
           Repo.insert!(%BookKeepingNumberEmployee{
-            book_keeping_id:    bk3,
-            name:      Lorem.word()
+            book_keeping_id:       bk3,
+            name: "51 - 100 employees"
           }),
           Repo.insert!(%BookKeepingNumberEmployee{
-            book_keeping_id:    bk4,
-            name:      Lorem.word()
+            book_keeping_id:       bk4,
+            name: "51 - 100 employees"
           }),
           Repo.insert!(%BookKeepingNumberEmployee{
-            book_keeping_id:    bk5,
-            name:      Lorem.word(),
-            price: random_integer()
+            book_keeping_id:       bk5,
+            name: "51 - 100 employees",
+            price:    random_integer()
           }),
           Repo.insert!(%BookKeepingNumberEmployee{
-            book_keeping_id:    bk6,
-            name:      Lorem.word(),
-            price: random_integer()
+            book_keeping_id:       bk6,
+            name: "51 - 100 employees",
+            price:    random_integer()
           }),
           Repo.insert!(%BookKeepingNumberEmployee{
-            book_keeping_id:    bk7,
-            name:      Lorem.word(),
-            price: random_integer()
+            book_keeping_id:       bk7,
+            name: "51 - 100 employees",
+            price:    random_integer()
           })
         ]
     end
@@ -517,34 +517,34 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%BookKeepingTransactionVolume{
             book_keeping_id:    bk1,
-            name:      Lorem.word(),
+            name:          "76-199",
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingTransactionVolume{
             book_keeping_id:    bk2,
-            name:      Lorem.word()
+            name:          "76-199"
           }),
           Repo.insert!(%BookKeepingTransactionVolume{
             book_keeping_id:    bk3,
-            name:      Lorem.word()
+            name:          "76-199"
           }),
           Repo.insert!(%BookKeepingTransactionVolume{
             book_keeping_id:    bk4,
-            name:      Lorem.word()
+            name:          "76-199"
           }),
           Repo.insert!(%BookKeepingTransactionVolume{
             book_keeping_id:    bk5,
-            name:      Lorem.word(),
+            name:          "76-199",
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingTransactionVolume{
             book_keeping_id:    bk6,
-            name:      Lorem.word(),
+            name:          "76-199",
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingTransactionVolume{
             book_keeping_id:    bk7,
-            name:      Lorem.word(),
+            name:          "76-199",
             price: random_integer()
           })
         ]
@@ -573,34 +573,34 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%BookKeepingTypeClient{
             book_keeping_id:    bk1,
-            name:      Lorem.word(),
+            name:          "S-Corp",
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingTypeClient{
             book_keeping_id:    bk2,
-            name:      Lorem.word()
+            name:          "S-Corp"
           }),
           Repo.insert!(%BookKeepingTypeClient{
             book_keeping_id:    bk3,
-            name:      Lorem.word()
+            name:          "S-Corp"
           }),
           Repo.insert!(%BookKeepingTypeClient{
             book_keeping_id:    bk4,
-            name:      Lorem.word()
+            name:          "S-Corp"
           }),
           Repo.insert!(%BookKeepingTypeClient{
             book_keeping_id:    bk5,
-            name:      Lorem.word(),
+            name:          "S-Corp",
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingTypeClient{
             book_keeping_id:    bk6,
-            name:      Lorem.word(),
+            name:          "S-Corp",
             price: random_integer()
           }),
           Repo.insert!(%BookKeepingTypeClient{
             book_keeping_id:    bk7,
-            name:      Lorem.word(),
+            name:          "S-Corp",
             price: random_integer()
           })
         ]
@@ -917,34 +917,34 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id: btr1,
-            name:           Lorem.word(),
+            name:  "Sole proprietorship",
             price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id: btr2,
-            name:           Lorem.word()
+            name:  "Sole proprietorship"
           }),
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id: btr3,
-            name:           Lorem.word()
+            name:  "Sole proprietorship"
           }),
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id: btr4,
-            name:           Lorem.word()
+            name:  "Sole proprietorship"
           }),
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id: btr5,
-            name:           Lorem.word(),
+            name:  "Sole proprietorship",
             price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id: btr6,
-            name:           Lorem.word(),
+            name:  "Sole proprietorship",
             price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id: btr7,
-            name:           Lorem.word(),
+            name:  "Sole proprietorship",
             price:    Enum.random(1..99)
           })
         ]
@@ -969,15 +969,15 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%BusinessForeignAccountCount{
             business_tax_return_id: btr1,
-            name:           Lorem.word()
+            name:                   "5+"
           }),
           Repo.insert!(%BusinessForeignAccountCount{
             business_tax_return_id: btr2,
-            name:           Lorem.word()
+            name:                   "5+"
           }),
           Repo.insert!(%BusinessForeignAccountCount{
             business_tax_return_id: btr3,
-            name:           Lorem.word()
+            name:                   "5+"
           })
         ]
     end
@@ -1001,15 +1001,15 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%BusinessForeignOwnershipCount{
             business_tax_return_id: btr1,
-            name:           Lorem.word()
+            name:                   "5+"
           }),
           Repo.insert!(%BusinessForeignOwnershipCount{
             business_tax_return_id: btr2,
-            name:           Lorem.word()
+            name:                   "5+"
           }),
           Repo.insert!(%BusinessForeignOwnershipCount{
             business_tax_return_id: btr3,
-            name:           Lorem.word()
+            name:                   "5+"
           })
         ]
     end
@@ -1085,15 +1085,15 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%BusinessLlcType{
             business_tax_return_id: btr1,
-            name:           Lorem.word()
+            name:               "S-Corp"
           }),
           Repo.insert!(%BusinessLlcType{
             business_tax_return_id: btr2,
-            name:           Lorem.word()
+            name:               "S-Corp"
           }),
           Repo.insert!(%BusinessLlcType{
             business_tax_return_id: btr3,
-            name:           Lorem.word()
+            name:               "S-Corp"
           })
         ]
     end
@@ -1120,34 +1120,34 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr1,
-            name:           Lorem.word(),
+            name:   "51 - 100 employees",
             price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr2,
-            name:           Lorem.word()
+            name:   "51 - 100 employees"
           }),
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr3,
-            name:           Lorem.word()
+            name:   "51 - 100 employees"
           }),
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr4,
-            name:           Lorem.word()
+            name:   "51 - 100 employees"
           }),
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr5,
-            name:           Lorem.word(),
+            name:   "51 - 100 employees",
             price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr6,
-            name:           Lorem.word(),
+            name:   "51 - 100 employees",
             price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr7,
-            name:           Lorem.word(),
+            name:   "51 - 100 employees",
             price:    Enum.random(1..99)
           })
         ]
@@ -1176,34 +1176,34 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr1,
-            name:           Lorem.word(),
+            name:      "Less than $100K",
             price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr2,
-            name:           Lorem.word()
+            name:      "Less than $100K"
           }),
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr3,
-            name:           Lorem.word()
+            name:      "Less than $100K"
           }),
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr4,
-            name:           Lorem.word()
+            name:      "Less than $100K"
           }),
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr5,
-            name:           Lorem.word(),
+            name:      "Less than $100K",
             price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr6,
-            name:           Lorem.word(),
+            name:      "Less than $100K",
             price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr7,
-            name:           Lorem.word(),
+            name:      "Less than $100K",
             price:    Enum.random(1..99)
           })
         ]
@@ -1228,15 +1228,15 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%BusinessTransactionCount{
             business_tax_return_id: btr1,
-            name:           Lorem.word()
+            name:                  "75+"
           }),
           Repo.insert!(%BusinessTransactionCount{
             business_tax_return_id: btr2,
-            name:           Lorem.word()
+            name:                  "75+"
           }),
           Repo.insert!(%BusinessTransactionCount{
             business_tax_return_id: btr3,
-            name:           Lorem.word()
+            name:                  "75+"
           })
         ]
     end
@@ -1430,34 +1430,34 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id: itr1,
-            name:             Lorem.word(),
+            name:             "unemployed",
             price:      Enum.random(1..99)
           }),
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id: itr2,
-            name:             Lorem.word()
+            name:             "unemployed"
           }),
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id: itr3,
-            name:             Lorem.word()
+            name:             "unemployed"
           }),
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id: itr4,
-            name:             Lorem.word()
+            name:             "unemployed"
           }),
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id: itr5,
-            name:             Lorem.word(),
+            name:             "unemployed",
             price:      Enum.random(1..99)
           }),
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id: itr6,
-            name:             Lorem.word(),
+            name:             "unemployed",
             price:      Enum.random(1..99)
           }),
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id: itr7,
-            name:             Lorem.word(),
+            name:             "unemployed",
             price:      Enum.random(1..99)
           })
         ]
@@ -1485,36 +1485,36 @@ defmodule Core.Seeder.Services do
       false ->
         [
           Repo.insert!(%IndividualFilingStatus{
-            individual_tax_return_id: itr1,
-            name:             Lorem.word(),
-            price:      Enum.random(1..99)
+            individual_tax_return_id:                     itr1,
+            name: "Qualifying widow(-er) with dependent child",
+            price:                          Enum.random(1..99)
           }),
           Repo.insert!(%IndividualFilingStatus{
-            individual_tax_return_id: itr2,
-            name:             Lorem.word()
+            individual_tax_return_id:                     itr2,
+            name: "Qualifying widow(-er) with dependent child"
           }),
           Repo.insert!(%IndividualFilingStatus{
-            individual_tax_return_id: itr3,
-            name:             Lorem.word()
+            individual_tax_return_id:                     itr3,
+            name: "Qualifying widow(-er) with dependent child"
           }),
           Repo.insert!(%IndividualFilingStatus{
-            individual_tax_return_id: itr4,
-            name:             Lorem.word()
+            individual_tax_return_id:                     itr4,
+            name: "Qualifying widow(-er) with dependent child"
           }),
           Repo.insert!(%IndividualFilingStatus{
-            individual_tax_return_id: itr5,
-            name:             Lorem.word(),
-            price:      Enum.random(1..99)
+            individual_tax_return_id:                     itr5,
+            name: "Qualifying widow(-er) with dependent child",
+            price:                          Enum.random(1..99)
           }),
           Repo.insert!(%IndividualFilingStatus{
-            individual_tax_return_id: itr6,
-            name:             Lorem.word(),
-            price:      Enum.random(1..99)
+            individual_tax_return_id:                     itr6,
+            name: "Qualifying widow(-er) with dependent child",
+            price:                          Enum.random(1..99)
           }),
           Repo.insert!(%IndividualFilingStatus{
-            individual_tax_return_id: itr7,
-            name:             Lorem.word(),
-            price:      Enum.random(1..99)
+            individual_tax_return_id:                     itr7,
+            name: "Qualifying widow(-er) with dependent child",
+            price:                          Enum.random(1..99)
           })
         ]
     end
@@ -1538,15 +1538,15 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%IndividualForeignAccountCount{
             individual_tax_return_id: itr1,
-            name:             Lorem.word()
+            name:                     "5+"
           }),
           Repo.insert!(%IndividualForeignAccountCount{
             individual_tax_return_id: itr2,
-            name:             Lorem.word()
+            name:                     "5+"
           }),
           Repo.insert!(%IndividualForeignAccountCount{
             individual_tax_return_id: itr3,
-            name:             Lorem.word()
+            name:                     "5+"
           })
         ]
     end
@@ -1625,36 +1625,36 @@ defmodule Core.Seeder.Services do
       false ->
         [
           Repo.insert!(%IndividualItemizedDeduction{
-            individual_tax_return_id: itr1,
-            name:             Lorem.word(),
-            price:      Enum.random(1..99)
+            individual_tax_return_id:      itr1,
+            name: "Medical and dental expenses",
+            price:           Enum.random(1..99)
           }),
           Repo.insert!(%IndividualItemizedDeduction{
-            individual_tax_return_id: itr2,
-            name:             Lorem.word(),
+            individual_tax_return_id:      itr2,
+            name: "Medical and dental expenses"
           }),
           Repo.insert!(%IndividualItemizedDeduction{
-            individual_tax_return_id: itr3,
-            name:             Lorem.word(),
+            individual_tax_return_id:      itr3,
+            name: "Medical and dental expenses"
           }),
           Repo.insert!(%IndividualItemizedDeduction{
-            individual_tax_return_id: itr4,
-            name:             Lorem.word(),
+            individual_tax_return_id:      itr4,
+            name: "Medical and dental expenses"
           }),
           Repo.insert!(%IndividualItemizedDeduction{
-            individual_tax_return_id: itr5,
-            name:             Lorem.word(),
-            price:      Enum.random(1..99)
+            individual_tax_return_id:      itr5,
+            name: "Medical and dental expenses",
+            price:           Enum.random(1..99)
           }),
           Repo.insert!(%IndividualItemizedDeduction{
-            individual_tax_return_id: itr6,
-            name:             Lorem.word(),
-            price:      Enum.random(1..99)
+            individual_tax_return_id:      itr6,
+            name: "Medical and dental expenses",
+            price:           Enum.random(1..99)
           }),
           Repo.insert!(%IndividualItemizedDeduction{
-            individual_tax_return_id: itr7,
-            name:             Lorem.word(),
-            price:      Enum.random(1..99)
+            individual_tax_return_id:      itr7,
+            name: "Medical and dental expenses",
+            price:           Enum.random(1..99)
           })
         ]
     end
@@ -1678,15 +1678,15 @@ defmodule Core.Seeder.Services do
         [
           Repo.insert!(%IndividualStockTransactionCount{
             individual_tax_return_id: itr1,
-            name:             Lorem.word()
+            name:                 "51-100"
           }),
           Repo.insert!(%IndividualStockTransactionCount{
             individual_tax_return_id: itr2,
-            name:             Lorem.word()
+            name:                 "51-100"
           }),
           Repo.insert!(%IndividualStockTransactionCount{
             individual_tax_return_id: itr3,
-            name:             Lorem.word()
+            name:                 "51-100"
           })
         ]
     end

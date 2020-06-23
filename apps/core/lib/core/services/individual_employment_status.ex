@@ -6,6 +6,7 @@ defmodule Core.Services.IndividualEmploymentStatus do
 
   alias Core.{
     Repo,
+    Services.Helpers.EmploymentStatusNameEnum,
     Services.IndividualTaxReturn
   }
 
@@ -27,7 +28,7 @@ defmodule Core.Services.IndividualEmploymentStatus do
   )a
 
   schema "individual_employment_statuses" do
-    field :name, :string
+    field :name, EmploymentStatusNameEnum
     field :price, :integer
 
     belongs_to :individual_tax_returns, IndividualTaxReturn,

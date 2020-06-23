@@ -6,6 +6,7 @@ defmodule Core.Services.IndividualStockTransactionCount do
 
   alias Core.{
     Repo,
+    Services.Helpers.StockTransactionCountNameEnum,
     Services.IndividualTaxReturn
   }
 
@@ -25,7 +26,7 @@ defmodule Core.Services.IndividualStockTransactionCount do
   )a
 
   schema "individual_stock_transaction_counts" do
-    field :name, :string
+    field :name, StockTransactionCountNameEnum
 
     belongs_to :individual_tax_returns, IndividualTaxReturn,
       foreign_key: :individual_tax_return_id, type: FlakeId.Ecto.CompatType, references: :id

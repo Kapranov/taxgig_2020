@@ -7,7 +7,8 @@ defmodule Core.Services.BookKeepingAdditionalNeed do
 
   alias Core.{
     Repo,
-    Services.BookKeeping
+    Services.BookKeeping,
+    Services.Helpers.AdditionalNeedNameEnum
   }
 
   @type t :: %__MODULE__{
@@ -28,7 +29,7 @@ defmodule Core.Services.BookKeepingAdditionalNeed do
   )a
 
   schema "book_keeping_additional_needs" do
-    field :name, :string
+    field :name, AdditionalNeedNameEnum
     field :price, :integer
 
     belongs_to :book_keepings, BookKeeping,

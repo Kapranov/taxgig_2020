@@ -6,7 +6,8 @@ defmodule Core.Services.BusinessLlcType do
 
   alias Core.{
     Repo,
-    Services.BusinessTaxReturn
+    Services.BusinessTaxReturn,
+    Services.Helpers.LlcTypeNameEnum
   }
 
   @type t :: %__MODULE__{
@@ -25,7 +26,7 @@ defmodule Core.Services.BusinessLlcType do
   )a
 
   schema "business_llc_types" do
-    field :name, :string
+    field :name, LlcTypeNameEnum
 
     belongs_to :business_tax_returns, BusinessTaxReturn,
       foreign_key: :business_tax_return_id, type: FlakeId.Ecto.CompatType, references: :id

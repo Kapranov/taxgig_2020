@@ -6,6 +6,7 @@ defmodule Core.Services.IndividualItemizedDeduction do
 
   alias Core.{
     Repo,
+    Services.Helpers.ItemizedDeductionNameEnum,
     Services.IndividualTaxReturn
   }
 
@@ -27,7 +28,7 @@ defmodule Core.Services.IndividualItemizedDeduction do
   )a
 
   schema "individual_itemized_deductions" do
-    field :name, :string
+    field :name, ItemizedDeductionNameEnum
     field :price, :integer
 
     belongs_to :individual_tax_returns, IndividualTaxReturn,

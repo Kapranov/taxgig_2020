@@ -6,6 +6,7 @@ defmodule Core.Services.IndividualForeignAccountCount do
 
   alias Core.{
     Repo,
+    Services.Helpers.ForeignAccountCountNameEnum,
     Services.IndividualTaxReturn
   }
 
@@ -24,7 +25,7 @@ defmodule Core.Services.IndividualForeignAccountCount do
   )a
 
   schema "individual_foreign_account_counts" do
-    field :name, :string
+    field :name, ForeignAccountCountNameEnum
 
     belongs_to :individual_tax_returns, IndividualTaxReturn,
       foreign_key: :individual_tax_return_id, type: FlakeId.Ecto.CompatType, references: :id

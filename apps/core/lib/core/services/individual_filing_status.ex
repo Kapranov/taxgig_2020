@@ -6,6 +6,7 @@ defmodule Core.Services.IndividualFilingStatus do
 
   alias Core.{
     Repo,
+    Services.Helpers.FilingStatusNameEnum,
     Services.IndividualTaxReturn
   }
 
@@ -27,7 +28,7 @@ defmodule Core.Services.IndividualFilingStatus do
   )a
 
   schema "individual_filing_statuses" do
-    field :name, :string
+    field :name, FilingStatusNameEnum
     field :price, :integer
 
     belongs_to :individual_tax_returns, IndividualTaxReturn,

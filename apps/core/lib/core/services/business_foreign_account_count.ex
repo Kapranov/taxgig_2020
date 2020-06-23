@@ -6,7 +6,8 @@ defmodule Core.Services.BusinessForeignAccountCount do
 
   alias Core.{
     Repo,
-    Services.BusinessTaxReturn
+    Services.BusinessTaxReturn,
+    Services.Helpers.ForeignAccountCountNameEnum
   }
 
   @type t :: %__MODULE__{
@@ -25,7 +26,7 @@ defmodule Core.Services.BusinessForeignAccountCount do
   )a
 
   schema "business_foreign_account_counts" do
-    field :name, :string
+    field :name, ForeignAccountCountNameEnum
 
     belongs_to :business_tax_returns, BusinessTaxReturn,
       foreign_key: :business_tax_return_id, type: FlakeId.Ecto.CompatType, references: :id

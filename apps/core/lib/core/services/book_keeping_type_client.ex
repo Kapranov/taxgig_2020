@@ -7,7 +7,8 @@ defmodule Core.Services.BookKeepingTypeClient do
 
   alias Core.{
     Repo,
-    Services.BookKeeping
+    Services.BookKeeping,
+    Services.Helpers.TypeClientNameEnum
   }
 
   @type t :: %__MODULE__{
@@ -28,7 +29,7 @@ defmodule Core.Services.BookKeepingTypeClient do
   )a
 
   schema "book_keeping_type_clients" do
-    field :name, :string
+    field :name, TypeClientNameEnum
     field :price, :integer
 
     belongs_to :book_keepings, BookKeeping,

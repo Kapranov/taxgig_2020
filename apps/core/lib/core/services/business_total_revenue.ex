@@ -6,7 +6,8 @@ defmodule Core.Services.BusinessTotalRevenue do
 
   alias Core.{
     Repo,
-    Services.BusinessTaxReturn
+    Services.BusinessTaxReturn,
+    Services.Helpers.AnnualRevenueNameEnum
   }
 
   @type t :: %__MODULE__{
@@ -27,7 +28,7 @@ defmodule Core.Services.BusinessTotalRevenue do
   )a
 
   schema "business_total_revenues" do
-    field :name, :string
+    field :name, AnnualRevenueNameEnum
     field :price, :integer
 
     belongs_to :business_tax_returns, BusinessTaxReturn,

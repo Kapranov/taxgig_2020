@@ -6,7 +6,8 @@ defmodule Core.Services.BusinessNumberEmployee do
 
   alias Core.{
     Repo,
-    Services.BusinessTaxReturn
+    Services.BusinessTaxReturn,
+    Services.Helpers.NumberEmployeeNameEnum
   }
 
   @type t :: %__MODULE__{
@@ -27,7 +28,7 @@ defmodule Core.Services.BusinessNumberEmployee do
   )a
 
   schema "business_number_employees" do
-    field :name, :string
+    field :name, NumberEmployeeNameEnum
     field :price, :integer
 
     belongs_to :business_tax_returns, BusinessTaxReturn,
