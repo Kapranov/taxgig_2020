@@ -10,6 +10,7 @@ defmodule Core.Services.SaleTax do
   alias Core.{
     Accounts.User,
     Repo,
+    Services,
     Services.MatchValueRelate,
     Services.SaleTax,
     Services.SaleTaxFrequency,
@@ -86,8 +87,7 @@ defmodule Core.Services.SaleTax do
   """
   @spec find_role_by_user(word) :: boolean | {:error, nonempty_list(message)}
   def find_role_by_user(id) when not is_nil(id) do
-    find_user =
-      Repo.get_by(SaleTax, %{id: id})
+    find_user = Repo.get_by(SaleTax, %{id: id})
 
     user_id =
       case find_user do
@@ -139,265 +139,60 @@ defmodule Core.Services.SaleTax do
   # check_price_sale_tax_count(id)
   # check_price_sale_tax_frequency(id)
 
-  def check_price_sale_tax_count(sale_tax_id) when is_nil(sale_tax_id) do
-    :error
-  end
+  def check_price_sale_tax_count(sale_tax_id) when is_nil(sale_tax_id), do: :error
 
   @spec check_price_sale_tax_count(word) :: integer | {:error, nonempty_list(message)}
   def check_price_sale_tax_count(sale_tax_id) when not is_nil(sale_tax_id) do
-#    with struct <- Repo.get_by(SaleTax, %{id: sale_tax_id}) do
-#      case struct do
-#        nil -> :error
-#        _ ->
-#          case SaleTax.find_role_by_user(struct.id) do
-#            false ->
-#              check_count = querty_one(SaleTax, struct.user_id, false, :sale_tax_count)
-#              check_pro_count = querty_all(SaleTax, true, :price_sale_tax_count)
-#
-#              if is_nil(check_count) do
-#                0
-#              else
-#                for {k, v} <- check_pro_count, into: %{} do
-#                  {k, v * check_count}
-#                end
-#              end
-#            true  ->
-#              check_count = querty_one(SaleTax, struct.user_id, true, :price_sale_tax_count)
-#              check_tp_count = querty_all(SaleTax, false, :sale_tax_count)
-#
-#              if is_nil(check_count) do
-#                0
-#              else
-#                for {k, v} <- check_tp_count, into: %{} do
-#                  {k, v  * check_count}
-#                end
-#              end
-#          end
-#      end
-#    end
-
     case Repo.get_by(SaleTax, %{id: sale_tax_id}) do
-      nil -> :error
+      nil -> 0
       %SaleTax{user_id: user_id} ->
         case SaleTax.find_role_by_user(sale_tax_id) do
           false ->
-            check_count = querty_one(SaleTax, user_id, false, :sale_tax_count)
-            check_pro_count = querty_all(SaleTax, true, :price_sale_tax_count)
+            check_count = count_tp(SaleTax, user_id, false, :sale_tax_count)
+            check_pro_count = count_pro(SaleTax, true, :price_sale_tax_count)
             if is_nil(check_count), do: 0, else: for {k, v} <- check_pro_count, into: %{}, do: {k, v * check_count}
           true  ->
-            check_count = querty_one(SaleTax, user_id, true, :price_sale_tax_count)
-            check_tp_count = querty_all(SaleTax, false, :sale_tax_count)
+            check_count = count_tp(SaleTax, user_id, true, :price_sale_tax_count)
+            check_tp_count = count_pro(SaleTax, false, :sale_tax_count)
             if is_nil(check_count), do: 0, else: for {k, v} <- check_tp_count, into: %{}, do: {k, v  * check_count}
         end
     end
   end
 
-  defp querty_one(struct, user_id, role, row) do
-    Repo.one(from c in User,
-      join: cu in ^struct,
-      where: c.id == ^user_id and cu.user_id == c.id,
-      where: c.role == ^role,
-      where: not is_nil(field(cu, ^row)),
-      where: field(cu, ^row) >= 1,
-      select: field(cu, ^row)
-    )
-  end
-
-  defp querty_all(struct, role, row) do
-    Repo.all(from c in User,
-      join: cu in ^struct,
-      where: cu.user_id == c.id,
-      where: c.role == ^role,
-      where: field(cu, ^row) != 0,
-      where: not is_nil(field(cu, ^row)),
-      select: {cu.id, field(cu, ^row)}
-    )
-  end
-
-#  def check_price_sale_tax_count(id) when not is_nil(id) do
-#    sale_tax = Repo.get_by(SaleTax, %{id: id})
-#
-#    user_id =
-#      case sale_tax do
-#        nil -> nil
-#        _ -> sale_tax.user_id
-#      end
-#
-#    get_role =
-#      case user_id do
-#        nil -> nil
-#        _ ->
-#          Repo.one(
-#            from c in User,
-#            join: cu in SaleTax,
-#            where: c.id == ^user_id and cu.user_id == c.id,
-#            select: c.role
-#          )
-#      end
-#
-#    check_sale_tax_count =
-#      case get_role do
-#          nil -> nil
-#        false ->
-#          Repo.one(
-#            from c in User,
-#            join: cu in SaleTax,
-#            where: c.id == ^user_id and cu.user_id == c.id,
-#            where: c.role == false,
-#            where: not is_nil(cu.sale_tax_count),
-#            where: cu.sale_tax_count >= 1,
-#            select: cu.sale_tax_count
-#          )
-#        true ->
-#          Repo.one(
-#            from c in User,
-#            join: cu in SaleTax,
-#            where: c.id == ^user_id and cu.user_id == c.id,
-#            where: c.role == true,
-#            where: not is_nil(cu.price_sale_tax_count),
-#            where: cu.price_sale_tax_count >= 1,
-#            select: cu.price_sale_tax_count
-#          )
-#      end
-#
-#    check_pro_sale_tax_count =
-#      Repo.all(
-#        from c in User,
-#        join: cu in SaleTax,
-#        where: cu.user_id == c.id,
-#        where: c.role == true,
-#        where: cu.price_sale_tax_count != 0,
-#        where: not is_nil(cu.price_sale_tax_count),
-#        select: {cu.id, cu.price_sale_tax_count}
-#      )
-#
-#    check_tp_sale_tax_count =
-#      Repo.all(
-#        from c in User,
-#        join: cu in SaleTax,
-#        where: cu.user_id == c.id,
-#        where: c.role == false,
-#        where: cu.sale_tax_count != 0,
-#        where: not is_nil(cu.sale_tax_count),
-#        select: {cu.id, cu.sale_tax_count}
-#      )
-#
-#   case get_role do
-#       nil -> {:error, [field: :id, message: "SaleTax Not Found"]}
-#     false ->
-#       if is_nil(check_sale_tax_count) do
-#         0
-#       else
-#         for {k, v} <- check_pro_sale_tax_count, into: %{} do
-#           {k, v * check_sale_tax_count}
-#         end
-#       end
-#     true ->
-#       if is_nil(check_sale_tax_count) do
-#         0
-#       else
-#         for {k, v} <- check_tp_sale_tax_count, into: %{} do
-#           {k, v  * check_sale_tax_count}
-#         end
-#       end
-#   end
-#  end
-
   @spec check_price_sale_tax_count :: {:error, nonempty_list(message)}
-  def check_price_sale_tax_count do
-    :error
-  end
+  def check_price_sale_tax_count, do: :error
+
+  @spec check_price_sale_tax_frequency(nil) :: {:error, nonempty_list(message)}
+  def check_price_sale_tax_frequency(sale_tax_id) when is_nil(sale_tax_id), do: :error
 
   @spec check_price_sale_tax_frequency(word) :: integer | {:error, nonempty_list(message)}
-  def check_price_sale_tax_frequency(id) when not is_nil(id) do
-    sale_tax =
-      Repo.get_by(SaleTax, %{id: id})
-
-    user_id =
-      case sale_tax do
-        nil ->
-          nil
-        _ ->
-          sale_tax.user_id
+  def check_price_sale_tax_frequency(sale_tax_id) when not is_nil(sale_tax_id) do
+    struct =
+      try do
+        Services.get_sale_tax!(sale_tax_id)
+      rescue
+        Ecto.NoResultsError -> :error
       end
-
-    get_name_by_sale_tax_frequency =
-      case user_id do
-        nil ->
-          nil
-        _ ->
-          Repo.one(
-            from c in User,
-            join: ct in SaleTax,
-            join: cu in SaleTaxFrequency,
-            where: c.id == ^user_id and ct.user_id == c.id and cu.sale_tax_id == ct.id,
-            where: c.role == false,
-            where: not is_nil(cu.name),
-            select: cu.name
-          )
-      end
-
-    check_pro_price_sale_tax_frequency =
-      case get_name_by_sale_tax_frequency do
-        nil ->
-          nil
-        _ ->
-        Repo.all(
-          from c in SaleTaxFrequency,
-          join: ct in User,
-          join: cu in SaleTax,
-          where: c.sale_tax_id == cu.id and cu.user_id == ct.id and ct.role == true,
-          where: not is_nil(c.name),
-          where: not is_nil(c.price),
-          where: c.price != 0,
-          where: c.name == ^get_name_by_sale_tax_frequency,
-          select: {c.id, c.price}
-        )
-      end
-
-    data =
-      case check_pro_price_sale_tax_frequency do
-        nil ->
-          nil
-        _ ->
-          for {k, v} <- check_pro_price_sale_tax_frequency, into: %{}, do: {k, v}
-      end
-
-    check_sale_tax_frequency =
-      case user_id do
-        nil ->
-          :error
-        _ ->
-          Repo.one(
-            from c in User,
-            join: ct in SaleTax,
-            join: cu in SaleTaxFrequency,
-            where: c.id == ^user_id and ct.user_id == c.id and cu.sale_tax_id == ct.id,
-            where: c.role == false,
-            where: not is_nil(cu.name),
-            where: not is_nil(cu.sale_tax_id)
-          )
-      end
-
-    case check_sale_tax_frequency do
-      nil ->
-        {:error, [field: :id, message: "filled SaleTaxFrequency's are fields is null and user's role is not correct"]}
-      :error ->
-        {:error, [field: :id, message: "SaleTaxFrequency Not Found"]}
-      _ ->
-        data
+    case struct do
+      :error -> :error
+      %SaleTax{user_id: user_id, sale_tax_frequencies: [%SaleTaxFrequency{price: price}]} ->
+        case SaleTax.find_role_by_user(sale_tax_id) do
+          false ->
+            check_name = name_tp(SaleTax, SaleTaxFrequency, user_id, false, :sale_tax_id, :name)
+            check_pro_name = if is_nil(check_name), do: nil, else: name_pro_all(SaleTaxFrequency, SaleTax, true, :name, :price, check_name)
+            data = if is_nil(check_pro_name), do: 0, else: for {k, v} <- check_pro_name, into: %{}, do: {k, v}
+            if is_nil(check_name), do: 0, else: data
+          true  ->
+            check_name = name_tp(SaleTax, SaleTaxFrequency, user_id, true, :sale_tax_id, :name)
+            check_tp_name = if is_nil(check_name), do: nil, else: name_tp_all(SaleTaxFrequency, SaleTax, false, :name, to_string(check_name))
+            data = if is_nil(check_tp_name), do: 0, else: for {k} <- check_tp_name, into: %{}, do: {k, price}
+            if is_nil(check_name), do: 0, else: data
+        end
     end
   end
 
-  @spec check_price_sale_tax_frequency(nil) :: {:error, nonempty_list(message)}
-  def check_price_sale_tax_frequency(id) when is_nil(id) do
-    {:error, [field: :id, message: "Can't be blank"]}
-  end
-
   @spec check_price_sale_tax_frequency :: {:error, nonempty_list(message)}
-  def check_price_sale_tax_frequency do
-    {:error, [field: :id, message: "Can't be blank"]}
-  end
+  def check_price_sale_tax_frequency, do: :error
 
   ################################################################
   ### BEGIN ######################################################
@@ -737,27 +532,23 @@ defmodule Core.Services.SaleTax do
   ################################################################
   ################################################################
 
-  @spec total_price(word) :: map | :error
+  @spec total_price(word) :: map
   def total_price(id) do
     # check_price_sale_tax_count(id)
     # check_price_sale_tax_frequency(id)
 
     cnt1 =
       case check_price_sale_tax_count(id) do
-        {:error, [field: :id, message: "filled sale tax count is 0 or null and user's role is not correct"]} ->
-          %{}
-        {:error, [field: :id, message: "SaleTax Not Found"]} ->
-          %{}
+        :error -> %{}
+        0 -> %{}
         _ ->
           check_price_sale_tax_count(id)
       end
 
     cnt2 =
       case check_price_sale_tax_frequency(id) do
-        {:error, [field: :id, message: "filled SaleTaxFrequency's are fields is null and user's role is not correct"]} ->
-          %{}
-        {:error, [field: :id, message: "SaleTaxFrequency Not Found"]} ->
-          %{}
+        :error -> %{}
+        0 -> %{}
         _ ->
           check_price_sale_tax_frequency(id)
       end
@@ -849,6 +640,100 @@ defmodule Core.Services.SaleTax do
 
     result
   end
+
+  defp count_tp(struct, user_id, role, row) do
+    try do
+      Repo.one(
+        from c in User,
+        join: cu in ^struct,
+        where: c.id == ^user_id and cu.user_id == c.id,
+        where: c.role == ^role,
+        where: not is_nil(field(cu, ^row)),
+        where: field(cu, ^row) >= 1,
+        select: field(cu, ^row)
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  defp count_pro(struct, role, row) do
+    try do
+      Repo.all(
+        from c in User,
+        join: cu in ^struct,
+        where: cu.user_id == c.id,
+        where: c.role == ^role,
+        where: field(cu, ^row) != 0,
+        where: not is_nil(field(cu, ^row)),
+        select: {cu.id, field(cu, ^row)}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  defp name_tp(struct_a, struct_b, user_id, role, row_a, row_b) do
+    try do
+      Repo.one(
+        from c in User,
+        join: ct in ^struct_a,
+        join: cu in ^struct_b,
+        where: c.id == ^user_id and ct.user_id == c.id and field(cu, ^row_a) == ct.id,
+        where: c.role == ^role,
+        where: not is_nil(field(cu, ^row_b)),
+        select: field(cu, ^row_b)
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  defp name_tp_all(struct_a, struct_b, role, row_a, name) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in User,
+        join: cu in ^struct_b,
+        where: c.sale_tax_id == cu.id and cu.user_id == ct.id and ct.role == ^role,
+        where: not is_nil(field(c, ^row_a)),
+        where: field(c, ^row_a) == ^name,
+        select: {cu.id}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  defp name_pro_all(struct_a, struct_b, role, row_a, row_b, name) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in User,
+        join: cu in ^struct_b,
+        where: c.sale_tax_id == cu.id and cu.user_id == ct.id and ct.role == ^role,
+        where: not is_nil(field(c, ^row_a)),
+        where: not is_nil(field(c, ^row_b)),
+        where: field(c, ^row_b) != 0,
+        where: field(c, ^row_a) == ^name,
+        select: {cu.id, field(c, ^row_b)}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+#  defp struct_user(struct_a, struct_b, user_id, role, row_a, row_b) do
+#    Repo.one(
+#      from c in User,
+#      join: ct in ^struct_a,
+#      join: cu in ^struct_b,
+#      where: c.id == ^user_id and ct.user_id == c.id and field(cu, ^row_a) == ct.id,
+#      where: c.role == ^role,
+#      where: not is_nil(field(cu, ^row_a)),
+#      where: not is_nil(field(cu, ^row_b))
+#    )
+#  end
 
   defp decimal_mult(val1, val2) when is_integer(val1) do
     val1

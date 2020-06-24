@@ -8303,7 +8303,7 @@ defmodule Core.Services do
   @spec get_sale_tax!(String.t) :: SaleTax.t() | error_tuple()
   def get_sale_tax!(id) do
     Repo.get!(SaleTax, id)
-    |> Repo.preload([:user])
+    |> Repo.preload([:user, :sale_tax_frequencies, :sale_tax_industries])
   end
 
   @doc """
@@ -8770,20 +8770,16 @@ defmodule Core.Services do
             end
         end
       true ->
-        case Map.has_key?(attrs, :name) and Map.has_key?(attrs, :price) do
-          false -> {:error, %Changeset{}}
-          true  ->
-            if is_nil(attrs.name) and is_nil(attrs.price) do
-              {:error, %Changeset{}}
-            else
-              case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
-                true ->
-                  {:error, [field: :name, message: "name already is exist, not permission for update record"]}
-                false ->
-                  struct
-                  |> SaleTaxFrequency.changeset(attrs)
-                  |> Repo.update()
-              end
+        case is_nil(attrs.name) || is_nil(attrs.price) do
+          true -> {:error, %Changeset{}}
+          false  ->
+            case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
+              true ->
+                {:error, [field: :name, message: "name already is exist, not permission for update record"]}
+              false ->
+                struct
+                |> SaleTaxFrequency.changeset(attrs)
+                |> Repo.update()
             end
         end
     end
