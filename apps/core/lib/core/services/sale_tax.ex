@@ -144,17 +144,17 @@ defmodule Core.Services.SaleTax do
   @spec check_price_sale_tax_count(word) :: integer | {:error, nonempty_list(message)}
   def check_price_sale_tax_count(sale_tax_id) when not is_nil(sale_tax_id) do
     case Repo.get_by(SaleTax, %{id: sale_tax_id}) do
-      nil -> 0
+      nil -> :error
       %SaleTax{user_id: user_id} ->
         case SaleTax.find_role_by_user(sale_tax_id) do
           false ->
             check_count = count_tp(SaleTax, user_id, false, :sale_tax_count)
             check_pro_count = count_pro(SaleTax, true, :price_sale_tax_count)
-            if is_nil(check_count), do: 0, else: for {k, v} <- check_pro_count, into: %{}, do: {k, v * check_count}
+            if is_nil(check_count), do: :error, else: for {k, v} <- check_pro_count, into: %{}, do: {k, v * check_count}
           true  ->
             check_count = count_tp(SaleTax, user_id, true, :price_sale_tax_count)
             check_tp_count = count_pro(SaleTax, false, :sale_tax_count)
-            if is_nil(check_count), do: 0, else: for {k, v} <- check_tp_count, into: %{}, do: {k, v  * check_count}
+            if is_nil(check_count), do: :error, else: for {k, v} <- check_tp_count, into: %{}, do: {k, v  * check_count}
         end
     end
   end
@@ -180,13 +180,13 @@ defmodule Core.Services.SaleTax do
           false ->
             check_name = name_tp(SaleTax, SaleTaxFrequency, user_id, false, :sale_tax_id, :name)
             check_pro_name = if is_nil(check_name), do: nil, else: name_pro_all(SaleTaxFrequency, SaleTax, true, :name, :price, check_name)
-            data = if is_nil(check_pro_name), do: 0, else: for {k, v} <- check_pro_name, into: %{}, do: {k, v}
-            if is_nil(check_name), do: 0, else: data
+            data = if is_nil(check_pro_name), do: :error, else: for {k, v} <- check_pro_name, into: %{}, do: {k, v}
+            if is_nil(check_name), do: :error, else: data
           true  ->
             check_name = name_tp(SaleTax, SaleTaxFrequency, user_id, true, :sale_tax_id, :name)
             check_tp_name = if is_nil(check_name), do: nil, else: name_tp_all(SaleTaxFrequency, SaleTax, false, :name, to_string(check_name))
-            data = if is_nil(check_tp_name), do: 0, else: for {k} <- check_tp_name, into: %{}, do: {k, price}
-            if is_nil(check_name), do: 0, else: data
+            data = if is_nil(check_tp_name) or is_nil(price), do: :error, else: for {k} <- check_tp_name, into: %{}, do: {k, price}
+            if is_nil(check_name), do: :error, else: data
         end
     end
   end
@@ -540,17 +540,13 @@ defmodule Core.Services.SaleTax do
     cnt1 =
       case check_price_sale_tax_count(id) do
         :error -> %{}
-        0 -> %{}
-        _ ->
-          check_price_sale_tax_count(id)
+        _ -> check_price_sale_tax_count(id)
       end
 
     cnt2 =
       case check_price_sale_tax_frequency(id) do
         :error -> %{}
-        0 -> %{}
-        _ ->
-          check_price_sale_tax_frequency(id)
+        _ -> check_price_sale_tax_frequency(id)
       end
 
     result =
