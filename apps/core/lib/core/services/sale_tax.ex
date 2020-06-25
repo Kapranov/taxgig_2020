@@ -91,16 +91,13 @@ defmodule Core.Services.SaleTax do
 
     user_id =
       case find_user do
-        nil ->
-          {:error, [field: :id, message: "SaleTax Not Found"]}
-        _ ->
-          find_user.user_id
+        nil -> {:error, [field: :id, message: "SaleTax Not Found"]}
+        _ -> find_user.user_id
       end
 
     user =
       case find_user do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -114,10 +111,8 @@ defmodule Core.Services.SaleTax do
         {:error, [field: :user_id, message: "UserId Not Found in SaleTax"]}
       _ ->
         case user.role do
-          true ->
-            true
-          false ->
-            false
+           true -> true
+          false -> false
         end
     end
   end
@@ -140,22 +135,28 @@ defmodule Core.Services.SaleTax do
   # check_price_sale_tax_frequency(id)
 
   @spec check_price_sale_tax_count(nil) :: :error
-  def check_price_sale_tax_count(sale_tax_id) when is_nil(sale_tax_id), do: :error
+  def check_price_sale_tax_count(id) when is_nil(id), do: :error
 
   @spec check_price_sale_tax_count(word) :: map | :error
-  def check_price_sale_tax_count(sale_tax_id) when not is_nil(sale_tax_id) do
-    case Repo.get_by(SaleTax, %{id: sale_tax_id}) do
-      nil -> :error
+  def check_price_sale_tax_count(id) when not is_nil(id) do
+    struct =
+      try do
+        Services.get_sale_tax!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+    case struct do
+      :error -> :error
       %SaleTax{user_id: user_id} ->
-        case SaleTax.find_role_by_user(sale_tax_id) do
+        case SaleTax.find_role_by_user(id) do
           false ->
-            check_count = count_tp(SaleTax, user_id, false, :sale_tax_count)
-            check_pro_count = count_pro(SaleTax, true, :price_sale_tax_count)
-            if is_nil(check_count), do: :error, else: for {k, v} <- check_pro_count, into: %{}, do: {k, v * check_count}
-          true  ->
-            check_count = count_tp(SaleTax, user_id, true, :price_sale_tax_count)
-            check_tp_count = count_pro(SaleTax, false, :sale_tax_count)
-            if is_nil(check_count), do: :error, else: for {k, v} <- check_tp_count, into: %{}, do: {k, v  * check_count}
+            count = by_count(SaleTax, user_id, false, :sale_tax_count)
+            price = by_counts(SaleTax, true, :price_sale_tax_count)
+            if is_nil(count), do: :error, else: for {k, v} <- price, into: %{}, do: {k, v * count}
+          true ->
+            price = by_count(SaleTax, user_id, true, :price_sale_tax_count)
+            count = by_counts(SaleTax, false, :sale_tax_count)
+            if is_nil(price), do: :error, else: for {k, v} <- count, into: %{}, do: {k, v  * price}
         end
     end
   end
@@ -164,30 +165,30 @@ defmodule Core.Services.SaleTax do
   def check_price_sale_tax_count, do: :error
 
   @spec check_price_sale_tax_frequency(nil) :: :error
-  def check_price_sale_tax_frequency(sale_tax_id) when is_nil(sale_tax_id), do: :error
+  def check_price_sale_tax_frequency(id) when is_nil(id), do: :error
 
   @spec check_price_sale_tax_frequency(word) :: map | :error
-  def check_price_sale_tax_frequency(sale_tax_id) when not is_nil(sale_tax_id) do
+  def check_price_sale_tax_frequency(id) when not is_nil(id) do
     struct =
       try do
-        Services.get_sale_tax!(sale_tax_id)
+        Services.get_sale_tax!(id)
       rescue
         Ecto.NoResultsError -> :error
       end
     case struct do
       :error -> :error
       %SaleTax{user_id: user_id, sale_tax_frequencies: [%SaleTaxFrequency{price: price}]} ->
-        case SaleTax.find_role_by_user(sale_tax_id) do
+        case SaleTax.find_role_by_user(id) do
           false ->
-            check_name = name_tp(SaleTax, SaleTaxFrequency, user_id, false, :sale_tax_id, :name)
-            check_pro_name = if is_nil(check_name), do: nil, else: name_pro_all(SaleTaxFrequency, SaleTax, true, :name, :price, check_name)
-            data = if is_nil(check_pro_name), do: :error, else: for {k, v} <- check_pro_name, into: %{}, do: {k, v}
-            if is_nil(check_name), do: :error, else: data
+            name = by_name(SaleTax, SaleTaxFrequency, user_id, false, :sale_tax_id, :name)
+            names = if is_nil(name), do: nil, else: by_price(SaleTaxFrequency, SaleTax, true, :sale_tax_id, :name, :price, name)
+            data = if is_nil(names), do: :error, else: for {k, v} <- names, into: %{}, do: {k, v}
+            if is_nil(name), do: :error, else: data
           true  ->
-            check_name = name_tp(SaleTax, SaleTaxFrequency, user_id, true, :sale_tax_id, :name)
-            check_tp_name = if is_nil(check_name), do: nil, else: name_tp_all(SaleTaxFrequency, SaleTax, false, :name, to_string(check_name))
-            data = if is_nil(check_tp_name) or is_nil(price), do: :error, else: for {k} <- check_tp_name, into: %{}, do: {k, price}
-            if is_nil(check_name), do: :error, else: data
+            name = by_name(SaleTax, SaleTaxFrequency, user_id, true, :sale_tax_id, :name) |> to_string()
+            names = if is_nil(name), do: nil, else: by_names(SaleTaxFrequency, SaleTax, false, :sale_tax_id, :name, name)
+            data = if is_nil(names) or is_nil(price), do: :error, else: for {k} <- names, into: %{}, do: {k, price}
+            if is_nil(name), do: :error, else: data
         end
     end
   end
@@ -195,37 +196,33 @@ defmodule Core.Services.SaleTax do
   @spec check_price_sale_tax_frequency() :: :error
   def check_price_sale_tax_frequency, do: :error
 
-  ################################################################
-  ### BEGIN ######################################################
-  ################################################################
-
   # check_match_sale_tax_count(id)
   # check_match_sale_tax_frequency(id)
   # check_match_sale_tax_industry(id)
 
   @spec check_match_sale_tax_count(nil) :: :error
-  def check_match_sale_tax_count(sale_tax_id) when is_nil(sale_tax_id), do: :error
+  def check_match_sale_tax_count(id) when is_nil(id), do: :error
 
   @spec check_match_sale_tax_count(word) :: map | :error
-  def check_match_sale_tax_count(sale_tax_id) when not is_nil(sale_tax_id) do
+  def check_match_sale_tax_count(id) when not is_nil(id) do
     found = find_match(:match_for_sale_tax_count)
     struct =
       try do
-        Services.get_sale_tax!(sale_tax_id)
+        Services.get_sale_tax!(id)
       rescue
         Ecto.NoResultsError -> :error
       end
     case struct do
       :error -> :error
       %SaleTax{sale_tax_count: sale_tax_count} ->
-        case SaleTax.find_role_by_user(sale_tax_id) do
+        case SaleTax.find_role_by_user(id) do
           false ->
-            check_pro_count = count_pro(SaleTax, true, :price_sale_tax_count)
-            data = for {k, _} <- check_pro_count, into: %{}, do: {k, found}
+            price = by_counts(SaleTax, true, :price_sale_tax_count)
+            data = for {k, _} <- price, into: %{}, do: {k, found}
             if is_nil(sale_tax_count) or sale_tax_count == 0, do: :error, else: data
           true ->
-            check_tp_count = count_pro(SaleTax, false, :sale_tax_count)
-            data = for {k, _} <- check_tp_count, into: %{}, do: {k, found}
+            count = by_counts(SaleTax, false, :sale_tax_count)
+            data = for {k, _} <- count, into: %{}, do: {k, found}
             if is_nil(sale_tax_count), do: data, else: :error
         end
     end
@@ -235,31 +232,31 @@ defmodule Core.Services.SaleTax do
   def check_match_sale_tax_count, do: :error
 
   @spec check_match_sale_tax_frequency(nil) :: :error
-  def check_match_sale_tax_frequency(sale_tax_id) when is_nil(sale_tax_id), do: :error
+  def check_match_sale_tax_frequency(id) when is_nil(id), do: :error
 
   @spec check_match_sale_tax_frequency(word) :: map | :error
-  def check_match_sale_tax_frequency(sale_tax_id) when not is_nil(sale_tax_id) do
+  def check_match_sale_tax_frequency(id) when not is_nil(id) do
     found = find_match(:match_for_sale_tax_frequency)
     struct =
       try do
-        Services.get_sale_tax!(sale_tax_id)
+        Services.get_sale_tax!(id)
       rescue
         Ecto.NoResultsError -> :error
       end
     case struct do
       :error -> :error
       %SaleTax{user_id: user_id} ->
-        case SaleTax.find_role_by_user(sale_tax_id) do
+        case SaleTax.find_role_by_user(id) do
           false ->
-            check_name = name_tp(SaleTax, SaleTaxFrequency, user_id, false, :sale_tax_id, :name)
-            check_pro_name = if is_nil(check_name), do: nil, else: name_pro_all(SaleTaxFrequency, SaleTax, true, :name, :price, check_name)
-            data = if is_nil(check_pro_name), do: :error, else: for {k, _} <- check_pro_name, into: %{}, do: {k, found}
-            if is_nil(check_name), do: :error, else: data
+            name = by_name(SaleTax, SaleTaxFrequency, user_id, false, :sale_tax_id, :name)
+            price = if is_nil(name), do: nil, else: by_price(SaleTaxFrequency, SaleTax, true, :sale_tax_id, :name, :price, name)
+            data = if is_nil(price), do: :error, else: for {k, _} <- price, into: %{}, do: {k, found}
+            if is_nil(name), do: :error, else: data
           true ->
-            check_name = name_tp(SaleTax, SaleTaxFrequency, user_id, true, :sale_tax_id, :name)
-            check_tp_name = if is_nil(check_name), do: nil, else: name_tp_all(SaleTaxFrequency, SaleTax, false, :name, to_string(check_name))
-            data = if is_nil(check_tp_name), do: :error, else: for {k} <- check_tp_name, into: %{}, do: {k, found}
-            if is_nil(check_name), do: :error, else: data
+            name = by_name(SaleTax, SaleTaxFrequency, user_id, true, :sale_tax_id, :name) |> to_string()
+            names = if is_nil(name), do: nil, else: by_names(SaleTaxFrequency, SaleTax, false, :sale_tax_id, :name, name)
+            data = if is_nil(names), do: :error, else: for {k} <- names, into: %{}, do: {k, found}
+            if is_nil(name), do: :error, else: data
         end
     end
   end
@@ -268,43 +265,42 @@ defmodule Core.Services.SaleTax do
   def check_match_sale_tax_frequency, do: :error
 
   @spec check_match_sale_tax_industry(nil) :: :error
-  def check_match_sale_tax_industry(sale_tax_id) when is_nil(sale_tax_id), do: :error
+  def check_match_sale_tax_industry(id) when is_nil(id), do: :error
 
   @spec check_match_sale_tax_industry(word) :: map | :error
-  def check_match_sale_tax_industry(sale_tax_id) when not is_nil(sale_tax_id) do
+  def check_match_sale_tax_industry(id) when not is_nil(id) do
     found = find_match(:match_for_sale_tax_industry)
     struct =
       try do
-        Services.get_sale_tax!(sale_tax_id)
+        Services.get_sale_tax!(id)
       rescue
         Ecto.NoResultsError -> :error
       end
     case struct do
       :error -> :error
       %SaleTax{user_id: user_id} ->
-        case SaleTax.find_role_by_user(sale_tax_id) do
+        case SaleTax.find_role_by_user(id) do
           false ->
-            check_name = name_tp(SaleTax, SaleTaxIndustry, user_id, false, :sale_tax_id, :name) |> List.last |> to_string
-            check_pro_name = if is_nil(check_name), do: nil, else: name_industry_all(SaleTaxIndustry, SaleTax, true, :name, [check_name])
-            data = if is_nil(check_pro_name), do: :error, else: for {k} <- check_pro_name, into: %{}, do: {k, found}
-            if is_nil(check_name), do: :error, else: data
+            name = by_name(SaleTax, SaleTaxIndustry, user_id, false, :sale_tax_id, :name) |> List.last |> to_string
+            names = if is_nil(name), do: nil, else: by_search(SaleTaxIndustry, SaleTax, true, :sale_tax_id, :name, [name])
+            data = if is_nil(names), do: :error, else: for {k} <- names, into: %{}, do: {k, found}
+            if is_nil(name), do: :error, else: data
           true ->
-            check_name = name_tp(SaleTax, SaleTaxIndustry, user_id, true, :sale_tax_id, :name)
-            tta = Enum.map(check_name, fn x -> to_string(x) end)
-            ttb = Enum.map(tta, fn x ->
-              Repo.all(
-                from c in SaleTaxIndustry,
-                join: ct in User,
-                join: cu in SaleTax,
-                where: c.sale_tax_id == cu.id and cu.user_id == ct.id and ct.role == false,
-                where: not is_nil(c.name),
-                where: fragment("? @> ?", c.name, ^[x]),
-                select: {cu.id}
-              )
-            end)
+            name = by_name(SaleTax, SaleTaxIndustry, user_id, true, :sale_tax_id, :name)
+            # tta = if is_nil(name), do: :error, else: Enum.map(name, fn x -> by_match(SaleTaxIndustry, SaleTax, false, :sale_tax_id, :name, to_string(x)) end) |> List.flatten
 
-            data = if is_nil(ttb), do: :error, else: for {k} <- List.flatten(ttb), into: %{}, do: {k, found}
-            if is_nil(tta), do: :error, else: data
+            data =
+              if is_nil(name) do
+                :error
+              else
+                Enum.reduce(name, [], fn(x, acc) ->
+                  names = by_match(SaleTaxIndustry, SaleTax, false, :sale_tax_id, :name, to_string(x))
+                  [names | acc]
+                end)
+              end
+              |> List.flatten
+
+            if is_nil(data), do: :error, else: for {k} <- data, into: %{}, do: {k, found}
         end
     end
   end
@@ -312,78 +308,39 @@ defmodule Core.Services.SaleTax do
   @spec check_match_sale_tax_industry :: :error
   def check_match_sale_tax_industry, do: :error
 
-  ################################################################
-  ### BEGIN ######################################################
-  ################################################################
-
   # check_value_sale_tax_count(id)
 
-  @spec check_value_sale_tax_count(word) :: float | {:error, nonempty_list(message)}
+  @spec check_value_sale_tax_count(nil) :: :error
+  def check_value_sale_tax_count(id) when is_nil(id), do: :error
+
+  @spec check_value_sale_tax_count(word) :: float | :error
   def check_value_sale_tax_count(id) when not is_nil(id) do
-    sale_tax =
-      Repo.get_by(SaleTax, %{id: id})
-
-    user_id =
-      case sale_tax do
-        nil ->
-          :error
-        _ ->
-          sale_tax.user_id
+    found = find_match(:value_for_sale_tax_count)
+    struct =
+      try do
+        Services.get_sale_tax!(id)
+      rescue
+        Ecto.NoResultsError -> :error
       end
-
-    find_value =
-      Repo.all(MatchValueRelate)
-      |> List.first
-      |> Map.get(:value_for_sale_tax_count)
-
-    check_sale_tax_count =
-      case sale_tax do
-        nil ->
-          :error
-        _ ->
-          Repo.one(
-            from c in User,
-            join: cu in SaleTax,
-            where: c.id == ^user_id and cu.user_id == c.id,
-            where: c.role == false,
-            where: not is_nil(cu.sale_tax_count),
-            where: cu.sale_tax_count >= 1,
-            select: cu.sale_tax_count
-          )
-      end
-
-    data =
-      case check_sale_tax_count do
-        nil ->
-          :error
-        _ ->
-          # check_sale_tax_count * find_value
-          decimal_mult(check_sale_tax_count, find_value)
-      end
-
-    case check_sale_tax_count do
-      nil ->
-        {:error, [field: :id, message: "filled sale tax count over is 0 or null and user's role is not correct"]}
-      :error ->
-        {:error, [field: :id, message: "SaleTax Not Found"]}
-      _ ->
-        data
+    case struct do
+      :error -> :error
+      %SaleTax{user_id: user_id} ->
+        case SaleTax.find_role_by_user(id) do
+          false ->
+            count = by_count(SaleTax, user_id, false, :sale_tax_count)
+            if is_nil(count), do: :error, else: %{id => decimal_mult(count, found)}
+            # if is_nil(count), do: :error, else: decimal_mult(count, found)
+          true ->
+            price = by_count(SaleTax, user_id, true, :price_sale_tax_count)
+            if is_nil(price), do: :error, else: %{id => decimal_mult(price, found)}
+            # if is_nil(price), do: :error, else: for {k} <- price, into: %{}, do: {id, k}
+            # if is_nil(price), do: :error, else: decimal_mult(price, found)
+        end
     end
   end
 
-  @spec check_value_sale_tax_count(nil) :: {:error, nonempty_list(message)}
-  def check_value_sale_tax_count(id) when is_nil(id) do
-    {:error, [field: :id, message: "Can't be blank"]}
-  end
-
-  @spec check_value_sale_tax_count :: {:error, nonempty_list(message)}
-  def check_value_sale_tax_count do
-    {:error, [field: :id, message: "Can't be blank"]}
-  end
-
-  ################################################################
-  ################################################################
-  ################################################################
+  @spec check_value_sale_tax_count :: :error
+  def check_value_sale_tax_count, do: :error
 
   @spec total_price(word) :: map
   def total_price(id) do
@@ -402,13 +359,10 @@ defmodule Core.Services.SaleTax do
         _ -> check_price_sale_tax_frequency(id)
       end
 
-    result =
-      Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
-
-    result
+    Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
   end
 
-  @spec total_match(word) :: map | :error
+  @spec total_match(word) :: map
   def total_match(id) do
     # check_match_sale_tax_count(id)
     # check_match_sale_tax_frequency(id)
@@ -416,78 +370,47 @@ defmodule Core.Services.SaleTax do
 
     cnt1 =
       case check_match_sale_tax_count(id) do
-        {:error, [field: :id, message: "filled sale tax count is false or null and user's role is not correct"]} ->
-          %{}
-        {:error, [field: :id, message: "SaleTax Not Found"]} ->
-          %{}
-        _ ->
-          check_match_sale_tax_count(id)
+        :error -> %{}
+        _ -> check_match_sale_tax_count(id)
       end
 
     cnt2 =
       case check_match_sale_tax_frequency(id) do
-        {:error, [field: :id, message: "filled SaleTaxFrequency's are fields is null and user's role is not correct"]} ->
-          %{}
-        {:error, [field: :id, message: "SaleTaxFrequency Not Found"]} ->
-          %{}
-        _ ->
-          check_match_sale_tax_frequency(id)
+        :error -> %{}
+        _ -> check_match_sale_tax_frequency(id)
       end
 
     rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
 
     cnt3 =
       case check_match_sale_tax_industry(id) do
-        {:error, [field: :id, message: "filled SaleTaxIndustry's are fields is null and user's role is not correct"]} ->
-          %{}
-        {:error, [field: :id, message: "SaleTaxIndustry Not Found"]} ->
-          %{}
-        _ ->
-          check_match_sale_tax_industry(id)
+        :error -> %{}
+        _ -> check_match_sale_tax_industry(id)
       end
 
-    result =
-      Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
-
-    result
+    Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
   end
 
   @spec total_value(word) :: float | :error
   def total_value(id) do
     # check_value_sale_tax_count(id)
 
-    val1 =
-      case check_value_sale_tax_count(id) do
-        {:error, [field: :id, message: "filled sale tax count over is 0 or null and user's role is not correct"]} ->
-          D.new("0")
-        {:error, [field: :id, message: "SaleTax Not Found"]} ->
-          D.new("0")
-        _ ->
-          check_value_sale_tax_count(id)
-      end
-
-    # Float.round(val1, 2)
-
-    Decimal.to_string(val1)
+    case check_value_sale_tax_count(id) do
+      :error -> %{}
+      _ -> check_value_sale_tax_count(id)
+    end
   end
 
-  @spec total_all(word) :: map | :error
+  @spec total_all(word) :: list
   def total_all(id) do
     price = total_price(id)
-    data1 =
-      for {k, v} <- price, into: [], do: %{id: k, sum_price: v}
-
     match = total_match(id)
-    data2 =
-      for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
-
     value = total_value(id)
-    data3 = %{id: id, sum_value: value}
-
-    result =
-      [data3 | [data2 | [data1]]] |> List.flatten
-
-    result
+    data_price = for {k, v} <- price, into: [], do: %{id: k, sum_price: v}
+    data_match = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
+    data_value = for {k, v} <- value, into: [], do: %{id: k, sum_value: v}
+    # data_value = %{id: id, sum_value: value}
+    List.flatten([data_value | [data_match | [data_price]]])
   end
 
   ################################################################
@@ -499,12 +422,12 @@ defmodule Core.Services.SaleTax do
   ################################################################
 
   defp find_match(row) do
-    querty = from r in MatchValueRelate, select: {field(r, ^row)}
-    [{data}] = querty |> Repo.all
+    q = from r in MatchValueRelate, select: {field(r, ^row)}
+    [{data}] = Repo.all(q)
     data
   end
 
-  defp count_tp(struct, user_id, role, row) do
+  defp by_count(struct, user_id, role, row) do
     try do
       Repo.one(
         from c in User,
@@ -520,7 +443,7 @@ defmodule Core.Services.SaleTax do
     end
   end
 
-  defp count_pro(struct, role, row) do
+  defp by_counts(struct, role, row) do
     try do
       Repo.all(
         from c in User,
@@ -536,7 +459,7 @@ defmodule Core.Services.SaleTax do
     end
   end
 
-  def name_tp(struct_a, struct_b, user_id, role, row_a, row_b) do
+  def by_name(struct_a, struct_b, user_id, role, row_a, row_b) do
     try do
       Repo.one(
         from c in User,
@@ -552,75 +475,79 @@ defmodule Core.Services.SaleTax do
     end
   end
 
-  def name_industry_all(struct_a, struct_b, role, row_a, name) do
+  defp by_names(struct_a, struct_b, role, row_a, row_b, name) do
     try do
       Repo.all(
         from c in struct_a,
         join: ct in User,
         join: cu in ^struct_b,
-        where: c.sale_tax_id == cu.id and cu.user_id == ct.id and ct.role == ^role,
-        where: not is_nil(field(c, ^row_a)),
-        where: fragment("? @> ?", field(c, ^row_a), ^name),
-        select: {cu.id}
-      )
-    rescue
-      Ecto.Query.CastError -> nil
-    end
-  end
-
-  defp name_tp_all(struct_a, struct_b, role, row_a, name) do
-    try do
-      Repo.all(
-        from c in struct_a,
-        join: ct in User,
-        join: cu in ^struct_b,
-        where: c.sale_tax_id == cu.id and cu.user_id == ct.id and ct.role == ^role,
-        where: not is_nil(field(c, ^row_a)),
-        where: field(c, ^row_a) == ^name,
-        select: {cu.id}
-      )
-    rescue
-      Ecto.Query.CastError -> nil
-    end
-  end
-
-  defp name_pro_all(struct_a, struct_b, role, row_a, row_b, name) do
-    try do
-      Repo.all(
-        from c in struct_a,
-        join: ct in User,
-        join: cu in ^struct_b,
-        where: c.sale_tax_id == cu.id and cu.user_id == ct.id and ct.role == ^role,
-        where: not is_nil(field(c, ^row_a)),
+        where: field(c, ^row_a) == cu.id and cu.user_id == ct.id and ct.role == ^role,
         where: not is_nil(field(c, ^row_b)),
-        where: field(c, ^row_b) != 0,
-        where: field(c, ^row_a) == ^name,
-        select: {cu.id, field(c, ^row_b)}
+        where: field(c, ^row_b) == ^name,
+        select: {cu.id}
       )
     rescue
       Ecto.Query.CastError -> nil
     end
   end
 
-#  defp struct_user(struct_a, struct_b, user_id, role, row_a, row_b) do
-#    Repo.one(
-#      from c in User,
-#      join: ct in ^struct_a,
-#      join: cu in ^struct_b,
-#      where: c.id == ^user_id and ct.user_id == c.id and field(cu, ^row_a) == ct.id,
-#      where: c.role == ^role,
-#      where: not is_nil(field(cu, ^row_a)),
-#      where: not is_nil(field(cu, ^row_b))
-#    )
-#  end
+  def by_search(struct_a, struct_b, role, row_a, row_b, name) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in User,
+        join: cu in ^struct_b,
+        where: field(c, ^row_a) == cu.id and cu.user_id == ct.id and ct.role == ^role,
+        where: not is_nil(field(c, ^row_b)),
+        where: fragment("? @> ?", field(c, ^row_b), ^name),
+        select: {cu.id}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  defp by_price(struct_a, struct_b, role, row_a, row_b, row_c, name) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in User,
+        join: cu in ^struct_b,
+        where: field(c, ^row_a) == cu.id and cu.user_id == ct.id and ct.role == ^role,
+        where: not is_nil(field(c, ^row_b)),
+        where: not is_nil(field(c, ^row_c)),
+        where: field(c, ^row_c) != 0,
+        where: field(c, ^row_b) == ^name,
+        select: {cu.id, field(c, ^row_c)}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  def by_match(struct_a, struct_b, role, row_a, row_b, str) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in User,
+        join: cu in ^struct_b,
+        where: field(c, ^row_a) == cu.id and cu.user_id == ct.id and ct.role == ^role,
+        where: not is_nil(field(c, ^row_b)),
+        where: fragment("? @> ?", field(c, ^row_b), ^[str]),
+        select: {cu.id}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
 
   defp decimal_mult(val1, val2) when is_integer(val1) do
     val1
     |> D.new()
     |> D.mult(val2)
+    |> D.to_string
   end
 
-  defp decimal_mult(_, _) do
-    nil
-  end
+  @spec decimal_mult(any, any) :: nil
+  defp decimal_mult(_, _), do: nil
 end
