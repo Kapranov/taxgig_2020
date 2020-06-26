@@ -566,8 +566,7 @@ defmodule Core.Services do
   def create_book_keeping(attrs \\ @tp_book_keeping_attrs) do
     get_role_by_user =
       case attrs[:user_id] do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -579,8 +578,7 @@ defmodule Core.Services do
 
     query =
       case attrs[:user_id] do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeeping,
           where: c.user_id == ^attrs.user_id
@@ -593,8 +591,7 @@ defmodule Core.Services do
       BookKeeping.changeset(%BookKeeping{}, attrs)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :user_id) do
           0 ->
@@ -649,8 +646,7 @@ defmodule Core.Services do
                       {:error, _model, changeset, _completed} ->
                         {:error, extract_error_msg(changeset)}
                     end
-                  _ ->
-                    {:error, %Changeset{}}
+                  _ -> {:error, %Changeset{}}
                 end
               true ->
                 case sort_keys(attrs) do
@@ -701,12 +697,10 @@ defmodule Core.Services do
                       {:error, _model, changeset, _completed} ->
                         {:error, extract_error_msg(changeset)}
                     end
-                  _ ->
-                    {:error, %Changeset{}}
+                  _ -> {:error, %Changeset{}}
                 end
             end
-          _ ->
-            {:error, [field: :user_id, message: "Your role have been restricted for create BookKeeping"]}
+          _ -> {:error, [field: :user_id, message: "Your role have been restricted for create BookKeeping"]}
         end
       true ->
         case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
@@ -755,8 +749,7 @@ defmodule Core.Services do
                   {:error, _model, changeset, _completed} ->
                     {:error, extract_error_msg(changeset)}
                 end
-              _ ->
-                {:error, %Changeset{}}
+              _ -> {:error, %Changeset{}}
             end
           true ->
             case sort_keys(attrs) do
@@ -802,8 +795,7 @@ defmodule Core.Services do
                   {:error, _model, changeset, _completed} ->
                     {:error, extract_error_msg(changeset)}
                 end
-              _ ->
-                {:error, %Changeset{}}
+              _ -> {:error, %Changeset{}}
             end
         end
     end
@@ -825,8 +817,7 @@ defmodule Core.Services do
   def update_book_keeping(%BookKeeping{} = struct, attrs) do
     get_role_by_user =
       case struct.user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -838,8 +829,7 @@ defmodule Core.Services do
 
     query =
       case struct.id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeeping,
           where: c.id == ^struct.id,
@@ -872,16 +862,14 @@ defmodule Core.Services do
       |> Map.drop(pro_params)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :id) do
           1 ->
             struct
             |> BookKeeping.changeset(tp_attrs)
             |> Repo.update()
-          _ ->
-            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+          _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
         end
       true ->
         struct
@@ -972,24 +960,19 @@ defmodule Core.Services do
   def create_book_keeping_additional_need(attrs \\ %{}) do
     book_keeping_ids =
       case attrs.book_keeping_id do
-        nil ->
-          nil
-        _ ->
-          Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+        nil -> nil
+        _ -> Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
       end
 
     user_id =
       case book_keeping_ids do
-        nil ->
-          nil
-        _ ->
-          book_keeping_ids.user_id
+        nil -> nil
+        _ -> book_keeping_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -1001,8 +984,7 @@ defmodule Core.Services do
 
     get_name_by_book_keeping_additional_need =
       case attrs.book_keeping_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BookKeepingAdditionalNeed,
@@ -1013,20 +995,17 @@ defmodule Core.Services do
 
     query =
       case attrs.book_keeping_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeepingAdditionalNeed,
           where: c.book_keeping_id == ^attrs.book_keeping_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_name_by_book_keeping_additional_need, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -1035,8 +1014,7 @@ defmodule Core.Services do
                     %BookKeepingAdditionalNeed{}
                     |> BookKeepingAdditionalNeed.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
               _ ->
                 {:error, [field: :id, message: "record already is exist, not permission for new record"]}
@@ -1044,16 +1022,14 @@ defmodule Core.Services do
         end
       true ->
         case Enum.any?(get_name_by_book_keeping_additional_need, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case sort_keys(attrs) do
               @pro_book_keeping_additional_need_params ->
                 %BookKeepingAdditionalNeed{}
                 |> BookKeepingAdditionalNeed.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
+              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
             end
         end
     end
@@ -1078,8 +1054,7 @@ defmodule Core.Services do
 
     get_role_by_user =
       case book_keeping.user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -1091,8 +1066,7 @@ defmodule Core.Services do
 
     query =
       case struct.id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeepingAdditionalNeed,
           where: c.id == ^struct.id,
@@ -1109,8 +1083,7 @@ defmodule Core.Services do
       |> Map.drop(tp_params)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :id) do
           1 ->
@@ -1209,24 +1182,19 @@ defmodule Core.Services do
   def create_book_keeping_annual_revenue(attrs \\ %{}) do
     book_keeping_ids =
       case attrs.book_keeping_id do
-        nil ->
-          nil
-        _ ->
-          Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+        nil -> nil
+        _ -> Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
       end
 
     user_id =
       case book_keeping_ids do
-        nil ->
-          nil
-        _ ->
-          book_keeping_ids.user_id
+        nil -> nil
+        _ -> book_keeping_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -1238,8 +1206,7 @@ defmodule Core.Services do
 
     get_name_by_book_keeping_annual_revenue =
       case attrs.book_keeping_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BookKeepingAnnualRevenue,
@@ -1250,20 +1217,17 @@ defmodule Core.Services do
 
     query =
       case attrs.book_keeping_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeepingAnnualRevenue,
           where: c.book_keeping_id == ^attrs.book_keeping_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_name_by_book_keeping_annual_revenue, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -1272,8 +1236,7 @@ defmodule Core.Services do
                     %BookKeepingAnnualRevenue{}
                     |> BookKeepingAnnualRevenue.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
               _ ->
                 {:error, [field: :id, message: "record already is exist, not permission for new record"]}
@@ -1281,16 +1244,14 @@ defmodule Core.Services do
         end
       true ->
         case Enum.any?(get_name_by_book_keeping_annual_revenue, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case sort_keys(attrs) do
               @pro_book_keeping_annual_revenue_params ->
                 %BookKeepingAnnualRevenue{}
                 |> BookKeepingAnnualRevenue.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
+              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
             end
         end
     end
@@ -1315,8 +1276,7 @@ defmodule Core.Services do
 
     get_role_by_user =
       case book_keeping.user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -1328,8 +1288,7 @@ defmodule Core.Services do
 
     query =
       case struct.id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeepingAnnualRevenue,
           where: c.id == ^struct.id,
@@ -1352,16 +1311,14 @@ defmodule Core.Services do
       |> Map.drop(pro_params)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :id) do
           1 ->
             struct
             |> BookKeepingAnnualRevenue.changeset(tp_attrs)
             |> Repo.update()
-          _ ->
-            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+          _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
         end
       true ->
         struct
@@ -1452,24 +1409,19 @@ defmodule Core.Services do
   def create_book_keeping_classify_inventory(attrs \\ %{}) do
     book_keeping_ids =
       case attrs.book_keeping_id do
-        nil ->
-          nil
-        _ ->
-          Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+        nil -> nil
+        _ -> Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
       end
 
     user_id =
       case book_keeping_ids do
-        nil ->
-          nil
-        _ ->
-          book_keeping_ids.user_id
+        nil -> nil
+        _ -> book_keeping_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -1481,8 +1433,7 @@ defmodule Core.Services do
 
     get_name_by_book_keeping_classify_inventory =
       case attrs.book_keeping_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BookKeepingClassifyInventory,
@@ -1493,20 +1444,17 @@ defmodule Core.Services do
 
     query =
       case attrs.book_keeping_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeepingClassifyInventory,
           where: c.book_keeping_id == ^attrs.book_keeping_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_name_by_book_keeping_classify_inventory, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -1515,15 +1463,12 @@ defmodule Core.Services do
                     %BookKeepingClassifyInventory{}
                     |> BookKeepingClassifyInventory.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
-      true ->
-        {:error, %Ecto.Changeset{}}
+      true -> {:error, %Ecto.Changeset{}}
     end
   end
 
@@ -1545,8 +1490,7 @@ defmodule Core.Services do
 
     get_role_by_user =
       case book_keeping.user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -1558,8 +1502,7 @@ defmodule Core.Services do
 
     query =
       case struct.id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeepingClassifyInventory,
           where: c.id == ^struct.id,
@@ -1575,19 +1518,16 @@ defmodule Core.Services do
       |> Map.drop(tp_params)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :id) do
           1 ->
             struct
             |> BookKeepingClassifyInventory.changeset(tp_attrs)
             |> Repo.update()
-          _ ->
-            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+          _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
         end
-      true ->
-        {:error, %Ecto.Changeset{}}
+      true -> {:error, %Ecto.Changeset{}}
     end
   end
 
@@ -1673,24 +1613,19 @@ defmodule Core.Services do
   def create_book_keeping_industry(attrs \\ %{}) do
     book_keeping_ids =
       case attrs.book_keeping_id do
-        nil ->
-          nil
-        _ ->
-          Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+        nil -> nil
+        _ -> Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
       end
 
     user_id =
       case book_keeping_ids do
-        nil ->
-          nil
-        _ ->
-          book_keeping_ids.user_id
+        nil -> nil
+        _ -> book_keeping_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -1702,8 +1637,7 @@ defmodule Core.Services do
 
     get_name_by_book_keeping_industry =
       case attrs.book_keeping_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BookKeepingIndustry,
@@ -1714,16 +1648,14 @@ defmodule Core.Services do
 
     query =
       case attrs.book_keeping_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeepingIndustry,
           where: c.book_keeping_id == ^attrs.book_keeping_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_name_by_book_keeping_industry, &(&1 == attrs.name)) do
           true ->
@@ -1736,25 +1668,21 @@ defmodule Core.Services do
                     %BookKeepingIndustry{}
                     |> BookKeepingIndustry.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
       true ->
         case Enum.any?(get_name_by_book_keeping_industry, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case sort_keys(attrs) do
               @pro_book_keeping_industry_params ->
                 %BookKeepingIndustry{}
                 |> BookKeepingIndustry.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
+              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
             end
         end
     end
@@ -1779,8 +1707,7 @@ defmodule Core.Services do
 
     get_role_by_user =
       case book_keeping.user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -1792,8 +1719,7 @@ defmodule Core.Services do
 
     query =
       case struct.id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeepingIndustry,
           where: c.id == ^struct.id,
@@ -1815,20 +1741,17 @@ defmodule Core.Services do
       |> Map.drop(pro_params)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Enum.any?(struct.name, &(&1 == attrs.name)) || Enum.count(attrs.name) > 1 do
-          true ->
-            {:error, [field: :name, message: "name already is exist or name more one, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist or name more one, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               1 ->
                 struct
                 |> BookKeepingIndustry.changeset(tp_attrs)
                 |> Repo.update()
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
       true ->
@@ -1920,24 +1843,19 @@ defmodule Core.Services do
   def create_book_keeping_number_employee(attrs \\ %{}) do
     book_keeping_ids =
       case attrs.book_keeping_id do
-        nil ->
-          nil
-        _ ->
-          Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+        nil -> nil
+        _ -> Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
       end
 
     user_id =
       case book_keeping_ids do
-        nil ->
-          nil
-        _ ->
-          book_keeping_ids.user_id
+        nil -> nil
+        _ -> book_keeping_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -1949,8 +1867,7 @@ defmodule Core.Services do
 
     get_name_by_book_keeping_number_employee =
       case attrs.book_keeping_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BookKeepingNumberEmployee,
@@ -1961,20 +1878,17 @@ defmodule Core.Services do
 
     query =
       case attrs.book_keeping_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeepingNumberEmployee,
           where: c.book_keeping_id == ^attrs.book_keeping_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_name_by_book_keeping_number_employee, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -1983,25 +1897,21 @@ defmodule Core.Services do
                     %BookKeepingNumberEmployee{}
                     |> BookKeepingNumberEmployee.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
       true ->
         case Enum.any?(get_name_by_book_keeping_number_employee, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case sort_keys(attrs) do
               @pro_book_keeping_number_employee_params ->
                 %BookKeepingNumberEmployee{}
                 |> BookKeepingNumberEmployee.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
+              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
             end
         end
     end
@@ -2026,8 +1936,7 @@ defmodule Core.Services do
 
     get_role_by_user =
       case book_keeping.user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -2039,8 +1948,7 @@ defmodule Core.Services do
 
     query =
       case struct.id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeepingNumberEmployee,
           where: c.id == ^struct.id,
@@ -2063,16 +1971,14 @@ defmodule Core.Services do
       |> Map.drop(pro_params)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :id) do
           1 ->
             struct
             |> BookKeepingNumberEmployee.changeset(tp_attrs)
             |> Repo.update()
-          _ ->
-            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+          _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
         end
       true ->
         struct
@@ -2163,24 +2069,19 @@ defmodule Core.Services do
   def create_book_keeping_transaction_volume(attrs \\ %{}) do
     book_keeping_ids =
       case attrs.book_keeping_id do
-        nil ->
-          nil
-        _ ->
-          Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+        nil -> nil
+        _ -> Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
       end
 
     user_id =
       case book_keeping_ids do
-        nil ->
-          nil
-        _ ->
-          book_keeping_ids.user_id
+        nil -> nil
+        _ -> book_keeping_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -2192,8 +2093,7 @@ defmodule Core.Services do
 
     get_name_by_book_keeping_transaction_volume =
       case attrs.book_keeping_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BookKeepingTransactionVolume,
@@ -2204,20 +2104,17 @@ defmodule Core.Services do
 
     query =
       case attrs.book_keeping_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeepingTransactionVolume,
           where: c.book_keeping_id == ^attrs.book_keeping_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_name_by_book_keeping_transaction_volume, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -2226,25 +2123,21 @@ defmodule Core.Services do
                     %BookKeepingTransactionVolume{}
                     |> BookKeepingTransactionVolume.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
       true ->
         case Enum.any?(get_name_by_book_keeping_transaction_volume, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case sort_keys(attrs) do
               @pro_book_keeping_transaction_volume_params ->
                 %BookKeepingTransactionVolume{}
                 |> BookKeepingTransactionVolume.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
+              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
             end
         end
     end
@@ -2269,8 +2162,7 @@ defmodule Core.Services do
 
     get_role_by_user =
       case book_keeping.user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -2282,8 +2174,7 @@ defmodule Core.Services do
 
     query =
       case struct.id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeepingTransactionVolume,
           where: c.id == ^struct.id,
@@ -2306,8 +2197,7 @@ defmodule Core.Services do
       |> Map.drop(pro_params)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :id) do
           1 ->
@@ -2406,24 +2296,20 @@ defmodule Core.Services do
   def create_book_keeping_type_client(attrs \\ %{}) do
     book_keeping_ids =
       case attrs.book_keeping_id do
-        nil ->
-          nil
-        _ ->
-          Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+        nil -> nil
+        _ -> Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
       end
 
     user_id =
       case book_keeping_ids do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           book_keeping_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -2435,8 +2321,7 @@ defmodule Core.Services do
 
     get_name_by_book_keeping_type_client =
       case attrs.book_keeping_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BookKeepingTypeClient,
@@ -2447,20 +2332,17 @@ defmodule Core.Services do
 
     query =
       case attrs.book_keeping_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeepingTypeClient,
           where: c.book_keeping_id == ^attrs.book_keeping_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_name_by_book_keeping_type_client, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -2469,25 +2351,21 @@ defmodule Core.Services do
                     %BookKeepingTypeClient{}
                     |> BookKeepingTypeClient.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
       true ->
         case Enum.any?(get_name_by_book_keeping_type_client, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case sort_keys(attrs) do
               @pro_book_keeping_type_client_params ->
                 %BookKeepingTypeClient{}
                 |> BookKeepingTypeClient.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
+              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
             end
         end
     end
@@ -2512,8 +2390,7 @@ defmodule Core.Services do
 
     get_role_by_user =
       case book_keeping.user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -2525,8 +2402,7 @@ defmodule Core.Services do
 
     query =
       case struct.id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BookKeepingTypeClient,
           where: c.id == ^struct.id,
@@ -2549,16 +2425,14 @@ defmodule Core.Services do
       |> Map.drop(pro_params)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :id) do
           1 ->
             struct
             |> BookKeepingTypeClient.changeset(tp_attrs)
             |> Repo.update()
-          _ ->
-            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+          _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
         end
       true ->
         struct
@@ -2649,8 +2523,7 @@ defmodule Core.Services do
   def create_business_tax_return(attrs \\ @pro_business_tax_return_attrs) do
     get_role_by_user =
     case attrs[:user_id] do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -2662,8 +2535,7 @@ defmodule Core.Services do
 
     query =
       case attrs[:user_id] do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BusinessTaxReturn,
           where: c.user_id == ^attrs.user_id
@@ -2676,8 +2548,7 @@ defmodule Core.Services do
       BusinessTaxReturn.changeset(%BusinessTaxReturn{}, attrs)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :user_id) do
           0 ->
@@ -2737,8 +2608,7 @@ defmodule Core.Services do
                       {:error, _model, changeset, _completed} ->
                         {:error, extract_error_msg(changeset)}
                     end
-                  _ ->
-                    {:error, %Changeset{}}
+                  _ -> {:error, %Changeset{}}
                 end
               true ->
                 case sort_keys(attrs) do
@@ -2794,12 +2664,10 @@ defmodule Core.Services do
                       {:error, _model, changeset, _completed} ->
                         {:error, extract_error_msg(changeset)}
                     end
-                  _ ->
-                    {:error, %Changeset{}}
+                  _ -> {:error, %Changeset{}}
                 end
             end
-          _ ->
-            {:error, [field: :user_id, message: "Your role have been restricted for create BusinessTaxReturn"]}
+          _ -> {:error, [field: :user_id, message: "Your role have been restricted for create BusinessTaxReturn"]}
         end
       true ->
         case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
@@ -2838,8 +2706,7 @@ defmodule Core.Services do
                   {:error, _model, changeset, _completed} ->
                     {:error, extract_error_msg(changeset)}
                 end
-              _ ->
-                {:error, %Changeset{}}
+              _ -> {:error, %Changeset{}}
             end
           true ->
             case sort_keys(attrs) do
@@ -2875,8 +2742,7 @@ defmodule Core.Services do
                   {:error, _model, changeset, _completed} ->
                     {:error, extract_error_msg(changeset)}
                 end
-              _ ->
-                {:error, %Changeset{}}
+              _ -> {:error, %Changeset{}}
             end
         end
     end
@@ -2898,8 +2764,7 @@ defmodule Core.Services do
   def create_multi_business_tax_return(attrs \\ @pro_business_tax_return_attrs) do
     get_role_by_user =
       case attrs[:user_id] do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -2911,8 +2776,7 @@ defmodule Core.Services do
 
     query =
       case attrs[:user_id] do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BusinessTaxReturn,
           where: c.user_id == ^attrs.user_id
@@ -2925,8 +2789,7 @@ defmodule Core.Services do
       BusinessTaxReturn.changeset(%BusinessTaxReturn{}, attrs)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :user_id) do
           0 ->
@@ -2978,8 +2841,7 @@ defmodule Core.Services do
                       Repo.insert(business_transaction_count_changeset)
                     end)
                     |> Repo.transaction()
-                  _ ->
-                    {:error, %Changeset{}}
+                  _ -> {:error, %Changeset{}}
                 end
               true ->
                 case sort_keys(attrs) do
@@ -3074,12 +2936,10 @@ defmodule Core.Services do
                       {:error, _failed_operation, _failed_value, _changes_so_far} ->
                         {:error, :unhandled}
                     end
-                  _ ->
-                    {:error, %Changeset{}}
+                  _ -> {:error, %Changeset{}}
                 end
             end
-          _ ->
-            {:error, [field: :user_id, message: "Your role have been restricted for create BusinessTaxReturn"]}
+          _ -> {:error, [field: :user_id, message: "Your role have been restricted for create BusinessTaxReturn"]}
         end
       true ->
         case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
@@ -3140,8 +3000,7 @@ defmodule Core.Services do
                   {:error, _failed_operation, _failed_value, _changes_so_far} ->
                     {:error, :unhandled}
                 end
-              _ ->
-                {:error, %Changeset{}}
+              _ -> {:error, %Changeset{}}
             end
           true ->
             case sort_keys(attrs) do
@@ -3200,8 +3059,7 @@ defmodule Core.Services do
                   {:error, _failed_operation, _failed_value, _changes_so_far} ->
                     {:error, :unhandled}
                 end
-              _ ->
-                {:error, %Changeset{}}
+              _ -> {:error, %Changeset{}}
             end
         end
     end
@@ -3223,8 +3081,7 @@ defmodule Core.Services do
   def update_business_tax_return(%BusinessTaxReturn{} = struct, attrs) do
     get_role_by_user =
       case struct.user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -3236,8 +3093,7 @@ defmodule Core.Services do
 
     query =
       case struct.id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BusinessTaxReturn,
           where: c.id == ^struct.id,
@@ -3296,16 +3152,14 @@ defmodule Core.Services do
       |> Map.drop(pro_params)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :id) do
           1 ->
             struct
             |> BusinessTaxReturn.changeset(tp_attrs)
             |> Repo.update()
-          _ ->
-            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+          _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
         end
       true ->
         struct
@@ -3396,24 +3250,21 @@ defmodule Core.Services do
   def create_business_entity_type(attrs \\ %{}) do
     business_tax_return_ids =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -3425,8 +3276,7 @@ defmodule Core.Services do
 
     get_names_by_business_entity_type =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessEntityType,
@@ -3437,20 +3287,17 @@ defmodule Core.Services do
 
     query =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BusinessEntityType,
           where: c.business_tax_return_id == ^attrs.business_tax_return_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_names_by_business_entity_type, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -3459,8 +3306,7 @@ defmodule Core.Services do
                     %BusinessEntityType{}
                     |> BusinessEntityType.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
               _ ->
                 {:error, [field: :id, message: "record already is exist, not permission for new record"]}
@@ -3468,16 +3314,14 @@ defmodule Core.Services do
         end
       true ->
         case Enum.any?(get_names_by_business_entity_type, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case Map.keys(attrs) do
               [:business_tax_return_id, :name, :price] ->
                 %BusinessEntityType{}
                 |> BusinessEntityType.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
+              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
             end
         end
     end
@@ -3499,24 +3343,20 @@ defmodule Core.Services do
   def update_business_entity_type(%BusinessEntityType{} = struct, attrs) do
     business_tax_return_ids =
       case struct do
-        nil ->
-          {:error, [field: :id, message: "BusinessEntityType is null"]}
-        _ ->
-          Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
+        nil -> {:error, [field: :id, message: "BusinessEntityType is null"]}
+        _ -> Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
+        nil -> {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
         _ ->
           business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -3528,8 +3368,7 @@ defmodule Core.Services do
 
     get_names_by_business_entity_type =
       case struct.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessEntityType,
@@ -3539,8 +3378,7 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case get_names_by_business_entity_type do
           nil ->
@@ -3549,24 +3387,20 @@ defmodule Core.Services do
                 struct
                 |> BusinessEntityType.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_business_entity_type, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> BusinessEntityType.changeset(attrs)
                     |> Repo.update()
                 end
-              [:price] ->
-                {:error, %Ecto.Changeset{}}
-              [:name, :price] ->
-                {:error, %Ecto.Changeset{}}
+              [:price] -> {:error, %Ecto.Changeset{}}
+              [:name, :price] -> {:error, %Ecto.Changeset{}}
               _ ->
                 struct
                 |> BusinessEntityType.changeset(attrs)
@@ -3581,15 +3415,13 @@ defmodule Core.Services do
                 struct
                 |> BusinessEntityType.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_business_entity_type, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> BusinessEntityType.changeset(attrs)
@@ -3601,8 +3433,7 @@ defmodule Core.Services do
                 |> Repo.update()
               [:name, :price] ->
                 case Enum.any?(get_names_by_business_entity_type, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> BusinessEntityType.changeset(attrs)
@@ -3699,24 +3530,19 @@ defmodule Core.Services do
   def create_business_foreign_account_count(attrs \\ %{}) do
     business_tax_return_ids =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
-        _ ->
-          Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
+        nil -> nil
+        _ -> Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          nil
-        _ ->
-          business_tax_return_ids.user_id
+        nil -> nil
+        _ -> business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -3728,8 +3554,7 @@ defmodule Core.Services do
 
     get_names_by_business_foreign_account_count =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessForeignAccountCount,
@@ -3740,20 +3565,17 @@ defmodule Core.Services do
 
     query =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BusinessForeignAccountCount,
           where: c.business_tax_return_id == ^attrs.business_tax_return_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_names_by_business_foreign_account_count, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -3763,26 +3585,11 @@ defmodule Core.Services do
                     |> BusinessForeignAccountCount.changeset(attrs)
                     |> Repo.insert()
                   _ ->
-                    {:error, %Ecto.Changeset{}}
-                end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+                    {:error, %Ecto.Changeset{}} end
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
-      true ->
-        case Enum.any?(get_names_by_business_foreign_account_count, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
-          false ->
-            case Map.keys(attrs) do
-              [:business_tax_return_id, :name] ->
-                %BusinessForeignAccountCount{}
-                |> BusinessForeignAccountCount.changeset(attrs)
-                |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
-            end
-        end
+      true -> {:error, %Ecto.Changeset{}}
     end
   end
 
@@ -3802,24 +3609,20 @@ defmodule Core.Services do
   def update_business_foreign_account_count(%BusinessForeignAccountCount{} = struct, attrs) do
     business_tax_return_ids =
       case struct do
-        nil ->
-          {:error, [field: :id, message: "BusinessForeignAccountCount is null"]}
-        _ ->
-          Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
+        nil -> {:error, [field: :id, message: "BusinessForeignAccountCount is null"]}
+        _ -> Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
+        nil -> {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
         _ ->
           business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -3831,8 +3634,7 @@ defmodule Core.Services do
 
     get_names_by_business_foreign_account_count =
       case struct.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessForeignAccountCount,
@@ -3842,8 +3644,7 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case get_names_by_business_foreign_account_count do
           nil ->
@@ -3852,15 +3653,13 @@ defmodule Core.Services do
                 struct
                 |> BusinessForeignAccountCount.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_business_foreign_account_count, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> BusinessForeignAccountCount.changeset(attrs)
@@ -3872,34 +3671,7 @@ defmodule Core.Services do
                 |> Repo.update()
             end
         end
-      true ->
-        case get_names_by_business_foreign_account_count do
-          nil ->
-            case Map.keys(attrs) do
-              [:name] ->
-                struct
-                |> BusinessForeignAccountCount.changeset(attrs)
-                |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
-            end
-          _ ->
-            case Map.keys(attrs) do
-              [:name] ->
-                case Enum.any?(get_names_by_business_foreign_account_count, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
-                  false ->
-                    struct
-                    |> BusinessForeignAccountCount.changeset(attrs)
-                    |> Repo.update()
-                end
-              _ ->
-                struct
-                |> BusinessForeignAccountCount.changeset(attrs)
-                |> Repo.update()
-            end
-        end
+      true -> {:error, %Ecto.Changeset{}}
     end
   end
 
@@ -3985,24 +3757,19 @@ defmodule Core.Services do
   def create_business_foreign_ownership_count(attrs \\ %{}) do
     business_tax_return_ids =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
-        _ ->
-          Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
+        nil -> nil
+        _ -> Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          nil
-        _ ->
-          business_tax_return_ids.user_id
+        nil -> nil
+        _ -> business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -4014,8 +3781,7 @@ defmodule Core.Services do
 
     get_names_by_business_foreign_ownership_count =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessForeignOwnershipCount,
@@ -4026,20 +3792,17 @@ defmodule Core.Services do
 
     query =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BusinessForeignOwnershipCount,
           where: c.business_tax_return_id == ^attrs.business_tax_return_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_names_by_business_foreign_ownership_count, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -4055,20 +3818,7 @@ defmodule Core.Services do
                 {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
-      true ->
-        case Enum.any?(get_names_by_business_foreign_ownership_count, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
-          false ->
-            case Map.keys(attrs) do
-              [:business_tax_return_id, :name] ->
-                %BusinessForeignOwnershipCount{}
-                |> BusinessForeignOwnershipCount.changeset(attrs)
-                |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
-            end
-        end
+      true -> {:error, %Ecto.Changeset{}}
     end
   end
 
@@ -4088,24 +3838,19 @@ defmodule Core.Services do
   def update_business_foreign_ownership_count(%BusinessForeignOwnershipCount{} = struct, attrs) do
     business_tax_return_ids =
       case struct do
-        nil ->
-          {:error, [field: :id, message: "BusinessForeignOwnershipCount is null"]}
-        _ ->
-          Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
+        nil -> {:error, [field: :id, message: "BusinessForeignOwnershipCount is null"]}
+        _ -> Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
-        _ ->
-          business_tax_return_ids.user_id
+        nil -> {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
+        _ -> business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -4117,8 +3862,7 @@ defmodule Core.Services do
 
     get_names_by_business_foreign_ownership_count =
       case struct.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessForeignOwnershipCount,
@@ -4128,8 +3872,7 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case get_names_by_business_foreign_ownership_count do
           nil ->
@@ -4158,34 +3901,7 @@ defmodule Core.Services do
                 |> Repo.update()
             end
         end
-      true ->
-        case get_names_by_business_foreign_ownership_count do
-          nil ->
-            case Map.keys(attrs) do
-              [:name] ->
-                struct
-                |> BusinessForeignOwnershipCount.changeset(attrs)
-                |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
-            end
-          _ ->
-            case Map.keys(attrs) do
-              [:name] ->
-                case Enum.any?(get_names_by_business_foreign_ownership_count, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
-                  false ->
-                    struct
-                    |> BusinessForeignOwnershipCount.changeset(attrs)
-                    |> Repo.update()
-                end
-              _ ->
-                struct
-                |> BusinessForeignOwnershipCount.changeset(attrs)
-                |> Repo.update()
-            end
-        end
+      true -> {:error, %Ecto.Changeset{}}
     end
   end
 
@@ -4271,24 +3987,19 @@ defmodule Core.Services do
   def create_business_industry(attrs \\ %{}) do
     business_tax_return_ids =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
-        _ ->
-          Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
+        nil -> nil
+        _ -> Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          nil
-        _ ->
-          business_tax_return_ids.user_id
+        nil -> nil
+        _ -> business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -4300,8 +4011,7 @@ defmodule Core.Services do
 
     get_names_by_business_industry =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessIndustry,
@@ -4312,20 +4022,17 @@ defmodule Core.Services do
 
     query =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BusinessIndustry,
           where: c.business_tax_return_id == ^attrs.business_tax_return_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_names_by_business_industry, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -4335,24 +4042,20 @@ defmodule Core.Services do
                     |> BusinessIndustry.changeset(attrs)
                     |> Repo.insert()
                   _ ->
-                    {:error, %Ecto.Changeset{}}
-                end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+                    {:error, %Ecto.Changeset{}} end
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
       true ->
         case Enum.any?(get_names_by_business_industry, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case Map.keys(attrs) do
               [:business_tax_return_id, :name] ->
                 %BusinessIndustry{}
                 |> BusinessIndustry.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
+              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
             end
         end
     end
@@ -4374,24 +4077,19 @@ defmodule Core.Services do
   def update_business_industry(%BusinessIndustry{} = struct, attrs) do
     business_tax_return_ids =
       case struct do
-        nil ->
-          {:error, [field: :id, message: "BusinessIndustry is null"]}
-        _ ->
-          Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
+        nil -> {:error, [field: :id, message: "BusinessIndustry is null"]}
+        _ -> Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
-        _ ->
-          business_tax_return_ids.user_id
+        nil -> {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
+        _ -> business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -4403,8 +4101,7 @@ defmodule Core.Services do
 
     get_names_by_business_industry =
       case struct.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessIndustry,
@@ -4414,8 +4111,7 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case get_names_by_business_industry do
           nil ->
@@ -4424,15 +4120,13 @@ defmodule Core.Services do
                 struct
                 |> BusinessIndustry.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_business_industry, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> BusinessIndustry.changeset(attrs)
@@ -4452,15 +4146,13 @@ defmodule Core.Services do
                 struct
                 |> BusinessIndustry.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_business_industry, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> BusinessIndustry.changeset(attrs)
@@ -4557,24 +4249,19 @@ defmodule Core.Services do
   def create_business_llc_type(attrs \\ %{}) do
     business_tax_return_ids =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
-        _ ->
-          Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
+        nil -> nil
+        _ -> Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          nil
-        _ ->
-          business_tax_return_ids.user_id
+        nil -> nil
+        _ -> business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -4586,8 +4273,7 @@ defmodule Core.Services do
 
     get_names_by_business_llc_type =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessLlcType,
@@ -4598,20 +4284,17 @@ defmodule Core.Services do
 
     query =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BusinessLlcType,
           where: c.business_tax_return_id == ^attrs.business_tax_return_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_names_by_business_llc_type, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -4627,20 +4310,7 @@ defmodule Core.Services do
                 {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
-      true ->
-        case Enum.any?(get_names_by_business_llc_type, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
-          false ->
-            case Map.keys(attrs) do
-              [:business_tax_return_id, :name] ->
-                %BusinessLlcType{}
-                |> BusinessLlcType.changeset(attrs)
-                |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
-            end
-        end
+      true -> {:error, %Ecto.Changeset{}}
     end
   end
 
@@ -4660,24 +4330,19 @@ defmodule Core.Services do
   def update_business_llc_type(%BusinessLlcType{} = struct, attrs) do
     business_tax_return_ids =
       case struct do
-        nil ->
-          {:error, [field: :id, message: "BusinessLlcType is null"]}
-        _ ->
-          Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
+        nil -> {:error, [field: :id, message: "BusinessLlcType is null"]}
+        _ -> Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
-        _ ->
-          business_tax_return_ids.user_id
+        nil -> {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
+        _ -> business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -4689,8 +4354,7 @@ defmodule Core.Services do
 
     get_names_by_business_llc_type =
       case struct.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessLlcType,
@@ -4700,8 +4364,7 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case get_names_by_business_llc_type do
           nil ->
@@ -4710,15 +4373,13 @@ defmodule Core.Services do
                 struct
                 |> BusinessLlcType.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_business_llc_type, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> BusinessLlcType.changeset(attrs)
@@ -4730,34 +4391,7 @@ defmodule Core.Services do
                 |> Repo.update()
             end
         end
-      true ->
-        case get_names_by_business_llc_type do
-          nil ->
-            case Map.keys(attrs) do
-              [:name] ->
-                struct
-                |> BusinessLlcType.changeset(attrs)
-                |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
-            end
-          _ ->
-            case Map.keys(attrs) do
-              [:name] ->
-                case Enum.any?(get_names_by_business_llc_type, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
-                  false ->
-                    struct
-                    |> BusinessLlcType.changeset(attrs)
-                    |> Repo.update()
-                end
-              _ ->
-                struct
-                |> BusinessLlcType.changeset(attrs)
-                |> Repo.update()
-            end
-        end
+      true -> {:error, %Ecto.Changeset{}}
     end
   end
 
@@ -4843,24 +4477,19 @@ defmodule Core.Services do
   def create_business_number_employee(attrs \\ %{}) do
     business_tax_return_ids =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
-        _ ->
-          Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
+        nil -> nil
+        _ -> Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          nil
-        _ ->
-          business_tax_return_ids.user_id
+        nil -> nil
+        _ -> business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -4872,8 +4501,7 @@ defmodule Core.Services do
 
     get_names_by_business_number_employee =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessNumberEmployee,
@@ -4884,20 +4512,17 @@ defmodule Core.Services do
 
     query =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BusinessNumberEmployee,
           where: c.business_tax_return_id == ^attrs.business_tax_return_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_names_by_business_number_employee, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -4906,25 +4531,21 @@ defmodule Core.Services do
                     %BusinessNumberEmployee{}
                     |> BusinessNumberEmployee.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
       true ->
         case Enum.any?(get_names_by_business_number_employee, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case Map.keys(attrs) do
               [:business_tax_return_id, :name, :price] ->
                 %BusinessNumberEmployee{}
                 |> BusinessNumberEmployee.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
+              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
             end
         end
     end
@@ -4946,24 +4567,19 @@ defmodule Core.Services do
   def update_business_number_employee(%BusinessNumberEmployee{} = struct, attrs) do
     business_tax_return_ids =
       case struct do
-        nil ->
-          {:error, [field: :id, message: "BusinessNumberEmployee is null"]}
-        _ ->
-          Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
+        nil -> {:error, [field: :id, message: "BusinessNumberEmployee is null"]}
+        _ -> Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
-        _ ->
-          business_tax_return_ids.user_id
+        nil -> {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
+        _ -> business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -4975,8 +4591,7 @@ defmodule Core.Services do
 
     get_names_by_business_number_employee =
       case struct.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessNumberEmployee,
@@ -4986,8 +4601,7 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case get_names_by_business_number_employee do
           nil ->
@@ -4996,24 +4610,20 @@ defmodule Core.Services do
                 struct
                 |> BusinessNumberEmployee.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_business_number_employee, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> BusinessNumberEmployee.changeset(attrs)
                     |> Repo.update()
                 end
-              [:price] ->
-                {:error, %Ecto.Changeset{}}
-              [:name, :price] ->
-                {:error, %Ecto.Changeset{}}
+              [:price] -> {:error, %Ecto.Changeset{}}
+              [:name, :price] -> {:error, %Ecto.Changeset{}}
               _ ->
                 struct
                 |> BusinessNumberEmployee.changeset(attrs)
@@ -5028,15 +4638,13 @@ defmodule Core.Services do
                 struct
                 |> BusinessNumberEmployee.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_business_number_employee, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> BusinessNumberEmployee.changeset(attrs)
@@ -5048,8 +4656,7 @@ defmodule Core.Services do
                 |> Repo.update()
               [:name, :price] ->
                 case Enum.any?(get_names_by_business_number_employee, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> BusinessNumberEmployee.changeset(attrs)
@@ -5146,24 +4753,19 @@ defmodule Core.Services do
   def create_business_total_revenue(attrs \\ %{}) do
     business_tax_return_ids =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
-        _ ->
-          Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
+        nil -> nil
+        _ -> Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          nil
-        _ ->
-          business_tax_return_ids.user_id
+        nil -> nil
+        _ -> business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -5175,8 +4777,7 @@ defmodule Core.Services do
 
     get_names_by_business_total_revenue =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessTotalRevenue,
@@ -5187,20 +4788,17 @@ defmodule Core.Services do
 
     query =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BusinessTotalRevenue,
           where: c.business_tax_return_id == ^attrs.business_tax_return_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_names_by_business_total_revenue, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -5209,25 +4807,21 @@ defmodule Core.Services do
                     %BusinessTotalRevenue{}
                     |> BusinessTotalRevenue.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
       true ->
         case Enum.any?(get_names_by_business_total_revenue, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case Map.keys(attrs) do
               [:business_tax_return_id, :name, :price] ->
                 %BusinessTotalRevenue{}
                 |> BusinessTotalRevenue.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
+              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
             end
         end
     end
@@ -5249,24 +4843,20 @@ defmodule Core.Services do
   def update_business_total_revenue(%BusinessTotalRevenue{} = struct, attrs) do
     business_tax_return_ids =
       case struct do
-        nil ->
-          {:error, [field: :id, message: "BusinessTotalRevenue is null"]}
-        _ ->
-          Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
+        nil -> {:error, [field: :id, message: "BusinessTotalRevenue is null"]}
+        _ -> Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
+        nil -> {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
         _ ->
           business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -5278,8 +4868,7 @@ defmodule Core.Services do
 
     get_names_by_business_total_revenue =
       case struct.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessTotalRevenue,
@@ -5289,8 +4878,7 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case get_names_by_business_total_revenue do
           nil ->
@@ -5299,24 +4887,20 @@ defmodule Core.Services do
                 struct
                 |> BusinessTotalRevenue.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_business_total_revenue, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> BusinessTotalRevenue.changeset(attrs)
                     |> Repo.update()
                 end
-              [:price] ->
-                {:error, %Ecto.Changeset{}}
-              [:name, :price] ->
-                {:error, %Ecto.Changeset{}}
+              [:price] -> {:error, %Ecto.Changeset{}}
+              [:name, :price] -> {:error, %Ecto.Changeset{}}
               _ ->
                 struct
                 |> BusinessTotalRevenue.changeset(attrs)
@@ -5331,15 +4915,13 @@ defmodule Core.Services do
                 struct
                 |> BusinessTotalRevenue.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_business_total_revenue, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> BusinessTotalRevenue.changeset(attrs)
@@ -5351,8 +4933,7 @@ defmodule Core.Services do
                 |> Repo.update()
               [:name, :price] ->
                 case Enum.any?(get_names_by_business_total_revenue, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> BusinessTotalRevenue.changeset(attrs)
@@ -5449,24 +5030,21 @@ defmodule Core.Services do
   def create_business_transaction_count(attrs \\ %{}) do
     business_tax_return_ids =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -5478,8 +5056,7 @@ defmodule Core.Services do
 
     get_names_by_business_transaction_count =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessTransactionCount,
@@ -5490,20 +5067,17 @@ defmodule Core.Services do
 
     query =
       case attrs.business_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in BusinessTransactionCount,
           where: c.business_tax_return_id == ^attrs.business_tax_return_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_names_by_business_transaction_count, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -5515,24 +5089,10 @@ defmodule Core.Services do
                   _ ->
                     {:error, %Ecto.Changeset{}}
                 end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
-      true ->
-        case Enum.any?(get_names_by_business_transaction_count, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
-          false ->
-            case Map.keys(attrs) do
-              [:business_tax_return_id, :name] ->
-                %BusinessTransactionCount{}
-                |> BusinessTransactionCount.changeset(attrs)
-                |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
-            end
-        end
+      true -> {:error, %Ecto.Changeset{}}
     end
   end
 
@@ -5552,24 +5112,19 @@ defmodule Core.Services do
   def update_business_transaction_count(%BusinessTransactionCount{} = struct, attrs) do
     business_tax_return_ids =
       case struct do
-        nil ->
-          {:error, [field: :id, message: "BusinessTransactionCount is null"]}
-        _ ->
-          Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
+        nil -> {:error, [field: :id, message: "BusinessTransactionCount is null"]}
+        _ -> Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
       end
 
     user_id =
       case business_tax_return_ids do
-        nil ->
-          {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
-        _ ->
-          business_tax_return_ids.user_id
+        nil -> {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
+        _ -> business_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -5581,8 +5136,7 @@ defmodule Core.Services do
 
     get_names_by_business_transaction_count =
       case struct.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in BusinessTransactionCount,
@@ -5592,8 +5146,7 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case get_names_by_business_transaction_count do
           nil ->
@@ -5602,15 +5155,13 @@ defmodule Core.Services do
                 struct
                 |> BusinessTransactionCount.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_business_transaction_count, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> BusinessTransactionCount.changeset(attrs)
@@ -5622,34 +5173,7 @@ defmodule Core.Services do
                 |> Repo.update()
             end
         end
-      true ->
-        case get_names_by_business_transaction_count do
-          nil ->
-            case Map.keys(attrs) do
-              [:name] ->
-                struct
-                |> BusinessTransactionCount.changeset(attrs)
-                |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
-            end
-          _ ->
-            case Map.keys(attrs) do
-              [:name] ->
-                case Enum.any?(get_names_by_business_transaction_count, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
-                  false ->
-                    struct
-                    |> BusinessTransactionCount.changeset(attrs)
-                    |> Repo.update()
-                end
-              _ ->
-                struct
-                |> BusinessTransactionCount.changeset(attrs)
-                |> Repo.update()
-            end
-        end
+      true -> {:error, %Ecto.Changeset{}}
     end
   end
 
@@ -5735,8 +5259,7 @@ defmodule Core.Services do
   def create_individual_tax_return(attrs \\ @tp_individual_tax_return_attrs) do
     get_role_by_user =
       case attrs[:user_id] do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -5748,8 +5271,7 @@ defmodule Core.Services do
 
     query =
       case attrs[:user_id] do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in IndividualTaxReturn,
           where: c.user_id == ^attrs.user_id
@@ -5762,8 +5284,7 @@ defmodule Core.Services do
       IndividualTaxReturn.changeset(%IndividualTaxReturn{}, attrs)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :user_id) <= @limit_record do
           true ->
@@ -5813,8 +5334,7 @@ defmodule Core.Services do
                       {:error, _model, changeset, _completed} ->
                         {:error, extract_error_msg(changeset)}
                     end
-                  _ ->
-                    {:error, %Changeset{}}
+                  _ -> {:error, %Changeset{}}
                 end
               true ->
                 case sort_keys(attrs) do
@@ -5860,12 +5380,10 @@ defmodule Core.Services do
                       {:error, _model, changeset, _completed} ->
                         {:error, extract_error_msg(changeset)}
                     end
-                  _ ->
-                    {:error, %Changeset{}}
+                  _ -> {:error, %Changeset{}}
                 end
             end
-          false ->
-            {:error, [field: :user_id, message: "Your role have been restricted for create IndividualTaxReturn"]}
+          false -> {:error, [field: :user_id, message: "Your role have been restricted for create IndividualTaxReturn"]}
         end
       true ->
         case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
@@ -5904,8 +5422,7 @@ defmodule Core.Services do
                   {:error, _model, changeset, _completed} ->
                     {:error, extract_error_msg(changeset)}
                 end
-              _ ->
-                {:error, %Changeset{}}
+              _ -> {:error, %Changeset{}}
             end
           true ->
             case sort_keys(attrs) do
@@ -5941,8 +5458,7 @@ defmodule Core.Services do
                   {:error, _model, changeset, _completed} ->
                     {:error, extract_error_msg(changeset)}
                 end
-              _ ->
-                {:error, %Changeset{}}
+              _ -> {:error, %Changeset{}}
             end
         end
     end
@@ -5964,8 +5480,7 @@ defmodule Core.Services do
   def create_multi_individual_tax_return(attrs \\ @pro_individual_tax_return_attrs) do
     get_role_by_user =
       case attrs[:user_id] do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -5977,8 +5492,7 @@ defmodule Core.Services do
 
     query =
       case attrs[:user_id] do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in IndividualTaxReturn,
           where: c.user_id == ^attrs.user_id
@@ -5991,8 +5505,7 @@ defmodule Core.Services do
       IndividualTaxReturn.changeset(%IndividualTaxReturn{}, attrs)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :user_id) do
           0 ->
@@ -6032,8 +5545,7 @@ defmodule Core.Services do
                       Repo.insert(individual_stock_transaction_count_changeset)
                     end)
                     |> Repo.transaction()
-                  _ ->
-                    {:error, %Changeset{}}
+                  _ -> {:error, %Changeset{}}
                 end
               true ->
                 case sort_keys(attrs) do
@@ -6069,12 +5581,10 @@ defmodule Core.Services do
                       Repo.insert(individual_stock_transaction_count_changeset)
                     end)
                     |> Repo.transaction()
-                  _ ->
-                    {:error, %Changeset{}}
+                  _ -> {:error, %Changeset{}}
                 end
             end
-          _ ->
-            {:error, [field: :user_id, message: "Your role have been restricted for create IndividualTaxReturn"]}
+          _ -> {:error, [field: :user_id, message: "Your role have been restricted for create IndividualTaxReturn"]}
         end
       true ->
         case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
@@ -6186,8 +5696,7 @@ defmodule Core.Services do
   def update_individual_tax_return(%IndividualTaxReturn{} = struct, attrs) do
     get_role_by_user =
       case struct.user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -6199,8 +5708,7 @@ defmodule Core.Services do
 
     query =
       case struct.id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in IndividualTaxReturn,
           where: c.id == ^struct.id,
@@ -6243,16 +5751,14 @@ defmodule Core.Services do
       |> Map.drop(pro_params)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :id) do
           1 ->
             struct
             |> IndividualTaxReturn.changeset(tp_attrs)
             |> Repo.update()
-          _ ->
-            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+          _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
         end
       true ->
         struct
@@ -6295,16 +5801,14 @@ defmodule Core.Services do
 
         user_id =
           case struct do
-            nil ->
-              :error
+            nil -> :error
             _ ->
               struct.user_id
           end
 
         get_role_by_user =
           case user_id do
-            nil ->
-              nil
+            nil -> nil
             _ ->
               Repo.one(
                 from c in User,
@@ -6332,8 +5836,7 @@ defmodule Core.Services do
           |> Multi.update(:individual_tax_return, individual_tax_return_changeset)
           |> Multi.update(:individual_filing_status, fn %{individual_tax_return: _individual_tax_return} ->
             case get_role_by_user do
-              nil ->
-                :error
+              nil -> :error
               true ->
                 case is_nil(individual_filing_status_attrs[:individual_tax_return_id]) do
                   false ->
@@ -6471,8 +5974,7 @@ defmodule Core.Services do
   @spec get_individual_employment_status!(String.t) :: IndividualEmploymentStatus.t() | error_tuple()
   def get_individual_employment_status!(id) do
     Repo.get!(IndividualEmploymentStatus, id)
-    |> Repo.preload([:individual_tax_returns])
-    # |> Repo.preload([individual_tax_returns: [:user]])
+    |> Repo.preload([individual_tax_returns: [:user]])
   end
 
   @doc """
@@ -6491,24 +5993,21 @@ defmodule Core.Services do
   def create_individual_employment_status(attrs \\ %{}) do
     individual_tax_return_ids =
       case attrs.individual_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.get_by(IndividualTaxReturn, %{id: attrs.individual_tax_return_id})
       end
 
     user_id =
       case individual_tax_return_ids do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           individual_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -6520,8 +6019,7 @@ defmodule Core.Services do
 
     get_names_by_individual_employment_status =
       case attrs.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in IndividualEmploymentStatus,
@@ -6532,20 +6030,17 @@ defmodule Core.Services do
 
     query =
       case attrs.individual_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in IndividualEmploymentStatus,
           where: c.individual_tax_return_id == ^attrs.individual_tax_return_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_names_by_individual_employment_status, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -6554,25 +6049,21 @@ defmodule Core.Services do
                     %IndividualEmploymentStatus{}
                     |> IndividualEmploymentStatus.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
       true ->
         case Enum.any?(get_names_by_individual_employment_status, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case Map.keys(attrs) do
               [:individual_tax_return_id, :name, :price] ->
                 %IndividualEmploymentStatus{}
                 |> IndividualEmploymentStatus.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
+              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
             end
         end
     end
@@ -6594,24 +6085,20 @@ defmodule Core.Services do
   def update_individual_employment_status(%IndividualEmploymentStatus{} = struct, attrs) do
     individual_tax_return_ids =
       case struct do
-        nil ->
-          {:error, [field: :id, message: "IndividualEmploymentStatus is null"]}
-        _ ->
-          Repo.get_by(IndividualTaxReturn, %{id: struct.individual_tax_return_id})
+        nil -> {:error, [field: :id, message: "IndividualEmploymentStatus is null"]}
+        _ -> Repo.get_by(IndividualTaxReturn, %{id: struct.individual_tax_return_id})
       end
 
     user_id =
       case individual_tax_return_ids do
-        nil ->
-          {:error, [field: :individual_tax_return_id, message: "IndividualTaxReturn Not Found"]}
+        nil -> {:error, [field: :individual_tax_return_id, message: "IndividualTaxReturn Not Found"]}
         _ ->
           individual_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -6623,8 +6110,7 @@ defmodule Core.Services do
 
     get_names_by_individual_employment_status =
       case struct.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in IndividualEmploymentStatus,
@@ -6634,8 +6120,7 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case get_names_by_individual_employment_status do
           nil ->
@@ -6644,15 +6129,13 @@ defmodule Core.Services do
                 struct
                 |> IndividualEmploymentStatus.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_individual_employment_status, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> IndividualEmploymentStatus.changeset(attrs)
@@ -6676,15 +6159,13 @@ defmodule Core.Services do
                 struct
                 |> IndividualEmploymentStatus.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_individual_employment_status, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> IndividualEmploymentStatus.changeset(attrs)
@@ -6696,8 +6177,7 @@ defmodule Core.Services do
                 |> Repo.update()
               [:name, :price] ->
                 case Enum.any?(get_names_by_individual_employment_status, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> IndividualEmploymentStatus.changeset(attrs)
@@ -6794,24 +6274,21 @@ defmodule Core.Services do
   def create_individual_filing_status(attrs \\ %{}) do
     individual_tax_return_ids =
       case attrs.individual_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.get_by(IndividualTaxReturn, %{id: attrs.individual_tax_return_id})
       end
 
     user_id =
       case individual_tax_return_ids do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           individual_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -6823,8 +6300,7 @@ defmodule Core.Services do
 
     get_names_by_individual_filing_status =
       case attrs.individual_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in IndividualFilingStatus,
@@ -6835,20 +6311,17 @@ defmodule Core.Services do
 
     query =
       case attrs.individual_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in IndividualFilingStatus,
           where: c.individual_tax_return_id == ^attrs.individual_tax_return_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_names_by_individual_filing_status, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -6857,25 +6330,21 @@ defmodule Core.Services do
                     %IndividualFilingStatus{}
                     |> IndividualFilingStatus.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
       true ->
         case Enum.any?(get_names_by_individual_filing_status, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case Map.keys(attrs) do
               [:individual_tax_return_id, :name, :price] ->
                 %IndividualFilingStatus{}
                 |> IndividualFilingStatus.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
+              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
             end
         end
     end
@@ -6897,24 +6366,19 @@ defmodule Core.Services do
   def update_individual_filing_status(%IndividualFilingStatus{} = struct, attrs) do
     individual_tax_return_ids =
       case struct do
-        nil ->
-          {:error, [field: :id, message: "IndividualFilingStatus is null"]}
-        _ ->
-          Repo.get_by(IndividualTaxReturn, %{id: struct.individual_tax_return_id})
+        nil -> {:error, [field: :id, message: "IndividualFilingStatus is null"]}
+        _ -> Repo.get_by(IndividualTaxReturn, %{id: struct.individual_tax_return_id})
       end
 
     user_id =
       case individual_tax_return_ids do
-        nil ->
-          {:error, [field: :individual_tax_return_id, message: "IndividualTaxReturn Not Found"]}
-        _ ->
-          individual_tax_return_ids.user_id
+        nil -> {:error, [field: :individual_tax_return_id, message: "IndividualTaxReturn Not Found"]}
+        _ -> individual_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -6926,8 +6390,7 @@ defmodule Core.Services do
 
     get_names_by_individual_filing_status =
       case struct.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in IndividualFilingStatus,
@@ -6937,8 +6400,7 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case get_names_by_individual_filing_status do
           nil ->
@@ -6947,24 +6409,20 @@ defmodule Core.Services do
                 struct
                 |> IndividualFilingStatus.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_individual_filing_status, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> IndividualFilingStatus.changeset(attrs)
                     |> Repo.update()
                 end
-              [:price] ->
-                {:error, %Ecto.Changeset{}}
-              [:name, :price] ->
-                {:error, %Ecto.Changeset{}}
+              [:price] -> {:error, %Ecto.Changeset{}}
+              [:name, :price] -> {:error, %Ecto.Changeset{}}
               _ ->
                 struct
                 |> IndividualFilingStatus.changeset(attrs)
@@ -6979,15 +6437,13 @@ defmodule Core.Services do
                 struct
                 |> IndividualFilingStatus.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_individual_filing_status, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> IndividualFilingStatus.changeset(attrs)
@@ -6999,8 +6455,7 @@ defmodule Core.Services do
                 |> Repo.update()
               [:name, :price] ->
                 case Enum.any?(get_names_by_individual_filing_status, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> IndividualFilingStatus.changeset(attrs)
@@ -7116,24 +6571,19 @@ defmodule Core.Services do
   def update_individual_foreign_account_count(%IndividualForeignAccountCount{} = struct, attrs) do
     individual_tax_return_ids =
       case struct do
-        nil ->
-          {:error, [field: :id, message: "IndividualForeignAccountCount is null"]}
-        _ ->
-          Repo.get_by(IndividualTaxReturn, %{id: struct.individual_tax_return_id})
+        nil -> {:error, [field: :id, message: "IndividualForeignAccountCount is null"]}
+        _ -> Repo.get_by(IndividualTaxReturn, %{id: struct.individual_tax_return_id})
       end
 
     user_id =
       case individual_tax_return_ids do
-        nil ->
-          {:error, [field: :individual_tax_return_id, message: "IndividualTaxReturn Not Found"]}
-        _ ->
-          individual_tax_return_ids.user_id
+        nil -> {:error, [field: :individual_tax_return_id, message: "IndividualTaxReturn Not Found"]}
+        _ -> individual_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -7145,8 +6595,7 @@ defmodule Core.Services do
 
     get_names_by_individual_foreign_account_count =
       case struct.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in IndividualForeignAccountCount,
@@ -7156,8 +6605,7 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case get_names_by_individual_foreign_account_count do
           nil ->
@@ -7166,15 +6614,13 @@ defmodule Core.Services do
                 struct
                 |> IndividualForeignAccountCount.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_individual_foreign_account_count, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> IndividualForeignAccountCount.changeset(attrs)
@@ -7186,34 +6632,7 @@ defmodule Core.Services do
                 |> Repo.update()
             end
         end
-      true ->
-        case get_names_by_individual_foreign_account_count do
-          nil ->
-            case Map.keys(attrs) do
-              [:name] ->
-                struct
-                |> IndividualForeignAccountCount.changeset(attrs)
-                |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
-            end
-          _ ->
-            case Map.keys(attrs) do
-              [:name] ->
-                case Enum.any?(get_names_by_individual_foreign_account_count, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
-                  false ->
-                    struct
-                    |> IndividualForeignAccountCount.changeset(attrs)
-                    |> Repo.update()
-                end
-              _ ->
-                struct
-                |> IndividualForeignAccountCount.changeset(attrs)
-                |> Repo.update()
-            end
-        end
+      true -> {:error, %Ecto.Changeset{}}
     end
   end
 
@@ -7299,24 +6718,19 @@ defmodule Core.Services do
   def create_individual_industry(attrs \\ %{}) do
     individual_tax_return_ids =
       case attrs.individual_tax_return_id do
-        nil ->
-          nil
-        _ ->
-          Repo.get_by(IndividualTaxReturn, %{id: attrs.individual_tax_return_id})
+        nil -> nil
+        _ -> Repo.get_by(IndividualTaxReturn, %{id: attrs.individual_tax_return_id})
       end
 
     user_id =
       case individual_tax_return_ids do
-        nil ->
-          nil
-        _ ->
-          individual_tax_return_ids.user_id
+        nil -> nil
+        _ -> individual_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -7328,8 +6742,7 @@ defmodule Core.Services do
 
     get_names_by_individual_industry =
       case attrs.individual_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in IndividualIndustry,
@@ -7340,20 +6753,17 @@ defmodule Core.Services do
 
     query =
       case attrs.individual_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in IndividualIndustry,
           where: c.individual_tax_return_id == ^attrs.individual_tax_return_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_names_by_individual_industry, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -7362,25 +6772,21 @@ defmodule Core.Services do
                     %IndividualIndustry{}
                     |> IndividualIndustry.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
       true ->
         case Enum.any?(get_names_by_individual_industry, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case Map.keys(attrs) do
               [:individual_tax_return_id, :name] ->
                 %IndividualIndustry{}
                 |> IndividualIndustry.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
+              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
             end
         end
     end
@@ -7402,24 +6808,19 @@ defmodule Core.Services do
   def update_individual_industry(%IndividualIndustry{} = struct, attrs) do
     individual_tax_return_ids =
       case struct do
-        nil ->
-          {:error, [field: :id, message: "IndividualIndustry is null"]}
-        _ ->
-          Repo.get_by(IndividualTaxReturn, %{id: struct.individual_tax_return_id})
+        nil -> {:error, [field: :id, message: "IndividualIndustry is null"]}
+        _ -> Repo.get_by(IndividualTaxReturn, %{id: struct.individual_tax_return_id})
       end
 
     user_id =
       case individual_tax_return_ids do
-        nil ->
-          {:error, [field: :individual_tax_return_id, message: "IndividualTaxReturn Not Found"]}
-        _ ->
-          individual_tax_return_ids.user_id
+        nil -> {:error, [field: :individual_tax_return_id, message: "IndividualTaxReturn Not Found"]}
+        _ -> individual_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -7431,8 +6832,7 @@ defmodule Core.Services do
 
     get_names_by_individual_industry =
       case struct.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in IndividualIndustry,
@@ -7442,8 +6842,7 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case get_names_by_individual_industry do
           nil ->
@@ -7452,15 +6851,13 @@ defmodule Core.Services do
                 struct
                 |> IndividualIndustry.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_individual_industry, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> IndividualIndustry.changeset(attrs)
@@ -7480,15 +6877,13 @@ defmodule Core.Services do
                 struct
                 |> IndividualIndustry.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_individual_industry, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> IndividualIndustry.changeset(attrs)
@@ -7585,24 +6980,21 @@ defmodule Core.Services do
   def create_individual_itemized_deduction(attrs \\ %{}) do
     individual_tax_return_ids =
       case attrs.individual_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.get_by(IndividualTaxReturn, %{id: attrs.individual_tax_return_id})
       end
 
     user_id =
       case individual_tax_return_ids do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           individual_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -7614,8 +7006,7 @@ defmodule Core.Services do
 
     get_names_by_individual_itemized_deduction =
       case attrs.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in IndividualItemizedDeduction,
@@ -7625,34 +7016,29 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_names_by_individual_itemized_deduction, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist and not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist and not permission for new record"]}
           false ->
             case Map.keys(attrs) do
               [:individual_tax_return_id, :name] ->
                 %IndividualItemizedDeduction{}
                 |> IndividualItemizedDeduction.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
         end
       true ->
         case Enum.any?(get_names_by_individual_itemized_deduction, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case Map.keys(attrs) do
               [:individual_tax_return_id, :name, :price] ->
                 %IndividualItemizedDeduction{}
                 |> IndividualItemizedDeduction.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
         end
     end
@@ -7674,24 +7060,19 @@ defmodule Core.Services do
   def update_individual_itemized_deduction(%IndividualItemizedDeduction{} = struct, attrs) do
     individual_tax_return_ids =
       case struct do
-        nil ->
-          {:error, [field: :id, message: "IndividualItemizedDeduction is null"]}
-        _ ->
-          Repo.get_by(IndividualTaxReturn, %{id: struct.individual_tax_return_id})
+        nil -> {:error, [field: :id, message: "IndividualItemizedDeduction is null"]}
+        _ -> Repo.get_by(IndividualTaxReturn, %{id: struct.individual_tax_return_id})
       end
 
     user_id =
       case individual_tax_return_ids do
-        nil ->
-          {:error, [field: :individual_tax_return_id, message: "IndividualTaxReturn Not Found"]}
-        _ ->
-          individual_tax_return_ids.user_id
+        nil -> {:error, [field: :individual_tax_return_id, message: "IndividualTaxReturn Not Found"]}
+        _ -> individual_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -7703,8 +7084,7 @@ defmodule Core.Services do
 
     get_names_by_individual_itemized_deduction =
       case struct.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in IndividualItemizedDeduction,
@@ -7714,8 +7094,7 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case get_names_by_individual_itemized_deduction do
           nil ->
@@ -7724,24 +7103,20 @@ defmodule Core.Services do
                 struct
                 |> IndividualItemizedDeduction.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_individual_itemized_deduction, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> IndividualItemizedDeduction.changeset(attrs)
                     |> Repo.update()
                 end
-              [:price] ->
-                {:error, %Ecto.Changeset{}}
-              [:name, :price] ->
-                {:error, %Ecto.Changeset{}}
+              [:price] -> {:error, %Ecto.Changeset{}}
+              [:name, :price] -> {:error, %Ecto.Changeset{}}
               _ ->
                 struct
                 |> IndividualItemizedDeduction.changeset(attrs)
@@ -7756,15 +7131,13 @@ defmodule Core.Services do
                 struct
                 |> IndividualItemizedDeduction.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_individual_itemized_deduction, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> IndividualItemizedDeduction.changeset(attrs)
@@ -7776,8 +7149,7 @@ defmodule Core.Services do
                 |> Repo.update()
               [:name, :price] ->
                 case Enum.any?(get_names_by_individual_itemized_deduction, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> IndividualItemizedDeduction.changeset(attrs)
@@ -7874,24 +7246,21 @@ defmodule Core.Services do
   def create_individual_stock_transaction_count(attrs \\ %{}) do
     individual_tax_return_ids =
       case attrs.individual_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.get_by(IndividualTaxReturn, %{id: attrs.individual_tax_return_id})
       end
 
     user_id =
       case individual_tax_return_ids do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           individual_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -7903,8 +7272,7 @@ defmodule Core.Services do
 
     get_names_by_individual_stock_transaction_count =
       case attrs.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in IndividualStockTransactionCount,
@@ -7915,20 +7283,17 @@ defmodule Core.Services do
 
     query =
       case attrs.individual_tax_return_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in IndividualStockTransactionCount,
           where: c.individual_tax_return_id == ^attrs.individual_tax_return_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_names_by_individual_stock_transaction_count, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -7937,32 +7302,13 @@ defmodule Core.Services do
                     %IndividualStockTransactionCount{}
                     |> IndividualStockTransactionCount.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
               _ ->
                 {:error, [field: :id, message: "record already is exist not permission for new record"]}
             end
         end
-      true ->
-        case Enum.any?(get_names_by_individual_stock_transaction_count, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
-          false ->
-            case Repo.aggregate(query, :count, :id) do
-              0 ->
-                case Map.keys(attrs) do
-                  [:individual_tax_return_id, :name] ->
-                    %IndividualStockTransactionCount{}
-                    |> IndividualStockTransactionCount.changeset(attrs)
-                    |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
-                end
-              _ ->
-                {:error, [field: :id, message: "record already is exist and not permission for new record"]}
-            end
-        end
+      true -> {:error, %Ecto.Changeset{}}
     end
   end
 
@@ -7982,24 +7328,19 @@ defmodule Core.Services do
   def update_individual_stock_transaction_count(%IndividualStockTransactionCount{} = struct, attrs) do
     individual_tax_return_ids =
       case struct do
-        nil ->
-          {:error, [field: :id, message: "IndividualStockTransactionCount is null"]}
-        _ ->
-          Repo.get_by(IndividualTaxReturn, %{id: struct.individual_tax_return_id})
+        nil -> {:error, [field: :id, message: "IndividualStockTransactionCount is null"]}
+        _ -> Repo.get_by(IndividualTaxReturn, %{id: struct.individual_tax_return_id})
       end
 
     user_id =
       case individual_tax_return_ids do
-        nil ->
-          {:error, [field: :individual_tax_return_id, message: "IndividualTaxReturn Not Found"]}
-        _ ->
-          individual_tax_return_ids.user_id
+        nil -> {:error, [field: :individual_tax_return_id, message: "IndividualTaxReturn Not Found"]}
+        _ -> individual_tax_return_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -8011,8 +7352,7 @@ defmodule Core.Services do
 
     get_names_by_individual_stock_transaction_count =
       case struct.name do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in IndividualStockTransactionCount,
@@ -8022,8 +7362,7 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case get_names_by_individual_stock_transaction_count do
           nil ->
@@ -8032,15 +7371,13 @@ defmodule Core.Services do
                 struct
                 |> IndividualStockTransactionCount.changeset(attrs)
                 |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
+              _ -> {:error, %Ecto.Changeset{}}
             end
           _ ->
             case Map.keys(attrs) do
               [:name] ->
                 case Enum.any?(get_names_by_individual_stock_transaction_count, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
+                  true -> {:error, [field: :name, message: "Name already is exist"]}
                   false ->
                     struct
                     |> IndividualStockTransactionCount.changeset(attrs)
@@ -8052,34 +7389,7 @@ defmodule Core.Services do
                 |> Repo.update()
             end
         end
-      true ->
-        case get_names_by_individual_stock_transaction_count do
-          nil ->
-            case Map.keys(attrs) do
-              [:name] ->
-                struct
-                |> IndividualStockTransactionCount.changeset(attrs)
-                |> Repo.update()
-              _ ->
-                {:error, %Ecto.Changeset{}}
-            end
-          _ ->
-            case Map.keys(attrs) do
-              [:name] ->
-                case Enum.any?(get_names_by_individual_stock_transaction_count, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "Name already is exist"]}
-                  false ->
-                    struct
-                    |> IndividualStockTransactionCount.changeset(attrs)
-                    |> Repo.update()
-                end
-              _ ->
-                struct
-                |> IndividualStockTransactionCount.changeset(attrs)
-                |> Repo.update()
-            end
-        end
+      true -> {:error, %Ecto.Changeset{}}
     end
   end
 
@@ -8165,8 +7475,7 @@ defmodule Core.Services do
   def create_sale_tax(attrs \\ @tp_sale_tax_attrs) do
     get_role_by_user =
       case attrs[:user_id] do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -8178,8 +7487,7 @@ defmodule Core.Services do
 
     query =
       case attrs[:user_id] do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in SaleTax,
           where: c.user_id == ^attrs.user_id
@@ -8191,8 +7499,7 @@ defmodule Core.Services do
     sale_tax_changeset = SaleTax.changeset(%SaleTax{}, attrs)
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :user_id) do
           0 ->
@@ -8220,8 +7527,7 @@ defmodule Core.Services do
                       {:error, _model, changeset, _completed} ->
                         {:error, extract_error_msg(changeset)}
                     end
-                  _ ->
-                    {:error, %Changeset{}}
+                  _ -> {:error, %Changeset{}}
                 end
               true ->
                 case sort_keys(attrs) do
@@ -8245,12 +7551,10 @@ defmodule Core.Services do
                       {:error, _model, changeset, _completed} ->
                         {:error, extract_error_msg(changeset)}
                     end
-                  _ ->
-                    {:error, %Changeset{}}
+                  _ -> {:error, %Changeset{}}
                 end
             end
-          _ ->
-            {:error, [field: :user_id, message: "Your role have been restricted for create SaleTax"]}
+          _ -> {:error, [field: :user_id, message: "Your role have been restricted for create SaleTax"]}
         end
       true ->
         case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
@@ -8277,8 +7581,7 @@ defmodule Core.Services do
                   {:error, _model, changeset, _completed} ->
                     {:error, extract_error_msg(changeset)}
                 end
-              _ ->
-                {:error, %Changeset{}}
+              _ -> {:error, %Changeset{}}
             end
           true ->
             case sort_keys(attrs) do
@@ -8302,8 +7605,7 @@ defmodule Core.Services do
                   {:error, _model, changeset, _completed} ->
                     {:error, extract_error_msg(changeset)}
                 end
-              _ ->
-                {:error, %Changeset{}}
+              _ -> {:error, %Changeset{}}
             end
         end
     end
@@ -8325,8 +7627,7 @@ defmodule Core.Services do
   def update_sale_tax(%SaleTax{} = struct, attrs) do
     get_role_by_user =
       case struct.user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -8338,8 +7639,7 @@ defmodule Core.Services do
 
     query =
       case struct.id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in SaleTax,
           where: c.id == ^struct.id,
@@ -8355,16 +7655,14 @@ defmodule Core.Services do
       |> Map.drop([:financial_situation, :deadline, :sale_tax_count, :state, :user_id])
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Repo.aggregate(query, :count, :id) do
           1 ->
             struct
             |> SaleTax.changeset(tp_attrs)
             |> Repo.update()
-          _ ->
-            {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+          _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
         end
       true ->
         struct
@@ -8455,24 +7753,21 @@ defmodule Core.Services do
   def create_sale_tax_frequency(attrs \\ %{}) do
     sale_tax_ids =
       case attrs.sale_tax_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.get_by(SaleTax, %{id: attrs.sale_tax_id})
       end
 
     user_id =
       case sale_tax_ids do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           sale_tax_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -8484,8 +7779,7 @@ defmodule Core.Services do
 
     get_name_by_sale_tax_frequency =
       case attrs.sale_tax_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in SaleTaxFrequency,
@@ -8496,20 +7790,17 @@ defmodule Core.Services do
 
     query =
       case attrs.sale_tax_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in SaleTaxFrequency,
           where: c.sale_tax_id == ^attrs.sale_tax_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -8518,25 +7809,21 @@ defmodule Core.Services do
                     %SaleTaxFrequency{}
                     |> SaleTaxFrequency.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
       true ->
         case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case sort_keys(attrs) do
               @pro_sale_tax_frequency_params ->
                 %SaleTaxFrequency{}
                 |> SaleTaxFrequency.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
+              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
             end
         end
     end
@@ -8561,8 +7848,7 @@ defmodule Core.Services do
 
     get_role_by_user =
       case sale_tax.user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -8574,8 +7860,7 @@ defmodule Core.Services do
 
     get_name_by_sale_tax_frequency =
       case struct.sale_tax_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in SaleTaxFrequency,
@@ -8588,8 +7873,7 @@ defmodule Core.Services do
       |> Map.drop([:price])
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         case Map.has_key?(attrs, :name) do
           false -> {:error, %Changeset{}}
@@ -8598,16 +7882,14 @@ defmodule Core.Services do
               {:error, %Changeset{}}
             else
               case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == tp_attrs.name)) do
-                true ->
-                  {:error, [field: :name, message: "name already is exist or name more one, not permission for new record"]}
+                true -> {:error, [field: :name, message: "name already is exist or name more one, not permission for new record"]}
                 false ->
                   case sort_keys(tp_attrs) do
                     @tp_sale_tax_frequency_params ->
                       struct
                       |> SaleTaxFrequency.changeset(tp_attrs)
                       |> Repo.update()
-                    _ ->
-                      {:error, %Ecto.Changeset{}}
+                    _ -> {:error, %Ecto.Changeset{}}
                   end
               end
             end
@@ -8617,8 +7899,7 @@ defmodule Core.Services do
           true -> {:error, %Changeset{}}
           false  ->
             case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
-              true ->
-                {:error, [field: :name, message: "name already is exist, not permission for update record"]}
+              true -> {:error, [field: :name, message: "name already is exist, not permission for update record"]}
               false ->
                 struct
                 |> SaleTaxFrequency.changeset(attrs)
@@ -8710,24 +7991,21 @@ defmodule Core.Services do
   def create_sale_tax_industry(attrs \\ %{}) do
     sale_tax_ids =
       case attrs.sale_tax_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.get_by(SaleTax, %{id: attrs.sale_tax_id})
       end
 
     user_id =
       case sale_tax_ids do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           sale_tax_ids.user_id
       end
 
     get_role_by_user =
       case user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -8739,8 +8017,7 @@ defmodule Core.Services do
 
     get_name_by_sale_tax_industry =
       case attrs.sale_tax_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.all(
             from c in SaleTaxIndustry,
@@ -8751,20 +8028,17 @@ defmodule Core.Services do
 
     query =
       case attrs.sale_tax_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           from c in SaleTaxIndustry,
           where: c.sale_tax_id == ^attrs.sale_tax_id
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Ecto.Changeset{}}
+      nil -> {:error, %Ecto.Changeset{}}
       false ->
         case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) || Enum.count(attrs.name) > 1 do
-          true ->
-            {:error, [field: :name, message: "name already is exist or name more one, not permission for new record"]}
+          true -> {:error, [field: :name, message: "name already is exist or name more one, not permission for new record"]}
           false ->
             case Repo.aggregate(query, :count, :id) do
               0 ->
@@ -8773,25 +8047,21 @@ defmodule Core.Services do
                     %SaleTaxIndustry{}
                     |> SaleTaxIndustry.changeset(attrs)
                     |> Repo.insert()
-                  _ ->
-                    {:error, %Ecto.Changeset{}}
+                  _ -> {:error, %Ecto.Changeset{}}
                 end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
             end
         end
       true ->
         case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "Name already is exist"]}
+          true -> {:error, [field: :name, message: "Name already is exist"]}
           false ->
             case sort_keys(attrs) do
               @pro_sale_tax_industry_params ->
                 %SaleTaxIndustry{}
                 |> SaleTaxIndustry.changeset(attrs)
                 |> Repo.insert()
-              _ ->
-                {:error, [field: :id, message: "Please will fill are fields"]}
+              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
             end
         end
     end
@@ -8816,8 +8086,7 @@ defmodule Core.Services do
 
     get_role_by_user =
       case sale_tax.user_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in User,
@@ -8829,8 +8098,7 @@ defmodule Core.Services do
 
     get_name_by_sale_tax_industry =
       case struct.sale_tax_id do
-        nil ->
-          nil
+        nil -> nil
         _ ->
           Repo.one(
             from c in SaleTaxIndustry,
@@ -8840,8 +8108,7 @@ defmodule Core.Services do
       end
 
     case get_role_by_user do
-      nil ->
-        {:error, %Changeset{}}
+      nil -> {:error, %Changeset{}}
       false ->
         if is_nil(attrs.name) do
           {:error, %Changeset{}}
@@ -8851,8 +8118,7 @@ defmodule Core.Services do
             [:name] ->
               if Enum.count(attrs.name) == 1 do
                 case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) do
-                  true ->
-                    {:error, [field: :name, message: "name already is exist or name more one, not permission for update record"]}
+                  true -> {:error, [field: :name, message: "name already is exist or name more one, not permission for update record"]}
                   false ->
                     struct
                     |> SaleTaxIndustry.changeset(attrs)
@@ -8861,8 +8127,7 @@ defmodule Core.Services do
               else
                 {:error, %Changeset{}}
               end
-            _ ->
-              {:error, [field: :id, message: "Please filled the field out"]}
+            _ -> {:error, [field: :id, message: "Please filled the field out"]}
           end
         end
       true ->
@@ -8873,15 +8138,13 @@ defmodule Core.Services do
             [] -> {:error, %Changeset{}}
             [:name] ->
               case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) do
-                true ->
-                  {:error, [field: :name, message: "name already is exist, not permission for update record"]}
+                true -> {:error, [field: :name, message: "name already is exist, not permission for update record"]}
                 false ->
                   struct
                   |> SaleTaxIndustry.changeset(attrs)
                   |> Repo.update()
               end
-            _ ->
-              {:error, [field: :name, message: "Please filled the field out"]}
+            _ -> {:error, [field: :name, message: "Please filled the field out"]}
           end
         end
     end
@@ -8938,8 +8201,7 @@ defmodule Core.Services do
 
       get_role_by_user =
         case attrs_a[:user_id] == attrs_b[:user_id] do
-          false ->
-            nil
+          false -> nil
           true ->
             Repo.one(
               from c in User,
@@ -8951,8 +8213,7 @@ defmodule Core.Services do
 
       individual_query =
         case attrs_a[:user_id] do
-          nil ->
-            nil
+          nil -> nil
           _ ->
             from c in IndividualTaxReturn,
             where: c.user_id == ^attrs_a.user_id
@@ -8960,8 +8221,7 @@ defmodule Core.Services do
 
       business_query =
         case attrs_b[:user_id] do
-          nil ->
-            nil
+          nil -> nil
           _ ->
             from c in BusinessTaxReturn,
             where: c.user_id == ^attrs_b.user_id
@@ -8977,8 +8237,7 @@ defmodule Core.Services do
         BusinessTaxReturn.changeset(%BusinessTaxReturn{}, attrs_b)
 
       case get_role_by_user do
-        nil ->
-          {:error, %Changeset{}}
+        nil -> {:error, %Changeset{}}
         false ->
           case Repo.aggregate(business_query, :count, :user_id) || Repo.aggregate(individual_query, :count, :user_id) do
             0 ->
@@ -9020,8 +8279,7 @@ defmodule Core.Services do
                         Repo.insert(individual_stock_transaction_count_changeset)
                       end)
                       |> Repo.transaction()
-                    _ ->
-                      {:error, %Changeset{}}
+                    _ -> {:error, %Changeset{}}
                   end
 
                   case sort_keys(attrs_b) do
@@ -9069,8 +8327,7 @@ defmodule Core.Services do
                         Repo.insert(business_transaction_count_changeset)
                       end)
                       |> Repo.transaction()
-                    _ ->
-                      {:error, %Changeset{}}
+                    _ -> {:error, %Changeset{}}
                   end
                 true ->
                   case sort_keys(attrs_a) do
@@ -9108,8 +8365,7 @@ defmodule Core.Services do
                         Repo.insert(individual_stock_transaction_count_changeset)
                       end)
                       |> Repo.transaction()
-                    _ ->
-                      {:error, %Changeset{}}
+                    _ -> {:error, %Changeset{}}
                   end
 
                   case sort_keys(attrs_b) do
@@ -9204,12 +8460,10 @@ defmodule Core.Services do
                         {:error, _failed_operation, _failed_value, _changes_so_far} ->
                           {:error, :unhandled}
                       end
-                    _ ->
-                      {:error, %Changeset{}}
+                    _ -> {:error, %Changeset{}}
                   end
               end
-            _ ->
-              {:error, [field: :user_id, message: "Your role have been restricted for create BusinessTaxReturn"]}
+            _ -> {:error, [field: :user_id, message: "Your role have been restricted for create BusinessTaxReturn"]}
           end
         true ->
           case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
@@ -9240,8 +8494,7 @@ defmodule Core.Services do
                     Repo.insert(individual_itemized_deduction_changeset)
                   end)
                   |> Repo.transaction()
-                _ ->
-                  {:error, %Changeset{}}
+                _ -> {:error, %Changeset{}}
               end
 
               case sort_keys(attrs_b) do
@@ -9300,8 +8553,7 @@ defmodule Core.Services do
                     {:error, _failed_operation, _failed_value, _changes_so_far} ->
                       {:error, :unhandled}
                   end
-                _ ->
-                  {:error, %Changeset{}}
+                _ -> {:error, %Changeset{}}
               end
             true ->
               case sort_keys(attrs_a) do
@@ -9329,8 +8581,7 @@ defmodule Core.Services do
                     Repo.insert(individual_itemized_deduction_changeset)
                   end)
                   |> Repo.transaction()
-                _ ->
-                  {:error, %Changeset{}}
+                _ -> {:error, %Changeset{}}
               end
 
               case sort_keys(attrs_b) do
@@ -9387,18 +8638,19 @@ defmodule Core.Services do
                     {:error, _failed_operation, _failed_value, _changes_so_far} ->
                       {:error, :unhandled}
                   end
-                _ ->
-                  {:error, %Changeset{}}
+                _ -> {:error, %Changeset{}}
               end
           end
       end
   end
 
+  @spec sort_keys(%{atom => any}) :: %{atom => any}
   defp sort_keys(attrs) do
     Map.keys(attrs)
     |> Enum.sort
   end
 
+  @spec extract_error_msg(Ecto.Changeset.t()) :: list()
   defp extract_error_msg(changeset) do
     changeset.errors
     |> Enum.map(fn {field, {error, _details}} ->
