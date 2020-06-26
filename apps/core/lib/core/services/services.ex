@@ -2814,25 +2814,10 @@ defmodule Core.Services do
                     %BusinessEntityType{business_tax_return_id: business_tax_return.id}
                   Repo.insert(business_entity_type_changeset)
                 end)
-                |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
-                  business_foreign_account_count_changeset =
-                    %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
-                  Repo.insert(business_foreign_account_count_changeset)
-                end)
-                |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
-                  business_foreign_ownership_count_changeset =
-                    %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
-                  Repo.insert(business_foreign_ownership_count_changeset)
-                end)
                 |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
                   business_industry_changeset =
                     %BusinessIndustry{business_tax_return_id: business_tax_return.id}
                   Repo.insert(business_industry_changeset)
-                end)
-                |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
-                  business_llc_type_changeset =
-                    %BusinessLlcType{business_tax_return_id: business_tax_return.id}
-                  Repo.insert(business_llc_type_changeset)
                 end)
                 |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
                   business_number_employee_changeset =
@@ -2843,11 +2828,6 @@ defmodule Core.Services do
                   business_total_revenue_changeset =
                     %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
                   Repo.insert(business_total_revenue_changeset)
-                end)
-                |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
-                  business_transaction_count_changeset =
-                    %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
-                  Repo.insert(business_transaction_count_changeset)
                 end)
                 |> Repo.transaction()
                 |> case do
@@ -2871,25 +2851,10 @@ defmodule Core.Services do
                     %BusinessEntityType{business_tax_return_id: business_tax_return.id}
                   Repo.insert(business_entity_type_changeset)
                 end)
-                |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
-                  business_foreign_account_count_changeset =
-                    %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
-                  Repo.insert(business_foreign_account_count_changeset)
-                end)
-                |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
-                  business_foreign_ownership_count_changeset =
-                    %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
-                  Repo.insert(business_foreign_ownership_count_changeset)
-                end)
                 |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
                   business_industry_changeset =
                     %BusinessIndustry{business_tax_return_id: business_tax_return.id}
                   Repo.insert(business_industry_changeset)
-                end)
-                |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
-                  business_llc_type_changeset =
-                    %BusinessLlcType{business_tax_return_id: business_tax_return.id}
-                  Repo.insert(business_llc_type_changeset)
                 end)
                 |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
                   business_number_employee_changeset =
@@ -2900,11 +2865,6 @@ defmodule Core.Services do
                   business_total_revenue_changeset =
                     %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
                   Repo.insert(business_total_revenue_changeset)
-                end)
-                |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
-                  business_transaction_count_changeset =
-                    %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
-                  Repo.insert(business_transaction_count_changeset)
                 end)
                 |> Repo.transaction()
                 |> case do
@@ -3135,25 +3095,10 @@ defmodule Core.Services do
                       %BusinessEntityType{business_tax_return_id: business_tax_return.id}
                     Repo.insert(business_entity_type_changeset)
                   end)
-                  |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
-                    business_foreign_account_count_changeset =
-                      %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
-                    Repo.insert(business_foreign_account_count_changeset)
-                  end)
-                  |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
-                    business_foreign_ownership_count_changeset =
-                      %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
-                    Repo.insert(business_foreign_ownership_count_changeset)
-                  end)
                   |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
                     business_industry_changeset =
                       %BusinessIndustry{business_tax_return_id: business_tax_return.id}
                     Repo.insert(business_industry_changeset)
-                  end)
-                  |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
-                    business_llc_type_changeset =
-                      %BusinessLlcType{business_tax_return_id: business_tax_return.id}
-                    Repo.insert(business_llc_type_changeset)
                   end)
                   |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
                     business_number_employee_changeset =
@@ -3165,53 +3110,31 @@ defmodule Core.Services do
                       %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
                     Repo.insert(business_total_revenue_changeset)
                   end)
-                  |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
-                    business_transaction_count_changeset =
-                      %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
-                    Repo.insert(business_transaction_count_changeset)
-                  end)
-
                 case Repo.transaction(multi) do
                   {:ok, %{
                       business_entity_type: business_entity_type,
-                      business_foreign_account_count: business_foreign_account_count,
-                      business_foreign_ownership_count: business_foreign_ownership_count,
                       business_industry: business_industry,
-                      business_llc_type: business_llc_type,
                       business_number_employee: business_number_employee,
                       business_tax_returns: business_tax_return,
-                      business_total_revenue: business_total_revenue,
-                      business_transaction_count: business_transaction_count
+                      business_total_revenue: business_total_revenue
                     }} ->
                       {:ok,
                         business_entity_type,
-                        business_foreign_account_count,
-                        business_foreign_ownership_count,
                         business_industry,
-                        business_llc_type,
                         business_number_employee,
                         business_tax_return,
-                        business_total_revenue,
-                        business_transaction_count
+                        business_total_revenue
                       }
                   {:error, :business_tax_returns, %Changeset{} = changeset, %{}} ->
                     {:error, changeset}
-                  {:error, :business_foreign_account_count, %Changeset{} = changeset, %{}} ->
-                    {:error, :business_foreign_account_count, changeset}
-                  {:error, :business_foreign_ownership_count, %Changeset{} = changeset, %{}} ->
-                    {:error, :business_foreign_ownership_count, changeset}
                   {:error, :business_industry, %Changeset{} = changeset, %{}} ->
                     {:error, :business_industry, changeset}
                   {:error, :business_number_employee, %Changeset{} = changeset, %{}} ->
                     {:error, :business_number_employee, changeset}
                   {:error, :business_total_revenue, %Changeset{} = changeset, %{}} ->
                     {:error, :business_total_revenue, changeset}
-                  {:error, :business_transaction_count, %Changeset{} = changeset, %{}} ->
-                    {:error, :business_transaction_count, changeset}
                   {:error, :business_entity_type, %Changeset{} = changeset, %{}} ->
                     {:error, :business_entity_type, changeset}
-                  {:error, :business_llc_type, %Changeset{} = changeset, %{}} ->
-                    {:error, :business_llc_type, changeset}
                   {:error, :individual_tax_returns, %Changeset{} = changeset, %{}} ->
                     {:error, changeset}
                   {:error, _failed_operation, _failed_value, _changes_so_far} ->
@@ -3231,25 +3154,10 @@ defmodule Core.Services do
                       %BusinessEntityType{business_tax_return_id: business_tax_return.id}
                     Repo.insert(business_entity_type_changeset)
                   end)
-                  |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
-                    business_foreign_account_count_changeset =
-                      %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
-                    Repo.insert(business_foreign_account_count_changeset)
-                  end)
-                  |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
-                    business_foreign_ownership_count_changeset =
-                      %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
-                    Repo.insert(business_foreign_ownership_count_changeset)
-                  end)
                   |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
                     business_industry_changeset =
                       %BusinessIndustry{business_tax_return_id: business_tax_return.id}
                     Repo.insert(business_industry_changeset)
-                  end)
-                  |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
-                    business_llc_type_changeset =
-                      %BusinessLlcType{business_tax_return_id: business_tax_return.id}
-                    Repo.insert(business_llc_type_changeset)
                   end)
                   |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
                     business_number_employee_changeset =
@@ -3261,53 +3169,32 @@ defmodule Core.Services do
                       %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
                     Repo.insert(business_total_revenue_changeset)
                   end)
-                  |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
-                    business_transaction_count_changeset =
-                      %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
-                    Repo.insert(business_transaction_count_changeset)
-                  end)
 
                 case Repo.transaction(multi) do
                   {:ok, %{
                       business_entity_type: business_entity_type,
-                      business_foreign_account_count: business_foreign_account_count,
-                      business_foreign_ownership_count: business_foreign_ownership_count,
                       business_industry: business_industry,
-                      business_llc_type: business_llc_type,
                       business_number_employee: business_number_employee,
                       business_tax_returns: business_tax_return,
-                      business_total_revenue: business_total_revenue,
-                      business_transaction_count: business_transaction_count
+                      business_total_revenue: business_total_revenue
                     }} ->
                       {:ok,
                         business_entity_type,
-                        business_foreign_account_count,
-                        business_foreign_ownership_count,
                         business_industry,
-                        business_llc_type,
                         business_number_employee,
                         business_tax_return,
-                        business_total_revenue,
-                        business_transaction_count,
+                        business_total_revenue
                       }
                   {:error, :business_tax_returns, %Changeset{} = changeset, %{}} ->
                     {:error, changeset}
-                  {:error, :business_foreign_account_count, %Changeset{} = changeset, %{}} ->
-                    {:error, :business_foreign_account_count, changeset}
-                  {:error, :business_foreign_ownership_count, %Changeset{} = changeset, %{}} ->
-                    {:error, :business_foreign_ownership_count, changeset}
                   {:error, :business_industry, %Changeset{} = changeset, %{}} ->
                     {:error, :business_industry, changeset}
                   {:error, :business_number_employee, %Changeset{} = changeset, %{}} ->
                     {:error, :business_number_employee, changeset}
                   {:error, :business_total_revenue, %Changeset{} = changeset, %{}} ->
                     {:error, :business_total_revenue, changeset}
-                  {:error, :business_transaction_count, %Changeset{} = changeset, %{}} ->
-                    {:error, :business_transaction_count, changeset}
                   {:error, :business_entity_type, %Changeset{} = changeset, %{}} ->
                     {:error, :business_entity_type, changeset}
-                  {:error, :business_llc_type, %Changeset{} = changeset, %{}} ->
-                    {:error, :business_llc_type, changeset}
                   {:error, :individual_tax_returns, %Changeset{} = changeset, %{}} ->
                     {:error, changeset}
                   {:error, _failed_operation, _failed_value, _changes_so_far} ->
@@ -5998,11 +5885,6 @@ defmodule Core.Services do
                     %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
                   Repo.insert(individual_filing_status_changeset)
                 end)
-                |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                  individual_foreign_account_count_changeset =
-                    %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
-                  Repo.insert(individual_foreign_account_count_changeset)
-                end)
                 |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
                   individual_industry_changeset =
                     %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
@@ -6012,11 +5894,6 @@ defmodule Core.Services do
                   individual_itemized_deduction_changeset =
                     %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
                   Repo.insert(individual_itemized_deduction_changeset)
-                end)
-                |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                  individual_stock_transaction_count_changeset =
-                    %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
-                  Repo.insert(individual_stock_transaction_count_changeset)
                 end)
                 |> Repo.transaction()
                 |> case do
@@ -6045,11 +5922,6 @@ defmodule Core.Services do
                     %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
                   Repo.insert(individual_filing_status_changeset)
                 end)
-                |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                  individual_foreign_account_count_changeset =
-                    %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
-                  Repo.insert(individual_foreign_account_count_changeset)
-                end)
                 |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
                   individual_industry_changeset =
                     %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
@@ -6059,11 +5931,6 @@ defmodule Core.Services do
                   individual_itemized_deduction_changeset =
                     %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
                   Repo.insert(individual_itemized_deduction_changeset)
-                end)
-                |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                  individual_stock_transaction_count_changeset =
-                    %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
-                  Repo.insert(individual_stock_transaction_count_changeset)
                 end)
                 |> Repo.transaction()
                 |> case do
@@ -6217,9 +6084,6 @@ defmodule Core.Services do
                 Multi.new
                 |> Multi.insert(:match_value_relate, match_value_relate_changeset)
                 |> Multi.insert(:individual_tax_returns, individual_tax_return_changeset)
-                |> Multi.insert(:individual_foreign_account_count, fn %{individual_tax_returns: individual_tax_returns} ->
-                  Ecto.build_assoc(individual_tax_returns, :individual_foreign_account_counts)
-                end)
                 |> Multi.run(:individual_employment_status, fn _, %{individual_tax_returns: individual_tax_return} ->
                   individual_employment_status_changeset =
                     %IndividualEmploymentStatus{individual_tax_return_id: individual_tax_return.id}
@@ -6240,11 +6104,6 @@ defmodule Core.Services do
                     %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
                   Repo.insert(individual_itemized_deduction_changeset)
                 end)
-                |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                  individual_stock_transaction_count_changeset =
-                    %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
-                  Repo.insert(individual_stock_transaction_count_changeset)
-                end)
                 |> Repo.transaction()
               _ ->
                 {:error, %Changeset{}}
@@ -6255,9 +6114,6 @@ defmodule Core.Services do
                 multi =
                   Multi.new
                   |> Multi.insert(:individual_tax_returns, individual_tax_return_changeset)
-                  |> Multi.insert(:individual_foreign_account_count, fn %{individual_tax_returns: individual_tax_returns} ->
-                    Ecto.build_assoc(individual_tax_returns, :individual_foreign_account_counts)
-                  end)
                   |> Multi.run(:individual_employment_status, fn _, %{individual_tax_returns: individual_tax_return} ->
                     individual_employment_status_changeset =
                       %IndividualEmploymentStatus{individual_tax_return_id: individual_tax_return.id}
@@ -6278,30 +6134,21 @@ defmodule Core.Services do
                       %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
                     Repo.insert(individual_industry_changeset)
                   end)
-                  |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                    individual_stock_transaction_count_changeset =
-                      %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
-                    Repo.insert(individual_stock_transaction_count_changeset)
-                  end)
 
                 case Repo.transaction(multi) do
                   {:ok, %{
                       individual_tax_returns: individual_tax_return,
                       individual_employment_status: individual_employment_status,
                       individual_filing_status: individual_filing_status,
-                      individual_foreign_account_count: individual_foreign_account_count,
                       individual_industry: individual_industry,
-                      individual_itemized_deduction: individual_itemized_deduction,
-                      individual_stock_transaction_count: individual_stock_transaction_count
+                      individual_itemized_deduction: individual_itemized_deduction
                     }} ->
                       {:ok,
                         individual_tax_return,
                         individual_employment_status,
                         individual_filing_status,
-                        individual_foreign_account_count,
                         individual_industry,
-                        individual_itemized_deduction,
-                        individual_stock_transaction_count
+                        individual_itemized_deduction
                       }
                   {:error, :individual_tax_returns, %Changeset{} = changeset, %{}} ->
                     {:error, changeset}
@@ -6309,14 +6156,10 @@ defmodule Core.Services do
                     {:error, :individual_employment_status, changeset}
                   {:error, :individual_filing_status, %Changeset{} = changeset, %{}} ->
                     {:error, :individual_filing_status, changeset}
-                  {:error, :individual_foreign_account_count, %Changeset{} = changeset, %{}} ->
-                    {:error, :individual_foreign_account_count, changeset}
                   {:error, :individual_industry, %Changeset{} = changeset, %{}} ->
                     {:error, :individual_industry, changeset}
                   {:error, :individual_itemized_deduction, %Changeset{} = changeset, %{}} ->
                     {:error, :individual_itemized_deduction, changeset}
-                  {:error, :individual_stock_transaction_count, %Changeset{} = changeset, %{}} ->
-                    {:error, :individual_stock_transaction_count, changeset}
                   {:error, _failed_operation, _failed_value, _changes_so_far} ->
                     {:error, :unhandled}
                 end
@@ -9386,11 +9229,6 @@ defmodule Core.Services do
                       %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
                     Repo.insert(individual_filing_status_changeset)
                   end)
-                  |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                    individual_foreign_account_count_changeset =
-                      %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
-                    Repo.insert(individual_foreign_account_count_changeset)
-                  end)
                   |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
                     individual_industry_changeset =
                       %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
@@ -9400,11 +9238,6 @@ defmodule Core.Services do
                     individual_itemized_deduction_changeset =
                       %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
                     Repo.insert(individual_itemized_deduction_changeset)
-                  end)
-                  |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                    individual_stock_transaction_count_changeset =
-                      %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
-                    Repo.insert(individual_stock_transaction_count_changeset)
                   end)
                   |> Repo.transaction()
                 _ ->
@@ -9421,25 +9254,10 @@ defmodule Core.Services do
                         %BusinessEntityType{business_tax_return_id: business_tax_return.id}
                       Repo.insert(business_entity_type_changeset)
                     end)
-                    |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_foreign_account_count_changeset =
-                        %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_foreign_account_count_changeset)
-                    end)
-                    |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_foreign_ownership_count_changeset =
-                        %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_foreign_ownership_count_changeset)
-                    end)
                     |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
                       business_industry_changeset =
                         %BusinessIndustry{business_tax_return_id: business_tax_return.id}
                       Repo.insert(business_industry_changeset)
-                    end)
-                    |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_llc_type_changeset =
-                        %BusinessLlcType{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_llc_type_changeset)
                     end)
                     |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
                       business_number_employee_changeset =
@@ -9451,53 +9269,32 @@ defmodule Core.Services do
                         %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
                       Repo.insert(business_total_revenue_changeset)
                     end)
-                    |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_transaction_count_changeset =
-                        %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_transaction_count_changeset)
-                    end)
 
                   case Repo.transaction(multi) do
                     {:ok, %{
                         business_entity_type: business_entity_type,
-                        business_foreign_account_count: business_foreign_account_count,
-                        business_foreign_ownership_count: business_foreign_ownership_count,
                         business_industry: business_industry,
-                        business_llc_type: business_llc_type,
                         business_number_employee: business_number_employee,
                         business_tax_returns: business_tax_return,
-                        business_total_revenue: business_total_revenue,
-                        business_transaction_count: business_transaction_count
+                        business_total_revenue: business_total_revenue
                       }} ->
                         {:ok,
                           business_entity_type,
-                          business_foreign_account_count,
-                          business_foreign_ownership_count,
                           business_industry,
-                          business_llc_type,
                           business_number_employee,
                           business_tax_return,
-                          business_total_revenue,
-                          business_transaction_count
+                          business_total_revenue
                         }
                     {:error, :business_tax_returns, %Changeset{} = changeset, %{}} ->
                       {:error, changeset}
-                    {:error, :business_foreign_account_count, %Changeset{} = changeset, %{}} ->
-                      {:error, :business_foreign_account_count, changeset}
-                    {:error, :business_foreign_ownership_count, %Changeset{} = changeset, %{}} ->
-                      {:error, :business_foreign_ownership_count, changeset}
                     {:error, :business_industry, %Changeset{} = changeset, %{}} ->
                       {:error, :business_industry, changeset}
                     {:error, :business_number_employee, %Changeset{} = changeset, %{}} ->
                       {:error, :business_number_employee, changeset}
                     {:error, :business_total_revenue, %Changeset{} = changeset, %{}} ->
                       {:error, :business_total_revenue, changeset}
-                    {:error, :business_transaction_count, %Changeset{} = changeset, %{}} ->
-                      {:error, :business_transaction_count, changeset}
                     {:error, :business_entity_type, %Changeset{} = changeset, %{}} ->
                       {:error, :business_entity_type, changeset}
-                    {:error, :business_llc_type, %Changeset{} = changeset, %{}} ->
-                      {:error, :business_llc_type, changeset}
                     {:error, :individual_tax_returns, %Changeset{} = changeset, %{}} ->
                       {:error, changeset}
                     {:error, _failed_operation, _failed_value, _changes_so_far} ->
@@ -9521,11 +9318,6 @@ defmodule Core.Services do
                       %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
                     Repo.insert(individual_filing_status_changeset)
                   end)
-                  |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                    individual_foreign_account_count_changeset =
-                      %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
-                    Repo.insert(individual_foreign_account_count_changeset)
-                  end)
                   |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
                     individual_industry_changeset =
                       %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
@@ -9535,11 +9327,6 @@ defmodule Core.Services do
                     individual_itemized_deduction_changeset =
                       %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
                     Repo.insert(individual_itemized_deduction_changeset)
-                  end)
-                  |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                    individual_stock_transaction_count_changeset =
-                      %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
-                    Repo.insert(individual_stock_transaction_count_changeset)
                   end)
                   |> Repo.transaction()
                 _ ->
@@ -9556,25 +9343,10 @@ defmodule Core.Services do
                         %BusinessEntityType{business_tax_return_id: business_tax_return.id}
                       Repo.insert(business_entity_type_changeset)
                     end)
-                    |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_foreign_account_count_changeset =
-                        %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_foreign_account_count_changeset)
-                    end)
-                    |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_foreign_ownership_count_changeset =
-                        %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_foreign_ownership_count_changeset)
-                    end)
                     |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
                       business_industry_changeset =
                         %BusinessIndustry{business_tax_return_id: business_tax_return.id}
                       Repo.insert(business_industry_changeset)
-                    end)
-                    |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_llc_type_changeset =
-                        %BusinessLlcType{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_llc_type_changeset)
                     end)
                     |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
                       business_number_employee_changeset =
@@ -9586,53 +9358,32 @@ defmodule Core.Services do
                         %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
                       Repo.insert(business_total_revenue_changeset)
                     end)
-                    |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_transaction_count_changeset =
-                        %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_transaction_count_changeset)
-                    end)
 
                   case Repo.transaction(multi) do
                     {:ok, %{
                         business_entity_type: business_entity_type,
-                        business_foreign_account_count: business_foreign_account_count,
-                        business_foreign_ownership_count: business_foreign_ownership_count,
                         business_industry: business_industry,
-                        business_llc_type: business_llc_type,
                         business_number_employee: business_number_employee,
                         business_tax_returns: business_tax_return,
-                        business_total_revenue: business_total_revenue,
-                        business_transaction_count: business_transaction_count
+                        business_total_revenue: business_total_revenue
                       }} ->
                         {:ok,
                           business_entity_type,
-                          business_foreign_account_count,
-                          business_foreign_ownership_count,
                           business_industry,
-                          business_llc_type,
                           business_number_employee,
                           business_tax_return,
-                          business_total_revenue,
-                          business_transaction_count
+                          business_total_revenue
                         }
                     {:error, :business_tax_returns, %Changeset{} = changeset, %{}} ->
                       {:error, changeset}
-                    {:error, :business_foreign_account_count, %Changeset{} = changeset, %{}} ->
-                      {:error, :business_foreign_account_count, changeset}
-                    {:error, :business_foreign_ownership_count, %Changeset{} = changeset, %{}} ->
-                      {:error, :business_foreign_ownership_count, changeset}
                     {:error, :business_industry, %Changeset{} = changeset, %{}} ->
                       {:error, :business_industry, changeset}
                     {:error, :business_number_employee, %Changeset{} = changeset, %{}} ->
                       {:error, :business_number_employee, changeset}
                     {:error, :business_total_revenue, %Changeset{} = changeset, %{}} ->
                       {:error, :business_total_revenue, changeset}
-                    {:error, :business_transaction_count, %Changeset{} = changeset, %{}} ->
-                      {:error, :business_transaction_count, changeset}
                     {:error, :business_entity_type, %Changeset{} = changeset, %{}} ->
                       {:error, :business_entity_type, changeset}
-                    {:error, :business_llc_type, %Changeset{} = changeset, %{}} ->
-                      {:error, :business_llc_type, changeset}
                     {:error, _failed_operation, _failed_value, _changes_so_far} ->
                       {:error, :unhandled}
                   end

@@ -427,21 +427,9 @@ defmodule Core.Accounts do
                 business_entity_type_changeset = %BusinessEntityType{business_tax_return_id: business_tax_return.id}
                 Repo.insert(business_entity_type_changeset)
               end)
-              |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
-                business_foreign_account_count_changeset = %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
-                Repo.insert(business_foreign_account_count_changeset)
-              end)
-              |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
-                business_foreign_ownership_count_changeset = %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
-                Repo.insert(business_foreign_ownership_count_changeset)
-              end)
               |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
                 business_industry_changeset = %BusinessIndustry{business_tax_return_id: business_tax_return.id}
                 Repo.insert(business_industry_changeset)
-              end)
-              |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
-                business_llc_type_changeset = %BusinessLlcType{business_tax_return_id: business_tax_return.id}
-                Repo.insert(business_llc_type_changeset)
               end)
               |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
                 business_number_employee_changeset = %BusinessNumberEmployee{business_tax_return_id: business_tax_return.id}
@@ -450,10 +438,6 @@ defmodule Core.Accounts do
               |> Multi.run(:business_total_revenue, fn _, %{business_tax_returns: business_tax_return} ->
                 business_total_revenue_changeset = %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
                 Repo.insert(business_total_revenue_changeset)
-              end)
-              |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
-                business_transaction_count_changeset = %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
-                Repo.insert(business_transaction_count_changeset)
               end)
               |> Multi.run(:individual_tax_returns, fn _, %{users: user} ->
                 individual_tax_return_changeset = %IndividualTaxReturn{user_id: user.id}
@@ -467,10 +451,6 @@ defmodule Core.Accounts do
                 individual_filing_status_changeset = %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
                 Repo.insert(individual_filing_status_changeset)
               end)
-              |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                individual_foreign_account_count_changeset = %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
-                Repo.insert(individual_foreign_account_count_changeset)
-              end)
               |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
                 individual_industry_changeset = %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
                 Repo.insert(individual_industry_changeset)
@@ -478,10 +458,6 @@ defmodule Core.Accounts do
               |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                 individual_itemized_deduction_changeset = %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
                 Repo.insert(individual_itemized_deduction_changeset)
-              end)
-              |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                individual_stock_transaction_count_changeset = %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
-                Repo.insert(individual_stock_transaction_count_changeset)
               end)
               |> Multi.run(:sale_taxes, fn _, %{users: user} ->
                 sale_tax_changeset = %SaleTax{user_id: user.id}
@@ -675,21 +651,9 @@ defmodule Core.Accounts do
                 business_entity_type_changeset = %BusinessEntityType{business_tax_return_id: business_tax_return.id}
                 Repo.insert(business_entity_type_changeset)
               end)
-              |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
-                business_foreign_account_count_changeset = %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
-                Repo.insert(business_foreign_account_count_changeset)
-              end)
-              |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
-                business_foreign_ownership_count_changeset = %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
-                Repo.insert(business_foreign_ownership_count_changeset)
-              end)
               |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
                 business_industry_changeset = %BusinessIndustry{business_tax_return_id: business_tax_return.id}
                 Repo.insert(business_industry_changeset)
-              end)
-              |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
-                business_llc_type_changeset = %BusinessLlcType{business_tax_return_id: business_tax_return.id}
-                Repo.insert(business_llc_type_changeset)
               end)
               |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
                 business_number_employee_changeset = %BusinessNumberEmployee{business_tax_return_id: business_tax_return.id}
@@ -698,10 +662,6 @@ defmodule Core.Accounts do
               |> Multi.run(:business_total_revenue, fn _, %{business_tax_returns: business_tax_return} ->
                 business_total_revenue_changeset = %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
                 Repo.insert(business_total_revenue_changeset)
-              end)
-              |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
-                business_transaction_count_changeset = %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
-                Repo.insert(business_transaction_count_changeset)
               end)
               |> Multi.run(:individual_tax_returns, fn _, %{users: user} ->
                 individual_tax_return_changeset = %IndividualTaxReturn{user_id: user.id}
@@ -715,10 +675,6 @@ defmodule Core.Accounts do
                 individual_filing_status_changeset = %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
                 Repo.insert(individual_filing_status_changeset)
               end)
-              |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                individual_foreign_account_count_changeset = %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
-                Repo.insert(individual_foreign_account_count_changeset)
-              end)
               |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
                 individual_industry_changeset = %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
                 Repo.insert(individual_industry_changeset)
@@ -726,10 +682,6 @@ defmodule Core.Accounts do
               |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
                 individual_itemized_deduction_changeset = %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
                 Repo.insert(individual_itemized_deduction_changeset)
-              end)
-              |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                individual_stock_transaction_count_changeset = %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
-                Repo.insert(individual_stock_transaction_count_changeset)
               end)
               |> Multi.run(:sale_taxes, fn _, %{users: user} ->
                 sale_tax_changeset = %SaleTax{user_id: user.id}
