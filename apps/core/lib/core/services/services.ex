@@ -547,7 +547,16 @@ defmodule Core.Services do
   @spec get_book_keeping!(String.t) :: BookKeeping.t() | error_tuple()
   def get_book_keeping!(id) do
     Repo.get!(BookKeeping, id)
-    |> Repo.preload([:user])
+    |> Repo.preload([
+      :user,
+      :book_keeping_additional_needs,
+      :book_keeping_annual_revenues,
+      :book_keeping_classify_inventories,
+      :book_keeping_industries,
+      :book_keeping_number_employees,
+      :book_keeping_transaction_volumes,
+      :book_keeping_type_clients
+    ])
   end
 
   @doc """

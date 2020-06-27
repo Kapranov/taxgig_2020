@@ -48,7 +48,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingsResolver do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action RoleClient"]]}
     else
       try do
-        case BookKeeping.find_role_by_user(id) do
+        case BookKeeping.by_role(id) do
           true ->
             {:error, nil}
           false ->
@@ -68,7 +68,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingsResolver do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action RolePro"]]}
     else
       try do
-        case BookKeeping.find_role_by_user(id) do
+        case BookKeeping.by_role(id) do
           true ->
             data = Services.get_book_keeping!(id)
             {:ok, data}

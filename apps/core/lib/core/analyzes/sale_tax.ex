@@ -30,7 +30,7 @@ defmodule Core.Analyzes.SaleTax do
   @spec check_price_sale_tax_count(nil) :: :error
   def check_price_sale_tax_count(id) when is_nil(id), do: :error
 
-  @spec check_price_sale_tax_count(word) :: map | :error
+  @spec check_price_sale_tax_count(word) :: %{word => integer} | :error
   def check_price_sale_tax_count(id) when not is_nil(id) do
     struct =
       try do
@@ -60,7 +60,7 @@ defmodule Core.Analyzes.SaleTax do
   @spec check_price_sale_tax_frequency(nil) :: :error
   def check_price_sale_tax_frequency(id) when is_nil(id), do: :error
 
-  @spec check_price_sale_tax_frequency(word) :: map | :error
+  @spec check_price_sale_tax_frequency(word) :: %{word => integer()} | :error
   def check_price_sale_tax_frequency(id) when not is_nil(id) do
     struct =
       try do
@@ -96,7 +96,7 @@ defmodule Core.Analyzes.SaleTax do
   @spec check_match_sale_tax_count(nil) :: :error
   def check_match_sale_tax_count(id) when is_nil(id), do: :error
 
-  @spec check_match_sale_tax_count(word) :: map | :error
+  @spec check_match_sale_tax_count(word) :: %{word => integer()} | :error
   def check_match_sale_tax_count(id) when not is_nil(id) do
     found =
       case find_match(:match_for_sale_tax_count) do
@@ -131,7 +131,7 @@ defmodule Core.Analyzes.SaleTax do
   @spec check_match_sale_tax_frequency(nil) :: :error
   def check_match_sale_tax_frequency(id) when is_nil(id), do: :error
 
-  @spec check_match_sale_tax_frequency(word) :: map | :error
+  @spec check_match_sale_tax_frequency(word) :: %{word => integer()} | :error
   def check_match_sale_tax_frequency(id) when not is_nil(id) do
     found =
       case find_match(:match_for_sale_tax_frequency) do
@@ -168,7 +168,7 @@ defmodule Core.Analyzes.SaleTax do
   @spec check_match_sale_tax_industry(nil) :: :error
   def check_match_sale_tax_industry(id) when is_nil(id), do: :error
 
-  @spec check_match_sale_tax_industry(word) :: map | :error
+  @spec check_match_sale_tax_industry(word) :: %{word => integer()} | :error
   def check_match_sale_tax_industry(id) when not is_nil(id) do
     found =
       case find_match(:match_for_sale_tax_industry) do
@@ -216,7 +216,7 @@ defmodule Core.Analyzes.SaleTax do
   @spec check_value_sale_tax_count(nil) :: :error
   def check_value_sale_tax_count(id) when is_nil(id), do: :error
 
-  @spec check_value_sale_tax_count(word) :: float | :error
+  @spec check_value_sale_tax_count(word) :: %{word => word} | :error
   def check_value_sale_tax_count(id) when not is_nil(id) do
     found =
       case find_match(:value_for_sale_tax_count) do
@@ -246,7 +246,7 @@ defmodule Core.Analyzes.SaleTax do
   @spec check_value_sale_tax_count :: :error
   def check_value_sale_tax_count, do: :error
 
-  @spec total_price(word) :: map
+  @spec total_price(word) :: %{word => integer()}
   def total_price(id) do
     # check_price_sale_tax_count(id)
     # check_price_sale_tax_frequency(id)
@@ -266,7 +266,7 @@ defmodule Core.Analyzes.SaleTax do
     Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
   end
 
-  @spec total_match(word) :: map
+  @spec total_match(word) :: %{word => integer()}
   def total_match(id) do
     # check_match_sale_tax_count(id)
     # check_match_sale_tax_frequency(id)
@@ -295,7 +295,7 @@ defmodule Core.Analyzes.SaleTax do
     Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
   end
 
-  @spec total_value(word) :: float | :error
+  @spec total_value(word) :: %{word => word} | :error
   def total_value(id) do
     # check_value_sale_tax_count(id)
 
@@ -305,7 +305,7 @@ defmodule Core.Analyzes.SaleTax do
     end
   end
 
-  @spec total_all(word) :: list
+  @spec total_all(word) :: [%{atom => word, atom => integer() | word}]
   def total_all(id) do
     price = total_price(id)
     match = total_match(id)
