@@ -5,8 +5,6 @@ defmodule Core.Services.IndividualTaxReturn do
 
   use Core.Model
 
-  alias Core.Accounts.User
-
   alias Core.{
     Accounts.User,
     Repo,

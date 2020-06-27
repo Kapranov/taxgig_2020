@@ -5,8 +5,6 @@ defmodule Core.Services.BookKeeping do
 
   use Core.Model
 
-  alias Core.Accounts.User
-
   alias Core.{
     Accounts.User,
     Repo,
