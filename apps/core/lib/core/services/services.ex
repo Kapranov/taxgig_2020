@@ -2513,7 +2513,17 @@ defmodule Core.Services do
   @spec get_business_tax_return!(String.t) :: BusinessTaxReturn.t() | error_tuple()
   def get_business_tax_return!(id) do
     Repo.get!(BusinessTaxReturn, id)
-    |> Repo.preload([:user])
+    |> Repo.preload([
+      :user,
+      :business_entity_types,
+      :business_foreign_account_counts,
+      :business_foreign_ownership_counts,
+      :business_industries,
+      :business_llc_types,
+      :business_number_employees,
+      :business_total_revenues,
+      :business_transaction_counts
+    ])
   end
 
   @doc """
