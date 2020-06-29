@@ -1872,7 +1872,12 @@ defmodule Core.Seeder.Updated.Services do
       "sales tax"
     ]
 
-    Enum.random(names)
+    result =
+      for i <- 0..1, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 
   @spec random_name_revenue() :: String.t()
@@ -1886,7 +1891,12 @@ defmodule Core.Seeder.Updated.Services do
       "Less than $100K"
     ]
 
-    Enum.random(names)
+    result =
+      for i <- 0..1, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 
   @spec random_name_classify_inventory() :: String.t()
@@ -1986,13 +1996,23 @@ defmodule Core.Seeder.Updated.Services do
       "51 - 100 employees"
     ]
 
-    Enum.random(names)
+    result =
+      for i <- 0..1, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 
   @spec random_name_transaction_volume() :: String.t()
   defp random_name_transaction_volume do
     names = ["1-25", "200+", "26-75", "76-199"]
-    Enum.random(names)
+    result =
+      for i <- 0..1, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 
   @spec random_name_type_client() :: String.t()
@@ -2006,7 +2026,12 @@ defmodule Core.Seeder.Updated.Services do
       "S-Corp"
     ]
 
-    Enum.random(names)
+    result =
+      for i <- 0..1, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 
   @spec random_name_entity_type() :: String.t()
@@ -2020,13 +2045,23 @@ defmodule Core.Seeder.Updated.Services do
       "Sole proprietorship"
     ]
 
-    Enum.random(names)
+    result =
+      for i <- 0..1, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 
   @spec random_name_count() :: String.t()
   defp random_name_count do
     names = ["1", "2-5", "5+"]
-    Enum.random(names)
+    result =
+      for i <- 0..1, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 
   @spec random_name_llc_type() :: String.t()
@@ -2039,19 +2074,34 @@ defmodule Core.Seeder.Updated.Services do
       "S-Corp"
     ]
 
-    Enum.random(names)
+    result =
+      for i <- 0..1, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 
   @spec random_name_transactions_count() :: String.t()
   defp random_name_transactions_count do
     names = ["1-10", "11-25", "26-75", "75+"]
-    Enum.random(names)
+    result =
+      for i <- 0..1, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 
   @spec random_name_employment_status() :: String.t()
   defp random_name_employment_status do
     names = ["employed", "self-employed", "unemployed"]
-    Enum.random(names)
+    result =
+      for i <- 0..1, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 
   @spec random_name_filling_status() :: String.t()
@@ -2064,7 +2114,12 @@ defmodule Core.Seeder.Updated.Services do
       "Single"
     ]
 
-    Enum.random(names)
+    result =
+      for i <- 0..1, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 
   @spec random_name_itemized_deduction() :: String.t()
@@ -2075,18 +2130,33 @@ defmodule Core.Seeder.Updated.Services do
       "Medical and dental expenses"
     ]
 
-    Enum.random(names)
+    result =
+      for i <- 0..1, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 
   @spec random_name_stock_transaction_count() :: String.t()
   defp random_name_stock_transaction_count do
     names = ["1-5", "100+", "51-100", "6-50"]
-    Enum.random(names)
+    result =
+      for i <- 0..1, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 
   @spec random_name_tax_frequency() :: String.t()
   defp random_name_tax_frequency do
     names = ["Annually", "Monthly", "Quarterly"]
-    Enum.random(names)
+    result =
+      for i <- 0..1, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
   end
 end
