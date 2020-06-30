@@ -18,76 +18,6 @@ defmodule Core.Analyzes.SaleTax do
   alias Decimal, as: D
 
   @type word() :: String.t()
-  @type message() :: atom()
-
-  ################################################################
-  ### _______________ THE WORLD IS NOT ENOUGH _________________###
-  ################################################################
-
-  # check_price_sale_tax_count(id)
-  # check_price_sale_tax_frequency(id)
-
-  @spec check_price_sale_tax_count(nil) :: :error
-  def check_price_sale_tax_count(id) when is_nil(id), do: :error
-
-  @spec check_price_sale_tax_count(word) :: %{word => integer} | :error
-  def check_price_sale_tax_count(id) when not is_nil(id) do
-    struct =
-      try do
-        Services.get_sale_tax!(id)
-      rescue
-        Ecto.NoResultsError -> :error
-      end
-    case struct do
-      :error -> :error
-      %SaleTax{user_id: user_id} ->
-        case SaleTax.by_role(id) do
-          false ->
-            count = by_count(SaleTax, user_id, false, :sale_tax_count)
-            price = by_counts(SaleTax, true, :price_sale_tax_count)
-            if is_nil(count), do: :error, else: for {k, v} <- price, into: %{}, do: {k, v * count}
-          true ->
-            price = by_count(SaleTax, user_id, true, :price_sale_tax_count)
-            count = by_counts(SaleTax, false, :sale_tax_count)
-            if is_nil(price), do: :error, else: for {k, v} <- count, into: %{}, do: {k, v  * price}
-        end
-    end
-  end
-
-  @spec check_price_sale_tax_count() :: :error
-  def check_price_sale_tax_count, do: :error
-
-  @spec check_price_sale_tax_frequency(nil) :: :error
-  def check_price_sale_tax_frequency(id) when is_nil(id), do: :error
-
-  @spec check_price_sale_tax_frequency(word) :: %{word => integer()} | :error
-  def check_price_sale_tax_frequency(id) when not is_nil(id) do
-    struct =
-      try do
-        Services.get_sale_tax!(id)
-      rescue
-        Ecto.NoResultsError -> :error
-      end
-    case struct do
-      :error -> :error
-      %SaleTax{user_id: user_id, sale_tax_frequencies: [%SaleTaxFrequency{price: price}]} ->
-        case SaleTax.by_role(id) do
-          false ->
-            name = by_name(SaleTax, SaleTaxFrequency, user_id, false, :sale_tax_id, :name)
-            price = if is_nil(name), do: nil, else: by_price(SaleTaxFrequency, SaleTax, true, :sale_tax_id, :name, :price, name)
-            data = if is_nil(price), do: :error, else: for {k, v} <- price, into: %{}, do: {k, v}
-            if is_nil(name), do: :error, else: data
-          true  ->
-            name = by_name(SaleTax, SaleTaxFrequency, user_id, true, :sale_tax_id, :name) |> to_string()
-            names = if is_nil(name), do: nil, else: by_names(SaleTaxFrequency, SaleTax, false, :sale_tax_id, :name, name)
-            data = if is_nil(names) or is_nil(price), do: :error, else: for {k} <- names, into: %{}, do: {k, price}
-            if is_nil(name), do: :error, else: data
-        end
-    end
-  end
-
-  @spec check_price_sale_tax_frequency() :: :error
-  def check_price_sale_tax_frequency, do: :error
 
   # check_match_sale_tax_count(id)
   # check_match_sale_tax_frequency(id)
@@ -96,7 +26,7 @@ defmodule Core.Analyzes.SaleTax do
   @spec check_match_sale_tax_count(nil) :: :error
   def check_match_sale_tax_count(id) when is_nil(id), do: :error
 
-  @spec check_match_sale_tax_count(word) :: %{word => integer()} | :error
+  @spec check_match_sale_tax_count(word) :: %{atom => word, atom => integer} | :error
   def check_match_sale_tax_count(id) when not is_nil(id) do
     found =
       case find_match(:match_for_sale_tax_count) do
@@ -131,7 +61,7 @@ defmodule Core.Analyzes.SaleTax do
   @spec check_match_sale_tax_frequency(nil) :: :error
   def check_match_sale_tax_frequency(id) when is_nil(id), do: :error
 
-  @spec check_match_sale_tax_frequency(word) :: %{word => integer()} | :error
+  @spec check_match_sale_tax_frequency(word) :: %{atom => word, atom => integer} | :error
   def check_match_sale_tax_frequency(id) when not is_nil(id) do
     found =
       case find_match(:match_for_sale_tax_frequency) do
@@ -168,7 +98,7 @@ defmodule Core.Analyzes.SaleTax do
   @spec check_match_sale_tax_industry(nil) :: :error
   def check_match_sale_tax_industry(id) when is_nil(id), do: :error
 
-  @spec check_match_sale_tax_industry(word) :: %{word => integer()} | :error
+  @spec check_match_sale_tax_industry(word) :: %{atom => word, atom => integer} | :error
   def check_match_sale_tax_industry(id) when not is_nil(id) do
     found =
       case find_match(:match_for_sale_tax_industry) do
@@ -211,12 +141,77 @@ defmodule Core.Analyzes.SaleTax do
   @spec check_match_sale_tax_industry :: :error
   def check_match_sale_tax_industry, do: :error
 
+  # check_price_sale_tax_count(id)
+  # check_price_sale_tax_frequency(id)
+
+  @spec check_price_sale_tax_count(nil) :: :error
+  def check_price_sale_tax_count(id) when is_nil(id), do: :error
+
+  @spec check_price_sale_tax_count(word) :: %{atom => word, atom => integer} | :error
+  def check_price_sale_tax_count(id) when not is_nil(id) do
+    struct =
+      try do
+        Services.get_sale_tax!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+    case struct do
+      :error -> :error
+      %SaleTax{user_id: user_id} ->
+        case SaleTax.by_role(id) do
+          false ->
+            count = by_count(SaleTax, user_id, false, :sale_tax_count)
+            price = by_counts(SaleTax, true, :price_sale_tax_count)
+            if is_nil(count), do: :error, else: for {k, v} <- price, into: %{}, do: {k, v * count}
+          true ->
+            price = by_count(SaleTax, user_id, true, :price_sale_tax_count)
+            count = by_counts(SaleTax, false, :sale_tax_count)
+            if is_nil(price), do: :error, else: for {k, v} <- count, into: %{}, do: {k, v  * price}
+        end
+    end
+  end
+
+  @spec check_price_sale_tax_count() :: :error
+  def check_price_sale_tax_count, do: :error
+
+  @spec check_price_sale_tax_frequency(nil) :: :error
+  def check_price_sale_tax_frequency(id) when is_nil(id), do: :error
+
+  @spec check_price_sale_tax_frequency(word) :: %{atom => word, atom => integer} | :error
+  def check_price_sale_tax_frequency(id) when not is_nil(id) do
+    struct =
+      try do
+        Services.get_sale_tax!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+    case struct do
+      :error -> :error
+      %SaleTax{user_id: user_id, sale_tax_frequencies: [%SaleTaxFrequency{price: price}]} ->
+        case SaleTax.by_role(id) do
+          false ->
+            name = by_name(SaleTax, SaleTaxFrequency, user_id, false, :sale_tax_id, :name)
+            price = if is_nil(name), do: nil, else: by_price(SaleTaxFrequency, SaleTax, true, :sale_tax_id, :name, :price, name)
+            data = if is_nil(price), do: :error, else: for {k, v} <- price, into: %{}, do: {k, v}
+            if is_nil(name), do: :error, else: data
+          true  ->
+            name = by_name(SaleTax, SaleTaxFrequency, user_id, true, :sale_tax_id, :name) |> to_string()
+            names = if is_nil(name), do: nil, else: by_names(SaleTaxFrequency, SaleTax, false, :sale_tax_id, :name, name)
+            data = if is_nil(names) or is_nil(price), do: :error, else: for {k} <- names, into: %{}, do: {k, price}
+            if is_nil(name), do: :error, else: data
+        end
+    end
+  end
+
+  @spec check_price_sale_tax_frequency() :: :error
+  def check_price_sale_tax_frequency, do: :error
+
   # check_value_sale_tax_count(id)
 
   @spec check_value_sale_tax_count(nil) :: :error
   def check_value_sale_tax_count(id) when is_nil(id), do: :error
 
-  @spec check_value_sale_tax_count(word) :: %{word => word} | :error
+  @spec check_value_sale_tax_count(word) :: %{atom => word, atom => float} | :error
   def check_value_sale_tax_count(id) when not is_nil(id) do
     found =
       case find_match(:value_for_sale_tax_count) do
@@ -246,92 +241,40 @@ defmodule Core.Analyzes.SaleTax do
   @spec check_value_sale_tax_count :: :error
   def check_value_sale_tax_count, do: :error
 
-  @spec total_price(word) :: %{word => integer()}
-  def total_price(id) do
-    # check_price_sale_tax_count(id)
-    # check_price_sale_tax_frequency(id)
-
-    cnt1 =
-      case check_price_sale_tax_count(id) do
-        :error -> %{}
-        _ -> check_price_sale_tax_count(id)
-      end
-
-    cnt2 =
-      case check_price_sale_tax_frequency(id) do
-        :error -> %{}
-        _ -> check_price_sale_tax_frequency(id)
-      end
-
-    Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
+  @spec total_all(word) :: [%{atom => word, atom => integer | float}]
+  def total_all(id) do
+    id
   end
 
-  @spec total_match(word) :: %{word => integer()}
+  @spec total_match(word) :: [%{atom => word, atom => float}]
   def total_match(id) do
     # check_match_sale_tax_count(id)
     # check_match_sale_tax_frequency(id)
     # check_match_sale_tax_industry(id)
-
-    cnt1 =
-      case check_match_sale_tax_count(id) do
-        :error -> %{}
-        _ -> check_match_sale_tax_count(id)
-      end
-
-    cnt2 =
-      case check_match_sale_tax_frequency(id) do
-        :error -> %{}
-        _ -> check_match_sale_tax_frequency(id)
-      end
-
-    rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
-
-    cnt3 =
-      case check_match_sale_tax_industry(id) do
-        :error -> %{}
-        _ -> check_match_sale_tax_industry(id)
-      end
-
-    Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
+    id
   end
 
-  @spec total_value(word) :: %{word => word} | :error
+  @spec total_price(word) :: [%{atom => word, atom => integer}]
+  def total_price(id) do
+    # check_price_sale_tax_count(id)
+    # check_price_sale_tax_frequency(id)
+    id
+  end
+
+  @spec total_value(word) :: [%{atom => word, atom => integer}]
   def total_value(id) do
     # check_value_sale_tax_count(id)
-
-    case check_value_sale_tax_count(id) do
-      :error -> %{}
-      _ -> check_value_sale_tax_count(id)
-    end
+    id
   end
 
-  @spec total_all(word) :: [%{atom => word, atom => integer() | word}]
-  def total_all(id) do
-    price = total_price(id)
-    match = total_match(id)
-    value = total_value(id)
-    data_price = for {k, v} <- price, into: [], do: %{id: k, sum_price: v}
-    data_match = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
-    data_value = for {k, v} <- value, into: [], do: %{id: k, sum_value: v}
-    List.flatten([data_value | [data_match | [data_price]]])
-  end
-
-  ################################################################
-  #_______________________ END THE WORLD ________________________#
-  ################################################################
-
-  ################################################################
-  #________________TAKE A BLUE Pill or RED Pill _________________#
-  ################################################################
-
-  @spec find_match(atom) :: integer() | float() | nil
+  @spec find_match(atom) :: integer | float | nil
   defp find_match(row) do
     q = from r in MatchValueRelate, select: {field(r, ^row)}
     [{data}] = Repo.all(q)
     data
   end
 
-  @spec by_count(map, word, boolean, atom) :: integer() | nil
+  @spec by_count(map, word, boolean, atom) :: integer | nil
   defp by_count(struct, user_id, role, row) do
     try do
       Repo.one(
@@ -348,7 +291,7 @@ defmodule Core.Analyzes.SaleTax do
     end
   end
 
-  @spec by_counts(map, boolean, atom) :: [{word, integer()}] | [{word, float()}] | nil
+  @spec by_counts(map, boolean, atom) :: [{word, integer}] | [{word, float}] | nil
   defp by_counts(struct, role, row) do
     try do
       Repo.all(
@@ -416,7 +359,7 @@ defmodule Core.Analyzes.SaleTax do
     end
   end
 
-  @spec by_price(map, map, boolean, atom, atom, atom, word) :: [{word, integer()}] | [{word, float()}] | nil
+  @spec by_price(map, map, boolean, atom, atom, atom, word) :: [{word, integer}] | [{word, float}] | nil
   defp by_price(struct_a, struct_b, role, row_a, row_b, row_c, name) do
     try do
       Repo.all(
@@ -452,7 +395,7 @@ defmodule Core.Analyzes.SaleTax do
     end
   end
 
-  @spec decimal_mult(float(), integer()) :: word
+  @spec decimal_mult(float, integer) :: word
   defp decimal_mult(val1, val2) when is_integer(val1) do
     val1
     |> D.new()
@@ -460,6 +403,6 @@ defmodule Core.Analyzes.SaleTax do
     |> D.to_string
   end
 
-  @spec decimal_mult(any(), any()) :: nil
+  @spec decimal_mult(any, any) :: nil
   defp decimal_mult(_, _), do: nil
 end

@@ -24,11 +24,6 @@ defmodule Core.Analyzes.BusinessTaxReturn do
   alias Decimal, as: D
 
   @type word() :: String.t()
-  @type message() :: atom()
-
-  ################################################################
-  ### _______________ THE WORLD IS NOT ENOUGH _________________###
-  ################################################################
 
   # check_match_business_entity_type(id)
   # check_match_business_industry(id)
@@ -1090,101 +1085,31 @@ defmodule Core.Analyzes.BusinessTaxReturn do
   @spec check_value_total_asset_over :: :error
   def check_value_total_asset_over, do: :error
 
-  ################################################################
-  #_______________________ END THE WORLD ________________________#
-  ################################################################
-
-  @spec total_all(word) :: %{atom =>  integer | float} | :error
+  @spec total_all(word) :: [%{atom => word, atom => integer | float}]
   def total_all(id) do
     id
   end
 
-  @spec total_match(word) :: %{atom => integer} | :error
+  @spec total_match(word) :: [%{atom => integer}] | :error
   def total_match(id) do
     # check_match_business_entity_type(id)
     # check_match_business_industry(id)
     # check_match_business_number_of_employee(id)
     # check_match_business_total_revenue(id)
-
-    cnt1 =
-      case check_match_business_entity_type(id) do
-        :error -> %{}
-        _ -> check_match_business_entity_type(id)
-      end
-
-    cnt2 =
-      case check_match_business_industry(id) do
-        :error -> %{}
-        _ -> check_match_business_industry(id)
-      end
-
-    rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
-
-    cnt3 =
-      case check_match_business_number_of_employee(id) do
-        :error -> %{}
-        _ -> check_match_business_number_of_employee(id)
-      end
-
-    rst2 = Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
-
-    cnt4 =
-      case check_match_business_total_revenue(id) do
-        :error -> %{}
-        _ -> check_match_business_total_revenue(id)
-      end
-
-    Map.merge(rst2, cnt4, fn _k, v1, v2 -> v1 + v2 end)
+    id
   end
 
-  @spec total_price(word) :: %{atom => integer} | :error
+  @spec total_price(word) :: [%{atom => integer}] | :error
   def total_price(id) do
     # check_price_business_entity_type(id)
     # check_price_business_number_of_employee(id)
     # check_price_business_total_revenue(id)
     # check_price_state(id)
     # check_price_tax_year(id)
-
-    cnt1 =
-      case check_price_business_entity_type(id) do
-        :error -> %{}
-        _ -> check_price_business_entity_type(id)
-      end
-
-    cnt2 =
-      case check_price_business_number_of_employee(id) do
-        :error -> %{}
-        _ -> check_price_business_number_of_employee(id)
-      end
-
-    rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
-
-    cnt3 =
-      case check_price_business_total_revenue(id) do
-        :error -> %{}
-        _ -> check_price_business_total_revenue(id)
-      end
-
-    rst2 = Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
-
-    cnt4 =
-      case check_price_state(id) do
-        :error -> %{}
-        _ -> check_price_state(id)
-      end
-
-    rst3 = Map.merge(rst2, cnt4, fn _k, v1, v2 -> v1 + v2 end)
-
-    cnt5 =
-      case check_price_tax_year(id) do
-        :error -> %{}
-        _ -> check_price_tax_year(id)
-      end
-
-    Map.merge(rst3, cnt5, fn _k, v1, v2 -> v1 + v2 end)
+    id
   end
 
-  @spec total_value(word) :: %{atom => float} | :error
+  @spec total_value(word) :: [%{atom => float}] | :error
   def total_value(id) do
     # check_value_accounting_software(id)
     # check_value_business_entity_type(id)
@@ -1201,132 +1126,10 @@ defmodule Core.Analyzes.BusinessTaxReturn do
     # check_value_tax_exemption(id)
     # check_value_tax_year
     # check_value_total_asset_over(id)
-
-
-    val1 =
-      case check_value_accounting_software(id) do
-        :error -> D.new("0")
-        _ -> check_value_accounting_software(id)
-      end
-
-    val2 =
-      case check_value_business_entity_type(id) do
-        :error -> D.new("0")
-        _ -> check_value_business_entity_type(id)
-      end
-
-    rst1 = Map.merge(val1, val2, fn _k, v1, v2 -> v1 + v2 end)
-
-    val3 =
-      case check_value_business_foreign_ownership_count(id) do
-        :error -> D.new("0")
-        _ -> check_value_business_foreign_ownership_count(id)
-      end
-
-    rst2 = Map.merge(val3, rst1, fn _k, v1, v2 -> v1 + v2 end)
-
-    val4 =
-      case check_value_business_total_revenue(id) do
-        :error -> D.new("0")
-        _ -> check_value_business_total_revenue(id)
-      end
-
-    rst3 = Map.merge(val4, rst2, fn _k, v1, v2 -> v1 + v2 end)
-
-    val5 =
-      case check_value_business_transaction_count(id) do
-        :error -> D.new("0")
-        _ -> check_value_business_transaction_count(id)
-      end
-
-    rst4 = Map.merge(val5, rst3, fn _k, v1, v2 -> v1 + v2 end)
-
-    val6 =
-      case check_value_dispose_property(id) do
-        :error -> D.new("0")
-        _ -> check_value_dispose_property(id)
-      end
-
-    rst5 = Map.merge(val6, rst4, fn _k, v1, v2 -> v1 + v2 end)
-
-    val7 =
-      case check_value_foreign_shareholder(id) do
-        :error -> D.new("0")
-        _ -> check_value_foreign_shareholder(id)
-      end
-
-    rst6 = Map.merge(val7, rst5, fn _k, v1, v2 -> v1 + v2 end)
-
-    val8 =
-      case check_value_income_over_thousand(id) do
-        :error -> D.new("0")
-        _ -> check_value_income_over_thousand(id)
-      end
-
-    rst7 = Map.merge(val8, rst6, fn _k, v1, v2 -> v1 + v2 end)
-
-    val9 =
-      case check_value_invest_research(id) do
-        :error -> D.new("0")
-        _ -> check_value_invest_research(id)
-      end
-
-    rst8 = Map.merge(val9, rst7, fn _k, v1, v2 -> v1 + v2 end)
-
-    val10 =
-      case check_value_k1_count(id) do
-          :error -> D.new("0")
-          _ -> check_value_k1_count(id)
-      end
-
-    rst9 = Map.merge(val10, rst8, fn _k, v1, v2 -> v1 + v2 end)
-
-    val11 =
-      case check_value_make_distribution(id) do
-        :error -> D.new("0")
-        _ -> check_value_make_distribution(id)
-      end
-
-    rst10 = Map.merge(val11, rst9, fn _k, v1, v2 -> v1 + v2 end)
-
-    val12 =
-      case check_value_state(id) do
-        :error -> D.new("0")
-        _ -> check_value_state(id)
-      end
-
-    rst11 = Map.merge(val12, rst10, fn _k, v1, v2 -> v1 + v2 end)
-
-    val13 =
-      case check_value_tax_exemption(id) do
-        :error -> D.new("0")
-        _ -> check_value_tax_exemption(id)
-      end
-
-    rst12 = Map.merge(val13, rst11, fn _k, v1, v2 -> v1 + v2 end)
-
-    val14 =
-      case check_value_tax_year(id) do
-        :error -> D.new("0")
-        _ -> check_value_tax_year(id)
-      end
-
-    rst13 = Map.merge(val14, rst12, fn _k, v1, v2 -> v1 + v2 end)
-
-    val15 =
-      case check_value_total_asset_over(id) do
-        :error -> D.new("0")
-        _ -> check_value_total_asset_over(id)
-      end
-
-    Map.merge(val15, rst13, fn _k, v1, v2 -> v1 + v2 end)
+    id
   end
 
-  ################################################################
-  #________________TAKE A BLUE Pill or RED Pill _________________#
-  ################################################################
-
-  @spec find_match(atom) :: integer() | float() | nil
+  @spec find_match(atom) :: integer | float | nil
   defp find_match(row) do
     q = from r in MatchValueRelate, select: {field(r, ^row)}
     [{data}] = Repo.all(q)
@@ -1369,7 +1172,7 @@ defmodule Core.Analyzes.BusinessTaxReturn do
     end
   end
 
-  @spec by_prices(map, boolean, atom) :: [{word, integer()}] | nil
+  @spec by_prices(map, boolean, atom) :: [{word, integer}] | nil
   defp by_prices(struct, role, row) do
     try do
       Repo.all(
@@ -1419,7 +1222,7 @@ defmodule Core.Analyzes.BusinessTaxReturn do
     end
   end
 
-  @spec by_values(map, boolean, boolean, atom) :: [{word, integer()}] | nil
+  @spec by_values(map, boolean, boolean, atom) :: [{word, integer}] | nil
   defp by_values(struct, role, value, row) do
     try do
       Repo.all(
@@ -1436,7 +1239,7 @@ defmodule Core.Analyzes.BusinessTaxReturn do
     end
   end
 
-  @spec by_counts(map, boolean, atom) :: [{word, integer()}] | [{word, float()}] | nil
+  @spec by_counts(map, boolean, atom) :: [{word, integer}] | [{word, float}] | nil
   defp by_counts(struct, role, row) do
     try do
       Repo.all(
@@ -1453,13 +1256,13 @@ defmodule Core.Analyzes.BusinessTaxReturn do
     end
   end
 
-  @spec decimal_mult(float(), integer()) :: word
+  @spec decimal_mult(float, integer) :: word
   defp decimal_mult(val1, val2) when is_integer(val1) do
     val1
     |> D.new()
     |> D.mult(val2)
   end
 
-  @spec decimal_mult(any(), any()) :: nil
+  @spec decimal_mult(any, any) :: nil
   defp decimal_mult(_, _), do: nil
 end

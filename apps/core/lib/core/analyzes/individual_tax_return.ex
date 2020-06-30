@@ -21,7 +21,6 @@ defmodule Core.Analyzes.IndividualTaxReturn do
 #  alias Decimal, as: D
 #
 #  @type word() :: String.t()
-#  @type message() :: atom()
 
   ################################################################
   ### _______________ THE WORLD IS NOT ENOUGH _________________###

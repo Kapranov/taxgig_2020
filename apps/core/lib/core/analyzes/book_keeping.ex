@@ -22,240 +22,6 @@ defmodule Core.Analyzes.BookKeeping do
   alias Decimal, as: D
 
   @type word() :: String.t()
-  @type message() :: atom()
-
-  ################################################################
-  ### _______________ THE WORLD IS NOT ENOUGH _________________###
-  ################################################################
-
-  # check_price_payroll(id)
-  # check_price_book_keeping_additional_need(id)
-  # check_price_book_keeping_annual_revenue(id)
-  # check_price_book_keeping_number_employee(id)
-  # check_price_book_keeping_transaction_volume(id)
-  # check_price_book_keeping_type_client(id)
-
-  @spec check_price_payroll(nil) :: :error
-  def check_price_payroll(id) when is_nil(id), do: :error
-
-  @spec check_price_payroll(word) :: %{atom => word, atom => integer()} | :error
-  def check_price_payroll(id) when not is_nil(id) do
-    struct =
-      try do
-        Services.get_book_keeping!(id)
-      rescue
-        Ecto.NoResultsError -> :error
-      end
-
-    case struct do
-      :error -> :error
-      %BookKeeping{payroll: payroll, price_payroll: price_payroll} ->
-        case BookKeeping.by_role(id) do
-          false ->
-            if payroll == false || is_nil(payroll) do
-              :error
-            else
-              price = by_prices(BookKeeping, true, true, :payroll, :price_payroll)
-              for {k, v} <- price, into: %{}, do: {k, v}
-            end
-          true ->
-            if payroll == false || price_payroll <= 0 || is_nil(payroll) || is_nil(price_payroll) do
-              :error
-            else
-              payroll = by_payrolls(BookKeeping, false, true, :payroll)
-              for {k} <- payroll, into: %{}, do: {k, price_payroll}
-            end
-        end
-    end
-  end
-
-  @spec check_price_payroll :: :error
-  def check_price_payroll, do: :error
-
-  @spec check_price_book_keeping_additional_need(nil) :: :error
-  def check_price_book_keeping_additional_need(id) when is_nil(id), do: :error
-
-  @spec check_price_book_keeping_additional_need(word) :: %{atom => word, atom => integer()} | :error
-  def check_price_book_keeping_additional_need(id) when not is_nil(id) do
-    struct =
-      try do
-        Services.get_book_keeping!(id)
-      rescue
-        Ecto.NoResultsError -> :error
-      end
-
-    case struct do
-      :error -> :error
-      %BookKeeping{book_keeping_additional_needs: [%BookKeepingAdditionalNeed{name: name, price: price}]} ->
-        case BookKeeping.by_role(id) do
-          false ->
-            if is_nil(name) do
-              :error
-            else
-              data = by_names(BookKeepingAdditionalNeed, BookKeeping, true, :book_keeping_id, :name, :price, to_string(name))
-              for {k, v} <- data, into: %{}, do: {k, v}
-            end
-           true ->
-             if is_nil(name) || is_nil(price) || price <= 0 do
-               :error
-             else
-              data = by_name(BookKeepingAdditionalNeed, BookKeeping, false, :book_keeping_id, :name, to_string(name))
-              for {k} <- data, into: %{}, do: {k, price}
-             end
-        end
-    end
-  end
-
-  @spec check_price_book_keeping_additional_need :: :error
-  def check_price_book_keeping_additional_need, do: :error
-
-  @spec check_price_book_keeping_annual_revenue(nil) :: :error
-  def check_price_book_keeping_annual_revenue(id) when is_nil(id), do: :error
-
-  @spec check_price_book_keeping_annual_revenue(word) :: %{atom => word, atom => integer()} | :error
-  def check_price_book_keeping_annual_revenue(id) when not is_nil(id) do
-    struct =
-      try do
-        Services.get_book_keeping!(id)
-      rescue
-        Ecto.NoResultsError -> :error
-      end
-
-    case struct do
-      :error -> :error
-      %BookKeeping{book_keeping_annual_revenues: [%BookKeepingAnnualRevenue{name: name, price: price}]} ->
-        case BookKeeping.by_role(id) do
-          false ->
-            if is_nil(name) do
-              :error
-            else
-              data = by_names(BookKeepingAnnualRevenue, BookKeeping, true, :book_keeping_id, :name, :price, to_string(name))
-              for {k, v} <- data, into: %{}, do: {k, v}
-            end
-           true ->
-             if is_nil(name) || is_nil(price) || price <= 0 do
-               :error
-             else
-              data = by_name(BookKeepingAnnualRevenue, BookKeeping, false, :book_keeping_id, :name, to_string(name))
-              for {k} <- data, into: %{}, do: {k, price}
-             end
-        end
-    end
-  end
-
-  @spec check_price_book_keeping_annual_revenue :: :error
-  def check_price_book_keeping_annual_revenue, do: :error
-
-  @spec check_price_book_keeping_number_employee(nil) :: :error
-  def check_price_book_keeping_number_employee(id) when is_nil(id), do: :error
-
-  @spec check_price_book_keeping_number_employee(word) :: %{atom => word, atom => integer()} | :error
-  def check_price_book_keeping_number_employee(id) when not is_nil(id) do
-    struct =
-      try do
-        Services.get_book_keeping!(id)
-      rescue
-        Ecto.NoResultsError -> :error
-      end
-
-    case struct do
-      :error -> :error
-      %BookKeeping{book_keeping_number_employees: [%BookKeepingNumberEmployee{name: name, price: price}]} ->
-        case BookKeeping.by_role(id) do
-          false ->
-            if is_nil(name) do
-              :error
-            else
-              data = by_names(BookKeepingNumberEmployee, BookKeeping, true, :book_keeping_id, :name, :price, to_string(name))
-              for {k, v} <- data, into: %{}, do: {k, v}
-            end
-           true ->
-             if is_nil(name) || is_nil(price) || price <= 0 do
-               :error
-             else
-              data = by_name(BookKeepingNumberEmployee, BookKeeping, false, :book_keeping_id, :name, to_string(name))
-              for {k} <- data, into: %{}, do: {k, price}
-             end
-        end
-    end
-  end
-
-  @spec check_price_book_keeping_number_employee :: :error
-  def check_price_book_keeping_number_employee, do: :error
-
-  @spec check_price_book_keeping_transaction_volume(nil) :: :error
-  def check_price_book_keeping_transaction_volume(id) when is_nil(id), do: :error
-
-  @spec check_price_book_keeping_transaction_volume(word) :: %{atom => word, atom => integer()} | :error
-  def check_price_book_keeping_transaction_volume(id) when not is_nil(id) do
-    struct =
-      try do
-        Services.get_book_keeping!(id)
-      rescue
-        Ecto.NoResultsError -> :error
-      end
-
-    case struct do
-      :error -> :error
-      %BookKeeping{book_keeping_transaction_volumes: [%BookKeepingTransactionVolume{name: name, price: price}]} ->
-        case BookKeeping.by_role(id) do
-          false ->
-            if is_nil(name) do
-              :error
-            else
-              data = by_names(BookKeepingTransactionVolume, BookKeeping, true, :book_keeping_id, :name, :price, to_string(name))
-              for {k, v} <- data, into: %{}, do: {k, v}
-            end
-           true ->
-             if is_nil(name) || is_nil(price) || price <= 0 do
-               :error
-             else
-              data = by_name(BookKeepingTransactionVolume, BookKeeping, false, :book_keeping_id, :name, to_string(name))
-              for {k} <- data, into: %{}, do: {k, price}
-             end
-        end
-    end
-  end
-
-  @spec check_price_book_keeping_transaction_volume :: :error
-  def check_price_book_keeping_transaction_volume, do: :error
-
-  @spec check_price_book_keeping_type_client(nil) :: :error
-  def check_price_book_keeping_type_client(id) when is_nil(id), do: :error
-
-  @spec check_price_book_keeping_type_client(word) :: %{atom => word, atom => integer()} | :error
-  def check_price_book_keeping_type_client(id) when not is_nil(id) do
-    struct =
-      try do
-        Services.get_book_keeping!(id)
-      rescue
-        Ecto.NoResultsError -> :error
-      end
-
-    case struct do
-      :error -> :error
-      %BookKeeping{book_keeping_type_clients: [%BookKeepingTypeClient{name: name, price: price}]} ->
-        case BookKeeping.by_role(id) do
-          false ->
-            if is_nil(name) do
-              :error
-            else
-              data = by_names(BookKeepingTypeClient, BookKeeping, true, :book_keeping_id, :name, :price, to_string(name))
-              for {k, v} <- data, into: %{}, do: {k, v}
-            end
-           true ->
-             if is_nil(name) || is_nil(price) || price <= 0 do
-               :error
-             else
-              data = by_name(BookKeepingTypeClient, BookKeeping, false, :book_keeping_id, :name, to_string(name))
-              for {k} <- data, into: %{}, do: {k, price}
-             end
-        end
-    end
-  end
-
-  @spec check_price_book_keeping_type_client :: :error
-  def check_price_book_keeping_type_client, do: :error
 
   # check_match_payroll(id)
   # check_match_book_keeping_additional_need(id)
@@ -267,7 +33,7 @@ defmodule Core.Analyzes.BookKeeping do
   @spec check_match_payroll(nil) :: :error
   def check_match_payroll(id) when is_nil(id), do: :error
 
-  @spec check_match_payroll(word) :: %{atom => word, atom => integer()} | :error
+  @spec check_match_payroll(word) :: %{atom => word, atom => integer} | :error
   def check_match_payroll(id) when not is_nil(id) do
     found =
       case find_match(:match_for_book_keeping_payroll) do
@@ -353,7 +119,7 @@ defmodule Core.Analyzes.BookKeeping do
   @spec check_match_book_keeping_annual_revenue(nil) :: :error
   def check_match_book_keeping_annual_revenue(id) when is_nil(id), do: :error
 
-  @spec check_match_book_keeping_annual_revenue(word) :: integer | :error
+  @spec check_match_book_keeping_annual_revenue(word) :: %{atom => word, atom => integer} | :error
   def check_match_book_keeping_annual_revenue(id) when not is_nil(id) do
     found =
       case find_match(:match_for_book_keeping_annual_revenue) do
@@ -526,6 +292,235 @@ defmodule Core.Analyzes.BookKeeping do
 
   @spec check_match_book_keeping_type_client :: :error
   def check_match_book_keeping_type_client, do: :error
+
+  # check_price_payroll(id)
+  # check_price_book_keeping_additional_need(id)
+  # check_price_book_keeping_annual_revenue(id)
+  # check_price_book_keeping_number_employee(id)
+  # check_price_book_keeping_transaction_volume(id)
+  # check_price_book_keeping_type_client(id)
+
+  @spec check_price_payroll(nil) :: :error
+  def check_price_payroll(id) when is_nil(id), do: :error
+
+  @spec check_price_payroll(word) :: %{atom => word, atom => integer} | :error
+  def check_price_payroll(id) when not is_nil(id) do
+    struct =
+      try do
+        Services.get_book_keeping!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %BookKeeping{payroll: payroll, price_payroll: price_payroll} ->
+        case BookKeeping.by_role(id) do
+          false ->
+            if payroll == false || is_nil(payroll) do
+              :error
+            else
+              price = by_prices(BookKeeping, true, true, :payroll, :price_payroll)
+              for {k, v} <- price, into: %{}, do: {k, v}
+            end
+          true ->
+            if payroll == false || price_payroll <= 0 || is_nil(payroll) || is_nil(price_payroll) do
+              :error
+            else
+              payroll = by_payrolls(BookKeeping, false, true, :payroll)
+              for {k} <- payroll, into: %{}, do: {k, price_payroll}
+            end
+        end
+    end
+  end
+
+  @spec check_price_payroll :: :error
+  def check_price_payroll, do: :error
+
+  @spec check_price_book_keeping_additional_need(nil) :: :error
+  def check_price_book_keeping_additional_need(id) when is_nil(id), do: :error
+
+  @spec check_price_book_keeping_additional_need(word) :: %{atom => word, atom => integer} | :error
+  def check_price_book_keeping_additional_need(id) when not is_nil(id) do
+    struct =
+      try do
+        Services.get_book_keeping!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %BookKeeping{book_keeping_additional_needs: [%BookKeepingAdditionalNeed{name: name, price: price}]} ->
+        case BookKeeping.by_role(id) do
+          false ->
+            if is_nil(name) do
+              :error
+            else
+              data = by_names(BookKeepingAdditionalNeed, BookKeeping, true, :book_keeping_id, :name, :price, to_string(name))
+              for {k, v} <- data, into: %{}, do: {k, v}
+            end
+           true ->
+             if is_nil(name) || is_nil(price) || price <= 0 do
+               :error
+             else
+              data = by_name(BookKeepingAdditionalNeed, BookKeeping, false, :book_keeping_id, :name, to_string(name))
+              for {k} <- data, into: %{}, do: {k, price}
+             end
+        end
+    end
+  end
+
+  @spec check_price_book_keeping_additional_need :: :error
+  def check_price_book_keeping_additional_need, do: :error
+
+  @spec check_price_book_keeping_annual_revenue(nil) :: :error
+  def check_price_book_keeping_annual_revenue(id) when is_nil(id), do: :error
+
+  @spec check_price_book_keeping_annual_revenue(word) :: %{atom => word, atom => integer} | :error
+  def check_price_book_keeping_annual_revenue(id) when not is_nil(id) do
+    struct =
+      try do
+        Services.get_book_keeping!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %BookKeeping{book_keeping_annual_revenues: [%BookKeepingAnnualRevenue{name: name, price: price}]} ->
+        case BookKeeping.by_role(id) do
+          false ->
+            if is_nil(name) do
+              :error
+            else
+              data = by_names(BookKeepingAnnualRevenue, BookKeeping, true, :book_keeping_id, :name, :price, to_string(name))
+              for {k, v} <- data, into: %{}, do: {k, v}
+            end
+           true ->
+             if is_nil(name) || is_nil(price) || price <= 0 do
+               :error
+             else
+              data = by_name(BookKeepingAnnualRevenue, BookKeeping, false, :book_keeping_id, :name, to_string(name))
+              for {k} <- data, into: %{}, do: {k, price}
+             end
+        end
+    end
+  end
+
+  @spec check_price_book_keeping_annual_revenue :: :error
+  def check_price_book_keeping_annual_revenue, do: :error
+
+  @spec check_price_book_keeping_number_employee(nil) :: :error
+  def check_price_book_keeping_number_employee(id) when is_nil(id), do: :error
+
+  @spec check_price_book_keeping_number_employee(word) :: %{atom => word, atom => integer} | :error
+  def check_price_book_keeping_number_employee(id) when not is_nil(id) do
+    struct =
+      try do
+        Services.get_book_keeping!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %BookKeeping{book_keeping_number_employees: [%BookKeepingNumberEmployee{name: name, price: price}]} ->
+        case BookKeeping.by_role(id) do
+          false ->
+            if is_nil(name) do
+              :error
+            else
+              data = by_names(BookKeepingNumberEmployee, BookKeeping, true, :book_keeping_id, :name, :price, to_string(name))
+              for {k, v} <- data, into: %{}, do: {k, v}
+            end
+           true ->
+             if is_nil(name) || is_nil(price) || price <= 0 do
+               :error
+             else
+              data = by_name(BookKeepingNumberEmployee, BookKeeping, false, :book_keeping_id, :name, to_string(name))
+              for {k} <- data, into: %{}, do: {k, price}
+             end
+        end
+    end
+  end
+
+  @spec check_price_book_keeping_number_employee :: :error
+  def check_price_book_keeping_number_employee, do: :error
+
+  @spec check_price_book_keeping_transaction_volume(nil) :: :error
+  def check_price_book_keeping_transaction_volume(id) when is_nil(id), do: :error
+
+  @spec check_price_book_keeping_transaction_volume(word) :: %{atom => word, atom => integer} | :error
+  def check_price_book_keeping_transaction_volume(id) when not is_nil(id) do
+    struct =
+      try do
+        Services.get_book_keeping!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %BookKeeping{book_keeping_transaction_volumes: [%BookKeepingTransactionVolume{name: name, price: price}]} ->
+        case BookKeeping.by_role(id) do
+          false ->
+            if is_nil(name) do
+              :error
+            else
+              data = by_names(BookKeepingTransactionVolume, BookKeeping, true, :book_keeping_id, :name, :price, to_string(name))
+              for {k, v} <- data, into: %{}, do: {k, v}
+            end
+           true ->
+             if is_nil(name) || is_nil(price) || price <= 0 do
+               :error
+             else
+              data = by_name(BookKeepingTransactionVolume, BookKeeping, false, :book_keeping_id, :name, to_string(name))
+              for {k} <- data, into: %{}, do: {k, price}
+             end
+        end
+    end
+  end
+
+  @spec check_price_book_keeping_transaction_volume :: :error
+  def check_price_book_keeping_transaction_volume, do: :error
+
+  @spec check_price_book_keeping_type_client(nil) :: :error
+  def check_price_book_keeping_type_client(id) when is_nil(id), do: :error
+
+  @spec check_price_book_keeping_type_client(word) :: %{atom => word, atom => integer} | :error
+  def check_price_book_keeping_type_client(id) when not is_nil(id) do
+    struct =
+      try do
+        Services.get_book_keeping!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %BookKeeping{book_keeping_type_clients: [%BookKeepingTypeClient{name: name, price: price}]} ->
+        case BookKeeping.by_role(id) do
+          false ->
+            if is_nil(name) do
+              :error
+            else
+              data = by_names(BookKeepingTypeClient, BookKeeping, true, :book_keeping_id, :name, :price, to_string(name))
+              for {k, v} <- data, into: %{}, do: {k, v}
+            end
+           true ->
+             if is_nil(name) || is_nil(price) || price <= 0 do
+               :error
+             else
+              data = by_name(BookKeepingTypeClient, BookKeeping, false, :book_keeping_id, :name, to_string(name))
+              for {k} <- data, into: %{}, do: {k, price}
+             end
+        end
+    end
+  end
+
+  @spec check_price_book_keeping_type_client :: :error
+  def check_price_book_keeping_type_client, do: :error
 
   # check_value_payroll(id)
   # check_value_tax_year(id)
@@ -967,67 +962,12 @@ defmodule Core.Analyzes.BookKeeping do
   @spec check_value_book_keeping_type_client :: :error
   def check_value_book_keeping_type_client, do: :error
 
-  ################################################################
-  #_______________________ END THE WORLD ________________________#
-  ################################################################
-
-  @spec total_price(word) :: map | :error
-  def total_price(id) do
-    # check_price_payroll(id)
-    # check_price_book_keeping_additional_need(id)
-    # check_price_book_keeping_annual_revenue(id)
-    # check_price_book_keeping_number_employee(id)
-    # check_price_book_keeping_transaction_volume(id)
-    # check_price_book_keeping_type_client(id)
-
-    cnt1 =
-      case check_price_payroll(id) do
-        :error -> %{}
-        _ -> check_price_payroll(id)
-      end
-
-    cnt2 =
-      case check_price_book_keeping_additional_need(id) do
-        :error -> %{}
-        _ -> check_price_book_keeping_additional_need(id)
-      end
-
-    rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
-
-    cnt3 =
-      case check_price_book_keeping_annual_revenue(id) do
-        :error -> %{}
-        _ -> check_price_book_keeping_annual_revenue(id)
-      end
-
-    rst2 = Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
-
-    cnt4 =
-      case check_price_book_keeping_number_employee(id) do
-        :error -> %{}
-        _ -> check_price_book_keeping_number_employee(id)
-      end
-
-    rst3 = Map.merge(rst2, cnt4, fn _k, v1, v2 -> v1 + v2 end)
-
-    cnt5 =
-      case check_price_book_keeping_transaction_volume(id) do
-        :error -> %{}
-        _ -> check_price_book_keeping_transaction_volume(id)
-      end
-
-    rst4 = Map.merge(rst3, cnt5, fn _k, v1, v2 -> v1 + v2 end)
-
-    cnt6 =
-      case check_price_book_keeping_type_client(id) do
-        :error -> %{}
-        _ -> check_price_book_keeping_type_client(id)
-      end
-
-    Map.merge(rst4, cnt6, fn _k, v1, v2 -> v1 + v2 end)
+  @spec total_all(word) :: [%{atom => word, atom => integer | float}]
+  def total_all(id) do
+    id
   end
 
-  @spec total_match(word) :: map | :error
+  @spec total_match(word) :: [%{atom => word, atom => integer}]
   def total_match(id) do
     # check_match_payroll(id)
     # check_match_book_keeping_additional_need(id)
@@ -1035,55 +975,21 @@ defmodule Core.Analyzes.BookKeeping do
     # check_match_book_keeping_industry(id)
     # check_match_book_keeping_number_employee(id)
     # check_match_book_keeping_type_client(id)
-
-    cnt1 =
-      case check_match_payroll(id) do
-        :error -> %{}
-        _ -> check_match_payroll(id)
-      end
-
-    cnt2 =
-      case check_match_book_keeping_additional_need(id) do
-        :error -> %{}
-        _ -> check_match_book_keeping_additional_need(id)
-      end
-
-    rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
-
-    cnt3 =
-      case check_match_book_keeping_annual_revenue(id) do
-        :error -> %{}
-        _ -> check_match_book_keeping_annual_revenue(id)
-      end
-
-    rst2 = Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
-
-    cnt4 =
-      case check_match_book_keeping_industry(id) do
-        :error -> %{}
-        _ -> check_match_book_keeping_industry(id)
-      end
-
-    rst3 = Map.merge(rst2, cnt4, fn _k, v1, v2 -> v1 + v2 end)
-
-    cnt5 =
-      case check_match_book_keeping_number_employee(id) do
-        :error -> %{}
-        _ -> check_match_book_keeping_number_employee(id)
-      end
-
-    rst4 = Map.merge(rst3, cnt5, fn _k, v1, v2 -> v1 + v2 end)
-
-    cnt6 =
-      case check_match_book_keeping_type_client(id) do
-        :error -> %{}
-        _ -> check_match_book_keeping_type_client(id)
-      end
-
-    Map.merge(rst4, cnt6, fn _k, v1, v2 -> v1 + v2 end)
+    id
   end
 
-  @spec total_value(word) :: float | :error
+  @spec total_price(word) :: [%{atom => word, atom => integer}]
+  def total_price(id) do
+    # check_price_payroll(id)
+    # check_price_book_keeping_additional_need(id)
+    # check_price_book_keeping_annual_revenue(id)
+    # check_price_book_keeping_number_employee(id)
+    # check_price_book_keeping_transaction_volume(id)
+    # check_price_book_keeping_type_client(id)
+    id
+  end
+
+  @spec total_value(word) :: [%{atom => word, atom => float}]
   def total_value(id) do
     # check_value_payroll(id)
     # check_value_tax_year(id)
@@ -1092,82 +998,17 @@ defmodule Core.Analyzes.BookKeeping do
     # check_value_book_keeping_number_employee(id)
     # check_value_book_keeping_transaction_volume(id)
     # check_value_book_keeping_type_client(id)
-
-    val1 =
-      case check_value_payroll(id) do
-        :error -> D.new("0")
-        _ -> check_value_payroll(id)
-      end
-
-    val2 =
-      case check_value_tax_year(id) do
-        :error -> D.new("0")
-        _ -> check_value_tax_year(id)
-      end
-
-    val3 =
-      case check_value_book_keeping_additional_need(id) do
-        :error -> D.new("0")
-        _ -> check_value_book_keeping_additional_need(id)
-      end
-
-    val4 =
-      case check_value_book_keeping_annual_revenue(id) do
-        :error -> D.new("0")
-        _ -> check_value_book_keeping_annual_revenue(id)
-      end
-
-    val5 =
-      case check_value_book_keeping_number_employee(id) do
-        :error -> D.new("0")
-        _ -> check_value_book_keeping_number_employee(id)
-      end
-
-    val6 =
-      case check_value_book_keeping_transaction_volume(id) do
-        :error -> D.new("0")
-        _ -> check_value_book_keeping_transaction_volume(id)
-      end
-
-    val7 =
-      case check_value_book_keeping_type_client(id) do
-        :error -> D.new("0")
-        _ -> check_value_book_keeping_type_client(id)
-      end
-
-    result =
-      D.add(val1, val2)
-      |> D.add(val3)
-      |> D.add(val4)
-      |> D.add(val5)
-      |> D.add(val6)
-      |> D.add(val7)
-    Decimal.to_string(result)
+    id
   end
 
-  @spec total_all(word) :: map | :error
-  def total_all(id) do
-    price = total_price(id)
-    data1 = for {k, v} <- price, into: [], do: %{id: k, sum_price: v}
-    match = total_match(id)
-    data2 = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
-    value = total_value(id)
-    data3 = %{id: id, sum_value: value}
-    [data3 | [data2 | [data1]]] |> List.flatten
-  end
-
-  ################################################################
-  #________________TAKE A BLUE Pill or RED Pill _________________#
-  ################################################################
-
-  @spec find_match(atom) :: integer() | float() | nil
+  @spec find_match(atom) :: integer | float | nil
   defp find_match(row) do
     q = from r in MatchValueRelate, select: {field(r, ^row)}
     [{data}] = Repo.all(q)
     data
   end
 
-  @spec by_prices(map, boolean, boolean, atom, atom) :: [{word, integer()}] | nil
+  @spec by_prices(map, boolean, boolean, atom, atom) :: [{word, integer}] | nil
   defp by_prices(struct, role, value, row_a, row_b) do
     try do
       Repo.all(
@@ -1185,7 +1026,7 @@ defmodule Core.Analyzes.BookKeeping do
     end
   end
 
-  @spec by_payrolls(map, boolean, boolean, atom) :: [{word, integer()}] | nil
+  @spec by_payrolls(map, boolean, boolean, atom) :: [{word, integer}] | nil
   defp by_payrolls(struct, role, value, row) do
     try do
       Repo.all(
@@ -1272,7 +1113,7 @@ defmodule Core.Analyzes.BookKeeping do
     end
   end
 
-  @spec by_years(map, boolean, atom) :: [{word, integer()}] | nil
+  @spec by_years(map, boolean, atom) :: [{word, integer}] | nil
   defp by_years(struct, role, row) do
     try do
       Repo.all(
@@ -1288,7 +1129,7 @@ defmodule Core.Analyzes.BookKeeping do
     end
   end
 
-  @spec decimal_mult(float(), integer()) :: word
+  @spec decimal_mult(float, integer) :: word
   defp decimal_mult(val1, val2) when is_integer(val1) do
     val1
     |> D.new()
@@ -1296,6 +1137,6 @@ defmodule Core.Analyzes.BookKeeping do
     |> D.to_string
   end
 
-  @spec decimal_mult(any(), any()) :: nil
+  @spec decimal_mult(any, any) :: nil
   defp decimal_mult(_, _), do: nil
 end
