@@ -48,7 +48,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualTaxReturnsResolver do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Show"]]}
     else
       try do
-        case IndividualTaxReturn.find_role_by_user(id) do
+        case IndividualTaxReturn.by_role(id) do
           true ->
             {:error, nil}
           false ->
@@ -68,7 +68,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualTaxReturnsResolver do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Show"]]}
     else
       try do
-        case IndividualTaxReturn.find_role_by_user(id) do
+        case IndividualTaxReturn.by_role(id) do
           true ->
             data = Services.get_individual_tax_return!(id)
             {:ok, data}

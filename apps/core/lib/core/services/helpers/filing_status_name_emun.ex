@@ -7,4 +7,3 @@ defenum Core.Services.Helpers.FilingStatusNameEnum, :name, [
   "Qualifying widow(-er) with dependent child",
   "Single"
 ]
-

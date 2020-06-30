@@ -5259,7 +5259,15 @@ defmodule Core.Services do
   @spec get_individual_tax_return!(String.t) :: IndividualTaxReturn.t() | error_tuple()
   def get_individual_tax_return!(id) do
     Repo.get!(IndividualTaxReturn, id)
-    |> Repo.preload([:user])
+    |> Repo.preload([
+      :user,
+      :individual_employment_statuses,
+      :individual_filing_statuses,
+      :individual_foreign_account_counts,
+      :individual_industries,
+      :individual_itemized_deductions,
+      :individual_stock_transaction_counts
+    ])
   end
 
   @doc """

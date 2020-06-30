@@ -8,6 +8,7 @@ defmodule Core.Services.IndividualTaxReturn do
   alias Core.{
     Accounts.User,
     Repo,
+    Services,
     Services.IndividualEmploymentStatus,
     Services.IndividualFilingStatus,
     Services.IndividualForeignAccountCount,
@@ -154,52 +155,41 @@ defmodule Core.Services.IndividualTaxReturn do
   @doc """
   Share user's role.
   """
-  @spec find_role_by_user(word) :: boolean | {:error, nonempty_list(message)}
-  def find_role_by_user(id) when not is_nil(id) do
-    find_user =
-      Repo.get_by(IndividualTaxReturn, %{id: id})
 
-    user_id =
-      case find_user do
-        nil ->
-          {:error, [field: :id, message: "IndividualTaxReturn Not Found"]}
-        _ ->
-          find_user.user_id
+  @spec by_role(word) :: boolean | {:error, nonempty_list(message)}
+  def by_role(id) when not is_nil(id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
       end
 
-    user =
-      case find_user do
-        nil ->
-          nil
-        _ ->
-          Repo.one(
-            from c in User,
-            join: cu in IndividualTaxReturn,
-            where: c.id == ^user_id and cu.user_id == c.id
-          )
-      end
-
-    case user do
-      nil ->
-        {:error, [field: :user_id, message: "UserId Not Found in IndividualTaxReturn"]}
-      _ ->
-        case user.role do
-          true ->
-            true
-          false ->
-            false
-        end
+    case struct do
+      :error ->
+        {:error, [field: :user_id, message: "IndividualTaxReturn Not Found"]}
+      %IndividualTaxReturn{user_id: user_id} ->
+        with %User{role: role} <- by_user(user_id), do: role
     end
   end
 
-  @spec find_role_by_user(nil) :: {:error, nonempty_list(message)}
-  def find_role_by_user(id) when is_nil(id) do
-    {:error, [field: :id, message: "Can't be blank"]}
+  @spec by_role(nil) :: {:error, nonempty_list(message)}
+  def by_role(id) when is_nil(id) do
+    {:error, [field: :user_id, message: "Can't be blank"]}
   end
 
-  @spec find_role_by_user :: {:error, nonempty_list(message)}
-  def find_role_by_user do
-    {:error, [field: :id, message: "Can't be blank"]}
+  @spec by_role :: {:error, nonempty_list(message)}
+  def by_role do
+    {:error, [field: :user_id, message: "Can't be blank"]}
+  end
+
+  @spec by_user(word) :: Ecto.Schema.t() | nil
+  defp by_user(user_id) do
+    try do
+      Repo.one(from c in User, where: c.id == ^user_id)
+    rescue
+      Ecto.Query.CastError -> nil
+    end
   end
 
   @spec check_value_k1_count(word) :: float | {:error, nonempty_list(message)}

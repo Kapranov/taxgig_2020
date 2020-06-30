@@ -55,7 +55,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTaxReturnsResolver do
       {:error, [[field: :current_user, message: "Permission denied for current_user to perform action Create"]]}
     else
       try do
-        case BusinessTaxReturn.find_role_by_user(id) do
+        case BusinessTaxReturn.by_role(id) do
           true ->
             {:error, nil}
           false ->
@@ -75,7 +75,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTaxReturnsResolver do
       {:error, [[field: :current_user, message: "Permission denied for current_user to perform action Create"]]}
     else
       try do
-        case BusinessTaxReturn.find_role_by_user(id) do
+        case BusinessTaxReturn.by_role(id) do
           true ->
             data = Services.get_business_tax_return!(id)
             {:ok, data}

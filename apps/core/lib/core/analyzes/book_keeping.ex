@@ -99,14 +99,14 @@ defmodule Core.Analyzes.BookKeeping do
             if is_nil(name) do
               :error
             else
-              data = by_names(BookKeepingAdditionalNeed, BookKeeping, true, :book_keeping_id, :name, :price, to_string(name))
+              data = by_names(BookKeepingAdditionalNeed, BookKeeping, true, :book_keeping_id, :name, :price, name)
               for {k, _} <- data, into: %{}, do: {k, found}
             end
            true ->
              if is_nil(name) || is_nil(price) || price <= 0 do
                :error
              else
-              data = by_name(BookKeepingAdditionalNeed, BookKeeping, false, :book_keeping_id, :name, to_string(name))
+              data = by_name(BookKeepingAdditionalNeed, BookKeeping, false, :book_keeping_id, :name, name)
               for {k} <- data, into: %{}, do: {k, found}
              end
         end
@@ -505,14 +505,14 @@ defmodule Core.Analyzes.BookKeeping do
             if is_nil(name) do
               :error
             else
-              data = by_names(BookKeepingTypeClient, BookKeeping, true, :book_keeping_id, :name, :price, to_string(name))
+              data = by_names(BookKeepingTypeClient, BookKeeping, true, :book_keeping_id, :name, :price, name)
               for {k, v} <- data, into: %{}, do: {k, v}
             end
            true ->
              if is_nil(name) || is_nil(price) || price <= 0 do
                :error
              else
-              data = by_name(BookKeepingTypeClient, BookKeeping, false, :book_keeping_id, :name, to_string(name))
+              data = by_name(BookKeepingTypeClient, BookKeeping, false, :book_keeping_id, :name, name)
               for {k} <- data, into: %{}, do: {k, price}
              end
         end
