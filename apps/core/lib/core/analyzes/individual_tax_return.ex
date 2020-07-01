@@ -3,11 +3,9 @@ defmodule Core.Analyzes.IndividualTaxReturn do
   Analyze's IndividualTaxReturns.
   """
 
-  import Ecto.Query
+  import Core.Queries
 
   alias Core.{
-    Accounts.User,
-    Repo,
     Services,
     Services.IndividualEmploymentStatus,
     Services.IndividualFilingStatus,
@@ -15,8 +13,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
     Services.IndividualIndustry,
     Services.IndividualItemizedDeduction,
     Services.IndividualStockTransactionCount,
-    Services.IndividualTaxReturn,
-    Services.MatchValueRelate
+    Services.IndividualTaxReturn
   }
 
   alias Decimal, as: D
@@ -24,24 +21,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
   @type word() :: String.t()
 
   @phrase "self-employed"
-  @employed "employed"
-  @unemployed "unemployed"
-
-  ################################################################
-  ### _______________ THE WORLD IS NOT ENOUGH _________________###
-  ################################################################
-
-  # check_match_foreign_account(id)
-  # check_match_home_owner(id)
-  # check_match_individual_employment_status(id)
-  # check_match_individual_filing_status(id)
-  # check_match_individual_industry(id)
-  # check_match_individual_itemized_deduction(id)
-  # check_match_living_abroad(id)
-  # check_match_non_resident_earning(id)
-  # check_match_own_stock_crypto(id)
-  # check_match_rental_property_income(id)
-  # check_match_stock_divident(id)
+  @keys :"self-employed"
 
   @spec check_match_foreign_account(nil) :: :error
   def check_match_foreign_account(id) when is_nil(id), do: :error
@@ -66,14 +46,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{foreign_account: foreign_account, price_foreign_account: price_foreign_account} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if foreign_account == false || is_nil(foreign_account) || !is_nil(price_foreign_account)do
+            if is_nil(foreign_account) || !is_nil(price_foreign_account) || foreign_account == false do
               :error
             else
               data = by_prices(IndividualTaxReturn, true, true, :foreign_account, :price_foreign_account)
               for {k, _} <- data, into: %{}, do: {k, found}
             end
           true ->
-            if foreign_account == false || price_foreign_account <= 0 || is_nil(foreign_account) || is_nil(price_foreign_account) do
+            if is_nil(foreign_account) || is_nil(price_foreign_account) || foreign_account == false || price_foreign_account == 0 do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :foreign_account)
@@ -112,14 +92,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{home_owner: home_owner, price_home_owner: price_home_owner} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if home_owner == false || is_nil(home_owner) || !is_nil(price_home_owner)do
+            if is_nil(home_owner) || !is_nil(price_home_owner) || home_owner == false do
               :error
             else
               data = by_prices(IndividualTaxReturn, true, true, :home_owner, :price_home_owner)
               for {k, _} <- data, into: %{}, do: {k, found}
             end
           true ->
-            if home_owner == false || price_home_owner <= 0 || is_nil(home_owner) || is_nil(price_home_owner) do
+            if is_nil(home_owner) || is_nil(price_home_owner) || home_owner == false || price_home_owner == 0 do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :home_owner)
@@ -162,11 +142,11 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               for {k} <- data, into: %{}, do: {k, found}
             end
            true ->
-             if is_nil(name) || !is_nil(price) || price <= 1 do
+             if is_nil(name) || is_nil(price) || price == 0 do
+               :error
+             else
                data = by_phrase(IndividualEmploymentStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name)
                for {k} <- data, into: %{}, do: {k, found}
-             else
-               :error
              end
         end
     end
@@ -198,14 +178,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{individual_filing_statuses: [%IndividualFilingStatus{name: name, price: price}]} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if is_nil(name) do
+            if is_nil(name) || !is_nil(price) do
               :error
             else
               data = by_names(IndividualFilingStatus, IndividualTaxReturn, true, :individual_tax_return_id, :name, :price, name)
               for {k, _} <- data, into: %{}, do: {k, found}
             end
            true ->
-             if is_nil(name) || is_nil(price) || price <= 0 do
+             if is_nil(name) || is_nil(price) || price == 0 do
                :error
              else
               data = by_name(IndividualFilingStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name, name)
@@ -290,14 +270,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{individual_itemized_deductions: [%IndividualItemizedDeduction{name: name, price: price}]} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if is_nil(name) do
+            if is_nil(name) || !is_nil(price) do
               :error
             else
               data = by_names(IndividualItemizedDeduction, IndividualTaxReturn, true, :individual_tax_return_id, :name, :price, name)
               for {k, _} <- data, into: %{}, do: {k, found}
             end
            true ->
-             if is_nil(name) || is_nil(price) || price <= 0 do
+             if is_nil(name) || is_nil(price) || price == 0 do
                :error
              else
               data = by_name(IndividualItemizedDeduction, IndividualTaxReturn, false, :individual_tax_return_id, :name, name)
@@ -333,14 +313,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{living_abroad: living_abroad, price_living_abroad: price_living_abroad} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if living_abroad == false || is_nil(living_abroad) || !is_nil(price_living_abroad)do
+            if is_nil(living_abroad) || !is_nil(price_living_abroad) || living_abroad == false do
               :error
             else
               data = by_prices(IndividualTaxReturn, true, true, :living_abroad, :price_living_abroad)
               for {k, _} <- data, into: %{}, do: {k, found}
             end
           true ->
-            if living_abroad == false || price_living_abroad <= 0 || is_nil(living_abroad) || is_nil(price_living_abroad) do
+            if is_nil(living_abroad) || is_nil(price_living_abroad) || living_abroad == false || price_living_abroad == 0 do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :living_abroad)
@@ -376,14 +356,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{non_resident_earning: non_resident_earning, price_non_resident_earning: price_non_resident_earning} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if non_resident_earning == false || is_nil(non_resident_earning) || !is_nil(price_non_resident_earning)do
+            if is_nil(non_resident_earning) || !is_nil(price_non_resident_earning) || non_resident_earning == false do
               :error
             else
               data = by_prices(IndividualTaxReturn, true, true, :non_resident_earning, :price_non_resident_earning)
               for {k, _} <- data, into: %{}, do: {k, found}
             end
           true ->
-            if non_resident_earning == false || price_non_resident_earning <= 0 || is_nil(non_resident_earning) || is_nil(price_non_resident_earning) do
+            if is_nil(non_resident_earning) || is_nil(price_non_resident_earning) || non_resident_earning == false || price_non_resident_earning == 0 do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :non_resident_earning)
@@ -419,14 +399,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{own_stock_crypto: own_stock_crypto, price_own_stock_crypto: price_own_stock_crypto} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if own_stock_crypto == false || is_nil(own_stock_crypto) || !is_nil(price_own_stock_crypto)do
+            if is_nil(own_stock_crypto) || !is_nil(price_own_stock_crypto) || own_stock_crypto == false do
               :error
             else
               data = by_prices(IndividualTaxReturn, true, true, :own_stock_crypto, :price_own_stock_crypto)
               for {k, _} <- data, into: %{}, do: {k, found}
             end
           true ->
-            if own_stock_crypto == false || price_own_stock_crypto <= 0 || is_nil(own_stock_crypto) || is_nil(price_own_stock_crypto) do
+            if is_nil(own_stock_crypto) || is_nil(price_own_stock_crypto) || own_stock_crypto == false || price_own_stock_crypto == 0 do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :own_stock_crypto)
@@ -462,14 +442,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{rental_property_income: rental_property_income, price_rental_property_income: price_rental_property_income} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if rental_property_income == false || is_nil(rental_property_income) || !is_nil(price_rental_property_income)do
+            if is_nil(rental_property_income) || !is_nil(price_rental_property_income) || rental_property_income == false do
               :error
             else
               data = by_prices(IndividualTaxReturn, true, true, :rental_property_income, :price_rental_property_income)
               for {k, _} <- data, into: %{}, do: {k, found}
             end
           true ->
-            if rental_property_income == false || price_rental_property_income <= 0 || is_nil(rental_property_income) || is_nil(price_rental_property_income) do
+            if is_nil(rental_property_income) || is_nil(price_rental_property_income) || rental_property_income == false || price_rental_property_income == 0 do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :rental_property_income)
@@ -512,7 +492,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               for {k, _} <- data, into: %{}, do: {k, found}
             end
           true ->
-            if stock_divident == false || price_stock_divident <= 0 || is_nil(stock_divident) || is_nil(price_stock_divident) do
+            if stock_divident == false || price_stock_divident == 0 || is_nil(stock_divident) || is_nil(price_stock_divident) do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :stock_divident)
@@ -524,20 +504,6 @@ defmodule Core.Analyzes.IndividualTaxReturn do
 
   @spec check_match_stock_divident :: :error
   def check_match_stock_divident, do: :error
-
-  # check_price_foreign_account(id)
-  # check_price_home_owner(id)
-  # check_price_individual_employment_status(id)
-  # check_price_individual_filing_status(id)
-  # check_price_individual_itemized_deduction(id)
-  # check_price_living_abroad(id)
-  # check_price_non_resident_earning(id)
-  # check_price_own_stock_crypto(id)
-  # check_price_rental_property_income(id)
-  # check_price_sole_proprietorship_count(id)
-  # check_price_state(id)
-  # check_price_stock_divident(id)
-  # check_price_tax_year(id)
 
   @spec check_price_foreign_account(nil) :: :error
   def check_price_foreign_account(id) when is_nil(id), do: :error
@@ -556,14 +522,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{foreign_account: foreign_account, price_foreign_account: price_foreign_account} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if foreign_account == false || is_nil(foreign_account) || !is_nil(price_foreign_account) do
+            if is_nil(foreign_account) || !is_nil(price_foreign_account) || foreign_account == false do
               :error
             else
               data = by_prices(IndividualTaxReturn, true, true, :foreign_account, :price_foreign_account)
               for {k, v} <- data, into: %{}, do: {k, v}
             end
           true ->
-            if foreign_account == false || is_nil(foreign_account) || is_nil(price_foreign_account) || price_foreign_account <= 1 do
+            if is_nil(foreign_account) || is_nil(price_foreign_account) || foreign_account == false || price_foreign_account == 0 do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :foreign_account)
@@ -593,14 +559,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{home_owner: home_owner, price_home_owner: price_home_owner} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if home_owner == false || is_nil(home_owner) || !is_nil(price_home_owner) do
+            if is_nil(home_owner) || !is_nil(price_home_owner) || home_owner == false do
               :error
             else
               data = by_prices(IndividualTaxReturn, true, true, :home_owner, :price_home_owner)
               for {k, v} <- data, into: %{}, do: {k, v}
             end
           true ->
-            if home_owner == false || is_nil(home_owner) || is_nil(price_home_owner) || price_home_owner <= 1 do
+            if is_nil(home_owner) || is_nil(price_home_owner) || home_owner == false || price_home_owner == 0 do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :home_owner)
@@ -630,14 +596,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{individual_employment_statuses: [%IndividualEmploymentStatus{name: name, price: price}]} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if name != :"self-employed" || is_nil(name) || !is_nil(price) do
+            if is_nil(name) || !is_nil(price) || name != @keys do
               :error
             else
               data = by_names(IndividualEmploymentStatus, IndividualTaxReturn, true, :individual_tax_return_id, :name, :price, @phrase)
               for {k, v} <- data, into: %{}, do: {k, v}
             end
            true ->
-             if name != :"self-employed" || is_nil(name) || is_nil(price) || price <= 1 do
+             if is_nil(name) || is_nil(price) || name != @keys || price == 0 do
                :error
              else
                data = by_name(IndividualEmploymentStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name, @phrase)
@@ -674,7 +640,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               for {k, v} <- data, into: %{}, do: {k, v}
             end
            true ->
-             if is_nil(name) || is_nil(price) || price <= 1 do
+             if is_nil(name) || is_nil(price) || price == 0 do
                :error
              else
                data = by_name(IndividualFilingStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name, name)
@@ -711,7 +677,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               for {k, v} <- data, into: %{}, do: {k, v}
             end
            true ->
-             if is_nil(name) || is_nil(price) || price <= 1 do
+             if is_nil(name) || is_nil(price) || price == 0 do
                :error
              else
                data = by_name(IndividualItemizedDeduction, IndividualTaxReturn, false, :individual_tax_return_id, :name, name)
@@ -741,14 +707,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{living_abroad: living_abroad, price_living_abroad: price_living_abroad} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if living_abroad == false || is_nil(living_abroad) || !is_nil(price_living_abroad) do
+            if is_nil(living_abroad) || !is_nil(price_living_abroad) || living_abroad == false do
               :error
             else
               data = by_prices(IndividualTaxReturn, true, true, :living_abroad, :price_living_abroad)
               for {k, v} <- data, into: %{}, do: {k, v}
             end
           true ->
-            if living_abroad == false || is_nil(living_abroad) || is_nil(price_living_abroad) || price_living_abroad <= 1 do
+            if is_nil(living_abroad) || is_nil(price_living_abroad) || living_abroad == false || price_living_abroad == 0 do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :living_abroad)
@@ -778,14 +744,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{non_resident_earning: non_resident_earning, price_non_resident_earning: price_non_resident_earning} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if non_resident_earning == false || is_nil(non_resident_earning) || !is_nil(price_non_resident_earning) do
+            if is_nil(non_resident_earning) || !is_nil(price_non_resident_earning) || non_resident_earning == false do
               :error
             else
               data = by_prices(IndividualTaxReturn, true, true, :non_resident_earning, :price_non_resident_earning)
               for {k, v} <- data, into: %{}, do: {k, v}
             end
           true ->
-            if non_resident_earning == false || is_nil(non_resident_earning) || is_nil(price_non_resident_earning) || price_non_resident_earning <= 1 do
+            if is_nil(non_resident_earning) || is_nil(price_non_resident_earning) || non_resident_earning == false || price_non_resident_earning == 0 do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :non_resident_earning)
@@ -815,14 +781,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{own_stock_crypto: own_stock_crypto, price_own_stock_crypto: price_own_stock_crypto} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if own_stock_crypto == false || is_nil(own_stock_crypto) || !is_nil(price_own_stock_crypto) do
+            if is_nil(own_stock_crypto) || !is_nil(price_own_stock_crypto) || own_stock_crypto == false do
               :error
             else
               data = by_prices(IndividualTaxReturn, true, true, :own_stock_crypto, :price_own_stock_crypto)
               for {k, v} <- data, into: %{}, do: {k, v}
             end
           true ->
-            if own_stock_crypto == false || is_nil(own_stock_crypto) || is_nil(price_own_stock_crypto) || price_own_stock_crypto <= 1 do
+            if is_nil(own_stock_crypto) || is_nil(price_own_stock_crypto) || own_stock_crypto == false || price_own_stock_crypto == 0 do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :own_stock_crypto)
@@ -852,14 +818,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{rental_property_income: rental_property_income, price_rental_property_income: price_rental_property_income} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if rental_property_income == false || is_nil(rental_property_income) || !is_nil(price_rental_property_income) do
+            if is_nil(rental_property_income) || !is_nil(price_rental_property_income) || rental_property_income == false do
               :error
             else
               data = by_prices(IndividualTaxReturn, true, true, :rental_property_income, :price_rental_property_income)
               for {k, v} <- data, into: %{}, do: {k, v}
             end
           true ->
-            if rental_property_income == false || is_nil(rental_property_income) || is_nil(price_rental_property_income) || price_rental_property_income <= 1 do
+            if is_nil(rental_property_income) || is_nil(price_rental_property_income) || rental_property_income == false || price_rental_property_income == 0 do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :rental_property_income)
@@ -889,14 +855,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{sole_proprietorship_count: sole_proprietorship_count, price_sole_proprietorship_count: price_sole_proprietorship_count} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if sole_proprietorship_count < 1 || is_nil(sole_proprietorship_count) || !is_nil(price_sole_proprietorship_count) do
+            if is_nil(sole_proprietorship_count) || !is_nil(price_sole_proprietorship_count) || sole_proprietorship_count <= 1 do
               :error
             else
               price = by_counts(IndividualTaxReturn, true, :price_sole_proprietorship_count)
               for {k, v} <- price, into: %{}, do: {k, v * (sole_proprietorship_count - 1)}
             end
           true ->
-            if !is_nil(sole_proprietorship_count) || is_nil(price_sole_proprietorship_count) do
+            if !is_nil(sole_proprietorship_count) || is_nil(price_sole_proprietorship_count) || sole_proprietorship_count <= 1 do
               :error
             else
               data = by_counts(IndividualTaxReturn, false, :sole_proprietorship_count)
@@ -933,7 +899,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               for {k, v} <- price, into: %{}, do: {k, v * Enum.count(state)}
             end
           true ->
-            if !is_nil(state) || is_nil(price_state) || price_state <= 1 do
+            if !is_nil(state) || is_nil(price_state) || price_state == 0 do
               :error
             else
               states = by_prices(IndividualTaxReturn, false, :state)
@@ -968,14 +934,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{stock_divident: stock_divident, price_stock_divident: price_stock_divident} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if stock_divident == false || is_nil(stock_divident) || !is_nil(price_stock_divident) do
+            if is_nil(stock_divident) || !is_nil(price_stock_divident) || stock_divident == false do
               :error
             else
               data = by_prices(IndividualTaxReturn, true, true, :stock_divident, :price_stock_divident)
               for {k, v} <- data, into: %{}, do: {k, v}
             end
           true ->
-            if stock_divident == false || is_nil(stock_divident) || is_nil(price_stock_divident) || price_stock_divident <= 1 do
+            if is_nil(stock_divident) || is_nil(price_stock_divident) || stock_divident == false || price_stock_divident <= 1 do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :stock_divident)
@@ -1005,14 +971,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{tax_year: tax_year, price_tax_year: price_tax_year} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if is_nil(tax_year) ||  Enum.count(tax_year) == 1 || !is_nil(price_tax_year) do
+            if is_nil(tax_year) || !is_nil(price_tax_year) || Enum.count(tax_year) == 1 do
               :error
             else
               price = by_prices(IndividualTaxReturn, true, :price_tax_year)
               for {k, v} <- price, into: %{}, do: {k, v * (Enum.count(tax_year) - 1)}
             end
           true ->
-            if !is_nil(tax_year) || is_nil(price_tax_year) || price_tax_year <= 1 do
+            if !is_nil(tax_year) || is_nil(price_tax_year) || price_tax_year < 2 do
               :error
             else
               years = by_prices(IndividualTaxReturn, false, :tax_year)
@@ -1029,18 +995,6 @@ defmodule Core.Analyzes.IndividualTaxReturn do
 
   @spec check_price_tax_year :: :error
   def check_price_tax_year, do: :error
-
-  # check_value_foreign_account_limit(id)
-  # check_value_foreign_financial_interest(id)
-  # check_value_home_owner(id)
-  # check_value_individual_employment_status(id)
-  # check_value_individual_filing_status(id)
-  # check_value_individual_stock_transaction_count(id)
-  # check_value_k1_count(id)
-  # check_value_rental_property_income(id)
-  # check_value_sole_proprietorship_count(id)
-  # check_value_state(id)
-  # check_value_tax_year(id)
 
   @spec check_value_foreign_account_limit(nil) :: :error
   def check_value_foreign_account_limit(id) when is_nil(id), do: :error
@@ -1065,18 +1019,12 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{foreign_account_limit: foreign_account_limit, price_foreign_account: price_foreign_account} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if foreign_account_limit == false || is_nil(foreign_account_limit) || !is_nil(price_foreign_account) do
+            if is_nil(foreign_account_limit) || !is_nil(price_foreign_account) || foreign_account_limit == false do
               :error
             else
               %{id => found}
             end
-          true ->
-            if foreign_account_limit == false || price_foreign_account <= 0 || is_nil(foreign_account_limit) || is_nil(price_foreign_account) do
-              :error
-            else
-              data = by_values(IndividualTaxReturn, false, true, :foreign_account_limit)
-              for {k} <- data, into: %{}, do: {k, found}
-            end
+          true -> :error
         end
     end
   end
@@ -1107,7 +1055,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{foreign_financial_interest: foreign_financial_interest} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if foreign_financial_interest == false || is_nil(foreign_financial_interest) do
+            if is_nil(foreign_financial_interest) || foreign_financial_interest == false do
               :error
             else
               %{id => found}
@@ -1140,16 +1088,16 @@ defmodule Core.Analyzes.IndividualTaxReturn do
 
     case struct do
       :error -> :error
-      %IndividualTaxReturn{home_owner: home_owner} ->
+      %IndividualTaxReturn{home_owner: home_owner, price_home_owner: price_home_owner} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if home_owner == false || is_nil(home_owner) do
+            if is_nil(home_owner) || !is_nil(price_home_owner) || home_owner == false do
               :error
             else
               %{id => found}
             end
           true ->
-            if home_owner == false || is_nil(home_owner) do
+            if is_nil(home_owner) || is_nil(price_home_owner) || home_owner == false do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :home_owner)
@@ -1185,13 +1133,13 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{individual_employment_statuses: [%IndividualEmploymentStatus{name: name, price: price}]} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if is_nil(name) || name  != :"self-employed" || !is_nil(price) do
+            if is_nil(name) || !is_nil(price) || name  != :"self-employed" do
               :error
             else
               %{id => found}
             end
            true ->
-             if is_nil(name) || is_nil(price) || price <= 0 do
+             if is_nil(name) || is_nil(price) || price == 0 do
                :error
              else
                data = by_phrase(IndividualEmploymentStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name)
@@ -1221,7 +1169,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{individual_filing_statuses: [%IndividualFilingStatus{name: name, price: price}]} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if is_nil(name) do
+            if is_nil(name) || !is_nil(price) do
               :error
             else
               value =
@@ -1237,7 +1185,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               %{id => data}
             end
            true ->
-             if is_nil(name) || is_nil(price) || price <= 0 do
+             if is_nil(name) || is_nil(price) || price == 0 do
                :error
              else
                data = by_name(IndividualFilingStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name, name)
@@ -1272,11 +1220,11 @@ defmodule Core.Analyzes.IndividualTaxReturn do
         Ecto.NoResultsError -> :error
       end
 
-    case struct do
-      :error -> :error
-      %IndividualTaxReturn{individual_stock_transaction_counts: [%IndividualStockTransactionCount{name: name}]} ->
-        case IndividualTaxReturn.by_role(id) do
-          false ->
+    case IndividualTaxReturn.by_role(id) do
+      false ->
+        case struct do
+          :error -> :error
+          %IndividualTaxReturn{individual_stock_transaction_counts: [%IndividualStockTransactionCount{name: name}]} ->
             if is_nil(name) do
               :error
             else
@@ -1287,27 +1235,11 @@ defmodule Core.Analyzes.IndividualTaxReturn do
                   :"51-100" ->  90.0
                   :"100+"   -> 120.0
                 end
-
               data = value |> Float.to_string() |> D.new()
               %{id => data}
             end
-           true ->
-             if is_nil(name) do
-               :error
-             else
-               data = by_name(IndividualStockTransactionCount, IndividualTaxReturn, false, :individual_tax_return_id, :name, name)
-               value =
-                 case name do
-                  :"1-5"    ->  30.0
-                  :"6-50"   ->  60.0
-                  :"51-100" ->  90.0
-                  :"100+"   -> 120.0
-                 end
-
-               price = value |> Float.to_string() |> D.new()
-               for {k} <- data, into: %{}, do: {k, price}
-             end
         end
+      true -> :error
     end
   end
 
@@ -1337,13 +1269,13 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{k1_count: k1_count} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if k1_count == 0 || is_nil(k1_count) do
+            if is_nil(k1_count) || k1_count == 0 do
               :error
             else
               %{id => decimal_mult(k1_count, found)}
             end
           true ->
-            if k1_count == 0 || is_nil(k1_count) do
+            if !is_nil(k1_count) do
               :error
             else
               data = by_counts(IndividualTaxReturn, false, :k1_count)
@@ -1376,16 +1308,16 @@ defmodule Core.Analyzes.IndividualTaxReturn do
 
     case struct do
       :error -> :error
-      %IndividualTaxReturn{rental_property_income: rental_property_income} ->
+      %IndividualTaxReturn{rental_property_income: rental_property_income, price_rental_property_income: price_rental_property_income} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if rental_property_income == false || is_nil(rental_property_income) do
+            if is_nil(rental_property_income) || !is_nil(price_rental_property_income) || rental_property_income == false do
               :error
             else
               %{id => found}
             end
           true ->
-            if rental_property_income == false || is_nil(rental_property_income) do
+            if is_nil(rental_property_income) || is_nil(price_rental_property_income) || rental_property_income == false || price_rental_property_income == 0 do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :rental_property_income)
@@ -1418,16 +1350,16 @@ defmodule Core.Analyzes.IndividualTaxReturn do
 
     case struct do
       :error -> :error
-      %IndividualTaxReturn{sole_proprietorship_count: sole_proprietorship_count} ->
+      %IndividualTaxReturn{sole_proprietorship_count: sole_proprietorship_count, price_sole_proprietorship_count: price_sole_proprietorship_count} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if sole_proprietorship_count < 1 || is_nil(sole_proprietorship_count) do
+            if is_nil(sole_proprietorship_count) || !is_nil(price_sole_proprietorship_count) || sole_proprietorship_count < 1 do
               :error
             else
               %{id => found}
             end
           true ->
-            if sole_proprietorship_count < 1 || is_nil(sole_proprietorship_count) do
+            if !is_nil(sole_proprietorship_count) || is_nil(price_sole_proprietorship_count) || sole_proprietorship_count < 1 do
               :error
             else
               data = by_counts(IndividualTaxReturn, false, :sole_proprietorship_count)
@@ -1460,16 +1392,16 @@ defmodule Core.Analyzes.IndividualTaxReturn do
 
     case struct do
       :error -> :error
-      %IndividualTaxReturn{state: state} ->
+      %IndividualTaxReturn{state: state, price_state: price_state} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if is_nil(state) || Enum.count(state) < 1 do
+            if is_nil(state) || !is_nil(price_state) || Enum.count(state) < 1 do
               :error
             else
               %{id => decimal_mult(Enum.count(state), found)}
             end
            true ->
-             if !is_nil(state) do
+             if !is_nil(state) || is_nil(price_state) || price_state == 0 do
                :error
              else
               states = by_prices(IndividualTaxReturn, false, :state)
@@ -1507,27 +1439,26 @@ defmodule Core.Analyzes.IndividualTaxReturn do
 
     case struct do
       :error -> :error
-      %IndividualTaxReturn{tax_year: tax_year} ->
+      %IndividualTaxReturn{tax_year: tax_year, price_tax_year: price_tax_year} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if is_nil(tax_year) do
+            if is_nil(tax_year) || !is_nil(price_tax_year) do
               :error
             else
-              data = tax_year |> Enum.uniq() |> Enum.count() |> D.new
+              data = tax_year |> Enum.uniq() |> Enum.count()
               %{id => decimal_mult((data - 1), found)}
             end
           true ->
-            if is_nil(tax_year) do
+            if !is_nil(tax_year) || is_nil(price_tax_year) || price_tax_year <= 1 do
               :error
             else
               years = by_prices(IndividualTaxReturn, false, :tax_year) |> Enum.uniq()
-              owner = tax_year |> Enum.uniq() |> Enum.count()
               data =
                 Enum.reduce(years, [], fn(x, acc) ->
                   count = Enum.count(elem(x, 1))
-                  if count == owner, do: [x | acc], else: acc
-                end)
-              for {k, _} <- data, into: %{}, do: {k, decimal_mult((owner - 1), found)}
+                  if count >= 2, do: [x | acc], else: acc
+                end) |> Enum.count()
+              %{id => decimal_mult((data - 1), found)}
             end
         end
     end
@@ -1535,240 +1466,4 @@ defmodule Core.Analyzes.IndividualTaxReturn do
 
   @spec check_value_tax_year :: :error
   def check_value_tax_year, do: :error
-
-  ################################################################
-  #_______________________ END THE WORLD ________________________#
-  ################################################################
-
-  @spec total_all(word) :: [%{atom => word, atom => integer | float}]
-  def total_all(id) do
-    id
-  end
-
-  @spec total_match(word) :: [%{atom => integer}] | :error
-  def total_match(id) do
-    # check_match_foreign_account(id)
-    # check_match_home_owner(id)
-    # check_match_individual_employment_status(id)
-    # check_match_individual_filing_status(id)
-    # check_match_individual_industry(id)
-    # check_match_individual_itemized_deduction(id)
-    # check_match_living_abroad(id)
-    # check_match_non_resident_earning(id)
-    # check_match_own_stock_crypto(id)
-    # check_match_rental_property_income(id)
-    # check_match_stock_divident(id)
-    id
-  end
-
-  @spec total_price(word) :: [%{atom => integer}] | :error
-  def total_price(id) do
-    # check_price_foreign_account(id)
-    # check_price_home_owner(id)
-    # check_price_individual_employment_status(id)
-    # check_price_individual_filing_status(id)
-    # check_price_individual_itemized_deduction(id)
-    # check_price_living_abroad(id)
-    # check_price_non_resident_earning(id)
-    # check_price_own_stock_crypto(id)
-    # check_price_rental_property_income(id)
-    # check_price_sole_proprietorship_count(id)
-    # check_price_state(id)
-    # check_price_stock_divident(id)
-    # check_price_tax_year(id)
-    id
-  end
-
-  @spec total_value(word) :: [%{atom => float}] | :error
-  def total_value(id) do
-    # check_value_foreign_account_limit(id)
-    # check_value_foreign_financial_interest(id)
-    # check_value_home_owner(id)
-    # check_value_individual_employment_status(id)
-    # check_value_individual_filing_status(id)
-    # check_value_individual_stock_transaction_count(id)
-    # check_value_k1_count(id)
-    # check_value_rental_property_income(id)
-    # check_value_sole_proprietorship_count(id)
-    # check_value_state(id)
-    # check_value_tax_year(id)
-    id
-  end
-
-  ################################################################
-  #________________TAKE A BLUE Pill or RED Pill _________________#
-  ################################################################
-
-  @spec find_match(atom) :: integer | float | nil
-  defp find_match(row) do
-    q = from r in MatchValueRelate, select: {field(r, ^row)}
-    [{data}] = Repo.all(q)
-    data
-  end
-
-  @spec by_values(map, boolean, boolean, atom) :: [{word, integer}] | nil
-  defp by_values(struct, role, value, row) do
-    try do
-      Repo.all(
-        from c in User,
-        join: cu in ^struct,
-        where: cu.user_id == c.id,
-        where: c.role == ^role,
-        where: field(cu, ^row) == ^value,
-        where: not is_nil(field(cu, ^row)),
-        select: {cu.id}
-      )
-    rescue
-      Ecto.Query.CastError -> nil
-    end
-  end
-
-  @spec by_prices(map, boolean, boolean, atom, atom) :: [{word, integer}] | nil
-  defp by_prices(struct, role, value, row_a, row_b) do
-    try do
-      Repo.all(
-        from c in User,
-        join: cu in ^struct,
-        where: cu.user_id == c.id,
-        where: c.role == ^role,
-        where: field(cu, ^row_a) == ^value,
-        where: not is_nil(field(cu, ^row_a)),
-        where: not is_nil(field(cu, ^row_b)),
-        where: field(cu, ^row_b) != 0,
-        select: {cu.id, field(cu, ^row_b)}
-      )
-    rescue
-      Ecto.Query.CastError -> nil
-    end
-  end
-
-  @spec by_phrase(map, map, boolean, atom, atom) :: [{word}] | nil
-  defp by_phrase(struct_a, struct_b, role, row_a, row_b) do
-    try do
-      Repo.all(
-        from c in struct_a,
-        join: ct in User,
-        join: cu in ^struct_b,
-        where: field(c, ^row_a) == cu.id and cu.user_id == ct.id and ct.role == ^role,
-        where: not is_nil(field(c, ^row_b)),
-        where: field(c, ^row_b) == ^@employed or field(c, ^row_b) == ^@unemployed or field(c, ^row_b) == ^@phrase,
-        select: {cu.id}
-      )
-    rescue
-      Ecto.Query.CastError -> nil
-    end
-  end
-
-  @spec by_search(map, map, boolean, atom, atom, word) :: [{word}] | nil
-  defp by_search(struct_a, struct_b, role, row_a, row_b, name) do
-    try do
-      Repo.all(
-        from c in struct_a,
-        join: ct in User,
-        join: cu in ^struct_b,
-        where: field(c, ^row_a) == cu.id and cu.user_id == ct.id and ct.role == ^role,
-        where: not is_nil(field(c, ^row_b)),
-        where: fragment("? @> ?", field(c, ^row_b), ^name),
-        select: {cu.id}
-      )
-    rescue
-      Ecto.Query.CastError -> nil
-    end
-  end
-
-  @spec by_match(map, map, boolean, atom, atom, word) :: [{word}] | nil
-  defp by_match(struct_a, struct_b, role, row_a, row_b, str) do
-    try do
-      Repo.all(
-        from c in struct_a,
-        join: ct in User,
-        join: cu in ^struct_b,
-        where: field(c, ^row_a) == cu.id and cu.user_id == ct.id and ct.role == ^role,
-        where: not is_nil(field(c, ^row_b)),
-        where: fragment("? @> ?", field(c, ^row_b), ^[str]),
-        select: {cu.id}
-      )
-    rescue
-      Ecto.Query.CastError -> nil
-    end
-  end
-
-  @spec by_name(map, map, boolean, atom, atom, word) :: [{word}] | nil
-  defp by_name(struct_a, struct_b, role, row_a, row_b, name) do
-    try do
-      Repo.all(
-        from c in struct_a,
-        join: ct in User,
-        join: cu in ^struct_b,
-        where: field(c, ^row_a) == cu.id and cu.user_id == ct.id and ct.role == ^role,
-        where: not is_nil(field(c, ^row_b)),
-        where: field(c, ^row_b) == ^name,
-        select: {cu.id}
-      )
-    rescue
-      Ecto.Query.CastError -> nil
-    end
-  end
-
-  @spec by_names(map, map, boolean, atom, atom, atom, word) :: [{word}] | nil
-  defp by_names(struct_a, struct_b, role, row_a, row_b, row_c, name) do
-    try do
-      Repo.all(
-        from c in struct_a,
-        join: ct in User,
-        join: cu in ^struct_b,
-        where: field(c, ^row_a) == cu.id and cu.user_id == ct.id and ct.role == ^role,
-        where: not is_nil(field(c, ^row_b)),
-        where: not is_nil(field(c, ^row_c)),
-        where: field(c, ^row_c) >= 1,
-        where: field(c, ^row_b) == ^name,
-        select: {cu.id, c.price}
-      )
-    rescue
-      Ecto.Query.CastError -> nil
-    end
-  end
-
-  @spec by_counts(map, boolean, atom) :: [{word, integer}] | [{word, float}] | nil
-  defp by_counts(struct, role, row) do
-    try do
-      Repo.all(
-        from c in User,
-        join: cu in ^struct,
-        where: cu.user_id == c.id,
-        where: c.role == ^role,
-        where: field(cu, ^row) > 1,
-        where: not is_nil(field(cu, ^row)),
-        select: {cu.id, field(cu, ^row)}
-      )
-    rescue
-      Ecto.Query.CastError -> nil
-    end
-  end
-
-  @spec by_prices(map, boolean, atom) :: [{word, integer}] | nil
-  defp by_prices(struct, role, row) do
-    try do
-      Repo.all(
-        from c in User,
-        join: cu in ^struct,
-        where: cu.user_id == c.id,
-        where: c.role == ^role,
-        where: not is_nil(field(cu, ^row)),
-        select: {cu.id, field(cu, ^row)}
-      )
-    rescue
-      Ecto.Query.CastError -> nil
-    end
-  end
-
-  @spec decimal_mult(float, integer) :: word
-  defp decimal_mult(val1, val2) when is_integer(val1) do
-    val1
-    |> D.new()
-    |> D.mult(val2)
-  end
-
-  @spec decimal_mult(any, any) :: nil
-  defp decimal_mult(_, _), do: nil
 end
