@@ -14,12 +14,12 @@ defmodule Core.Analyzes.IndividualTaxReturn do
 #    Services.IndividualForeignAccountCount,
     Services.IndividualIndustry,
     Services.IndividualItemizedDeduction,
-#    Services.IndividualStockTransactionCount,
+    Services.IndividualStockTransactionCount,
     Services.IndividualTaxReturn,
     Services.MatchValueRelate
   }
 
-#  alias Decimal, as: D
+  alias Decimal, as: D
 
   @type word() :: String.t()
 
@@ -1030,20 +1030,511 @@ defmodule Core.Analyzes.IndividualTaxReturn do
   @spec check_price_tax_year :: :error
   def check_price_tax_year, do: :error
 
-  # check_value_accounting_software(id)
-  # check_value_business_entity_type(id)
-  # check_value_business_foreign_ownership_count(id)
-  # check_value_business_total_revenue(id)
-  # check_value_business_transaction_count(id)
-  # check_value_dispose_property(id)
-  # check_value_foreign_shareholder(id)
-  # check_value_income_over_thousand(id)
-  # check_value_invest_research(id)
+  # check_value_foreign_account_limit(id)
+  # check_value_foreign_financial_interest(id)
+  # check_value_home_owner(id)
+  # check_value_individual_employment_status(id)
+  # check_value_individual_filing_status(id)
+  # check_value_individual_stock_transaction_count(id)
   # check_value_k1_count(id)
-  # check_value_make_distribution(id)
+  # check_value_rental_property_income(id)
+  # check_value_sole_proprietorship_count(id)
   # check_value_state(id)
-  # check_value_tax_exemption(id)
-  # check_value_total_asset_over(id)
+  # check_value_tax_year(id)
+
+  @spec check_value_foreign_account_limit(nil) :: :error
+  def check_value_foreign_account_limit(id) when is_nil(id), do: :error
+
+  @spec check_value_foreign_account_limit(word) :: %{atom => word, atom => float} | :error
+  def check_value_foreign_account_limit(id) when not is_nil(id) do
+    found =
+      case find_match(:value_for_individual_foreign_account_limit) do
+        nil -> 0.0
+        val -> val
+      end
+
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %IndividualTaxReturn{foreign_account_limit: foreign_account_limit, price_foreign_account: price_foreign_account} ->
+        case IndividualTaxReturn.by_role(id) do
+          false ->
+            if foreign_account_limit == false || is_nil(foreign_account_limit) || !is_nil(price_foreign_account) do
+              :error
+            else
+              %{id => found}
+            end
+          true ->
+            if foreign_account_limit == false || price_foreign_account <= 0 || is_nil(foreign_account_limit) || is_nil(price_foreign_account) do
+              :error
+            else
+              data = by_values(IndividualTaxReturn, false, true, :foreign_account_limit)
+              for {k} <- data, into: %{}, do: {k, found}
+            end
+        end
+    end
+  end
+
+  @spec check_value_foreign_account_limit :: :error
+  def check_value_foreign_account_limit, do: :error
+
+  @spec check_value_foreign_financial_interest(nil) :: :error
+  def check_value_foreign_financial_interest(id) when is_nil(id), do: :error
+
+  @spec check_value_foreign_financial_interest(word) :: %{atom => word, atom => float} | :error
+  def check_value_foreign_financial_interest(id) when not is_nil(id) do
+    found =
+      case find_match(:value_for_individual_foreign_financial_interest) do
+        nil -> 0.0
+        val -> val
+      end
+
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %IndividualTaxReturn{foreign_financial_interest: foreign_financial_interest} ->
+        case IndividualTaxReturn.by_role(id) do
+          false ->
+            if foreign_financial_interest == false || is_nil(foreign_financial_interest) do
+              :error
+            else
+              %{id => found}
+            end
+          true -> :error
+        end
+    end
+  end
+
+  @spec check_value_foreign_financial_interest :: :error
+  def check_value_foreign_financial_interest, do: :error
+
+  @spec check_value_home_owner(nil) :: :error
+  def check_value_home_owner(id) when is_nil(id), do: :error
+
+  @spec check_value_home_owner(word) :: %{atom => word, atom => float} | :error
+  def check_value_home_owner(id) when not is_nil(id) do
+    found =
+      case find_match(:value_for_individual_home_owner) do
+        nil -> 0.0
+        val -> val
+      end
+
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %IndividualTaxReturn{home_owner: home_owner} ->
+        case IndividualTaxReturn.by_role(id) do
+          false ->
+            if home_owner == false || is_nil(home_owner) do
+              :error
+            else
+              %{id => found}
+            end
+          true ->
+            if home_owner == false || is_nil(home_owner) do
+              :error
+            else
+              data = by_values(IndividualTaxReturn, false, true, :home_owner)
+              for {k} <- data, into: %{}, do: {k, found}
+            end
+        end
+    end
+  end
+
+  @spec check_value_home_owner :: :error
+  def check_value_home_owner, do: :error
+
+  @spec check_value_individual_employment_status(nil) :: :error
+  def check_value_individual_employment_status(id) when is_nil(id), do: :error
+
+  @spec check_value_individual_employment_status(word) :: %{atom => word, atom => float} | :error
+  def check_value_individual_employment_status(id) when not is_nil(id) do
+    found =
+      case find_match(:value_for_individual_employment_status) do
+        nil -> 0.0
+        val -> val
+      end
+
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %IndividualTaxReturn{individual_employment_statuses: [%IndividualEmploymentStatus{name: name, price: price}]} ->
+        case IndividualTaxReturn.by_role(id) do
+          false ->
+            if is_nil(name) || name  != :"self-employed" || !is_nil(price) do
+              :error
+            else
+              %{id => found}
+            end
+           true ->
+             if is_nil(name) || is_nil(price) || price <= 0 do
+               :error
+             else
+               data = by_phrase(IndividualEmploymentStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name)
+               for {k} <- data, into: %{}, do: {k, found}
+             end
+        end
+    end
+  end
+
+  @spec check_value_individual_employment_status :: :error
+  def check_value_individual_employment_status, do: :error
+
+  @spec check_value_individual_filing_status(nil) :: :error
+  def check_value_individual_filing_status(id) when is_nil(id), do: :error
+
+  @spec check_value_individual_filing_status(word) :: %{atom => word, atom => float} | :error
+  def check_value_individual_filing_status(id) when not is_nil(id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %IndividualTaxReturn{individual_filing_statuses: [%IndividualFilingStatus{name: name, price: price}]} ->
+        case IndividualTaxReturn.by_role(id) do
+          false ->
+            if is_nil(name) do
+              :error
+            else
+              value =
+                case name do
+                  :"Single"                                     -> 39.99
+                  :"Married filing jointly"                     -> 39.99
+                  :"Married filing separately"                  -> 79.99
+                  :"Head of Household"                          -> 79.99
+                  :"Qualifying widow(-er) with dependent child" -> 79.99
+                end
+
+              data = value |> Float.to_string() |> D.new()
+              %{id => data}
+            end
+           true ->
+             if is_nil(name) || is_nil(price) || price <= 0 do
+               :error
+             else
+               data = by_name(IndividualFilingStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name, name)
+               value =
+                 case name do
+                  :"Single"                                     -> 39.99
+                  :"Married filing jointly"                     -> 39.99
+                  :"Married filing separately"                  -> 79.99
+                  :"Head of Household"                          -> 79.99
+                  :"Qualifying widow(-er) with dependent child" -> 79.99
+                 end
+
+               price = value |> Float.to_string() |> D.new()
+               for {k} <- data, into: %{}, do: {k, price}
+             end
+        end
+    end
+  end
+
+  @spec check_value_individual_filing_status :: :error
+  def check_value_individual_filing_status, do: :error
+
+  @spec check_value_individual_stock_transaction_count(nil) :: :error
+  def check_value_individual_stock_transaction_count(id) when is_nil(id), do: :error
+
+  @spec check_value_individual_stock_transaction_count(word) :: %{atom => word, atom => float} | :error
+  def check_value_individual_stock_transaction_count(id) when not is_nil(id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %IndividualTaxReturn{individual_stock_transaction_counts: [%IndividualStockTransactionCount{name: name}]} ->
+        case IndividualTaxReturn.by_role(id) do
+          false ->
+            if is_nil(name) do
+              :error
+            else
+              value =
+                case name do
+                  :"1-5"    ->  30.0
+                  :"6-50"   ->  60.0
+                  :"51-100" ->  90.0
+                  :"100+"   -> 120.0
+                end
+
+              data = value |> Float.to_string() |> D.new()
+              %{id => data}
+            end
+           true ->
+             if is_nil(name) do
+               :error
+             else
+               data = by_name(IndividualStockTransactionCount, IndividualTaxReturn, false, :individual_tax_return_id, :name, name)
+               value =
+                 case name do
+                  :"1-5"    ->  30.0
+                  :"6-50"   ->  60.0
+                  :"51-100" ->  90.0
+                  :"100+"   -> 120.0
+                 end
+
+               price = value |> Float.to_string() |> D.new()
+               for {k} <- data, into: %{}, do: {k, price}
+             end
+        end
+    end
+  end
+
+  @spec check_value_individual_stock_transaction_count :: :error
+  def check_value_individual_stock_transaction_count, do: :error
+
+  @spec check_value_k1_count(nil) :: :error
+  def check_value_k1_count(id) when is_nil(id), do: :error
+
+  @spec check_value_k1_count(word) :: %{atom => word, atom => float} | :error
+  def check_value_k1_count(id) when not is_nil(id) do
+    found =
+      case find_match(:value_for_individual_k1_count) do
+        nil -> 0.0
+        val -> val
+      end
+
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %IndividualTaxReturn{k1_count: k1_count} ->
+        case IndividualTaxReturn.by_role(id) do
+          false ->
+            if k1_count == 0 || is_nil(k1_count) do
+              :error
+            else
+              %{id => decimal_mult(k1_count, found)}
+            end
+          true ->
+            if k1_count == 0 || is_nil(k1_count) do
+              :error
+            else
+              data = by_counts(IndividualTaxReturn, false, :k1_count)
+              for {k, v} <- data, into: %{}, do: {k, decimal_mult(v, found)}
+            end
+        end
+    end
+  end
+
+  @spec check_value_k1_count :: :error
+  def check_value_k1_count, do: :error
+
+  @spec check_value_rental_property_income(nil) :: :error
+  def check_value_rental_property_income(id) when is_nil(id), do: :error
+
+  @spec check_value_rental_property_income(word) :: %{atom => word, atom => float} | :error
+  def check_value_rental_property_income(id) when not is_nil(id) do
+    found =
+      case find_match(:value_for_individual_rental_prop_income) do
+        nil -> 0.0
+        val -> val
+      end
+
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %IndividualTaxReturn{rental_property_income: rental_property_income} ->
+        case IndividualTaxReturn.by_role(id) do
+          false ->
+            if rental_property_income == false || is_nil(rental_property_income) do
+              :error
+            else
+              %{id => found}
+            end
+          true ->
+            if rental_property_income == false || is_nil(rental_property_income) do
+              :error
+            else
+              data = by_values(IndividualTaxReturn, false, true, :rental_property_income)
+              for {k} <- data, into: %{}, do: {k, found}
+            end
+        end
+    end
+  end
+
+  @spec check_value_rental_property_income :: :error
+  def check_value_rental_property_income, do: :error
+
+  @spec check_value_sole_proprietorship_count(nil) :: :error
+  def check_value_sole_proprietorship_count(id) when is_nil(id), do: :error
+
+  @spec check_value_sole_proprietorship_count(word) :: %{atom => word, atom => float} | :error
+  def check_value_sole_proprietorship_count(id) when not is_nil(id) do
+    found =
+      case find_match(:value_for_individual_sole_prop_count) do
+        nil -> 0.0
+        val -> val
+      end
+
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %IndividualTaxReturn{sole_proprietorship_count: sole_proprietorship_count} ->
+        case IndividualTaxReturn.by_role(id) do
+          false ->
+            if sole_proprietorship_count < 1 || is_nil(sole_proprietorship_count) do
+              :error
+            else
+              %{id => found}
+            end
+          true ->
+            if sole_proprietorship_count < 1 || is_nil(sole_proprietorship_count) do
+              :error
+            else
+              data = by_counts(IndividualTaxReturn, false, :sole_proprietorship_count)
+              for {k, _} <- data, into: %{}, do: {k, found}
+            end
+        end
+    end
+  end
+
+  @spec check_value_sole_proprietorship_count :: :error
+  def check_value_sole_proprietorship_count, do: :error
+
+  @spec check_value_state(nil) :: :error
+  def check_value_state(id) when is_nil(id), do: :error
+
+  @spec check_value_state(word) :: %{atom => word, atom => float} | :error
+  def check_value_state(id) when not is_nil(id) do
+    found =
+      case find_match(:value_for_individual_state) do
+        nil -> 0
+        val -> val
+      end
+
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %IndividualTaxReturn{state: state} ->
+        case IndividualTaxReturn.by_role(id) do
+          false ->
+            if is_nil(state) || Enum.count(state) < 1 do
+              :error
+            else
+              %{id => decimal_mult(Enum.count(state), found)}
+            end
+           true ->
+             if !is_nil(state) do
+               :error
+             else
+              states = by_prices(IndividualTaxReturn, false, :state)
+              data =
+                Enum.reduce(states, [], fn(x, acc) ->
+                  count = Enum.count(elem(x, 1))
+                  if count > 1, do: [x | acc], else: acc
+                end)
+              for {k, _} <- data, into: %{}, do: {k, found}
+             end
+        end
+    end
+  end
+
+  @spec check_value_state :: :error
+  def check_value_state, do: :error
+
+  @spec check_value_tax_year(nil) :: :error
+  def check_value_tax_year(id) when is_nil(id), do: :error
+
+  @spec check_value_tax_year(word) :: %{atom => word, atom => float} | :error
+  def check_value_tax_year(id) when not is_nil(id) do
+    found =
+      case find_match(:value_for_individual_tax_year) do
+        nil -> 0
+        val -> val
+      end
+
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error -> :error
+      %IndividualTaxReturn{tax_year: tax_year} ->
+        case IndividualTaxReturn.by_role(id) do
+          false ->
+            if is_nil(tax_year) do
+              :error
+            else
+              data = tax_year |> Enum.uniq() |> Enum.count() |> D.new
+              %{id => decimal_mult((data - 1), found)}
+            end
+          true ->
+            if is_nil(tax_year) do
+              :error
+            else
+              years = by_prices(IndividualTaxReturn, false, :tax_year) |> Enum.uniq()
+              owner = tax_year |> Enum.uniq() |> Enum.count()
+              data =
+                Enum.reduce(years, [], fn(x, acc) ->
+                  count = Enum.count(elem(x, 1))
+                  if count == owner, do: [x | acc], else: acc
+                end)
+              for {k, _} <- data, into: %{}, do: {k, decimal_mult((owner - 1), found)}
+            end
+        end
+    end
+  end
+
+  @spec check_value_tax_year :: :error
+  def check_value_tax_year, do: :error
 
   ################################################################
   #_______________________ END THE WORLD ________________________#
@@ -1090,20 +1581,17 @@ defmodule Core.Analyzes.IndividualTaxReturn do
 
   @spec total_value(word) :: [%{atom => float}] | :error
   def total_value(id) do
-    # check_value_accounting_software(id)
-    # check_value_business_entity_type(id)
-    # check_value_business_foreign_ownership_count(id)
-    # check_value_business_total_revenue(id)
-    # check_value_business_transaction_count(id)
-    # check_value_dispose_property(id)
-    # check_value_foreign_shareholder(id)
-    # check_value_income_over_thousand(id)
-    # check_value_invest_research(id)
+    # check_value_foreign_account_limit(id)
+    # check_value_foreign_financial_interest(id)
+    # check_value_home_owner(id)
+    # check_value_individual_employment_status(id)
+    # check_value_individual_filing_status(id)
+    # check_value_individual_stock_transaction_count(id)
     # check_value_k1_count(id)
-    # check_value_make_distribution(id)
+    # check_value_rental_property_income(id)
+    # check_value_sole_proprietorship_count(id)
     # check_value_state(id)
-    # check_value_tax_exemption(id)
-    # check_value_total_asset_over(id)
+    # check_value_tax_year(id)
     id
   end
 
@@ -1273,4 +1761,14 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       Ecto.Query.CastError -> nil
     end
   end
+
+  @spec decimal_mult(float, integer) :: word
+  defp decimal_mult(val1, val2) when is_integer(val1) do
+    val1
+    |> D.new()
+    |> D.mult(val2)
+  end
+
+  @spec decimal_mult(any, any) :: nil
+  defp decimal_mult(_, _), do: nil
 end
