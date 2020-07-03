@@ -15,6 +15,9 @@ defmodule Core.Accounts.User do
     Services.BusinessTaxReturn,
     Services.IndividualTaxReturn,
     Services.SaleTax,
+    Skills.AccountingSoftware,
+    Skills.Education,
+    Skills.WorkExperience,
     Talk.Message,
     Talk.Room
   }
@@ -41,12 +44,15 @@ defmodule Core.Accounts.User do
     ssn: integer,
     street: String.t(),
     zip: integer,
+    accounting_software: [AccountingSoftware.t()],
     book_keepings: [BookKeeping.t()],
     business_tax_returns: [BusinessTaxReturn.t()],
+    education: [Education.t()],
     individual_tax_returns: [IndividualTaxReturn.t()],
-    sale_taxes: [SaleTax.t()],
     messages: [Message.t()],
-    rooms: [Room.t()]
+    rooms: [Room.t()],
+    sale_taxes: [SaleTax.t()],
+    work_experience: [WorkExperience.t()]
   }
 
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
@@ -105,8 +111,10 @@ defmodule Core.Accounts.User do
     field :token, :string, virtual: true
     field :zip, :integer
 
-    has_one :profile, Profile,
-      on_delete: :delete_all
+    has_one :profile, Profile, on_delete: :delete_all
+    has_one :accounting_software, AccountingSoftware, on_delete: :delete_all
+    has_one :education, Education, on_delete: :delete_all
+    has_one :work_experience, WorkExperience, on_delete: :delete_all
 
     has_many :book_keepings, BookKeeping
     has_many :business_tax_returns, BusinessTaxReturn
@@ -115,9 +123,7 @@ defmodule Core.Accounts.User do
     has_many :rooms, Room
     has_many :messages, Message
 
-    many_to_many :languages, Language,
-      join_through: "users_languages",
-      on_replace: :delete
+    many_to_many :languages, Language, join_through: "users_languages", on_replace: :delete
 
     timestamps()
   end

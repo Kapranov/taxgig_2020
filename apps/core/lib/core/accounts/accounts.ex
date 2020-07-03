@@ -211,7 +211,12 @@ defmodule Core.Accounts do
   @spec list_user() :: [User.t()]
   def list_user do
     Repo.all(User)
-    |> Repo.preload([:languages])
+    |> Repo.preload([
+      :accounting_software,
+      :education,
+      :languages,
+      :work_experience
+    ])
   end
 
   @doc """
@@ -264,7 +269,12 @@ defmodule Core.Accounts do
   @spec get_user!(String.t()) :: User.t() | error_tuple()
   def get_user!(id) do
     Repo.get!(User, id)
-    |> Repo.preload([:languages])
+    |> Repo.preload([
+      :accounting_software,
+      :education,
+      :languages,
+      :work_experience
+    ])
   end
 
   @doc """

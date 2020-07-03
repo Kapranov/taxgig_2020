@@ -9,7 +9,6 @@ defmodule Core.Analyzes.IndividualTaxReturn do
     Services,
     Services.IndividualEmploymentStatus,
     Services.IndividualFilingStatus,
-#    Services.IndividualForeignAccountCount,
     Services.IndividualIndustry,
     Services.IndividualItemizedDeduction,
     Services.IndividualStockTransactionCount,
@@ -19,9 +18,6 @@ defmodule Core.Analyzes.IndividualTaxReturn do
   alias Decimal, as: D
 
   @type word() :: String.t()
-
-  @phrase "self-employed"
-  @keys :"self-employed"
 
   @spec check_match_foreign_account(nil) :: :error
   def check_match_foreign_account(id) when is_nil(id), do: :error
@@ -138,15 +134,15 @@ defmodule Core.Analyzes.IndividualTaxReturn do
             if is_nil(name) || !is_nil(price) do
               :error
             else
-              data = by_phrase(IndividualEmploymentStatus, IndividualTaxReturn, true, :individual_tax_return_id, :name)
-              for {k} <- data, into: %{}, do: {k, found}
+              data = by_names(IndividualEmploymentStatus, IndividualTaxReturn, true, :individual_tax_return_id, :name, :price, name)
+              for {k, _} <- data, into: %{}, do: {k, found}
             end
            true ->
              if is_nil(name) || is_nil(price) || price == 0 do
                :error
              else
-               data = by_phrase(IndividualEmploymentStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name)
-               for {k} <- data, into: %{}, do: {k, found}
+              data = by_name(IndividualEmploymentStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name, name)
+              for {k} <- data, into: %{}, do: {k, found}
              end
         end
     end
@@ -596,17 +592,17 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{individual_employment_statuses: [%IndividualEmploymentStatus{name: name, price: price}]} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) || name != @keys do
+            if is_nil(name) || !is_nil(price) do
               :error
             else
-              data = by_names(IndividualEmploymentStatus, IndividualTaxReturn, true, :individual_tax_return_id, :name, :price, @phrase)
+              data = by_names(IndividualEmploymentStatus, IndividualTaxReturn, true, :individual_tax_return_id, :name, :price, name)
               for {k, v} <- data, into: %{}, do: {k, v}
             end
            true ->
-             if is_nil(name) || is_nil(price) || name != @keys || price == 0 do
+             if is_nil(name) || is_nil(price) || price == 0 do
                :error
              else
-               data = by_name(IndividualEmploymentStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name, @phrase)
+               data = by_name(IndividualEmploymentStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name, name)
                for {k} <- data, into: %{}, do: {k, price}
              end
         end
@@ -1003,7 +999,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
   def check_value_foreign_account_limit(id) when not is_nil(id) do
     found =
       case find_match(:value_for_individual_foreign_account_limit) do
-        nil -> 0.0
+        nil -> D.new("0")
         val -> val
       end
 
@@ -1039,7 +1035,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
   def check_value_foreign_financial_interest(id) when not is_nil(id) do
     found =
       case find_match(:value_for_individual_foreign_financial_interest) do
-        nil -> 0.0
+        nil -> D.new("0")
         val -> val
       end
 
@@ -1075,7 +1071,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
   def check_value_home_owner(id) when not is_nil(id) do
     found =
       case find_match(:value_for_individual_home_owner) do
-        nil -> 0.0
+        nil -> D.new("0")
         val -> val
       end
 
@@ -1096,13 +1092,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
             else
               %{id => found}
             end
-          true ->
-            if is_nil(home_owner) || is_nil(price_home_owner) || home_owner == false do
-              :error
-            else
-              data = by_values(IndividualTaxReturn, false, true, :home_owner)
-              for {k} <- data, into: %{}, do: {k, found}
-            end
+          true -> :error
         end
     end
   end
@@ -1117,7 +1107,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
   def check_value_individual_employment_status(id) when not is_nil(id) do
     found =
       case find_match(:value_for_individual_employment_status) do
-        nil -> 0.0
+        nil -> D.new("0")
         val -> val
       end
 
@@ -1138,13 +1128,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
             else
               %{id => found}
             end
-           true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-               data = by_phrase(IndividualEmploymentStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name)
-               for {k} <- data, into: %{}, do: {k, found}
-             end
+           true -> :error
         end
     end
   end
@@ -1184,23 +1168,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               data = value |> Float.to_string() |> D.new()
               %{id => data}
             end
-           true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-               data = by_name(IndividualFilingStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name, name)
-               value =
-                 case name do
-                  :"Single"                                     -> 39.99
-                  :"Married filing jointly"                     -> 39.99
-                  :"Married filing separately"                  -> 79.99
-                  :"Head of Household"                          -> 79.99
-                  :"Qualifying widow(-er) with dependent child" -> 79.99
-                 end
-
-               price = value |> Float.to_string() |> D.new()
-               for {k} <- data, into: %{}, do: {k, price}
-             end
+           true -> :error
         end
     end
   end
@@ -1253,7 +1221,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
   def check_value_k1_count(id) when not is_nil(id) do
     found =
       case find_match(:value_for_individual_k1_count) do
-        nil -> 0.0
+        nil -> D.new("0")
         val -> val
       end
 
@@ -1274,13 +1242,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
             else
               %{id => decimal_mult(k1_count, found)}
             end
-          true ->
-            if !is_nil(k1_count) do
-              :error
-            else
-              data = by_counts(IndividualTaxReturn, false, :k1_count)
-              for {k, v} <- data, into: %{}, do: {k, decimal_mult(v, found)}
-            end
+          true -> :error
         end
     end
   end
@@ -1295,7 +1257,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
   def check_value_rental_property_income(id) when not is_nil(id) do
     found =
       case find_match(:value_for_individual_rental_prop_income) do
-        nil -> 0.0
+        nil -> D.new("0")
         val -> val
       end
 
@@ -1316,13 +1278,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
             else
               %{id => found}
             end
-          true ->
-            if is_nil(rental_property_income) || is_nil(price_rental_property_income) || rental_property_income == false || price_rental_property_income == 0 do
-              :error
-            else
-              data = by_values(IndividualTaxReturn, false, true, :rental_property_income)
-              for {k} <- data, into: %{}, do: {k, found}
-            end
+          true -> :error
         end
     end
   end
@@ -1337,7 +1293,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
   def check_value_sole_proprietorship_count(id) when not is_nil(id) do
     found =
       case find_match(:value_for_individual_sole_prop_count) do
-        nil -> 0.0
+        nil -> D.new("0")
         val -> val
       end
 
@@ -1358,13 +1314,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
             else
               %{id => found}
             end
-          true ->
-            if !is_nil(sole_proprietorship_count) || is_nil(price_sole_proprietorship_count) || sole_proprietorship_count < 1 do
-              :error
-            else
-              data = by_counts(IndividualTaxReturn, false, :sole_proprietorship_count)
-              for {k, _} <- data, into: %{}, do: {k, found}
-            end
+          true -> :error
         end
     end
   end
@@ -1379,7 +1329,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
   def check_value_state(id) when not is_nil(id) do
     found =
       case find_match(:value_for_individual_state) do
-        nil -> 0
+        nil -> D.new("0")
         val -> val
       end
 
@@ -1400,18 +1350,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
             else
               %{id => decimal_mult(Enum.count(state), found)}
             end
-           true ->
-             if !is_nil(state) || is_nil(price_state) || price_state == 0 do
-               :error
-             else
-              states = by_prices(IndividualTaxReturn, false, :state)
-              data =
-                Enum.reduce(states, [], fn(x, acc) ->
-                  count = Enum.count(elem(x, 1))
-                  if count > 1, do: [x | acc], else: acc
-                end)
-              for {k, _} <- data, into: %{}, do: {k, found}
-             end
+           true -> :error
         end
     end
   end
@@ -1426,7 +1365,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
   def check_value_tax_year(id) when not is_nil(id) do
     found =
       case find_match(:value_for_individual_tax_year) do
-        nil -> 0
+        nil -> D.new("0")
         val -> val
       end
 
@@ -1448,22 +1387,268 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               data = tax_year |> Enum.uniq() |> Enum.count()
               %{id => decimal_mult((data - 1), found)}
             end
-          true ->
-            if !is_nil(tax_year) || is_nil(price_tax_year) || price_tax_year <= 1 do
-              :error
-            else
-              years = by_prices(IndividualTaxReturn, false, :tax_year) |> Enum.uniq()
-              data =
-                Enum.reduce(years, [], fn(x, acc) ->
-                  count = Enum.count(elem(x, 1))
-                  if count >= 2, do: [x | acc], else: acc
-                end) |> Enum.count()
-              %{id => decimal_mult((data - 1), found)}
-            end
+          true -> :error
         end
     end
   end
 
   @spec check_value_tax_year :: :error
   def check_value_tax_year, do: :error
+
+  @spec total_match(word) :: [%{atom => integer}] | :error
+  def total_match(id) do
+    cnt1 =
+      case check_match_foreign_account(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt2 =
+      case check_match_home_owner(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt3 =
+      case check_match_individual_employment_status(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt4 =
+      case check_match_individual_filing_status(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt5 =
+      case check_match_individual_industry(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt6 =
+      case check_match_individual_itemized_deduction(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt7 =
+      case check_match_living_abroad(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt8 =
+      case check_match_non_resident_earning(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt9 =
+      case check_match_own_stock_crypto(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt10 =
+      case check_match_rental_property_income(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt11 =
+      case check_match_stock_divident(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    rst1 = Map.merge(cnt1,  cnt2, fn _k, v1, v2 -> v1 + v2 end)
+    rst2 = Map.merge(rst1,  cnt3, fn _k, v1, v2 -> v1 + v2 end)
+    rst3 = Map.merge(rst2,  cnt4, fn _k, v1, v2 -> v1 + v2 end)
+    rst4 = Map.merge(rst3,  cnt5, fn _k, v1, v2 -> v1 + v2 end)
+    rst5 = Map.merge(rst4,  cnt6, fn _k, v1, v2 -> v1 + v2 end)
+    rst6 = Map.merge(rst5,  cnt7, fn _k, v1, v2 -> v1 + v2 end)
+    rst7 = Map.merge(rst6,  cnt8, fn _k, v1, v2 -> v1 + v2 end)
+    rst8 = Map.merge(rst7,  cnt9, fn _k, v1, v2 -> v1 + v2 end)
+    rst9 = Map.merge(rst8, cnt10, fn _k, v1, v2 -> v1 + v2 end)
+    Map.merge(rst9, cnt11, fn _k, v1, v2 -> v1 + v2 end)
+  end
+
+  @spec total_price(word) :: [%{atom => word, atom => integer}]
+  def total_price(id) do
+    cnt1 =
+      case check_price_foreign_account(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt2 =
+      case check_price_home_owner(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt3 =
+      case check_price_individual_employment_status(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt4 =
+      case check_price_individual_filing_status(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt5 =
+      case check_price_individual_itemized_deduction(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt6 =
+      case check_price_living_abroad(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt7 =
+      case check_price_non_resident_earning(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt8 =
+      case check_price_own_stock_crypto(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt9 =
+      case check_price_rental_property_income(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt10 =
+      case check_price_sole_proprietorship_count(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt11 =
+      case check_price_state(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt12 =
+      case check_price_stock_divident(id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt13 =
+      case check_price_tax_year(id) do
+        :error -> %{}
+        data -> data
+      end
+
+     rst1 = Map.merge(cnt1,   cnt2, fn _k, v1, v2 -> v1 + v2 end)
+     rst2 = Map.merge(rst1,   cnt3, fn _k, v1, v2 -> v1 + v2 end)
+     rst3 = Map.merge(rst2,   cnt4, fn _k, v1, v2 -> v1 + v2 end)
+     rst4 = Map.merge(rst3,   cnt5, fn _k, v1, v2 -> v1 + v2 end)
+     rst5 = Map.merge(rst4,   cnt6, fn _k, v1, v2 -> v1 + v2 end)
+     rst6 = Map.merge(rst5,   cnt7, fn _k, v1, v2 -> v1 + v2 end)
+     rst7 = Map.merge(rst6,   cnt8, fn _k, v1, v2 -> v1 + v2 end)
+     rst8 = Map.merge(rst7,   cnt9, fn _k, v1, v2 -> v1 + v2 end)
+     rst9 = Map.merge(rst8,  cnt10, fn _k, v1, v2 -> v1 + v2 end)
+    rst10 = Map.merge(rst9,  cnt11, fn _k, v1, v2 -> v1 + v2 end)
+    rst11 = Map.merge(rst10, cnt12, fn _k, v1, v2 -> v1 + v2 end)
+    Map.merge(rst11, cnt13, fn _k, v1, v2 -> v1 + v2 end)
+  end
+
+  @spec total_value(word) :: [%{atom => word, atom => float}]
+  def total_value(id) do
+    val1 =
+      case check_value_foreign_account_limit(id) do
+        :error -> D.new("0")
+        data -> data[id]
+      end
+
+    val2 =
+      case check_value_foreign_financial_interest(id) do
+        :error -> D.new("0")
+        data -> data[id]
+      end
+
+    val3 =
+      case check_value_home_owner(id) do
+        :error -> D.new("0")
+        data -> data[id]
+      end
+
+    val4 =
+      case check_value_individual_employment_status(id) do
+        :error -> D.new("0")
+        data -> data[id]
+      end
+
+    val5 =
+      case check_value_individual_filing_status(id) do
+        :error -> D.new("0")
+        data -> data[id]
+      end
+
+    val6 =
+      case check_value_individual_stock_transaction_count(id) do
+        :error -> D.new("0")
+        data -> data[id]
+      end
+
+    val7 =
+      case check_value_k1_count(id) do
+        :error -> D.new("0")
+        data -> data[id]
+      end
+
+    val8 =
+      case check_value_rental_property_income(id) do
+        :error -> D.new("0")
+        data -> data[id]
+      end
+
+    val9 =
+      case check_value_sole_proprietorship_count(id) do
+        :error -> D.new("0")
+        data -> data[id]
+      end
+
+    val10 =
+      case check_value_state(id) do
+        :error -> D.new("0")
+        data -> data[id]
+      end
+
+    val11 =
+      case check_value_tax_year(id) do
+        :error -> D.new("0")
+        data -> data[id]
+      end
+
+    result =
+      D.add(val1, val2)
+        |> D.add(val3)
+        |> D.add(val4)
+        |> D.add(val5)
+        |> D.add(val6)
+        |> D.add(val7)
+        |> D.add(val8)
+        |> D.add(val9)
+        |> D.add(val10)
+        |> D.add(val11)
+
+    %{id => result}
+  end
 end

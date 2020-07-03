@@ -15,10 +15,6 @@ defmodule Core.Queries do
 
   @type word() :: String.t()
 
-  @phrase "self-employed"
-  @employed "employed"
-  @unemployed "unemployed"
-
   @spec find_match(atom) :: integer | float | nil
   def find_match(row) do
     q = from r in MatchValueRelate, select: {field(r, ^row)}
@@ -43,6 +39,25 @@ defmodule Core.Queries do
     end
   end
 
+  @spec by_price(map, map, boolean, atom, atom, atom, word) :: [{word, integer}] | [{word, float}] | nil
+  defp by_price(struct_a, struct_b, role, row_a, row_b, row_c, name) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in User,
+        join: cu in ^struct_b,
+        where: field(c, ^row_a) == cu.id and cu.user_id == ct.id and ct.role == ^role,
+        where: not is_nil(field(c, ^row_b)),
+        where: not is_nil(field(c, ^row_c)),
+        where: field(c, ^row_c) != 0,
+        where: field(c, ^row_b) == ^name,
+        select: {cu.id, field(c, ^row_c)}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
   @spec by_prices(map, boolean, boolean, atom, atom) :: [{word, integer}] | nil
   def by_prices(struct, role, value, row_a, row_b) do
     try do
@@ -56,23 +71,6 @@ defmodule Core.Queries do
         where: not is_nil(field(cu, ^row_b)),
         where: field(cu, ^row_b) != 0,
         select: {cu.id, field(cu, ^row_b)}
-      )
-    rescue
-      Ecto.Query.CastError -> nil
-    end
-  end
-
-  @spec by_phrase(map, map, boolean, atom, atom) :: [{word}] | nil
-  def by_phrase(struct_a, struct_b, role, row_a, row_b) do
-    try do
-      Repo.all(
-        from c in struct_a,
-        join: ct in User,
-        join: cu in ^struct_b,
-        where: field(c, ^row_a) == cu.id and cu.user_id == ct.id and ct.role == ^role,
-        where: not is_nil(field(c, ^row_b)),
-        where: field(c, ^row_b) == ^@employed or field(c, ^row_b) == ^@unemployed or field(c, ^row_b) == ^@phrase,
-        select: {cu.id}
       )
     rescue
       Ecto.Query.CastError -> nil
@@ -149,6 +147,23 @@ defmodule Core.Queries do
     end
   end
 
+  @spec by_count(map, word, boolean, atom) :: integer | nil
+  defp by_count(struct, user_id, role, row) do
+    try do
+      Repo.one(
+        from c in User,
+        join: cu in ^struct,
+        where: c.id == ^user_id and cu.user_id == c.id,
+        where: c.role == ^role,
+        where: not is_nil(field(cu, ^row)),
+        where: field(cu, ^row) >= 1,
+        select: field(cu, ^row)
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
   @spec by_counts(map, boolean, atom) :: [{word, integer}] | [{word, float}] | nil
   def by_counts(struct, role, row) do
     try do
@@ -158,6 +173,7 @@ defmodule Core.Queries do
         where: cu.user_id == c.id,
         where: c.role == ^role,
         where: field(cu, ^row) > 1,
+        # where: field(cu, ^row) != 0,
         where: not is_nil(field(cu, ^row)),
         select: {cu.id, field(cu, ^row)}
       )
@@ -168,6 +184,39 @@ defmodule Core.Queries do
 
   @spec by_prices(map, boolean, atom) :: [{word, integer}] | nil
   def by_prices(struct, role, row) do
+    try do
+      Repo.all(
+        from c in User,
+        join: cu in ^struct,
+        where: cu.user_id == c.id,
+        where: c.role == ^role,
+        where: not is_nil(field(cu, ^row)),
+        select: {cu.id, field(cu, ^row)}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @spec by_payrolls(map, boolean, boolean, atom) :: [{word, integer}] | nil
+  def by_payrolls(struct, role, value, row) do
+    try do
+      Repo.all(
+        from c in User,
+        join: cu in ^struct,
+        where: cu.user_id == c.id,
+        where: c.role == ^role,
+        where: field(cu, ^row) == ^value,
+        where: not is_nil(field(cu, ^row)),
+        select: {cu.id}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @spec by_years(map, boolean, atom) :: [{word, integer}] | nil
+  def by_years(struct, role, row) do
     try do
       Repo.all(
         from c in User,

@@ -56,6 +56,11 @@ bash> mix ecto.gen.migration -r Core.Repo create_sale_tax_industries
 bash> mix ecto.gen.migration -r Core.Repo create_rooms
 bash> mix ecto.gen.migration -r Core.Repo create_messages
 
+bash> mix ecto.gen.migration -r Core.Repo create_universities
+bash> mix ecto.gen.migration -r Core.Repo create_educations
+bash> mix ecto.gen.migration -r Core.Repo create_work_experiences
+bash> mix ecto.gen.migration -r Core.Repo create_accounting_softwares
+
 
 iex> language1 = %Language{abbr: "fra", name: "french"
 iex> language2 = %Language{abbr: "ger", name: "german"}

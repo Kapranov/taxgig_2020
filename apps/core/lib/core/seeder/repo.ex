@@ -9,6 +9,7 @@ defmodule Core.Seeder.Repo do
     Localization,
     Lookup,
     Services,
+    Skills,
     Talk,
     Updated
   }
@@ -20,6 +21,7 @@ defmodule Core.Seeder.Repo do
     Landing.seed!()
     Lookup.seed!()
     Services.seed!()
+    Skills.seed!()
     Talk.seed!()
     :ok
   end
