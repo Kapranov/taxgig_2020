@@ -780,6 +780,17 @@ defmodule Core.Analyzes.BookKeeping do
   @spec check_value_book_keeping_type_client :: :error
   def check_value_book_keeping_type_client, do: :error
 
+  @spec total_all(word) :: [%{atom => word, atom => integer | float}]
+  def total_all(id) do
+    price = total_price(id)
+    data1 = for {k, v} <- price, into: [], do: %{id: k, sum_price: v}
+    match = total_match(id)
+    data2 = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
+    value = total_value(id)
+    data3 = %{id: id, sum_value: value}
+    [data3 | [data2 | [data1]]] |> List.flatten
+  end
+
   @spec total_match(word) :: [%{atom => word, atom => integer}]
   def total_match(id) do
     cnt1 =

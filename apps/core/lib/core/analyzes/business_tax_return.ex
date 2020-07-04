@@ -944,7 +944,13 @@ defmodule Core.Analyzes.BusinessTaxReturn do
 
   @spec total_all(word) :: [%{atom => word, atom => integer | float}]
   def total_all(id) do
-    id
+    price = total_price(id)
+    data1 = for {k, v} <- price, into: [], do: %{id: k, sum_price: v}
+    match = total_match(id)
+    data2 = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
+    value = total_value(id)
+    data3 = %{id: id, sum_value: value}
+    [data3 | [data2 | [data1]]] |> List.flatten
   end
 
   @spec total_match(word) :: [%{atom => integer}] | :error

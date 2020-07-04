@@ -7,7 +7,6 @@ defmodule Core.Analyzes.SaleTax do
 
   alias Core.{
     Services,
-    Services.MatchValueRelate,
     Services.SaleTax,
     Services.SaleTaxFrequency,
     Services.SaleTaxIndustry
@@ -27,24 +26,32 @@ defmodule Core.Analyzes.SaleTax do
         nil -> 0
         val -> val
       end
+
     struct =
       try do
         Services.get_sale_tax!(id)
       rescue
         Ecto.NoResultsError -> :error
       end
+
     case struct do
       :error -> :error
-      %SaleTax{sale_tax_count: sale_tax_count} ->
+      %SaleTax{sale_tax_count: sale_tax_count, price_sale_tax_count: price_sale_tax_count} ->
         case SaleTax.by_role(id) do
           false ->
-            price = by_counts(SaleTax, true, :price_sale_tax_count)
-            data = for {k, _} <- price, into: %{}, do: {k, found}
-            if is_nil(sale_tax_count) or sale_tax_count == 0, do: :error, else: data
+            if is_nil(sale_tax_count) || !is_nil(price_sale_tax_count) || sale_tax_count == 0 do
+              :error
+            else
+              price = by_counts(SaleTax, true, :price_sale_tax_count)
+              for {k, _} <- price, into: %{}, do: {k, found}
+            end
           true ->
-            count = by_counts(SaleTax, false, :sale_tax_count)
-            data = for {k, _} <- count, into: %{}, do: {k, found}
-            if is_nil(sale_tax_count), do: data, else: :error
+            if !is_nil(sale_tax_count) || is_nil(price_sale_tax_count) || sale_tax_count == 0 || price_sale_tax_count == 0 do
+              :error
+            else
+              data = by_counts(SaleTax, false, :sale_tax_count)
+              for {k, _} <- data, into: %{}, do: {k, found}
+            end
         end
     end
   end
@@ -62,6 +69,7 @@ defmodule Core.Analyzes.SaleTax do
         nil -> 0
         val -> val
       end
+
     struct =
       try do
         Services.get_sale_tax!(id)
@@ -104,35 +112,38 @@ defmodule Core.Analyzes.SaleTax do
         nil -> 0
         val -> val
       end
+
     struct =
       try do
         Services.get_sale_tax!(id)
       rescue
         Ecto.NoResultsError -> :error
       end
+
     case struct do
       :error -> :error
-      %SaleTax{user_id: user_id} ->
+      %SaleTax{sale_tax_industries: [%SaleTaxIndustry{name: name}]} ->
         case SaleTax.by_role(id) do
           false ->
-            name = by_name(SaleTax, SaleTaxIndustry, user_id, false, :sale_tax_id, :name) |> List.last |> to_string
-            names = if is_nil(name), do: nil, else: by_search(SaleTaxIndustry, SaleTax, true, :sale_tax_id, :name, [name])
-            data = if is_nil(names), do: :error, else: for {k} <- names, into: %{}, do: {k, found}
-            if is_nil(name), do: :error, else: data
-          true ->
-            name = by_name(SaleTax, SaleTaxIndustry, user_id, true, :sale_tax_id, :name)
-            data =
-              if is_nil(name) do
-                :error
-              else
+            if is_nil(name) do
+              :error
+            else
+              get_name = name |> List.last |> to_string
+              data = by_search(SaleTaxIndustry, SaleTax, true, :sale_tax_id, :name, [get_name])
+              for {k} <- data, into: %{}, do: {k, found}
+            end
+           true ->
+             if is_nil(name) do
+               :error
+             else
+              data =
                 Enum.reduce(name, [], fn(x, acc) ->
                   names = by_match(SaleTaxIndustry, SaleTax, false, :sale_tax_id, :name, to_string(x))
                   [names | acc]
-                end)
-              end
-              |> List.flatten
+                end) |> List.flatten
 
-            if is_nil(data), do: :error, else: for {k} <- data, into: %{}, do: {k, found}
+              for {k} <- data, into: %{}, do: {k, found}
+             end
         end
     end
   end
@@ -151,18 +162,25 @@ defmodule Core.Analyzes.SaleTax do
       rescue
         Ecto.NoResultsError -> :error
       end
+
     case struct do
       :error -> :error
-      %SaleTax{user_id: user_id} ->
+      %SaleTax{sale_tax_count: sale_tax_count, price_sale_tax_count: price_sale_tax_count} ->
         case SaleTax.by_role(id) do
           false ->
-            count = by_count(SaleTax, user_id, false, :sale_tax_count)
-            price = by_counts(SaleTax, true, :price_sale_tax_count)
-            if is_nil(count), do: :error, else: for {k, v} <- price, into: %{}, do: {k, v * count}
+            if is_nil(sale_tax_count) || !is_nil(price_sale_tax_count) || sale_tax_count == 0 do
+              :error
+            else
+              price = by_counts(SaleTax, true, :price_sale_tax_count)
+              for {k, v} <- price, into: %{}, do: {k, v * sale_tax_count}
+            end
           true ->
-            price = by_count(SaleTax, true, :price_sale_tax_count)
-            count = by_counts(SaleTax, false, :sale_tax_count)
-            if is_nil(price), do: :error, else: for {k, v} <- count, into: %{}, do: {k, v  * price}
+            if !is_nil(sale_tax_count) || is_nil(price_sale_tax_count) || price_sale_tax_count == 0 do
+              :error
+            else
+              data = by_counts(SaleTax, false, :sale_tax_count)
+              for {k, v} <- data, into: %{}, do: {k, v * price_sale_tax_count}
+            end
         end
     end
   end
@@ -181,16 +199,25 @@ defmodule Core.Analyzes.SaleTax do
       rescue
         Ecto.NoResultsError -> :error
       end
+
     case struct do
       :error -> :error
-      %SaleTax{user_id: user_id, sale_tax_frequencies: [%SaleTaxFrequency{name: name, price: price}]} ->
+      %SaleTax{sale_tax_frequencies: [%SaleTaxFrequency{name: name, price: price}]} ->
         case SaleTax.by_role(id) do
           false ->
-            data = by_price(SaleTaxFrequency, SaleTax, true, :sale_tax_id, :name, :price, name)
-            for {k, v} <- data, into: %{}, do: {k, v}
-          true  ->
-            data = by_name(SaleTaxFrequency, SaleTax, false, :sale_tax_id, :name, name)
-            for {k} <- data, into: %{}, do: {k, price}
+            if is_nil(name) || !is_nil(price) do
+              :error
+            else
+              data = by_names(SaleTaxFrequency, SaleTax, true, :sale_tax_id, :name, :price, name)
+              for {k, v} <- data, into: %{}, do: {k, v}
+            end
+           true ->
+             if is_nil(name) || is_nil(price) || price == 0 do
+               :error
+             else
+              data = by_name(SaleTaxFrequency, SaleTax, false, :sale_tax_id, :name, name)
+              for {k} <- data, into: %{}, do: {k, price}
+             end
         end
     end
   end
@@ -208,19 +235,24 @@ defmodule Core.Analyzes.SaleTax do
         nil -> D.new("0")
         val -> val
       end
+
     struct =
       try do
         Services.get_sale_tax!(id)
       rescue
         Ecto.NoResultsError -> :error
       end
+
     case struct do
       :error -> :error
-      %SaleTax{user_id: user_id} ->
+      %SaleTax{sale_tax_count: sale_tax_count, price_sale_tax_count: price_sale_tax_count} ->
         case SaleTax.by_role(id) do
           false ->
-            count = by_count(SaleTax, user_id, false, :sale_tax_count)
-            if is_nil(count), do: :error, else: %{id => decimal_mult(count, found)}
+            if is_nil(sale_tax_count) || !is_nil(price_sale_tax_count) || sale_tax_count == 0 do
+              :error
+            else
+              %{id => decimal_mult(sale_tax_count, found)}
+            end
           true -> :error
         end
     end
@@ -231,7 +263,13 @@ defmodule Core.Analyzes.SaleTax do
 
   @spec total_all(word) :: [%{atom => word, atom => integer | float}]
   def total_all(id) do
-    id
+    price = total_price(id)
+    data1 = for {k, v} <- price, into: [], do: %{id: k, sum_price: v}
+    match = total_match(id)
+    data2 = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
+    value = total_value(id)
+    data3 = %{id: id, sum_value: value}
+    [data3 | [data2 | [data1]]] |> List.flatten
   end
 
   @spec total_match(word) :: [%{atom => word, atom => float}]
