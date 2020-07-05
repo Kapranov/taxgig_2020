@@ -55,11 +55,16 @@ defmodule ServerWeb.GraphQL.Schema do
   import_types(ServerWeb.GraphQL.Schemas.Products.SaleTaxTypes)
   import_types(ServerWeb.GraphQL.Schemas.Services.BlockscoreTypes)
   import_types(ServerWeb.GraphQL.Schemas.Services.PtinTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Skills.AccountingSoftwareTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Skills.EducationTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Skills.UniversityTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Skills.WorkExperienceTypes)
   import_types(ServerWeb.GraphQL.Schemas.Talk.RoomTypes)
   import_types(ServerWeb.GraphQL.Schemas.UuidTypes)
 
   @desc "The root query type."
   query do
+    import_fields(:accounting_software_queries)
     import_fields(:blockscore_queries)
     import_fields(:book_keeping_additional_need_queries)
     import_fields(:book_keeping_annual_revenue_queries)
@@ -79,6 +84,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:business_tax_return_queries)
     import_fields(:business_total_revenue_queries)
     import_fields(:business_transaction_count_queries)
+    import_fields(:education_queries)
     import_fields(:faq_category_queries)
     import_fields(:faq_queries)
     import_fields(:individual_employment_status_queries)
@@ -100,13 +106,16 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:sale_tax_queries)
     import_fields(:state_queries)
     import_fields(:subscriber_queries)
+    import_fields(:university_queries)
     import_fields(:us_zipcode_queries)
     import_fields(:user_queries)
     import_fields(:vacancy_queries)
+    import_fields(:work_experience_queries)
   end
 
   @desc "The root mutation type."
   mutation do
+    import_fields(:accounting_software_mutations)
     import_fields(:book_keeping_additional_need_mutations)
     import_fields(:book_keeping_annual_revenue_mutations)
     import_fields(:book_keeping_classify_inventory_mutations)
@@ -124,6 +133,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:business_tax_return_mutations)
     import_fields(:business_total_revenue_mutations)
     import_fields(:business_transaction_count_mutations)
+    import_fields(:education_mutations)
     import_fields(:faq_category_mutations)
     import_fields(:faq_mutations)
     import_fields(:individual_employment_status_mutations)
@@ -186,9 +196,11 @@ defmodule ServerWeb.GraphQL.Schema do
 
   @desc "The root subscription type."
   subscription do
+    import_fields(:accounting_software_subscriptions)
     import_fields(:blockscore_subscriptions)
     import_fields(:book_keeping_subscriptions)
     import_fields(:business_tax_return_subscriptions)
+    import_fields(:education_subscriptions)
     import_fields(:faq_category_subscriptions)
     import_fields(:faq_subscriptions)
     import_fields(:individual_tax_return_subscriptions)
@@ -198,8 +210,10 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:ptin_subscriptions)
     import_fields(:sale_tax_subscriptions)
     import_fields(:subscriber_subscriptions)
+    import_fields(:university_subscriptions)
     import_fields(:user_subscriptions)
     import_fields(:vacancy_subscriptions)
+    import_fields(:work_experience_subscriptions)
   end
 
   @spec context(map()) :: map()
