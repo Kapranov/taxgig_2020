@@ -90,7 +90,7 @@ defmodule Core.Skills.AccountingSoftware do
   end
 
   @spec by_user(word) :: Ecto.Schema.t() | nil
-  defp by_user(user_id) do
+  def by_user(user_id) do
     try do
       Repo.one(from c in User, where: c.id == ^user_id)
     rescue

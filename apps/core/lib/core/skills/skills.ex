@@ -54,9 +54,13 @@ defmodule Core.Skills do
   """
   @spec create_accounting_software(%{atom => any}) :: result() | error_tuple()
   def create_accounting_software(attrs \\ %{}) do
-    %AccountingSoftware{}
-    |> AccountingSoftware.changeset(attrs)
-    |> Repo.insert()
+    case AccountingSoftware.by_user(attrs.user_id).role do
+      false -> {:error, %Ecto.Changeset{}}
+      true  ->
+        %AccountingSoftware{}
+        |> AccountingSoftware.changeset(attrs)
+        |> Repo.insert()
+    end
   end
 
   @doc """
@@ -73,9 +77,13 @@ defmodule Core.Skills do
   """
   @spec update_accounting_software(AccountingSoftware.t(), %{atom => any}) :: result() | error_tuple()
   def update_accounting_software(struct, attrs) do
-    struct
-    |> AccountingSoftware.changeset(attrs)
-    |> Repo.update()
+    case AccountingSoftware.by_user(struct.user_id).role do
+      false -> {:error, %Ecto.Changeset{}}
+      true  ->
+        struct
+        |> AccountingSoftware.changeset(attrs)
+        |> Repo.update()
+    end
   end
 
   @doc """
@@ -151,9 +159,13 @@ defmodule Core.Skills do
   """
   @spec create_education(%{atom => any}) :: result() | error_tuple()
   def create_education(attrs \\ %{}) do
-    %Education{}
-    |> WorkExperience.changeset(attrs)
-    |> Repo.insert()
+    case Education.by_user(attrs.user_id).role do
+      false -> {:error, %Ecto.Changeset{}}
+      true ->
+        %Education{}
+        |> WorkExperience.changeset(attrs)
+        |> Repo.insert()
+    end
   end
 
   @doc """
@@ -170,9 +182,13 @@ defmodule Core.Skills do
   """
   @spec update_education(Education.t(), %{atom => any}) :: result() | error_tuple()
   def update_education(struct, attrs) do
-    struct
-    |> Education.changeset(attrs)
-    |> Repo.update()
+    case Education.by_user(struct.user_id).role do
+      false -> {:error, %Ecto.Changeset{}}
+      true ->
+        struct
+        |> Education.changeset(attrs)
+        |> Repo.update()
+    end
   end
 
   @doc """
@@ -306,9 +322,13 @@ defmodule Core.Skills do
   """
   @spec create_work_experience(%{atom => any}) :: result() | error_tuple()
   def create_work_experience(attrs \\ %{}) do
-    %WorkExperience{}
-    |> WorkExperience.changeset(attrs)
-    |> Repo.insert()
+    case WorkExperience.by_user(attrs.user_id).role do
+      false -> {:error, %Ecto.Changeset{}}
+      true ->
+        %WorkExperience{}
+        |> WorkExperience.changeset(attrs)
+        |> Repo.insert()
+    end
   end
 
   @doc """
@@ -325,9 +345,13 @@ defmodule Core.Skills do
   """
   @spec update_work_experience(WorkExperience.t(), %{atom => any}) :: result() | error_tuple()
   def update_work_experience(struct, attrs) do
-    struct
-    |> WorkExperience.changeset(attrs)
-    |> Repo.update()
+    case WorkExperience.by_user(struct.user_id).role do
+      false -> {:error, %Ecto.Changeset{}}
+      true ->
+        struct
+        |> WorkExperience.changeset(attrs)
+        |> Repo.update()
+    end
   end
 
   @doc """
