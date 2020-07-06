@@ -34,7 +34,7 @@ defmodule Core.Skills.AccountingSoftware do
   schema "accounting_softwares" do
     field :name, {:array, AccountingSoftwareNameEnum}
 
-    belongs_to :users, User,
+    belongs_to :user, User,
       foreign_key: :user_id, type: FlakeId.Ecto.CompatType, references: :id
 
     timestamps()

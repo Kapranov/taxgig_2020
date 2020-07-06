@@ -43,7 +43,7 @@ defmodule Core.Skills.Education do
 
     belongs_to :university, University,
       foreign_key: :university_id, type: FlakeId.Ecto.CompatType, references: :id
-    belongs_to :users, User,
+    belongs_to :user, User,
       foreign_key: :user_id, type: FlakeId.Ecto.CompatType, references: :id
 
     timestamps()

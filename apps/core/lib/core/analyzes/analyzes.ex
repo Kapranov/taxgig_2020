@@ -3,11 +3,63 @@ defmodule Core.Analyzes do
   Analyze's Services.
   """
 
+  alias Core.Analyzes.{
+    BookKeeping,
+    BusinessTaxReturn,
+    IndividualTaxReturn,
+    SaleTax
+  }
+
+  alias Decimal, as: D
+
   @type word() :: String.t()
 
   @spec total_all(word) :: [%{atom => word, atom => integer | float}]
   def total_all(id) do
-    id
+    case Core.Services.BookKeeping.by_role(id) do
+      {:error, _} ->
+        case Core.Services.BusinessTaxReturn.by_role(id) do
+          {:error, _} ->
+            case Core.Services.IndividualTaxReturn.by_role(id) do
+              {:error, _} ->
+                case Core.Services.SaleTax.by_role(id) do
+                  {:error, msg} -> {:error, msg}
+                  _ ->
+                    price = total_price(id)
+                    data1 = for {k, v} <- price, into: [], do: %{id: k, sum_price: v}
+                    match = total_match(id)
+                    data2 = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
+                    value = total_value(id)
+                    data3 = %{id: id, sum_value: value}
+                    [data3 | [data2 | [data1]]] |> List.flatten
+                end
+              _ ->
+                price = total_price(id)
+                data1 = for {k, v} <- price, into: [], do: %{id: k, sum_price: v}
+                match = total_match(id)
+                data2 = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
+                value = total_value(id)
+                data3 = %{id: id, sum_value: value}
+                [data3 | [data2 | [data1]]] |> List.flatten
+            end
+          _ ->
+            price = total_price(id)
+            data1 = for {k, v} <- price, into: [], do: %{id: k, sum_price: v}
+            match = total_match(id)
+            data2 = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
+            value = total_value(id)
+            data3 = %{id: id, sum_value: value}
+            [data3 | [data2 | [data1]]] |> List.flatten
+        end
+      _ ->
+        price = total_price(id)
+        data1 = for {k, v} <- price, into: [], do: %{id: k, sum_price: v}
+        match = total_match(id)
+        data2 = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
+        value = total_value(id)
+        data3 = %{id: id, sum_value: value}
+        [data3 | [data2 | [data1]]] |> List.flatten
+    end
   end
 
   @spec total_match(word) :: [%{atom => word, atom => integer}]
@@ -39,7 +91,188 @@ defmodule Core.Analyzes do
     # SaleTax.check_match_sale_tax_count(id)
     # SaleTax.check_match_sale_tax_frequency(id)
     # SaleTax.check_match_sale_tax_industry(id)
-    id
+
+    case Core.Services.BookKeeping.by_role(id) do
+      {:error, _} ->
+        case Core.Services.BusinessTaxReturn.by_role(id) do
+          {:error, _} ->
+            case Core.Services.IndividualTaxReturn.by_role(id) do
+              {:error, _} ->
+                case Core.Services.SaleTax.by_role(id) do
+                  {:error, msg} -> msg
+                  _ ->
+                    cnt1 =
+                      case SaleTax.check_match_sale_tax_count(id) do
+                        :error -> %{}
+                        data -> data
+                      end
+
+                    cnt2 =
+                      case SaleTax.check_match_sale_tax_frequency(id) do
+                        :error -> %{}
+                        data -> data
+                      end
+
+                    cnt3 =
+                      case SaleTax.check_match_sale_tax_industry(id) do
+                        :error -> %{}
+                        data -> data
+                      end
+
+                    rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
+                    Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
+                end
+              _ ->
+                cnt1 =
+                  case IndividualTaxReturn.check_match_foreign_account(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt2 =
+                  case IndividualTaxReturn.check_match_home_owner(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt3 =
+                  case IndividualTaxReturn.check_match_individual_employment_status(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt4 =
+                  case IndividualTaxReturn.check_match_individual_filing_status(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt5 =
+                  case IndividualTaxReturn.check_match_individual_industry(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt6 =
+                  case IndividualTaxReturn.check_match_individual_itemized_deduction(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt7 =
+                  case IndividualTaxReturn.check_match_living_abroad(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt8 =
+                  case IndividualTaxReturn.check_match_non_resident_earning(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt9 =
+                  case IndividualTaxReturn.check_match_own_stock_crypto(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt10 =
+                  case IndividualTaxReturn.check_match_rental_property_income(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt11 =
+                  case IndividualTaxReturn.check_match_stock_divident(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                rst1 = Map.merge(cnt1,  cnt2, fn _k, v1, v2 -> v1 + v2 end)
+                rst2 = Map.merge(rst1,  cnt3, fn _k, v1, v2 -> v1 + v2 end)
+                rst3 = Map.merge(rst2,  cnt4, fn _k, v1, v2 -> v1 + v2 end)
+                rst4 = Map.merge(rst3,  cnt5, fn _k, v1, v2 -> v1 + v2 end)
+                rst5 = Map.merge(rst4,  cnt6, fn _k, v1, v2 -> v1 + v2 end)
+                rst6 = Map.merge(rst5,  cnt7, fn _k, v1, v2 -> v1 + v2 end)
+                rst7 = Map.merge(rst6,  cnt8, fn _k, v1, v2 -> v1 + v2 end)
+                rst8 = Map.merge(rst7,  cnt9, fn _k, v1, v2 -> v1 + v2 end)
+                rst9 = Map.merge(rst8, cnt10, fn _k, v1, v2 -> v1 + v2 end)
+                Map.merge(rst9, cnt11, fn _k, v1, v2 -> v1 + v2 end)
+            end
+          _ ->
+            cnt1 =
+              case BusinessTaxReturn.check_match_business_entity_type(id) do
+                :error -> %{}
+                data -> data
+              end
+
+            cnt2 =
+              case BusinessTaxReturn.check_match_business_industry(id) do
+                :error -> %{}
+                data -> data
+              end
+
+            cnt3 =
+              case BusinessTaxReturn.check_match_business_number_of_employee(id) do
+                :error -> %{}
+                data -> data
+              end
+
+            cnt4 =
+              case BusinessTaxReturn.check_match_business_total_revenue(id) do
+                :error -> %{}
+                data -> data
+              end
+
+            rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
+            rst2 = Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
+            rst3 = Map.merge(rst2, cnt4, fn _k, v1, v2 -> v1 + v2 end)
+            Map.merge(rst3, cnt4, fn _k, v1, v2 -> v1 + v2 end)
+        end
+              _ ->
+                cnt1 =
+                  case BookKeeping.check_match_payroll(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt2 =
+                  case BookKeeping.check_match_book_keeping_additional_need(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt3 =
+                  case BookKeeping.check_match_book_keeping_annual_revenue(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt4 =
+                  case BookKeeping.check_match_book_keeping_industry(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt5 =
+                  case BookKeeping.check_match_book_keeping_type_client(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt6 =
+                  case BookKeeping.check_match_book_keeping_number_employee(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
+                rst2 = Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
+                rst3 = Map.merge(rst2, cnt4, fn _k, v1, v2 -> v1 + v2 end)
+                rst4 = Map.merge(rst3, cnt5, fn _k, v1, v2 -> v1 + v2 end)
+                Map.merge(rst4, cnt6, fn _k, v1, v2 -> v1 + v2 end)
+            end
   end
 
   @spec total_price(word) :: [%{atom => word, atom => integer}]
@@ -73,7 +306,201 @@ defmodule Core.Analyzes do
     #
     # SaleTax.check_price_sale_tax_count(id)
     # SaleTax.check_price_sale_tax_frequency(id)
-    id
+
+    case Core.Services.BookKeeping.by_role(id) do
+      {:error, _} ->
+        case Core.Services.BusinessTaxReturn.by_role(id) do
+          {:error, _} ->
+            case Core.Services.IndividualTaxReturn.by_role(id) do
+              {:error, _} ->
+                case Core.Services.SaleTax.by_role(id) do
+                  {:error, msg} -> msg
+                  _ ->
+                    cnt1 =
+                      case SaleTax.check_price_sale_tax_count(id) do
+                        :error -> %{}
+                        data -> data
+                      end
+
+                    cnt2 =
+                      case SaleTax.check_price_sale_tax_frequency(id) do
+                        :error -> %{}
+                        data -> data
+                      end
+
+                    Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
+                end
+              _ ->
+                cnt1 =
+                  case IndividualTaxReturn.check_price_foreign_account(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt2 =
+                  case IndividualTaxReturn.check_price_home_owner(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt3 =
+                  case IndividualTaxReturn.check_price_individual_employment_status(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt4 =
+                  case IndividualTaxReturn.check_price_individual_filing_status(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt5 =
+                  case IndividualTaxReturn.check_price_individual_itemized_deduction(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt6 =
+                  case IndividualTaxReturn.check_price_living_abroad(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt7 =
+                  case IndividualTaxReturn.check_price_non_resident_earning(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt8 =
+                  case IndividualTaxReturn.check_price_own_stock_crypto(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt9 =
+                  case IndividualTaxReturn.check_price_rental_property_income(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt10 =
+                  case IndividualTaxReturn.check_price_sole_proprietorship_count(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt11 =
+                  case IndividualTaxReturn.check_price_state(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt12 =
+                  case IndividualTaxReturn.check_price_stock_divident(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt13 =
+                  case IndividualTaxReturn.check_price_tax_year(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                 rst1 = Map.merge(cnt1,   cnt2, fn _k, v1, v2 -> v1 + v2 end)
+                 rst2 = Map.merge(rst1,   cnt3, fn _k, v1, v2 -> v1 + v2 end)
+                 rst3 = Map.merge(rst2,   cnt4, fn _k, v1, v2 -> v1 + v2 end)
+                 rst4 = Map.merge(rst3,   cnt5, fn _k, v1, v2 -> v1 + v2 end)
+                 rst5 = Map.merge(rst4,   cnt6, fn _k, v1, v2 -> v1 + v2 end)
+                 rst6 = Map.merge(rst5,   cnt7, fn _k, v1, v2 -> v1 + v2 end)
+                 rst7 = Map.merge(rst6,   cnt8, fn _k, v1, v2 -> v1 + v2 end)
+                 rst8 = Map.merge(rst7,   cnt9, fn _k, v1, v2 -> v1 + v2 end)
+                 rst9 = Map.merge(rst8,  cnt10, fn _k, v1, v2 -> v1 + v2 end)
+                rst10 = Map.merge(rst9,  cnt11, fn _k, v1, v2 -> v1 + v2 end)
+                rst11 = Map.merge(rst10, cnt12, fn _k, v1, v2 -> v1 + v2 end)
+                Map.merge(rst11, cnt13, fn _k, v1, v2 -> v1 + v2 end)
+            end
+          _ ->
+            cnt1 =
+              case BusinessTaxReturn.check_price_business_entity_type(id) do
+                :error -> %{}
+                data -> data
+              end
+
+            cnt2 =
+              case BusinessTaxReturn.check_price_business_number_of_employee(id) do
+                :error -> %{}
+                data -> data
+              end
+
+            cnt3 =
+              case BusinessTaxReturn.check_price_business_total_revenue(id) do
+                :error -> %{}
+                data -> data
+              end
+
+            cnt4 =
+              case BusinessTaxReturn.check_price_state(id) do
+                :error -> %{}
+                data -> data
+              end
+
+            cnt5 =
+              case BusinessTaxReturn.check_price_tax_year(id) do
+                :error -> %{}
+                data -> data
+              end
+
+            rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
+            rst2 = Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
+            rst3 = Map.merge(rst2, cnt4, fn _k, v1, v2 -> v1 + v2 end)
+            Map.merge(rst3, cnt5, fn _k, v1, v2 -> v1 + v2 end)
+        end
+      _ ->
+        cnt1 =
+          case BookKeeping.check_price_payroll(id) do
+            :error -> %{}
+            data -> data
+          end
+
+        cnt2 =
+          case BookKeeping.check_price_book_keeping_additional_need(id) do
+            :error -> %{}
+            data -> data
+          end
+
+        cnt3 =
+          case BookKeeping.check_price_book_keeping_annual_revenue(id) do
+            :error -> %{}
+            data -> data
+          end
+
+        cnt4 =
+          case BookKeeping.check_price_book_keeping_number_employee(id) do
+            :error -> %{}
+            data -> data
+          end
+
+        cnt5 =
+          case BookKeeping.check_price_book_keeping_transaction_volume(id) do
+            :error -> %{}
+            data -> data
+          end
+
+        cnt6 =
+          case BookKeeping.check_price_book_keeping_type_client(id) do
+            :error -> %{}
+            data -> data
+          end
+
+        rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
+        rst2 = Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
+        rst3 = Map.merge(rst2, cnt4, fn _k, v1, v2 -> v1 + v2 end)
+        rst4 = Map.merge(rst3, cnt5, fn _k, v1, v2 -> v1 + v2 end)
+        Map.merge(rst4, cnt6, fn _k, v1, v2 -> v1 + v2 end)
+    end
   end
 
   @spec total_value(word) :: [%{atom => word, atom => float}]
@@ -115,6 +542,266 @@ defmodule Core.Analyzes do
     # IndividualTaxReturn.check_value_tax_year(id)
     #
     # SaleTax.check_value_sale_tax_count(id)
-    id
+
+    case Core.Services.BookKeeping.by_role(id) do
+      {:error, _} ->
+        case Core.Services.BusinessTaxReturn.by_role(id) do
+          {:error, _} ->
+            case Core.Services.IndividualTaxReturn.by_role(id) do
+              {:error, _} ->
+                case Core.Services.SaleTax.by_role(id) do
+                  {:error, msg} -> msg
+                  _ ->
+                    val1 =
+                      case SaleTax.check_value_sale_tax_count(id) do
+                        :error -> D.new("0")
+                        data -> data[id]
+                      end
+
+                    %{id => D.new(val1)}
+                end
+              _ ->
+                val1 =
+                  case IndividualTaxReturn.check_value_foreign_account_limit(id) do
+                    :error -> D.new("0")
+                    data -> data[id]
+                  end
+
+                val2 =
+                  case IndividualTaxReturn.check_value_foreign_financial_interest(id) do
+                    :error -> D.new("0")
+                    data -> data[id]
+                  end
+
+                val3 =
+                  case IndividualTaxReturn.check_value_home_owner(id) do
+                    :error -> D.new("0")
+                    data -> data[id]
+                  end
+
+                val4 =
+                  case IndividualTaxReturn.check_value_individual_employment_status(id) do
+                    :error -> D.new("0")
+                    data -> data[id]
+                  end
+
+                val5 =
+                  case IndividualTaxReturn.check_value_individual_filing_status(id) do
+                    :error -> D.new("0")
+                    data -> data[id]
+                  end
+
+                val6 =
+                  case IndividualTaxReturn.check_value_individual_stock_transaction_count(id) do
+                    :error -> D.new("0")
+                    data -> data[id]
+                  end
+
+                val7 =
+                  case IndividualTaxReturn.check_value_k1_count(id) do
+                    :error -> D.new("0")
+                    data -> data[id]
+                  end
+
+                val8 =
+                  case IndividualTaxReturn.check_value_rental_property_income(id) do
+                    :error -> D.new("0")
+                    data -> data[id]
+                  end
+
+                val9 =
+                  case IndividualTaxReturn.check_value_sole_proprietorship_count(id) do
+                    :error -> D.new("0")
+                    data -> data[id]
+                  end
+
+                val10 =
+                  case IndividualTaxReturn.check_value_state(id) do
+                    :error -> D.new("0")
+                    data -> data[id]
+                  end
+
+                val11 =
+                  case IndividualTaxReturn.check_value_tax_year(id) do
+                    :error -> D.new("0")
+                    data -> data[id]
+                  end
+
+                result =
+                  D.add(val1, val2)
+                    |> D.add(val3)
+                    |> D.add(val4)
+                    |> D.add(val5)
+                    |> D.add(val6)
+                    |> D.add(val7)
+                    |> D.add(val8)
+                    |> D.add(val9)
+                    |> D.add(val10)
+                    |> D.add(val11)
+
+                %{id => result}
+            end
+          _ ->
+            val1 =
+              case BusinessTaxReturn.check_value_accounting_software(id) do
+                :error -> D.new("0")
+                data -> data[id]
+              end
+
+            val2 =
+              case BusinessTaxReturn.check_value_business_entity_type(id) do
+                :error -> D.new("0")
+                data -> data[id]
+              end
+
+            val3 =
+              case BusinessTaxReturn.check_value_business_foreign_ownership_count(id) do
+                :error -> D.new("0")
+                data -> data[id]
+              end
+
+            val4 =
+              case BusinessTaxReturn.check_value_business_total_revenue(id) do
+                :error -> D.new("0")
+                data -> data[id]
+              end
+
+            val5 =
+              case BusinessTaxReturn.check_value_business_transaction_count(id) do
+                :error -> D.new("0")
+                data -> data[id]
+              end
+
+            val6 =
+              case BusinessTaxReturn.check_value_dispose_property(id) do
+                :error -> D.new("0")
+                data -> data[id]
+              end
+
+            val7 =
+              case BusinessTaxReturn.check_value_foreign_shareholder(id) do
+                :error -> D.new("0")
+                data -> data[id]
+              end
+
+            val8 =
+              case BusinessTaxReturn.check_value_income_over_thousand(id) do
+                :error -> D.new("0")
+                data -> data[id]
+              end
+
+            val9 =
+              case BusinessTaxReturn.check_value_invest_research(id) do
+                :error -> D.new("0")
+                data -> data[id]
+              end
+
+            val10 =
+              case BusinessTaxReturn.check_value_k1_count(id) do
+                :error -> D.new("0")
+                data -> data[id]
+              end
+
+            val11 =
+              case BusinessTaxReturn.check_value_make_distribution(id) do
+                :error -> D.new("0")
+                data -> data[id]
+              end
+
+            val12 =
+              case BusinessTaxReturn.check_value_state(id) do
+                :error -> D.new("0")
+                data -> data[id]
+              end
+
+            val13 =
+              case BusinessTaxReturn.check_value_tax_exemption(id) do
+                :error -> D.new("0")
+                data -> data[id]
+              end
+
+            val14 =
+              case BusinessTaxReturn.check_value_tax_year (id) do
+                :error -> D.new("0")
+                data -> data[id]
+              end
+
+            val15 =
+              case BusinessTaxReturn.check_value_total_asset_over(id) do
+                :error -> D.new("0")
+                data -> data[id]
+              end
+
+            result =
+              D.add(val1, val2)
+                |> D.add(val3)
+                |> D.add(val4)
+                |> D.add(val5)
+                |> D.add(val6)
+                |> D.add(val7)
+                |> D.add(val8)
+                |> D.add(val9)
+                |> D.add(val10)
+                |> D.add(val11)
+                |> D.add(val12)
+                |> D.add(val13)
+                |> D.add(val14)
+                |> D.add(val15)
+
+            %{id => result}
+        end
+      _ ->
+        val1 =
+          case BookKeeping.check_value_payroll(id) do
+            :error -> D.new("0")
+            data -> data[id]
+          end
+
+        val2 =
+          case BookKeeping.check_value_tax_year(id) do
+            :error -> D.new("0")
+            data -> data[id]
+          end
+
+        val3 =
+          case BookKeeping.check_value_book_keeping_additional_need(id) do
+            :error -> D.new("0")
+            data -> data[id]
+          end
+
+        val4 =
+          case BookKeeping.check_value_book_keeping_annual_revenue(id) do
+            :error -> D.new("0")
+            data -> data[id]
+          end
+
+        val5 =
+          case BookKeeping.check_value_book_keeping_number_employee(id) do
+            :error -> D.new("0")
+            data -> data[id]
+          end
+
+        val6 =
+          case BookKeeping.check_value_book_keeping_transaction_volume(id) do
+            :error -> D.new("0")
+            data -> data[id]
+          end
+
+        val7 =
+          case BookKeeping.check_value_book_keeping_type_client(id) do
+            :error -> D.new("0")
+            data -> data[id]
+          end
+
+        result =
+          D.add(val1, val2)
+            |> D.add(val3)
+            |> D.add(val4)
+            |> D.add(val5)
+            |> D.add(val6)
+            |> D.add(val7)
+
+        %{id => result}
+    end
   end
 end

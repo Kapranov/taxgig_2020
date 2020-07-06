@@ -46,6 +46,10 @@ defmodule Core.Factory do
     Services.SaleTax,
     Services.SaleTaxFrequency,
     Services.SaleTaxIndustry,
+    Skills.AccountingSoftware,
+    Skills.Education,
+    Skills.University,
+    Skills.WorkExperience,
     Talk.Message,
     Talk.Room,
     Upload
@@ -1127,6 +1131,39 @@ defmodule Core.Factory do
     }
   end
 
+  @spec accounting_software_factory() :: AccountingSoftware.t()
+  def accounting_software_factory do
+    %AccountingSoftware{
+      name: random_name_accounting_software(),
+      user: build(:pro_user)
+    }
+  end
+
+  @spec education_factory() :: Education.t()
+  def education_factory do
+    %Education{
+      course: Lorem.word(),
+      graduation: Date.utc_today |> Date.add(-6),
+      university: build(:university),
+      user: build(:pro_user)
+    }
+  end
+
+  @spec university_factory() :: University.t()
+  def university_factory do
+    %University{name: random_name_university()}
+  end
+
+  @spec work_experience_factory() :: WorkExperience.t()
+  def work_experience_factory do
+    %WorkExperience{
+      name: Lorem.word(),
+      start_date: Date.utc_today |> Date.add(-16),
+      end_date: Date.utc_today |> Date.add(-12),
+      user: build(:pro_user)
+    }
+  end
+
   @spec random_language() :: {atom, String.t()}
   defp random_language do
     data = [
@@ -1624,5 +1661,72 @@ defmodule Core.Factory do
       end
 
     Enum.uniq(result)
+  end
+
+  def random_name_accounting_software do
+    names = [
+      "QuickBooks Desktop Premier",
+      "QuickBooks Desktop Pro",
+      "QuickBooks Desktop for Mac",
+      "QuickBooks Enterprise",
+      "QuickBooks Live Bookkeeping",
+      "QuickBooks Online Advanced",
+      "QuickBooks Online",
+      "QuickBooks Self Employed",
+      "Xero Cashbook/Ledger",
+      "Xero HQ",
+      "Xero Practice Manager",
+      "Xero Workpapers"
+    ]
+
+    numbers = 1..12
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+
+    Enum.uniq(result)
+  end
+
+  def random_name_university do
+    names = [
+      "Babcock University",
+      "Bluffton College",
+      "Banaras Hindu University",
+      "Cabrillo College",
+      "Cape Coast Polytechnic",
+      "Defiance College",
+      "Delaware State University",
+      "Earlham College",
+      "Elon College",
+      "Folsom Lake College",
+      "Hitit University",
+      "Holy Angel University",
+      "Illinois Central College",
+      "J Sargeant Reynolds Community College",
+      "Jones College",
+      "Knox College",
+      "Lake Forest College",
+      "Matn University",
+      "Mersin University",
+      "Oakland Community College",
+      "Pacific University",
+      "Parkland College",
+      "Radford University",
+      "Södertörn University College",
+      "Triton College"
+      ]
+
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+
+    result |> Enum.uniq() |> List.to_string
   end
 end
