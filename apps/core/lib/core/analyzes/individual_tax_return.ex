@@ -904,7 +904,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
                   count = Enum.count(elem(x, 1))
                   if count > 1, do: [x | acc], else: acc
                 end)
-              for {k, _} <- data, into: %{}, do: {k, Enum.count(data) * price_state}
+              for {k, v} <- data, into: %{}, do: {k, Enum.count(v) * price_state}
             end
         end
     end

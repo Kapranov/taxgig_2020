@@ -1165,7 +1165,7 @@ defmodule Core.Factory do
   end
 
   @spec random_language() :: {atom, String.t()}
-  defp random_language do
+  def random_language do
     data = [
       ara: "arabic",
       ben: "bengali",
@@ -1194,13 +1194,13 @@ defmodule Core.Factory do
   end
 
   @spec random_boolean() :: boolean()
-  defp random_boolean do
+  def random_boolean do
     data = ~W(true false)a
     Enum.random(data)
   end
 
   @spec random_gender() :: String.t()
-  defp random_gender do
+  def random_gender do
     data = [
       "Decline to Answer",
       "Female/Woman",
@@ -1215,7 +1215,7 @@ defmodule Core.Factory do
   end
 
   @spec random_email() :: String.t()
-  defp random_email do
+  def random_email do
     data = [
       "lugatex@yahoo.com",
       "kapranov.lugatex@gmail.com"
@@ -1247,13 +1247,13 @@ defmodule Core.Factory do
   end
 
   @spec random_provider() :: String.t()
-  defp random_provider do
+  def random_provider do
     data = ~w(google localhost facebook linkedin twitter)s
     Enum.random(data)
   end
 
   @spec random_ssn() :: integer()
-  defp random_ssn do
+  def random_ssn do
     Us.ssn()
     |> String.replace(~r/-/, "")
     |> String.trim()
@@ -1261,12 +1261,12 @@ defmodule Core.Factory do
   end
 
   @spec random_integer() :: Integer
-  defp random_integer(n \\ 99) when is_integer(n) do
+  def random_integer(n \\ 99) when is_integer(n) do
     Enum.random(1..n)
   end
 
   @spec random_state :: list()
-  defp random_state do
+  def random_state do
     states =
       ~w(Hawaii Georgia Iowa)s
       |> Enum.random()
@@ -1275,7 +1275,7 @@ defmodule Core.Factory do
   end
 
   @spec random_year :: list()
-  defp random_year do
+  def random_year do
     years = 2000..2020
     numbers = 1..9
     number = Enum.random(numbers)
@@ -1290,7 +1290,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_additional_need :: String.t
-  defp random_name_additional_need do
+  def random_name_additional_need do
     names = [
       "accounts payable",
       "accounts receivable",
@@ -1303,7 +1303,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_annual_revenue :: String.t
-  defp random_name_annual_revenue do
+  def random_name_annual_revenue do
     names = [
       "$100K - $500K",
       "$10M+",
@@ -1317,7 +1317,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_classify_inventory :: String.t
-  defp random_name_classify_inventory do
+  def random_name_classify_inventory do
     names = [
       "Assets",
       "Expenses"
@@ -1335,7 +1335,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_industry :: String.t
-  defp random_name_industry do
+  def random_name_industry do
     names = [
       "Agriculture/Farming",
       "Automotive Sales/Repair",
@@ -1375,7 +1375,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_for_tp_industry :: String.t
-  defp random_name_for_tp_industry do
+  def random_name_for_tp_industry do
     names = [
       "Agriculture/Farming",
       "Automotive Sales/Repair",
@@ -1407,7 +1407,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_for_pro_industry :: String.t
-  defp random_name_for_pro_industry do
+  def random_name_for_pro_industry do
     names = [
       "Agriculture/Farming",
       "Automotive Sales/Repair",
@@ -1447,7 +1447,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_number_employee :: String.t
-  defp random_name_number_employee do
+  def random_name_number_employee do
     names = [
       "1 employee",
       "101 - 500 employees",
@@ -1461,7 +1461,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_transaction_volume :: String.t
-  defp random_name_transaction_volume do
+  def random_name_transaction_volume do
     names = [
       "1-25",
       "200+",
@@ -1473,7 +1473,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_type_client :: String.t
-  defp random_name_type_client do
+  def random_name_type_client do
     names = [
       "C-Corp / Corporation",
       "Individual or Sole proprietorship",
@@ -1487,7 +1487,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_employment_status :: String.t()
-  defp random_name_employment_status do
+  def random_name_employment_status do
     names = [
       "employed",
       "self-employed",
@@ -1498,7 +1498,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_filling_status :: String.t()
-  defp random_name_filling_status do
+  def random_name_filling_status do
     names = [
       "Head of Household",
       "Married filing jointly",
@@ -1511,7 +1511,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_foreign_account_count :: String.t()
-  defp random_name_foreign_account_count do
+  def random_name_foreign_account_count do
     names = [
       "1",
       "2-5",
@@ -1522,7 +1522,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_itemized_deduction :: String.t()
-  defp random_name_itemized_deduction do
+  def random_name_itemized_deduction do
     names = [
       "Charitable contributions",
       "Health insurance",
@@ -1533,7 +1533,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_tax_frequency :: String.t
-  defp random_name_tax_frequency do
+  def random_name_tax_frequency do
     names = [
       "Annually",
       "Monthly",
@@ -1544,7 +1544,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_tax_industry :: String.t
-  defp random_name_tax_industry do
+  def random_name_tax_industry do
     names = [
       "Agriculture/Farming",
       "Automotive Sales/Repair",
@@ -1584,7 +1584,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_for_tp_tax_industry :: String.t
-  defp random_name_for_tp_tax_industry do
+  def random_name_for_tp_tax_industry do
     names = [
       "Agriculture/Farming",
       "Automotive Sales/Repair",
@@ -1624,7 +1624,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_for_pro_tax_industry :: String.t
-  defp random_name_for_pro_tax_industry do
+  def random_name_for_pro_tax_industry do
     names = [
       "Agriculture/Farming",
       "Automotive Sales/Repair",
