@@ -15,7 +15,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
   @desc "The list business tax returns"
   object :business_tax_return do
     field :id, non_null(:string)
-    field :accounting_software, non_null(:boolean)
+    field :accounting_software, :boolean
     field :business_entity_types, list_of(:business_entity_type), resolve: dataloader(Data)
     field :business_foreign_account_counts, list_of(:business_foreign_account_count), resolve: dataloader(Data)
     field :business_foreign_ownership_counts, list_of(:business_foreign_ownership_count), resolve: dataloader(Data)
@@ -23,50 +23,48 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
     field :business_number_employees, list_of(:business_number_employee), resolve: dataloader(Data)
     field :business_total_revenues, list_of(:business_total_revenue), resolve: dataloader(Data)
     field :business_transaction_counts, list_of(:business_transaction_count), resolve: dataloader(Data)
-    field :capital_asset_sale, non_null(:boolean)
-    field :church_hospital, non_null(:boolean)
-    field :deadline, non_null(:date)
-    field :dispose_asset, non_null(:boolean)
-    field :dispose_property, non_null(:boolean)
-    field :educational_facility, non_null(:boolean)
-    field :financial_situation, non_null(:string)
-    field :foreign_account_interest, non_null(:boolean)
-    field :foreign_account_value_more, non_null(:boolean)
-    field :foreign_entity_interest, non_null(:boolean)
-    field :foreign_partner_count, non_null(:integer)
-    field :foreign_shareholder, non_null(:boolean)
-    field :foreign_value, non_null(:boolean)
-    field :fundraising_over, non_null(:boolean)
-    field :has_contribution, non_null(:boolean)
-    field :has_loan, non_null(:boolean)
-    field :income_over_thousand, non_null(:boolean)
-    field :inserted_at, non_null(:datetime)
-    field :invest_research, non_null(:boolean)
-    field :k1_count, non_null(:integer)
-    field :lobbying, non_null(:boolean)
-    field :make_distribution, non_null(:boolean)
-    field :none_expat, non_null(:boolean)
-    field :operate_facility, non_null(:boolean)
-    field :price_state, non_null(:integer)
-    field :price_tax_year, non_null(:integer)
-    field :property_sale, non_null(:boolean)
-    field :public_charity, non_null(:boolean)
-    field :rental_property_count, non_null(:integer)
-    field :reported_grant, non_null(:boolean)
-    field :restricted_donation, non_null(:boolean)
+    field :capital_asset_sale, :boolean
+    field :church_hospital, :boolean
+    field :deadline, :date
+    field :dispose_asset, :boolean
+    field :dispose_property, :boolean
+    field :educational_facility, :boolean
+    field :financial_situation, :string
+    field :foreign_account_interest, :boolean
+    field :foreign_account_value_more, :boolean
+    field :foreign_entity_interest, :boolean
+    field :foreign_partner_count, :integer
+    field :foreign_shareholder, :boolean
+    field :foreign_value, :boolean
+    field :fundraising_over, :boolean
+    field :has_contribution, :boolean
+    field :has_loan, :boolean
+    field :income_over_thousand, :boolean
+    field :invest_research, :boolean
+    field :k1_count, :integer
+    field :lobbying, :boolean
+    field :make_distribution, :boolean
+    field :none_expat, :boolean
+    field :operate_facility, :boolean
+    field :price_state, :integer
+    field :price_tax_year, :integer
+    field :property_sale, :boolean
+    field :public_charity, :boolean
+    field :rental_property_count, :integer
+    field :reported_grant, :boolean
+    field :restricted_donation, :boolean
     field :state, list_of(:string)
-    field :tax_exemption, non_null(:boolean)
+    field :tax_exemption, :boolean
     field :tax_year, list_of(:string)
-    field :total_asset_less, non_null(:boolean)
-    field :total_asset_over, non_null(:boolean)
-    field :updated_at, non_null(:datetime)
+    field :total_asset_less, :boolean
+    field :total_asset_over, :boolean
     field :user, :user, resolve: dataloader(Data)
   end
 
   @desc "The list individual tax returns via role's Tp"
   object :tp_business_tax_return do
     field :id, non_null(:string)
-    field :accounting_software, non_null(:boolean)
+    field :accounting_software, :boolean
     field :business_entity_types, list_of(:business_entity_type), resolve: dataloader(Data)
     field :business_foreign_account_counts, list_of(:business_foreign_account_count), resolve: dataloader(Data)
     field :business_foreign_ownership_counts, list_of(:business_foreign_ownership_count), resolve: dataloader(Data)
@@ -74,41 +72,39 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
     field :business_number_employees, list_of(:business_number_employee), resolve: dataloader(Data)
     field :business_total_revenues, list_of(:business_total_revenue), resolve: dataloader(Data)
     field :business_transaction_counts, list_of(:business_transaction_count), resolve: dataloader(Data)
-    field :capital_asset_sale, non_null(:boolean)
-    field :church_hospital, non_null(:boolean)
-    field :deadline, non_null(:date)
-    field :dispose_asset, non_null(:boolean)
-    field :dispose_property, non_null(:boolean)
-    field :educational_facility, non_null(:boolean)
-    field :financial_situation, non_null(:string)
-    field :foreign_account_interest, non_null(:boolean)
-    field :foreign_account_value_more, non_null(:boolean)
-    field :foreign_entity_interest, non_null(:boolean)
-    field :foreign_partner_count, non_null(:integer)
-    field :foreign_shareholder, non_null(:boolean)
-    field :foreign_value, non_null(:boolean)
-    field :fundraising_over, non_null(:boolean)
-    field :has_contribution, non_null(:boolean)
-    field :has_loan, non_null(:boolean)
-    field :income_over_thousand, non_null(:boolean)
-    field :inserted_at, non_null(:datetime)
-    field :invest_research, non_null(:boolean)
-    field :k1_count, non_null(:integer)
-    field :lobbying, non_null(:boolean)
-    field :make_distribution, non_null(:boolean)
-    field :none_expat, non_null(:boolean)
-    field :operate_facility, non_null(:boolean)
-    field :property_sale, non_null(:boolean)
-    field :public_charity, non_null(:boolean)
-    field :rental_property_count, non_null(:integer)
-    field :reported_grant, non_null(:boolean)
-    field :restricted_donation, non_null(:boolean)
+    field :capital_asset_sale, :boolean
+    field :church_hospital, :boolean
+    field :deadline, :date
+    field :dispose_asset, :boolean
+    field :dispose_property, :boolean
+    field :educational_facility, :boolean
+    field :financial_situation, :string
+    field :foreign_account_interest, :boolean
+    field :foreign_account_value_more, :boolean
+    field :foreign_entity_interest, :boolean
+    field :foreign_partner_count, :integer
+    field :foreign_shareholder, :boolean
+    field :foreign_value, :boolean
+    field :fundraising_over, :boolean
+    field :has_contribution, :boolean
+    field :has_loan, :boolean
+    field :income_over_thousand, :boolean
+    field :invest_research, :boolean
+    field :k1_count, :integer
+    field :lobbying, :boolean
+    field :make_distribution, :boolean
+    field :none_expat, :boolean
+    field :operate_facility, :boolean
+    field :property_sale, :boolean
+    field :public_charity, :boolean
+    field :rental_property_count, :integer
+    field :reported_grant, :boolean
+    field :restricted_donation, :boolean
     field :state, list_of(:string)
-    field :tax_exemption, non_null(:boolean)
+    field :tax_exemption, :boolean
     field :tax_year, list_of(:string)
-    field :total_asset_less, non_null(:boolean)
-    field :total_asset_over, non_null(:boolean)
-    field :updated_at, non_null(:datetime)
+    field :total_asset_less, :boolean
+    field :total_asset_over, :boolean
     field :user, :user, resolve: dataloader(Data)
   end
 
@@ -122,11 +118,9 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
     field :business_number_employees, list_of(:business_number_employee), resolve: dataloader(Data)
     field :business_total_revenues, list_of(:business_total_revenue), resolve: dataloader(Data)
     field :business_transaction_counts, list_of(:business_transaction_count), resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
-    field :none_expat, non_null(:boolean)
-    field :price_state, non_null(:integer)
-    field :price_tax_year, non_null(:integer)
-    field :updated_at, non_null(:datetime)
+    field :none_expat, :boolean
+    field :price_state, :integer
+    field :price_tax_year, :integer
     field :user, :user, resolve: dataloader(Data)
   end
 

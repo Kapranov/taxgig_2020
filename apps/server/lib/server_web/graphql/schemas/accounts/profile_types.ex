@@ -20,8 +20,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProfileTypes do
     field :logo, :picture, description: "An user's logo picture"
     field :user, :user, resolve: dataloader(Data)
     field :us_zipcode, :us_zipcode, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The profile update via params"

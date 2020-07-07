@@ -16,29 +16,23 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualItemizedDeductionTypes do
   object :individual_itemized_deduction do
     field :id, non_null(:string)
     field :individual_tax_returns, :individual_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
-    field :name, non_null(:string)
-    field :price, non_null(:integer)
-    field :updated_at, non_null(:datetime)
+    field :name, :string
+    field :price, :integer
   end
 
   @desc "The list individual itemized deductions via role's Tp"
   object :tp_individual_itemized_deduction do
     field :id, non_null(:string)
     field :individual_tax_returns, :individual_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list individual itemized deductions via role's Pro"
   object :pro_individual_itemized_deduction do
     field :id, non_null(:string)
     field :individual_tax_returns, :individual_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
     field :price, :integer
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The individual itemized deduction update via params"

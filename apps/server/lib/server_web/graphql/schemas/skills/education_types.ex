@@ -15,10 +15,8 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.EducationTypes do
   @desc "The Education on the site"
   object :education, description: "Education" do
     field :id, non_null(:string), description: "unique identifier"
-    field :course, non_null(:string), description: "education course"
-    field :graduation, non_null(:date), description: "education graduation"
-    field :inserted_at, non_null(:datetime), description: "Created at"
-    field :updated_at, non_null(:datetime), description: "Last updated at"
+    field :course, :string, description: "education course"
+    field :graduation, :date, description: "education graduation"
     field :university, :university, resolve: dataloader(Data)
     field :user, :user, resolve: dataloader(Data)
   end

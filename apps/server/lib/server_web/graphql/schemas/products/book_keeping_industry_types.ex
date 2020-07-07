@@ -16,27 +16,21 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingIndustryTypes do
   object :book_keeping_industry do
     field :id, non_null(:string)
     field :book_keepings, :book_keeping, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, list_of(:string)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list book keeping industries via role's Tp"
   object :tp_book_keeping_industry do
     field :id, non_null(:string)
     field :book_keepings, :book_keeping, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, list_of(:string)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list book_keeping industries via role's Pro"
   object :pro_book_keeping_industry do
     field :id, non_null(:string)
     field :book_keepings, :book_keeping, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, list_of(:string)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The book keeping industry update via params"

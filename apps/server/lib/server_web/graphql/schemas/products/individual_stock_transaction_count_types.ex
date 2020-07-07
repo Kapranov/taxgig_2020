@@ -16,18 +16,14 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualStockTransactionCountType
   object :individual_stock_transaction_count do
     field :id, non_null(:string)
     field :individual_tax_returns, :individual_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
-    field :name, non_null(:string)
-    field :updated_at, non_null(:datetime)
+    field :name, :string
   end
 
   @desc "The list individual stock transaction counts via role's Tp"
   object :tp_individual_stock_transaction_count do
     field :id, non_null(:string)
     field :individual_tax_returns, :individual_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The stock individual stock transaction count update via params"

@@ -16,27 +16,21 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualIndustryTypes do
   object :individual_industry do
     field :id, non_null(:string)
     field :individual_tax_returns, :individual_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, list_of(:string)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list individual industries via role's Tp"
   object :tp_individual_industry do
     field :id, non_null(:string)
     field :individual_tax_returns, :individual_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, list_of(:string)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list individual industries via role's Pro"
   object :pro_individual_industry do
     field :id, non_null(:string)
     field :individual_tax_returns, :individual_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, list_of(:string)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The individual industry update via params"

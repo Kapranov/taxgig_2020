@@ -16,29 +16,23 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessNumberEmployeeTypes do
   object :business_number_employee do
     field :id, non_null(:string)
     field :business_tax_returns, :business_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
     field :price, :integer
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list business number employees via role's Tp"
   object :tp_business_number_employee do
     field :id, non_null(:string)
     field :business_tax_returns, :business_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list business number employees via role's Pro"
   object :pro_business_number_employee do
     field :id, non_null(:string)
     field :business_tax_returns, :business_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
     field :price, :integer
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The business number employee update via params"

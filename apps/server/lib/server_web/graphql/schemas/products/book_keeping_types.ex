@@ -15,8 +15,8 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingTypes do
   @desc "The list book keepings"
   object :book_keeping do
     field :id, non_null(:string)
-    field :account_count, non_null(:integer)
-    field :balance_sheet, non_null(:boolean)
+    field :account_count, :integer
+    field :balance_sheet, :boolean
     field :book_keeping_additional_needs, list_of(:book_keeping_additional_need), resolve: dataloader(Data)
     field :book_keeping_annual_revenues, list_of(:book_keeping_annual_revenue), resolve: dataloader(Data)
     field :book_keeping_classify_inventories, list_of(:book_keeping_classify_inventory), resolve: dataloader(Data)
@@ -24,24 +24,22 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingTypes do
     field :book_keeping_number_employees, list_of(:book_keeping_number_employee), resolve: dataloader(Data)
     field :book_keeping_transaction_volumes, list_of(:book_keeping_transaction_volume), resolve: dataloader(Data)
     field :book_keeping_type_clients, list_of(:book_keeping_type_client), resolve: dataloader(Data)
-    field :deadline, non_null(:date)
-    field :financial_situation, non_null(:string)
-    field :inserted_at, non_null(:datetime)
-    field :inventory, non_null(:boolean)
-    field :inventory_count, non_null(:integer)
-    field :payroll, non_null(:boolean)
-    field :price_payroll, non_null(:integer)
-    field :tax_return_current, non_null(:boolean)
+    field :deadline, :date
+    field :financial_situation, :string
+    field :inventory, :boolean
+    field :inventory_count, :integer
+    field :payroll, :boolean
+    field :price_payroll, :integer
+    field :tax_return_current, :boolean
     field :tax_year, list_of(:string)
-    field :updated_at, non_null(:datetime)
     field :user, :user, resolve: dataloader(Data)
   end
 
   @desc "The list book keepings via role's Tp"
   object :tp_book_keeping do
     field :id, non_null(:string)
-    field :account_count, non_null(:integer)
-    field :balance_sheet, non_null(:boolean)
+    field :account_count, :integer
+    field :balance_sheet, :boolean
     field :book_keeping_additional_needs, list_of(:book_keeping_additional_need), resolve: dataloader(Data)
     field :book_keeping_annual_revenues, list_of(:book_keeping_annual_revenue), resolve: dataloader(Data)
     field :book_keeping_classify_inventories, list_of(:book_keeping_classify_inventory), resolve: dataloader(Data)
@@ -49,15 +47,13 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingTypes do
     field :book_keeping_number_employees, list_of(:book_keeping_number_employee), resolve: dataloader(Data)
     field :book_keeping_transaction_volumes, list_of(:book_keeping_transaction_volume), resolve: dataloader(Data)
     field :book_keeping_type_clients, list_of(:book_keeping_type_client), resolve: dataloader(Data)
-    field :deadline, non_null(:date)
-    field :financial_situation, non_null(:string)
-    field :inserted_at, non_null(:datetime)
-    field :inventory, non_null(:boolean)
-    field :inventory_count, non_null(:integer)
-    field :payroll, non_null(:boolean)
-    field :tax_return_current, non_null(:boolean)
+    field :deadline, :date
+    field :financial_situation, :string
+    field :inventory, :boolean
+    field :inventory_count, :integer
+    field :payroll, :boolean
+    field :tax_return_current, :boolean
     field :tax_year, list_of(:string)
-    field :updated_at, non_null(:datetime)
     field :user, :user, resolve: dataloader(Data)
   end
 
@@ -70,10 +66,8 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingTypes do
     field :book_keeping_number_employees, list_of(:book_keeping_number_employee), resolve: dataloader(Data)
     field :book_keeping_transaction_volumes, list_of(:book_keeping_transaction_volume), resolve: dataloader(Data)
     field :book_keeping_type_clients, list_of(:book_keeping_type_client), resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
-    field :payroll, non_null(:boolean)
-    field :price_payroll, non_null(:integer)
-    field :updated_at, non_null(:datetime)
+    field :payroll, :boolean
+    field :price_payroll, :integer
     field :user, :user, resolve: dataloader(Data)
   end
 

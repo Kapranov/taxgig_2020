@@ -10,11 +10,9 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.VacancyTypes do
   @desc "The vacancy on the site"
   object :vacancy do
     field :id, non_null(:string), description: "vacancy id"
-    field :content, non_null(:string), description: "vacancy content"
-    field :department, non_null(:string), description: "vacancy department"
-    field :title, non_null(:string), description: "vacancy title"
-    field :inserted_at, non_null(:datetime)
-    field :updated_at, non_null(:datetime)
+    field :content, :string, description: "vacancy content"
+    field :department, :string, description: "vacancy department"
+    field :title, :string, description: "vacancy title"
   end
 
   @desc "The vacancy update via params"

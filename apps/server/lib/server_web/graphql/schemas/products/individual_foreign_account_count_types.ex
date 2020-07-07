@@ -16,18 +16,14 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualForeignAccountCountTypes 
   object :individual_foreign_account_count do
     field :id, non_null(:string)
     field :individual_tax_returns, :individual_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, non_null(:string)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list individual foreign account counts via role's Tp"
   object :tp_individual_foreign_account_count do
     field :id, non_null(:string)
     field :individual_tax_returns, :individual_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The individual foreign account count update via params"

@@ -10,8 +10,8 @@ defmodule ServerWeb.GraphQL.Schemas.Lookup.StateTypes do
   @desc "The state of the us"
   object :state do
     field :id, non_null(:string)
-    field :abbr, non_null(:string)
-    field :name, non_null(:string)
+    field :abbr, :string
+    field :name, :string
   end
 
   object :state_queries do

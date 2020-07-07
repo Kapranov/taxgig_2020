@@ -15,10 +15,8 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.FaqCategoryTypes do
   @desc "A faq category on the site"
   object :faq_category, description: "Faq Category" do
     field :id, non_null(:string), description: "unique identifier"
-    field :title, non_null(:string), description: "faq category title"
+    field :title, :string, description: "faq category title"
     field :faqs_count, :integer, description: "count total used faqs for this category"
-    field :inserted_at, non_null(:datetime), description: "Created at"
-    field :updated_at, non_null(:datetime), description: "Last updated at"
     field :faqs, list_of(:faq), resolve: dataloader(Data)
   end
 

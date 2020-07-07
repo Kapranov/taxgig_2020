@@ -15,30 +15,24 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxFrequencyTypes do
   @desc "The list sale tax frequencies"
   object :sale_tax_frequency do
     field :id, non_null(:string)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
     field :price, :integer
     field :sale_taxes, :sale_tax, resolve: dataloader(Data)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list sale tax frequencies via Role's Tp"
   object :tp_sale_tax_frequency do
     field :id, non_null(:string)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
     field :sale_taxes, :sale_tax, resolve: dataloader(Data)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list sale tax frequencies via Role's Pro"
   object :pro_sale_tax_frequency do
     field :id, non_null(:string)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
     field :price, :integer
     field :sale_taxes, :sale_tax, resolve: dataloader(Data)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The sale tax frequency update via params"

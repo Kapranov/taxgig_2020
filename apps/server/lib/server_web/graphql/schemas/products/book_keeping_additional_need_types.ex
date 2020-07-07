@@ -16,29 +16,23 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingAdditionalNeedTypes do
   object :book_keeping_additional_need do
     field :id, non_null(:string)
     field :book_keepings, :book_keeping, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
     field :price, :integer
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list book keeping additional needs via role's Tp"
   object :tp_book_keeping_additional_need do
-    field :id, non_null(:string)
+    field :id, :string
     field :book_keepings, :book_keeping, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list book_keeping additional needs via role's Pro"
   object :pro_book_keeping_additional_need do
     field :id, non_null(:string)
     field :book_keepings, :book_keeping, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
     field :price, :integer
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The book keeping additional need update via params"

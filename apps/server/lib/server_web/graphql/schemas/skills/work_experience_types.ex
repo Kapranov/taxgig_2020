@@ -15,11 +15,9 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.WorkExperienceTypes do
   @desc "WorkExperience on the site"
   object :work_experience, description: "WorkExperience" do
     field :id, non_null(:string), description: "unique identifier"
-    field :end_date, non_null(:date), description: "WorkExperience end_date"
-    field :name, non_null(:string), description: "WorkExperience name"
-    field :start_date, non_null(:date), description: "WorkExperience start_date"
-    field :inserted_at, non_null(:datetime), description: "Created at"
-    field :updated_at, non_null(:datetime), description: "Last updated at"
+    field :end_date, :date, description: "WorkExperience end_date"
+    field :name, :string, description: "WorkExperience name"
+    field :start_date, :date, description: "WorkExperience start_date"
     field :user, :user, resolve: dataloader(Data)
   end
 

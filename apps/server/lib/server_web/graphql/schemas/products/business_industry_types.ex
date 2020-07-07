@@ -16,27 +16,21 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessIndustryTypes do
   object :business_industry do
     field :id, non_null(:string)
     field :business_tax_returns, :business_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, list_of(:string)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list business industries via role's Tp"
   object :tp_business_industry do
     field :id, non_null(:string)
     field :business_tax_returns, :business_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, list_of(:string)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list business industries via role's Pro"
   object :pro_business_industry do
     field :id, non_null(:string)
     field :business_tax_returns, :business_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, list_of(:string)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The business industry update via params"

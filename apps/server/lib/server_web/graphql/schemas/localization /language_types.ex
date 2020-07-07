@@ -12,8 +12,6 @@ defmodule ServerWeb.GraphQL.Schemas.Localization.LanguageTypes do
     field :id, :string, description: "language id"
     field :abbr, :string, description: "language abbr"
     field :name, :string, description: "language name"
-    field :inserted_at, :datetime
-    field :updated_at, :datetime
   end
 
   @desc "The language update via params"

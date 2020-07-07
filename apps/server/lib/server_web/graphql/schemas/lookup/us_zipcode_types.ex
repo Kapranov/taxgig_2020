@@ -10,9 +10,9 @@ defmodule ServerWeb.GraphQL.Schemas.Lookup.UsZipcodeTypes do
   @desc "The UsZipcode on the site"
   object :us_zipcode do
     field :id, non_null(:string), description: "zipcode id"
-    field :city, non_null(:string), description: "zipcode city"
-    field :state, non_null(:string), description: "zipcode state"
-    field :zipcode, non_null(:integer), description: "zipcode number"
+    field :city, :string, description: "zipcode city"
+    field :state, :string, description: "zipcode state"
+    field :zipcode, :integer, description: "zipcode number"
   end
 
   object :us_zipcode_queries do

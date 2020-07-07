@@ -1318,24 +1318,18 @@ defmodule Core.Factory do
 
   @spec random_name_classify_inventory :: String.t
   def random_name_classify_inventory do
-    names = [
-      "Assets",
-      "Expenses"
-    ]
-
-    numbers = 1..2
+    names = ["Assets", "Expenses"]
+    numbers = 1..1
     number = Enum.random(numbers)
-
     result =
       for i <- 1..number, i > 0 do
         Enum.random(names)
       end
-
     Enum.uniq(result)
   end
 
   @spec random_name_industry :: String.t
-  def random_name_industry do
+  defp random_name_industry do
     names = [
       "Agriculture/Farming",
       "Automotive Sales/Repair",
@@ -1375,7 +1369,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_for_tp_industry :: String.t
-  def random_name_for_tp_industry do
+  defp random_name_for_tp_industry do
     names = [
       "Agriculture/Farming",
       "Automotive Sales/Repair",
@@ -1407,7 +1401,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_for_pro_industry :: String.t
-  def random_name_for_pro_industry do
+  defp random_name_for_pro_industry do
     names = [
       "Agriculture/Farming",
       "Automotive Sales/Repair",
@@ -1447,7 +1441,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_number_employee :: String.t
-  def random_name_number_employee do
+  defp random_name_number_employee do
     names = [
       "1 employee",
       "101 - 500 employees",
@@ -1461,19 +1455,13 @@ defmodule Core.Factory do
   end
 
   @spec random_name_transaction_volume :: String.t
-  def random_name_transaction_volume do
-    names = [
-      "1-25",
-      "200+",
-      "26-75",
-      "76-199"
-    ]
-
+  defp random_name_transaction_volume do
+    names = ["1-25", "200+", "26-75", "76-199"]
     Enum.random(names)
   end
 
   @spec random_name_type_client :: String.t
-  def random_name_type_client do
+  defp random_name_type_client do
     names = [
       "C-Corp / Corporation",
       "Individual or Sole proprietorship",
@@ -1487,18 +1475,13 @@ defmodule Core.Factory do
   end
 
   @spec random_name_employment_status :: String.t()
-  def random_name_employment_status do
-    names = [
-      "employed",
-      "self-employed",
-      "unemployed"
-    ]
-
+  defp random_name_employment_status do
+    names = ["employed", "self-employed", "unemployed"]
     Enum.random(names)
   end
 
   @spec random_name_filling_status :: String.t()
-  def random_name_filling_status do
+  defp random_name_filling_status do
     names = [
       "Head of Household",
       "Married filing jointly",
@@ -1511,18 +1494,13 @@ defmodule Core.Factory do
   end
 
   @spec random_name_foreign_account_count :: String.t()
-  def random_name_foreign_account_count do
-    names = [
-      "1",
-      "2-5",
-      "5+"
-    ]
-
+  defp random_name_foreign_account_count do
+    names = ["1", "2-5", "5+"]
     Enum.random(names)
   end
 
   @spec random_name_itemized_deduction :: String.t()
-  def random_name_itemized_deduction do
+  defp random_name_itemized_deduction do
     names = [
       "Charitable contributions",
       "Health insurance",
@@ -1533,18 +1511,13 @@ defmodule Core.Factory do
   end
 
   @spec random_name_tax_frequency :: String.t
-  def random_name_tax_frequency do
-    names = [
-      "Annually",
-      "Monthly",
-      "Quaterly"
-    ]
-
+  defp random_name_tax_frequency do
+    names = ["Annually", "Monthly", "Quaterly"]
     Enum.random(names)
   end
 
   @spec random_name_tax_industry :: String.t
-  def random_name_tax_industry do
+  defp random_name_tax_industry do
     names = [
       "Agriculture/Farming",
       "Automotive Sales/Repair",
@@ -1584,7 +1557,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_for_tp_tax_industry :: String.t
-  def random_name_for_tp_tax_industry do
+  defp random_name_for_tp_tax_industry do
     names = [
       "Agriculture/Farming",
       "Automotive Sales/Repair",
@@ -1624,7 +1597,7 @@ defmodule Core.Factory do
   end
 
   @spec random_name_for_pro_tax_industry :: String.t
-  def random_name_for_pro_tax_industry do
+  defp random_name_for_pro_tax_industry do
     names = [
       "Agriculture/Farming",
       "Automotive Sales/Repair",
@@ -1663,7 +1636,7 @@ defmodule Core.Factory do
     Enum.uniq(result)
   end
 
-  def random_name_accounting_software do
+  defp random_name_accounting_software do
     names = [
       "QuickBooks Desktop Premier",
       "QuickBooks Desktop Pro",
@@ -1690,7 +1663,7 @@ defmodule Core.Factory do
     Enum.uniq(result)
   end
 
-  def random_name_university do
+  defp random_name_university do
     names = [
       "Babcock University",
       "Bluffton College",

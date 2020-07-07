@@ -15,40 +15,34 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxTypes do
   @desc "The list sale taxes"
   object :sale_tax do
     field :id, non_null(:string)
-    field :deadline, non_null(:date)
-    field :financial_situation, non_null(:string)
-    field :inserted_at, non_null(:datetime)
+    field :deadline, :date
+    field :financial_situation, :string
     field :price_sale_tax_count, :integer
-    field :sale_tax_count, non_null(:integer)
+    field :sale_tax_count, :integer
     field :sale_tax_frequencies, list_of(:sale_tax_frequency), resolve: dataloader(Data)
     field :sale_tax_industries, list_of(:sale_tax_industry), resolve: dataloader(Data)
     field :state, list_of(:string)
-    field :updated_at, non_null(:datetime)
     field :user, :user, resolve: dataloader(Data)
   end
 
   @desc "The list sale taxes via role's Tp"
   object :tp_sale_tax do
     field :id, non_null(:string)
-    field :deadline, non_null(:date)
-    field :financial_situation, non_null(:string)
-    field :inserted_at, non_null(:datetime)
-    field :sale_tax_count, non_null(:integer)
+    field :deadline, :date
+    field :financial_situation, :string
+    field :sale_tax_count, :integer
     field :sale_tax_frequencies, list_of(:sale_tax_frequency), resolve: dataloader(Data)
     field :sale_tax_industries, list_of(:sale_tax_industry), resolve: dataloader(Data)
     field :state, list_of(:string)
-    field :updated_at, non_null(:datetime)
     field :user, :user, resolve: dataloader(Data)
   end
 
   @desc "The list sale taxes via role's Pro"
   object :pro_sale_tax do
     field :id, non_null(:string)
-    field :inserted_at, non_null(:datetime)
     field :price_sale_tax_count, :integer
     field :sale_tax_frequencies, list_of(:sale_tax_frequency), resolve: dataloader(Data)
     field :sale_tax_industries, list_of(:sale_tax_industry), resolve: dataloader(Data)
-    field :updated_at, non_null(:datetime)
     field :user, :user, resolve: dataloader(Data)
   end
 

@@ -15,9 +15,7 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.AccountingSoftwareTypes do
   @desc "An accounting_software on the site"
   object :accounting_software, description: "AccountingSoftware" do
     field :id, non_null(:string), description: "unique identifier"
-    field :name, non_null(:string), description: "faq category title"
-    field :inserted_at, non_null(:datetime), description: "Created at"
-    field :updated_at, non_null(:datetime), description: "Last updated at"
+    field :name, :string, description: "faq category title"
     field :user, :user, resolve: dataloader(Data)
   end
 

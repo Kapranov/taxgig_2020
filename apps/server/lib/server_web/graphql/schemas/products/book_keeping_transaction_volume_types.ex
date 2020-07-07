@@ -16,29 +16,23 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingTransactionVolumeTypes d
   object :book_keeping_transaction_volume do
     field :id, non_null(:string)
     field :book_keepings, :book_keeping, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
     field :price, :integer
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list book keeping transaction volumes via role's Tp"
   object :tp_book_keeping_transaction_volume do
     field :id, non_null(:string)
     field :book_keepings, :book_keeping, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list book_keeping transaction volumes via role's Pro"
   object :pro_book_keeping_transaction_volume do
     field :id, non_null(:string)
     field :book_keepings, :book_keeping, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
     field :price, :integer
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The book keeping transaction volume update via params"

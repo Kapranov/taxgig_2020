@@ -10,10 +10,8 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.SubscriberTypes do
   @desc "The accounts subscriber on the site"
   object :subscriber do
     field :id, non_null(:string), description: "language id"
-    field :email, non_null(:string), description: "accounts subscriber email"
-    field :pro_role, non_null(:boolean), description: "accounts subscriber pro_role"
-    field :inserted_at, non_null(:datetime)
-    field :updated_at, non_null(:datetime)
+    field :email, :string, description: "accounts subscriber email"
+    field :pro_role, :boolean, description: "accounts subscriber pro_role"
   end
 
   @desc "The accounts subscriber update via params"

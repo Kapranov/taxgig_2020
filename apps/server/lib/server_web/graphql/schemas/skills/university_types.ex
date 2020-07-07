@@ -10,7 +10,7 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.UniversityTypes do
   @desc "The University on the site"
   object :university, description: "University" do
     field :id, non_null(:string), description: "unique identifier"
-    field :name, non_null(:string), description: "university name"
+    field :name, :string, description: "university name"
   end
 
   @desc "The university update via params"

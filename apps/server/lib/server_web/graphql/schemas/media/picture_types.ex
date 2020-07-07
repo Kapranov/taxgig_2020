@@ -16,8 +16,6 @@ defmodule ServerWeb.GraphQL.Schemas.Media.PictureTypes do
     field :name, :string, description: "The picture's name"
     field :size, :integer, description: "The picture's size"
     field :url, :string, description: "The picture's full URL"
-    field :inserted_at, non_null(:datetime)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "An attached picture or a link to a picture"

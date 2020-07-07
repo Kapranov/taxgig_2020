@@ -16,18 +16,14 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessLlcTypeTypes do
   object :business_llc_type do
     field :id, non_null(:string)
     field :business_tax_returns, :business_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list business llc types via role's Tp"
   object :tp_business_llc_type do
     field :id, non_null(:string)
     field :business_tax_returns, :business_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The business llc type update via params"

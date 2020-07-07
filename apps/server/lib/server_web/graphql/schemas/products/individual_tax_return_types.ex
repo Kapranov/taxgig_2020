@@ -15,7 +15,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
   @desc "The list individual tax returns"
   object :individual_tax_return do
     field :id, non_null(:string)
-    field :deadline, non_null(:date)
+    field :deadline, :date
     field :foreign_account, :boolean
     field :foreign_account_limit, :boolean
     field :foreign_financial_interest, :boolean
@@ -25,7 +25,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
     field :individual_foreign_account_counts, list_of(:individual_foreign_account_count), resolve: dataloader(Data)
     field :individual_itemized_deductions, list_of(:individual_itemized_deduction), resolve: dataloader(Data)
     field :individual_stock_transaction_counts, list_of(:individual_stock_transaction_count), resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :k1_count, :integer
     field :k1_income, :boolean
     field :living_abroad, :boolean
@@ -48,7 +47,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
     field :state, list_of(:string)
     field :stock_divident, :boolean
     field :tax_year, list_of(:string)
-    field :updated_at, non_null(:datetime)
     field :user, :user, resolve: dataloader(Data)
   end
 
@@ -60,7 +58,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
     field :foreign_account_limit, :boolean
     field :foreign_financial_interest, :boolean
     field :home_owner, :boolean
-    field :inserted_at, non_null(:datetime)
     field :k1_count, :integer
     field :k1_income, :boolean
     field :living_abroad, :boolean
@@ -73,7 +70,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
     field :state, list_of(:string)
     field :stock_divident, :boolean
     field :tax_year, list_of(:string)
-    field :updated_at, non_null(:datetime)
     field :user, :user, resolve: dataloader(Data)
   end
 
@@ -82,7 +78,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
     field :id, non_null(:string)
     field :foreign_account, :boolean
     field :home_owner, :boolean
-    field :inserted_at, non_null(:datetime)
     field :living_abroad, :boolean
     field :non_resident_earning, :boolean
     field :none_expat, :boolean
@@ -99,7 +94,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
     field :price_tax_year, :integer
     field :rental_property_income, :boolean
     field :stock_divident, :boolean
-    field :updated_at, non_null(:datetime)
     field :user, :user, resolve: dataloader(Data)
   end
 

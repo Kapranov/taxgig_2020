@@ -33,8 +33,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :ssn, :integer, description: "accounts user ssn"
     field :street, :string, description: "accounts user street"
     field :zip, :integer, description: "accounts user zip"
-    field :inserted_at, non_null(:datetime)
-    field :updated_at, non_null(:datetime)
     field :rooms, list_of(:room), resolve: dataloader(Data), description: "list user's room"
     field :messages, list_of(:message), resolve: dataloader(Data), description: "list user's messages"
   end

@@ -15,28 +15,22 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxIndustryTypes do
   @desc "The list sale tax industries"
   object :sale_tax_industry do
     field :id, non_null(:string)
-    field :inserted_at, non_null(:datetime)
     field :name, list_of(:string)
     field :sale_taxes, :sale_tax, resolve: dataloader(Data)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list sale tax industries via Role's Tp"
   object :tp_sale_tax_industry do
     field :id, non_null(:string)
-    field :inserted_at, non_null(:datetime)
     field :name, list_of(:string)
     field :sale_taxes, :sale_tax, resolve: dataloader(Data)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list sale tax industries via Role's Pro"
   object :pro_sale_tax_industry do
     field :id, non_null(:string)
-    field :inserted_at, non_null(:datetime)
     field :name, list_of(:string)
     field :sale_taxes, :sale_tax, resolve: dataloader(Data)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The sale tax industry update via params"

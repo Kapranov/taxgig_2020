@@ -10,13 +10,11 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.PressArticleTypes do
   @desc "The press article on the site"
   object :press_article do
     field :id, non_null(:string), description: "press article id"
-    field :author, non_null(:string), description: "press article author"
-    field :img_url, non_null(:string), description: "press article image_url"
-    field :preview_text, non_null(:string), description: "press article preview_text"
-    field :title, non_null(:string), description: "press article title"
-    field :url, non_null(:string), description: "press article url"
-    field :inserted_at, non_null(:datetime)
-    field :updated_at, non_null(:datetime)
+    field :author, :string, description: "press article author"
+    field :img_url, :string, description: "press article image_url"
+    field :preview_text, :string, description: "press article preview_text"
+    field :title, :string, description: "press article title"
+    field :url, :string, description: "press article url"
   end
 
   @desc "The press article update via params"

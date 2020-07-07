@@ -15,11 +15,9 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.FaqTypes do
   @desc "A faq on the site"
   object :faq do
     field :id, non_null(:string), description: "faq id"
-    field :content, non_null(:string), description: "faq content"
-    field :title, non_null(:string), description: "faq title"
+    field :content, :string, description: "faq content"
+    field :title, :string, description: "faq title"
     field :faq_categories, :faq_category, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The faq update via params"

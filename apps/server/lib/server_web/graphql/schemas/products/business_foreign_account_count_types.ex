@@ -16,18 +16,14 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessForeignAccountCountTypes do
   object :business_foreign_account_count do
     field :id, non_null(:string)
     field :business_tax_returns, :business_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The list business foreign  account counts via role's Tp"
   object :tp_business_foreign_account_count do
     field :id, non_null(:string)
     field :business_tax_returns, :business_tax_return, resolve: dataloader(Data)
-    field :inserted_at, non_null(:datetime)
     field :name, :string
-    field :updated_at, non_null(:datetime)
   end
 
   @desc "The business foreign account count update via params"
