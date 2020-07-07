@@ -627,7 +627,7 @@ defmodule Core.Factory do
   def business_entity_type_factory do
     %BusinessEntityType{
       business_tax_returns: build(:business_tax_return),
-      name: Lorem.word(),
+      name: random_name_type_client(),
       price: random_integer()
     }
   end
@@ -635,14 +635,14 @@ defmodule Core.Factory do
   def tp_business_entity_type_factory do
     %BusinessEntityType{
       business_tax_returns: build(:tp_business_tax_return),
-      name: Lorem.word()
+      name: random_name_type_client()
     }
   end
 
   def pro_business_entity_type_factory do
     %BusinessEntityType{
       business_tax_returns: build(:pro_business_tax_return),
-      name: Lorem.word(),
+      name: random_name_type_client(),
       price: random_integer()
     }
   end
@@ -650,42 +650,42 @@ defmodule Core.Factory do
   def business_foreign_account_count_factory do
     %BusinessForeignAccountCount{
       business_tax_returns: build(:business_tax_return),
-      name: Lorem.word()
+      name: random_name_count()
     }
   end
 
   def tp_business_foreign_account_count_factory do
     %BusinessForeignAccountCount{
       business_tax_returns: build(:tp_business_tax_return),
-      name: Lorem.word()
+      name: random_name_count()
     }
   end
 
   def pro_business_foreign_account_count_factory do
     %BusinessForeignAccountCount{
       business_tax_returns: build(:pro_business_tax_return),
-      name: Lorem.word()
+      name: random_name_count()
     }
   end
 
   def business_foreign_ownership_count_factory do
     %BusinessForeignOwnershipCount{
       business_tax_returns: build(:business_tax_return),
-      name: Lorem.word()
+      name: random_name_count()
     }
   end
 
   def tp_business_foreign_ownership_count_factory do
     %BusinessForeignOwnershipCount{
       business_tax_returns: build(:tp_business_tax_return),
-      name: Lorem.word()
+      name: random_name_count()
     }
   end
 
   def pro_business_foreign_ownership_count_factory do
     %BusinessForeignOwnershipCount{
       business_tax_returns: build(:pro_business_tax_return),
-      name: Lorem.word()
+      name: random_name_count()
     }
   end
 
@@ -713,28 +713,28 @@ defmodule Core.Factory do
   def business_llc_type_factory do
     %BusinessLlcType{
       business_tax_returns: build(:business_tax_return),
-      name: Lorem.word()
+      name: random_name_type_client()
     }
   end
 
   def tp_business_llc_type_factory do
     %BusinessLlcType{
       business_tax_returns: build(:tp_business_tax_return),
-      name: Lorem.word()
+      name: random_name_type_client()
     }
   end
 
   def pro_business_llc_type_factory do
     %BusinessLlcType{
       business_tax_returns: build(:pro_business_tax_return),
-      name: Lorem.word()
+      name: random_name_type_client()
     }
   end
 
   def business_number_employee_factory do
     %BusinessNumberEmployee{
       business_tax_returns: build(:business_tax_return),
-      name: Lorem.word(),
+      name: random_name_number_employee(),
       price: random_integer()
     }
   end
@@ -742,14 +742,14 @@ defmodule Core.Factory do
   def tp_business_number_employee_factory do
     %BusinessNumberEmployee{
       business_tax_returns: build(:tp_business_tax_return),
-      name: Lorem.word()
+      name: random_name_number_employee()
     }
   end
 
   def pro_business_number_employee_factory do
     %BusinessNumberEmployee{
       business_tax_returns: build(:pro_business_tax_return),
-      name: Lorem.word(),
+      name: random_name_number_employee(),
       price: random_integer()
     }
   end
@@ -757,7 +757,7 @@ defmodule Core.Factory do
   def business_total_revenue_factory do
     %BusinessTotalRevenue{
       business_tax_returns: build(:business_tax_return),
-      name: Lorem.word(),
+      name: random_name_annual_revenue(),
       price: random_integer()
     }
   end
@@ -765,14 +765,14 @@ defmodule Core.Factory do
   def tp_business_total_revenue_factory do
     %BusinessTotalRevenue{
       business_tax_returns: build(:tp_business_tax_return),
-      name: Lorem.word()
+      name: random_name_annual_revenue()
     }
   end
 
   def pro_business_total_revenue_factory do
     %BusinessTotalRevenue{
       business_tax_returns: build(:pro_business_tax_return),
-      name: Lorem.word(),
+      name: random_name_annual_revenue(),
       price: random_integer()
     }
   end
@@ -780,21 +780,21 @@ defmodule Core.Factory do
   def business_transaction_count_factory do
     %BusinessTransactionCount{
       business_tax_returns: build(:business_tax_return),
-      name: Lorem.word()
+      name: random_name_transaction_count()
     }
   end
 
   def tp_business_transaction_count_factory do
     %BusinessTransactionCount{
       business_tax_returns: build(:tp_business_tax_return),
-      name: Lorem.word()
+      name: random_name_transaction_count()
     }
   end
 
   def pro_business_transaction_count_factory do
     %BusinessTransactionCount{
       business_tax_returns: build(:pro_business_tax_return),
-      name: Lorem.word()
+      name: random_name_transaction_count()
     }
   end
 
@@ -937,7 +937,7 @@ defmodule Core.Factory do
   def individual_foreign_account_count_factory do
     %IndividualForeignAccountCount{
       individual_tax_returns: build(:individual_tax_return),
-      name: random_name_foreign_account_count()
+      name: random_name_count()
     }
   end
 
@@ -945,7 +945,7 @@ defmodule Core.Factory do
   def tp_individual_foreign_account_count_factory do
     %IndividualForeignAccountCount{
       individual_tax_returns: build(:tp_individual_tax_return),
-      name: random_name_foreign_account_count()
+      name: random_name_count()
     }
   end
 
@@ -953,7 +953,7 @@ defmodule Core.Factory do
   def pro_individual_foreign_account_count_factory do
     %IndividualForeignAccountCount{
       individual_tax_returns: build(:pro_individual_tax_return),
-      name: random_name_foreign_account_count()
+      name: random_name_count()
     }
   end
 
@@ -1011,7 +1011,7 @@ defmodule Core.Factory do
   def individual_stock_transaction_count_factory do
     %IndividualStockTransactionCount{
       individual_tax_returns: build(:individual_tax_return),
-      name: Lorem.word()
+      name: random_name_stock_transactions_count()
     }
   end
 
@@ -1019,7 +1019,7 @@ defmodule Core.Factory do
   def tp_individual_stock_transaction_count_factory do
     %IndividualStockTransactionCount{
       individual_tax_returns: build(:tp_individual_tax_return),
-      name: Lorem.word()
+      name: random_name_stock_transactions_count()
     }
   end
 
@@ -1027,7 +1027,7 @@ defmodule Core.Factory do
   def pro_individual_stock_transaction_count_factory do
     %IndividualStockTransactionCount{
       individual_tax_returns: build(:pro_individual_tax_return),
-      name: Lorem.word()
+      name: random_name_stock_transactions_count()
     }
   end
 
@@ -1038,7 +1038,7 @@ defmodule Core.Factory do
       financial_situation: Lorem.sentence(),
       price_sale_tax_count: random_integer(),
       sale_tax_count: random_integer(),
-      state: ["Alabama", "New York"],
+      state: random_states(),
       user: build(:user)
     }
   end
@@ -1049,7 +1049,7 @@ defmodule Core.Factory do
       deadline: Date.utc_today(),
       financial_situation: Lorem.sentence(),
       sale_tax_count: random_integer(),
-      state: ["Alabama", "New York"],
+      state: random_states(),
       user: build(:tp_user)
     }
   end
@@ -1292,28 +1292,8 @@ defmodule Core.Factory do
     Enum.random(1..n)
   end
 
-  @spec random_states :: [String.t()]
-  defp random_states do
-    names =
-      @usa_states
-      |> File.read!()
-      |> Jason.decode!()
-      |> Enum.map(fn %{"name" => name, "abbr" => abbr} -> %{name: name, abbr: abbr} end)
-
-    numbers = 1..59
-    number = Enum.random(numbers)
-
-    result =
-      for i <- 1..number, i > 0 do
-        Enum.random(names)
-      end
-      |> Enum.uniq()
-
-    result
-  end
-
   @spec random_state :: {String.t(), String.t()}
-  defp random_state do
+  def random_state do
     names =
       @usa_states
       |> File.read!()
@@ -1331,6 +1311,26 @@ defmodule Core.Factory do
 
     %{abbr: abbr, name: name} = Enum.random(data)
     {abbr, name}
+  end
+
+  @spec random_states :: [String.t()]
+  defp random_states do
+    names =
+      @usa_states
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"name" => name, "abbr" => _} -> name end)
+
+    numbers = 1..59
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
   end
 
   @spec random_year :: [String.t()]
@@ -1373,6 +1373,18 @@ defmodule Core.Factory do
       "Less than $100K"
     ]
 
+    Enum.random(names)
+  end
+
+  @spec random_name_transaction_count() :: String.t()
+  defp random_name_transaction_count do
+    names = ["1-10", "11-25", "26-75", "75+"]
+    Enum.random(names)
+  end
+
+  @spec random_name_stock_transactions_count() :: String.t()
+  defp random_name_stock_transactions_count do
+    names = ["1-5", "6-50", "51-100", "100+"]
     Enum.random(names)
   end
 
@@ -1566,8 +1578,8 @@ defmodule Core.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_foreign_account_count :: String.t()
-  defp random_name_foreign_account_count do
+  @spec random_name_count :: String.t()
+  defp random_name_count do
     names = ["1", "2-5", "5+"]
     Enum.random(names)
   end

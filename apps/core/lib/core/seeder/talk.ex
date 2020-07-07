@@ -117,6 +117,7 @@ defmodule Core.Seeder.Talk do
     ]
   end
 
+  @spec seed_messages() :: nil | Ecto.Schema.t()
   defp seed_messages do
     case Repo.aggregate(Message, :count, :id) > 0 do
       true -> nil
@@ -124,6 +125,7 @@ defmodule Core.Seeder.Talk do
     end
   end
 
+  @spec insert_messages() :: Ecto.Schema.t()
   defp insert_messages do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data end)

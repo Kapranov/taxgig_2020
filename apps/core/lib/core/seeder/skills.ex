@@ -65,6 +65,7 @@ defmodule Core.Seeder.Skills do
     end
   end
 
+  @spec insert_accounting_software() :: nil | Ecto.Schema.t()
   defp insert_accounting_software do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data end)
@@ -79,23 +80,24 @@ defmodule Core.Seeder.Skills do
     }
 
     Repo.insert!(%AccountingSoftware{
-      name: ["Xero HQ", "QuickBooks Live Bookkeeping", "QuickBooks Desktop Premier"],
-      user_id: user1.id
+      name: random_name_accounting_software(),
+      user_id:                       user1.id
     })
     Repo.insert!(%AccountingSoftware{
-      name: ["QuickBooks Online", "Xero Practice Manager"],
-      user_id: user2.id
+      name: random_name_accounting_software(),
+      user_id:                       user2.id
     })
     Repo.insert!(%AccountingSoftware{
-      name: ["QuickBooks Desktop Pro", "Xero HQ", "QuickBooks Online", "QuickBooks Enterprise"],
-      user_id: user3.id
+      name: random_name_accounting_software(),
+      user_id:                       user3.id
     })
     Repo.insert!(%AccountingSoftware{
-      name: ["QuickBooks Desktop Pro", "Xero Cashbook/Ledger", "Xero Workpapers", "Xero HQ", "QuickBooks Online"],
-      user_id: user4.id
+      name: random_name_accounting_software(),
+      user_id:                       user4.id
     })
   end
 
+  @spec insert_education() :: nil | Ecto.Schema.t()
   defp insert_education do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data end)
@@ -122,31 +124,36 @@ defmodule Core.Seeder.Skills do
     }
 
     Repo.insert!(%Education{
-      course: Lorem.word(),
-      graduation: Date.utc_today |> Date.add(-66),
-      university_id: univer1.id,
-      user_id:   user1.id
+      course:       Lorem.word(),
+      graduation: Date.utc_today
+                  |> Date.add(-66),
+      university_id:  univer1.id,
+      user_id:          user1.id
     })
     Repo.insert!(%Education{
-      course: Lorem.word(),
-      graduation: Date.utc_today |> Date.add(-389),
-      university_id: univer2.id,
-      user_id:   user2.id
+      course:       Lorem.word(),
+      graduation: Date.utc_today
+                  |> Date.add(-389),
+      university_id:  univer2.id,
+      user_id:          user2.id
     })
     Repo.insert!(%Education{
-      course: Lorem.word(),
-      graduation: Date.utc_today |> Date.add(-845),
+      course:       Lorem.word(),
+      graduation: Date.utc_today
+                  |> Date.add(-845),
       university_id: univer3.id,
-      user_id:   user3.id
+      user_id:         user3.id
     })
     Repo.insert!(%Education{
-      course: Lorem.word(),
-      graduation: Date.utc_today |> Date.add(-999),
-      university_id: univer4.id,
-      user_id:   user4.id
+      course:       Lorem.word(),
+      graduation: Date.utc_today
+                  |> Date.add(-999),
+      university_id:  univer4.id,
+      user_id:          user4.id
     })
   end
 
+  @spec insert_work_experience() :: nil | Ecto.Schema.t()
   defp insert_work_experience do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data end)
@@ -161,31 +168,40 @@ defmodule Core.Seeder.Skills do
     }
 
     Repo.insert!(%WorkExperience{
-      end_date: Date.utc_today |> Date.add(-1),
+      end_date: Date.utc_today
+                |> Date.add(-1),
       name: Lorem.word(),
-      start_date: Date.utc_today |> Date.add(-3),
+      start_date: Date.utc_today
+                  |> Date.add(-3),
       user_id: user1.id
     })
     Repo.insert!(%WorkExperience{
-      end_date: Date.utc_today |> Date.add(-6),
+      end_date: Date.utc_today
+                |> Date.add(-6),
       name: Lorem.word(),
-      start_date: Date.utc_today |> Date.add(-9),
+      start_date: Date.utc_today
+                  |> Date.add(-9),
       user_id: user2.id
     })
     Repo.insert!(%WorkExperience{
-      end_date: Date.utc_today |> Date.add(-88),
+      end_date: Date.utc_today
+                |> Date.add(-88),
       name: Lorem.word(),
-      start_date: Date.utc_today |> Date.add(-99),
+      start_date: Date.utc_today
+                  |> Date.add(-99),
       user_id: user3.id
     })
     Repo.insert!(%WorkExperience{
-      end_date: Date.utc_today |> Date.add(-18),
+      end_date: Date.utc_today
+                |> Date.add(-18),
       name: Lorem.word(),
-      start_date: Date.utc_today |> Date.add(-23),
+      start_date: Date.utc_today
+                  |> Date.add(-23),
       user_id: user4.id
     })
   end
 
+  @spec insert_university() :: nil | Ecto.Schema.t()
   defp insert_university do
     names =
       @universities
@@ -196,5 +212,34 @@ defmodule Core.Seeder.Skills do
       end)
 
     Repo.insert_all(University, names)
+  end
+
+  @spec random_name_accounting_software :: [String.t()]
+  defp random_name_accounting_software do
+    names = [
+      "QuickBooks Desktop Premier",
+      "QuickBooks Desktop Pro",
+      "QuickBooks Desktop for Mac",
+      "QuickBooks Enterprise",
+      "QuickBooks Live Bookkeeping",
+      "QuickBooks Online Advanced",
+      "QuickBooks Online",
+      "QuickBooks Self Employed",
+      "Xero Cashbook/Ledger",
+      "Xero HQ",
+      "Xero Practice Manager",
+      "Xero Workpapers"
+    ]
+
+    numbers = 1..12
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
   end
 end
