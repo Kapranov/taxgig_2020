@@ -88,7 +88,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver do
 
   @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def update(_parent, _args, _info) do
-    {:error, [[field: :id, message: "id and faq_category params can't be blank"]]}
+    {:error, [[field: :id, message: "Can't be blank"], [field: :faq_category, message: "Can't be blank"]]}
   end
 
   @spec delete(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()

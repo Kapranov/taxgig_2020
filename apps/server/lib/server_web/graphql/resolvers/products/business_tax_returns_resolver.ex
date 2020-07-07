@@ -49,6 +49,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTaxReturnsResolver do
     end
   end
 
+  @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def show(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
+  end
+
   @spec role_client(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def role_client(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
@@ -67,6 +72,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTaxReturnsResolver do
           {:error, "The BusinessTaxReturn #{id} not found!"}
       end
     end
+  end
+
+  @spec role_client(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def role_client(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
   @spec role_pro(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
@@ -89,6 +99,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTaxReturnsResolver do
     end
   end
 
+  @spec role_pro(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def role_pro(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
+  end
+
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
     if is_nil(current_user) do
@@ -103,6 +118,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTaxReturnsResolver do
           {:error, extract_error_msg(changeset)}
       end
     end
+  end
+
+  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def create(_parent, _args, _info) do
+    {:error, "Unauthenticated"}
   end
 
   @spec update(any, %{id: bitstring, business_tax_return: map()}, %{context: %{current_user: User.t()}}) :: result()
@@ -121,6 +141,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTaxReturnsResolver do
     end
   end
 
+  @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :business_tax_return, message: "Can't be blank"]]}
+  end
+
   @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
@@ -136,6 +161,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTaxReturnsResolver do
     end
   end
 
+  @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def delete(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
+  end
+
   @spec find(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def find(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
@@ -149,6 +179,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTaxReturnsResolver do
           {:error, "The BusinessTaxReturn #{id} not found!"}
       end
     end
+  end
+
+  @spec find(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def find(_parent, _args, _resolutions) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
   @spec extract_error_msg(Ecto.Changeset.t()) :: list

@@ -36,6 +36,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Lookup.StateResolver do
     end
   end
 
+  @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def show(_parent, _args, _info) do
+    {:error, [[field: :id, message: "Can't be blank"]]}
+  end
+
   @spec find(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()
   def find(_parent, %{id: id}, _info) do
     if is_nil(id) do
@@ -49,6 +54,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Lookup.StateResolver do
           {:error, "The State #{id} not found!"}
       end
     end
+  end
+
+  @spec find(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def find(_parent, _args, _info) do
+    {:error, [[field: :id, message: "Can't be blank"]]}
   end
 
   @spec search_abbr(any, %{search_term: bitstring}, Absinthe.Resolution.t()) :: result()

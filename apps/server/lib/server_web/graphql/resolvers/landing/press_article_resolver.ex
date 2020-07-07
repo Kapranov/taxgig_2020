@@ -77,7 +77,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.PressArticleResolver do
 
   @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def update(_parent, _args, _info) do
-    {:error, [[field: :id, message: "id and press_article params can't be blank"]]}
+    {:error, [[field: :id, message: "Can't be blank"], [field: :press_article, message: "Can't be blank"]]}
   end
 
   @spec delete(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()

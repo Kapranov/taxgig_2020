@@ -77,7 +77,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.VacancyResolver do
 
   @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def update(_parent, _args, _info) do
-    {:error, [[field: :id, message: "id and vacancy params can't be blank"]]}
+    {:error, [[field: :id, message: "Can't be blank"], [field: :vacancy, message: "Can't be blank"]]}
   end
 
   @spec delete(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()

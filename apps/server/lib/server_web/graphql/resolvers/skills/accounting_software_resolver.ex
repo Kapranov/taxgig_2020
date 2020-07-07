@@ -49,7 +49,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.AccountingSoftwareResolver do
 
   @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def show(_parent, _args, _info) do
-    {:error, "Unauthenticated"}
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
@@ -82,6 +82,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.AccountingSoftwareResolver do
     end
   end
 
+  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def create(_parent, _args, _info) do
+    {:error, "Unauthenticated"}
+  end
+
   @spec update(any, %{id: bitstring, accounting_software: map()}, %{context: %{current_user: User.t()}}) :: result()
   def update(_parent, %{id: id, accounting_software: params}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
@@ -104,10 +109,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.AccountingSoftwareResolver do
 
   @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def update(_parent, _args, _info) do
-    {:error, [
-        [field: :current_user,  message: "Unauthenticated"],
-        [field: :id, message: "id and accounting_software params can't be blank"]
-      ]}
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :accounting_software, message: "Can't be blank"]]}
   end
 
   @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
@@ -127,10 +129,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.AccountingSoftwareResolver do
 
   @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def delete(_parent, _args, _info) do
-    {:error, [
-        [field: :current_user,  message: "Unauthenticated"],
-        [field: :id, message: "Can't be blank"]
-      ]}
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
   @spec extract_error_msg(Ecto.Changeset.t()) :: Ecto.Changeset.t()

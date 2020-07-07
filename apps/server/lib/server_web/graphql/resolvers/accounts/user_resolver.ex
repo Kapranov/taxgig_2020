@@ -80,7 +80,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def show(_parent, _args, _info) do
-    {:error, "Unauthenticated"}
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
   @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result()

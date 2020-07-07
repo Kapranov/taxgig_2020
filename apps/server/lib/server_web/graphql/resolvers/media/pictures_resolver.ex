@@ -38,7 +38,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
   def picture(_parent, %{profile_id: profile_id}, _resolution), do: do_fetch_picture(profile_id)
 
   @spec picture(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
-  def picture(_parent, _args, _resolution), do: {:error, "There are args can't be blank"}
+  def picture(_parent, _args, _resolution) do
+    {:error, [[field: :profile_id, message: "Can't be blank"]]}
+  end
 
   @spec upload_picture(any, %{file: Plug.Upload.t(), profile_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def upload_picture(_parent, %{file: %Plug.Upload{} = file, profile_id: profile_id} = args, %{context: %{current_user: user}}) do
@@ -74,7 +76,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
 
   @spec upload_picture(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def upload_picture(_parent, _args, _resolution) do
-    {:error, "Unauthenticated"}
+    {:error, [[field: :current_user,  message: "Unauthenticated"]]}
   end
 
   @spec update_picture(any, %{profile_id: bitstring(), file: %{picture: %{file: %Plug.Upload{}}}}, %{context: %{current_user: User.t()}}) :: result()
@@ -145,10 +147,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
 
   @spec update_picture(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def update_picture(_parent, _args, _resolution) do
-    {:error, [
-        [field: :current_user,  message: "Unauthenticated"]
-      ]
-    }
+    {:error, [[field: :current_user,  message: "Unauthenticated"]]}
   end
 
   @spec remove_picture(any, %{profile_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
@@ -173,7 +172,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
 
   @spec upload_picture(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def remove_picture(_parent, _args, _resolution) do
-    {:error, "Unauthenticated"}
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :profile_id, message: "Can't be blank"]]}
   end
 
   @spec do_fetch_picture(nil) :: {:error, nil}

@@ -80,7 +80,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.SubscriberResolver do
 
   @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def update(_root, _args, _info) do
-    {:error, [[field: :id, message: "id or subscriber params can't be blank"]]}
+    {:error, [[field: :id, message: "Can't be blank"], [field: :subscriber, message: "Can't be blank"]]}
   end
 
   @spec delete(any, %{email: bitstring}, Absinthe.Resolution.t()) :: result()

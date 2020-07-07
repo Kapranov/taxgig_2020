@@ -49,7 +49,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingsResolver do
 
   @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def show(_parent, _args, _info) do
-    {:error, "Unauthenticated"}
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
   @spec role_client(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
@@ -74,7 +74,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingsResolver do
 
   @spec role_client(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def role_client(_parent, _args, _info) do
-    {:error, "Unauthenticated"}
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
   @spec role_pro(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
@@ -99,7 +99,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingsResolver do
 
   @spec role_pro(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def role_pro(_parent, _args, _info) do
-    {:error, "Unauthenticated"}
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
@@ -118,6 +118,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingsResolver do
     end
   end
 
+  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def create(_parent, _args, _info) do
+    {:error, "Unauthenticated"}
+  end
+
   @spec update(any, %{id: bitstring, book_keeping: map()}, %{context: %{current_user: User.t()}}) :: result()
   def update(_parent, %{id: id, book_keeping: params}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
@@ -132,6 +137,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingsResolver do
           {:error, "The BookKeeping #{id} not found!"}
       end
     end
+  end
+
+  @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :book_keeping, message: "Can't be blank"]]}
   end
 
   @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
@@ -151,10 +161,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingsResolver do
 
   @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def delete(_parent, _args, _info) do
-    {:error, [
-        [field: :current_user,  message: "Unauthenticated"],
-        [field: :id, message: "Can't be blank"]
-      ]}
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
   @spec find(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
@@ -174,7 +181,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingsResolver do
 
   @spec find(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
   def find(_parent, _args, _resolutions) do
-    {:error, "Unauthenticated"}
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
   @spec extract_error_msg(Ecto.Changeset.t()) :: list

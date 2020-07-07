@@ -55,7 +55,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolver do
 
   @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def show(_parent, _args, _info) do
-    {:error, "Unauthenticated"}
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
   @spec update(any, %{id: bitstring(), logo: map(), profile: map()}, %{context: %{current_user: User.t()}}) :: result()
@@ -88,7 +88,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolver do
   @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def update(_root, _args, _info) do
     {:error, [
-        [field: :current_user,  message: "Unauthenticated"]
+        [field: :current_user,  message: "Unauthenticated"],
+        [field: :id, message: "Can't be blank"],
+        [field: :logo, message: "allow be blank"],
+        [field: :profile, message: "Can't be blank"]
       ]
     }
   end
@@ -115,10 +118,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolver do
 
   @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def delete(_parent, _args, _info) do
-    {:error, [
-        [field: :id, message: "Can't be blank"],
-        [field: :current_user,  message: "Unauthenticated"]
-      ]
-    }
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 end

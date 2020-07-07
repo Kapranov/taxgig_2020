@@ -27,6 +27,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolver do
     end
   end
 
+  @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def show(_parent, _args, _info) do
+    {:error, [[field: :id, message: "Can't be blank"]]}
+  end
+
   @spec search(any, %{zipcode: integer}, Absinthe.Resolution.t()) :: result()
   def search(_parent, %{zipcode: zipcode}, _info) do
     if is_nil(zipcode) do
@@ -40,5 +45,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolver do
           {:error, "The UsZipcode #{zipcode} not found!"}
       end
     end
+  end
+
+  @spec search(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def search(_parent, _args, _info) do
+    {:error, [[field: :zipcode, message: "Can't be blank"]]}
   end
 end

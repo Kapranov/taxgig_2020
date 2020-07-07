@@ -38,6 +38,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Localization.LanguageResolver do
     end
   end
 
+  @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def show(_parent, _args, _info) do
+    {:error, [[field: :id, message: "Can't be blank"]]}
+  end
+
   @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
   def create(_parent, args, _info) do
     args
@@ -66,6 +71,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Localization.LanguageResolver do
     end
   end
 
+  @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update(_parent, _args, _info) do
+    {:error, [[field: :id, message: "Can't be blank"], [field: :language, message: "Can't be blank"]]}
+  end
+
   @spec delete(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()
   def delete(_parent, %{id: id}, _info) do
     if is_nil(id) do
@@ -79,6 +89,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Localization.LanguageResolver do
           {:error, "The Language #{id} not found!"}
       end
     end
+  end
+
+  @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def delete(_parent, _args, _info) do
+    {:error, [[field: :id, message: "Can't be blank"]]}
   end
 
   @spec extract_error_msg(Ecto.Changeset.t()) :: Ecto.Changeset.t()
