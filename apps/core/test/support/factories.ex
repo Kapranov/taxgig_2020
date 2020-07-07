@@ -68,6 +68,13 @@ defmodule Core.Factory do
     UUID
   }
 
+  @root_dir Path.expand("../../priv/data/", __DIR__)
+  @universities "#{@root_dir}/university.json"
+  @usa_states "#{@root_dir}/us_states.json"
+  @usa_zipcodes_part1 "#{@root_dir}/us_zip_part1.json"
+  @usa_zipcodes_part2 "#{@root_dir}/us_zip_part2.json"
+  @usa_zipcodes_part3 "#{@root_dir}/us_zip_part3.json"
+
   @spec faq_category_factory() :: FaqCategory.t()
   def faq_category_factory do
     %FaqCategory{
@@ -166,10 +173,13 @@ defmodule Core.Factory do
 
   @spec state_factory() :: State.t()
   def state_factory do
-    %State{
-      abbr: Lorem.word(),
-      name: Lorem.word()
-    }
+    case random_state() do
+      {abbr, name} ->
+        %State{
+          abbr: abbr,
+          name: name
+        }
+    end
   end
 
   @spec us_zipcode_factory() :: UsZipcode.t()
@@ -556,7 +566,7 @@ defmodule Core.Factory do
       rental_property_count: random_integer(),
       reported_grant: random_boolean(),
       restricted_donation: random_boolean(),
-      state: [random_state()],
+      state: random_states(),
       tax_exemption: random_boolean(),
       tax_year: random_year(),
       total_asset_less: random_boolean(),
@@ -596,7 +606,7 @@ defmodule Core.Factory do
       rental_property_count: random_integer(),
       reported_grant: random_boolean(),
       restricted_donation: random_boolean(),
-      state: [random_state()],
+      state: random_states(),
       tax_exemption: random_boolean(),
       tax_year: random_year(),
       total_asset_less: random_boolean(),
@@ -815,7 +825,7 @@ defmodule Core.Factory do
       rental_property_count: random_integer(),
       rental_property_income: random_boolean(),
       sole_proprietorship_count: random_integer(),
-      state: [random_state()],
+      state: random_states(),
       stock_divident: random_boolean(),
       tax_year: random_year(),
       user: build(:user)
@@ -839,7 +849,7 @@ defmodule Core.Factory do
       rental_property_count: random_integer(),
       rental_property_income: random_boolean(),
       sole_proprietorship_count: random_integer(),
-      state: [random_state()],
+      state: random_states(),
       stock_divident: random_boolean(),
       tax_year: random_year(),
       user: build(:tp_user)
@@ -1115,19 +1125,19 @@ defmodule Core.Factory do
   @spec message_factory() :: Message.t()
   def message_factory do
     %Message{
-      body: "My area in Michigan is covered in Trump flags and we have every race there is",
-      room: build(:room),
-      user: build(:user)
+      body: Lorem.sentence(),
+      room:     build(:room),
+      user:     build(:user)
     }
     %Message{
-      body: "People like to be Seen a victims. The love to be pitied by others",
-      room: build(:room),
-      user: build(:user)
+      body: Lorem.sentence(),
+      room:     build(:room),
+      user:     build(:user)
     }
     %Message{
-      body: "I lived in Chicago. It is and always had been corrupt and lawless.",
-      room: build(:room),
-      user: build(:user)
+      body: Lorem.sentence(),
+      room:     build(:room),
+      user:     build(:user)
     }
   end
 
@@ -1164,8 +1174,8 @@ defmodule Core.Factory do
     }
   end
 
-  @spec random_language() :: {atom, String.t()}
-  def random_language do
+  @spec random_language() :: {String.t()}
+  defp random_language do
     data = [
       ara: "arabic",
       ben: "bengali",
@@ -1187,20 +1197,28 @@ defmodule Core.Factory do
       vie: "vietnamese"
     ]
 
-    value = Enum.random(data)
-    abbr = value |> elem(0) |> to_string
-    name = value |> elem(1)
-    {abbr, name}
+    numbers = 1..18
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(data)
+      end
+      |> Enum.uniq()
+      |> Keyword.values
+      |> List.to_tuple
+
+    result
   end
 
   @spec random_boolean() :: boolean()
-  def random_boolean do
+  defp random_boolean do
     data = ~W(true false)a
     Enum.random(data)
   end
 
   @spec random_gender() :: String.t()
-  def random_gender do
+  defp random_gender do
     data = [
       "Decline to Answer",
       "Female/Woman",
@@ -1215,7 +1233,7 @@ defmodule Core.Factory do
   end
 
   @spec random_email() :: String.t()
-  def random_email do
+  defp random_email do
     data = [
       "lugatex@yahoo.com",
       "kapranov.lugatex@gmail.com"
@@ -1224,58 +1242,99 @@ defmodule Core.Factory do
     Enum.random(data)
   end
 
-  @spec random_zipcode() :: {atom(), String.t(), integer()}
-  def random_zipcode do
-    data = [
-      %{city: "AGUADA", state: "PR", zipcode: 631},
-      %{city: "BRONX", state: "NY", zipcode: 10459},
-      %{city: "CABO ROJO", state: "PR", zipcode: 623},
-      %{city: "CHRISTIANSTED", state: "VI", zipcode: 821},
-      %{city: "MELROSE", state: "MA", zipcode: 2176},
-      %{city: "PIERMONT", state: "NH", zipcode: 3779},
-      %{city: "CRANSTON", state: "RI", zipcode: 2920},
-      %{city: "MCADOO", state: "PA", zipcode: 18237},
-      %{city: "SETH", state: "WV", zipcode: 25181},
-      %{city: "SURGOINSVILLE", state: "TN", zipcode: 37873}
-    ]
+  @spec random_zipcode() :: {String.t(), String.t(), integer()}
+  defp random_zipcode do
+    decoded_zipcode1 =
+      @usa_zipcodes_part1
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"Zipcode" => zipcode, "City" => city, "State" => state} ->
+        %{zipcode: zipcode, city: city, state: state}
+      end)
 
-    %{city: city, state: state, zipcode: zipcode} =
-      data
-      |> Enum.random
+    decoded_zipcode2 =
+      @usa_zipcodes_part2
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"Zipcode" => zipcode, "City" => city, "State" => state} ->
+        %{zipcode: zipcode, city: city, state: state}
+      end)
 
+    decoded_zipcode3 =
+      @usa_zipcodes_part3
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"Zipcode" => zipcode, "City" => city, "State" => state} ->
+        %{zipcode: zipcode, city: city, state: state}
+      end)
+
+    data = [decoded_zipcode1 | [decoded_zipcode2 | decoded_zipcode3]]
+    %{city: city, state: state, zipcode: zipcode} = Enum.random(data)
     {city, state, zipcode}
   end
 
   @spec random_provider() :: String.t()
-  def random_provider do
+  defp random_provider do
     data = ~w(google localhost facebook linkedin twitter)s
     Enum.random(data)
   end
 
   @spec random_ssn() :: integer()
-  def random_ssn do
+  defp random_ssn do
     Us.ssn()
     |> String.replace(~r/-/, "")
     |> String.trim()
     |> String.to_integer
   end
 
-  @spec random_integer() :: Integer
-  def random_integer(n \\ 99) when is_integer(n) do
+  @spec random_integer() :: integer()
+  defp random_integer(n \\ 99) when is_integer(n) do
     Enum.random(1..n)
   end
 
-  @spec random_state :: list()
-  def random_state do
-    states =
-      ~w(Hawaii Georgia Iowa)s
-      |> Enum.random()
+  @spec random_states :: [String.t()]
+  defp random_states do
+    names =
+      @usa_states
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"name" => name, "abbr" => abbr} -> %{name: name, abbr: abbr} end)
 
-    states
+    numbers = 1..59
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
   end
 
-  @spec random_year :: list()
-  def random_year do
+  @spec random_state :: {String.t(), String.t()}
+  defp random_state do
+    names =
+      @usa_states
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"name" => name, "abbr" => abbr} -> %{name: name, abbr: abbr} end)
+
+    numbers = 1..59
+    number = Enum.random(numbers)
+
+    data =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    %{abbr: abbr, name: name} = Enum.random(data)
+    {abbr, name}
+  end
+
+  @spec random_year :: [String.t()]
+  defp random_year do
     years = 2000..2020
     numbers = 1..9
     number = Enum.random(numbers)
@@ -1285,12 +1344,13 @@ defmodule Core.Factory do
         Enum.random(years)
         |> Integer.to_string
       end
+      |> Enum.uniq()
 
-    Enum.uniq(result)
+    result
   end
 
-  @spec random_name_additional_need :: String.t
-  def random_name_additional_need do
+  @spec random_name_additional_need :: String.t()
+  defp random_name_additional_need do
     names = [
       "accounts payable",
       "accounts receivable",
@@ -1302,8 +1362,8 @@ defmodule Core.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_annual_revenue :: String.t
-  def random_name_annual_revenue do
+  @spec random_name_annual_revenue :: String.t()
+  defp random_name_annual_revenue do
     names = [
       "$100K - $500K",
       "$10M+",
@@ -1316,8 +1376,8 @@ defmodule Core.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_classify_inventory :: String.t
-  def random_name_classify_inventory do
+  @spec random_name_classify_inventory :: String.t()
+  defp random_name_classify_inventory do
     names = ["Assets", "Expenses"]
     numbers = 1..1
     number = Enum.random(numbers)
@@ -1325,10 +1385,12 @@ defmodule Core.Factory do
       for i <- 1..number, i > 0 do
         Enum.random(names)
       end
-    Enum.uniq(result)
+      |> Enum.uniq()
+      |> List.last
+    result
   end
 
-  @spec random_name_industry :: String.t
+  @spec random_name_industry :: [String.t()]
   defp random_name_industry do
     names = [
       "Agriculture/Farming",
@@ -1364,11 +1426,12 @@ defmodule Core.Factory do
       for i <- 1..number, i > 0 do
         Enum.random(names)
       end
+      |> Enum.uniq()
 
-    Enum.uniq(result)
+    result
   end
 
-  @spec random_name_for_tp_industry :: String.t
+  @spec random_name_for_tp_industry :: [String.t]
   defp random_name_for_tp_industry do
     names = [
       "Agriculture/Farming",
@@ -1397,10 +1460,19 @@ defmodule Core.Factory do
       "Wholesale Distribution"
     ]
 
-    [Enum.random(names)]
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
   end
 
-  @spec random_name_for_pro_industry :: String.t
+  @spec random_name_for_pro_industry :: [String.t()]
   defp random_name_for_pro_industry do
     names = [
       "Agriculture/Farming",
@@ -1436,11 +1508,12 @@ defmodule Core.Factory do
       for i <- 1..number, i > 0 do
         Enum.random(names)
       end
+      |> Enum.uniq()
 
-    Enum.uniq(result)
+    result
   end
 
-  @spec random_name_number_employee :: String.t
+  @spec random_name_number_employee :: String.t()
   defp random_name_number_employee do
     names = [
       "1 employee",
@@ -1454,13 +1527,13 @@ defmodule Core.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_transaction_volume :: String.t
+  @spec random_name_transaction_volume :: String.t()
   defp random_name_transaction_volume do
     names = ["1-25", "200+", "26-75", "76-199"]
     Enum.random(names)
   end
 
-  @spec random_name_type_client :: String.t
+  @spec random_name_type_client :: String.t()
   defp random_name_type_client do
     names = [
       "C-Corp / Corporation",
@@ -1510,13 +1583,13 @@ defmodule Core.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_tax_frequency :: String.t
+  @spec random_name_tax_frequency :: String.t()
   defp random_name_tax_frequency do
     names = ["Annually", "Monthly", "Quaterly"]
     Enum.random(names)
   end
 
-  @spec random_name_tax_industry :: String.t
+  @spec random_name_tax_industry :: [String.t()]
   defp random_name_tax_industry do
     names = [
       "Agriculture/Farming",
@@ -1552,11 +1625,12 @@ defmodule Core.Factory do
       for i <- 1..number, i > 0 do
         Enum.random(names)
       end
+      |> Enum.uniq()
 
-    Enum.uniq(result)
+    result
   end
 
-  @spec random_name_for_tp_tax_industry :: String.t
+  @spec random_name_for_tp_tax_industry :: [String.t()]
   defp random_name_for_tp_tax_industry do
     names = [
       "Agriculture/Farming",
@@ -1585,18 +1659,19 @@ defmodule Core.Factory do
       "Wholesale Distribution"
     ]
 
-    numbers = 0..1
+    numbers = 1..1
     number = Enum.random(numbers)
 
     result =
       for i <- 1..number, i > 0 do
         Enum.random(names)
       end
+      |> Enum.uniq()
 
-    Enum.uniq(result)
+    result
   end
 
-  @spec random_name_for_pro_tax_industry :: String.t
+  @spec random_name_for_pro_tax_industry :: [String.t()]
   defp random_name_for_pro_tax_industry do
     names = [
       "Agriculture/Farming",
@@ -1632,10 +1707,12 @@ defmodule Core.Factory do
       for i <- 1..number, i > 0 do
         Enum.random(names)
       end
+      |> Enum.uniq()
 
-    Enum.uniq(result)
+    result
   end
 
+  @spec random_name_accounting_software :: [String.t()]
   defp random_name_accounting_software do
     names = [
       "QuickBooks Desktop Premier",
@@ -1659,38 +1736,18 @@ defmodule Core.Factory do
       for i <- 1..number, i > 0 do
         Enum.random(names)
       end
+      |> Enum.uniq()
 
-    Enum.uniq(result)
+    result
   end
 
+  @spec random_name_university :: String.t()
   defp random_name_university do
-    names = [
-      "Babcock University",
-      "Bluffton College",
-      "Banaras Hindu University",
-      "Cabrillo College",
-      "Cape Coast Polytechnic",
-      "Defiance College",
-      "Delaware State University",
-      "Earlham College",
-      "Elon College",
-      "Folsom Lake College",
-      "Hitit University",
-      "Holy Angel University",
-      "Illinois Central College",
-      "J Sargeant Reynolds Community College",
-      "Jones College",
-      "Knox College",
-      "Lake Forest College",
-      "Matn University",
-      "Mersin University",
-      "Oakland Community College",
-      "Pacific University",
-      "Parkland College",
-      "Radford University",
-      "Södertörn University College",
-      "Triton College"
-      ]
+    names =
+      @universities
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"name" => name} -> name end)
 
     numbers = 1..1
     number = Enum.random(numbers)
@@ -1699,7 +1756,9 @@ defmodule Core.Factory do
       for i <- 1..number, i > 0 do
         Enum.random(names)
       end
+      |> Enum.uniq()
+      |> List.to_string
 
-    result |> Enum.uniq() |> List.to_string
+    result
   end
 end
