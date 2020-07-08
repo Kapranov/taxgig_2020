@@ -92,6 +92,22 @@ defmodule Core.Queries do
     end
   end
 
+  @spec by_name!(map, map, atom, String.t(), String.t()) :: [{String.t()}] | []
+  def by_name!(struct_a, struct_b, row, id, name) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in ^struct_b,
+        where: field(c, ^row) == ct.id,
+        where: field(c, ^row) == ^id,
+        where: c.name == ^name,
+        select: {field(c, ^row)}
+      )
+    rescue
+      Ecto.Query.CastError -> :error
+    end
+  end
+
   @spec by_name(map, map, boolean, atom, atom, word) :: [{word}] | nil
   def by_name(struct_a, struct_b, role, row_a, row_b, name) do
     try do
