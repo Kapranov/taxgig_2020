@@ -409,7 +409,7 @@ defmodule Core.Factory do
   def book_keeping_annual_revenue_factory do
     %BookKeepingAnnualRevenue{
       book_keepings: build(:book_keeping),
-      name: random_name_annual_revenue(),
+      name: random_name_revenue(),
       price: random_integer()
     }
   end
@@ -417,14 +417,14 @@ defmodule Core.Factory do
   def tp_book_keeping_annual_revenue_factory do
     %BookKeepingAnnualRevenue{
       book_keepings: build(:tp_book_keeping),
-      name: random_name_annual_revenue()
+      name: random_name_revenue()
     }
   end
 
   def pro_book_keeping_annual_revenue_factory do
     %BookKeepingAnnualRevenue{
       book_keepings: build(:pro_book_keeping),
-      name: random_name_annual_revenue(),
+      name: random_name_revenue(),
       price: random_integer()
     }
   end
@@ -467,7 +467,7 @@ defmodule Core.Factory do
   def book_keeping_number_employee_factory do
     %BookKeepingNumberEmployee{
       book_keepings: build(:book_keeping),
-      name: random_name_number_employee(),
+      name: random_name_employee(),
       price: random_integer()
     }
   end
@@ -475,14 +475,14 @@ defmodule Core.Factory do
   def tp_book_keeping_number_employee_factory do
     %BookKeepingNumberEmployee{
       book_keepings: build(:tp_book_keeping),
-      name: random_name_number_employee()
+      name: random_name_employee()
     }
   end
 
   def pro_book_keeping_number_employee_factory do
     %BookKeepingNumberEmployee{
       book_keepings: build(:pro_book_keeping),
-      name: random_name_number_employee(),
+      name: random_name_employee(),
       price: random_integer()
     }
   end
@@ -627,7 +627,7 @@ defmodule Core.Factory do
   def business_entity_type_factory do
     %BusinessEntityType{
       business_tax_returns: build(:business_tax_return),
-      name: random_name_type_client(),
+      name: random_name_entity_type(),
       price: random_integer()
     }
   end
@@ -635,14 +635,14 @@ defmodule Core.Factory do
   def tp_business_entity_type_factory do
     %BusinessEntityType{
       business_tax_returns: build(:tp_business_tax_return),
-      name: random_name_type_client()
+      name: random_name_entity_type()
     }
   end
 
   def pro_business_entity_type_factory do
     %BusinessEntityType{
       business_tax_returns: build(:pro_business_tax_return),
-      name: random_name_type_client(),
+      name: random_name_entity_type(),
       price: random_integer()
     }
   end
@@ -713,28 +713,28 @@ defmodule Core.Factory do
   def business_llc_type_factory do
     %BusinessLlcType{
       business_tax_returns: build(:business_tax_return),
-      name: random_name_type_client()
+      name: random_name_llc_type()
     }
   end
 
   def tp_business_llc_type_factory do
     %BusinessLlcType{
       business_tax_returns: build(:tp_business_tax_return),
-      name: random_name_type_client()
+      name: random_name_llc_type()
     }
   end
 
   def pro_business_llc_type_factory do
     %BusinessLlcType{
       business_tax_returns: build(:pro_business_tax_return),
-      name: random_name_type_client()
+      name: random_name_llc_type()
     }
   end
 
   def business_number_employee_factory do
     %BusinessNumberEmployee{
       business_tax_returns: build(:business_tax_return),
-      name: random_name_number_employee(),
+      name: random_name_employee(),
       price: random_integer()
     }
   end
@@ -742,14 +742,14 @@ defmodule Core.Factory do
   def tp_business_number_employee_factory do
     %BusinessNumberEmployee{
       business_tax_returns: build(:tp_business_tax_return),
-      name: random_name_number_employee()
+      name: random_name_employee()
     }
   end
 
   def pro_business_number_employee_factory do
     %BusinessNumberEmployee{
       business_tax_returns: build(:pro_business_tax_return),
-      name: random_name_number_employee(),
+      name: random_name_employee(),
       price: random_integer()
     }
   end
@@ -757,7 +757,7 @@ defmodule Core.Factory do
   def business_total_revenue_factory do
     %BusinessTotalRevenue{
       business_tax_returns: build(:business_tax_return),
-      name: random_name_annual_revenue(),
+      name: random_name_revenue(),
       price: random_integer()
     }
   end
@@ -765,14 +765,14 @@ defmodule Core.Factory do
   def tp_business_total_revenue_factory do
     %BusinessTotalRevenue{
       business_tax_returns: build(:tp_business_tax_return),
-      name: random_name_annual_revenue()
+      name: random_name_revenue()
     }
   end
 
   def pro_business_total_revenue_factory do
     %BusinessTotalRevenue{
       business_tax_returns: build(:pro_business_tax_return),
-      name: random_name_annual_revenue(),
+      name: random_name_revenue(),
       price: random_integer()
     }
   end
@@ -1011,7 +1011,7 @@ defmodule Core.Factory do
   def individual_stock_transaction_count_factory do
     %IndividualStockTransactionCount{
       individual_tax_returns: build(:individual_tax_return),
-      name: random_name_stock_transactions_count()
+      name: random_name_stock_transaction_count()
     }
   end
 
@@ -1019,7 +1019,7 @@ defmodule Core.Factory do
   def tp_individual_stock_transaction_count_factory do
     %IndividualStockTransactionCount{
       individual_tax_returns: build(:tp_individual_tax_return),
-      name: random_name_stock_transactions_count()
+      name: random_name_stock_transaction_count()
     }
   end
 
@@ -1027,7 +1027,7 @@ defmodule Core.Factory do
   def pro_individual_stock_transaction_count_factory do
     %IndividualStockTransactionCount{
       individual_tax_returns: build(:pro_individual_tax_return),
-      name: random_name_stock_transactions_count()
+      name: random_name_stock_transaction_count()
     }
   end
 
@@ -1362,8 +1362,8 @@ defmodule Core.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_annual_revenue :: String.t()
-  defp random_name_annual_revenue do
+  @spec random_name_revenue :: String.t()
+  defp random_name_revenue do
     names = [
       "$100K - $500K",
       "$10M+",
@@ -1382,8 +1382,8 @@ defmodule Core.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_stock_transactions_count() :: String.t()
-  defp random_name_stock_transactions_count do
+  @spec random_name_stock_transaction_count() :: String.t()
+  defp random_name_stock_transaction_count do
     names = ["1-5", "6-50", "51-100", "100+"]
     Enum.random(names)
   end
@@ -1393,12 +1393,12 @@ defmodule Core.Factory do
     names = ["Assets", "Expenses"]
     numbers = 1..1
     number = Enum.random(numbers)
-    result =
+    [result] =
       for i <- 1..number, i > 0 do
         Enum.random(names)
       end
       |> Enum.uniq()
-      |> List.last
+
     result
   end
 
@@ -1525,8 +1525,8 @@ defmodule Core.Factory do
     result
   end
 
-  @spec random_name_number_employee :: String.t()
-  defp random_name_number_employee do
+  @spec random_name_employee :: String.t()
+  defp random_name_employee do
     names = [
       "1 employee",
       "101 - 500 employees",
@@ -1545,11 +1545,38 @@ defmodule Core.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_type_client :: String.t()
+  @spec random_name_type_client() :: String.t()
   defp random_name_type_client do
     names = [
       "C-Corp / Corporation",
       "Individual or Sole proprietorship",
+      "LLC",
+      "Non-profit corp",
+      "Partnership",
+      "S-Corp"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_entity_type() :: String.t()
+  defp random_name_entity_type do
+    names = [
+      "C-Corp / Corporation",
+      "LLC",
+      "Non-profit corp",
+      "Partnership",
+      "S-Corp",
+      "Sole proprietorship"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_llc_type() :: String.t()
+  defp random_name_llc_type do
+    names = [
+      "C-Corp / Corporation",
       "LLC",
       "Non-profit corp",
       "Partnership",
@@ -1597,7 +1624,7 @@ defmodule Core.Factory do
 
   @spec random_name_tax_frequency :: String.t()
   defp random_name_tax_frequency do
-    names = ["Annually", "Monthly", "Quaterly"]
+    names = ["Annually", "Monthly", "Quarterly"]
     Enum.random(names)
   end
 
