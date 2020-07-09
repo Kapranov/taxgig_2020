@@ -80,8 +80,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingAdditionalNeedsResolve
     else
       try do
         Repo.get!(BookKeepingAdditionalNeed, id)
-        |> BookKeepingAdditionalNeed.changeset(params)
-        |> Repo.update
+        |> Services.update_book_keeping_additional_need(params)
+        |> case do
+          {:ok, data} ->
+            {:ok, data}
+          {:error, changeset} ->
+            {:error, extract_error_msg(changeset)}
+        end
       rescue
         Ecto.NoResultsError ->
           {:error, "The BookKeepingAdditionalNeed #{id} not found!"}
