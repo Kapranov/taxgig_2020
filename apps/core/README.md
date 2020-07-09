@@ -388,4 +388,44 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 %{name: ["Manufacturing"]}
 ```
 
+### action create and update by services
+
+- `book_keepings`
+  - `[:book_keeping_id, :name]`
+    - `book_keeping_classify_inventories`        - :string
+    - `book_keeping_industries`                  - {:array, :string}
+  - `[:book_keeping_id, :name, :price]`
+    - `book_keeping_additional_needs`            - :string
+    - `book_keeping_number_employees`            - :string
+    - `book_keeping_transaction_volumes`         - :string
+    - `book_keeping_type_clients`                - :string
+
+- `business_tax_returns`
+  - `[:business_tax_return_id, :name]`
+    - `business_foreign_account_counts`          - :string
+    - `business_foreign_ownership_counts`        - :string
+    - `business_industries`                      - {:array, :string}
+    - `business_llc_types`                       - :string
+    - `business_transaction_counts`              - :string
+  - `[:business_tax_return_id, :name, :price]`
+    - `business_entity_types`                    - :string
+    - `business_number_employees`                - :string
+    - `business_total_revenues`                  - :string
+
+- `individual_tax_returns`
+  - `[:individual_tax_return_id, :name]`
+    - `individual_foreign_account_counts`        - :string
+    - `individual_industries`                    - {:array, :string}
+    - `individual_stock_transaction_counts`      - :string
+  - `[:individual_tax_return_id, :name, :price]`
+    - `individual_employment_statuses`           - :string
+    - `individual_filing_statuses`               - :string
+    - `individual_itemized_deductions`           - :string
+
+- `sale_taxes`
+  - `[:sale_tax_id, :name]`
+    - `sale_tax_industries`                      - {:array, :string}
+  - `[:sale_tax_id, :name, :price]`
+    - `sale_tax_frequencies`                     - :string
+
 ### 21 Jan 2020 by Oleg G.Kapranov

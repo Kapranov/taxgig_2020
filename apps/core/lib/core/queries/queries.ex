@@ -144,6 +144,14 @@ defmodule Core.Queries do
     end
   end
 
+  @spec by_count(map, map, atom, String.t()) :: Ecto.Query.t()
+  def by_count(struct_a, struct_b, row, id) do
+    from c in struct_a,
+    join: ct in ^struct_b,
+    where: field(c, ^row) == ^id,
+    where: field(c, ^row) == ct.id
+  end
+
   @spec by_counts(map, boolean, atom) :: [{word, integer}] | [{word, float}] | nil
   def by_counts(struct, role, row) do
     try do

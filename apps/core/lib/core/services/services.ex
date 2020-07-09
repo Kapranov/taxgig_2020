@@ -139,12 +139,7 @@ defmodule Core.Services do
     name
   )a
 
-  @tp_book_keeping_industry_params ~w(
-    book_keeping_id
-    name
-  )a
-
-  @pro_book_keeping_industry_params ~w(
+  @book_keeping_industry_params ~w(
     book_keeping_id
     name
   )a
@@ -1581,79 +1576,41 @@ defmodule Core.Services do
   """
   @spec create_book_keeping_industry(%{atom => any}) :: result() | error_tuple()
   def create_book_keeping_industry(attrs \\ %{}) do
-    book_keeping_ids =
-      case attrs.book_keeping_id do
-        nil -> nil
-        _ -> Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+    querty =
+      try do
+        Queries.by_count(BookKeepingIndustry, BookKeeping, :book_keeping_id, attrs.book_keeping_id)
+      rescue
+        ArgumentError -> :error
       end
 
-    user_id =
-      case book_keeping_ids do
-        nil -> nil
-        _ -> book_keeping_ids.user_id
-      end
-
-    get_role_by_user =
-      case user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
-      end
-
-    get_name_by_book_keeping_industry =
-      case attrs.book_keeping_id do
-        nil -> nil
-        _ ->
-          Repo.all(
-            from c in BookKeepingIndustry,
-            where: c.book_keeping_id == ^attrs.book_keeping_id,
-            select: c.name
-          )
-      end
-
-    query =
-      case attrs.book_keeping_id do
-        nil -> nil
-        _ ->
-          from c in BookKeepingIndustry,
-          where: c.book_keeping_id == ^attrs.book_keeping_id
-      end
-
-    case get_role_by_user do
-      nil -> {:error, %Ecto.Changeset{}}
-      false ->
-        case Enum.any?(get_name_by_book_keeping_industry, &(&1 == attrs.name)) do
-          true ->
-            {:error, [field: :name, message: "name already is exist, not permission for new record"]}
-          false ->
-            case Repo.aggregate(query, :count, :id) do
-              0 ->
-                case sort_keys(attrs) do
-                  @tp_book_keeping_industry_params ->
-                    %BookKeepingIndustry{}
-                    |> BookKeepingIndustry.changeset(attrs)
-                    |> Repo.insert()
-                  _ -> {:error, %Ecto.Changeset{}}
+    case querty do
+      :error -> {:error, %Changeset{}}
+      _ ->
+        case Repo.aggregate(querty, :count, :id) do
+          0 ->
+            case Map.keys(attrs) do
+              @book_keeping_industry_params ->
+                try do
+                  case BookKeeping.by_role(attrs.book_keeping_id) do
+                    false ->
+                      if Enum.count(attrs.name) > 1 do
+                        {:error, %Ecto.Changeset{}}
+                      else
+                        %BookKeepingIndustry{}
+                        |> BookKeepingIndustry.changeset(attrs)
+                        |> Repo.insert()
+                      end
+                    true ->
+                      %BookKeepingIndustry{}
+                      |> BookKeepingIndustry.changeset(attrs)
+                      |> Repo.insert()
+                  end
+                rescue
+                  CaseClauseError -> {:error, %Changeset{}}
                 end
-              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, %Ecto.Changeset{}}
             end
-        end
-      true ->
-        case Enum.any?(get_name_by_book_keeping_industry, &(&1 == attrs.name)) do
-          true -> {:error, [field: :name, message: "Name already is exist"]}
-          false ->
-            case sort_keys(attrs) do
-              @pro_book_keeping_industry_params ->
-                %BookKeepingIndustry{}
-                |> BookKeepingIndustry.changeset(attrs)
-                |> Repo.insert()
-              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
-            end
+          _ -> {:error, %Ecto.Changeset{}}
         end
     end
   end
@@ -1672,62 +1629,42 @@ defmodule Core.Services do
   """
   @spec update_book_keeping_industry(BookKeepingIndustry.t(), %{atom => any}) :: result() | error_tuple()
   def update_book_keeping_industry(%BookKeepingIndustry{} = struct, attrs) do
-    book_keeping =
-      Repo.get_by(BookKeeping, %{id: struct.book_keeping_id})
-
-    get_role_by_user =
-      case book_keeping.user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^book_keeping.user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
+    querty =
+      try do
+        Queries.by_count(BookKeepingIndustry, BookKeeping, :book_keeping_id, struct.book_keeping_id)
+      rescue
+        ArgumentError -> :error
       end
 
-    query =
-      case struct.id do
-        nil -> nil
-        _ ->
-          from c in BookKeepingIndustry,
-          where: c.id == ^struct.id,
-          select: c.id
-      end
-
-    tp_params = ~w(
-      book_keeping_id
-    )a
-
-    pro_params = ~w()a
-
-    tp_attrs =
-      attrs
-      |> Map.drop(tp_params)
-
-    pro_attrs =
-      attrs
-      |> Map.drop(pro_params)
-
-    case get_role_by_user do
-      nil -> {:error, %Changeset{}}
-      false ->
-        case Enum.any?(struct.name, &(&1 == attrs.name)) || Enum.count(attrs.name) > 1 do
-          true -> {:error, [field: :name, message: "name already is exist or name more one, not permission for new record"]}
-          false ->
-            case Repo.aggregate(query, :count, :id) do
-              1 ->
-                struct
-                |> BookKeepingIndustry.changeset(tp_attrs)
-                |> Repo.update()
-              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+    case querty do
+      :error -> {:error, %Changeset{}}
+      _ ->
+        case Repo.aggregate(querty, :count, :id) do
+          1 ->
+            case Map.keys(attrs) do
+              [:name] ->
+                try do
+                  case BookKeeping.by_role(struct.book_keeping_id) do
+                    false ->
+                      if is_nil(attrs.name) || attrs.name == [] || attrs.name == [""] || Enum.count(attrs.name) > 1 do
+                        {:error, %Ecto.Changeset{}}
+                      else
+                        struct
+                        |> BookKeepingIndustry.changeset(attrs)
+                        |> Repo.update()
+                      end
+                    true ->
+                      struct
+                      |> BookKeepingIndustry.changeset(attrs)
+                      |> Repo.update()
+                  end
+                rescue
+                  CaseClauseError -> {:error, %Changeset{}}
+                end
+              _ -> {:error, %Ecto.Changeset{}}
             end
+          _ -> {:error, %Ecto.Changeset{}}
         end
-      true ->
-        struct
-        |> BookKeepingIndustry.changeset(pro_attrs)
-        |> Repo.update()
     end
   end
 
