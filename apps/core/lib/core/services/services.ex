@@ -1145,80 +1145,43 @@ defmodule Core.Services do
   """
   @spec create_book_keeping_annual_revenue(%{atom => any}) :: result() | error_tuple()
   def create_book_keeping_annual_revenue(attrs \\ %{}) do
-    book_keeping_ids =
-      case attrs.book_keeping_id do
-        nil -> nil
-        _ -> Repo.get_by(BookKeeping, %{id: attrs.book_keeping_id})
+    querty =
+      try do
+        Queries.by_name!(BookKeepingAnnualRevenue, BookKeeping, :book_keeping_id, attrs.book_keeping_id, attrs.name)
+      rescue
+        KeyError -> :error
+        ArgumentError -> :error
+        CaseClauseError -> :error
       end
 
-    user_id =
-      case book_keeping_ids do
-        nil -> nil
-        _ -> book_keeping_ids.user_id
-      end
-
-    get_role_by_user =
-      case user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
-      end
-
-    get_name_by_book_keeping_annual_revenue =
-      case attrs.book_keeping_id do
-        nil -> nil
-        _ ->
-          Repo.all(
-            from c in BookKeepingAnnualRevenue,
-            where: c.book_keeping_id == ^attrs.book_keeping_id,
-            select: c.name
-          )
-      end
-
-    query =
-      case attrs.book_keeping_id do
-        nil -> nil
-        _ ->
-          from c in BookKeepingAnnualRevenue,
-          where: c.book_keeping_id == ^attrs.book_keeping_id
-      end
-
-    case get_role_by_user do
-      nil -> {:error, %Ecto.Changeset{}}
-      false ->
-        case Enum.any?(get_name_by_book_keeping_annual_revenue, &(&1 == attrs.name)) do
-          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
-          false ->
-            case Repo.aggregate(query, :count, :id) do
-              0 ->
-                case sort_keys(attrs) do
-                  @tp_book_keeping_annual_revenue_params ->
-                    %BookKeepingAnnualRevenue{}
-                    |> BookKeepingAnnualRevenue.changeset(attrs)
-                    |> Repo.insert()
-                  _ -> {:error, %Ecto.Changeset{}}
-                end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
-            end
-        end
-      true ->
-        case Enum.any?(get_name_by_book_keeping_annual_revenue, &(&1 == attrs.name)) do
-          true -> {:error, [field: :name, message: "Name already is exist"]}
-          false ->
-            case sort_keys(attrs) do
-              @pro_book_keeping_annual_revenue_params ->
+    case Map.keys(attrs) do
+      @tp_book_keeping_annual_revenue_params ->
+        case querty do
+          :error -> {:error, %Changeset{}}
+          [] ->
+            case BookKeeping.by_role(attrs.book_keeping_id) do
+              false ->
                 %BookKeepingAnnualRevenue{}
                 |> BookKeepingAnnualRevenue.changeset(attrs)
                 |> Repo.insert()
-              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
+              true -> {:error, %Changeset{}}
             end
+          [{_}] -> {:error, %Changeset{}}
         end
+      @pro_book_keeping_annual_revenue_params ->
+        case querty do
+          :error -> {:error, %Changeset{}}
+          [] ->
+            case BookKeeping.by_role(attrs.book_keeping_id) do
+              false -> {:error, %Changeset{}}
+              true ->
+                %BookKeepingAnnualRevenue{}
+                |> BookKeepingAnnualRevenue.changeset(attrs)
+                |> Repo.insert()
+            end
+          [{_}] -> {:error, %Changeset{}}
+        end
+      _ -> {:error, %Changeset{}}
     end
   end
 

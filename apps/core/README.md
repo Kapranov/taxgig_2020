@@ -392,10 +392,11 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 
 - `book_keepings`
   - `[:book_keeping_id, :name]`
-    - `book_keeping_classify_inventories`        - :string
+    - `book_keeping_classify_inventories`        - :string           - DONE!
     - `book_keeping_industries`                  - {:array, :string} - DONE!
   - `[:book_keeping_id, :name, :price]`
     - `book_keeping_additional_needs`            - :string           - DONE!
+    - `book_keeping_annual_revenues`             - :string           - DONE!
     - `book_keeping_number_employees`            - :string           - DONE!
     - `book_keeping_transaction_volumes`         - :string           - DONE!
     - `book_keeping_type_clients`                - :string           - DONE!
