@@ -6481,69 +6481,51 @@ defmodule Core.Services do
   """
   @spec update_sale_tax_frequency(SaleTaxFrequency.t(), %{atom => any}) :: result() | error_tuple()
   def update_sale_tax_frequency(%SaleTaxFrequency{} = struct, attrs) do
-    sale_tax =
-      Repo.get_by(SaleTax, %{id: struct.sale_tax_id})
-
-    get_role_by_user =
-      case sale_tax.user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^sale_tax.user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
-      end
-
-    get_name_by_sale_tax_frequency =
-      case struct.sale_tax_id do
-        nil -> nil
-        _ ->
-          Repo.all(
-            from c in SaleTaxFrequency,
-            where: c.sale_tax_id == ^struct.sale_tax_id
-          )
-      end
-
-    tp_attrs =
-      attrs
-      |> Map.drop([:price])
-
-    case get_role_by_user do
-      nil -> {:error, %Changeset{}}
-      false ->
-        case Map.has_key?(attrs, :name) do
-          false -> {:error, %Changeset{}}
-          true ->
-            if is_nil(attrs.name) do
-              {:error, %Changeset{}}
-            else
-              case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == tp_attrs.name)) do
-                true -> {:error, [field: :name, message: "name already is exist or name more one, not permission for new record"]}
-                false ->
-                  case sort_keys(tp_attrs) do
-                    @tp_sale_tax_frequency_params ->
-                      struct
-                      |> SaleTaxFrequency.changeset(tp_attrs)
-                      |> Repo.update()
-                    _ -> {:error, %Ecto.Changeset{}}
-                  end
-              end
-            end
+    querty =
+      try do
+        if struct.sale_tax_id != attrs.sale_tax_id do
+          :error
+        else
+          Queries.by_name!(SaleTaxFrequency, SaleTax, :sale_tax_id, struct.sale_tax_id, attrs.name)
         end
-      true ->
-        case is_nil(attrs.name) || is_nil(attrs.price) do
-          true -> {:error, %Changeset{}}
-          false  ->
-            case Enum.any?(get_name_by_sale_tax_frequency, &(&1 == attrs.name)) do
-              true -> {:error, [field: :name, message: "name already is exist, not permission for update record"]}
+      rescue
+        KeyError -> :error
+        ArgumentError -> :error
+        CaseClauseError -> :error
+      end
+
+    case Map.keys(attrs) do
+      @tp_sale_tax_frequency_params ->
+        case querty do
+          :error -> {:error, %Changeset{}}
+          [] ->
+            case SaleTax.by_role(struct.sale_tax_id) do
               false ->
+                tp_params = ~w(sale_tax_id price)a
+                tp_attrs = attrs |> Map.drop(tp_params)
                 struct
-                |> SaleTaxFrequency.changeset(attrs)
+                |> SaleTaxFrequency.changeset(tp_attrs)
+                |> Repo.update()
+              true -> {:error, %Changeset{}}
+            end
+          [{_}] -> {:error, %Changeset{}}
+        end
+      @pro_sale_tax_frequency_params ->
+        case querty do
+          :error -> {:error, %Changeset{}}
+          [] ->
+            case SaleTax.by_role(struct.sale_tax_id) do
+              false -> {:error, %Changeset{}}
+              true ->
+                pro_params = ~w(sale_tax_id)a
+                pro_attrs = attrs |> Map.drop(pro_params)
+                struct
+                |> SaleTaxFrequency.changeset(pro_attrs)
                 |> Repo.update()
             end
+          [{_}] -> {:error, %Changeset{}}
         end
+      _ -> {:error, %Changeset{}}
     end
   end
 
