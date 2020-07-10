@@ -453,6 +453,17 @@ defmodule Core.Services do
     price
   )a
 
+  @tp_individual_itemized_deduction_params ~w(
+    individual_tax_return_id
+    name
+  )a
+
+  @pro_individual_itemized_deduction_params ~w(
+    individual_tax_return_id
+    name
+    price
+  )a
+
   @tp_sale_tax_params ~w(
     deadline
     financial_situation
@@ -5883,69 +5894,43 @@ defmodule Core.Services do
   """
   @spec create_individual_itemized_deduction(%{atom => any}) :: result() | error_tuple()
   def create_individual_itemized_deduction(attrs \\ %{}) do
-    individual_tax_return_ids =
-      case attrs.individual_tax_return_id do
-        nil -> nil
-        _ ->
-          Repo.get_by(IndividualTaxReturn, %{id: attrs.individual_tax_return_id})
+    querty =
+      try do
+        Queries.by_name!(IndividualItemizedDeduction, IndividualTaxReturn, :individual_tax_return_id, attrs.individual_tax_return_id, attrs.name)
+      rescue
+        KeyError -> :error
+        ArgumentError -> :error
+        CaseClauseError -> :error
       end
 
-    user_id =
-      case individual_tax_return_ids do
-        nil -> nil
-        _ ->
-          individual_tax_return_ids.user_id
-      end
-
-    get_role_by_user =
-      case user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
-      end
-
-    get_names_by_individual_itemized_deduction =
-      case attrs.name do
-        nil -> nil
-        _ ->
-          Repo.all(
-            from c in IndividualItemizedDeduction,
-            where: c.individual_tax_return_id == ^attrs.individual_tax_return_id,
-            select: c.name
-          )
-      end
-
-    case get_role_by_user do
-      nil -> {:error, %Ecto.Changeset{}}
-      false ->
-        case Enum.any?(get_names_by_individual_itemized_deduction, &(&1 == attrs.name)) do
-          true -> {:error, [field: :name, message: "name already is exist and not permission for new record"]}
-          false ->
-            case Map.keys(attrs) do
-              [:individual_tax_return_id, :name] ->
+    case Map.keys(attrs) do
+      @tp_individual_itemized_deduction_params ->
+        case querty do
+          :error -> {:error, %Changeset{}}
+          [] ->
+            case IndividualTaxReturn.by_role(attrs.individual_tax_return_id) do
+              false ->
                 %IndividualItemizedDeduction{}
                 |> IndividualItemizedDeduction.changeset(attrs)
                 |> Repo.insert()
-              _ -> {:error, %Ecto.Changeset{}}
+              true -> {:error, %Changeset{}}
             end
+          [{_}] -> {:error, %Changeset{}}
         end
-      true ->
-        case Enum.any?(get_names_by_individual_itemized_deduction, &(&1 == attrs.name)) do
-          true -> {:error, [field: :name, message: "Name already is exist"]}
-          false ->
-            case Map.keys(attrs) do
-              [:individual_tax_return_id, :name, :price] ->
+      @pro_individual_itemized_deduction_params ->
+        case querty do
+          :error -> {:error, %Changeset{}}
+          [] ->
+            case IndividualTaxReturn.by_role(attrs.individual_tax_return_id) do
+              false -> {:error, %Changeset{}}
+              true ->
                 %IndividualItemizedDeduction{}
                 |> IndividualItemizedDeduction.changeset(attrs)
                 |> Repo.insert()
-              _ -> {:error, %Ecto.Changeset{}}
             end
+          [{_}] -> {:error, %Changeset{}}
         end
+      _ -> {:error, %Changeset{}}
     end
   end
 
