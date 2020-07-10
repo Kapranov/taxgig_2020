@@ -6711,71 +6711,41 @@ defmodule Core.Services do
   """
   @spec update_sale_tax_industry(SaleTaxIndustry.t(), %{atom => any}) :: result() | error_tuple()
   def update_sale_tax_industry(%SaleTaxIndustry{} = struct, attrs) do
-    sale_tax =
-      Repo.get_by(SaleTax, %{id: struct.sale_tax_id})
-
-    get_role_by_user =
-      case sale_tax.user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^sale_tax.user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
+    querty =
+      try do
+        Queries.by_count(SaleTaxIndustry, SaleTax, :sale_tax_id, struct.sale_tax_id)
+      rescue
+        ArgumentError -> :error
       end
 
-    get_name_by_sale_tax_industry =
-      case struct.sale_tax_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in SaleTaxIndustry,
-            where: c.sale_tax_id == ^struct.sale_tax_id,
-            select: c.name
-          )
-      end
-
-    case get_role_by_user do
-      nil -> {:error, %Changeset{}}
-      false ->
-        if is_nil(attrs.name) do
-          {:error, %Changeset{}}
-        else
-          case Map.keys(attrs) do
-            [] -> {:error, %Changeset{}}
-            [:name] ->
-              if Enum.count(attrs.name) == 1 do
-                case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) do
-                  true -> {:error, [field: :name, message: "name already is exist or name more one, not permission for update record"]}
-                  false ->
-                    struct
-                    |> SaleTaxIndustry.changeset(attrs)
-                    |> Repo.update()
+    case querty do
+      :error -> {:error, %Changeset{}}
+      _ ->
+        case Repo.aggregate(querty, :count, :id) do
+          1 ->
+            case Map.keys(attrs) do
+              [:name] ->
+                try do
+                  case SaleTax.by_role(struct.sale_tax_id) do
+                    false ->
+                      if is_nil(attrs.name) || attrs.name == [] || attrs.name == [""] || Enum.count(attrs.name) > 1 do
+                        {:error, %Ecto.Changeset{}}
+                      else
+                        struct
+                        |> SaleTaxIndustry.changeset(attrs)
+                        |> Repo.update()
+                      end
+                    true ->
+                      struct
+                      |> SaleTaxIndustry.changeset(attrs)
+                      |> Repo.update()
+                  end
+                rescue
+                  CaseClauseError -> {:error, %Changeset{}}
                 end
-              else
-                {:error, %Changeset{}}
-              end
-            _ -> {:error, [field: :id, message: "Please filled the field out"]}
-          end
-        end
-      true ->
-        if is_nil(attrs.name) do
-          {:error, %Changeset{}}
-        else
-          case Map.keys(attrs) do
-            [] -> {:error, %Changeset{}}
-            [:name] ->
-              case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) do
-                true -> {:error, [field: :name, message: "name already is exist, not permission for update record"]}
-                false ->
-                  struct
-                  |> SaleTaxIndustry.changeset(attrs)
-                  |> Repo.update()
-              end
-            _ -> {:error, [field: :name, message: "Please filled the field out"]}
-          end
+              _ -> {:error, %Ecto.Changeset{}}
+            end
+          _ -> {:error, %Ecto.Changeset{}}
         end
     end
   end
