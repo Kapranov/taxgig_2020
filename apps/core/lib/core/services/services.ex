@@ -3174,71 +3174,36 @@ defmodule Core.Services do
   """
   @spec update_business_foreign_account_count(BusinessForeignAccountCount.t(), %{atom => any}) :: result() | error_tuple()
   def update_business_foreign_account_count(%BusinessForeignAccountCount{} = struct, attrs) do
-    business_tax_return_ids =
-      case struct do
-        nil -> {:error, [field: :id, message: "BusinessForeignAccountCount is null"]}
-        _ -> Repo.get_by(BusinessTaxReturn, %{id: struct.business_tax_return_id})
-      end
-
-    user_id =
-      case business_tax_return_ids do
-        nil -> {:error, [field: :business_tax_return_id, message: "BusinessTaxReturn Not Found"]}
-        _ ->
-          business_tax_return_ids.user_id
-      end
-
-    get_role_by_user =
-      case user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
-      end
-
-    get_names_by_business_foreign_account_count =
-      case struct.name do
-        nil -> nil
-        _ ->
-          Repo.all(
-            from c in BusinessForeignAccountCount,
-            where: c.business_tax_return_id == ^struct.business_tax_return_id,
-            select: c.name
-          )
-      end
-
-    case get_role_by_user do
-      nil -> {:error, %Ecto.Changeset{}}
-      false ->
-        case get_names_by_business_foreign_account_count do
-          nil ->
-            case Map.keys(attrs) do
-              [:name] ->
-                struct
-                |> BusinessForeignAccountCount.changeset(attrs)
-                |> Repo.update()
-              _ -> {:error, %Ecto.Changeset{}}
-            end
-          _ ->
-            case Map.keys(attrs) do
-              [:name] ->
-                case Enum.any?(get_names_by_business_foreign_account_count, &(&1 == attrs.name)) do
-                  true -> {:error, [field: :name, message: "Name already is exist"]}
-                  false ->
-                    struct
-                    |> BusinessForeignAccountCount.changeset(attrs)
-                    |> Repo.update()
-                end
-              _ ->
-                struct
-                |> BusinessForeignAccountCount.changeset(attrs)
-                |> Repo.update()
-            end
+    querty =
+      try do
+        if struct.business_tax_return_id != attrs.business_tax_return_id do
+          :error
+        else
+          Queries.by_name!(BusinessForeignAccountCount, BusinessTaxReturn, :business_tax_return_id, struct.business_tax_return_id, attrs.name)
         end
-      true -> {:error, %Ecto.Changeset{}}
+      rescue
+        KeyError -> :error
+        ArgumentError -> :error
+        CaseClauseError -> :error
+      end
+
+    case Map.keys(attrs) do
+      @tp_business_foreign_account_count_params ->
+        case querty do
+          :error -> {:error, %Changeset{}}
+          [] ->
+            case BusinessTaxReturn.by_role(struct.business_tax_return_id) do
+              false ->
+                tp_params = ~w(business_tax_return_id)a
+                tp_attrs = attrs |> Map.drop(tp_params)
+                struct
+                |> BusinessForeignAccountCount.changeset(tp_attrs)
+                |> Repo.update()
+              true -> {:error, %Changeset{}}
+            end
+          [{_}] -> {:error, %Changeset{}}
+        end
+      _ -> {:error, %Changeset{}}
     end
   end
 
