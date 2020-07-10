@@ -403,8 +403,8 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 
 - `business_tax_returns`
   - `[:business_tax_return_id, :name]`
-    - `business_foreign_account_counts`          - :string
-    - `business_foreign_ownership_counts`        - :string
+    - `business_foreign_account_counts`          - :string           - DONE!
+    - `business_foreign_ownership_counts`        - :string           - DONE!
     - `business_industries`                      - {:array, :string}
     - `business_llc_types`                       - :string
     - `business_transaction_counts`              - :string
