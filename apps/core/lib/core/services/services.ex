@@ -1199,59 +1199,51 @@ defmodule Core.Services do
   """
   @spec update_book_keeping_annual_revenue(BookKeepingAnnualRevenue.t(), %{atom => any}) :: result() | error_tuple()
   def update_book_keeping_annual_revenue(%BookKeepingAnnualRevenue{} = struct, attrs) do
-    book_keeping =
-      Repo.get_by(BookKeeping, %{id: struct.book_keeping_id})
-
-    get_role_by_user =
-      case book_keeping.user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^book_keeping.user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
-      end
-
-    query =
-      case struct.id do
-        nil -> nil
-        _ ->
-          from c in BookKeepingAnnualRevenue,
-          where: c.id == ^struct.id,
-          select: c.id
-      end
-
-    tp_params = ~w(
-      book_keeping_id
-      price
-    )a
-
-    pro_params = ~w()a
-
-    tp_attrs =
-      attrs
-      |> Map.drop(tp_params)
-
-    pro_attrs =
-      attrs
-      |> Map.drop(pro_params)
-
-    case get_role_by_user do
-      nil -> {:error, %Changeset{}}
-      false ->
-        case Repo.aggregate(query, :count, :id) do
-          1 ->
-            struct
-            |> BookKeepingAnnualRevenue.changeset(tp_attrs)
-            |> Repo.update()
-          _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+    querty =
+      try do
+        if struct.book_keeping_id != attrs.book_keeping_id do
+          :error
+        else
+          Queries.by_name!(BookKeepingAnnualRevenue, BookKeeping, :book_keeping_id, struct.book_keeping_id, attrs.name)
         end
-      true ->
-        struct
-        |> BookKeepingAnnualRevenue.changeset(pro_attrs)
-        |> Repo.update()
+      rescue
+        KeyError -> :error
+        ArgumentError -> :error
+        CaseClauseError -> :error
+      end
+
+    case Map.keys(attrs) do
+      @tp_book_keeping_annual_revenue_params ->
+        case querty do
+          :error -> {:error, %Changeset{}}
+          [] ->
+            case BookKeeping.by_role(struct.book_keeping_id) do
+              false ->
+                tp_params = ~w(book_keeping_id price)a
+                tp_attrs = attrs |> Map.drop(tp_params)
+                struct
+                |> BookKeepingAnnualRevenue.changeset(tp_attrs)
+                |> Repo.update()
+              true -> {:error, %Changeset{}}
+            end
+          [{_}] -> {:error, %Changeset{}}
+        end
+      @pro_book_keeping_annual_revenue_params ->
+        case querty do
+          :error -> {:error, %Changeset{}}
+          [] ->
+            case BookKeeping.by_role(struct.book_keeping_id) do
+              false -> {:error, %Changeset{}}
+              true ->
+                pro_params = ~w(book_keeping_id)a
+                pro_attrs = attrs |> Map.drop(pro_params)
+                struct
+                |> BookKeepingAnnualRevenue.changeset(pro_attrs)
+                |> Repo.update()
+            end
+          [{_}] -> {:error, %Changeset{}}
+        end
+      _ -> {:error, %Changeset{}}
     end
   end
 
