@@ -5327,109 +5327,51 @@ defmodule Core.Services do
   """
   @spec update_individual_filing_status(IndividualFilingStatus.t(), %{atom => any}) :: result() | error_tuple()
   def update_individual_filing_status(%IndividualFilingStatus{} = struct, attrs) do
-    individual_tax_return_ids =
-      case struct do
-        nil -> {:error, [field: :id, message: "IndividualFilingStatus is null"]}
-        _ -> Repo.get_by(IndividualTaxReturn, %{id: struct.individual_tax_return_id})
-      end
-
-    user_id =
-      case individual_tax_return_ids do
-        nil -> {:error, [field: :individual_tax_return_id, message: "IndividualTaxReturn Not Found"]}
-        _ -> individual_tax_return_ids.user_id
-      end
-
-    get_role_by_user =
-      case user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
-      end
-
-    get_names_by_individual_filing_status =
-      case struct.name do
-        nil -> nil
-        _ ->
-          Repo.all(
-            from c in IndividualFilingStatus,
-            where: c.individual_tax_return_id == ^struct.individual_tax_return_id,
-            select: c.name
-          )
-      end
-
-    case get_role_by_user do
-      nil -> {:error, %Ecto.Changeset{}}
-      false ->
-        case get_names_by_individual_filing_status do
-          nil ->
-            case Map.keys(attrs) do
-              [:name] ->
-                struct
-                |> IndividualFilingStatus.changeset(attrs)
-                |> Repo.update()
-              _ -> {:error, %Ecto.Changeset{}}
-            end
-          _ ->
-            case Map.keys(attrs) do
-              [:name] ->
-                case Enum.any?(get_names_by_individual_filing_status, &(&1 == attrs.name)) do
-                  true -> {:error, [field: :name, message: "Name already is exist"]}
-                  false ->
-                    struct
-                    |> IndividualFilingStatus.changeset(attrs)
-                    |> Repo.update()
-                end
-              [:price] -> {:error, %Ecto.Changeset{}}
-              [:name, :price] -> {:error, %Ecto.Changeset{}}
-              _ ->
-                struct
-                |> IndividualFilingStatus.changeset(attrs)
-                |> Repo.update()
-            end
+    querty =
+      try do
+        if struct.individual_tax_return_id != attrs.individual_tax_return_id do
+          :error
+        else
+          Queries.by_name!(IndividualFilingStatus, IndividualTaxReturn, :individual_tax_return_id, struct.individual_tax_return_id, attrs.name)
         end
-      true ->
-        case get_names_by_individual_filing_status do
-          nil ->
-            case Map.keys(attrs) do
-              [:name, :price] ->
+      rescue
+        KeyError -> :error
+        ArgumentError -> :error
+        CaseClauseError -> :error
+      end
+
+    case Map.keys(attrs) do
+      @tp_individual_filing_status_params ->
+        case querty do
+          :error -> {:error, %Changeset{}}
+          [] ->
+            case IndividualTaxReturn.by_role(struct.individual_tax_return_id) do
+              false ->
+                tp_params = ~w(individual_tax_return_id price)a
+                tp_attrs = attrs |> Map.drop(tp_params)
                 struct
-                |> IndividualFilingStatus.changeset(attrs)
+                |> IndividualFilingStatus.changeset(tp_attrs)
                 |> Repo.update()
-              _ -> {:error, %Ecto.Changeset{}}
+              true -> {:error, %Changeset{}}
             end
-          _ ->
-            case Map.keys(attrs) do
-              [:name] ->
-                case Enum.any?(get_names_by_individual_filing_status, &(&1 == attrs.name)) do
-                  true -> {:error, [field: :name, message: "Name already is exist"]}
-                  false ->
-                    struct
-                    |> IndividualFilingStatus.changeset(attrs)
-                    |> Repo.update()
-                end
-              [:price] ->
-                struct
-                |> IndividualFilingStatus.changeset(attrs)
-                |> Repo.update()
-              [:name, :price] ->
-                case Enum.any?(get_names_by_individual_filing_status, &(&1 == attrs.name)) do
-                  true -> {:error, [field: :name, message: "Name already is exist"]}
-                  false ->
-                    struct
-                    |> IndividualFilingStatus.changeset(attrs)
-                    |> Repo.update()
-                end
-              _ ->
-                struct
-                |> IndividualFilingStatus.changeset(attrs)
-                |> Repo.update()
-            end
+          [{_}] -> {:error, %Changeset{}}
         end
+      @pro_individual_filing_status_params ->
+        case querty do
+          :error -> {:error, %Changeset{}}
+          [] ->
+            case IndividualTaxReturn.by_role(struct.individual_tax_return_id) do
+              false -> {:error, %Changeset{}}
+              true ->
+                pro_params = ~w(individual_tax_return_id)a
+                pro_attrs = attrs |> Map.drop(pro_params)
+                struct
+                |> IndividualFilingStatus.changeset(pro_attrs)
+                |> Repo.update()
+            end
+          [{_}] -> {:error, %Changeset{}}
+        end
+      _ -> {:error, %Changeset{}}
     end
   end
 
