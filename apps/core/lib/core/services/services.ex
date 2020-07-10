@@ -496,11 +496,10 @@ defmodule Core.Services do
 
   @pro_sale_tax_frequency_params ~w(name price)a
 
-  @tp_sale_tax_industry_params ~w(name)a
-
-  @tp_sale_tax_industry_params ~w(name)a
-
-  @pro_sale_tax_industry_params ~w(name)a
+  @sale_tax_industry_params ~w(
+    sale_tax_id
+    name
+  )
 
   @tp_sale_tax_attrs %{
     deadline: Date.utc_today(),
@@ -6659,80 +6658,41 @@ defmodule Core.Services do
   """
   @spec create_sale_tax_industry(%{atom => any}) :: result() | error_tuple()
   def create_sale_tax_industry(attrs \\ %{}) do
-    sale_tax_ids =
-      case attrs.sale_tax_id do
-        nil -> nil
-        _ ->
-          Repo.get_by(SaleTax, %{id: attrs.sale_tax_id})
+    querty =
+      try do
+        Queries.by_count(SaleTaxIndustry, SaleTax, :sale_tax_id, attrs.sale_tax_id)
+      rescue
+        ArgumentError -> :error
       end
 
-    user_id =
-      case sale_tax_ids do
-        nil -> nil
-        _ ->
-          sale_tax_ids.user_id
-      end
-
-    get_role_by_user =
-      case user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
-      end
-
-    get_name_by_sale_tax_industry =
-      case attrs.sale_tax_id do
-        nil -> nil
-        _ ->
-          Repo.all(
-            from c in SaleTaxIndustry,
-            where: c.sale_tax_id == ^attrs.sale_tax_id,
-            select: c.name
-          )
-      end
-
-    query =
-      case attrs.sale_tax_id do
-        nil -> nil
-        _ ->
-          from c in SaleTaxIndustry,
-          where: c.sale_tax_id == ^attrs.sale_tax_id
-      end
-
-    case get_role_by_user do
-      nil -> {:error, %Ecto.Changeset{}}
-      false ->
-        case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) || Enum.count(attrs.name) > 1 do
-          true -> {:error, [field: :name, message: "name already is exist or name more one, not permission for new record"]}
-          false ->
-            case Repo.aggregate(query, :count, :id) do
-              0 ->
-                case sort_keys(attrs) do
-                  @tp_sale_tax_industry_params ->
-                    %SaleTaxIndustry{}
-                    |> SaleTaxIndustry.changeset(attrs)
-                    |> Repo.insert()
-                  _ -> {:error, %Ecto.Changeset{}}
+    case querty do
+      :error -> {:error, %Changeset{}}
+      _ ->
+        case Repo.aggregate(querty, :count, :id) do
+          0 ->
+            case Map.keys(attrs) do
+              @sale_tax_industry_params ->
+                try do
+                  case SaleTax.by_role(attrs.sale_tax_id) do
+                    false ->
+                      if Enum.count(attrs.name) > 1 do
+                        {:error, %Ecto.Changeset{}}
+                      else
+                        %SaleTaxIndustry{}
+                        |> SaleTaxIndustry.changeset(attrs)
+                        |> Repo.insert()
+                      end
+                    true ->
+                      %SaleTaxIndustry{}
+                      |> SaleTaxIndustry.changeset(attrs)
+                      |> Repo.insert()
+                  end
+                rescue
+                  CaseClauseError -> {:error, %Changeset{}}
                 end
-              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
+              _ -> {:error, %Ecto.Changeset{}}
             end
-        end
-      true ->
-        case Enum.any?(get_name_by_sale_tax_industry, &(&1 == attrs.name)) do
-          true -> {:error, [field: :name, message: "Name already is exist"]}
-          false ->
-            case sort_keys(attrs) do
-              @pro_sale_tax_industry_params ->
-                %SaleTaxIndustry{}
-                |> SaleTaxIndustry.changeset(attrs)
-                |> Repo.insert()
-              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
-            end
+          _ -> {:error, %Ecto.Changeset{}}
         end
     end
   end

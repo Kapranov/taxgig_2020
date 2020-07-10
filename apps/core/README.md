@@ -425,7 +425,7 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 
 - `sale_taxes`
   - `[:sale_tax_id, :name]`
-    - `sale_tax_industries`                      - {:array, :string}
+    - `sale_tax_industries`                      - {:array, :string} - DONE!
   - `[:sale_tax_id, :name, :price]`
     - `sale_tax_frequencies`                     - :string
 
