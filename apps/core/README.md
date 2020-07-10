@@ -415,7 +415,7 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 
 - `individual_tax_returns`
   - `[:individual_tax_return_id, :name]`
-    - `individual_foreign_account_counts`        - :string
+    - `individual_foreign_account_counts`        - :string           - DONE!
     - `individual_industries`                    - {:array, :string}
     - `individual_stock_transaction_counts`      - :string
   - `[:individual_tax_return_id, :name, :price]`

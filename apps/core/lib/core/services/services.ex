@@ -464,6 +464,11 @@ defmodule Core.Services do
     price
   )a
 
+  @tp_individual_foreign_account_count_params ~w(
+    individual_tax_return_id
+    name
+  )
+
   @tp_sale_tax_params ~w(
     deadline
     financial_situation
@@ -5466,9 +5471,31 @@ defmodule Core.Services do
   """
   @spec create_individual_foreign_account_count(%{atom => any}) :: result() | error_tuple()
   def create_individual_foreign_account_count(attrs \\ %{}) do
-    %IndividualForeignAccountCount{}
-    |> IndividualForeignAccountCount.changeset(attrs)
-    |> Repo.insert()
+    querty =
+      try do
+        Queries.by_name!(IndividualForeignAccountCount, IndividualTaxReturn, :individual_tax_return_id, attrs.individual_tax_return_id, attrs.name)
+      rescue
+        KeyError -> :error
+        ArgumentError -> :error
+        CaseClauseError -> :error
+      end
+
+    case Map.keys(attrs) do
+      @tp_individual_foreign_account_count_params ->
+        case querty do
+          :error -> {:error, %Changeset{}}
+          [] ->
+            case IndividualTaxReturn.by_role(attrs.individual_tax_return_id) do
+              false ->
+                %IndividualForeignAccountCount{}
+                |> IndividualForeignAccountCount.changeset(attrs)
+                |> Repo.insert()
+              true -> {:error, %Changeset{}}
+            end
+          [{_}] -> {:error, %Changeset{}}
+        end
+      _ -> {:error, %Changeset{}}
+    end
   end
 
   @doc """
