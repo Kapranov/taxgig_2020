@@ -51,6 +51,7 @@ defmodule Core.MixProject do
       {:plug, "~> 1.10"},
       {:postgrex, "~> 0.15"},
       {:remix, "~> 0.0", only: [:dev]},
+      {:stream_data, "~> 0.5", only: :test},
       {:sweet_xml, "~> 0.6"},
       {:timex, "~> 3.6"}
     ]

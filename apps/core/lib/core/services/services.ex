@@ -504,8 +504,8 @@ defmodule Core.Services do
   )a
 
   @sale_tax_industry_params ~w(
-    sale_tax_id
     name
+    sale_tax_id
   )
 
   @tp_sale_tax_attrs %{
