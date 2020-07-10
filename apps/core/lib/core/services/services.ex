@@ -5688,94 +5688,41 @@ defmodule Core.Services do
   """
   @spec update_individual_industry(IndividualIndustry.t(), %{atom => any}) :: result() | error_tuple()
   def update_individual_industry(%IndividualIndustry{} = struct, attrs) do
-    individual_tax_return_ids =
-      case struct do
-        nil -> {:error, [field: :id, message: "IndividualIndustry is null"]}
-        _ -> Repo.get_by(IndividualTaxReturn, %{id: struct.individual_tax_return_id})
+    querty =
+      try do
+        Queries.by_count(IndividualIndustry, IndividualTaxReturn, :individual_tax_return_id, struct.individual_tax_return_id)
+      rescue
+        ArgumentError -> :error
       end
 
-    user_id =
-      case individual_tax_return_ids do
-        nil -> {:error, [field: :individual_tax_return_id, message: "IndividualTaxReturn Not Found"]}
-        _ -> individual_tax_return_ids.user_id
-      end
-
-    get_role_by_user =
-      case user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
-      end
-
-    get_names_by_individual_industry =
-      case struct.name do
-        nil -> nil
-        _ ->
-          Repo.all(
-            from c in IndividualIndustry,
-            where: c.individual_tax_return_id == ^struct.individual_tax_return_id,
-            select: c.name
-          )
-      end
-
-    case get_role_by_user do
-      nil -> {:error, %Ecto.Changeset{}}
-      false ->
-        case get_names_by_individual_industry do
-          nil ->
+    case querty do
+      :error -> {:error, %Changeset{}}
+      _ ->
+        case Repo.aggregate(querty, :count, :id) do
+          1 ->
             case Map.keys(attrs) do
               [:name] ->
-                struct
-                |> IndividualIndustry.changeset(attrs)
-                |> Repo.update()
+                try do
+                  case IndividualTaxReturn.by_role(struct.individual_tax_return_id) do
+                    false ->
+                      if is_nil(attrs.name) || attrs.name == [] || attrs.name == [""] || Enum.count(attrs.name) > 1 do
+                        {:error, %Ecto.Changeset{}}
+                      else
+                        struct
+                        |> IndividualIndustry.changeset(attrs)
+                        |> Repo.update()
+                      end
+                    true ->
+                      struct
+                      |> IndividualIndustry.changeset(attrs)
+                      |> Repo.update()
+                  end
+                rescue
+                  CaseClauseError -> {:error, %Changeset{}}
+                end
               _ -> {:error, %Ecto.Changeset{}}
             end
-          _ ->
-            case Map.keys(attrs) do
-              [:name] ->
-                case Enum.any?(get_names_by_individual_industry, &(&1 == attrs.name)) do
-                  true -> {:error, [field: :name, message: "Name already is exist"]}
-                  false ->
-                    struct
-                    |> IndividualIndustry.changeset(attrs)
-                    |> Repo.update()
-                end
-              _ ->
-                struct
-                |> IndividualIndustry.changeset(attrs)
-                |> Repo.update()
-            end
-        end
-      true ->
-        case get_names_by_individual_industry do
-          nil ->
-            case Map.keys(attrs) do
-              [:name] ->
-                struct
-                |> IndividualIndustry.changeset(attrs)
-                |> Repo.update()
-              _ -> {:error, %Ecto.Changeset{}}
-            end
-          _ ->
-            case Map.keys(attrs) do
-              [:name] ->
-                case Enum.any?(get_names_by_individual_industry, &(&1 == attrs.name)) do
-                  true -> {:error, [field: :name, message: "Name already is exist"]}
-                  false ->
-                    struct
-                    |> IndividualIndustry.changeset(attrs)
-                    |> Repo.update()
-                end
-              _ ->
-                struct
-                |> IndividualIndustry.changeset(attrs)
-                |> Repo.update()
-            end
+          _ -> {:error, %Ecto.Changeset{}}
         end
     end
   end
