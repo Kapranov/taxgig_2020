@@ -474,6 +474,11 @@ defmodule Core.Services do
     name
   )
 
+  @individual_industry_params ~w(
+    individual_tax_return_id
+    name
+  )a
+
   @tp_sale_tax_params ~w(
     deadline
     financial_situation
@@ -5630,78 +5635,41 @@ defmodule Core.Services do
   """
   @spec create_individual_industry(%{atom => any}) :: result() | error_tuple()
   def create_individual_industry(attrs \\ %{}) do
-    individual_tax_return_ids =
-      case attrs.individual_tax_return_id do
-        nil -> nil
-        _ -> Repo.get_by(IndividualTaxReturn, %{id: attrs.individual_tax_return_id})
+    querty =
+      try do
+        Queries.by_count(IndividualIndustry, IndividualTaxReturn, :individual_tax_return_id, attrs.individual_tax_return_id)
+      rescue
+        ArgumentError -> :error
       end
 
-    user_id =
-      case individual_tax_return_ids do
-        nil -> nil
-        _ -> individual_tax_return_ids.user_id
-      end
-
-    get_role_by_user =
-      case user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
-      end
-
-    get_names_by_individual_industry =
-      case attrs.individual_tax_return_id do
-        nil -> nil
-        _ ->
-          Repo.all(
-            from c in IndividualIndustry,
-            where: c.individual_tax_return_id == ^attrs.individual_tax_return_id,
-            select: c.name
-          )
-      end
-
-    query =
-      case attrs.individual_tax_return_id do
-        nil -> nil
-        _ ->
-          from c in IndividualIndustry,
-          where: c.individual_tax_return_id == ^attrs.individual_tax_return_id
-      end
-
-    case get_role_by_user do
-      nil -> {:error, %Ecto.Changeset{}}
-      false ->
-        case Enum.any?(get_names_by_individual_industry, &(&1 == attrs.name)) do
-          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
-          false ->
-            case Repo.aggregate(query, :count, :id) do
-              0 ->
-                case Map.keys(attrs) do
-                  [:individual_tax_return_id, :name] ->
-                    %IndividualIndustry{}
-                    |> IndividualIndustry.changeset(attrs)
-                    |> Repo.insert()
-                  _ -> {:error, %Ecto.Changeset{}}
-                end
-              _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
-            end
-        end
-      true ->
-        case Enum.any?(get_names_by_individual_industry, &(&1 == attrs.name)) do
-          true -> {:error, [field: :name, message: "Name already is exist"]}
-          false ->
+    case querty do
+      :error -> {:error, %Changeset{}}
+      _ ->
+        case Repo.aggregate(querty, :count, :id) do
+          0 ->
             case Map.keys(attrs) do
-              [:individual_tax_return_id, :name] ->
-                %IndividualIndustry{}
-                |> IndividualIndustry.changeset(attrs)
-                |> Repo.insert()
-              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
+              @individual_industry_params ->
+                try do
+                  case IndividualTaxReturn.by_role(attrs.individual_tax_return_id) do
+                    false ->
+                      if Enum.count(attrs.name) > 1 do
+                        {:error, %Ecto.Changeset{}}
+                      else
+                        %IndividualIndustry{}
+                        |> IndividualIndustry.changeset(attrs)
+                        |> Repo.insert()
+                      end
+                    true ->
+                      %IndividualIndustry{}
+                      |> IndividualIndustry.changeset(attrs)
+                      |> Repo.insert()
+                  end
+                rescue
+                  CaseClauseError -> {:error, %Changeset{}}
+                end
+              _ -> {:error, %Ecto.Changeset{}}
             end
+          _ -> {:error, %Ecto.Changeset{}}
         end
     end
   end
