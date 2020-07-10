@@ -411,7 +411,7 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
   - `[:business_tax_return_id, :name, :price]`
     - `business_entity_types`                    - :string           - DONE!
     - `business_number_employees`                - :string           - DONE!
-    - `business_total_revenues`                  - :string
+    - `business_total_revenues`                  - :string           - DONE!
 
 - `individual_tax_returns`
   - `[:individual_tax_return_id, :name]`
