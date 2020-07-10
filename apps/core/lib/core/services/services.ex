@@ -287,6 +287,17 @@ defmodule Core.Services do
     user_id: "#{pro_user}"
   }
 
+  @tp_business_entity_type_params ~w(
+    business_tax_return_id
+    name
+  )a
+
+  @pro_business_entity_type_params ~w(
+    business_tax_return_id
+    name
+    price
+  )a
+
   @tp_individual_tax_return_params ~w(
     deadline
     foreign_account
@@ -2935,82 +2946,43 @@ defmodule Core.Services do
   """
   @spec create_business_entity_type(%{atom => any}) :: result() | error_tuple()
   def create_business_entity_type(attrs \\ %{}) do
-    business_tax_return_ids =
-      case attrs.business_tax_return_id do
-        nil -> nil
-        _ ->
-          Repo.get_by(BusinessTaxReturn, %{id: attrs.business_tax_return_id})
+    querty =
+      try do
+        Queries.by_name!(BusinessEntityType, BusinessTaxReturn, :business_tax_return_id, attrs.business_tax_return_id, attrs.name)
+      rescue
+        KeyError -> :error
+        ArgumentError -> :error
+        CaseClauseError -> :error
       end
 
-    user_id =
-      case business_tax_return_ids do
-        nil -> nil
-        _ ->
-          business_tax_return_ids.user_id
-      end
-
-    get_role_by_user =
-      case user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
-      end
-
-    get_names_by_business_entity_type =
-      case attrs.business_tax_return_id do
-        nil -> nil
-        _ ->
-          Repo.all(
-            from c in BusinessEntityType,
-            where: c.business_tax_return_id == ^attrs.business_tax_return_id,
-            select: c.name
-          )
-      end
-
-    query =
-      case attrs.business_tax_return_id do
-        nil -> nil
-        _ ->
-          from c in BusinessEntityType,
-          where: c.business_tax_return_id == ^attrs.business_tax_return_id
-      end
-
-    case get_role_by_user do
-      nil -> {:error, %Ecto.Changeset{}}
-      false ->
-        case Enum.any?(get_names_by_business_entity_type, &(&1 == attrs.name)) do
-          true -> {:error, [field: :name, message: "name already is exist, not permission for new record"]}
-          false ->
-            case Repo.aggregate(query, :count, :id) do
-              0 ->
-                case Map.keys(attrs) do
-                  [:business_tax_return_id, :name] ->
-                    %BusinessEntityType{}
-                    |> BusinessEntityType.changeset(attrs)
-                    |> Repo.insert()
-                  _ -> {:error, %Ecto.Changeset{}}
-                end
-              _ ->
-                {:error, [field: :id, message: "record already is exist, not permission for new record"]}
-            end
-        end
-      true ->
-        case Enum.any?(get_names_by_business_entity_type, &(&1 == attrs.name)) do
-          true -> {:error, [field: :name, message: "Name already is exist"]}
-          false ->
-            case Map.keys(attrs) do
-              [:business_tax_return_id, :name, :price] ->
+    case Map.keys(attrs) do
+      @tp_business_entity_type_params ->
+        case querty do
+          :error -> {:error, %Changeset{}}
+          [] ->
+            case BusinessTaxReturn.by_role(attrs.business_tax_return_id) do
+              false ->
                 %BusinessEntityType{}
                 |> BusinessEntityType.changeset(attrs)
                 |> Repo.insert()
-              _ -> {:error, [field: :id, message: "Please will fill are fields"]}
+              true -> {:error, %Changeset{}}
             end
+          [{_}] -> {:error, %Changeset{}}
         end
+      @pro_business_entity_type_params ->
+        case querty do
+          :error -> {:error, %Changeset{}}
+          [] ->
+            case BusinessTaxReturn.by_role(attrs.business_tax_return_id) do
+              false -> {:error, %Changeset{}}
+              true ->
+                %BusinessEntityType{}
+                |> BusinessEntityType.changeset(attrs)
+                |> Repo.insert()
+            end
+          [{_}] -> {:error, %Changeset{}}
+        end
+      _ -> {:error, %Changeset{}}
     end
   end
 
