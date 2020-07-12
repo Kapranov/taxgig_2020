@@ -70,6 +70,7 @@ defmodule Core.Factory do
 
   @root_dir Path.expand("../../priv/data/", __DIR__)
   @universities "#{@root_dir}/university.json"
+  @languages "#{@root_dir}/languages.json"
   @usa_states "#{@root_dir}/us_states.json"
   @usa_zipcodes_part1 "#{@root_dir}/us_zip_part1.json"
   @usa_zipcodes_part2 "#{@root_dir}/us_zip_part2.json"
@@ -1175,40 +1176,24 @@ defmodule Core.Factory do
   end
 
   @spec random_language() :: {String.t()}
-  def random_language do
-    data = [
-      ara: "arabic",
-      ben: "bengali",
-      chi: "chinese",
-      fra: "french",
-      ger: "german",
-      gre: "greek",
-      heb: "hebrew",
-      hin: "hindi",
-      ita: "italian",
-      jpn: "japanese",
-      kor: "korean",
-      pol: "polish",
-      por: "portuguese",
-      rus: "russian",
-      spa: "spanish",
-      tur: "turkish",
-      ukr: "ukraine",
-      vie: "vietnamese"
-    ]
+  defp random_language do
+    names =
+      @languages
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"abbr" => abbr, "name" => name} -> %{abbr: abbr, name: name} end)
 
     numbers = 1..18
     number = Enum.random(numbers)
 
-    result =
+    data =
       for i <- 1..number, i > 0 do
-        Enum.random(data)
+        Enum.random(names)
       end
       |> Enum.uniq()
-      |> Keyword.values
-      |> List.to_tuple
 
-    result
+    %{abbr: abbr, name: name} = Enum.random(data)
+    {abbr, name}
   end
 
   @spec random_boolean() :: boolean()
