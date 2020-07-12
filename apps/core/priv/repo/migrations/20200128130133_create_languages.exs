@@ -7,8 +7,6 @@ defmodule Core.Repo.Migrations.CreateLanguages do
         default: fragment("uuid_generate_v4()"), read_after_writes: true
       add :name, :string
       add :abbr, :string
-
-      timestamps(type: :utc_datetime_usec)
     end
 
     create(unique_index(:languages, [:name]))

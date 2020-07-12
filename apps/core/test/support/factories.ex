@@ -1175,7 +1175,7 @@ defmodule Core.Factory do
   end
 
   @spec random_language() :: {String.t()}
-  defp random_language do
+  def random_language do
     data = [
       ara: "arabic",
       ben: "bengali",

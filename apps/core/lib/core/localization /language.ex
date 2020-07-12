@@ -30,8 +30,6 @@ defmodule Core.Localization.Language do
     many_to_many :users, User,
       join_through: "users_languages",
       on_replace: :delete
-
-    timestamps()
   end
 
   @doc """

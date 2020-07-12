@@ -41,8 +41,8 @@ defmodule Core.Seeder.Lookup do
       @usa_states
       |> File.read!()
       |> Jason.decode!()
-      |> Enum.map(fn %{"name" => name, "abbr" => abbr} ->
-         %{name: name, abbr: abbr}
+      |> Enum.map(fn %{"abbr" => abbr, "name" => name} ->
+         %{abbr: abbr, name: name}
       end)
 
     Repo.insert_all(State, states)

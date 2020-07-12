@@ -1,0 +1,74 @@
+[
+  {
+    "abbr": "ara",
+    "name": "arabic"
+  },
+  {
+    "abbr": "ben",
+    "name": "bengali"
+  },
+  {
+    "abbr": "chi",
+    "name": "chinese"
+  },
+  {
+    "abbr": "fra",
+    "name": "french"
+  },
+  {
+    "abbr": "ger",
+    "name": "german"
+  },
+  {
+    "abbr": "gre",
+    "name": "greek"
+  },
+  {
+    "abbr": "heb",
+    "name": "hebrew"
+  },
+  {
+    "abbr": "hin",
+    "name": "hindi"
+  },
+  {
+    "abbr": "ita",
+    "name": "italian"
+  },
+  {
+    "abbr": "jpn",
+    "name": "japanese"
+  },
+  {
+    "abbr": "kor",
+    "name": "korean"
+  },
+  {
+    "abbr": "pol",
+    "name": "polish"
+  },
+  {
+    "abbr": "por",
+    "name": "portuguese"
+  },
+  {
+    "abbr": "rus",
+    "name": "russian"
+  },
+  {
+    "abbr": "spa",
+    "name": "spanish"
+  },
+  {
+    "abbr": "tur",
+    "name": "turkish"
+  },
+  {
+    "abbr": "ukr",
+    "name": "ukraine"
+  },
+  {
+    "abbr": "vie",
+    "name": "vietnamese"
+  }
+]
