@@ -54,12 +54,12 @@ defmodule Core.Services.BookKeepingTypeClientTest do
       book_keeping = insert(:tp_book_keeping, user: user)
 
       params = %{
-        name: "some name",
+        name: "C-Corp / Corporation",
         book_keeping_id: book_keeping.id
       }
 
       assert {:ok, %{} = book_keeping_type_client} = Services.create_book_keeping_type_client(params)
-      assert book_keeping_type_client.name                         == "some name"
+      assert book_keeping_type_client.name                         == :"C-Corp / Corporation"
       assert book_keeping_type_client.price                        == nil
       assert book_keeping_type_client.book_keeping_id              == book_keeping.id
       assert match_value_relate.match_for_book_keeping_type_client == 60
@@ -92,39 +92,17 @@ defmodule Core.Services.BookKeepingTypeClientTest do
       struct = insert(:tp_book_keeping_type_client, book_keepings: book_keeping)
 
       params = %{
-        name: "updated name",
+        name: "S-Corp",
         book_keeping_id: book_keeping.id
       }
 
       assert {:ok, %BookKeepingTypeClient{} = updated} =
         Services.update_book_keeping_type_client(struct, params)
 
-      assert updated.name                                          == "updated name"
+      assert updated.name                                          == :"S-Corp"
       assert updated.price                                         == nil
       assert updated.book_keeping_id                               == book_keeping.id
       assert match_value_relate.match_for_book_keeping_type_client == 60
-    end
-
-    test "update_book_keeping_type_client/2 with valid data updates and ignore price, book_keeping_id by role's Tp" do
-      match_value_relate = insert(:match_value_relat)
-      user = insert(:tp_user)
-      book_keeping = insert(:tp_book_keeping, user: user)
-      struct = insert(:tp_book_keeping_type_client, book_keepings: book_keeping)
-
-      params = %{
-        name: "updated name",
-        price: 22,
-        book_keeping_id: book_keeping.id
-      }
-
-      assert {:ok, %BookKeepingTypeClient{} = updated} =
-        Services.update_book_keeping_type_client(struct, params)
-
-      assert updated.name                                          == "updated name"
-      assert updated.price                                         == nil
-      assert updated.book_keeping_id                               == book_keeping.id
-      assert match_value_relate.match_for_book_keeping_type_client == 60
-
     end
 
     test "update_book_keeping_type_client/2 with invalid data returns not error changeset" do
@@ -202,13 +180,13 @@ defmodule Core.Services.BookKeepingTypeClientTest do
       book_keeping = insert(:pro_book_keeping, user: user)
 
       params = %{
-        name: "some name",
+        name: :"S-Corp",
         price: 22,
         book_keeping_id: book_keeping.id
       }
 
       assert {:ok, %{} = book_keeping_type_client} = Services.create_book_keeping_type_client(params)
-      assert book_keeping_type_client.name                         == "some name"
+      assert book_keeping_type_client.name                         == :"S-Corp"
       assert book_keeping_type_client.price                        == 22
       assert book_keeping_type_client.book_keeping_id              == book_keeping.id
       assert match_value_relate.match_for_book_keeping_type_client == 60
@@ -227,7 +205,7 @@ defmodule Core.Services.BookKeepingTypeClientTest do
       struct = insert(:pro_book_keeping_type_client, book_keepings: book_keeping)
 
       params = %{
-        name: "updated name",
+        name: "Partnership",
         price: 33,
         book_keeping_id: book_keeping.id
       }
@@ -235,7 +213,7 @@ defmodule Core.Services.BookKeepingTypeClientTest do
       assert {:ok, %BookKeepingTypeClient{} = updated} =
         Services.update_book_keeping_type_client(struct, params)
 
-      assert updated.name                                          == "updated name"
+      assert updated.name                                          == :"Partnership"
       assert updated.price                                         == 33
       assert updated.book_keeping_id                               == book_keeping.id
       assert match_value_relate.match_for_book_keeping_type_client == 60
