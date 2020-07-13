@@ -443,7 +443,7 @@ defmodule Core.Factory do
   def tp_book_keeping_classify_inventory_factory do
     %BookKeepingClassifyInventory{
       book_keepings: build(:tp_book_keeping),
-      name: random_name_classify_inventory()
+      name: "Assets"
     }
   end
 
