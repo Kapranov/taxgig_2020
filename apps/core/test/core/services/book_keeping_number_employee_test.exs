@@ -54,12 +54,12 @@ defmodule Core.Services.BookKeepingNumberEmployeeTest do
       book_keeping = insert(:tp_book_keeping, user: user)
 
       params = %{
-        name: "some name",
+        name: "21 - 50 employees",
         book_keeping_id: book_keeping.id
       }
 
       assert {:ok, %{} = book_keeping_number_employee} = Services.create_book_keeping_number_employee(params)
-      assert book_keeping_number_employee.name                         == "some name"
+      assert book_keeping_number_employee.name                         == :"21 - 50 employees"
       assert book_keeping_number_employee.price                        == nil
       assert book_keeping_number_employee.book_keeping_id              == book_keeping.id
       assert match_value_relate.match_for_book_keeping_number_employee == 25
@@ -92,14 +92,14 @@ defmodule Core.Services.BookKeepingNumberEmployeeTest do
       struct = insert(:tp_book_keeping_number_employee, book_keepings: book_keeping)
 
       params = %{
-        name: "updated name",
+        name: "101 - 500 employees",
         book_keeping_id: book_keeping.id
       }
 
       assert {:ok, %BookKeepingNumberEmployee{} = updated} =
         Services.update_book_keeping_number_employee(struct, params)
 
-      assert updated.name                                              == "updated name"
+      assert updated.name                                              == :"101 - 500 employees"
       assert updated.price                                             == nil
       assert updated.book_keeping_id                                   == book_keeping.id
       assert match_value_relate.match_for_book_keeping_number_employee == 25
@@ -112,15 +112,14 @@ defmodule Core.Services.BookKeepingNumberEmployeeTest do
       struct = insert(:tp_book_keeping_number_employee, book_keepings: book_keeping)
 
       params = %{
-        name: "updated name",
-        price: 22,
+        name: "51 - 100 employees",
         book_keeping_id: book_keeping.id
       }
 
       assert {:ok, %BookKeepingNumberEmployee{} = updated} =
         Services.update_book_keeping_number_employee(struct, params)
 
-      assert updated.name                                              == "updated name"
+      assert updated.name                                              == :"51 - 100 employees"
       assert updated.price                                             == nil
       assert updated.book_keeping_id                                   == book_keeping.id
       assert match_value_relate.match_for_book_keeping_number_employee == 25
@@ -201,13 +200,13 @@ defmodule Core.Services.BookKeepingNumberEmployeeTest do
       book_keeping = insert(:pro_book_keeping, user: user)
 
       params = %{
-        name: "some name",
+        name: "101 - 500 employees",
         price: 22,
         book_keeping_id: book_keeping.id
       }
 
       assert {:ok, %{} = book_keeping_number_employee} = Services.create_book_keeping_number_employee(params)
-      assert book_keeping_number_employee.name                         == "some name"
+      assert book_keeping_number_employee.name                         == :"101 - 500 employees"
       assert book_keeping_number_employee.price                        == 22
       assert book_keeping_number_employee.book_keeping_id              == book_keeping.id
       assert match_value_relate.match_for_book_keeping_number_employee == 25
@@ -226,7 +225,7 @@ defmodule Core.Services.BookKeepingNumberEmployeeTest do
       struct = insert(:pro_book_keeping_number_employee, book_keepings: book_keeping)
 
       params = %{
-        name: "updated name",
+        name: "51 - 100 employees",
         price: 33,
         book_keeping_id: book_keeping.id
       }
@@ -234,7 +233,7 @@ defmodule Core.Services.BookKeepingNumberEmployeeTest do
       assert {:ok, %BookKeepingNumberEmployee{} = updated} =
         Services.update_book_keeping_number_employee(struct, params)
 
-      assert updated.name                                              == "updated name"
+      assert updated.name                                              == :"51 - 100 employees"
       assert updated.price                                             == 33
       assert updated.book_keeping_id                                   == book_keeping.id
       assert match_value_relate.match_for_book_keeping_number_employee == 25

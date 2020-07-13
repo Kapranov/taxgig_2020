@@ -54,12 +54,12 @@ defmodule Core.Services.BookKeepingIndustryTest do
       book_keeping = insert(:tp_book_keeping, user: user)
 
       params = %{
-        name: ["some name"],
+        name: ["Legal"],
         book_keeping_id: book_keeping.id
       }
 
       assert {:ok, %{} = book_keeping_industry} = Services.create_book_keeping_industry(params)
-      assert book_keeping_industry.name                         == ["some name"]
+      assert book_keeping_industry.name                         == [:"Legal"]
       assert book_keeping_industry.book_keeping_id              == book_keeping.id
       assert match_value_relate.match_for_book_keeping_industry == 10
     end
@@ -75,16 +75,12 @@ defmodule Core.Services.BookKeepingIndustryTest do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, user: user)
       struct = insert(:tp_book_keeping_industry, book_keepings: book_keeping)
-
-      params = %{
-        name: ["updated name"],
-        book_keeping_id: book_keeping.id
-      }
+      params = %{name: ["Transportation"]}
 
       assert {:ok, %BookKeepingIndustry{} = updated} =
         Services.update_book_keeping_industry(struct, params)
 
-      assert updated.name                                       == ["updated name"]
+      assert updated.name                                       == [:"Transportation"]
       assert updated.book_keeping_id                            == book_keeping.id
       assert match_value_relate.match_for_book_keeping_industry == 10
     end
@@ -94,16 +90,12 @@ defmodule Core.Services.BookKeepingIndustryTest do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, user: user)
       struct = insert(:tp_book_keeping_industry, book_keepings: book_keeping)
-
-      params = %{
-        name: ["updated name"],
-        book_keeping_id: book_keeping.id
-      }
+      params = %{name: ["Telecommunications"]}
 
       assert {:ok, %BookKeepingIndustry{} = updated} =
         Services.update_book_keeping_industry(struct, params)
 
-      assert updated.name                                       == ["updated name"]
+      assert updated.name                                       == [:"Telecommunications"]
       assert updated.book_keeping_id                            == book_keeping.id
       assert match_value_relate.match_for_book_keeping_industry == 10
     end
@@ -182,12 +174,12 @@ defmodule Core.Services.BookKeepingIndustryTest do
       book_keeping = insert(:pro_book_keeping, user: user)
 
       params = %{
-        name: ["some name"],
+        name: ["Agriculture/Farming"],
         book_keeping_id: book_keeping.id
       }
 
       assert {:ok, %{} = book_keeping_industry} = Services.create_book_keeping_industry(params)
-      assert book_keeping_industry.name                         == ["some name"]
+      assert book_keeping_industry.name                         == [:"Agriculture/Farming"]
       assert book_keeping_industry.book_keeping_id              == book_keeping.id
       assert match_value_relate.match_for_book_keeping_industry == 10
     end
@@ -203,17 +195,11 @@ defmodule Core.Services.BookKeepingIndustryTest do
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, user: user)
       struct = insert(:pro_book_keeping_industry, book_keepings: book_keeping)
+      params = %{name: ["Wholesale Distribution"]}
+      assert {:ok, %BookKeepingIndustry{} = updated} = Services.update_book_keeping_industry(struct, params)
 
-      params = %{
-        name: ["updated name"],
-        book_keeping_id: book_keeping.id
-      }
-
-      assert {:ok, %BookKeepingIndustry{} = updated} =
-        Services.update_book_keeping_industry(struct, params)
-
-      assert updated.name                                       == ["updated name"]
-      assert updated.book_keeping_id                            == book_keeping.id
+      assert updated.name                                       == [:"Wholesale Distribution"]
+      assert updated.book_keeping_id                            == struct.book_keeping_id
       assert match_value_relate.match_for_book_keeping_industry == 10
     end
 
