@@ -18,8 +18,8 @@ defmodule Core.Talk.MessageTest do
     test "list_message/1 returns message via room_id" do
       user = insert(:user)
       room = insert(:room, user: user)
-      insert(:message, room: room, user: user)
-      assert Talk.list_message(room.id) |> List.first |> Map.get(:body) == "I lived in Chicago. It is and always had been corrupt and lawless."
+      message = insert(:message, room: room, user: user)
+      assert Talk.list_message(room.id) |> List.first |> Map.get(:body) == message.body
     end
 
     test "create_message/1 with valid data creates the message" do
