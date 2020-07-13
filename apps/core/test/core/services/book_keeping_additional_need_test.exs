@@ -18,7 +18,7 @@ defmodule Core.Services.BookKeepingAdditionalNeedTest do
 
     test "ensures user with specified id actually exists" do
       id = FlakeId.get()
-      attrs = %{id: id, book_keeping_id: nil}
+      attrs = %{id: id, book_keeping_id: nil, name: nil}
       {result, changeset} =
         %BookKeepingAdditionalNeed{}
         |> BookKeepingAdditionalNeed.changeset(attrs)
@@ -54,12 +54,12 @@ defmodule Core.Services.BookKeepingAdditionalNeedTest do
       book_keeping = insert(:tp_book_keeping, user: user)
 
       params = %{
-        name: "some name",
+        name: "accounts payable",
         book_keeping_id: book_keeping.id
       }
 
       assert {:ok, %{} = book_keeping_additional_need} = Services.create_book_keeping_additional_need(params)
-      assert book_keeping_additional_need.name                         == "some name"
+      assert book_keeping_additional_need.name                         == :"accounts payable"
       assert book_keeping_additional_need.price                        == nil
       assert book_keeping_additional_need.book_keeping_id              == book_keeping.id
       assert match_value_relate.match_for_book_keeping_additional_need == 20
@@ -87,21 +87,14 @@ defmodule Core.Services.BookKeepingAdditionalNeedTest do
 
     test "update_book_keeping_additional_need/2 with valid data updates the book_keeping_additional_need" do
       match_value_relate = insert(:match_value_relat)
-      user = insert(:tp_user)
-      book_keeping = insert(:tp_book_keeping, user: user)
-      struct = insert(:tp_book_keeping_additional_need, book_keepings: book_keeping)
-
-      params = %{
-        name: "updated name",
-        book_keeping_id: book_keeping.id
-      }
-
+      struct = insert(:tp_book_keeping_additional_need)
+      params = %{book_keeping_id: struct.book_keeping_id, name: "accounts receivable"}
       assert {:ok, %BookKeepingAdditionalNeed{} = uploaded} =
         Services.update_book_keeping_additional_need(struct, params)
 
-      assert uploaded.name                                             == "updated name"
+      assert uploaded.name                                             == :"accounts receivable"
       assert uploaded.price                                            == nil
-      assert uploaded.book_keeping_id                                  == book_keeping.id
+      assert uploaded.book_keeping_id                                  == struct.book_keeping_id
       assert match_value_relate.match_for_book_keeping_additional_need == 20
     end
 
@@ -111,16 +104,12 @@ defmodule Core.Services.BookKeepingAdditionalNeedTest do
       book_keeping = insert(:tp_book_keeping, user: user)
       struct = insert(:tp_book_keeping_additional_need, book_keepings: book_keeping)
 
-      params = %{
-        name: "updated name",
-        price: 22,
-        book_keeping_id: book_keeping.id
-      }
+      params = %{book_keeping_id: book_keeping.id, name: "accounts receivable"}
 
       assert {:ok, %BookKeepingAdditionalNeed{} = uploaded} =
         Services.update_book_keeping_additional_need(struct, params)
 
-      assert uploaded.name                         == "updated name"
+      assert uploaded.name                         == :"accounts receivable"
       assert uploaded.price                        == nil
       assert uploaded.book_keeping_id              == book_keeping.id
       assert match_value_relate.match_for_book_keeping_additional_need == 20
@@ -131,11 +120,12 @@ defmodule Core.Services.BookKeepingAdditionalNeedTest do
       book_keeping = insert(:tp_book_keeping, user: user)
       struct = insert(:tp_book_keeping_additional_need, book_keepings: book_keeping)
       params = %{book_keeping_id: nil, name: nil}
-      attrs = [:password, :password_cofirmation]
       data = Services.get_book_keeping_additional_need!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_book_keeping_additional_need(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
+      assert data.book_keeping_id == struct.book_keeping_id
+      assert data.name            == struct.name
+      assert data.price           == nil
     end
 
     test "delete_book_keeping_additional_need/1 deletes the book_keeping_additional_need" do
@@ -201,7 +191,7 @@ defmodule Core.Services.BookKeepingAdditionalNeedTest do
       book_keeping = insert(:pro_book_keeping, user: user)
 
       params = %{
-        name: "some name",
+        name: "accounts payable",
         price: 22,
         book_keeping_id: book_keeping.id
       }
@@ -209,7 +199,7 @@ defmodule Core.Services.BookKeepingAdditionalNeedTest do
       assert {:ok, %{} = book_keeping_additional_need} =
         Services.create_book_keeping_additional_need(params)
 
-      assert book_keeping_additional_need.name                         == "some name"
+      assert book_keeping_additional_need.name                         == :"accounts payable"
       assert book_keeping_additional_need.price                        == 22
       assert book_keeping_additional_need.book_keeping_id              == book_keeping.id
       assert match_value_relate.match_for_book_keeping_additional_need == 20
@@ -228,7 +218,7 @@ defmodule Core.Services.BookKeepingAdditionalNeedTest do
       struct = insert(:pro_book_keeping_additional_need, book_keepings: book_keeping)
 
       params = %{
-        name: "updated name",
+        name: "accounts receivable",
         price: 33,
         book_keeping_id: book_keeping.id
       }
@@ -236,7 +226,7 @@ defmodule Core.Services.BookKeepingAdditionalNeedTest do
       assert {:ok, %BookKeepingAdditionalNeed{} = updated} =
         Services.update_book_keeping_additional_need(struct, params)
 
-      assert updated.name                                              == "updated name"
+      assert updated.name                                              == :"accounts receivable"
       assert updated.price                                             == 33
       assert updated.book_keeping_id                                   == book_keeping.id
       assert match_value_relate.match_for_book_keeping_additional_need == 20
