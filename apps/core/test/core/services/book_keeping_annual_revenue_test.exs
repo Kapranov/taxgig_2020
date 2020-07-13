@@ -54,12 +54,12 @@ defmodule Core.Services.BookKeepingAnnualRevenueTest do
       book_keeping = insert(:tp_book_keeping, user: user)
 
       params = %{
-        name: "some name",
+        name: "$100K - $500K",
         book_keeping_id: book_keeping.id
       }
 
       assert {:ok, %{} = book_keeping_annual_revenue} = Services.create_book_keeping_annual_revenue(params)
-      assert book_keeping_annual_revenue.name                        == "some name"
+      assert book_keeping_annual_revenue.name                        == :"$100K - $500K"
       assert book_keeping_annual_revenue.price                       == nil
       assert book_keeping_annual_revenue.book_keeping_id             == book_keeping.id
       assert match_value_relate.match_for_book_keeping_annual_revenue == 25
@@ -92,16 +92,16 @@ defmodule Core.Services.BookKeepingAnnualRevenueTest do
       struct = insert(:tp_book_keeping_annual_revenue, book_keepings: book_keeping)
 
       params = %{
-        name: "updated name",
-        book_keeping_id: book_keeping.id
+        name: "$10M+",
+        book_keeping_id: struct.book_keeping_id
       }
 
       assert {:ok, %BookKeepingAnnualRevenue{} = updated} =
         Services.update_book_keeping_annual_revenue(struct, params)
 
-      assert updated.name                                             == "updated name"
+      assert updated.name                                             == :"$10M+"
       assert updated.price                                            == nil
-      assert updated.book_keeping_id                                  == book_keeping.id
+      assert updated.book_keeping_id                                  == struct.book_keeping_id
       assert match_value_relate.match_for_book_keeping_annual_revenue == 25
     end
 
@@ -112,17 +112,16 @@ defmodule Core.Services.BookKeepingAnnualRevenueTest do
       struct = insert(:tp_book_keeping_annual_revenue, book_keepings: book_keeping)
 
       params = %{
-        name: "updated name",
-        price: 22,
-        book_keeping_id: book_keeping.id
+        name: "$10M+",
+        book_keeping_id: struct.book_keeping_id
       }
 
       assert {:ok, %BookKeepingAnnualRevenue{} = updated} =
         Services.update_book_keeping_annual_revenue(struct, params)
 
-      assert updated.name                                             == "updated name"
+      assert updated.name                                             == :"$10M+"
       assert updated.price                                            == nil
-      assert updated.book_keeping_id                                  == book_keeping.id
+      assert updated.book_keeping_id                                  == struct.book_keeping_id
       assert match_value_relate.match_for_book_keeping_annual_revenue == 25
     end
 
@@ -131,11 +130,12 @@ defmodule Core.Services.BookKeepingAnnualRevenueTest do
       book_keeping = insert(:tp_book_keeping, user: user)
       struct = insert(:tp_book_keeping_annual_revenue, book_keepings: book_keeping)
       params = %{book_keeping_id: nil, name: nil}
-      attrs = [:password, :password_cofirmation]
       data = Services.get_book_keeping_annual_revenue!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_book_keeping_annual_revenue(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
+      assert data.book_keeping_id == struct.book_keeping_id
+      assert data.name            == struct.name
+      assert data.price           == nil
     end
 
     test "delete_book_keeping_annual_revenue/1 deletes the book_keeping_annual_revenue" do
@@ -201,13 +201,13 @@ defmodule Core.Services.BookKeepingAnnualRevenueTest do
       book_keeping = insert(:pro_book_keeping, user: user)
 
       params = %{
-        name: "some name",
+        name: "$100K - $500K",
         price: 22,
         book_keeping_id: book_keeping.id
       }
 
       assert {:ok, %{} = book_keeping_annual_revenue} = Services.create_book_keeping_annual_revenue(params)
-      assert book_keeping_annual_revenue.name                         == "some name"
+      assert book_keeping_annual_revenue.name                         == :"$100K - $500K"
       assert book_keeping_annual_revenue.price                        == 22
       assert book_keeping_annual_revenue.book_keeping_id              == book_keeping.id
       assert match_value_relate.match_for_book_keeping_annual_revenue == 25
@@ -226,7 +226,7 @@ defmodule Core.Services.BookKeepingAnnualRevenueTest do
       struct = insert(:pro_book_keeping_annual_revenue, book_keepings: book_keeping)
 
       params = %{
-        name: "updated name",
+        name: "$10M+",
         price: 33,
         book_keeping_id: book_keeping.id
       }
@@ -234,9 +234,9 @@ defmodule Core.Services.BookKeepingAnnualRevenueTest do
       assert {:ok, %BookKeepingAnnualRevenue{} = updated} =
         Services.update_book_keeping_annual_revenue(struct, params)
 
-      assert updated.name                                             == "updated name"
+      assert updated.name                                             == :"$10M+"
       assert updated.price                                            == 33
-      assert updated.book_keeping_id                                  == book_keeping.id
+      assert updated.book_keeping_id                                  == struct.book_keeping_id
       assert match_value_relate.match_for_book_keeping_annual_revenue == 25
     end
 
