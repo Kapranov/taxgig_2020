@@ -56,16 +56,21 @@ defmodule Core.Accounts.UserTest do
     }
 
     test "list_user/0 returns all users" do
-      struct = insert(:user)
+      langs = insert(:language)
+      struct = insert(:user, languages: [langs])
+      insert(:accounting_software, user: struct)
+      insert(:education, user: struct)
+      insert(:work_experience, user: struct)
+
       data =
         Accounts.list_user
-        |> Repo.preload([:languages])
+        |> Repo.preload([:languages, :accounting_software, :education, :work_experience])
 
-      struct =
-        [%User{struct | password: nil, password_confirmation: nil}]
-        |> Repo.preload([:languages])
+      user =
+        [%User{struct | password: nil, password_confirmation: nil, languages: [langs]}]
+        |> Repo.preload([:languages, :accounting_software, :education, :work_experience])
 
-      assert data == struct
+      assert data == user
     end
 
     test "get_user!/1 returns the user with given id" do
@@ -86,7 +91,7 @@ defmodule Core.Accounts.UserTest do
       assert data.email       == struct.email
       assert data.first_name  == struct.first_name
       assert data.init_setup  == struct.init_setup
-      assert data.languages   == []
+      assert data.languages   == struct.languages
       assert data.last_name   == struct.last_name
       assert data.middle_name == struct.middle_name
       assert data.inserted_at == struct.inserted_at
@@ -181,13 +186,16 @@ defmodule Core.Accounts.UserTest do
 
     test "update_user/2 with invalid data returns error changeset" do
       user = insert(:user)
+      insert(:accounting_software, user: user)
+      insert(:education, user: user)
+      insert(:work_experience, user: user)
       data =
         Accounts.get_user!(user.id)
-        |> Repo.preload([:languages])
+        |> Repo.preload([:languages, :accounting_software, :education, :work_experience])
 
       struct =
         %User{user | password: nil, password_confirmation: nil}
-        |> Repo.preload([:languages])
+        |> Repo.preload([:languages, :accounting_software, :education, :work_experience])
 
       assert {:error, %Ecto.Changeset{}} = Accounts.update_user(struct, @invalid_attrs)
       assert data == struct
