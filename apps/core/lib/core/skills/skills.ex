@@ -163,7 +163,7 @@ defmodule Core.Skills do
       false -> {:error, %Ecto.Changeset{}}
       true ->
         %Education{}
-        |> WorkExperience.changeset(attrs)
+        |> Education.changeset(attrs)
         |> Repo.insert()
     end
   end
