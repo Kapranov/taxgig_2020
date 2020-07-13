@@ -7,7 +7,6 @@ defmodule Core.Skills.UniversityTest do
     alias Core.Skills.University
 
     @valid_attrs %{name: "some text"}
-    @update_attrs %{name: "updated text"}
     @invalid_attrs %{name: nil}
 
     test "list_university/0 returns all the universities" do

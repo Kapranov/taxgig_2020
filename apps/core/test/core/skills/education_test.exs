@@ -86,7 +86,7 @@ defmodule Core.Skills.EducationTest do
     end
 
     test "update_education/2 with invalid data returns error changeset" do
-      user = insert(:pro_user)
+      user = insert(:tp_user)
       university = insert(:university)
       struct = insert(:education, user: user, university: university)
       assert {:error, %Ecto.Changeset{}} = Skills.update_education(struct, @invalid_attrs)
