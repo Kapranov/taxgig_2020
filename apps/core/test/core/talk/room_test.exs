@@ -51,7 +51,7 @@ defmodule Core.Talk.RoomTest do
       assert data.user.email       == struct.user.email
       assert data.user.first_name  == struct.user.first_name
       assert data.user.init_setup  == struct.user.init_setup
-      assert data.user.languages   == []
+      assert data.user.languages   == struct.user.languages
       assert data.user.last_name   == struct.user.last_name
       assert data.user.middle_name == struct.user.middle_name
       assert data.user.inserted_at == struct.user.inserted_at
