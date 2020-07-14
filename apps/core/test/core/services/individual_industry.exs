@@ -50,7 +50,7 @@ defmodule Core.Services.IndividualIndustryTest do
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
 
       params = %{
-        name: ["some name"],
+        name: ["Agriculture/Farming"],
         individual_tax_return_id: individual_tax_return.id
       }
 
@@ -61,7 +61,7 @@ defmodule Core.Services.IndividualIndustryTest do
       [loaded] =
         Repo.preload([individual_industry], [:individual_tax_returns])
 
-      assert loaded.name                     == ["some name"]
+      assert loaded.name                     == [:"Agriculture/Farming"]
       assert loaded.inserted_at              == individual_industry.inserted_at
       assert loaded.updated_at               == individual_industry.updated_at
       assert loaded.individual_tax_return_id == individual_tax_return.id
@@ -78,12 +78,12 @@ defmodule Core.Services.IndividualIndustryTest do
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
       struct = insert(:tp_individual_industry, individual_tax_returns: individual_tax_return)
 
-      params = %{name: ["updated some name"], individual_tax_return_id: individual_tax_return.id}
+      params = %{name: ["Wholesale Distribution"]}
 
       assert {:ok, %IndividualIndustry{} = updated} =
         Services.update_individual_industry(struct, params)
 
-      assert updated.name                     == ["updated some name"]
+      assert updated.name                     == [:"Wholesale Distribution"]
       assert updated.inserted_at              == struct.inserted_at
       assert updated.updated_at               == struct.updated_at
       assert updated.individual_tax_return_id == individual_tax_return.id
@@ -92,11 +92,8 @@ defmodule Core.Services.IndividualIndustryTest do
     test "update_individual_industry/2 with invalid data returns error changeset" do
       struct = insert(:tp_individual_industry)
       params = %{name: nil, individual_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_individual_industry!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_individual_industry(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_individual_industry/1 deletes the individual_industry" do
@@ -162,7 +159,7 @@ defmodule Core.Services.IndividualIndustryTest do
       individual_tax_return = insert(:pro_individual_tax_return, user: user)
 
       params = %{
-        name: ["some name"],
+        name: ["Agriculture/Farming", "Automotive Sales/Repair"],
         individual_tax_return_id: individual_tax_return.id
       }
 
@@ -173,7 +170,7 @@ defmodule Core.Services.IndividualIndustryTest do
       [loaded] =
         Repo.preload([individual_industry], [:individual_tax_returns])
 
-      assert loaded.name                     == ["some name"]
+      assert loaded.name                     == [:"Agriculture/Farming", :"Automotive Sales/Repair"]
       assert loaded.inserted_at              == individual_industry.inserted_at
       assert loaded.updated_at               == individual_industry.updated_at
       assert loaded.individual_tax_return_id == individual_tax_return.id
@@ -190,12 +187,12 @@ defmodule Core.Services.IndividualIndustryTest do
       individual_tax_return = insert(:pro_individual_tax_return, user: user)
       struct = insert(:pro_individual_industry, individual_tax_returns: individual_tax_return)
 
-      params = %{name: ["updated some name"], individual_tax_return_id: individual_tax_return.id}
+      params = %{name: ["Wholesale Distribution"]}
 
       assert {:ok, %IndividualIndustry{} = updated} =
         Services.update_individual_industry(struct, params)
 
-      assert updated.name                     == ["updated some name"]
+      assert updated.name                     == [:"Wholesale Distribution"]
       assert updated.inserted_at              == struct.inserted_at
       assert updated.updated_at               == struct.updated_at
       assert updated.individual_tax_return_id == individual_tax_return.id
@@ -204,11 +201,8 @@ defmodule Core.Services.IndividualIndustryTest do
     test "update_individual_industry/2 with invalid data returns error changeset" do
       struct = insert(:pro_individual_industry)
       params = %{name: nil, individual_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_individual_industry!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_individual_industry(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_individual_industry/1 deletes the individual_industry" do
