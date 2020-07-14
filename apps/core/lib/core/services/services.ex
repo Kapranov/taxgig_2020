@@ -506,7 +506,7 @@ defmodule Core.Services do
   @sale_tax_industry_params ~w(
     name
     sale_tax_id
-  )
+  )a
 
   @tp_sale_tax_attrs %{
     deadline: Date.utc_today(),

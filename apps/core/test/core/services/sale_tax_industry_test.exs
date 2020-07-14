@@ -50,10 +50,10 @@ defmodule Core.Services.SaleTaxIndustryTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:tp_user)
       sale_tax = insert(:tp_sale_tax, user: user)
-      params = %{name: ["some name"], sale_tax_id: sale_tax.id}
+      params = %{name: ["Agriculture/Farming"], sale_tax_id: sale_tax.id}
 
       assert {:ok, %SaleTaxIndustry{} = sale_tax_industry} = Services.create_sale_tax_industry(params)
-      assert sale_tax_industry.name                         == ["some name"]
+      assert sale_tax_industry.name                         == [:"Agriculture/Farming"]
       assert sale_tax_industry.sale_tax_id                  == sale_tax.id
       assert match_value_relate.match_for_sale_tax_industry == 10
     end
@@ -63,36 +63,25 @@ defmodule Core.Services.SaleTaxIndustryTest do
       assert {:error, %Ecto.Changeset{}} = Services.create_sale_tax_industry(params)
     end
 
-    test "update_sale_tax_industry/2 only with two fields data updates the sale_tax_industry" do
+    test "update_sale_tax_industry/2 with valid data updates the sale_tax_industry" do
       match_value_relate = insert(:match_value_relat)
       user = insert(:tp_user)
       sale_tax = insert(:tp_sale_tax, user: user)
       struct = insert(:tp_sale_tax_industry, sale_taxes: sale_tax)
 
-      params = %{name: ["updated name"], sale_tax_id: sale_tax.id}
+      params = %{name: ["Wholesale Distribution"]}
 
-      assert {:ok, %SaleTaxIndustry{} = struct} != Services.update_sale_tax_industry(struct, params)
-      assert {
-        :error, [
-          field: :name,
-          message: "name or sale_tax_id already is exist or name more one, not permission for update record"
-        ]
-      } = Services.update_sale_tax_industry(struct, params)
-
-      assert struct.name                         == struct.name
-      assert struct.sale_tax_id                  == sale_tax.id
+      assert {:ok, %SaleTaxIndustry{} = updated} =
+        Services.update_sale_tax_industry(struct, params)
+      assert updated.name                                   == [:"Wholesale Distribution"]
+      assert struct.sale_tax_id                             == sale_tax.id
       assert match_value_relate.match_for_sale_tax_industry == 10
     end
 
     test "update_sale_tax_industry/2 with invalid data returns error changeset" do
-      user = insert(:tp_user)
-      sale_tax = insert(:pro_sale_tax, user: user)
-      struct = insert(:tp_sale_tax_industry, sale_taxes: sale_tax)
+      struct = insert(:tp_sale_tax_industry)
       params = %{name: nil, sale_tax_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_sale_tax_industry!(struct.id)
       assert {:error, %Ecto.Changeset{}} = Services.update_sale_tax_industry(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_sale_tax_industry/1 deletes the sale_tax_industry" do
@@ -155,10 +144,10 @@ defmodule Core.Services.SaleTaxIndustryTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:pro_user)
       sale_tax = insert(:pro_sale_tax, user: user)
-      params = %{name: ["some name"], sale_tax_id: sale_tax.id}
+      params = %{name: ["Agriculture/Farming", "Automotive Sales/Repair"], sale_tax_id: sale_tax.id}
 
       assert {:ok, %SaleTaxIndustry{} = sale_tax_industry} = Services.create_sale_tax_industry(params)
-      assert sale_tax_industry.name                         == ["some name"]
+      assert sale_tax_industry.name                         == [:"Agriculture/Farming", :"Automotive Sales/Repair"]
       assert sale_tax_industry.sale_tax_id                  == sale_tax.id
       assert match_value_relate.match_for_sale_tax_industry == 10
     end
@@ -174,67 +163,19 @@ defmodule Core.Services.SaleTaxIndustryTest do
       sale_tax = insert(:pro_sale_tax, user: user)
       struct = insert(:pro_sale_tax_industry, sale_taxes: sale_tax)
 
-      params = %{name: ["updated name"], sale_tax_id: sale_tax.id}
+      params = %{name: ["Wholesale Distribution"]}
 
       assert {:ok, %SaleTaxIndustry{} = updated} =
         Services.update_sale_tax_industry(struct, params)
-      assert updated.name                                   == ["updated name"]
+      assert updated.name                                   == [:"Wholesale Distribution"]
       assert struct.sale_tax_id                             == sale_tax.id
       assert match_value_relate.match_for_sale_tax_industry == 10
     end
 
-    test "update_sale_tax_industry/2 with empty data updates the sale_tax_industry" do
-      match_value_relate = insert(:match_value_relat)
-      user = insert(:pro_user)
-      sale_tax = insert(:pro_sale_tax, user: user)
-      struct = insert(:pro_sale_tax_industry, sale_taxes: sale_tax)
-      params = %{}
-      assert {:ok, %SaleTaxIndustry{} = updated} =
-        Services.update_sale_tax_industry(struct, params)
-      assert updated.name                                   == struct.name
-      assert updated.sale_tax_id                            == sale_tax.id
-      assert match_value_relate.match_for_sale_tax_industry == 10
-    end
-
-    test "update_sale_tax_industry/2 only with two fields data updates the sale_tax_industry" do
-      match_value_relate = insert(:match_value_relat)
-      user = insert(:pro_user)
-      sale_tax = insert(:pro_sale_tax, user: user)
-      struct = insert(:pro_sale_tax_industry, sale_taxes: sale_tax)
-
-      params = %{name: ["updated name"], sale_tax_id: sale_tax.id}
-
-      assert {:ok, %SaleTaxIndustry{} = struct} != Services.update_sale_tax_industry(struct, params)
-      assert {
-        :error, [
-          field: :name,
-          message: "name already is exist, not permission for update record"
-        ]
-      } = Services.update_sale_tax_industry(struct, params)
-
-      assert struct.name                         == struct.name
-      assert struct.sale_tax_id                  == sale_tax.id
-      assert match_value_relate.match_for_sale_tax_industry == 10
-    end
-
-    test "update_sale_tax_industry/2 with name and sale_tax_id is nil data updates the sale_tax_industry" do
-      user = insert(:pro_user)
-      sale_tax = insert(:pro_sale_tax, user: user)
-      struct = insert(:pro_sale_tax_industry, sale_taxes: sale_tax)
-      params = %{name: nil}
-      assert {:error, %Ecto.Changeset{}} =
-        Services.update_sale_tax_industry(struct, params)
-    end
-
     test "update_sale_tax_industry/2 with invalid data returns error changeset" do
-      user = insert(:pro_user)
-      sale_tax = insert(:pro_sale_tax, user: user)
-      struct = insert(:pro_sale_tax_industry, sale_taxes: sale_tax)
+      struct = insert(:pro_sale_tax_industry)
       params = %{name: nil, sale_tax_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_sale_tax_industry!(struct.id)
       assert {:error, %Ecto.Changeset{}} = Services.update_sale_tax_industry(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_sale_tax_industry/1 deletes the sale_tax_industry" do
