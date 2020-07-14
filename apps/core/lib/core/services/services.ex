@@ -467,12 +467,12 @@ defmodule Core.Services do
   @tp_individual_foreign_account_count_params ~w(
     individual_tax_return_id
     name
-  )
+  )a
 
   @tp_individual_stock_transaction_count_params ~w(
     individual_tax_return_id
     name
-  )
+  )a
 
   @individual_industry_params ~w(
     individual_tax_return_id
