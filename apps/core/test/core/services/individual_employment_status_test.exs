@@ -52,7 +52,7 @@ defmodule Core.Services.IndividualEmploymentStatusTest do
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
 
       params = %{
-        name: "some name",
+        name: "employed",
         individual_tax_return_id: individual_tax_return.id
       }
 
@@ -63,7 +63,7 @@ defmodule Core.Services.IndividualEmploymentStatusTest do
       [loaded] =
         Repo.preload([individual_employment_status], [:individual_tax_returns])
 
-      assert loaded.name                                               == "some name"
+      assert loaded.name                                               == :employed
       assert loaded.price                                              == nil
       assert loaded.inserted_at                                        == individual_employment_status.inserted_at
       assert loaded.updated_at                                         == individual_employment_status.updated_at
@@ -81,17 +81,16 @@ defmodule Core.Services.IndividualEmploymentStatusTest do
     test "update_individual_employment_status/2 with valid data updates the individual_employment_status" do
       match_value_relate = insert(:match_value_relat)
       struct = insert(:tp_individual_employment_status)
-      individual_tax_return = insert(:individual_tax_return)
-      params = %{name: "updated some name", individual_tax_return_id: individual_tax_return.id}
+      params = %{name: "unemployed", individual_tax_return_id: struct.individual_tax_return_id}
 
       assert {:ok, %IndividualEmploymentStatus{} = updated} =
         Services.update_individual_employment_status(struct, params)
 
-      assert updated.name                                               == "updated some name"
+      assert updated.name                                               == :unemployed
       assert updated.price                                              == nil
       assert updated.inserted_at                                        == struct.inserted_at
       assert updated.updated_at                                         == struct.updated_at
-      assert updated.individual_tax_return_id                           == individual_tax_return.id
+      assert updated.individual_tax_return_id                           == struct.individual_tax_return_id
       assert match_value_relate.match_for_individual_employment_status  == 35
       assert match_value_relate.value_for_individual_employment_status  == D.new("180.0")
     end
@@ -99,12 +98,8 @@ defmodule Core.Services.IndividualEmploymentStatusTest do
     test "update_individual_employment_status/2 with invalid data returns error changeset" do
       struct = insert(:tp_individual_employment_status)
       params = %{name: nil, individual_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_individual_employment_status!(struct.id)
-
       assert {:error, %Ecto.Changeset{}} =
         Services.update_individual_employment_status(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_individual_employment_status/1 deletes the individual_employment_status" do
@@ -173,7 +168,7 @@ defmodule Core.Services.IndividualEmploymentStatusTest do
       individual_tax_return = insert(:pro_individual_tax_return, user: user)
 
       params = %{
-        name: "some name",
+        name: "employed",
         price: 22,
         individual_tax_return_id: individual_tax_return.id
       }
@@ -185,7 +180,7 @@ defmodule Core.Services.IndividualEmploymentStatusTest do
       [loaded] =
         Repo.preload([individual_employment_status], [:individual_tax_returns])
 
-      assert loaded.name                                               == "some name"
+      assert loaded.name                                               == :employed
       assert loaded.price                                              == 22
       assert loaded.inserted_at                                        == individual_employment_status.inserted_at
       assert loaded.updated_at                                         == individual_employment_status.updated_at
@@ -203,30 +198,25 @@ defmodule Core.Services.IndividualEmploymentStatusTest do
     test "update_individual_employment_status/2 with valid data updates the individual_employment_status" do
       match_value_relate = insert(:match_value_relat)
       struct = insert(:pro_individual_employment_status)
-      individual_tax_return = insert(:individual_tax_return)
-      params = %{name: "updated some name", price: 33, individual_tax_return_id: individual_tax_return.id}
+      params = %{name: "unemployed", price: 22, individual_tax_return_id: struct.individual_tax_return_id}
 
       assert {:ok, %IndividualEmploymentStatus{} = updated} =
         Services.update_individual_employment_status(struct, params)
 
-      assert updated.name                                              == "updated some name"
-      assert updated.price                                             == 33
-      assert updated.inserted_at                                       == struct.inserted_at
-      assert updated.updated_at                                        == struct.updated_at
-      assert updated.individual_tax_return_id                          == individual_tax_return.id
-      assert match_value_relate.match_for_individual_employment_status == 35
-      assert match_value_relate.value_for_individual_employment_status == D.new("180.0")
+      assert updated.name                                               == :unemployed
+      assert updated.price                                              == 22
+      assert updated.inserted_at                                        == struct.inserted_at
+      assert updated.updated_at                                         == struct.updated_at
+      assert updated.individual_tax_return_id                           == struct.individual_tax_return_id
+      assert match_value_relate.match_for_individual_employment_status  == 35
+      assert match_value_relate.value_for_individual_employment_status  == D.new("180.0")
     end
 
     test "update_individual_employment_status/2 with invalid data returns error changeset" do
       struct = insert(:pro_individual_employment_status)
       params = %{name: nil, individual_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_individual_employment_status!(struct.id)
-
       assert {:error, %Ecto.Changeset{}} =
         Services.update_individual_employment_status(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_individual_employment_status/1 deletes the individual_employment_status" do
