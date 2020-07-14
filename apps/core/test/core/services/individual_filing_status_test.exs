@@ -51,7 +51,7 @@ defmodule Core.Services.IndividualFilingStatusTest do
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
 
       params = %{
-        name: "some name",
+        name: "Head of Household",
         individual_tax_return_id: individual_tax_return.id
       }
 
@@ -62,7 +62,7 @@ defmodule Core.Services.IndividualFilingStatusTest do
       [loaded] =
         Repo.preload([individual_filing_status], [:individual_tax_returns])
 
-      assert loaded.name                                               == "some name"
+      assert loaded.name                                               == :"Head of Household"
       assert loaded.price                                              == nil
       assert loaded.inserted_at                                        == individual_filing_status.inserted_at
       assert loaded.updated_at                                         == individual_filing_status.updated_at
@@ -79,28 +79,24 @@ defmodule Core.Services.IndividualFilingStatusTest do
     test "update_individual_filing_status/2 with valid data updates the individual_filing_status" do
       match_value_relate = insert(:match_value_relat)
       struct = insert(:tp_individual_filing_status)
-      individual_tax_return = insert(:individual_tax_return)
-      params = %{name: "updated some name", individual_tax_return_id: individual_tax_return.id}
+      params = %{name: "Single", individual_tax_return_id: struct.individual_tax_return_id}
 
       assert {:ok, %IndividualFilingStatus{} = updated} =
         Services.update_individual_filing_status(struct, params)
 
-      assert updated.name                                          == "updated some name"
+      assert updated.name                                          == :Single
       assert updated.price                                         == nil
       assert updated.inserted_at                                   == struct.inserted_at
       assert updated.updated_at                                    == struct.updated_at
-      assert updated.individual_tax_return_id                      == individual_tax_return.id
+      assert updated.individual_tax_return_id                      == struct.individual_tax_return_id
       assert match_value_relate.match_for_individual_filing_status == 50
     end
 
     test "update_individual_filing_status/2 with invalid data returns error changeset" do
       struct = insert(:tp_individual_filing_status)
       params = %{name: nil, individual_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_individual_filing_status!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_individual_filing_status(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_individual_filing_status/1 deletes the individual_filing_status" do
@@ -169,7 +165,7 @@ defmodule Core.Services.IndividualFilingStatusTest do
       individual_tax_return = insert(:pro_individual_tax_return, user: user)
 
       params = %{
-        name: "some name",
+        name: "Head of Household",
         price: 90,
         individual_tax_return_id: individual_tax_return.id
       }
@@ -181,7 +177,7 @@ defmodule Core.Services.IndividualFilingStatusTest do
       [loaded] =
         Repo.preload([individual_filing_status], [:individual_tax_returns])
 
-      assert loaded.name                                               == "some name"
+      assert loaded.name                                               == :"Head of Household"
       assert loaded.price                                              == 90
       assert loaded.inserted_at                                        == individual_filing_status.inserted_at
       assert loaded.updated_at                                         == individual_filing_status.updated_at
@@ -198,28 +194,24 @@ defmodule Core.Services.IndividualFilingStatusTest do
     test "update_individual_filing_status/2 with valid data updates the individual_filing_status" do
       match_value_relate = insert(:match_value_relat)
       struct = insert(:pro_individual_filing_status)
-      individual_tax_return = insert(:individual_tax_return)
-      params = %{name: "updated some name", price: 99, individual_tax_return_id: individual_tax_return.id}
+      params = %{name: "Single", price: 99, individual_tax_return_id: struct.individual_tax_return_id}
 
       assert {:ok, %IndividualFilingStatus{} = updated} =
         Services.update_individual_filing_status(struct, params)
 
-      assert updated.name                                          == "updated some name"
+      assert updated.name                                          == :Single
       assert updated.price                                         == 99
       assert updated.inserted_at                                   == struct.inserted_at
       assert updated.updated_at                                    == struct.updated_at
-      assert updated.individual_tax_return_id                      == individual_tax_return.id
+      assert updated.individual_tax_return_id                      == struct.individual_tax_return_id
       assert match_value_relate.match_for_individual_filing_status == 50
     end
 
     test "update_individual_filing_status/2 with invalid data returns error changeset" do
       struct = insert(:pro_individual_filing_status)
       params = %{name: nil, individual_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_individual_filing_status!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_individual_filing_status(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_individual_filing_status/1 deletes the individual_filing_status" do
