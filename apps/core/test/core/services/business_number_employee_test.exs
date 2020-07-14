@@ -51,7 +51,7 @@ defmodule Core.Services.BusinessNumberEmployeeTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
 
       params = %{
-        name: "some name",
+        name: "1 employee",
         business_tax_return_id: business_tax_return.id
       }
 
@@ -62,7 +62,7 @@ defmodule Core.Services.BusinessNumberEmployeeTest do
       [loaded] =
         Repo.preload([business_number_employee], [:business_tax_returns])
 
-      assert loaded.name                                                     == "some name"
+      assert loaded.name                                                     == :"1 employee"
       assert loaded.price                                                    == nil
       assert loaded.inserted_at                                              == business_number_employee.inserted_at
       assert loaded.updated_at                                               == business_number_employee.updated_at
@@ -82,12 +82,12 @@ defmodule Core.Services.BusinessNumberEmployeeTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
       struct = insert(:tp_business_number_employee, business_tax_returns: business_tax_return)
 
-      params = %{name: "updated some name", business_tax_return_id: business_tax_return.id}
+      params = %{name: "51 - 100 employees", business_tax_return_id: business_tax_return.id}
 
       assert {:ok, %BusinessNumberEmployee{} = updated} =
         Services.update_business_number_employee(struct, params)
 
-      assert updated.name                                                     == "updated some name"
+      assert updated.name                                                     == :"51 - 100 employees"
       assert updated.price                                                    == nil
       assert updated.inserted_at                                              == struct.inserted_at
       assert updated.updated_at                                               == struct.updated_at
@@ -169,7 +169,7 @@ defmodule Core.Services.BusinessNumberEmployeeTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
 
       params = %{
-        name: "some name",
+        name: "1 employee",
         price: 22,
         business_tax_return_id: business_tax_return.id
       }
@@ -181,7 +181,7 @@ defmodule Core.Services.BusinessNumberEmployeeTest do
       [loaded] =
         Repo.preload([business_number_employee], [:business_tax_returns])
 
-      assert loaded.name                                                     == "some name"
+      assert loaded.name                                                     == :"1 employee"
       assert loaded.price                                                    == 22
       assert loaded.inserted_at                                              == business_number_employee.inserted_at
       assert loaded.updated_at                                               == business_number_employee.updated_at
@@ -201,12 +201,12 @@ defmodule Core.Services.BusinessNumberEmployeeTest do
       business_tax_return = insert(:pro_business_tax_return, user: user)
       struct = insert(:pro_business_number_employee, business_tax_returns: business_tax_return)
 
-      params = %{name: "updated some name", price: 33, business_tax_return_id: business_tax_return.id}
+      params = %{name: "51 - 100 employees", price: 33, business_tax_return_id: business_tax_return.id}
 
       assert {:ok, %BusinessNumberEmployee{} = updated} =
         Services.update_business_number_employee(struct, params)
 
-      assert updated.name                                                     == "updated some name"
+      assert updated.name                                                     == :"51 - 100 employees"
       assert updated.price                                                    == 33
       assert updated.inserted_at                                              == struct.inserted_at
       assert updated.updated_at                                               == struct.updated_at

@@ -3877,7 +3877,7 @@ defmodule Core.Services do
         case querty do
           :error -> {:error, %Changeset{}}
           [] ->
-            case BusinessTaxReturn.by_role(attrs.book_keeping_id) do
+            case BusinessTaxReturn.by_role(attrs.business_tax_return_id) do
               false ->
                 %BusinessNumberEmployee{}
                 |> BusinessNumberEmployee.changeset(attrs)
