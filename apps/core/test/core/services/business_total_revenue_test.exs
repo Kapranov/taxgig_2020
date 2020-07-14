@@ -51,7 +51,7 @@ defmodule Core.Services.BusinessTotalRevenueTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
 
       params = %{
-        name: "some name",
+        name: "$100K - $500K",
         business_tax_return_id: business_tax_return.id
       }
 
@@ -62,7 +62,7 @@ defmodule Core.Services.BusinessTotalRevenueTest do
       [loaded] =
         Repo.preload([business_total_revenue], [:business_tax_returns])
 
-      assert loaded.name                                                     == "some name"
+      assert loaded.name                                                     == :"$100K - $500K"
       assert loaded.price                                                    == nil
       assert loaded.inserted_at                                              == business_total_revenue.inserted_at
       assert loaded.updated_at                                               == business_total_revenue.updated_at
@@ -82,12 +82,12 @@ defmodule Core.Services.BusinessTotalRevenueTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
       struct = insert(:tp_business_total_revenue, business_tax_returns: business_tax_return)
 
-      params = %{name: "updated some name", business_tax_return_id: business_tax_return.id}
+      params = %{name: "Less than $100K", business_tax_return_id: business_tax_return.id}
 
       assert {:ok, %BusinessTotalRevenue{} = updated} =
         Services.update_business_total_revenue(struct, params)
 
-      assert updated.name                                                     == "updated some name"
+      assert updated.name                                                     == :"Less than $100K"
       assert updated.price                                                    == nil
       assert updated.inserted_at                                              == struct.inserted_at
       assert updated.updated_at                                               == struct.updated_at
@@ -169,7 +169,7 @@ defmodule Core.Services.BusinessTotalRevenueTest do
       business_tax_return = insert(:pro_business_tax_return, user: user)
 
       params = %{
-        name: "some name",
+        name: "$100K - $500K",
         price: 22,
         business_tax_return_id: business_tax_return.id
       }
@@ -181,7 +181,7 @@ defmodule Core.Services.BusinessTotalRevenueTest do
       [loaded] =
         Repo.preload([business_total_revenue], [:business_tax_returns])
 
-      assert loaded.name                                                     == "some name"
+      assert loaded.name                                                     == :"$100K - $500K"
       assert loaded.price                                                    == 22
       assert loaded.inserted_at                                              == business_total_revenue.inserted_at
       assert loaded.updated_at                                               == business_total_revenue.updated_at
@@ -201,12 +201,12 @@ defmodule Core.Services.BusinessTotalRevenueTest do
       business_tax_return = insert(:pro_business_tax_return, user: user)
       struct = insert(:pro_business_total_revenue, business_tax_returns: business_tax_return)
 
-      params = %{name: "updated some name", price: 33, business_tax_return_id: business_tax_return.id}
+      params = %{name: "Less than $100K", price: 33, business_tax_return_id: business_tax_return.id}
 
       assert {:ok, %BusinessTotalRevenue{} = updated} =
         Services.update_business_total_revenue(struct, params)
 
-      assert updated.name                                                     == "updated some name"
+      assert updated.name                                                     == :"Less than $100K"
       assert updated.price                                                    == 33
       assert updated.inserted_at                                              == struct.inserted_at
       assert updated.updated_at                                               == struct.updated_at
