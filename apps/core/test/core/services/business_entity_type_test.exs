@@ -50,7 +50,7 @@ defmodule Core.Services.BusinessEntityTypeTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
 
       params = %{
-        name: "some name",
+        name: "C-Corp / Corporation",
         business_tax_return_id: business_tax_return.id
       }
 
@@ -61,7 +61,7 @@ defmodule Core.Services.BusinessEntityTypeTest do
       [loaded] =
         Repo.preload([business_entity_type], [:business_tax_returns])
 
-      assert loaded.name                                                     == "some name"
+      assert loaded.name                                                     == :"C-Corp / Corporation"
       assert loaded.price                                                    == nil
       assert loaded.inserted_at                                              == business_entity_type.inserted_at
       assert loaded.updated_at                                               == business_entity_type.updated_at
@@ -81,12 +81,12 @@ defmodule Core.Services.BusinessEntityTypeTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
       struct = insert(:tp_business_entity_type, business_tax_returns: business_tax_return)
 
-      params = %{name: "updated some name", business_tax_return_id: business_tax_return.id}
+      params = %{name: "Sole proprietorship", business_tax_return_id: business_tax_return.id}
 
       assert {:ok, %BusinessEntityType{} = updated} =
         Services.update_business_entity_type(struct, params)
 
-      assert updated.name                                                     == "updated some name"
+      assert updated.name                                                     == :"Sole proprietorship"
       assert updated.price                                                    == nil
       assert updated.inserted_at                                              == struct.inserted_at
       assert updated.updated_at                                               == struct.updated_at
@@ -168,7 +168,7 @@ defmodule Core.Services.BusinessEntityTypeTest do
       business_tax_return = insert(:pro_business_tax_return, user: user)
 
       params = %{
-        name: "some name",
+        name: "C-Corp / Corporation",
         price: 22,
         business_tax_return_id: business_tax_return.id
       }
@@ -180,7 +180,7 @@ defmodule Core.Services.BusinessEntityTypeTest do
       [loaded] =
         Repo.preload([business_entity_type], [:business_tax_returns])
 
-      assert loaded.name                                                     == "some name"
+      assert loaded.name                                                     == :"C-Corp / Corporation"
       assert loaded.price                                                    == 22
       assert loaded.inserted_at                                              == business_entity_type.inserted_at
       assert loaded.updated_at                                               == business_entity_type.updated_at
@@ -200,12 +200,12 @@ defmodule Core.Services.BusinessEntityTypeTest do
       business_tax_return = insert(:pro_business_tax_return, user: user)
       struct = insert(:pro_business_entity_type, business_tax_returns: business_tax_return)
 
-      params = %{name: "updated some name", business_tax_return_id: business_tax_return.id, price: 33}
+      params = %{name: "Sole proprietorship", business_tax_return_id: business_tax_return.id, price: 33}
 
       assert {:ok, %BusinessEntityType{} = updated} =
         Services.update_business_entity_type(struct, params)
 
-      assert updated.name                                                     == "updated some name"
+      assert updated.name                                                     == :"Sole proprietorship"
       assert updated.price                                                    == 33
       assert updated.inserted_at                                              == struct.inserted_at
       assert updated.updated_at                                               == struct.updated_at

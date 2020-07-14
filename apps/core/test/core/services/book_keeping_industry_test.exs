@@ -85,21 +85,6 @@ defmodule Core.Services.BookKeepingIndustryTest do
       assert match_value_relate.match_for_book_keeping_industry == 10
     end
 
-    test "update_book_keeping_industry/2 with valid data updates and ignore book_keeping_id by role's Tp" do
-      match_value_relate = insert(:match_value_relat)
-      user = insert(:tp_user)
-      book_keeping = insert(:tp_book_keeping, user: user)
-      struct = insert(:tp_book_keeping_industry, book_keepings: book_keeping)
-      params = %{name: ["Telecommunications"]}
-
-      assert {:ok, %BookKeepingIndustry{} = updated} =
-        Services.update_book_keeping_industry(struct, params)
-
-      assert updated.name                                       == [:"Telecommunications"]
-      assert updated.book_keeping_id                            == book_keeping.id
-      assert match_value_relate.match_for_book_keeping_industry == 10
-    end
-
     test "update_book_keeping_industry/2 with invalid data returns not error changeset" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, user: user)

@@ -105,26 +105,6 @@ defmodule Core.Services.BookKeepingAnnualRevenueTest do
       assert match_value_relate.match_for_book_keeping_annual_revenue == 25
     end
 
-    test "update_book_keeping_annual_revenue/2 with valid data updates and ignore price, book_keeping_id by role's Tp" do
-      match_value_relate = insert(:match_value_relat)
-      user = insert(:tp_user)
-      book_keeping = insert(:tp_book_keeping, user: user)
-      struct = insert(:tp_book_keeping_annual_revenue, book_keepings: book_keeping)
-
-      params = %{
-        name: "$10M+",
-        book_keeping_id: struct.book_keeping_id
-      }
-
-      assert {:ok, %BookKeepingAnnualRevenue{} = updated} =
-        Services.update_book_keeping_annual_revenue(struct, params)
-
-      assert updated.name                                             == :"$10M+"
-      assert updated.price                                            == nil
-      assert updated.book_keeping_id                                  == struct.book_keeping_id
-      assert match_value_relate.match_for_book_keeping_annual_revenue == 25
-    end
-
     test "update_book_keeping_annual_revenue/2 with invalid data returns not error changeset" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, user: user)
