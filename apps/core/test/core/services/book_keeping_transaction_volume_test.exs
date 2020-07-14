@@ -102,15 +102,10 @@ defmodule Core.Services.BookKeepingTransactionVolumeTest do
     end
 
     test "update_book_keeping_transaction_volume/2 with invalid data returns not error changeset" do
-      user = insert(:tp_user)
-      book_keeping = insert(:tp_book_keeping, user: user)
-      struct = insert(:tp_book_keeping_transaction_volume, book_keepings: book_keeping)
+      struct = insert(:tp_book_keeping_transaction_volume)
       params = %{book_keeping_id: nil, name: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_book_keeping_transaction_volume!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_book_keeping_transaction_volume(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_book_keeping_transaction_volume/1 deletes the book_keeping_transaction_volume" do
@@ -212,15 +207,10 @@ defmodule Core.Services.BookKeepingTransactionVolumeTest do
     end
 
     test "update_book_keeping_transaction_volume/2 with invalid data returns not error changeset" do
-      user = insert(:pro_user)
-      book_keeping = insert(:pro_book_keeping, user: user)
-      struct = insert(:pro_book_keeping_transaction_volume, book_keepings: book_keeping)
+      struct = insert(:pro_book_keeping_transaction_volume)
       params = %{book_keeping_id: nil, name: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_book_keeping_transaction_volume!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_book_keeping_transaction_volume(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_book_keeping_transaction_volume/1 deletes the book_keeping_transaction_volume" do

@@ -46,6 +46,7 @@ defmodule Core.Services.BusinessIndustryTest do
     end
 
     test "create_business_industry/1 with valid data creates a business_industry" do
+      match_value_relate = insert(:match_value_relat)
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
 
@@ -65,6 +66,7 @@ defmodule Core.Services.BusinessIndustryTest do
       assert loaded.inserted_at                                              == business_industry.inserted_at
       assert loaded.updated_at                                               == business_industry.updated_at
       assert loaded.business_tax_return_id                                   == business_tax_return.id
+      assert match_value_relate.match_for_business_industry                  == 10
     end
 
     test "create_business_industry/1 with invalid data returns error changeset" do
@@ -74,6 +76,7 @@ defmodule Core.Services.BusinessIndustryTest do
     end
 
     test "update_business_industry/2 with valid data updates the business_industry" do
+      match_value_relate = insert(:match_value_relat)
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
       struct = insert(:tp_business_industry, business_tax_returns: business_tax_return)
@@ -87,16 +90,14 @@ defmodule Core.Services.BusinessIndustryTest do
       assert updated.inserted_at                                              == struct.inserted_at
       assert updated.updated_at                                               == struct.updated_at
       assert updated.business_tax_return_id                                   == business_tax_return.id
+      assert match_value_relate.match_for_business_industry                   == 10
     end
 
     test "update_business_industry/2 with invalid data returns error changeset" do
       struct = insert(:tp_business_industry)
       params = %{name: nil, business_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_business_industry!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_business_industry(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_business_industry/1 deletes the business_industry" do
@@ -158,6 +159,7 @@ defmodule Core.Services.BusinessIndustryTest do
     end
 
     test "create_business_industry/1 with valid data creates a business_industry" do
+      match_value_relate = insert(:match_value_relat)
       user = insert(:pro_user)
       business_tax_return = insert(:pro_business_tax_return, user: user)
 
@@ -177,6 +179,7 @@ defmodule Core.Services.BusinessIndustryTest do
       assert loaded.inserted_at                                              == business_industry.inserted_at
       assert loaded.updated_at                                               == business_industry.updated_at
       assert loaded.business_tax_return_id                                   == business_tax_return.id
+      assert match_value_relate.match_for_business_industry                  == 10
     end
 
     test "create_business_industry/1 with invalid data returns error changeset" do
@@ -186,6 +189,7 @@ defmodule Core.Services.BusinessIndustryTest do
     end
 
     test "update_business_industry/2 with valid data updates the business_industry" do
+      match_value_relate = insert(:match_value_relat)
       user = insert(:pro_user)
       business_tax_return = insert(:pro_business_tax_return, user: user)
       struct = insert(:pro_business_industry, business_tax_returns: business_tax_return)
@@ -199,16 +203,14 @@ defmodule Core.Services.BusinessIndustryTest do
       assert updated.inserted_at                                              == struct.inserted_at
       assert updated.updated_at                                               == struct.updated_at
       assert updated.business_tax_return_id                                   == business_tax_return.id
+      assert match_value_relate.match_for_business_industry                   == 10
     end
 
     test "update_business_industry/2 with invalid data returns error changeset" do
       struct = insert(:pro_business_industry)
       params = %{name: nil, business_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_business_industry!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_business_industry(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_business_industry/1 deletes the business_industry" do

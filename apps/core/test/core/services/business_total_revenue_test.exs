@@ -98,11 +98,8 @@ defmodule Core.Services.BusinessTotalRevenueTest do
     test "update_business_total_revenue/2 with invalid data returns error changeset" do
       struct = insert(:tp_business_total_revenue)
       params = %{name: nil, business_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_business_total_revenue!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_business_total_revenue(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_business_total_revenue/1 deletes the business_total_revenue" do
@@ -217,11 +214,8 @@ defmodule Core.Services.BusinessTotalRevenueTest do
     test "update_business_total_revenue/2 with invalid data returns error changeset" do
       struct = insert(:pro_business_total_revenue)
       params = %{name: nil, business_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_business_total_revenue!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_business_total_revenue(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_business_total_revenue/1 deletes the business_total_revenue" do

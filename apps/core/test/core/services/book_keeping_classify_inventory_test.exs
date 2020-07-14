@@ -86,15 +86,10 @@ defmodule Core.Services.BookKeepingClassifyInventoryTest do
     end
 
     test "update_book_keeping_classify_inventory/2 with invalid data returns not error changeset" do
-      user = insert(:tp_user)
-      book_keeping = insert(:tp_book_keeping, user: user)
-      struct = insert(:tp_book_keeping_classify_inventory, book_keepings: book_keeping)
+      struct = insert(:tp_book_keeping_classify_inventory)
       params = %{book_keeping_id: nil, name: nil}
-      data = Services.get_book_keeping_classify_inventory!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_book_keeping_classify_inventory(struct, params)
-      assert data.book_keeping_id == struct.book_keeping_id
-      assert data.name            == struct.name
     end
 
     test "delete_book_keeping_classify_inventory/1 deletes the book_keeping_classify_inventory" do

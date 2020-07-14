@@ -184,9 +184,9 @@ defmodule Core.Services.SaleTaxFrequencyTest do
 
       assert {:ok, %SaleTaxFrequency{} = updated} =
         Services.update_sale_tax_frequency(struct, params)
-      assert updated.name                         == :Quarterly
-      assert updated.price                        == 33
-      assert updated.sale_tax_id                  == sale_tax.id
+      assert updated.name                                    == :Quarterly
+      assert updated.price                                   == 33
+      assert updated.sale_tax_id                             == sale_tax.id
       assert match_value_relate.match_for_sale_tax_frequency == 10
     end
 

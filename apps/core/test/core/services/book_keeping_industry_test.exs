@@ -86,14 +86,9 @@ defmodule Core.Services.BookKeepingIndustryTest do
     end
 
     test "update_book_keeping_industry/2 with invalid data returns not error changeset" do
-      user = insert(:tp_user)
-      book_keeping = insert(:tp_book_keeping, user: user)
-      struct = insert(:tp_book_keeping_industry, book_keepings: book_keeping)
+      struct = insert(:tp_book_keeping_industry)
       params = %{book_keeping_id: nil, name: [{}]}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_book_keeping_industry!(struct.id)
       assert {:error, %Ecto.Changeset{}} = Services.update_book_keeping_industry(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_book_keeping_industry/1 deletes the book_keeping_industry" do
@@ -189,14 +184,9 @@ defmodule Core.Services.BookKeepingIndustryTest do
     end
 
     test "update_book_keeping_industry/2 with invalid data returns not error changeset" do
-      user = insert(:pro_user)
-      book_keeping = insert(:pro_book_keeping, user: user)
-      struct = insert(:pro_book_keeping_industry, book_keepings: book_keeping)
+      struct = insert(:pro_book_keeping_industry)
       params = %{book_keeping_id: nil, name: [{}]}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_book_keeping_industry!(struct.id)
       assert {:error, %Ecto.Changeset{}} = Services.update_book_keeping_industry(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_book_keeping_industry/1 deletes the book_keeping_industry" do

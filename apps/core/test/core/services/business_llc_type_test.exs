@@ -92,11 +92,8 @@ defmodule Core.Services.BusinessLlcTypeTest do
     test "update_business_llc_type/2 with invalid data returns error changeset" do
       struct = insert(:tp_business_llc_type)
       params = %{name: nil, business_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_business_llc_type!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_business_llc_type(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_business_llc_type/1 deletes the business_llc_type" do

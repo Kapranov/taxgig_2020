@@ -92,11 +92,8 @@ defmodule Core.Services.BusinessTransactionCountTest do
     test "update_business_transaction_count/2 with invalid data returns error changeset" do
       struct = insert(:tp_business_transaction_count)
       params = %{name: nil, business_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_business_transaction_count!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_business_transaction_count(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_business_transaction_count/1 deletes the business_transaction_count" do

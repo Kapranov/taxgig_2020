@@ -46,6 +46,7 @@ defmodule Core.Services.IndividualIndustryTest do
     end
 
     test "create_individual_industry/1 with valid data creates a individual_industry" do
+      match_value_relate = insert(:match_value_relat)
       user = insert(:tp_user)
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
 
@@ -61,10 +62,11 @@ defmodule Core.Services.IndividualIndustryTest do
       [loaded] =
         Repo.preload([individual_industry], [:individual_tax_returns])
 
-      assert loaded.name                     == [:"Agriculture/Farming"]
-      assert loaded.inserted_at              == individual_industry.inserted_at
-      assert loaded.updated_at               == individual_industry.updated_at
-      assert loaded.individual_tax_return_id == individual_tax_return.id
+      assert loaded.name                                      == [:"Agriculture/Farming"]
+      assert loaded.inserted_at                               == individual_industry.inserted_at
+      assert loaded.updated_at                                == individual_industry.updated_at
+      assert loaded.individual_tax_return_id                  == individual_tax_return.id
+      assert match_value_relate.match_for_individual_industry == 10
     end
 
     test "create_individual_industry/1 with invalid data returns error changeset" do
@@ -74,6 +76,7 @@ defmodule Core.Services.IndividualIndustryTest do
     end
 
     test "update_individual_industry/2 with valid data updates the individual_industry" do
+      match_value_relate = insert(:match_value_relat)
       user = insert(:tp_user)
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
       struct = insert(:tp_individual_industry, individual_tax_returns: individual_tax_return)
@@ -83,10 +86,11 @@ defmodule Core.Services.IndividualIndustryTest do
       assert {:ok, %IndividualIndustry{} = updated} =
         Services.update_individual_industry(struct, params)
 
-      assert updated.name                     == [:"Wholesale Distribution"]
-      assert updated.inserted_at              == struct.inserted_at
-      assert updated.updated_at               == struct.updated_at
-      assert updated.individual_tax_return_id == individual_tax_return.id
+      assert updated.name                                     == [:"Wholesale Distribution"]
+      assert updated.inserted_at                              == struct.inserted_at
+      assert updated.updated_at                               == struct.updated_at
+      assert updated.individual_tax_return_id                 == individual_tax_return.id
+      assert match_value_relate.match_for_individual_industry == 10
     end
 
     test "update_individual_industry/2 with invalid data returns error changeset" do
@@ -155,6 +159,7 @@ defmodule Core.Services.IndividualIndustryTest do
     end
 
     test "create_individual_industry/1 with valid data creates a individual_industry" do
+      match_value_relate = insert(:match_value_relat)
       user = insert(:pro_user)
       individual_tax_return = insert(:pro_individual_tax_return, user: user)
 
@@ -170,10 +175,11 @@ defmodule Core.Services.IndividualIndustryTest do
       [loaded] =
         Repo.preload([individual_industry], [:individual_tax_returns])
 
-      assert loaded.name                     == [:"Agriculture/Farming", :"Automotive Sales/Repair"]
-      assert loaded.inserted_at              == individual_industry.inserted_at
-      assert loaded.updated_at               == individual_industry.updated_at
-      assert loaded.individual_tax_return_id == individual_tax_return.id
+      assert loaded.name                                      == [:"Agriculture/Farming", :"Automotive Sales/Repair"]
+      assert loaded.inserted_at                               == individual_industry.inserted_at
+      assert loaded.updated_at                                == individual_industry.updated_at
+      assert loaded.individual_tax_return_id                  == individual_tax_return.id
+      assert match_value_relate.match_for_individual_industry == 10
     end
 
     test "create_individual_industry/1 with invalid data returns error changeset" do
@@ -183,6 +189,7 @@ defmodule Core.Services.IndividualIndustryTest do
     end
 
     test "update_individual_industry/2 with valid data updates the individual_industry" do
+      match_value_relate = insert(:match_value_relat)
       user = insert(:pro_user)
       individual_tax_return = insert(:pro_individual_tax_return, user: user)
       struct = insert(:pro_individual_industry, individual_tax_returns: individual_tax_return)
@@ -192,10 +199,11 @@ defmodule Core.Services.IndividualIndustryTest do
       assert {:ok, %IndividualIndustry{} = updated} =
         Services.update_individual_industry(struct, params)
 
-      assert updated.name                     == [:"Wholesale Distribution"]
-      assert updated.inserted_at              == struct.inserted_at
-      assert updated.updated_at               == struct.updated_at
-      assert updated.individual_tax_return_id == individual_tax_return.id
+      assert updated.name                                     == [:"Wholesale Distribution"]
+      assert updated.inserted_at                              == struct.inserted_at
+      assert updated.updated_at                               == struct.updated_at
+      assert updated.individual_tax_return_id                 == individual_tax_return.id
+      assert match_value_relate.match_for_individual_industry == 10
     end
 
     test "update_individual_industry/2 with invalid data returns error changeset" do

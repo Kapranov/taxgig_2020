@@ -98,11 +98,8 @@ defmodule Core.Services.BusinessNumberEmployeeTest do
     test "update_business_number_employee/2 with invalid data returns error changeset" do
       struct = insert(:tp_business_number_employee)
       params = %{name: nil, business_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_business_number_employee!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_business_number_employee(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_business_number_employee/1 deletes the business_number_employee" do
@@ -217,11 +214,8 @@ defmodule Core.Services.BusinessNumberEmployeeTest do
     test "update_business_number_employee/2 with invalid data returns error changeset" do
       struct = insert(:pro_business_number_employee)
       params = %{name: nil, business_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_business_number_employee!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_business_number_employee(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_business_number_employee/1 deletes the business_number_employee" do

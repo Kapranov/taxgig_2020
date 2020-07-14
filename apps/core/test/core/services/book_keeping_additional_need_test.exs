@@ -99,16 +99,10 @@ defmodule Core.Services.BookKeepingAdditionalNeedTest do
     end
 
     test "update_book_keeping_additional_need/2 with invalid data returns not error changeset" do
-      user = insert(:tp_user)
-      book_keeping = insert(:tp_book_keeping, user: user)
-      struct = insert(:tp_book_keeping_additional_need, book_keepings: book_keeping)
+      struct = insert(:tp_book_keeping_additional_need)
       params = %{book_keeping_id: nil, name: nil}
-      data = Services.get_book_keeping_additional_need!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_book_keeping_additional_need(struct, params)
-      assert data.book_keeping_id == struct.book_keeping_id
-      assert data.name            == struct.name
-      assert data.price           == nil
     end
 
     test "delete_book_keeping_additional_need/1 deletes the book_keeping_additional_need" do
@@ -216,15 +210,10 @@ defmodule Core.Services.BookKeepingAdditionalNeedTest do
     end
 
     test "update_book_keeping_additional_need/2 with invalid data returns not error changeset" do
-      user = insert(:pro_user)
-      book_keeping = insert(:pro_book_keeping, user: user)
-      struct = insert(:pro_book_keeping_additional_need, book_keepings: book_keeping)
+      struct = insert(:pro_book_keeping_additional_need)
       params = %{book_keeping_id: nil, name: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_book_keeping_additional_need!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_book_keeping_additional_need(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_book_keeping_additional_need/1 deletes the book_keeping_additional_need" do

@@ -97,11 +97,8 @@ defmodule Core.Services.BusinessEntityTypeTest do
     test "update_business_entity_type/2 with invalid data returns error changeset" do
       struct = insert(:tp_business_entity_type)
       params = %{name: nil, business_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_business_entity_type!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_business_entity_type(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_business_business_entity_type/1 deletes the business_entity_type" do
@@ -125,7 +122,7 @@ defmodule Core.Services.BusinessEntityTypeTest do
   end
 
   describe "business_entity_types by role's Pro" do
-    test "requires name and business_tax_return_id via role's Tp" do
+    test "requires name and business_tax_return_id via role's Pro" do
       changeset = BusinessEntityType.changeset(%BusinessEntityType{}, %{})
 
       refute changeset.valid?
@@ -216,11 +213,8 @@ defmodule Core.Services.BusinessEntityTypeTest do
     test "update_business_entity_type/2 with invalid data returns error changeset" do
       struct = insert(:pro_business_entity_type)
       params = %{name: nil, business_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_business_entity_type!(struct.id)
       assert {:error, %Ecto.Changeset{}} =
         Services.update_business_entity_type(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_business_business_entity_type/1 deletes the business_entity_type" do
