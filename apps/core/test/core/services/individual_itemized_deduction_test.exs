@@ -51,7 +51,7 @@ defmodule Core.Services.IndividualItemizedDeductionTest do
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
 
       params = %{
-        name: "some name",
+        name: "Charitable contributions",
         individual_tax_return_id: individual_tax_return.id
       }
 
@@ -62,7 +62,7 @@ defmodule Core.Services.IndividualItemizedDeductionTest do
       [loaded] =
         Repo.preload([individual_itemized_deduction], [:individual_tax_returns])
 
-      assert loaded.name                                                == "some name"
+      assert loaded.name                                                == :"Charitable contributions"
       assert loaded.price                                               == nil
       assert loaded.inserted_at                                         == individual_itemized_deduction.inserted_at
       assert loaded.updated_at                                          == individual_itemized_deduction.updated_at
@@ -79,30 +79,24 @@ defmodule Core.Services.IndividualItemizedDeductionTest do
     test "update_individual_itemized_deduction/2 with valid data updates the individual_itemized_deduction" do
       match_value_relate = insert(:match_value_relat)
       struct = insert(:tp_individual_itemized_deduction)
-      individual_tax_return = insert(:individual_tax_return)
-
-      params = %{name: "updated some name", individual_tax_return_id: individual_tax_return.id}
+      params = %{name: "Medical and dental expenses", individual_tax_return_id: struct.individual_tax_return_id}
 
       assert {:ok, %IndividualItemizedDeduction{} = updated} =
         Services.update_individual_itemized_deduction(struct, params)
 
-      assert updated.name                                               == "updated some name"
+      assert updated.name                                               == :"Medical and dental expenses"
       assert updated.price                                              == nil
       assert updated.inserted_at                                        == struct.inserted_at
       assert updated.updated_at                                         == struct.updated_at
-      assert updated.individual_tax_return_id                           == individual_tax_return.id
+      assert updated.individual_tax_return_id                           == struct.individual_tax_return_id
       assert match_value_relate.match_for_individual_itemized_deduction == 20
     end
 
     test "update_individual_itemized_deduction/2 with invalid data returns error changeset" do
       struct = insert(:tp_individual_itemized_deduction)
       params = %{name: nil, individual_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_individual_itemized_deduction!(struct.id)
-
       assert {:error, %Ecto.Changeset{}} =
         Services.update_individual_itemized_deduction(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_individual_itemized_deduction/1 deletes the individual_itemized_deduction" do
@@ -169,7 +163,7 @@ defmodule Core.Services.IndividualItemizedDeductionTest do
       individual_tax_return = insert(:pro_individual_tax_return, user: user)
 
       params = %{
-        name: "some name",
+        name: "Charitable contributions",
         price: 90,
         individual_tax_return_id: individual_tax_return.id
       }
@@ -181,7 +175,7 @@ defmodule Core.Services.IndividualItemizedDeductionTest do
       [loaded] =
         Repo.preload([individual_itemized_deduction], [:individual_tax_returns])
 
-      assert loaded.name                                                == "some name"
+      assert loaded.name                                                == :"Charitable contributions"
       assert loaded.price                                               == 90
       assert loaded.inserted_at                                         == individual_itemized_deduction.inserted_at
       assert loaded.updated_at                                          == individual_itemized_deduction.updated_at
@@ -198,30 +192,24 @@ defmodule Core.Services.IndividualItemizedDeductionTest do
     test "update_individual_itemized_deduction/2 with valid data updates the individual_itemized_deduction" do
       match_value_relate = insert(:match_value_relat)
       struct = insert(:pro_individual_itemized_deduction)
-      individual_tax_return = insert(:individual_tax_return)
-
-      params = %{name: "updated some name", price: 99, individual_tax_return_id: individual_tax_return.id}
+      params = %{name: "Medical and dental expenses", price: 99, individual_tax_return_id: struct.individual_tax_return_id}
 
       assert {:ok, %IndividualItemizedDeduction{} = updated} =
         Services.update_individual_itemized_deduction(struct, params)
 
-      assert updated.name                                               == "updated some name"
+      assert updated.name                                               == :"Medical and dental expenses"
       assert updated.price                                              == 99
       assert updated.inserted_at                                        == struct.inserted_at
       assert updated.updated_at                                         == struct.updated_at
-      assert updated.individual_tax_return_id                           == individual_tax_return.id
+      assert updated.individual_tax_return_id                           == struct.individual_tax_return_id
       assert match_value_relate.match_for_individual_itemized_deduction == 20
     end
 
     test "update_individual_itemized_deduction/2 with invalid data returns error changeset" do
       struct = insert(:pro_individual_itemized_deduction)
       params = %{name: nil, price: nil, individual_tax_return_id: nil}
-      attrs = [:password, :password_cofirmation]
-      data = Services.get_individual_itemized_deduction!(struct.id)
-
       assert {:error, %Ecto.Changeset{}} =
         Services.update_individual_itemized_deduction(struct, params)
-      assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
     test "delete_individual_itemized_deduction/1 deletes the individual_itemized_deduction" do
