@@ -316,7 +316,7 @@ defmodule Core.Services do
   @tp_business_llc_type_params ~w(
     business_tax_return_id
     name
-  )
+  )a
 
   @tp_business_transaction_count_params ~w(
     business_tax_return_id
