@@ -1263,15 +1263,7 @@ defmodule Server.Factory do
       "Expenses"
     ]
 
-    numbers = 1..2
-    number = Enum.random(numbers)
-
-    result =
-      for i <- 1..number, i > 0 do
-        Enum.random(names)
-      end
-
-    Enum.uniq(result)
+    Enum.random(names)
   end
 
   @spec random_name_industry :: String.t

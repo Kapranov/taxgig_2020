@@ -76,7 +76,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingAdditionalNeedsResolve
   end
 
   describe "#show" do
-    it "returns specific BusinessEntityType by id via role's Tp" do
+    it "returns specific BookKeepingAdditionalNeed by id via role's Tp" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, %{user: user})
       struct = insert(:tp_book_keeping_additional_need, %{book_keepings: book_keeping})
@@ -109,7 +109,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingAdditionalNeedsResolve
       assert found.book_keepings.user.role            == user.role
     end
 
-    it "returns specific BusinessEntityType by id via role's Pro" do
+    it "returns specific BookKeepingAdditionalNeed by id via role's Pro" do
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, %{user: user})
       struct = insert(:pro_book_keeping_additional_need, %{book_keepings: book_keeping})
@@ -142,7 +142,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingAdditionalNeedsResolve
       assert found.book_keepings.user.role            == user.role
     end
 
-    it "returns not found when BusinessEntityType does not exist" do
+    it "returns not found when BookKeepingAdditionalNeed does not exist" do
       id = FlakeId.get()
       user = insert(:user)
       book_keeping = insert(:book_keeping, %{user: user})
@@ -164,7 +164,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingAdditionalNeedsResolve
   end
 
   describe "#find" do
-    it "returns specific BusinessEntityType by id via role's Tp" do
+    it "returns specific BookKeepingAdditionalNeed by id via role's Tp" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, %{user: user})
       struct = insert(:tp_book_keeping_additional_need, %{book_keepings: book_keeping})
@@ -197,7 +197,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingAdditionalNeedsResolve
       assert found.book_keepings.user.role            == user.role
     end
 
-    it "returns specific BusinessEntityType by id via role's Pro" do
+    it "returns specific BookKeepingAdditionalNeed by id via role's Pro" do
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, %{user: user})
       struct = insert(:pro_book_keeping_additional_need, %{book_keepings: book_keeping})
@@ -230,7 +230,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingAdditionalNeedsResolve
       assert found.book_keepings.user.role            == user.role
     end
 
-    it "returns not found when BusinessEntityType does not exist" do
+    it "returns not found when BookKeepingAdditionalNeed does not exist" do
       id = FlakeId.get()
       user = insert(:user)
       book_keeping = insert(:book_keeping, %{user: user})
@@ -298,7 +298,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingAdditionalNeedsResolve
   end
 
   describe "#update" do
-    it "update specific BusinessEntityTypesResolver by id via role's Tp" do
+    it "update specific BookKeepingAdditionalNeed by id via role's Tp" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, %{user: user})
       struct = insert(:tp_book_keeping_additional_need, %{book_keepings: book_keeping})
@@ -315,7 +315,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingAdditionalNeedsResolve
       assert updated.updated_at      == struct.updated_at
     end
 
-    it "update specific BusinessEntityTypesResolver by id via role's Pro" do
+    it "update specific BookKeepingAdditionalNeed by id via role's Pro" do
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, %{user: user})
       struct = insert(:pro_book_keeping_additional_need, %{book_keepings: book_keeping})
@@ -365,7 +365,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingAdditionalNeedsResolve
       assert delete.id == struct.id
     end
 
-    it "returns not found when BusinessEntityType does not exist" do
+    it "returns not found when BookKeepingAdditionalNeed does not exist" do
       id = FlakeId.get()
       user = insert(:user)
       book_keeping = insert(:book_keeping, %{user: user})
