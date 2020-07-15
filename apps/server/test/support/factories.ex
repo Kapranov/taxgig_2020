@@ -1466,12 +1466,7 @@ defmodule Server.Factory do
 
   @spec random_name_tax_frequency :: String.t
   defp random_name_tax_frequency do
-    names = [
-      "Annually",
-      "Monthly",
-      "Quaterly"
-    ]
-
+    names = ["Annually", "Monthly", "Quarterly"]
     Enum.random(names)
   end
 end
