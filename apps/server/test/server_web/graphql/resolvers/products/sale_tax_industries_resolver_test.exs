@@ -185,12 +185,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.SaleTaxIndustriesResolverTest do
 
       args = %{
         sale_tax_id: sale_tax.id,
-        name: ["some name"]
+        name: ["Agriculture/Farming"]
       }
 
       {:ok, created} = SaleTaxIndustriesResolver.create(nil, args, context)
 
-      assert created.name                   == ["some name"]
+      assert created.name        == [:"Agriculture/Farming"]
       assert created.sale_tax_id == sale_tax.id
     end
 
@@ -201,12 +201,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.SaleTaxIndustriesResolverTest do
 
       args = %{
         sale_tax_id: sale_tax.id,
-        name: ["some name"]
+        name: ["Agriculture/Farming", "Automotive Sales/Repair"]
       }
 
       {:ok, created} = SaleTaxIndustriesResolver.create(nil, args, context)
 
-      assert created.name                   == ["some name"]
+      assert created.name        == [:"Agriculture/Farming", :"Automotive Sales/Repair"]
       assert created.sale_tax_id == sale_tax.id
     end
 
@@ -231,17 +231,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.SaleTaxIndustriesResolverTest do
 
       params = %{
         sale_tax_id: sale_tax.id,
-        name: ["updated some name"]
+        name: ["Wholesale Distribution"]
       }
 
       args = %{id: sale_tax_industry.id, sale_tax_industry: params}
       {:ok, updated} = SaleTaxIndustriesResolver.update(nil, args, context)
 
-      assert updated.id                     == sale_tax_industry.id
+      assert updated.id          == sale_tax_industry.id
       assert updated.sale_tax_id == sale_tax.id
-      assert updated.inserted_at            == sale_tax_industry.inserted_at
-      assert updated.name                   == ["updated some name"]
-      assert updated.updated_at             == sale_tax_industry.updated_at
+      assert updated.inserted_at == sale_tax_industry.inserted_at
+      assert updated.name        == [:"Wholesale Distribution"]
+      assert updated.updated_at  == sale_tax_industry.updated_at
     end
 
     it "update specific SaleTaxIndustriesResolver by id via role's Pro" do
@@ -254,54 +254,23 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.SaleTaxIndustriesResolverTest do
 
       params = %{
         sale_tax_id: sale_tax.id,
-        name: ["updated some name"]
+        name: ["Transportation", "Wholesale Distribution"]
       }
 
       args = %{id: sale_tax_industry.id, sale_tax_industry: params}
       {:ok, updated} = SaleTaxIndustriesResolver.update(nil, args, context)
 
-      assert updated.id                     == sale_tax_industry.id
+      assert updated.id          == sale_tax_industry.id
       assert updated.sale_tax_id == sale_tax.id
-      assert updated.inserted_at            == sale_tax_industry.inserted_at
-      assert updated.name                   == ["updated some name"]
-      assert updated.updated_at             == sale_tax_industry.updated_at
-    end
-
-    it "nothing change for missing params via role's Tp" do
-      user = insert(:tp_user)
-      sale_tax = insert(:tp_sale_tax, user: user)
-      sale_tax_industry = insert(:tp_sale_tax_industry, sale_taxes: sale_tax, name: ["some name"])
-      context = %{context: %{current_user: user}}
-      params = %{name: ["some name"]}
-      args = %{id: sale_tax_industry.id, sale_tax_industry: params}
-      {:ok, updated} = SaleTaxIndustriesResolver.update(nil, args, context)
-
-      assert updated.id                     == sale_tax_industry.id
-      assert updated.sale_tax_id == sale_tax.id
-      assert updated.inserted_at            == sale_tax_industry.inserted_at
-      assert updated.name                   == sale_tax_industry.name
-      assert updated.updated_at             == sale_tax_industry.updated_at
-    end
-
-    it "nothing change for missing params via role's Pro" do
-      user = insert(:pro_user)
-      sale_tax = insert(:pro_sale_tax, user: user)
-      sale_tax_industry = insert(:pro_sale_tax_industry, sale_taxes: sale_tax, name: ["some name"])
-      context = %{context: %{current_user: user}}
-      params = %{name: ["some name"]}
-      args = %{id: sale_tax_industry.id, sale_tax_industry: params}
-      {:ok, updated} = SaleTaxIndustriesResolver.update(nil, args, context)
-
-      assert updated.id                     == sale_tax_industry.id
-      assert updated.sale_tax_id == sale_tax.id
-      assert updated.inserted_at            == sale_tax_industry.inserted_at
-      assert updated.updated_at             == sale_tax_industry.updated_at
+      assert updated.inserted_at == sale_tax_industry.inserted_at
+      assert updated.name        == [:"Transportation", :"Wholesale Distribution"]
+      assert updated.updated_at  == sale_tax_industry.updated_at
     end
 
     it "returns error for missing params" do
       user = insert(:user)
       sale_tax = insert(:sale_tax, user: user)
-      insert(:sale_tax_industry, sale_taxes: sale_tax, name: ["some name"])
+      insert(:sale_tax_industry, sale_taxes: sale_tax, name: ["Agriculture/Farming"])
       context = %{context: %{current_user: user}}
       args = %{id: nil, sale_tax_industry: nil}
       {:error, error} = SaleTaxIndustriesResolver.update(nil, args, context)
@@ -313,7 +282,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.SaleTaxIndustriesResolverTest do
     it "delete specific SaleTaxIndustry by id" do
       user = insert(:user)
       sale_tax = insert(:sale_tax, user: user)
-      struct = insert(:sale_tax_industry, sale_taxes: sale_tax, name: ["some name"])
+      struct = insert(:sale_tax_industry, sale_taxes: sale_tax, name: ["Agriculture/Farming"])
       context = %{context: %{current_user: user}}
       {:ok, delete} = SaleTaxIndustriesResolver.delete(nil, %{id: struct.id}, context)
       assert delete.id == struct.id
@@ -323,7 +292,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.SaleTaxIndustriesResolverTest do
       id = FlakeId.get()
       user = insert(:user)
       sale_tax = insert(:sale_tax, user: user)
-      insert(:sale_tax_industry, sale_taxes: sale_tax, name: ["some name"])
+      insert(:sale_tax_industry, sale_taxes: sale_tax, name: ["Agriculture/Farming"])
       context = %{context: %{current_user: user}}
       {:error, error} = SaleTaxIndustriesResolver.delete(nil, %{id: id}, context)
       assert error == "The SaleTaxIndustry #{id} not found!"
@@ -332,7 +301,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.SaleTaxIndustriesResolverTest do
     it "returns error for missing params" do
       user = insert(:user)
       sale_tax = insert(:sale_tax, user: user)
-      insert(:sale_tax_industry, sale_taxes: sale_tax, name: ["some name"])
+      insert(:sale_tax_industry, sale_taxes: sale_tax, name: ["Agriculture/Farming"])
       context = %{context: %{current_user: user}}
       args = %{id: nil}
       {:error, error} = SaleTaxIndustriesResolver.delete(nil, args, context)
