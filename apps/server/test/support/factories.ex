@@ -778,7 +778,7 @@ defmodule Server.Factory do
   def business_transaction_count_factory do
     %BusinessTransactionCount{
       business_tax_returns: build(:business_tax_return),
-      name: Lorem.word()
+      name: "1-10"
     }
   end
 
@@ -786,15 +786,7 @@ defmodule Server.Factory do
   def tp_business_transaction_count_factory do
     %BusinessTransactionCount{
       business_tax_returns: build(:tp_business_tax_return),
-      name: Lorem.word()
-    }
-  end
-
-  @spec pro_business_transaction_count_factory() :: BusinessTransactionCount.t()
-  def pro_business_transaction_count_factory do
-    %BusinessTransactionCount{
-      business_tax_returns: build(:pro_business_tax_return),
-      name: Lorem.word()
+      name: "1-10"
     }
   end
 

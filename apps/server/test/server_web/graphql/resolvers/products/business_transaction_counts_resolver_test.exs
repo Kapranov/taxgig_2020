@@ -32,35 +32,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTransactionCountsResolver
       assert List.last(data).business_tax_returns.inserted_at == business_transaction_count.business_tax_returns.inserted_at
       assert List.last(data).business_tax_returns.updated_at  == business_transaction_count.business_tax_returns.updated_at
     end
-
-    it "returns BusinessTransactionCounts via role's Pro" do
-      user = insert(:pro_user)
-      business_tax_return = insert(:pro_business_tax_return, user: user)
-      business_transaction_count = insert(:pro_business_transaction_count, %{business_tax_returns: business_tax_return})
-      context = %{context: %{current_user: user}}
-
-      {:ok, data} = BusinessTransactionCountsResolver.list(nil, nil, context)
-
-      assert length(data) == 1
-
-      assert List.first(data).id          == business_transaction_count.id
-      assert List.first(data).inserted_at == business_transaction_count.inserted_at
-      assert List.first(data).name        == business_transaction_count.name
-      assert List.first(data).updated_at  == business_transaction_count.updated_at
-
-      assert List.first(data).business_tax_return_id           == business_transaction_count.business_tax_return_id
-      assert List.first(data).business_tax_returns.inserted_at == business_transaction_count.business_tax_returns.inserted_at
-      assert List.first(data).business_tax_returns.updated_at  == business_transaction_count.business_tax_returns.updated_at
-
-      assert List.last(data).id          == business_transaction_count.id
-      assert List.last(data).inserted_at == business_transaction_count.inserted_at
-      assert List.last(data).name        == business_transaction_count.name
-      assert List.last(data).updated_at  == business_transaction_count.updated_at
-
-      assert List.last(data).business_tax_return_id           == business_transaction_count.business_tax_return_id
-      assert List.last(data).business_tax_returns.inserted_at == business_transaction_count.business_tax_returns.inserted_at
-      assert List.last(data).business_tax_returns.updated_at  == business_transaction_count.business_tax_returns.updated_at
-    end
   end
 
   describe "#show" do
@@ -68,23 +39,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTransactionCountsResolver
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
       business_transaction_count = insert(:tp_business_transaction_count, business_tax_returns: business_tax_return)
-      context = %{context: %{current_user: user}}
-      {:ok, found} = BusinessTransactionCountsResolver.show(nil, %{id: business_transaction_count.id}, context)
-
-      assert found.id          == business_transaction_count.id
-      assert found.inserted_at == business_transaction_count.inserted_at
-      assert found.name        == business_transaction_count.name
-      assert found.updated_at  == business_transaction_count.updated_at
-
-      assert found.business_tax_return_id           == business_transaction_count.business_tax_returns.id
-      assert found.business_tax_returns.inserted_at == business_transaction_count.business_tax_returns.inserted_at
-      assert found.business_tax_returns.updated_at  == business_transaction_count.business_tax_returns.updated_at
-    end
-
-    it "returns specific BusinessTransactionCount by id via role's Pro" do
-      user = insert(:pro_user)
-      business_tax_return = insert(:pro_business_tax_return, user: user)
-      business_transaction_count = insert(:pro_business_transaction_count, business_tax_returns: business_tax_return)
       context = %{context: %{current_user: user}}
       {:ok, found} = BusinessTransactionCountsResolver.show(nil, %{id: business_transaction_count.id}, context)
 
@@ -138,24 +92,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTransactionCountsResolver
       assert found.business_tax_returns.updated_at  == business_transaction_count.business_tax_returns.updated_at
     end
 
-    it "find specific BusinessTransactionCount by id via role's Pro" do
-      user = insert(:pro_user)
-      business_tax_return = insert(:pro_business_tax_return, user: user)
-      business_transaction_count = insert(:pro_business_transaction_count, %{business_tax_returns: business_tax_return})
-      context = %{context: %{current_user: user}}
-
-      {:ok, found} = BusinessTransactionCountsResolver.find(nil, %{id: business_transaction_count.id}, context)
-
-      assert found.id          == business_transaction_count.id
-      assert found.inserted_at == business_transaction_count.inserted_at
-      assert found.name        == business_transaction_count.name
-      assert found.updated_at  == business_transaction_count.updated_at
-
-      assert found.business_tax_return_id           == business_transaction_count.business_tax_returns.id
-      assert found.business_tax_returns.inserted_at == business_transaction_count.business_tax_returns.inserted_at
-      assert found.business_tax_returns.updated_at  == business_transaction_count.business_tax_returns.updated_at
-    end
-
     it "returns not found when BusinessTransactionCount does not exist" do
       id = FlakeId.get()
       user = insert(:user)
@@ -185,13 +121,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTransactionCountsResolver
 
       args = %{
         business_tax_return_id: business_tax_return.id,
-        name: "some name"
+        name: "1-10"
       }
 
       {:ok, created} = BusinessTransactionCountsResolver.create(nil, args, context)
 
       assert created.business_tax_return_id == business_tax_return.id
-      assert created.name                   == "some name"
+      assert created.name                   == :"1-10"
     end
 
     it "creates BusinessTransactionCount an event by role's Pro" do
@@ -201,13 +137,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTransactionCountsResolver
 
       args = %{
         business_tax_return_id: business_tax_return.id,
-        name: "some name"
+        name: "1-10"
       }
 
-      {:ok, created} = BusinessTransactionCountsResolver.create(nil, args, context)
-
-      assert created.business_tax_return_id == business_tax_return.id
-      assert created.name                   == "some name"
+      {:error, error} = BusinessTransactionCountsResolver.create(nil, args, context)
+      assert error == []
     end
 
 
@@ -215,7 +149,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTransactionCountsResolver
       user = insert(:user)
       insert(:business_tax_return, user: user)
       context = %{context: %{current_user: user}}
-      args = %{business_tax_return_id: nil}
+      args = %{business_tax_return_id: nil, name: nil}
       {:error, error} = BusinessTransactionCountsResolver.create(nil, args, context)
       assert error == []
     end
@@ -231,7 +165,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTransactionCountsResolver
 
       params = %{
         business_tax_return_id: business_tax_return.id,
-        name: "updated some name"
+        name: "75+"
       }
 
       args = %{id: business_transaction_count.id, business_transaction_count: params}
@@ -240,60 +174,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTransactionCountsResolver
       assert updated.id                     == business_transaction_count.id
       assert updated.business_tax_return_id == business_tax_return.id
       assert updated.inserted_at            == business_transaction_count.inserted_at
-      assert updated.name                   == "updated some name"
-      assert updated.updated_at             == business_transaction_count.updated_at
-    end
-
-    it "update specific BusinessTransactionCountsResolver by id via role's Pro" do
-      user = insert(:pro_user)
-      insert(:pro_business_tax_return, user: user)
-      business_tax_return = insert(:pro_business_tax_return, user: user)
-      business_transaction_count = insert(:pro_business_transaction_count, business_tax_returns: business_tax_return)
-      context = %{context: %{current_user: user}}
-
-      params = %{
-        business_tax_return_id: business_tax_return.id,
-        name: "updated some name"
-      }
-
-      args = %{id: business_transaction_count.id, business_transaction_count: params}
-      {:ok, updated} = BusinessTransactionCountsResolver.update(nil, args, context)
-
-      assert updated.id                     == business_transaction_count.id
-      assert updated.business_tax_return_id == business_tax_return.id
-      assert updated.inserted_at            == business_transaction_count.inserted_at
-      assert updated.name                   == "updated some name"
-      assert updated.updated_at             == business_transaction_count.updated_at
-    end
-
-    it "nothing change for missing params via role's Tp" do
-      user = insert(:tp_user)
-      business_tax_return = insert(:tp_business_tax_return, user: user)
-      business_transaction_count = insert(:tp_business_transaction_count, business_tax_returns: business_tax_return, name: "some name")
-      context = %{context: %{current_user: user}}
-      params = %{name: "some name"}
-      args = %{id: business_transaction_count.id, business_transaction_count: params}
-      {:ok, updated} = BusinessTransactionCountsResolver.update(nil, args, context)
-
-      assert updated.id                     == business_transaction_count.id
-      assert updated.business_tax_return_id == business_tax_return.id
-      assert updated.inserted_at            == business_transaction_count.inserted_at
-      assert updated.name                   == business_transaction_count.name
-      assert updated.updated_at             == business_transaction_count.updated_at
-    end
-
-    it "nothing change for missing params via role's Pro" do
-      user = insert(:pro_user)
-      business_tax_return = insert(:pro_business_tax_return, user: user)
-      business_transaction_count = insert(:pro_business_transaction_count, business_tax_returns: business_tax_return, name: "some name")
-      context = %{context: %{current_user: user}}
-      params = %{name: "some name"}
-      args = %{id: business_transaction_count.id, business_transaction_count: params}
-      {:ok, updated} = BusinessTransactionCountsResolver.update(nil, args, context)
-
-      assert updated.id                     == business_transaction_count.id
-      assert updated.business_tax_return_id == business_tax_return.id
-      assert updated.inserted_at            == business_transaction_count.inserted_at
+      assert updated.name                   == :"75+"
       assert updated.updated_at             == business_transaction_count.updated_at
     end
 
@@ -302,7 +183,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTransactionCountsResolver
       business_tax_return = insert(:business_tax_return, user: user)
       insert(:business_transaction_count, business_tax_returns: business_tax_return)
       context = %{context: %{current_user: user}}
-      args = %{id: nil, business_transaction_count: nil}
+      params = %{business_tax_return_id: nil, name: nil}
+      args = %{id: nil, business_transaction_count: params}
       {:error, error} = BusinessTransactionCountsResolver.update(nil, args, context)
       assert error == [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]
     end
