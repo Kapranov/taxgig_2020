@@ -1003,7 +1003,7 @@ defmodule Server.Factory do
   def individual_stock_transaction_count_factory do
     %IndividualStockTransactionCount{
       individual_tax_returns: build(:individual_tax_return),
-      name: Lorem.word()
+      name: "1-5"
     }
   end
 
@@ -1011,15 +1011,7 @@ defmodule Server.Factory do
   def tp_individual_stock_transaction_count_factory do
     %IndividualStockTransactionCount{
       individual_tax_returns: build(:tp_individual_tax_return),
-      name: Lorem.word()
-    }
-  end
-
-  @spec pro_individual_stock_transaction_count_factory() :: IndividualStockTransactionCount.t()
-  def pro_individual_stock_transaction_count_factory do
-    %IndividualStockTransactionCount{
-      individual_tax_returns: build(:pro_individual_tax_return),
-      name: Lorem.word()
+      name: "1-5"
     }
   end
 

@@ -17,6 +17,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualItemizedDeductionsResol
       assert List.first(data).id          == individual_itemized_deduction.id
       assert List.first(data).inserted_at == individual_itemized_deduction.inserted_at
       assert List.first(data).name        == individual_itemized_deduction.name
+      assert List.first(data).price       == nil
       assert List.first(data).updated_at  == individual_itemized_deduction.updated_at
 
       assert List.first(data).individual_tax_return_id           == individual_itemized_deduction.individual_tax_return_id
@@ -26,6 +27,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualItemizedDeductionsResol
       assert List.last(data).id          == individual_itemized_deduction.id
       assert List.last(data).inserted_at == individual_itemized_deduction.inserted_at
       assert List.last(data).name        == individual_itemized_deduction.name
+      assert List.last(data).price       == nil
       assert List.last(data).updated_at  == individual_itemized_deduction.updated_at
 
       assert List.last(data).individual_tax_return_id           == individual_itemized_deduction.individual_tax_return_id
@@ -76,6 +78,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualItemizedDeductionsResol
       assert found.id          == individual_itemized_deduction.id
       assert found.inserted_at == individual_itemized_deduction.inserted_at
       assert found.name        == individual_itemized_deduction.name
+      assert found.price       == nil
       assert found.updated_at  == individual_itemized_deduction.updated_at
 
       assert found.individual_tax_return_id           == individual_itemized_deduction.individual_tax_returns.id
@@ -135,6 +138,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualItemizedDeductionsResol
       assert found.id          == individual_itemized_deduction.id
       assert found.inserted_at == individual_itemized_deduction.inserted_at
       assert found.name        == individual_itemized_deduction.name
+      assert found.price       == nil
       assert found.updated_at  == individual_itemized_deduction.updated_at
 
       assert found.individual_tax_return_id           == individual_itemized_deduction.individual_tax_returns.id
@@ -190,13 +194,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualItemizedDeductionsResol
 
       args = %{
         individual_tax_return_id: individual_tax_return.id,
-        name: "some name"
+        name: "Charitable contributions"
       }
 
       {:ok, created} = IndividualItemizedDeductionsResolver.create(nil, args, context)
 
       assert created.individual_tax_return_id == individual_tax_return.id
-      assert created.name                     == "some name"
+      assert created.name                     == :"Charitable contributions"
+      assert created.price                    == nil
     end
 
     it "creates individualFilingStatus an event by role's Pro" do
@@ -206,14 +211,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualItemizedDeductionsResol
 
       args = %{
         individual_tax_return_id: individual_tax_return.id,
-        name: "some name",
+        name: "Charitable contributions",
         price: 12
       }
 
       {:ok, created} = IndividualItemizedDeductionsResolver.create(nil, args, context)
 
       assert created.individual_tax_return_id == individual_tax_return.id
-      assert created.name                     == "some name"
+      assert created.name                     == :"Charitable contributions"
       assert created.price                    == 12
     end
 
@@ -234,12 +239,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualItemizedDeductionsResol
       user = insert(:tp_user)
       insert(:tp_individual_tax_return, user: user)
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
-      individual_itemized_deduction = insert(:individual_itemized_deduction, individual_tax_returns: individual_tax_return)
+      individual_itemized_deduction = insert(:tp_individual_itemized_deduction, individual_tax_returns: individual_tax_return)
       context = %{context: %{current_user: user}}
 
       params = %{
         individual_tax_return_id: individual_tax_return.id,
-        name: "updated some name"
+        name: "Medical and dental expenses"
       }
 
       args = %{id: individual_itemized_deduction.id, individual_itemized_deduction: params}
@@ -248,7 +253,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualItemizedDeductionsResol
       assert updated.id                       == individual_itemized_deduction.id
       assert updated.individual_tax_return_id == individual_tax_return.id
       assert updated.inserted_at              == individual_itemized_deduction.inserted_at
-      assert updated.name                     == "updated some name"
+      assert updated.name                     == :"Medical and dental expenses"
+      assert updated.price                    == nil
       assert updated.updated_at               == individual_itemized_deduction.updated_at
     end
 
@@ -256,12 +262,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualItemizedDeductionsResol
       user = insert(:pro_user)
       insert(:pro_individual_tax_return, user: user)
       individual_tax_return = insert(:pro_individual_tax_return, user: user)
-      individual_itemized_deduction = insert(:individual_itemized_deduction, individual_tax_returns: individual_tax_return)
+      individual_itemized_deduction = insert(:pro_individual_itemized_deduction, individual_tax_returns: individual_tax_return)
       context = %{context: %{current_user: user}}
 
       params = %{
         individual_tax_return_id: individual_tax_return.id,
-        name: "updated some name",
+        name: "Medical and dental expenses",
         price: 13
       }
 
@@ -271,39 +277,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualItemizedDeductionsResol
       assert updated.id                       == individual_itemized_deduction.id
       assert updated.individual_tax_return_id == individual_tax_return.id
       assert updated.inserted_at              == individual_itemized_deduction.inserted_at
-      assert updated.name                     == "updated some name"
+      assert updated.name                     == :"Medical and dental expenses"
       assert updated.price                    == 13
-      assert updated.updated_at               == individual_itemized_deduction.updated_at
-    end
-
-    it "nothing change for missing params via role's Tp" do
-      user = insert(:tp_user)
-      individual_tax_return = insert(:tp_individual_tax_return, user: user)
-      individual_itemized_deduction = insert(:individual_itemized_deduction, individual_tax_returns: individual_tax_return, name: "some name")
-      context = %{context: %{current_user: user}}
-      params = %{name: "some name"}
-      args = %{id: individual_itemized_deduction.id, individual_itemized_deduction: params}
-      {:ok, updated} = IndividualItemizedDeductionsResolver.update(nil, args, context)
-
-      assert updated.id                       == individual_itemized_deduction.id
-      assert updated.individual_tax_return_id == individual_tax_return.id
-      assert updated.inserted_at              == individual_itemized_deduction.inserted_at
-      assert updated.name                     == individual_itemized_deduction.name
-      assert updated.updated_at               == individual_itemized_deduction.updated_at
-    end
-
-    it "nothing change for missing params via role's Pro" do
-      user = insert(:pro_user)
-      individual_tax_return = insert(:pro_individual_tax_return, user: user)
-      individual_itemized_deduction = insert(:individual_itemized_deduction, individual_tax_returns: individual_tax_return, price: 12)
-      context = %{context: %{current_user: user}}
-      params = %{price: 12}
-      args = %{id: individual_itemized_deduction.id, individual_itemized_deduction: params}
-      {:ok, updated} = IndividualItemizedDeductionsResolver.update(nil, args, context)
-
-      assert updated.id                       == individual_itemized_deduction.id
-      assert updated.individual_tax_return_id == individual_tax_return.id
-      assert updated.inserted_at              == individual_itemized_deduction.inserted_at
       assert updated.updated_at               == individual_itemized_deduction.updated_at
     end
 
@@ -312,7 +287,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualItemizedDeductionsResol
       individual_tax_return = insert(:individual_tax_return, user: user)
       insert(:individual_itemized_deduction, individual_tax_returns: individual_tax_return)
       context = %{context: %{current_user: user}}
-      args = %{id: nil, individual_itemized_deduction: nil}
+      params = %{individual_tax_return_id: nil, name: nil}
+      args = %{id: nil, individual_itemized_deduction: params}
       {:error, error} = IndividualItemizedDeductionsResolver.update(nil, args, context)
       assert error == [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]
     end
