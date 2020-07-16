@@ -752,7 +752,7 @@ defmodule Server.Factory do
   def business_total_revenue_factory do
     %BusinessTotalRevenue{
       business_tax_returns: build(:business_tax_return),
-      name: Lorem.word(),
+      name: "$100K - $500K",
       price: random_integer()
     }
   end
@@ -761,7 +761,7 @@ defmodule Server.Factory do
   def tp_business_total_revenue_factory do
     %BusinessTotalRevenue{
       business_tax_returns: build(:tp_business_tax_return),
-      name: Lorem.word()
+      name: "$100K - $500K"
     }
   end
 
@@ -769,7 +769,7 @@ defmodule Server.Factory do
   def pro_business_total_revenue_factory do
     %BusinessTotalRevenue{
       business_tax_returns: build(:pro_business_tax_return),
-      name: Lorem.word(),
+      name: "$100K - $500K",
       price: random_integer()
     }
   end

@@ -17,6 +17,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolverTest
       assert List.first(data).id          == business_total_revenue.id
       assert List.first(data).inserted_at == business_total_revenue.inserted_at
       assert List.first(data).name        == business_total_revenue.name
+      assert List.first(data).price       == nil
       assert List.first(data).updated_at  == business_total_revenue.updated_at
 
       assert List.first(data).business_tax_return_id           == business_total_revenue.business_tax_return_id
@@ -26,6 +27,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolverTest
       assert List.last(data).id          == business_total_revenue.id
       assert List.last(data).inserted_at == business_total_revenue.inserted_at
       assert List.last(data).name        == business_total_revenue.name
+      assert List.last(data).price       == nil
       assert List.last(data).updated_at  == business_total_revenue.updated_at
 
       assert List.last(data).business_tax_return_id           == business_total_revenue.business_tax_return_id
@@ -76,6 +78,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolverTest
       assert found.id          == business_total_revenue.id
       assert found.inserted_at == business_total_revenue.inserted_at
       assert found.name        == business_total_revenue.name
+      assert found.price       == nil
       assert found.updated_at  == business_total_revenue.updated_at
 
       assert found.business_tax_return_id           == business_total_revenue.business_tax_returns.id
@@ -135,6 +138,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolverTest
       assert found.id          == business_total_revenue.id
       assert found.inserted_at == business_total_revenue.inserted_at
       assert found.name        == business_total_revenue.name
+      assert found.price       == nil
       assert found.updated_at  == business_total_revenue.updated_at
 
       assert found.business_tax_return_id           == business_total_revenue.business_tax_returns.id
@@ -190,12 +194,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolverTest
 
       args = %{
         business_tax_return_id: business_tax_return.id,
-        name: "some name"
+        name: "$100K - $500K"
       }
 
       {:ok, created} = BusinessTotalRevenuesResolver.create(nil, args, context)
 
-      assert created.name                   == "some name"
+      assert created.name                   == :"$100K - $500K"
+      assert created.price                  == nil
       assert created.business_tax_return_id == business_tax_return.id
     end
 
@@ -206,14 +211,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolverTest
 
       args = %{
         business_tax_return_id: business_tax_return.id,
-        name: "some name",
+        name: "$100K - $500K",
         price: 12
       }
 
       {:ok, created} = BusinessTotalRevenuesResolver.create(nil, args, context)
 
       assert created.business_tax_return_id == business_tax_return.id
-      assert created.name                   == "some name"
+      assert created.name                   == :"$100K - $500K"
       assert created.price                  == 12
     end
 
@@ -222,7 +227,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolverTest
       user = insert(:user)
       insert(:business_tax_return, user: user)
       context = %{context: %{current_user: user}}
-      args = %{business_tax_return_id: nil}
+      args = %{business_tax_return_id: nil, name: nil}
       {:error, error} = BusinessTotalRevenuesResolver.create(nil, args, context)
       assert error == []
     end
@@ -233,12 +238,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolverTest
       user = insert(:tp_user)
       insert(:tp_business_tax_return, user: user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      business_total_revenue = insert(:business_total_revenue, business_tax_returns: business_tax_return)
+      business_total_revenue = insert(:tp_business_total_revenue, business_tax_returns: business_tax_return)
       context = %{context: %{current_user: user}}
 
       params = %{
         business_tax_return_id: business_tax_return.id,
-        name: "updated some name"
+        name: "Less than $100K"
       }
 
       args = %{id: business_total_revenue.id, business_total_revenue: params}
@@ -247,7 +252,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolverTest
       assert updated.id                     == business_total_revenue.id
       assert updated.business_tax_return_id == business_tax_return.id
       assert updated.inserted_at            == business_total_revenue.inserted_at
-      assert updated.name                   == "updated some name"
+      assert updated.name                   == :"Less than $100K"
+      assert updated.price                  == nil
       assert updated.updated_at             == business_total_revenue.updated_at
     end
 
@@ -255,12 +261,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolverTest
       user = insert(:pro_user)
       insert(:pro_business_tax_return, user: user)
       business_tax_return = insert(:pro_business_tax_return, user: user)
-      business_total_revenue = insert(:business_total_revenue, business_tax_returns: business_tax_return)
+      business_total_revenue = insert(:pro_business_total_revenue, business_tax_returns: business_tax_return)
       context = %{context: %{current_user: user}}
 
       params = %{
         business_tax_return_id: business_tax_return.id,
-        name: "updated some name",
+        name: "Less than $100K",
         price: 13
       }
 
@@ -270,39 +276,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolverTest
       assert updated.id                     == business_total_revenue.id
       assert updated.business_tax_return_id == business_tax_return.id
       assert updated.inserted_at            == business_total_revenue.inserted_at
-      assert updated.name                   == "updated some name"
+      assert updated.name                   == :"Less than $100K"
       assert updated.price                  == 13
-      assert updated.updated_at             == business_total_revenue.updated_at
-    end
-
-    it "nothing change for missing params via role's Tp" do
-      user = insert(:tp_user)
-      business_tax_return = insert(:tp_business_tax_return, user: user)
-      business_total_revenue = insert(:business_total_revenue, business_tax_returns: business_tax_return, name: "some name")
-      context = %{context: %{current_user: user}}
-      params = %{name: "some name"}
-      args = %{id: business_total_revenue.id, business_total_revenue: params}
-      {:ok, updated} = BusinessTotalRevenuesResolver.update(nil, args, context)
-
-      assert updated.id                     == business_total_revenue.id
-      assert updated.business_tax_return_id == business_tax_return.id
-      assert updated.inserted_at            == business_total_revenue.inserted_at
-      assert updated.name                   == business_total_revenue.name
-      assert updated.updated_at             == business_total_revenue.updated_at
-    end
-
-    it "nothing change for missing params via role's Pro" do
-      user = insert(:pro_user)
-      business_tax_return = insert(:pro_business_tax_return, user: user)
-      business_total_revenue = insert(:business_total_revenue, business_tax_returns: business_tax_return, price: 12)
-      context = %{context: %{current_user: user}}
-      params = %{price: 12}
-      args = %{id: business_total_revenue.id, business_total_revenue: params}
-      {:ok, updated} = BusinessTotalRevenuesResolver.update(nil, args, context)
-
-      assert updated.id                     == business_total_revenue.id
-      assert updated.business_tax_return_id == business_tax_return.id
-      assert updated.inserted_at            == business_total_revenue.inserted_at
       assert updated.updated_at             == business_total_revenue.updated_at
     end
 
@@ -311,7 +286,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolverTest
       business_tax_return = insert(:business_tax_return, user: user)
       insert(:business_total_revenue, business_tax_returns: business_tax_return, price: 12)
       context = %{context: %{current_user: user}}
-      args = %{id: nil, business_total_revenue: nil}
+      params = %{business_tax_return_id: nil, name: nil}
+      args = %{id: nil, business_total_revenue: params}
       {:error, error} = BusinessTotalRevenuesResolver.update(nil, args, context)
       assert error == [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]
     end

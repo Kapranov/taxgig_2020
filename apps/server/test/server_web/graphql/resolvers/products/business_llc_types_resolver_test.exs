@@ -149,7 +149,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessLlcTypesResolverTest do
       user = insert(:user)
       insert(:business_tax_return, user: user)
       context = %{context: %{current_user: user}}
-      args = %{business_tax_return_id: nil}
+      args = %{business_tax_return_id: nil, name: nil}
       {:error, error} = BusinessLlcTypesResolver.create(nil, args, context)
       assert error == []
     end

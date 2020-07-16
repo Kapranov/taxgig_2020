@@ -215,7 +215,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessIndustriesResolverTest do
       user = insert(:user)
       insert(:business_tax_return, user: user)
       context = %{context: %{current_user: user}}
-      args = %{business_tax_return_id: nil}
+      args = %{business_tax_return_id: nil, name: nil}
       {:error, error} = BusinessIndustriesResolver.create(nil, args, context)
       assert error == []
     end
@@ -272,7 +272,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessIndustriesResolverTest do
       business_tax_return = insert(:business_tax_return, user: user)
       insert(:business_industry, business_tax_returns: business_tax_return, name: ["Wholesale Distribution"])
       context = %{context: %{current_user: user}}
-      args = %{id: nil, business_industry: nil}
+      params = %{business_tax_return_id: nil, name: nil}
+      args = %{id: nil, business_industry: params}
       {:error, error} = BusinessIndustriesResolver.update(nil, args, context)
       assert error == [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]
     end
