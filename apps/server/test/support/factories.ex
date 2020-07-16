@@ -654,7 +654,7 @@ defmodule Server.Factory do
   def business_foreign_account_count_factory do
     %BusinessForeignAccountCount{
       business_tax_returns: build(:business_tax_return),
-      name: Lorem.word()
+      name: "1"
     }
   end
 
@@ -662,15 +662,7 @@ defmodule Server.Factory do
   def tp_business_foreign_account_count_factory do
     %BusinessForeignAccountCount{
       business_tax_returns: build(:tp_business_tax_return),
-      name: Lorem.word()
-    }
-  end
-
-  @spec pro_business_foreign_account_count_factory() :: BusinessForeignAccountCount.t()
-  def pro_business_foreign_account_count_factory do
-    %BusinessForeignAccountCount{
-      business_tax_returns: build(:pro_business_tax_return),
-      name: Lorem.word()
+      name: "1"
     }
   end
 
