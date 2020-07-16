@@ -185,12 +185,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessIndustriesResolverTest do
 
       args = %{
         business_tax_return_id: business_tax_return.id,
-        name: ["some name"]
+        name: ["Agriculture/Farming"]
       }
 
       {:ok, created} = BusinessIndustriesResolver.create(nil, args, context)
 
-      assert created.name                   == ["some name"]
+      assert created.name                   == [:"Agriculture/Farming"]
       assert created.business_tax_return_id == business_tax_return.id
     end
 
@@ -201,12 +201,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessIndustriesResolverTest do
 
       args = %{
         business_tax_return_id: business_tax_return.id,
-        name: ["some name"]
+        name: [:"Agriculture/Farming", :"Automotive Sales/Repair"]
       }
 
       {:ok, created} = BusinessIndustriesResolver.create(nil, args, context)
 
-      assert created.name                   == ["some name"]
+      assert created.name                   == [:"Agriculture/Farming", :"Automotive Sales/Repair"]
       assert created.business_tax_return_id == business_tax_return.id
     end
 
@@ -231,7 +231,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessIndustriesResolverTest do
 
       params = %{
         business_tax_return_id: business_tax_return.id,
-        name: ["updated some name"]
+        name: ["Wholesale Distribution"]
       }
 
       args = %{id: business_industry.id, business_industry: params}
@@ -240,7 +240,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessIndustriesResolverTest do
       assert updated.id                     == business_industry.id
       assert updated.business_tax_return_id == business_tax_return.id
       assert updated.inserted_at            == business_industry.inserted_at
-      assert updated.name                   == ["updated some name"]
+      assert updated.name                   == [:"Wholesale Distribution"]
       assert updated.updated_at             == business_industry.updated_at
     end
 
@@ -254,7 +254,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessIndustriesResolverTest do
 
       params = %{
         business_tax_return_id: business_tax_return.id,
-        name: ["updated some name"]
+        name: [:"Transportation", :"Wholesale Distribution"]
       }
 
       args = %{id: business_industry.id, business_industry: params}
@@ -263,45 +263,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessIndustriesResolverTest do
       assert updated.id                     == business_industry.id
       assert updated.business_tax_return_id == business_tax_return.id
       assert updated.inserted_at            == business_industry.inserted_at
-      assert updated.name                   == ["updated some name"]
-      assert updated.updated_at             == business_industry.updated_at
-    end
-
-    it "nothing change for missing params via role's Tp" do
-      user = insert(:tp_user)
-      business_tax_return = insert(:tp_business_tax_return, user: user)
-      business_industry = insert(:tp_business_industry, business_tax_returns: business_tax_return, name: ["some name"])
-      context = %{context: %{current_user: user}}
-      params = %{name: ["some name"]}
-      args = %{id: business_industry.id, business_industry: params}
-      {:ok, updated} = BusinessIndustriesResolver.update(nil, args, context)
-
-      assert updated.id                     == business_industry.id
-      assert updated.business_tax_return_id == business_tax_return.id
-      assert updated.inserted_at            == business_industry.inserted_at
-      assert updated.name                   == business_industry.name
-      assert updated.updated_at             == business_industry.updated_at
-    end
-
-    it "nothing change for missing params via role's Pro" do
-      user = insert(:pro_user)
-      business_tax_return = insert(:pro_business_tax_return, user: user)
-      business_industry = insert(:pro_business_industry, business_tax_returns: business_tax_return, name: ["some name"])
-      context = %{context: %{current_user: user}}
-      params = %{name: ["some name"]}
-      args = %{id: business_industry.id, business_industry: params}
-      {:ok, updated} = BusinessIndustriesResolver.update(nil, args, context)
-
-      assert updated.id                     == business_industry.id
-      assert updated.business_tax_return_id == business_tax_return.id
-      assert updated.inserted_at            == business_industry.inserted_at
+      assert updated.name                   == [:"Transportation", :"Wholesale Distribution"]
       assert updated.updated_at             == business_industry.updated_at
     end
 
     it "returns error for missing params" do
       user = insert(:user)
       business_tax_return = insert(:business_tax_return, user: user)
-      insert(:business_industry, business_tax_returns: business_tax_return, name: ["some name"])
+      insert(:business_industry, business_tax_returns: business_tax_return, name: ["Wholesale Distribution"])
       context = %{context: %{current_user: user}}
       args = %{id: nil, business_industry: nil}
       {:error, error} = BusinessIndustriesResolver.update(nil, args, context)
@@ -313,7 +282,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessIndustriesResolverTest do
     it "delete specific BusinessIndustry by id" do
       user = insert(:user)
       business_tax_return = insert(:business_tax_return, user: user)
-      struct = insert(:business_industry, business_tax_returns: business_tax_return, name: ["some name"])
+      struct = insert(:business_industry, business_tax_returns: business_tax_return, name: ["Wholesale Distribution"])
       context = %{context: %{current_user: user}}
       {:ok, delete} = BusinessIndustriesResolver.delete(nil, %{id: struct.id}, context)
       assert delete.id == struct.id
@@ -323,7 +292,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessIndustriesResolverTest do
       id = FlakeId.get()
       user = insert(:user)
       business_tax_return = insert(:business_tax_return, user: user)
-      insert(:business_industry, business_tax_returns: business_tax_return, name: ["some name"])
+      insert(:business_industry, business_tax_returns: business_tax_return, name: ["Wholesale Distribution"])
       context = %{context: %{current_user: user}}
       {:error, error} = BusinessIndustriesResolver.delete(nil, %{id: id}, context)
       assert error == "The BusinessIndustry #{id} not found!"
@@ -332,7 +301,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessIndustriesResolverTest do
     it "returns error for missing params" do
       user = insert(:user)
       business_tax_return = insert(:business_tax_return, user: user)
-      insert(:business_industry, business_tax_returns: business_tax_return, name: ["some name"])
+      insert(:business_industry, business_tax_returns: business_tax_return, name: ["Wholesale Distribution"])
       context = %{context: %{current_user: user}}
       args = %{id: nil}
       {:error, error} = BusinessIndustriesResolver.delete(nil, args, context)
