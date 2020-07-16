@@ -46,6 +46,10 @@ defmodule Server.Factory do
     Services.SaleTax,
     Services.SaleTaxFrequency,
     Services.SaleTaxIndustry,
+    Skills.AccountingSoftware,
+    Skills.Education,
+    Skills.University,
+    Skills.WorkExperience,
     Talk.Message,
     Talk.Room,
     Upload
@@ -53,40 +57,58 @@ defmodule Server.Factory do
 
   alias Faker.{
     Address,
+    App,
     Avatar,
     Company.En,
+    Gov.Us,
     Internet,
     Lorem,
     Name,
-    Phone.EnUs,
+    Phone,
     UUID
   }
 
   alias Ptin.Services.Ptin
 
+  @root_dir Path.expand("../core/priv/data/", __DIR__)
   @image1_path Path.absname("../core/test/fixtures/image.jpg")
   @image2_path Path.absname("../core/test/fixtures/image_tmp.jpg")
+  @universities "#{@root_dir}/university.json"
+  @languages "#{@root_dir}/languages.json"
+  @usa_states "#{@root_dir}/us_states.json"
+  @usa_zipcodes_part1 "#{@root_dir}/us_zip_part1.json"
+  @usa_zipcodes_part2 "#{@root_dir}/us_zip_part2.json"
+  @usa_zipcodes_part3 "#{@root_dir}/us_zip_part3.json"
 
   @spec faq_category_factory() :: FaqCategory.t()
   def faq_category_factory do
-    %FaqCategory{
-      title: Lorem.word()
-    }
+    %FaqCategory{title: Lorem.word()}
   end
 
   @spec faq_factory() :: Faq.t()
   def faq_factory do
     %Faq{
       content: Lorem.sentence(),
-      title: Lorem.word(),
-      faq_categories: build(:faq_category)
+      faq_categories: build(:faq_category),
+      title: Lorem.word()
     }
+  end
+
+  @spec language_factory() :: Language.t()
+  def language_factory do
+    case random_language() do
+      {abbr, name} ->
+        %Language{
+          abbr: abbr,
+          name: name
+        }
+    end
   end
 
   @spec press_article_factory() :: PressArticle.t()
   def press_article_factory do
     %PressArticle{
-      author: Name.name(),
+      author: App.author(),
       img_url: Avatar.image_url(),
       preview_text: Lorem.sentence(),
       title: Lorem.word(),
@@ -103,44 +125,59 @@ defmodule Server.Factory do
     }
   end
 
-  @spec language_factory() :: Language.t()
-  def language_factory do
-    %Language{
-      abbr: "chi",
-      name: "chinese"
-    }
-  end
-
   @spec subscriber_factory() :: Subscriber.t()
   def subscriber_factory do
     %Subscriber{
-      email: "lugatex@yahoo.com",
-      pro_role: false
+      email: random_email(),
+      pro_role: random_boolean()
     }
+  end
+
+  @spec state_factory() :: State.t()
+  def state_factory do
+    case random_state() do
+      {abbr, name} ->
+        %State{
+          abbr: abbr,
+          name: name
+        }
+    end
+  end
+
+  @spec us_zipcode_factory() :: UsZipcode.t()
+  def us_zipcode_factory do
+    case random_zipcode() do
+      {city, state, zipcode} ->
+        %UsZipcode{
+          city: city,
+          state: state,
+          zipcode: zipcode
+        }
+    end
   end
 
   @spec user_factory() :: User.t()
   def user_factory do
     %User{
-      active: false,
-      avatar: "some text",
-      bio: "some text",
+      active: random_boolean(),
+      avatar: Avatar.image_url(),
+      bio: Lorem.sentence(),
       birthday: Date.add(Timex.now, 0),
-      email: "lugatex@yahoo.com",
-      first_name: "some text",
-      init_setup: false,
-      languages: [build(:language, name: "chinese")],
-      last_name: "some text",
-      middle_name: "some text",
+      email: random_email(),
+      first_name: Name.first_name(),
+      init_setup: random_boolean(),
+      languages: [build(:language)],
+      last_name: Name.last_name(),
+      middle_name: Name.suffix(),
       password: "qwerty",
       password_confirmation: "qwerty",
-      phone: "some text",
-      provider: "google",
+      phone: Phone.Hy.cell_number(),
+      provider: random_provider(),
       role: false,
-      sex: "some text",
-      ssn: 123456789,
-      street: "some text",
-      zip: 123456789
+      sex: random_gender(),
+      ssn: random_ssn(),
+      street: Address.En.street_address(),
+      zip: Address.zip_code()
     }
   end
 
@@ -154,18 +191,18 @@ defmodule Server.Factory do
       email: "v.kobzan@gmail.com",
       first_name: Name.first_name(),
       init_setup: random_boolean(),
-      languages: [build(:language, name: "greek, italian, polish")],
+      languages: [build(:language)],
       last_name: Name.last_name(),
-      middle_name: Name.name(),
+      middle_name: Name.suffix(),
       password: "qwerty",
       password_confirmation: "qwerty",
-      phone: EnUs.phone(),
+      phone: Phone.Hy.cell_number(),
       provider: "localhost",
       role: false,
       sex: random_gender(),
-      ssn: random_integer(),
+      ssn: random_ssn(),
       street: Address.En.street_address(),
-      zip: random_integer()
+      zip: Address.zip_code()
     }
   end
 
@@ -179,18 +216,18 @@ defmodule Server.Factory do
       email: "support@taxgig.com",
       first_name: Name.first_name(),
       init_setup: random_boolean(),
-      languages: [build(:language, name: "spanish, japanese, german, french")],
+      languages: [build(:language)],
       last_name: Name.last_name(),
-      middle_name: Name.name(),
+      middle_name: Name.suffix(),
       password: "qwerty",
       password_confirmation: "qwerty",
-      phone: "555-555-5555",
+      phone: Phone.Hy.cell_number(),
       provider: "localhost",
       role: true,
       sex: random_gender(),
-      ssn: random_integer(),
+      ssn: random_ssn(),
       street: Address.En.street_address(),
-      zip: random_integer()
+      zip: Address.zip_code()
     }
   end
 
@@ -205,21 +242,12 @@ defmodule Server.Factory do
     }
   end
 
-  @spec zipcode_factory() :: UsZipcode.t()
-  def zipcode_factory do
-    %UsZipcode{
-      city: "AGUADA",
-      state: "PR",
-      zipcode: 602
-    }
-  end
-
   @spec profile_factory() :: Profile.t()
   def profile_factory do
     %Profile{
-      address: "some text",
-      banner: "some text",
-      description: "some text",
+      address: Address.street_address(),
+      banner: Avatar.image_url(),
+      description: Lorem.sentence(),
       logo: build(:file, name: "Logo"),
       us_zipcode: build(:zipcode),
       user: build(:user)
@@ -334,7 +362,6 @@ defmodule Server.Factory do
     }
   end
 
-
   @spec tp_book_keeping_factory() :: BookKeeping.t()
   def tp_book_keeping_factory do
     %BookKeeping{
@@ -390,7 +417,7 @@ defmodule Server.Factory do
   def book_keeping_annual_revenue_factory do
     %BookKeepingAnnualRevenue{
       book_keepings: build(:book_keeping),
-      name: random_name_annual_revenue(),
+      name: random_name_revenue(),
       price: random_integer()
     }
   end
@@ -399,7 +426,7 @@ defmodule Server.Factory do
   def tp_book_keeping_annual_revenue_factory do
     %BookKeepingAnnualRevenue{
       book_keepings: build(:tp_book_keeping),
-      name: random_name_annual_revenue()
+      name: random_name_revenue()
     }
   end
 
@@ -407,7 +434,7 @@ defmodule Server.Factory do
   def pro_book_keeping_annual_revenue_factory do
     %BookKeepingAnnualRevenue{
       book_keepings: build(:pro_book_keeping),
-      name: random_name_annual_revenue(),
+      name: random_name_revenue(),
       price: random_integer()
     }
   end
@@ -456,7 +483,7 @@ defmodule Server.Factory do
   def book_keeping_number_employee_factory do
     %BookKeepingNumberEmployee{
       book_keepings: build(:book_keeping),
-      name: random_name_number_employee(),
+      name: random_name_employee(),
       price: random_integer()
     }
   end
@@ -465,7 +492,7 @@ defmodule Server.Factory do
   def tp_book_keeping_number_employee_factory do
     %BookKeepingNumberEmployee{
       book_keepings: build(:tp_book_keeping),
-      name: random_name_number_employee()
+      name: random_name_employee()
     }
   end
 
@@ -473,7 +500,7 @@ defmodule Server.Factory do
   def pro_book_keeping_number_employee_factory do
     %BookKeepingNumberEmployee{
       book_keepings: build(:pro_book_keeping),
-      name: random_name_number_employee(),
+      name: random_name_employee(),
       price: random_integer()
     }
   end
@@ -605,7 +632,7 @@ defmodule Server.Factory do
       rental_property_count: random_integer(),
       reported_grant: random_boolean(),
       restricted_donation: random_boolean(),
-      state: [random_state()],
+      state: random_states(),
       tax_exemption: random_boolean(),
       tax_year: random_year(),
       total_asset_less: random_boolean(),
@@ -628,7 +655,7 @@ defmodule Server.Factory do
   def business_entity_type_factory do
     %BusinessEntityType{
       business_tax_returns: build(:business_tax_return),
-      name: "C-Corp / Corporation",
+      name: random_name_entity_type(),
       price: random_integer()
     }
   end
@@ -637,7 +664,7 @@ defmodule Server.Factory do
   def tp_business_entity_type_factory do
     %BusinessEntityType{
       business_tax_returns: build(:tp_business_tax_return),
-      name: "C-Corp / Corporation"
+      name: random_name_entity_type()
     }
   end
 
@@ -645,7 +672,7 @@ defmodule Server.Factory do
   def pro_business_entity_type_factory do
     %BusinessEntityType{
       business_tax_returns: build(:pro_business_tax_return),
-      name: "C-Corp / Corporation",
+      name: random_name_entity_type(),
       price: random_integer()
     }
   end
@@ -654,7 +681,7 @@ defmodule Server.Factory do
   def business_foreign_account_count_factory do
     %BusinessForeignAccountCount{
       business_tax_returns: build(:business_tax_return),
-      name: "1"
+      name: random_name_count()
     }
   end
 
@@ -662,7 +689,7 @@ defmodule Server.Factory do
   def tp_business_foreign_account_count_factory do
     %BusinessForeignAccountCount{
       business_tax_returns: build(:tp_business_tax_return),
-      name: "1"
+      name: random_name_count()
     }
   end
 
@@ -670,7 +697,7 @@ defmodule Server.Factory do
   def business_foreign_ownership_count_factory do
     %BusinessForeignOwnershipCount{
       business_tax_returns: build(:business_tax_return),
-      name: "1"
+      name: random_name_count()
     }
   end
 
@@ -678,7 +705,7 @@ defmodule Server.Factory do
   def tp_business_foreign_ownership_count_factory do
     %BusinessForeignOwnershipCount{
       business_tax_returns: build(:tp_business_tax_return),
-      name: "1"
+      name: random_name_count()
     }
   end
 
@@ -710,7 +737,7 @@ defmodule Server.Factory do
   def business_llc_type_factory do
     %BusinessLlcType{
       business_tax_returns: build(:business_tax_return),
-      name: "C-Corp / Corporation"
+      name: random_name_llc_type()
     }
   end
 
@@ -718,7 +745,7 @@ defmodule Server.Factory do
   def tp_business_llc_type_factory do
     %BusinessLlcType{
       business_tax_returns: build(:tp_business_tax_return),
-      name: "C-Corp / Corporation"
+      name: random_name_llc_type()
     }
   end
 
@@ -726,7 +753,7 @@ defmodule Server.Factory do
   def business_number_employee_factory do
     %BusinessNumberEmployee{
       business_tax_returns: build(:business_tax_return),
-      name: "1 employee",
+      name: random_name_employee(),
       price: random_integer()
     }
   end
@@ -735,7 +762,7 @@ defmodule Server.Factory do
   def tp_business_number_employee_factory do
     %BusinessNumberEmployee{
       business_tax_returns: build(:tp_business_tax_return),
-      name: "1 employee"
+      name: random_name_employee()
     }
   end
 
@@ -743,7 +770,7 @@ defmodule Server.Factory do
   def pro_business_number_employee_factory do
     %BusinessNumberEmployee{
       business_tax_returns: build(:pro_business_tax_return),
-      name: "1 employee",
+      name: random_name_employee(),
       price: random_integer()
     }
   end
@@ -752,7 +779,7 @@ defmodule Server.Factory do
   def business_total_revenue_factory do
     %BusinessTotalRevenue{
       business_tax_returns: build(:business_tax_return),
-      name: "$100K - $500K",
+      name: random_name_revenue(),
       price: random_integer()
     }
   end
@@ -761,7 +788,7 @@ defmodule Server.Factory do
   def tp_business_total_revenue_factory do
     %BusinessTotalRevenue{
       business_tax_returns: build(:tp_business_tax_return),
-      name: "$100K - $500K"
+      name: random_name_revenue()
     }
   end
 
@@ -769,7 +796,7 @@ defmodule Server.Factory do
   def pro_business_total_revenue_factory do
     %BusinessTotalRevenue{
       business_tax_returns: build(:pro_business_tax_return),
-      name: "$100K - $500K",
+      name: random_name_revenue(),
       price: random_integer()
     }
   end
@@ -778,7 +805,7 @@ defmodule Server.Factory do
   def business_transaction_count_factory do
     %BusinessTransactionCount{
       business_tax_returns: build(:business_tax_return),
-      name: "1-10"
+      name: random_name_transaction_count()
     }
   end
 
@@ -786,7 +813,7 @@ defmodule Server.Factory do
   def tp_business_transaction_count_factory do
     %BusinessTransactionCount{
       business_tax_returns: build(:tp_business_tax_return),
-      name: "1-10"
+      name: random_name_transaction_count()
     }
   end
 
@@ -798,26 +825,26 @@ defmodule Server.Factory do
       foreign_account_limit: random_boolean(),
       foreign_financial_interest: random_boolean(),
       home_owner: random_boolean(),
-      k1_count: random_integer(9),
+      k1_count: random_integer(),
       k1_income: random_boolean(),
       living_abroad: random_boolean(),
       non_resident_earning: random_boolean(),
       none_expat: random_boolean(),
       own_stock_crypto: random_boolean(),
-      price_foreign_account: random_integer(9),
-      price_home_owner: random_integer(9),
-      price_living_abroad: random_integer(9),
-      price_non_resident_earning: random_integer(9),
-      price_own_stock_crypto: random_integer(9),
-      price_rental_property_income: random_integer(9),
-      price_sole_proprietorship_count: random_integer(9),
-      price_state: random_integer(9),
-      price_stock_divident: random_integer(9),
-      price_tax_year: random_integer(9),
-      rental_property_count: random_integer(9),
+      price_foreign_account: random_integer(),
+      price_home_owner: random_integer(),
+      price_living_abroad: random_integer(),
+      price_non_resident_earning: random_integer(),
+      price_own_stock_crypto: random_integer(),
+      price_rental_property_income: random_integer(),
+      price_sole_proprietorship_count: random_integer(),
+      price_state: random_integer(),
+      price_stock_divident: random_integer(),
+      price_tax_year: random_integer(),
+      rental_property_count: random_integer(),
       rental_property_income: random_boolean(),
-      sole_proprietorship_count: random_integer(9),
-      state: [random_state()],
+      sole_proprietorship_count: random_integer(),
+      state: random_states(),
       stock_divident: random_boolean(),
       tax_year: random_year(),
       user: build(:user)
@@ -841,7 +868,7 @@ defmodule Server.Factory do
       rental_property_count: random_integer(),
       rental_property_income: random_boolean(),
       sole_proprietorship_count: random_integer(),
-      state: [random_state()],
+      state: random_states(),
       stock_divident: random_boolean(),
       tax_year: random_year(),
       user: build(:tp_user)
@@ -929,7 +956,7 @@ defmodule Server.Factory do
   def individual_foreign_account_count_factory do
     %IndividualForeignAccountCount{
       individual_tax_returns: build(:individual_tax_return),
-      name: random_name_foreign_account_count()
+      name: random_name_count()
     }
   end
 
@@ -937,15 +964,7 @@ defmodule Server.Factory do
   def tp_individual_foreign_account_count_factory do
     %IndividualForeignAccountCount{
       individual_tax_returns: build(:tp_individual_tax_return),
-      name: random_name_foreign_account_count()
-    }
-  end
-
-  @spec pro_individual_foreign_account_count_factory() :: IndividualForeignAccountCoun.t()
-  def pro_individual_foreign_account_count_factory do
-    %IndividualForeignAccountCount{
-      individual_tax_returns: build(:pro_individual_tax_return),
-      name: random_name_foreign_account_count()
+      name: random_name_count()
     }
   end
 
@@ -1003,7 +1022,7 @@ defmodule Server.Factory do
   def individual_stock_transaction_count_factory do
     %IndividualStockTransactionCount{
       individual_tax_returns: build(:individual_tax_return),
-      name: "1-5"
+      name: random_name_stock_transaction_count()
     }
   end
 
@@ -1011,7 +1030,7 @@ defmodule Server.Factory do
   def tp_individual_stock_transaction_count_factory do
     %IndividualStockTransactionCount{
       individual_tax_returns: build(:tp_individual_tax_return),
-      name: "1-5"
+      name: random_name_stock_transaction_count()
     }
   end
 
@@ -1022,7 +1041,7 @@ defmodule Server.Factory do
       financial_situation: Lorem.sentence(),
       price_sale_tax_count: random_integer(),
       sale_tax_count: random_integer(),
-      state: ["Alabama", "New York"],
+      state: random_states(),
       user: build(:user)
     }
   end
@@ -1033,7 +1052,7 @@ defmodule Server.Factory do
       deadline: Date.utc_today(),
       financial_situation: Lorem.sentence(),
       sale_tax_count: random_integer(),
-      state: ["Alabama", "New York"],
+      state: random_states(),
       user: build(:tp_user)
     }
   end
@@ -1075,7 +1094,7 @@ defmodule Server.Factory do
   @spec sale_tax_industry_factory() :: SaleTaxIndustry.t()
   def sale_tax_industry_factory do
     %SaleTaxIndustry{
-      name: random_name_industry(),
+      name: random_name_tax_industry(),
       sale_taxes: build(:sale_tax)
     }
   end
@@ -1083,7 +1102,7 @@ defmodule Server.Factory do
   @spec tp_sale_tax_industry_factory() :: SaleTaxIndustry.t()
   def tp_sale_tax_industry_factory do
     %SaleTaxIndustry{
-      name: random_name_for_tp_industry(),
+      name: random_name_for_tp_tax_industry(),
       sale_taxes: build(:tp_sale_tax)
     }
   end
@@ -1091,25 +1110,17 @@ defmodule Server.Factory do
   @spec pro_sale_tax_industry_factory() :: SaleTaxIndustry.t()
   def pro_sale_tax_industry_factory do
     %SaleTaxIndustry{
-      name: random_name_for_pro_industry(),
+      name: random_name_for_pro_tax_industry(),
       sale_taxes: build(:pro_sale_tax)
-    }
-  end
-
-  @spec state_factory() :: State.t()
-  def state_factory do
-    %State{
-      abbr: Lorem.word(),
-      name: Lorem.word()
     }
   end
 
   @spec room_factory() :: Room.t()
   def room_factory do
     %Room{
-      name: "Pandemic with Steve Bannon",
-      description: "Citizens of the American Republic",
-      topic: "war_room",
+      name: Lorem.word(),
+      description: Lorem.sentence(),
+      topic: Lorem.word(),
       user: build(:user)
     }
   end
@@ -1117,41 +1128,85 @@ defmodule Server.Factory do
   @spec message_factory() :: Message.t()
   def message_factory do
     %Message{
-      body: "America isn't burning -- Democrat America is burning.",
+      body: Lorem.sentence(),
       room: build(:room),
       user: build(:user)
     }
     %Message{
-      body: "Brilliant episode understanding why we are where we are with China",
+      body: Lorem.sentence(),
       room: build(:room),
       user: build(:user)
     }
     %Message{
-      body: "love you Steve, enlightening!",
+      body: Lorem.sentence(),
       room: build(:room),
       user: build(:user)
     }
   end
 
-  @spec random_boolean() :: boolean
+  @spec accounting_software_factory() :: AccountingSoftware.t()
+  def accounting_software_factory do
+    %AccountingSoftware{
+      name: random_name_accounting_software(),
+      user: build(:pro_user)
+    }
+  end
+
+  @spec education_factory() :: Education.t()
+  def education_factory do
+    %Education{
+      course: Lorem.word(),
+      graduation: Date.utc_today |> Date.add(-6),
+      university: build(:university),
+      user: build(:pro_user)
+    }
+  end
+
+  @spec university_factory() :: University.t()
+  def university_factory do
+    %University{name: random_name_university()}
+  end
+
+  @spec work_experience_factory() :: WorkExperience.t()
+  def work_experience_factory do
+    %WorkExperience{
+      name: Lorem.word(),
+      start_date: Date.utc_today |> Date.add(-16),
+      end_date: Date.utc_today |> Date.add(-12),
+      user: build(:pro_user)
+    }
+  end
+
+  @spec random_language() :: {String.t()}
+  defp random_language do
+    names =
+      @languages
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"abbr" => abbr, "name" => name} -> %{abbr: abbr, name: name} end)
+
+    numbers = 1..18
+    number = Enum.random(numbers)
+
+    data =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    %{abbr: abbr, name: name} = Enum.random(data)
+    {abbr, name}
+  end
+
+  @spec random_boolean() :: boolean()
   defp random_boolean do
-    value = ~W(true false)a
-    Enum.random(value)
-  end
-
-  @spec random_integer() :: integer
-  defp random_integer() do
-    Enum.random(111111111..123456789)
-  end
-
-  @spec random_integer(integer) :: integer
-  defp random_integer(n) when is_integer(n) do
-    Enum.random(1..n)
+    data = ~W(true false)a
+    Enum.random(data)
   end
 
   @spec random_gender() :: String.t()
   defp random_gender do
-    gender = [
+    data = [
       "Decline to Answer",
       "Female/Woman",
       "Genderqueer/Gender nonconforming",
@@ -1161,20 +1216,111 @@ defmodule Server.Factory do
       "TransMale/TransMan"
     ]
 
-    gender
-    |> Enum.random
+    Enum.random(data)
   end
 
-  @spec random_state :: String.t()
-  defp random_state do
-    states =
-      ~w(Hawaii Georgia Iowa)s
-      |> Enum.random()
+  @spec random_email() :: String.t()
+  defp random_email do
+    data = [
+      "lugatex@yahoo.com",
+      "kapranov.lugatex@gmail.com"
+    ]
 
-    states
+    Enum.random(data)
   end
 
-  @spec random_year :: list()
+  @spec random_zipcode() :: {String.t(), String.t(), integer()}
+  defp random_zipcode do
+    decoded_zipcode1 =
+      @usa_zipcodes_part1
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"Zipcode" => zipcode, "City" => city, "State" => state} ->
+        %{zipcode: zipcode, city: city, state: state}
+      end)
+
+    decoded_zipcode2 =
+      @usa_zipcodes_part2
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"Zipcode" => zipcode, "City" => city, "State" => state} ->
+        %{zipcode: zipcode, city: city, state: state}
+      end)
+
+    decoded_zipcode3 =
+      @usa_zipcodes_part3
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"Zipcode" => zipcode, "City" => city, "State" => state} ->
+        %{zipcode: zipcode, city: city, state: state}
+      end)
+
+    data = [decoded_zipcode1 | [decoded_zipcode2 | decoded_zipcode3]]
+    %{city: city, state: state, zipcode: zipcode} = Enum.random(data)
+    {city, state, zipcode}
+  end
+
+  @spec random_provider() :: String.t()
+  defp random_provider do
+    data = ~w(google localhost facebook linkedin twitter)s
+    Enum.random(data)
+  end
+
+  @spec random_ssn() :: integer()
+  defp random_ssn do
+    Us.ssn()
+    |> String.replace(~r/-/, "")
+    |> String.trim()
+    |> String.to_integer
+  end
+
+  @spec random_integer() :: integer()
+  defp random_integer(n \\ 99) when is_integer(n) do
+    Enum.random(1..n)
+  end
+
+  @spec random_state :: {String.t(), String.t()}
+  def random_state do
+    names =
+      @usa_states
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"name" => name, "abbr" => abbr} -> %{name: name, abbr: abbr} end)
+
+    numbers = 1..59
+    number = Enum.random(numbers)
+
+    data =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    %{abbr: abbr, name: name} = Enum.random(data)
+    {abbr, name}
+  end
+
+  @spec random_states :: [String.t()]
+  defp random_states do
+    names =
+      @usa_states
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"name" => name, "abbr" => _} -> name end)
+
+    numbers = 1..59
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_year :: [String.t()]
   defp random_year do
     years = 2000..2020
     numbers = 1..9
@@ -1185,8 +1331,9 @@ defmodule Server.Factory do
         Enum.random(years)
         |> Integer.to_string
       end
+      |> Enum.uniq()
 
-    Enum.uniq(result)
+    result
   end
 
   @spec random_name_additional_need :: String.t()
@@ -1202,8 +1349,8 @@ defmodule Server.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_annual_revenue :: String.t
-  defp random_name_annual_revenue do
+  @spec random_name_revenue :: String.t()
+  defp random_name_revenue do
     names = [
       "$100K - $500K",
       "$10M+",
@@ -1216,17 +1363,33 @@ defmodule Server.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_classify_inventory :: String.t
-  defp random_name_classify_inventory do
-    names = [
-      "Assets",
-      "Expenses"
-    ]
-
+  @spec random_name_transaction_count() :: String.t()
+  defp random_name_transaction_count do
+    names = ["1-10", "11-25", "26-75", "75+"]
     Enum.random(names)
   end
 
-  @spec random_name_industry :: String.t
+  @spec random_name_stock_transaction_count() :: String.t()
+  defp random_name_stock_transaction_count do
+    names = ["1-5", "6-50", "51-100", "100+"]
+    Enum.random(names)
+  end
+
+  @spec random_name_classify_inventory :: String.t()
+  defp random_name_classify_inventory do
+    names = ["Assets", "Expenses"]
+    numbers = 1..1
+    number = Enum.random(numbers)
+    [result] =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_name_industry :: [String.t()]
   defp random_name_industry do
     names = [
       "Agriculture/Farming",
@@ -1262,11 +1425,12 @@ defmodule Server.Factory do
       for i <- 1..number, i > 0 do
         Enum.random(names)
       end
+      |> Enum.uniq()
 
-    Enum.uniq(result)
+    result
   end
 
-  @spec random_name_for_tp_industry :: String.t
+  @spec random_name_for_tp_industry :: [String.t]
   defp random_name_for_tp_industry do
     names = [
       "Agriculture/Farming",
@@ -1295,10 +1459,19 @@ defmodule Server.Factory do
       "Wholesale Distribution"
     ]
 
-    [Enum.random(names)]
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
   end
 
-  @spec random_name_for_pro_industry :: String.t
+  @spec random_name_for_pro_industry :: [String.t()]
   defp random_name_for_pro_industry do
     names = [
       "Agriculture/Farming",
@@ -1334,12 +1507,13 @@ defmodule Server.Factory do
       for i <- 1..number, i > 0 do
         Enum.random(names)
       end
+      |> Enum.uniq()
 
-    Enum.uniq(result)
+    result
   end
 
-  @spec random_name_number_employee :: String.t
-  defp random_name_number_employee do
+  @spec random_name_employee :: String.t()
+  defp random_name_employee do
     names = [
       "1 employee",
       "101 - 500 employees",
@@ -1352,19 +1526,13 @@ defmodule Server.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_transaction_volume :: String.t
+  @spec random_name_transaction_volume :: String.t()
   defp random_name_transaction_volume do
-    names = [
-      "1-25",
-      "200+",
-      "26-75",
-      "76-199"
-    ]
-
+    names = ["1-25", "200+", "26-75", "76-199"]
     Enum.random(names)
   end
 
-  @spec random_name_type_client :: String.t
+  @spec random_name_type_client() :: String.t()
   defp random_name_type_client do
     names = [
       "C-Corp / Corporation",
@@ -1378,14 +1546,36 @@ defmodule Server.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_employment_status :: String.t()
-  defp random_name_employment_status do
+  @spec random_name_entity_type() :: String.t()
+  defp random_name_entity_type do
     names = [
-      "employed",
-      "self-employed",
-      "unemployed"
+      "C-Corp / Corporation",
+      "LLC",
+      "Non-profit corp",
+      "Partnership",
+      "S-Corp",
+      "Sole proprietorship"
     ]
 
+    Enum.random(names)
+  end
+
+  @spec random_name_llc_type() :: String.t()
+  defp random_name_llc_type do
+    names = [
+      "C-Corp / Corporation",
+      "LLC",
+      "Non-profit corp",
+      "Partnership",
+      "S-Corp"
+    ]
+
+    Enum.random(names)
+  end
+
+  @spec random_name_employment_status :: String.t()
+  defp random_name_employment_status do
+    names = ["employed", "self-employed", "unemployed"]
     Enum.random(names)
   end
 
@@ -1402,14 +1592,9 @@ defmodule Server.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_foreign_account_count :: String.t()
-  defp random_name_foreign_account_count do
-    names = [
-      "1",
-      "2-5",
-      "5+"
-    ]
-
+  @spec random_name_count :: String.t()
+  defp random_name_count do
+    names = ["1", "2-5", "5+"]
     Enum.random(names)
   end
 
@@ -1424,9 +1609,182 @@ defmodule Server.Factory do
     Enum.random(names)
   end
 
-  @spec random_name_tax_frequency :: String.t
+  @spec random_name_tax_frequency :: String.t()
   defp random_name_tax_frequency do
     names = ["Annually", "Monthly", "Quarterly"]
     Enum.random(names)
+  end
+
+  @spec random_name_tax_industry :: [String.t()]
+  defp random_name_tax_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    numbers = 1..24
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_name_for_tp_tax_industry :: [String.t()]
+  defp random_name_for_tp_tax_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_name_for_pro_tax_industry :: [String.t()]
+  defp random_name_for_pro_tax_industry do
+    names = [
+      "Agriculture/Farming",
+      "Automotive Sales/Repair",
+      "Computer/Software/IT",
+      "Construction/Contractors",
+      "Consulting",
+      "Design/Architecture/Engineering",
+      "Education",
+      "Financial Services",
+      "Government Agency",
+      "Hospitality",
+      "Insurance/Brokerage",
+      "Lawn Care/Landscaping",
+      "Legal",
+      "Manufacturing",
+      "Medical/Dental/Health Services",
+      "Non Profit",
+      "Property Management",
+      "Real Estate/Development",
+      "Restaurant/Bar",
+      "Retail",
+      "Salon/Beauty",
+      "Telecommunications",
+      "Transportation",
+      "Wholesale Distribution"
+    ]
+
+    numbers = 1..24
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_name_accounting_software :: [String.t()]
+  defp random_name_accounting_software do
+    names = [
+      "QuickBooks Desktop Premier",
+      "QuickBooks Desktop Pro",
+      "QuickBooks Desktop for Mac",
+      "QuickBooks Enterprise",
+      "QuickBooks Live Bookkeeping",
+      "QuickBooks Online Advanced",
+      "QuickBooks Online",
+      "QuickBooks Self Employed",
+      "Xero Cashbook/Ledger",
+      "Xero HQ",
+      "Xero Practice Manager",
+      "Xero Workpapers"
+    ]
+
+    numbers = 1..12
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_name_university :: String.t()
+  defp random_name_university do
+    names =
+      @universities
+      |> File.read!()
+      |> Jason.decode!()
+      |> Enum.map(fn %{"name" => name} -> name end)
+
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+      |> List.to_string
+
+    result
   end
 end

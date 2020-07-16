@@ -352,6 +352,7 @@ defmodule Core.Factory do
     %BookKeeping{
       account_count: random_integer(),
       balance_sheet: random_boolean(),
+      deadline: Date.utc_today(),
       financial_situation: Lorem.sentence(),
       inventory: random_boolean(),
       inventory_count: random_integer(),
@@ -443,7 +444,7 @@ defmodule Core.Factory do
   def tp_book_keeping_classify_inventory_factory do
     %BookKeepingClassifyInventory{
       book_keepings: build(:tp_book_keeping),
-      name: "Assets"
+      name: random_name_classify_inventory()
     }
   end
 
@@ -665,13 +666,6 @@ defmodule Core.Factory do
     }
   end
 
-  def pro_business_foreign_account_count_factory do
-    %BusinessForeignAccountCount{
-      business_tax_returns: build(:pro_business_tax_return),
-      name: random_name_count()
-    }
-  end
-
   def business_foreign_ownership_count_factory do
     %BusinessForeignOwnershipCount{
       business_tax_returns: build(:business_tax_return),
@@ -686,17 +680,10 @@ defmodule Core.Factory do
     }
   end
 
-  def pro_business_foreign_ownership_count_factory do
-    %BusinessForeignOwnershipCount{
-      business_tax_returns: build(:pro_business_tax_return),
-      name: random_name_count()
-    }
-  end
-
   def business_industry_factory do
     %BusinessIndustry{
       business_tax_returns: build(:business_tax_return),
-      name: random_name_for_tp_industry()
+      name: random_name_industry()
     }
   end
 
@@ -724,13 +711,6 @@ defmodule Core.Factory do
   def tp_business_llc_type_factory do
     %BusinessLlcType{
       business_tax_returns: build(:tp_business_tax_return),
-      name: random_name_llc_type()
-    }
-  end
-
-  def pro_business_llc_type_factory do
-    %BusinessLlcType{
-      business_tax_returns: build(:pro_business_tax_return),
       name: random_name_llc_type()
     }
   end
@@ -791,13 +771,6 @@ defmodule Core.Factory do
   def tp_business_transaction_count_factory do
     %BusinessTransactionCount{
       business_tax_returns: build(:tp_business_tax_return),
-      name: random_name_transaction_count()
-    }
-  end
-
-  def pro_business_transaction_count_factory do
-    %BusinessTransactionCount{
-      business_tax_returns: build(:pro_business_tax_return),
       name: random_name_transaction_count()
     }
   end
@@ -953,19 +926,11 @@ defmodule Core.Factory do
     }
   end
 
-  @spec pro_individual_foreign_account_count_factory() :: IndividualForeignAccountCount.t()
-  def pro_individual_foreign_account_count_factory do
-    %IndividualForeignAccountCount{
-      individual_tax_returns: build(:pro_individual_tax_return),
-      name: random_name_count()
-    }
-  end
-
   @spec individual_industry_factory() :: IndividualIndustry.t()
   def individual_industry_factory do
     %IndividualIndustry{
       individual_tax_returns: build(:individual_tax_return),
-      name: random_name_for_tp_industry()
+      name: random_name_industry()
     }
   end
 
@@ -1023,14 +988,6 @@ defmodule Core.Factory do
   def tp_individual_stock_transaction_count_factory do
     %IndividualStockTransactionCount{
       individual_tax_returns: build(:tp_individual_tax_return),
-      name: random_name_stock_transaction_count()
-    }
-  end
-
-  @spec pro_individual_stock_transaction_count_factory() :: IndividualStockTransactionCount.t()
-  def pro_individual_stock_transaction_count_factory do
-    %IndividualStockTransactionCount{
-      individual_tax_returns: build(:pro_individual_tax_return),
       name: random_name_stock_transaction_count()
     }
   end
