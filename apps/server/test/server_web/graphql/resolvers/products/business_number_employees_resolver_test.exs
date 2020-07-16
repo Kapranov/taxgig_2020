@@ -17,6 +17,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolverTe
       assert List.first(data).id          == business_number_employee.id
       assert List.first(data).inserted_at == business_number_employee.inserted_at
       assert List.first(data).name        == business_number_employee.name
+      assert List.first(data).price       == nil
       assert List.first(data).updated_at  == business_number_employee.updated_at
 
       assert List.first(data).business_tax_return_id           == business_number_employee.business_tax_return_id
@@ -76,6 +77,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolverTe
       assert found.id          == business_number_employee.id
       assert found.inserted_at == business_number_employee.inserted_at
       assert found.name        == business_number_employee.name
+      assert found.price       == nil
       assert found.updated_at  == business_number_employee.updated_at
 
       assert found.business_tax_return_id           == business_number_employee.business_tax_returns.id
@@ -135,6 +137,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolverTe
       assert found.id          == business_number_employee.id
       assert found.inserted_at == business_number_employee.inserted_at
       assert found.name        == business_number_employee.name
+      assert found.price       == nil
       assert found.updated_at  == business_number_employee.updated_at
 
       assert found.business_tax_return_id           == business_number_employee.business_tax_returns.id
@@ -190,12 +193,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolverTe
 
       args = %{
         business_tax_return_id: business_tax_return.id,
-        name: "some name"
+        name: "1 employee"
       }
 
       {:ok, created} = BusinessNumberEmployeesResolver.create(nil, args, context)
 
-      assert created.name                   == "some name"
+      assert created.name                   == :"1 employee"
+      assert created.price                  == nil
       assert created.business_tax_return_id == business_tax_return.id
     end
 
@@ -206,14 +210,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolverTe
 
       args = %{
         business_tax_return_id: business_tax_return.id,
-        name: "some name",
+        name: :"1 employee",
         price: 12
       }
 
       {:ok, created} = BusinessNumberEmployeesResolver.create(nil, args, context)
 
       assert created.business_tax_return_id == business_tax_return.id
-      assert created.name                   == "some name"
+      assert created.name                   == :"1 employee"
       assert created.price                  == 12
     end
 
@@ -222,7 +226,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolverTe
       user = insert(:user)
       insert(:business_tax_return, user: user)
       context = %{context: %{current_user: user}}
-      args = %{business_tax_return_id: nil}
+      args = %{business_tax_return_id: nil, name: nil}
       {:error, error} = BusinessNumberEmployeesResolver.create(nil, args, context)
       assert error == []
     end
@@ -233,12 +237,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolverTe
       user = insert(:tp_user)
       insert(:tp_business_tax_return, user: user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      business_number_employee = insert(:business_number_employee, business_tax_returns: business_tax_return)
+      business_number_employee = insert(:tp_business_number_employee, business_tax_returns: business_tax_return)
       context = %{context: %{current_user: user}}
 
       params = %{
         business_tax_return_id: business_tax_return.id,
-        name: "updated some name"
+        name: "51 - 100 employees"
       }
 
       args = %{id: business_number_employee.id, business_number_employee: params}
@@ -247,7 +251,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolverTe
       assert updated.id                     == business_number_employee.id
       assert updated.business_tax_return_id == business_tax_return.id
       assert updated.inserted_at            == business_number_employee.inserted_at
-      assert updated.name                   == "updated some name"
+      assert updated.name                   == :"51 - 100 employees"
+      assert updated.price                  == nil
       assert updated.updated_at             == business_number_employee.updated_at
     end
 
@@ -255,12 +260,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolverTe
       user = insert(:pro_user)
       insert(:pro_business_tax_return, user: user)
       business_tax_return = insert(:pro_business_tax_return, user: user)
-      business_number_employee = insert(:business_number_employee, business_tax_returns: business_tax_return)
+      business_number_employee = insert(:pro_business_number_employee, business_tax_returns: business_tax_return)
       context = %{context: %{current_user: user}}
 
       params = %{
         business_tax_return_id: business_tax_return.id,
-        name: "updated some name",
+        name: "51 - 100 employees",
         price: 13
       }
 
@@ -270,39 +275,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolverTe
       assert updated.id                     == business_number_employee.id
       assert updated.business_tax_return_id == business_tax_return.id
       assert updated.inserted_at            == business_number_employee.inserted_at
-      assert updated.name                   == "updated some name"
+      assert updated.name                   == :"51 - 100 employees"
       assert updated.price                  == 13
-      assert updated.updated_at             == business_number_employee.updated_at
-    end
-
-    it "nothing change for missing params via role's Tp" do
-      user = insert(:tp_user)
-      business_tax_return = insert(:tp_business_tax_return, user: user)
-      business_number_employee = insert(:business_number_employee, business_tax_returns: business_tax_return, name: "some name")
-      context = %{context: %{current_user: user}}
-      params = %{name: "some name"}
-      args = %{id: business_number_employee.id, business_number_employee: params}
-      {:ok, updated} = BusinessNumberEmployeesResolver.update(nil, args, context)
-
-      assert updated.id                     == business_number_employee.id
-      assert updated.business_tax_return_id == business_tax_return.id
-      assert updated.inserted_at            == business_number_employee.inserted_at
-      assert updated.name                   == business_number_employee.name
-      assert updated.updated_at             == business_number_employee.updated_at
-    end
-
-    it "nothing change for missing params via role's Pro" do
-      user = insert(:pro_user)
-      business_tax_return = insert(:pro_business_tax_return, user: user)
-      business_number_employee = insert(:business_number_employee, business_tax_returns: business_tax_return, price: 12)
-      context = %{context: %{current_user: user}}
-      params = %{price: 12}
-      args = %{id: business_number_employee.id, business_number_employee: params}
-      {:ok, updated} = BusinessNumberEmployeesResolver.update(nil, args, context)
-
-      assert updated.id                     == business_number_employee.id
-      assert updated.business_tax_return_id == business_tax_return.id
-      assert updated.inserted_at            == business_number_employee.inserted_at
       assert updated.updated_at             == business_number_employee.updated_at
     end
 
@@ -311,7 +285,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolverTe
       business_tax_return = insert(:business_tax_return, user: user)
       insert(:business_number_employee, business_tax_returns: business_tax_return)
       context = %{context: %{current_user: user}}
-      args = %{id: nil, business_number_employee: nil}
+      params = %{business_tax_return_id: nil, name: nil}
+      args = %{id: nil, business_number_employee: params}
       {:error, error} = BusinessNumberEmployeesResolver.update(nil, args, context)
       assert error == [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]
     end

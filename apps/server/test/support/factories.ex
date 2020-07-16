@@ -726,7 +726,7 @@ defmodule Server.Factory do
   def business_number_employee_factory do
     %BusinessNumberEmployee{
       business_tax_returns: build(:business_tax_return),
-      name: Lorem.word(),
+      name: "1 employee",
       price: random_integer()
     }
   end
@@ -735,7 +735,7 @@ defmodule Server.Factory do
   def tp_business_number_employee_factory do
     %BusinessNumberEmployee{
       business_tax_returns: build(:tp_business_tax_return),
-      name: Lorem.word()
+      name: "1 employee"
     }
   end
 
@@ -743,7 +743,7 @@ defmodule Server.Factory do
   def pro_business_number_employee_factory do
     %BusinessNumberEmployee{
       business_tax_returns: build(:pro_business_tax_return),
-      name: Lorem.word(),
+      name: "1 employee",
       price: random_integer()
     }
   end
