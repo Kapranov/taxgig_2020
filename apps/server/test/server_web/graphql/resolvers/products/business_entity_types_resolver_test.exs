@@ -17,6 +17,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolverTest d
       assert List.first(data).id          == business_entity_type.id
       assert List.first(data).inserted_at == business_entity_type.inserted_at
       assert List.first(data).name        == business_entity_type.name
+      assert List.first(data).price       == nil
       assert List.first(data).updated_at  == business_entity_type.updated_at
 
       assert List.first(data).business_tax_return_id           == business_entity_type.business_tax_return_id
@@ -26,6 +27,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolverTest d
       assert List.last(data).id          == business_entity_type.id
       assert List.last(data).inserted_at == business_entity_type.inserted_at
       assert List.last(data).name        == business_entity_type.name
+      assert List.last(data).price       == nil
       assert List.last(data).updated_at  == business_entity_type.updated_at
 
       assert List.last(data).business_tax_return_id           == business_entity_type.business_tax_return_id
@@ -76,6 +78,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolverTest d
       assert found.id          == business_entity_type.id
       assert found.inserted_at == business_entity_type.inserted_at
       assert found.name        == business_entity_type.name
+      assert found.price       == nil
       assert found.updated_at  == business_entity_type.updated_at
 
       assert found.business_tax_return_id           == business_entity_type.business_tax_returns.id
@@ -134,6 +137,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolverTest d
       assert found.id          == business_entity_type.id
       assert found.inserted_at == business_entity_type.inserted_at
       assert found.name        == business_entity_type.name
+      assert found.price       == nil
       assert found.updated_at  == business_entity_type.updated_at
 
       assert found.business_tax_return_id           == business_entity_type.business_tax_returns.id
@@ -189,13 +193,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolverTest d
 
       args = %{
         business_tax_return_id: business_tax_return.id,
-        name: "some name"
+        name: "C-Corp / Corporation"
       }
 
       {:ok, created} = BusinessEntityTypesResolver.create(nil, args, context)
 
       assert created.business_tax_return_id == business_tax_return.id
-      assert created.name                   == "some name"
+      assert created.name                   == :"C-Corp / Corporation"
+      assert created.price                  == nil
     end
 
     it "creates BusinessEntityType an event by role's Pro" do
@@ -205,14 +210,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolverTest d
 
       args = %{
         business_tax_return_id: business_tax_return.id,
-        name: "some name",
+        name: "C-Corp / Corporation",
         price: 12
       }
 
       {:ok, created} = BusinessEntityTypesResolver.create(nil, args, context)
 
       assert created.business_tax_return_id == business_tax_return.id
-      assert created.name                   == "some name"
+      assert created.name                   == :"C-Corp / Corporation"
       assert created.price                  == 12
     end
 
@@ -221,7 +226,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolverTest d
       user = insert(:user)
       insert(:business_tax_return, user: user)
       context = %{context: %{current_user: user}}
-      args = %{business_tax_return_id: nil}
+      args = %{business_tax_return_id: nil, name: nil}
       {:error, error} = BusinessEntityTypesResolver.create(nil, args, context)
       assert error == []
     end
@@ -232,12 +237,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolverTest d
       user = insert(:tp_user)
       insert(:tp_business_tax_return, user: user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      business_entity_type = insert(:business_entity_type, business_tax_returns: business_tax_return)
+      business_entity_type = insert(:tp_business_entity_type, business_tax_returns: business_tax_return)
       context = %{context: %{current_user: user}}
 
       params = %{
         business_tax_return_id: business_tax_return.id,
-        name: "updated some name"
+        name: "Sole proprietorship"
       }
 
       args = %{id: business_entity_type.id, business_entity_type: params}
@@ -246,7 +251,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolverTest d
       assert updated.id                     == business_entity_type.id
       assert updated.business_tax_return_id == business_tax_return.id
       assert updated.inserted_at            == business_entity_type.inserted_at
-      assert updated.name                   == "updated some name"
+      assert updated.name                   == :"Sole proprietorship"
+      assert updated.price                  == nil
       assert updated.updated_at             == business_entity_type.updated_at
     end
 
@@ -254,12 +260,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolverTest d
       user = insert(:pro_user)
       insert(:pro_business_tax_return, user: user)
       business_tax_return = insert(:pro_business_tax_return, user: user)
-      business_entity_type = insert(:business_entity_type, business_tax_returns: business_tax_return)
+      business_entity_type = insert(:pro_business_entity_type, business_tax_returns: business_tax_return)
       context = %{context: %{current_user: user}}
 
       params = %{
         business_tax_return_id: business_tax_return.id,
-        name: "updated some name",
+        name: "Sole proprietorship",
         price: 13
       }
 
@@ -269,39 +275,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolverTest d
       assert updated.id                     == business_entity_type.id
       assert updated.business_tax_return_id == business_tax_return.id
       assert updated.inserted_at            == business_entity_type.inserted_at
-      assert updated.name                   == "updated some name"
+      assert updated.name                   == :"Sole proprietorship"
       assert updated.price                  == 13
-      assert updated.updated_at             == business_entity_type.updated_at
-    end
-
-    it "nothing change for missing params via role's Tp" do
-      user = insert(:tp_user)
-      business_tax_return = insert(:tp_business_tax_return, user: user)
-      business_entity_type = insert(:business_entity_type, business_tax_returns: business_tax_return, name: "some name")
-      context = %{context: %{current_user: user}}
-      params = %{name: "some name"}
-      args = %{id: business_entity_type.id, business_entity_type: params}
-      {:ok, updated} = BusinessEntityTypesResolver.update(nil, args, context)
-
-      assert updated.id                     == business_entity_type.id
-      assert updated.business_tax_return_id == business_tax_return.id
-      assert updated.inserted_at            == business_entity_type.inserted_at
-      assert updated.name                   == business_entity_type.name
-      assert updated.updated_at             == business_entity_type.updated_at
-    end
-
-    it "nothing change for missing params via role's Pro" do
-      user = insert(:pro_user)
-      business_tax_return = insert(:pro_business_tax_return, user: user)
-      business_entity_type = insert(:business_entity_type, business_tax_returns: business_tax_return, price: 12)
-      context = %{context: %{current_user: user}}
-      params = %{price: 12}
-      args = %{id: business_entity_type.id, business_entity_type: params}
-      {:ok, updated} = BusinessEntityTypesResolver.update(nil, args, context)
-
-      assert updated.id                     == business_entity_type.id
-      assert updated.business_tax_return_id == business_tax_return.id
-      assert updated.inserted_at            == business_entity_type.inserted_at
       assert updated.updated_at             == business_entity_type.updated_at
     end
 
@@ -309,7 +284,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolverTest d
       user = insert(:user)
       business_tax_return = insert(:business_tax_return, user: user)
       insert(:business_entity_type, business_tax_returns: business_tax_return)
-      args = %{id: nil, business_entity_type: nil}
+      params = %{name: nil, business_tax_return_id: nil}
+      args = %{id: nil, business_entity_type: params}
       context = %{context: %{current_user: user}}
       {:error, error} = BusinessEntityTypesResolver.update(nil, args, context)
       assert error == [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]

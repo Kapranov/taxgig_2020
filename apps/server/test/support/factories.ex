@@ -628,7 +628,7 @@ defmodule Server.Factory do
   def business_entity_type_factory do
     %BusinessEntityType{
       business_tax_returns: build(:business_tax_return),
-      name: Lorem.word(),
+      name: "C-Corp / Corporation",
       price: random_integer()
     }
   end
@@ -637,7 +637,7 @@ defmodule Server.Factory do
   def tp_business_entity_type_factory do
     %BusinessEntityType{
       business_tax_returns: build(:tp_business_tax_return),
-      name: Lorem.word()
+      name: "C-Corp / Corporation"
     }
   end
 
@@ -645,7 +645,7 @@ defmodule Server.Factory do
   def pro_business_entity_type_factory do
     %BusinessEntityType{
       business_tax_returns: build(:pro_business_tax_return),
-      name: Lorem.word(),
+      name: "C-Corp / Corporation",
       price: random_integer()
     }
   end
