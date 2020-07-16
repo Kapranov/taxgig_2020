@@ -17,6 +17,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualFilingStatusesResolverT
       assert List.first(data).id          == individual_filing_status.id
       assert List.first(data).inserted_at == individual_filing_status.inserted_at
       assert List.first(data).name        == individual_filing_status.name
+      assert List.first(data).price       == nil
       assert List.first(data).updated_at  == individual_filing_status.updated_at
 
       assert List.first(data).individual_tax_return_id           == individual_filing_status.individual_tax_return_id
@@ -26,6 +27,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualFilingStatusesResolverT
       assert List.last(data).id          == individual_filing_status.id
       assert List.last(data).inserted_at == individual_filing_status.inserted_at
       assert List.last(data).name        == individual_filing_status.name
+      assert List.last(data).price       == nil
       assert List.last(data).updated_at  == individual_filing_status.updated_at
 
       assert List.last(data).individual_tax_return_id           == individual_filing_status.individual_tax_return_id
@@ -76,6 +78,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualFilingStatusesResolverT
       assert found.id          == individual_filing_status.id
       assert found.inserted_at == individual_filing_status.inserted_at
       assert found.name        == individual_filing_status.name
+      assert found.price       == nil
       assert found.updated_at  == individual_filing_status.updated_at
 
       assert found.individual_tax_return_id           == individual_filing_status.individual_tax_returns.id
@@ -136,6 +139,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualFilingStatusesResolverT
       assert found.id          == individual_filing_status.id
       assert found.inserted_at == individual_filing_status.inserted_at
       assert found.name        == individual_filing_status.name
+      assert found.price       == nil
       assert found.updated_at  == individual_filing_status.updated_at
 
       assert found.individual_tax_return_id           == individual_filing_status.individual_tax_returns.id
@@ -191,13 +195,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualFilingStatusesResolverT
 
       args = %{
         individual_tax_return_id: individual_tax_return.id,
-        name: "some name"
+        name: "Head of Household"
       }
 
       {:ok, created} = IndividualFilingStatusesResolver.create(nil, args, context)
 
       assert created.individual_tax_return_id == individual_tax_return.id
-      assert created.name                     == "some name"
+      assert created.name                     == :"Head of Household"
+      assert created.price                    == nil
     end
 
     it "creates individualFilingStatus an event by role's Pro" do
@@ -207,14 +212,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualFilingStatusesResolverT
 
       args = %{
         individual_tax_return_id: individual_tax_return.id,
-        name: "some name",
+        name: "Head of Household",
         price: 12
       }
 
       {:ok, created} = IndividualFilingStatusesResolver.create(nil, args, context)
 
       assert created.individual_tax_return_id == individual_tax_return.id
-      assert created.name                     == "some name"
+      assert created.name                     == :"Head of Household"
       assert created.price                    == 12
     end
 
@@ -234,12 +239,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualFilingStatusesResolverT
       user = insert(:tp_user)
       insert(:tp_individual_tax_return, user: user)
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
-      individual_filing_status = insert(:individual_filing_status, individual_tax_returns: individual_tax_return)
+      individual_filing_status = insert(:tp_individual_filing_status, individual_tax_returns: individual_tax_return)
       context = %{context: %{current_user: user}}
 
       params = %{
         individual_tax_return_id: individual_tax_return.id,
-        name: "updated some name"
+        name: "Single"
       }
 
       args = %{id: individual_filing_status.id, individual_filing_status: params}
@@ -248,7 +253,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualFilingStatusesResolverT
       assert updated.id                       == individual_filing_status.id
       assert updated.individual_tax_return_id == individual_tax_return.id
       assert updated.inserted_at              == individual_filing_status.inserted_at
-      assert updated.name                     == "updated some name"
+      assert updated.name                     == :"Single"
+      assert updated.price                    == nil
       assert updated.updated_at               == individual_filing_status.updated_at
     end
 
@@ -256,13 +262,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualFilingStatusesResolverT
       user = insert(:pro_user)
       insert(:pro_individual_tax_return, user: user)
       individual_tax_return = insert(:pro_individual_tax_return, user: user)
-      individual_filing_status = insert(:individual_filing_status, individual_tax_returns: individual_tax_return)
+      individual_filing_status = insert(:pro_individual_filing_status, individual_tax_returns: individual_tax_return)
       context = %{context: %{current_user: user}}
 
 
       params = %{
         individual_tax_return_id: individual_tax_return.id,
-        name: "updated some name",
+        name: "Single",
         price: 13
       }
 
@@ -272,39 +278,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualFilingStatusesResolverT
       assert updated.id                       == individual_filing_status.id
       assert updated.individual_tax_return_id == individual_tax_return.id
       assert updated.inserted_at              == individual_filing_status.inserted_at
-      assert updated.name                     == "updated some name"
+      assert updated.name                     == :"Single"
       assert updated.price                    == 13
-      assert updated.updated_at               == individual_filing_status.updated_at
-    end
-
-    it "nothing change for missing params via role's Tp" do
-      user = insert(:tp_user)
-      individual_tax_return = insert(:tp_individual_tax_return, user: user)
-      individual_filing_status = insert(:individual_filing_status, individual_tax_returns: individual_tax_return, name: "some name")
-      context = %{context: %{current_user: user}}
-      params = %{name: "some name"}
-      args = %{id: individual_filing_status.id, individual_filing_status: params}
-      {:ok, updated} = IndividualFilingStatusesResolver.update(nil, args, context)
-
-      assert updated.id                       == individual_filing_status.id
-      assert updated.individual_tax_return_id == individual_tax_return.id
-      assert updated.inserted_at              == individual_filing_status.inserted_at
-      assert updated.name                     == individual_filing_status.name
-      assert updated.updated_at               == individual_filing_status.updated_at
-    end
-
-    it "nothing change for missing params via role's Pro" do
-      user = insert(:pro_user)
-      individual_tax_return = insert(:pro_individual_tax_return, user: user)
-      individual_filing_status = insert(:individual_filing_status, individual_tax_returns: individual_tax_return, price: 12)
-      context = %{context: %{current_user: user}}
-      params = %{price: 12}
-      args = %{id: individual_filing_status.id, individual_filing_status: params}
-      {:ok, updated} = IndividualFilingStatusesResolver.update(nil, args, context)
-
-      assert updated.id                       == individual_filing_status.id
-      assert updated.individual_tax_return_id == individual_tax_return.id
-      assert updated.inserted_at              == individual_filing_status.inserted_at
       assert updated.updated_at               == individual_filing_status.updated_at
     end
 
@@ -313,7 +288,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualFilingStatusesResolverT
       individual_tax_return = insert(:individual_tax_return, user: user)
       insert(:individual_filing_status, individual_tax_returns: individual_tax_return)
       context = %{context: %{current_user: user}}
-      args = %{id: nil, individual_filing_status: nil}
+      params = %{individual_tax_return_id: nil, name: nil}
+      args = %{id: nil, individual_filing_status: params}
       {:error, error} = IndividualFilingStatusesResolver.update(nil, args, context)
       assert error == [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]
     end
