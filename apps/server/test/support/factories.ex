@@ -710,7 +710,7 @@ defmodule Server.Factory do
   def business_llc_type_factory do
     %BusinessLlcType{
       business_tax_returns: build(:business_tax_return),
-      name: Lorem.word()
+      name: "C-Corp / Corporation"
     }
   end
 
@@ -718,15 +718,7 @@ defmodule Server.Factory do
   def tp_business_llc_type_factory do
     %BusinessLlcType{
       business_tax_returns: build(:tp_business_tax_return),
-      name: Lorem.word()
-    }
-  end
-
-  @spec pro_business_llc_type_factory() :: BusinessLlcType.t()
-  def pro_business_llc_type_factory do
-    %BusinessLlcType{
-      business_tax_returns: build(:pro_business_tax_return),
-      name: Lorem.word()
+      name: "C-Corp / Corporation"
     }
   end
 
