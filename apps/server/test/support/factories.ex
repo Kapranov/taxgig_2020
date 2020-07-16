@@ -1094,7 +1094,7 @@ defmodule Server.Factory do
   @spec sale_tax_industry_factory() :: SaleTaxIndustry.t()
   def sale_tax_industry_factory do
     %SaleTaxIndustry{
-      name: random_name_tax_industry(),
+      name: random_name_industry(),
       sale_taxes: build(:sale_tax)
     }
   end
@@ -1102,7 +1102,7 @@ defmodule Server.Factory do
   @spec tp_sale_tax_industry_factory() :: SaleTaxIndustry.t()
   def tp_sale_tax_industry_factory do
     %SaleTaxIndustry{
-      name: random_name_for_tp_tax_industry(),
+      name: random_name_for_tp_industry(),
       sale_taxes: build(:tp_sale_tax)
     }
   end
@@ -1110,7 +1110,7 @@ defmodule Server.Factory do
   @spec pro_sale_tax_industry_factory() :: SaleTaxIndustry.t()
   def pro_sale_tax_industry_factory do
     %SaleTaxIndustry{
-      name: random_name_for_pro_tax_industry(),
+      name: random_name_for_pro_industry(),
       sale_taxes: build(:pro_sale_tax)
     }
   end
@@ -1613,129 +1613,6 @@ defmodule Server.Factory do
   defp random_name_tax_frequency do
     names = ["Annually", "Monthly", "Quarterly"]
     Enum.random(names)
-  end
-
-  @spec random_name_tax_industry :: [String.t()]
-  defp random_name_tax_industry do
-    names = [
-      "Agriculture/Farming",
-      "Automotive Sales/Repair",
-      "Computer/Software/IT",
-      "Construction/Contractors",
-      "Consulting",
-      "Design/Architecture/Engineering",
-      "Education",
-      "Financial Services",
-      "Government Agency",
-      "Hospitality",
-      "Insurance/Brokerage",
-      "Lawn Care/Landscaping",
-      "Legal",
-      "Manufacturing",
-      "Medical/Dental/Health Services",
-      "Non Profit",
-      "Property Management",
-      "Real Estate/Development",
-      "Restaurant/Bar",
-      "Retail",
-      "Salon/Beauty",
-      "Telecommunications",
-      "Transportation",
-      "Wholesale Distribution"
-    ]
-
-    numbers = 1..24
-    number = Enum.random(numbers)
-
-    result =
-      for i <- 1..number, i > 0 do
-        Enum.random(names)
-      end
-      |> Enum.uniq()
-
-    result
-  end
-
-  @spec random_name_for_tp_tax_industry :: [String.t()]
-  defp random_name_for_tp_tax_industry do
-    names = [
-      "Agriculture/Farming",
-      "Automotive Sales/Repair",
-      "Computer/Software/IT",
-      "Construction/Contractors",
-      "Consulting",
-      "Design/Architecture/Engineering",
-      "Education",
-      "Financial Services",
-      "Government Agency",
-      "Hospitality",
-      "Insurance/Brokerage",
-      "Lawn Care/Landscaping",
-      "Legal",
-      "Manufacturing",
-      "Medical/Dental/Health Services",
-      "Non Profit",
-      "Property Management",
-      "Real Estate/Development",
-      "Restaurant/Bar",
-      "Retail",
-      "Salon/Beauty",
-      "Telecommunications",
-      "Transportation",
-      "Wholesale Distribution"
-    ]
-
-    numbers = 1..1
-    number = Enum.random(numbers)
-
-    result =
-      for i <- 1..number, i > 0 do
-        Enum.random(names)
-      end
-      |> Enum.uniq()
-
-    result
-  end
-
-  @spec random_name_for_pro_tax_industry :: [String.t()]
-  defp random_name_for_pro_tax_industry do
-    names = [
-      "Agriculture/Farming",
-      "Automotive Sales/Repair",
-      "Computer/Software/IT",
-      "Construction/Contractors",
-      "Consulting",
-      "Design/Architecture/Engineering",
-      "Education",
-      "Financial Services",
-      "Government Agency",
-      "Hospitality",
-      "Insurance/Brokerage",
-      "Lawn Care/Landscaping",
-      "Legal",
-      "Manufacturing",
-      "Medical/Dental/Health Services",
-      "Non Profit",
-      "Property Management",
-      "Real Estate/Development",
-      "Restaurant/Bar",
-      "Retail",
-      "Salon/Beauty",
-      "Telecommunications",
-      "Transportation",
-      "Wholesale Distribution"
-    ]
-
-    numbers = 1..24
-    number = Enum.random(numbers)
-
-    result =
-      for i <- 1..number, i > 0 do
-        Enum.random(names)
-      end
-      |> Enum.uniq()
-
-    result
   end
 
   @spec random_name_accounting_software :: [String.t()]
