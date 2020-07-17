@@ -74,7 +74,7 @@ defmodule Core.Services.IndividualStockTransactionCountTest do
     end
 
     test "update_individual_stock_transaction_count/2 with valid data updates the individual_stock_transaction_count" do
-      struct = insert(:tp_individual_stock_transaction_count)
+      struct = insert(:tp_individual_stock_transaction_count, name: "1-5")
       params = %{name: "100+", individual_tax_return_id: struct.individual_tax_return_id}
 
       assert {:ok, %IndividualStockTransactionCount{} = updated} =

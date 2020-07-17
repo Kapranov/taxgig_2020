@@ -71,7 +71,7 @@ defmodule Core.Services.BookKeepingClassifyInventoryTest do
     test "update_book_keeping_classify_inventory/2 with valid data updates the book_keeping_classify_inventory" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, user: user)
-      struct = insert(:tp_book_keeping_classify_inventory, book_keepings: book_keeping)
+      struct = insert(:tp_book_keeping_classify_inventory, book_keepings: book_keeping, name: "Assets")
 
       params = %{
         name: "Expenses",

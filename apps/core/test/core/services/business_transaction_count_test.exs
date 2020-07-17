@@ -76,7 +76,7 @@ defmodule Core.Services.BusinessTransactionCountTest do
     test "update_business_transaction_count/2 with valid data updates the business_transaction_count" do
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      struct = insert(:tp_business_transaction_count, business_tax_returns: business_tax_return)
+      struct = insert(:tp_business_transaction_count, business_tax_returns: business_tax_return, name: "1-10")
 
       params = %{name: "75+", business_tax_return_id: business_tax_return.id}
 

@@ -78,7 +78,7 @@ defmodule Core.Services.IndividualFilingStatusTest do
 
     test "update_individual_filing_status/2 with valid data updates the individual_filing_status" do
       match_value_relate = insert(:match_value_relat)
-      struct = insert(:tp_individual_filing_status)
+      struct = insert(:tp_individual_filing_status, name: "Head of Household")
       params = %{name: "Single", individual_tax_return_id: struct.individual_tax_return_id}
 
       assert {:ok, %IndividualFilingStatus{} = updated} =
@@ -193,7 +193,7 @@ defmodule Core.Services.IndividualFilingStatusTest do
 
     test "update_individual_filing_status/2 with valid data updates the individual_filing_status" do
       match_value_relate = insert(:match_value_relat)
-      struct = insert(:pro_individual_filing_status)
+      struct = insert(:pro_individual_filing_status, name: "Head of Household")
       params = %{name: "Single", price: 99, individual_tax_return_id: struct.individual_tax_return_id}
 
       assert {:ok, %IndividualFilingStatus{} = updated} =

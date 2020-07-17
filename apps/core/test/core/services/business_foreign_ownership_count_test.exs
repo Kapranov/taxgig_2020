@@ -76,7 +76,7 @@ defmodule Core.Services.BusinessForeignOwnershipCountTest do
     test "update_business_foreign_ownership_count/2 with valid data updates the business_foreign_ownership_count" do
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      struct = insert(:tp_business_foreign_ownership_count, business_tax_returns: business_tax_return)
+      struct = insert(:tp_business_foreign_ownership_count, business_tax_returns: business_tax_return, name: "1")
 
       params = %{name: "5+", business_tax_return_id: business_tax_return.id}
 

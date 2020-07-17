@@ -1,4 +1,4 @@
-defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
+defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationTest do
   use ServerWeb.ConnCase
 
   alias Server.AbsintheHelpers

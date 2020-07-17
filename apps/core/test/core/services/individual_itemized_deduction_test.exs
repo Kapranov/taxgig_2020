@@ -78,7 +78,7 @@ defmodule Core.Services.IndividualItemizedDeductionTest do
 
     test "update_individual_itemized_deduction/2 with valid data updates the individual_itemized_deduction" do
       match_value_relate = insert(:match_value_relat)
-      struct = insert(:tp_individual_itemized_deduction)
+      struct = insert(:tp_individual_itemized_deduction, name: "Charitable contributions")
       params = %{name: "Medical and dental expenses", individual_tax_return_id: struct.individual_tax_return_id}
 
       assert {:ok, %IndividualItemizedDeduction{} = updated} =
@@ -191,7 +191,7 @@ defmodule Core.Services.IndividualItemizedDeductionTest do
 
     test "update_individual_itemized_deduction/2 with valid data updates the individual_itemized_deduction" do
       match_value_relate = insert(:match_value_relat)
-      struct = insert(:pro_individual_itemized_deduction)
+      struct = insert(:pro_individual_itemized_deduction, name: "Charitable contributions")
       params = %{name: "Medical and dental expenses", price: 99, individual_tax_return_id: struct.individual_tax_return_id}
 
       assert {:ok, %IndividualItemizedDeduction{} = updated} =

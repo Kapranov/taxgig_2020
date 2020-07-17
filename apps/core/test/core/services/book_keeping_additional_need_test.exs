@@ -87,7 +87,7 @@ defmodule Core.Services.BookKeepingAdditionalNeedTest do
 
     test "update_book_keeping_additional_need/2 with valid data updates the book_keeping_additional_need" do
       match_value_relate = insert(:match_value_relat)
-      struct = insert(:tp_book_keeping_additional_need)
+      struct = insert(:tp_book_keeping_additional_need, name: "accounts payable")
       params = %{book_keeping_id: struct.book_keeping_id, name: "accounts receivable"}
       assert {:ok, %BookKeepingAdditionalNeed{} = uploaded} =
         Services.update_book_keeping_additional_need(struct, params)
@@ -192,7 +192,7 @@ defmodule Core.Services.BookKeepingAdditionalNeedTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, user: user)
-      struct = insert(:pro_book_keeping_additional_need, book_keepings: book_keeping)
+      struct = insert(:pro_book_keeping_additional_need, book_keepings: book_keeping, name: "accounts payable")
 
       params = %{
         name: "accounts receivable",

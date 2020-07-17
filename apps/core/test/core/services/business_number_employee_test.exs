@@ -80,7 +80,7 @@ defmodule Core.Services.BusinessNumberEmployeeTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      struct = insert(:tp_business_number_employee, business_tax_returns: business_tax_return)
+      struct = insert(:tp_business_number_employee, business_tax_returns: business_tax_return, name: "1 employee")
 
       params = %{name: "51 - 100 employees", business_tax_return_id: business_tax_return.id}
 
@@ -196,7 +196,7 @@ defmodule Core.Services.BusinessNumberEmployeeTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:pro_user)
       business_tax_return = insert(:pro_business_tax_return, user: user)
-      struct = insert(:pro_business_number_employee, business_tax_returns: business_tax_return)
+      struct = insert(:pro_business_number_employee, business_tax_returns: business_tax_return, name: "1 employee")
 
       params = %{name: "51 - 100 employees", price: 33, business_tax_return_id: business_tax_return.id}
 

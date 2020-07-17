@@ -89,7 +89,7 @@ defmodule Core.Services.BookKeepingAnnualRevenueTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, user: user)
-      struct = insert(:tp_book_keeping_annual_revenue, book_keepings: book_keeping)
+      struct = insert(:tp_book_keeping_annual_revenue, book_keepings: book_keeping, name: "$100K - $500K")
 
       params = %{
         name: "$10M+",
@@ -197,7 +197,7 @@ defmodule Core.Services.BookKeepingAnnualRevenueTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, user: user)
-      struct = insert(:pro_book_keeping_annual_revenue, book_keepings: book_keeping)
+      struct = insert(:pro_book_keeping_annual_revenue, book_keepings: book_keeping, name: "$100K - $500K")
 
       params = %{
         name: "$10M+",

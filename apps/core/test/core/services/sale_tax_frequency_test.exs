@@ -71,7 +71,7 @@ defmodule Core.Services.SaleTaxFrequencyTest do
     test "update_sale_tax_frequency/2 with valid data updates the sale_tax_frequency" do
       user = insert(:tp_user)
       sale_tax = insert(:tp_sale_tax, user: user)
-      struct = insert(:tp_sale_tax_frequency, sale_taxes: sale_tax)
+      struct = insert(:tp_sale_tax_frequency, sale_taxes: sale_tax, name: "Annually")
 
       params = %{
         name: "Quarterly",
@@ -174,7 +174,7 @@ defmodule Core.Services.SaleTaxFrequencyTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:pro_user)
       sale_tax = insert(:pro_sale_tax, user: user)
-      struct = insert(:pro_sale_tax_frequency, sale_taxes: sale_tax)
+      struct = insert(:pro_sale_tax_frequency, sale_taxes: sale_tax, name: "Annually")
 
       params = %{
         name: "Quarterly",

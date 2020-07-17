@@ -89,7 +89,7 @@ defmodule Core.Services.BookKeepingNumberEmployeeTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, user: user)
-      struct = insert(:tp_book_keeping_number_employee, book_keepings: book_keeping)
+      struct = insert(:tp_book_keeping_number_employee, book_keepings: book_keeping, name: "1 employee")
 
       params = %{
         name: "101 - 500 employees",
@@ -197,7 +197,7 @@ defmodule Core.Services.BookKeepingNumberEmployeeTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, user: user)
-      struct = insert(:pro_book_keeping_number_employee, book_keepings: book_keeping)
+      struct = insert(:pro_book_keeping_number_employee, book_keepings: book_keeping, name: "1 employee")
 
       params = %{
         name: "51 - 100 employees",

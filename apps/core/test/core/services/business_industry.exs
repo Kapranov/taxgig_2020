@@ -79,7 +79,7 @@ defmodule Core.Services.BusinessIndustryTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      struct = insert(:tp_business_industry, business_tax_returns: business_tax_return)
+      struct = insert(:tp_business_industry, business_tax_returns: business_tax_return, name: ["Agriculture/Farming"])
 
       params = %{name: ["Wholesale Distribution"]}
 
@@ -192,7 +192,7 @@ defmodule Core.Services.BusinessIndustryTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:pro_user)
       business_tax_return = insert(:pro_business_tax_return, user: user)
-      struct = insert(:pro_business_industry, business_tax_returns: business_tax_return)
+      struct = insert(:pro_business_industry, business_tax_returns: business_tax_return, name: ["Agriculture/Farming"])
 
       params = %{name: ["Transportation"]}
 

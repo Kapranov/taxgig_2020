@@ -80,7 +80,7 @@ defmodule Core.Services.IndividualEmploymentStatusTest do
 
     test "update_individual_employment_status/2 with valid data updates the individual_employment_status" do
       match_value_relate = insert(:match_value_relat)
-      struct = insert(:tp_individual_employment_status)
+      struct = insert(:tp_individual_employment_status, name: "employed")
       params = %{name: "unemployed", individual_tax_return_id: struct.individual_tax_return_id}
 
       assert {:ok, %IndividualEmploymentStatus{} = updated} =
@@ -197,7 +197,7 @@ defmodule Core.Services.IndividualEmploymentStatusTest do
 
     test "update_individual_employment_status/2 with valid data updates the individual_employment_status" do
       match_value_relate = insert(:match_value_relat)
-      struct = insert(:pro_individual_employment_status)
+      struct = insert(:pro_individual_employment_status, name: "employed")
       params = %{name: "unemployed", price: 22, individual_tax_return_id: struct.individual_tax_return_id}
 
       assert {:ok, %IndividualEmploymentStatus{} = updated} =

@@ -67,7 +67,7 @@ defmodule Core.Services.SaleTaxIndustryTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:tp_user)
       sale_tax = insert(:tp_sale_tax, user: user)
-      struct = insert(:tp_sale_tax_industry, sale_taxes: sale_tax)
+      struct = insert(:tp_sale_tax_industry, sale_taxes: sale_tax, name: ["Agriculture/Farming"])
 
       params = %{name: ["Wholesale Distribution"]}
 
@@ -161,7 +161,7 @@ defmodule Core.Services.SaleTaxIndustryTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:pro_user)
       sale_tax = insert(:pro_sale_tax, user: user)
-      struct = insert(:pro_sale_tax_industry, sale_taxes: sale_tax)
+      struct = insert(:pro_sale_tax_industry, sale_taxes: sale_tax, name: ["Agriculture/Farming"])
 
       params = %{name: ["Wholesale Distribution"]}
 

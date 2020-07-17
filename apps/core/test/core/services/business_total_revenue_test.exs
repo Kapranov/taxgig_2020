@@ -80,7 +80,7 @@ defmodule Core.Services.BusinessTotalRevenueTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      struct = insert(:tp_business_total_revenue, business_tax_returns: business_tax_return)
+      struct = insert(:tp_business_total_revenue, business_tax_returns: business_tax_return, name: "$100K - $500K")
 
       params = %{name: "Less than $100K", business_tax_return_id: business_tax_return.id}
 
@@ -196,7 +196,7 @@ defmodule Core.Services.BusinessTotalRevenueTest do
       match_value_relate = insert(:match_value_relat)
       user = insert(:pro_user)
       business_tax_return = insert(:pro_business_tax_return, user: user)
-      struct = insert(:pro_business_total_revenue, business_tax_returns: business_tax_return)
+      struct = insert(:pro_business_total_revenue, business_tax_returns: business_tax_return, name: "$100K - $500K")
 
       params = %{name: "Less than $100K", price: 33, business_tax_return_id: business_tax_return.id}
 

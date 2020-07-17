@@ -76,7 +76,7 @@ defmodule Core.Services.IndividualForeignAccountCountTest do
 
     test "update_individual_foreign_account_count/2 with valid data updates the individual_foreign_account_count" do
       match_value_relate = insert(:match_value_relat)
-      struct = insert(:tp_individual_foreign_account_count)
+      struct = insert(:tp_individual_foreign_account_count, name: "1")
       params = %{name: "5+", individual_tax_return_id: struct.individual_tax_return_id}
 
       assert {:ok, %IndividualForeignAccountCount{} = updated} =

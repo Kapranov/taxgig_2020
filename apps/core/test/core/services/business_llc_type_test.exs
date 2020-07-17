@@ -76,7 +76,7 @@ defmodule Core.Services.BusinessLlcTypeTest do
     test "update_business_llc_type/2 with valid data updates the business_llc_type" do
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      struct = insert(:tp_business_llc_type, business_tax_returns: business_tax_return)
+      struct = insert(:tp_business_llc_type, business_tax_returns: business_tax_return, name: "C-Corp / Corporation")
 
       params = %{name: "S-Corp", business_tax_return_id: business_tax_return.id}
 

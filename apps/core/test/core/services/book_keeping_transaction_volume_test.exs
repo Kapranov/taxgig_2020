@@ -86,7 +86,7 @@ defmodule Core.Services.BookKeepingTransactionVolumeTest do
     test "update_book_keeping_transaction_volume/2 with valid data updates the book_keeping_transaction_volume" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, user: user)
-      struct = insert(:tp_book_keeping_transaction_volume, book_keepings: book_keeping)
+      struct = insert(:tp_book_keeping_transaction_volume, book_keepings: book_keeping, name: "1-25")
 
       params = %{
         name: "76-199",
@@ -190,7 +190,7 @@ defmodule Core.Services.BookKeepingTransactionVolumeTest do
     test "update_book_keeping_transaction_volume/2 with valid data updates the book_keeping_transaction_volume" do
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, user: user)
-      struct = insert(:pro_book_keeping_transaction_volume, book_keepings: book_keeping)
+      struct = insert(:pro_book_keeping_transaction_volume, book_keepings: book_keeping, name: "1-25")
 
       params = %{
         name: "76-199",
