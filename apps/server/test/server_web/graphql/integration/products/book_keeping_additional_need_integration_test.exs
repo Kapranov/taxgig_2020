@@ -17,8 +17,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingAdditionalNeedIntegr
           id
           name
           price
-          inserted_at
-          updated_at
           book_keepings {
             id
             account_count
@@ -29,8 +27,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingAdditionalNeedIntegr
             payroll
             tax_return_current
             tax_year
-            inserted_at
-            updated_at
             book_keeping_additional_needs { id }
             book_keeping_annual_revenues { id }
             book_keeping_classify_inventories { id }
@@ -54,10 +50,8 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingAdditionalNeedIntegr
       data = json_response(res, 200)["data"]["allBookKeepingAdditionalNeeds"]
 
       assert List.first(data)["id"]                                    == struct.id
-      assert List.first(data)["name"]                                  == struct.name
-      assert List.first(data)["price"]                                 == struct.price
-      assert List.first(data)["inserted_at"]                           == formatting_time(struct.inserted_at)
-      assert List.first(data)["updated_at"]                            == formatting_time(struct.updated_at)
+      assert List.first(data)["name"]                                  == format_field(struct.name)
+      assert List.first(data)["price"]                                 == nil
       assert List.first(data)["book_keepings"]["id"]                   == struct.book_keepings.id
       assert List.first(data)["book_keepings"]["account_count"]        == struct.book_keepings.account_count
       assert List.first(data)["book_keepings"]["balance_sheet"]        == struct.book_keepings.balance_sheet
@@ -67,8 +61,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingAdditionalNeedIntegr
       assert List.first(data)["book_keepings"]["payroll"]              == struct.book_keepings.payroll
       assert List.first(data)["book_keepings"]["tax_return_current"]   == struct.book_keepings.tax_return_current
       assert List.first(data)["book_keepings"]["tax_year"]             == struct.book_keepings.tax_year
-      assert List.first(data)["book_keepings"]["inserted_at"]          == formatting_time(struct.book_keepings.inserted_at)
-      assert List.first(data)["book_keepings"]["updated_at"]           == formatting_time(struct.book_keepings.updated_at)
       assert List.first(data)["book_keepings"]["user"]["id"]           == user.id
       assert List.first(data)["book_keepings"]["user"]["email"]        == user.email
       assert List.first(data)["book_keepings"]["user"]["role"]         == user.role
@@ -79,10 +71,8 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingAdditionalNeedIntegr
       first = hd(data)
 
       assert first["id"]                                    == struct.id
-      assert first["name"]                                  == struct.name
-      assert first["price"]                                 == struct.price
-      assert first["inserted_at"]                           == formatting_time(struct.inserted_at)
-      assert first["updated_at"]                            == formatting_time(struct.updated_at)
+      assert first["name"]                                  == format_field(struct.name)
+      assert first["price"]                                 == nil
       assert first["book_keepings"]["id"]                   == struct.book_keepings.id
       assert first["book_keepings"]["account_count"]        == struct.book_keepings.account_count
       assert first["book_keepings"]["balance_sheet"]        == struct.book_keepings.balance_sheet
@@ -93,8 +83,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingAdditionalNeedIntegr
       assert first["book_keepings"]["price_payroll"]        == struct.book_keepings.price_payroll
       assert first["book_keepings"]["tax_return_current"]   == struct.book_keepings.tax_return_current
       assert first["book_keepings"]["tax_year"]             == struct.book_keepings.tax_year
-      assert first["book_keepings"]["inserted_at"]          == formatting_time(struct.book_keepings.inserted_at)
-      assert first["book_keepings"]["updated_at"]           == formatting_time(struct.book_keepings.updated_at)
       assert first["book_keepings"]["user"]["id"]           == user.id
       assert first["book_keepings"]["user"]["email"]        == user.email
       assert first["book_keepings"]["user"]["role"]         == user.role
@@ -112,14 +100,10 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingAdditionalNeedIntegr
           id
           name
           price
-          inserted_at
-          updated_at
           book_keepings {
             id
             payroll
             price_payroll
-            inserted_at
-            updated_at
             book_keeping_additional_needs { id }
             book_keeping_annual_revenues { id }
             book_keeping_classify_inventories { id }
@@ -143,15 +127,11 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingAdditionalNeedIntegr
       data = json_response(res, 200)["data"]["allBookKeepingAdditionalNeeds"]
 
       assert List.first(data)["id"]                                    == struct.id
-      assert List.first(data)["name"]                                  == struct.name
+      assert List.first(data)["name"]                                  == format_field(struct.name)
       assert List.first(data)["price"]                                 == struct.price
-      assert List.first(data)["inserted_at"]                           == formatting_time(struct.inserted_at)
-      assert List.first(data)["updated_at"]                            == formatting_time(struct.updated_at)
       assert List.first(data)["book_keepings"]["id"]                   == struct.book_keepings.id
       assert List.first(data)["book_keepings"]["payroll"]              == struct.book_keepings.payroll
       assert List.first(data)["book_keepings"]["price_payroll"]        == struct.book_keepings.price_payroll
-      assert List.first(data)["book_keepings"]["inserted_at"]          == formatting_time(struct.book_keepings.inserted_at)
-      assert List.first(data)["book_keepings"]["updated_at"]           == formatting_time(struct.book_keepings.updated_at)
       assert List.first(data)["book_keepings"]["user"]["id"]           == user.id
       assert List.first(data)["book_keepings"]["user"]["email"]        == user.email
       assert List.first(data)["book_keepings"]["user"]["role"]         == user.role
@@ -162,22 +142,16 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingAdditionalNeedIntegr
       first = hd(data)
 
       assert first["id"]                                    == struct.id
-      assert first["name"]                                  == struct.name
+      assert first["name"]                                  == format_field(struct.name)
       assert first["price"]                                 == struct.price
-      assert first["inserted_at"]                           == formatting_time(struct.inserted_at)
-      assert first["updated_at"]                            == formatting_time(struct.updated_at)
       assert first["book_keepings"]["id"]                   == struct.book_keepings.id
       assert first["book_keepings"]["payroll"]              == struct.book_keepings.payroll
       assert first["book_keepings"]["price_payroll"]        == struct.book_keepings.price_payroll
-      assert first["book_keepings"]["inserted_at"]          == formatting_time(struct.book_keepings.inserted_at)
-      assert first["book_keepings"]["updated_at"]           == formatting_time(struct.book_keepings.updated_at)
       assert first["book_keepings"]["user"]["id"]           == user.id
       assert first["book_keepings"]["user"]["email"]        == user.email
       assert first["book_keepings"]["user"]["role"]         == user.role
     end
   end
 
-  defp formatting_time(timestamp) do
-    Timex.format!(Timex.to_datetime(timestamp, "Europe/Kiev"), "{ISO:Extended:Z}")
-  end
+  defp format_field(data), do: to_string(data)
 end
