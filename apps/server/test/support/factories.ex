@@ -70,7 +70,7 @@ defmodule Server.Factory do
 
   alias Ptin.Services.Ptin
 
-  @root_dir Path.expand("../core/priv/data/", __DIR__)
+  @root_dir Path.expand("../../../core/priv/data/", __DIR__)
   @image1_path Path.absname("../core/test/fixtures/image.jpg")
   @image2_path Path.absname("../core/test/fixtures/image_tmp.jpg")
   @universities "#{@root_dir}/university.json"
@@ -591,7 +591,7 @@ defmodule Server.Factory do
       rental_property_count: random_integer(),
       reported_grant: random_boolean(),
       restricted_donation: random_boolean(),
-      state: [random_state()],
+      state: random_states(),
       tax_exemption: random_boolean(),
       tax_year: random_year(),
       total_asset_less: random_boolean(),

@@ -301,7 +301,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingAnnualRevenuesResolver
     it "update specific BookKeepingAnnualRevenue by id via role's Tp" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, %{user: user})
-      struct = insert(:tp_book_keeping_annual_revenue, %{book_keepings: book_keeping})
+      struct = insert(:tp_book_keeping_annual_revenue, %{name: "$100K - $500K", book_keepings: book_keeping})
       context = %{context: %{current_user: user}}
       params = %{name: "Less than $100K", book_keeping_id: book_keeping.id}
       args = %{id: struct.id, book_keeping_annual_revenue: params}
@@ -318,7 +318,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingAnnualRevenuesResolver
     it "update specific BookKeepingAnnualRevenue by id via role's Pro" do
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, %{user: user})
-      struct = insert(:pro_book_keeping_annual_revenue, %{book_keepings: book_keeping})
+      struct = insert(:pro_book_keeping_annual_revenue, %{name: "$100K - $500K", book_keepings: book_keeping})
       context = %{context: %{current_user: user}}
       params = %{price: 33, name: "Less than $100K", book_keeping_id: book_keeping.id}
       args = %{id: struct.id, book_keeping_annual_revenue: params}

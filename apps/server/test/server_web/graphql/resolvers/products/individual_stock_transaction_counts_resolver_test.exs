@@ -159,7 +159,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualStockTransactionCountsR
       user = insert(:tp_user)
       insert(:tp_individual_tax_return, user: user)
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
-      individual_stock_transaction_count = insert(:individual_stock_transaction_count, individual_tax_returns: individual_tax_return)
+      individual_stock_transaction_count = insert(:individual_stock_transaction_count, %{name: "1-5", individual_tax_returns: individual_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{

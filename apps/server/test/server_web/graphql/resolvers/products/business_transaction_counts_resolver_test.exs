@@ -160,7 +160,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTransactionCountsResolver
       user = insert(:tp_user)
       insert(:tp_business_tax_return, user: user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      business_transaction_count = insert(:tp_business_transaction_count, business_tax_returns: business_tax_return)
+      business_transaction_count = insert(:tp_business_transaction_count, %{name: "1-10", business_tax_returns: business_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{

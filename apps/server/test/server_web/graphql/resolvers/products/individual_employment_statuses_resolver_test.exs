@@ -236,7 +236,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualEmploymentStatusesResol
       user = insert(:tp_user)
       insert(:tp_individual_tax_return, user: user)
       new_individual_tax_return = insert(:tp_individual_tax_return, user: user)
-      individual_employment_status = insert(:tp_individual_employment_status, individual_tax_returns: new_individual_tax_return)
+      individual_employment_status = insert(:tp_individual_employment_status, %{name: "employed", individual_tax_returns: new_individual_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{
@@ -259,7 +259,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualEmploymentStatusesResol
       user = insert(:pro_user)
       insert(:pro_individual_tax_return, user: user)
       new_individual_tax_return = insert(:pro_individual_tax_return, user: user)
-      individual_employment_status = insert(:pro_individual_employment_status, individual_tax_returns: new_individual_tax_return)
+      individual_employment_status = insert(:pro_individual_employment_status, %{name: "employed", individual_tax_returns: new_individual_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{

@@ -226,7 +226,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingIndustriesResolverTest
       user = insert(:tp_user)
       insert(:tp_book_keeping, user: user)
       book_keeping = insert(:tp_book_keeping, user: user)
-      book_keeping_industry = insert(:tp_book_keeping_industry, book_keepings: book_keeping)
+      book_keeping_industry = insert(:tp_book_keeping_industry, %{name: ["Agriculture/Farming"], book_keepings: book_keeping})
       context = %{context: %{current_user: user}}
 
       params = %{
@@ -248,7 +248,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingIndustriesResolverTest
       user = insert(:pro_user)
       insert(:pro_book_keeping, user: user)
       book_keeping = insert(:pro_book_keeping, user: user)
-      book_keeping_industry = insert(:pro_book_keeping_industry, book_keepings: book_keeping)
+      book_keeping_industry = insert(:pro_book_keeping_industry, %{name: ["Agriculture/Farming"], book_keepings: book_keeping})
       context = %{context: %{current_user: user}}
 
 

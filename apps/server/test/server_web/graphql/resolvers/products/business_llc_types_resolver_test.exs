@@ -160,7 +160,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessLlcTypesResolverTest do
       user = insert(:tp_user)
       insert(:tp_business_tax_return, user: user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      business_llc_type = insert(:tp_business_llc_type, business_tax_returns: business_tax_return)
+      business_llc_type = insert(:tp_business_llc_type, %{name: "C-Corp / Corporation", business_tax_returns: business_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{

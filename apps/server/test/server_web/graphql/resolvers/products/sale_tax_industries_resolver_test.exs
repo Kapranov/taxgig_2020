@@ -226,7 +226,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.SaleTaxIndustriesResolverTest do
       user = insert(:tp_user)
       insert(:tp_sale_tax, user: user)
       sale_tax = insert(:tp_sale_tax, user: user)
-      sale_tax_industry = insert(:tp_sale_tax_industry, sale_taxes: sale_tax)
+      sale_tax_industry = insert(:tp_sale_tax_industry, %{name: ["Agriculture/Farming"], sale_taxes: sale_tax})
       context = %{context: %{current_user: user}}
 
       params = %{
@@ -248,7 +248,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.SaleTaxIndustriesResolverTest do
       user = insert(:pro_user)
       insert(:pro_sale_tax, user: user)
       sale_tax = insert(:pro_sale_tax, user: user)
-      sale_tax_industry = insert(:pro_sale_tax_industry, sale_taxes: sale_tax)
+      sale_tax_industry = insert(:pro_sale_tax_industry, %{name: ["Agriculture/Farming"], sale_taxes: sale_tax})
       context = %{context: %{current_user: user}}
 
 

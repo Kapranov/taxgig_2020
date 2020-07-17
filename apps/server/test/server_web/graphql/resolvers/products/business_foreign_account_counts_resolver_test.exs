@@ -159,7 +159,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessForeignAccountCountsResol
       user = insert(:tp_user)
       insert(:tp_business_tax_return, user: user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      business_foreign_account_count = insert(:tp_business_foreign_account_count, business_tax_returns: business_tax_return)
+      business_foreign_account_count = insert(:tp_business_foreign_account_count, %{name: "1", business_tax_returns: business_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{

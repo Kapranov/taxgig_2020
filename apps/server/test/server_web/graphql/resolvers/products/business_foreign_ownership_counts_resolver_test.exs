@@ -160,7 +160,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessForeignOwnershipCountsRes
       user = insert(:tp_user)
       insert(:tp_business_tax_return, user: user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      business_foreign_ownership_count = insert(:tp_business_foreign_ownership_count, business_tax_returns: business_tax_return)
+      business_foreign_ownership_count = insert(:tp_business_foreign_ownership_count, %{name: "1", business_tax_returns: business_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{

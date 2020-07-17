@@ -239,7 +239,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualFilingStatusesResolverT
       user = insert(:tp_user)
       insert(:tp_individual_tax_return, user: user)
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
-      individual_filing_status = insert(:tp_individual_filing_status, individual_tax_returns: individual_tax_return)
+      individual_filing_status = insert(:tp_individual_filing_status, %{name: "Head of Household", individual_tax_returns: individual_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{
@@ -262,7 +262,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualFilingStatusesResolverT
       user = insert(:pro_user)
       insert(:pro_individual_tax_return, user: user)
       individual_tax_return = insert(:pro_individual_tax_return, user: user)
-      individual_filing_status = insert(:pro_individual_filing_status, individual_tax_returns: individual_tax_return)
+      individual_filing_status = insert(:pro_individual_filing_status, %{name: "Head of Household", individual_tax_returns: individual_tax_return})
       context = %{context: %{current_user: user}}
 
 

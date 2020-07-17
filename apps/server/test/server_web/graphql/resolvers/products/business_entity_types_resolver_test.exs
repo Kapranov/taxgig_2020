@@ -237,7 +237,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolverTest d
       user = insert(:tp_user)
       insert(:tp_business_tax_return, user: user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      business_entity_type = insert(:tp_business_entity_type, business_tax_returns: business_tax_return)
+      business_entity_type = insert(:tp_business_entity_type, %{name: "C-Corp / Corporation", business_tax_returns: business_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{
@@ -260,7 +260,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolverTest d
       user = insert(:pro_user)
       insert(:pro_business_tax_return, user: user)
       business_tax_return = insert(:pro_business_tax_return, user: user)
-      business_entity_type = insert(:pro_business_entity_type, business_tax_returns: business_tax_return)
+      business_entity_type = insert(:pro_business_entity_type, %{name: "C-Corp / Corporation", business_tax_returns: business_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{

@@ -237,7 +237,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolverTe
       user = insert(:tp_user)
       insert(:tp_business_tax_return, user: user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      business_number_employee = insert(:tp_business_number_employee, business_tax_returns: business_tax_return)
+      business_number_employee = insert(:tp_business_number_employee, %{name: "1 employee", business_tax_returns: business_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{
@@ -260,7 +260,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolverTe
       user = insert(:pro_user)
       insert(:pro_business_tax_return, user: user)
       business_tax_return = insert(:pro_business_tax_return, user: user)
-      business_number_employee = insert(:pro_business_number_employee, business_tax_returns: business_tax_return)
+      business_number_employee = insert(:pro_business_number_employee, %{name: "1 employee", business_tax_returns: business_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{

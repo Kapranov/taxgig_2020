@@ -279,7 +279,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.SaleTaxFrequenciesResolverTest do
     it "update specific SaleTaxFrequency by id via role's Tp" do
       user = insert(:tp_user)
       sale_tax = insert(:tp_sale_tax, %{user: user})
-      struct = insert(:tp_sale_tax_frequency, %{sale_taxes: sale_tax})
+      struct = insert(:tp_sale_tax_frequency, %{name: "Annually", sale_taxes: sale_tax})
       context = %{context: %{current_user: user}}
       params = %{name: "Quarterly", sale_tax_id: sale_tax.id}
       args = %{id: struct.id, sale_tax_frequency: params}
@@ -296,7 +296,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.SaleTaxFrequenciesResolverTest do
     it "update specific BookKeepingTypeClient by id via role's Pro" do
       user = insert(:pro_user)
       sale_tax = insert(:pro_sale_tax, %{user: user})
-      struct = insert(:pro_sale_tax_frequency, %{sale_taxes: sale_tax})
+      struct = insert(:pro_sale_tax_frequency, %{name: "Annually", sale_taxes: sale_tax})
       context = %{context: %{current_user: user}}
       params = %{price: 33, name: "Quarterly", sale_tax_id: sale_tax.id}
       args = %{id: struct.id, sale_tax_frequency: params}

@@ -239,7 +239,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualItemizedDeductionsResol
       user = insert(:tp_user)
       insert(:tp_individual_tax_return, user: user)
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
-      individual_itemized_deduction = insert(:tp_individual_itemized_deduction, individual_tax_returns: individual_tax_return)
+      individual_itemized_deduction = insert(:tp_individual_itemized_deduction, %{name: "Charitable contributions", individual_tax_returns: individual_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{
@@ -262,7 +262,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualItemizedDeductionsResol
       user = insert(:pro_user)
       insert(:pro_individual_tax_return, user: user)
       individual_tax_return = insert(:pro_individual_tax_return, user: user)
-      individual_itemized_deduction = insert(:pro_individual_itemized_deduction, individual_tax_returns: individual_tax_return)
+      individual_itemized_deduction = insert(:pro_individual_itemized_deduction, %{name: "Charitable contributions", individual_tax_returns: individual_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{

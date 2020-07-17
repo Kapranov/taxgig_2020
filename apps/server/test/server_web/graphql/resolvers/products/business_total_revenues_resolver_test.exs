@@ -238,7 +238,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolverTest
       user = insert(:tp_user)
       insert(:tp_business_tax_return, user: user)
       business_tax_return = insert(:tp_business_tax_return, user: user)
-      business_total_revenue = insert(:tp_business_total_revenue, business_tax_returns: business_tax_return)
+      business_total_revenue = insert(:tp_business_total_revenue, %{name: "$100K - $500K", business_tax_returns: business_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{
@@ -261,7 +261,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolverTest
       user = insert(:pro_user)
       insert(:pro_business_tax_return, user: user)
       business_tax_return = insert(:pro_business_tax_return, user: user)
-      business_total_revenue = insert(:pro_business_total_revenue, business_tax_returns: business_tax_return)
+      business_total_revenue = insert(:pro_business_total_revenue, %{name: "$100K - $500K", business_tax_returns: business_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{

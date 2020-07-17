@@ -193,7 +193,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingClassifyInventoriesRes
     it "update specific BookKeepingClassifyInventory by id via role's Tp" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, %{user: user})
-      struct = insert(:tp_book_keeping_classify_inventory, %{book_keepings: book_keeping})
+      struct = insert(:tp_book_keeping_classify_inventory, %{name: "Assets", book_keepings: book_keeping})
       context = %{context: %{current_user: user}}
       params = %{name: "Expenses", book_keeping_id: book_keeping.id}
       args = %{id: struct.id, book_keeping_classify_inventory: params}

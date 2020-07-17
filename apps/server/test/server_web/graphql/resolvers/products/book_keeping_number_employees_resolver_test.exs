@@ -301,7 +301,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingNumberEmployeesResolve
     it "update specific BookKeepingNumberEmployee by id via role's Tp" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, %{user: user})
-      struct = insert(:tp_book_keeping_number_employee, %{book_keepings: book_keeping})
+      struct = insert(:tp_book_keeping_number_employee, %{name: "1 employee", book_keepings: book_keeping})
       context = %{context: %{current_user: user}}
       params = %{name: "51 - 100 employees", book_keeping_id: book_keeping.id}
       args = %{id: struct.id, book_keeping_number_employee: params}
@@ -318,7 +318,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingNumberEmployeesResolve
     it "update specific BookKeepingNumberEmployee by id via role's Pro" do
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, %{user: user})
-      struct = insert(:pro_book_keeping_number_employee, %{book_keepings: book_keeping})
+      struct = insert(:pro_book_keeping_number_employee, %{name: "1 employee", book_keepings: book_keeping})
       context = %{context: %{current_user: user}}
       params = %{price: 33, name: "51 - 100 employees", book_keeping_id: book_keeping.id}
       args = %{id: struct.id, book_keeping_number_employee: params}

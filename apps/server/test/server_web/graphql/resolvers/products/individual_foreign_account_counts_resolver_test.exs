@@ -160,7 +160,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualForeignAccountCountsRes
       user = insert(:tp_user)
       insert(:tp_individual_tax_return, user: user)
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
-      individual_foreign_account_count = insert(:individual_foreign_account_count, individual_tax_returns: individual_tax_return)
+      individual_foreign_account_count = insert(:individual_foreign_account_count, %{name: "1", individual_tax_returns: individual_tax_return})
       context = %{context: %{current_user: user}}
 
       params = %{

@@ -310,7 +310,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingTransactionVolumesReso
     it "update specific BookKeepingTransactionVolume by id via role's Tp" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, %{user: user})
-      struct = insert(:tp_book_keeping_transaction_volume, %{book_keepings: book_keeping})
+      struct = insert(:tp_book_keeping_transaction_volume, %{name: "1-25", book_keepings: book_keeping})
       context = %{context: %{current_user: user}}
       params = %{name: "76-199", book_keeping_id: book_keeping.id}
       args = %{id: struct.id, book_keeping_transaction_volume: params}
@@ -327,7 +327,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingTransactionVolumesReso
     it "update specific BookKeepingTransactionVolume by id via role's Pro" do
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, %{user: user})
-      struct = insert(:pro_book_keeping_transaction_volume, %{book_keepings: book_keeping})
+      struct = insert(:pro_book_keeping_transaction_volume, %{name: "1-25", book_keepings: book_keeping})
       context = %{context: %{current_user: user}}
       params = %{price: 33, name: "76-199", book_keeping_id: book_keeping.id}
       args = %{id: struct.id, book_keeping_transaction_volume: params}

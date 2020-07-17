@@ -310,7 +310,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingTypeClientsResolverTes
     it "update specific BookKeepingTypeClient by id via role's Tp" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, %{user: user})
-      struct = insert(:tp_book_keeping_type_client, %{book_keepings: book_keeping})
+      struct = insert(:tp_book_keeping_type_client, %{name: "C-Corp / Corporation", book_keepings: book_keeping})
       context = %{context: %{current_user: user}}
       params = %{name: "S-Corp", book_keeping_id: book_keeping.id}
       args = %{id: struct.id, book_keeping_type_client: params}
@@ -327,7 +327,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingTypeClientsResolverTes
     it "update specific BookKeepingTypeClient by id via role's Pro" do
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, %{user: user})
-      struct = insert(:pro_book_keeping_type_client, %{book_keepings: book_keeping})
+      struct = insert(:pro_book_keeping_type_client, %{name: "C-Corp / Corporation", book_keepings: book_keeping})
       context = %{context: %{current_user: user}}
       params = %{price: 33, name: "S-Corp", book_keeping_id: book_keeping.id}
       args = %{id: struct.id, book_keeping_type_client: params}
