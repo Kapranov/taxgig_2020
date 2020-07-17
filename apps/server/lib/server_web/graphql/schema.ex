@@ -238,6 +238,7 @@ defmodule ServerWeb.GraphQL.Schema do
     |> apply(:debug, field, object)
   end
 
+  @spec apply(list(), atom(), any(), ) :: list()
   defp apply(middleware, :errors, _field, %{identifier: :mutation}) do
     middleware ++ [Middleware.ChangesetErrors]
   end
