@@ -1426,6 +1426,7 @@ defmodule Server.Factory do
         Enum.random(names)
       end
       |> Enum.uniq()
+      |> Enum.sort()
 
     result
   end
@@ -1467,6 +1468,7 @@ defmodule Server.Factory do
         Enum.random(names)
       end
       |> Enum.uniq()
+      |> Enum.sort()
 
     result
   end
@@ -1508,6 +1510,7 @@ defmodule Server.Factory do
         Enum.random(names)
       end
       |> Enum.uniq()
+      |> Enum.sort()
 
     result
   end

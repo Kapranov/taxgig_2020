@@ -8,21 +8,32 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
     it "returns BookKeepingIndustry by role's Tp" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, %{user: user})
-      book_keeping_industry = insert(:tp_book_keeping_industry, %{book_keepings: book_keeping})
+      struct = insert(:tp_book_keeping_industry, %{book_keepings: book_keeping})
       context = %{current_user: user}
 
       query = """
       {
         allBookKeepingIndustries {
           id
-          inserted_at
           name
-          updated_at
           book_keepings {
             id
-            inserted_at
-            updated_at
-            user { id }
+            account_count
+            balance_sheet
+            financial_situation
+            inventory
+            inventory_count
+            payroll
+            tax_return_current
+            tax_year
+            book_keeping_additional_needs { id }
+            book_keeping_annual_revenues { id }
+            book_keeping_classify_inventories { id }
+            book_keeping_industries { id }
+            book_keeping_number_employees { id }
+            book_keeping_transaction_volumes { id }
+            book_keeping_type_clients { id }
+            user { id email role}
           }
         }
       }
@@ -37,46 +48,65 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
 
       data = json_response(res, 200)["data"]["allBookKeepingIndustries"]
 
-      assert List.first(data)["id"]                           == book_keeping_industry.id
-      assert List.first(data)["book_keepings"]["id"]          == book_keeping_industry.book_keepings.id
-      assert List.first(data)["book_keepings"]["inserted_at"] == formatting_time(book_keeping_industry.book_keepings.inserted_at)
-      assert List.first(data)["book_keepings"]["updated_at"]  == formatting_time(book_keeping_industry.book_keepings.updated_at)
-      assert List.first(data)["inserted_at"]                  == formatting_time(book_keeping_industry.inserted_at)
-      assert List.first(data)["name"]                         == book_keeping_industry.name
-      assert List.first(data)["updated_at"]                   == formatting_time(book_keeping_industry.updated_at)
+      assert List.first(data)["id"]                                    == struct.id
+      assert List.first(data)["name"]                                  == format_field(struct.name)
+      assert List.first(data)["book_keepings"]["id"]                   == struct.book_keepings.id
+      assert List.first(data)["book_keepings"]["account_count"]        == struct.book_keepings.account_count
+      assert List.first(data)["book_keepings"]["balance_sheet"]        == struct.book_keepings.balance_sheet
+      assert List.first(data)["book_keepings"]["financial_situation"]  == struct.book_keepings.financial_situation
+      assert List.first(data)["book_keepings"]["inventory"]            == struct.book_keepings.inventory
+      assert List.first(data)["book_keepings"]["inventory_count"]      == struct.book_keepings.inventory_count
+      assert List.first(data)["book_keepings"]["payroll"]              == struct.book_keepings.payroll
+      assert List.first(data)["book_keepings"]["tax_return_current"]   == struct.book_keepings.tax_return_current
+      assert List.first(data)["book_keepings"]["tax_year"]             == struct.book_keepings.tax_year
+      assert List.first(data)["book_keepings"]["user"]["id"]           == user.id
+      assert List.first(data)["book_keepings"]["user"]["email"]        == user.email
+      assert List.first(data)["book_keepings"]["user"]["role"]         == user.role
 
       {:ok, %{data: %{"allBookKeepingIndustries" => data}}} =
         Absinthe.run(query, Schema, context: context)
 
       first = hd(data)
 
-      assert first["id"]                           == book_keeping_industry.id
-      assert first["book_keepings"]["id"]          == book_keeping_industry.book_keepings.id
-      assert first["book_keepings"]["inserted_at"] == formatting_time(book_keeping_industry.book_keepings.inserted_at)
-      assert first["book_keepings"]["updated_at"]  == formatting_time(book_keeping_industry.book_keepings.updated_at)
-      assert first["inserted_at"]                  == formatting_time(book_keeping_industry.inserted_at)
-      assert first["name"]                         == book_keeping_industry.name
-      assert first["updated_at"]                   == formatting_time(book_keeping_industry.updated_at)
+      assert first["id"]                                    == struct.id
+      assert first["name"]                                  == format_field(struct.name)
+      assert first["book_keepings"]["id"]                   == struct.book_keepings.id
+      assert first["book_keepings"]["account_count"]        == struct.book_keepings.account_count
+      assert first["book_keepings"]["balance_sheet"]        == struct.book_keepings.balance_sheet
+      assert first["book_keepings"]["financial_situation"]  == struct.book_keepings.financial_situation
+      assert first["book_keepings"]["inventory"]            == struct.book_keepings.inventory
+      assert first["book_keepings"]["inventory_count"]      == struct.book_keepings.inventory_count
+      assert first["book_keepings"]["payroll"]              == struct.book_keepings.payroll
+      assert first["book_keepings"]["tax_return_current"]   == struct.book_keepings.tax_return_current
+      assert first["book_keepings"]["tax_year"]             == struct.book_keepings.tax_year
+      assert first["book_keepings"]["user"]["id"]           == user.id
+      assert first["book_keepings"]["user"]["email"]        == user.email
+      assert first["book_keepings"]["user"]["role"]         == user.role
     end
 
     it "returns BusinessTaxReturn by role's Pro" do
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, %{user: user})
-      book_keeping_industry = insert(:pro_book_keeping_industry, %{book_keepings: book_keeping})
+      struct = insert(:pro_book_keeping_industry, %{book_keepings: book_keeping})
       context = %{current_user: user}
 
       query = """
       {
         allBookKeepingIndustries {
           id
-          inserted_at
           name
-          updated_at
           book_keepings {
             id
-            inserted_at
-            updated_at
-            user { id }
+            payroll
+            price_payroll
+            book_keeping_additional_needs { id }
+            book_keeping_annual_revenues { id }
+            book_keeping_classify_inventories { id }
+            book_keeping_industries { id }
+            book_keeping_number_employees { id }
+            book_keeping_transaction_volumes { id }
+            book_keeping_type_clients { id }
+            user { id email role}
           }
         }
       }
@@ -91,26 +121,28 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
 
       data = json_response(res, 200)["data"]["allBookKeepingIndustries"]
 
-      assert List.first(data)["id"]                           == book_keeping_industry.id
-      assert List.first(data)["book_keepings"]["id"]          == book_keeping_industry.book_keepings.id
-      assert List.first(data)["book_keepings"]["inserted_at"] == formatting_time(book_keeping_industry.book_keepings.inserted_at)
-      assert List.first(data)["book_keepings"]["updated_at"]  == formatting_time(book_keeping_industry.book_keepings.updated_at)
-      assert List.first(data)["inserted_at"]                  == formatting_time(book_keeping_industry.inserted_at)
-      assert List.first(data)["name"]                         == book_keeping_industry.name
-      assert List.first(data)["updated_at"]                   == formatting_time(book_keeping_industry.updated_at)
+      assert List.first(data)["id"]                                    == struct.id
+      assert List.first(data)["name"]                                  == format_field(struct.name)
+      assert List.first(data)["book_keepings"]["id"]                   == struct.book_keepings.id
+      assert List.first(data)["book_keepings"]["payroll"]              == struct.book_keepings.payroll
+      assert List.first(data)["book_keepings"]["price_payroll"]        == struct.book_keepings.price_payroll
+      assert List.first(data)["book_keepings"]["user"]["id"]           == user.id
+      assert List.first(data)["book_keepings"]["user"]["email"]        == user.email
+      assert List.first(data)["book_keepings"]["user"]["role"]         == user.role
 
       {:ok, %{data: %{"allBookKeepingIndustries" => data}}} =
         Absinthe.run(query, Schema, context: context)
 
       first = hd(data)
 
-      assert first["id"]                           == book_keeping_industry.id
-      assert first["book_keepings"]["id"]          == book_keeping_industry.book_keepings.id
-      assert first["book_keepings"]["inserted_at"] == formatting_time(book_keeping_industry.book_keepings.inserted_at)
-      assert first["book_keepings"]["updated_at"]  == formatting_time(book_keeping_industry.book_keepings.updated_at)
-      assert first["inserted_at"]                  == formatting_time(book_keeping_industry.inserted_at)
-      assert first["name"]                         == book_keeping_industry.name
-      assert first["updated_at"]                   == formatting_time(book_keeping_industry.updated_at)
+      assert first["id"]                                    == struct.id
+      assert first["name"]                                  == format_field(struct.name)
+      assert first["book_keepings"]["id"]                   == struct.book_keepings.id
+      assert first["book_keepings"]["payroll"]              == struct.book_keepings.payroll
+      assert first["book_keepings"]["price_payroll"]        == struct.book_keepings.price_payroll
+      assert first["book_keepings"]["user"]["id"]           == user.id
+      assert first["book_keepings"]["user"]["email"]        == user.email
+      assert first["book_keepings"]["user"]["role"]         == user.role
     end
   end
 
@@ -118,21 +150,32 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
     it "returns specific BookKeepingIndustry by role's Tp" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, %{user: user})
-      book_keeping_industry = insert(:tp_book_keeping_industry, %{book_keepings: book_keeping})
+      struct = insert(:tp_book_keeping_industry, %{book_keepings: book_keeping})
       context = %{current_user: user}
 
       query = """
       {
-        showBookKeepingIndustry(id: \"#{book_keeping_industry.id}\") {
+        showBookKeepingIndustry(id: \"#{struct.id}\") {
           id
-          inserted_at
           name
-          updated_at
           book_keepings {
             id
-            inserted_at
-            updated_at
-            user { id }
+            account_count
+            balance_sheet
+            financial_situation
+            inventory
+            inventory_count
+            payroll
+            tax_return_current
+            tax_year
+            book_keeping_additional_needs { id }
+            book_keeping_annual_revenues { id }
+            book_keeping_classify_inventories { id }
+            book_keeping_industries { id }
+            book_keeping_number_employees { id }
+            book_keeping_transaction_volumes { id }
+            book_keeping_type_clients { id }
+            user { id email role}
           }
         }
       }
@@ -141,13 +184,20 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
       {:ok, %{data: %{"showBookKeepingIndustry" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["id"]                           == book_keeping_industry.id
-      assert found["book_keepings"]["id"]          == book_keeping_industry.book_keepings.id
-      assert found["book_keepings"]["inserted_at"] == formatting_time(book_keeping_industry.book_keepings.inserted_at)
-      assert found["book_keepings"]["updated_at"]  == formatting_time(book_keeping_industry.book_keepings.updated_at)
-      assert found["inserted_at"]                  == formatting_time(book_keeping_industry.inserted_at)
-      assert found["name"]                         == book_keeping_industry.name
-      assert found["updated_at"]                   == formatting_time(book_keeping_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["book_keepings"]["id"]                   == struct.book_keepings.id
+      assert found["book_keepings"]["account_count"]        == struct.book_keepings.account_count
+      assert found["book_keepings"]["balance_sheet"]        == struct.book_keepings.balance_sheet
+      assert found["book_keepings"]["financial_situation"]  == struct.book_keepings.financial_situation
+      assert found["book_keepings"]["inventory"]            == struct.book_keepings.inventory
+      assert found["book_keepings"]["inventory_count"]      == struct.book_keepings.inventory_count
+      assert found["book_keepings"]["payroll"]              == struct.book_keepings.payroll
+      assert found["book_keepings"]["tax_return_current"]   == struct.book_keepings.tax_return_current
+      assert found["book_keepings"]["tax_year"]             == struct.book_keepings.tax_year
+      assert found["book_keepings"]["user"]["id"]           == user.id
+      assert found["book_keepings"]["user"]["email"]        == user.email
+      assert found["book_keepings"]["user"]["role"]         == user.role
 
       res =
         build_conn()
@@ -158,33 +208,45 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
 
       found = json_response(res, 200)["data"]["showBookKeepingIndustry"]
 
-      assert found["id"]                           == book_keeping_industry.id
-      assert found["book_keepings"]["id"]          == book_keeping_industry.book_keepings.id
-      assert found["book_keepings"]["inserted_at"] == formatting_time(book_keeping_industry.book_keepings.inserted_at)
-      assert found["book_keepings"]["updated_at"]  == formatting_time(book_keeping_industry.book_keepings.updated_at)
-      assert found["inserted_at"]                  == formatting_time(book_keeping_industry.inserted_at)
-      assert found["name"]                         == book_keeping_industry.name
-      assert found["updated_at"]                   == formatting_time(book_keeping_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["book_keepings"]["id"]                   == struct.book_keepings.id
+      assert found["book_keepings"]["account_count"]        == struct.book_keepings.account_count
+      assert found["book_keepings"]["balance_sheet"]        == struct.book_keepings.balance_sheet
+      assert found["book_keepings"]["financial_situation"]  == struct.book_keepings.financial_situation
+      assert found["book_keepings"]["inventory"]            == struct.book_keepings.inventory
+      assert found["book_keepings"]["inventory_count"]      == struct.book_keepings.inventory_count
+      assert found["book_keepings"]["payroll"]              == struct.book_keepings.payroll
+      assert found["book_keepings"]["tax_return_current"]   == struct.book_keepings.tax_return_current
+      assert found["book_keepings"]["tax_year"]             == struct.book_keepings.tax_year
+      assert found["book_keepings"]["user"]["id"]           == user.id
+      assert found["book_keepings"]["user"]["email"]        == user.email
+      assert found["book_keepings"]["user"]["role"]         == user.role
     end
 
     it "returns specific BookKeepingIndustry by role's Pro" do
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, %{user: user})
-      book_keeping_industry = insert(:pro_book_keeping_industry, %{book_keepings: book_keeping})
+      struct = insert(:pro_book_keeping_industry, %{book_keepings: book_keeping})
       context = %{current_user: user}
 
       query = """
       {
-        showBookKeepingIndustry(id: \"#{book_keeping_industry.id}\") {
+        showBookKeepingIndustry(id: \"#{struct.id}\") {
           id
-          inserted_at
           name
-          updated_at
           book_keepings {
             id
-            inserted_at
-            updated_at
-            user { id }
+            payroll
+            price_payroll
+            book_keeping_additional_needs { id }
+            book_keeping_annual_revenues { id }
+            book_keeping_classify_inventories { id }
+            book_keeping_industries { id }
+            book_keeping_number_employees { id }
+            book_keeping_transaction_volumes { id }
+            book_keeping_type_clients { id }
+            user { id email role}
           }
         }
       }
@@ -193,13 +255,14 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
       {:ok, %{data: %{"showBookKeepingIndustry" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["id"]                           == book_keeping_industry.id
-      assert found["book_keepings"]["id"]          == book_keeping_industry.book_keepings.id
-      assert found["book_keepings"]["inserted_at"] == formatting_time(book_keeping_industry.book_keepings.inserted_at)
-      assert found["book_keepings"]["updated_at"]  == formatting_time(book_keeping_industry.book_keepings.updated_at)
-      assert found["inserted_at"]                  == formatting_time(book_keeping_industry.inserted_at)
-      assert found["name"]                         == book_keeping_industry.name
-      assert found["updated_at"]                   == formatting_time(book_keeping_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["book_keepings"]["id"]                   == struct.book_keepings.id
+      assert found["book_keepings"]["payroll"]              == struct.book_keepings.payroll
+      assert found["book_keepings"]["price_payroll"]        == struct.book_keepings.price_payroll
+      assert found["book_keepings"]["user"]["id"]           == user.id
+      assert found["book_keepings"]["user"]["email"]        == user.email
+      assert found["book_keepings"]["user"]["role"]         == user.role
 
       res =
         build_conn()
@@ -210,13 +273,14 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
 
       found = json_response(res, 200)["data"]["showBookKeepingIndustry"]
 
-      assert found["id"]                           == book_keeping_industry.id
-      assert found["book_keepings"]["id"]          == book_keeping_industry.book_keepings.id
-      assert found["book_keepings"]["inserted_at"] == formatting_time(book_keeping_industry.book_keepings.inserted_at)
-      assert found["book_keepings"]["updated_at"]  == formatting_time(book_keeping_industry.book_keepings.updated_at)
-      assert found["inserted_at"]                  == formatting_time(book_keeping_industry.inserted_at)
-      assert found["name"]                         == book_keeping_industry.name
-      assert found["updated_at"]                   == formatting_time(book_keeping_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["book_keepings"]["id"]                   == struct.book_keepings.id
+      assert found["book_keepings"]["payroll"]              == struct.book_keepings.payroll
+      assert found["book_keepings"]["price_payroll"]        == struct.book_keepings.price_payroll
+      assert found["book_keepings"]["user"]["id"]           == user.id
+      assert found["book_keepings"]["user"]["email"]        == user.email
+      assert found["book_keepings"]["user"]["role"]         == user.role
     end
   end
 
@@ -224,21 +288,32 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
     it "find specific BusinessTaxReturn by role's Tp" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, %{user: user})
-      book_keeping_industry = insert(:tp_book_keeping_industry, %{book_keepings: book_keeping})
+      struct = insert(:tp_book_keeping_industry, %{book_keepings: book_keeping})
       context = %{current_user: user}
 
       query = """
       {
-        findBookKeepingIndustry(id: \"#{book_keeping_industry.id}\") {
+        findBookKeepingIndustry(id: \"#{struct.id}\") {
           id
-          inserted_at
           name
-          updated_at
           book_keepings {
             id
-            inserted_at
-            updated_at
-            user { id }
+            account_count
+            balance_sheet
+            financial_situation
+            inventory
+            inventory_count
+            payroll
+            tax_return_current
+            tax_year
+            book_keeping_additional_needs { id }
+            book_keeping_annual_revenues { id }
+            book_keeping_classify_inventories { id }
+            book_keeping_industries { id }
+            book_keeping_number_employees { id }
+            book_keeping_transaction_volumes { id }
+            book_keeping_type_clients { id }
+            user { id email role}
           }
         }
       }
@@ -247,13 +322,20 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
       {:ok, %{data: %{"findBookKeepingIndustry" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["id"]                           == book_keeping_industry.id
-      assert found["book_keepings"]["id"]          == book_keeping_industry.book_keepings.id
-      assert found["book_keepings"]["inserted_at"] == formatting_time(book_keeping_industry.book_keepings.inserted_at)
-      assert found["book_keepings"]["updated_at"]  == formatting_time(book_keeping_industry.book_keepings.updated_at)
-      assert found["inserted_at"]                  == formatting_time(book_keeping_industry.inserted_at)
-      assert found["name"]                         == book_keeping_industry.name
-      assert found["updated_at"]                   == formatting_time(book_keeping_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["book_keepings"]["id"]                   == struct.book_keepings.id
+      assert found["book_keepings"]["account_count"]        == struct.book_keepings.account_count
+      assert found["book_keepings"]["balance_sheet"]        == struct.book_keepings.balance_sheet
+      assert found["book_keepings"]["financial_situation"]  == struct.book_keepings.financial_situation
+      assert found["book_keepings"]["inventory"]            == struct.book_keepings.inventory
+      assert found["book_keepings"]["inventory_count"]      == struct.book_keepings.inventory_count
+      assert found["book_keepings"]["payroll"]              == struct.book_keepings.payroll
+      assert found["book_keepings"]["tax_return_current"]   == struct.book_keepings.tax_return_current
+      assert found["book_keepings"]["tax_year"]             == struct.book_keepings.tax_year
+      assert found["book_keepings"]["user"]["id"]           == user.id
+      assert found["book_keepings"]["user"]["email"]        == user.email
+      assert found["book_keepings"]["user"]["role"]         == user.role
 
       res =
         build_conn()
@@ -264,33 +346,45 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
 
       found = json_response(res, 200)["data"]["findBookKeepingIndustry"]
 
-      assert found["id"]                           == book_keeping_industry.id
-      assert found["book_keepings"]["id"]          == book_keeping_industry.book_keepings.id
-      assert found["book_keepings"]["inserted_at"] == formatting_time(book_keeping_industry.book_keepings.inserted_at)
-      assert found["book_keepings"]["updated_at"]  == formatting_time(book_keeping_industry.book_keepings.updated_at)
-      assert found["inserted_at"]                  == formatting_time(book_keeping_industry.inserted_at)
-      assert found["name"]                         == book_keeping_industry.name
-      assert found["updated_at"]                   == formatting_time(book_keeping_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["book_keepings"]["id"]                   == struct.book_keepings.id
+      assert found["book_keepings"]["account_count"]        == struct.book_keepings.account_count
+      assert found["book_keepings"]["balance_sheet"]        == struct.book_keepings.balance_sheet
+      assert found["book_keepings"]["financial_situation"]  == struct.book_keepings.financial_situation
+      assert found["book_keepings"]["inventory"]            == struct.book_keepings.inventory
+      assert found["book_keepings"]["inventory_count"]      == struct.book_keepings.inventory_count
+      assert found["book_keepings"]["payroll"]              == struct.book_keepings.payroll
+      assert found["book_keepings"]["tax_return_current"]   == struct.book_keepings.tax_return_current
+      assert found["book_keepings"]["tax_year"]             == struct.book_keepings.tax_year
+      assert found["book_keepings"]["user"]["id"]           == user.id
+      assert found["book_keepings"]["user"]["email"]        == user.email
+      assert found["book_keepings"]["user"]["role"]         == user.role
     end
 
     it "find specific BusinessTaxReturn by role's Pro" do
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, %{user: user})
-      book_keeping_industry = insert(:pro_book_keeping_industry, %{book_keepings: book_keeping})
+      struct = insert(:pro_book_keeping_industry, %{book_keepings: book_keeping})
       context = %{current_user: user}
 
       query = """
       {
-        findBookKeepingIndustry(id: \"#{book_keeping_industry.id}\") {
+        findBookKeepingIndustry(id: \"#{struct.id}\") {
           id
-          inserted_at
           name
-          updated_at
           book_keepings {
             id
-            inserted_at
-            updated_at
-            user { id }
+            payroll
+            price_payroll
+            book_keeping_additional_needs { id }
+            book_keeping_annual_revenues { id }
+            book_keeping_classify_inventories { id }
+            book_keeping_industries { id }
+            book_keeping_number_employees { id }
+            book_keeping_transaction_volumes { id }
+            book_keeping_type_clients { id }
+            user { id email role}
           }
         }
       }
@@ -299,13 +393,14 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
       {:ok, %{data: %{"findBookKeepingIndustry" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["id"]                           == book_keeping_industry.id
-      assert found["book_keepings"]["id"]          == book_keeping_industry.book_keepings.id
-      assert found["book_keepings"]["inserted_at"] == formatting_time(book_keeping_industry.book_keepings.inserted_at)
-      assert found["book_keepings"]["updated_at"]  == formatting_time(book_keeping_industry.book_keepings.updated_at)
-      assert found["inserted_at"]                  == formatting_time(book_keeping_industry.inserted_at)
-      assert found["name"]                         == book_keeping_industry.name
-      assert found["updated_at"]                   == formatting_time(book_keeping_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["book_keepings"]["id"]                   == struct.book_keepings.id
+      assert found["book_keepings"]["payroll"]              == struct.book_keepings.payroll
+      assert found["book_keepings"]["price_payroll"]        == struct.book_keepings.price_payroll
+      assert found["book_keepings"]["user"]["id"]           == user.id
+      assert found["book_keepings"]["user"]["email"]        == user.email
+      assert found["book_keepings"]["user"]["role"]         == user.role
 
       res =
         build_conn()
@@ -316,13 +411,14 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
 
       found = json_response(res, 200)["data"]["findBookKeepingIndustry"]
 
-      assert found["id"]                           == book_keeping_industry.id
-      assert found["book_keepings"]["id"]          == book_keeping_industry.book_keepings.id
-      assert found["book_keepings"]["inserted_at"] == formatting_time(book_keeping_industry.book_keepings.inserted_at)
-      assert found["book_keepings"]["updated_at"]  == formatting_time(book_keeping_industry.book_keepings.updated_at)
-      assert found["inserted_at"]                  == formatting_time(book_keeping_industry.inserted_at)
-      assert found["name"]                         == book_keeping_industry.name
-      assert found["updated_at"]                   == formatting_time(book_keeping_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["book_keepings"]["id"]                   == struct.book_keepings.id
+      assert found["book_keepings"]["payroll"]              == struct.book_keepings.payroll
+      assert found["book_keepings"]["price_payroll"]        == struct.book_keepings.price_payroll
+      assert found["book_keepings"]["user"]["id"]           == user.id
+      assert found["book_keepings"]["user"]["email"]        == user.email
+      assert found["book_keepings"]["user"]["role"]         == user.role
     end
   end
 
@@ -334,18 +430,29 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
       mutation = """
       {
         createBookKeepingIndustry(
-          name: ["some name"],
+          name: ["Agriculture/Farming"],
           book_keepingId: \"#{book_keeping.id}\"
         ) {
           id
-          inserted_at
           name
-          updated_at
           book_keepings {
             id
-            inserted_at
-            updated_at
-            user { id }
+            account_count
+            balance_sheet
+            financial_situation
+            inventory
+            inventory_count
+            payroll
+            tax_return_current
+            tax_year
+            book_keeping_additional_needs { id }
+            book_keeping_annual_revenues { id }
+            book_keeping_classify_inventories { id }
+            book_keeping_industries { id }
+            book_keeping_number_employees { id }
+            book_keeping_transaction_volumes { id }
+            book_keeping_type_clients { id }
+            user { id email role}
           }
         }
       }
@@ -361,9 +468,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
       created = json_response(res, 200)["data"]["createBookKeepingIndustry"]
 
       assert created["book_keepings"]["id"] == book_keeping.id
-      assert created["inserted_at"]         == formatting_time(DateTime.truncate(Timex.now(), :second))
-      assert created["name"]                == ["some name"]
-      assert created["updated_at"]          == formatting_time(DateTime.truncate(Timex.now(), :second))
+      assert created["name"]                == ["Agriculture/Farming"]
     end
 
     it "created BookKeepingIndustry by role's Pro" do
@@ -373,18 +478,23 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
       mutation = """
       {
         createBookKeepingIndustry(
-          name: ["some name"],
+          name: ["Agriculture/Farming", "Automotive Sales/Repair"],
           book_keepingId: \"#{book_keeping.id}\"
         ) {
           id
-          inserted_at
           name
-          updated_at
           book_keepings {
             id
-            inserted_at
-            updated_at
-            user { id }
+            payroll
+            price_payroll
+            book_keeping_additional_needs { id }
+            book_keeping_annual_revenues { id }
+            book_keeping_classify_inventories { id }
+            book_keeping_industries { id }
+            book_keeping_number_employees { id }
+            book_keeping_transaction_volumes { id }
+            book_keeping_type_clients { id }
+            user { id email role}
           }
         }
       }
@@ -400,9 +510,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
       created = json_response(res, 200)["data"]["createBookKeepingIndustry"]
 
       assert created["book_keepings"]["id"] == book_keeping.id
-      assert created["inserted_at"]         == formatting_time(DateTime.truncate(Timex.now(), :second))
-      assert created["name"]                == ["some name"]
-      assert created["updated_at"]          == formatting_time(DateTime.truncate(Timex.now(), :second))
+      assert created["name"]                == ["Agriculture/Farming", "Automotive Sales/Repair"]
     end
   end
 
@@ -410,27 +518,38 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
     it "updated specific BookKeepingIndustry by role's Tp" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, %{user: user})
-      book_keeping_industry = insert(:book_keeping_industry, %{book_keepings: book_keeping})
+      struct = insert(:book_keeping_industry, %{name: ["Agriculture/Farming"], book_keepings: book_keeping})
 
       mutation = """
       {
         updateBookKeepingIndustry(
-          id: \"#{book_keeping_industry.id}\",
+          id: \"#{struct.id}\",
           book_keeping_industry: {
-            name: ["updated some name"],
+            name: ["Wholesale Distribution"],
             book_keepingId: \"#{book_keeping.id}\"
           }
         )
         {
           id
-          inserted_at
           name
-          updated_at
           book_keepings {
             id
-            inserted_at
-            updated_at
-            user { id }
+            account_count
+            balance_sheet
+            financial_situation
+            inventory
+            inventory_count
+            payroll
+            tax_return_current
+            tax_year
+            book_keeping_additional_needs { id }
+            book_keeping_annual_revenues { id }
+            book_keeping_classify_inventories { id }
+            book_keeping_industries { id }
+            book_keeping_number_employees { id }
+            book_keeping_transaction_volumes { id }
+            book_keeping_type_clients { id }
+            user { id email role}
           }
         }
       }
@@ -445,38 +564,40 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
 
       updated = json_response(res, 200)["data"]["updateBookKeepingIndustry"]
 
-      assert updated["id"]                           == book_keeping_industry.id
-      assert updated["book_keepings"]["id"]          == book_keeping.id
-      assert updated["book_keepings"]["inserted_at"] == formatting_time(book_keeping_industry.book_keepings.inserted_at)
-      assert updated["book_keepings"]["updated_at"]  == formatting_time(book_keeping_industry.book_keepings.updated_at)
-      assert updated["inserted_at"]                  == formatting_time(book_keeping_industry.inserted_at)
-      assert updated["name"]                         == ["updated some name"]
+      assert updated["id"]                           == struct.id
+      assert updated["book_keepings"]["id"]          == struct.book_keeping_id
+      assert updated["name"]                         == ["Wholesale Distribution"]
     end
 
     it "updated specific BusinessTaxReturn by role's Pro" do
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, %{user: user})
-      book_keeping_industry = insert(:book_keeping_industry, %{book_keepings: book_keeping})
+      struct = insert(:book_keeping_industry, %{name: ["Agriculture/Farming", "Automotive Sales/Repair"], book_keepings: book_keeping})
 
       mutation = """
       {
         updateBookKeepingIndustry(
-          id: \"#{book_keeping_industry.id}\",
+          id: \"#{struct.id}\",
           book_keeping_industry: {
             book_keepingId: \"#{book_keeping.id}\"
-            name: ["updated some name"],
+            name: ["Transportation", "Wholesale Distribution"],
           }
         )
         {
           id
-          inserted_at
           name
-          updated_at
           book_keepings {
             id
-            inserted_at
-            updated_at
-            user { id }
+            payroll
+            price_payroll
+            book_keeping_additional_needs { id }
+            book_keeping_annual_revenues { id }
+            book_keeping_classify_inventories { id }
+            book_keeping_industries { id }
+            book_keeping_number_employees { id }
+            book_keeping_transaction_volumes { id }
+            book_keeping_type_clients { id }
+            user { id email role}
           }
         }
       }
@@ -491,13 +612,9 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
 
       updated = json_response(res, 200)["data"]["updateBookKeepingIndustry"]
 
-      assert updated["id"]                           == book_keeping_industry.id
-      assert updated["book_keepings"]["id"]          == book_keeping.id
-      assert updated["book_keepings"]["inserted_at"] == formatting_time(book_keeping_industry.book_keepings.inserted_at)
-      assert updated["book_keepings"]["updated_at"]  == formatting_time(book_keeping_industry.book_keepings.updated_at)
-      assert updated["inserted_at"]                  == formatting_time(book_keeping_industry.inserted_at)
-      assert updated["name"]                         == ["updated some name"]
-      assert updated["updated_at"]                   == formatting_time(book_keeping_industry.updated_at)
+      assert updated["id"]                           == struct.id
+      assert updated["book_keepings"]["id"]          == struct.book_keeping_id
+      assert updated["name"]                         == ["Transportation", "Wholesale Distribution"]
     end
   end
 
@@ -505,11 +622,11 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
     it "delete specific BookKeepingIndustry" do
       user = insert(:user)
       book_keeping = insert(:book_keeping, %{user: user})
-      book_keeping_industry = insert(:book_keeping_industry, %{book_keepings: book_keeping})
+      struct = insert(:book_keeping_industry, %{book_keepings: book_keeping})
 
       mutation = """
       {
-        deleteBookKeepingIndustry(id: \"#{book_keeping_industry.id}\") {id}
+        deleteBookKeepingIndustry(id: \"#{struct.id}\") {id}
       }
       """
 
@@ -521,30 +638,33 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIndustryIntegrationT
       assert json_response(res, 200)["errors"] == nil
 
       deleted = json_response(res, 200)["data"]["deleteBookKeepingIndustry"]
-      assert deleted["id"] == book_keeping_industry.id
+      assert deleted["id"] == struct.id
     end
   end
 
   describe "#dataloads" do
-    it "created BookKeepingIndustry by role's Tp" do
-       user = insert(:tp_user)
-       %{id: book_keeping_id} = insert(:tp_book_keeping, user: user)
+    it "created BookKeepingIndustry" do
+       user = insert(:user)
+       %{id: id} = insert(:book_keeping, user: user)
 
       source = Dataloader.Ecto.new(Core.Repo)
 
       loader =
         Dataloader.new
         |> Dataloader.add_source(:book_keeping_industries, source)
-        |> Dataloader.load(:book_keeping_industries, Core.Services.BookKeeping, book_keeping_id)
+        |> Dataloader.load(:book_keeping_industries, Core.Services.BookKeeping, id)
         |> Dataloader.run
 
-      data = Dataloader.get(loader, :book_keeping_industries, Core.Services.BookKeeping, book_keeping_id)
+      data = Dataloader.get(loader, :book_keeping_industries, Core.Services.BookKeeping, id)
 
-      assert data.id == book_keeping_id
+      assert data.id == id
     end
   end
 
-  defp formatting_time(timestamp) do
-    Timex.format!(Timex.to_datetime(timestamp, "Europe/Kiev"), "{ISO:Extended:Z}")
+  @spec format_field([atom()]) :: [String.t()]
+  defp format_field(data) do
+    Enum.reduce(data, [], fn(x, acc) ->
+      [to_string(x) | acc]
+    end) |> Enum.sort()
   end
 end
