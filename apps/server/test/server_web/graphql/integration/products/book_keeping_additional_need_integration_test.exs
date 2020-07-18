@@ -542,7 +542,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingAdditionalNeedIntegr
     it "updated specific BookKeepingAdditionalNeed by role's Tp" do
       user = insert(:tp_user)
       book_keeping = insert(:tp_book_keeping, %{user: user})
-      struct = insert(:tp_book_keeping_additional_need, %{book_keepings: book_keeping})
+      struct = insert(:tp_book_keeping_additional_need, %{name: "accounts payable", book_keepings: book_keeping})
 
       mutation = """
       {
@@ -598,7 +598,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingAdditionalNeedIntegr
     it "updated specific BookKeepingAdditionalNeed by role's Pro" do
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, %{user: user})
-      struct = insert(:pro_book_keeping_additional_need, %{book_keepings: book_keeping})
+      struct = insert(:pro_book_keeping_additional_need, %{name: "accounts payable", book_keepings: book_keeping})
 
       mutation = """
       {
@@ -691,5 +691,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingAdditionalNeedIntegr
     end
   end
 
+  @spec format_field(atom()) :: String.t()
   defp format_field(data), do: to_string(data)
 end
