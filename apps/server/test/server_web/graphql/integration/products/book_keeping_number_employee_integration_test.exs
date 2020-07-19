@@ -492,7 +492,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingNumberEmployeeIntegr
       assert created["price"]               == nil
     end
 
-    it "created BookKeepingAdditionalNeed by role's Pro" do
+    it "created BookKeepingNumberEmployee by role's Pro" do
       user = insert(:pro_user)
       book_keeping = insert(:pro_book_keeping, %{user: user})
 
