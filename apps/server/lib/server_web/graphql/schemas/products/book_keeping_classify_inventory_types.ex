@@ -16,7 +16,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingClassifyInventoryTypes d
   object :book_keeping_classify_inventory do
     field :id, non_null(:string)
     field :book_keepings, :book_keeping, resolve: dataloader(Data)
-    field :name, list_of(:string)
+    field :name, :string
   end
 
   @desc "The list book keeping classify inventories via role's Tp"
@@ -29,7 +29,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingClassifyInventoryTypes d
   @desc "The book keeping classify inventory update via params"
   input_object :update_book_keeping_classify_inventory_params do
     field :book_keeping_id, non_null(:string)
-    field :name, list_of(:string)
+    field :name, :string
   end
 
   @desc "The book keeping classify inventory via role's Tp update with params"
@@ -83,7 +83,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingClassifyInventoryTypes d
     @desc "Create the book keeping classify inventory"
     field :create_book_keeping_classify_inventory, :book_keeping_classify_inventory do
       arg :book_keeping_id, non_null(:string)
-      arg :name, list_of(:string)
+      arg :name, :string
 
       resolve &BookKeepingClassifyInventoriesResolver.create/3
     end
