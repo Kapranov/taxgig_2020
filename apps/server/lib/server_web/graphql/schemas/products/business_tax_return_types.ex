@@ -19,6 +19,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
     field :business_entity_types, list_of(:business_entity_type), resolve: dataloader(Data)
     field :business_foreign_account_counts, list_of(:business_foreign_account_count), resolve: dataloader(Data)
     field :business_foreign_ownership_counts, list_of(:business_foreign_ownership_count), resolve: dataloader(Data)
+    field :business_industries, list_of(:business_industry), resolve: dataloader(Data)
     field :business_llc_types, list_of(:business_llc_type), resolve: dataloader(Data)
     field :business_number_employees, list_of(:business_number_employee), resolve: dataloader(Data)
     field :business_total_revenues, list_of(:business_total_revenue), resolve: dataloader(Data)
@@ -68,6 +69,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
     field :business_entity_types, list_of(:business_entity_type), resolve: dataloader(Data)
     field :business_foreign_account_counts, list_of(:business_foreign_account_count), resolve: dataloader(Data)
     field :business_foreign_ownership_counts, list_of(:business_foreign_ownership_count), resolve: dataloader(Data)
+    field :business_industries, list_of(:business_industry), resolve: dataloader(Data)
     field :business_llc_types, list_of(:business_llc_type), resolve: dataloader(Data)
     field :business_number_employees, list_of(:business_number_employee), resolve: dataloader(Data)
     field :business_total_revenues, list_of(:business_total_revenue), resolve: dataloader(Data)
@@ -112,12 +114,8 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
   object :pro_business_tax_return do
     field :id, non_null(:string)
     field :business_entity_types, list_of(:business_entity_type), resolve: dataloader(Data)
-    field :business_foreign_account_counts, list_of(:business_foreign_account_count), resolve: dataloader(Data)
-    field :business_foreign_ownership_counts, list_of(:business_foreign_ownership_count), resolve: dataloader(Data)
-    field :business_llc_types, list_of(:business_llc_type), resolve: dataloader(Data)
     field :business_number_employees, list_of(:business_number_employee), resolve: dataloader(Data)
     field :business_total_revenues, list_of(:business_total_revenue), resolve: dataloader(Data)
-    field :business_transaction_counts, list_of(:business_transaction_count), resolve: dataloader(Data)
     field :none_expat, :boolean
     field :price_state, :integer
     field :price_tax_year, :integer
