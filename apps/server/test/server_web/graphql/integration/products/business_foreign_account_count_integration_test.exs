@@ -8,21 +8,59 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
     it "returns BusinessForeignAccountCount by role's Tp" do
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, %{user: user})
-      business_foreign_account_count = insert(:tp_business_foreign_account_count, %{business_tax_returns: business_tax_return})
+      struct = insert(:tp_business_foreign_account_count, %{business_tax_returns: business_tax_return})
       context = %{current_user: user}
 
       query = """
       {
         allBusinessForeignAccountCounts {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            accounting_software
+            capital_asset_sale
+            church_hospital
+            deadline
+            dispose_asset
+            dispose_property
+            educational_facility
+            financial_situation
+            foreign_account_interest
+            foreign_account_value_more
+            foreign_entity_interest
+            foreign_partner_count
+            foreign_shareholder
+            foreign_value
+            fundraising_over
+            has_contribution
+            has_loan
+            income_over_thousand
+            invest_research
+            k1_count
+            lobbying
+            make_distribution
+            none_expat
+            operate_facility
+            property_sale
+            public_charity
+            rental_property_count
+            reported_grant
+            restricted_donation
+            state
+            tax_exemption
+            tax_year
+            total_asset_less
+            total_asset_over
+            businessEntityTypes { id name }
+            businessForeignAccountCounts { id name }
+            businessForeignOwnershipCounts { id name }
+            businessLlcTypes { id name }
+            businessIndustries { id name }
+            businessNumberEmployees { id name }
+            businessTotalRevenues { id name }
+            businessTransactionCounts { id name }
+            user { id email role}
           }
         }
       }
@@ -37,80 +75,24 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
 
       data = json_response(res, 200)["data"]["allBusinessForeignAccountCounts"]
 
-      assert List.first(data)["id"]                                  == business_foreign_account_count.id
-      assert List.first(data)["business_tax_returns"]["id"]          == business_foreign_account_count.business_tax_returns.id
-      assert List.first(data)["business_tax_returns"]["inserted_at"] == formatting_time(business_foreign_account_count.business_tax_returns.inserted_at)
-      assert List.first(data)["business_tax_returns"]["updated_at"]  == formatting_time(business_foreign_account_count.business_tax_returns.updated_at)
-      assert List.first(data)["inserted_at"]                         == formatting_time(business_foreign_account_count.inserted_at)
-      assert List.first(data)["name"]                                == business_foreign_account_count.name
-      assert List.first(data)["updated_at"]                          == formatting_time(business_foreign_account_count.updated_at)
+      assert List.first(data)["id"]                                    == struct.id
+      assert List.first(data)["name"]                                  == format_field(struct.name)
+      assert List.first(data)["business_tax_returns"]["id"]            == struct.business_tax_returns.id
+      assert List.first(data)["business_tax_returns"]["user"]["id"]    == user.id
+      assert List.first(data)["business_tax_returns"]["user"]["email"] == user.email
+      assert List.first(data)["business_tax_returns"]["user"]["role"]  == user.role
 
       {:ok, %{data: %{"allBusinessForeignAccountCounts" => data}}} =
         Absinthe.run(query, Schema, context: context)
 
       first = hd(data)
 
-      assert first["id"]                                  == business_foreign_account_count.id
-      assert first["business_tax_returns"]["id"]          == business_foreign_account_count.business_tax_returns.id
-      assert first["business_tax_returns"]["inserted_at"] == formatting_time(business_foreign_account_count.business_tax_returns.inserted_at)
-      assert first["business_tax_returns"]["updated_at"]  == formatting_time(business_foreign_account_count.business_tax_returns.updated_at)
-      assert first["inserted_at"]                         == formatting_time(business_foreign_account_count.inserted_at)
-      assert first["name"]                                == business_foreign_account_count.name
-      assert first["updated_at"]                          == formatting_time(business_foreign_account_count.updated_at)
-    end
-
-    it "returns BusinessTaxReturn by role's Pro" do
-      user = insert(:pro_user)
-      business_tax_return = insert(:pro_business_tax_return, %{user: user})
-      business_foreign_account_count = insert(:pro_business_foreign_account_count, %{business_tax_returns: business_tax_return})
-      context = %{current_user: user}
-
-      query = """
-      {
-        allBusinessForeignAccountCounts {
-          id
-          inserted_at
-          name
-          updated_at
-          business_tax_returns {
-            id
-            inserted_at
-            updated_at
-            user { id }
-          }
-        }
-      }
-      """
-
-      res =
-        build_conn()
-        |> AbsintheHelpers.authenticate_conn(user)
-        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "allBusinessForeignAccountCounts"))
-
-      assert json_response(res, 200)["errors"] == nil
-
-      data = json_response(res, 200)["data"]["allBusinessForeignAccountCounts"]
-
-      assert List.first(data)["id"]                                  == business_foreign_account_count.id
-      assert List.first(data)["business_tax_returns"]["id"]          == business_foreign_account_count.business_tax_returns.id
-      assert List.first(data)["business_tax_returns"]["inserted_at"] == formatting_time(business_foreign_account_count.business_tax_returns.inserted_at)
-      assert List.first(data)["business_tax_returns"]["updated_at"]  == formatting_time(business_foreign_account_count.business_tax_returns.updated_at)
-      assert List.first(data)["inserted_at"]                         == formatting_time(business_foreign_account_count.inserted_at)
-      assert List.first(data)["name"]                                == business_foreign_account_count.name
-      assert List.first(data)["updated_at"]                          == formatting_time(business_foreign_account_count.updated_at)
-
-      {:ok, %{data: %{"allBusinessForeignAccountCounts" => data}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      first = hd(data)
-
-      assert first["id"]                                  == business_foreign_account_count.id
-      assert first["business_tax_returns"]["id"]          == business_foreign_account_count.business_tax_returns.id
-      assert first["business_tax_returns"]["inserted_at"] == formatting_time(business_foreign_account_count.business_tax_returns.inserted_at)
-      assert first["business_tax_returns"]["updated_at"]  == formatting_time(business_foreign_account_count.business_tax_returns.updated_at)
-      assert first["inserted_at"]                         == formatting_time(business_foreign_account_count.inserted_at)
-      assert first["name"]                                == business_foreign_account_count.name
-      assert first["updated_at"]                          == formatting_time(business_foreign_account_count.updated_at)
+      assert first["id"]                                    == struct.id
+      assert first["name"]                                  == format_field(struct.name)
+      assert first["business_tax_returns"]["id"]            == struct.business_tax_returns.id
+      assert first["business_tax_returns"]["user"]["id"]    == user.id
+      assert first["business_tax_returns"]["user"]["email"] == user.email
+      assert first["business_tax_returns"]["user"]["role"]  == user.role
     end
   end
 
@@ -118,21 +100,59 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
     it "returns specific BusinessForeignAccountCount by role's Tp" do
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, %{user: user})
-      business_foreign_account_count = insert(:tp_business_foreign_account_count, %{business_tax_returns: business_tax_return})
+      struct = insert(:tp_business_foreign_account_count, %{business_tax_returns: business_tax_return})
       context = %{current_user: user}
 
       query = """
       {
-        showBusinessForeignAccountCount(id: \"#{business_foreign_account_count.id}\") {
+        showBusinessForeignAccountCount(id: \"#{struct.id}\") {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            accounting_software
+            capital_asset_sale
+            church_hospital
+            deadline
+            dispose_asset
+            dispose_property
+            educational_facility
+            financial_situation
+            foreign_account_interest
+            foreign_account_value_more
+            foreign_entity_interest
+            foreign_partner_count
+            foreign_shareholder
+            foreign_value
+            fundraising_over
+            has_contribution
+            has_loan
+            income_over_thousand
+            invest_research
+            k1_count
+            lobbying
+            make_distribution
+            none_expat
+            operate_facility
+            property_sale
+            public_charity
+            rental_property_count
+            reported_grant
+            restricted_donation
+            state
+            tax_exemption
+            tax_year
+            total_asset_less
+            total_asset_over
+            businessEntityTypes { id name }
+            businessForeignAccountCounts { id name }
+            businessForeignOwnershipCounts { id name }
+            businessLlcTypes { id name }
+            businessIndustries { id name }
+            businessNumberEmployees { id name }
+            businessTotalRevenues { id name }
+            businessTransactionCounts { id name }
+            user { id email role}
           }
         }
       }
@@ -141,13 +161,12 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
       {:ok, %{data: %{"showBusinessForeignAccountCount" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["id"]                                  == business_foreign_account_count.id
-      assert found["business_tax_returns"]["id"]          == business_foreign_account_count.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_foreign_account_count.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_foreign_account_count.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_foreign_account_count.inserted_at)
-      assert found["name"]                                == business_foreign_account_count.name
-      assert found["updated_at"]                          == formatting_time(business_foreign_account_count.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["business_tax_returns"]["id"]            == struct.business_tax_return_id
+      assert found["business_tax_returns"]["user"]["id"]    == user.id
+      assert found["business_tax_returns"]["user"]["email"] == user.email
+      assert found["business_tax_returns"]["user"]["role"]  == user.role
 
       res =
         build_conn()
@@ -158,87 +177,72 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
 
       found = json_response(res, 200)["data"]["showBusinessForeignAccountCount"]
 
-      assert found["id"]                                  == business_foreign_account_count.id
-      assert found["business_tax_returns"]["id"]          == business_foreign_account_count.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_foreign_account_count.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_foreign_account_count.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_foreign_account_count.inserted_at)
-      assert found["name"]                                == business_foreign_account_count.name
-      assert found["updated_at"]                          == formatting_time(business_foreign_account_count.updated_at)
-    end
-
-    it "returns specific BusinessForeignAccountCount by role's Pro" do
-      user = insert(:pro_user)
-      business_tax_return = insert(:pro_business_tax_return, %{user: user})
-      business_foreign_account_count = insert(:pro_business_foreign_account_count, %{business_tax_returns: business_tax_return})
-      context = %{current_user: user}
-
-      query = """
-      {
-        showBusinessForeignAccountCount(id: \"#{business_foreign_account_count.id}\") {
-          id
-          inserted_at
-          name
-          updated_at
-          business_tax_returns {
-            id
-            inserted_at
-            updated_at
-            user { id }
-          }
-        }
-      }
-      """
-
-      {:ok, %{data: %{"showBusinessForeignAccountCount" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["id"]                                  == business_foreign_account_count.id
-      assert found["business_tax_returns"]["id"]          == business_foreign_account_count.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_foreign_account_count.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_foreign_account_count.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_foreign_account_count.inserted_at)
-      assert found["name"]                                == business_foreign_account_count.name
-      assert found["updated_at"]                          == formatting_time(business_foreign_account_count.updated_at)
-
-      res =
-        build_conn()
-        |> AbsintheHelpers.authenticate_conn(user)
-        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "showBusinessForeignAccountCount"))
-
-      assert json_response(res, 200)["errors"] == nil
-
-      found = json_response(res, 200)["data"]["showBusinessForeignAccountCount"]
-
-      assert found["id"]                                  == business_foreign_account_count.id
-      assert found["business_tax_returns"]["id"]          == business_foreign_account_count.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_foreign_account_count.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_foreign_account_count.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_foreign_account_count.inserted_at)
-      assert found["name"]                                == business_foreign_account_count.name
-      assert found["updated_at"]                          == formatting_time(business_foreign_account_count.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["business_tax_returns"]["id"]            == struct.business_tax_return_id
+      assert found["business_tax_returns"]["user"]["id"]    == user.id
+      assert found["business_tax_returns"]["user"]["email"] == user.email
+      assert found["business_tax_returns"]["user"]["role"]  == user.role
     end
   end
 
   describe "#find" do
-    it "find specific BusinessTaxReturn by role's Tp" do
+    it "returns specific BusinessForeignAccountCount by role's Tp" do
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, %{user: user})
-      business_foreign_account_count = insert(:tp_business_foreign_account_count, %{business_tax_returns: business_tax_return})
+      struct = insert(:tp_business_foreign_account_count, %{business_tax_returns: business_tax_return})
       context = %{current_user: user}
 
       query = """
       {
-        findBusinessForeignAccountCount(id: \"#{business_foreign_account_count.id}\") {
+        findBusinessForeignAccountCount(id: \"#{struct.id}\") {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            accounting_software
+            capital_asset_sale
+            church_hospital
+            deadline
+            dispose_asset
+            dispose_property
+            educational_facility
+            financial_situation
+            foreign_account_interest
+            foreign_account_value_more
+            foreign_entity_interest
+            foreign_partner_count
+            foreign_shareholder
+            foreign_value
+            fundraising_over
+            has_contribution
+            has_loan
+            income_over_thousand
+            invest_research
+            k1_count
+            lobbying
+            make_distribution
+            none_expat
+            operate_facility
+            property_sale
+            public_charity
+            rental_property_count
+            reported_grant
+            restricted_donation
+            state
+            tax_exemption
+            tax_year
+            total_asset_less
+            total_asset_over
+            businessEntityTypes { id name }
+            businessForeignAccountCounts { id name }
+            businessForeignOwnershipCounts { id name }
+            businessLlcTypes { id name }
+            businessIndustries { id name }
+            businessNumberEmployees { id name }
+            businessTotalRevenues { id name }
+            businessTransactionCounts { id name }
+            user { id email role}
           }
         }
       }
@@ -247,13 +251,12 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
       {:ok, %{data: %{"findBusinessForeignAccountCount" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["id"]                                  == business_foreign_account_count.id
-      assert found["business_tax_returns"]["id"]          == business_foreign_account_count.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_foreign_account_count.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_foreign_account_count.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_foreign_account_count.inserted_at)
-      assert found["name"]                                == business_foreign_account_count.name
-      assert found["updated_at"]                          == formatting_time(business_foreign_account_count.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["business_tax_returns"]["id"]            == struct.business_tax_return_id
+      assert found["business_tax_returns"]["user"]["id"]    == user.id
+      assert found["business_tax_returns"]["user"]["email"] == user.email
+      assert found["business_tax_returns"]["user"]["role"]  == user.role
 
       res =
         build_conn()
@@ -264,65 +267,12 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
 
       found = json_response(res, 200)["data"]["findBusinessForeignAccountCount"]
 
-      assert found["id"]                                  == business_foreign_account_count.id
-      assert found["business_tax_returns"]["id"]          == business_foreign_account_count.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_foreign_account_count.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_foreign_account_count.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_foreign_account_count.inserted_at)
-      assert found["name"]                                == business_foreign_account_count.name
-      assert found["updated_at"]                          == formatting_time(business_foreign_account_count.updated_at)
-    end
-
-    it "find specific BusinessTaxReturn by role's Pro" do
-      user = insert(:pro_user)
-      business_tax_return = insert(:pro_business_tax_return, %{user: user})
-      business_foreign_account_count = insert(:pro_business_foreign_account_count, %{business_tax_returns: business_tax_return})
-      context = %{current_user: user}
-
-      query = """
-      {
-        findBusinessForeignAccountCount(id: \"#{business_foreign_account_count.id}\") {
-          id
-          inserted_at
-          name
-          updated_at
-          business_tax_returns {
-            id
-            inserted_at
-            updated_at
-            user { id }
-          }
-        }
-      }
-      """
-
-      {:ok, %{data: %{"findBusinessForeignAccountCount" => found}}} =
-        Absinthe.run(query, Schema, context: context)
-
-      assert found["id"]                                  == business_foreign_account_count.id
-      assert found["business_tax_returns"]["id"]          == business_foreign_account_count.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_foreign_account_count.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_foreign_account_count.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_foreign_account_count.inserted_at)
-      assert found["name"]                                == business_foreign_account_count.name
-      assert found["updated_at"]                          == formatting_time(business_foreign_account_count.updated_at)
-
-      res =
-        build_conn()
-        |> AbsintheHelpers.authenticate_conn(user)
-        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "findBusinessForeignAccountCount"))
-
-      assert json_response(res, 200)["errors"] == nil
-
-      found = json_response(res, 200)["data"]["findBusinessForeignAccountCount"]
-
-      assert found["id"]                                  == business_foreign_account_count.id
-      assert found["business_tax_returns"]["id"]          == business_foreign_account_count.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_foreign_account_count.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_foreign_account_count.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_foreign_account_count.inserted_at)
-      assert found["name"]                                == business_foreign_account_count.name
-      assert found["updated_at"]                          == formatting_time(business_foreign_account_count.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["business_tax_returns"]["id"]            == struct.business_tax_return_id
+      assert found["business_tax_returns"]["user"]["id"]    == user.id
+      assert found["business_tax_returns"]["user"]["email"] == user.email
+      assert found["business_tax_returns"]["user"]["role"]  == user.role
     end
   end
 
@@ -334,18 +284,56 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
       mutation = """
       {
         createBusinessForeignAccountCount(
-          name: "some name",
+          name: "1",
           business_tax_returnId: \"#{business_tax_return.id}\"
         ) {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            accounting_software
+            capital_asset_sale
+            church_hospital
+            deadline
+            dispose_asset
+            dispose_property
+            educational_facility
+            financial_situation
+            foreign_account_interest
+            foreign_account_value_more
+            foreign_entity_interest
+            foreign_partner_count
+            foreign_shareholder
+            foreign_value
+            fundraising_over
+            has_contribution
+            has_loan
+            income_over_thousand
+            invest_research
+            k1_count
+            lobbying
+            make_distribution
+            none_expat
+            operate_facility
+            property_sale
+            public_charity
+            rental_property_count
+            reported_grant
+            restricted_donation
+            state
+            tax_exemption
+            tax_year
+            total_asset_less
+            total_asset_over
+            businessEntityTypes { id name }
+            businessForeignAccountCounts { id name }
+            businessForeignOwnershipCounts { id name }
+            businessLlcTypes { id name }
+            businessIndustries { id name }
+            businessNumberEmployees { id name }
+            businessTotalRevenues { id name }
+            businessTransactionCounts { id name }
+            user { id email role}
           }
         }
       }
@@ -360,10 +348,8 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
 
       created = json_response(res, 200)["data"]["createBusinessForeignAccountCount"]
 
-      assert created["name"]                       == "some name"
       assert created["business_tax_returns"]["id"] == business_tax_return.id
-      assert created["inserted_at"]                == formatting_time(DateTime.truncate(Timex.now(), :second))
-      assert created["updated_at"]                 == formatting_time(DateTime.truncate(Timex.now(), :second))
+      assert created["name"]                == "1"
     end
 
     it "created BusinessForeignAccountCount by role's Pro" do
@@ -373,18 +359,20 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
       mutation = """
       {
         createBusinessForeignAccountCount(
-          name: "some name",
+          name: "1",
           business_tax_returnId: \"#{business_tax_return.id}\"
         ) {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            none_expat
+            price_state
+            price_tax_year
+            businessEntityTypes { id name price }
+            businessNumberEmployees { id name price }
+            businessTotalRevenues { id name price }
+            user { id email role}
           }
         }
       }
@@ -399,10 +387,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
 
       created = json_response(res, 200)["data"]["createBusinessForeignAccountCount"]
 
-      assert created["business_tax_returns"]["id"] == business_tax_return.id
-      assert created["inserted_at"]                == formatting_time(DateTime.truncate(Timex.now(), :second))
-      assert created["name"]                       == "some name"
-      assert created["updated_at"]                 == formatting_time(DateTime.truncate(Timex.now(), :second))
+      assert created == nil
     end
   end
 
@@ -410,27 +395,65 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
     it "updated specific BusinessForeignAccountCount by role's Tp" do
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, %{user: user})
-      business_foreign_account_count = insert(:business_foreign_account_count, %{business_tax_returns: business_tax_return})
+      struct = insert(:tp_business_foreign_account_count, %{name: "1", business_tax_returns: business_tax_return})
 
       mutation = """
       {
         updateBusinessForeignAccountCount(
-          id: \"#{business_foreign_account_count.id}\",
-          business_foreign_account_count: {
+          id: \"#{struct.id}\",
+          businessForeignAccountCount: {
+            name: "5+",
             business_tax_returnId: \"#{business_tax_return.id}\"
-            name: "updated some name",
           }
         )
         {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            accounting_software
+            capital_asset_sale
+            church_hospital
+            deadline
+            dispose_asset
+            dispose_property
+            educational_facility
+            financial_situation
+            foreign_account_interest
+            foreign_account_value_more
+            foreign_entity_interest
+            foreign_partner_count
+            foreign_shareholder
+            foreign_value
+            fundraising_over
+            has_contribution
+            has_loan
+            income_over_thousand
+            invest_research
+            k1_count
+            lobbying
+            make_distribution
+            none_expat
+            operate_facility
+            property_sale
+            public_charity
+            rental_property_count
+            reported_grant
+            restricted_donation
+            state
+            tax_exemption
+            tax_year
+            total_asset_less
+            total_asset_over
+            businessEntityTypes { id name }
+            businessForeignAccountCounts { id name }
+            businessForeignOwnershipCounts { id name }
+            businessLlcTypes { id name }
+            businessIndustries { id name }
+            businessNumberEmployees { id name }
+            businessTotalRevenues { id name }
+            businessTransactionCounts { id name }
+            user { id email role}
           }
         }
       }
@@ -445,60 +468,9 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
 
       updated = json_response(res, 200)["data"]["updateBusinessForeignAccountCount"]
 
-      assert updated["id"]                                  == business_foreign_account_count.id
-      assert updated["business_tax_returns"]["id"]          == business_tax_return.id
-      assert updated["business_tax_returns"]["inserted_at"] == formatting_time(business_foreign_account_count.business_tax_returns.inserted_at)
-      assert updated["business_tax_returns"]["updated_at"]  == formatting_time(business_foreign_account_count.business_tax_returns.updated_at)
-      assert updated["inserted_at"]                         == formatting_time(business_foreign_account_count.inserted_at)
-      assert updated["name"]                                == "updated some name"
-      assert updated["updated_at"]                          == formatting_time(business_foreign_account_count.updated_at)
-    end
-
-    it "updated specific BusinessTaxReturn by role's Pro" do
-      user = insert(:pro_user)
-      business_tax_return = insert(:pro_business_tax_return, %{user: user})
-      business_foreign_account_count = insert(:business_foreign_account_count, %{business_tax_returns: business_tax_return})
-
-      mutation = """
-      {
-        updateBusinessForeignAccountCount(
-          id: \"#{business_foreign_account_count.id}\",
-          business_foreign_account_count: {
-            business_tax_returnId: \"#{business_tax_return.id}\"
-            name: "updated some name",
-          }
-        )
-        {
-          id
-          inserted_at
-          name
-          updated_at
-          business_tax_returns {
-            id
-            inserted_at
-            updated_at
-            user { id }
-          }
-        }
-      }
-      """
-
-      res =
-        build_conn()
-        |> AbsintheHelpers.authenticate_conn(user)
-        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(mutation))
-
-      assert json_response(res, 200)["errors"] == nil
-
-      updated = json_response(res, 200)["data"]["updateBusinessForeignAccountCount"]
-
-      assert updated["id"]                                  == business_foreign_account_count.id
-      assert updated["business_tax_returns"]["id"]          == business_tax_return.id
-      assert updated["business_tax_returns"]["inserted_at"] == formatting_time(business_foreign_account_count.business_tax_returns.inserted_at)
-      assert updated["business_tax_returns"]["updated_at"]  == formatting_time(business_foreign_account_count.business_tax_returns.updated_at)
-      assert updated["inserted_at"]                         == formatting_time(business_foreign_account_count.inserted_at)
-      assert updated["name"]                                == "updated some name"
-      assert updated["updated_at"]                          == formatting_time(business_foreign_account_count.updated_at)
+      assert updated["business_tax_returns"]["id"] == struct.business_tax_return_id
+      assert updated["id"]                         == struct.id
+      assert updated["name"]                       == "5+"
     end
   end
 
@@ -506,11 +478,11 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
     it "delete specific BusinessForeignAccountCount" do
       user = insert(:user)
       business_tax_return = insert(:business_tax_return, %{user: user})
-      business_foreign_account_count = insert(:business_foreign_account_count, %{business_tax_returns: business_tax_return})
+      struct = insert(:business_foreign_account_count, %{business_tax_returns: business_tax_return})
 
       mutation = """
       {
-        deleteBusinessForeignAccountCount(id: \"#{business_foreign_account_count.id}\") {id}
+        deleteBusinessForeignAccountCount(id: \"#{struct.id}\") {id}
       }
       """
 
@@ -522,30 +494,31 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
       assert json_response(res, 200)["errors"] == nil
 
       deleted = json_response(res, 200)["data"]["deleteBusinessForeignAccountCount"]
-      assert deleted["id"] == business_foreign_account_count.id
+      assert deleted["id"] == struct.id
     end
   end
 
   describe "#dataloads" do
-    it "created BusinessForeignAccountCount by role's Tp" do
-       user = insert(:tp_user)
-       %{id: business_tax_return_id} = insert(:tp_business_tax_return, user: user)
+    it "created BusinessForeignAccountCount" do
+      user = insert(:user)
+      business_tax_return = insert(:business_tax_return, %{user: user})
+      %{id: id} = insert(:business_foreign_account_count, %{business_tax_returns: business_tax_return})
 
       source = Dataloader.Ecto.new(Core.Repo)
 
       loader =
         Dataloader.new
         |> Dataloader.add_source(:business_foreign_account_counts, source)
-        |> Dataloader.load(:business_foreign_account_counts, Core.Services.BusinessTaxReturn, business_tax_return_id)
+        |> Dataloader.load(:business_foreign_account_counts, Core.Services.BusinessForeignAccountCount, id)
         |> Dataloader.run
 
-      data = Dataloader.get(loader, :business_foreign_account_counts, Core.Services.BusinessTaxReturn, business_tax_return_id)
+      data = Dataloader.get(loader, :business_foreign_account_counts, Core.Services.BusinessForeignAccountCount, id)
 
-      assert data.id == business_tax_return_id
+      assert data.id == id
     end
   end
 
-  defp formatting_time(timestamp) do
-    Timex.format!(Timex.to_datetime(timestamp, "Europe/Kiev"), "{ISO:Extended:Z}")
-  end
+
+  @spec format_field(atom()) :: String.t()
+  defp format_field(data), do: to_string(data)
 end
