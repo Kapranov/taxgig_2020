@@ -518,7 +518,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessForeignAccountCountInte
     end
   end
 
-
   @spec format_field(atom()) :: String.t()
   defp format_field(data), do: to_string(data)
 end
