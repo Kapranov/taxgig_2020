@@ -159,7 +159,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.SaleTaxFrequencyIntegrationTest
 
       assert found["id"]                                 == struct.id
       assert found["name"]                               == format_field(struct.name)
-      assert found["price"]                              == nil
+      assert found["price"]                              == struct.price
       assert found["sale_taxes"]["id"]                   == struct.sale_taxes.id
       assert found["sale_taxes"]["deadline"]             == format_deadline(struct.sale_taxes.deadline)
       assert found["sale_taxes"]["financial_situation"]  == struct.sale_taxes.financial_situation
@@ -180,7 +180,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.SaleTaxFrequencyIntegrationTest
 
       assert found["id"]                                 == struct.id
       assert found["name"]                               == format_field(struct.name)
-      assert found["price"]                              == nil
       assert found["sale_taxes"]["id"]                   == struct.sale_taxes.id
       assert found["sale_taxes"]["deadline"]             == format_deadline(struct.sale_taxes.deadline)
       assert found["sale_taxes"]["financial_situation"]  == struct.sale_taxes.financial_situation
