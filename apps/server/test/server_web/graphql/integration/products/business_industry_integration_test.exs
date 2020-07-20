@@ -8,21 +8,59 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
     it "returns BusinessIndustry by role's Tp" do
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, %{user: user})
-      business_industry = insert(:tp_business_industry, %{business_tax_returns: business_tax_return})
+      struct = insert(:tp_business_industry, %{business_tax_returns: business_tax_return})
       context = %{current_user: user}
 
       query = """
       {
         allBusinessIndustries {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            accounting_software
+            capital_asset_sale
+            church_hospital
+            deadline
+            dispose_asset
+            dispose_property
+            educational_facility
+            financial_situation
+            foreign_account_interest
+            foreign_account_value_more
+            foreign_entity_interest
+            foreign_partner_count
+            foreign_shareholder
+            foreign_value
+            fundraising_over
+            has_contribution
+            has_loan
+            income_over_thousand
+            invest_research
+            k1_count
+            lobbying
+            make_distribution
+            none_expat
+            operate_facility
+            property_sale
+            public_charity
+            rental_property_count
+            reported_grant
+            restricted_donation
+            state
+            tax_exemption
+            tax_year
+            total_asset_less
+            total_asset_over
+            businessEntityTypes { id name }
+            businessForeignAccountCounts { id name }
+            businessForeignOwnershipCounts { id name }
+            businessLlcTypes { id name }
+            businessIndustries { id name }
+            businessNumberEmployees { id name }
+            businessTotalRevenues { id name }
+            businessTransactionCounts { id name }
+            user { id email role}
           }
         }
       }
@@ -37,46 +75,46 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
 
       data = json_response(res, 200)["data"]["allBusinessIndustries"]
 
-      assert List.first(data)["id"]                                  == business_industry.id
-      assert List.first(data)["business_tax_returns"]["id"]          == business_industry.business_tax_returns.id
-      assert List.first(data)["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
-      assert List.first(data)["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
-      assert List.first(data)["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert List.first(data)["name"]                                == business_industry.name
-      assert List.first(data)["updated_at"]                          == formatting_time(business_industry.updated_at)
+      assert List.first(data)["id"]                                    == struct.id
+      assert List.first(data)["name"]                                  == format_field(struct.name)
+      assert List.first(data)["business_tax_returns"]["id"]            == struct.business_tax_returns.id
+      assert List.first(data)["business_tax_returns"]["user"]["id"]    == user.id
+      assert List.first(data)["business_tax_returns"]["user"]["email"] == user.email
+      assert List.first(data)["business_tax_returns"]["user"]["role"]  == user.role
 
       {:ok, %{data: %{"allBusinessIndustries" => data}}} =
         Absinthe.run(query, Schema, context: context)
 
       first = hd(data)
 
-      assert first["id"]                                  == business_industry.id
-      assert first["business_tax_returns"]["id"]          == business_industry.business_tax_returns.id
-      assert first["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
-      assert first["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
-      assert first["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert first["name"]                                == business_industry.name
-      assert first["updated_at"]                          == formatting_time(business_industry.updated_at)
+      assert first["id"]                                    == struct.id
+      assert first["name"]                                  == format_field(struct.name)
+      assert first["business_tax_returns"]["id"]            == struct.business_tax_returns.id
+      assert first["business_tax_returns"]["user"]["id"]    == user.id
+      assert first["business_tax_returns"]["user"]["email"] == user.email
+      assert first["business_tax_returns"]["user"]["role"]  == user.role
     end
 
-    it "returns BusinessTaxReturn by role's Pro" do
+    it "returns BusinessIndustry by role's Pro" do
       user = insert(:pro_user)
       business_tax_return = insert(:pro_business_tax_return, %{user: user})
-      business_industry = insert(:pro_business_industry, %{business_tax_returns: business_tax_return})
+      struct = insert(:pro_business_industry, %{business_tax_returns: business_tax_return})
       context = %{current_user: user}
 
       query = """
       {
         allBusinessIndustries {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            none_expat
+            price_state
+            price_tax_year
+            businessEntityTypes { id name price }
+            businessNumberEmployees { id name price }
+            businessTotalRevenues { id name price }
+            user { id email role}
           }
         }
       }
@@ -91,26 +129,24 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
 
       data = json_response(res, 200)["data"]["allBusinessIndustries"]
 
-      assert List.first(data)["id"]                                  == business_industry.id
-      assert List.first(data)["business_tax_returns"]["id"]          == business_industry.business_tax_returns.id
-      assert List.first(data)["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
-      assert List.first(data)["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
-      assert List.first(data)["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert List.first(data)["name"]                                == business_industry.name
-      assert List.first(data)["updated_at"]                          == formatting_time(business_industry.updated_at)
+      assert List.first(data)["id"]                                    == struct.id
+      assert List.first(data)["name"]                                  == format_field(struct.name)
+      assert List.first(data)["business_tax_returns"]["id"]            == struct.business_tax_returns.id
+      assert List.first(data)["business_tax_returns"]["user"]["id"]    == user.id
+      assert List.first(data)["business_tax_returns"]["user"]["email"] == user.email
+      assert List.first(data)["business_tax_returns"]["user"]["role"]  == user.role
 
       {:ok, %{data: %{"allBusinessIndustries" => data}}} =
         Absinthe.run(query, Schema, context: context)
 
       first = hd(data)
 
-      assert first["id"]                                  == business_industry.id
-      assert first["business_tax_returns"]["id"]          == business_industry.business_tax_returns.id
-      assert first["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
-      assert first["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
-      assert first["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert first["name"]                                == business_industry.name
-      assert first["updated_at"]                          == formatting_time(business_industry.updated_at)
+      assert first["id"]                                    == struct.id
+      assert first["name"]                                  == format_field(struct.name)
+      assert first["business_tax_returns"]["id"]            == struct.business_tax_returns.id
+      assert first["business_tax_returns"]["user"]["id"]    == user.id
+      assert first["business_tax_returns"]["user"]["email"] == user.email
+      assert first["business_tax_returns"]["user"]["role"]  == user.role
     end
   end
 
@@ -118,21 +154,59 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
     it "returns specific BusinessIndustry by role's Tp" do
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, %{user: user})
-      business_industry = insert(:tp_business_industry, %{business_tax_returns: business_tax_return})
+      struct = insert(:tp_business_industry, %{business_tax_returns: business_tax_return})
       context = %{current_user: user}
 
       query = """
       {
-        showBusinessIndustry(id: \"#{business_industry.id}\") {
+        showBusinessIndustry(id: \"#{struct.id}\") {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            accounting_software
+            capital_asset_sale
+            church_hospital
+            deadline
+            dispose_asset
+            dispose_property
+            educational_facility
+            financial_situation
+            foreign_account_interest
+            foreign_account_value_more
+            foreign_entity_interest
+            foreign_partner_count
+            foreign_shareholder
+            foreign_value
+            fundraising_over
+            has_contribution
+            has_loan
+            income_over_thousand
+            invest_research
+            k1_count
+            lobbying
+            make_distribution
+            none_expat
+            operate_facility
+            property_sale
+            public_charity
+            rental_property_count
+            reported_grant
+            restricted_donation
+            state
+            tax_exemption
+            tax_year
+            total_asset_less
+            total_asset_over
+            businessEntityTypes { id name }
+            businessForeignAccountCounts { id name }
+            businessForeignOwnershipCounts { id name }
+            businessLlcTypes { id name }
+            businessIndustries { id name }
+            businessNumberEmployees { id name }
+            businessTotalRevenues { id name }
+            businessTransactionCounts { id name }
+            user { id email role}
           }
         }
       }
@@ -141,13 +215,12 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
       {:ok, %{data: %{"showBusinessIndustry" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["id"]                                  == business_industry.id
-      assert found["business_tax_returns"]["id"]          == business_industry.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert found["name"]                                == business_industry.name
-      assert found["updated_at"]                          == formatting_time(business_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["business_tax_returns"]["id"]            == struct.business_tax_return_id
+      assert found["business_tax_returns"]["user"]["id"]    == user.id
+      assert found["business_tax_returns"]["user"]["email"] == user.email
+      assert found["business_tax_returns"]["user"]["role"]  == user.role
 
       res =
         build_conn()
@@ -158,33 +231,34 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
 
       found = json_response(res, 200)["data"]["showBusinessIndustry"]
 
-      assert found["id"]                                  == business_industry.id
-      assert found["business_tax_returns"]["id"]          == business_industry.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert found["name"]                                == business_industry.name
-      assert found["updated_at"]                          == formatting_time(business_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["business_tax_returns"]["id"]            == struct.business_tax_return_id
+      assert found["business_tax_returns"]["user"]["id"]    == user.id
+      assert found["business_tax_returns"]["user"]["email"] == user.email
+      assert found["business_tax_returns"]["user"]["role"]  == user.role
     end
 
     it "returns specific BusinessIndustry by role's Pro" do
       user = insert(:pro_user)
       business_tax_return = insert(:pro_business_tax_return, %{user: user})
-      business_industry = insert(:pro_business_industry, %{business_tax_returns: business_tax_return})
+      struct = insert(:pro_business_industry, %{business_tax_returns: business_tax_return})
       context = %{current_user: user}
 
       query = """
       {
-        showBusinessIndustry(id: \"#{business_industry.id}\") {
+        showBusinessIndustry(id: \"#{struct.id}\") {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            none_expat
+            price_state
+            price_tax_year
+            businessEntityTypes { id name price }
+            businessNumberEmployees { id name price }
+            businessTotalRevenues { id name price }
+            user { id email role}
           }
         }
       }
@@ -193,13 +267,12 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
       {:ok, %{data: %{"showBusinessIndustry" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["id"]                                  == business_industry.id
-      assert found["business_tax_returns"]["id"]          == business_industry.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert found["name"]                                == business_industry.name
-      assert found["updated_at"]                          == formatting_time(business_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["business_tax_returns"]["id"]            == struct.business_tax_return_id
+      assert found["business_tax_returns"]["user"]["id"]    == user.id
+      assert found["business_tax_returns"]["user"]["email"] == user.email
+      assert found["business_tax_returns"]["user"]["role"]  == user.role
 
       res =
         build_conn()
@@ -210,35 +283,72 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
 
       found = json_response(res, 200)["data"]["showBusinessIndustry"]
 
-      assert found["id"]                                  == business_industry.id
-      assert found["business_tax_returns"]["id"]          == business_industry.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert found["name"]                                == business_industry.name
-      assert found["updated_at"]                          == formatting_time(business_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["business_tax_returns"]["id"]            == struct.business_tax_return_id
+      assert found["business_tax_returns"]["user"]["id"]    == user.id
+      assert found["business_tax_returns"]["user"]["email"] == user.email
+      assert found["business_tax_returns"]["user"]["role"]  == user.role
     end
   end
 
   describe "#find" do
-    it "find specific BusinessTaxReturn by role's Tp" do
+    it "returns specific BusinessIndustry by role's Tp" do
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, %{user: user})
-      business_industry = insert(:tp_business_industry, %{business_tax_returns: business_tax_return})
+      struct = insert(:tp_business_industry, %{business_tax_returns: business_tax_return})
       context = %{current_user: user}
 
       query = """
       {
-        findBusinessIndustry(id: \"#{business_industry.id}\") {
+        findBusinessIndustry(id: \"#{struct.id}\") {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            accounting_software
+            capital_asset_sale
+            church_hospital
+            deadline
+            dispose_asset
+            dispose_property
+            educational_facility
+            financial_situation
+            foreign_account_interest
+            foreign_account_value_more
+            foreign_entity_interest
+            foreign_partner_count
+            foreign_shareholder
+            foreign_value
+            fundraising_over
+            has_contribution
+            has_loan
+            income_over_thousand
+            invest_research
+            k1_count
+            lobbying
+            make_distribution
+            none_expat
+            operate_facility
+            property_sale
+            public_charity
+            rental_property_count
+            reported_grant
+            restricted_donation
+            state
+            tax_exemption
+            tax_year
+            total_asset_less
+            total_asset_over
+            businessEntityTypes { id name }
+            businessForeignAccountCounts { id name }
+            businessForeignOwnershipCounts { id name }
+            businessLlcTypes { id name }
+            businessIndustries { id name }
+            businessNumberEmployees { id name }
+            businessTotalRevenues { id name }
+            businessTransactionCounts { id name }
+            user { id email role}
           }
         }
       }
@@ -247,13 +357,12 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
       {:ok, %{data: %{"findBusinessIndustry" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["id"]                                  == business_industry.id
-      assert found["business_tax_returns"]["id"]          == business_industry.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert found["name"]                                == business_industry.name
-      assert found["updated_at"]                          == formatting_time(business_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["business_tax_returns"]["id"]            == struct.business_tax_return_id
+      assert found["business_tax_returns"]["user"]["id"]    == user.id
+      assert found["business_tax_returns"]["user"]["email"] == user.email
+      assert found["business_tax_returns"]["user"]["role"]  == user.role
 
       res =
         build_conn()
@@ -264,33 +373,34 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
 
       found = json_response(res, 200)["data"]["findBusinessIndustry"]
 
-      assert found["id"]                                  == business_industry.id
-      assert found["business_tax_returns"]["id"]          == business_industry.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert found["name"]                                == business_industry.name
-      assert found["updated_at"]                          == formatting_time(business_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["business_tax_returns"]["id"]            == struct.business_tax_return_id
+      assert found["business_tax_returns"]["user"]["id"]    == user.id
+      assert found["business_tax_returns"]["user"]["email"] == user.email
+      assert found["business_tax_returns"]["user"]["role"]  == user.role
     end
 
-    it "find specific BusinessTaxReturn by role's Pro" do
+    it "returns specific BusinessIndustry by role's Pro" do
       user = insert(:pro_user)
       business_tax_return = insert(:pro_business_tax_return, %{user: user})
-      business_industry = insert(:pro_business_industry, %{business_tax_returns: business_tax_return})
+      struct = insert(:pro_business_industry, %{business_tax_returns: business_tax_return})
       context = %{current_user: user}
 
       query = """
       {
-        findBusinessIndustry(id: \"#{business_industry.id}\") {
+        findBusinessIndustry(id: \"#{struct.id}\") {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            none_expat
+            price_state
+            price_tax_year
+            businessEntityTypes { id name price }
+            businessNumberEmployees { id name price }
+            businessTotalRevenues { id name price }
+            user { id email role}
           }
         }
       }
@@ -299,13 +409,12 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
       {:ok, %{data: %{"findBusinessIndustry" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["id"]                                  == business_industry.id
-      assert found["business_tax_returns"]["id"]          == business_industry.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert found["name"]                                == business_industry.name
-      assert found["updated_at"]                          == formatting_time(business_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["business_tax_returns"]["id"]            == struct.business_tax_return_id
+      assert found["business_tax_returns"]["user"]["id"]    == user.id
+      assert found["business_tax_returns"]["user"]["email"] == user.email
+      assert found["business_tax_returns"]["user"]["role"]  == user.role
 
       res =
         build_conn()
@@ -316,13 +425,12 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
 
       found = json_response(res, 200)["data"]["findBusinessIndustry"]
 
-      assert found["id"]                                  == business_industry.id
-      assert found["business_tax_returns"]["id"]          == business_industry.business_tax_returns.id
-      assert found["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
-      assert found["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
-      assert found["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert found["name"]                                == business_industry.name
-      assert found["updated_at"]                          == formatting_time(business_industry.updated_at)
+      assert found["id"]                                    == struct.id
+      assert found["name"]                                  == format_field(struct.name)
+      assert found["business_tax_returns"]["id"]            == struct.business_tax_return_id
+      assert found["business_tax_returns"]["user"]["id"]    == user.id
+      assert found["business_tax_returns"]["user"]["email"] == user.email
+      assert found["business_tax_returns"]["user"]["role"]  == user.role
     end
   end
 
@@ -334,18 +442,56 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
       mutation = """
       {
         createBusinessIndustry(
-          name: ["some name"],
+          name: ["Agriculture/Farming"],
           business_tax_returnId: \"#{business_tax_return.id}\"
         ) {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            accounting_software
+            capital_asset_sale
+            church_hospital
+            deadline
+            dispose_asset
+            dispose_property
+            educational_facility
+            financial_situation
+            foreign_account_interest
+            foreign_account_value_more
+            foreign_entity_interest
+            foreign_partner_count
+            foreign_shareholder
+            foreign_value
+            fundraising_over
+            has_contribution
+            has_loan
+            income_over_thousand
+            invest_research
+            k1_count
+            lobbying
+            make_distribution
+            none_expat
+            operate_facility
+            property_sale
+            public_charity
+            rental_property_count
+            reported_grant
+            restricted_donation
+            state
+            tax_exemption
+            tax_year
+            total_asset_less
+            total_asset_over
+            businessEntityTypes { id name }
+            businessForeignAccountCounts { id name }
+            businessForeignOwnershipCounts { id name }
+            businessLlcTypes { id name }
+            businessIndustries { id name }
+            businessNumberEmployees { id name }
+            businessTotalRevenues { id name }
+            businessTransactionCounts { id name }
+            user { id email role}
           }
         }
       }
@@ -361,9 +507,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
       created = json_response(res, 200)["data"]["createBusinessIndustry"]
 
       assert created["business_tax_returns"]["id"] == business_tax_return.id
-      assert created["inserted_at"]                == formatting_time(DateTime.truncate(Timex.now(), :second))
-      assert created["name"]                       == ["some name"]
-      assert created["updated_at"]                 == formatting_time(DateTime.truncate(Timex.now(), :second))
+      assert created["name"]                       == ["Agriculture/Farming"]
     end
 
     it "created BusinessIndustry by role's Pro" do
@@ -373,18 +517,20 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
       mutation = """
       {
         createBusinessIndustry(
-          name: ["some name"],
+          name: ["Agriculture/Farming", "Automotive Sales/Repair"],
           business_tax_returnId: \"#{business_tax_return.id}\"
         ) {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            none_expat
+            price_state
+            price_tax_year
+            businessEntityTypes { id name price }
+            businessNumberEmployees { id name price }
+            businessTotalRevenues { id name price }
+            user { id email role}
           }
         }
       }
@@ -400,9 +546,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
       created = json_response(res, 200)["data"]["createBusinessIndustry"]
 
       assert created["business_tax_returns"]["id"] == business_tax_return.id
-      assert created["inserted_at"]                == formatting_time(DateTime.truncate(Timex.now(), :second))
-      assert created["name"]                       == ["some name"]
-      assert created["updated_at"]                 == formatting_time(DateTime.truncate(Timex.now(), :second))
+      assert created["name"]                       == ["Agriculture/Farming", "Automotive Sales/Repair"]
     end
   end
 
@@ -410,27 +554,65 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
     it "updated specific BusinessIndustry by role's Tp" do
       user = insert(:tp_user)
       business_tax_return = insert(:tp_business_tax_return, %{user: user})
-      business_industry = insert(:business_industry, %{business_tax_returns: business_tax_return})
+      struct = insert(:tp_business_industry, %{name: ["Agriculture/Farming"], business_tax_returns: business_tax_return})
 
       mutation = """
       {
         updateBusinessIndustry(
-          id: \"#{business_industry.id}\",
-          business_industry: {
-            name: ["updated some name"],
+          id: \"#{struct.id}\",
+          businessIndustry: {
+            name: ["Wholesale Distribution"],
             business_tax_returnId: \"#{business_tax_return.id}\"
           }
         )
         {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            accounting_software
+            capital_asset_sale
+            church_hospital
+            deadline
+            dispose_asset
+            dispose_property
+            educational_facility
+            financial_situation
+            foreign_account_interest
+            foreign_account_value_more
+            foreign_entity_interest
+            foreign_partner_count
+            foreign_shareholder
+            foreign_value
+            fundraising_over
+            has_contribution
+            has_loan
+            income_over_thousand
+            invest_research
+            k1_count
+            lobbying
+            make_distribution
+            none_expat
+            operate_facility
+            property_sale
+            public_charity
+            rental_property_count
+            reported_grant
+            restricted_donation
+            state
+            tax_exemption
+            tax_year
+            total_asset_less
+            total_asset_over
+            businessEntityTypes { id name }
+            businessForeignAccountCounts { id name }
+            businessForeignOwnershipCounts { id name }
+            businessLlcTypes { id name }
+            businessIndustries { id name }
+            businessNumberEmployees { id name }
+            businessTotalRevenues { id name }
+            businessTransactionCounts { id name }
+            user { id email role}
           }
         }
       }
@@ -445,38 +627,37 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
 
       updated = json_response(res, 200)["data"]["updateBusinessIndustry"]
 
-      assert updated["id"]                                  == business_industry.id
-      assert updated["business_tax_returns"]["id"]          == business_tax_return.id
-      assert updated["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
-      assert updated["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
-      assert updated["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert updated["name"]                                == ["updated some name"]
+      assert updated["business_tax_returns"]["id"] == struct.business_tax_return_id
+      assert updated["id"]                         == struct.id
+      assert updated["name"]                       == ["Wholesale Distribution"]
     end
 
-    it "updated specific BusinessTaxReturn by role's Pro" do
+    it "updated specific BusinessIndustry by role's Pro" do
       user = insert(:pro_user)
       business_tax_return = insert(:pro_business_tax_return, %{user: user})
-      business_industry = insert(:business_industry, %{business_tax_returns: business_tax_return})
+      struct = insert(:pro_business_industry, %{name: ["Agriculture/Farming", "Automotive Sales/Repair"], business_tax_returns: business_tax_return})
 
       mutation = """
       {
         updateBusinessIndustry(
-          id: \"#{business_industry.id}\",
-          business_industry: {
+          id: \"#{struct.id}\",
+          businessIndustry: {
+            name: ["Transportation", "Wholesale Distribution"],
             business_tax_returnId: \"#{business_tax_return.id}\"
-            name: ["updated some name"],
           }
         )
         {
           id
-          inserted_at
           name
-          updated_at
           business_tax_returns {
             id
-            inserted_at
-            updated_at
-            user { id }
+            none_expat
+            price_state
+            price_tax_year
+            businessEntityTypes { id name price }
+            businessNumberEmployees { id name price }
+            businessTotalRevenues { id name price }
+            user { id email role}
           }
         }
       }
@@ -491,13 +672,9 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
 
       updated = json_response(res, 200)["data"]["updateBusinessIndustry"]
 
-      assert updated["id"]                                  == business_industry.id
-      assert updated["business_tax_returns"]["id"]          == business_tax_return.id
-      assert updated["business_tax_returns"]["inserted_at"] == formatting_time(business_industry.business_tax_returns.inserted_at)
-      assert updated["business_tax_returns"]["updated_at"]  == formatting_time(business_industry.business_tax_returns.updated_at)
-      assert updated["inserted_at"]                         == formatting_time(business_industry.inserted_at)
-      assert updated["name"]                                == ["updated some name"]
-      assert updated["updated_at"]                          == formatting_time(business_industry.updated_at)
+      assert updated["business_tax_returns"]["id"] == struct.business_tax_return_id
+      assert updated["id"]                         == struct.id
+      assert updated["name"]                       == ["Transportation", "Wholesale Distribution"]
     end
   end
 
@@ -505,11 +682,11 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
     it "delete specific BusinessIndustry" do
       user = insert(:user)
       business_tax_return = insert(:business_tax_return, %{user: user})
-      business_industry = insert(:business_industry, %{business_tax_returns: business_tax_return})
+      struct = insert(:business_industry, %{business_tax_returns: business_tax_return})
 
       mutation = """
       {
-        deleteBusinessIndustry(id: \"#{business_industry.id}\") {id}
+        deleteBusinessIndustry(id: \"#{struct.id}\") {id}
       }
       """
 
@@ -521,30 +698,34 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessIndustryIntegrationTest
       assert json_response(res, 200)["errors"] == nil
 
       deleted = json_response(res, 200)["data"]["deleteBusinessIndustry"]
-      assert deleted["id"] == business_industry.id
+      assert deleted["id"] == struct.id
     end
   end
 
   describe "#dataloads" do
-    it "created BusinessIndustry by role's Tp" do
-       user = insert(:tp_user)
-       %{id: business_tax_return_id} = insert(:tp_business_tax_return, user: user)
+    it "created BusinessIndustry" do
+      user = insert(:user)
+      business_tax_return = insert(:business_tax_return, %{user: user})
+      %{id: id} = insert(:business_industry, %{business_tax_returns: business_tax_return})
 
       source = Dataloader.Ecto.new(Core.Repo)
 
       loader =
         Dataloader.new
         |> Dataloader.add_source(:business_industries, source)
-        |> Dataloader.load(:business_industries, Core.Services.BusinessTaxReturn, business_tax_return_id)
+        |> Dataloader.load(:business_industries, Core.Services.BusinessIndustry, id)
         |> Dataloader.run
 
-      data = Dataloader.get(loader, :business_industries, Core.Services.BusinessTaxReturn, business_tax_return_id)
+      data = Dataloader.get(loader, :business_industries, Core.Services.BusinessIndustry, id)
 
-      assert data.id == business_tax_return_id
+      assert data.id == id
     end
   end
 
-  defp formatting_time(timestamp) do
-    Timex.format!(Timex.to_datetime(timestamp, "Europe/Kiev"), "{ISO:Extended:Z}")
+  @spec format_field([atom()]) :: [String.t()]
+  defp format_field(data) do
+    Enum.reduce(data, [], fn(x, acc) ->
+      [to_string(x) | acc]
+    end) |> Enum.sort()
   end
 end
