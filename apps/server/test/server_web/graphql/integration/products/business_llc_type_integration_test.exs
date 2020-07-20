@@ -402,7 +402,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessLlcTypeIntegrationTest 
         updateBusinessLlcType(
           id: \"#{struct.id}\",
           businessLlcType: {
-          name: "S-Corp",
+            name: "S-Corp",
             business_tax_returnId: \"#{business_tax_return.id}\"
           }
         )
