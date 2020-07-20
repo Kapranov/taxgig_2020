@@ -190,7 +190,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.SaleTaxFrequencyIntegrationTest
       assert found["sale_taxes"]["user"]["role"]         == user.role
     end
 
-    it "returns specific BookKeepingTypeClient by role's Pro" do
+    it "returns specific SaleTaxFrequency by role's Pro" do
       user = insert(:pro_user)
       sale_tax = insert(:pro_sale_tax, %{user: user})
       struct = insert(:pro_sale_tax_frequency, %{sale_taxes: sale_tax})
@@ -587,6 +587,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.SaleTaxFrequencyIntegrationTest
   @spec format_field(atom()) :: String.t()
   defp format_field(data), do: to_string(data)
 
-  @spec format_field(Date.t()) :: String.t()
+  @spec format_deadline(Date.t()) :: String.t()
   defp format_deadline(data), do: to_string(data)
 end
