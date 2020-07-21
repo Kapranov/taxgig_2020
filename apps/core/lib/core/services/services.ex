@@ -2304,7 +2304,6 @@ defmodule Core.Services do
   def get_business_tax_return!(id) do
     Repo.get!(BusinessTaxReturn, id)
     |> Repo.preload([
-      :user,
       :business_entity_types,
       :business_foreign_account_counts,
       :business_foreign_ownership_counts,
@@ -2312,7 +2311,8 @@ defmodule Core.Services do
       :business_llc_types,
       :business_number_employees,
       :business_total_revenues,
-      :business_transaction_counts
+      :business_transaction_counts,
+      user: [:business_tax_returns]
     ])
   end
 
@@ -4354,7 +4354,15 @@ defmodule Core.Services do
   @spec list_individual_tax_return() :: [IndividualTaxReturn.t()]
   def list_individual_tax_return do
     Repo.all(IndividualTaxReturn)
-    |> Repo.preload([user: [:individual_tax_returns]])
+    |> Repo.preload([
+      :individual_employment_statuses,
+      :individual_filing_statuses,
+      :individual_foreign_account_counts,
+      :individual_industries,
+      :individual_itemized_deductions,
+      :individual_stock_transaction_counts,
+      user: [:individual_tax_returns]
+    ])
   end
 
   @doc """
@@ -4375,13 +4383,13 @@ defmodule Core.Services do
   def get_individual_tax_return!(id) do
     Repo.get!(IndividualTaxReturn, id)
     |> Repo.preload([
-      :user,
       :individual_employment_statuses,
       :individual_filing_statuses,
       :individual_foreign_account_counts,
       :individual_industries,
       :individual_itemized_deductions,
-      :individual_stock_transaction_counts
+      :individual_stock_transaction_counts,
+      user: [:individual_tax_returns]
     ])
   end
 

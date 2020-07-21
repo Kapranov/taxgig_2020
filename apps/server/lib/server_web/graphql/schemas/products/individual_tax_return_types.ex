@@ -23,6 +23,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
     field :individual_employment_statuses, list_of(:individual_employment_status), resolve: dataloader(Data)
     field :individual_filing_statuses, list_of(:individual_filing_status), resolve: dataloader(Data)
     field :individual_foreign_account_counts, list_of(:individual_foreign_account_count), resolve: dataloader(Data)
+    field :individual_industries, list_of(:individual_industry), resolve: dataloader(Data)
     field :individual_itemized_deductions, list_of(:individual_itemized_deduction), resolve: dataloader(Data)
     field :individual_stock_transaction_counts, list_of(:individual_stock_transaction_count), resolve: dataloader(Data)
     field :k1_count, :integer
@@ -58,6 +59,12 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
     field :foreign_account_limit, :boolean
     field :foreign_financial_interest, :boolean
     field :home_owner, :boolean
+    field :individual_employment_statuses, list_of(:individual_employment_status), resolve: dataloader(Data)
+    field :individual_filing_statuses, list_of(:individual_filing_status), resolve: dataloader(Data)
+    field :individual_foreign_account_counts, list_of(:individual_foreign_account_count), resolve: dataloader(Data)
+    field :individual_industries, list_of(:individual_industry), resolve: dataloader(Data)
+    field :individual_itemized_deductions, list_of(:individual_itemized_deduction), resolve: dataloader(Data)
+    field :individual_stock_transaction_counts, list_of(:individual_stock_transaction_count), resolve: dataloader(Data)
     field :k1_count, :integer
     field :k1_income, :boolean
     field :living_abroad, :boolean
@@ -78,6 +85,10 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
     field :id, non_null(:string)
     field :foreign_account, :boolean
     field :home_owner, :boolean
+    field :individual_employment_statuses, list_of(:individual_employment_status), resolve: dataloader(Data)
+    field :individual_filing_statuses, list_of(:individual_filing_status), resolve: dataloader(Data)
+    field :individual_industries, list_of(:individual_industry), resolve: dataloader(Data)
+    field :individual_itemized_deductions, list_of(:individual_itemized_deduction), resolve: dataloader(Data)
     field :living_abroad, :boolean
     field :non_resident_earning, :boolean
     field :none_expat, :boolean

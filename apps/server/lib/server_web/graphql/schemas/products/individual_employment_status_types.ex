@@ -77,42 +77,36 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualEmploymentStatusTypes do
     @desc "Get a specific individual employment status"
     field(:show_individual_employment_status, non_null(:individual_employment_status)) do
       arg(:id, non_null(:string))
-
       resolve(&IndividualEmploymentStatusesResolver.show/3)
     end
 
     @desc "Get a specific individual employment status via role's Tp"
     field(:show_tp_individual_employment_status, non_null(:tp_individual_employment_status)) do
       arg(:id, non_null(:string))
-
       resolve(&IndividualEmploymentStatusesResolver.show/3)
     end
 
     @desc "Get a specific individual employment status via role's Pro"
     field(:show_pro_individual_employment_status, non_null(:pro_individual_employment_status)) do
       arg(:id, non_null(:string))
-
       resolve(&IndividualEmploymentStatusesResolver.show/3)
     end
 
     @desc "Find the individual employment status by id"
     field :find_individual_employment_status, :individual_employment_status do
       arg(:id, non_null(:string))
-
       resolve &IndividualEmploymentStatusesResolver.find/3
     end
 
     @desc "Find the individual employment status by id via role's Tp"
     field :tp, :tp_individual_employment_status do
       arg(:id, non_null(:string))
-
       resolve &IndividualEmploymentStatusesResolver.find/3
     end
 
     @desc "Find the individual employment status by id via role's Pro"
     field :pro, :pro_individual_employment_status do
       arg(:id, non_null(:string))
-
       resolve &IndividualEmploymentStatusesResolver.find/3
     end
   end
@@ -123,7 +117,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualEmploymentStatusTypes do
       arg :individual_tax_return_id, non_null(:string)
       arg :name, :string
       arg :price, :integer
-
       resolve &IndividualEmploymentStatusesResolver.create/3
     end
 
@@ -131,7 +124,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualEmploymentStatusTypes do
     field :create_tp_individual_employment_status, :tp_individual_employment_status do
       arg :individual_tax_return_id, non_null(:string)
       arg :name, :string
-
       resolve &IndividualEmploymentStatusesResolver.create/3
     end
 
@@ -140,7 +132,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualEmploymentStatusTypes do
       arg :individual_tax_return_id, non_null(:string)
       arg :name, :string
       arg :price, :integer
-
       resolve &IndividualEmploymentStatusesResolver.create/3
     end
 
@@ -148,7 +139,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualEmploymentStatusTypes do
     field :update_individual_employment_status, :individual_employment_status do
       arg :id, non_null(:string)
       arg :individual_employment_status, :update_individual_employment_status_params
-
       resolve &IndividualEmploymentStatusesResolver.update/3
     end
 
@@ -156,7 +146,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualEmploymentStatusTypes do
     field :update_tp_individual_employment_status, :tp_individual_employment_status do
       arg :id, non_null(:string)
       arg :individual_employment_status, :update_tp_individual_employment_status_params
-
       resolve &IndividualEmploymentStatusesResolver.update/3
     end
 
@@ -164,14 +153,12 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualEmploymentStatusTypes do
     field :update_pro_individual_employment_status, :pro_individual_employment_status do
       arg :id, non_null(:string)
       arg :individual_employment_status, :update_pro_individual_employment_status_params
-
       resolve &IndividualEmploymentStatusesResolver.update/3
     end
 
     @desc "Delete a specific the individual employment status"
     field :delete_individual_employment_status, :individual_employment_status do
       arg :id, non_null(:string)
-
       resolve &IndividualEmploymentStatusesResolver.delete/3
     end
   end
