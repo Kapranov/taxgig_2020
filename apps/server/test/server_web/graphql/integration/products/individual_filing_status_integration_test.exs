@@ -545,7 +545,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualFilingStatusIntegrati
       assert found["individual_tax_returns"]["user"]["role"]               == user.role
     end
 
-    it "returns specific IndividualEmploymentStatus by role's Pro" do
+    it "returns specific IndividualFilingStatus by role's Pro" do
       user = insert(:pro_user)
       individual_tax_return = insert(:pro_individual_tax_return, %{user: user})
       struct = insert(:pro_individual_filing_status, %{individual_tax_returns: individual_tax_return})
