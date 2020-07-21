@@ -2273,7 +2273,17 @@ defmodule Core.Services do
   @spec list_business_tax_return() :: [BusinessTaxReturn.t()]
   def list_business_tax_return do
     Repo.all(BusinessTaxReturn)
-    |> Repo.preload([user: [:business_tax_returns]])
+    |> Repo.preload([
+      :business_entity_types,
+      :business_foreign_account_counts,
+      :business_foreign_ownership_counts,
+      :business_industries,
+      :business_llc_types,
+      :business_number_employees,
+      :business_total_revenues,
+      :business_transaction_counts,
+      user: [:business_tax_returns]
+    ])
   end
 
   @doc """
