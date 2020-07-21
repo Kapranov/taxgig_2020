@@ -16,7 +16,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualForeignAccountCountTypes 
   object :individual_foreign_account_count do
     field :id, non_null(:string)
     field :individual_tax_returns, :individual_tax_return, resolve: dataloader(Data)
-    field :name, non_null(:string)
+    field :name, :string
   end
 
   @desc "The list individual foreign account counts via role's Tp"

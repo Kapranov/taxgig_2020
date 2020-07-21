@@ -1022,9 +1022,14 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
     it "delete specific BusinessTaxReturn" do
       user = insert(:user)
       struct = insert(:business_tax_return, %{user: user})
-      insert(:tp_business_entity_type, business_tax_returns: struct)
-      insert(:tp_business_number_employee, business_tax_returns: struct)
-      insert(:tp_business_total_revenue, business_tax_returns: struct)
+      insert(:business_entity_type, business_tax_returns: struct)
+      insert(:business_foreign_account_count, business_tax_returns: struct)
+      insert(:business_foreign_ownership_count, business_tax_returns: struct)
+      insert(:business_llc_type, business_tax_returns: struct)
+      insert(:business_industry, business_tax_returns: struct)
+      insert(:business_number_employee, business_tax_returns: struct)
+      insert(:business_total_revenue, business_tax_returns: struct)
+      insert(:business_transaction_count, business_tax_returns: struct)
 
       mutation = """
       {
@@ -1048,14 +1053,14 @@ defmodule ServerWeb.GraphQL.Integration.Products.BusinessTaxReturnIntegrationTes
     it "created BusinessTaxReturn" do
       user = insert(:user)
       struct = %{id: id} = insert(:business_tax_return, %{user: user})
-      insert(:tp_business_entity_type, business_tax_returns: struct)
-      insert(:tp_business_foreign_account_count, business_tax_returns: struct)
-      insert(:tp_business_foreign_ownership_count, business_tax_returns: struct)
-      insert(:tp_business_llc_type, business_tax_returns: struct)
-      insert(:tp_business_industry, business_tax_returns: struct)
-      insert(:tp_business_number_employee, business_tax_returns: struct)
-      insert(:tp_business_total_revenue, business_tax_returns: struct)
-      insert(:tp_business_transaction_count, business_tax_returns: struct)
+      insert(:business_entity_type, business_tax_returns: struct)
+      insert(:business_foreign_account_count, business_tax_returns: struct)
+      insert(:business_foreign_ownership_count, business_tax_returns: struct)
+      insert(:business_llc_type, business_tax_returns: struct)
+      insert(:business_industry, business_tax_returns: struct)
+      insert(:business_number_employee, business_tax_returns: struct)
+      insert(:business_total_revenue, business_tax_returns: struct)
+      insert(:business_transaction_count, business_tax_returns: struct)
 
       source = Dataloader.Ecto.new(Core.Repo)
 

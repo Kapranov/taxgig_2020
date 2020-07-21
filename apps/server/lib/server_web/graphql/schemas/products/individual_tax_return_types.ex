@@ -207,42 +207,36 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
     @desc "Get a specific individual tax return"
     field(:show_individual_tax_return, non_null(:individual_tax_return)) do
       arg(:id, non_null(:string))
-
       resolve(&IndividualTaxReturnsResolver.show/3)
     end
 
     @desc "Get a specific individual tax return via role's Tp"
     field(:show_tp_individual_tax_return, non_null(:tp_individual_tax_return)) do
       arg(:id, non_null(:string))
-
       resolve(&IndividualTaxReturnsResolver.show/3)
     end
 
     @desc "Get a specific individual tax return via role's Pro"
     field(:show_pro_individual_tax_return, non_null(:pro_individual_tax_return)) do
       arg(:id, non_null(:string))
-
       resolve(&IndividualTaxReturnsResolver.show/3)
     end
 
     @desc "Find the individual tax return by id"
     field :find_individual_tax_return, :individual_tax_return do
       arg(:id, non_null(:string))
-
       resolve &IndividualTaxReturnsResolver.find/3
     end
 
     @desc "Find the individual tax return by id via role's Tp"
     field :tp, :tp_individual_tax_return do
       arg(:id, non_null(:string))
-
       resolve &IndividualTaxReturnsResolver.role_client/3
     end
 
     @desc "Find the individual tax return by id via role's Pro"
     field :pro, :pro_individual_tax_return do
       arg(:id, non_null(:string))
-
       resolve &IndividualTaxReturnsResolver.role_pro/3
     end
   end
@@ -278,7 +272,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
       arg :stock_divident, :boolean
       arg :tax_year, list_of(:string)
       arg :user_id, non_null(:string)
-
       resolve &IndividualTaxReturnsResolver.create/3
     end
 
@@ -302,7 +295,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
       arg :stock_divident, :boolean
       arg :tax_year, list_of(:string)
       arg :user_id, non_null(:string)
-
       resolve &IndividualTaxReturnsResolver.create/3
     end
 
@@ -327,7 +319,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
       arg :rental_property_income, :boolean
       arg :stock_divident, :boolean
       arg :user_id, non_null(:string)
-
       resolve &IndividualTaxReturnsResolver.create/3
     end
 
@@ -335,7 +326,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
     field :update_individual_tax_return, :individual_tax_return do
       arg :id, non_null(:string)
       arg :individual_tax_return, :update_individual_tax_return_params
-
       resolve &IndividualTaxReturnsResolver.update/3
     end
 
@@ -343,7 +333,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
     field :update_tp_individual_tax_return, :tp_individual_tax_return do
       arg :id, non_null(:string)
       arg :individual_tax_return, :update_tp_individual_tax_return_params
-
       resolve &IndividualTaxReturnsResolver.update/3
     end
 
@@ -351,14 +340,12 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
     field :update_pro_individual_tax_return, :pro_individual_tax_return do
       arg :id, non_null(:string)
       arg :individual_tax_return, :update_pro_individual_tax_return_params
-
       resolve &IndividualTaxReturnsResolver.update/3
     end
 
     @desc "Delete a specific the individual tax return"
     field :delete_individual_tax_return, :individual_tax_return do
       arg :id, non_null(:string)
-
       resolve &IndividualTaxReturnsResolver.delete/3
     end
   end
