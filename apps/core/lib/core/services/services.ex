@@ -39,8 +39,8 @@ defmodule Core.Services do
     Services.SaleTaxIndustry
   }
 
-   tp_user = "9uLE33CFBwgiRCrF8S"
-  pro_user = "support@taxgig.com"
+   tp_user = "9xLdkjWKKTjHbPdyls"
+  pro_user = "9xLdlpEGadgfb5iW3s"
 
   @limit_record 3
 
@@ -635,7 +635,16 @@ defmodule Core.Services do
   @spec list_book_keeping() :: [BookKeeping.t()]
   def list_book_keeping do
     Repo.all(BookKeeping)
-    |> Repo.preload([:user])
+    |> Repo.preload([
+      :book_keeping_additional_needs,
+      :book_keeping_annual_revenues,
+      :book_keeping_classify_inventories,
+      :book_keeping_industries,
+      :book_keeping_number_employees,
+      :book_keeping_transaction_volumes,
+      :book_keeping_type_clients,
+      user: [:book_keepings]
+    ])
   end
 
   @doc """
@@ -656,14 +665,14 @@ defmodule Core.Services do
   def get_book_keeping!(id) do
     Repo.get!(BookKeeping, id)
     |> Repo.preload([
-      :user,
       :book_keeping_additional_needs,
       :book_keeping_annual_revenues,
       :book_keeping_classify_inventories,
       :book_keeping_industries,
       :book_keeping_number_employees,
       :book_keeping_transaction_volumes,
-      :book_keeping_type_clients
+      :book_keeping_type_clients,
+      user: [:book_keepings]
     ])
   end
 
@@ -6130,7 +6139,11 @@ defmodule Core.Services do
   @spec list_sale_taxe() :: [SaleTax.t()]
   def list_sale_taxe do
     Repo.all(SaleTax)
-    |> Repo.preload([:user])
+    |> Repo.preload([
+      :sale_tax_frequencies,
+      :sale_tax_industries,
+      user: [:sale_taxes]
+    ])
   end
 
   @doc """
@@ -6150,7 +6163,11 @@ defmodule Core.Services do
   @spec get_sale_tax!(String.t) :: SaleTax.t() | error_tuple()
   def get_sale_tax!(id) do
     Repo.get!(SaleTax, id)
-    |> Repo.preload([:user, :sale_tax_frequencies, :sale_tax_industries])
+    |> Repo.preload([
+      :sale_tax_frequencies,
+      :sale_tax_industries,
+      user: [:sale_taxes]
+    ])
   end
 
   @doc """

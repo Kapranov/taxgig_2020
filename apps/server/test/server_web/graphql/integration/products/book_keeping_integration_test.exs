@@ -8,6 +8,13 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
     it "returns BookKeeping by role's Tp" do
       user = insert(:tp_user)
       struct = insert(:tp_book_keeping, %{user: user})
+      insert(:tp_book_keeping_additional_need, book_keepings: struct)
+      insert(:tp_book_keeping_annual_revenue, book_keepings: struct)
+      insert(:tp_book_keeping_classify_inventory, book_keepings: struct)
+      insert(:tp_book_keeping_industry, book_keepings: struct)
+      insert(:tp_book_keeping_number_employee, book_keepings: struct)
+      insert(:tp_book_keeping_transaction_volume, book_keepings: struct)
+      insert(:tp_book_keeping_type_client, book_keepings: struct)
       context = %{current_user: user}
 
       query = """
@@ -81,6 +88,12 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
     it "returns BookKeeping by role's Pro" do
       user = insert(:pro_user)
       struct = insert(:pro_book_keeping, %{user: user})
+      insert(:pro_book_keeping_additional_need, book_keepings: struct)
+      insert(:pro_book_keeping_annual_revenue, book_keepings: struct)
+      insert(:pro_book_keeping_industry, book_keepings: struct)
+      insert(:pro_book_keeping_number_employee, book_keepings: struct)
+      insert(:pro_book_keeping_transaction_volume, book_keepings: struct)
+      insert(:pro_book_keeping_type_client, book_keepings: struct)
       context = %{current_user: user}
 
       query = """
@@ -91,7 +104,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
           price_payroll
           book_keeping_additional_needs { id }
           book_keeping_annual_revenues { id }
-          book_keeping_classify_inventories { id }
           book_keeping_industries { id }
           book_keeping_number_employees { id }
           book_keeping_transaction_volumes { id }
@@ -135,6 +147,13 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
     it "returns specific BookKeeping by role's Tp" do
       user = insert(:tp_user)
       struct = insert(:tp_book_keeping, %{user: user})
+      insert(:tp_book_keeping_additional_need, book_keepings: struct)
+      insert(:tp_book_keeping_annual_revenue, book_keepings: struct)
+      insert(:tp_book_keeping_classify_inventory, book_keepings: struct)
+      insert(:tp_book_keeping_industry, book_keepings: struct)
+      insert(:tp_book_keeping_number_employee, book_keepings: struct)
+      insert(:tp_book_keeping_transaction_volume, book_keepings: struct)
+      insert(:tp_book_keeping_type_client, book_keepings: struct)
       context = %{current_user: user}
 
       query = """
@@ -206,6 +225,12 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
     it "returns specific BookKeeping by role's Pro" do
       user = insert(:pro_user)
       struct = insert(:pro_book_keeping, %{user: user})
+      insert(:pro_book_keeping_additional_need, book_keepings: struct)
+      insert(:pro_book_keeping_annual_revenue, book_keepings: struct)
+      insert(:pro_book_keeping_industry, book_keepings: struct)
+      insert(:pro_book_keeping_number_employee, book_keepings: struct)
+      insert(:pro_book_keeping_transaction_volume, book_keepings: struct)
+      insert(:pro_book_keeping_type_client, book_keepings: struct)
       context = %{current_user: user}
 
       query = """
@@ -216,7 +241,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
           price_payroll
           book_keeping_additional_needs { id }
           book_keeping_annual_revenues { id }
-          book_keeping_classify_inventories { id }
           book_keeping_industries { id }
           book_keeping_number_employees { id }
           book_keeping_transaction_volumes { id }
@@ -258,6 +282,13 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
     it "returns specific BookKeeping by role's Tp" do
       user = insert(:tp_user)
       struct = insert(:tp_book_keeping, %{user: user})
+      insert(:tp_book_keeping_additional_need, book_keepings: struct)
+      insert(:tp_book_keeping_annual_revenue, book_keepings: struct)
+      insert(:tp_book_keeping_classify_inventory, book_keepings: struct)
+      insert(:tp_book_keeping_industry, book_keepings: struct)
+      insert(:tp_book_keeping_number_employee, book_keepings: struct)
+      insert(:tp_book_keeping_transaction_volume, book_keepings: struct)
+      insert(:tp_book_keeping_type_client, book_keepings: struct)
       context = %{current_user: user}
 
       query = """
@@ -329,6 +360,12 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
     it "returns specific BookKeeping by role's Pro" do
       user = insert(:pro_user)
       struct = insert(:pro_book_keeping, %{user: user})
+      insert(:pro_book_keeping_additional_need, book_keepings: struct)
+      insert(:pro_book_keeping_annual_revenue, book_keepings: struct)
+      insert(:pro_book_keeping_industry, book_keepings: struct)
+      insert(:pro_book_keeping_number_employee, book_keepings: struct)
+      insert(:pro_book_keeping_transaction_volume, book_keepings: struct)
+      insert(:pro_book_keeping_type_client, book_keepings: struct)
       context = %{current_user: user}
 
       query = """
@@ -339,7 +376,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
           price_payroll
           book_keeping_additional_needs { id }
           book_keeping_annual_revenues { id }
-          book_keeping_classify_inventories { id }
           book_keeping_industries { id }
           book_keeping_number_employees { id }
           book_keeping_transaction_volumes { id }
@@ -455,7 +491,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
           price_payroll
           book_keeping_additional_needs { id }
           book_keeping_annual_revenues { id }
-          book_keeping_classify_inventories { id }
           book_keeping_industries { id }
           book_keeping_number_employees { id }
           book_keeping_transaction_volumes { id }
@@ -486,6 +521,13 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
     it "updated specific BookKeeping by role's Tp" do
       user = insert(:tp_user)
       struct = insert(:tp_book_keeping, %{user: user})
+      insert(:tp_book_keeping_additional_need, book_keepings: struct)
+      insert(:tp_book_keeping_annual_revenue, book_keepings: struct)
+      insert(:tp_book_keeping_classify_inventory, book_keepings: struct)
+      insert(:tp_book_keeping_industry, book_keepings: struct)
+      insert(:tp_book_keeping_number_employee, book_keepings: struct)
+      insert(:tp_book_keeping_transaction_volume, book_keepings: struct)
+      insert(:tp_book_keeping_type_client, book_keepings: struct)
 
       mutation = """
       {
@@ -554,6 +596,12 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
     it "updated specific BookKeeping by role's Pro" do
       user = insert(:pro_user)
       struct = insert(:pro_book_keeping, %{user: user})
+      insert(:pro_book_keeping_additional_need, book_keepings: struct)
+      insert(:pro_book_keeping_annual_revenue, book_keepings: struct)
+      insert(:pro_book_keeping_industry, book_keepings: struct)
+      insert(:pro_book_keeping_number_employee, book_keepings: struct)
+      insert(:pro_book_keeping_transaction_volume, book_keepings: struct)
+      insert(:pro_book_keeping_type_client, book_keepings: struct)
 
       mutation = """
       {
@@ -571,7 +619,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
           price_payroll
           book_keeping_additional_needs { id }
           book_keeping_annual_revenues { id }
-          book_keeping_classify_inventories { id }
           book_keeping_industries { id }
           book_keeping_number_employees { id }
           book_keeping_transaction_volumes { id }
@@ -603,6 +650,13 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
     it "delete specific BookKeeping" do
       user = insert(:user)
       struct = insert(:book_keeping, %{user: user})
+      insert(:tp_book_keeping_additional_need, book_keepings: struct)
+      insert(:tp_book_keeping_annual_revenue, book_keepings: struct)
+      insert(:tp_book_keeping_classify_inventory, book_keepings: struct)
+      insert(:tp_book_keeping_industry, book_keepings: struct)
+      insert(:tp_book_keeping_number_employee, book_keepings: struct)
+      insert(:tp_book_keeping_transaction_volume, book_keepings: struct)
+      insert(:tp_book_keeping_type_client, book_keepings: struct)
 
       mutation = """
       {
@@ -625,7 +679,14 @@ defmodule ServerWeb.GraphQL.Integration.Products.BookKeepingIntegrationTest do
   describe "#dataloads" do
     it "created BookKeeping" do
       user = insert(:user)
-      %{id: id} = insert(:book_keeping, %{user: user})
+      struct = %{id: id} = insert(:book_keeping, %{user: user})
+      insert(:tp_book_keeping_additional_need, book_keepings: struct)
+      insert(:tp_book_keeping_annual_revenue, book_keepings: struct)
+      insert(:tp_book_keeping_classify_inventory, book_keepings: struct)
+      insert(:tp_book_keeping_industry, book_keepings: struct)
+      insert(:tp_book_keeping_number_employee, book_keepings: struct)
+      insert(:tp_book_keeping_transaction_volume, book_keepings: struct)
+      insert(:tp_book_keeping_type_client, book_keepings: struct)
 
       source = Dataloader.Ecto.new(Core.Repo)
 

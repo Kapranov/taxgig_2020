@@ -8,6 +8,8 @@ defmodule ServerWeb.GraphQL.Integration.Products.SaleTaxIntegrationTest do
     it "returns SaleTax by role's Tp" do
       user = insert(:tp_user)
       struct = insert(:tp_sale_tax, %{user: user})
+      insert(:tp_sale_tax_frequency, sale_taxes: struct)
+      insert(:tp_sale_tax_industry, sale_taxes: struct)
       context = %{current_user: user}
 
       query = """
@@ -61,6 +63,8 @@ defmodule ServerWeb.GraphQL.Integration.Products.SaleTaxIntegrationTest do
     it "returns SaleTaxFrequency by role's Pro" do
       user = insert(:pro_user)
       struct = insert(:pro_sale_tax, %{user: user})
+      insert(:pro_sale_tax_frequency, sale_taxes: struct)
+      insert(:pro_sale_tax_industry, sale_taxes: struct)
       context = %{current_user: user}
 
       query = """
@@ -107,6 +111,8 @@ defmodule ServerWeb.GraphQL.Integration.Products.SaleTaxIntegrationTest do
     it "returns specific SaleTax by role's Tp" do
       user = insert(:tp_user)
       struct = insert(:tp_sale_tax, %{user: user})
+      insert(:tp_sale_tax_frequency, sale_taxes: struct)
+      insert(:tp_sale_tax_industry, sale_taxes: struct)
       context = %{current_user: user}
 
       query = """
@@ -158,6 +164,8 @@ defmodule ServerWeb.GraphQL.Integration.Products.SaleTaxIntegrationTest do
     it "returns specific SaleTax by role's Pro" do
       user = insert(:pro_user)
       struct = insert(:pro_sale_tax, %{user: user})
+      insert(:pro_sale_tax_frequency, sale_taxes: struct)
+      insert(:pro_sale_tax_industry, sale_taxes: struct)
       context = %{current_user: user}
 
       query = """
@@ -202,6 +210,8 @@ defmodule ServerWeb.GraphQL.Integration.Products.SaleTaxIntegrationTest do
     it "returns specific SaleTax by role's Tp" do
       user = insert(:tp_user)
       struct = insert(:tp_sale_tax, %{user: user})
+      insert(:tp_sale_tax_frequency, sale_taxes: struct)
+      insert(:tp_sale_tax_industry, sale_taxes: struct)
       context = %{current_user: user}
 
       query = """
@@ -253,6 +263,8 @@ defmodule ServerWeb.GraphQL.Integration.Products.SaleTaxIntegrationTest do
     it "returns specific SaleTax by role's Pro" do
       user = insert(:pro_user)
       struct = insert(:pro_sale_tax, %{user: user})
+      insert(:pro_sale_tax_frequency, sale_taxes: struct)
+      insert(:pro_sale_tax_industry, sale_taxes: struct)
       context = %{current_user: user}
 
       query = """
@@ -374,6 +386,8 @@ defmodule ServerWeb.GraphQL.Integration.Products.SaleTaxIntegrationTest do
     it "updated specific SaleTax by role's Tp" do
       user = insert(:tp_user)
       struct = insert(:tp_sale_tax, %{user: user})
+      insert(:tp_sale_tax_frequency, sale_taxes: struct)
+      insert(:tp_sale_tax_industry, sale_taxes: struct)
 
       mutation = """
       {
@@ -422,6 +436,8 @@ defmodule ServerWeb.GraphQL.Integration.Products.SaleTaxIntegrationTest do
     it "updated specific SaleTax by role's Pro" do
       user = insert(:pro_user)
       struct = insert(:pro_sale_tax, %{user: user})
+      insert(:pro_sale_tax_frequency, sale_taxes: struct)
+      insert(:pro_sale_tax_industry, sale_taxes: struct)
 
       mutation = """
       {
@@ -463,6 +479,8 @@ defmodule ServerWeb.GraphQL.Integration.Products.SaleTaxIntegrationTest do
     it "delete specific SaleTax" do
       user = insert(:user)
       struct = insert(:sale_tax, %{user: user})
+      insert(:sale_tax_frequency, sale_taxes: struct)
+      insert(:sale_tax_industry, sale_taxes: struct)
 
       mutation = """
       {
@@ -485,7 +503,9 @@ defmodule ServerWeb.GraphQL.Integration.Products.SaleTaxIntegrationTest do
   describe "#dataloads" do
     it "created SaleTax" do
       user = insert(:user)
-      %{id: id} = insert(:sale_tax, %{user: user})
+      struct = %{id: id} = insert(:sale_tax, %{user: user})
+      insert(:sale_tax_frequency, sale_taxes: struct)
+      insert(:sale_tax_industry, sale_taxes: struct)
 
       source = Dataloader.Ecto.new(Core.Repo)
 
