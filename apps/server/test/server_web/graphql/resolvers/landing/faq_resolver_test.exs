@@ -81,11 +81,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqResolverTest do
     it "returns error for missing params" do
       args = %{content: nil, title: nil, faq_category_id: nil}
       {:error, error} = FaqResolver.create(nil, args, nil)
-      assert error == [
-        [field: :content, message: "Can't be blank"],
-        [field: :faq_category_id, message: "Can't be blank"],
-        [field: :title, message: "Can't be blank"]
-      ]
+      assert error == [[field: :content, message: "content, faq_category_id, title can't be blank"]]
     end
   end
 

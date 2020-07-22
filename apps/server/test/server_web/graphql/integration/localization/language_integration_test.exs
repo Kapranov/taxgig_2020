@@ -15,8 +15,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -31,14 +29,10 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
       assert List.first(data)["id"]          == struct_a.id
       assert List.first(data)["abbr"]        == struct_a.abbr
       assert List.first(data)["name"]        == struct_a.name
-      assert List.first(data)["inserted_at"] == format_time(struct_a.inserted_at)
-      assert List.first(data)["updated_at"]  == format_time(struct_a.updated_at)
 
       assert List.last(data)["id"]          == struct_b.id
       assert List.last(data)["abbr"]        == struct_b.abbr
       assert List.last(data)["name"]        == struct_b.name
-      assert List.last(data)["inserted_at"] == format_time(struct_b.inserted_at)
-      assert List.last(data)["updated_at"]  == format_time(struct_b.updated_at)
     end
 
     it "returns languages - `Absinthe.run`" do
@@ -53,8 +47,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -67,16 +59,12 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
       assert first["id"]          == struct_a.id
       assert first["abbr"]        == struct_a.abbr
       assert first["name"]        == struct_a.name
-      assert first["inserted_at"] == format_time(struct_a.inserted_at)
-      assert first["updated_at"]  == format_time(struct_a.updated_at)
 
       [second] = tl(data)
 
       assert second["id"]          == struct_b.id
       assert second["abbr"]        == struct_b.abbr
       assert second["name"]        == struct_b.name
-      assert second["inserted_at"] == format_time(struct_b.inserted_at)
-      assert second["updated_at"]  == format_time(struct_b.updated_at)
     end
   end
 
@@ -90,8 +78,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -107,8 +93,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
       assert found["id"]          == struct.id
       assert found["abbr"]        == struct.abbr
       assert found["name"]        == struct.name
-      assert found["inserted_at"] == format_time(struct.inserted_at)
-      assert found["updated_at"]  == format_time(struct.updated_at)
     end
 
     it "returns specific language by id - `Absinthe.run`" do
@@ -122,8 +106,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -134,8 +116,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
       assert found["id"]          == struct.id
       assert found["abbr"]        == struct.abbr
       assert found["name"]        == struct.name
-      assert found["inserted_at"] == format_time(struct.inserted_at)
-      assert found["updated_at"]  == format_time(struct.updated_at)
     end
 
     it "returns not found when language does not exist - `AbsintheHelpers`" do
@@ -147,8 +127,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -170,8 +148,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -189,8 +165,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -211,8 +185,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -235,8 +207,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -265,8 +235,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -288,8 +256,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -313,8 +279,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -342,8 +306,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -377,8 +339,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -403,8 +363,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -435,8 +393,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -459,8 +415,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -484,8 +438,6 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
           id
           abbr
           name
-          inserted_at
-          updated_at
         }
       }
       """
@@ -593,9 +545,5 @@ defmodule ServerWeb.GraphQL.Integration.Localization.LanguageIntegrationTest do
 
       assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
-  end
-
-  defp format_time(timestamp) do
-    Timex.format!(Timex.to_datetime(timestamp, "Europe/Kiev"), "{ISO:Extended:Z}")
   end
 end

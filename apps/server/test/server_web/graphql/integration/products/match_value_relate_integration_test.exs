@@ -60,8 +60,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
           value_for_individual_state
           value_for_individual_tax_year
           value_for_sale_tax_count
-          inserted_at
-          updated_at
         }
       }
       """
@@ -118,8 +116,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
       assert first["value_for_individual_state"]                      == decimal_to_string(match_value_relate.value_for_individual_state)
       assert first["value_for_individual_tax_year"]                   == decimal_to_string(match_value_relate.value_for_individual_tax_year)
       assert first["value_for_sale_tax_count"]                        == decimal_to_string(match_value_relate.value_for_sale_tax_count)
-      assert first["inserted_at"]                                     == formatting_time(match_value_relate.inserted_at)
-      assert first["updated_at"]                                      == formatting_time(match_value_relate.updated_at)
 
       res =
         build_conn()
@@ -176,8 +172,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
       assert List.first(data)["value_for_individual_state"]                      == decimal_to_string(match_value_relate.value_for_individual_state)
       assert List.first(data)["value_for_individual_tax_year"]                   == decimal_to_string(match_value_relate.value_for_individual_tax_year)
       assert List.first(data)["value_for_sale_tax_count"]                        == decimal_to_string(match_value_relate.value_for_sale_tax_count)
-      assert List.first(data)["inserted_at"]                                     == formatting_time(match_value_relate.inserted_at)
-      assert List.first(data)["updated_at"]                                      == formatting_time(match_value_relate.updated_at)
     end
   end
 
@@ -237,8 +231,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
           value_for_individual_state
           value_for_individual_tax_year
           value_for_sale_tax_count
-          inserted_at
-          updated_at
         }
       }
       """
@@ -293,8 +285,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
       assert found["value_for_individual_state"]                      == decimal_to_string(match_value_relate.value_for_individual_state)
       assert found["value_for_individual_tax_year"]                   == decimal_to_string(match_value_relate.value_for_individual_tax_year)
       assert found["value_for_sale_tax_count"]                        == decimal_to_string(match_value_relate.value_for_sale_tax_count)
-      assert found["inserted_at"]                                     == formatting_time(match_value_relate.inserted_at)
-      assert found["updated_at"]                                      == formatting_time(match_value_relate.updated_at)
 
       res =
         build_conn()
@@ -352,8 +342,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
       assert found["value_for_individual_state"]                      == decimal_to_string(match_value_relate.value_for_individual_state)
       assert found["value_for_individual_tax_year"]                   == decimal_to_string(match_value_relate.value_for_individual_tax_year)
       assert found["value_for_sale_tax_count"]                        == decimal_to_string(match_value_relate.value_for_sale_tax_count)
-      assert found["inserted_at"]                                     == formatting_time(match_value_relate.inserted_at)
-      assert found["updated_at"]                                      == formatting_time(match_value_relate.updated_at)
     end
   end
 
@@ -413,8 +401,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
           value_for_individual_state
           value_for_individual_tax_year
           value_for_sale_tax_count
-          inserted_at
-          updated_at
         }
       }
       """
@@ -469,8 +455,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
       assert found["value_for_individual_state"]                      == decimal_to_string(match_value_relate.value_for_individual_state)
       assert found["value_for_individual_tax_year"]                   == decimal_to_string(match_value_relate.value_for_individual_tax_year)
       assert found["value_for_sale_tax_count"]                        == decimal_to_string(match_value_relate.value_for_sale_tax_count)
-      assert found["inserted_at"]                                     == formatting_time(match_value_relate.inserted_at)
-      assert found["updated_at"]                                      == formatting_time(match_value_relate.updated_at)
 
       res =
         build_conn()
@@ -528,8 +512,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
       assert found["value_for_individual_state"]                      == decimal_to_string(match_value_relate.value_for_individual_state)
       assert found["value_for_individual_tax_year"]                   == decimal_to_string(match_value_relate.value_for_individual_tax_year)
       assert found["value_for_sale_tax_count"]                        == decimal_to_string(match_value_relate.value_for_sale_tax_count)
-      assert found["inserted_at"]                                     == formatting_time(match_value_relate.inserted_at)
-      assert found["updated_at"]                                      == formatting_time(match_value_relate.updated_at)
     end
   end
 
@@ -633,8 +615,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
             value_for_individual_state
             value_for_individual_tax_year
             value_for_sale_tax_count
-            inserted_at
-            updated_at
           }
       }
       """
@@ -803,8 +783,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
             value_for_individual_state
             value_for_individual_tax_year
             value_for_sale_tax_count
-            inserted_at
-            updated_at
           }
       }
       """
@@ -866,8 +844,6 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
       assert updated["value_for_individual_state"]                      == "0.99"
       assert updated["value_for_individual_tax_year"]                   == "0.99"
       assert updated["value_for_sale_tax_count"]                        == "0.99"
-      assert updated["inserted_at"]                                     == formatting_time(match_value_relate.inserted_at)
-      assert updated["updated_at"]                                      == formatting_time(match_value_relate.updated_at)
     end
   end
 
@@ -895,9 +871,5 @@ defmodule ServerWeb.GraphQL.Integration.Products.MatchValueRelateIntegrationTest
 
   defp decimal_to_string(val) do
     Decimal.to_string(val)
-  end
-
-  defp formatting_time(timestamp) do
-    Timex.format!(Timex.to_datetime(timestamp, "Europe/Kiev"), "{ISO:Extended:Z}")
   end
 end

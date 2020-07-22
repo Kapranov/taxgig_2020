@@ -5,7 +5,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolverTest do
 
   describe "#show" do
     it "returns specific UsZipcode by id" do
-      struct = insert(:zipcode)
+      struct = insert(:us_zipcode)
       {:ok, found} = UsZipcodeResolver.show(nil, %{id: struct.id}, nil)
       assert found.id      == struct.id
       assert found.city    == struct.city
@@ -20,7 +20,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolverTest do
     end
 
     it "returns error for missing params" do
-      insert(:zipcode)
+      insert(:us_zipcode)
       args = %{id: nil}
       {:error, error} = UsZipcodeResolver.show(nil, args, nil)
       assert error == [[field: :id, message: "Can't be blank"]]
@@ -29,7 +29,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolverTest do
 
   describe "#search" do
     it "returns search specific UsZipcode by number" do
-      struct = insert(:zipcode)
+      struct = insert(:us_zipcode)
       {:ok, found} = UsZipcodeResolver.search(nil, %{zipcode: struct.zipcode}, nil)
       assert found.id      == struct.id
       assert found.city    == struct.city
@@ -44,7 +44,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolverTest do
     end
 
     it "returns error for missing params" do
-      insert(:zipcode)
+      insert(:us_zipcode)
       args = %{zipcode: nil}
       {:error, error} = UsZipcodeResolver.search(nil, args, nil)
       assert error == [[field: :zipcode, message: "Can't be blank"]]

@@ -14,8 +14,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           faqs_count
           title
-          inserted_at
-          updated_at
         }
       }
       """
@@ -30,14 +28,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert List.first(data)["id"]          == struct.id
       assert List.first(data)["faqs_count"]  == struct.faqs_count
       assert List.first(data)["title"]       == struct.title
-      assert List.first(data)["inserted_at"] == format_time(struct.inserted_at)
-      assert List.first(data)["updated_at"]  == format_time(struct.updated_at)
 
       assert List.last(data)["id"]          == struct.id
       assert List.last(data)["faqs_count"]  == struct.faqs_count
       assert List.last(data)["title"]       == struct.title
-      assert List.last(data)["inserted_at"] == format_time(struct.inserted_at)
-      assert List.last(data)["updated_at"]  == format_time(struct.updated_at)
     end
 
     it "returns faq categories - `Absinthe.run`" do
@@ -50,8 +44,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           faqs_count
           title
-          inserted_at
-          updated_at
         }
       }
       """
@@ -64,8 +56,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert first["id"]          == struct.id
       assert first["faqs_count"]  == struct.faqs_count
       assert first["title"]       == struct.title
-      assert first["inserted_at"] == format_time(struct.inserted_at)
-      assert first["updated_at"]  == format_time(struct.updated_at)
     end
   end
 
@@ -80,14 +70,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -105,14 +91,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
 
       assert found["content"]     == struct_b.content
       assert found["title"]       == struct_b.title
-      assert found["inserted_at"] == format_time(struct_b.inserted_at)
-      assert found["updated_at"]  == format_time(struct_b.updated_at)
 
       assert found["faq_categories"]["id"]          == struct_a.id
       assert found["faq_categories"]["faqs_count"]  == 0
       assert found["faq_categories"]["title"]       == struct_a.title
-      assert found["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
-      assert found["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
     end
 
     it "found Faq with specific FaqCategory by id - `Absinthe.run`" do
@@ -127,14 +109,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -145,14 +123,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
 
       assert found["content"]     == struct_b.content
       assert found["title"]       == struct_b.title
-      assert found["inserted_at"] == format_time(struct_b.inserted_at)
-      assert found["updated_at"]  == format_time(struct_b.updated_at)
 
       assert found["faq_categories"]["id"]          == struct_a.id
       assert found["faq_categories"]["faqs_count"]  == 0
       assert found["faq_categories"]["title"]       == struct_a.title
-      assert found["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
-      assert found["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
     end
 
     it "returns not found Faq with specific FaqCategory by id - `AbsintheHelpers`" do
@@ -164,14 +138,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -198,14 +168,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -224,14 +190,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -253,14 +215,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -283,8 +241,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           faqs_count
           title
-          inserted_at
-          updated_at
           faqs {
             id
             title
@@ -305,8 +261,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert found["id"]          == struct.id
       assert found["faqs_count"]  == struct.faqs_count
       assert found["title"]       == struct.title
-      assert found["inserted_at"] == format_time(struct.inserted_at)
-      assert found["updated_at"]  == format_time(struct.updated_at)
       assert found["faqs"]        == []
 
     end
@@ -321,8 +275,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           faqs_count
           title
-          inserted_at
-          updated_at
           faqs {
             id
             title
@@ -338,8 +290,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert found["id"]          == struct.id
       assert found["faqs_count"]  == struct.faqs_count
       assert found["title"]       == struct.title
-      assert found["inserted_at"] == format_time(struct.inserted_at)
-      assert found["updated_at"]  == format_time(struct.updated_at)
       assert found["faqs"]        == []
     end
 
@@ -352,8 +302,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           faqs_count
           title
-          inserted_at
-          updated_at
           faqs {
             id
             title
@@ -380,8 +328,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           faqs_count
           title
-          inserted_at
-          updated_at
           faqs {
             id
             title
@@ -404,8 +350,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           faqs_count
           title
-          inserted_at
-          updated_at
           faqs {
             id
             title
@@ -431,8 +375,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           faqs_count
           title
-          inserted_at
-          updated_at
           faqs {
             id
             title
@@ -458,8 +400,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
         ) {
           id
           title
-          inserted_at
-          updated_at
         }
       }
       """
@@ -486,8 +426,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
         ) {
           id
           title
-          inserted_at
-          updated_at
         }
       }
       """
@@ -507,8 +445,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
         ) {
           id
           title
-          inserted_at
-          updated_at
         }
       }
       """
@@ -530,8 +466,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
         ) {
           id
           title
-          inserted_at
-          updated_at
         }
       }
       """
@@ -558,8 +492,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           faqs_count
           title
-          inserted_at
-          updated_at
         }
       }
       """
@@ -575,8 +507,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert updated["id"]          == struct.id
       assert updated["faqs_count"]  == 0
       assert updated["title"]       == "updated text"
-      assert updated["inserted_at"] == format_time(struct.inserted_at)
-      assert updated["updated_at"]  == format_time(struct.updated_at)
     end
 
     it "update specific faq category by id - `Absinthe.run`" do
@@ -594,8 +524,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           faqs_count
           title
-          inserted_at
-          updated_at
         }
       }
       """
@@ -606,8 +534,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert updated["id"]          == struct.id
       assert updated["faqs_count"]  == 0
       assert updated["title"]       == "updated text"
-      assert updated["inserted_at"] == format_time(struct.inserted_at)
-      assert updated["updated_at"]  == format_time(struct.updated_at)
     end
 
     it "return error when title for missing params - `AbsintheHelpers`" do
@@ -622,8 +548,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           faqs_count
           title
-          inserted_at
-          updated_at
         }
       }
       """
@@ -648,8 +572,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           faqs_count
           title
-          inserted_at
-          updated_at
         }
       }
       """
@@ -672,8 +594,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           faqs_count
           title
-          inserted_at
-          updated_at
         }
       }
       """
@@ -699,8 +619,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
           id
           faqs_count
           title
-          inserted_at
-          updated_at
         }
       }
       """
@@ -810,9 +728,5 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
 
       assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
-  end
-
-  defp format_time(timestamp) do
-    Timex.format!(Timex.to_datetime(timestamp, "Europe/Kiev"), "{ISO:Extended:Z}")
   end
 end

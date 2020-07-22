@@ -6,7 +6,7 @@ defmodule ServerWeb.GraphQL.Integration.Lookup.UsZipcodeIntegrationTest do
 
   describe "#show" do
     it "returns specific UsZipcode by id - `AbsintheHelpers`" do
-      struct = insert(:zipcode)
+      struct = insert(:us_zipcode)
 
       query = """
       {
@@ -34,7 +34,7 @@ defmodule ServerWeb.GraphQL.Integration.Lookup.UsZipcodeIntegrationTest do
     end
 
     it "returns specific UsZipcode by id - `Absinthe.run`" do
-      struct = insert(:zipcode)
+      struct = insert(:us_zipcode)
 
       context = %{}
 
@@ -143,8 +143,7 @@ defmodule ServerWeb.GraphQL.Integration.Lookup.UsZipcodeIntegrationTest do
 
   describe "#search" do
     it "search specific UsZipcode by number - `AbsintheHelpers`" do
-      struct = insert(:zipcode)
-      number = 602
+      struct = %{zipcode: number} = insert(:us_zipcode)
 
       query = """
       {
@@ -172,8 +171,7 @@ defmodule ServerWeb.GraphQL.Integration.Lookup.UsZipcodeIntegrationTest do
     end
 
     it "search specific UsZipcode by number - `Absinthe.run`" do
-      struct = insert(:zipcode)
-      number = 602
+      struct = %{zipcode: number} = insert(:us_zipcode)
 
       context = %{}
 

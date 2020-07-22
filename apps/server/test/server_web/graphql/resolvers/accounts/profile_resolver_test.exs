@@ -50,20 +50,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       assert List.first(data).user.zip          == struct.user.zip
       assert List.first(data).user.inserted_at  == struct.user.inserted_at
       assert List.first(data).user.updated_at   == struct.user.updated_at
-      assert %Core.Lookup.UsZipcode{
-        id: _,
-        city: "AGUADA",
-        state: "PR",
-        zipcode: 602,
-      } = List.first(data).us_zipcode
-      [%Core.Localization.Language{
-          id: _,
-          abbr: "chi",
-          name: "chinese",
-          inserted_at: _,
-          updated_at: _
-        }
-      ] = List.first(data).user.languages
+      assert List.first(data).us_zipcode        == struct.us_zipcode
+      assert List.first(data).user.languages    == struct.user.languages
       assert {:ok, %{
           body: "",
           headers: [
@@ -114,21 +102,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       assert found.user.zip          == struct.user.zip
       assert found.user.inserted_at  == struct.user.inserted_at
       assert found.user.updated_at   == struct.user.updated_at
-      assert %Core.Lookup.UsZipcode{
-        id: _,
-        city: "AGUADA",
-        state: "PR",
-        zipcode: 602,
-      } = found.us_zipcode
-      assert [
-        %Core.Localization.Language{
-          id: _,
-          abbr: "chi",
-          name: "chinese",
-          inserted_at: _,
-          updated_at: _
-        }
-      ] = found.user.languages
+      assert found.us_zipcode        == struct.us_zipcode
+      assert found.user.languages    == struct.user.languages
       assert {:ok, %{
           body: "",
           headers: [
@@ -184,7 +159,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
 
   describe "#create" do
     it "creates profile via user" do
-      insert(:language)
+      lang = insert(:language)
 
       args = %{
         active: false,
@@ -194,7 +169,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
         email: "lugatex@yahoo.com",
         first_name: "some text",
         init_setup: false,
-        languages: "chinese",
+        languages: lang.name,
         last_name: "some text",
         middle_name: "some text",
         password: "qwerty",
@@ -240,22 +215,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       assert created.user.zip         == user.zip
       assert created.user.inserted_at == user.inserted_at
       assert created.user.updated_at  == user.updated_at
-      assert [
-        %Core.Localization.Language{
-          id: _,
-          abbr: "chi",
-          name: "chinese",
-          inserted_at: _,
-          updated_at: _
-        }
-      ] = created.user.languages
+      assert created.user.languages   == user.languages
     end
   end
 
   describe "#update" do
     it "update specific profile by user_id" do
       struct = insert(:profile)
-      zipcode = insert(:zipcode)
+      zipcode = insert(:us_zipcode)
       user = Core.Accounts.User.find_by(id: struct.user_id)
       context = %{context: %{current_user: user}}
 
@@ -321,9 +288,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       context = %{context: %{current_user: user}}
       args = %{id: struct.user_id, logo: %{}, profile: %{}}
       {:ok, updated} = ProfileResolver.update(nil, args, context)
-      assert updated.address           == "some text"
-      assert updated.banner            == "some text"
-      assert updated.description       == "some text"
+      assert updated.address           == struct.address
+      assert updated.banner            == struct.banner
+      assert updated.description       == struct.description
       assert updated.logo.id           == struct.logo.id
       assert updated.logo.content_type == "image/jpg"
       assert updated.logo.name         == "Logo"

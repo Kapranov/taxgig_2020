@@ -63,13 +63,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.PressArticleResolverTest do
     it "returns error for missing params" do
       args = %{author: nil, preview_text: nil, title: nil, url: nil}
       {:error, error} = PressArticleResolver.create(nil, args, nil)
-      assert error == [
-        [field: :author, message: "Can't be blank"],
-        [field: :img_url, message: "Can't be blank"],
-        [field: :preview_text, message: "Can't be blank"],
-        [field: :title, message: "Can't be blank"],
-        [field: :url, message: "Can't be blank"]
-      ]
+      assert error == [[field: :author, message: "author, img_url, preview_text, title, url can't be blank"]]
     end
   end
 

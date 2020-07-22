@@ -55,12 +55,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.VacancyResolverTest do
     it "returns error for missing params" do
       args = %{content: nil, department: nil, title: nil}
       {:error, error} = VacancyResolver.create(nil, args, nil)
-      assert error == [
-        [field: :content, message: "Can't be blank"],
-        [field: :department, message: "Can't be blank"],
-        [field: :title, message: "Can't be blank"]
-
-      ]
+      assert error == [[field: :content, message: "content, department, title can't be blank"]]
     end
   end
 

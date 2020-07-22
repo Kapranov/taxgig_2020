@@ -249,7 +249,7 @@ defmodule Server.Factory do
       banner: Avatar.image_url(),
       description: Lorem.sentence(),
       logo: build(:file, name: "Logo"),
-      us_zipcode: build(:zipcode),
+      us_zipcode: build(:us_zipcode),
       user: build(:user)
     }
   end

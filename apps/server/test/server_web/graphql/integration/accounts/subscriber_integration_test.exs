@@ -14,8 +14,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -30,14 +28,10 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
       assert List.first(data)["id"]          == struct.id
       assert List.first(data)["email"]       == struct.email
       assert List.first(data)["pro_role"]    == struct.pro_role
-      assert List.first(data)["inserted_at"] == format_time(struct.inserted_at)
-      assert List.first(data)["updated_at"]  == format_time(struct.updated_at)
 
       assert List.last(data)["id"]          == struct.id
       assert List.last(data)["email"]       == struct.email
       assert List.last(data)["pro_role"]    == struct.pro_role
-      assert List.last(data)["inserted_at"] == format_time(struct.inserted_at)
-      assert List.last(data)["updated_at"]  == format_time(struct.updated_at)
     end
 
     it "returns accounts subscriberi - `Absinthe.run`" do
@@ -50,8 +44,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -64,8 +56,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
       assert first["id"]          == struct.id
       assert first["email"]       == struct.email
       assert first["pro_role"]    == struct.pro_role
-      assert first["inserted_at"] == format_time(struct.inserted_at)
-      assert first["updated_at"]  == format_time(struct.updated_at)
     end
   end
 
@@ -79,8 +69,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -96,8 +84,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
       assert found["id"]          == struct.id
       assert found["email"]       == struct.email
       assert found["pro_role"]    == struct.pro_role
-      assert found["inserted_at"] == format_time(struct.inserted_at)
-      assert found["updated_at"]  == format_time(struct.updated_at)
     end
 
     it "returns specific accounts subscriber by id - `Absinthe.run`" do
@@ -110,8 +96,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -122,8 +106,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
       assert found["id"]          == struct.id
       assert found["email"]       == struct.email
       assert found["pro_role"]    == struct.pro_role
-      assert found["inserted_at"] == format_time(struct.inserted_at)
-      assert found["updated_at"]  == format_time(struct.updated_at)
     end
 
     it "returns not found when accounts subscriber does not exist - `AbsintheHelpers`" do
@@ -135,8 +117,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -158,8 +138,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -177,8 +155,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -202,8 +178,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -232,8 +206,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -255,8 +227,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -280,8 +250,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -309,8 +277,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -326,7 +292,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
       assert updated["id"]          == struct.id
       assert updated["email"]       == "kapranov.lugatex@gmail.com"
       assert updated["pro_role"]    == true
-      assert updated["inserted_at"] == format_time(struct.inserted_at)
     end
 
     it "update specific accounts subscriber by id - `Absinthe.run`" do
@@ -345,8 +310,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -357,7 +320,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
       assert updated["id"]          == struct.id
       assert updated["email"]       == "kapranov.lugatex@gmail.com"
       assert updated["pro_role"]    == true
-      assert updated["inserted_at"] == format_time(struct.inserted_at)
     end
 
     it "nothing change for missing params - `AbsintheHelpers`" do
@@ -372,8 +334,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -389,8 +349,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
       assert updated["id"]          == struct.id
       assert updated["email"]       == struct.email
       assert updated["pro_role"]    == struct.pro_role
-      assert updated["inserted_at"] == format_time(struct.inserted_at)
-      assert updated["updated_at"]  == format_time(struct.updated_at)
     end
 
     it "nothing change for missing params - `Absinthe.run`" do
@@ -406,8 +364,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -418,8 +374,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
       assert updated["id"]          == struct.id
       assert updated["email"]       == struct.email
       assert updated["pro_role"]    == struct.pro_role
-      assert updated["inserted_at"] == format_time(struct.inserted_at)
-      assert updated["updated_at"]  == format_time(struct.updated_at)
     end
 
     it "returns error for missing params - `AbsintheHelpers`" do
@@ -435,8 +389,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -463,8 +415,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
           id
           email
           pro_role
-          inserted_at
-          updated_at
         }
       }
       """
@@ -572,9 +522,5 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.SubscriberIntegrationTest do
 
       assert hd(error).message == "Argument \"email\" has invalid value nil."
     end
-  end
-
-  defp format_time(timestamp) do
-    Timex.format!(Timex.to_datetime(timestamp, "Europe/Kiev"), "{ISO:Extended:Z}")
   end
 end

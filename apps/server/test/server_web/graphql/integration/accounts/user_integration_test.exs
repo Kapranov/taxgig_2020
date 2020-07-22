@@ -19,7 +19,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -29,8 +29,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
@@ -44,53 +42,43 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       data = json_response(res, 200)["data"]["allUsers"]
 
-      assert List.first(data)["id"]          == struct.id
-      assert List.first(data)["active"]      == struct.active
-      assert List.first(data)["avatar"]      == struct.avatar
-      assert List.first(data)["bio"]         == struct.bio
-      assert List.first(data)["birthday"]    == to_string(struct.birthday)
-      assert List.first(data)["email"]       == struct.email
-      assert List.first(data)["first_name"]  == struct.first_name
-      assert List.first(data)["init_setup"]  == struct.init_setup
-      assert List.first(data)["last_name"]   == struct.last_name
-      assert List.first(data)["middle_name"] == struct.middle_name
-      assert List.first(data)["phone"]       == struct.phone
-      assert List.first(data)["provider"]    == struct.provider
-      assert List.first(data)["role"]        == struct.role
-      assert List.first(data)["sex"]         == struct.sex
-      assert List.first(data)["ssn"]         == struct.ssn
-      assert List.first(data)["street"]      == struct.street
-      assert List.first(data)["zip"]         == struct.zip
-      assert List.first(data)["inserted_at"] == format_time(struct.inserted_at)
-      assert List.first(data)["updated_at"]  == format_time(struct.updated_at)
+      assert List.first(data)["id"]                 == struct.id
+      assert List.first(data)["active"]             == struct.active
+      assert List.first(data)["avatar"]             == struct.avatar
+      assert List.first(data)["bio"]                == struct.bio
+      assert List.first(data)["birthday"]           == "#{struct.birthday}"
+      assert List.first(data)["email"]              == struct.email
+      assert List.first(data)["first_name"]         == struct.first_name
+      assert List.first(data)["init_setup"]         == struct.init_setup
+      assert List.first(data)["last_name"]          == struct.last_name
+      assert List.first(data)["middle_name"]        == struct.middle_name
+      assert List.first(data)["phone"]              == struct.phone
+      assert List.first(data)["provider"]           == struct.provider
+      assert List.first(data)["role"]               == struct.role
+      assert List.first(data)["sex"]                == struct.sex
+      assert List.first(data)["ssn"]                == struct.ssn
+      assert List.first(data)["street"]             == struct.street
+      assert List.first(data)["zip"]                == struct.zip
+      assert List.last(data)["languages"] |> length == 1
 
-      assert List.first(data)["languages"] |> length                       == 1
-      assert List.first(data)["languages"] |> List.last |> Map.get("name") == "chinese"
-      assert List.first(data)["languages"] |> List.last |> Map.get("abbr") == "chi"
-
-      assert List.last(data)["id"]          == struct.id
-      assert List.last(data)["active"]      == struct.active
-      assert List.last(data)["avatar"]      == struct.avatar
-      assert List.last(data)["bio"]         == struct.bio
-      assert List.last(data)["birthday"]    == to_string(struct.birthday)
-      assert List.last(data)["email"]       == struct.email
-      assert List.last(data)["first_name"]  == struct.first_name
-      assert List.last(data)["init_setup"]  == struct.init_setup
-      assert List.last(data)["last_name"]   == struct.last_name
-      assert List.last(data)["middle_name"] == struct.middle_name
-      assert List.last(data)["phone"]       == struct.phone
-      assert List.last(data)["provider"]    == struct.provider
-      assert List.last(data)["role"]        == struct.role
-      assert List.last(data)["sex"]         == struct.sex
-      assert List.last(data)["ssn"]         == struct.ssn
-      assert List.last(data)["street"]      == struct.street
-      assert List.last(data)["zip"]         == struct.zip
-      assert List.last(data)["inserted_at"] == format_time(struct.inserted_at)
-      assert List.last(data)["updated_at"]  == format_time(struct.updated_at)
-
-      assert List.last(data)["languages"] |> length                       == 1
-      assert List.last(data)["languages"] |> List.last |> Map.get("name") == "chinese"
-      assert List.last(data)["languages"] |> List.last |> Map.get("abbr") == "chi"
+      assert List.last(data)["id"]                  == struct.id
+      assert List.last(data)["active"]              == struct.active
+      assert List.last(data)["avatar"]              == struct.avatar
+      assert List.last(data)["bio"]                 == struct.bio
+      assert List.last(data)["birthday"]            == "#{struct.birthday}"
+      assert List.last(data)["email"]               == struct.email
+      assert List.last(data)["first_name"]          == struct.first_name
+      assert List.last(data)["init_setup"]          == struct.init_setup
+      assert List.last(data)["last_name"]           == struct.last_name
+      assert List.last(data)["middle_name"]         == struct.middle_name
+      assert List.last(data)["phone"]               == struct.phone
+      assert List.last(data)["provider"]            == struct.provider
+      assert List.last(data)["role"]                == struct.role
+      assert List.last(data)["sex"]                 == struct.sex
+      assert List.last(data)["ssn"]                 == struct.ssn
+      assert List.last(data)["street"]              == struct.street
+      assert List.last(data)["zip"]                 == struct.zip
+      assert List.last(data)["languages"] |> length == 1
     end
 
     it "returns accounts an user - `Absinthe.run`" do
@@ -108,7 +96,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -118,8 +106,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
@@ -129,29 +115,24 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       first = hd(data)
 
-      assert first["id"]          == struct.id
-      assert first["active"]      == struct.active
-      assert first["avatar"]      == struct.avatar
-      assert first["bio"]         == struct.bio
-      assert first["birthday"]    == to_string(struct.birthday)
-      assert first["email"]       == struct.email
-      assert first["first_name"]  == struct.first_name
-      assert first["init_setup"]  == struct.init_setup
-      assert first["last_name"]   == struct.last_name
-      assert first["middle_name"] == struct.middle_name
-      assert first["phone"]       == struct.phone
-      assert first["provider"]    == struct.provider
-      assert first["role"]        == struct.role
-      assert first["sex"]         == struct.sex
-      assert first["ssn"]         == struct.ssn
-      assert first["street"]      == struct.street
-      assert first["zip"]         == struct.zip
-      assert first["inserted_at"] == format_time(struct.inserted_at)
-      assert first["updated_at"]  == format_time(struct.updated_at)
-
-      assert first["languages"] |> length                       == 1
-      assert first["languages"] |> List.last |> Map.get("name") == "chinese"
-      assert first["languages"] |> List.last |> Map.get("abbr") == "chi"
+      assert first["id"]                  == struct.id
+      assert first["active"]              == struct.active
+      assert first["avatar"]              == struct.avatar
+      assert first["bio"]                 == struct.bio
+      assert first["birthday"]            == to_string(struct.birthday)
+      assert first["email"]               == struct.email
+      assert first["first_name"]          == struct.first_name
+      assert first["init_setup"]          == struct.init_setup
+      assert first["last_name"]           == struct.last_name
+      assert first["middle_name"]         == struct.middle_name
+      assert first["phone"]               == struct.phone
+      assert first["provider"]            == struct.provider
+      assert first["role"]                == struct.role
+      assert first["sex"]                 == struct.sex
+      assert first["ssn"]                 == struct.ssn
+      assert first["street"]              == struct.street
+      assert first["zip"]                 == struct.zip
+      assert first["languages"] |> length == 1
     end
   end
 
@@ -170,7 +151,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -180,8 +161,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
@@ -195,29 +174,24 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["showUser"]
 
-      assert found["id"]          == struct.id
-      assert found["active"]      == struct.active
-      assert found["avatar"]      == struct.avatar
-      assert found["bio"]         == struct.bio
-      assert found["birthday"]    == to_string(struct.birthday)
-      assert found["email"]       == struct.email
-      assert found["first_name"]  == struct.first_name
-      assert found["init_setup"]  == struct.init_setup
-      assert found["last_name"]   == struct.last_name
-      assert found["middle_name"] == struct.middle_name
-      assert found["phone"]       == struct.phone
-      assert found["provider"]    == struct.provider
-      assert found["role"]        == struct.role
-      assert found["sex"]         == struct.sex
-      assert found["ssn"]         == struct.ssn
-      assert found["street"]      == struct.street
-      assert found["zip"]         == struct.zip
-      assert found["inserted_at"] == format_time(struct.inserted_at)
-      assert found["updated_at"]  == format_time(struct.updated_at)
-
-      assert found["languages"] |> length                       == 1
-      assert found["languages"] |> List.last |> Map.get("name") == "chinese"
-      assert found["languages"] |> List.last |> Map.get("abbr") == "chi"
+      assert found["id"]                  == struct.id
+      assert found["active"]              == struct.active
+      assert found["avatar"]              == struct.avatar
+      assert found["bio"]                 == struct.bio
+      assert found["birthday"]            == "#{struct.birthday}"
+      assert found["email"]               == struct.email
+      assert found["first_name"]          == struct.first_name
+      assert found["init_setup"]          == struct.init_setup
+      assert found["last_name"]           == struct.last_name
+      assert found["middle_name"]         == struct.middle_name
+      assert found["phone"]               == struct.phone
+      assert found["provider"]            == struct.provider
+      assert found["role"]                == struct.role
+      assert found["sex"]                 == struct.sex
+      assert found["ssn"]                 == struct.ssn
+      assert found["street"]              == struct.street
+      assert found["zip"]                 == struct.zip
+      assert found["languages"] |> length == 1
     end
 
     it "returns specific accounts an user by id - `Absinthe.run`" do
@@ -235,7 +209,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -245,8 +219,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
@@ -254,29 +226,24 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{data: %{"showUser" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["id"]          == struct.id
-      assert found["active"]      == struct.active
-      assert found["avatar"]      == struct.avatar
-      assert found["bio"]         == struct.bio
-      assert found["birthday"]    == to_string(struct.birthday)
-      assert found["email"]       == struct.email
-      assert found["first_name"]  == struct.first_name
-      assert found["init_setup"]  == struct.init_setup
-      assert found["last_name"]   == struct.last_name
-      assert found["middle_name"] == struct.middle_name
-      assert found["phone"]       == struct.phone
-      assert found["provider"]    == struct.provider
-      assert found["role"]        == struct.role
-      assert found["sex"]         == struct.sex
-      assert found["ssn"]         == struct.ssn
-      assert found["street"]      == struct.street
-      assert found["zip"]         == struct.zip
-      assert found["inserted_at"] == format_time(struct.inserted_at)
-      assert found["updated_at"]  == format_time(struct.updated_at)
-
-      assert found["languages"] |> length                       == 1
-      assert found["languages"] |> List.last |> Map.get("name") == "chinese"
-      assert found["languages"] |> List.last |> Map.get("abbr") == "chi"
+      assert found["id"]                  == struct.id
+      assert found["active"]              == struct.active
+      assert found["avatar"]              == struct.avatar
+      assert found["bio"]                 == struct.bio
+      assert found["birthday"]            == "#{struct.birthday}"
+      assert found["email"]               == struct.email
+      assert found["first_name"]          == struct.first_name
+      assert found["init_setup"]          == struct.init_setup
+      assert found["last_name"]           == struct.last_name
+      assert found["middle_name"]         == struct.middle_name
+      assert found["phone"]               == struct.phone
+      assert found["provider"]            == struct.provider
+      assert found["role"]                == struct.role
+      assert found["sex"]                 == struct.sex
+      assert found["ssn"]                 == struct.ssn
+      assert found["street"]              == struct.street
+      assert found["zip"]                 == struct.zip
+      assert found["languages"] |> length == 1
     end
 
     it "returns not found when accounts an user does not exist - `AbsintheHelpers`" do
@@ -294,7 +261,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -304,8 +271,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
@@ -334,7 +299,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -344,8 +309,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
@@ -370,7 +333,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -380,8 +343,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
@@ -409,7 +370,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -419,8 +380,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
@@ -434,7 +393,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
   describe "#create" do
     it "creates accounts an user - `AbsintheHelpers`" do
-      insert(:language)
+      lang = insert(:language)
 
       query = """
       mutation {
@@ -446,7 +405,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email: "lugatex@yahoo.com",
           first_name: "some text",
           init_setup: false,
-          languages: "chinese",
+          languages: \"#{lang.name}\",
           last_name: "some text",
           middle_name: "some text",
           password: "qwerty",
@@ -467,7 +426,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -477,8 +436,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
@@ -491,30 +448,27 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       created = json_response(res, 200)["data"]["createUser"]
 
-      assert created["active"]      == false
-      assert created["avatar"]      == "some text"
-      assert created["bio"]         == "some text"
-      assert created["birthday"]    == to_string(Timex.today)
-      assert created["email"]       == "lugatex@yahoo.com"
-      assert created["first_name"]  == "some text"
-      assert created["init_setup"]  == false
-      assert created["last_name"]   == "some text"
-      assert created["middle_name"] == "some text"
-      assert created["phone"]       == "555-555-5555"
-      assert created["provider"]    == "google"
-      assert created["role"]        == false
-      assert created["sex"]         == "some text"
-      assert created["ssn"]         == 123456789
-      assert created["street"]      == "some text"
-      assert created["zip"]         == 123456789
-
-      assert created["languages"] |> length                       == 1
-      assert created["languages"] |> List.last |> Map.get("name") == "chinese"
-      assert created["languages"] |> List.last |> Map.get("abbr") == "chi"
+      assert created["active"]              == false
+      assert created["avatar"]              == "some text"
+      assert created["bio"]                 == "some text"
+      assert created["birthday"]            == "#{Timex.today}"
+      assert created["email"]               == "lugatex@yahoo.com"
+      assert created["first_name"]          == "some text"
+      assert created["init_setup"]          == false
+      assert created["last_name"]           == "some text"
+      assert created["middle_name"]         == "some text"
+      assert created["phone"]               == "555-555-5555"
+      assert created["provider"]            == "google"
+      assert created["role"]                == false
+      assert created["sex"]                 == "some text"
+      assert created["ssn"]                 == 123456789
+      assert created["street"]              == "some text"
+      assert created["zip"]                 == 123456789
+      assert created["languages"] |> length == 1
     end
 
     it "creates accounts an user - `Absinthe.run`" do
-      insert(:language)
+      lang = insert(:language)
       context = %{}
 
       query = """
@@ -527,7 +481,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email: "lugatex@yahoo.com",
           first_name: "some text",
           init_setup: false,
-          languages: "chinese",
+          languages: \"#{lang.name}\",
           last_name: "some text",
           middle_name: "some text",
           password: "qwerty",
@@ -548,7 +502,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -558,34 +512,29 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
 
       {:ok, %{data: %{"createUser" => created}}} = Absinthe.run(query, Schema, context: context)
 
-      assert created["active"]      == false
-      assert created["avatar"]      == "some text"
-      assert created["bio"]         == "some text"
-      assert created["birthday"]    == to_string(Timex.today)
-      assert created["email"]       == "lugatex@yahoo.com"
-      assert created["first_name"]  == "some text"
-      assert created["init_setup"]  == false
-      assert created["last_name"]   == "some text"
-      assert created["middle_name"] == "some text"
-      assert created["phone"]       == "555-555-5555"
-      assert created["provider"]    == "google"
-      assert created["role"]        == false
-      assert created["sex"]         == "some text"
-      assert created["ssn"]         == 123456789
-      assert created["street"]      == "some text"
-      assert created["zip"]         == 123456789
-
-      assert created["languages"] |> length                       == 1
-      assert created["languages"] |> List.last |> Map.get("name") == "chinese"
-      assert created["languages"] |> List.last |> Map.get("abbr") == "chi"
+      assert created["active"]              == false
+      assert created["avatar"]              == "some text"
+      assert created["bio"]                 == "some text"
+      assert created["birthday"]            == "#{Timex.today}"
+      assert created["email"]               == "lugatex@yahoo.com"
+      assert created["first_name"]          == "some text"
+      assert created["init_setup"]          == false
+      assert created["last_name"]           == "some text"
+      assert created["middle_name"]         == "some text"
+      assert created["phone"]               == "555-555-5555"
+      assert created["provider"]            == "google"
+      assert created["role"]                == false
+      assert created["sex"]                 == "some text"
+      assert created["ssn"]                 == 123456789
+      assert created["street"]              == "some text"
+      assert created["zip"]                 == 123456789
+      assert created["languages"] |> length == 1
     end
 
     it "returns error for missing params - `AbsintheHelpers`" do
@@ -636,6 +585,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
   describe "#update" do
     it "update specific accounts an user by id - `AbsintheHelpers`" do
+      lang = insert(:language)
       struct = insert(:user)
 
       query = """
@@ -650,7 +600,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
             email: "kapranov.lugatex@gmail.com",
             first_name: "updated text",
             init_setup: true,
-            languages: "chinese",
+            languages: \"#{lang.name}\",
             last_name: "updated text",
             middle_name: "updated text",
             password: "qwertyyy",
@@ -672,7 +622,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -682,8 +632,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
@@ -697,31 +645,28 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       updated = json_response(res, 200)["data"]["updateUser"]
 
-      assert updated["id"]          == struct.id
-      assert updated["active"]      == true
-      assert updated["avatar"]      == "updated text"
-      assert updated["bio"]         == "updated text"
-      assert updated["birthday"]    == to_string(Timex.today)
-      assert updated["email"]       == "kapranov.lugatex@gmail.com"
-      assert updated["first_name"]  == "updated text"
-      assert updated["init_setup"]  == true
-      assert updated["last_name"]   == "updated text"
-      assert updated["middle_name"] == "updated text"
-      assert updated["phone"]       == "999-999-9999"
-      assert updated["provider"]    == "facebook"
-      assert updated["role"]        == true
-      assert updated["sex"]         == "updated text"
-      assert updated["ssn"]         == 987654321
-      assert updated["street"]      == "updated text"
-      assert updated["zip"]         == 987654321
-      assert updated["inserted_at"] == format_time(struct.inserted_at)
-
-      assert updated["languages"] |> length                       == 1
-      assert updated["languages"] |> List.last |> Map.get("name") == "chinese"
-      assert updated["languages"] |> List.last |> Map.get("abbr") == "chi"
+      assert updated["id"]                  == struct.id
+      assert updated["active"]              == true
+      assert updated["avatar"]              == "updated text"
+      assert updated["bio"]                 == "updated text"
+      assert updated["birthday"]            == "#{Timex.today}"
+      assert updated["email"]               == "kapranov.lugatex@gmail.com"
+      assert updated["first_name"]          == "updated text"
+      assert updated["init_setup"]          == true
+      assert updated["last_name"]           == "updated text"
+      assert updated["middle_name"]         == "updated text"
+      assert updated["phone"]               == "999-999-9999"
+      assert updated["provider"]            == "facebook"
+      assert updated["role"]                == true
+      assert updated["sex"]                 == "updated text"
+      assert updated["ssn"]                 == 987654321
+      assert updated["street"]              == "updated text"
+      assert updated["zip"]                 == 987654321
+      assert updated["languages"] |> length == 1
     end
 
     it "update specific accounts an user by id - `Absinthe.run`" do
+      lang = insert(:language)
       struct = insert(:user)
       context = %{current_user: struct}
 
@@ -737,7 +682,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
             email: "kapranov.lugatex@gmail.com",
             first_name: "updated text",
             init_setup: true,
-            languages: "chinese",
+            languages: \"#{lang.name}\",
             last_name: "updated text",
             middle_name: "updated text",
             password: "qwertyyy",
@@ -759,7 +704,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -769,8 +714,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
@@ -778,28 +721,24 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{data: %{"updateUser" => updated}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert updated["id"]          == struct.id
-      assert updated["active"]      == true
-      assert updated["avatar"]      == "updated text"
-      assert updated["bio"]         == "updated text"
-      assert updated["birthday"]    == to_string(Timex.today)
-      assert updated["email"]       == "kapranov.lugatex@gmail.com"
-      assert updated["first_name"]  == "updated text"
-      assert updated["init_setup"]  == true
-      assert updated["last_name"]   == "updated text"
-      assert updated["middle_name"] == "updated text"
-      assert updated["phone"]       == "999-999-9999"
-      assert updated["provider"]    == "facebook"
-      assert updated["role"]        == true
-      assert updated["sex"]         == "updated text"
-      assert updated["ssn"]         == 987654321
-      assert updated["street"]      == "updated text"
-      assert updated["zip"]         == 987654321
-      assert updated["inserted_at"] == format_time(struct.inserted_at)
-
-      assert updated["languages"] |> length                       == 1
-      assert updated["languages"] |> List.last |> Map.get("name") == "chinese"
-      assert updated["languages"] |> List.last |> Map.get("abbr") == "chi"
+      assert updated["id"]                  == struct.id
+      assert updated["active"]              == true
+      assert updated["avatar"]              == "updated text"
+      assert updated["bio"]                 == "updated text"
+      assert updated["birthday"]            == to_string(Timex.today)
+      assert updated["email"]               == "kapranov.lugatex@gmail.com"
+      assert updated["first_name"]          == "updated text"
+      assert updated["init_setup"]          == true
+      assert updated["last_name"]           == "updated text"
+      assert updated["middle_name"]         == "updated text"
+      assert updated["phone"]               == "999-999-9999"
+      assert updated["provider"]            == "facebook"
+      assert updated["role"]                == true
+      assert updated["sex"]                 == "updated text"
+      assert updated["ssn"]                 == 987654321
+      assert updated["street"]              == "updated text"
+      assert updated["zip"]                 == 987654321
+      assert updated["languages"] |> length == 1
     end
 
     it "nothing change for missing params - `AbsintheHelpers`" do
@@ -819,7 +758,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -829,8 +768,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
@@ -861,7 +798,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -871,8 +808,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
@@ -900,7 +835,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -910,8 +845,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
@@ -942,7 +875,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           email
           first_name
           init_setup
-          languages {id abbr name inserted_at updated_at}
+          languages {id abbr name}
           last_name
           middle_name
           phone
@@ -952,8 +885,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
           ssn
           street
           zip
-          inserted_at
-          updated_at
         }
       }
       """
@@ -4335,9 +4266,5 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       assert hd(error).message == "Argument \"email\" has invalid value nil."
     end
-  end
-
-  defp format_time(timestamp) do
-    Timex.format!(Timex.to_datetime(timestamp, "Europe/Kiev"), "{ISO:Extended:Z}")
   end
 end

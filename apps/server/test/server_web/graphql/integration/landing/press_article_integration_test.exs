@@ -18,8 +18,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -37,8 +35,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       assert List.first(data)["preview_text"] == struct_a.preview_text
       assert List.first(data)["title"]        == struct_a.title
       assert List.first(data)["url"]          == struct_a.url
-      assert List.first(data)["inserted_at"]  == format_time(struct_a.inserted_at)
-      assert List.first(data)["updated_at"]   == format_time(struct_a.updated_at)
 
       assert List.last(data)["id"]           == struct_b.id
       assert List.last(data)["author"]       == struct_b.author
@@ -46,8 +42,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       assert List.last(data)["preview_text"] == struct_b.preview_text
       assert List.last(data)["title"]        == struct_b.title
       assert List.last(data)["url"]          == struct_b.url
-      assert List.last(data)["inserted_at"]  == format_time(struct_b.inserted_at)
-      assert List.last(data)["updated_at"]   == format_time(struct_b.updated_at)
     end
 
     it "returns press articles - `Absinthe.run`" do
@@ -65,8 +59,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -82,8 +74,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       assert first["preview_text"] == struct_a.preview_text
       assert first["title"]        == struct_a.title
       assert first["url"]          == struct_a.url
-      assert first["inserted_at"]  == format_time(struct_a.inserted_at)
-      assert first["updated_at"]   == format_time(struct_a.updated_at)
 
       [second] = tl(data)
 
@@ -93,8 +83,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       assert second["preview_text"] == struct_b.preview_text
       assert second["title"]        == struct_b.title
       assert second["url"]          == struct_b.url
-      assert second["inserted_at"]  == format_time(struct_b.inserted_at)
-      assert second["updated_at"]   == format_time(struct_b.updated_at)
     end
   end
 
@@ -111,8 +99,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -131,8 +117,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       assert found["preview_text"] == struct.preview_text
       assert found["title"]        == struct.title
       assert found["url"]          == struct.url
-      assert found["inserted_at"]  == format_time(struct.inserted_at)
-      assert found["updated_at"]   == format_time(struct.updated_at)
     end
 
     it "returns specific press article by id - `Absinthe.run`" do
@@ -149,8 +133,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -164,8 +146,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       assert found["preview_text"] == struct.preview_text
       assert found["title"]        == struct.title
       assert found["url"]          == struct.url
-      assert found["inserted_at"]  == format_time(struct.inserted_at)
-      assert found["updated_at"]   == format_time(struct.updated_at)
     end
 
     it "returns not found when press article does not exist - `AbsintheHelpers`" do
@@ -180,8 +160,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -206,8 +184,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -228,8 +204,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -253,8 +227,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -283,8 +255,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -322,8 +292,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -354,8 +322,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -385,8 +351,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -420,8 +384,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -440,8 +402,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       assert updated["preview_text"] == "updated text"
       assert updated["title"]        == "updated text"
       assert updated["url"]          == "updated text"
-      assert updated["inserted_at"]  == format_time(struct.inserted_at)
-      assert updated["updated_at"]   == format_time(struct.updated_at)
     end
 
     it "update specific press article by id - `Absinthe.run`" do
@@ -466,8 +426,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -481,8 +439,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       assert updated["preview_text"] == "updated text"
       assert updated["title"]        == "updated text"
       assert updated["url"]          == "updated text"
-      assert updated["inserted_at"]  == format_time(struct.inserted_at)
-      assert updated["updated_at"]   == format_time(struct.updated_at)
     end
 
     it "nothing change for missing params - `AbsintheHelpers`" do
@@ -500,8 +456,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -520,8 +474,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       assert updated["preview_text"] == struct.preview_text
       assert updated["title"]        == struct.title
       assert updated["url"]          == struct.url
-      assert updated["inserted_at"]  == format_time(struct.inserted_at)
-      assert updated["updated_at"]   == format_time(struct.updated_at)
     end
 
     it "nothing change for missing params - `Absinthe.run`" do
@@ -540,8 +492,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -555,8 +505,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
       assert updated["preview_text"] == struct.preview_text
       assert updated["title"]        == struct.title
       assert updated["url"]          == struct.url
-      assert updated["inserted_at"]  == format_time(struct.inserted_at)
-      assert updated["updated_at"]   == format_time(struct.updated_at)
     end
 
     it "returns error for missing params - `AbsintheHelpers`" do
@@ -572,8 +520,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -600,8 +546,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
           preview_text
           title
           url
-          inserted_at
-          updated_at
         }
       }
       """
@@ -709,9 +653,5 @@ defmodule ServerWeb.GraphQL.Integration.Landing.PressArticleIntegrationTest do
 
       assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
-  end
-
-  defp format_time(timestamp) do
-    Timex.format!(Timex.to_datetime(timestamp, "Europe/Kiev"), "{ISO:Extended:Z}")
   end
 end

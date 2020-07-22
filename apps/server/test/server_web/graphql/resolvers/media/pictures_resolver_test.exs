@@ -94,12 +94,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
     it "returns error for missing params for struct" do
       args = %StructTest{}
       {:error, error} = PicturesResolver.picture(args, nil, nil)
-      assert error == "There are args can't be blank"
+      assert error == [[field: :profile_id, message: "Can't be blank"]]
     end
 
     it "returns error for missing params" do
       {:error, error} = PicturesResolver.picture(nil, nil, nil)
-      assert error == "There are args can't be blank"
+      assert error == [[field: :profile_id, message: "Can't be blank"]]
     end
 
     it "returns error for missing params for an event that has an attached" do
@@ -215,7 +215,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
           profile_id: user.id
         }, authenticated)
 
-      assert error == "Unauthenticated"
+      assert error == [[field: :current_user, message: "Unauthenticated"]]
       assert {:ok, %{
           body: "",
           headers: [
@@ -274,7 +274,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
           profile_id: user.id
         }, authenticated)
 
-      assert error == "Unauthenticated"
+      assert error == [[field: :current_user, message: "Unauthenticated"]]
       assert {:ok, %{
           body: "",
           headers: [
@@ -299,7 +299,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
           profile_id: nil
         }, authenticated)
 
-      assert error == "Unauthenticated"
+      assert error == [[field: :current_user, message: "Unauthenticated"]]
     end
   end
 

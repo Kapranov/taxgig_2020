@@ -19,7 +19,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           address
           banner
           description
-          logo {id content_type name size url inserted_at updated_at}
+          logo {id content_type name size url}
           us_zipcode {id city state zipcode}
           user {
             id
@@ -30,7 +30,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             email
             first_name
             init_setup
-            languages {id abbr name inserted_at updated_at}
+            languages {id abbr name}
             last_name
             middle_name
             phone
@@ -40,11 +40,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             ssn
             street
             zip
-            inserted_at
-            updated_at
           }
-          inserted_at
-          updated_at
         }
       }
       """
@@ -65,10 +61,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert List.first(data)["logo"]["name"]                    == struct.logo.name
       assert List.first(data)["logo"]["size"]                    == struct.logo.size
       assert List.first(data)["logo"]["url"]                     == struct.logo.url
-      assert List.first(data)["logo"]["inserted_at"]             == format_time(struct.logo.inserted_at)
-      assert List.first(data)["logo"]["updated_at"]              == format_time(struct.logo.updated_at)
-      assert List.first(data)["inserted_at"]                     == format_time(struct.inserted_at)
-      assert List.first(data)["updated_at"]                      == format_time(struct.updated_at)
       assert List.first(data)["us_zipcode"]["city"]              == struct.us_zipcode.city
       assert List.first(data)["us_zipcode"]["state"]             == struct.us_zipcode.state
       assert List.first(data)["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
@@ -89,13 +81,9 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert List.first(data)["user"]["ssn"]                     == struct.user.ssn
       assert List.first(data)["user"]["street"]                  == struct.user.street
       assert List.first(data)["user"]["zip"]                     == struct.user.zip
-      assert List.first(data)["user"]["inserted_at"]             == format_time(struct.user.inserted_at)
-      assert List.first(data)["user"]["updated_at"]              == format_time(struct.user.updated_at)
       assert List.first(data)["user"]["languages"][:id]          == nil
       assert List.first(data)["user"]["languages"][:abbr]        == nil
       assert List.first(data)["user"]["languages"][:name]        == nil
-      assert List.first(data)["user"]["languages"][:inserted_at] == nil
-      assert List.first(data)["user"]["languages"][:updated_at]  == nil
 
       assert List.last(data)["address"]                         == struct.address
       assert List.last(data)["banner"]                          == struct.banner
@@ -105,10 +93,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert List.last(data)["logo"]["name"]                    == struct.logo.name
       assert List.last(data)["logo"]["size"]                    == struct.logo.size
       assert List.last(data)["logo"]["url"]                     == struct.logo.url
-      assert List.last(data)["logo"]["inserted_at"]             == format_time(struct.logo.inserted_at)
-      assert List.last(data)["logo"]["updated_at"]              == format_time(struct.logo.updated_at)
-      assert List.last(data)["inserted_at"]                     == format_time(struct.inserted_at)
-      assert List.last(data)["updated_at"]                      == format_time(struct.updated_at)
       assert List.last(data)["us_zipcode"]["city"]              == struct.us_zipcode.city
       assert List.last(data)["us_zipcode"]["state"]             == struct.us_zipcode.state
       assert List.last(data)["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
@@ -129,13 +113,9 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert List.last(data)["user"]["ssn"]                     == struct.user.ssn
       assert List.last(data)["user"]["street"]                  == struct.user.street
       assert List.last(data)["user"]["zip"]                     == struct.user.zip
-      assert List.last(data)["user"]["inserted_at"]             == format_time(struct.user.inserted_at)
-      assert List.last(data)["user"]["updated_at"]              == format_time(struct.user.updated_at)
       assert List.last(data)["user"]["languages"][:id]          == nil
       assert List.last(data)["user"]["languages"][:abbr]        == nil
       assert List.last(data)["user"]["languages"][:name]        == nil
-      assert List.last(data)["user"]["languages"][:inserted_at] == nil
-      assert List.last(data)["user"]["languages"][:updated_at]  == nil
 
       assert {:ok, %{
           body: "",
@@ -160,7 +140,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           address
           banner
           description
-          logo {id content_type name size url inserted_at updated_at}
+          logo {id content_type name size url}
           us_zipcode {id city state zipcode}
           user {
             id
@@ -171,7 +151,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             email
             first_name
             init_setup
-            languages {id abbr name inserted_at updated_at}
+            languages {id abbr name}
             last_name
             middle_name
             phone
@@ -181,11 +161,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             ssn
             street
             zip
-            inserted_at
-            updated_at
           }
-          inserted_at
-          updated_at
         }
       }
       """
@@ -203,10 +179,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert first["logo"]["name"]                    == struct.logo.name
       assert first["logo"]["size"]                    == struct.logo.size
       assert first["logo"]["url"]                     == struct.logo.url
-      assert first["logo"]["inserted_at"]             == format_time(struct.logo.inserted_at)
-      assert first["logo"]["updated_at"]              == format_time(struct.logo.updated_at)
-      assert first["inserted_at"]                     == format_time(struct.inserted_at)
-      assert first["updated_at"]                      == format_time(struct.updated_at)
       assert first["us_zipcode"]["id"]                == struct.us_zipcode_id
       assert first["us_zipcode"]["city"]              == struct.us_zipcode.city
       assert first["us_zipcode"]["state"]             == struct.us_zipcode.state
@@ -231,8 +203,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert first["user"]["languages"][:id]          == nil
       assert first["user"]["languages"][:abbr]        == nil
       assert first["user"]["languages"][:name]        == nil
-      assert first["user"]["languages"][:inserted_at] == nil
-      assert first["user"]["languages"][:updated_at]  == nil
 
       assert {:ok, %{
           body: "",
@@ -258,7 +228,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           address
           banner
           description
-          logo {id content_type name size url inserted_at updated_at}
+          logo {id content_type name size url}
           us_zipcode {id city state zipcode}
           user {
             id
@@ -269,7 +239,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             email
             first_name
             init_setup
-            languages {id abbr name inserted_at updated_at}
+            languages {id abbr name}
             last_name
             middle_name
             phone
@@ -279,11 +249,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             ssn
             street
             zip
-            inserted_at
-            updated_at
           }
-          inserted_at
-          updated_at
         }
       }
       """
@@ -305,10 +271,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert found["logo"]["name"]                    == struct.logo.name
       assert found["logo"]["size"]                    == struct.logo.size
       assert found["logo"]["url"]                     == struct.logo.url
-      assert found["logo"]["inserted_at"]             == format_time(struct.logo.inserted_at)
-      assert found["logo"]["updated_at"]              == format_time(struct.logo.updated_at)
-      assert found["inserted_at"]                     == format_time(struct.inserted_at)
-      assert found["updated_at"]                      == format_time(struct.updated_at)
       assert found["us_zipcode"]["id"]                == struct.us_zipcode_id
       assert found["us_zipcode"]["city"]              == struct.us_zipcode.city
       assert found["us_zipcode"]["state"]             == struct.us_zipcode.state
@@ -333,8 +295,6 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert found["user"]["languages"][:id]          == nil
       assert found["user"]["languages"][:abbr]        == nil
       assert found["user"]["languages"][:name]        == nil
-      assert found["user"]["languages"][:inserted_at] == nil
-      assert found["user"]["languages"][:updated_at]  == nil
 
       assert {:ok, %{
           body: "",
@@ -359,7 +319,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           address
           banner
           description
-          logo {id content_type name size url inserted_at updated_at}
+          logo {id content_type name size url}
           us_zipcode {id city state zipcode}
           user {
             id
@@ -370,7 +330,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             email
             first_name
             init_setup
-            languages {id abbr name inserted_at updated_at}
+            languages {id abbr name}
             last_name
             middle_name
             phone
@@ -380,11 +340,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             ssn
             street
             zip
-            inserted_at
-            updated_at
           }
-          inserted_at
-          updated_at
         }
       }
       """
@@ -400,15 +356,9 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert found["logo"]["name"]                    == struct.logo.name
       assert found["logo"]["size"]                    == struct.logo.size
       assert found["logo"]["url"]                     == struct.logo.url
-      assert found["logo"]["inserted_at"]             == format_time(struct.logo.inserted_at)
-      assert found["logo"]["updated_at"]              == format_time(struct.logo.updated_at)
-      assert found["inserted_at"]                     == format_time(struct.inserted_at)
-      assert found["updated_at"]                      == format_time(struct.updated_at)
       assert found["user"]["languages"][:id]          == nil
       assert found["user"]["languages"][:abbr]        == nil
       assert found["user"]["languages"][:name]        == nil
-      assert found["user"]["languages"][:inserted_at] == nil
-      assert found["user"]["languages"][:updated_at]  == nil
       assert found["user"]["id"]                      == struct.user_id
       assert found["user"]["active"]                  == struct.user.active
       assert found["user"]["avatar"]                  == struct.user.avatar
@@ -454,7 +404,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           address
           banner
           description
-          logo {id content_type name size url inserted_at updated_at}
+          logo {id content_type name size url}
           us_zipcode {id city state zipcode}
           user {
             id
@@ -465,7 +415,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             email
             first_name
             init_setup
-            languages {id abbr name inserted_at updated_at}
+            languages {id abbr name}
             last_name
             middle_name
             phone
@@ -475,11 +425,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             ssn
             street
             zip
-            inserted_at
-            updated_at
           }
-          inserted_at
-          updated_at
         }
       }
       """
@@ -515,7 +461,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           address
           banner
           description
-          logo {id content_type name size url inserted_at updated_at}
+          logo {id content_type name size url}
           us_zipcode {id city state zipcode}
           user {
             id
@@ -526,7 +472,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             email
             first_name
             init_setup
-            languages {id abbr name inserted_at updated_at}
+            languages {id abbr name}
             last_name
             middle_name
             phone
@@ -536,11 +482,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             ssn
             street
             zip
-            inserted_at
-            updated_at
           }
-          inserted_at
-          updated_at
         }
       }
       """
@@ -571,7 +513,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           address
           banner
           description
-          logo {id content_type name size url inserted_at updated_at}
+          logo {id content_type name size url}
           us_zipcode {id city state zipcode}
           user {
             id
@@ -582,7 +524,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             email
             first_name
             init_setup
-            languages {id abbr name inserted_at updated_at}
+            languages {id abbr name}
             last_name
             middle_name
             phone
@@ -592,11 +534,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             ssn
             street
             zip
-            inserted_at
-            updated_at
           }
-          inserted_at
-          updated_at
         }
       }
       """
@@ -624,7 +562,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
     it "update specific profile by user_id - `AbsintheHelpers`" do
       struct = insert(:profile)
       user = Core.Accounts.User.find_by(id: struct.user_id)
-      zipcode = insert(:zipcode)
+      zipcode = insert(:us_zipcode)
       logo = %{name: "Time for #NeverBernie", alt: "I woke up this morning wondering whether it’s time to unfurl the #NeverBernie banner.", file: "bernie.jpg"}
 
       query = """
@@ -648,7 +586,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           address
           banner
           description
-          logo {id content_type name size url inserted_at updated_at}
+          logo {id content_type name size url}
           us_zipcode {id city state zipcode}
           user {
             id
@@ -659,7 +597,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             email
             first_name
             init_setup
-            languages {id abbr name inserted_at updated_at}
+            languages {id abbr name}
             last_name
             middle_name
             phone
@@ -669,11 +607,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             ssn
             street
             zip
-            inserted_at
-            updated_at
           }
-          inserted_at
-          updated_at
         }
       }
       """
@@ -704,15 +638,9 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert updated["logo"]["name"]                    == "Logo"
       assert updated["logo"]["size"]                    == 5024
       assert updated["logo"]["url"]                     =~ "#{@public_endpoint}" <> "/#{@bucket}/"
-      assert updated["logo"]["inserted_at"]
-      assert updated["logo"]["updated_at"]
-      assert updated["inserted_at"]                     == format_time(struct.inserted_at)
-      assert updated["updated_at"]                      == format_time(struct.updated_at)
       assert updated["user"]["languages"][:id]          == nil
       assert updated["user"]["languages"][:abbr]        == nil
       assert updated["user"]["languages"][:name]        == nil
-      assert updated["user"]["languages"][:inserted_at] == nil
-      assert updated["user"]["languages"][:updated_at]  == nil
       assert updated["user"]["id"]                      == struct.user_id
       assert updated["user"]["active"]                  == struct.user.active
       assert updated["user"]["avatar"]                  == struct.user.avatar
@@ -731,9 +659,9 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       assert updated["user"]["street"]                  == struct.user.street
       assert updated["user"]["zip"]                     == struct.user.zip
       assert updated["us_zipcode"]["id"]                == zipcode.id
-      assert updated["us_zipcode"]["city"]              == struct.us_zipcode.city
-      assert updated["us_zipcode"]["state"]             == struct.us_zipcode.state
-      assert updated["us_zipcode"]["zipcode"]           == struct.us_zipcode.zipcode
+      assert updated["us_zipcode"]["city"]              == zipcode.city
+      assert updated["us_zipcode"]["state"]             == zipcode.state
+      assert updated["us_zipcode"]["zipcode"]           == zipcode.zipcode
       assert {:ok, %{
           body: "",
           headers: [
@@ -750,7 +678,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
       struct = insert(:profile)
       user = Core.Accounts.User.find_by(id: struct.user_id)
       context = %{current_user: user}
-      zipcode = insert(:zipcode)
+      zipcode = insert(:us_zipcode)
       logo = %{name: "Time for #NeverBernie", alt: "I woke up this morning wondering whether it’s time to unfurl the #NeverBernie banner.", file: "bernie.jpg"}
 
       query = """
@@ -777,7 +705,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
           address
           banner
           description
-          logo {id content_type name size url inserted_at updated_at}
+          logo {id content_type name size url}
           us_zipcode {id city state zipcode}
           user {
             id
@@ -788,7 +716,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             email
             first_name
             init_setup
-            languages {id abbr name inserted_at updated_at}
+            languages {id abbr name}
             last_name
             middle_name
             phone
@@ -798,11 +726,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
             ssn
             street
             zip
-            inserted_at
-            updated_at
           }
-          inserted_at
-          updated_at
         }
       }
       """
@@ -992,9 +916,5 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.ProfileIntegrationTest do
 
       assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value id."
     end
-  end
-
-  defp format_time(timestamp) do
-    Timex.format!(Timex.to_datetime(timestamp, "Europe/Kiev"), "{ISO:Extended:Z}")
   end
 end

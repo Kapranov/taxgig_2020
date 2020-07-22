@@ -74,7 +74,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
 
   describe "#create" do
     it "creates accounts an user" do
-      struct = insert(:language)
+      lang = insert(:language)
 
       args = %{
         active: false,
@@ -84,7 +84,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
         email: "lugatex@yahoo.com",
         first_name: "some text",
         init_setup: false,
-        languages: "chinese",
+        languages: lang.name,
         last_name: "some text",
         middle_name: "some text",
         password: "qwerty",
@@ -105,7 +105,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       assert created.email       == "lugatex@yahoo.com"
       assert created.first_name  == "some text"
       assert created.init_setup  == false
-      assert created.languages   == [struct]
+      assert created.languages   == [lang]
       assert created.last_name   == "some text"
       assert created.middle_name == "some text"
       assert created.phone       == "555-555-5555"
@@ -130,7 +130,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
 
   describe "#update" do
     it "update specific accounts an user by id" do
-      struct_a = insert(:language, abbr: "fra", name: "french")
+      lang = insert(:language, abbr: "fra", name: "french")
       struct_b = insert(:user)
       context = %{context: %{current_user: struct_b}}
 
@@ -142,7 +142,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
         email: "kapranov.lugatex@gmail.com",
         first_name: "updated text",
         init_setup: true,
-        languages: "french",
+        languages: lang.name,
         last_name: "updated text",
         middle_name: "updated text",
         password: "qwertyyy",
@@ -165,7 +165,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       assert updated.email       == "kapranov.lugatex@gmail.com"
       assert updated.first_name  == "updated text"
       assert updated.init_setup  == true
-      assert updated.languages   == [struct_a]
+      assert updated.languages   == [lang]
       assert updated.last_name   == "updated text"
       assert updated.middle_name == "updated text"
       assert updated.phone       == "999-999-9999"

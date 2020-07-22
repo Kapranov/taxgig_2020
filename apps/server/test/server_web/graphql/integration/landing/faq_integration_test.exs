@@ -17,14 +17,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -40,26 +36,18 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert List.first(data)["id"]          == struct_c.id
       assert List.first(data)["content"]     == struct_c.content
       assert List.first(data)["title"]       == struct_c.title
-      assert List.first(data)["inserted_at"] == format_time(struct_c.inserted_at)
-      assert List.first(data)["updated_at"]  == format_time(struct_c.updated_at)
 
       assert List.first(data)["faq_categories"]["id"]          == struct_a.id
       assert List.first(data)["faq_categories"]["faqs_count"]  == 0
       assert List.first(data)["faq_categories"]["title"]       == struct_a.title
-      assert List.first(data)["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
-      assert List.first(data)["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
 
       assert List.last(data)["id"]          == struct_d.id
       assert List.last(data)["content"]     == struct_d.content
       assert List.last(data)["title"]       == struct_d.title
-      assert List.last(data)["inserted_at"] == format_time(struct_d.inserted_at)
-      assert List.last(data)["updated_at"]  == format_time(struct_d.updated_at)
 
       assert List.last(data)["faq_categories"]["id"]          == struct_b.id
       assert List.last(data)["faq_categories"]["faqs_count"]  == 0
       assert List.last(data)["faq_categories"]["title"]       == struct_b.title
-      assert List.last(data)["faq_categories"]["inserted_at"] == format_time(struct_b.inserted_at)
-      assert List.last(data)["faq_categories"]["updated_at"]  == format_time(struct_b.updated_at)
     end
 
     it "returns faqs - `Absinthe.run`" do
@@ -76,14 +64,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -97,28 +81,20 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert first["id"]          == struct_c.id
       assert first["content"]     == struct_c.content
       assert first["title"]       == struct_c.title
-      assert first["inserted_at"] == format_time(struct_c.inserted_at)
-      assert first["updated_at"]  == format_time(struct_c.updated_at)
 
       assert first["faq_categories"]["id"]          == struct_a.id
       assert first["faq_categories"]["faqs_count"]  == 0
       assert first["faq_categories"]["title"]       == struct_a.title
-      assert first["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
-      assert first["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
 
       [second] = tl(data)
 
       assert second["id"]          == struct_d.id
       assert second["content"]     == struct_d.content
       assert second["title"]       == struct_d.title
-      assert second["inserted_at"] == format_time(struct_d.inserted_at)
-      assert second["updated_at"]  == format_time(struct_d.updated_at)
 
       assert second["faq_categories"]["id"]          == struct_b.id
       assert second["faq_categories"]["faqs_count"]  == 0
       assert second["faq_categories"]["title"]       == struct_b.title
-      assert second["faq_categories"]["inserted_at"] == format_time(struct_b.inserted_at)
-      assert second["faq_categories"]["updated_at"]  == format_time(struct_b.updated_at)
     end
   end
 
@@ -133,14 +109,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -157,14 +129,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert found["id"]          == struct_b.id
       assert found["content"]     == struct_b.content
       assert found["title"]       == struct_b.title
-      assert found["inserted_at"] == format_time(struct_b.inserted_at)
-      assert found["updated_at"]  == format_time(struct_b.updated_at)
 
       assert found["faq_categories"]["id"]          == struct_a.id
       assert found["faq_categories"]["faqs_count"]  == 0
       assert found["faq_categories"]["title"]       == struct_a.title
-      assert found["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
-      assert found["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
     end
 
     it "returns specific faq by id - `Absinthe.run`" do
@@ -179,14 +147,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -198,8 +162,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert found["id"]          == struct_b.id
       assert found["content"]     == struct_b.content
       assert found["title"]       == struct_b.title
-      assert found["inserted_at"] == format_time(struct_b.inserted_at)
-      assert found["updated_at"]  == format_time(struct_b.updated_at)
     end
 
     it "returns not found when faq does not exist - `AbsintheHelpers`" do
@@ -215,11 +177,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
-          inserted_at
-          updated_at
         }
       }
       """
@@ -245,11 +203,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
-          inserted_at
-          updated_at
         }
       }
       """
@@ -271,11 +225,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
-          inserted_at
-          updated_at
         }
       }
       """
@@ -300,11 +250,7 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
-          inserted_at
-          updated_at
         }
       }
       """
@@ -327,14 +273,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -352,14 +294,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert found["title"]       == struct_b.title
       assert found["content"]     == struct_b.content
       assert found["title"]       == struct_b.title
-      assert found["inserted_at"] == format_time(struct_b.inserted_at)
-      assert found["updated_at"]  == format_time(struct_b.updated_at)
 
       assert found["faq_categories"]["id"]          == struct_a.id
       assert found["faq_categories"]["faqs_count"]  == 0
       assert found["faq_categories"]["title"]       == struct_a.title
-      assert found["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
-      assert found["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
     end
 
     it "returns searched faq's title - `Absinthe.run`" do
@@ -373,14 +311,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -392,8 +326,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert found["id"]          == struct_b.id
       assert found["content"]     == struct_b.content
       assert found["title"]       == struct_b.title
-      assert found["inserted_at"] == format_time(struct_b.inserted_at)
-      assert found["updated_at"]  == format_time(struct_b.updated_at)
     end
 
     it "returns not found when title does not exist - `AbsintheHelpers`" do
@@ -406,14 +338,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -439,14 +367,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -465,14 +389,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -494,14 +414,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -528,14 +444,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -555,8 +467,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert created["faq_categories"]["id"]          == struct.id
       assert created["faq_categories"]["faqs_count"]  == 0
       assert created["faq_categories"]["title"]       == struct.title
-      assert created["faq_categories"]["inserted_at"] == format_time(struct.inserted_at)
-      assert created["faq_categories"]["updated_at"]  == format_time(struct.updated_at)
     end
 
     it "creates faq - `Absinthe.run`" do
@@ -573,14 +483,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -595,8 +501,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert created["faq_categories"]["id"]          == struct.id
       assert created["faq_categories"]["faqs_count"]  == 0
       assert created["faq_categories"]["title"]       == struct.title
-      assert created["faq_categories"]["inserted_at"] == format_time(struct.inserted_at)
-      assert created["faq_categories"]["updated_at"]  == format_time(struct.updated_at)
     end
 
     it "returns error for missing params - `AbsintheHelpers`" do
@@ -610,14 +514,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -643,14 +543,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -681,14 +577,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -705,14 +597,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert updated["id"]          == struct_b.id
       assert updated["content"]     == "updated text"
       assert updated["title"]       == "updated text"
-      assert updated["inserted_at"] == format_time(struct_b.inserted_at)
-      assert updated["updated_at"]  == format_time(struct_b.updated_at)
 
       assert updated["faq_categories"]["id"]          == struct_a.id
       assert updated["faq_categories"]["faqs_count"]  == 0
       assert updated["faq_categories"]["title"]       == struct_a.title
-      assert updated["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
-      assert updated["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
     end
 
     it "update specific faq by id - `Absinthe.run`" do
@@ -733,14 +621,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -752,14 +636,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
       assert updated["id"]          == struct_b.id
       assert updated["content"]     == "updated text"
       assert updated["title"]       == "updated text"
-      assert updated["inserted_at"] == format_time(struct_b.inserted_at)
-      assert updated["updated_at"]  == format_time(struct_b.updated_at)
 
       assert updated["faq_categories"]["id"]          == struct_a.id
       assert updated["faq_categories"]["faqs_count"]  == 0
       assert updated["faq_categories"]["title"]       == struct_a.title
-      assert updated["faq_categories"]["inserted_at"] == format_time(struct_a.inserted_at)
-      assert updated["faq_categories"]["updated_at"]  == format_time(struct_a.updated_at)
     end
 
     it "return error faq for missing params - `AbsintheHelpers`" do
@@ -774,14 +654,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -807,14 +683,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -840,14 +712,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -876,14 +744,10 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
           id
           content
           title
-          inserted_at
-          updated_at
           faq_categories {
             id
             faqs_count
             title
-            inserted_at
-            updated_at
           }
         }
       }
@@ -992,9 +856,5 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqIntegrationTest do
 
       assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
-  end
-
-  defp format_time(timestamp) do
-    Timex.format!(Timex.to_datetime(timestamp, "Europe/Kiev"), "{ISO:Extended:Z}")
   end
 end
