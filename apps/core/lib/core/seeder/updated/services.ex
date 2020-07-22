@@ -160,16 +160,16 @@ defmodule Core.Seeder.Updated.Services do
       }
     [
       Services.update_book_keeping(bk1, %{
-        account_count:                               12,
-        balance_sheet:                             true,
-        deadline:                                  date,
-        financial_situation: "some financial situation",
-        inventory:                                 true,
-        inventory_count:                              3,
-        payroll:                                   true,
-        tax_return_current:                        true,
-        tax_year:                      ["2018", "2019"],
-        user_id:                                    tp1
+        account_count:       random_integer(),
+        balance_sheet:       random_boolean(),
+        deadline:                        date,
+        financial_situation: Lorem.sentence(),
+        inventory:           random_boolean(),
+        inventory_count:     random_integer(),
+        payroll:             random_boolean(),
+        tax_return_current:  random_boolean(),
+        tax_year:               random_year(),
+        user_id:                          tp1
       }),
       Services.update_book_keeping(bk2, %{
         account_count:       random_integer(),
@@ -196,19 +196,19 @@ defmodule Core.Seeder.Updated.Services do
         user_id:                          tp3
       }),
       Services.update_book_keeping(bk4, %{
-        payroll: true,
-        price_payroll: 100,
-        user_id: pro1
+        payroll:       random_boolean(),
+        price_payroll: random_integer(),
+        user_id:                   pro1
       }),
       Services.update_book_keeping(bk5, %{
-        payroll: random_boolean(),
+        payroll:       random_boolean(),
         price_payroll: random_integer(),
-        user_id: pro2
+        user_id:                   pro2
       }),
       Services.update_book_keeping(bk6, %{
-        payroll: random_boolean(),
+        payroll:       random_boolean(),
         price_payroll: random_integer(),
-        user_id: pro3
+        user_id:                   pro3
       })
     ]
   end
@@ -243,21 +243,21 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_book_keeping_additional_need(ban1, %{
-        book_keeping_id: bk1,
-        name: "financial report preparation"
+        book_keeping_id:                bk1,
+        name: random_name_additional_need()
       }),
       Services.update_book_keeping_additional_need(ban2, %{
-        book_keeping_id: bk2,
+        book_keeping_id:                bk2,
         name: random_name_additional_need()
       }),
       Services.update_book_keeping_additional_need(ban3, %{
-        book_keeping_id: bk3,
+        book_keeping_id:                bk3,
         name: random_name_additional_need()
       }),
       Services.update_book_keeping_additional_need(ban4, %{
-        book_keeping_id: bk4,
-        name: "financial report preparation",
-        price:                            87
+        book_keeping_id:                 bk4,
+        name:  random_name_additional_need(),
+        price:              random_integer()
       }),
       Services.update_book_keeping_additional_need(ban5, %{
         book_keeping_id: bk5,
@@ -303,7 +303,7 @@ defmodule Core.Seeder.Updated.Services do
     [
       Services.update_book_keeping_annual_revenue(bar1, %{
         book_keeping_id: bk1,
-        name: "$5M - $10M"
+        name: random_name_revenue()
       }),
       Services.update_book_keeping_annual_revenue(bar2, %{
         book_keeping_id: bk2,
@@ -315,8 +315,8 @@ defmodule Core.Seeder.Updated.Services do
       }),
       Services.update_book_keeping_annual_revenue(bar4, %{
         book_keeping_id: bk4,
-        name: "$5M - $10M",
-        price: 56
+        name: random_name_revenue(),
+        price: random_integer()
       }),
       Services.update_book_keeping_annual_revenue(bar5, %{
         book_keeping_id: bk5,
@@ -355,15 +355,15 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_book_keeping_classify_inventory(bci1, %{
-        book_keeping_id: bk1,
-        name: "Expenses"
+        book_keeping_id:                   bk1,
+        name: random_name_classify_inventory()
       }),
       Services.update_book_keeping_classify_inventory(bci2, %{
-        book_keeping_id: bk2,
+        book_keeping_id:                   bk2,
         name: random_name_classify_inventory()
       }),
       Services.update_book_keeping_classify_inventory(bci3, %{
-        book_keeping_id: bk3,
+        book_keeping_id:                   bk3,
         name: random_name_classify_inventory()
       })
     ]
@@ -399,27 +399,27 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_book_keeping_industry(bki1, %{
-        book_keeping_id: bk1,
-        name: ["Construction/Contractors"]
+        book_keeping_id:                bk1,
+        name: random_name_for_tp_industry()
       }),
       Services.update_book_keeping_industry(bki2, %{
-        book_keeping_id: bk2,
+        book_keeping_id:                bk2,
         name:  random_name_for_tp_industry()
       }),
       Services.update_book_keeping_industry(bki3, %{
-        book_keeping_id: bk3,
+        book_keeping_id:                 bk3,
         name:  random_name_for_tp_industry()
       }),
       Services.update_book_keeping_industry(bki4, %{
-        book_keeping_id: bk4,
-        name: ["Construction/Contractors", "Consulting"]
+        book_keeping_id:                 bk4,
+        name: random_name_for_pro_industry()
       }),
       Services.update_book_keeping_industry(bki5, %{
-        book_keeping_id: bk5,
+        book_keeping_id:                 bk5,
         name: random_name_for_pro_industry()
       }),
       Services.update_book_keeping_industry(bki6, %{
-        book_keeping_id: bk6,
+        book_keeping_id:                 bk6,
         name: random_name_for_pro_industry()
       })
     ]
@@ -455,31 +455,31 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_book_keeping_number_employee(bne1, %{
-        book_keeping_id: bk1,
-        name: "51 - 100 employees"
+        book_keeping_id:         bk1,
+        name: random_name_employee()
       }),
       Services.update_book_keeping_number_employee(bne2, %{
-        book_keeping_id: bk2,
+        book_keeping_id:         bk2,
         name: random_name_employee()
       }),
       Services.update_book_keeping_number_employee(bne3, %{
-        book_keeping_id: bk3,
+        book_keeping_id:         bk3,
         name: random_name_employee()
       }),
       Services.update_book_keeping_number_employee(bne4, %{
-        book_keeping_id: bk4,
-        name: "51 - 100 employees",
-        price: 60
+        book_keeping_id:         bk4,
+        name: random_name_employee(),
+        price:      random_integer()
       }),
       Services.update_book_keeping_number_employee(bne5, %{
-        book_keeping_id: bk5,
+        book_keeping_id:         bk5,
         name: random_name_employee(),
-        price: random_integer()
+        price:      random_integer()
       }),
       Services.update_book_keeping_number_employee(bne6, %{
-        book_keeping_id: bk6,
+        book_keeping_id:         bk6,
         name: random_name_employee(),
-        price: random_integer()
+        price:      random_integer()
       })
     ]
   end
@@ -514,8 +514,8 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_book_keeping_transaction_volume(btv1, %{
-        book_keeping_id: bk1,
-        name: "200+"
+        book_keeping_id:                   bk1,
+        name: random_name_transaction_volume()
       }),
       Services.update_book_keeping_transaction_volume(btv2, %{
         book_keeping_id:                   bk2,
@@ -526,19 +526,19 @@ defmodule Core.Seeder.Updated.Services do
         name: random_name_transaction_volume()
       }),
       Services.update_book_keeping_transaction_volume(btv4, %{
-        book_keeping_id: bk4,
-        name: "200+",
-        price: 50
+        book_keeping_id:                   bk4,
+        name: random_name_transaction_volume(),
+        price:                random_integer()
       }),
       Services.update_book_keeping_transaction_volume(btv5, %{
         book_keeping_id:                   bk5,
         name: random_name_transaction_volume(),
-        price: random_integer()
+        price:                random_integer()
       }),
       Services.update_book_keeping_transaction_volume(btv6, %{
         book_keeping_id:                   bk6,
         name: random_name_transaction_volume(),
-        price: random_integer()
+        price:                random_integer()
       })
     ]
   end
@@ -573,31 +573,31 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_book_keeping_type_client(bkt1, %{
-        book_keeping_id: bk1,
-        name: "S-Corp"
+        book_keeping_id:            bk1,
+        name: random_name_type_client()
       }),
       Services.update_book_keeping_type_client(bkt2, %{
-        book_keeping_id: bk2,
+        book_keeping_id:            bk2,
         name: random_name_type_client()
       }),
       Services.update_book_keeping_type_client(bkt3, %{
-        book_keeping_id: bk3,
+        book_keeping_id:            bk3,
         name: random_name_type_client()
       }),
       Services.update_book_keeping_type_client(bkt4, %{
-        book_keeping_id: bk4,
-        name: "S-Corp",
-        price: 150
+        book_keeping_id:            bk4,
+        name: random_name_type_client(),
+        price:         random_integer()
       }),
       Services.update_book_keeping_type_client(bkt5, %{
-        book_keeping_id: bk5,
+        book_keeping_id:            bk5,
         name: random_name_type_client(),
-        price: random_integer()
+        price:         random_integer()
       }),
       Services.update_book_keeping_type_client(bkt6, %{
-        book_keeping_id: bk6,
+        book_keeping_id:            bk6,
         name: random_name_type_client(),
-        price: random_integer()
+        price:         random_integer()
       })
     ]
   end
@@ -633,47 +633,49 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_business_tax_return(btr1, %{
-        accounting_software:             true,
-        capital_asset_sale:              true,
-        church_hospital:                 true,
-        deadline:                        date,
-        dispose_asset:                   true,
-        dispose_property:                true,
-        educational_facility:            true,
-        financial_situation: "some situation",
-        foreign_account_interest:        true,
-        foreign_account_value_more:      true,
-        foreign_entity_interest:         true,
-        foreign_partner_count:             42,
-        foreign_shareholder:             true,
-        foreign_value:                   true,
-        fundraising_over:                true,
-        has_contribution:                true,
-        has_loan:                        true,
-        income_over_thousand:            true,
-        invest_research:                 true,
-        k1_count:                          42,
-        lobbying:                        true,
-        make_distribution:               true,
-        none_expat:                      true,
-        operate_facility:                true,
-        property_sale:                   true,
-        public_charity:                  true,
-        rental_property_count:             42,
-        reported_grant:                  true,
-        restricted_donation:             true,
-        state:          ["Alabama", "Florida"],
-        tax_exemption:                    true,
-        tax_year:             ["2018", "2019"],
-        total_asset_less:                 true,
-        total_asset_over:                 true,
-        user_id:                           tp1
+        accounting_software:        random_boolean(),
+        capital_asset_sale:         random_boolean(),
+        church_hospital:            random_boolean(),
+        deadline:                               date,
+        dispose_asset:              random_boolean(),
+        dispose_property:           random_boolean(),
+        educational_facility:       random_boolean(),
+        financial_situation:        Lorem.sentence(),
+        foreign_account_interest:   random_boolean(),
+        foreign_account_value_more: random_boolean(),
+        foreign_entity_interest:    random_boolean(),
+        foreign_partner_count:      random_integer(),
+        foreign_shareholder:        random_boolean(),
+        foreign_value:              random_boolean(),
+        fundraising_over:           random_boolean(),
+        has_contribution:           random_boolean(),
+        has_loan:                   random_boolean(),
+        income_over_thousand:       random_boolean(),
+        invest_research:            random_boolean(),
+        k1_count:                   random_integer(),
+        lobbying:                   random_boolean(),
+        make_distribution:          random_boolean(),
+        none_expat:                 random_boolean(),
+        operate_facility:           random_boolean(),
+        price_state:                random_integer(),
+        price_tax_year:             random_integer(),
+        property_sale:              random_boolean(),
+        public_charity:             random_boolean(),
+        rental_property_count:      random_integer(),
+        reported_grant:             random_boolean(),
+        restricted_donation:        random_boolean(),
+        state:                        random_state(),
+        tax_exemption:              random_boolean(),
+        tax_year:                      random_year(),
+        total_asset_less:           random_boolean(),
+        total_asset_over:           random_boolean(),
+        user_id:                                 tp1
       }),
       Services.update_business_tax_return(btr2, %{
         accounting_software:        random_boolean(),
         capital_asset_sale:         random_boolean(),
         church_hospital:            random_boolean(),
-        deadline:                   Date.utc_today(),
+        deadline:                               date,
         dispose_asset:              random_boolean(),
         dispose_property:           random_boolean(),
         educational_facility:       random_boolean(),
@@ -712,7 +714,7 @@ defmodule Core.Seeder.Updated.Services do
         accounting_software:        random_boolean(),
         capital_asset_sale:         random_boolean(),
         church_hospital:            random_boolean(),
-        deadline:                   Date.utc_today(),
+        deadline:                               date,
         dispose_asset:              random_boolean(),
         dispose_property:           random_boolean(),
         educational_facility:       random_boolean(),
@@ -748,84 +750,22 @@ defmodule Core.Seeder.Updated.Services do
         user_id:                                 tp3
       }),
       Services.update_business_tax_return(btr4, %{
-        none_expat:  false,
-        price_state:    50,
-        price_tax_year: 40,
-        user_id:      pro1
+        none_expat:     random_boolean(),
+        price_state:    random_integer(),
+        price_tax_year: random_integer(),
+        user_id:                    pro1
       }),
       Services.update_business_tax_return(btr5, %{
-        accounting_software:        random_boolean(),
-        capital_asset_sale:         random_boolean(),
-        church_hospital:            random_boolean(),
-        dispose_asset:              random_boolean(),
-        dispose_property:           random_boolean(),
-        educational_facility:       random_boolean(),
-        financial_situation:        Lorem.sentence(),
-        foreign_account_interest:   random_boolean(),
-        foreign_account_value_more: random_boolean(),
-        foreign_entity_interest:    random_boolean(),
-        foreign_partner_count:      random_integer(),
-        foreign_shareholder:        random_boolean(),
-        foreign_value:              random_boolean(),
-        fundraising_over:           random_boolean(),
-        has_contribution:           random_boolean(),
-        has_loan:                   random_boolean(),
-        income_over_thousand:       random_boolean(),
-        invest_research:            random_boolean(),
-        k1_count:                   random_integer(),
-        lobbying:                   random_boolean(),
-        make_distribution:          random_boolean(),
-        none_expat:                 random_boolean(),
-        operate_facility:           random_boolean(),
-        price_state:                random_integer(),
-        price_tax_year:             random_integer(),
-        property_sale:              random_boolean(),
-        public_charity:             random_boolean(),
-        rental_property_count:      random_integer(),
-        reported_grant:             random_boolean(),
-        restricted_donation:        random_boolean(),
-        tax_exemption:              random_boolean(),
-        tax_year:                      random_year(),
-        total_asset_less:           random_boolean(),
-        total_asset_over:           random_boolean(),
-        user_id:                                pro2
+        none_expat:     random_boolean(),
+        price_state:    random_integer(),
+        price_tax_year: random_integer(),
+        user_id:                    pro2
       }),
       Services.update_business_tax_return(btr6, %{
-        accounting_software:        random_boolean(),
-        capital_asset_sale:         random_boolean(),
-        church_hospital:            random_boolean(),
-        dispose_asset:              random_boolean(),
-        dispose_property:           random_boolean(),
-        educational_facility:       random_boolean(),
-        financial_situation:        Lorem.sentence(),
-        foreign_account_interest:   random_boolean(),
-        foreign_account_value_more: random_boolean(),
-        foreign_entity_interest:    random_boolean(),
-        foreign_partner_count:      random_integer(),
-        foreign_shareholder:        random_boolean(),
-        foreign_value:              random_boolean(),
-        fundraising_over:           random_boolean(),
-        has_contribution:           random_boolean(),
-        has_loan:                   random_boolean(),
-        income_over_thousand:       random_boolean(),
-        invest_research:            random_boolean(),
-        k1_count:                   random_integer(),
-        lobbying:                   random_boolean(),
-        make_distribution:          random_boolean(),
-        none_expat:                 random_boolean(),
-        operate_facility:           random_boolean(),
-        price_state:                random_integer(),
-        price_tax_year:             random_integer(),
-        property_sale:              random_boolean(),
-        public_charity:             random_boolean(),
-        rental_property_count:      random_integer(),
-        reported_grant:             random_boolean(),
-        restricted_donation:        random_boolean(),
-        tax_exemption:              random_boolean(),
-        tax_year:                      random_year(),
-        total_asset_less:           random_boolean(),
-        total_asset_over:           random_boolean(),
-        user_id:                                pro3
+        none_expat:     random_boolean(),
+        price_state:    random_integer(),
+        price_tax_year: random_integer(),
+        user_id:                    pro3
       })
     ]
   end
@@ -860,8 +800,8 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_business_entity_type(bet1, %{
-        business_tax_return_id: btr1,
-        name: ["C-Corp / Corporation"]
+        business_tax_return_id:    btr1,
+        name: random_name_entity_type()
       }),
       Services.update_business_entity_type(bet2, %{
         business_tax_return_id:    btr2,
@@ -873,18 +813,18 @@ defmodule Core.Seeder.Updated.Services do
       }),
       Services.update_business_entity_type(bet4, %{
         business_tax_return_id: btr4,
-        name: ["S-Corp", "LLC"],
-        price: 250
+        name: random_name_entity_type(),
+        price:       Enum.random(1..99)
       }),
       Services.update_business_entity_type(bet5, %{
         business_tax_return_id: btr5,
         name: random_name_entity_type(),
-        price: Enum.random(1..99)
+        price:       Enum.random(1..99)
       }),
       Services.update_business_entity_type(bet6, %{
         business_tax_return_id: btr6,
         name: random_name_entity_type(),
-        price: Enum.random(1..99)
+        price:       Enum.random(1..99)
       })
     ]
   end
@@ -914,15 +854,15 @@ defmodule Core.Seeder.Updated.Services do
     [
       Services.update_business_foreign_account_count(bfa1, %{
         business_tax_return_id: btr1,
-        name: "2-5"
+        name:    random_name_count()
       }),
       Services.update_business_foreign_account_count(bfa2, %{
         business_tax_return_id: btr2,
-        name: random_name_count()
+        name:    random_name_count()
       }),
       Services.update_business_foreign_account_count(bfa3, %{
         business_tax_return_id: btr3,
-        name: random_name_count()
+        name:    random_name_count()
       })
     ]
   end
@@ -952,15 +892,15 @@ defmodule Core.Seeder.Updated.Services do
     [
       Services.update_business_foreign_ownership_count(bfo1, %{
         business_tax_return_id: btr1,
-        name: "2-5"
+        name:    random_name_count()
       }),
       Services.update_business_foreign_ownership_count(bfo2, %{
         business_tax_return_id: btr2,
-        name: random_name_count()
+        name:    random_name_count()
       }),
       Services.update_business_foreign_ownership_count(bfo3, %{
         business_tax_return_id: btr3,
-        name: random_name_count()
+        name:    random_name_count()
       })
     ]
   end
@@ -995,27 +935,27 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_business_industry(bi1, %{
-        business_tax_return_id: btr1,
-        name: ["Construction/Contractors"]
+        business_tax_return_id:        btr1,
+        name: random_name_for_tp_industry()
       }),
       Services.update_business_industry(bi2, %{
-        business_tax_return_id: btr2,
+        business_tax_return_id:        btr2,
         name: random_name_for_tp_industry()
       }),
       Services.update_business_industry(bi3, %{
-        business_tax_return_id: btr3,
+        business_tax_return_id:        btr3,
         name: random_name_for_tp_industry()
       }),
       Services.update_business_industry(bi4, %{
-        business_tax_return_id: btr4,
-        name: ["Construction/Contractors"]
+        business_tax_return_id:        btr4,
+        name: random_name_for_tp_industry()
       }),
       Services.update_business_industry(bi5, %{
-        business_tax_return_id: btr5,
+        business_tax_return_id:         btr5,
         name: random_name_for_pro_industry()
       }),
       Services.update_business_industry(bi6, %{
-        business_tax_return_id: btr6,
+        business_tax_return_id:         btr6,
         name: random_name_for_pro_industry()
       })
     ]
@@ -1046,7 +986,7 @@ defmodule Core.Seeder.Updated.Services do
     [
       Services.update_business_llc_type(blt1, %{
         business_tax_return_id: btr1,
-        name: "C-Corp / Corporation"
+        name: random_name_llc_type()
       }),
       Services.update_business_llc_type(blt2, %{
         business_tax_return_id: btr2,
@@ -1090,7 +1030,7 @@ defmodule Core.Seeder.Updated.Services do
     [
       Services.update_business_number_employee(bne1, %{
         business_tax_return_id: btr1,
-        name: "51 - 100 employees"
+        name: random_name_employee()
       }),
       Services.update_business_number_employee(bne2, %{
         business_tax_return_id: btr2,
@@ -1102,18 +1042,18 @@ defmodule Core.Seeder.Updated.Services do
       }),
       Services.update_business_number_employee(bne4, %{
         business_tax_return_id: btr4,
-        name: "21 - 50 employees",
-        price: 35
+        name: random_name_employee(),
+        price:    Enum.random(1..99)
       }),
       Services.update_business_number_employee(bne5, %{
         business_tax_return_id: btr5,
         name: random_name_employee(),
-        price: Enum.random(1..99)
+        price:    Enum.random(1..99)
       }),
       Services.update_business_number_employee(bne6, %{
         business_tax_return_id: btr6,
         name: random_name_employee(),
-        price: Enum.random(1..99)
+        price:    Enum.random(1..99)
       })
     ]
   end
@@ -1149,30 +1089,30 @@ defmodule Core.Seeder.Updated.Services do
     [
       Services.update_business_total_revenue(bor1, %{
         business_tax_return_id: btr1,
-        name: "$1M - $5M"
+        name:  random_name_revenue()
       }),
       Services.update_business_total_revenue(bor2, %{
         business_tax_return_id: btr2,
-        name: random_name_revenue()
+        name:  random_name_revenue()
       }),
       Services.update_business_total_revenue(bor3, %{
         business_tax_return_id: btr3,
-        name: random_name_revenue()
+        name:  random_name_revenue()
       }),
       Services.update_business_total_revenue(bor4, %{
         business_tax_return_id: btr4,
-        name: "$100K - $500K",
-        price: 45
+        name:  random_name_revenue(),
+        price:    Enum.random(1..99)
       }),
       Services.update_business_total_revenue(bor5, %{
         business_tax_return_id: btr5,
-        name: random_name_revenue(),
-        price: Enum.random(1..99)
+        name:  random_name_revenue(),
+        price:    Enum.random(1..99)
       }),
       Services.update_business_total_revenue(bor6, %{
         business_tax_return_id: btr6,
-        name: random_name_revenue(),
-        price: Enum.random(1..99)
+        name:  random_name_revenue(),
+        price:    Enum.random(1..99)
       })
     ]
   end
@@ -1201,15 +1141,15 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_business_transaction_count(btc1, %{
-        business_tax_return_id: btr1,
-        name: "26-75"
+        business_tax_return_id:           btr1,
+        name: random_name_transactions_count()
       }),
       Services.update_business_transaction_count(btc2, %{
-        business_tax_return_id: btr2,
+        business_tax_return_id:           btr2,
         name: random_name_transactions_count()
       }),
       Services.update_business_transaction_count(btc3, %{
-        business_tax_return_id: btr3,
+        business_tax_return_id:           btr3,
         name: random_name_transactions_count()
       })
     ]
@@ -1246,127 +1186,127 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_individual_tax_return(itr1, %{
-        deadline:                   date,
-        foreign_account:            true,
-        foreign_account_limit:      true,
-        foreign_financial_interest: true,
-        home_owner:                 true,
-        k1_count:                     43,
-        k1_income:                  true,
-        living_abroad:              true,
-        non_resident_earning:       true,
-        none_expat:                false,
-        own_stock_crypto:           true,
-        rental_property_count:        15,
-        rental_property_income:     true,
-        sole_proprietorship_count:     4,
-        state:   ["Alabama", "New York"],
-        stock_divident:             true,
-        tax_year:       ["2017", "2018"],
-        user_id:                     tp1
+        deadline:                               date,
+        foreign_account:            random_boolean(),
+        foreign_account_limit:      random_boolean(),
+        foreign_financial_interest: random_boolean(),
+        home_owner:                 random_boolean(),
+        k1_count:                   random_integer(),
+        k1_income:                  random_boolean(),
+        living_abroad:              random_boolean(),
+        non_resident_earning:       random_boolean(),
+        none_expat:                 random_boolean(),
+        own_stock_crypto:           random_boolean(),
+        rental_property_count:      random_integer(),
+        rental_property_income:     random_boolean(),
+        sole_proprietorship_count:  random_integer(),
+        state:                        random_state(),
+        stock_divident:             random_boolean(),
+        tax_year:                      random_year(),
+        user_id:                                 tp1
       }),
       Services.update_individual_tax_return(itr2, %{
-        deadline:             Date.utc_today(),
-        foreign_account:                  true,
-        foreign_account_limit:           false,
-        foreign_financial_interest:       true,
-        home_owner:                      false,
-        k1_count:                            2,
-        k1_income:                        true,
-        living_abroad:                    true,
-        non_resident_earning:            false,
-        none_expat:                      false,
-        own_stock_crypto:                false,
-        rental_property_count:               5,
-        rental_property_income:           true,
-        sole_proprietorship_count:           1,
-        state:             ["Alabama", "Iowa"],
-        stock_divident:                  false,
-        tax_year:                     ["2018"],
-        user_id:                           tp2
+        deadline:                               date,
+        foreign_account:            random_boolean(),
+        foreign_account_limit:      random_boolean(),
+        foreign_financial_interest: random_boolean(),
+        home_owner:                 random_boolean(),
+        k1_count:                   random_integer(),
+        k1_income:                  random_boolean(),
+        living_abroad:              random_boolean(),
+        non_resident_earning:       random_boolean(),
+        none_expat:                 random_boolean(),
+        own_stock_crypto:           random_boolean(),
+        rental_property_count:      random_integer(),
+        rental_property_income:     random_boolean(),
+        sole_proprietorship_count:  random_integer(),
+        state:                        random_state(),
+        stock_divident:             random_boolean(),
+        tax_year:                      random_year(),
+        user_id:                                 tp2
       }),
       Services.update_individual_tax_return(itr3, %{
-        deadline:                                                 Date.utc_today(),
-        foreign_account:                                                      true,
-        foreign_account_limit:                                               false,
-        foreign_financial_interest:                                           true,
-        home_owner:                                                           true,
-        k1_count:                                                                0,
-        k1_income:                                                           false,
-        living_abroad:                                                        true,
-        non_resident_earning:                                                 true,
-        none_expat:                                                          false,
-        own_stock_crypto:                                                     true,
-        rental_property_count:                                                  10,
-        rental_property_income:                                              false,
-        sole_proprietorship_count:                                               9,
-        state: ["Alabama", "Ohio", "New York", "Iowa", "New Jersey", "New Mexico"],
-        stock_divident:                                                       true,
-        tax_year:                         ["2018", "2017", "2016", "2015", "2019"],
-        user_id:                                                               tp3
+        deadline:                               date,
+        foreign_account:            random_boolean(),
+        foreign_account_limit:      random_boolean(),
+        foreign_financial_interest: random_boolean(),
+        home_owner:                 random_boolean(),
+        k1_count:                   random_integer(),
+        k1_income:                  random_boolean(),
+        living_abroad:              random_boolean(),
+        non_resident_earning:       random_boolean(),
+        none_expat:                 random_boolean(),
+        own_stock_crypto:           random_boolean(),
+        rental_property_count:      random_integer(),
+        rental_property_income:     random_boolean(),
+        sole_proprietorship_count:  random_integer(),
+        state:                        random_state(),
+        stock_divident:             random_boolean(),
+        tax_year:                      random_year(),
+        user_id:                                 tp3
       }),
       Services.update_individual_tax_return(itr4, %{
-        foreign_account:                true,
-        home_owner:                     true,
-        living_abroad:                  true,
-        non_resident_earning:           true,
-        none_expat:                    false,
-        own_stock_crypto:               true,
-        price_foreign_account:            35,
-        price_home_owner:                 45,
-        price_living_abroad:              55,
-        price_non_resident_earning:       44,
-        price_own_stock_crypto:           33,
-        price_rental_property_income:     54,
-        price_sole_proprietorship_count: 150,
-        price_state:                       8,
-        price_stock_divident:             34,
-        price_tax_year:                   38,
-        rental_property_income:         true,
-        stock_divident:                 true,
-        user_id:                        pro1
+        foreign_account:                 random_boolean(),
+        home_owner:                      random_boolean(),
+        living_abroad:                   random_boolean(),
+        non_resident_earning:            random_boolean(),
+        none_expat:                      random_boolean(),
+        own_stock_crypto:                random_boolean(),
+        price_foreign_account:           random_integer(),
+        price_home_owner:                random_integer(),
+        price_living_abroad:             random_integer(),
+        price_non_resident_earning:      random_integer(),
+        price_own_stock_crypto:          random_integer(),
+        price_rental_property_income:    random_integer(),
+        price_sole_proprietorship_count: random_integer(),
+        price_state:                     random_integer(),
+        price_stock_divident:            random_integer(),
+        price_tax_year:                  random_integer(),
+        rental_property_income:          random_boolean(),
+        stock_divident:                  random_boolean(),
+        user_id:                                     pro1
       }),
       Services.update_individual_tax_return(itr5, %{
-        foreign_account:               false,
-        home_owner:                    false,
-        living_abroad:                  true,
-        non_resident_earning:          false,
-        none_expat:                    false,
-        own_stock_crypto:               true,
-        price_foreign_account:            67,
-        price_home_owner:                 78,
-        price_living_abroad:              22,
-        price_non_resident_earning:       89,
-        price_own_stock_crypto:           31,
-        price_rental_property_income:     74,
-        price_sole_proprietorship_count:  99,
-        price_state:                      88,
-        price_stock_divident:             55,
-        price_tax_year:                   68,
-        rental_property_income:        false,
-        stock_divident:                false,
-        user_id:                        pro2
+        foreign_account:                 random_boolean(),
+        home_owner:                      random_boolean(),
+        living_abroad:                   random_boolean(),
+        non_resident_earning:            random_boolean(),
+        none_expat:                      random_boolean(),
+        own_stock_crypto:                random_boolean(),
+        price_foreign_account:           random_integer(),
+        price_home_owner:                random_integer(),
+        price_living_abroad:             random_integer(),
+        price_non_resident_earning:      random_integer(),
+        price_own_stock_crypto:          random_integer(),
+        price_rental_property_income:    random_integer(),
+        price_sole_proprietorship_count: random_integer(),
+        price_state:                     random_integer(),
+        price_stock_divident:            random_integer(),
+        price_tax_year:                  random_integer(),
+        rental_property_income:          random_boolean(),
+        stock_divident:                  random_boolean(),
+        user_id:                                     pro2
       }),
       Services.update_individual_tax_return(itr6, %{
-        foreign_account:               false,
-        home_owner:                    false,
-        living_abroad:                 false,
-        non_resident_earning:          false,
-        none_expat:                    false,
-        own_stock_crypto:              false,
-        price_foreign_account:            11,
-        price_home_owner:                 12,
-        price_living_abroad:              13,
-        price_non_resident_earning:       14,
-        price_own_stock_crypto:           15,
-        price_rental_property_income:     16,
-        price_sole_proprietorship_count:  17,
-        price_state:                      18,
-        price_stock_divident:             19,
-        price_tax_year:                   20,
-        rental_property_income:        false,
-        stock_divident:                false,
-        user_id:                        pro3
+        foreign_account:                 random_boolean(),
+        home_owner:                      random_boolean(),
+        living_abroad:                   random_boolean(),
+        non_resident_earning:            random_boolean(),
+        none_expat:                      random_boolean(),
+        own_stock_crypto:                random_boolean(),
+        price_foreign_account:           random_integer(),
+        price_home_owner:                random_integer(),
+        price_living_abroad:             random_integer(),
+        price_non_resident_earning:      random_integer(),
+        price_own_stock_crypto:          random_integer(),
+        price_rental_property_income:    random_integer(),
+        price_sole_proprietorship_count: random_integer(),
+        price_state:                     random_integer(),
+        price_stock_divident:            random_integer(),
+        price_tax_year:                  random_integer(),
+        rental_property_income:          random_boolean(),
+        stock_divident:                  random_boolean(),
+        user_id:                                     pro3
       })
     ]
   end
@@ -1401,31 +1341,31 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_individual_employment_status(ies1, %{
-        individual_tax_return_id: itr1,
-        name: "self-employed"
+        individual_tax_return_id:        itr1,
+        name: random_name_employment_status()
       }),
       Services.update_individual_employment_status(ies2, %{
-        individual_tax_return_id: itr2,
+        individual_tax_return_id:        itr2,
         name: random_name_employment_status()
       }),
       Services.update_individual_employment_status(ies3, %{
-        individual_tax_return_id: itr3,
+        individual_tax_return_id:        itr3,
         name: random_name_employment_status()
       }),
       Services.update_individual_employment_status(ies4, %{
-        individual_tax_return_id: itr4,
-        name: "self-employed",
-        price: 150
+        individual_tax_return_id:        itr4,
+        name: random_name_employment_status(),
+        price:             Enum.random(1..99)
       }),
       Services.update_individual_employment_status(ies5, %{
-        individual_tax_return_id: itr5,
+        individual_tax_return_id:        itr5,
         name: random_name_employment_status(),
-        price: Enum.random(1..99)
+        price:             Enum.random(1..99)
       }),
       Services.update_individual_employment_status(ies6, %{
-        individual_tax_return_id: itr6,
+        individual_tax_return_id:        itr6,
         name: random_name_employment_status(),
-        price: Enum.random(1..99)
+        price:             Enum.random(1..99)
       })
     ]
   end
@@ -1460,31 +1400,31 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_individual_filing_status(ifs1, %{
-        individual_tax_return_id: itr1,
-        name: "Single"
+        individual_tax_return_id:     itr1,
+        name: random_name_filling_status()
       }),
       Services.update_individual_filing_status(ifs2, %{
-        individual_tax_return_id: itr2,
+        individual_tax_return_id:     itr2,
         name: random_name_filling_status()
       }),
       Services.update_individual_filing_status(ifs3, %{
-        individual_tax_return_id: itr3,
-        name: "Head of Household"
+        individual_tax_return_id:     itr3,
+        name: random_name_filling_status()
       }),
       Services.update_individual_filing_status(ifs4, %{
-        individual_tax_return_id: itr4,
-        name: "Head of Household",
-        price: 55
+        individual_tax_return_id:     itr4,
+        name: random_name_filling_status(),
+        price:          Enum.random(1..99)
       }),
       Services.update_individual_filing_status(ifs5, %{
-        individual_tax_return_id: itr5,
+        individual_tax_return_id:     itr5,
         name: random_name_filling_status(),
-        price: Enum.random(1..99)
+        price:          Enum.random(1..99)
       }),
       Services.update_individual_filing_status(ifs6, %{
-        individual_tax_return_id: itr6,
+        individual_tax_return_id:     itr6,
         name: random_name_filling_status(),
-        price: Enum.random(1..99)
+        price:          Enum.random(1..99)
       })
     ]
   end
@@ -1514,15 +1454,15 @@ defmodule Core.Seeder.Updated.Services do
     [
       Services.update_individual_foreign_account_count(ifa1, %{
         individual_tax_return_id: itr1,
-        name: "2-5"
+        name:      random_name_count()
       }),
       Services.update_individual_foreign_account_count(ifa2, %{
         individual_tax_return_id: itr2,
-        name: random_name_count()
+        name:      random_name_count()
       }),
       Services.update_individual_foreign_account_count(ifa3, %{
         individual_tax_return_id: itr3,
-        name: random_name_count()
+        name:      random_name_count()
       })
     ]
   end
@@ -1557,27 +1497,27 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_individual_industry(ii1, %{
-        individual_tax_return_id: itr1,
-        name: ["Construction/Contractors"]
+        individual_tax_return_id:      itr1,
+        name: random_name_for_tp_industry()
       }),
       Services.update_individual_industry(ii2, %{
-        individual_tax_return_id: itr2,
+        individual_tax_return_id:      itr2,
         name: random_name_for_tp_industry()
       }),
       Services.update_individual_industry(ii3, %{
-        individual_tax_return_id: itr3,
+        individual_tax_return_id:      itr3,
         name: random_name_for_tp_industry()
       }),
       Services.update_individual_industry(ii4, %{
-        individual_tax_return_id: itr4,
-        name: ["Construction/Contractors"]
+        individual_tax_return_id:       itr4,
+        name: random_name_for_pro_industry()
       }),
       Services.update_individual_industry(ii5, %{
-        individual_tax_return_id: itr5,
+        individual_tax_return_id:       itr5,
         name: random_name_for_pro_industry()
       }),
       Services.update_individual_industry(ii6, %{
-        individual_tax_return_id: itr6,
+        individual_tax_return_id:       itr6,
         name: random_name_for_pro_industry()
       })
     ]
@@ -1613,31 +1553,31 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_individual_itemized_deduction(iid1, %{
-        individual_tax_return_id: itr1,
-        name: "Health insurance"
+        individual_tax_return_id:         itr1,
+        name: random_name_itemized_deduction()
       }),
       Services.update_individual_itemized_deduction(iid2, %{
-        individual_tax_return_id: itr2,
+        individual_tax_return_id:         itr2,
         name: random_name_itemized_deduction()
       }),
       Services.update_individual_itemized_deduction(iid3, %{
-        individual_tax_return_id: itr3,
+        individual_tax_return_id:         itr3,
         name: random_name_itemized_deduction()
       }),
       Services.update_individual_itemized_deduction(iid4, %{
-        individual_tax_return_id: itr4,
-        name: "Charitable contributions",
-        price: 105
+        individual_tax_return_id:         itr4,
+        name: random_name_itemized_deduction(),
+        price:              Enum.random(1..99)
       }),
       Services.update_individual_itemized_deduction(iid5, %{
-        individual_tax_return_id: itr5,
+        individual_tax_return_id:         itr5,
         name: random_name_itemized_deduction(),
-        price: Enum.random(1..99)
+        price:              Enum.random(1..99)
       }),
       Services.update_individual_itemized_deduction(iid6, %{
-        individual_tax_return_id: itr6,
+        individual_tax_return_id:         itr6,
         name: random_name_itemized_deduction(),
-        price: Enum.random(1..99)
+        price:              Enum.random(1..99)
       })
     ]
   end
@@ -1666,15 +1606,15 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_individual_stock_transaction_count(itc1, %{
-        individual_tax_return_id: itr1,
-        name: "6-50"
+        individual_tax_return_id:              itr1,
+        name: random_name_stock_transaction_count()
       }),
       Services.update_individual_stock_transaction_count(itc2, %{
-        individual_tax_return_id: itr2,
+        individual_tax_return_id:              itr2,
         name: random_name_stock_transaction_count()
       }),
       Services.update_individual_stock_transaction_count(itc3, %{
-        individual_tax_return_id: itr3,
+        individual_tax_return_id:              itr3,
         name: random_name_stock_transaction_count()
       })
     ]
@@ -1711,28 +1651,28 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_sale_tax(st1, %{
-        deadline:            date,
-        financial_situation: "some situation",
-        sale_tax_count:                     5,
-        state:        ["Alabama", "New York"],
-        user_id:                          tp1
+        deadline:                         date,
+        financial_situation:  Lorem.sentence(),
+        sale_tax_count:       random_integer(),
+        state:                  random_state(),
+        user_id:                           tp1
       }),
       Services.update_sale_tax(st2, %{
-        deadline:             Date.utc_today(),
+        deadline:                         date,
         financial_situation:  Lorem.sentence(),
         sale_tax_count:       random_integer(),
         state:                  random_state(),
         user_id:                           tp2
       }),
       Services.update_sale_tax(st3, %{
-        deadline:             Date.utc_today(),
+        deadline:                         date,
         financial_situation:  Lorem.sentence(),
         sale_tax_count:       random_integer(),
         state:                  random_state(),
         user_id:                           tp3
       }),
       Services.update_sale_tax(st4, %{
-        price_sale_tax_count:               45,
+        price_sale_tax_count: random_integer(),
         user_id:                          pro1
       }),
       Services.update_sale_tax(st5, %{
@@ -1763,7 +1703,7 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_sale_tax_frequency(stf1, %{
-        name: "Annually"
+        name: random_name_tax_frequency()
       }),
       Services.update_sale_tax_frequency(stf2, %{
         name: random_name_tax_frequency()
@@ -1772,16 +1712,16 @@ defmodule Core.Seeder.Updated.Services do
         name: random_name_tax_frequency()
       }),
       Services.update_sale_tax_frequency(stf4, %{
-        name: "Annually",
-        price: 150
+        name: random_name_tax_frequency(),
+        price:           random_integer()
       }),
       Services.update_sale_tax_frequency(stf5, %{
         name: random_name_tax_frequency(),
-        price: random_integer()
+        price:           random_integer()
       }),
       Services.update_sale_tax_frequency(stf6, %{
         name: random_name_tax_frequency(),
-        price: random_integer()
+        price:           random_integer()
       })
     ]
   end
@@ -1803,7 +1743,7 @@ defmodule Core.Seeder.Updated.Services do
 
     [
       Services.update_sale_tax_industry(sti1, %{
-        name: ["Computer/Software/IT"]
+        name: random_name_for_tp_industry()
       }),
       Services.update_sale_tax_industry(sti2, %{
         name: random_name_for_tp_industry()
@@ -1812,7 +1752,7 @@ defmodule Core.Seeder.Updated.Services do
         name: random_name_for_tp_industry()
       }),
       Services.update_sale_tax_industry(sti4, %{
-        name: ["Agriculture/Farming", "Automotive Sales/Repair", "Computer/Software/IT", "Construction/Contractors", "Consulting"]
+        name: random_name_for_pro_industry()
       }),
       Services.update_sale_tax_industry(sti5, %{
         name: random_name_for_pro_industry()
