@@ -104,7 +104,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.WorkExperienceResolverTest do
   end
 
   describe "#create" do
-    it "creates WorkExperience" do
+    it "creates WorkExperience for role Pro" do
       pro = insert(:pro_user)
       args = %{name: "some text", start_date: Date.utc_today(), end_date: Date.utc_today(), user_id: pro.id}
       user = Core.Accounts.User.find_by(id: args.user_id)
@@ -114,6 +114,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.WorkExperienceResolverTest do
       assert created.start_date == args.start_date
       assert created.end_date   == args.end_date
       assert created.user_id    == args.user_id
+    end
+
+    it "creates WorkExperience for role Tp" do
+      tp = insert(:tp_user)
+      args = %{name: "some text", start_date: Date.utc_today(), end_date: Date.utc_today(), user_id: tp.id}
+      user = Core.Accounts.User.find_by(id: args.user_id)
+      context = %{context: %{current_user: user}}
+      {:error, error} = WorkExperienceResolver.create(nil, args, context)
+      assert error == []
     end
 
     it "returns error for missing params by user_id" do

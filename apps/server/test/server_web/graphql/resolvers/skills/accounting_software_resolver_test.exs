@@ -134,13 +134,22 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.AccountingSoftwareResolverTest do
   end
 
   describe "#create" do
-    it "creates AccountingSoftware" do
+    it "creates AccountingSoftware for role Pro" do
       pro = insert(:pro_user)
       args = %{name: ["QuickBooks Desktop Premier"], user_id: pro.id}
       user = Core.Accounts.User.find_by(id: args.user_id)
       context = %{context: %{current_user: user}}
       {:ok, created} = AccountingSoftwareResolver.create(nil, args, context)
       assert created.name == [:"#{args.name}"]
+    end
+
+    it "creates AccountingSoftware for role Tp" do
+      tp = insert(:tp_user)
+      args = %{name: ["QuickBooks Desktop Premier"], user_id: tp.id}
+      user = Core.Accounts.User.find_by(id: args.user_id)
+      context = %{context: %{current_user: user}}
+      {:error, error} = AccountingSoftwareResolver.create(nil, args, context)
+      assert error == []
     end
 
     it "returns error is not correct name" do

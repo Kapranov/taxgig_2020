@@ -112,7 +112,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.EducationResolverTest do
   end
 
   describe "#create" do
-    it "creates Education" do
+    it "creates Education for role Pro" do
       pro = insert(:pro_user)
       university = insert(:university)
       args = %{course: "some text", graduation: Date.utc_today(), university_id: university.id, user_id: pro.id}
@@ -123,6 +123,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.EducationResolverTest do
       assert created.graduation    == args.graduation
       assert created.university_id == args.university_id
       assert created.user_id       == args.user_id
+    end
+
+    it "creates Education for role Tp" do
+      tp = insert(:tp_user)
+      university = insert(:university)
+      args = %{course: "some text", graduation: Date.utc_today(), university_id: university.id, user_id: tp.id}
+      user = Core.Accounts.User.find_by(id: args.user_id)
+      context = %{context: %{current_user: user}}
+      {:error, error} = EducationResolver.create(nil, args, context)
+      assert error == []
     end
 
     it "returns error for missing params by user_id" do
