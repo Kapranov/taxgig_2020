@@ -37,6 +37,12 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.UniversityTypes do
       arg :name, non_null(:string)
       resolve &UniversityResolver.create/3
     end
+
+    @desc "Delete a specific the University"
+    field :delete_university, :university do
+      arg :id, non_null(:string)
+      resolve &UniversityResolver.delete/3
+    end
   end
 
   object :university_subscriptions do

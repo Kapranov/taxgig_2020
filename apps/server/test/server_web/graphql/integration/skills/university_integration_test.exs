@@ -9,12 +9,7 @@ defmodule ServerWeb.GraphQL.Integration.Skills.UniversityIntegrationTest do
       struct = insert(:university)
 
       query = """
-      {
-        allUniversities {
-          id
-          name
-        }
-      }
+      { allUniversities { id name } }
       """
       res =
         build_conn()
@@ -33,19 +28,13 @@ defmodule ServerWeb.GraphQL.Integration.Skills.UniversityIntegrationTest do
 
     it "returns universities - `Absinthe.run`" do
       struct = insert(:university)
-      context = %{}
 
       query = """
-      {
-        allUniversities {
-          id
-          name
-        }
-      }
+      { allUniversities { id name } }
       """
 
       {:ok, %{data: %{"allUniversities" => data}}} =
-        Absinthe.run(query, Schema, context: context)
+        Absinthe.run(query, Schema, context: %{})
 
       first = hd(data)
 
@@ -59,12 +48,7 @@ defmodule ServerWeb.GraphQL.Integration.Skills.UniversityIntegrationTest do
       struct = insert(:university)
 
       query = """
-      {
-        showUniversity(id: \"#{struct.id}\") {
-          id
-          name
-        }
-      }
+      { showUniversity(id: \"#{struct.id}\") { id name } }
       """
 
       res =
@@ -81,19 +65,13 @@ defmodule ServerWeb.GraphQL.Integration.Skills.UniversityIntegrationTest do
 
     it "returns specific university by id - `Absinthe.run`" do
       struct = insert(:university)
-      context = %{}
 
       query = """
-      {
-        showUniversity(id: \"#{struct.id}\") {
-          id
-          name
-        }
-      }
+      { showUniversity(id: \"#{struct.id}\") { id name } }
       """
 
       {:ok, %{data: %{"showUniversity" => found}}} =
-        Absinthe.run(query, Schema, context: context)
+        Absinthe.run(query, Schema, context: %{})
 
       assert found["id"]   == struct.id
       assert found["name"] == struct.name
@@ -101,15 +79,9 @@ defmodule ServerWeb.GraphQL.Integration.Skills.UniversityIntegrationTest do
 
     it "returns not found when university does not exist - `AbsintheHelpers`" do
       id = FlakeId.get()
-      insert(:university)
 
       query = """
-      {
-        showUniversity(id: \"#{id}\") {
-          id
-          name
-        }
-      }
+      { showUniversity(id: \"#{id}\") { id name } }
       """
 
       res =
@@ -121,20 +93,13 @@ defmodule ServerWeb.GraphQL.Integration.Skills.UniversityIntegrationTest do
 
     it "returns not found when university does not exist - `Absinthe.run`" do
       id = FlakeId.get()
-      insert(:university)
-      context = %{}
 
       query = """
-      {
-        showUniversity(id: \"#{id}\") {
-          id
-          name
-        }
-      }
+      { showUniversity(id: \"#{id}\") { id name } }
       """
 
       {:ok, %{data: %{"showUniversity" => found}}} =
-        Absinthe.run(query, Schema, context: context)
+        Absinthe.run(query, Schema, context: %{})
 
       assert found == nil
     end
@@ -143,12 +108,7 @@ defmodule ServerWeb.GraphQL.Integration.Skills.UniversityIntegrationTest do
       insert(:university)
 
       query = """
-      {
-        showUniversity(id: nil) {
-          id
-          name
-        }
-      }
+      { showUniversity(id: nil) { id name } }
       """
 
       res =
@@ -159,20 +119,12 @@ defmodule ServerWeb.GraphQL.Integration.Skills.UniversityIntegrationTest do
     end
 
     it "returns error for missing params - `Absinthe.run`" do
-      insert(:university)
-      context = %{}
-
       query = """
-      {
-        showUniversity(id: nil) {
-          id
-          name
-        }
-      }
+      { showUniversity(id: nil) { id name } }
       """
 
       {:ok, %{errors: error}} =
-        Absinthe.run(query, Schema, context: context)
+        Absinthe.run(query, Schema, context: %{})
 
       assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
@@ -196,14 +148,12 @@ defmodule ServerWeb.GraphQL.Integration.Skills.UniversityIntegrationTest do
     end
 
     it "creates university - `Absinthe.run`" do
-      context = %{}
-
       query = """
       mutation {createUniversity(name: "some text") { id name }}
       """
 
       {:ok, %{data: %{"createUniversity" => created}}} =
-        Absinthe.run(query, Schema, context: context)
+        Absinthe.run(query, Schema, context: %{})
 
       assert created["name"] == "some text"
     end
@@ -221,14 +171,12 @@ defmodule ServerWeb.GraphQL.Integration.Skills.UniversityIntegrationTest do
     end
 
     it "returns error for missing params - `Absinthe.run`" do
-      context = %{}
-
       query = """
       mutation {createUniversity(name: nil) { id name }}
       """
 
       {:ok, %{errors: error}} =
-        Absinthe.run(query, Schema, context: context)
+        Absinthe.run(query, Schema, context: %{})
 
       assert hd(error).message == "Argument \"name\" has invalid value nil."
     end
@@ -237,7 +185,6 @@ defmodule ServerWeb.GraphQL.Integration.Skills.UniversityIntegrationTest do
   describe "#delete" do
     it "delete specific university by id - `AbsintheHelpers`" do
       struct = insert(:university)
-      user = Core.Accounts.User.find_by(id: struct.user_id)
 
       query = """
       mutation {deleteUniversity(id: \"#{struct.id}\") {id}}
@@ -254,18 +201,64 @@ defmodule ServerWeb.GraphQL.Integration.Skills.UniversityIntegrationTest do
     end
 
     it "delete specific university by id - `Absinthe.run`" do
+      struct = insert(:university)
+
+      query = """
+      mutation {deleteUniversity(id: \"#{struct.id}\") {id}}
+      """
+
+      {:ok, %{data: %{"deleteUniversity" => deleted}}} =
+        Absinthe.run(query, Schema, context: %{})
+
+      assert deleted["id"] == struct.id
     end
 
     it "returns not found when university does not exist - `AbsintheHelpers`" do
+      id = FlakeId.get()
+
+      query = """
+      mutation {deleteUniversity(id: \"#{id}\") {id}}
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert hd(json_response(res, 200)["errors"])["message"] == "The University #{id} not found!"
     end
 
     it "returns not found when university does not exist - `Absinthe.run`" do
+      id = FlakeId.get()
+
+      query = """
+      mutation {deleteUniversity(id: \"#{id}\") {id}}
+      """
+
+      {:ok, %{data: %{"deleteUniversity" => deleted}}} =
+        Absinthe.run(query, Schema, context: %{})
+
+      assert deleted == nil
     end
 
     it "returns error for missing params - `AbsintheHelpers`" do
+      query = """
+      mutation {deleteUniversity(id: nil) {id}}
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"id\" has invalid value nil."
     end
 
     it "returns error for missing params - `Absinthe.run`" do
+      query = """
+      mutation {deleteUniversity(id: nil) {id}}
+      """
+
+      {:ok, %{errors: error}} = Absinthe.run(query, Schema, context: %{})
+      assert hd(error).message == "Argument \"id\" has invalid value nil."
     end
   end
 end
