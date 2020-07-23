@@ -15,13 +15,14 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.AccountingSoftwareTypes do
   @desc "An accounting_software on the site"
   object :accounting_software, description: "AccountingSoftware" do
     field :id, non_null(:string), description: "unique identifier"
-    field :name, :string, description: "faq category title"
+    field :name, list_of(:string), description: "name of list"
     field :user, :user, resolve: dataloader(Data)
   end
 
   @desc "The accounting software update via params"
   input_object :update_accounting_software_params, description: "create AccountingSoftware" do
-    field :name, non_null(:string), description: "Required name"
+    field :name, list_of(:string), description: "Required name"
+    field :user_id, :string, description: "Required userId"
   end
 
   object :accounting_software_queries do
@@ -40,7 +41,7 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.AccountingSoftwareTypes do
   object :accounting_software_mutations do
     @desc "Create an AccountingSoftware"
     field :create_accounting_software, :accounting_software, description: "Create a new AccountingSoftware" do
-      arg :name, non_null(:string)
+      arg :name, list_of(:string)
       arg :user_id, non_null(:string)
       resolve &AccountingSoftwareResolver.create/3
     end

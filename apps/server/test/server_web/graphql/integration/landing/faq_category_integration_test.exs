@@ -262,7 +262,6 @@ defmodule ServerWeb.GraphQL.Integration.Landing.FaqCategoryIntegrationTest do
       assert found["faqs_count"]  == struct.faqs_count
       assert found["title"]       == struct.title
       assert found["faqs"]        == []
-
     end
 
     it "returns specific faq category by id - `Absinthe.run`" do
