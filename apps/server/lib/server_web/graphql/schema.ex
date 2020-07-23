@@ -155,6 +155,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:subscriber_mutations)
     import_fields(:user_mutations)
     import_fields(:vacancy_mutations)
+    import_fields(:work_experience_mutations)
     import_fields(:update_book_keeping_additional_need_params)
     import_fields(:update_book_keeping_annual_revenue_params)
     import_fields(:update_book_keeping_classify_inventory_params)
@@ -191,6 +192,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:update_subscriber_params)
     import_fields(:update_user_params)
     import_fields(:update_vacancy_params)
+    import_fields(:update_work_experience_params)
   end
 
   @desc "The root subscription type."
