@@ -213,9 +213,9 @@ defmodule Core.Accounts do
     Repo.all(User)
     |> Repo.preload([
       :accounting_software,
-      :education,
       :languages,
-      :work_experience
+      :work_experience,
+      education: [:university],
     ])
   end
 
@@ -271,9 +271,9 @@ defmodule Core.Accounts do
     Repo.get!(User, id)
     |> Repo.preload([
       :accounting_software,
-      :education,
       :languages,
-      :work_experience
+      :work_experience,
+      education: [:university],
     ])
   end
 

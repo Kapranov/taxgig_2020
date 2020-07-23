@@ -21,7 +21,16 @@ defmodule Core.Skills do
       [%AccountingSoftware{}, ...]
   """
   @spec list_accounting_software() :: [AccountingSoftware.t()]
-  def list_accounting_software, do: Repo.all(AccountingSoftware)
+  def list_accounting_software do
+    Repo.all(AccountingSoftware)
+    |> Repo.preload([
+      user: [
+        :languages,
+        :work_experience,
+        education: [:university],
+      ]
+    ])
+  end
 
   @doc """
   Gets a single AccountingSoftware.
@@ -38,7 +47,16 @@ defmodule Core.Skills do
 
   """
   @spec get_accounting_software!(String.t()) :: AccountingSoftware.t() | error_tuple()
-  def get_accounting_software!(id), do: Repo.get!(AccountingSoftware, id)
+  def get_accounting_software!(id) do
+    Repo.get!(AccountingSoftware, id)
+    |> Repo.preload([
+      user: [
+        :languages,
+        :work_experience,
+        education: [:university],
+      ]
+    ])
+  end
 
   @doc """
   Creates AccountingSoftware.
@@ -126,7 +144,13 @@ defmodule Core.Skills do
       [%Education{}, ...]
   """
   @spec list_education() :: [Education.t()]
-  def list_education, do: Repo.all(Education)
+  def list_education do
+    Repo.all(Education)
+    |> Repo.preload([
+      :university,
+      user: [:languages]
+    ])
+  end
 
   @doc """
   Gets a single Education.
@@ -143,7 +167,13 @@ defmodule Core.Skills do
 
   """
   @spec get_education!(String.t()) :: Education.t() | error_tuple()
-  def get_education!(id), do: Repo.get!(Education, id)
+  def get_education!(id) do
+    Repo.get!(Education, id)
+    |> Repo.preload([
+      :university,
+      user: [:languages]
+    ])
+  end
 
   @doc """
   Creates Education.

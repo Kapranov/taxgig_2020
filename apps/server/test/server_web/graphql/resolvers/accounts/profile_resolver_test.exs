@@ -29,7 +29,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolverTest do
       assert List.first(data).logo.inserted_at  == struct.logo.inserted_at
       assert List.first(data).logo.updated_at   == struct.logo.updated_at
       assert List.first(data).us_zipcode_id     == struct.us_zipcode_id
-      assert List.first(data).user_id           == struct.user_id
       assert List.first(data).user.id           == struct.user.id
       assert List.first(data).user.avatar       == struct.user.avatar
       assert List.first(data).user.active       == struct.user.active
