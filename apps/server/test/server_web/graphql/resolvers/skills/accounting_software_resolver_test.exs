@@ -242,7 +242,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.AccountingSoftwareResolverTest do
       {:error, %Ecto.Changeset{}} = AccountingSoftwareResolver.update(nil, args, context)
     end
 
-    it "nothing change for missing params" do
+    it "returns error for missing params" do
       struct = insert(:accounting_software)
       user = Core.Accounts.User.find_by(id: struct.user_id)
       context = %{context: %{current_user: user}}
