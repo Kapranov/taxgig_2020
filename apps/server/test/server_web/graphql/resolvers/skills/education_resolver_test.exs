@@ -250,7 +250,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.EducationResolverTest do
       assert deleted.id == struct.id
     end
 
-    it "returns not found when profile does not exist" do
+    it "returns not found when Education does not exist" do
       id = FlakeId.get()
       struct = insert(:education)
       user = Core.Accounts.User.find_by(id: struct.user_id)

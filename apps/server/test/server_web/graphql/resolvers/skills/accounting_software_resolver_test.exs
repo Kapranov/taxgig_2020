@@ -280,7 +280,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.AccountingSoftwareResolverTest do
       assert deleted.id == struct.id
     end
 
-    it "returns not found when profile does not exist" do
+    it "returns not found when AccountingSoftware does not exist" do
       id = FlakeId.get()
       struct = insert(:accounting_software)
       user = Core.Accounts.User.find_by(id: struct.user_id)

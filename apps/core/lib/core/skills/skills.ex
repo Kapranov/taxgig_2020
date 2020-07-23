@@ -319,7 +319,16 @@ defmodule Core.Skills do
       [%WorkExperience{}, ...]
   """
   @spec list_work_experience() :: [WorkExperience.t()]
-  def list_work_experience, do: Repo.all(WorkExperience)
+  def list_work_experience do
+    Repo.all(WorkExperience)
+    |> Repo.preload([
+      user: [
+        :accounting_software,
+        :languages,
+        education: [:university],
+      ]
+    ])
+  end
 
   @doc """
   Gets a single WorkExperience.
@@ -336,7 +345,16 @@ defmodule Core.Skills do
 
   """
   @spec get_work_experience!(String.t()) :: WorkExperience.t() | error_tuple()
-  def get_work_experience!(id), do: Repo.get!(WorkExperience, id)
+  def get_work_experience!(id) do
+    Repo.get!(WorkExperience, id)
+    |> Repo.preload([
+      user: [
+        :accounting_software,
+        :languages,
+        education: [:university],
+      ]
+    ])
+  end
 
   @doc """
   Creates WorkExperience.
