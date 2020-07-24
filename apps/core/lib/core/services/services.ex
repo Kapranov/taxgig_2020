@@ -693,152 +693,62 @@ defmodule Core.Services do
   """
   @spec create_book_keeping(%{atom => any}) :: result() | error_tuple()
   def create_book_keeping(attrs \\ @tp_book_keeping_attrs) do
-    get_role_by_user =
-      case attrs[:user_id] do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^attrs.user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
-      end
-
-    query =
-      case attrs[:user_id] do
-        nil -> nil
-        _ ->
-          from c in BookKeeping,
-          where: c.user_id == ^attrs.user_id
-      end
-
-    match_value_relate_changeset =
-      MatchValueRelate.changeset(%MatchValueRelate{}, @match_value_relate_attrs)
-
-    book_keeping_changeset =
-      BookKeeping.changeset(%BookKeeping{}, attrs)
-
-    case get_role_by_user do
-      nil -> {:error, %Changeset{}}
-      false ->
-        case Repo.aggregate(query, :count, :user_id) do
-          0 ->
+    case Map.keys(attrs) do
+      @tp_book_keeping_params ->
+        case Accounts.get_user!(attrs.user_id).role do
+          false ->
             case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
               false ->
-                case sort_keys(attrs) do
-                  @tp_book_keeping_params ->
-                    Multi.new
-                    |> Multi.insert(:match_value_relate, match_value_relate_changeset)
-                    |> Multi.insert(:book_keepings, book_keeping_changeset)
-                    |> Multi.run(:book_keeping_additional_need, fn _, %{book_keepings: book_keeping} ->
-                      book_keeping_additional_need_changeset =
-                        %BookKeepingAdditionalNeed{book_keeping_id: book_keeping.id}
-                      Repo.insert(book_keeping_additional_need_changeset)
-                    end)
-                    |> Multi.run(:book_keeping_annual_revenue, fn _, %{book_keepings: book_keeping} ->
-                      book_keeping_annual_revenue_changeset =
-                        %BookKeepingAnnualRevenue{book_keeping_id: book_keeping.id}
-                      Repo.insert(book_keeping_annual_revenue_changeset)
-                    end)
-                    |> Multi.run(:book_keeping_classify_inventory, fn _, %{book_keepings: book_keeping} ->
-                      book_keeping_classify_inventory_changeset =
-                        %BookKeepingClassifyInventory{book_keeping_id: book_keeping.id}
-                      Repo.insert(book_keeping_classify_inventory_changeset)
-                    end)
-                    |> Multi.run(:book_keeping_industry, fn _, %{book_keepings: book_keeping} ->
-                      book_keeping_industry_changeset =
-                        %BookKeepingIndustry{book_keeping_id: book_keeping.id}
-                      Repo.insert(book_keeping_industry_changeset)
-                    end)
-                    |> Multi.run(:book_keeping_number_employee, fn _, %{book_keepings: book_keeping} ->
-                      book_keeping_number_employee_changeset =
-                        %BookKeepingNumberEmployee{book_keeping_id: book_keeping.id}
-                      Repo.insert(book_keeping_number_employee_changeset)
-                    end)
-                    |> Multi.run(:book_keeping_transaction_volume, fn _, %{book_keepings: book_keeping} ->
-                      book_keeping_transaction_volume_changeset =
-                        %BookKeepingTransactionVolume{book_keeping_id: book_keeping.id}
-                      Repo.insert(book_keeping_transaction_volume_changeset)
-                    end)
-                    |> Multi.run(:book_keeping_type_client, fn _, %{book_keepings: book_keeping} ->
-                      book_keeping_type_client_changeset =
-                        %BookKeepingTypeClient{book_keeping_id: book_keeping.id}
-                      Repo.insert(book_keeping_type_client_changeset)
-                    end)
-                    |> Repo.transaction()
-                    |> case do
-                      {:ok, %{book_keepings: book_keeping}} ->
-                        {:ok, book_keeping}
-                      {:error, :book_keepings, %Changeset{} = changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                      {:error, _model, changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                    end
-                  _ -> {:error, %Changeset{}}
+                Multi.new
+                |> Multi.insert(:match_value_relate, @match_value_relate_changeset)
+                |> Multi.insert(:book_keepings, BookKeeping.changeset(%BookKeeping{}, attrs))
+                |> Multi.run(:book_keeping_additional_need, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_additional_need_changeset =
+                    %BookKeepingAdditionalNeed{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_additional_need_changeset)
+                end)
+                |> Multi.run(:book_keeping_annual_revenue, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_annual_revenue_changeset =
+                    %BookKeepingAnnualRevenue{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_annual_revenue_changeset)
+                end)
+                |> Multi.run(:book_keeping_classify_inventory, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_classify_inventory_changeset =
+                    %BookKeepingClassifyInventory{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_classify_inventory_changeset)
+                end)
+                |> Multi.run(:book_keeping_industry, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_industry_changeset =
+                    %BookKeepingIndustry{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_industry_changeset)
+                end)
+                |> Multi.run(:book_keeping_number_employee, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_number_employee_changeset =
+                    %BookKeepingNumberEmployee{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_number_employee_changeset)
+                end)
+                |> Multi.run(:book_keeping_transaction_volume, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_transaction_volume_changeset =
+                    %BookKeepingTransactionVolume{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_transaction_volume_changeset)
+                end)
+                |> Multi.run(:book_keeping_type_client, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_type_client_changeset =
+                    %BookKeepingTypeClient{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_type_client_changeset)
+                end)
+                |> Repo.transaction()
+                |> case do
+                  {:ok, %{book_keepings: book_keeping}} ->
+                    {:ok, book_keeping}
+                  {:error, :book_keepings, %Changeset{} = changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                  {:error, _model, changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
                 end
               true ->
-                case sort_keys(attrs) do
-                  @tp_book_keeping_params ->
-                    Multi.new
-                    |> Multi.insert(:book_keepings, book_keeping_changeset)
-                    |> Multi.run(:book_keeping_additional_need, fn _, %{book_keepings: book_keeping} ->
-                      book_keeping_additional_need_changeset =
-                        %BookKeepingAdditionalNeed{book_keeping_id: book_keeping.id}
-                      Repo.insert(book_keeping_additional_need_changeset)
-                    end)
-                    |> Multi.run(:book_keeping_annual_revenue, fn _, %{book_keepings: book_keeping} ->
-                      book_keeping_annual_revenue_changeset =
-                        %BookKeepingAnnualRevenue{book_keeping_id: book_keeping.id}
-                      Repo.insert(book_keeping_annual_revenue_changeset)
-                    end)
-                    |> Multi.run(:book_keeping_classify_inventory, fn _, %{book_keepings: book_keeping} ->
-                      book_keeping_classify_inventory_changeset =
-                        %BookKeepingClassifyInventory{book_keeping_id: book_keeping.id}
-                      Repo.insert(book_keeping_classify_inventory_changeset)
-                    end)
-                    |> Multi.run(:book_keeping_industry, fn _, %{book_keepings: book_keeping} ->
-                      book_keeping_industry_changeset =
-                        %BookKeepingIndustry{book_keeping_id: book_keeping.id}
-                      Repo.insert(book_keeping_industry_changeset)
-                    end)
-                    |> Multi.run(:book_keeping_number_employee, fn _, %{book_keepings: book_keeping} ->
-                      book_keeping_number_employee_changeset =
-                        %BookKeepingNumberEmployee{book_keeping_id: book_keeping.id}
-                      Repo.insert(book_keeping_number_employee_changeset)
-                    end)
-                    |> Multi.run(:book_keeping_transaction_volume, fn _, %{book_keepings: book_keeping} ->
-                      book_keeping_transaction_volume_changeset =
-                        %BookKeepingTransactionVolume{book_keeping_id: book_keeping.id}
-                      Repo.insert(book_keeping_transaction_volume_changeset)
-                    end)
-                    |> Multi.run(:book_keeping_type_client, fn _, %{book_keepings: book_keeping} ->
-                      book_keeping_type_client_changeset =
-                        %BookKeepingTypeClient{book_keeping_id: book_keeping.id}
-                      Repo.insert(book_keeping_type_client_changeset)
-                    end)
-                    |> Repo.transaction()
-                    |> case do
-                      {:ok, %{book_keepings: book_keeping}} ->
-                        {:ok, book_keeping}
-                      {:error, :book_keepings, %Changeset{} = changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                      {:error, _model, changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                    end
-                  _ -> {:error, %Changeset{}}
-                end
-            end
-          _ -> {:error, [field: :user_id, message: "Your role have been restricted for create BookKeeping"]}
-        end
-      true ->
-        case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
-          false ->
-            case sort_keys(attrs) do
-              @pro_book_keeping_params ->
                 Multi.new
-                |> Multi.insert(:match_value_relate, match_value_relate_changeset)
-                |> Multi.insert(:book_keepings, book_keeping_changeset)
+                |> Multi.insert(:book_keepings, BookKeeping.changeset(%BookKeeping{}, attrs))
                 |> Multi.run(:book_keeping_additional_need, fn _, %{book_keepings: book_keeping} ->
                   book_keeping_additional_need_changeset =
                     %BookKeepingAdditionalNeed{book_keeping_id: book_keeping.id}
@@ -848,6 +758,11 @@ defmodule Core.Services do
                   book_keeping_annual_revenue_changeset =
                     %BookKeepingAnnualRevenue{book_keeping_id: book_keeping.id}
                   Repo.insert(book_keeping_annual_revenue_changeset)
+                end)
+                |> Multi.run(:book_keeping_classify_inventory, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_classify_inventory_changeset =
+                    %BookKeepingClassifyInventory{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_classify_inventory_changeset)
                 end)
                 |> Multi.run(:book_keeping_industry, fn _, %{book_keepings: book_keeping} ->
                   book_keeping_industry_changeset =
@@ -878,13 +793,18 @@ defmodule Core.Services do
                   {:error, _model, changeset, _completed} ->
                     {:error, extract_error_msg(changeset)}
                 end
-              _ -> {:error, %Changeset{}}
             end
+          true -> {:error, %Changeset{}}
+        end
+      @pro_book_keeping_params ->
+        case Accounts.get_user!(attrs.user_id).role do
+          false -> {:error, %Changeset{}}
           true ->
-            case sort_keys(attrs) do
-              @pro_book_keeping_params ->
+            case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
+              false ->
                 Multi.new
-                |> Multi.insert(:book_keepings, book_keeping_changeset)
+                |> Multi.insert(:match_value_relate, @match_value_relate_changeset)
+                |> Multi.insert(:book_keepings, BookKeeping.changeset(%BookKeeping{}, attrs))
                 |> Multi.run(:book_keeping_additional_need, fn _, %{book_keepings: book_keeping} ->
                   book_keeping_additional_need_changeset =
                     %BookKeepingAdditionalNeed{book_keeping_id: book_keeping.id}
@@ -924,9 +844,51 @@ defmodule Core.Services do
                   {:error, _model, changeset, _completed} ->
                     {:error, extract_error_msg(changeset)}
                 end
-              _ -> {:error, %Changeset{}}
+              true ->
+                Multi.new
+                |> Multi.insert(:book_keepings, BookKeeping.changeset(%BookKeeping{}, attrs))
+                |> Multi.run(:book_keeping_additional_need, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_additional_need_changeset =
+                    %BookKeepingAdditionalNeed{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_additional_need_changeset)
+                end)
+                |> Multi.run(:book_keeping_annual_revenue, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_annual_revenue_changeset =
+                    %BookKeepingAnnualRevenue{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_annual_revenue_changeset)
+                end)
+                |> Multi.run(:book_keeping_industry, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_industry_changeset =
+                    %BookKeepingIndustry{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_industry_changeset)
+                end)
+                |> Multi.run(:book_keeping_number_employee, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_number_employee_changeset =
+                    %BookKeepingNumberEmployee{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_number_employee_changeset)
+                end)
+                |> Multi.run(:book_keeping_transaction_volume, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_transaction_volume_changeset =
+                    %BookKeepingTransactionVolume{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_transaction_volume_changeset)
+                end)
+                |> Multi.run(:book_keeping_type_client, fn _, %{book_keepings: book_keeping} ->
+                  book_keeping_type_client_changeset =
+                    %BookKeepingTypeClient{book_keeping_id: book_keeping.id}
+                  Repo.insert(book_keeping_type_client_changeset)
+                end)
+                |> Repo.transaction()
+                |> case do
+                  {:ok, %{book_keepings: book_keeping}} ->
+                    {:ok, book_keeping}
+                  {:error, :book_keepings, %Changeset{} = changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                  {:error, _model, changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                end
             end
         end
+      _ -> {:error, %Changeset{}}
     end
   end
 
@@ -944,66 +906,30 @@ defmodule Core.Services do
   """
   @spec update_book_keeping(BookKeeping.t(), %{atom => any}) :: result() | error_tuple()
   def update_book_keeping(%BookKeeping{} = struct, attrs) do
-    get_role_by_user =
-      case struct.user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^struct.user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
+     tp_attrs = Map.drop(attrs, [:price_payroll])
+    pro_attrs = Map.drop(attrs, [
+      :account_count,
+      :balance_sheet,
+      :deadline,
+      :financial_situation,
+      :inventory,
+      :inventory_count,
+      :tax_return_current,
+      :tax_year
+    ])
+    if attrs.user_id == struct.user_id do
+      case Accounts.get_user!(struct.user_id).role do
+        false ->
+          struct
+          |> BookKeeping.changeset(tp_attrs)
+          |> Repo.update()
+        true ->
+          struct
+          |> BookKeeping.changeset(pro_attrs)
+          |> Repo.update()
       end
-
-    query =
-      case struct.id do
-        nil -> nil
-        _ ->
-          from c in BookKeeping,
-          where: c.id == ^struct.id,
-          select: c.id
-      end
-
-    tp_params = ~w(
-      price_payroll
-      user_id
-    )a
-
-    pro_params = ~w(
-      account_count
-      balance_sheet
-      deadline
-      financial_situation
-      inventory
-      inventory_count
-      tax_return_current
-      tax_year
-      user_id
-    )a
-
-    tp_attrs =
-      attrs
-      |> Map.drop(tp_params)
-
-    pro_attrs =
-      attrs
-      |> Map.drop(pro_params)
-
-    case get_role_by_user do
-      nil -> {:error, %Changeset{}}
-      false ->
-        case Repo.aggregate(query, :count, :id) do
-          1 ->
-            struct
-            |> BookKeeping.changeset(tp_attrs)
-            |> Repo.update()
-          _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
-        end
-      true ->
-        struct
-        |> BookKeeping.changeset(pro_attrs)
-        |> Repo.update()
+    else
+      {:error, %Changeset{}}
     end
   end
 
