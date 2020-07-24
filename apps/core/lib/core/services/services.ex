@@ -2788,92 +2788,55 @@ defmodule Core.Services do
   """
   @spec update_business_tax_return(BusinessTaxReturn.t(), %{atom => any}) :: result() | error_tuple()
   def update_business_tax_return(%BusinessTaxReturn{} = struct, attrs) do
-    get_role_by_user =
-      case struct.user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^struct.user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
+    tp_attrs = Map.drop(attrs, [:price_state, :price_tax_year])
+    pro_attrs = Map.drop(attrs, [
+      :accounting_software,
+      :capital_asset_sale,
+      :church_hospital,
+      :deadline,
+      :dispose_asset,
+      :dispose_property,
+      :educational_facility,
+      :financial_situation,
+      :foreign_account_interest,
+      :foreign_account_value_more,
+      :foreign_entity_interest,
+      :foreign_partner_count,
+      :foreign_shareholder,
+      :foreign_value,
+      :fundraising_over,
+      :has_contribution,
+      :has_loan,
+      :income_over_thousand,
+      :invest_research,
+      :k1_count,
+      :lobbying,
+      :make_distribution,
+      :operate_facility,
+      :property_sale,
+      :public_charity,
+      :rental_property_count,
+      :reported_grant,
+      :restricted_donation,
+      :state,
+      :tax_exemption,
+      :tax_year,
+      :total_asset_less,
+      :total_asset_over
+    ])
+    if attrs.user_id == struct.user_id do
+      case Accounts.get_user!(struct.user_id).role do
+        false ->
+          struct
+          |> BusinessTaxReturn.changeset(tp_attrs)
+          |> Repo.update()
+        true ->
+          struct
+          |> BusinessTaxReturn.changeset(pro_attrs)
+          |> Repo.update()
       end
-
-    query =
-      case struct.id do
-        nil -> nil
-        _ ->
-          from c in BusinessTaxReturn,
-          where: c.id == ^struct.id,
-          select: c.id
-      end
-
-    tp_params = ~w(
-      price_state
-      price_tax_year
-      user_id
-    )a
-
-    pro_params = ~w(
-      accounting_software
-      capital_asset_sale
-      church_hospital
-      deadline
-      dispose_asset
-      dispose_property
-      educational_facility
-      financial_situation
-      foreign_account_interest
-      foreign_account_value_more
-      foreign_entity_interest
-      foreign_partner_count
-      foreign_shareholder
-      foreign_value
-      fundraising_over
-      has_contribution
-      has_loan
-      income_over_thousand
-      invest_research
-      k1_count
-      lobbying
-      make_distribution
-      operate_facility
-      property_sale
-      public_charity
-      rental_property_count
-      reported_grant
-      restricted_donation
-      state
-      tax_exemption
-      tax_year
-      total_asset_less
-      total_asset_over
-      user_id
-    )a
-
-    tp_attrs =
-      attrs
-      |> Map.drop(tp_params)
-
-    pro_attrs =
-      attrs
-      |> Map.drop(pro_params)
-
-    case get_role_by_user do
-      nil -> {:error, %Changeset{}}
-      false ->
-        case Repo.aggregate(query, :count, :id) do
-          1 ->
-            struct
-            |> BusinessTaxReturn.changeset(tp_attrs)
-            |> Repo.update()
-          _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
-        end
-      true ->
-        struct
-        |> BusinessTaxReturn.changeset(pro_attrs)
-        |> Repo.update()
+    else
+      {:error, %Changeset{}}
     end
   end
 

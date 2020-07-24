@@ -466,8 +466,7 @@ defmodule Core.Services.BusinessTaxReturnTest do
       params = %{user_id: nil}
       attrs = [:password, :password_cofirmation]
       data = Services.get_business_tax_return!(struct.id)
-      assert {:error, %Ecto.Changeset{}} !=
-        Services.update_business_tax_return(struct, params)
+      assert {:error, %Ecto.Changeset{}} == Services.update_business_tax_return(struct, params)
       assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
@@ -857,7 +856,7 @@ defmodule Core.Services.BusinessTaxReturnTest do
       params = %{user_id: nil}
       attrs = [:password, :password_cofirmation]
       data = Services.get_business_tax_return!(struct.id)
-      assert {:error, %Ecto.Changeset{}} !=
+      assert {:error, %Ecto.Changeset{}} ==
         Services.update_business_tax_return(struct, params)
       assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
