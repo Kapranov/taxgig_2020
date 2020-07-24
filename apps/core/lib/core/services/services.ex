@@ -6,6 +6,7 @@ defmodule Core.Services do
   use Core.Context
 
   alias Core.{
+    Accounts,
     Accounts.User,
     Queries,
     Repo,
@@ -39,8 +40,8 @@ defmodule Core.Services do
     Services.SaleTaxIndustry
   }
 
-   tp_user = "9xLdkjWKKTjHbPdyls"
-  pro_user = "9xLdlpEGadgfb5iW3s"
+  @tp_user  "9xLdkjWKKTjHbPdyls"
+  @pro_user "9xLdlpEGadgfb5iW3s"
 
   @limit_record 3
 
@@ -187,13 +188,13 @@ defmodule Core.Services do
     payroll: true,
     tax_return_current: true,
     tax_year: ["2018", "2019"],
-    user_id: "#{tp_user}"
+    user_id: "#{@tp_user}"
   }
 
   # @pro_book_keeping_attrs %{
   #   payroll: true,
   #   price_payroll: 100,
-  #   user_id: "#{pro_user}"
+  #   user_id: "#{@pro_user}"
   # }
 
 
@@ -277,14 +278,14 @@ defmodule Core.Services do
     tax_year: ["2018", "2019"],
     total_asset_less: true,
     total_asset_over: true,
-    user_id: "#{tp_user}"
+    user_id: "#{@tp_user}"
   }
 
   @pro_business_tax_return_attrs %{
     none_expat: false,
     price_state: 50,
     price_tax_year: 40,
-    user_id: "#{pro_user}"
+    user_id: "#{@pro_user}"
   }
 
   @tp_business_entity_type_params ~w(
@@ -406,7 +407,7 @@ defmodule Core.Services do
     state: ["Ohio"],
     stock_divident: true,
     tax_year: ["2019"],
-    user_id: "#{tp_user}"
+    user_id: "#{@tp_user}"
   }
 
   @pro_individual_tax_return_attrs %{
@@ -428,7 +429,7 @@ defmodule Core.Services do
     price_tax_year: 38,
     rental_property_income: true,
     stock_divident: true,
-    user_id: "#{pro_user}"
+    user_id: "#{@pro_user}"
   }
 
   @tp_individual_employment_status_params ~w(
@@ -513,13 +514,15 @@ defmodule Core.Services do
     financial_situation: "some situation",
     sale_tax_count: 5,
     state: ["Alabama", "New York"],
-    user_id: "#{tp_user}"
+    user_id: "#{@tp_user}"
   }
 
   # @pro_sale_tax_attrs %{
   #   price_sale_tax_count: 45,
-  #   user_id: "#{pro_user}"
+  #   user_id: "#{@pro_user}"
   # }
+
+  @match_value_relate_changeset MatchValueRelate.changeset(%MatchValueRelate{}, @match_value_relate_attrs)
 
   @doc """
   Returns the list of match_value_relate.
@@ -6184,97 +6187,35 @@ defmodule Core.Services do
   """
   @spec create_sale_tax(%{atom => any}) :: result() | error_tuple()
   def create_sale_tax(attrs \\ @tp_sale_tax_attrs) do
-    get_role_by_user =
-      case attrs[:user_id] do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^attrs.user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
-      end
-
-    query =
-      case attrs[:user_id] do
-        nil -> nil
-        _ ->
-          from c in SaleTax,
-          where: c.user_id == ^attrs.user_id
-      end
-
-    match_value_relate_changeset =
-      MatchValueRelate.changeset(%MatchValueRelate{}, @match_value_relate_attrs)
-
-    sale_tax_changeset = SaleTax.changeset(%SaleTax{}, attrs)
-
-    case get_role_by_user do
-      nil -> {:error, %Changeset{}}
-      false ->
-        case Repo.aggregate(query, :count, :user_id) do
-          0 ->
+    case Map.keys(attrs) do
+      @tp_sale_tax_params ->
+        case Accounts.get_user!(attrs.user_id).role do
+          false ->
             case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
               false ->
-                case sort_keys(attrs) do
-                  @tp_sale_tax_params ->
-                    Multi.new
-                    |> Multi.insert(:match_value_relate, match_value_relate_changeset)
-                    |> Multi.insert(:sale_taxes, sale_tax_changeset)
-                    |> Multi.run(:sale_tax_frequency, fn _, %{sale_taxes: sale_tax} ->
-                      sale_tax_frequency_changeset = %SaleTaxFrequency{sale_tax_id: sale_tax.id}
-                      Repo.insert(sale_tax_frequency_changeset)
-                    end)
-                    |> Multi.run(:sale_tax_industry, fn _, %{sale_taxes: sale_tax} ->
-                      sale_tax_industry_changeset = %SaleTaxIndustry{sale_tax_id: sale_tax.id}
-                      Repo.insert(sale_tax_industry_changeset)
-                    end)
-                    |> Repo.transaction()
-                    |> case do
-                      {:ok, %{sale_taxes: sale_tax}} ->
-                        {:ok, sale_tax}
-                      {:error, :sale_taxes, %Changeset{} = changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                      {:error, _model, changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                    end
-                  _ -> {:error, %Changeset{}}
+                Multi.new
+                |> Multi.insert(:match_value_relate, @match_value_relate_changeset)
+                |> Multi.insert(:sale_taxes, SaleTax.changeset(%SaleTax{}, attrs))
+                |> Multi.run(:sale_tax_frequency, fn _, %{sale_taxes: sale_tax} ->
+                  sale_tax_frequency_changeset = %SaleTaxFrequency{sale_tax_id: sale_tax.id}
+                  Repo.insert(sale_tax_frequency_changeset)
+                end)
+                |> Multi.run(:sale_tax_industry, fn _, %{sale_taxes: sale_tax} ->
+                  sale_tax_industry_changeset = %SaleTaxIndustry{sale_tax_id: sale_tax.id}
+                  Repo.insert(sale_tax_industry_changeset)
+                end)
+                |> Repo.transaction()
+                |> case do
+                  {:ok, %{sale_taxes: sale_tax}} ->
+                    {:ok, sale_tax}
+                  {:error, :sale_taxes, %Changeset{} = changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                  {:error, _model, changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
                 end
               true ->
-                case sort_keys(attrs) do
-                  @tp_sale_tax_params ->
-                    Multi.new
-                    |> Multi.insert(:sale_taxes, sale_tax_changeset)
-                    |> Multi.run(:sale_tax_frequency, fn _, %{sale_taxes: sale_tax} ->
-                      sale_tax_frequency_changeset = %SaleTaxFrequency{sale_tax_id: sale_tax.id}
-                      Repo.insert(sale_tax_frequency_changeset)
-                    end)
-                    |> Multi.run(:sale_tax_industry, fn _, %{sale_taxes: sale_tax} ->
-                      sale_tax_industry_changeset = %SaleTaxIndustry{sale_tax_id: sale_tax.id}
-                      Repo.insert(sale_tax_industry_changeset)
-                    end)
-                    |> Repo.transaction()
-                    |> case do
-                      {:ok, %{sale_taxes: sale_tax}} ->
-                        {:ok, sale_tax}
-                      {:error, :sale_taxes, %Changeset{} = changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                      {:error, _model, changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                    end
-                  _ -> {:error, %Changeset{}}
-                end
-            end
-          _ -> {:error, [field: :user_id, message: "Your role have been restricted for create SaleTax"]}
-        end
-      true ->
-        case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
-          false ->
-            case sort_keys(attrs) do
-              @pro_sale_tax_params ->
                 Multi.new
-                |> Multi.insert(:match_value_relate, match_value_relate_changeset)
-                |> Multi.insert(:sale_taxes, sale_tax_changeset)
+                |> Multi.insert(:sale_taxes, SaleTax.changeset(%SaleTax{}, attrs))
                 |> Multi.run(:sale_tax_frequency, fn _, %{sale_taxes: sale_tax} ->
                   sale_tax_frequency_changeset = %SaleTaxFrequency{sale_tax_id: sale_tax.id}
                   Repo.insert(sale_tax_frequency_changeset)
@@ -6292,13 +6233,18 @@ defmodule Core.Services do
                   {:error, _model, changeset, _completed} ->
                     {:error, extract_error_msg(changeset)}
                 end
-              _ -> {:error, %Changeset{}}
             end
+          true -> {:error, %Changeset{}}
+        end
+      @pro_sale_tax_params ->
+        case Accounts.get_user!(attrs.user_id).role do
+          false -> {:error, %Changeset{}}
           true ->
-            case sort_keys(attrs) do
-              @pro_sale_tax_params ->
+            case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
+              false ->
                 Multi.new
-                |> Multi.insert(:sale_taxes, sale_tax_changeset)
+                |> Multi.insert(:match_value_relate, @match_value_relate_changeset)
+                |> Multi.insert(:sale_taxes, SaleTax.changeset(%SaleTax{}, attrs))
                 |> Multi.run(:sale_tax_frequency, fn _, %{sale_taxes: sale_tax} ->
                   sale_tax_frequency_changeset = %SaleTaxFrequency{sale_tax_id: sale_tax.id}
                   Repo.insert(sale_tax_frequency_changeset)
@@ -6316,9 +6262,29 @@ defmodule Core.Services do
                   {:error, _model, changeset, _completed} ->
                     {:error, extract_error_msg(changeset)}
                 end
-              _ -> {:error, %Changeset{}}
+              true ->
+                Multi.new
+                |> Multi.insert(:sale_taxes, SaleTax.changeset(%SaleTax{}, attrs))
+                |> Multi.run(:sale_tax_frequency, fn _, %{sale_taxes: sale_tax} ->
+                  sale_tax_frequency_changeset = %SaleTaxFrequency{sale_tax_id: sale_tax.id}
+                  Repo.insert(sale_tax_frequency_changeset)
+                end)
+                |> Multi.run(:sale_tax_industry, fn _, %{sale_taxes: sale_tax} ->
+                  sale_tax_industry_changeset = %SaleTaxIndustry{sale_tax_id: sale_tax.id}
+                  Repo.insert(sale_tax_industry_changeset)
+                end)
+                |> Repo.transaction()
+                |> case do
+                  {:ok, %{sale_taxes: sale_tax}} ->
+                    {:ok, sale_tax}
+                  {:error, :sale_taxes, %Changeset{} = changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                  {:error, _model, changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                end
             end
         end
+      _ -> {:error, %Changeset{}}
     end
   end
 
