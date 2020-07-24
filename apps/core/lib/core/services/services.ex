@@ -693,7 +693,7 @@ defmodule Core.Services do
   """
   @spec create_book_keeping(%{atom => any}) :: result() | error_tuple()
   def create_book_keeping(attrs \\ @tp_book_keeping_attrs) do
-    case Map.keys(attrs) do
+    case sort_keys(attrs) do
       @tp_book_keeping_params ->
         case Accounts.get_user!(attrs.user_id).role do
           false ->
@@ -2268,162 +2268,160 @@ defmodule Core.Services do
   """
   @spec create_business_tax_return(%{atom => any}) :: result() | error_tuple()
   def create_business_tax_return(attrs \\ @pro_business_tax_return_attrs) do
-    get_role_by_user =
-    case attrs[:user_id] do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^attrs.user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
-      end
-
-    query =
-      case attrs[:user_id] do
-        nil -> nil
-        _ ->
-          from c in BusinessTaxReturn,
-          where: c.user_id == ^attrs.user_id
-      end
-
-    match_value_relate_changeset =
-      MatchValueRelate.changeset(%MatchValueRelate{}, @match_value_relate_attrs)
-
-    business_tax_return_changeset =
-      BusinessTaxReturn.changeset(%BusinessTaxReturn{}, attrs)
-
-    case get_role_by_user do
-      nil -> {:error, %Changeset{}}
-      false ->
-        case Repo.aggregate(query, :count, :user_id) do
-          0 ->
+    case sort_keys(attrs) do
+      @tp_business_tax_return_params ->
+        case Accounts.get_user!(attrs.user_id).role do
+          false ->
+            case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
+              true ->
+                Multi.new
+                |> Multi.insert(:match_value_relate, @match_value_relate_changeset)
+                |> Multi.insert(:business_tax_returns, BusinessTaxReturn.changeset(%BusinessTaxReturn{}, attrs))
+                |> Multi.run(:business_entity_type, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_entity_type_changeset =
+                    %BusinessEntityType{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_entity_type_changeset)
+                end)
+                |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_foreign_account_count_changeset =
+                    %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_foreign_account_count_changeset)
+                end)
+                |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_foreign_ownership_count_changeset =
+                    %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_foreign_ownership_count_changeset)
+                end)
+                |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_industry_changeset =
+                    %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_industry_changeset)
+                end)
+                |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_llc_type_changeset =
+                    %BusinessLlcType{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_llc_type_changeset)
+                end)
+                |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_number_employee_changeset =
+                    %BusinessNumberEmployee{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_number_employee_changeset)
+                end)
+                |> Multi.run(:business_total_revenue, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_total_revenue_changeset =
+                    %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_total_revenue_changeset)
+                end)
+                |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_transaction_count_changeset =
+                    %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_transaction_count_changeset)
+                end)
+                |> Repo.transaction()
+                |> case do
+                  {:ok, %{business_tax_returns: business_tax_return}} ->
+                    {:ok, business_tax_return}
+                  {:error, :business_tax_returns, %Changeset{} = changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                  {:error, _model, changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                end
+              false ->
+                Multi.new
+                |> Multi.insert(:business_tax_returns, BusinessTaxReturn.changeset(%BusinessTaxReturn{}, attrs))
+                |> Multi.run(:business_entity_type, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_entity_type_changeset =
+                    %BusinessEntityType{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_entity_type_changeset)
+                end)
+                |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_foreign_account_count_changeset =
+                    %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_foreign_account_count_changeset)
+                end)
+                |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_foreign_ownership_count_changeset =
+                    %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_foreign_ownership_count_changeset)
+                end)
+                |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_industry_changeset =
+                    %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_industry_changeset)
+                end)
+                |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_llc_type_changeset =
+                    %BusinessLlcType{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_llc_type_changeset)
+                end)
+                |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_number_employee_changeset =
+                    %BusinessNumberEmployee{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_number_employee_changeset)
+                end)
+                |> Multi.run(:business_total_revenue, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_total_revenue_changeset =
+                    %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_total_revenue_changeset)
+                end)
+                |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_transaction_count_changeset =
+                    %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_transaction_count_changeset)
+                end)
+                |> Repo.transaction()
+                |> case do
+                  {:ok, %{business_tax_returns: business_tax_return}} ->
+                    {:ok, business_tax_return}
+                  {:error, :business_tax_returns, %Changeset{} = changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                  {:error, _model, changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                end
+            end
+          true -> {:error, %Changeset{}}
+        end
+      @pro_business_tax_return_params ->
+        case Accounts.get_user!(attrs.user_id).role do
+          false -> {:error, %Changeset{}}
+          true ->
             case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
               false ->
-                case sort_keys(attrs) do
-                  @tp_business_tax_return_params ->
-                    Multi.new
-                    |> Multi.insert(:match_value_relate, match_value_relate_changeset)
-                    |> Multi.insert(:business_tax_returns, business_tax_return_changeset)
-                    |> Multi.run(:business_entity_type, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_entity_type_changeset =
-                        %BusinessEntityType{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_entity_type_changeset)
-                    end)
-                    |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_foreign_account_count_changeset =
-                        %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_foreign_account_count_changeset)
-                    end)
-                    |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_foreign_ownership_count_changeset =
-                        %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_foreign_ownership_count_changeset)
-                    end)
-                    |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_industry_changeset =
-                        %BusinessIndustry{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_industry_changeset)
-                    end)
-                    |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_llc_type_changeset =
-                        %BusinessLlcType{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_llc_type_changeset)
-                    end)
-                    |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_number_employee_changeset =
-                        %BusinessNumberEmployee{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_number_employee_changeset)
-                    end)
-                    |> Multi.run(:business_total_revenue, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_total_revenue_changeset =
-                        %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_total_revenue_changeset)
-                    end)
-                    |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_transaction_count_changeset =
-                        %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_transaction_count_changeset)
-                    end)
-                    |> Repo.transaction()
-                    |> case do
-                      {:ok, %{business_tax_returns: business_tax_return}} ->
-                        {:ok, business_tax_return}
-                      {:error, :business_tax_returns, %Changeset{} = changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                      {:error, _model, changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                    end
-                  _ -> {:error, %Changeset{}}
+                Multi.new
+                |> Multi.insert(:match_value_relate, @match_value_relate_changeset)
+                |> Multi.insert(:business_tax_returns, BusinessTaxReturn.changeset(%BusinessTaxReturn{}, attrs))
+                |> Multi.run(:business_entity_type, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_entity_type_changeset =
+                    %BusinessEntityType{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_entity_type_changeset)
+                end)
+                |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_industry_changeset =
+                    %BusinessIndustry{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_industry_changeset)
+                end)
+                |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_number_employee_changeset =
+                    %BusinessNumberEmployee{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_number_employee_changeset)
+                end)
+                |> Multi.run(:business_total_revenue, fn _, %{business_tax_returns: business_tax_return} ->
+                  business_total_revenue_changeset =
+                    %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
+                  Repo.insert(business_total_revenue_changeset)
+                end)
+                |> Repo.transaction()
+                |> case do
+                  {:ok, %{business_tax_returns: business_tax_return}} ->
+                    {:ok, business_tax_return}
+                  {:error, :business_tax_returns, %Changeset{} = changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                  {:error, _model, changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
                 end
               true ->
-                case sort_keys(attrs) do
-                  @tp_business_tax_return_params ->
-                    Multi.new
-                    |> Multi.insert(:business_tax_returns, business_tax_return_changeset)
-                    |> Multi.run(:business_entity_type, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_entity_type_changeset =
-                        %BusinessEntityType{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_entity_type_changeset)
-                    end)
-                    |> Multi.run(:business_foreign_account_count, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_foreign_account_count_changeset =
-                        %BusinessForeignAccountCount{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_foreign_account_count_changeset)
-                    end)
-                    |> Multi.run(:business_foreign_ownership_count, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_foreign_ownership_count_changeset =
-                        %BusinessForeignOwnershipCount{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_foreign_ownership_count_changeset)
-                    end)
-                    |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_industry_changeset =
-                        %BusinessIndustry{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_industry_changeset)
-                    end)
-                    |> Multi.run(:business_llc_type, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_llc_type_changeset =
-                        %BusinessLlcType{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_llc_type_changeset)
-                    end)
-                    |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_number_employee_changeset =
-                        %BusinessNumberEmployee{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_number_employee_changeset)
-                    end)
-                    |> Multi.run(:business_total_revenue, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_total_revenue_changeset =
-                        %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_total_revenue_changeset)
-                    end)
-                    |> Multi.run(:business_transaction_count, fn _, %{business_tax_returns: business_tax_return} ->
-                      business_transaction_count_changeset =
-                        %BusinessTransactionCount{business_tax_return_id: business_tax_return.id}
-                      Repo.insert(business_transaction_count_changeset)
-                    end)
-                    |> Repo.transaction()
-                    |> case do
-                      {:ok, %{business_tax_returns: business_tax_return}} ->
-                        {:ok, business_tax_return}
-                      {:error, :business_tax_returns, %Changeset{} = changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                      {:error, _model, changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                    end
-                  _ -> {:error, %Changeset{}}
-                end
-            end
-          _ -> {:error, [field: :user_id, message: "Your role have been restricted for create BusinessTaxReturn"]}
-        end
-      true ->
-        case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
-          false ->
-            case sort_keys(attrs) do
-              @pro_business_tax_return_params ->
                 Multi.new
-                |> Multi.insert(:match_value_relate, match_value_relate_changeset)
-                |> Multi.insert(:business_tax_returns, business_tax_return_changeset)
+                |> Multi.insert(:business_tax_returns, BusinessTaxReturn.changeset(%BusinessTaxReturn{}, attrs))
                 |> Multi.run(:business_entity_type, fn _, %{business_tax_returns: business_tax_return} ->
                   business_entity_type_changeset =
                     %BusinessEntityType{business_tax_return_id: business_tax_return.id}
@@ -2453,45 +2451,9 @@ defmodule Core.Services do
                   {:error, _model, changeset, _completed} ->
                     {:error, extract_error_msg(changeset)}
                 end
-              _ -> {:error, %Changeset{}}
-            end
-          true ->
-            case sort_keys(attrs) do
-              @pro_business_tax_return_params ->
-                Multi.new
-                |> Multi.insert(:business_tax_returns, business_tax_return_changeset)
-                |> Multi.run(:business_entity_type, fn _, %{business_tax_returns: business_tax_return} ->
-                  business_entity_type_changeset =
-                    %BusinessEntityType{business_tax_return_id: business_tax_return.id}
-                  Repo.insert(business_entity_type_changeset)
-                end)
-                |> Multi.run(:business_industry, fn _, %{business_tax_returns: business_tax_return} ->
-                  business_industry_changeset =
-                    %BusinessIndustry{business_tax_return_id: business_tax_return.id}
-                  Repo.insert(business_industry_changeset)
-                end)
-                |> Multi.run(:business_number_employee, fn _, %{business_tax_returns: business_tax_return} ->
-                  business_number_employee_changeset =
-                    %BusinessNumberEmployee{business_tax_return_id: business_tax_return.id}
-                  Repo.insert(business_number_employee_changeset)
-                end)
-                |> Multi.run(:business_total_revenue, fn _, %{business_tax_returns: business_tax_return} ->
-                  business_total_revenue_changeset =
-                    %BusinessTotalRevenue{business_tax_return_id: business_tax_return.id}
-                  Repo.insert(business_total_revenue_changeset)
-                end)
-                |> Repo.transaction()
-                |> case do
-                  {:ok, %{business_tax_returns: business_tax_return}} ->
-                    {:ok, business_tax_return}
-                  {:error, :business_tax_returns, %Changeset{} = changeset, _completed} ->
-                    {:error, extract_error_msg(changeset)}
-                  {:error, _model, changeset, _completed} ->
-                    {:error, extract_error_msg(changeset)}
-                end
-              _ -> {:error, %Changeset{}}
             end
         end
+      _ -> {:error, %Changeset{}}
     end
   end
 
@@ -6113,7 +6075,7 @@ defmodule Core.Services do
   """
   @spec create_sale_tax(%{atom => any}) :: result() | error_tuple()
   def create_sale_tax(attrs \\ @tp_sale_tax_attrs) do
-    case Map.keys(attrs) do
+    case sort_keys(attrs) do
       @tp_sale_tax_params ->
         case Accounts.get_user!(attrs.user_id).role do
           false ->

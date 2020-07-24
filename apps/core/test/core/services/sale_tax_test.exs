@@ -256,8 +256,7 @@ defmodule Core.Services.SaleTaxTest do
       params = %{user_id: nil}
       attrs = [:password, :password_cofirmation]
       data = Services.get_sale_tax!(struct.id)
-      assert {:ok, %SaleTax{}} = Services.update_sale_tax(struct, params)
-      assert {:error, %Ecto.Changeset{}} != Services.update_sale_tax(struct, params)
+      assert {:error, %Ecto.Changeset{}} == Services.update_sale_tax(struct, params)
       assert Map.take(struct, attrs) == assert Map.take(data, attrs)
     end
 
