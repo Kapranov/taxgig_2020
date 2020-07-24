@@ -43,8 +43,6 @@ defmodule Core.Services do
   @tp_user  "9xLdkjWKKTjHbPdyls"
   @pro_user "9xLdlpEGadgfb5iW3s"
 
-  @limit_record 3
-
   @match_value_relate_attrs %{
     :match_for_book_keeping_additional_need          => 0,
     :match_for_book_keeping_annual_revenue           => 0,
@@ -4669,76 +4667,42 @@ defmodule Core.Services do
   """
   @spec update_individual_tax_return(IndividualTaxReturn.t(), %{atom => any}) :: result() | error_tuple()
   def update_individual_tax_return(%IndividualTaxReturn{} = struct, attrs) do
-    get_role_by_user =
-      case struct.user_id do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^struct.user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
+    tp_attrs = Map.drop(attrs, [
+      :price_foreign_account,
+      :price_home_owner,
+      :price_living_abroad,
+      :price_non_resident_earning,
+      :price_own_stock_crypto,
+      :price_rental_property_income,
+      :price_sole_proprietorship_count,
+      :price_state,
+      :price_stock_divident,
+      :price_tax_year
+    ])
+    pro_attrs = Map.drop(attrs, [
+      :deadline,
+      :foreign_account_limit,
+      :foreign_financial_interest,
+      :k1_count,
+      :k1_income,
+      :rental_property_count,
+      :sole_proprietorship_count,
+      :state,
+      :tax_year
+    ])
+    if attrs.user_id == struct.user_id do
+      case Accounts.get_user!(struct.user_id).role do
+        false ->
+          struct
+          |> IndividualTaxReturn.changeset(tp_attrs)
+          |> Repo.update()
+        true ->
+          struct
+          |> IndividualTaxReturn.changeset(pro_attrs)
+          |> Repo.update()
       end
-
-    query =
-      case struct.id do
-        nil -> nil
-        _ ->
-          from c in IndividualTaxReturn,
-          where: c.id == ^struct.id,
-          select: c.id
-      end
-
-    tp_params = ~w(
-      price_foreign_account
-      price_home_owner
-      price_living_abroad
-      price_non_resident_earning
-      price_own_stock_crypto
-      price_rental_property_income
-      price_sole_proprietorship_count
-      price_state
-      price_stock_divident
-      price_tax_year
-      user_id
-    )a
-
-    pro_params = ~w(
-      deadline
-      foreign_account_limit
-      foreign_financial_interest
-      k1_count
-      k1_income
-      rental_property_count
-      sole_proprietorship_count
-      state
-      tax_year
-      user_id
-    )a
-
-    tp_attrs =
-      attrs
-      |> Map.drop(tp_params)
-
-    pro_attrs =
-      attrs
-      |> Map.drop(pro_params)
-
-    case get_role_by_user do
-      nil -> {:error, %Changeset{}}
-      false ->
-        case Repo.aggregate(query, :count, :id) do
-          1 ->
-            struct
-            |> IndividualTaxReturn.changeset(tp_attrs)
-            |> Repo.update()
-          _ -> {:error, [field: :id, message: "record already is exist, not permission for new record"]}
-        end
-      true ->
-        struct
-        |> IndividualTaxReturn.changeset(pro_attrs)
-        |> Repo.update()
+    else
+      {:error, %Changeset{}}
     end
   end
 
