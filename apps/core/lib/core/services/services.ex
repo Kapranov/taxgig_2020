@@ -2273,7 +2273,7 @@ defmodule Core.Services do
         case Accounts.get_user!(attrs.user_id).role do
           false ->
             case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
-              true ->
+              false ->
                 Multi.new
                 |> Multi.insert(:match_value_relate, @match_value_relate_changeset)
                 |> Multi.insert(:business_tax_returns, BusinessTaxReturn.changeset(%BusinessTaxReturn{}, attrs))
@@ -2326,7 +2326,7 @@ defmodule Core.Services do
                   {:error, _model, changeset, _completed} ->
                     {:error, extract_error_msg(changeset)}
                 end
-              false ->
+              true ->
                 Multi.new
                 |> Multi.insert(:business_tax_returns, BusinessTaxReturn.changeset(%BusinessTaxReturn{}, attrs))
                 |> Multi.run(:business_entity_type, fn _, %{business_tax_returns: business_tax_return} ->
@@ -4270,142 +4270,140 @@ defmodule Core.Services do
   """
   @spec create_individual_tax_return(%{atom => any}) :: result() | error_tuple()
   def create_individual_tax_return(attrs \\ @tp_individual_tax_return_attrs) do
-    get_role_by_user =
-      case attrs[:user_id] do
-        nil -> nil
-        _ ->
-          Repo.one(
-            from c in User,
-            where: c.id == ^attrs.user_id,
-            where: not is_nil(c.role),
-            select: c.role
-          )
-      end
-
-    query =
-      case attrs[:user_id] do
-        nil -> nil
-        _ ->
-          from c in IndividualTaxReturn,
-          where: c.user_id == ^attrs.user_id
-      end
-
-    match_value_relate_changeset =
-      MatchValueRelate.changeset(%MatchValueRelate{}, @match_value_relate_attrs)
-
-    individual_tax_return_changeset =
-      IndividualTaxReturn.changeset(%IndividualTaxReturn{}, attrs)
-
-    case get_role_by_user do
-      nil -> {:error, %Changeset{}}
-      false ->
-        case Repo.aggregate(query, :count, :user_id) <= @limit_record do
+    case sort_keys(attrs) do
+      @tp_individual_tax_return_params ->
+        case Accounts.get_user!(attrs.user_id).role do
+          false ->
+            case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
+              false ->
+                Multi.new
+                |> Multi.insert(:match_value_relate, @match_value_relate_changeset)
+                |> Multi.insert(:individual_tax_returns, IndividualTaxReturn.changeset(%IndividualTaxReturn{}, attrs))
+                |> Multi.run(:individual_employment_status, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_employment_status_changeset =
+                    %IndividualEmploymentStatus{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_employment_status_changeset)
+                end)
+                |> Multi.run(:individual_filing_status, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_filing_status_changeset =
+                    %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_filing_status_changeset)
+                end)
+                |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_foreign_account_count_changeset =
+                    %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_foreign_account_count_changeset)
+                end)
+                |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_industry_changeset =
+                    %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_industry_changeset)
+                end)
+                |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_itemized_deduction_changeset =
+                    %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_itemized_deduction_changeset)
+                end)
+                |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_stock_transaction_count_changeset =
+                    %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_stock_transaction_count_changeset)
+                end)
+                |> Repo.transaction()
+                |> case do
+                  {:ok, %{individual_tax_returns: individual_tax_return}} ->
+                    {:ok, individual_tax_return}
+                  {:error, :individual_tax_returns, %Changeset{} = changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                  {:error, _model, changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                end
+              true ->
+                Multi.new
+                |> Multi.insert(:individual_tax_returns, IndividualTaxReturn.changeset(%IndividualTaxReturn{}, attrs))
+                |> Multi.run(:individual_employment_status, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_employment_status_changeset =
+                    %IndividualEmploymentStatus{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_employment_status_changeset)
+                end)
+                |> Multi.run(:individual_filing_status, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_filing_status_changeset =
+                    %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_filing_status_changeset)
+                end)
+                |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_foreign_account_count_changeset =
+                    %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_foreign_account_count_changeset)
+                end)
+                |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_industry_changeset =
+                    %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_industry_changeset)
+                end)
+                |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_itemized_deduction_changeset =
+                    %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_itemized_deduction_changeset)
+                end)
+                |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_stock_transaction_count_changeset =
+                    %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_stock_transaction_count_changeset)
+                end)
+                |> Repo.transaction()
+                |> case do
+                  {:ok, %{individual_tax_returns: individual_tax_return}} ->
+                    {:ok, individual_tax_return}
+                  {:error, :individual_tax_returns, %Changeset{} = changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                  {:error, _model, changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                end
+            end
+          true -> {:error, %Changeset{}}
+        end
+      @pro_individual_tax_return_params ->
+        case Accounts.get_user!(attrs.user_id).role do
+          false -> {:error, %Changeset{}}
           true ->
             case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
               false ->
-                case sort_keys(attrs) do
-                  @tp_individual_tax_return_params ->
-                    Multi.new
-                    |> Multi.insert(:match_value_relate, match_value_relate_changeset)
-                    |> Multi.insert(:individual_tax_returns, individual_tax_return_changeset)
-                    |> Multi.run(:individual_employment_status, fn _, %{individual_tax_returns: individual_tax_return} ->
-                      individual_employment_status_changeset =
-                        %IndividualEmploymentStatus{individual_tax_return_id: individual_tax_return.id}
-                      Repo.insert(individual_employment_status_changeset)
-                    end)
-                    |> Multi.run(:individual_filing_status, fn _, %{individual_tax_returns: individual_tax_return} ->
-                      individual_filing_status_changeset =
-                        %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
-                      Repo.insert(individual_filing_status_changeset)
-                    end)
-                    |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                      individual_foreign_account_count_changeset =
-                        %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
-                      Repo.insert(individual_foreign_account_count_changeset)
-                    end)
-                    |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
-                      individual_industry_changeset =
-                        %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
-                      Repo.insert(individual_industry_changeset)
-                    end)
-                    |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
-                      individual_itemized_deduction_changeset =
-                        %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
-                      Repo.insert(individual_itemized_deduction_changeset)
-                    end)
-                    |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                      individual_stock_transaction_count_changeset =
-                        %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
-                      Repo.insert(individual_stock_transaction_count_changeset)
-                    end)
-                    |> Repo.transaction()
-                    |> case do
-                      {:ok, %{individual_tax_returns: individual_tax_return}} ->
-                        {:ok, individual_tax_return}
-                      {:error, :individual_tax_returns, %Changeset{} = changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                      {:error, _model, changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                    end
-                  _ -> {:error, %Changeset{}}
+                Multi.new
+                |> Multi.insert(:match_value_relate, @match_value_relate_changeset)
+                |> Multi.insert(:individual_tax_returns, IndividualTaxReturn.changeset(%IndividualTaxReturn{}, attrs))
+                |> Multi.run(:individual_employment_status, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_employment_status_changeset =
+                    %IndividualEmploymentStatus{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_employment_status_changeset)
+                end)
+                |> Multi.run(:individual_filing_status, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_filing_status_changeset =
+                    %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_filing_status_changeset)
+                end)
+                |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_industry_changeset =
+                    %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_industry_changeset)
+                end)
+                |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
+                  individual_itemized_deduction_changeset =
+                    %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
+                  Repo.insert(individual_itemized_deduction_changeset)
+                end)
+                |> Repo.transaction()
+                |> case do
+                  {:ok, %{individual_tax_returns: individual_tax_return}} ->
+                    {:ok, individual_tax_return}
+                  {:error, :individual_tax_returns, %Changeset{} = changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
+                  {:error, _model, changeset, _completed} ->
+                    {:error, extract_error_msg(changeset)}
                 end
               true ->
-                case sort_keys(attrs) do
-                  @tp_individual_tax_return_params ->
-                    Multi.new
-                    |> Multi.insert(:individual_tax_returns, individual_tax_return_changeset)
-                    |> Multi.run(:individual_employment_status, fn _, %{individual_tax_returns: individual_tax_return} ->
-                      individual_employment_status_changeset =
-                        %IndividualEmploymentStatus{individual_tax_return_id: individual_tax_return.id}
-                      Repo.insert(individual_employment_status_changeset)
-                    end)
-                    |> Multi.run(:individual_filing_status, fn _, %{individual_tax_returns: individual_tax_return} ->
-                      individual_filing_status_changeset =
-                        %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
-                      Repo.insert(individual_filing_status_changeset)
-                    end)
-                    |> Multi.run(:individual_foreign_account_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                      individual_foreign_account_count_changeset =
-                        %IndividualForeignAccountCount{individual_tax_return_id: individual_tax_return.id}
-                      Repo.insert(individual_foreign_account_count_changeset)
-                    end)
-                    |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
-                      individual_industry_changeset =
-                        %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
-                      Repo.insert(individual_industry_changeset)
-                    end)
-                    |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
-                      individual_itemized_deduction_changeset =
-                        %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
-                      Repo.insert(individual_itemized_deduction_changeset)
-                    end)
-                    |> Multi.run(:individual_stock_transaction_count, fn _, %{individual_tax_returns: individual_tax_return} ->
-                      individual_stock_transaction_count_changeset =
-                        %IndividualStockTransactionCount{individual_tax_return_id: individual_tax_return.id}
-                      Repo.insert(individual_stock_transaction_count_changeset)
-                    end)
-                    |> Repo.transaction()
-                    |> case do
-                      {:ok, %{individual_tax_returns: individual_tax_return}} ->
-                        {:ok, individual_tax_return}
-                      {:error, :individual_tax_returns, %Changeset{} = changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                      {:error, _model, changeset, _completed} ->
-                        {:error, extract_error_msg(changeset)}
-                    end
-                  _ -> {:error, %Changeset{}}
-                end
-            end
-          false -> {:error, [field: :user_id, message: "Your role have been restricted for create IndividualTaxReturn"]}
-        end
-      true ->
-        case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
-          false ->
-            case sort_keys(attrs) do
-              @pro_individual_tax_return_params ->
                 Multi.new
-                |> Multi.insert(:match_value_relate, match_value_relate_changeset)
-                |> Multi.insert(:individual_tax_returns, individual_tax_return_changeset)
+                |> Multi.insert(:individual_tax_returns, IndividualTaxReturn.changeset(%IndividualTaxReturn{}, attrs))
                 |> Multi.run(:individual_employment_status, fn _, %{individual_tax_returns: individual_tax_return} ->
                   individual_employment_status_changeset =
                     %IndividualEmploymentStatus{individual_tax_return_id: individual_tax_return.id}
@@ -4435,45 +4433,9 @@ defmodule Core.Services do
                   {:error, _model, changeset, _completed} ->
                     {:error, extract_error_msg(changeset)}
                 end
-              _ -> {:error, %Changeset{}}
-            end
-          true ->
-            case sort_keys(attrs) do
-              @pro_individual_tax_return_params ->
-                Multi.new
-                |> Multi.insert(:individual_tax_returns, individual_tax_return_changeset)
-                |> Multi.run(:individual_employment_status, fn _, %{individual_tax_returns: individual_tax_return} ->
-                  individual_employment_status_changeset =
-                    %IndividualEmploymentStatus{individual_tax_return_id: individual_tax_return.id}
-                  Repo.insert(individual_employment_status_changeset)
-                end)
-                |> Multi.run(:individual_filing_status, fn _, %{individual_tax_returns: individual_tax_return} ->
-                  individual_filing_status_changeset =
-                    %IndividualFilingStatus{individual_tax_return_id: individual_tax_return.id}
-                  Repo.insert(individual_filing_status_changeset)
-                end)
-                |> Multi.run(:individual_industry, fn _, %{individual_tax_returns: individual_tax_return} ->
-                  individual_industry_changeset =
-                    %IndividualIndustry{individual_tax_return_id: individual_tax_return.id}
-                  Repo.insert(individual_industry_changeset)
-                end)
-                |> Multi.run(:individual_itemized_deduction, fn _, %{individual_tax_returns: individual_tax_return} ->
-                  individual_itemized_deduction_changeset =
-                    %IndividualItemizedDeduction{individual_tax_return_id: individual_tax_return.id}
-                  Repo.insert(individual_itemized_deduction_changeset)
-                end)
-                |> Repo.transaction()
-                |> case do
-                  {:ok, %{individual_tax_returns: individual_tax_return}} ->
-                    {:ok, individual_tax_return}
-                  {:error, :individual_tax_returns, %Changeset{} = changeset, _completed} ->
-                    {:error, extract_error_msg(changeset)}
-                  {:error, _model, changeset, _completed} ->
-                    {:error, extract_error_msg(changeset)}
-                end
-              _ -> {:error, %Changeset{}}
             end
         end
+      _ -> {:error, %Changeset{}}
     end
   end
 
