@@ -50,41 +50,41 @@ defmodule Core.Services.BusinessTaxReturnTest do
       user = insert(:tp_user)
 
       params = %{
-        accounting_software:                       true,
-        capital_asset_sale:                        true,
-        church_hospital:                           true,
-        deadline:                      Date.utc_today(),
-        dispose_asset:                             true,
-        dispose_property:                          true,
-        educational_facility:                      true,
-        financial_situation: "some financial situation",
-        foreign_account_interest:                  true,
-        foreign_account_value_more:                true,
-        foreign_entity_interest:                   true,
-        foreign_partner_count:                       22,
-        foreign_shareholder:                       true,
-        foreign_value:                             true,
-        fundraising_over:                          true,
-        has_contribution:                          true,
-        has_loan:                                  true,
-        income_over_thousand:                      true,
-        invest_research:                           true,
-        k1_count:                                    22,
-        lobbying:                                  true,
-        make_distribution:                         true,
-        none_expat:                               false,
-        operate_facility:                          true,
-        property_sale:                             true,
-        public_charity:                            true,
-        rental_property_count:                       22,
-        reported_grant:                            true,
-        restricted_donation:                       true,
-        state:          ["Alabama", "Ohio", "New York"],
-        tax_exemption:                             true,
-        tax_year:              ["2018", "2017", "2016"],
-        total_asset_less:                          true,
-        total_asset_over:                          true,
-        user_id:                                 user.id
+        accounting_software:                              true,
+        capital_asset_sale:                               true,
+        church_hospital:                                  true,
+        deadline:                             Date.utc_today(),
+        dispose_asset:                                    true,
+        dispose_property:                                 true,
+        educational_facility:                             true,
+        financial_situation:        "some financial situation",
+        foreign_account_interest:                         true,
+        foreign_account_value_more:                       true,
+        foreign_entity_interest:                          true,
+        foreign_partner_count:                              22,
+        foreign_shareholder:                              true,
+        foreign_value:                                    true,
+        fundraising_over:                                 true,
+        has_contribution:                                 true,
+        has_loan:                                         true,
+        income_over_thousand:                             true,
+        invest_research:                                  true,
+        k1_count:                                           22,
+        lobbying:                                         true,
+        make_distribution:                                true,
+        none_expat:                                      false,
+        operate_facility:                                 true,
+        property_sale:                                    true,
+        public_charity:                                   true,
+        rental_property_count:                              22,
+        reported_grant:                                   true,
+        restricted_donation:                              true,
+        state: ["Alabama", "Ohio", "Ohio", "New York", "Ohio"],
+        tax_exemption:                                    true,
+        tax_year:     ["2018", "2017", "2018", "2016", "2017"],
+        total_asset_less:                                 true,
+        total_asset_over:                                 true,
+        user_id:                                       user.id
       }
 
       assert {:ok, %BusinessTaxReturn{} = business_tax_return} =
@@ -128,9 +128,9 @@ defmodule Core.Services.BusinessTaxReturnTest do
       assert loaded.rental_property_count      == 22
       assert loaded.reported_grant             == true
       assert loaded.restricted_donation        == true
-      assert loaded.state                      == ["Alabama", "Ohio", "New York"]
+      assert loaded.state                      == ["Alabama", "New York", "Ohio"]
       assert loaded.tax_exemption              == true
-      assert loaded.tax_year                   == ["2018", "2017", "2016"]
+      assert loaded.tax_year                   == ["2016", "2017", "2018"]
       assert loaded.total_asset_less           == true
       assert loaded.total_asset_over           == true
       assert loaded.inserted_at                == business_tax_return.inserted_at
@@ -168,7 +168,7 @@ defmodule Core.Services.BusinessTaxReturnTest do
       assert match_value_relate.value_for_business_total_asset_over     == D.new("150.0")
     end
 
-    test "create_business_tax_return/1 with not correct some fields data updates the business_tax_return" do
+    test "create_business_tax_return/1 with not correct some fields business_tax_return" do
       user = insert(:tp_user)
 
       params = %{
@@ -254,9 +254,9 @@ defmodule Core.Services.BusinessTaxReturnTest do
         rental_property_count:                          33,
         reported_grant:                              false,
         restricted_donation:                         false,
-        state:                         ["Arizona", "Iowa"],
+        state:      ["Arizona", "Iowa", "Arizona", "Iowa"],
         tax_exemption:                               false,
-        tax_year:                         ["2018", "2019"],
+        tax_year: ["2018", "2018", "2019", "2019", "2018"],
         total_asset_less:                            false,
         total_asset_over:                            false,
         user_id:                                  user.id
@@ -616,7 +616,7 @@ defmodule Core.Services.BusinessTaxReturnTest do
       assert match_value_relate.value_for_business_total_asset_over     == D.new("150.0")
     end
 
-    test "create_business_tax_return/1 with not correct some fields data updates the business_tax_return" do
+    test "create_business_tax_return/1 with not correct some fields business_tax_return" do
       user = insert(:tp_user)
 
       params = %{

@@ -53,7 +53,7 @@ defmodule Core.Services.SaleTaxTest do
         deadline: Date.utc_today(),
         financial_situation: "some financial situation",
         sale_tax_count: 22,
-        state: ["Alabama", "New York"],
+        state: ["Alabama", "New York", "Alabama", "Alabama", "New York"],
         user_id: user.id
       }
 
@@ -68,29 +68,23 @@ defmodule Core.Services.SaleTaxTest do
       assert match_value_relate.value_for_sale_tax_count == D.new("30.0")
     end
 
-    test "create_sale_tax/1 with invalid data returns error changeset" do
-      params = %{
-        deadline: nil,
-        financial_situation: nil,
-        sale_tax_count: nil,
-        state: [{}],
-        user_id: nil
-      }
-
-      assert {:error, %Ecto.Changeset{}} = Services.create_sale_tax(params)
-    end
-
     test "create_sale_tax/1 with invalid data with price_sale_tax_count by role's Tp returns error changeset" do
       user = insert(:tp_user)
 
       params = %{
         deadline: Date.utc_today(),
-        financial_situation: "some financial situation",
+        financial_situation: "some text",
         price_sale_tax_count: 22,
         sale_tax_count: 22,
-        state: [{"Alabama", "New York"}],
+        state: ["Alabama", "Ohio", "New York"],
         user_id: user.id
       }
+      assert {:error, %Ecto.Changeset{}} =
+        Services.create_book_keeping(params)
+    end
+
+    test "create_sale_tax/1 with invalid data returns error changeset" do
+      params = %{user_id: nil}
       assert {:error, %Ecto.Changeset{}} = Services.create_sale_tax(params)
     end
 
@@ -103,7 +97,7 @@ defmodule Core.Services.SaleTaxTest do
         deadline: Date.utc_today(),
         financial_situation: "updated financial situation",
         sale_tax_count: 33,
-        state: ["Arizona", "Iowa"],
+        state: ["Arizona", "Iowa", "Iowa", "Iowa", "Arizona", "Arizona"],
         user_id: user.id
       }
 
@@ -222,6 +216,21 @@ defmodule Core.Services.SaleTaxTest do
       assert sale_tax.user_id                            == user.id
       assert match_value_relate.match_for_sale_tax_count == 50
       assert match_value_relate.value_for_sale_tax_count == D.new("30.0")
+    end
+
+    test "create_sale_tax/1 with invalid some fields by role's Pro returns error changeset" do
+      user = insert(:tp_user)
+
+      params = %{
+        deadline: Date.utc_today(),
+        financial_situation: "some text",
+        price_sale_tax_count: 22,
+        sale_tax_count: 22,
+        state: ["Alabama", "Ohio", "New York"],
+        user_id: user.id
+      }
+      assert {:error, %Ecto.Changeset{}} =
+        Services.create_book_keeping(params)
     end
 
     test "create_sale_tax/1 with invalid data returns error changeset" do

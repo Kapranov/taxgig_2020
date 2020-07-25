@@ -693,7 +693,7 @@ defmodule Core.Services do
   def create_book_keeping(attrs \\ @tp_book_keeping_attrs) do
     case sort_keys(attrs) do
       @tp_book_keeping_params ->
-        case Accounts.get_user!(attrs.user_id).role do
+        case Accounts.by_role(attrs.user_id) do
           false ->
             case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
               false ->
@@ -792,11 +792,10 @@ defmodule Core.Services do
                     {:error, extract_error_msg(changeset)}
                 end
             end
-          true -> {:error, %Changeset{}}
+          _ -> {:error, %Changeset{}}
         end
       @pro_book_keeping_params ->
-        case Accounts.get_user!(attrs.user_id).role do
-          false -> {:error, %Changeset{}}
+        case Accounts.by_role(attrs.user_id) do
           true ->
             case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
               false ->
@@ -885,6 +884,7 @@ defmodule Core.Services do
                     {:error, extract_error_msg(changeset)}
                 end
             end
+          _ -> {:error, %Changeset{}}
         end
       _ -> {:error, %Changeset{}}
     end
@@ -916,7 +916,7 @@ defmodule Core.Services do
       :tax_year
     ])
     if attrs.user_id == struct.user_id do
-      case Accounts.get_user!(struct.user_id).role do
+      case Accounts.by_role(attrs.user_id) do
         false ->
           struct
           |> BookKeeping.changeset(tp_attrs)
@@ -925,6 +925,7 @@ defmodule Core.Services do
           struct
           |> BookKeeping.changeset(pro_attrs)
           |> Repo.update()
+        _ -> {:error, %Changeset{}}
       end
     else
       {:error, %Changeset{}}
@@ -2268,7 +2269,7 @@ defmodule Core.Services do
   def create_business_tax_return(attrs \\ @pro_business_tax_return_attrs) do
     case sort_keys(attrs) do
       @tp_business_tax_return_params ->
-        case Accounts.get_user!(attrs.user_id).role do
+        case Accounts.by_role(attrs.user_id) do
           false ->
             case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
               false ->
@@ -2377,11 +2378,10 @@ defmodule Core.Services do
                     {:error, extract_error_msg(changeset)}
                 end
             end
-          true -> {:error, %Changeset{}}
+          _ -> {:error, %Changeset{}}
         end
       @pro_business_tax_return_params ->
-        case Accounts.get_user!(attrs.user_id).role do
-          false -> {:error, %Changeset{}}
+        case Accounts.by_role(attrs.user_id) do
           true ->
             case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
               false ->
@@ -2450,6 +2450,7 @@ defmodule Core.Services do
                     {:error, extract_error_msg(changeset)}
                 end
             end
+          _ -> {:error, %Changeset{}}
         end
       _ -> {:error, %Changeset{}}
     end
@@ -2823,7 +2824,7 @@ defmodule Core.Services do
       :total_asset_over
     ])
     if attrs.user_id == struct.user_id do
-      case Accounts.get_user!(struct.user_id).role do
+      case Accounts.by_role(attrs.user_id) do
         false ->
           struct
           |> BusinessTaxReturn.changeset(tp_attrs)
@@ -2832,6 +2833,7 @@ defmodule Core.Services do
           struct
           |> BusinessTaxReturn.changeset(pro_attrs)
           |> Repo.update()
+        _ -> {:error, %Changeset{}}
       end
     else
       {:error, %Changeset{}}
@@ -4270,7 +4272,7 @@ defmodule Core.Services do
   def create_individual_tax_return(attrs \\ @tp_individual_tax_return_attrs) do
     case sort_keys(attrs) do
       @tp_individual_tax_return_params ->
-        case Accounts.get_user!(attrs.user_id).role do
+        case Accounts.by_role(attrs.user_id) do
           false ->
             case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
               false ->
@@ -4359,11 +4361,10 @@ defmodule Core.Services do
                     {:error, extract_error_msg(changeset)}
                 end
             end
-          true -> {:error, %Changeset{}}
+          _ -> {:error, %Changeset{}}
         end
       @pro_individual_tax_return_params ->
-        case Accounts.get_user!(attrs.user_id).role do
-          false -> {:error, %Changeset{}}
+        case Accounts.by_role(attrs.user_id) do
           true ->
             case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
               false ->
@@ -4432,6 +4433,7 @@ defmodule Core.Services do
                     {:error, extract_error_msg(changeset)}
                 end
             end
+          _ -> {:error, %Changeset{}}
         end
       _ -> {:error, %Changeset{}}
     end
@@ -4691,7 +4693,7 @@ defmodule Core.Services do
       :tax_year
     ])
     if attrs.user_id == struct.user_id do
-      case Accounts.get_user!(struct.user_id).role do
+      case Accounts.by_role(attrs.user_id) do
         false ->
           struct
           |> IndividualTaxReturn.changeset(tp_attrs)
@@ -4700,6 +4702,7 @@ defmodule Core.Services do
           struct
           |> IndividualTaxReturn.changeset(pro_attrs)
           |> Repo.update()
+        _ -> {:error, %Changeset{}}
       end
     else
       {:error, %Changeset{}}
@@ -5966,7 +5969,7 @@ defmodule Core.Services do
   def create_sale_tax(attrs \\ @tp_sale_tax_attrs) do
     case sort_keys(attrs) do
       @tp_sale_tax_params ->
-        case Accounts.get_user!(attrs.user_id).role do
+        case Accounts.by_role(attrs.user_id) do
           false ->
             case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
               false ->
@@ -6011,11 +6014,10 @@ defmodule Core.Services do
                     {:error, extract_error_msg(changeset)}
                 end
             end
-          true -> {:error, %Changeset{}}
+          _ -> {:error, %Changeset{}}
         end
       @pro_sale_tax_params ->
-        case Accounts.get_user!(attrs.user_id).role do
-          false -> {:error, %Changeset{}}
+        case Accounts.by_role(attrs.user_id) do
           true ->
             case Repo.aggregate(MatchValueRelate, :count, :id) > 0 do
               false ->
@@ -6060,6 +6062,7 @@ defmodule Core.Services do
                     {:error, extract_error_msg(changeset)}
                 end
             end
+          _ -> {:error, %Changeset{}}
         end
       _ -> {:error, %Changeset{}}
     end
@@ -6082,7 +6085,7 @@ defmodule Core.Services do
      tp_attrs = Map.drop(attrs, [:price_sale_tax_count])
     pro_attrs = Map.drop(attrs, [:deadline, :financial_situation, :sale_tax_count, :state])
     if attrs.user_id == struct.user_id do
-      case Accounts.get_user!(struct.user_id).role do
+      case Accounts.by_role(attrs.user_id) do
         false ->
           struct
           |> SaleTax.changeset(tp_attrs)
@@ -6091,6 +6094,7 @@ defmodule Core.Services do
           struct
           |> SaleTax.changeset(pro_attrs)
           |> Repo.update()
+        _ -> {:error, %Changeset{}}
       end
     else
       {:error, %Changeset{}}

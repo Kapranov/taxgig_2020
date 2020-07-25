@@ -58,7 +58,7 @@ defmodule Core.Services.BookKeepingTest do
         inventory_count: 22,
         payroll: true,
         tax_return_current: true,
-        tax_year: ["2018", "2017", "2016"],
+        tax_year: ["2018", "2018", "2017", "2016", "2016"],
         user_id: user.id
       }
 
@@ -72,7 +72,7 @@ defmodule Core.Services.BookKeepingTest do
       assert book_keeping.payroll                               == true
       assert book_keeping.price_payroll                         == nil
       assert book_keeping.tax_return_current                    == true
-      assert book_keeping.tax_year                              == ["2018", "2017", "2016"]
+      assert book_keeping.tax_year                               == ["2016", "2017", "2018"]
       assert book_keeping.user_id                               == user.id
       assert match_value_relate.match_for_book_keeping_payroll  == 20
       assert match_value_relate.value_for_book_keeping_payroll  == D.new("80.0")
@@ -118,7 +118,7 @@ defmodule Core.Services.BookKeepingTest do
         inventory_count: 33,
         payroll: false,
         tax_return_current: false,
-        tax_year: ["2019"],
+        tax_year: ["2019", "2020", "2015", "2019", "2020"],
         user_id: user.id
       }
 
@@ -134,7 +134,7 @@ defmodule Core.Services.BookKeepingTest do
       assert updated.payroll                                    == false
       assert updated.price_payroll                              == nil
       assert updated.tax_return_current                         == false
-      assert updated.tax_year                                   == ["2019"]
+      assert updated.tax_year                                   == ["2015", "2019", "2020"]
       assert updated.user_id                                    == user.id
       assert match_value_relate.match_for_book_keeping_payroll  == 20
       assert match_value_relate.value_for_book_keeping_payroll  == D.new("80.0")

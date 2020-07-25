@@ -64,7 +64,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
         rental_property_count:              22,
         rental_property_income:           true,
         sole_proprietorship_count:          22,
-        state: ["Alabama", "Ohio", "New York"],
+        state:    ["Ohio", "New York", "Ohio"],
         stock_divident:                   true,
         tax_year:     ["2018", "2017", "2016"],
         user_id: user.id
@@ -104,9 +104,9 @@ defmodule Core.Services.IndividualTaxReturnTest do
       assert loaded.rental_property_count           == 22
       assert loaded.rental_property_income          == true
       assert loaded.sole_proprietorship_count       == 22
-      assert loaded.state                           == ["Alabama", "Ohio", "New York"]
+      assert loaded.state                           == ["New York", "Ohio"]
       assert loaded.stock_divident                  == true
-      assert loaded.tax_year                        == ["2018", "2017", "2016"]
+      assert loaded.tax_year                        == ["2016", "2017", "2018"]
       assert loaded.user_id                         == user.id
       assert loaded.inserted_at                     == individual_tax_return.inserted_at
       assert loaded.updated_at                      == individual_tax_return.updated_at
@@ -146,7 +146,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
       assert match_value_relate.value_for_individual_tax_year                   == D.new("40.0")
     end
 
-    test "create_individual_tax_return/1 with not correct some fields data updates the individual_tax_return" do
+    test "create_individual_tax_return/1 with not correct some fields individual_tax_return" do
       user = insert(:tp_user)
 
       params = %{
@@ -184,27 +184,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
     end
 
     test "create_individual_tax_return/1 with invalid data returns error changeset" do
-      params = %{
-        deadline:                   nil,
-        foreign_account:            nil,
-        foreign_account_limit:      nil,
-        foreign_financial_interest: nil,
-        home_owner:                 nil,
-        k1_count:                   nil,
-        k1_income:                  nil,
-        living_abroad:              nil,
-        non_resident_earning:       nil,
-        none_expat:                 nil,
-        own_stock_crypto:           nil,
-        rental_property_count:      nil,
-        rental_property_income:     nil,
-        sole_proprietorship_count:  nil,
-        state:                      nil,
-        stock_divident:             nil,
-        tax_year:                   nil,
-        user_id:                    nil
-      }
-
+      params = %{user_id: nil}
       assert {:error, %Ecto.Changeset{}} =
         Services.create_individual_tax_return(params)
     end
@@ -229,7 +209,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
         rental_property_count:              33,
         rental_property_income:          false,
         sole_proprietorship_count:          33,
-        state:             ["Arizona", "Iowa"],
+        state:     ["Iowa", "Arizona", "Iowa"],
         stock_divident:                  false,
         tax_year:             ["2018", "2019"],
         user_id:                       user.id
@@ -589,7 +569,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
       assert match_value_relate.value_for_individual_tax_year                   == D.new("40.0")
     end
 
-    test "create_individual_tax_return/1 with not correct some fields data updates the individual_tax_return" do
+    test "create_individual_tax_return/1 with not correct some fields individual_tax_return" do
       user = insert(:tp_user)
 
       params = %{
@@ -627,29 +607,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
     end
 
     test "create_individual_tax_return/1 with invalid data returns error changeset" do
-      params = %{
-        deadline:            Date.utc_today(),
-        foreign_account:                  nil,
-        home_owner:                       nil,
-        living_abroad:                    nil,
-        non_resident_earning:             nil,
-        none_expat:                       nil,
-        own_stock_crypto:                 nil,
-        price_foreign_account:            nil,
-        price_home_owner:                 nil,
-        price_living_abroad:              nil,
-        price_non_resident_earning:       nil,
-        price_own_stock_crypto:           nil,
-        price_rental_property_income:     nil,
-        price_sole_proprietorship_count:  nil,
-        price_state:                      nil,
-        price_stock_divident:             nil,
-        price_tax_year:                   nil,
-        rental_property_income:           nil,
-        stock_divident:                   nil,
-        user_id:                          nil
-      }
-
+      params = %{user_id: nil}
       assert {:error, %Ecto.Changeset{}} =
         Services.create_individual_tax_return(params)
     end

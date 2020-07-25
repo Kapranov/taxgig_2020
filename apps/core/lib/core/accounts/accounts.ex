@@ -39,11 +39,13 @@ defmodule Core.Accounts do
     Services.SaleTaxIndustry
   }
 
+  @type message() :: atom()
   @type name :: atom()
   @type order_by :: list()
-  @type where :: list()
   @type preload :: atom()
   @type return :: list()
+  @type where :: list()
+  @type word() :: String.t()
 
   @search [Subscriber, User]
 
@@ -1013,6 +1015,33 @@ defmodule Core.Accounts do
   @spec change_profile(Profile.t()) :: Ecto.Changeset.t()
   def change_profile(%Profile{} = struct) do
     Profile.changeset(struct, %{})
+  end
+
+  @doc """
+  Share user's role.
+  """
+  @spec by_role(word) :: boolean | {:error, nonempty_list(message)}
+  def by_role(id) when not is_nil(id) do
+    with %User{role: role} <- by_user(id), do: role
+  end
+
+  @spec by_role(nil) :: {:error, nonempty_list(message)}
+  def by_role(id) when is_nil(id) do
+    {:error, [field: :user_id, message: "Can't be blank"]}
+  end
+
+  @spec by_role :: {:error, nonempty_list(message)}
+  def by_role do
+    {:error, [field: :user_id, message: "Can't be blank"]}
+  end
+
+  @spec by_user(word) :: Ecto.Schema.t() | nil
+  defp by_user(user_id) do
+    try do
+      Repo.one(from c in User, where: c.id == ^user_id)
+    rescue
+      Ecto.Query.CastError -> nil
+    end
   end
 
   @spec user_with_preload_query(String.t()) :: Ecto.Query.t()

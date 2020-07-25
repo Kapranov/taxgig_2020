@@ -137,6 +137,8 @@ defmodule Core.Services.IndividualTaxReturn do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
+    |> validate_field_uniq(:state)
+    |> validate_field_uniq(:tax_year)
     |> foreign_key_constraint(:user_id, message: "Select an User")
     |> unique_constraint(:user, name: :individual_tax_returns_user_id_index, message: "Only one an User")
   end
@@ -187,5 +189,13 @@ defmodule Core.Services.IndividualTaxReturn do
     rescue
       Ecto.Query.CastError -> nil
     end
+  end
+
+  @spec validate_field_uniq(Ecto.Changeset.t(), atom()) :: Ecto.Changeset.t()
+  defp validate_field_uniq(changeset, field) when is_atom(field) do
+    update_change(changeset, field, fn
+      nil -> nil
+      data -> Enum.uniq(data) |> Enum.sort()
+    end)
   end
 end
