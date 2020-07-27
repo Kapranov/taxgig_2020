@@ -376,17 +376,38 @@ defmodule ServerWeb.Provider.InMemoryTest do
     assert OauthFacebook.generate_url() =~ url
   end
 
-  test "get Facebook refresh token url" do
-    # facebook_code_url = "https://graph.facebook.com/oauth/client_code?"
-    # client_id = Application.put_env(:server, :client_id, 123)
-    # client_secret = Application.put_env(:server, :client_secret, 123)
-    # redirect_uri = Application.put_env(:server, :redirect_uri, "https://taxgig.me:4001/graphiql")
-    # token = "1234"
-    # url = "#{facebook_code_url}client_id=#{client_id}&client_secret=#{client_secret}&redirect_uri=#{redirect_uri}&access_token=#{token}"
-    # assert OauthFacebook.generate_refresh_token_url(token) =~ url
+  test "get Facebook refresh token login url" do
+    {:ok, %{"code" => code}} = OauthFacebook.generate_refresh_token_url("ok_token")
+    assert code =~ "AQCkGgxi5MAsrEpRjruN"
+  end
+
+  test "return Facebook refresh token login url error with incorrect token" do
+    {:ok, %{"error" => error}} = OauthFacebook.generate_refresh_token_url("wrong_token")
+    assert error == %{
+      "code" => 190,
+      "fbtrace_id" => "AZgoghNdR9h92X-S2T1BG_M",
+      "message" => "Invalid OAuth access token.",
+      "type" => "OAuthException"
+    }
   end
 
   test "get Facebook token" do
+    {:ok, data} = OauthFacebook.token("ok_code")
+    assert data == %{
+      "access_token" => "EAAJ3B40DJTcBAP83UjtPGyvS7e9GdVUFSxvZB0VZCdcPUqnOq3ow35ZBu7b76LnlLp6eHRfdytk8W4n2CDPnaRZC9q1LAo1GQYgOZAg0iG09bZBIdIivSOFzr9r1bT3KRUMGlWpPB4IzCyIj3rhBW1R5ELl5Nx2Pk3lfiA24wZBiAZDZD",
+      "expires_in" => 5156727,
+      "token_type" => "bearer"
+    }
+  end
+
+  test "return Facebook token error with incorrect code" do
+    {:ok, %{"error" => error}} = OauthFacebook.token("wrong_code")
+    assert error == %{
+      "code" => 100,
+      "fbtrace_id" => "ApLl8YdAiL_i5P0BLCdaGix",
+      "message" => "Invalid verification code format.",
+      "type" => "OAuthException"
+    }
   end
 
   test "get Facebook refresh token" do

@@ -30,6 +30,10 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
   @facebook_refresh "https://graph.facebook.com/oauth/client_code?"
   @facebook_token   "https://graph.facebook.com/oauth/access_token?"
   @facebook_verify  "https://graph.facebook.com/oauth/access_token_info?"
+  @facebook_client_id Application.get_env(:server, Facebook)[:client_id]
+  @facebook_client_secret Application.get_env(:server, Facebook)[:client_secret]
+
+  @redirect_uri URI.decode("#{Application.get_env(:server, Facebook)[:redirect_uri]}")
 
   @body1 URI.encode_query(%{
     client_id: Application.get_env(:server, LinkedIn)[:client_id],
@@ -91,6 +95,11 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     grant_type: "authorization_code"
   })
 
+  @facebook_refresh_token_url_ok "#{@facebook_refresh}client_id=#{@facebook_client_id}&client_secret=#{@facebook_client_secret}&redirect_uri=#{@redirect_uri}&access_token=#{@token_ok}"
+  @facebook_refresh_token_url_wrong "#{@facebook_refresh}client_id=#{@facebook_client_id}&client_secret=#{@facebook_client_secret}&redirect_uri=#{@redirect_uri}&access_token=#{@token_wrong}"
+  @facebook_token_ok "#{@facebook_token}client_id=#{@facebook_client_id}&redirect_uri=#{@redirect_uri}&client_secret=#{@facebook_client_secret}&code=#{@code_ok}"
+  @facebook_token_wrong "#{@facebook_token}client_id=#{@facebook_client_id}&redirect_uri=#{@redirect_uri}&client_secret=#{@facebook_client_secret}&code=#{@code_wrong}"
+
   @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
   def get(@google_email_ok), do: {:ok, %{body: Jason.encode!(google_email_ok())}}
 
@@ -119,10 +128,16 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
   def get(@facebook_profile), do: {:ok, %{body: Jason.encode!(%{email: "lugatex@yahoo.com"})}}
 
   @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
-  def get(@facebook_refresh), do: {:ok, %{body: Jason.encode!(%{email: "lugatex@yahoo.com"})}}
+  def get(@facebook_refresh_token_url_ok), do: {:ok, %{body: Jason.encode!(facebook_refresh_token_url_ok())}}
 
   @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
-  def get(@facebook_token), do: {:ok, %{body: Jason.encode!(%{email: "lugatex@yahoo.com"})}}
+  def get(@facebook_refresh_token_url_wrong), do: {:ok, %{body: Jason.encode!(facebook_refresh_token_url_wrong())}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
+  def get(@facebook_token_ok), do: {:ok, %{body: Jason.encode!(facebook_token_ok())}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
+  def get(@facebook_token_wrong), do: {:ok, %{body: Jason.encode!(facebook_token_wrong())}}
 
   @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
   def get(@facebook_verify), do: {:ok, %{body: Jason.encode!(%{email: "lugatex@yahoo.com"})}}
@@ -564,6 +579,44 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     %{
       "error" => "invalid_request",
       "error_description" => "Unable to retrieve access token: authorization code not found"
+    }
+  end
+
+  @spec facebook_refresh_token_url_ok() :: %{atom => String.t()}
+  defp facebook_refresh_token_url_ok() do
+    %{"code" => "AQCkGgxi5MAsrEpRjruN"}
+  end
+
+  @spec facebook_refresh_token_url_wrong() :: %{atom => String.t()}
+  defp facebook_refresh_token_url_wrong() do
+    %{
+      "error" => %{
+        "code" => 190,
+        "fbtrace_id" => "AZgoghNdR9h92X-S2T1BG_M",
+        "message" => "Invalid OAuth access token.",
+        "type" => "OAuthException"
+      }
+    }
+  end
+
+  @spec facebook_token_ok() :: %{atom => String.t()}
+  defp facebook_token_ok() do
+    %{
+      "access_token" => "EAAJ3B40DJTcBAP83UjtPGyvS7e9GdVUFSxvZB0VZCdcPUqnOq3ow35ZBu7b76LnlLp6eHRfdytk8W4n2CDPnaRZC9q1LAo1GQYgOZAg0iG09bZBIdIivSOFzr9r1bT3KRUMGlWpPB4IzCyIj3rhBW1R5ELl5Nx2Pk3lfiA24wZBiAZDZD",
+      "expires_in" => 5156727,
+      "token_type" => "bearer"
+    }
+  end
+
+  @spec facebook_token_wrong() :: %{atom => String.t()}
+  defp facebook_token_wrong() do
+    %{
+      "error" => %{
+        "code" => 100,
+        "fbtrace_id" => "ApLl8YdAiL_i5P0BLCdaGix",
+        "message" => "Invalid verification code format.",
+        "type" => "OAuthException"
+      }
     }
   end
 end
