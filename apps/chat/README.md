@@ -243,5 +243,4 @@ end
 [6]: https://github.com/ninenines/cowboy/blob/master/doc/src/manual/cowboy_req.parse_header.asciidoc
 [7]: https://github.com/ninenines/cowboy/blob/master/doc/src/manual/cowboy_req.qs.asciidoc
 [8]: https://www.ably.io/concepts/websockets
-[9]:
-[8]: https://support.ably.io/support/solutions/articles/3000075120-is-it-secure-to-send-the-access-token-as-part-of-the-websocket-url-query-params-
+[9]: https://support.ably.io/support/solutions/articles/3000075120-is-it-secure-to-send-the-access-token-as-part-of-the-websocket-url-query-params-
