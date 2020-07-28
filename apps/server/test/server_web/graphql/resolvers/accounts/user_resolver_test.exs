@@ -310,8 +310,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       args = %{provider: "facebook", code: "ok_code"}
       {:ok, data} = UserResolver.get_token(%{}, args, %{})
       assert data == %{
-        access_token: nil,
-        expires_in: "3320",
+        access_token: "EAAJ3B40DJTcBAP83UjtPGyvS7e9GdVUFSxvZB0VZCdcPUqnOq3ow35ZBu7b76LnlLp6eHRfdytk8W4n2CDPnaRZC9q1LAo1GQYgOZAg0iG09bZBIdIivSOFzr9r1bT3KRUMGlWpPB4IzCyIj3rhBW1R5ELl5Nx2Pk3lfiA24wZBiAZDZD",
+        expires_in: 5156727,
         provider: "facebook"
       }
     end
@@ -423,9 +423,19 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
     end
 
     it "return refresh code by facebook" do
-      # args = %{provider: "facebook"}
-      #   {:ok, data} = UserResolver.get_refresh_token_code(%{}, args, %{})
-      #      assert data == %{code: :ok, provider: "facebook"}
+      args = %{provider: "facebook", token: "ok_token"}
+         {:ok, data} = UserResolver.get_refresh_token_code(%{}, args, %{})
+      assert data == %{code: "AQCkGgxi5MAsrEpRjruN", provider: "facebook"}
+    end
+
+    it "return error by facebook refresh token code" do
+      args = %{provider: "facebook", token: "wrong_token"}
+         {:ok, error} = UserResolver.get_refresh_token_code(%{}, args, %{})
+      assert error == %{
+        error: "OAuthException, 190",
+        error_description: "Invalid OAuth access token.",
+        provider: "facebook"
+      }
     end
 
     it "return refresh code by twitter" do
@@ -563,9 +573,29 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
     end
 
     it "return refresh token  by facebook" do
-      # args = %{provider: "facebook"}
-      # {:ok, %{access_token: data}} = UserResolver.get_refresh_token(%{}, args, %{})
-      # assert data == :ok
+      args = %{provider: "facebook", token: "ok_token"}
+      {:ok, data} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert data == %{
+        access_token: "EAAJ3B40DJTcBAP83UjtPGyvS7e9GdVUFSxvZB0VZCdcPUqnOq3ow35ZBu7b76LnlLp6eHRfdytk8W4n2CDPnaRZC9q1LAo1GQYgOZAg0iG09bZBIdIivSOFzr9r1bT3KRUMGlWpPB4IzCyIj3rhBW1R5ELl5Nx2Pk3lfiA24wZBiAZDZD",
+        error: nil,
+        error_description: nil,
+        expires_in: 5156727,
+        id_token: nil,
+        provider: "facebook",
+        refresh_token: nil,
+        scope: nil,
+        token_type: "bearer"
+      }
+    end
+
+    it "return error refresh token  by facebook" do
+      args = %{provider: "facebook", token: "wrong_token"}
+      {:ok, error} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert error == %{
+        error: "OAuthException, 190",
+        error_description: "Invalid OAuth access token.",
+        provider: "facebook"
+      }
     end
 
     it "return refresh token  by twitter" do
@@ -676,9 +706,43 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
     end
 
     it "return checked out token by facebook" do
-#      args = %{provider: "facebook"}
-#      {:ok, data} = UserResolver.verify_token(%{}, args, %{})
-#      assert data == %{access_token: :ok, provider: "facebook"}
+      args = %{provider: "facebook", token: "ok_token"}
+      {:ok, data} = UserResolver.verify_token(%{}, args, %{})
+      assert data == %{
+        access_token: "EAAJ3B40DJTcBAP83UjtPGyvS7e9GdVUFSxvZB0VZCdcPUqnOq3ow35ZBu7b76LnlLp6eHRfdytk8W4n2CDPnaRZC9q1LAo1GQYgOZAg0iG09bZBIdIivSOFzr9r1bT3KRUMGlWpPB4IzCyIj3rhBW1R5ELl5Nx2Pk3lfiA24wZBiAZDZD",
+        expires_in: 5156727,
+        provider: "facebook"
+      }
+    end
+
+    it "return error token by facebook when token is not correct" do
+      args = %{provider: "facebook", token: "wrong_token"}
+      {:ok, error} = UserResolver.verify_token(%{}, args, %{})
+      assert error == %{
+        error: "OAuthException, 190",
+        error_description: "Invalid OAuth access token.",
+        provider: "facebook"
+      }
+    end
+
+    it "return error token by facebook when token is nil" do
+      args = %{provider: "facebook", token: nil}
+      {:ok, error} = UserResolver.verify_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid_verify_token",
+        error_description: "Invalid Value",
+        provider: "facebook"
+      }
+    end
+
+    it "return error token by facebook when token doesn't exist" do
+      args = %{provider: "facebook"}
+      {:ok, error} = UserResolver.verify_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid_verify_token",
+        error_description: "Invalid Value",
+        provider: "facebook"
+      }
     end
 
     it "return checked out token by twitter" do
@@ -716,6 +780,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       }
     end
 
+    it "return error by google when code is not correct" do
+      args = %{provider: "google", code: "wrong_code"}
+      {:ok, error} = UserResolver.signup(%{}, args, %{})
+      assert error == %{
+        error: "invalid grant",
+        error_description: "Bad Request",
+        provider: "google"
+      }
+    end
+
     it "create user used code by linkedin and return access token" do
       args = %{provider: "linkedin", code: "ok_code"}
       {:ok, data} = UserResolver.signup(%{}, args, %{})
@@ -733,14 +807,63 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       }
     end
 
+    it "return error by linkedin when code doesn't exist" do
+      args = %{provider: "linkedin"}
+      {:ok, error} = UserResolver.signup(%{}, args, %{})
+      assert error == %{
+        error: "invalid_request",
+        error_description: "Unable to retrieve access token: authorization code not found",
+        provider: "linkedin"
+      }
+    end
+
+    it "return error by linkedin when code is not correct" do
+      args = %{provider: "linkedin", code: "wrong_code"}
+      {:ok, error} = UserResolver.signup(%{}, args, %{})
+      assert error == %{
+        error: "invalid_request",
+        error_description: "Unable to retrieve access token: authorization code not found",
+        provider: "linkedin"
+      }
+    end
+
     it "create user used code by facebook and return access token" do
-#      args = %{provider: "facebook"}
-#      {:ok, data} = UserResolver.signup(%{}, args, %{})
-#      assert data == %{
-#        error: "invalid provider",
-#        error_description: "invalid url by provider",
-#        provider: "facebook"
-#      }
+      args = %{provider: "facebook", code: "ok_code"}
+      {:ok, data} = UserResolver.signup(%{}, args, %{})
+      assert data == %{
+        access_token: data.access_token,
+        provider: "facebook"
+      }
+    end
+
+    it "return error by facebook when code is nil" do
+      args = %{provider: "facebook", code: nil}
+      {:ok, data} = UserResolver.signup(%{}, args, %{})
+      assert data == %{
+        error: "invalid_grant",
+        error_description: "Malformed auth code.",
+        provider: "facebook"
+      }
+    end
+
+    it "return error by facebook when code doesn't exist" do
+      args = %{provider: "facebook"}
+      {:ok, data} = UserResolver.signup(%{}, args, %{})
+      assert data == %{
+        error: "invalid_grant",
+        error_description: "Malformed auth code.",
+        provider: "facebook"
+      }
+    end
+
+    it "return error by facebook when code is not correct" do
+      args = %{provider: "facebook", code: "wrong_code"}
+      {:ok, data} = UserResolver.signup(%{}, args, %{})
+      assert data == %{
+        error: "OAuthException, 100",
+        error_description: "Invalid verification code format.",
+        provider: "facebook"
+      }
     end
 
     it "create user used code by twitter and return access token" do
@@ -761,11 +884,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
         provider: "localhost"
       }
       {:ok, data} = UserResolver.signup(%{}, args, %{})
-      assert %{
-        access_token: _access_token,
+      assert data == %{
+        access_token: data.access_token,
         provider: "localhost"
-      } = data
-
+      }
     end
 
     it "return error via localhost when args nil" do
@@ -775,6 +897,33 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
         [field: :email, message: "Can't be blank"],
         [field: :password, message: "Can't be blank"],
         [field: :password_confirmation, message: "Can't be blank"]
+      ]
+    end
+
+    it "return error by localhost when email is not correct" do
+      args = %{
+        email: "xxx",
+        password: "qwerty",
+        password_confirmation: "qwerty",
+        provider: "localhost"
+      }
+      {:error, error} = UserResolver.signup(%{}, args, %{})
+      assert error == [
+        [field: :email, message: "Invalid_format"],
+        [field: :email, message: "Has invalid format"]
+      ]
+    end
+
+    it "return error by localhost when password is not correct" do
+      args = %{
+        email: "oleg@yahoo.com",
+        password: "123456789",
+        password_confirmation: "987654321",
+        provider: "localhost"
+      }
+      {:error, error} = UserResolver.signup(%{}, args, %{})
+      assert error == [
+        [field: :password_confirmation, message: "Does not match confirmation"]
       ]
     end
   end
@@ -800,6 +949,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
 
     it "return error via google when code doesn't exist" do
       args = %{provider: "google"}
+      {:ok, error} = UserResolver.signin(%{}, args, %{})
+      assert error == %{
+        error: "invalid grant",
+        error_description: "Bad Request",
+        provider: "google"
+      }
+    end
+
+    it "return error by google when code is not correct" do
+      args = %{provider: "google", code: "wrong_code"}
       {:ok, error} = UserResolver.signin(%{}, args, %{})
       assert error == %{
         error: "invalid grant",
@@ -836,14 +995,54 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       }
     end
 
+    it "return error by linkedin when code is not correct" do
+      args = %{provider: "linkedin", code: "wrong_code"}
+      {:ok, error} = UserResolver.signin(%{}, args, %{})
+      assert error == %{
+        error: "invalid_request",
+        error_description: "Unable to retrieve access token: authorization code not found",
+        provider: "linkedin"
+      }
+    end
+
     it "signin via facebook and return access token" do
-      # args = %{provider: "facebook"}
-      # {:ok, error} = UserResolver.signin(%{}, args, %{})
-      # assert error == %{
-      #   error: "invalid provider",
-      #   error_description: "invalid url by provider",
-      #   provider: "facebook"
-      # }
+      insert(:user, provider: "facebook", email: "kapranov.lugatex@gmail.com")
+      args = %{provider: "facebook", code: "ok_code"}
+      {:ok, data} = UserResolver.signin(%{}, args, %{})
+      assert data == %{
+        access_token: data.access_token,
+        provider: "facebook"
+      }
+    end
+
+    it "return error via facebook when code is nil" do
+      args = %{provider: "facebook", code: nil}
+      {:ok, error} = UserResolver.signin(%{}, args, %{})
+      assert error == %{
+        error: "invalid code",
+        error_description: "code doesn't correct",
+        provider: "facebook"
+      }
+    end
+
+    it "return error via facebook when code doesn't exist" do
+      args = %{provider: "facebook"}
+      {:ok, error} = UserResolver.signin(%{}, args, %{})
+      assert error == %{
+        error: "invalid code",
+        error_description: "code doesn't correct",
+        provider: "facebook"
+      }
+    end
+
+    it "return error by facebook when code is not correct" do
+      args = %{provider: "facebook", code: "wrong_code"}
+      {:ok, error} = UserResolver.signin(%{}, args, %{})
+      assert error == %{
+        error: "OAuthException, 100",
+        error_description: "Invalid verification code format.",
+        provider: "facebook"
+      }
     end
 
     it "signin via twitter and return access token" do
