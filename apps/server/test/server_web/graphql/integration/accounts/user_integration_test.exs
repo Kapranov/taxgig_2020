@@ -1471,7 +1471,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
     it "return token by facebook - `AbsintheHelpers`" do
       query = """
       {
-        getToken(provider: "facebook") {
+        getToken(provider: "facebook", code: "ok_code") {
           access_token
           error
           error_description
@@ -1493,10 +1493,10 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getToken"]
 
-      assert found["access_token"]      == nil
-      assert found["error"]             == "invalid provider"
-      assert found["error_description"] == "invalid url by provider"
-      assert found["expires_in"]        == nil
+      assert found["access_token"]      =~ "EAAJ3B40DJTcBAP83UjtPGyvS7e9GdVUFSxvZB0VZCdcPUqnOq"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == "5156727"
       assert found["id_token"]          == nil
       assert found["provider"]          == "facebook"
       assert found["refresh_token"]     == nil
@@ -1509,7 +1509,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       query = """
       {
-        getToken(provider: "facebook") {
+        getToken(provider: "facebook", code: "ok_code") {
           access_token
           error
           error_description
@@ -1526,10 +1526,10 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{data: %{"getToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["access_token"]      == nil
-      assert found["error"]             == "invalid provider"
-      assert found["error_description"] == "invalid url by provider"
-      assert found["expires_in"]        == nil
+      assert found["access_token"]      =~ "EAAJ3B40DJTcBAP83UjtPGyvS7e9GdVUFSxvZB0VZCdcPUqnOq"
+      assert found["error"]             == nil
+      assert found["error_description"] == nil
+      assert found["expires_in"]        == "5156727"
       assert found["id_token"]          == nil
       assert found["provider"]          == "facebook"
       assert found["refresh_token"]     == nil
@@ -2031,7 +2031,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
     it "return refresh code by facebook - `AbsintheHelpers`" do
       query = """
       {
-        getRefreshTokenCode(provider: "facebook", token: nil) {
+        getRefreshTokenCode(provider: "facebook", token: "ok_token") {
           code
           provider
         }
@@ -2042,7 +2042,12 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         build_conn()
         |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "getRefreshTokenCode"))
 
-      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"token\" has invalid value nil."
+      assert json_response(res, 200)["errors"] == nil
+
+      found = json_response(res, 200)["data"]["getRefreshTokenCode"]
+
+      assert found["code"]     =~ "AQCkGgxi5MAsrEpRjruN"
+      assert found["provider"] == "facebook"
     end
 
     it "return refresh code by facebook - `Absinthe.run`" do
@@ -2050,7 +2055,8 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       query = """
       {
-        getRefreshTokenCode(provider: "facebook", token: \"#{nil}\") {
+        getRefreshTokenCode(provider: "facebook", token: "ok_token") {
+
           code
           provider
         }
@@ -2060,7 +2066,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{data: %{"getRefreshTokenCode" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["code"]     == nil
+      assert found["code"]     =~ "AQCkGgxi5MAsrEpRjruN"
       assert found["provider"] == "facebook"
     end
 
@@ -2352,7 +2358,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
     it "return refresh token  by facebook - `AbsintheHelpers`" do
       query = """
       {
-        getRefreshToken(provider: "facebook", token: "token1") {
+        getRefreshToken(provider: "facebook", token: "ok_token") {
           access_token
           error
           error_description
@@ -2374,15 +2380,15 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       found = json_response(res, 200)["data"]["getRefreshToken"]
 
-      assert found["access_token"]      == nil
+      assert found["access_token"]      =~ "EAAJ3B40DJTcBAP83UjtPGyvS7"
       assert found["error"]             == nil
       assert found["error_description"] == nil
-      assert found["expires_in"]        == "3320"
+      assert found["expires_in"]        == "5156727"
       assert found["id_token"]          == nil
       assert found["provider"]          == "facebook"
       assert found["refresh_token"]     == nil
-      assert found["scope"]             == "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid"
-      assert found["token_type"]        == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == "bearer"
     end
 
     it "return refresh token  by facebook - `Absinthe.run`" do
@@ -2390,7 +2396,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       query = """
       {
-        getRefreshToken(provider: "facebook", token: "token1") {
+        getRefreshToken(provider: "facebook", token: "ok_token") {
           access_token
           error
           error_description
@@ -2407,15 +2413,15 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       {:ok, %{data: %{"getRefreshToken" => found}}} =
         Absinthe.run(query, Schema, context: context)
 
-      assert found["access_token"]      == nil
+      assert found["access_token"]      =~ "EAAJ3B40DJTcBAP83UjtPGyvS7"
       assert found["error"]             == nil
       assert found["error_description"] == nil
-      assert found["expires_in"]        == "3320"
+      assert found["expires_in"]        == "5156727"
       assert found["id_token"]          == nil
       assert found["provider"]          == "facebook"
       assert found["refresh_token"]     == nil
-      assert found["scope"]             == "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid"
-      assert found["token_type"]        == nil
+      assert found["scope"]             == nil
+      assert found["token_type"]        == "bearer"
     end
 
     it "return refresh token  by twitter - `AbsintheHelpers`" do
@@ -2972,7 +2978,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
     it "return checked out token by facebook - `AbsintheHelpers`" do
       query = """
       {
-        getVerify(provider: "facebook", token: "token1") {
+        getVerify(provider: "facebook", token: "ok_token") {
           access_type
           aud
           azp
@@ -3003,7 +3009,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error"]             == nil
       assert found["error_description"] == nil
       assert found["exp"]               == nil
-      assert found["expires_in"]        == "3320"
+      assert found["expires_in"]        == "5156727"
       assert found["provider"]          == "facebook"
       assert found["scope"]             == nil
       assert found["sub"]               == nil
@@ -3014,7 +3020,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       query = """
       {
-        getVerify(provider: "facebook", token: "token1") {
+        getVerify(provider: "facebook", token: "ok_token") {
           access_type
           aud
           azp
@@ -3041,7 +3047,7 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       assert found["error"]             == nil
       assert found["error_description"] == nil
       assert found["exp"]               == nil
-      assert found["expires_in"]        == "3320"
+      assert found["expires_in"]        == "5156727"
       assert found["provider"]          == "facebook"
       assert found["scope"]             == nil
       assert found["sub"]               == nil
@@ -3370,7 +3376,62 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       query = """
       mutation {
         signUp(
-          email: "oleg@yahoo.com",
+          code: "ok_code",
+          provider: "facebook"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.mutation_skeleton(query))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signUp"]
+
+      assert created["access_token"]      =~ "SFMyNTY.g2gDbQAAABI5eF"
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == "facebook"
+    end
+
+    it "create user used code by facebook and return access token - `Absinthe.run`" do
+      context = %{}
+
+      query = """
+      mutation {
+        signUp(
+          code: "ok_code",
+          provider: "facebook"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signUp" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      =~ "SFMyNTY.g2gDbQAAABI5eF"
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == "facebook"
+    end
+
+    it "return error by facebook when code is fault - `AbsintheHelpers`" do
+      query = """
+      mutation {
+        signUp(
+          code: "wrong_code",
           provider: "facebook"
         ) {
           access_token
@@ -3390,18 +3451,18 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       created = json_response(res, 200)["data"]["signUp"]
 
       assert created["access_token"]      == nil
-      assert created["error"]             == "invalid_grant"
-      assert created["error_description"] == "Malformed auth code."
+      assert created["error"]             == "OAuthException, 100"
+      assert created["error_description"] == "Invalid verification code format."
       assert created["provider"]          == "facebook"
     end
 
-    it "create user used code by facebook and return access token - `Absinthe.run`" do
+    it "return error by facebook when code is fault - `Absinthe.run`" do
       context = %{}
 
       query = """
       mutation {
         signUp(
-          email: "oleg@yahoo.com",
+          code: "wrong_code",
           provider: "facebook"
         ) {
           access_token
@@ -3412,12 +3473,11 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
       }
       """
 
-      {:ok, %{data: %{"signUp" => created}}} =
-        Absinthe.run(query, Schema, context: context)
+      {:ok, %{data: %{"signUp" => created}}} = Absinthe.run(query, Schema, context: context)
 
       assert created["access_token"]      == nil
-      assert created["error"]             == "invalid_grant"
-      assert created["error_description"] == "Malformed auth code."
+      assert created["error"]             == "OAuthException, 100"
+      assert created["error_description"] == "Invalid verification code format."
       assert created["provider"]          == "facebook"
     end
 
@@ -3923,11 +3983,13 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
     end
 
     it "signin via facebook and return access token - `AbsintheHelpers`" do
-      struct = insert(:user, provider: "facebook")
+      struct = insert(:user, email: "kapranov.lugatex@gmail.com", provider: "facebook")
 
       query = """
       {
         signIn(
+          code: "ok_code",
+          email: \"#{struct.email}\",
           provider: \"#{struct.provider}\"
         ) {
           access_token
@@ -3946,19 +4008,80 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
 
       created = json_response(res, 200)["data"]["signIn"]
 
-      assert created["access_token"]      == nil
-      assert created["error"]             == "invalid code"
-      assert created["error_description"] == "code doesn't correct"
+      assert created["access_token"]      =~ "SFMyNTY.g2gDbQAAABI5eF"
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
       assert created["provider"]          == "facebook"
     end
 
     it "signin via facebook and return access token - `Argument.run`" do
-      struct = insert(:user, provider: "facebook")
-      context = %{}
+      struct = insert(:user, email: "kapranov.lugatex@gmail.com", provider: "facebook")
+      context = %{current_user: struct}
 
       query = """
       {
         signIn(
+          code: "ok_code",
+          email: \"#{struct.email}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+
+      {:ok, %{data: %{"signIn" => created}}} =
+        Absinthe.run(query, Schema, context: context)
+
+      assert created["access_token"]      =~ "SFMyNTY.g2gDbQAAABI5eF"
+      assert created["error"]             == nil
+      assert created["error_description"] == nil
+      assert created["provider"]          == "facebook"
+    end
+
+    it "return error via facebook when code doesn't exist - `AbsintheHelpers`" do
+      struct = insert(:user, email: "kapranov.lugatex@gmail.com", provider: "facebook")
+
+      query = """
+      {
+        signIn(
+          code: "wrong_code",
+          email: \"#{struct.email}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
+
+      assert json_response(res, 200)["errors"] == nil
+
+      created = json_response(res, 200)["data"]["signIn"]
+
+      assert created["access_token"]      == nil
+      assert created["error"]             == "OAuthException, 100"
+      assert created["error_description"] == "Invalid verification code format."
+      assert created["provider"]          == "facebook"
+    end
+
+    it "return error via facebook when code doesn't exist - `Absinthe.run`" do
+      struct = insert(:user, email: "kapranov.lugatex@gmail.com", provider: "facebook")
+      context = %{current_user: struct}
+
+      query = """
+      {
+        signIn(
+          code: "wrong_code",
+          email: \"#{struct.email}\",
           provider: \"#{struct.provider}\"
         ) {
           access_token
@@ -3973,9 +4096,33 @@ defmodule ServerWeb.GraphQL.Integration.Accounts.UserIntegrationTest do
         Absinthe.run(query, Schema, context: context)
 
       assert created["access_token"]      == nil
-      assert created["error"]             == "invalid code"
-      assert created["error_description"] == "code doesn't correct"
+      assert created["error"]             == "OAuthException, 100"
+      assert created["error_description"] == "Invalid verification code format."
       assert created["provider"]          == "facebook"
+    end
+
+    it "return error via facebook when code is nil - `AbsintheHelpers`" do
+      struct = insert(:user, email: "kapranov.lugatex@gmail.com", provider: "facebook")
+
+      query = """
+      {
+        signIn(
+          code: nil,
+          email: \"#{struct.email}\",
+          provider: \"#{struct.provider}\"
+        ) {
+          access_token
+          provider
+          error
+          error_description
+        }
+      }
+      """
+      res =
+        build_conn()
+        |> post("/graphiql", AbsintheHelpers.query_skeleton(query, "signIn"))
+
+      assert hd(json_response(res, 200)["errors"])["message"] == "Argument \"code\" has invalid value nil."
     end
 
     it "signin via twitter and return access token - `AbsintheHelpers`" do
