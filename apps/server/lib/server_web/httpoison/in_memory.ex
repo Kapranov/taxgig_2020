@@ -26,12 +26,13 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
   @linkedin_refresh "https://www.linkedin.com/oauth/v2/accessToken"
   @linkedin_token   "https://api.linkedin.com/v2/me?oauth2_access_token=#{@token_wrong}"
 
+  @facebook_client_id Application.get_env(:server, Facebook)[:client_id]
+  @facebook_client_secret Application.get_env(:server, Facebook)[:client_secret]
+  @facebook_fields "first_name,last_name,middle_name,name,email,picture.type(normal){url}"
   @facebook_profile "https://graph.facebook.com/me?"
   @facebook_refresh "https://graph.facebook.com/oauth/client_code?"
   @facebook_token   "https://graph.facebook.com/oauth/access_token?"
   @facebook_verify  "https://graph.facebook.com/oauth/access_token_info?"
-  @facebook_client_id Application.get_env(:server, Facebook)[:client_id]
-  @facebook_client_secret Application.get_env(:server, Facebook)[:client_secret]
 
   @redirect_uri URI.decode("#{Application.get_env(:server, Facebook)[:redirect_uri]}")
 
@@ -99,6 +100,12 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
   @facebook_refresh_token_url_wrong "#{@facebook_refresh}client_id=#{@facebook_client_id}&client_secret=#{@facebook_client_secret}&redirect_uri=#{@redirect_uri}&access_token=#{@token_wrong}"
   @facebook_token_ok "#{@facebook_token}client_id=#{@facebook_client_id}&redirect_uri=#{@redirect_uri}&client_secret=#{@facebook_client_secret}&code=#{@code_ok}"
   @facebook_token_wrong "#{@facebook_token}client_id=#{@facebook_client_id}&redirect_uri=#{@redirect_uri}&client_secret=#{@facebook_client_secret}&code=#{@code_wrong}"
+  @facebook_refresh_token_ok "#{@facebook_token}client_id=#{@facebook_client_id}&client_secret=#{@facebook_client_secret}&grant_type=fb_exchange_token&fb_exchange_token=ok_token"
+  @facebook_refresh_token_wrong "#{@facebook_token}client_id=#{@facebook_client_id}&client_secret=#{@facebook_client_secret}&grant_type=fb_exchange_token&fb_exchange_token=wrong_token"
+  @facebook_verify_ok "#{@facebook_verify}access_token=ok_token"
+  @facebook_verify_wrong "#{@facebook_verify}access_token=wrong_token"
+  @facebook_profile_ok "#{@facebook_profile}fields=#{@facebook_fields}&access_token=ok_token"
+  @facebook_profile_wrong "#{@facebook_profile}fields=#{@facebook_fields}&access_token=wrong_token"
 
   @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
   def get(@google_email_ok), do: {:ok, %{body: Jason.encode!(google_email_ok())}}
@@ -125,7 +132,10 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
   def get(@google_token), do: {:ok, %{body: Jason.encode!(%{email: "kapranov.lugatex@gmail.com"})}}
 
   @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
-  def get(@facebook_profile), do: {:ok, %{body: Jason.encode!(%{email: "lugatex@yahoo.com"})}}
+  def get(@facebook_profile_ok), do: {:ok, %{body: Jason.encode!(facebook_profile_ok())}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
+  def get(@facebook_profile_wrong), do: {:ok, %{body: Jason.encode!(facebook_profile_wrong())}}
 
   @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
   def get(@facebook_refresh_token_url_ok), do: {:ok, %{body: Jason.encode!(facebook_refresh_token_url_ok())}}
@@ -140,7 +150,16 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
   def get(@facebook_token_wrong), do: {:ok, %{body: Jason.encode!(facebook_token_wrong())}}
 
   @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
-  def get(@facebook_verify), do: {:ok, %{body: Jason.encode!(%{email: "lugatex@yahoo.com"})}}
+  def get(@facebook_refresh_token_ok), do: {:ok, %{body: Jason.encode!(facebook_token_ok())}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
+  def get(@facebook_refresh_token_wrong), do: {:ok, %{body: Jason.encode!(facebook_refresh_token_wrong())}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
+  def get(@facebook_verify_ok), do: {:ok, %{body: Jason.encode!(facebook_token_ok())}}
+
+  @spec get(String.t()) :: {:ok, %{atom => %{atom => any}}}
+  def get(@facebook_verify_wrong), do: {:ok, %{body: Jason.encode!(facebook_verify_token_wrong())}}
 
   @spec get(any()) :: {:ok, %{atom => %{atom => any}}}
   def get(_url), do: {:ok, %{body: Jason.encode!(google_verify_ok())}}
@@ -619,4 +638,55 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
       }
     }
   end
+
+ @spec facebook_refresh_token_wrong() :: %{atom => String.t()}
+ defp facebook_refresh_token_wrong() do
+   %{"error" => %{
+       "code" => 190,
+       "fbtrace_id" => "ASkYF_z0sdiT0CZkc6W8cBd",
+       "message" => "Invalid OAuth access token.",
+       "type" => "OAuthException"
+     }
+   }
+ end
+
+ @spec facebook_verify_token_wrong() :: %{atom => String.t()}
+ defp facebook_verify_token_wrong() do
+   %{"error" => %{
+       "code" => 190,
+       "fbtrace_id" => "ASkYF_z0sdiT0CZkc6W8cBd",
+       "message" => "Invalid OAuth access token.",
+       "type" => "OAuthException"
+     }
+   }
+ end
+
+ @spec facebook_profile_ok() :: %{atom => String.t()}
+ defp facebook_profile_ok do
+   %{
+     "email" => "lugatex@yahoo.com",
+     "first_name" => "Kapranov",
+     "id" => "2823281904434541",
+     "last_name" => "Oleg",
+     "middle_name" => "George",
+     "name" => "Oleg George Kapranov",
+     "picture" => %{
+       "data" => %{
+         "url" => "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2823281904434541&height=100&width=100&ext=1598500861&hash=AeQ6Kgvv4CwAx0ll"
+       }
+     }
+   }
+ end
+
+ @spec facebook_profile_wrong() :: %{atom => String.t()}
+ defp facebook_profile_wrong do
+   %{
+     "error" => %{
+       "code" => 190,
+       "fbtrace_id" => "AZTuDPRtIBByWYNhkUdZyH0",
+       "message" => "Invalid OAuth access token.",
+       "type" => "OAuthException"
+     }
+   }
+ end
 end
