@@ -381,32 +381,12 @@ defmodule ServerWeb.Provider.InMemoryTest do
     assert code =~ "AQCkGgxi5MAsrEpRjruN"
   end
 
-  test "return error Facebook refresh token login url with incorrect token" do
-    {:ok, %{"error" => error}} = OauthFacebook.generate_refresh_token_url("wrong_token")
-    assert error == %{
-      "code" => 190,
-      "fbtrace_id" => "AZgoghNdR9h92X-S2T1BG_M",
-      "message" => "Invalid OAuth access token.",
-      "type" => "OAuthException"
-    }
-  end
-
   test "get Facebook token" do
     {:ok, data} = OauthFacebook.token("ok_code")
     assert data == %{
       "access_token" => "EAAJ3B40DJTcBAP83UjtPGyvS7e9GdVUFSxvZB0VZCdcPUqnOq3ow35ZBu7b76LnlLp6eHRfdytk8W4n2CDPnaRZC9q1LAo1GQYgOZAg0iG09bZBIdIivSOFzr9r1bT3KRUMGlWpPB4IzCyIj3rhBW1R5ELl5Nx2Pk3lfiA24wZBiAZDZD",
       "expires_in" => 5156727,
       "token_type" => "bearer"
-    }
-  end
-
-  test "return error Facebook token with incorrect code" do
-    {:ok, %{"error" => error}} = OauthFacebook.token("wrong_code")
-    assert error == %{
-      "code" => 100,
-      "fbtrace_id" => "ApLl8YdAiL_i5P0BLCdaGix",
-      "message" => "Invalid verification code format.",
-      "type" => "OAuthException"
     }
   end
 
@@ -419,36 +399,12 @@ defmodule ServerWeb.Provider.InMemoryTest do
     }
   end
 
-  test "return error Facebook refresh token with incorrect token" do
-    {:ok, error} = OauthFacebook.refresh_token("wrong_token")
-    assert error == %{
-      "error" => %{
-        "code" => 190,
-        "fbtrace_id" => "ASkYF_z0sdiT0CZkc6W8cBd",
-        "message" => "Invalid OAuth access token.",
-        "type" => "OAuthException"
-      }
-    }
-  end
-
   test "get Facebook verify token" do
     {:ok, data} = OauthFacebook.verify_token("ok_token")
     assert data == %{
       "access_token" => "EAAJ3B40DJTcBAP83UjtPGyvS7e9GdVUFSxvZB0VZCdcPUqnOq3ow35ZBu7b76LnlLp6eHRfdytk8W4n2CDPnaRZC9q1LAo1GQYgOZAg0iG09bZBIdIivSOFzr9r1bT3KRUMGlWpPB4IzCyIj3rhBW1R5ELl5Nx2Pk3lfiA24wZBiAZDZD",
       "expires_in" => 5156727,
       "token_type" => "bearer"
-    }
-  end
-
-  test "return error Facebook verify token with incorrect token" do
-    {:ok, error} = OauthFacebook.verify_token("wrong_token")
-    assert error == %{
-      "error" => %{
-        "code" => 190,
-        "fbtrace_id" => "ASkYF_z0sdiT0CZkc6W8cBd",
-        "message" => "Invalid OAuth access token.",
-        "type" => "OAuthException"
-      }
     }
   end
 
@@ -469,15 +425,46 @@ defmodule ServerWeb.Provider.InMemoryTest do
     }
   end
 
-  test "get error Facebook user profile with incorrect token" do
-    {:ok, error} = OauthFacebook.user_profile("wrong_token")
-    assert error == %{
-      "error" => %{
-        "code" => 190,
-        "fbtrace_id" => "AZTuDPRtIBByWYNhkUdZyH0",
-        "message" => "Invalid OAuth access token.",
-        "type" => "OAuthException"
-      }
-    }
+  test "return Facebook's error with incorrect token" do
+    assert OauthFacebook.generate_refresh_token_url("wrong_token") == {:ok, %{
+        "error" => %{
+          "code" => 190,
+          "fbtrace_id" => "AZgoghNdR9h92X-S2T1BG_M",
+          "message" => "Invalid OAuth access token.",
+          "type" => "OAuthException"
+        }
+      }}
+    assert OauthFacebook.token("wrong_code") == {:ok, %{
+        "error" => %{
+          "code" => 100,
+          "fbtrace_id" => "ApLl8YdAiL_i5P0BLCdaGix",
+          "message" => "Invalid verification code format.",
+          "type" => "OAuthException"
+        }
+      }}
+    assert OauthFacebook.refresh_token("wrong_token") == {:ok, %{
+        "error" => %{
+          "code" => 190,
+          "fbtrace_id" => "ASkYF_z0sdiT0CZkc6W8cBd",
+          "message" => "Invalid OAuth access token.",
+          "type" => "OAuthException"
+        }
+      }}
+    assert OauthFacebook.verify_token("wrong_token") == {:ok, %{
+        "error" => %{
+          "code" => 190,
+          "fbtrace_id" => "ASkYF_z0sdiT0CZkc6W8cBd",
+          "message" => "Invalid OAuth access token.",
+          "type" => "OAuthException"
+        }
+      }}
+    assert OauthFacebook.user_profile("wrong_token") == {:ok, %{
+        "error" => %{
+          "code" => 190,
+          "fbtrace_id" => "AZTuDPRtIBByWYNhkUdZyH0",
+          "message" => "Invalid OAuth access token.",
+          "type" => "OAuthException"
+        }
+      }}
   end
 end
