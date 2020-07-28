@@ -326,8 +326,18 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       }
     end
 
-    it "return error token by localhost" do
+    it "return error token by localhost token is ok" do
       args = %{provider: "localhost", code: "ok_code"}
+      {:ok, error} = UserResolver.get_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider",
+        provider: "localhost"
+      }
+    end
+
+    it "return error token by localhost token is wrong_code" do
+      args = %{provider: "localhost", code: "wrong_code"}
       {:ok, error} = UserResolver.get_token(%{}, args, %{})
       assert error == %{
         error: "invalid provider",
@@ -366,7 +376,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       }
     end
 
-    it "return error when only code" do
+    it "return error when only code code is ok_code" do
       args = %{code: "ok_code"}
       {:ok, error} = UserResolver.get_token(%{}, args, %{})
       assert error == %{
@@ -376,13 +386,52 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       }
     end
 
-    it "return error when code isn't correct" do
+    it "return error when only code code is wrong_code" do
+      args = %{code: "wrong_code"}
+      {:ok, error} = UserResolver.get_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider",
+        provider: nil
+      }
+    end
+
+    it "return error google when code isn't correct" do
       args = %{provider: "google", code: nil}
       {:ok, error} = UserResolver.get_token(%{}, args, %{})
       assert error == %{
         error: "invalid provider",
         error_description: "invalid url by provider",
         provider: "google"
+      }
+    end
+
+    it "return error linkedin when code isn't correct" do
+      args = %{provider: "linkedin", code: nil}
+      {:ok, error} = UserResolver.get_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider",
+        provider: "linkedin"
+      }
+    end
+
+    it "return error facebook when code isn't correct" do
+      args = %{provider: "facebook", code: nil}
+      {:ok, error} = UserResolver.get_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid provider",
+        error_description: "invalid url by provider",
+        provider: "facebook"
+      }
+    end
+
+    it "return error twitter when code isn't correct" do
+      args = %{provider: "twitter", code: nil}
+      {:ok, error} = UserResolver.get_token(%{}, args, %{})
+      assert error == %{
+        access_token: :ok,
+        provider: "twitter"
       }
     end
   end
@@ -492,7 +541,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       }
     end
 
-    it "return error refresh token by google when isn't correct" do
+    it "return error refresh token by google when token is nil" do
       args = %{provider: "google", token: nil}
       {:ok, error} = UserResolver.get_refresh_token(%{}, args, %{})
       assert error == %{
@@ -514,6 +563,22 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       assert error == %{
         error: "invalid_grant",
         error_description: "Bad Request",
+        provider: "google",
+        access_token: nil,
+        expires_in: nil,
+        id_token: nil,
+        refresh_token: nil,
+        scope: nil,
+        token_type: nil
+      }
+    end
+
+    it "return error refresh token by google when token is not correct" do
+      args = %{provider: "google", token: "wrong_token"}
+      {:ok, error} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid_grant",
+        error_description: "Token has been expired or revoked.",
         provider: "google",
         access_token: nil,
         expires_in: nil,
@@ -572,7 +637,23 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       }
     end
 
-    it "return refresh token  by facebook" do
+    it "return error token by linkedin when token is not correct" do
+      args = %{provider: "linkedin", token: "wrong_token"}
+      {:ok, error} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid_grant",
+        error_description: "The provided authorization grant or refresh token is invalid, expired or revoked.",
+        access_token: nil,
+        expires_in: nil,
+        id_token: nil,
+        provider: "linkedin",
+        refresh_token: nil,
+        scope: nil,
+        token_type: nil
+      }
+    end
+
+    it "return refresh token by facebook" do
       args = %{provider: "facebook", token: "ok_token"}
       {:ok, data} = UserResolver.get_refresh_token(%{}, args, %{})
       assert data == %{
@@ -588,7 +669,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       }
     end
 
-    it "return error refresh token  by facebook" do
+    it "return error refresh token by facebook" do
       args = %{provider: "facebook", token: "wrong_token"}
       {:ok, error} = UserResolver.get_refresh_token(%{}, args, %{})
       assert error == %{
@@ -598,7 +679,27 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       }
     end
 
-    it "return refresh token  by twitter" do
+    it "return error refresh token by facebook when token is nil" do
+      args = %{provider: "facebook", token: nil}
+      {:ok, error} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid_grant",
+        error_description: "Bad Request",
+        provider: "facebook"
+      }
+    end
+
+    it "return error token by facebook when doesn't exist" do
+      args = %{provider: "facebook"}
+      {:ok, error} = UserResolver.get_refresh_token(%{}, args, %{})
+      assert error == %{
+        error: "invalid_grant",
+        error_description: "Bad Request",
+        provider: "facebook"
+      }
+    end
+
+    it "return refresh token by twitter" do
       args = %{provider: "twitter"}
       {:ok, %{access_token: data}} = UserResolver.get_refresh_token(%{}, args, %{})
       assert data == :ok
@@ -677,6 +778,23 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       }
     end
 
+    it "return error by google when token isn't correct" do
+      args = %{provider: "google", token: "wrong_token"}
+      {:ok, error} = UserResolver.verify_token(%{}, args, %{})
+      assert error == %{
+        access_type: nil,
+        aud: nil,
+        azp: nil,
+        error: nil,
+        error_description: "Invalid Value",
+        exp: nil,
+        expires_in: nil,
+        provider: "google",
+        scope: nil,
+        sub: nil
+      }
+    end
+
     it "return checked out token by linkedin" do
       args = %{provider: "linkedin", token: "token1"}
       {:ok, data} = UserResolver.verify_token(%{}, args, %{})
@@ -702,7 +820,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
         error: "Invalid access token",
         error_description: "serviceErrorCode 65600 and 401 status"
       }
+    end
 
+    it "return error by linkedin when token isn't correct" do
+      args = %{provider: "linkedin", token: "wrong_token"}
+      {:ok, data} = UserResolver.verify_token(%{}, args, %{})
+      assert data == %{
+        error: "Invalid access token",
+        error_description: "serviceErrorCode 65600 and 401 status"
+      }
     end
 
     it "return checked out token by facebook" do
@@ -967,6 +1093,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       }
     end
 
+    it "return error by google when email is not correct" do
+      insert(:user, provider: "google", email: "lugatex@yahoo.com")
+      args = %{provider: "google", code: "ok_code"}
+      {:ok, error} = UserResolver.signin(%{}, args, %{})
+      assert error == %{
+        error: "invalid an email",
+        error_description: "an email is empty or doesn't correct",
+        provider: "google"
+      }
+    end
+
     it "signin via linkedin and return access token" do
       insert(:user, provider: "linkedin", email: "lugatex@yahoo.com")
       args = %{provider: "linkedin", code: "ok_code"}
@@ -1001,6 +1138,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       assert error == %{
         error: "invalid_request",
         error_description: "Unable to retrieve access token: authorization code not found",
+        provider: "linkedin"
+      }
+    end
+
+    it "return error by linkedin when email is not correct" do
+      insert(:user, provider: "linkedin", email: "xxx")
+      args = %{provider: "linkedin", code: "ok_code"}
+      {:ok, error} = UserResolver.signin(%{}, args, %{})
+      assert error == %{
+        error: nil,
+        error_description: nil,
         provider: "linkedin"
       }
     end
@@ -1041,6 +1189,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolverTest do
       assert error == %{
         error: "OAuthException, 100",
         error_description: "Invalid verification code format.",
+        provider: "facebook"
+      }
+    end
+
+    it "return error by facebook when email is not correct" do
+      insert(:user, provider: "facebook", email: "lugatex@yahoo.com")
+      args = %{provider: "facebook", code: "ok_code"}
+      {:ok, error} = UserResolver.signin(%{}, args, %{})
+      assert error == %{
+        error: "invalid an email",
+        error_description: "an email is empty or doesn't correct",
         provider: "facebook"
       }
     end
