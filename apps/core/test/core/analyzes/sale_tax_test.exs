@@ -515,6 +515,151 @@ defmodule Core.Analyzes.SaleTaxTest do
       }
     end
 
+    test "return match_sale_tax_frequency when match is 0 by role Pro" do
+      name = "Monthly"
+      match = insert(:match_value_relat, match_for_sale_tax_frequency: 0)
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name, price: 22, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_match_sale_tax_frequency(st_pro.id)
+      assert match.match_for_sale_tax_frequency == 0
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 22
+      assert format_name(stf_tp.name)           == "Monthly"
+      assert stf_tp.price                       == nil
+      assert data                               == %{st_tp.id => match.match_for_sale_tax_frequency}
+    end
+
+    test "return match_sale_tax_frequency when match is 1 by role Pro" do
+      name = "Monthly"
+      match = insert(:match_value_relat, match_for_sale_tax_frequency: 1)
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name, price: 22, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_match_sale_tax_frequency(st_pro.id)
+      assert match.match_for_sale_tax_frequency == 1
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 22
+      assert format_name(stf_tp.name)           == "Monthly"
+      assert stf_tp.price                       == nil
+      assert data                               == %{st_tp.id => match.match_for_sale_tax_frequency}
+    end
+
+    test "return match_sale_tax_frequency when match is nil by role Pro" do
+      name = "Monthly"
+      match = insert(:match_value_relat, match_for_sale_tax_frequency: nil)
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name, price: 22, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_match_sale_tax_frequency(st_pro.id)
+      assert match.match_for_sale_tax_frequency == nil
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 22
+      assert format_name(stf_tp.name)           == "Monthly"
+      assert stf_tp.price                       == nil
+      assert data                               == %{st_tp.id => 0}
+    end
+
+    test "return match_sale_tax_frequency when price is 0 by role Pro" do
+      name = "Monthly"
+      match = insert(:match_value_relat)
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name, price: 0, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_match_sale_tax_frequency(st_pro.id)
+      assert match.match_for_sale_tax_frequency == 10
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 0
+      assert format_name(stf_tp.name)           == "Monthly"
+      assert stf_tp.price                       == nil
+      assert data                               == :error
+    end
+
+    test "return match_sale_tax_frequency when price is nil by role Pro" do
+      name = "Monthly"
+      match = insert(:match_value_relat)
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name, price: nil, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_match_sale_tax_frequency(st_pro.id)
+      assert match.match_for_sale_tax_frequency == 10
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == nil
+      assert format_name(stf_tp.name)           == "Monthly"
+      assert stf_tp.price                       == nil
+      assert data                               == :error
+    end
+
+    test "return match_sale_tax_frequency when price is 1 by role Pro" do
+      name = "Monthly"
+      match = insert(:match_value_relat)
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name, price: 1, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_match_sale_tax_frequency(st_pro.id)
+      assert match.match_for_sale_tax_frequency == 10
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 1
+      assert format_name(stf_tp.name)           == "Monthly"
+      assert stf_tp.price                       == nil
+      assert data                               == %{st_tp.id => match.match_for_sale_tax_frequency}
+    end
+
+    test "return match_sale_tax_frequency when name is nil by role Pro" do
+      name = "Monthly"
+      match = insert(:match_value_relat)
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name, price: 22, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: nil, sale_taxes: st_tp)
+      data = SaleTax.check_match_sale_tax_frequency(st_pro.id)
+      assert match.match_for_sale_tax_frequency == 10
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 22
+      assert stf_tp.name                        == nil
+      assert stf_tp.price                       == nil
+      assert data                               == %{}
+    end
+
+    test "return match_sale_tax_frequency when name is diffrence by role Pro" do
+      name_for_tp = "Annually"
+      name_for_pro = "Monthly"
+      match = insert(:match_value_relat)
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name_for_pro, price: 22, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: name_for_tp, sale_taxes: st_tp)
+      data = SaleTax.check_match_sale_tax_frequency(st_pro.id)
+      assert match.match_for_sale_tax_frequency == 10
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 22
+      assert format_name(stf_tp.name)           == "Annually"
+      assert stf_tp.price                       == nil
+      assert data                               == %{}
+    end
+
     test "return match_sale_tax_industry by role Tp" do
       name = Enum.sort(["Legal"])
       names = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
@@ -559,6 +704,40 @@ defmodule Core.Analyzes.SaleTaxTest do
         st_pro2.id => match.match_for_sale_tax_industry,
         st_pro3.id => match.match_for_sale_tax_industry
       }
+    end
+
+    test "return match_sale_tax_industry when name is nil by role Tp" do
+      name = []
+      names = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
+      match = insert(:match_value_relat)
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_industry, name: names, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_industry, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_match_sale_tax_industry(st_tp.id)
+      assert match.match_for_sale_tax_industry == 10
+      assert format_names(stf_pro.name)        == names
+      assert format_names(stf_tp.name)         == name
+      assert data                              == %{}
+    end
+
+    test "return match_sale_tax_industry when name is other one by role Tp" do
+      name = ["Financial Services"]
+      names = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
+      match = insert(:match_value_relat)
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_industry, name: names, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_industry, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_match_sale_tax_industry(st_tp.id)
+      assert match.match_for_sale_tax_industry == 10
+      assert format_names(stf_pro.name)        == names
+      assert format_names(stf_tp.name)         == name
+      assert data                              == %{}
     end
 
     test "return match_sale_tax_industry by role Pro" do
@@ -606,6 +785,91 @@ defmodule Core.Analyzes.SaleTaxTest do
         st_tp3.id => match.match_for_sale_tax_industry
       }
     end
+
+    test "return match_sale_tax_industry when match is 0 by role Pro" do
+      name = Enum.sort(["Legal"])
+      names = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
+      match = insert(:match_value_relat, match_for_sale_tax_industry: 0)
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_industry, name: names, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_industry, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_match_sale_tax_industry(st_pro.id)
+      assert match.match_for_sale_tax_industry == 0
+      assert format_names(stf_pro.name)        == names
+      assert format_names(stf_tp.name)         == name
+      assert data                              == %{st_tp.id => match.match_for_sale_tax_industry}
+    end
+
+    test "return match_sale_tax_industry when match is nil by role Pro" do
+      name = Enum.sort(["Legal"])
+      names = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
+      match = insert(:match_value_relat, match_for_sale_tax_industry: 0)
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_industry, name: names, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_industry, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_match_sale_tax_industry(st_pro.id)
+      assert match.match_for_sale_tax_industry == 0
+      assert format_names(stf_pro.name)        == names
+      assert format_names(stf_tp.name)         == name
+      assert data                              == %{st_tp.id => match.match_for_sale_tax_industry}
+    end
+
+    test "return match_sale_tax_industry when match is 1 by role Pro" do
+      name = Enum.sort(["Legal"])
+      names = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
+      match = insert(:match_value_relat, match_for_sale_tax_industry: 0)
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_industry, name: names, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_industry, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_match_sale_tax_industry(st_pro.id)
+      assert match.match_for_sale_tax_industry == 0
+      assert format_names(stf_pro.name)        == names
+      assert format_names(stf_tp.name)         == name
+      assert data                              == %{st_tp.id => match.match_for_sale_tax_industry}
+    end
+
+    test "return match_sale_tax_industry when name is other one by role Pro" do
+      name = Enum.sort(["Legal"])
+      names = Enum.sort(["Transportation", "Hospitality", "Retail", "Education"])
+      match = insert(:match_value_relat)
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_industry, name: names, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_industry, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_match_sale_tax_industry(st_pro.id)
+      assert match.match_for_sale_tax_industry == 10
+      assert format_names(stf_pro.name)        == names
+      assert format_names(stf_tp.name)         == name
+      assert data                              == %{}
+    end
+
+    test "return match_sale_tax_industry when name is nil by role Pro" do
+      name = Enum.sort(["Legal"])
+      names = Enum.sort([])
+      match = insert(:match_value_relat)
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_industry, name: names, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_industry, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_match_sale_tax_industry(st_pro.id)
+      assert match.match_for_sale_tax_industry == 10
+      assert format_names(stf_pro.name)        == names
+      assert format_names(stf_tp.name)         == name
+      assert data                              == %{}
+    end
   end
 
   describe "#check_price" do
@@ -647,6 +911,58 @@ defmodule Core.Analyzes.SaleTaxTest do
       }
     end
 
+    test "return price_sale_tax_count when sale_tax_count is 0 by role Tp" do
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
+      st_tp = insert(:tp_sale_tax, sale_tax_count: 0, user: tp)
+      data = SaleTax.check_price_sale_tax_count(st_tp.id)
+      assert st_pro.price_sale_tax_count == 22
+      assert st_pro.sale_tax_count       == nil
+      assert st_tp.price_sale_tax_count  == nil
+      assert st_tp.sale_tax_count        == 0
+      assert data                        == :error
+    end
+
+    test "return price_sale_tax_count when sale_tax_count is 1 by role Tp" do
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
+      st_tp = insert(:tp_sale_tax, sale_tax_count: 0, user: tp)
+      data = SaleTax.check_price_sale_tax_count(st_tp.id)
+      assert st_pro.price_sale_tax_count == 22
+      assert st_pro.sale_tax_count       == nil
+      assert st_tp.price_sale_tax_count  == nil
+      assert st_tp.sale_tax_count        == 0
+      assert data                        == :error
+    end
+
+    test "return price_sale_tax_count when is 0 by role Tp" do
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 0, user: pro)
+      st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
+      data = SaleTax.check_price_sale_tax_count(st_tp.id)
+      assert st_pro.price_sale_tax_count == 0
+      assert st_pro.sale_tax_count       == nil
+      assert st_tp.price_sale_tax_count  == nil
+      assert st_tp.sale_tax_count        == 22
+      assert data                        == %{}
+    end
+
+    test "return price_sale_tax_count when is nil by role Tp" do
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: nil, user: pro)
+      st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
+      data = SaleTax.check_price_sale_tax_count(st_tp.id)
+      assert st_pro.price_sale_tax_count == nil
+      assert st_pro.sale_tax_count       == nil
+      assert st_tp.price_sale_tax_count  == nil
+      assert st_tp.sale_tax_count        == 22
+      assert data                        == %{}
+    end
+
     test "return price_sale_tax_count by role Pro" do
       pro = insert(:pro_user)
       tp = insert(:tp_user, languages: [])
@@ -685,6 +1001,84 @@ defmodule Core.Analyzes.SaleTaxTest do
       }
     end
 
+    test "return price_sale_tax_count when sale_tax_count is 0 by role Pro" do
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
+      st_tp = insert(:tp_sale_tax, sale_tax_count: 0, user: tp)
+      data = SaleTax.check_price_sale_tax_count(st_pro.id)
+      assert st_pro.price_sale_tax_count == 22
+      assert st_pro.sale_tax_count       == nil
+      assert st_tp.price_sale_tax_count  == nil
+      assert st_tp.sale_tax_count        == 0
+      assert data                        == %{}
+    end
+
+    test "return price_sale_tax_count when sale_tax_count is nil by role Pro" do
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
+      st_tp = insert(:tp_sale_tax, sale_tax_count: nil, user: tp)
+      data = SaleTax.check_price_sale_tax_count(st_pro.id)
+      assert st_pro.price_sale_tax_count == 22
+      assert st_pro.sale_tax_count       == nil
+      assert st_tp.price_sale_tax_count  == nil
+      assert st_tp.sale_tax_count        == nil
+      assert data                        == %{}
+    end
+
+    test "return price_sale_tax_count when sale_tax_count is 1 by role Pro" do
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
+      st_tp = insert(:tp_sale_tax, sale_tax_count: 1, user: tp)
+      data = SaleTax.check_price_sale_tax_count(st_pro.id)
+      assert st_pro.price_sale_tax_count == 22
+      assert st_pro.sale_tax_count       == nil
+      assert st_tp.price_sale_tax_count  == nil
+      assert st_tp.sale_tax_count        == 1
+      assert data                        == %{}
+    end
+
+    test "return price_sale_tax_count when is 0 by role Pro" do
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 0, user: pro)
+      st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
+      data = SaleTax.check_price_sale_tax_count(st_pro.id)
+      assert st_pro.price_sale_tax_count == 0
+      assert st_pro.sale_tax_count       == nil
+      assert st_tp.price_sale_tax_count  == nil
+      assert st_tp.sale_tax_count        == 22
+      assert data                        == :error
+    end
+
+    test "return price_sale_tax_count when is nil by role Pro" do
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: nil, user: pro)
+      st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
+      data = SaleTax.check_price_sale_tax_count(st_pro.id)
+      assert st_pro.price_sale_tax_count == nil
+      assert st_pro.sale_tax_count       == nil
+      assert st_tp.price_sale_tax_count  == nil
+      assert st_tp.sale_tax_count        == 22
+      assert data                        == :error
+    end
+
+    test "return price_sale_tax_count when is 1 by role Pro" do
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 1, user: pro)
+      st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
+      data = SaleTax.check_price_sale_tax_count(st_pro.id)
+      assert st_pro.price_sale_tax_count == 1
+      assert st_pro.sale_tax_count       == nil
+      assert st_tp.price_sale_tax_count  == nil
+      assert st_tp.sale_tax_count        == 22
+      assert data                        == %{st_tp.id => 22}
+    end
+
     test "return price_sale_tax_frequency by role Tp" do
       name = "Monthly"
       pro = insert(:pro_user)
@@ -699,6 +1093,87 @@ defmodule Core.Analyzes.SaleTaxTest do
       assert format_name(stf_tp.name)           == "Monthly"
       assert stf_tp.price                       == nil
       assert data                               == %{st_pro.id => 22}
+    end
+
+    test "return price_sale_tax_frequency when name is nil by role Tp" do
+      name = "Monthly"
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name, price: 22, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: nil, sale_taxes: st_tp)
+      data = SaleTax.check_price_sale_tax_frequency(st_tp.id)
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 22
+      assert stf_tp.name                        == nil
+      assert stf_tp.price                       == nil
+      assert data                               == :error
+    end
+
+    test "return price_sale_tax_frequency when name is other one by role Tp" do
+      name_for_tp = "Annually"
+      name_for_pro = "Monthly"
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name_for_pro, price: 22, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: name_for_tp, sale_taxes: st_tp)
+      data = SaleTax.check_price_sale_tax_frequency(st_tp.id)
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 22
+      assert format_name(stf_tp.name)           == "Annually"
+      assert stf_tp.price                       == nil
+      assert data                               == %{}
+    end
+
+    test "return price_sale_tax_frequency when price is 0 by role Tp" do
+      name = "Monthly"
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name, price: 0, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_price_sale_tax_frequency(st_tp.id)
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 0
+      assert format_name(stf_tp.name)           == "Monthly"
+      assert stf_tp.price                       == nil
+      assert data                               == %{}
+    end
+
+    test "return price_sale_tax_frequency when price is nil by role Tp" do
+      name = "Monthly"
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name, price: nil, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_price_sale_tax_frequency(st_tp.id)
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == nil
+      assert format_name(stf_tp.name)           == "Monthly"
+      assert stf_tp.price                       == nil
+      assert data                               == %{}
+    end
+
+    test "return price_sale_tax_frequency when price is 1 by role Tp" do
+      name = "Monthly"
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name, price: 1, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_price_sale_tax_frequency(st_tp.id)
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 1
+      assert format_name(stf_tp.name)           == "Monthly"
+      assert stf_tp.price                       == nil
+      assert data                               == %{st_pro.id => 1}
     end
 
     test "return price_sale_tax_frequency by role Pro" do
@@ -716,33 +1191,167 @@ defmodule Core.Analyzes.SaleTaxTest do
       assert stf_tp.price                       == nil
       assert data                               == %{st_tp.id => 22}
     end
+
+    test "return price_sale_tax_frequency when name is nil by role Pro" do
+      name = "Monthly"
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name, price: 22, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: nil, sale_taxes: st_tp)
+      data = SaleTax.check_price_sale_tax_frequency(st_pro.id)
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 22
+      assert stf_tp.name                        == nil
+      assert stf_tp.price                       == nil
+      assert data                               == %{}
+    end
+
+    test "return price_sale_tax_frequency when name is other one by role Pro" do
+      name_for_tp = "Annually"
+      name_for_pro = "Monthly"
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name_for_pro, price: 22, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: name_for_tp, sale_taxes: st_tp)
+      data = SaleTax.check_price_sale_tax_frequency(st_pro.id)
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 22
+      assert format_name(stf_tp.name)           == "Annually"
+      assert stf_tp.price                       == nil
+      assert data                               == %{}
+    end
+
+    test "return price_sale_tax_frequency when price is 0 by role Pro" do
+      name = "Monthly"
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name, price: 0, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_price_sale_tax_frequency(st_pro.id)
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 0
+      assert format_name(stf_tp.name)           == "Monthly"
+      assert stf_tp.price                       == nil
+      assert data                               == :error
+    end
+
+    test "return price_sale_tax_frequency when price is nil by role Pro" do
+      name = "Monthly"
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name, price: nil, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_price_sale_tax_frequency(st_pro.id)
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == nil
+      assert format_name(stf_tp.name)           == "Monthly"
+      assert stf_tp.price                       == nil
+      assert data                               == :error
+    end
+
+    test "return price_sale_tax_frequency when price is 1 by role Pro" do
+      name = "Monthly"
+      pro = insert(:pro_user)
+      tp = insert(:tp_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_pro = insert(:pro_sale_tax_frequency, name: name, price: 1, sale_taxes: st_pro)
+      stf_tp = insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
+      data = SaleTax.check_price_sale_tax_frequency(st_pro.id)
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 1
+      assert format_name(stf_tp.name)           == "Monthly"
+      assert stf_tp.price                       == nil
+      assert data                               == %{st_tp.id => 1}
+    end
   end
 
   describe "#check_value" do
     test "return value_sale_tax_count by role Tp" do
       match = insert(:match_value_relat, value_for_sale_tax_count: 22)
-      pro = insert(:pro_user)
       tp = insert(:tp_user, languages: [])
-      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
       data = SaleTax.check_value_sale_tax_count(st_tp.id)
       assert D.to_string(match.value_for_sale_tax_count) == "22"
-      assert st_pro.price_sale_tax_count                 == 22
-      assert st_pro.sale_tax_count                       == nil
       assert st_tp.price_sale_tax_count                  == nil
       assert st_tp.sale_tax_count                        == 22
       assert data                                        == %{st_tp.id => D.new("484")}
     end
 
-    test "return value_sale_tax_count when more one pro by role Tp" do
-      match = insert(:match_value_relat, value_for_sale_tax_count: 22)
+    test "return value_sale_tax_count when match is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_sale_tax_count: 0)
       tp = insert(:tp_user, languages: [])
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
       data = SaleTax.check_value_sale_tax_count(st_tp.id)
-      assert D.to_string(match.value_for_sale_tax_count)  == "22"
-      assert st_tp.sale_tax_count                         == 22
-      assert data                                         == %{st_tp.id => D.new("484")}
+      assert D.to_string(match.value_for_sale_tax_count) == "0"
+      assert st_tp.price_sale_tax_count                  == nil
+      assert st_tp.sale_tax_count                        == 22
+      assert data                                        == %{st_tp.id => D.new("0")}
     end
+
+    test "return value_sale_tax_count when match is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_sale_tax_count: nil)
+      tp = insert(:tp_user, languages: [])
+      st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
+      data = SaleTax.check_value_sale_tax_count(st_tp.id)
+      assert match.value_for_sale_tax_count == nil
+      assert st_tp.price_sale_tax_count     == nil
+      assert st_tp.sale_tax_count           == 22
+      assert data                           == %{st_tp.id => D.new("0.0")}
+    end
+
+    test "return value_sale_tax_count when match is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_sale_tax_count: 0)
+      tp = insert(:tp_user, languages: [])
+      st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
+      data = SaleTax.check_value_sale_tax_count(st_tp.id)
+      assert D.to_string(match.value_for_sale_tax_count) == "0"
+      assert st_tp.price_sale_tax_count                  == nil
+      assert st_tp.sale_tax_count                        == 22
+      assert data                                        == %{st_tp.id => D.new("0")}
+    end
+
+    test "return value_sale_tax_count when sale_tax_count is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_sale_tax_count: 22)
+      tp = insert(:tp_user, languages: [])
+      st_tp = insert(:tp_sale_tax, sale_tax_count: 0, user: tp)
+      data = SaleTax.check_value_sale_tax_count(st_tp.id)
+      assert D.to_string(match.value_for_sale_tax_count) == "22"
+      assert st_tp.price_sale_tax_count                  == nil
+      assert st_tp.sale_tax_count                        == 0
+      assert data                                        == :error
+    end
+
+    test "return value_sale_tax_count when sale_tax_count is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_sale_tax_count: 22)
+      tp = insert(:tp_user, languages: [])
+      st_tp = insert(:tp_sale_tax, sale_tax_count: nil, user: tp)
+      data = SaleTax.check_value_sale_tax_count(st_tp.id)
+      assert D.to_string(match.value_for_sale_tax_count) == "22"
+      assert st_tp.price_sale_tax_count                  == nil
+      assert st_tp.sale_tax_count                        == nil
+      assert data                                        == :error
+    end
+
+    test "return value_sale_tax_count when sale_tax_count is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_sale_tax_count: 22)
+      tp = insert(:tp_user, languages: [])
+      st_tp = insert(:tp_sale_tax, sale_tax_count: 1, user: tp)
+      data = SaleTax.check_value_sale_tax_count(st_tp.id)
+      assert D.to_string(match.value_for_sale_tax_count) == "22"
+      assert st_tp.price_sale_tax_count                  == nil
+      assert st_tp.sale_tax_count                        == 1
+      assert data                                        == %{st_tp.id => D.new("22")}
+    end
+
 
     test "return value_sale_tax_count by role Pro" do
       match = insert(:match_value_relat, value_for_sale_tax_count: 22)
