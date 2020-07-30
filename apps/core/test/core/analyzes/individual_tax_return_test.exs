@@ -117,11 +117,6 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
     end
   end
 
-  describe "#total_all" do
-    test "total_all" do
-    end
-  end
-
   describe "#total_match" do
     test "total_match" do
     end
@@ -134,6 +129,11 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
 
   describe "total_value" do
     test "total_value" do
+    end
+  end
+
+  describe "#total_all" do
+    test "total_all" do
     end
   end
 end
