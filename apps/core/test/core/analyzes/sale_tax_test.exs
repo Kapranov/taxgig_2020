@@ -483,6 +483,38 @@ defmodule Core.Analyzes.SaleTaxTest do
       assert data                               == %{st_tp.id => match.match_for_sale_tax_frequency}
     end
 
+    test "return match_sale_tax_frequency when more one tp by role Pro" do
+      name = "Monthly"
+      match = insert(:match_value_relat)
+      pro = insert(:pro_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      stf_pro = insert(:tp_sale_tax_frequency, name: name, price: 22, sale_taxes: st_pro)
+      tp1 = insert(:tp_user, email: "arakawa@yahoo.com", languages: [])
+      tp2 = insert(:tp_user, email: "harrison@yahoo.com", languages: [])
+      tp3 = insert(:tp_user, email: "knapp@yahoo.com", languages: [])
+      st_tp1 = insert(:tp_sale_tax, user: tp1)
+      st_tp2 = insert(:tp_sale_tax, user: tp2)
+      st_tp3 = insert(:tp_sale_tax, user: tp3)
+      stf_tp1 = insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp1)
+      stf_tp2 = insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp2)
+      stf_tp3 = insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp3)
+      data = SaleTax.check_match_sale_tax_frequency(st_pro.id)
+      assert match.match_for_sale_tax_frequency == 10
+      assert format_name(stf_tp1.name)          == "Monthly"
+      assert format_name(stf_tp2.name)          == "Monthly"
+      assert format_name(stf_tp3.name)          == "Monthly"
+      assert stf_tp1.price                      == nil
+      assert stf_tp2.price                      == nil
+      assert stf_tp3.price                      == nil
+      assert format_name(stf_pro.name)          == "Monthly"
+      assert stf_pro.price                      == 22
+      assert data                               == %{
+        st_tp1.id => match.match_for_sale_tax_frequency,
+        st_tp2.id => match.match_for_sale_tax_frequency,
+        st_tp3.id => match.match_for_sale_tax_frequency,
+      }
+    end
+
     test "return match_sale_tax_industry by role Tp" do
       name = Enum.sort(["Legal"])
       names = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
@@ -498,6 +530,35 @@ defmodule Core.Analyzes.SaleTaxTest do
       assert format_names(stf_pro.name)        == names
       assert format_names(stf_tp.name)         == name
       assert data                              == %{st_pro.id => match.match_for_sale_tax_industry}
+    end
+
+    test "return match_sale_tax_industry when more one pro by role Tp" do
+      name = Enum.sort(["Legal"])
+      names = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      st_tp = insert(:tp_sale_tax, user: tp)
+      stf_tp = insert(:tp_sale_tax_industry, name: name, sale_taxes: st_tp)
+      pro1 = insert(:pro_user, email: "arakawa@yahoo.com", languages: [])
+      pro2 = insert(:pro_user, email: "harrison@yahoo.com", languages: [])
+      pro3 = insert(:pro_user, email: "knapp@yahoo.com", languages: [])
+      st_pro1 = insert(:pro_sale_tax, user: pro1)
+      st_pro2 = insert(:pro_sale_tax, user: pro2)
+      st_pro3 = insert(:pro_sale_tax, user: pro3)
+      stf_pro1 = insert(:pro_sale_tax_industry, name: names, sale_taxes: st_pro1)
+      stf_pro2 = insert(:pro_sale_tax_industry, name: names, sale_taxes: st_pro2)
+      stf_pro3 = insert(:pro_sale_tax_industry, name: names, sale_taxes: st_pro3)
+      data = SaleTax.check_match_sale_tax_industry(st_tp.id)
+      assert match.match_for_sale_tax_industry == 10
+      assert format_names(stf_pro1.name)       == names
+      assert format_names(stf_pro2.name)       == names
+      assert format_names(stf_pro3.name)       == names
+      assert format_names(stf_tp.name)         == name
+      assert data                              == %{
+        st_pro1.id => match.match_for_sale_tax_industry,
+        st_pro2.id => match.match_for_sale_tax_industry,
+        st_pro3.id => match.match_for_sale_tax_industry
+      }
     end
 
     test "return match_sale_tax_industry by role Pro" do
@@ -516,6 +577,35 @@ defmodule Core.Analyzes.SaleTaxTest do
       assert format_names(stf_tp.name)         == name
       assert data                              == %{st_tp.id => match.match_for_sale_tax_industry}
     end
+
+    test "return match_sale_tax_industry when more one tp by role Pro" do
+      name = Enum.sort(["Legal"])
+      names = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
+      match = insert(:match_value_relat)
+      pro = insert(:pro_user, languages: [])
+      st_pro = insert(:pro_sale_tax, user: pro)
+      stf_pro = insert(:pro_sale_tax_industry, name: names, sale_taxes: st_pro)
+      tp1 = insert(:tp_user, email: "arakawa@yahoo.com", languages: [])
+      tp2 = insert(:tp_user, email: "harrison@yahoo.com", languages: [])
+      tp3 = insert(:tp_user, email: "knapp@yahoo.com", languages: [])
+      st_tp1 = insert(:tp_sale_tax, user: tp1)
+      st_tp2 = insert(:tp_sale_tax, user: tp2)
+      st_tp3 = insert(:tp_sale_tax, user: tp3)
+      stf_tp1 = insert(:tp_sale_tax_industry, name: name, sale_taxes: st_tp1)
+      stf_tp2 = insert(:tp_sale_tax_industry, name: name, sale_taxes: st_tp2)
+      stf_tp3 = insert(:tp_sale_tax_industry, name: name, sale_taxes: st_tp3)
+      data = SaleTax.check_match_sale_tax_industry(st_pro.id)
+      assert match.match_for_sale_tax_industry == 10
+      assert format_names(stf_tp1.name)        == name
+      assert format_names(stf_tp2.name)        == name
+      assert format_names(stf_tp3.name)        == name
+      assert format_names(stf_pro.name)        == names
+      assert data                              == %{
+        st_tp1.id => match.match_for_sale_tax_industry,
+        st_tp2.id => match.match_for_sale_tax_industry,
+        st_tp3.id => match.match_for_sale_tax_industry
+      }
+    end
   end
 
   describe "#check_price" do
@@ -532,6 +622,31 @@ defmodule Core.Analyzes.SaleTaxTest do
       assert data                        == %{st_pro.id => 484}
     end
 
+    test "return price_sale_tax_count when more one pro by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
+      pro1 = insert(:pro_user, email: "arakawa@yahoo.com", languages: [])
+      pro2 = insert(:pro_user, email: "harrison@yahoo.com", languages: [])
+      pro3 = insert(:pro_user, email: "knapp@yahoo.com", languages: [])
+      st_pro1 = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro1)
+      st_pro2 = insert(:pro_sale_tax, price_sale_tax_count: 33, user: pro2)
+      st_pro3 = insert(:pro_sale_tax, price_sale_tax_count: 44, user: pro3)
+      data = SaleTax.check_price_sale_tax_count(st_tp.id)
+      assert st_pro1.price_sale_tax_count == 22
+      assert st_pro2.price_sale_tax_count == 33
+      assert st_pro3.price_sale_tax_count == 44
+      assert st_pro1.sale_tax_count       == nil
+      assert st_pro2.sale_tax_count       == nil
+      assert st_pro3.sale_tax_count       == nil
+      assert st_tp.price_sale_tax_count   == nil
+      assert st_tp.sale_tax_count         == 22
+      assert data                         == %{
+        st_pro1.id => 484,
+        st_pro2.id => 726,
+        st_pro3.id => 968,
+      }
+    end
+
     test "return price_sale_tax_count by role Pro" do
       pro = insert(:pro_user)
       tp = insert(:tp_user, languages: [])
@@ -543,6 +658,31 @@ defmodule Core.Analyzes.SaleTaxTest do
       assert st_tp.price_sale_tax_count  == nil
       assert st_tp.sale_tax_count        == 22
       assert data                        == %{st_tp.id => 484}
+    end
+
+    test "return price_sale_tax_count when more one tp by role Pro" do
+      pro = insert(:pro_user, languages: [])
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
+      tp1 = insert(:tp_user, email: "arakawa@yahoo.com", languages: [])
+      tp2 = insert(:tp_user, email: "harrison@yahoo.com", languages: [])
+      tp3 = insert(:tp_user, email: "knapp@yahoo.com", languages: [])
+      st_tp1 = insert(:tp_sale_tax, sale_tax_count: 22, user: tp1)
+      st_tp2 = insert(:tp_sale_tax, sale_tax_count: 33, user: tp2)
+      st_tp3 = insert(:tp_sale_tax, sale_tax_count: 44, user: tp3)
+      data = SaleTax.check_price_sale_tax_count(st_pro.id)
+      assert st_tp1.sale_tax_count       == 22
+      assert st_tp2.sale_tax_count       == 33
+      assert st_tp3.sale_tax_count       == 44
+      assert st_tp1.price_sale_tax_count == nil
+      assert st_tp2.price_sale_tax_count == nil
+      assert st_tp3.price_sale_tax_count == nil
+      assert st_pro.sale_tax_count       == nil
+      assert st_pro.price_sale_tax_count == 22
+      assert data                         == %{
+        st_tp1.id => 484,
+        st_tp2.id => 726,
+        st_tp3.id => 968,
+      }
     end
 
     test "return price_sale_tax_frequency by role Tp" do
@@ -592,6 +732,16 @@ defmodule Core.Analyzes.SaleTaxTest do
       assert st_tp.price_sale_tax_count                  == nil
       assert st_tp.sale_tax_count                        == 22
       assert data                                        == %{st_tp.id => D.new("484")}
+    end
+
+    test "return value_sale_tax_count when more one pro by role Tp" do
+      match = insert(:match_value_relat, value_for_sale_tax_count: 22)
+      tp = insert(:tp_user, languages: [])
+      st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
+      data = SaleTax.check_value_sale_tax_count(st_tp.id)
+      assert D.to_string(match.value_for_sale_tax_count)  == "22"
+      assert st_tp.sale_tax_count                         == 22
+      assert data                                         == %{st_tp.id => D.new("484")}
     end
 
     test "return value_sale_tax_count by role Pro" do
