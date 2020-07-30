@@ -174,7 +174,7 @@ defmodule Core.Accounts.User do
   end
 
   @doc "Returns status account"
-  @spec account_status(User.t()) :: Atom.t()
+  @spec account_status(User.t()) :: atom()
   def account_status(%User{active: true}), do: :active
   def account_status(%User{}), do: :deactivated
 
@@ -212,7 +212,7 @@ defmodule Core.Accounts.User do
   @spec binary_id(User.t()) :: String.t()
   def binary_id(%User{} = user), do: binary_id(user.id)
 
-  @spec truncate_if_exists(map(), Atom.t(), integer()) :: map()
+  @spec truncate_if_exists(map(), atom(), integer()) :: map()
   def truncate_if_exists(params, key, max_length) do
     if Map.has_key?(params, key) and is_binary(params[key]) do
       {value, _chopped} = String.split_at(params[key], max_length)

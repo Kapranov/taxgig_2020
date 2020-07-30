@@ -31,7 +31,7 @@ defmodule Core.Uploaders.Uploader do
   @type file_spec :: {:file | :url, String.t()}
   @callback put_file(Core.Upload.t()) :: :ok | {:ok, file_spec()} | {:error, String.t()} | :wait_callback
   @callback remove_file(file_spec()) :: :ok | {:ok, file_spec()} | {:error, String.t()}
-  @callback http_callback(Plug.Conn.t(), Map.t()) :: {:ok, Plug.Conn.t()} | {:ok, Plug.Conn.t(), file_spec()} | {:error, Plug.Conn.t(), String.t()}
+  @callback http_callback(Plug.Conn.t(), map()) :: {:ok, Plug.Conn.t()} | {:ok, Plug.Conn.t(), file_spec()} | {:error, Plug.Conn.t(), String.t()}
   @optional_callbacks http_callback: 2
 
   @spec put_file(module(), Core.Upload.t()) :: {:ok, file_spec()} | {:error, String.t()}

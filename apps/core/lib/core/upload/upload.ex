@@ -71,7 +71,7 @@ defmodule Core.Upload do
 
   defstruct [:id, :name, :tempfile, :content_type, :path, :size]
 
-  @spec store(source(), [option()]) :: {:ok, Map.t()} | {:error, any()}
+  @spec store(source(), [option()]) :: {:ok, map()} | {:error, any()}
   def store(upload, opts \\ []) do
    opts = get_opts(opts)
 

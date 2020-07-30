@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.21.3">
-    <meta name="project" content="Taxgig v1.0.0-beta.1-0-gede5592+dev">
-    <title>Core.Lookup — Taxgig v1.0.0-beta.1-0-gede5592+dev</title>
-    <link rel="stylesheet" href="dist/elixir-0ab8a6a80ebaaa287431.css" />
-    <script src="dist/sidebar_items-3abdeee6fb.js"></script>
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Taxgig v1.0.0-beta.1-0-g3b4f48f+dev">
+    <title>Core.Lookup — Taxgig v1.0.0-beta.1-0-g3b4f48f+dev</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-64429bb8a4.js"></script>
       <script src="docs_config.js"></script>
-    <script async src="dist/app-a225d03098e64fef431a.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
   </head>
   <body data-type="modules">
     <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
@@ -43,7 +43,7 @@
       <a href="https://api.taxgig.com/" class="sidebar-projectName">
 Taxgig      </a>
       <h2 class="sidebar-projectVersion">
-        v1.0.0-beta.1-0-gede5592+dev
+        v1.0.0-beta.1-0-g3b4f48f+dev
       </h2>
     </div>
   </div>
@@ -64,7 +64,7 @@ Taxgig      </a>
     <div id="content" class="content-inner">
 
       <h1>
-        <small class="app-vsn">Taxgig v1.0.0-beta.1-0-gede5592+dev</small>
+        <small class="app-vsn">Taxgig v1.0.0-beta.1-0-g3b4f48f+dev</small>
 Core.Lookup          <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L1" title="View Source" class="view-source" rel="help">
             <span class="icon-code" aria-hidden="true"></span>
             <span class="sr-only">View Source</span>
@@ -73,8 +73,7 @@ Core.Lookup          <a href="https://github.com/kapranov/taxgig_2020/blob/maste
 
 
         <section id="moduledoc">
-<p>The Lookup context.</p>
-        </section>
+<p>The Lookup context.</p>        </section>
 
         <section id="summary" class="details-list">
           <h1 class="section-heading">
@@ -120,9 +119,21 @@ Core.Lookup          <a href="https://github.com/kapranov/taxgig_2020/blob/maste
     </h2>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="#change_state/1">change_state(struct)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking State changes.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="#change_zipcode/1">change_zipcode(struct)</a>
   </div>
     <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking UsZipcode changes.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#create_state/1">create_state(attrs \\ %{})</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates State.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -132,15 +143,33 @@ Core.Lookup          <a href="https://github.com/kapranov/taxgig_2020/blob/maste
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="#delete_state/1">delete_state(struct)</a>
+  </div>
+    <div class="summary-synopsis"><p>Deletes State.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="#delete_zipcode/1">delete_zipcode(struct)</a>
   </div>
     <div class="summary-synopsis"><p>Deletes UsZipcode.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="#get_state!/1">get_state!(id)</a>
+  </div>
+    <div class="summary-synopsis"><p>Gets a single State.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="#get_zipcode!/1">get_zipcode!(id)</a>
   </div>
-    <div class="summary-synopsis"><p>o</p></div>
+    <div class="summary-synopsis"><p>Gets a single UsZipcode.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#list_state/0">list_state()</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the list of States.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -150,9 +179,27 @@ Core.Lookup          <a href="https://github.com/kapranov/taxgig_2020/blob/maste
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="#search_abbr/1">search_abbr(search_term)</a>
+  </div>
+    <div class="summary-synopsis"><p>Search Abbr by The US State</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#search_name/1">search_name(search_term)</a>
+  </div>
+    <div class="summary-synopsis"><p>Search Name by The US State</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="#search_zipcode/1">search_zipcode(zipcode)</a>
   </div>
     <div class="summary-synopsis"><p>Search record by UsZipcode via <code class="inline">zipcode</code>.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#update_state/2">update_state(struct, attrs)</a>
+  </div>
+    <div class="summary-synopsis"><p>Updates State.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -182,11 +229,14 @@ Types          </h1>
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
       <div class="specs">
           <pre>error_tuple() :: {:error, <a href="#t:reason/0">reason</a>()}</pre>
       </div>
-  </div>
-  <section class="docstring">
+
   </section>
 </section>
 <section class="detail" id="t:reason/0">
@@ -200,11 +250,14 @@ Types          </h1>
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
       <div class="specs">
           <pre>reason() :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()</pre>
       </div>
-  </div>
-  <section class="docstring">
+
   </section>
 </section>
 <section class="detail" id="t:result/0">
@@ -218,11 +271,14 @@ Types          </h1>
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
       <div class="specs">
           <pre>result() :: <a href="#t:success_tuple/0">success_tuple</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
       </div>
-  </div>
-  <section class="docstring">
+
   </section>
 </section>
 <section class="detail" id="t:success_tuple/0">
@@ -236,11 +292,14 @@ Types          </h1>
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
       <div class="specs">
           <pre>success_tuple() :: {:ok, <a href="#t:t/0">t</a>()}</pre>
       </div>
-  </div>
-  <section class="docstring">
+
   </section>
 </section>
 <section class="detail" id="t:t/0">
@@ -254,11 +313,14 @@ Types          </h1>
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
       <div class="specs">
           <pre>t() :: <a href="#t:t/0">t</a>()</pre>
       </div>
-  </div>
-  <section class="docstring">
+
   </section>
 </section>
           </div>
@@ -271,6 +333,32 @@ Types          </h1>
             </a>
 Functions          </h1>
           <div class="functions-list">
+<section class="detail" id="change_state/1">
+  <div class="detail-header">
+    <a href="#change_state/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">change_state(struct)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L256" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>change_state(<a href="https://hexdocs.pm/core/Core.Lookup.State.html#t:t/0">Core.Lookup.State.t</a>()) :: <a href="https://hexdocs.pm/ecto/Ecto.Changeset.html#t:t/0">Ecto.Changeset.t</a>()</pre>
+      </div>
+
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking State changes.</p><h2 id="change_state/1-examples" class="section-heading">
+  <a href="#change_state/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">change_state</span><span class="p" data-group-id="1085070076-1">(</span><span class="n">struct</span><span class="p" data-group-id="1085070076-1">)</span><span class="w">
+</span><span class="p" data-group-id="1085070076-2">%</span><span class="nc" data-group-id="1085070076-2">Ecto.Changeset</span><span class="p" data-group-id="1085070076-2">{</span><span class="ss">source</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1085070076-3">%</span><span class="nc" data-group-id="1085070076-3">State</span><span class="p" data-group-id="1085070076-3">{</span><span class="p" data-group-id="1085070076-3">}</span><span class="p" data-group-id="1085070076-2">}</span></code></pre>  </section>
+</section>
 <section class="detail" id="change_zipcode/1">
   <div class="detail-header">
     <a href="#change_zipcode/1" class="detail-link" title="Link to this function">
@@ -278,24 +366,54 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">change_zipcode(struct)</h1>
-      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L114" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L117" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
-      <div class="specs">
-          <pre>change_zipcode(<a href="Core.Lookup.UsZipcode.html#t:t/0">Core.Lookup.UsZipcode.t</a>()) :: <a href="https://hexdocs.pm/ecto/3.4.2/Ecto.Changeset.html#t:t/0">Ecto.Changeset.t</a>()</pre>
-      </div>
   </div>
+
   <section class="docstring">
-<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking UsZipcode changes.</p>
-<h2 id="change_zipcode/1-examples" class="section-heading">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>change_zipcode(<a href="https://hexdocs.pm/core/Core.Lookup.UsZipcode.html#t:t/0">Core.Lookup.UsZipcode.t</a>()) :: <a href="https://hexdocs.pm/ecto/Ecto.Changeset.html#t:t/0">Ecto.Changeset.t</a>()</pre>
+      </div>
+
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking UsZipcode changes.</p><h2 id="change_zipcode/1-examples" class="section-heading">
   <a href="#change_zipcode/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Examples
 </h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">change_zipcode</span><span class="p" data-group-id="2708615060-1">(</span><span class="n">struct</span><span class="p" data-group-id="2708615060-1">)</span><span class="w">
+</span><span class="p" data-group-id="2708615060-2">%</span><span class="nc" data-group-id="2708615060-2">Ecto.Changeset</span><span class="p" data-group-id="2708615060-2">{</span><span class="ss">source</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="2708615060-3">%</span><span class="nc" data-group-id="2708615060-3">UsZipcode</span><span class="p" data-group-id="2708615060-3">{</span><span class="p" data-group-id="2708615060-3">}</span><span class="p" data-group-id="2708615060-2">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="create_state/1">
+    <span id="create_state/0"></span>
+  <div class="detail-header">
+    <a href="#create_state/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">create_state(attrs \\ %{})</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L204" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
 
-<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">change_zipcode</span><span class="p" data-group-id="1131999727-1">(</span><span class="n">struct</span><span class="p" data-group-id="1131999727-1">)</span><span class="w">
-</span><span class="p" data-group-id="1131999727-2">%</span><span class="nc" data-group-id="1131999727-2">Ecto.Changeset</span><span class="p" data-group-id="1131999727-2">{</span><span class="ss">source</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1131999727-3">%</span><span class="nc" data-group-id="1131999727-3">UsZipcode</span><span class="p" data-group-id="1131999727-3">{</span><span class="p" data-group-id="1131999727-3">}</span><span class="p" data-group-id="1131999727-2">}</span></code></pre>
-  </section>
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>create_state(%{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) :: <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+<p>Creates State.</p><h2 id="create_state/1-examples" class="section-heading">
+  <a href="#create_state/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">create_state</span><span class="p" data-group-id="5293143802-1">(</span><span class="p" data-group-id="5293143802-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="5293143802-2">}</span><span class="p" data-group-id="5293143802-1">)</span><span class="w">
+</span><span class="p" data-group-id="5293143802-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5293143802-4">%</span><span class="nc" data-group-id="5293143802-4">State</span><span class="p" data-group-id="5293143802-4">{</span><span class="p" data-group-id="5293143802-4">}</span><span class="p" data-group-id="5293143802-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_state</span><span class="p" data-group-id="5293143802-5">(</span><span class="p" data-group-id="5293143802-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="5293143802-6">}</span><span class="p" data-group-id="5293143802-5">)</span><span class="w">
+</span><span class="p" data-group-id="5293143802-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5293143802-8">%</span><span class="nc" data-group-id="5293143802-8">Ecto.Changeset</span><span class="p" data-group-id="5293143802-8">{</span><span class="p" data-group-id="5293143802-8">}</span><span class="p" data-group-id="5293143802-7">}</span></code></pre>  </section>
 </section>
 <section class="detail" id="create_zipcode/1">
     <span id="create_zipcode/0"></span>
@@ -305,27 +423,56 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">create_zipcode(attrs \\ %{})</h1>
-      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L62" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L65" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
       <div class="specs">
           <pre>create_zipcode(%{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) :: <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
       </div>
-  </div>
-  <section class="docstring">
-<p>Creates UsZipcode.</p>
-<h2 id="create_zipcode/1-examples" class="section-heading">
+
+<p>Creates UsZipcode.</p><h2 id="create_zipcode/1-examples" class="section-heading">
   <a href="#create_zipcode/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Examples
 </h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">create_zipcode</span><span class="p" data-group-id="4241734586-1">(</span><span class="p" data-group-id="4241734586-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="4241734586-2">}</span><span class="p" data-group-id="4241734586-1">)</span><span class="w">
+</span><span class="p" data-group-id="4241734586-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4241734586-4">%</span><span class="nc" data-group-id="4241734586-4">UsZipcode</span><span class="p" data-group-id="4241734586-4">{</span><span class="p" data-group-id="4241734586-4">}</span><span class="p" data-group-id="4241734586-3">}</span><span class="w">
 
-<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">create_zipcode</span><span class="p" data-group-id="6355331242-1">(</span><span class="p" data-group-id="6355331242-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="6355331242-2">}</span><span class="p" data-group-id="6355331242-1">)</span><span class="w">
-</span><span class="p" data-group-id="6355331242-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6355331242-4">%</span><span class="nc" data-group-id="6355331242-4">UsZipcode</span><span class="p" data-group-id="6355331242-4">{</span><span class="p" data-group-id="6355331242-4">}</span><span class="p" data-group-id="6355331242-3">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_zipcode</span><span class="p" data-group-id="4241734586-5">(</span><span class="p" data-group-id="4241734586-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="4241734586-6">}</span><span class="p" data-group-id="4241734586-5">)</span><span class="w">
+</span><span class="p" data-group-id="4241734586-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4241734586-8">%</span><span class="nc" data-group-id="4241734586-8">Ecto.Changeset</span><span class="p" data-group-id="4241734586-8">{</span><span class="p" data-group-id="4241734586-8">}</span><span class="p" data-group-id="4241734586-7">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="delete_state/1">
+  <div class="detail-header">
+    <a href="#delete_state/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">delete_state(struct)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L242" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">create_zipcode</span><span class="p" data-group-id="6355331242-5">(</span><span class="p" data-group-id="6355331242-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="6355331242-6">}</span><span class="p" data-group-id="6355331242-5">)</span><span class="w">
-</span><span class="p" data-group-id="6355331242-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6355331242-8">%</span><span class="nc" data-group-id="6355331242-8">Ecto.Changeset</span><span class="p" data-group-id="6355331242-8">{</span><span class="p" data-group-id="6355331242-8">}</span><span class="p" data-group-id="6355331242-7">}</span></code></pre>
-  </section>
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>delete_state(<a href="https://hexdocs.pm/core/Core.Lookup.State.html#t:t/0">Core.Lookup.State.t</a>()) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+
+<p>Deletes State.</p><h2 id="delete_state/1-examples" class="section-heading">
+  <a href="#delete_state/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">delete_state</span><span class="p" data-group-id="6761640130-1">(</span><span class="n">struct</span><span class="p" data-group-id="6761640130-1">)</span><span class="w">
+</span><span class="p" data-group-id="6761640130-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6761640130-3">%</span><span class="nc" data-group-id="6761640130-3">State</span><span class="p" data-group-id="6761640130-3">{</span><span class="p" data-group-id="6761640130-3">}</span><span class="p" data-group-id="6761640130-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_state</span><span class="p" data-group-id="6761640130-4">(</span><span class="n">struct</span><span class="p" data-group-id="6761640130-4">)</span><span class="w">
+</span><span class="p" data-group-id="6761640130-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6761640130-6">%</span><span class="nc" data-group-id="6761640130-6">Ecto.Changeset</span><span class="p" data-group-id="6761640130-6">{</span><span class="p" data-group-id="6761640130-6">}</span><span class="p" data-group-id="6761640130-5">}</span></code></pre>  </section>
 </section>
 <section class="detail" id="delete_zipcode/1">
   <div class="detail-header">
@@ -334,27 +481,56 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">delete_zipcode(struct)</h1>
-      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L100" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L103" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
-      <div class="specs">
-          <pre>delete_zipcode(<a href="Core.Lookup.UsZipcode.html#t:t/0">Core.Lookup.UsZipcode.t</a>()) :: <a href="#t:result/0">result</a>()</pre>
-      </div>
   </div>
+
   <section class="docstring">
-<p>Deletes UsZipcode.</p>
-<h2 id="delete_zipcode/1-examples" class="section-heading">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>delete_zipcode(<a href="https://hexdocs.pm/core/Core.Lookup.UsZipcode.html#t:t/0">Core.Lookup.UsZipcode.t</a>()) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+
+<p>Deletes UsZipcode.</p><h2 id="delete_zipcode/1-examples" class="section-heading">
   <a href="#delete_zipcode/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Examples
 </h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">delete_zipcode</span><span class="p" data-group-id="0758720702-1">(</span><span class="n">struct</span><span class="p" data-group-id="0758720702-1">)</span><span class="w">
+</span><span class="p" data-group-id="0758720702-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0758720702-3">%</span><span class="nc" data-group-id="0758720702-3">UsZipcode</span><span class="p" data-group-id="0758720702-3">{</span><span class="p" data-group-id="0758720702-3">}</span><span class="p" data-group-id="0758720702-2">}</span><span class="w">
 
-<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">delete_zipcode</span><span class="p" data-group-id="3538437169-1">(</span><span class="n">struct</span><span class="p" data-group-id="3538437169-1">)</span><span class="w">
-</span><span class="p" data-group-id="3538437169-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3538437169-3">%</span><span class="nc" data-group-id="3538437169-3">UsZipcode</span><span class="p" data-group-id="3538437169-3">{</span><span class="p" data-group-id="3538437169-3">}</span><span class="p" data-group-id="3538437169-2">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_zipcode</span><span class="p" data-group-id="0758720702-4">(</span><span class="n">struct</span><span class="p" data-group-id="0758720702-4">)</span><span class="w">
+</span><span class="p" data-group-id="0758720702-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0758720702-6">%</span><span class="nc" data-group-id="0758720702-6">Ecto.Changeset</span><span class="p" data-group-id="0758720702-6">{</span><span class="p" data-group-id="0758720702-6">}</span><span class="p" data-group-id="0758720702-5">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="get_state!/1">
+  <div class="detail-header">
+    <a href="#get_state!/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get_state!(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L147" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_zipcode</span><span class="p" data-group-id="3538437169-4">(</span><span class="n">struct</span><span class="p" data-group-id="3538437169-4">)</span><span class="w">
-</span><span class="p" data-group-id="3538437169-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3538437169-6">%</span><span class="nc" data-group-id="3538437169-6">Ecto.Changeset</span><span class="p" data-group-id="3538437169-6">{</span><span class="p" data-group-id="3538437169-6">}</span><span class="p" data-group-id="3538437169-5">}</span></code></pre>
-  </section>
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>get_state!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="https://hexdocs.pm/core/Core.Lookup.State.html#t:t/0">Core.Lookup.State.t</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+<p>Gets a single State.</p><p>Raises <a href="https://hexdocs.pm/ecto/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the State does not exist.</p><h2 id="get_state!/1-examples" class="section-heading">
+  <a href="#get_state!/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">get_state!</span><span class="p" data-group-id="7057015208-1">(</span><span class="mi">123</span><span class="p" data-group-id="7057015208-1">)</span><span class="w">
+</span><span class="p" data-group-id="7057015208-2">%</span><span class="nc" data-group-id="7057015208-2">State</span><span class="p" data-group-id="7057015208-2">{</span><span class="p" data-group-id="7057015208-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_state!</span><span class="p" data-group-id="7057015208-3">(</span><span class="mi">456</span><span class="p" data-group-id="7057015208-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>  </section>
 </section>
 <section class="detail" id="get_zipcode!/1">
   <div class="detail-header">
@@ -363,28 +539,53 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">get_zipcode!(id)</h1>
-      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L36" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L39" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
-      <div class="specs">
-          <pre>get_zipcode!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="Core.Lookup.UsZipcode.html#t:t/0">Core.Lookup.UsZipcode.t</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
-      </div>
   </div>
+
   <section class="docstring">
-<p>o</p>
-<p>Raises <a href="https://hexdocs.pm/ecto/3.4.2/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the UsZipcode does not exist.</p>
-<h2 id="get_zipcode!/1-examples" class="section-heading">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>get_zipcode!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="https://hexdocs.pm/core/Core.Lookup.UsZipcode.html#t:t/0">Core.Lookup.UsZipcode.t</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+<p>Gets a single UsZipcode.</p><p>Raises <a href="https://hexdocs.pm/ecto/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the UsZipcode does not exist.</p><h2 id="get_zipcode!/1-examples" class="section-heading">
   <a href="#get_zipcode!/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Examples
 </h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">get_zipcode!</span><span class="p" data-group-id="7046408104-1">(</span><span class="mi">123</span><span class="p" data-group-id="7046408104-1">)</span><span class="w">
+</span><span class="p" data-group-id="7046408104-2">%</span><span class="nc" data-group-id="7046408104-2">UsZipcode</span><span class="p" data-group-id="7046408104-2">{</span><span class="p" data-group-id="7046408104-2">}</span><span class="w">
 
-<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">get_zipcode!</span><span class="p" data-group-id="4855646321-1">(</span><span class="mi">123</span><span class="p" data-group-id="4855646321-1">)</span><span class="w">
-</span><span class="p" data-group-id="4855646321-2">%</span><span class="nc" data-group-id="4855646321-2">UsZipcode</span><span class="p" data-group-id="4855646321-2">{</span><span class="p" data-group-id="4855646321-2">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_zipcode!</span><span class="p" data-group-id="7046408104-3">(</span><span class="mi">456</span><span class="p" data-group-id="7046408104-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>  </section>
+</section>
+<section class="detail" id="list_state/0">
+  <div class="detail-header">
+    <a href="#list_state/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">list_state()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L130" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">get_zipcode!</span><span class="p" data-group-id="4855646321-3">(</span><span class="mi">456</span><span class="p" data-group-id="4855646321-3">)</span><span class="w">
-</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
-  </section>
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>list_state() :: [<a href="https://hexdocs.pm/core/Core.Lookup.State.html#t:t/0">Core.Lookup.State.t</a>()]</pre>
+      </div>
+
+<p>Returns the list of States.</p><h2 id="list_state/0-examples" class="section-heading">
+  <a href="#list_state/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">list_state</span><span class="p" data-group-id="6669013409-1">(</span><span class="p" data-group-id="6669013409-1">)</span><span class="w">
+</span><span class="p" data-group-id="6669013409-2">[</span><span class="p" data-group-id="6669013409-3">%</span><span class="nc" data-group-id="6669013409-3">State</span><span class="p" data-group-id="6669013409-3">{</span><span class="p" data-group-id="6669013409-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="6669013409-2">]</span></code></pre>  </section>
 </section>
 <section class="detail" id="list_zipcode/0">
   <div class="detail-header">
@@ -393,24 +594,82 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">list_zipcode()</h1>
-      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L19" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L22" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
-      <div class="specs">
-          <pre>list_zipcode() :: [<a href="Core.Lookup.UsZipcode.html#t:t/0">Core.Lookup.UsZipcode.t</a>()]</pre>
-      </div>
   </div>
+
   <section class="docstring">
-<p>Returns the list of UsZipcodes.</p>
-<h2 id="list_zipcode/0-examples" class="section-heading">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>list_zipcode() :: [<a href="https://hexdocs.pm/core/Core.Lookup.UsZipcode.html#t:t/0">Core.Lookup.UsZipcode.t</a>()]</pre>
+      </div>
+
+<p>Returns the list of UsZipcodes.</p><h2 id="list_zipcode/0-examples" class="section-heading">
   <a href="#list_zipcode/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Examples
 </h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">list_zipcode</span><span class="p" data-group-id="9441986218-1">(</span><span class="p" data-group-id="9441986218-1">)</span><span class="w">
+</span><span class="p" data-group-id="9441986218-2">[</span><span class="p" data-group-id="9441986218-3">%</span><span class="nc" data-group-id="9441986218-3">UsZipcode</span><span class="p" data-group-id="9441986218-3">{</span><span class="p" data-group-id="9441986218-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="9441986218-2">]</span></code></pre>  </section>
+</section>
+<section class="detail" id="search_abbr/1">
+  <div class="detail-header">
+    <a href="#search_abbr/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">search_abbr(search_term)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L162" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
 
-<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">list_zipcode</span><span class="p" data-group-id="2735326656-1">(</span><span class="p" data-group-id="2735326656-1">)</span><span class="w">
-</span><span class="p" data-group-id="2735326656-2">[</span><span class="p" data-group-id="2735326656-3">%</span><span class="nc" data-group-id="2735326656-3">UsZipcode</span><span class="p" data-group-id="2735326656-3">{</span><span class="p" data-group-id="2735326656-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="2735326656-2">]</span></code></pre>
-  </section>
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>search_abbr(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: [<a href="https://hexdocs.pm/core/Core.Lookup.State.html#t:t/0">Core.Lookup.State.t</a>()]</pre>
+      </div>
+
+<p>Search Abbr by The US State</p><h2 id="search_abbr/1-examples" class="section-heading">
+  <a href="#search_abbr/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">search_abbr</span><span class="p" data-group-id="5782995163-1">(</span><span class="mi">123</span><span class="p" data-group-id="5782995163-1">)</span><span class="w">
+</span><span class="p" data-group-id="5782995163-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5782995163-3">%</span><span class="nc" data-group-id="5782995163-3">State</span><span class="p" data-group-id="5782995163-3">{</span><span class="p" data-group-id="5782995163-3">}</span><span class="p" data-group-id="5782995163-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">search_abbr</span><span class="p" data-group-id="5782995163-4">(</span><span class="mi">456</span><span class="p" data-group-id="5782995163-4">)</span><span class="w">
+</span><span class="p" data-group-id="5782995163-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5782995163-6">%</span><span class="nc" data-group-id="5782995163-6">Ecto.Changeset</span><span class="p" data-group-id="5782995163-6">{</span><span class="p" data-group-id="5782995163-6">}</span><span class="p" data-group-id="5782995163-5">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="search_name/1">
+  <div class="detail-header">
+    <a href="#search_name/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">search_name(search_term)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L183" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>search_name(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: [<a href="https://hexdocs.pm/core/Core.Lookup.State.html#t:t/0">Core.Lookup.State.t</a>()]</pre>
+      </div>
+
+<p>Search Name by The US State</p><h2 id="search_name/1-examples" class="section-heading">
+  <a href="#search_name/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">search_name</span><span class="p" data-group-id="6509408170-1">(</span><span class="mi">123</span><span class="p" data-group-id="6509408170-1">)</span><span class="w">
+</span><span class="p" data-group-id="6509408170-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6509408170-3">%</span><span class="nc" data-group-id="6509408170-3">State</span><span class="p" data-group-id="6509408170-3">{</span><span class="p" data-group-id="6509408170-3">}</span><span class="p" data-group-id="6509408170-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">search_name</span><span class="p" data-group-id="6509408170-4">(</span><span class="mi">456</span><span class="p" data-group-id="6509408170-4">)</span><span class="w">
+</span><span class="p" data-group-id="6509408170-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6509408170-6">%</span><span class="nc" data-group-id="6509408170-6">Ecto.Changeset</span><span class="p" data-group-id="6509408170-6">{</span><span class="p" data-group-id="6509408170-6">}</span><span class="p" data-group-id="6509408170-5">}</span></code></pre>  </section>
 </section>
 <section class="detail" id="search_zipcode/1">
   <div class="detail-header">
@@ -419,17 +678,49 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">search_zipcode(zipcode)</h1>
-      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L42" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L45" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
-      <div class="specs">
-          <pre>search_zipcode(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()) :: <a href="Core.Lookup.UsZipcode.html#t:t/0">Core.Lookup.UsZipcode.t</a>()</pre>
-      </div>
   </div>
+
   <section class="docstring">
-<p>Search record by UsZipcode via <code class="inline">zipcode</code>.</p>
-  </section>
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>search_zipcode(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()) :: <a href="https://hexdocs.pm/core/Core.Lookup.UsZipcode.html#t:t/0">Core.Lookup.UsZipcode.t</a>()</pre>
+      </div>
+
+<p>Search record by UsZipcode via <code class="inline">zipcode</code>.</p>  </section>
+</section>
+<section class="detail" id="update_state/2">
+  <div class="detail-header">
+    <a href="#update_state/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">update_state(struct, attrs)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L223" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>update_state(<a href="https://hexdocs.pm/core/Core.Lookup.State.html#t:t/0">Core.Lookup.State.t</a>(), %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) ::
+  <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+<p>Updates State.</p><h2 id="update_state/2-examples" class="section-heading">
+  <a href="#update_state/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">update_state</span><span class="p" data-group-id="8170045593-1">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8170045593-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="8170045593-2">}</span><span class="p" data-group-id="8170045593-1">)</span><span class="w">
+</span><span class="p" data-group-id="8170045593-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8170045593-4">%</span><span class="nc" data-group-id="8170045593-4">UsZipcode</span><span class="p" data-group-id="8170045593-4">{</span><span class="p" data-group-id="8170045593-4">}</span><span class="p" data-group-id="8170045593-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_state</span><span class="p" data-group-id="8170045593-5">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8170045593-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="8170045593-6">}</span><span class="p" data-group-id="8170045593-5">)</span><span class="w">
+</span><span class="p" data-group-id="8170045593-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8170045593-8">%</span><span class="nc" data-group-id="8170045593-8">Ecto.Changeset</span><span class="p" data-group-id="8170045593-8">{</span><span class="p" data-group-id="8170045593-8">}</span><span class="p" data-group-id="8170045593-7">}</span></code></pre>  </section>
 </section>
 <section class="detail" id="update_zipcode/2">
   <div class="detail-header">
@@ -438,28 +729,28 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">update_zipcode(struct, attrs)</h1>
-      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L81" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/lookup/lookup.ex#L84" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
       <div class="specs">
-          <pre>update_zipcode(<a href="Core.Lookup.UsZipcode.html#t:t/0">Core.Lookup.UsZipcode.t</a>(), %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) ::
+          <pre>update_zipcode(<a href="https://hexdocs.pm/core/Core.Lookup.UsZipcode.html#t:t/0">Core.Lookup.UsZipcode.t</a>(), %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) ::
   <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
       </div>
-  </div>
-  <section class="docstring">
-<p>Updates UsZipcode.</p>
-<h2 id="update_zipcode/2-examples" class="section-heading">
+
+<p>Updates UsZipcode.</p><h2 id="update_zipcode/2-examples" class="section-heading">
   <a href="#update_zipcode/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Examples
 </h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">update_zipcode</span><span class="p" data-group-id="9152490391-1">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9152490391-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="9152490391-2">}</span><span class="p" data-group-id="9152490391-1">)</span><span class="w">
+</span><span class="p" data-group-id="9152490391-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9152490391-4">%</span><span class="nc" data-group-id="9152490391-4">UsZipcode</span><span class="p" data-group-id="9152490391-4">{</span><span class="p" data-group-id="9152490391-4">}</span><span class="p" data-group-id="9152490391-3">}</span><span class="w">
 
-<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">update_zipcode</span><span class="p" data-group-id="2575026830-1">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2575026830-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="2575026830-2">}</span><span class="p" data-group-id="2575026830-1">)</span><span class="w">
-</span><span class="p" data-group-id="2575026830-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2575026830-4">%</span><span class="nc" data-group-id="2575026830-4">UsZipcode</span><span class="p" data-group-id="2575026830-4">{</span><span class="p" data-group-id="2575026830-4">}</span><span class="p" data-group-id="2575026830-3">}</span><span class="w">
-
-</span><span class="gp unselectable">iex&gt; </span><span class="n">update_zipcode</span><span class="p" data-group-id="2575026830-5">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2575026830-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="2575026830-6">}</span><span class="p" data-group-id="2575026830-5">)</span><span class="w">
-</span><span class="p" data-group-id="2575026830-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2575026830-8">%</span><span class="nc" data-group-id="2575026830-8">Ecto.Changeset</span><span class="p" data-group-id="2575026830-8">{</span><span class="p" data-group-id="2575026830-8">}</span><span class="p" data-group-id="2575026830-7">}</span></code></pre>
-  </section>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_zipcode</span><span class="p" data-group-id="9152490391-5">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9152490391-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="9152490391-6">}</span><span class="p" data-group-id="9152490391-5">)</span><span class="w">
+</span><span class="p" data-group-id="9152490391-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9152490391-8">%</span><span class="nc" data-group-id="9152490391-8">Ecto.Changeset</span><span class="p" data-group-id="9152490391-8">{</span><span class="p" data-group-id="9152490391-8">}</span><span class="p" data-group-id="9152490391-7">}</span></code></pre>  </section>
 </section>
           </div>
         </section>
@@ -467,7 +758,7 @@ Functions          </h1>
         <p>
           <span class="line">
             Built using
-            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.21.3),
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
           </span>
           <span class="line">
             designed by

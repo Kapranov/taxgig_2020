@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.21.3">
-    <meta name="project" content="Taxgig v1.0.0-beta.1-0-gede5592+dev">
-    <title>Core.Media — Taxgig v1.0.0-beta.1-0-gede5592+dev</title>
-    <link rel="stylesheet" href="dist/elixir-0ab8a6a80ebaaa287431.css" />
-    <script src="dist/sidebar_items-3abdeee6fb.js"></script>
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Taxgig v1.0.0-beta.1-0-g3b4f48f+dev">
+    <title>Core.Media — Taxgig v1.0.0-beta.1-0-g3b4f48f+dev</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-64429bb8a4.js"></script>
       <script src="docs_config.js"></script>
-    <script async src="dist/app-a225d03098e64fef431a.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
   </head>
   <body data-type="modules">
     <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
@@ -43,7 +43,7 @@
       <a href="https://api.taxgig.com/" class="sidebar-projectName">
 Taxgig      </a>
       <h2 class="sidebar-projectVersion">
-        v1.0.0-beta.1-0-gede5592+dev
+        v1.0.0-beta.1-0-g3b4f48f+dev
       </h2>
     </div>
   </div>
@@ -64,7 +64,7 @@ Taxgig      </a>
     <div id="content" class="content-inner">
 
       <h1>
-        <small class="app-vsn">Taxgig v1.0.0-beta.1-0-gede5592+dev</small>
+        <small class="app-vsn">Taxgig v1.0.0-beta.1-0-g3b4f48f+dev</small>
 Core.Media          <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/media/media.ex#L1" title="View Source" class="view-source" rel="help">
             <span class="icon-code" aria-hidden="true"></span>
             <span class="sr-only">View Source</span>
@@ -73,8 +73,7 @@ Core.Media          <a href="https://github.com/kapranov/taxgig_2020/blob/master
 
 
         <section id="moduledoc">
-<p>The Media context.</p>
-        </section>
+<p>The Media context.</p>        </section>
 
         <section id="summary" class="details-list">
           <h1 class="section-heading">
@@ -108,10 +107,10 @@ Core.Media          <a href="https://github.com/kapranov/taxgig_2020/blob/master
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#get_picture!/1">get_picture!(id)</a>
+    <a href="#get_picture!/1">get_picture!(profile_id)</a>
   </div>
     <div class="summary-synopsis"><p>Gets a single picture.
-Raises <a href="https://hexdocs.pm/ecto/3.4.2/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the picture does not exist.</p></div>
+Raises <a href="https://hexdocs.pm/ecto/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the picture does not exist.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -144,18 +143,20 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">create_picture(attrs \\ %{})</h1>
-      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/media/media.ex#L44" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/media/media.ex#L49" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
       <div class="specs">
           <pre>create_picture(%{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) ::
-  {:ok, <a href="Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>()} | {:error, <a href="https://hexdocs.pm/ecto/3.4.2/Ecto.Changeset.html#t:t/0">Ecto.Changeset.t</a>()}</pre>
+  {:ok, <a href="https://hexdocs.pm/core/Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>()} | {:error, <a href="https://hexdocs.pm/ecto/Ecto.Changeset.html#t:t/0">Ecto.Changeset.t</a>()}</pre>
       </div>
-  </div>
-  <section class="docstring">
-<p>Creates a picture.</p>
-  </section>
+
+<p>Creates a picture.</p>  </section>
 </section>
 <section class="detail" id="delete_picture/1">
   <div class="detail-header">
@@ -164,18 +165,20 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">delete_picture(picture)</h1>
-      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/media/media.ex#L64" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/media/media.ex#L106" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
-      <div class="specs">
-          <pre>delete_picture(<a href="Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>()) ::
-  {:ok, <a href="Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>()} | {:error, <a href="https://hexdocs.pm/ecto/3.4.2/Ecto.Changeset.html#t:t/0">Ecto.Changeset.t</a>()}</pre>
-      </div>
   </div>
+
   <section class="docstring">
-<p>Deletes a picture.</p>
-  </section>
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>delete_picture(<a href="https://hexdocs.pm/core/Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>()) ::
+  {:ok, <a href="https://hexdocs.pm/core/Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>()} | {:error, <a href="https://hexdocs.pm/ecto/Ecto.Changeset.html#t:t/0">Ecto.Changeset.t</a>()}</pre>
+      </div>
+
+<p>Deletes a picture.</p>  </section>
 </section>
 <section class="detail" id="get_picture/1">
   <div class="detail-header">
@@ -184,17 +187,19 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">get_picture(id)</h1>
-      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/media/media.ex#L21" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/media/media.ex#L23" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
-      <div class="specs">
-          <pre>get_picture(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>() | nil</pre>
-      </div>
   </div>
+
   <section class="docstring">
-<p>Gets a single picture.</p>
-  </section>
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>get_picture(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="https://hexdocs.pm/core/Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>() | nil</pre>
+      </div>
+
+<p>Gets a single picture.</p>  </section>
 </section>
 <section class="detail" id="get_picture!/1">
   <div class="detail-header">
@@ -202,19 +207,21 @@ Functions          </h1>
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature">get_picture!(id)</h1>
-      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/media/media.ex#L28" class="view-source" rel="help" title="View Source">
+    <h1 class="signature">get_picture!(profile_id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/media/media.ex#L33" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
-      <div class="specs">
-          <pre>get_picture!(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>()</pre>
-      </div>
   </div>
+
   <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>get_picture!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="https://hexdocs.pm/core/Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>()</pre>
+      </div>
+
 <p>Gets a single picture.
-Raises <a href="https://hexdocs.pm/ecto/3.4.2/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the picture does not exist.</p>
-  </section>
+Raises <a href="https://hexdocs.pm/ecto/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the picture does not exist.</p>  </section>
 </section>
 <section class="detail" id="get_picture_by_url/1">
   <div class="detail-header">
@@ -223,17 +230,19 @@ Raises <a href="https://hexdocs.pm/ecto/3.4.2/Ecto.NoResultsError.html"><code cl
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">get_picture_by_url(url)</h1>
-      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/media/media.ex#L34" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/media/media.ex#L39" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
-      <div class="specs">
-          <pre>get_picture_by_url(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>() | nil</pre>
-      </div>
   </div>
+
   <section class="docstring">
-<p>Get a picture by its URL.</p>
-  </section>
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>get_picture_by_url(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="https://hexdocs.pm/core/Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>() | nil</pre>
+      </div>
+
+<p>Get a picture by its URL.</p>  </section>
 </section>
 <section class="detail" id="update_picture/2">
   <div class="detail-header">
@@ -242,18 +251,20 @@ Raises <a href="https://hexdocs.pm/ecto/3.4.2/Ecto.NoResultsError.html"><code cl
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">update_picture(picture, attrs)</h1>
-      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/media/media.ex#L54" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/media/media.ex#L59" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
-      <div class="specs">
-          <pre>update_picture(<a href="Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>(), %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) ::
-  {:ok, <a href="Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>()} | {:error, <a href="https://hexdocs.pm/ecto/3.4.2/Ecto.Changeset.html#t:t/0">Ecto.Changeset.t</a>()}</pre>
-      </div>
   </div>
+
   <section class="docstring">
-<p>Updates a picture.</p>
-  </section>
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>update_picture(<a href="https://hexdocs.pm/core/Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>(), %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) ::
+  {:ok, <a href="https://hexdocs.pm/core/Core.Media.Picture.html#t:t/0">Core.Media.Picture.t</a>()} | {:error, <a href="https://hexdocs.pm/ecto/Ecto.Changeset.html#t:t/0">Ecto.Changeset.t</a>()}</pre>
+      </div>
+
+<p>Updates a picture.</p>  </section>
 </section>
           </div>
         </section>
@@ -261,7 +272,7 @@ Raises <a href="https://hexdocs.pm/ecto/3.4.2/Ecto.NoResultsError.html"><code cl
         <p>
           <span class="line">
             Built using
-            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.21.3),
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
           </span>
           <span class="line">
             designed by

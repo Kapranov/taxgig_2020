@@ -29,22 +29,22 @@ defmodule Core.Seeder.Accounts do
     admin_permission()
   end
 
-  @spec get_tp_user(String.t()) :: %Postgrex.Result{columns: nil, command: Atom.t(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
+  @spec get_tp_user(String.t()) :: %Postgrex.Result{columns: nil, command: atom(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
   def get_tp_user(email) do
     Ecto.Adapters.SQL.query!(Repo, "SELECT id from users WHERE email = $1", [email])
   end
 
-  @spec get_pro_user(String.t()) :: %Postgrex.Result{columns: nil, command: Atom.t(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
+  @spec get_pro_user(String.t()) :: %Postgrex.Result{columns: nil, command: atom(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
   def get_pro_user(email) do
     Ecto.Adapters.SQL.query!(Repo, "SELECT id from users WHERE email = $1", [email])
   end
 
-  @spec admin_permission() :: %Postgrex.Result{columns: nil, command: Atom.t(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
+  @spec admin_permission() :: %Postgrex.Result{columns: nil, command: atom(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
   def admin_permission do
     Ecto.Adapters.SQL.query!(Repo, "UPDATE users SET admin = $2 WHERE email = $1", ["kapranov.pure@gmail.com", true])
   end
 
-  @spec admin_permission(String.t(), boolean()) :: %Postgrex.Result{columns: nil, command: Atom.t(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
+  @spec admin_permission(String.t(), boolean()) :: %Postgrex.Result{columns: nil, command: atom(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
   def admin_permission(email, role) when is_bitstring(email) and is_boolean(role) do
     Ecto.Adapters.SQL.query!(Repo, "UPDATE users SET admin = $2 WHERE email = $1", [email, role])
   end

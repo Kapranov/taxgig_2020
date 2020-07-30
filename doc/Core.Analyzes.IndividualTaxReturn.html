@@ -1,0 +1,2177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Taxgig v1.0.0-beta.1-0-g3b4f48f+dev">
+    <title>Core.Analyzes.IndividualTaxReturn — Taxgig v1.0.0-beta.1-0-g3b4f48f+dev</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-64429bb8a4.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://api.taxgig.com/" class="sidebar-projectName">
+Taxgig      </a>
+      <h2 class="sidebar-projectVersion">
+        v1.0.0-beta.1-0-g3b4f48f+dev
+      </h2>
+    </div>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="tasks-list" href="#full-list">Mix Tasks</a></li>
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+        <small class="app-vsn">Taxgig v1.0.0-beta.1-0-g3b4f48f+dev</small>
+Core.Analyzes.IndividualTaxReturn          <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>Analyze's IndividualTaxReturns.</p>        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:word/0">word()</a>
+  </div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_foreign_account/0">check_match_foreign_account()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_foreign_account/1">check_match_foreign_account(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_home_owner/0">check_match_home_owner()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_home_owner/1">check_match_home_owner(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_individual_employment_status/0">check_match_individual_employment_status()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_individual_employment_status/1">check_match_individual_employment_status(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_individual_filing_status/0">check_match_individual_filing_status()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_individual_filing_status/1">check_match_individual_filing_status(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_individual_industry/0">check_match_individual_industry()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_individual_industry/1">check_match_individual_industry(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_individual_itemized_deduction/0">check_match_individual_itemized_deduction()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_individual_itemized_deduction/1">check_match_individual_itemized_deduction(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_living_abroad/0">check_match_living_abroad()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_living_abroad/1">check_match_living_abroad(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_non_resident_earning/0">check_match_non_resident_earning()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_non_resident_earning/1">check_match_non_resident_earning(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_own_stock_crypto/0">check_match_own_stock_crypto()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_own_stock_crypto/1">check_match_own_stock_crypto(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_rental_property_income/0">check_match_rental_property_income()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_rental_property_income/1">check_match_rental_property_income(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_stock_divident/0">check_match_stock_divident()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_match_stock_divident/1">check_match_stock_divident(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_foreign_account/0">check_price_foreign_account()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_foreign_account/1">check_price_foreign_account(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_home_owner/0">check_price_home_owner()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_home_owner/1">check_price_home_owner(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_individual_employment_status/0">check_price_individual_employment_status()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_individual_employment_status/1">check_price_individual_employment_status(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_individual_filing_status/0">check_price_individual_filing_status()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_individual_filing_status/1">check_price_individual_filing_status(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_individual_itemized_deduction/0">check_price_individual_itemized_deduction()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_individual_itemized_deduction/1">check_price_individual_itemized_deduction(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_living_abroad/0">check_price_living_abroad()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_living_abroad/1">check_price_living_abroad(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_non_resident_earning/0">check_price_non_resident_earning()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_non_resident_earning/1">check_price_non_resident_earning(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_own_stock_crypto/0">check_price_own_stock_crypto()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_own_stock_crypto/1">check_price_own_stock_crypto(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_rental_property_income/0">check_price_rental_property_income()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_rental_property_income/1">check_price_rental_property_income(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_sole_proprietorship_count/0">check_price_sole_proprietorship_count()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_sole_proprietorship_count/1">check_price_sole_proprietorship_count(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_state/0">check_price_state()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_state/1">check_price_state(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_stock_divident/0">check_price_stock_divident()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_stock_divident/1">check_price_stock_divident(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_tax_year/0">check_price_tax_year()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_price_tax_year/1">check_price_tax_year(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_foreign_account_limit/0">check_value_foreign_account_limit()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_foreign_account_limit/1">check_value_foreign_account_limit(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_foreign_financial_interest/0">check_value_foreign_financial_interest()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_foreign_financial_interest/1">check_value_foreign_financial_interest(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_home_owner/0">check_value_home_owner()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_home_owner/1">check_value_home_owner(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_individual_employment_status/0">check_value_individual_employment_status()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_individual_employment_status/1">check_value_individual_employment_status(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_individual_filing_status/0">check_value_individual_filing_status()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_individual_filing_status/1">check_value_individual_filing_status(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_individual_stock_transaction_count/0">check_value_individual_stock_transaction_count()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_individual_stock_transaction_count/1">check_value_individual_stock_transaction_count(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_k1_count/0">check_value_k1_count()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_k1_count/1">check_value_k1_count(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_rental_property_income/0">check_value_rental_property_income()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_rental_property_income/1">check_value_rental_property_income(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_sole_proprietorship_count/0">check_value_sole_proprietorship_count()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_sole_proprietorship_count/1">check_value_sole_proprietorship_count(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_state/0">check_value_state()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_state/1">check_value_state(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_tax_year/0">check_value_tax_year()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#check_value_tax_year/1">check_value_tax_year(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#total_all/1">total_all(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#total_match/1">total_match(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#total_price/1">total_price(id)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#total_value/1">total_value(id)</a>
+  </div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<section class="detail" id="t:word/0">
+  <div class="detail-header">
+    <a href="#t:word/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">word()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L20" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>word() :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()</pre>
+      </div>
+
+  </section>
+</section>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<section class="detail" id="check_match_foreign_account/0">
+  <div class="detail-header">
+    <a href="#check_match_foreign_account/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_foreign_account()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L66" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_foreign_account() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_foreign_account/1">
+  <div class="detail-header">
+    <a href="#check_match_foreign_account/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_foreign_account(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L23" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_foreign_account(nil) :: :error</pre>
+          <pre>check_match_foreign_account(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+          <pre>check_match_foreign_account(nil) :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_home_owner/0">
+  <div class="detail-header">
+    <a href="#check_match_home_owner/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_home_owner()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L109" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_home_owner() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_home_owner/1">
+  <div class="detail-header">
+    <a href="#check_match_home_owner/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_home_owner(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L69" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_home_owner(nil) :: :error</pre>
+          <pre>check_match_home_owner(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_individual_employment_status/0">
+  <div class="detail-header">
+    <a href="#check_match_individual_employment_status/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_individual_employment_status()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L152" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_individual_employment_status() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_individual_employment_status/1">
+  <div class="detail-header">
+    <a href="#check_match_individual_employment_status/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_individual_employment_status(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L112" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_individual_employment_status(nil) :: :error</pre>
+          <pre>check_match_individual_employment_status(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_individual_filing_status/0">
+  <div class="detail-header">
+    <a href="#check_match_individual_filing_status/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_individual_filing_status()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L195" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_individual_filing_status() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_individual_filing_status/1">
+  <div class="detail-header">
+    <a href="#check_match_individual_filing_status/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_individual_filing_status(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L155" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_individual_filing_status(nil) :: :error</pre>
+          <pre>check_match_individual_filing_status(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_individual_industry/0">
+  <div class="detail-header">
+    <a href="#check_match_individual_industry/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_individual_industry()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L244" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_individual_industry() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_individual_industry/1">
+  <div class="detail-header">
+    <a href="#check_match_individual_industry/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_individual_industry(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L198" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_individual_industry(nil) :: :error</pre>
+          <pre>check_match_individual_industry(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_individual_itemized_deduction/0">
+  <div class="detail-header">
+    <a href="#check_match_individual_itemized_deduction/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_individual_itemized_deduction()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L287" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_individual_itemized_deduction() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_individual_itemized_deduction/1">
+  <div class="detail-header">
+    <a href="#check_match_individual_itemized_deduction/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_individual_itemized_deduction(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L247" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_individual_itemized_deduction(nil) :: :error</pre>
+          <pre>check_match_individual_itemized_deduction(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_living_abroad/0">
+  <div class="detail-header">
+    <a href="#check_match_living_abroad/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_living_abroad()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L330" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_living_abroad() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_living_abroad/1">
+  <div class="detail-header">
+    <a href="#check_match_living_abroad/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_living_abroad(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L290" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_living_abroad(nil) :: :error</pre>
+          <pre>check_match_living_abroad(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_non_resident_earning/0">
+  <div class="detail-header">
+    <a href="#check_match_non_resident_earning/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_non_resident_earning()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L373" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_non_resident_earning() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_non_resident_earning/1">
+  <div class="detail-header">
+    <a href="#check_match_non_resident_earning/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_non_resident_earning(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L333" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_non_resident_earning(nil) :: :error</pre>
+          <pre>check_match_non_resident_earning(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_own_stock_crypto/0">
+  <div class="detail-header">
+    <a href="#check_match_own_stock_crypto/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_own_stock_crypto()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L416" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_own_stock_crypto() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_own_stock_crypto/1">
+  <div class="detail-header">
+    <a href="#check_match_own_stock_crypto/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_own_stock_crypto(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L376" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_own_stock_crypto(nil) :: :error</pre>
+          <pre>check_match_own_stock_crypto(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_rental_property_income/0">
+  <div class="detail-header">
+    <a href="#check_match_rental_property_income/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_rental_property_income()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L459" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_rental_property_income() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_rental_property_income/1">
+  <div class="detail-header">
+    <a href="#check_match_rental_property_income/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_rental_property_income(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L419" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_rental_property_income(nil) :: :error</pre>
+          <pre>check_match_rental_property_income(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_stock_divident/0">
+  <div class="detail-header">
+    <a href="#check_match_stock_divident/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_stock_divident()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L502" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_stock_divident() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_match_stock_divident/1">
+  <div class="detail-header">
+    <a href="#check_match_stock_divident/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_match_stock_divident(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L462" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_match_stock_divident(nil) :: :error</pre>
+          <pre>check_match_stock_divident(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_foreign_account/0">
+  <div class="detail-header">
+    <a href="#check_price_foreign_account/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_foreign_account()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L539" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_foreign_account() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_foreign_account/1">
+  <div class="detail-header">
+    <a href="#check_price_foreign_account/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_foreign_account(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L505" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_foreign_account(nil) :: :error</pre>
+          <pre>check_price_foreign_account(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_home_owner/0">
+  <div class="detail-header">
+    <a href="#check_price_home_owner/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_home_owner()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L576" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_home_owner() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_home_owner/1">
+  <div class="detail-header">
+    <a href="#check_price_home_owner/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_home_owner(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L542" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_home_owner(nil) :: :error</pre>
+          <pre>check_price_home_owner(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_individual_employment_status/0">
+  <div class="detail-header">
+    <a href="#check_price_individual_employment_status/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_individual_employment_status()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L613" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_individual_employment_status() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_individual_employment_status/1">
+  <div class="detail-header">
+    <a href="#check_price_individual_employment_status/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_individual_employment_status(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L579" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_individual_employment_status(nil) :: :error</pre>
+          <pre>check_price_individual_employment_status(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_individual_filing_status/0">
+  <div class="detail-header">
+    <a href="#check_price_individual_filing_status/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_individual_filing_status()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L650" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_individual_filing_status() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_individual_filing_status/1">
+  <div class="detail-header">
+    <a href="#check_price_individual_filing_status/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_individual_filing_status(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L616" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_individual_filing_status(nil) :: :error</pre>
+          <pre>check_price_individual_filing_status(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_individual_itemized_deduction/0">
+  <div class="detail-header">
+    <a href="#check_price_individual_itemized_deduction/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_individual_itemized_deduction()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L687" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_individual_itemized_deduction() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_individual_itemized_deduction/1">
+  <div class="detail-header">
+    <a href="#check_price_individual_itemized_deduction/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_individual_itemized_deduction(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L653" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_individual_itemized_deduction(nil) :: :error</pre>
+          <pre>check_price_individual_itemized_deduction(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_living_abroad/0">
+  <div class="detail-header">
+    <a href="#check_price_living_abroad/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_living_abroad()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L724" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_living_abroad() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_living_abroad/1">
+  <div class="detail-header">
+    <a href="#check_price_living_abroad/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_living_abroad(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L690" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_living_abroad(nil) :: :error</pre>
+          <pre>check_price_living_abroad(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_non_resident_earning/0">
+  <div class="detail-header">
+    <a href="#check_price_non_resident_earning/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_non_resident_earning()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L761" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_non_resident_earning() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_non_resident_earning/1">
+  <div class="detail-header">
+    <a href="#check_price_non_resident_earning/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_non_resident_earning(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L727" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_non_resident_earning(nil) :: :error</pre>
+          <pre>check_price_non_resident_earning(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_own_stock_crypto/0">
+  <div class="detail-header">
+    <a href="#check_price_own_stock_crypto/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_own_stock_crypto()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L798" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_own_stock_crypto() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_own_stock_crypto/1">
+  <div class="detail-header">
+    <a href="#check_price_own_stock_crypto/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_own_stock_crypto(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L764" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_own_stock_crypto(nil) :: :error</pre>
+          <pre>check_price_own_stock_crypto(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_rental_property_income/0">
+  <div class="detail-header">
+    <a href="#check_price_rental_property_income/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_rental_property_income()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L835" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_rental_property_income() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_rental_property_income/1">
+  <div class="detail-header">
+    <a href="#check_price_rental_property_income/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_rental_property_income(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L801" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_rental_property_income(nil) :: :error</pre>
+          <pre>check_price_rental_property_income(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_sole_proprietorship_count/0">
+  <div class="detail-header">
+    <a href="#check_price_sole_proprietorship_count/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_sole_proprietorship_count()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L872" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_sole_proprietorship_count() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_sole_proprietorship_count/1">
+  <div class="detail-header">
+    <a href="#check_price_sole_proprietorship_count/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_sole_proprietorship_count(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L838" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_sole_proprietorship_count(nil) :: :error</pre>
+          <pre>check_price_sole_proprietorship_count(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_state/0">
+  <div class="detail-header">
+    <a href="#check_price_state/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_state()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L914" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_state() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_state/1">
+  <div class="detail-header">
+    <a href="#check_price_state/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_state(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L875" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_state(nil) :: :error</pre>
+          <pre>check_price_state(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_stock_divident/0">
+  <div class="detail-header">
+    <a href="#check_price_stock_divident/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_stock_divident()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L951" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_stock_divident() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_stock_divident/1">
+  <div class="detail-header">
+    <a href="#check_price_stock_divident/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_stock_divident(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L917" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_stock_divident(nil) :: :error</pre>
+          <pre>check_price_stock_divident(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_tax_year/0">
+  <div class="detail-header">
+    <a href="#check_price_tax_year/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_tax_year()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L993" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_tax_year() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_price_tax_year/1">
+  <div class="detail-header">
+    <a href="#check_price_tax_year/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_price_tax_year(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L954" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_price_tax_year(nil) :: :error</pre>
+          <pre>check_price_tax_year(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_foreign_account_limit/0">
+  <div class="detail-header">
+    <a href="#check_value_foreign_account_limit/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_foreign_account_limit()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1029" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_foreign_account_limit() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_foreign_account_limit/1">
+  <div class="detail-header">
+    <a href="#check_value_foreign_account_limit/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_foreign_account_limit(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L996" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_foreign_account_limit(nil) :: :error</pre>
+          <pre>check_value_foreign_account_limit(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_foreign_financial_interest/0">
+  <div class="detail-header">
+    <a href="#check_value_foreign_financial_interest/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_foreign_financial_interest()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1065" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_foreign_financial_interest() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_foreign_financial_interest/1">
+  <div class="detail-header">
+    <a href="#check_value_foreign_financial_interest/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_foreign_financial_interest(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1032" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_foreign_financial_interest(nil) :: :error</pre>
+          <pre>check_value_foreign_financial_interest(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_home_owner/0">
+  <div class="detail-header">
+    <a href="#check_value_home_owner/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_home_owner()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1101" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_home_owner() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_home_owner/1">
+  <div class="detail-header">
+    <a href="#check_value_home_owner/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_home_owner(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1068" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_home_owner(nil) :: :error</pre>
+          <pre>check_value_home_owner(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_individual_employment_status/0">
+  <div class="detail-header">
+    <a href="#check_value_individual_employment_status/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_individual_employment_status()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1137" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_individual_employment_status() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_individual_employment_status/1">
+  <div class="detail-header">
+    <a href="#check_value_individual_employment_status/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_individual_employment_status(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1104" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_individual_employment_status(nil) :: :error</pre>
+          <pre>check_value_individual_employment_status(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_individual_filing_status/0">
+  <div class="detail-header">
+    <a href="#check_value_individual_filing_status/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_individual_filing_status()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1177" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_individual_filing_status() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_individual_filing_status/1">
+  <div class="detail-header">
+    <a href="#check_value_individual_filing_status/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_individual_filing_status(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1140" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_individual_filing_status(nil) :: :error</pre>
+          <pre>check_value_individual_filing_status(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_individual_stock_transaction_count/0">
+  <div class="detail-header">
+    <a href="#check_value_individual_stock_transaction_count/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_individual_stock_transaction_count()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1215" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_individual_stock_transaction_count() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_individual_stock_transaction_count/1">
+  <div class="detail-header">
+    <a href="#check_value_individual_stock_transaction_count/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_individual_stock_transaction_count(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1180" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_individual_stock_transaction_count(nil) :: :error</pre>
+          <pre>check_value_individual_stock_transaction_count(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_k1_count/0">
+  <div class="detail-header">
+    <a href="#check_value_k1_count/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_k1_count()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1251" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_k1_count() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_k1_count/1">
+  <div class="detail-header">
+    <a href="#check_value_k1_count/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_k1_count(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1218" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_k1_count(nil) :: :error</pre>
+          <pre>check_value_k1_count(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_rental_property_income/0">
+  <div class="detail-header">
+    <a href="#check_value_rental_property_income/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_rental_property_income()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1287" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_rental_property_income() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_rental_property_income/1">
+  <div class="detail-header">
+    <a href="#check_value_rental_property_income/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_rental_property_income(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1254" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_rental_property_income(nil) :: :error</pre>
+          <pre>check_value_rental_property_income(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_sole_proprietorship_count/0">
+  <div class="detail-header">
+    <a href="#check_value_sole_proprietorship_count/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_sole_proprietorship_count()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1323" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_sole_proprietorship_count() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_sole_proprietorship_count/1">
+  <div class="detail-header">
+    <a href="#check_value_sole_proprietorship_count/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_sole_proprietorship_count(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1290" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_sole_proprietorship_count(nil) :: :error</pre>
+          <pre>check_value_sole_proprietorship_count(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_state/0">
+  <div class="detail-header">
+    <a href="#check_value_state/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_state()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1359" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_state() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_state/1">
+  <div class="detail-header">
+    <a href="#check_value_state/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_state(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1326" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_state(nil) :: :error</pre>
+          <pre>check_value_state(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_tax_year/0">
+  <div class="detail-header">
+    <a href="#check_value_tax_year/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_tax_year()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1396" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_tax_year() :: :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="check_value_tax_year/1">
+  <div class="detail-header">
+    <a href="#check_value_tax_year/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">check_value_tax_year(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1362" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>check_value_tax_year(nil) :: :error</pre>
+          <pre>check_value_tax_year(<a href="#t:word/0">word</a>()) ::
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>()} | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="total_all/1">
+  <div class="detail-header">
+    <a href="#total_all/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">total_all(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1399" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>total_all(<a href="#t:word/0">word</a>()) :: [
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>()}
+]</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="total_match/1">
+  <div class="detail-header">
+    <a href="#total_match/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">total_match(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1410" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>total_match(<a href="#t:word/0">word</a>()) :: [%{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()}] | :error</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="total_price/1">
+  <div class="detail-header">
+    <a href="#total_price/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">total_price(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1490" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>total_price(<a href="#t:word/0">word</a>()) :: [
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()}
+]</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="total_value/1">
+  <div class="detail-header">
+    <a href="#total_value/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">total_value(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/analyzes/individual_tax_return.ex#L1584" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>total_value(<a href="#t:word/0">word</a>()) :: [
+  %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="#t:word/0">word</a>(), required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>()}
+]</pre>
+      </div>
+
+  </section>
+</section>
+          </div>
+        </section>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

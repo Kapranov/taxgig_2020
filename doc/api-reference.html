@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.21.3">
-    <meta name="project" content="Taxgig v1.0.0-beta.1-0-gede5592+dev">
-    <title>API Reference — Taxgig v1.0.0-beta.1-0-gede5592+dev</title>
-    <link rel="stylesheet" href="dist/elixir-0ab8a6a80ebaaa287431.css" />
-    <script src="dist/sidebar_items-3abdeee6fb.js"></script>
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Taxgig v1.0.0-beta.1-0-g3b4f48f+dev">
+    <title>API Reference — Taxgig v1.0.0-beta.1-0-g3b4f48f+dev</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-64429bb8a4.js"></script>
       <script src="docs_config.js"></script>
-    <script async src="dist/app-a225d03098e64fef431a.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
   </head>
   <body data-type="extras">
     <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
@@ -43,7 +43,7 @@
       <a href="https://api.taxgig.com/" class="sidebar-projectName">
 Taxgig      </a>
       <h2 class="sidebar-projectVersion">
-        v1.0.0-beta.1-0-gede5592+dev
+        v1.0.0-beta.1-0-g3b4f48f+dev
       </h2>
     </div>
   </div>
@@ -64,7 +64,7 @@ Taxgig      </a>
     <div id="content" class="content-inner">
 
 <h1>
-  <small class="app-vsn">Taxgig v1.0.0-beta.1-0-gede5592+dev</small>
+  <small class="app-vsn">Taxgig v1.0.0-beta.1-0-g3b4f48f+dev</small>
   API Reference
 </h1>
 
@@ -83,6 +83,38 @@ Taxgig      </a>
 fields are <code class="inline">document_type: &quot;ssn&quot;</code> and <code class="inline">document_value: &quot;0000&quot;</code>
 return <code class="inline">{:ok, &quot;valid&quot;}</code> if value is <code class="inline">&quot;0000&quot;</code> or return
 <code class="inline">{:ok, &quot;invalid&quot;}</code> if value is any but except <code class="inline">&quot;0000&quot;</code>.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Chat.API.Doc.html">Chat.API.Doc</a>
+  </div>
+    <div class="summary-synopsis"><p>Resource for API Doc</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Chat.Application.html">Chat.Application</a>
+  </div>
+    <div class="summary-synopsis"><p>OTP Application specification for Chat</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Chat.Token.html">Chat.Token</a>
+  </div>
+    <div class="summary-synopsis"><p>Custom token implementation using EntropyString behaviour and Phoenix Token.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Chat.Web.Endpoint.html">Chat.Web.Endpoint</a>
+  </div>
+    <div class="summary-synopsis"><p>This module handles all routing for the Server,
+a plug responsible for logging request info, parsing request body's as JSON,
+matching routes, and dispatching responses.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Chat.Web.SocketHandler.html">Chat.Web.SocketHandler</a>
+  </div>
+    <div class="summary-synopsis"><p>Implementation of the WebSocket transport</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -107,6 +139,36 @@ return <code class="inline">{:ok, &quot;valid&quot;}</code> if value is <code cl
     <a href="Core.Accounts.User.html">Core.Accounts.User</a>
   </div>
     <div class="summary-synopsis"><p>Schema for User.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Analyzes.html">Core.Analyzes</a>
+  </div>
+    <div class="summary-synopsis"><p>Analyze's Services.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Analyzes.BookKeeping.html">Core.Analyzes.BookKeeping</a>
+  </div>
+    <div class="summary-synopsis"><p>Analyze's BookKeeping.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Analyzes.BusinessTaxReturn.html">Core.Analyzes.BusinessTaxReturn</a>
+  </div>
+    <div class="summary-synopsis"><p>Analyze's BusinessTaxReturns.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Analyzes.IndividualTaxReturn.html">Core.Analyzes.IndividualTaxReturn</a>
+  </div>
+    <div class="summary-synopsis"><p>Analyze's IndividualTaxReturns.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Analyzes.SaleTax.html">Core.Analyzes.SaleTax</a>
+  </div>
+    <div class="summary-synopsis"><p>Analyze's SaleTax.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -170,6 +232,12 @@ return <code class="inline">{:ok, &quot;valid&quot;}</code> if value is <code cl
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="Core.Lookup.State.html">Core.Lookup.State</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for USA States.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="Core.Lookup.UsZipcode.html">Core.Lookup.UsZipcode</a>
   </div>
     <div class="summary-synopsis"><p>Schema for UsZipcode.</p></div>
@@ -206,6 +274,12 @@ return <code class="inline">{:ok, &quot;valid&quot;}</code> if value is <code cl
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="Core.Queries.html">Core.Queries</a>
+  </div>
+    <div class="summary-synopsis"><p>Ecto queries.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="Core.Repo.html">Core.Repo</a>
   </div>
     <div class="summary-synopsis"><p>Core Repo.</p></div>
@@ -214,31 +288,398 @@ return <code class="inline">{:ok, &quot;valid&quot;}</code> if value is <code cl
   <div class="summary-signature">
     <a href="Core.Seeder.Accounts.html">Core.Seeder.Accounts</a>
   </div>
-    <div class="summary-synopsis"><p>Seeds for <a href="Core.Accounts.html"><code class="inline">Core.Accounts</code></a> context.</p></div>
+    <div class="summary-synopsis"><p>Seeds for <a href="https://hexdocs.pm/core/Core.Accounts.html"><code class="inline">Core.Accounts</code></a> context.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="Core.Seeder.Landing.html">Core.Seeder.Landing</a>
   </div>
-    <div class="summary-synopsis"><p>Seeds for <a href="Core.Landing.html"><code class="inline">Core.Landing</code></a> context.</p></div>
+    <div class="summary-synopsis"><p>Seeds for <a href="https://hexdocs.pm/core/Core.Landing.html"><code class="inline">Core.Landing</code></a> context.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="Core.Seeder.Localization.html">Core.Seeder.Localization</a>
   </div>
-    <div class="summary-synopsis"><p>Seeds for <a href="Core.Localization.html"><code class="inline">Core.Localization</code></a> context.</p></div>
+    <div class="summary-synopsis"><p>Seeds for <a href="https://hexdocs.pm/core/Core.Localization.html"><code class="inline">Core.Localization</code></a> context.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="Core.Seeder.Lookup.html">Core.Seeder.Lookup</a>
   </div>
-    <div class="summary-synopsis"><p>Seeds for <a href="Core.Lookup.html"><code class="inline">Core.Lookup</code></a> context.</p></div>
+    <div class="summary-synopsis"><p>Seeds for <a href="https://hexdocs.pm/core/Core.Lookup.html"><code class="inline">Core.Lookup</code></a> context.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="Core.Seeder.Repo.html">Core.Seeder.Repo</a>
   </div>
     <div class="summary-synopsis"><p>Seeds for <a href="#content"><code class="inline">Core.Seeder.Repo</code></a> repository.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Seeder.Services.html">Core.Seeder.Services</a>
+  </div>
+    <div class="summary-synopsis"><p>Seeds for <a href="https://hexdocs.pm/core/Core.Services.html"><code class="inline">Core.Services</code></a> context.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Seeder.Skills.html">Core.Seeder.Skills</a>
+  </div>
+    <div class="summary-synopsis"><p>Seeds for <a href="https://hexdocs.pm/core/Core.Skills.html"><code class="inline">Core.Skills</code></a> context.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Seeder.Talk.html">Core.Seeder.Talk</a>
+  </div>
+    <div class="summary-synopsis"><p>Seeds for <a href="https://hexdocs.pm/core/Core.Talk.html"><code class="inline">Core.Talk</code></a> context.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Seeder.Updated.Accounts.html">Core.Seeder.Updated.Accounts</a>
+  </div>
+    <div class="summary-synopsis"><p>An update are seeds whole an accounts.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Seeder.Updated.Landing.html">Core.Seeder.Updated.Landing</a>
+  </div>
+    <div class="summary-synopsis"><p>An update are seeds whole landings.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Seeder.Updated.Localization.html">Core.Seeder.Updated.Localization</a>
+  </div>
+    <div class="summary-synopsis"><p>An update are seeds whole localizations.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Seeder.Updated.Lookup.html">Core.Seeder.Updated.Lookup</a>
+  </div>
+    <div class="summary-synopsis"><p>An update are seeds whole lookups.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Seeder.Updated.Media.html">Core.Seeder.Updated.Media</a>
+  </div>
+    <div class="summary-synopsis"><p>An update are seeds whole media.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Seeder.Updated.Services.html">Core.Seeder.Updated.Services</a>
+  </div>
+    <div class="summary-synopsis"><p>An update are seeds whole services.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Seeder.Updated.Talk.html">Core.Seeder.Updated.Talk</a>
+  </div>
+    <div class="summary-synopsis"><p>An update are seeds whole talks.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.html">Core.Services</a>
+  </div>
+    <div class="summary-synopsis"><p>The Services context.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BookKeeping.html">Core.Services.BookKeeping</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BookKeeping.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BookKeepingAdditionalNeed.html">Core.Services.BookKeepingAdditionalNeed</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BookKeepingAdditionalNeed.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BookKeepingAnnualRevenue.html">Core.Services.BookKeepingAnnualRevenue</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BookKeepingAnnualRevenue.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BookKeepingClassifyInventory.html">Core.Services.BookKeepingClassifyInventory</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BookKeepingClassifyInventory.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BookKeepingIndustry.html">Core.Services.BookKeepingIndustry</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BookKeepingIndustry.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BookKeepingNumberEmployee.html">Core.Services.BookKeepingNumberEmployee</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BookKeepingNumberEmployee.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BookKeepingTransactionVolume.html">Core.Services.BookKeepingTransactionVolume</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BookKeepingTransactionVolume.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BookKeepingTypeClient.html">Core.Services.BookKeepingTypeClient</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BookKeepingTypeClient.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BusinessEntityType.html">Core.Services.BusinessEntityType</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BusinessEntityType.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BusinessForeignAccountCount.html">Core.Services.BusinessForeignAccountCount</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BusinessForeignAccountCount.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BusinessForeignOwnershipCount.html">Core.Services.BusinessForeignOwnershipCount</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BusinessForeignOwnershipCount.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BusinessIndustry.html">Core.Services.BusinessIndustry</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BusinessIndustry.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BusinessLlcType.html">Core.Services.BusinessLlcType</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BusinessLlcType.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BusinessNumberEmployee.html">Core.Services.BusinessNumberEmployee</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BusinessNumberEmployee.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BusinessTaxReturn.html">Core.Services.BusinessTaxReturn</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BusinessTaxReturns.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BusinessTotalRevenue.html">Core.Services.BusinessTotalRevenue</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BusinessTotalRevenue.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.BusinessTransactionCount.html">Core.Services.BusinessTransactionCount</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for BusinessTransactionCount.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.AdditionalNeedNameEnum.html">Core.Services.Helpers.AdditionalNeedNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.AnnualRevenueNameEnum.html">Core.Services.Helpers.AnnualRevenueNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.ClassifyInventoryNameEnum.html">Core.Services.Helpers.ClassifyInventoryNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.EmploymentStatusNameEnum.html">Core.Services.Helpers.EmploymentStatusNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.EntityTypeNameEnum.html">Core.Services.Helpers.EntityTypeNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.FilingStatusNameEnum.html">Core.Services.Helpers.FilingStatusNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.ForeignAccountCountNameEnum.html">Core.Services.Helpers.ForeignAccountCountNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.FrequencyNameEnum.html">Core.Services.Helpers.FrequencyNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.IndustryNameEnum.html">Core.Services.Helpers.IndustryNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.ItemizedDeductionNameEnum.html">Core.Services.Helpers.ItemizedDeductionNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.LlcTypeNameEnum.html">Core.Services.Helpers.LlcTypeNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.NumberEmployeeNameEnum.html">Core.Services.Helpers.NumberEmployeeNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.StockTransactionCountNameEnum.html">Core.Services.Helpers.StockTransactionCountNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.TransactionsCountNameEnum.html">Core.Services.Helpers.TransactionsCountNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.TransactionsVolumeNameEnum.html">Core.Services.Helpers.TransactionsVolumeNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.Helpers.TypeClientNameEnum.html">Core.Services.Helpers.TypeClientNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.IndividualEmploymentStatus.html">Core.Services.IndividualEmploymentStatus</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for IndividualEmploymentStatus.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.IndividualFilingStatus.html">Core.Services.IndividualFilingStatus</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for IndividualFilingStatus.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.IndividualForeignAccountCount.html">Core.Services.IndividualForeignAccountCount</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for IndividualForeignAccountCount.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.IndividualIndustry.html">Core.Services.IndividualIndustry</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for IndividualIndustry.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.IndividualItemizedDeduction.html">Core.Services.IndividualItemizedDeduction</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for IndividualItemizedDeduction.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.IndividualStockTransactionCount.html">Core.Services.IndividualStockTransactionCount</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for IndividualStockTransactionCount.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.IndividualTaxReturn.html">Core.Services.IndividualTaxReturn</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for IndividualTaxReturns.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.MatchValueRelate.html">Core.Services.MatchValueRelate</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for MatchValueRelates.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.SaleTax.html">Core.Services.SaleTax</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for SaleTax.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.SaleTaxFrequency.html">Core.Services.SaleTaxFrequency</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for SaleTaxFrequency.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Services.SaleTaxIndustry.html">Core.Services.SaleTaxIndustry</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for SaleTaxIndustry.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Skills.html">Core.Skills</a>
+  </div>
+    <div class="summary-synopsis"><p>The Skill context.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Skills.AccountingSoftware.html">Core.Skills.AccountingSoftware</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for AccountingSoftware.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Skills.Education.html">Core.Skills.Education</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for Education.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Skills.Helpers.AccountingSoftwareNameEnum.html">Core.Skills.Helpers.AccountingSoftwareNameEnum</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Skills.University.html">Core.Skills.University</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for University.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Skills.WorkExperience.html">Core.Skills.WorkExperience</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for WorkExperience.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Talk.html">Core.Talk</a>
+  </div>
+    <div class="summary-synopsis"><p>A Talk context.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Talk.Message.html">Core.Talk.Message</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for Messages.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Core.Talk.Room.html">Core.Talk.Room</a>
+  </div>
+    <div class="summary-synopsis"><p>Schema for Faqs.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -293,6 +734,18 @@ return <code class="inline">{:ok, &quot;valid&quot;}</code> if value is <code cl
     <a href="Core.Uploaders.Uploader.html">Core.Uploaders.Uploader</a>
   </div>
     <div class="summary-synopsis"><p>Defines the contract to put and get an uploaded file to any backend.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Graphy.Application.html">Graphy.Application</a>
+  </div>
+    <div class="summary-synopsis"><p>OTP Application specification for Graphy.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Graphy.Repo.html">Graphy.Repo</a>
+  </div>
+    <div class="summary-synopsis"><p>Graphy Repo.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -363,10 +816,48 @@ and business logic.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="ServerQLApi.html">ServerQLApi</a>
+  </div>
+    <div class="summary-synopsis"><p>Documentation for ServerQLApi.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerQLApi.Client.html">ServerQLApi.Client</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerQLApi.Query.FaqCategory.html">ServerQLApi.Query.FaqCategory</a>
+  </div>
+    <div class="summary-synopsis"><p>FaqCategory GraphQL queries</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerQLApi.Schema.FaqCategory.html">ServerQLApi.Schema.FaqCategory</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerQLApi.Schema.FaqCategory.Faq.html">ServerQLApi.Schema.FaqCategory.Faq</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerQLApi.Subscription.FaqCategory.html">ServerQLApi.Subscription.FaqCategory</a>
+  </div>
+    <div class="summary-synopsis"><p>Subscription adapter module FaqCategory</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="ServerWeb.html">ServerWeb</a>
   </div>
     <div class="summary-synopsis"><p>The entrypoint for defining your web interface, such
 as controllers, views, channels and so on.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.ChangesetView.html">ServerWeb.ChangesetView</a>
+  </div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -385,6 +876,11 @@ as controllers, views, channels and so on.</p></div>
     <div class="summary-synopsis"><p>A single Dataloader struct can have many different sources,
 which represent different ways to load data, provides an easy
 way efficiently load data in batches.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Helpers.ErrorHelper.html">ServerWeb.GraphQL.Helpers.ErrorHelper</a>
+  </div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -436,6 +932,12 @@ way efficiently load data in batches.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Lookup.StateResolver.html">ServerWeb.GraphQL.Resolvers.Lookup.StateResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The State GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolver.html">ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolver</a>
   </div>
     <div class="summary-synopsis"><p>The UsZipcode GraphQL resolvers.</p></div>
@@ -448,6 +950,174 @@ way efficiently load data in batches.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BookKeepingAdditionalNeedsResolver.html">ServerWeb.GraphQL.Resolvers.Products.BookKeepingAdditionalNeedsResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeepingAdditionalNeed GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BookKeepingAnnualRevenuesResolver.html">ServerWeb.GraphQL.Resolvers.Products.BookKeepingAnnualRevenuesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeepingAnnualRevenue GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BookKeepingClassifyInventoriesResolver.html">ServerWeb.GraphQL.Resolvers.Products.BookKeepingClassifyInventoriesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeepingClassifyInventory GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BookKeepingIndustriesResolver.html">ServerWeb.GraphQL.Resolvers.Products.BookKeepingIndustriesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeepingIndustry GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BookKeepingNumberEmployeesResolver.html">ServerWeb.GraphQL.Resolvers.Products.BookKeepingNumberEmployeesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeepingNumberEmployee GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BookKeepingTransactionVolumesResolver.html">ServerWeb.GraphQL.Resolvers.Products.BookKeepingTransactionVolumesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeepingTransactionVolume GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BookKeepingTypeClientsResolver.html">ServerWeb.GraphQL.Resolvers.Products.BookKeepingTypeClientsResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeepingTypeClient GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BookKeepingsResolver.html">ServerWeb.GraphQL.Resolvers.Products.BookKeepingsResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeeping GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolver.html">ServerWeb.GraphQL.Resolvers.Products.BusinessEntityTypesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessEntityType GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BusinessForeignAccountCountsResolver.html">ServerWeb.GraphQL.Resolvers.Products.BusinessForeignAccountCountsResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessForeignAccountCount GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BusinessForeignOwnershipCountsResolver.html">ServerWeb.GraphQL.Resolvers.Products.BusinessForeignOwnershipCountsResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessForeignOwnershipCount GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BusinessIndustriesResolver.html">ServerWeb.GraphQL.Resolvers.Products.BusinessIndustriesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessIndustry GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BusinessLlcTypesResolver.html">ServerWeb.GraphQL.Resolvers.Products.BusinessLlcTypesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessLlcType GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolver.html">ServerWeb.GraphQL.Resolvers.Products.BusinessNumberEmployeesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessNumberEmployee GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BusinessTaxReturnsResolver.html">ServerWeb.GraphQL.Resolvers.Products.BusinessTaxReturnsResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessTaxReturn GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolver.html">ServerWeb.GraphQL.Resolvers.Products.BusinessTotalRevenuesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessTotalRevenue GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.BusinessTransactionCountsResolver.html">ServerWeb.GraphQL.Resolvers.Products.BusinessTransactionCountsResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessTransactionCount GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.IndividualEmploymentStatusesResolver.html">ServerWeb.GraphQL.Resolvers.Products.IndividualEmploymentStatusesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The IndividualEmploymentStatus GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.IndividualFilingStatusesResolver.html">ServerWeb.GraphQL.Resolvers.Products.IndividualFilingStatusesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The IndividualFilingStatuse GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.IndividualForeignAccountCountsResolver.html">ServerWeb.GraphQL.Resolvers.Products.IndividualForeignAccountCountsResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The IndividualForeignAccount GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.IndividualIndustriesResolver.html">ServerWeb.GraphQL.Resolvers.Products.IndividualIndustriesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The IndividualIndustry GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.IndividualItemizedDeductionsResolver.html">ServerWeb.GraphQL.Resolvers.Products.IndividualItemizedDeductionsResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The IndividualItemizedDeduction GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.IndividualStockTransactionCountsResolver.html">ServerWeb.GraphQL.Resolvers.Products.IndividualStockTransactionCountsResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The IndividualStockTransactionsCount GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.IndividualTaxReturnsResolver.html">ServerWeb.GraphQL.Resolvers.Products.IndividualTaxReturnsResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The IndividualTaxReturn GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolver.html">ServerWeb.GraphQL.Resolvers.Products.MatchValueRelatesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The MatchValueRelate GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.SaleTaxFrequenciesResolver.html">ServerWeb.GraphQL.Resolvers.Products.SaleTaxFrequenciesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The SaleTaxFrequency GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.SaleTaxIndustriesResolver.html">ServerWeb.GraphQL.Resolvers.Products.SaleTaxIndustriesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The SaleTaxIndustry GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Products.SaleTaxesResolver.html">ServerWeb.GraphQL.Resolvers.Products.SaleTaxesResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The SaleTaxe GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="ServerWeb.GraphQL.Resolvers.Services.BlockscoreResolver.html">ServerWeb.GraphQL.Resolvers.Services.BlockscoreResolver</a>
   </div>
     <div class="summary-synopsis"><p>The Blockscore GraphQL resolvers.</p></div>
@@ -457,6 +1127,36 @@ way efficiently load data in batches.</p></div>
     <a href="ServerWeb.GraphQL.Resolvers.Services.PtinResolver.html">ServerWeb.GraphQL.Resolvers.Services.PtinResolver</a>
   </div>
     <div class="summary-synopsis"><p>The Ptin GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Skills.AccountingSoftwareResolver.html">ServerWeb.GraphQL.Resolvers.Skills.AccountingSoftwareResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The AccountingSoftware GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Skills.EducationResolver.html">ServerWeb.GraphQL.Resolvers.Skills.EducationResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>An Education GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Skills.UniversityResolver.html">ServerWeb.GraphQL.Resolvers.Skills.UniversityResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The University GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Skills.WorkExperienceResolver.html">ServerWeb.GraphQL.Resolvers.Skills.WorkExperienceResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>A WorkExperienceResolver GraphQL resolvers.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Resolvers.Talk.RoomResolver.html">ServerWeb.GraphQL.Resolvers.Talk.RoomResolver</a>
+  </div>
+    <div class="summary-synopsis"><p>The Room GraphQL resolvers.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -514,6 +1214,12 @@ way efficiently load data in batches.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Lookup.StateTypes.html">ServerWeb.GraphQL.Schemas.Lookup.StateTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The US State GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="ServerWeb.GraphQL.Schemas.Lookup.UsZipcodeTypes.html">ServerWeb.GraphQL.Schemas.Lookup.UsZipcodeTypes</a>
   </div>
     <div class="summary-synopsis"><p>The UsZipcode GraphQL interface.</p></div>
@@ -531,6 +1237,174 @@ way efficiently load data in batches.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BookKeepingAdditionalNeedTypes.html">ServerWeb.GraphQL.Schemas.Products.BookKeepingAdditionalNeedTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeepingAdditionalNeed GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BookKeepingAnnualRevenueTypes.html">ServerWeb.GraphQL.Schemas.Products.BookKeepingAnnualRevenueTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeepingAnnualRevenue GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BookKeepingClassifyInventoryTypes.html">ServerWeb.GraphQL.Schemas.Products.BookKeepingClassifyInventoryTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeepingClassifyInventory GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BookKeepingIndustryTypes.html">ServerWeb.GraphQL.Schemas.Products.BookKeepingIndustryTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeepingIndustry GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BookKeepingNumberEmployeeTypes.html">ServerWeb.GraphQL.Schemas.Products.BookKeepingNumberEmployeeTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeepingNumberEmployee GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BookKeepingTransactionVolumeTypes.html">ServerWeb.GraphQL.Schemas.Products.BookKeepingTransactionVolumeTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeepingTransactionVolume GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BookKeepingTypeClientTypes.html">ServerWeb.GraphQL.Schemas.Products.BookKeepingTypeClientTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeepingTypeClient GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BookKeepingTypes.html">ServerWeb.GraphQL.Schemas.Products.BookKeepingTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BookKeeping GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BusinessEntityTypeTypes.html">ServerWeb.GraphQL.Schemas.Products.BusinessEntityTypeTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessEntityType GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BusinessForeignAccountCountTypes.html">ServerWeb.GraphQL.Schemas.Products.BusinessForeignAccountCountTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessForeignAccountCount GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BusinessForeignOwnershipCountTypes.html">ServerWeb.GraphQL.Schemas.Products.BusinessForeignOwnershipCountTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessForeignOwnershipCount GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BusinessIndustryTypes.html">ServerWeb.GraphQL.Schemas.Products.BusinessIndustryTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessIndustry GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BusinessLlcTypeTypes.html">ServerWeb.GraphQL.Schemas.Products.BusinessLlcTypeTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessLlcType GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BusinessNumberEmployeeTypes.html">ServerWeb.GraphQL.Schemas.Products.BusinessNumberEmployeeTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessNumberEmployee GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes.html">ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessTaxReturn GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BusinessTotalRevenueTypes.html">ServerWeb.GraphQL.Schemas.Products.BusinessTotalRevenueTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessTotalRevenue GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.BusinessTransactionCountTypes.html">ServerWeb.GraphQL.Schemas.Products.BusinessTransactionCountTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The BusinessTransactionCount GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.IndividualEmploymentStatusTypes.html">ServerWeb.GraphQL.Schemas.Products.IndividualEmploymentStatusTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The IndividualEmploymentStatus GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.IndividualFilingStatusTypes.html">ServerWeb.GraphQL.Schemas.Products.IndividualFilingStatusTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The IndividualFilingStatus GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.IndividualForeignAccountCountTypes.html">ServerWeb.GraphQL.Schemas.Products.IndividualForeignAccountCountTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The IndividualForeignAccountCount GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.IndividualIndustryTypes.html">ServerWeb.GraphQL.Schemas.Products.IndividualIndustryTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The IndividualIndustry GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.IndividualItemizedDeductionTypes.html">ServerWeb.GraphQL.Schemas.Products.IndividualItemizedDeductionTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The IndividualItemizedDeduction GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.IndividualStockTransactionCountTypes.html">ServerWeb.GraphQL.Schemas.Products.IndividualStockTransactionCountTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The IndividualStockTransactionCount GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes.html">ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The IndividualTaxReturn GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.MatchValueRelateTypes.html">ServerWeb.GraphQL.Schemas.Products.MatchValueRelateTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The MatchValueRelate GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.SaleTaxFrequencyTypes.html">ServerWeb.GraphQL.Schemas.Products.SaleTaxFrequencyTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The SaleTaxFrequency GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.SaleTaxIndustryTypes.html">ServerWeb.GraphQL.Schemas.Products.SaleTaxIndustryTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The SaleTaxIndustry GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Products.SaleTaxTypes.html">ServerWeb.GraphQL.Schemas.Products.SaleTaxTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The SaleTax GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="ServerWeb.GraphQL.Schemas.Services.BlockscoreTypes.html">ServerWeb.GraphQL.Schemas.Services.BlockscoreTypes</a>
   </div>
     <div class="summary-synopsis"><p>The Blockscore GraphQL interface.</p></div>
@@ -540,6 +1414,36 @@ way efficiently load data in batches.</p></div>
     <a href="ServerWeb.GraphQL.Schemas.Services.PtinTypes.html">ServerWeb.GraphQL.Schemas.Services.PtinTypes</a>
   </div>
     <div class="summary-synopsis"><p>The Ptin GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Skills.AccountingSoftwareTypes.html">ServerWeb.GraphQL.Schemas.Skills.AccountingSoftwareTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The AccountingSoftware GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Skills.EducationTypes.html">ServerWeb.GraphQL.Schemas.Skills.EducationTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The Education GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Skills.UniversityTypes.html">ServerWeb.GraphQL.Schemas.Skills.UniversityTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The University GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Skills.WorkExperienceTypes.html">ServerWeb.GraphQL.Schemas.Skills.WorkExperienceTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The WorkExperience GraphQL interface.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.GraphQL.Schemas.Talk.RoomTypes.html">ServerWeb.GraphQL.Schemas.Talk.RoomTypes</a>
+  </div>
+    <div class="summary-synopsis"><p>The Room GraphQL interface.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -554,7 +1458,7 @@ Requires <code class="inline">{ :ecto, &quot;&gt;= 0.0.0&quot; }</code> package:
   </div>
     <div class="summary-synopsis"><p>Because we are mocking the api requests in ServerWeb.Provider.OauthFacebook
 we have to have a separate module to delegate the functions
-we use to the actual HTTPoison module, so that&#39;s all we do here.</p></div>
+we use to the actual HTTPoison module, so that's all we do here.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -562,7 +1466,7 @@ we use to the actual HTTPoison module, so that&#39;s all we do here.</p></div>
   </div>
     <div class="summary-synopsis"><p>Because we are mocking the api requests in ServerWeb.Provider.OauthGoogle
 we have to have a separate module to delegate the functions
-we use to the actual HTTPoison module, so that&#39;s all we do here.</p></div>
+we use to the actual HTTPoison module, so that's all we do here.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -570,7 +1474,7 @@ we use to the actual HTTPoison module, so that&#39;s all we do here.</p></div>
   </div>
     <div class="summary-synopsis"><p>Because we are mocking the api requests in ServerWeb.Provider.OauthLinkedIn
 we have to have a separate module to delegate the functions
-we use to the actual HTTPoison module, so that&#39;s all we do here.</p></div>
+we use to the actual HTTPoison module, so that's all we do here.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -578,7 +1482,7 @@ we use to the actual HTTPoison module, so that&#39;s all we do here.</p></div>
   </div>
     <div class="summary-synopsis"><p>AWS S3 mocking the api requests in Core.Uploaders.S3
 we have to have a separate module to delegate the functions
-we use to the actual HTTPoison module, so that&#39;s all we do here.</p></div>
+we use to the actual HTTPoison module, so that's all we do here.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -586,7 +1490,18 @@ we use to the actual HTTPoison module, so that&#39;s all we do here.</p></div>
   </div>
     <div class="summary-synopsis"><p>Because we are mocking the api requests in ServerWeb.Provider.OauthTwitter
 we have to have a separate module to delegate the functions
-we use to the actual HTTPoison module, so that&#39;s all we do here.</p></div>
+we use to the actual HTTPoison module, so that's all we do here.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.MessageView.html">ServerWeb.MessageView</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.Presence.html">ServerWeb.Presence</a>
+  </div>
+    <div class="summary-synopsis"><p>Provides presence tracking to channels and processes.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -620,6 +1535,11 @@ emailAddress, firstName, lastName, profilePicture</p></div>
     <a href="ServerWeb.Provider.OauthTwitter.html">ServerWeb.Provider.OauthTwitter</a>
   </div>
     <div class="summary-synopsis"><p>Minimalist Twitter OAuth Authentication.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="ServerWeb.RoomView.html">ServerWeb.RoomView</a>
+  </div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -672,7 +1592,7 @@ Changes level back when rollback ends.</p></div>
         <p>
           <span class="line">
             Built using
-            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.21.3),
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
           </span>
           <span class="line">
             designed by

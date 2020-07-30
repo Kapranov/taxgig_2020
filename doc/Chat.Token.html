@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Taxgig v1.0.0-beta.1-0-g3b4f48f+dev">
+    <title>Chat.Token — Taxgig v1.0.0-beta.1-0-g3b4f48f+dev</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-64429bb8a4.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://api.taxgig.com/" class="sidebar-projectName">
+Taxgig      </a>
+      <h2 class="sidebar-projectVersion">
+        v1.0.0-beta.1-0-g3b4f48f+dev
+      </h2>
+    </div>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="tasks-list" href="#full-list">Mix Tasks</a></li>
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+        <small class="app-vsn">Taxgig v1.0.0-beta.1-0-g3b4f48f+dev</small>
+Chat.Token          <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/chat/lib/chat/token.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>Custom token implementation using EntropyString behaviour and Phoenix Token.</p>        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#bits/0">bits()</a>
+  </div>
+    <div class="summary-synopsis"><p>Default entropy bits for random strings</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#chars/0">chars()</a>
+  </div>
+    <div class="summary-synopsis"><p>Module characters</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#charset/0">charset()</a>
+  </div>
+    <div class="summary-synopsis"><p>Module <strong><em>EntropyString.CharSet</em></strong></p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#ets_token/0">ets_token()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#flip/1">flip(flips)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#large/0">large()</a>
+  </div>
+    <div class="summary-synopsis"><p>Random string using module <strong><em>charset</em></strong> with a 1 in a trillion chance of repeat for a billion
+potential strings.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#medium/0">medium()</a>
+  </div>
+    <div class="summary-synopsis"><p>Random string using module <strong><em>charset</em></strong> with a 1 in a billion chance of repeat for a million
+potential strings.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#random/1">random(bits \\ 128)</a>
+  </div>
+    <div class="summary-synopsis"><p>Random string of entropy <strong><em>bits</em></strong> using module <strong><em>charset</em></strong></p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#random_string/1">random_string(len)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#session/0">session()</a>
+  </div>
+    <div class="summary-synopsis"><p>Random string using module <strong><em>charset</em></strong> suitable for 128-bit OWASP Session ID</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#small/0">small()</a>
+  </div>
+    <div class="summary-synopsis"><p>Random string using module <strong><em>charset</em></strong> with a 1 in a million chance of repeat in
+30 strings.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#string/0">string()</a>
+  </div>
+    <div class="summary-synopsis"><p>Random string of module entropy <strong><em>bits</em></strong> and <strong><em>charset</em></strong></p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#string_of_length/1">string_of_length(length)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#token/0">token()</a>
+  </div>
+    <div class="summary-synopsis"><p>Random string using module <strong><em>charset</em></strong> with 256 bits of entropy.</p></div>
+</div>
+  </div>
+        </section>
+
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<section class="detail" id="bits/0">
+  <div class="detail-header">
+    <a href="#bits/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">bits()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/chat/lib/chat/token.ex#L1" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Default entropy bits for random strings</p>  </section>
+</section>
+<section class="detail" id="chars/0">
+  <div class="detail-header">
+    <a href="#chars/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">chars()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/chat/lib/chat/token.ex#L1" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Module characters</p>  </section>
+</section>
+<section class="detail" id="charset/0">
+  <div class="detail-header">
+    <a href="#charset/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">charset()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/chat/lib/chat/token.ex#L1" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Module <strong><em>EntropyString.CharSet</em></strong></p>  </section>
+</section>
+<section class="detail" id="ets_token/0">
+  <div class="detail-header">
+    <a href="#ets_token/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">ets_token()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/chat/lib/chat/token.ex#L26" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+  </section>
+</section>
+<section class="detail" id="flip/1">
+  <div class="detail-header">
+    <a href="#flip/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">flip(flips)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/chat/lib/chat/token.ex#L19" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+  </section>
+</section>
+<section class="detail" id="large/0">
+  <div class="detail-header">
+    <a href="#large/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">large()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/chat/lib/chat/token.ex#L1" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Random string using module <strong><em>charset</em></strong> with a 1 in a trillion chance of repeat for a billion
+potential strings.</p><h2 id="large/0-example" class="section-heading">
+  <a href="#large/0-example" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Example
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="nc">MyModule</span><span class="o">.</span><span class="n">large</span><span class="p" data-group-id="2467746315-1">(</span><span class="p" data-group-id="2467746315-1">)</span><span class="w">
+</span><span class="s">&quot;NqJLbG8htr4t64TQmRDB&quot;</span></code></pre>  </section>
+</section>
+<section class="detail" id="medium/0">
+  <div class="detail-header">
+    <a href="#medium/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">medium()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/chat/lib/chat/token.ex#L1" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Random string using module <strong><em>charset</em></strong> with a 1 in a billion chance of repeat for a million
+potential strings.</p><h2 id="medium/0-example" class="section-heading">
+  <a href="#medium/0-example" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Example
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="nc">MyModulue</span><span class="o">.</span><span class="n">medium</span><span class="p" data-group-id="6211943586-1">(</span><span class="p" data-group-id="6211943586-1">)</span><span class="w">
+</span><span class="s">&quot;nndQjL7FLR9pDd&quot;</span></code></pre>  </section>
+</section>
+<section class="detail" id="random/1">
+    <span id="random/0"></span>
+  <div class="detail-header">
+    <a href="#random/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">random(bits \\ 128)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/chat/lib/chat/token.ex#L1" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Random string of entropy <strong><em>bits</em></strong> using module <strong><em>charset</em></strong></p><ul><li><strong><em>bits</em></strong> - entropy bits for string<ul><li>non-negative integer</li><li>predefined atom</li><li>Defaults to module <strong><em>bits</em></strong></li></ul></li></ul><p>Returns string of at least entropy <strong><em>bits</em></strong> using module characters; or</p><ul><li><code class="inline">{:error, &quot;Negative entropy&quot;}</code> if <strong><em>bits</em></strong> is negative.</li><li><code class="inline">{:error, reason}</code> if <code class="inline">EntropyString.CharSet.validate(charset)</code> is not <code class="inline">true</code>.</li></ul><p>Since the generated random strings carry an entropy that is a multiple of the bits per module
+characters, the returned entropy is the minimum that equals or exceeds the specified
+<strong><em>bits</em></strong>.</p><h2 id="random/1-example" class="section-heading">
+  <a href="#random/1-example" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Example
+</h2>
+<p>A million potential strings (assuming :charset32 characters) with a 1 in a billion chance
+of a repeat</p><pre><code class="nohighlight makeup elixir"><span class="n">bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">EntropyString</span><span class="o">.</span><span class="n">bits</span><span class="p" data-group-id="5215108239-1">(</span><span class="mf">1.0e6</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0e9</span><span class="p" data-group-id="5215108239-1">)</span><span class="w">
+
+</span><span class="nc">MyModule</span><span class="o">.</span><span class="n">random</span><span class="p" data-group-id="5215108239-2">(</span><span class="n">bits</span><span class="p" data-group-id="5215108239-2">)</span><span class="w">
+</span><span class="s">&quot;NbMbLrj9fBbQP6&quot;</span><span class="w">
+
+</span><span class="nc">MyModule</span><span class="o">.</span><span class="n">random</span><span class="p" data-group-id="5215108239-3">(</span><span class="ss">:session</span><span class="p" data-group-id="5215108239-3">)</span><span class="w">
+</span><span class="s">&quot;CeElDdo7HnNDuiWwlFPPq0&quot;</span></code></pre>  </section>
+</section>
+<section class="detail" id="random_string/1">
+  <div class="detail-header">
+    <a href="#random_string/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">random_string(len)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/chat/lib/chat/token.ex#L21" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+  </section>
+</section>
+<section class="detail" id="session/0">
+  <div class="detail-header">
+    <a href="#session/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">session()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/chat/lib/chat/token.ex#L1" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Random string using module <strong><em>charset</em></strong> suitable for 128-bit OWASP Session ID</p><h2 id="session/0-example" class="section-heading">
+  <a href="#session/0-example" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Example
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="nc">MyModule</span><span class="o">.</span><span class="n">session</span><span class="p" data-group-id="7432807000-1">(</span><span class="p" data-group-id="7432807000-1">)</span><span class="w">
+</span><span class="s">&quot;6pLfLgfL8MgTn7tQDN8tqPFR4b&quot;</span></code></pre>  </section>
+</section>
+<section class="detail" id="small/0">
+  <div class="detail-header">
+    <a href="#small/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">small()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/chat/lib/chat/token.ex#L1" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Random string using module <strong><em>charset</em></strong> with a 1 in a million chance of repeat in
+30 strings.</p><h2 id="small/0-example" class="section-heading">
+  <a href="#small/0-example" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Example
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="nc">MyModule</span><span class="o">.</span><span class="n">small</span><span class="p" data-group-id="7825209117-1">(</span><span class="p" data-group-id="7825209117-1">)</span><span class="w">
+</span><span class="s">&quot;nGrqnt&quot;</span></code></pre>  </section>
+</section>
+<section class="detail" id="string/0">
+  <div class="detail-header">
+    <a href="#string/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">string()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/chat/lib/chat/token.ex#L1" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Random string of module entropy <strong><em>bits</em></strong> and <strong><em>charset</em></strong></p><h2 id="string/0-example" class="section-heading">
+  <a href="#string/0-example" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Example
+</h2>
+<p>Define a module for 10 billion strings with a 1 in a decillion chance of a repeat</p><pre><code class="nohighlight makeup elixir"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">Rare</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="kn">use</span><span class="w"> </span><span class="nc">EntropyString</span><span class="p">,</span><span class="w"> </span><span class="ss">total</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0e10</span><span class="p">,</span><span class="w"> </span><span class="ss">risk</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0e33</span><span class="w">
+
+</span><span class="nc">Rare</span><span class="o">.</span><span class="n">string</span><span class="p" data-group-id="5100455308-1">(</span><span class="p" data-group-id="5100455308-1">)</span><span class="w">
+</span><span class="s">&quot;H2Mp8MPT7F3Pp2bmHm&quot;</span></code></pre><p>Define a module for strings with 122 bits of entropy</p><pre><code class="nohighlight makeup elixir"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">MyId</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="kn">use</span><span class="w"> </span><span class="nc">EntropyString</span><span class="p">,</span><span class="w"> </span><span class="ss">bits</span><span class="p">:</span><span class="w"> </span><span class="mi">122</span><span class="p">,</span><span class="w"> </span><span class="ss">charset</span><span class="p">:</span><span class="w"> </span><span class="n">charset64</span><span class="w">
+
+</span><span class="nc">MyId</span><span class="o">.</span><span class="n">string</span><span class="p" data-group-id="3209588271-1">(</span><span class="p" data-group-id="3209588271-1">)</span><span class="w">
+</span><span class="s">&quot;aj2_kMH64P2QDRBlOkz7Z&quot;</span></code></pre>  </section>
+</section>
+<section class="detail" id="string_of_length/1">
+  <div class="detail-header">
+    <a href="#string_of_length/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">string_of_length(length)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/chat/lib/chat/token.ex#L13" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+  </section>
+</section>
+<section class="detail" id="token/0">
+  <div class="detail-header">
+    <a href="#token/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">token()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/chat/lib/chat/token.ex#L1" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Random string using module <strong><em>charset</em></strong> with 256 bits of entropy.</p><h2 id="token/0-example" class="section-heading">
+  <a href="#token/0-example" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Example
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="nc">MyModule</span><span class="o">.</span><span class="n">token</span><span class="p" data-group-id="2959436931-1">(</span><span class="p" data-group-id="2959436931-1">)</span><span class="w">
+</span><span class="s">&quot;zHZ278Pv_GaOsmRYdBIR5uO8Tt0OWSESZbVuQye6grt&quot;</span></code></pre>  </section>
+</section>
+          </div>
+        </section>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

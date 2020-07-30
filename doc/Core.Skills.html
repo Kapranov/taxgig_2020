@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Taxgig v1.0.0-beta.1-0-g3b4f48f+dev">
+    <title>Core.Skills — Taxgig v1.0.0-beta.1-0-g3b4f48f+dev</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-64429bb8a4.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://api.taxgig.com/" class="sidebar-projectName">
+Taxgig      </a>
+      <h2 class="sidebar-projectVersion">
+        v1.0.0-beta.1-0-g3b4f48f+dev
+      </h2>
+    </div>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="tasks-list" href="#full-list">Mix Tasks</a></li>
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+        <small class="app-vsn">Taxgig v1.0.0-beta.1-0-g3b4f48f+dev</small>
+Core.Skills          <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>The Skill context.</p>        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:error_tuple/0">error_tuple()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:reason/0">reason()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:result/0">result()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:success_tuple/0">success_tuple()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:t/0">t()</a>
+  </div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#change_accounting_software/1">change_accounting_software(struct)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking AccountingSoftware changes.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#change_education/1">change_education(struct)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking Education changes.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#change_work_experience/1">change_work_experience(struct)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking WorkExperience changes.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#create_accounting_software/1">create_accounting_software(attrs \\ %{})</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates AccountingSoftware.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#create_education/1">create_education(attrs \\ %{})</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates Education.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#create_university/1">create_university(attrs \\ %{})</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates University.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#create_work_experience/1">create_work_experience(attrs \\ %{})</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates WorkExperience.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_accounting_software/1">delete_accounting_software(struct)</a>
+  </div>
+    <div class="summary-synopsis"><p>Deletes AccountingSoftware.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_education/1">delete_education(struct)</a>
+  </div>
+    <div class="summary-synopsis"><p>Deletes Education.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_work_experience/1">delete_work_experience(struct)</a>
+  </div>
+    <div class="summary-synopsis"><p>Deletes WorkExperience.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_accounting_software!/1">get_accounting_software!(id)</a>
+  </div>
+    <div class="summary-synopsis"><p>Gets a single AccountingSoftware.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_education!/1">get_education!(id)</a>
+  </div>
+    <div class="summary-synopsis"><p>Gets a single Education.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_university!/1">get_university!(id)</a>
+  </div>
+    <div class="summary-synopsis"><p>Gets a single University.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_work_experience!/1">get_work_experience!(id)</a>
+  </div>
+    <div class="summary-synopsis"><p>Gets a single WorkExperience.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#list_accounting_software/0">list_accounting_software()</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the list of AccountingSoftware.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#list_education/0">list_education()</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the list of Education.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#list_university/0">list_university()</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the list of Universities.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#list_work_experience/0">list_work_experience()</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the list of WorkExperiences.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#search_university/1">search_university(name)</a>
+  </div>
+    <div class="summary-synopsis"><p>Search record by University via <code class="inline">name</code>.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#update_accounting_software/2">update_accounting_software(struct, attrs)</a>
+  </div>
+    <div class="summary-synopsis"><p>Updates AccountingSoftware.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#update_education/2">update_education(struct, attrs)</a>
+  </div>
+    <div class="summary-synopsis"><p>Updates Education.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#update_work_experience/2">update_work_experience(struct, attrs)</a>
+  </div>
+    <div class="summary-synopsis"><p>Updates WorkExperience.</p></div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<section class="detail" id="t:error_tuple/0">
+  <div class="detail-header">
+    <a href="#t:error_tuple/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">error_tuple()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L6" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>error_tuple() :: {:error, <a href="#t:reason/0">reason</a>()}</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="t:reason/0">
+  <div class="detail-header">
+    <a href="#t:reason/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">reason()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L6" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>reason() :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="t:result/0">
+  <div class="detail-header">
+    <a href="#t:result/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">result()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L6" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>result() :: <a href="#t:success_tuple/0">success_tuple</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="t:success_tuple/0">
+  <div class="detail-header">
+    <a href="#t:success_tuple/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">success_tuple()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L6" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>success_tuple() :: {:ok, <a href="#t:t/0">t</a>()}</pre>
+      </div>
+
+  </section>
+</section>
+<section class="detail" id="t:t/0">
+  <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">t()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L6" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>t() :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+
+  </section>
+</section>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<section class="detail" id="change_accounting_software/1">
+  <div class="detail-header">
+    <a href="#change_accounting_software/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">change_accounting_software(struct)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L134" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>change_accounting_software(<a href="https://hexdocs.pm/core/Core.Skills.AccountingSoftware.html#t:t/0">Core.Skills.AccountingSoftware.t</a>()) ::
+  <a href="https://hexdocs.pm/ecto/Ecto.Changeset.html#t:t/0">Ecto.Changeset.t</a>()</pre>
+      </div>
+
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking AccountingSoftware changes.</p><h2 id="change_accounting_software/1-examples" class="section-heading">
+  <a href="#change_accounting_software/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">change_accounting_software</span><span class="p" data-group-id="9549913457-1">(</span><span class="n">struct</span><span class="p" data-group-id="9549913457-1">)</span><span class="w">
+</span><span class="p" data-group-id="9549913457-2">%</span><span class="nc" data-group-id="9549913457-2">Ecto.Changeset</span><span class="p" data-group-id="9549913457-2">{</span><span class="ss">source</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9549913457-3">%</span><span class="nc" data-group-id="9549913457-3">AccountingSoftware</span><span class="p" data-group-id="9549913457-3">{</span><span class="p" data-group-id="9549913457-3">}</span><span class="p" data-group-id="9549913457-2">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="change_education/1">
+  <div class="detail-header">
+    <a href="#change_education/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">change_education(struct)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L251" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>change_education(<a href="https://hexdocs.pm/core/Core.Skills.Education.html#t:t/0">Core.Skills.Education.t</a>()) :: <a href="https://hexdocs.pm/ecto/Ecto.Changeset.html#t:t/0">Ecto.Changeset.t</a>()</pre>
+      </div>
+
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking Education changes.</p><h2 id="change_education/1-examples" class="section-heading">
+  <a href="#change_education/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">change_education</span><span class="p" data-group-id="5420293975-1">(</span><span class="n">struct</span><span class="p" data-group-id="5420293975-1">)</span><span class="w">
+</span><span class="p" data-group-id="5420293975-2">%</span><span class="nc" data-group-id="5420293975-2">Ecto.Changeset</span><span class="p" data-group-id="5420293975-2">{</span><span class="ss">source</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5420293975-3">%</span><span class="nc" data-group-id="5420293975-3">Education</span><span class="p" data-group-id="5420293975-3">{</span><span class="p" data-group-id="5420293975-3">}</span><span class="p" data-group-id="5420293975-2">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="change_work_experience/1">
+  <div class="detail-header">
+    <a href="#change_work_experience/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">change_work_experience(struct)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L432" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>change_work_experience(<a href="https://hexdocs.pm/core/Core.Skills.WorkExperience.html#t:t/0">Core.Skills.WorkExperience.t</a>()) :: <a href="https://hexdocs.pm/ecto/Ecto.Changeset.html#t:t/0">Ecto.Changeset.t</a>()</pre>
+      </div>
+
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking WorkExperience changes.</p><h2 id="change_work_experience/1-examples" class="section-heading">
+  <a href="#change_work_experience/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">change_work_experience</span><span class="p" data-group-id="6187816163-1">(</span><span class="n">struct</span><span class="p" data-group-id="6187816163-1">)</span><span class="w">
+</span><span class="p" data-group-id="6187816163-2">%</span><span class="nc" data-group-id="6187816163-2">Ecto.Changeset</span><span class="p" data-group-id="6187816163-2">{</span><span class="ss">source</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6187816163-3">%</span><span class="nc" data-group-id="6187816163-3">WorkExperience</span><span class="p" data-group-id="6187816163-3">{</span><span class="p" data-group-id="6187816163-3">}</span><span class="p" data-group-id="6187816163-2">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="create_accounting_software/1">
+    <span id="create_accounting_software/0"></span>
+  <div class="detail-header">
+    <a href="#create_accounting_software/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">create_accounting_software(attrs \\ %{})</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L74" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>create_accounting_software(%{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) ::
+  <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+<p>Creates AccountingSoftware.</p><h2 id="create_accounting_software/1-examples" class="section-heading">
+  <a href="#create_accounting_software/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">create_accounting_software</span><span class="p" data-group-id="6157948903-1">(</span><span class="p" data-group-id="6157948903-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="6157948903-2">}</span><span class="p" data-group-id="6157948903-1">)</span><span class="w">
+</span><span class="p" data-group-id="6157948903-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6157948903-4">%</span><span class="nc" data-group-id="6157948903-4">AccountingSoftware</span><span class="p" data-group-id="6157948903-4">{</span><span class="p" data-group-id="6157948903-4">}</span><span class="p" data-group-id="6157948903-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_accounting_software</span><span class="p" data-group-id="6157948903-5">(</span><span class="p" data-group-id="6157948903-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="6157948903-6">}</span><span class="p" data-group-id="6157948903-5">)</span><span class="w">
+</span><span class="p" data-group-id="6157948903-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6157948903-8">%</span><span class="nc" data-group-id="6157948903-8">Ecto.Changeset</span><span class="p" data-group-id="6157948903-8">{</span><span class="p" data-group-id="6157948903-8">}</span><span class="p" data-group-id="6157948903-7">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="create_education/1">
+    <span id="create_education/0"></span>
+  <div class="detail-header">
+    <a href="#create_education/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">create_education(attrs \\ %{})</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L191" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>create_education(%{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) :: <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+<p>Creates Education.</p><h2 id="create_education/1-examples" class="section-heading">
+  <a href="#create_education/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">create_education</span><span class="p" data-group-id="3495584093-1">(</span><span class="p" data-group-id="3495584093-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="3495584093-2">}</span><span class="p" data-group-id="3495584093-1">)</span><span class="w">
+</span><span class="p" data-group-id="3495584093-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3495584093-4">%</span><span class="nc" data-group-id="3495584093-4">Education</span><span class="p" data-group-id="3495584093-4">{</span><span class="p" data-group-id="3495584093-4">}</span><span class="p" data-group-id="3495584093-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_education</span><span class="p" data-group-id="3495584093-5">(</span><span class="p" data-group-id="3495584093-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="3495584093-6">}</span><span class="p" data-group-id="3495584093-5">)</span><span class="w">
+</span><span class="p" data-group-id="3495584093-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3495584093-8">%</span><span class="nc" data-group-id="3495584093-8">Ecto.Changeset</span><span class="p" data-group-id="3495584093-8">{</span><span class="p" data-group-id="3495584093-8">}</span><span class="p" data-group-id="3495584093-7">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="create_university/1">
+    <span id="create_university/0"></span>
+  <div class="detail-header">
+    <a href="#create_university/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">create_university(attrs \\ %{})</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L307" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>create_university(%{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) :: <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+<p>Creates University.</p><h2 id="create_university/1-examples" class="section-heading">
+  <a href="#create_university/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">create_university</span><span class="p" data-group-id="2060541421-1">(</span><span class="p" data-group-id="2060541421-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="2060541421-2">}</span><span class="p" data-group-id="2060541421-1">)</span><span class="w">
+</span><span class="p" data-group-id="2060541421-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2060541421-4">%</span><span class="nc" data-group-id="2060541421-4">University</span><span class="p" data-group-id="2060541421-4">{</span><span class="p" data-group-id="2060541421-4">}</span><span class="p" data-group-id="2060541421-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_university</span><span class="p" data-group-id="2060541421-5">(</span><span class="p" data-group-id="2060541421-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="2060541421-6">}</span><span class="p" data-group-id="2060541421-5">)</span><span class="w">
+</span><span class="p" data-group-id="2060541421-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2060541421-8">%</span><span class="nc" data-group-id="2060541421-8">Ecto.Changeset</span><span class="p" data-group-id="2060541421-8">{</span><span class="p" data-group-id="2060541421-8">}</span><span class="p" data-group-id="2060541421-7">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="create_work_experience/1">
+    <span id="create_work_experience/0"></span>
+  <div class="detail-header">
+    <a href="#create_work_experience/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">create_work_experience(attrs \\ %{})</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L372" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>create_work_experience(%{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) :: <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+<p>Creates WorkExperience.</p><h2 id="create_work_experience/1-examples" class="section-heading">
+  <a href="#create_work_experience/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">create_work_experience</span><span class="p" data-group-id="6555342408-1">(</span><span class="p" data-group-id="6555342408-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="6555342408-2">}</span><span class="p" data-group-id="6555342408-1">)</span><span class="w">
+</span><span class="p" data-group-id="6555342408-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6555342408-4">%</span><span class="nc" data-group-id="6555342408-4">WorkExperience</span><span class="p" data-group-id="6555342408-4">{</span><span class="p" data-group-id="6555342408-4">}</span><span class="p" data-group-id="6555342408-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_work_experience</span><span class="p" data-group-id="6555342408-5">(</span><span class="p" data-group-id="6555342408-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="6555342408-6">}</span><span class="p" data-group-id="6555342408-5">)</span><span class="w">
+</span><span class="p" data-group-id="6555342408-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6555342408-8">%</span><span class="nc" data-group-id="6555342408-8">Ecto.Changeset</span><span class="p" data-group-id="6555342408-8">{</span><span class="p" data-group-id="6555342408-8">}</span><span class="p" data-group-id="6555342408-7">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="delete_accounting_software/1">
+  <div class="detail-header">
+    <a href="#delete_accounting_software/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">delete_accounting_software(struct)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L120" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>delete_accounting_software(<a href="https://hexdocs.pm/core/Core.Skills.AccountingSoftware.html#t:t/0">Core.Skills.AccountingSoftware.t</a>()) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+
+<p>Deletes AccountingSoftware.</p><h2 id="delete_accounting_software/1-examples" class="section-heading">
+  <a href="#delete_accounting_software/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">delete_accounting_software</span><span class="p" data-group-id="5838116757-1">(</span><span class="n">struct</span><span class="p" data-group-id="5838116757-1">)</span><span class="w">
+</span><span class="p" data-group-id="5838116757-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5838116757-3">%</span><span class="nc" data-group-id="5838116757-3">AccountingSoftware</span><span class="p" data-group-id="5838116757-3">{</span><span class="p" data-group-id="5838116757-3">}</span><span class="p" data-group-id="5838116757-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_accounting_software</span><span class="p" data-group-id="5838116757-4">(</span><span class="n">struct</span><span class="p" data-group-id="5838116757-4">)</span><span class="w">
+</span><span class="p" data-group-id="5838116757-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5838116757-6">%</span><span class="nc" data-group-id="5838116757-6">Ecto.Changeset</span><span class="p" data-group-id="5838116757-6">{</span><span class="p" data-group-id="5838116757-6">}</span><span class="p" data-group-id="5838116757-5">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="delete_education/1">
+  <div class="detail-header">
+    <a href="#delete_education/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">delete_education(struct)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L237" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>delete_education(<a href="https://hexdocs.pm/core/Core.Skills.Education.html#t:t/0">Core.Skills.Education.t</a>()) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+
+<p>Deletes Education.</p><h2 id="delete_education/1-examples" class="section-heading">
+  <a href="#delete_education/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">delete_education</span><span class="p" data-group-id="1010810061-1">(</span><span class="n">struct</span><span class="p" data-group-id="1010810061-1">)</span><span class="w">
+</span><span class="p" data-group-id="1010810061-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1010810061-3">%</span><span class="nc" data-group-id="1010810061-3">Education</span><span class="p" data-group-id="1010810061-3">{</span><span class="p" data-group-id="1010810061-3">}</span><span class="p" data-group-id="1010810061-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_education</span><span class="p" data-group-id="1010810061-4">(</span><span class="n">struct</span><span class="p" data-group-id="1010810061-4">)</span><span class="w">
+</span><span class="p" data-group-id="1010810061-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1010810061-6">%</span><span class="nc" data-group-id="1010810061-6">Ecto.Changeset</span><span class="p" data-group-id="1010810061-6">{</span><span class="p" data-group-id="1010810061-6">}</span><span class="p" data-group-id="1010810061-5">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="delete_work_experience/1">
+  <div class="detail-header">
+    <a href="#delete_work_experience/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">delete_work_experience(struct)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L418" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>delete_work_experience(<a href="https://hexdocs.pm/core/Core.Skills.WorkExperience.html#t:t/0">Core.Skills.WorkExperience.t</a>()) :: <a href="#t:result/0">result</a>()</pre>
+      </div>
+
+<p>Deletes WorkExperience.</p><h2 id="delete_work_experience/1-examples" class="section-heading">
+  <a href="#delete_work_experience/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">delete_work_experience</span><span class="p" data-group-id="9552246232-1">(</span><span class="n">struct</span><span class="p" data-group-id="9552246232-1">)</span><span class="w">
+</span><span class="p" data-group-id="9552246232-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9552246232-3">%</span><span class="nc" data-group-id="9552246232-3">WorkExperience</span><span class="p" data-group-id="9552246232-3">{</span><span class="p" data-group-id="9552246232-3">}</span><span class="p" data-group-id="9552246232-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_work_experience</span><span class="p" data-group-id="9552246232-4">(</span><span class="n">struct</span><span class="p" data-group-id="9552246232-4">)</span><span class="w">
+</span><span class="p" data-group-id="9552246232-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9552246232-6">%</span><span class="nc" data-group-id="9552246232-6">Ecto.Changeset</span><span class="p" data-group-id="9552246232-6">{</span><span class="p" data-group-id="9552246232-6">}</span><span class="p" data-group-id="9552246232-5">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="get_accounting_software!/1">
+  <div class="detail-header">
+    <a href="#get_accounting_software!/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get_accounting_software!(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L50" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>get_accounting_software!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) ::
+  <a href="https://hexdocs.pm/core/Core.Skills.AccountingSoftware.html#t:t/0">Core.Skills.AccountingSoftware.t</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+<p>Gets a single AccountingSoftware.</p><p>Raises <a href="https://hexdocs.pm/ecto/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the AccountingSoftware does not exist.</p><h2 id="get_accounting_software!/1-examples" class="section-heading">
+  <a href="#get_accounting_software!/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">get_accounting_software!</span><span class="p" data-group-id="3417854296-1">(</span><span class="mi">123</span><span class="p" data-group-id="3417854296-1">)</span><span class="w">
+</span><span class="p" data-group-id="3417854296-2">%</span><span class="nc" data-group-id="3417854296-2">AccountingSoftware</span><span class="p" data-group-id="3417854296-2">{</span><span class="p" data-group-id="3417854296-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_accounting_software!</span><span class="p" data-group-id="3417854296-3">(</span><span class="mi">456</span><span class="p" data-group-id="3417854296-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>  </section>
+</section>
+<section class="detail" id="get_education!/1">
+  <div class="detail-header">
+    <a href="#get_education!/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get_education!(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L170" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>get_education!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="https://hexdocs.pm/core/Core.Skills.Education.html#t:t/0">Core.Skills.Education.t</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+<p>Gets a single Education.</p><p>Raises <a href="https://hexdocs.pm/ecto/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the Education does not exist.</p><h2 id="get_education!/1-examples" class="section-heading">
+  <a href="#get_education!/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">get_education!</span><span class="p" data-group-id="7540157265-1">(</span><span class="mi">123</span><span class="p" data-group-id="7540157265-1">)</span><span class="w">
+</span><span class="p" data-group-id="7540157265-2">%</span><span class="nc" data-group-id="7540157265-2">Education</span><span class="p" data-group-id="7540157265-2">{</span><span class="p" data-group-id="7540157265-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_education!</span><span class="p" data-group-id="7540157265-3">(</span><span class="mi">456</span><span class="p" data-group-id="7540157265-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>  </section>
+</section>
+<section class="detail" id="get_university!/1">
+  <div class="detail-header">
+    <a href="#get_university!/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get_university!(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L281" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>get_university!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="https://hexdocs.pm/core/Core.Skills.University.html#t:t/0">Core.Skills.University.t</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+<p>Gets a single University.</p><p>Raises <a href="https://hexdocs.pm/ecto/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the University does not exist.</p><h2 id="get_university!/1-examples" class="section-heading">
+  <a href="#get_university!/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">get_university!</span><span class="p" data-group-id="8283323778-1">(</span><span class="mi">123</span><span class="p" data-group-id="8283323778-1">)</span><span class="w">
+</span><span class="p" data-group-id="8283323778-2">%</span><span class="nc" data-group-id="8283323778-2">University</span><span class="p" data-group-id="8283323778-2">{</span><span class="p" data-group-id="8283323778-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_university!</span><span class="p" data-group-id="8283323778-3">(</span><span class="mi">456</span><span class="p" data-group-id="8283323778-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>  </section>
+</section>
+<section class="detail" id="get_work_experience!/1">
+  <div class="detail-header">
+    <a href="#get_work_experience!/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get_work_experience!(id)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L348" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>get_work_experience!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) ::
+  <a href="https://hexdocs.pm/core/Core.Skills.WorkExperience.html#t:t/0">Core.Skills.WorkExperience.t</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+<p>Gets a single WorkExperience.</p><p>Raises <a href="https://hexdocs.pm/ecto/Ecto.NoResultsError.html"><code class="inline">Ecto.NoResultsError</code></a> if the WorkExperience does not exist.</p><h2 id="get_work_experience!/1-examples" class="section-heading">
+  <a href="#get_work_experience!/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">get_work_experience!</span><span class="p" data-group-id="7047573319-1">(</span><span class="mi">123</span><span class="p" data-group-id="7047573319-1">)</span><span class="w">
+</span><span class="p" data-group-id="7047573319-2">%</span><span class="nc" data-group-id="7047573319-2">WorkExperience</span><span class="p" data-group-id="7047573319-2">{</span><span class="p" data-group-id="7047573319-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_work_experience!</span><span class="p" data-group-id="7047573319-3">(</span><span class="mi">456</span><span class="p" data-group-id="7047573319-3">)</span><span class="w">
+</span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>  </section>
+</section>
+<section class="detail" id="list_accounting_software/0">
+  <div class="detail-header">
+    <a href="#list_accounting_software/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">list_accounting_software()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L24" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>list_accounting_software() :: [<a href="https://hexdocs.pm/core/Core.Skills.AccountingSoftware.html#t:t/0">Core.Skills.AccountingSoftware.t</a>()]</pre>
+      </div>
+
+<p>Returns the list of AccountingSoftware.</p><h2 id="list_accounting_software/0-examples" class="section-heading">
+  <a href="#list_accounting_software/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">list_accounting_software</span><span class="p" data-group-id="1937146109-1">(</span><span class="p" data-group-id="1937146109-1">)</span><span class="w">
+</span><span class="p" data-group-id="1937146109-2">[</span><span class="p" data-group-id="1937146109-3">%</span><span class="nc" data-group-id="1937146109-3">AccountingSoftware</span><span class="p" data-group-id="1937146109-3">{</span><span class="p" data-group-id="1937146109-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="1937146109-2">]</span></code></pre>  </section>
+</section>
+<section class="detail" id="list_education/0">
+  <div class="detail-header">
+    <a href="#list_education/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">list_education()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L147" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>list_education() :: [<a href="https://hexdocs.pm/core/Core.Skills.Education.html#t:t/0">Core.Skills.Education.t</a>()]</pre>
+      </div>
+
+<p>Returns the list of Education.</p><h2 id="list_education/0-examples" class="section-heading">
+  <a href="#list_education/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">list_education</span><span class="p" data-group-id="5315914095-1">(</span><span class="p" data-group-id="5315914095-1">)</span><span class="w">
+</span><span class="p" data-group-id="5315914095-2">[</span><span class="p" data-group-id="5315914095-3">%</span><span class="nc" data-group-id="5315914095-3">Education</span><span class="p" data-group-id="5315914095-3">{</span><span class="p" data-group-id="5315914095-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="5315914095-2">]</span></code></pre>  </section>
+</section>
+<section class="detail" id="list_university/0">
+  <div class="detail-header">
+    <a href="#list_university/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">list_university()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L264" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>list_university() :: [<a href="https://hexdocs.pm/core/Core.Skills.University.html#t:t/0">Core.Skills.University.t</a>()]</pre>
+      </div>
+
+<p>Returns the list of Universities.</p><h2 id="list_university/0-examples" class="section-heading">
+  <a href="#list_university/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">list_university</span><span class="p" data-group-id="5844323746-1">(</span><span class="p" data-group-id="5844323746-1">)</span><span class="w">
+</span><span class="p" data-group-id="5844323746-2">[</span><span class="p" data-group-id="5844323746-3">%</span><span class="nc" data-group-id="5844323746-3">University</span><span class="p" data-group-id="5844323746-3">{</span><span class="p" data-group-id="5844323746-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="5844323746-2">]</span></code></pre>  </section>
+</section>
+<section class="detail" id="list_work_experience/0">
+  <div class="detail-header">
+    <a href="#list_work_experience/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">list_work_experience()</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L322" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>list_work_experience() :: [<a href="https://hexdocs.pm/core/Core.Skills.WorkExperience.html#t:t/0">Core.Skills.WorkExperience.t</a>()]</pre>
+      </div>
+
+<p>Returns the list of WorkExperiences.</p><h2 id="list_work_experience/0-examples" class="section-heading">
+  <a href="#list_work_experience/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">list_work_experience</span><span class="p" data-group-id="3721138617-1">(</span><span class="p" data-group-id="3721138617-1">)</span><span class="w">
+</span><span class="p" data-group-id="3721138617-2">[</span><span class="p" data-group-id="3721138617-3">%</span><span class="nc" data-group-id="3721138617-3">WorkExperience</span><span class="p" data-group-id="3721138617-3">{</span><span class="p" data-group-id="3721138617-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="3721138617-2">]</span></code></pre>  </section>
+</section>
+<section class="detail" id="search_university/1">
+  <div class="detail-header">
+    <a href="#search_university/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">search_university(name)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L287" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>search_university(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="https://hexdocs.pm/core/Core.Skills.University.html#t:t/0">Core.Skills.University.t</a>()</pre>
+      </div>
+
+<p>Search record by University via <code class="inline">name</code>.</p>  </section>
+</section>
+<section class="detail" id="update_accounting_software/2">
+  <div class="detail-header">
+    <a href="#update_accounting_software/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">update_accounting_software(struct, attrs)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L97" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>update_accounting_software(<a href="https://hexdocs.pm/core/Core.Skills.AccountingSoftware.html#t:t/0">Core.Skills.AccountingSoftware.t</a>(), %{
+  required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()
+}) :: <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+<p>Updates AccountingSoftware.</p><h2 id="update_accounting_software/2-examples" class="section-heading">
+  <a href="#update_accounting_software/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">update_accounting_software</span><span class="p" data-group-id="2048723072-1">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2048723072-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="2048723072-2">}</span><span class="p" data-group-id="2048723072-1">)</span><span class="w">
+</span><span class="p" data-group-id="2048723072-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2048723072-4">%</span><span class="nc" data-group-id="2048723072-4">AccountingSoftware</span><span class="p" data-group-id="2048723072-4">{</span><span class="p" data-group-id="2048723072-4">}</span><span class="p" data-group-id="2048723072-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_accounting_software</span><span class="p" data-group-id="2048723072-5">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2048723072-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="2048723072-6">}</span><span class="p" data-group-id="2048723072-5">)</span><span class="w">
+</span><span class="p" data-group-id="2048723072-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2048723072-8">%</span><span class="nc" data-group-id="2048723072-8">Ecto.Changeset</span><span class="p" data-group-id="2048723072-8">{</span><span class="p" data-group-id="2048723072-8">}</span><span class="p" data-group-id="2048723072-7">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="update_education/2">
+  <div class="detail-header">
+    <a href="#update_education/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">update_education(struct, attrs)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L214" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>update_education(<a href="https://hexdocs.pm/core/Core.Skills.Education.html#t:t/0">Core.Skills.Education.t</a>(), %{required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) ::
+  <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+<p>Updates Education.</p><h2 id="update_education/2-examples" class="section-heading">
+  <a href="#update_education/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">update_education</span><span class="p" data-group-id="0836074037-1">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0836074037-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="0836074037-2">}</span><span class="p" data-group-id="0836074037-1">)</span><span class="w">
+</span><span class="p" data-group-id="0836074037-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0836074037-4">%</span><span class="nc" data-group-id="0836074037-4">Education</span><span class="p" data-group-id="0836074037-4">{</span><span class="p" data-group-id="0836074037-4">}</span><span class="p" data-group-id="0836074037-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_education</span><span class="p" data-group-id="0836074037-5">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0836074037-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="0836074037-6">}</span><span class="p" data-group-id="0836074037-5">)</span><span class="w">
+</span><span class="p" data-group-id="0836074037-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0836074037-8">%</span><span class="nc" data-group-id="0836074037-8">Ecto.Changeset</span><span class="p" data-group-id="0836074037-8">{</span><span class="p" data-group-id="0836074037-8">}</span><span class="p" data-group-id="0836074037-7">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="update_work_experience/2">
+  <div class="detail-header">
+    <a href="#update_work_experience/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">update_work_experience(struct, attrs)</h1>
+      <a href="https://github.com/kapranov/taxgig_2020/blob/master/apps/core/lib/core/skills/skills.ex#L395" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>update_work_experience(<a href="https://hexdocs.pm/core/Core.Skills.WorkExperience.html#t:t/0">Core.Skills.WorkExperience.t</a>(), %{
+  required(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) => <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()
+}) :: <a href="#t:result/0">result</a>() | <a href="#t:error_tuple/0">error_tuple</a>()</pre>
+      </div>
+
+<p>Updates WorkExperience.</p><h2 id="update_work_experience/2-examples" class="section-heading">
+  <a href="#update_work_experience/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">update_work_experience</span><span class="p" data-group-id="4220229024-1">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4220229024-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="4220229024-2">}</span><span class="p" data-group-id="4220229024-1">)</span><span class="w">
+</span><span class="p" data-group-id="4220229024-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4220229024-4">%</span><span class="nc" data-group-id="4220229024-4">WorkExperience</span><span class="p" data-group-id="4220229024-4">{</span><span class="p" data-group-id="4220229024-4">}</span><span class="p" data-group-id="4220229024-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_work_experience</span><span class="p" data-group-id="4220229024-5">(</span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4220229024-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="4220229024-6">}</span><span class="p" data-group-id="4220229024-5">)</span><span class="w">
+</span><span class="p" data-group-id="4220229024-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4220229024-8">%</span><span class="nc" data-group-id="4220229024-8">Ecto.Changeset</span><span class="p" data-group-id="4220229024-8">{</span><span class="p" data-group-id="4220229024-8">}</span><span class="p" data-group-id="4220229024-7">}</span></code></pre>  </section>
+</section>
+          </div>
+        </section>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>
