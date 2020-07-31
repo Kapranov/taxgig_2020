@@ -377,8 +377,7 @@ defmodule Core.Analyzes.BookKeepingTest do
       assert data                                         == %{
         bk_pro1.id => match.match_for_book_keeping_additional_need,
         bk_pro2.id => match.match_for_book_keeping_additional_need,
-        bk_pro3.id => match.match_for_book_keeping_additional_need,
-
+        bk_pro3.id => match.match_for_book_keeping_additional_need
       }
     end
 
@@ -723,7 +722,394 @@ defmodule Core.Analyzes.BookKeepingTest do
       assert data                                         == %{bk_tp.id => 20}
     end
 
-    test "check_match_book_keeping_annual_revenue" do
+    test "return match_book_keeping_annual_revenue by role Tp" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_tp.id)
+      assert match.match_for_book_keeping_annual_revenue  == 25
+      assert format_name(bkar_tp.name)                    == name
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == 22
+      assert data                                         == %{bk_pro.id => match.match_for_book_keeping_annual_revenue}
+    end
+
+    test "return match_book_keeping_annual_revenue when more one pro by role Tp" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro1 = insert(:pro_user, email: "arakawa@yahoo.com", languages: [])
+      pro2 = insert(:pro_user, email: "harrison@yahoo.com", languages: [])
+      pro3 = insert(:pro_user, email: "knapp@yahoo.com", languages: [])
+      bk_pro1 = insert(:pro_book_keeping, user: pro1)
+      bk_pro2 = insert(:pro_book_keeping, user: pro2)
+      bk_pro3 = insert(:pro_book_keeping, user: pro3)
+      bkar_pro1 = insert(:pro_book_keeping_annual_revenue, name: name, price: 22, book_keepings: bk_pro1)
+      bkar_pro2 = insert(:pro_book_keeping_annual_revenue, name: name, price: 33, book_keepings: bk_pro2)
+      bkar_pro3 = insert(:pro_book_keeping_annual_revenue, name: name, price: 44, book_keepings: bk_pro3)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_tp.id)
+      assert match.match_for_book_keeping_annual_revenue == 25
+      assert format_name(bkar_tp.name)                   == name
+      assert bkar_tp.price                               == nil
+      assert format_name(bkar_pro1.name)                 == name
+      assert format_name(bkar_pro2.name)                 == name
+      assert format_name(bkar_pro3.name)                 == name
+      assert bkar_pro1.price                             == 22
+      assert bkar_pro2.price                             == 33
+      assert bkar_pro3.price                             == 44
+      assert data                                        == %{
+        bk_pro1.id => match.match_for_book_keeping_annual_revenue,
+        bk_pro2.id => match.match_for_book_keeping_annual_revenue,
+        bk_pro3.id => match.match_for_book_keeping_annual_revenue
+      }
+    end
+
+    test "return match_book_keeping_annual_revenue iwhen match is 0 by role Tp" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat, match_for_book_keeping_annual_revenue: 0)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_tp.id)
+      assert match.match_for_book_keeping_annual_revenue  == 0
+      assert format_name(bkar_tp.name)                    == name
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == 22
+      assert data                                         == %{bk_pro.id => match.match_for_book_keeping_annual_revenue}
+    end
+
+    test "return match_book_keeping_annual_revenue iwhen match is nil by role Tp" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat, match_for_book_keeping_annual_revenue: nil)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_tp.id)
+      assert match.match_for_book_keeping_annual_revenue  == nil
+      assert format_name(bkar_tp.name)                    == name
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == 22
+      assert data                                         == %{bk_pro.id => 0}
+    end
+
+    test "return match_book_keeping_annual_revenue iwhen match is 1 by role Tp" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat, match_for_book_keeping_annual_revenue: 1)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_tp.id)
+      assert match.match_for_book_keeping_annual_revenue  == 1
+      assert format_name(bkar_tp.name)                    == name
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == 22
+      assert data                                         == %{bk_pro.id => 1}
+    end
+
+    test "return match_book_keeping_annual_revenue when name is nil by role Tp" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: nil, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_tp.id)
+      assert match.match_for_book_keeping_annual_revenue  == 25
+      assert bkar_tp.name                                 == nil
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == 22
+      assert data                                         == :error
+    end
+
+    test "return match_book_keeping_annual_revenue when name is another one by role Tp" do
+      name_for_tp = "$500K - $1M"
+      name_for_pro = "$5M - $10M"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_tp.id)
+      assert match.match_for_book_keeping_annual_revenue  == 25
+      assert format_name(bkar_tp.name)                    == name_for_tp
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name_for_pro
+      assert bkar_pro.price                               == 22
+      assert data                                         == %{}
+    end
+
+    test "return match_book_keeping_annual_revenue when price is nil by role Tp" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_tp.id)
+      assert match.match_for_book_keeping_annual_revenue  == 25
+      assert format_name(bkar_tp.name)                    == name
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == nil
+      assert data                                         == %{}
+    end
+
+    test "return match_book_keeping_annual_revenue when price is 0 by role Tp" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_tp.id)
+      assert match.match_for_book_keeping_annual_revenue  == 25
+      assert format_name(bkar_tp.name)                    == name
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == 0
+      assert data                                         == %{}
+    end
+
+    test "return match_book_keeping_annual_revenue when price is 1 by role Tp" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_tp.id)
+      assert match.match_for_book_keeping_annual_revenue  == 25
+      assert format_name(bkar_tp.name)                    == name
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == 1
+      assert data                                         == %{bk_pro.id => 25}
+    end
+
+    test "return match_book_keeping_annual_revenue by role Pro" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_pro.id)
+      assert match.match_for_book_keeping_annual_revenue  == 25
+      assert format_name(bkar_tp.name)                    == name
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == 22
+      assert data                                         == %{bk_tp.id => match.match_for_book_keeping_annual_revenue}
+    end
+
+    test "return match_book_keeping_annual_revenue when more one pro by role Pro" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat)
+      tp1 = insert(:tp_user, email: "arakawa@yahoo.com", languages: [])
+      tp2 = insert(:tp_user, email: "harrison@yahoo.com", languages: [])
+      tp3 = insert(:tp_user, email: "knapp@yahoo.com", languages: [])
+      bk_tp1 = insert(:tp_book_keeping, user: tp1)
+      bk_tp2 = insert(:tp_book_keeping, user: tp2)
+      bk_tp3 = insert(:tp_book_keeping, user: tp3)
+      bkar_tp1 = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp1)
+      bkar_tp2 = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp2)
+      bkar_tp3 = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp3)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:pro_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_pro.id)
+      assert match.match_for_book_keeping_annual_revenue == 25
+      assert format_name(bkar_tp1.name)                  == name
+      assert format_name(bkar_tp2.name)                  == name
+      assert format_name(bkar_tp3.name)                  == name
+      assert bkar_tp1.price                              == nil
+      assert bkar_tp2.price                              == nil
+      assert bkar_tp3.price                              == nil
+      assert format_name(bkar_pro.name)                  == name
+      assert bkar_pro.price                              == 22
+      assert data                                        == %{
+        bk_tp1.id => match.match_for_book_keeping_annual_revenue,
+        bk_tp2.id => match.match_for_book_keeping_annual_revenue,
+        bk_tp3.id => match.match_for_book_keeping_annual_revenue
+      }
+    end
+
+    test "return match_book_keeping_annual_revenue iwhen match is 0 by role Pro" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat, match_for_book_keeping_annual_revenue: 0)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_pro.id)
+      assert match.match_for_book_keeping_annual_revenue  == 0
+      assert format_name(bkar_tp.name)                    == name
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == 22
+      assert data                                         == %{bk_tp.id => match.match_for_book_keeping_annual_revenue}
+    end
+
+    test "return match_book_keeping_annual_revenue iwhen match is nil by role Pro" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat, match_for_book_keeping_annual_revenue: nil)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_pro.id)
+      assert match.match_for_book_keeping_annual_revenue  == nil
+      assert format_name(bkar_tp.name)                    == name
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == 22
+      assert data                                         == %{bk_tp.id => 0}
+    end
+
+    test "return match_book_keeping_annual_revenue iwhen match is 1 by role Pro" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat, match_for_book_keeping_annual_revenue: 1)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_pro.id)
+      assert match.match_for_book_keeping_annual_revenue  == 1
+      assert format_name(bkar_tp.name)                    == name
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == 22
+      assert data                                         == %{bk_tp.id => 1}
+    end
+
+    test "return match_book_keeping_annual_revenue when name is nil by role Pro" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: nil, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_pro.id)
+      assert match.match_for_book_keeping_annual_revenue  == 25
+      assert bkar_tp.name                                 == nil
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == 22
+      assert data                                         == %{}
+    end
+
+    test "return match_book_keeping_annual_revenue when name is another one by role Pro" do
+      name_for_tp = "$500K - $1M"
+      name_for_pro = "$5M - $10M"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_pro.id)
+      assert match.match_for_book_keeping_annual_revenue  == 25
+      assert format_name(bkar_tp.name)                    == name_for_tp
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name_for_pro
+      assert bkar_pro.price                               == 22
+      assert data                                         == %{}
+    end
+
+    test "return match_book_keeping_annual_revenue when price is nil by role Pro" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_pro.id)
+      assert match.match_for_book_keeping_annual_revenue  == 25
+      assert format_name(bkar_tp.name)                    == name
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == nil
+      assert data                                         == :error
+    end
+
+    test "return match_book_keeping_annual_revenue when price is 0 by role Pro" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_pro.id)
+      assert match.match_for_book_keeping_annual_revenue  == 25
+      assert format_name(bkar_tp.name)                    == name
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == 0
+      assert data                                         == :error
+    end
+
+    test "return match_book_keeping_annual_revenue when price is 1 by role Pro" do
+      name = "$5M - $10M"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_annual_revenue(bk_pro.id)
+      assert match.match_for_book_keeping_annual_revenue  == 25
+      assert format_name(bkar_tp.name)                    == name
+      assert bkar_tp.price                                == nil
+      assert format_name(bkar_pro.name)                   == name
+      assert bkar_pro.price                               == 1
+      assert data                                         == %{bk_tp.id => 25}
     end
 
     test "check_match_book_keeping_industry" do
