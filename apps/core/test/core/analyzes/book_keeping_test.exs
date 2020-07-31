@@ -382,6 +382,151 @@ defmodule Core.Analyzes.BookKeepingTest do
       }
     end
 
+    test "return match_book_keeping_additional_need when match is 0 by role Tp" do
+      name = "accounts payable"
+      match = insert(:match_value_relat, match_for_book_keeping_additional_need: 0)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_tp.id)
+      assert match.match_for_book_keeping_additional_need == 0
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == 22
+      assert data                                         == %{bk_pro.id => match.match_for_book_keeping_additional_need}
+    end
+
+    test "return match_book_keeping_additional_need when match is nil by role Tp" do
+      name = "accounts payable"
+      match = insert(:match_value_relat, match_for_book_keeping_additional_need: nil)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_tp.id)
+      assert match.match_for_book_keeping_additional_need == nil
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == 22
+      assert data                                         == %{bk_pro.id => 0}
+    end
+
+    test "return match_book_keeping_additional_need when match is 1 by role Tp" do
+      name = "accounts payable"
+      match = insert(:match_value_relat, match_for_book_keeping_additional_need: 1)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_tp.id)
+      assert match.match_for_book_keeping_additional_need == 1
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == 22
+      assert data                                         == %{bk_pro.id => 1}
+    end
+
+    test "return match_book_keeping_additional_need when name is nil by role Tp" do
+      name = "accounts payable"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: nil, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_tp.id)
+      assert match.match_for_book_keeping_additional_need == 20
+      assert bkan_tp.name                                 == nil
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == 22
+      assert data                                         == :error
+    end
+
+    test "return match_book_keeping_additional_need when name is another one by role Tp" do
+      name_for_tp = "sales tax"
+      name_for_pro = "accounts payable"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_tp.id)
+      assert match.match_for_book_keeping_additional_need == 20
+      assert format_name(bkan_tp.name)                    == name_for_tp
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name_for_pro
+      assert bkan_pro.price                               == 22
+      assert data                                         == %{}
+    end
+
+    test "return match_book_keeping_additional_need when price is nil by role Tp" do
+      name = "accounts payable"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_tp.id)
+      assert match.match_for_book_keeping_additional_need == 20
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == nil
+      assert data                                         == %{}
+    end
+
+    test "return match_book_keeping_additional_need when price is 0 by role Tp" do
+      name = "accounts payable"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_tp.id)
+      assert match.match_for_book_keeping_additional_need == 20
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == 0
+      assert data                                         == %{}
+    end
+
+    test "return match_book_keeping_additional_need when price is 1 by role Tp" do
+      name = "accounts payable"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_tp.id)
+      assert match.match_for_book_keeping_additional_need == 20
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == 1
+      assert data                                         == %{bk_pro.id => 20}
+    end
+
     test "return match_book_keeping_additional_need by role Pro" do
       name = "accounts payable"
       match = insert(:match_value_relat)
@@ -431,6 +576,151 @@ defmodule Core.Analyzes.BookKeepingTest do
         bk_tp3.id => match.match_for_book_keeping_additional_need,
 
       }
+    end
+
+    test "return match_book_keeping_additional_need when match is 0 by role Pro" do
+      name = "accounts payable"
+      match = insert(:match_value_relat, match_for_book_keeping_additional_need: 0)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_pro.id)
+      assert match.match_for_book_keeping_additional_need == 0
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == 22
+      assert data                                         == %{bk_tp.id => match.match_for_book_keeping_additional_need}
+    end
+
+    test "return match_book_keeping_additional_need when match is nil by role Pro" do
+      name = "accounts payable"
+      match = insert(:match_value_relat, match_for_book_keeping_additional_need: nil)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_pro.id)
+      assert match.match_for_book_keeping_additional_need == nil
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == 22
+      assert data                                         == %{bk_tp.id => 0}
+    end
+
+    test "return match_book_keeping_additional_need when match is 1 by role Pro" do
+      name = "accounts payable"
+      match = insert(:match_value_relat, match_for_book_keeping_additional_need: 1)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_pro.id)
+      assert match.match_for_book_keeping_additional_need == 1
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == 22
+      assert data                                         == %{bk_tp.id => 1}
+    end
+
+    test "return match_book_keeping_additional_need when name is nil by role Pro" do
+      name = "accounts payable"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: nil, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_pro.id)
+      assert match.match_for_book_keeping_additional_need == 20
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert bkan_pro.name                                == nil
+      assert bkan_pro.price                               == 22
+      assert data                                         == :error
+    end
+
+    test "return match_book_keeping_additional_need when name is another one by role Pro" do
+      name_for_tp = "sales tax"
+      name_for_pro = "accounts payable"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_pro.id)
+      assert match.match_for_book_keeping_additional_need == 20
+      assert format_name(bkan_tp.name)                    == name_for_tp
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name_for_pro
+      assert bkan_pro.price                               == 22
+      assert data                                         == %{}
+    end
+
+    test "return match_book_keeping_additional_need when price is nil by role Pro" do
+      name = "accounts payable"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_pro.id)
+      assert match.match_for_book_keeping_additional_need == 20
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == nil
+      assert data                                         == :error
+    end
+
+    test "return match_book_keeping_additional_need when price is 0 by role Pro" do
+      name = "accounts payable"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_pro.id)
+      assert match.match_for_book_keeping_additional_need == 20
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == 0
+      assert data                                         == :error
+    end
+
+    test "return match_book_keeping_additional_need when price is 1 by role Pro" do
+      name = "accounts payable"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_additional_need(bk_pro.id)
+      assert match.match_for_book_keeping_additional_need == 20
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == 1
+      assert data                                         == %{bk_tp.id => 20}
     end
 
     test "check_match_book_keeping_annual_revenue" do
