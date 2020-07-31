@@ -1157,6 +1157,91 @@ defmodule Core.Analyzes.BookKeepingTest do
       }
     end
 
+    test "return match_book_keeping_industry when match is 0 by role Tp" do
+      name = Enum.sort(["Hospitality"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+      match = insert(:match_value_relat, match_for_book_keeping_industry: 0)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bki_tp = insert(:tp_book_keeping_industry, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bki_pro = insert(:pro_book_keeping_industry, name: names, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_industry(bk_tp.id)
+      assert match.match_for_book_keeping_industry == 0
+      assert format_names(bki_tp.name)             == name
+      assert format_names(bki_pro.name)            == names
+      assert data                                  == %{bk_pro.id => match.match_for_book_keeping_industry}
+    end
+
+    test "return match_book_keeping_industry when match is nil by role Tp" do
+      name = Enum.sort(["Hospitality"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+      match = insert(:match_value_relat, match_for_book_keeping_industry: nil)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bki_tp = insert(:tp_book_keeping_industry, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bki_pro = insert(:pro_book_keeping_industry, name: names, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_industry(bk_tp.id)
+      assert match.match_for_book_keeping_industry == nil
+      assert format_names(bki_tp.name)             == name
+      assert format_names(bki_pro.name)            == names
+      assert data                                  == %{bk_pro.id => 0}
+    end
+
+    test "return match_book_keeping_industry when match is 1 by role Tp" do
+      name = Enum.sort(["Hospitality"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+      match = insert(:match_value_relat, match_for_book_keeping_industry: 1)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bki_tp = insert(:tp_book_keeping_industry, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bki_pro = insert(:pro_book_keeping_industry, name: names, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_industry(bk_tp.id)
+      assert match.match_for_book_keeping_industry == 1
+      assert format_names(bki_tp.name)             == name
+      assert format_names(bki_pro.name)            == names
+      assert data                                  == %{bk_pro.id => match.match_for_book_keeping_industry}
+    end
+
+    test "return match_book_keeping_industry when name is nil by role Tp" do
+      name = Enum.sort([])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bki_tp = insert(:tp_book_keeping_industry, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bki_pro = insert(:pro_book_keeping_industry, name: names, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_industry(bk_tp.id)
+      assert match.match_for_book_keeping_industry == 10
+      assert format_names(bki_tp.name)             == name
+      assert format_names(bki_pro.name)            == names
+      assert data                                  == %{}
+    end
+
+    test "return match_book_keeping_industry when name is another one by role Tp" do
+      name = Enum.sort(["Automotive Sales/Repair"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bki_tp = insert(:tp_book_keeping_industry, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bki_pro = insert(:pro_book_keeping_industry, name: names, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_industry(bk_tp.id)
+      assert match.match_for_book_keeping_industry == 10
+      assert format_names(bki_tp.name)             == name
+      assert format_names(bki_pro.name)            == names
+      assert data                                  == %{}
+    end
+
     test "return match_book_keeping_industry by role Pro" do
       name = Enum.sort(["Hospitality"])
       names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
@@ -1201,6 +1286,91 @@ defmodule Core.Analyzes.BookKeepingTest do
         bk_tp2.id => match.match_for_book_keeping_industry,
         bk_tp3.id => match.match_for_book_keeping_industry
       }
+    end
+
+    test "return match_book_keeping_industry when match is 0 by role Pro" do
+      name = Enum.sort(["Hospitality"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+      match = insert(:match_value_relat, match_for_book_keeping_industry: 0)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bki_tp = insert(:tp_book_keeping_industry, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bki_pro = insert(:pro_book_keeping_industry, name: names, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_industry(bk_pro.id)
+      assert match.match_for_book_keeping_industry == 0
+      assert format_names(bki_tp.name)             == name
+      assert format_names(bki_pro.name)            == names
+      assert data                                  == %{bk_tp.id => match.match_for_book_keeping_industry}
+    end
+
+    test "return match_book_keeping_industry when match is nil by role Pro" do
+      name = Enum.sort(["Hospitality"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+      match = insert(:match_value_relat, match_for_book_keeping_industry: nil)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bki_tp = insert(:tp_book_keeping_industry, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bki_pro = insert(:pro_book_keeping_industry, name: names, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_industry(bk_pro.id)
+      assert match.match_for_book_keeping_industry == nil
+      assert format_names(bki_tp.name)             == name
+      assert format_names(bki_pro.name)            == names
+      assert data                                  == %{bk_tp.id => 0}
+    end
+
+    test "return match_book_keeping_industry when match is 1 by role Pro" do
+      name = Enum.sort(["Hospitality"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+      match = insert(:match_value_relat, match_for_book_keeping_industry: 1)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bki_tp = insert(:tp_book_keeping_industry, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bki_pro = insert(:pro_book_keeping_industry, name: names, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_industry(bk_pro.id)
+      assert match.match_for_book_keeping_industry == 1
+      assert format_names(bki_tp.name)             == name
+      assert format_names(bki_pro.name)            == names
+      assert data                                  == %{bk_tp.id => match.match_for_book_keeping_industry}
+    end
+
+    test "return match_book_keeping_industry when name is nil by role Pro" do
+      name = Enum.sort([])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bki_tp = insert(:tp_book_keeping_industry, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bki_pro = insert(:pro_book_keeping_industry, name: names, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_industry(bk_pro.id)
+      assert match.match_for_book_keeping_industry == 10
+      assert format_names(bki_tp.name)             == name
+      assert format_names(bki_pro.name)            == names
+      assert data                                  == %{}
+    end
+
+    test "return match_book_keeping_industry when name is another one by role Pro" do
+      name = Enum.sort(["Automotive Sales/Repair"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bki_tp = insert(:tp_book_keeping_industry, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bki_pro = insert(:pro_book_keeping_industry, name: names, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_industry(bk_pro.id)
+      assert match.match_for_book_keeping_industry == 10
+      assert format_names(bki_tp.name)             == name
+      assert format_names(bki_pro.name)            == names
+      assert data                                  == %{}
     end
 
     test "return match_book_keeping_number_employee by role Tp" do
@@ -1253,6 +1423,151 @@ defmodule Core.Analyzes.BookKeepingTest do
       }
     end
 
+    test "return match_book_keeping_number_employee when match is 0 by role Tp" do
+      name = "1 employee"
+      match = insert(:match_value_relat, match_for_book_keeping_number_employee: 0)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_tp.id)
+      assert match.match_for_book_keeping_number_employee == 0
+      assert format_name(bkne_tp.name)                    == name
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name
+      assert bkne_pro.price                               == 22
+      assert data                                         == %{bk_pro.id => match.match_for_book_keeping_number_employee}
+    end
+
+    test "return match_book_keeping_number_employee when match is nil by role Tp" do
+      name = "1 employee"
+      match = insert(:match_value_relat, match_for_book_keeping_number_employee: nil)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_tp.id)
+      assert match.match_for_book_keeping_number_employee == nil
+      assert format_name(bkne_tp.name)                    == name
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name
+      assert bkne_pro.price                               == 22
+      assert data                                         == %{bk_pro.id => 0}
+    end
+
+    test "return match_book_keeping_number_employee when match is 1 by role Tp" do
+      name = "1 employee"
+      match = insert(:match_value_relat, match_for_book_keeping_number_employee: 1)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_tp.id)
+      assert match.match_for_book_keeping_number_employee == 1
+      assert format_name(bkne_tp.name)                    == name
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name
+      assert bkne_pro.price                               == 22
+      assert data                                         == %{bk_pro.id => match.match_for_book_keeping_number_employee}
+    end
+
+    test "return match_book_keeping_number_employee when name is nil by role Tp" do
+      name = "1 employee"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: nil, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_tp.id)
+      assert match.match_for_book_keeping_number_employee == 25
+      assert bkne_tp.name                                 == nil
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name
+      assert bkne_pro.price                               == 22
+      assert data                                         == :error
+    end
+
+    test "return match_book_keeping_number_employee when name is another one by role Tp" do
+      name_for_tp = "51 - 100 employees"
+      name_for_pro  = "1 employee"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_tp.id)
+      assert match.match_for_book_keeping_number_employee == 25
+      assert format_name(bkne_tp.name)                    == name_for_tp
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name_for_pro
+      assert bkne_pro.price                               == 22
+      assert data                                         == %{}
+    end
+
+    test "return match_book_keeping_number_employee when price is 0 by role Tp" do
+      name = "1 employee"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_tp.id)
+      assert match.match_for_book_keeping_number_employee == 25
+      assert format_name(bkne_tp.name)                    == name
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name
+      assert bkne_pro.price                               == 0
+      assert data                                         == %{}
+    end
+
+    test "return match_book_keeping_number_employee when price is nil by role Tp" do
+      name = "1 employee"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_tp.id)
+      assert match.match_for_book_keeping_number_employee == 25
+      assert format_name(bkne_tp.name)                    == name
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name
+      assert bkne_pro.price                               == nil
+      assert data                                         == %{}
+    end
+
+    test "return match_book_keeping_number_employee when price is 1 by role Tp" do
+      name = "1 employee"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_tp.id)
+      assert match.match_for_book_keeping_number_employee == 25
+      assert format_name(bkne_tp.name)                    == name
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name
+      assert bkne_pro.price                               == 1
+      assert data                                         == %{bk_pro.id => match.match_for_book_keeping_number_employee}
+    end
+
     test "return match_book_keeping_number_employee by role Pro" do
       name = "1 employee"
       match = insert(:match_value_relat)
@@ -1301,6 +1616,151 @@ defmodule Core.Analyzes.BookKeepingTest do
         bk_tp2.id => match.match_for_book_keeping_number_employee,
         bk_tp3.id => match.match_for_book_keeping_number_employee
       }
+    end
+
+    test "return match_book_keeping_number_employee when match is 0 by role Pro" do
+      name = "1 employee"
+      match = insert(:match_value_relat, match_for_book_keeping_number_employee: 0)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_pro.id)
+      assert match.match_for_book_keeping_number_employee == 0
+      assert format_name(bkne_tp.name)                    == name
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name
+      assert bkne_pro.price                               == 22
+      assert data                                         == %{bk_tp.id => match.match_for_book_keeping_number_employee}
+    end
+
+    test "return match_book_keeping_number_employee when match is nil by role Pro" do
+      name = "1 employee"
+      match = insert(:match_value_relat, match_for_book_keeping_number_employee: nil)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_pro.id)
+      assert match.match_for_book_keeping_number_employee == nil
+      assert format_name(bkne_tp.name)                    == name
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name
+      assert bkne_pro.price                               == 22
+      assert data                                         == %{bk_tp.id => 0}
+    end
+
+    test "return match_book_keeping_number_employee when match is 1 by role Pro" do
+      name = "1 employee"
+      match = insert(:match_value_relat, match_for_book_keeping_number_employee: 1)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_pro.id)
+      assert match.match_for_book_keeping_number_employee == 1
+      assert format_name(bkne_tp.name)                    == name
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name
+      assert bkne_pro.price                               == 22
+      assert data                                         == %{bk_tp.id => match.match_for_book_keeping_number_employee}
+    end
+
+    test "return match_book_keeping_number_employee when name is nil by role Pro" do
+      name = "1 employee"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: nil, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_pro.id)
+      assert match.match_for_book_keeping_number_employee == 25
+      assert bkne_tp.name                                 == nil
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name
+      assert bkne_pro.price                               == 22
+      assert data                                         == %{}
+    end
+
+    test "return match_book_keeping_number_employee when name is another one by role Pro" do
+      name_for_tp = "51 - 100 employees"
+      name_for_pro  = "1 employee"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_pro.id)
+      assert match.match_for_book_keeping_number_employee == 25
+      assert format_name(bkne_tp.name)                    == name_for_tp
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name_for_pro
+      assert bkne_pro.price                               == 22
+      assert data                                         == %{}
+    end
+
+    test "return match_book_keeping_number_employee when price is 0 by role Pro" do
+      name = "1 employee"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_pro.id)
+      assert match.match_for_book_keeping_number_employee == 25
+      assert format_name(bkne_tp.name)                    == name
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name
+      assert bkne_pro.price                               == 0
+      assert data                                         == :error
+    end
+
+    test "return match_book_keeping_number_employee when price is nil by role Pro" do
+      name = "1 employee"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_pro.id)
+      assert match.match_for_book_keeping_number_employee == 25
+      assert format_name(bkne_tp.name)                    == name
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name
+      assert bkne_pro.price                               == nil
+      assert data                                         == :error
+    end
+
+    test "return match_book_keeping_number_employee when price is 1 by role Pro" do
+      name = "1 employee"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_number_employee(bk_pro.id)
+      assert match.match_for_book_keeping_number_employee == 25
+      assert format_name(bkne_tp.name)                    == name
+      assert bkne_tp.price                                == nil
+      assert format_name(bkne_pro.name)                   == name
+      assert bkne_pro.price                               == 1
+      assert data                                         == %{bk_tp.id => match.match_for_book_keeping_number_employee}
     end
 
     test "return match_book_keeping_type_client by role Tp" do
@@ -1353,6 +1813,151 @@ defmodule Core.Analyzes.BookKeepingTest do
       }
     end
 
+    test "return match_book_keeping_type_client match is 0 by role Tp" do
+      name = "Partnership"
+      match = insert(:match_value_relat, match_for_book_keeping_type_client: 0)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_tp.id)
+      assert match.match_for_book_keeping_type_client == 0
+      assert format_name(bktc_tp.name)                == name
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name
+      assert bktc_pro.price                           == 22
+      assert data                                     == %{bk_pro.id => match.match_for_book_keeping_type_client}
+    end
+
+    test "return match_book_keeping_type_client match is nil by role Tp" do
+      name = "Partnership"
+      match = insert(:match_value_relat, match_for_book_keeping_type_client: nil)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_tp.id)
+      assert match.match_for_book_keeping_type_client == nil
+      assert format_name(bktc_tp.name)                == name
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name
+      assert bktc_pro.price                           == 22
+      assert data                                     == %{bk_pro.id => 0}
+    end
+
+    test "return match_book_keeping_type_client match is 1 by role Tp" do
+      name = "Partnership"
+      match = insert(:match_value_relat, match_for_book_keeping_type_client: 1)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_tp.id)
+      assert match.match_for_book_keeping_type_client == 1
+      assert format_name(bktc_tp.name)                == name
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name
+      assert bktc_pro.price                           == 22
+      assert data                                     == %{bk_pro.id => match.match_for_book_keeping_type_client}
+    end
+
+    test "return match_book_keeping_type_client when name is nil by role Tp" do
+      name = "Partnership"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: nil, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_tp.id)
+      assert match.match_for_book_keeping_type_client == 60
+      assert bktc_tp.name                             == nil
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name
+      assert bktc_pro.price                           == 22
+      assert data                                     == :error
+    end
+
+    test "return match_book_keeping_type_client when name is another one by role Tp" do
+      name_for_tp = "LLC"
+      name_for_pro = "Partnership"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_tp.id)
+      assert match.match_for_book_keeping_type_client == 60
+      assert format_name(bktc_tp.name)                == name_for_tp
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name_for_pro
+      assert bktc_pro.price                           == 22
+      assert data                                     == %{}
+    end
+
+    test "return match_book_keeping_type_client when price is 0 by role Tp" do
+      name = "Partnership"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_tp.id)
+      assert match.match_for_book_keeping_type_client == 60
+      assert format_name(bktc_tp.name)                == name
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name
+      assert bktc_pro.price                           == 0
+      assert data                                     == %{}
+    end
+
+    test "return match_book_keeping_type_client when price is nil by role Tp" do
+      name = "Partnership"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_tp.id)
+      assert match.match_for_book_keeping_type_client == 60
+      assert format_name(bktc_tp.name)                == name
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name
+      assert bktc_pro.price                           == nil
+      assert data                                     == %{}
+    end
+
+    test "return match_book_keeping_type_client when price is 1 by role Tp" do
+      name = "Partnership"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_tp.id)
+      assert match.match_for_book_keeping_type_client == 60
+      assert format_name(bktc_tp.name)                == name
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name
+      assert bktc_pro.price                           == 1
+      assert data                                     == %{bk_pro.id => match.match_for_book_keeping_type_client}
+    end
+
     test "return match_book_keeping_type_client by role Pro" do
       name = "Partnership"
       match = insert(:match_value_relat)
@@ -1401,6 +2006,151 @@ defmodule Core.Analyzes.BookKeepingTest do
         bk_tp2.id => match.match_for_book_keeping_type_client,
         bk_tp3.id => match.match_for_book_keeping_type_client
       }
+    end
+
+    test "return match_book_keeping_type_client match is 0 by role Pro" do
+      name = "Partnership"
+      match = insert(:match_value_relat, match_for_book_keeping_type_client: 0)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_pro.id)
+      assert match.match_for_book_keeping_type_client == 0
+      assert format_name(bktc_tp.name)                == name
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name
+      assert bktc_pro.price                           == 22
+      assert data                                     == %{bk_tp.id => match.match_for_book_keeping_type_client}
+    end
+
+    test "return match_book_keeping_type_client match is nil by role Pro" do
+      name = "Partnership"
+      match = insert(:match_value_relat, match_for_book_keeping_type_client: nil)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_pro.id)
+      assert match.match_for_book_keeping_type_client == nil
+      assert format_name(bktc_tp.name)                == name
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name
+      assert bktc_pro.price                           == 22
+      assert data                                     == %{bk_tp.id => 0}
+    end
+
+    test "return match_book_keeping_type_client match is 1 by role Pro" do
+      name = "Partnership"
+      match = insert(:match_value_relat, match_for_book_keeping_type_client: 1)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_pro.id)
+      assert match.match_for_book_keeping_type_client == 1
+      assert format_name(bktc_tp.name)                == name
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name
+      assert bktc_pro.price                           == 22
+      assert data                                     == %{bk_tp.id => match.match_for_book_keeping_type_client}
+    end
+
+    test "return match_book_keeping_type_client when name is nil by role Pro" do
+      name = "Partnership"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: nil, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_pro.id)
+      assert match.match_for_book_keeping_type_client == 60
+      assert bktc_tp.name                             == nil
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name
+      assert bktc_pro.price                           == 22
+      assert data                                     == %{}
+    end
+
+    test "return match_book_keeping_type_client when name is another one by role Pro" do
+      name_for_tp = "LLC"
+      name_for_pro = "Partnership"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_pro.id)
+      assert match.match_for_book_keeping_type_client == 60
+      assert format_name(bktc_tp.name)                == name_for_tp
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name_for_pro
+      assert bktc_pro.price                           == 22
+      assert data                                     == %{}
+    end
+
+    test "return match_book_keeping_type_client when price is 0 by role Pro" do
+      name = "Partnership"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_pro.id)
+      assert match.match_for_book_keeping_type_client == 60
+      assert format_name(bktc_tp.name)                == name
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name
+      assert bktc_pro.price                           == 0
+      assert data                                     == :error
+    end
+
+    test "return match_book_keeping_type_client when price is nil by role Pro" do
+      name = "Partnership"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_pro.id)
+      assert match.match_for_book_keeping_type_client == 60
+      assert format_name(bktc_tp.name)                == name
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name
+      assert bktc_pro.price                           == nil
+      assert data                                     == :error
+    end
+
+    test "return match_book_keeping_type_client when price is 1 by role Pro" do
+      name = "Partnership"
+      match = insert(:match_value_relat)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_match_book_keeping_type_client(bk_pro.id)
+      assert match.match_for_book_keeping_type_client == 60
+      assert format_name(bktc_tp.name)                == name
+      assert bktc_tp.price                            == nil
+      assert format_name(bktc_pro.name)               == name
+      assert bktc_pro.price                           == 1
+      assert data                                     == %{bk_tp.id => match.match_for_book_keeping_type_client}
     end
   end
 
