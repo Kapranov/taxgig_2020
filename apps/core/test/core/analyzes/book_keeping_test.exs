@@ -2840,22 +2840,251 @@ defmodule Core.Analyzes.BookKeepingTest do
   end
 
   describe "#total_match" do
-    test "total_match" do
+    test "return result by total_match where role is Tp" do
+      name_additional_need = "accounts payable"
+      name_annual_revenue = "$1M - $5M"
+      name_industry = Enum.sort(["Legal"])
+      name_number_employee = "1 employee"
+      name_transaction_volume = "1-25"
+      name_type_client = "LLC"
+      names_industry = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
+
+      insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      pro = insert(:pro_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bk_pro = insert(:tp_book_keeping, user: pro)
+
+      insert(:pro_book_keeping_additional_need, name: name_additional_need, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_annual_revenue,  name: name_annual_revenue,  price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_industry, name: names_industry, book_keepings: bk_pro)
+      insert(:pro_book_keeping_number_employee, name: name_number_employee, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_transaction_volume, name: name_transaction_volume, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_type_client, name: name_type_client, price: 22, book_keepings: bk_pro)
+      insert(:tp_book_keeping_additional_need, name: name_additional_need, book_keepings: bk_tp)
+      insert(:tp_book_keeping_annual_revenue,  name: name_annual_revenue,  book_keepings: bk_tp)
+      insert(:tp_book_keeping_industry, name: name_industry, book_keepings: bk_tp)
+      insert(:tp_book_keeping_number_employee, name: name_number_employee, book_keepings: bk_tp)
+      insert(:tp_book_keeping_transaction_volume, name: name_transaction_volume, book_keepings: bk_tp)
+      insert(:tp_book_keeping_type_client, name: name_type_client, book_keepings: bk_tp)
+
+      data = Analyzes.total_match(bk_tp.id)
+      assert data == %{bk_pro.id => 140}
+    end
+
+    test "return result by total_match where role is Pro" do
+      name_additional_need = "accounts payable"
+      name_annual_revenue = "$1M - $5M"
+      name_industry = Enum.sort(["Legal"])
+      name_number_employee = "1 employee"
+      name_transaction_volume = "1-25"
+      name_type_client = "LLC"
+      names_industry = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
+
+      insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      pro = insert(:pro_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bk_pro = insert(:tp_book_keeping, user: pro)
+
+      insert(:pro_book_keeping_additional_need, name: name_additional_need, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_annual_revenue,  name: name_annual_revenue,  price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_industry, name: names_industry, book_keepings: bk_pro)
+      insert(:pro_book_keeping_number_employee, name: name_number_employee, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_transaction_volume, name: name_transaction_volume, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_type_client, name: name_type_client, price: 22, book_keepings: bk_pro)
+      insert(:tp_book_keeping_additional_need, name: name_additional_need, book_keepings: bk_tp)
+      insert(:tp_book_keeping_annual_revenue,  name: name_annual_revenue,  book_keepings: bk_tp)
+      insert(:tp_book_keeping_industry, name: name_industry, book_keepings: bk_tp)
+      insert(:tp_book_keeping_number_employee, name: name_number_employee, book_keepings: bk_tp)
+      insert(:tp_book_keeping_transaction_volume, name: name_transaction_volume, book_keepings: bk_tp)
+      insert(:tp_book_keeping_type_client, name: name_type_client, book_keepings: bk_tp)
+
+      data = Analyzes.total_match(bk_pro.id)
+      assert data == %{bk_tp.id => 140}
     end
   end
 
   describe "#total_price" do
-    test "total_price" do
+    test "return result by total_price where role is Tp" do
+      name_additional_need = "accounts payable"
+      name_annual_revenue = "$1M - $5M"
+      name_number_employee = "1 employee"
+      name_transaction_volume = "1-25"
+      name_type_client = "LLC"
+
+      tp = insert(:tp_user, languages: [])
+      pro = insert(:pro_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: true, user: tp)
+      bk_pro = insert(:tp_book_keeping, payroll: true, price_payroll: 22, user: pro)
+
+      insert(:pro_book_keeping_additional_need, name: name_additional_need, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_annual_revenue,  name: name_annual_revenue,  price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_number_employee, name: name_number_employee, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_transaction_volume, name: name_transaction_volume, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_type_client, name: name_type_client, price: 22, book_keepings: bk_pro)
+      insert(:tp_book_keeping_additional_need, name: name_additional_need, book_keepings: bk_tp)
+      insert(:tp_book_keeping_annual_revenue,  name: name_annual_revenue,  book_keepings: bk_tp)
+      insert(:tp_book_keeping_number_employee, name: name_number_employee, book_keepings: bk_tp)
+      insert(:tp_book_keeping_transaction_volume, name: name_transaction_volume, book_keepings: bk_tp)
+      insert(:tp_book_keeping_type_client, name: name_type_client, book_keepings: bk_tp)
+
+      data = Analyzes.total_price(bk_tp.id)
+      assert data == %{bk_pro.id => 132}
+    end
+
+    test "return result by total_price where role is Pro" do
+      name_additional_need = "accounts payable"
+      name_annual_revenue = "$1M - $5M"
+      name_number_employee = "1 employee"
+      name_transaction_volume = "1-25"
+      name_type_client = "LLC"
+
+      tp = insert(:tp_user, languages: [])
+      pro = insert(:pro_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: true, user: tp)
+      bk_pro = insert(:tp_book_keeping, payroll: true, price_payroll: 22, user: pro)
+
+      insert(:pro_book_keeping_additional_need, name: name_additional_need, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_annual_revenue,  name: name_annual_revenue,  price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_number_employee, name: name_number_employee, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_transaction_volume, name: name_transaction_volume, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_type_client, name: name_type_client, price: 22, book_keepings: bk_pro)
+      insert(:tp_book_keeping_additional_need, name: name_additional_need, book_keepings: bk_tp)
+      insert(:tp_book_keeping_annual_revenue,  name: name_annual_revenue,  book_keepings: bk_tp)
+      insert(:tp_book_keeping_number_employee, name: name_number_employee, book_keepings: bk_tp)
+      insert(:tp_book_keeping_transaction_volume, name: name_transaction_volume, book_keepings: bk_tp)
+      insert(:tp_book_keeping_type_client, name: name_type_client, book_keepings: bk_tp)
+
+      data = Analyzes.total_price(bk_pro.id)
+      assert data == %{bk_tp.id => 132}
     end
   end
 
   describe "total_value" do
-    test "total_value" do
+    test "return result by total_value where role is Tp" do
+      name_additional_need = "accounts receivable"
+      name_annual_revenue = "Less than $100K"
+      name_number_employee = "1 employee"
+      name_transaction_volume = "1-25"
+      name_type_client = "LLC"
+      tax_year = ["2015", "2016", "2017", "2018", "2019", "2020"]
+
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: true, tax_year: tax_year, user: tp)
+
+      insert(:match_value_relat, value_for_book_keeping_payroll: 22, value_for_book_keeping_tax_year: 22)
+      insert(:tp_book_keeping_additional_need, name: name_additional_need, book_keepings: bk_tp)
+      insert(:tp_book_keeping_annual_revenue, name: name_annual_revenue, book_keepings: bk_tp)
+      insert(:tp_book_keeping_number_employee, name: name_number_employee, book_keepings: bk_tp)
+      insert(:tp_book_keeping_transaction_volume, name: name_transaction_volume, book_keepings: bk_tp)
+      insert(:tp_book_keeping_type_client, name: name_type_client, book_keepings: bk_tp)
+
+      data = Analyzes.total_value(bk_tp.id)
+      assert data == %{bk_tp.id => D.new("448.99")}
+    end
+
+    test "return result by total_value where role is Pro" do
+      name_additional_need = "accounts receivable"
+      name_annual_revenue = "Less than $100K"
+      name_number_employee = "1 employee"
+      name_transaction_volume = "1-25"
+      name_type_client = "LLC"
+
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:pro_book_keeping, payroll: true, price_payroll: 22, user: pro)
+
+      insert(:match_value_relat, value_for_book_keeping_payroll: 22, value_for_book_keeping_tax_year: 22)
+      insert(:pro_book_keeping_additional_need, name: name_additional_need, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_annual_revenue, name: name_annual_revenue, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_number_employee, name: name_number_employee, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_transaction_volume, name: name_transaction_volume, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_type_client, name: name_type_client, price: 22, book_keepings: bk_pro)
+
+      data = Analyzes.total_value(bk_pro.id)
+      assert data == %{bk_pro.id => D.new("0")}
     end
   end
 
   describe "#total_all" do
-    test "total_all" do
+    test "return result by total_all where role is Tp" do
+      name_additional_need = "accounts payable"
+      name_annual_revenue = "$1M - $5M"
+      name_industry = Enum.sort(["Legal"])
+      name_number_employee = "1 employee"
+      name_transaction_volume = "1-25"
+      name_type_client = "LLC"
+      names_industry = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
+      tax_year = ["2015", "2016", "2017", "2018", "2019", "2020"]
+
+      insert(:match_value_relat, value_for_book_keeping_payroll: 22, value_for_book_keeping_tax_year: 22)
+
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: true, tax_year: tax_year, user: tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:pro_book_keeping, payroll: true, price_payroll: 22, user: pro)
+
+      insert(:pro_book_keeping_additional_need, name: name_additional_need, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_annual_revenue,  name: name_annual_revenue,  price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_industry, name: names_industry, book_keepings: bk_pro)
+      insert(:pro_book_keeping_number_employee, name: name_number_employee, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_transaction_volume, name: name_transaction_volume, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_type_client, name: name_type_client, price: 22, book_keepings: bk_pro)
+      insert(:tp_book_keeping_additional_need, name: name_additional_need, book_keepings: bk_tp)
+      insert(:tp_book_keeping_annual_revenue,  name: name_annual_revenue,  book_keepings: bk_tp)
+      insert(:tp_book_keeping_industry, name: name_industry, book_keepings: bk_tp)
+      insert(:tp_book_keeping_number_employee, name: name_number_employee, book_keepings: bk_tp)
+      insert(:tp_book_keeping_transaction_volume, name: name_transaction_volume, book_keepings: bk_tp)
+      insert(:tp_book_keeping_type_client, name: name_type_client, book_keepings: bk_tp)
+
+      data = Analyzes.total_all(bk_tp.id)
+
+      assert data == [
+        %{id: bk_tp.id, sum_value: %{bk_tp.id => D.new("648.98")}},
+        %{id: bk_pro.id, sum_match: 160},
+        %{id: bk_pro.id, sum_price: 132}
+      ]
+    end
+
+    test "return result by total_all where role is Pro" do
+      name_additional_need = "accounts payable"
+      name_annual_revenue = "$1M - $5M"
+      name_industry = Enum.sort(["Legal"])
+      name_number_employee = "1 employee"
+      name_transaction_volume = "1-25"
+      name_type_client = "LLC"
+      names_industry = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
+      tax_year = ["2015", "2016", "2017", "2018", "2019", "2020"]
+
+      insert(:match_value_relat, value_for_book_keeping_payroll: 22, value_for_book_keeping_tax_year: 22)
+
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: true, tax_year: tax_year, user: tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:pro_book_keeping, payroll: true, price_payroll: 22, user: pro)
+
+      insert(:pro_book_keeping_additional_need, name: name_additional_need, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_annual_revenue,  name: name_annual_revenue,  price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_industry, name: names_industry, book_keepings: bk_pro)
+      insert(:pro_book_keeping_number_employee, name: name_number_employee, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_transaction_volume, name: name_transaction_volume, price: 22, book_keepings: bk_pro)
+      insert(:pro_book_keeping_type_client, name: name_type_client, price: 22, book_keepings: bk_pro)
+      insert(:tp_book_keeping_additional_need, name: name_additional_need, book_keepings: bk_tp)
+      insert(:tp_book_keeping_annual_revenue,  name: name_annual_revenue,  book_keepings: bk_tp)
+      insert(:tp_book_keeping_industry, name: name_industry, book_keepings: bk_tp)
+      insert(:tp_book_keeping_number_employee, name: name_number_employee, book_keepings: bk_tp)
+      insert(:tp_book_keeping_transaction_volume, name: name_transaction_volume, book_keepings: bk_tp)
+      insert(:tp_book_keeping_type_client, name: name_type_client, book_keepings: bk_tp)
+
+      data = Analyzes.total_all(bk_pro.id)
+
+      assert data == [
+        %{id: bk_pro.id, sum_value: %{bk_pro.id => D.new("0")}},
+        %{id: bk_tp.id, sum_match: 160},
+        %{id: bk_tp.id, sum_price: 132}
+      ]
     end
   end
 

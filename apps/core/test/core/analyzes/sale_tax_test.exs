@@ -1370,7 +1370,7 @@ defmodule Core.Analyzes.SaleTaxTest do
   end
 
   describe "#total_match" do
-    test "return result by total_match by role Tp" do
+    test "return result by total_match where role is Tp" do
       name_frequency = "Monthly"
       name_industry = Enum.sort(["Legal"])
       names_industry = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
@@ -1387,7 +1387,7 @@ defmodule Core.Analyzes.SaleTaxTest do
       assert data == %{st_pro.id => 70}
     end
 
-    test "return result by total_match by role Pro" do
+    test "return result by total_match where role is Pro" do
       name_frequency = "Monthly"
       name_industry = Enum.sort(["Legal"])
       names_industry = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
@@ -1406,7 +1406,7 @@ defmodule Core.Analyzes.SaleTaxTest do
   end
 
   describe "#total_price" do
-    test "return result by total_price by role Tp" do
+    test "return result by total_price where role is Tp" do
       name = "Monthly"
       pro = insert(:pro_user)
       tp = insert(:tp_user, languages: [])
@@ -1418,7 +1418,7 @@ defmodule Core.Analyzes.SaleTaxTest do
       assert data == %{st_pro.id => 506}
     end
 
-    test "return result by total_price by role Pro" do
+    test "return result by total_price where role is Pro" do
       name = "Monthly"
       pro = insert(:pro_user)
       tp = insert(:tp_user, languages: [])
@@ -1432,7 +1432,7 @@ defmodule Core.Analyzes.SaleTaxTest do
   end
 
   describe "#total_value" do
-    test "return result by total_value by role Tp" do
+    test "return result by total_value where role is Tp" do
       insert(:match_value_relat, value_for_sale_tax_count: 22)
       pro = insert(:pro_user)
       tp = insert(:tp_user, languages: [])
@@ -1442,7 +1442,7 @@ defmodule Core.Analyzes.SaleTaxTest do
       assert data == %{st_tp.id => D.new("484")}
     end
 
-    test "return result by total_value by role Pro" do
+    test "return result by total_value where role is Pro" do
       insert(:match_value_relat, value_for_sale_tax_count: 22)
       pro = insert(:pro_user)
       tp = insert(:tp_user, languages: [])
@@ -1454,7 +1454,7 @@ defmodule Core.Analyzes.SaleTaxTest do
   end
 
   describe "#total_all" do
-    test "return result by total_all by role Tp" do
+    test "return result by total_all where role is Tp" do
       name_frequency = "Monthly"
       name_industry = Enum.sort(["Legal"])
       names_industry = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
@@ -1476,7 +1476,7 @@ defmodule Core.Analyzes.SaleTaxTest do
       ]
     end
 
-    test "return result by total_all by role Pro" do
+    test "return result by total_all where role is Pro" do
       name_frequency = "Monthly"
       name_industry = Enum.sort(["Legal"])
       names_industry = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
