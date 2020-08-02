@@ -773,7 +773,7 @@ defmodule Core.Analyzes.BookKeepingTest do
       }
     end
 
-    test "return match_book_keeping_annual_revenue iwhen match is 0 by role Tp" do
+    test "return match_book_keeping_annual_revenue when match is 0 by role Tp" do
       name = "$5M - $10M"
       match = insert(:match_value_relat, match_for_book_keeping_annual_revenue: 0)
       tp = insert(:tp_user, languages: [])
@@ -968,7 +968,7 @@ defmodule Core.Analyzes.BookKeepingTest do
       }
     end
 
-    test "return match_book_keeping_annual_revenue iwhen match is 0 by role Pro" do
+    test "return match_book_keeping_annual_revenue when match is 0 by role Pro" do
       name = "$5M - $10M"
       match = insert(:match_value_relat, match_for_book_keeping_annual_revenue: 0)
       tp = insert(:tp_user, languages: [])
@@ -986,7 +986,7 @@ defmodule Core.Analyzes.BookKeepingTest do
       assert data                                         == %{bk_tp.id => match.match_for_book_keeping_annual_revenue}
     end
 
-    test "return match_book_keeping_annual_revenue iwhen match is nil by role Pro" do
+    test "return match_book_keeping_annual_revenue when match is nil by role Pro" do
       name = "$5M - $10M"
       match = insert(:match_value_relat, match_for_book_keeping_annual_revenue: nil)
       tp = insert(:tp_user, languages: [])
@@ -1004,7 +1004,7 @@ defmodule Core.Analyzes.BookKeepingTest do
       assert data                                         == %{bk_tp.id => 0}
     end
 
-    test "return match_book_keeping_annual_revenue iwhen match is 1 by role Pro" do
+    test "return match_book_keeping_annual_revenue when match is 1 by role Pro" do
       name = "$5M - $10M"
       match = insert(:match_value_relat, match_for_book_keeping_annual_revenue: 1)
       tp = insert(:tp_user, languages: [])
@@ -2195,6 +2195,58 @@ defmodule Core.Analyzes.BookKeepingTest do
       }
     end
 
+    test "return price_payroll when payroll is nil by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: false, user: tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, payroll: true, price_payroll: 22, user: pro)
+      data = BookKeeping.check_price_payroll(bk_tp.id)
+      assert bk_pro.payroll                       == true
+      assert bk_pro.price_payroll                 == 22
+      assert bk_tp.payroll                        == false
+      assert bk_tp.price_payroll                  == nil
+      assert data                                 == :error
+    end
+
+    test "return price_payroll when price is nil by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, payroll: true, price_payroll: nil, user: pro)
+      data = BookKeeping.check_price_payroll(bk_tp.id)
+      assert bk_pro.payroll                       == true
+      assert bk_pro.price_payroll                 == nil
+      assert bk_tp.payroll                        == true
+      assert bk_tp.price_payroll                  == nil
+      assert data                                 == %{}
+    end
+
+    test "return price_payroll when price is 0 by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, payroll: true, price_payroll: 0, user: pro)
+      data = BookKeeping.check_price_payroll(bk_tp.id)
+      assert bk_pro.payroll                       == true
+      assert bk_pro.price_payroll                 == 0
+      assert bk_tp.payroll                        == true
+      assert bk_tp.price_payroll                  == nil
+      assert data                                 == %{}
+    end
+
+    test "return price_payroll when price is 1 by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, payroll: true, price_payroll: 1, user: pro)
+      data = BookKeeping.check_price_payroll(bk_tp.id)
+      assert bk_pro.payroll                       == true
+      assert bk_pro.price_payroll                 == 1
+      assert bk_tp.payroll                        == true
+      assert bk_tp.price_payroll                  == nil
+      assert data                                 == %{bk_pro.id => 1}
+    end
+
     test "return price_payroll by role Pro" do
       tp = insert(:tp_user, languages: [])
       bk_tp = insert(:tp_book_keeping, payroll: true, user: tp)
@@ -2231,6 +2283,58 @@ defmodule Core.Analyzes.BookKeepingTest do
         bk_tp2.id => 22,
         bk_tp3.id => 22
       }
+    end
+
+    test "return price_payroll when payroll is nil by role Pro" do
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, payroll: false, price_payroll: 22, user: pro)
+      data = BookKeeping.check_price_payroll(bk_pro.id)
+      assert bk_pro.payroll                       == false
+      assert bk_pro.price_payroll                 == 22
+      assert bk_tp.payroll                        == true
+      assert bk_tp.price_payroll                  == nil
+      assert data                                 == :error
+    end
+
+    test "return price_payroll when price is nil by role Pro" do
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, payroll: true, price_payroll: nil, user: pro)
+      data = BookKeeping.check_price_payroll(bk_pro.id)
+      assert bk_pro.payroll                       == true
+      assert bk_pro.price_payroll                 == nil
+      assert bk_tp.payroll                        == true
+      assert bk_tp.price_payroll                  == nil
+      assert data                                 == :error
+    end
+
+    test "return price_payroll when price is 0 by role Pro" do
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, payroll: true, price_payroll: 0, user: pro)
+      data = BookKeeping.check_price_payroll(bk_pro.id)
+      assert bk_pro.payroll                       == true
+      assert bk_pro.price_payroll                 == 0
+      assert bk_tp.payroll                        == true
+      assert bk_tp.price_payroll                  == nil
+      assert data                                 == :error
+    end
+
+    test "return price_payroll when price is 1 by role Pro" do
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, payroll: true, price_payroll: 1, user: pro)
+      data = BookKeeping.check_price_payroll(bk_pro.id)
+      assert bk_pro.payroll                       == true
+      assert bk_pro.price_payroll                 == 1
+      assert bk_tp.payroll                        == true
+      assert bk_tp.price_payroll                  == nil
+      assert data                                 == %{bk_tp.id => 1}
     end
 
     test "return price_book_keeping_additional_need by role Tp" do
@@ -2279,6 +2383,87 @@ defmodule Core.Analyzes.BookKeepingTest do
       }
     end
 
+    test "return price_book_keeping_additional_need when name is nil by role Tp" do
+      name = "accounts payable"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: nil, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_additional_need(bk_tp.id)
+      assert bkan_tp.name               == nil
+      assert bkan_tp.price              == nil
+      assert format_name(bkan_pro.name) == name
+      assert bkan_pro.price             == 22
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_additional_need when name is another one by role Tp" do
+      name_for_tp = "sales tax"
+      name_for_pro = "accounts payable"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_additional_need(bk_tp.id)
+      assert format_name(bkan_tp.name)  == name_for_tp
+      assert bkan_tp.price              == nil
+      assert format_name(bkan_pro.name) == name_for_pro
+      assert bkan_pro.price             == 22
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_additional_need when price is nil by role Tp" do
+      name = "accounts payable"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_additional_need(bk_tp.id)
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == nil
+      assert data                                         == %{}
+    end
+
+    test "return price_book_keeping_additional_need when price is 0 by role Tp" do
+      name = "accounts payable"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_additional_need(bk_tp.id)
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == 0
+      assert data                                         == %{}
+    end
+
+    test "return price_book_keeping_additional_need when price is 1 by role Tp" do
+      name = "accounts payable"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_additional_need(bk_tp.id)
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == 1
+      assert data                                         == %{bk_pro.id => 1}
+    end
+
     test "return price_book_keeping_additional_need by role Pro" do
       name = "accounts payable"
       tp = insert(:tp_user, languages: [])
@@ -2323,6 +2508,87 @@ defmodule Core.Analyzes.BookKeepingTest do
         bk_tp2.id => 22,
         bk_tp3.id => 22
       }
+    end
+
+    test "return price_book_keeping_additional_need when name is nil by role Pro" do
+      name = "accounts payable"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: nil, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_additional_need(bk_pro.id)
+      assert format_name(bkan_tp.name)  == name
+      assert bkan_tp.price              == nil
+      assert bkan_pro.name              == nil
+      assert bkan_pro.price             == 22
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_additional_need when name is another one by role Pro" do
+      name_for_tp = "sales tax"
+      name_for_pro = "accounts payable"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_additional_need(bk_pro.id)
+      assert format_name(bkan_tp.name)  == name_for_tp
+      assert bkan_tp.price              == nil
+      assert format_name(bkan_pro.name) == name_for_pro
+      assert bkan_pro.price             == 22
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_additional_need when price is nil by role Pro" do
+      name = "accounts payable"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_additional_need(bk_pro.id)
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == nil
+      assert data                                         == :error
+    end
+
+    test "return price_book_keeping_additional_need when price is 0 by role Pro" do
+      name = "accounts payable"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_additional_need(bk_pro.id)
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == 0
+      assert data                                         == :error
+    end
+
+    test "return price_book_keeping_additional_need when price is 1 by role Pro" do
+      name = "accounts payable"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkan_pro = insert(:pro_book_keeping_additional_need, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_additional_need(bk_pro.id)
+      assert format_name(bkan_tp.name)                    == name
+      assert bkan_tp.price                                == nil
+      assert format_name(bkan_pro.name)                   == name
+      assert bkan_pro.price                               == 1
+      assert data                                         == %{bk_tp.id => 1}
     end
 
     test "return price_book_keeping_annual_revenue by role Tp" do
@@ -2371,6 +2637,87 @@ defmodule Core.Analyzes.BookKeepingTest do
       }
     end
 
+    test "return price_book_keeping_annual_revenue when name is nil by role Tp" do
+      name = "$5M - $10M"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: nil, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_annual_revenue(bk_tp.id)
+      assert bkar_tp.name               == nil
+      assert bkar_tp.price              == nil
+      assert format_name(bkar_pro.name) == name
+      assert bkar_pro.price             == 22
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_annual_revenue when name is another one by role Tp" do
+      name_for_tp = "$500K - $1M"
+      name_for_pro = "$5M - $10M"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_annual_revenue(bk_tp.id)
+      assert format_name(bkar_tp.name)  == name_for_tp
+      assert bkar_tp.price              == nil
+      assert format_name(bkar_pro.name) == name_for_pro
+      assert bkar_pro.price             == 22
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_annual_revenue when price is nil by role Tp" do
+      name = "$5M - $10M"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_annual_revenue(bk_tp.id)
+      assert format_name(bkar_tp.name)  == name
+      assert bkar_tp.price              == nil
+      assert format_name(bkar_pro.name) == name
+      assert bkar_pro.price             == nil
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_annual_revenue when price is 0 by role Tp" do
+      name = "$5M - $10M"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_annual_revenue(bk_tp.id)
+      assert format_name(bkar_tp.name)  == name
+      assert bkar_tp.price              == nil
+      assert format_name(bkar_pro.name) == name
+      assert bkar_pro.price             == 0
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_annual_revenue when price is 1 by role Tp" do
+      name = "$5M - $10M"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_annual_revenue(bk_tp.id)
+      assert format_name(bkar_tp.name)  == name
+      assert bkar_tp.price              == nil
+      assert format_name(bkar_pro.name) == name
+      assert bkar_pro.price             == 1
+      assert data                       == %{bk_pro.id => 1}
+    end
+
     test "return price_book_keeping_annual_revenue by role Pro" do
       name = "$5M - $10M"
       tp = insert(:tp_user, languages: [])
@@ -2415,6 +2762,87 @@ defmodule Core.Analyzes.BookKeepingTest do
         bk_tp2.id => 22,
         bk_tp3.id => 22
       }
+    end
+
+    test "return price_book_keeping_annual_revenue when name is nil by role Pro" do
+      name = "$5M - $10M"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: nil, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_annual_revenue(bk_pro.id)
+      assert format_name(bkar_tp.name)  == name
+      assert bkar_tp.price              == nil
+      assert bkar_pro.name              == nil
+      assert bkar_pro.price             == 22
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_annual_revenue when name is another one by role Pro" do
+      name_for_tp = "$500K - $1M"
+      name_for_pro = "$5M - $10M"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_annual_revenue(bk_pro.id)
+      assert format_name(bkar_tp.name)  == name_for_tp
+      assert bkar_tp.price              == nil
+      assert format_name(bkar_pro.name) == name_for_pro
+      assert bkar_pro.price             == 22
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_annual_revenue when price is nil by role Pro" do
+      name = "$5M - $10M"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_annual_revenue(bk_pro.id)
+      assert format_name(bkar_tp.name)  == name
+      assert bkar_tp.price              == nil
+      assert format_name(bkar_pro.name) == name
+      assert bkar_pro.price             == nil
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_annual_revenue when price is 0 by role Pro" do
+      name = "$5M - $10M"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_annual_revenue(bk_pro.id)
+      assert format_name(bkar_tp.name)  == name
+      assert bkar_tp.price              == nil
+      assert format_name(bkar_pro.name) == name
+      assert bkar_pro.price             == 0
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_annual_revenue when price is 1 by role Pro" do
+      name = "$5M - $10M"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkar_pro = insert(:pro_book_keeping_annual_revenue, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_annual_revenue(bk_pro.id)
+      assert format_name(bkar_tp.name)  == name
+      assert bkar_tp.price              == nil
+      assert format_name(bkar_pro.name) == name
+      assert bkar_pro.price             == 1
+      assert data                       == %{bk_tp.id => 1}
     end
 
     test "return price_book_keeping_number_employee by role Tp" do
@@ -2463,6 +2891,87 @@ defmodule Core.Analyzes.BookKeepingTest do
       }
     end
 
+    test "return price_book_keeping_number_employee when name is nil by role Tp" do
+      name = "1 employee"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: nil, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_number_employee(bk_tp.id)
+      assert bkne_tp.name               == nil
+      assert bkne_tp.price              == nil
+      assert format_name(bkne_pro.name) == name
+      assert bkne_pro.price             == 22
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_number_employee when name is another one by role Tp" do
+      name_for_tp = "51 - 100 employees"
+      name_for_pro = "1 employee"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_number_employee(bk_tp.id)
+      assert format_name(bkne_tp.name)  == name_for_tp
+      assert bkne_tp.price              == nil
+      assert format_name(bkne_pro.name) == name_for_pro
+      assert bkne_pro.price             == 22
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_number_employee when price is nil by role Tp" do
+      name = "1 employee"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_number_employee(bk_tp.id)
+      assert format_name(bkne_tp.name)  == name
+      assert bkne_tp.price              == nil
+      assert format_name(bkne_pro.name) == name
+      assert bkne_pro.price             == nil
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_number_employee when price is 0 by role Tp" do
+      name = "1 employee"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_number_employee(bk_tp.id)
+      assert format_name(bkne_tp.name)  == name
+      assert bkne_tp.price              == nil
+      assert format_name(bkne_pro.name) == name
+      assert bkne_pro.price             == 0
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_number_employee when price is 1 by role Tp" do
+      name = "1 employee"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_number_employee(bk_tp.id)
+      assert format_name(bkne_tp.name)  == name
+      assert bkne_tp.price              == nil
+      assert format_name(bkne_pro.name) == name
+      assert bkne_pro.price             == 1
+      assert data                       == %{bk_pro.id => 1}
+    end
+
     test "return price_book_keeping_number_employee by role Pro" do
       name = "1 employee"
       tp = insert(:tp_user, languages: [])
@@ -2507,6 +3016,87 @@ defmodule Core.Analyzes.BookKeepingTest do
         bk_tp2.id => 22,
         bk_tp3.id => 22
       }
+    end
+
+    test "return price_book_keeping_number_employee when name is nil by role Pro" do
+      name = "1 employee"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: nil, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_number_employee(bk_pro.id)
+      assert format_name(bkne_tp.name)  == name
+      assert bkne_tp.price              == nil
+      assert bkne_pro.name              == nil
+      assert bkne_pro.price             == 22
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_number_employee when name is another one by role Pro" do
+      name_for_tp = "51 - 100 employees"
+      name_for_pro = "1 employee"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_number_employee(bk_pro.id)
+      assert format_name(bkne_tp.name)  == name_for_tp
+      assert bkne_tp.price              == nil
+      assert format_name(bkne_pro.name) == name_for_pro
+      assert bkne_pro.price             == 22
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_number_employee when price is nil by role Pro" do
+      name = "1 employee"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_number_employee(bk_pro.id)
+      assert format_name(bkne_tp.name)  == name
+      assert bkne_tp.price              == nil
+      assert format_name(bkne_pro.name) == name
+      assert bkne_pro.price             == nil
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_number_employee when price is 0 by role Pro" do
+      name = "1 employee"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_number_employee(bk_pro.id)
+      assert format_name(bkne_tp.name)  == name
+      assert bkne_tp.price              == nil
+      assert format_name(bkne_pro.name) == name
+      assert bkne_pro.price             == 0
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_number_employee when price is 1 by role Pro" do
+      name = "1 employee"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bkne_pro = insert(:pro_book_keeping_number_employee, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_number_employee(bk_pro.id)
+      assert format_name(bkne_tp.name)  == name
+      assert bkne_tp.price              == nil
+      assert format_name(bkne_pro.name) == name
+      assert bkne_pro.price             == 1
+      assert data                       == %{bk_tp.id => 1}
     end
 
     test "return price_book_keeping_transaction_volume by role Tp" do
@@ -2555,6 +3145,87 @@ defmodule Core.Analyzes.BookKeepingTest do
       }
     end
 
+    test "return price_book_keeping_transaction_volume when name is nil by role Tp" do
+      name = "1-25"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktv_tp = insert(:tp_book_keeping_transaction_volume, name: nil, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktv_pro = insert(:pro_book_keeping_transaction_volume, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_transaction_volume(bk_tp.id)
+      assert bktv_tp.name               == nil
+      assert bktv_tp.price              == nil
+      assert format_name(bktv_pro.name) == name
+      assert bktv_pro.price             == 22
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_transaction_volume when name is another one by role Tp" do
+      name_for_tp = "76-199"
+      name_for_pro = "1-25"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktv_tp = insert(:tp_book_keeping_transaction_volume, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktv_pro = insert(:pro_book_keeping_transaction_volume, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_transaction_volume(bk_tp.id)
+      assert format_name(bktv_tp.name)  == name_for_tp
+      assert bktv_tp.price              == nil
+      assert format_name(bktv_pro.name) == name_for_pro
+      assert bktv_pro.price             == 22
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_transaction_volume when price is nil by role Tp" do
+      name = "1-25"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktv_tp = insert(:tp_book_keeping_transaction_volume, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktv_pro = insert(:pro_book_keeping_transaction_volume, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_transaction_volume(bk_tp.id)
+      assert format_name(bktv_tp.name)  == name
+      assert bktv_tp.price              == nil
+      assert format_name(bktv_pro.name) == name
+      assert bktv_pro.price             == nil
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_transaction_volume when price is 0 by role Tp" do
+      name = "1-25"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktv_tp = insert(:tp_book_keeping_transaction_volume, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktv_pro = insert(:pro_book_keeping_transaction_volume, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_transaction_volume(bk_tp.id)
+      assert format_name(bktv_tp.name)  == name
+      assert bktv_tp.price              == nil
+      assert format_name(bktv_pro.name) == name
+      assert bktv_pro.price             == 0
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_transaction_volume when price is 1 by role Tp" do
+      name = "1-25"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktv_tp = insert(:tp_book_keeping_transaction_volume, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktv_pro = insert(:pro_book_keeping_transaction_volume, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_transaction_volume(bk_tp.id)
+      assert format_name(bktv_tp.name)  == name
+      assert bktv_tp.price              == nil
+      assert format_name(bktv_pro.name) == name
+      assert bktv_pro.price             == 1
+      assert data                       == %{bk_pro.id => 1}
+    end
+
     test "return price_book_keeping_transaction_volume by role Pro" do
       name = "1-25"
       tp = insert(:tp_user, languages: [])
@@ -2599,6 +3270,87 @@ defmodule Core.Analyzes.BookKeepingTest do
         bk_tp2.id => 22,
         bk_tp3.id => 22
       }
+    end
+
+    test "return price_book_keeping_transaction_volume when name is nil by role Pro" do
+      name = "1-25"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktv_tp = insert(:tp_book_keeping_transaction_volume, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktv_pro = insert(:pro_book_keeping_transaction_volume, name: nil, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_transaction_volume(bk_pro.id)
+      assert format_name(bktv_tp.name)  == name
+      assert bktv_tp.price              == nil
+      assert bktv_pro.name              == nil
+      assert bktv_pro.price             == 22
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_transaction_volume when name is another one by role Pro" do
+      name_for_tp = "76-199"
+      name_for_pro = "1-25"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktv_tp = insert(:tp_book_keeping_transaction_volume, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktv_pro = insert(:pro_book_keeping_transaction_volume, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_transaction_volume(bk_pro.id)
+      assert format_name(bktv_tp.name)  == name_for_tp
+      assert bktv_tp.price              == nil
+      assert format_name(bktv_pro.name) == name_for_pro
+      assert bktv_pro.price             == 22
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_transaction_volume when price is nil by role Pro" do
+      name = "1-25"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktv_tp = insert(:tp_book_keeping_transaction_volume, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktv_pro = insert(:pro_book_keeping_transaction_volume, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_transaction_volume(bk_pro.id)
+      assert format_name(bktv_tp.name)  == name
+      assert bktv_tp.price              == nil
+      assert format_name(bktv_pro.name) == name
+      assert bktv_pro.price             == nil
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_transaction_volume when price is 0 by role Pro" do
+      name = "1-25"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktv_tp = insert(:tp_book_keeping_transaction_volume, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktv_pro = insert(:pro_book_keeping_transaction_volume, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_transaction_volume(bk_pro.id)
+      assert format_name(bktv_tp.name)  == name
+      assert bktv_tp.price              == nil
+      assert format_name(bktv_pro.name) == name
+      assert bktv_pro.price             == 0
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_transaction_volume when price is 1 by role Pro" do
+      name = "1-25"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktv_tp = insert(:tp_book_keeping_transaction_volume, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktv_pro = insert(:pro_book_keeping_transaction_volume, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_transaction_volume(bk_pro.id)
+      assert format_name(bktv_tp.name)  == name
+      assert bktv_tp.price              == nil
+      assert format_name(bktv_pro.name) == name
+      assert bktv_pro.price             == 1
+      assert data                       == %{bk_tp.id => 1}
     end
 
     test "return price_book_keeping_type_client by role Tp" do
@@ -2647,6 +3399,87 @@ defmodule Core.Analyzes.BookKeepingTest do
       }
     end
 
+    test "return price_book_keeping_type_client when name is nil by role Tp" do
+      name = "Partnership"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: nil, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_type_client(bk_tp.id)
+      assert bktc_tp.name               == nil
+      assert bktc_tp.price              == nil
+      assert format_name(bktc_pro.name) == name
+      assert bktc_pro.price             == 22
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_type_client when name is another one by role Tp" do
+      name_for_tp = "Non-profit corp"
+      name_for_pro = "Partnership"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_type_client(bk_tp.id)
+      assert format_name(bktc_tp.name)  == name_for_tp
+      assert bktc_tp.price              == nil
+      assert format_name(bktc_pro.name) == name_for_pro
+      assert bktc_pro.price             == 22
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_type_client when price is nil by role Tp" do
+      name = "Partnership"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_type_client(bk_tp.id)
+      assert format_name(bktc_tp.name)  == name
+      assert bktc_tp.price              == nil
+      assert format_name(bktc_pro.name) == name
+      assert bktc_pro.price             == nil
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_type_client when price is 0 by role Tp" do
+      name = "Partnership"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_type_client(bk_tp.id)
+      assert format_name(bktc_tp.name)  == name
+      assert bktc_tp.price              == nil
+      assert format_name(bktc_pro.name) == name
+      assert bktc_pro.price             == 0
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_type_client when price is 1 by role Tp" do
+      name = "Partnership"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_type_client(bk_tp.id)
+      assert format_name(bktc_tp.name)  == name
+      assert bktc_tp.price              == nil
+      assert format_name(bktc_pro.name) == name
+      assert bktc_pro.price             == 1
+      assert data                       == %{bk_pro.id => 1}
+    end
+
     test "return price_book_keeping_type_client by role Pro" do
       name = "Partnership"
       tp = insert(:tp_user, languages: [])
@@ -2692,10 +3525,91 @@ defmodule Core.Analyzes.BookKeepingTest do
         bk_tp3.id => 22
       }
     end
+
+    test "return price_book_keeping_type_client when name is nil by role Pro" do
+      name = "Partnership"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: nil, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_type_client(bk_pro.id)
+      assert format_name(bktc_tp.name)  == name
+      assert bktc_tp.price              == nil
+      assert bktc_pro.name              == nil
+      assert bktc_pro.price             == 22
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_type_client when name is another one by role Pro" do
+      name_for_tp = "Non-profit corp"
+      name_for_pro = "Partnership"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name_for_tp, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name_for_pro, price: 22, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_type_client(bk_pro.id)
+      assert format_name(bktc_tp.name)  == name_for_tp
+      assert bktc_tp.price              == nil
+      assert format_name(bktc_pro.name) == name_for_pro
+      assert bktc_pro.price             == 22
+      assert data                       == %{}
+    end
+
+    test "return price_book_keeping_type_client when price is nil by role Pro" do
+      name = "Partnership"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: nil, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_type_client(bk_pro.id)
+      assert format_name(bktc_tp.name)  == name
+      assert bktc_tp.price              == nil
+      assert format_name(bktc_pro.name) == name
+      assert bktc_pro.price             == nil
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_type_client when price is 0 by role Pro" do
+      name = "Partnership"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 0, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_type_client(bk_pro.id)
+      assert format_name(bktc_tp.name)  == name
+      assert bktc_tp.price              == nil
+      assert format_name(bktc_pro.name) == name
+      assert bktc_pro.price             == 0
+      assert data                       == :error
+    end
+
+    test "return price_book_keeping_type_client when price is 1 by role Pro" do
+      name = "Partnership"
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: name, book_keepings: bk_tp)
+      pro = insert(:pro_user, languages: [])
+      bk_pro = insert(:tp_book_keeping, user: pro)
+      bktc_pro = insert(:pro_book_keeping_type_client, name: name, price: 1, book_keepings: bk_pro)
+      data = BookKeeping.check_price_book_keeping_type_client(bk_pro.id)
+      assert format_name(bktc_tp.name)  == name
+      assert bktc_tp.price              == nil
+      assert format_name(bktc_pro.name) == name
+      assert bktc_pro.price             == 1
+      assert data                       == %{bk_tp.id => 1}
+    end
   end
 
   describe "#check_value" do
-    test "return value_payroll  by role Tp" do
+    test "return value_payroll by role Tp" do
       match = insert(:match_value_relat, value_for_book_keeping_payroll: 22)
       tp = insert(:tp_user, languages: [])
       bk_tp = insert(:tp_book_keeping, payroll: true, user: tp)
@@ -2704,6 +3618,50 @@ defmodule Core.Analyzes.BookKeepingTest do
       assert bk_tp.payroll                                     == true
       assert bk_tp.price_payroll                               == nil
       assert data                                              == %{bk_tp.id => D.new("22")}
+    end
+
+    test "return value_payroll when match is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_book_keeping_payroll: 0)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: true, user: tp)
+      data = BookKeeping.check_value_payroll(bk_tp.id)
+      assert D.to_string(match.value_for_book_keeping_payroll) == "0"
+      assert bk_tp.payroll                                     == true
+      assert bk_tp.price_payroll                               == nil
+      assert data                                              == %{bk_tp.id => D.new("0")}
+    end
+
+    test "return value_payroll when match is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_book_keeping_payroll: nil)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: true, user: tp)
+      data = BookKeeping.check_value_payroll(bk_tp.id)
+      assert match.value_for_book_keeping_payroll == nil
+      assert bk_tp.payroll                        == true
+      assert bk_tp.price_payroll                  == nil
+      assert data                                 == %{bk_tp.id => D.new("0.0")}
+    end
+
+    test "return value_payroll when match is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_book_keeping_payroll: 1)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: true, user: tp)
+      data = BookKeeping.check_value_payroll(bk_tp.id)
+      assert D.to_string(match.value_for_book_keeping_payroll) == "1"
+      assert bk_tp.payroll                                     == true
+      assert bk_tp.price_payroll                               == nil
+      assert data                                              == %{bk_tp.id => D.new("1")}
+    end
+
+    test "return value_payroll when payroll nil by role Tp" do
+      match = insert(:match_value_relat, value_for_book_keeping_payroll: 22)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, payroll: nil, user: tp)
+      data = BookKeeping.check_value_payroll(bk_tp.id)
+      assert D.to_string(match.value_for_book_keeping_payroll) == "22"
+      assert bk_tp.payroll                                     == nil
+      assert bk_tp.price_payroll                               == nil
+      assert data                                              == :error
     end
 
     test "return value_payroll by role Pro" do
@@ -2728,6 +3686,61 @@ defmodule Core.Analyzes.BookKeepingTest do
       assert data                                               == %{bk_tp.id => D.new("66")}
     end
 
+    test "return value_tax_year iwhen match is 0 by role Tp" do
+      tax_year = ["2015", "2016", "2017"]
+      match = insert(:match_value_relat, value_for_book_keeping_tax_year: 0)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, tax_year: tax_year, user: tp)
+      data = BookKeeping.check_value_tax_year(bk_tp.id)
+      assert D.to_string(match.value_for_book_keeping_tax_year) == "0"
+      assert bk_tp.tax_year                                     == tax_year
+      assert data                                               == %{bk_tp.id => D.new("0")}
+    end
+
+    test "return value_tax_year iwhen match is nil by role Tp" do
+      tax_year = ["2015", "2016", "2017"]
+      match = insert(:match_value_relat, value_for_book_keeping_tax_year: nil)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, tax_year: tax_year, user: tp)
+      data = BookKeeping.check_value_tax_year(bk_tp.id)
+      assert match.value_for_book_keeping_tax_year == nil
+      assert bk_tp.tax_year                        == tax_year
+      assert data                                  == %{bk_tp.id => D.new("0.0")}
+    end
+
+    test "return value_tax_year iwhen match is 1 by role Tp" do
+      tax_year = ["2015", "2016", "2017"]
+      match = insert(:match_value_relat, value_for_book_keeping_tax_year: 1)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, tax_year: tax_year, user: tp)
+      data = BookKeeping.check_value_tax_year(bk_tp.id)
+      assert D.to_string(match.value_for_book_keeping_tax_year) == "1"
+      assert bk_tp.tax_year                                     == tax_year
+      assert data                                               == %{bk_tp.id => D.new("3")}
+    end
+
+    test "return value_tax_year when is nil by role Tp" do
+      tax_year = []
+      match = insert(:match_value_relat, value_for_book_keeping_tax_year: 22)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, tax_year: tax_year, user: tp)
+      data = BookKeeping.check_value_tax_year(bk_tp.id)
+      assert D.to_string(match.value_for_book_keeping_tax_year) == "22"
+      assert bk_tp.tax_year                                     == tax_year
+      assert data                                               == :error
+    end
+
+    test "return value_tax_year when is one year by role Tp" do
+      tax_year = ["2015"]
+      match = insert(:match_value_relat, value_for_book_keeping_tax_year: 22)
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, tax_year: tax_year, user: tp)
+      data = BookKeeping.check_value_tax_year(bk_tp.id)
+      assert D.to_string(match.value_for_book_keeping_tax_year) == "22"
+      assert bk_tp.tax_year                                     == tax_year
+      assert data                                               == %{bk_tp.id => D.new("22")}
+    end
+
     test "return value_tax_year by role Pro" do
       match = insert(:match_value_relat, value_for_book_keeping_tax_year: 22)
       pro = insert(:pro_user, languages: [])
@@ -2746,6 +3759,15 @@ defmodule Core.Analyzes.BookKeepingTest do
       data = BookKeeping.check_value_book_keeping_additional_need(bk_tp.id)
       assert format_name(bkan_tp.name) == name
       assert data                      == %{bk_tp.id => D.new("15.0")}
+    end
+
+    test "return value_book_keeping_additional_need when name is nil by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkan_tp = insert(:tp_book_keeping_additional_need, name: nil, book_keepings: bk_tp)
+      data = BookKeeping.check_value_book_keeping_additional_need(bk_tp.id)
+      assert bkan_tp.name == nil
+      assert data         == :error
     end
 
     test "return value_book_keeping_additional_need by role Pro" do
@@ -2768,6 +3790,15 @@ defmodule Core.Analyzes.BookKeepingTest do
       assert data                      == %{bk_tp.id => D.new("0.01")}
     end
 
+    test "return value_book_keeping_annual_revenue when name is nil by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkar_tp = insert(:tp_book_keeping_annual_revenue, name: nil, book_keepings: bk_tp)
+      data = BookKeeping.check_value_book_keeping_annual_revenue(bk_tp.id)
+      assert bkar_tp.name == nil
+      assert data         == :error
+    end
+
     test "return value_book_keeping_annual_revenue by role Pro" do
       name = "Less than $100K"
       pro = insert(:pro_user, languages: [])
@@ -2786,6 +3817,15 @@ defmodule Core.Analyzes.BookKeepingTest do
       data = BookKeeping.check_value_book_keeping_number_employee(bk_tp.id)
       assert format_name(bkne_tp.name) == name
       assert data                      == %{bk_tp.id => D.new("9.99")}
+    end
+
+    test "return value_book_keeping_number_employee when name is nil by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bkne_tp = insert(:tp_book_keeping_number_employee, name: nil, book_keepings: bk_tp)
+      data = BookKeeping.check_value_book_keeping_number_employee(bk_tp.id)
+      assert bkne_tp.name == nil
+      assert data         == :error
     end
 
     test "return value_book_keeping_number_employee by role Pro" do
@@ -2808,6 +3848,15 @@ defmodule Core.Analyzes.BookKeepingTest do
       assert data                      == %{bk_tp.id => D.new("30.0")}
     end
 
+    test "return value_book_keeping_transaction_volume when name is nil by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktv_tp = insert(:tp_book_keeping_transaction_volume, name: nil, book_keepings: bk_tp)
+      data = BookKeeping.check_value_book_keeping_transaction_volume(bk_tp.id)
+      assert bktv_tp.name == nil
+      assert data         == :error
+    end
+
     test "return value_book_keeping_transaction_volume by role Pro" do
       name = "1-25"
       pro = insert(:pro_user, languages: [])
@@ -2826,6 +3875,15 @@ defmodule Core.Analyzes.BookKeepingTest do
       data = BookKeeping.check_value_book_keeping_type_client(bk_tp.id)
       assert format_name(bktc_tp.name) == name
       assert data                      == %{bk_tp.id => D.new("239.99")}
+    end
+
+    test "return value_book_keeping_type_client when name is nil by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      bk_tp = insert(:tp_book_keeping, user: tp)
+      bktc_tp = insert(:tp_book_keeping_type_client, name: nil, book_keepings: bk_tp)
+      data = BookKeeping.check_value_book_keeping_type_client(bk_tp.id)
+      assert bktc_tp.name == nil
+      assert data         == :error
     end
 
     test "return value_book_keeping_type_client by role Pro" do
@@ -2905,6 +3963,12 @@ defmodule Core.Analyzes.BookKeepingTest do
       data = Analyzes.total_match(bk_pro.id)
       assert data == %{bk_tp.id => 140}
     end
+
+    test "return error when is not correct book_keeping_id" do
+      id = FlakeId.get()
+      data = Analyzes.total_match(id)
+      assert data == [field: :user_id, message: "UserId Not Found in SaleTax"]
+    end
   end
 
   describe "#total_price" do
@@ -2961,6 +4025,12 @@ defmodule Core.Analyzes.BookKeepingTest do
       data = Analyzes.total_price(bk_pro.id)
       assert data == %{bk_tp.id => 132}
     end
+
+    test "return error when is not correct book_keeping_id" do
+      id = FlakeId.get()
+      data = Analyzes.total_price(id)
+      assert data == [field: :user_id, message: "UserId Not Found in SaleTax"]
+    end
   end
 
   describe "total_value" do
@@ -3005,6 +4075,12 @@ defmodule Core.Analyzes.BookKeepingTest do
 
       data = Analyzes.total_value(bk_pro.id)
       assert data == %{bk_pro.id => D.new("0")}
+    end
+
+    test "return error when is not correct book_keeping_id" do
+      id = FlakeId.get()
+      data = Analyzes.total_value(id)
+      assert data == [field: :user_id, message: "UserId Not Found in SaleTax"]
     end
   end
 
@@ -3085,6 +4161,12 @@ defmodule Core.Analyzes.BookKeepingTest do
         %{id: bk_tp.id, sum_match: 160},
         %{id: bk_tp.id, sum_price: 132}
       ]
+    end
+
+    test "return error when is not correct book_keeping_id" do
+      id = FlakeId.get()
+      data = Analyzes.total_all(id)
+      assert data == {:error, [field: :user_id, message: "UserId Not Found in SaleTax"]}
     end
   end
 

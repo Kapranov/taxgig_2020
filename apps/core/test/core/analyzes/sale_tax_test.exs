@@ -1374,11 +1374,11 @@ defmodule Core.Analyzes.SaleTaxTest do
       name_frequency = "Monthly"
       name_industry = Enum.sort(["Legal"])
       names_industry = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
-      insert(:match_value_relat)
-      pro = insert(:pro_user)
       tp = insert(:tp_user, languages: [])
-      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 33, user: pro)
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
+      pro = insert(:pro_user)
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 33, user: pro)
+      insert(:match_value_relat)
       insert(:pro_sale_tax_frequency, name: name_frequency, price: 22, sale_taxes: st_pro)
       insert(:tp_sale_tax_frequency, name: name_frequency, sale_taxes: st_tp)
       insert(:pro_sale_tax_industry, name: names_industry, sale_taxes: st_pro)
@@ -1391,11 +1391,11 @@ defmodule Core.Analyzes.SaleTaxTest do
       name_frequency = "Monthly"
       name_industry = Enum.sort(["Legal"])
       names_industry = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
-      insert(:match_value_relat)
-      pro = insert(:pro_user)
       tp = insert(:tp_user, languages: [])
-      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 33, user: pro)
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
+      pro = insert(:pro_user)
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 33, user: pro)
+      insert(:match_value_relat)
       insert(:pro_sale_tax_frequency, name: name_frequency, price: 22, sale_taxes: st_pro)
       insert(:tp_sale_tax_frequency, name: name_frequency, sale_taxes: st_tp)
       insert(:pro_sale_tax_industry, name: names_industry, sale_taxes: st_pro)
@@ -1408,24 +1408,24 @@ defmodule Core.Analyzes.SaleTaxTest do
   describe "#total_price" do
     test "return result by total_price where role is Tp" do
       name = "Monthly"
-      pro = insert(:pro_user)
       tp = insert(:tp_user, languages: [])
-      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
-      insert(:pro_sale_tax_frequency, name: name, price: 22, sale_taxes: st_pro)
+      pro = insert(:pro_user)
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
       insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
+      insert(:pro_sale_tax_frequency, name: name, price: 22, sale_taxes: st_pro)
       data = Analyzes.total_price(st_tp.id)
       assert data == %{st_pro.id => 506}
     end
 
     test "return result by total_price where role is Pro" do
       name = "Monthly"
-      pro = insert(:pro_user)
       tp = insert(:tp_user, languages: [])
-      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
-      insert(:pro_sale_tax_frequency, name: name, price: 22, sale_taxes: st_pro)
+      pro = insert(:pro_user)
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
       insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
+      insert(:pro_sale_tax_frequency, name: name, price: 22, sale_taxes: st_pro)
       data = Analyzes.total_price(st_pro.id)
       assert data == %{st_tp.id => 506}
     end
@@ -1433,20 +1433,20 @@ defmodule Core.Analyzes.SaleTaxTest do
 
   describe "#total_value" do
     test "return result by total_value where role is Tp" do
-      insert(:match_value_relat, value_for_sale_tax_count: 22)
-      pro = insert(:pro_user)
       tp = insert(:tp_user, languages: [])
-      insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
+      pro = insert(:pro_user)
+      insert(:match_value_relat, value_for_sale_tax_count: 22)
+      insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
       data = Analyzes.total_value(st_tp.id)
       assert data == %{st_tp.id => D.new("484")}
     end
 
     test "return result by total_value where role is Pro" do
-      insert(:match_value_relat, value_for_sale_tax_count: 22)
-      pro = insert(:pro_user)
       tp = insert(:tp_user, languages: [])
+      pro = insert(:pro_user)
       st_pro = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
+      insert(:match_value_relat, value_for_sale_tax_count: 22)
       insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
       data = Analyzes.total_value(st_pro.id)
       assert data == %{st_pro.id => D.new("0")}
@@ -1458,17 +1458,20 @@ defmodule Core.Analyzes.SaleTaxTest do
       name_frequency = "Monthly"
       name_industry = Enum.sort(["Legal"])
       names_industry = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
-      insert(:match_value_relat, value_for_sale_tax_count: 22)
-      pro = insert(:pro_user)
+
       tp = insert(:tp_user, languages: [])
-      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 33, user: pro)
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
+      pro = insert(:pro_user)
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 33, user: pro)
+
+      insert(:match_value_relat, value_for_sale_tax_count: 22)
       insert(:pro_sale_tax_frequency, name: name_frequency, price: 22, sale_taxes: st_pro)
       insert(:tp_sale_tax_frequency, name: name_frequency, sale_taxes: st_tp)
       insert(:pro_sale_tax_industry, name: names_industry, sale_taxes: st_pro)
       insert(:tp_sale_tax_industry, name: name_industry, sale_taxes: st_tp)
 
       data = Analyzes.total_all(st_tp.id)
+
       assert data == [
         %{id: st_tp.id, sum_value: %{st_tp.id => D.new("484")}},
         %{id: st_pro.id, sum_match: 70},
@@ -1480,17 +1483,20 @@ defmodule Core.Analyzes.SaleTaxTest do
       name_frequency = "Monthly"
       name_industry = Enum.sort(["Legal"])
       names_industry = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
-      insert(:match_value_relat, value_for_sale_tax_count: 22)
-      pro = insert(:pro_user)
+
       tp = insert(:tp_user, languages: [])
-      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 33, user: pro)
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
-      insert(:pro_sale_tax_frequency, name: name_frequency, price: 22, sale_taxes: st_pro)
+      pro = insert(:pro_user)
+      st_pro = insert(:pro_sale_tax, price_sale_tax_count: 33, user: pro)
+
+      insert(:match_value_relat, value_for_sale_tax_count: 22)
       insert(:tp_sale_tax_frequency, name: name_frequency, sale_taxes: st_tp)
-      insert(:pro_sale_tax_industry, name: names_industry, sale_taxes: st_pro)
       insert(:tp_sale_tax_industry, name: name_industry, sale_taxes: st_tp)
+      insert(:pro_sale_tax_frequency, name: name_frequency, price: 22, sale_taxes: st_pro)
+      insert(:pro_sale_tax_industry, name: names_industry, sale_taxes: st_pro)
 
       data = Analyzes.total_all(st_pro.id)
+
       assert data == [
         %{id: st_pro.id, sum_value: %{st_pro.id => D.new("0")}},
         %{id: st_tp.id, sum_match: 70},
