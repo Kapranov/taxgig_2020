@@ -1374,16 +1374,20 @@ defmodule Core.Analyzes.SaleTaxTest do
       name_frequency = "Monthly"
       name_industry = Enum.sort(["Legal"])
       names_industry = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
+
       tp = insert(:tp_user, languages: [])
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
-      pro = insert(:pro_user)
+      pro = insert(:pro_user, languages: [])
       st_pro = insert(:pro_sale_tax, price_sale_tax_count: 33, user: pro)
+
       insert(:match_value_relat)
       insert(:pro_sale_tax_frequency, name: name_frequency, price: 22, sale_taxes: st_pro)
       insert(:tp_sale_tax_frequency, name: name_frequency, sale_taxes: st_tp)
       insert(:pro_sale_tax_industry, name: names_industry, sale_taxes: st_pro)
       insert(:tp_sale_tax_industry, name: name_industry, sale_taxes: st_tp)
+
       data = Analyzes.total_match(st_tp.id)
+
       assert data == %{st_pro.id => 70}
     end
 
@@ -1391,43 +1395,67 @@ defmodule Core.Analyzes.SaleTaxTest do
       name_frequency = "Monthly"
       name_industry = Enum.sort(["Legal"])
       names_industry = Enum.sort(["Transportation", "Hospitality", "Retail", "Legal", "Education"])
+
       tp = insert(:tp_user, languages: [])
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
-      pro = insert(:pro_user)
+      pro = insert(:pro_user, languages: [])
       st_pro = insert(:pro_sale_tax, price_sale_tax_count: 33, user: pro)
+
       insert(:match_value_relat)
       insert(:pro_sale_tax_frequency, name: name_frequency, price: 22, sale_taxes: st_pro)
       insert(:tp_sale_tax_frequency, name: name_frequency, sale_taxes: st_tp)
       insert(:pro_sale_tax_industry, name: names_industry, sale_taxes: st_pro)
       insert(:tp_sale_tax_industry, name: name_industry, sale_taxes: st_tp)
+
       data = Analyzes.total_match(st_pro.id)
+
       assert data == %{st_tp.id => 70}
+    end
+
+    test "return error when is not correct sale_tax_id" do
+      id = FlakeId.get()
+      data = Analyzes.total_match(id)
+      assert data == [field: :user_id, message: "UserId Not Found in SaleTax"]
     end
   end
 
   describe "#total_price" do
     test "return result by total_price where role is Tp" do
       name = "Monthly"
+
       tp = insert(:tp_user, languages: [])
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
-      pro = insert(:pro_user)
+      pro = insert(:pro_user, languages: [])
       st_pro = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
+
       insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
       insert(:pro_sale_tax_frequency, name: name, price: 22, sale_taxes: st_pro)
+
       data = Analyzes.total_price(st_tp.id)
+
       assert data == %{st_pro.id => 506}
     end
 
     test "return result by total_price where role is Pro" do
       name = "Monthly"
+
       tp = insert(:tp_user, languages: [])
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
-      pro = insert(:pro_user)
+      pro = insert(:pro_user, languages: [])
       st_pro = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
+
       insert(:tp_sale_tax_frequency, name: name, sale_taxes: st_tp)
       insert(:pro_sale_tax_frequency, name: name, price: 22, sale_taxes: st_pro)
+
       data = Analyzes.total_price(st_pro.id)
+
       assert data == %{st_tp.id => 506}
+    end
+
+    test "return error when is not correct sale_tax_id" do
+      id = FlakeId.get()
+      data = Analyzes.total_price(id)
+      assert data == [field: :user_id, message: "UserId Not Found in SaleTax"]
     end
   end
 
@@ -1435,21 +1463,33 @@ defmodule Core.Analyzes.SaleTaxTest do
     test "return result by total_value where role is Tp" do
       tp = insert(:tp_user, languages: [])
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
-      pro = insert(:pro_user)
+      pro = insert(:pro_user, languages: [])
+
       insert(:match_value_relat, value_for_sale_tax_count: 22)
       insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
+
       data = Analyzes.total_value(st_tp.id)
+
       assert data == %{st_tp.id => D.new("484")}
     end
 
     test "return result by total_value where role is Pro" do
       tp = insert(:tp_user, languages: [])
-      pro = insert(:pro_user)
+      pro = insert(:pro_user, languages: [])
       st_pro = insert(:pro_sale_tax, price_sale_tax_count: 22, user: pro)
+
       insert(:match_value_relat, value_for_sale_tax_count: 22)
       insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
+
       data = Analyzes.total_value(st_pro.id)
+
       assert data == %{st_pro.id => D.new("0")}
+    end
+
+    test "return error when is not correct sale_tax_id" do
+      id = FlakeId.get()
+      data = Analyzes.total_value(id)
+      assert data == [field: :user_id, message: "UserId Not Found in SaleTax"]
     end
   end
 
@@ -1461,7 +1501,7 @@ defmodule Core.Analyzes.SaleTaxTest do
 
       tp = insert(:tp_user, languages: [])
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
-      pro = insert(:pro_user)
+      pro = insert(:pro_user, languages: [])
       st_pro = insert(:pro_sale_tax, price_sale_tax_count: 33, user: pro)
 
       insert(:match_value_relat, value_for_sale_tax_count: 22)
@@ -1486,7 +1526,7 @@ defmodule Core.Analyzes.SaleTaxTest do
 
       tp = insert(:tp_user, languages: [])
       st_tp = insert(:tp_sale_tax, sale_tax_count: 22, user: tp)
-      pro = insert(:pro_user)
+      pro = insert(:pro_user, languages: [])
       st_pro = insert(:pro_sale_tax, price_sale_tax_count: 33, user: pro)
 
       insert(:match_value_relat, value_for_sale_tax_count: 22)
@@ -1502,6 +1542,12 @@ defmodule Core.Analyzes.SaleTaxTest do
         %{id: st_tp.id, sum_match: 70},
         %{id: st_tp.id, sum_price: 748}
       ]
+    end
+
+    test "return error when is not correct sale_tax_id" do
+      id = FlakeId.get()
+      data = Analyzes.total_all(id)
+      assert data == {:error, [field: :user_id, message: "UserId Not Found in SaleTax"]}
     end
   end
 
