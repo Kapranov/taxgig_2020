@@ -226,7 +226,7 @@ defmodule Core.Services.BusinessTaxReturn do
   defp validate_field_uniq(changeset, field) when is_atom(field) do
     update_change(changeset, field, fn
       nil -> nil
-      data -> Enum.uniq(data) |> Enum.sort()
+      data -> Enum.sort(data) |> Enum.uniq()
     end)
   end
 end

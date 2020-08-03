@@ -1273,6 +1273,7 @@ defmodule Core.Factory do
       for i <- 1..number, i > 0 do
         Enum.random(names)
       end
+      |> Enum.sort()
       |> Enum.uniq()
 
     result
@@ -1289,6 +1290,7 @@ defmodule Core.Factory do
         Enum.random(years)
         |> Integer.to_string
       end
+      |> Enum.sort()
       |> Enum.uniq()
 
     result
