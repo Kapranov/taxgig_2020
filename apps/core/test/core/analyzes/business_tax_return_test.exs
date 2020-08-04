@@ -67,6 +67,183 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       }
     end
 
+    test "return match_business_entity_type when match is 0 by role Tp" do
+      name = "Partnership"
+
+      match = insert(:match_value_relat, match_for_business_enity_type: 0)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_tp.id)
+
+      assert match.match_for_business_enity_type == 0
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 22
+      assert data                                == %{btr_pro.id => match.match_for_business_enity_type}
+    end
+
+    test "return match_business_entity_type when match is nil by role Tp" do
+      name = "Partnership"
+
+      match = insert(:match_value_relat, match_for_business_enity_type: nil)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_tp.id)
+
+      assert match.match_for_business_enity_type == nil
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 22
+      assert data                                == %{btr_pro.id => 0}
+    end
+
+    test "return match_business_entity_type when match is 1 by role Tp" do
+      name = "Partnership"
+
+      match = insert(:match_value_relat, match_for_business_enity_type: 1)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_tp.id)
+
+      assert match.match_for_business_enity_type == 1
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 22
+      assert data                                == %{btr_pro.id => match.match_for_business_enity_type}
+    end
+
+    test "return match_business_entity_type when name is another one by role Tp" do
+      name_for_tp = "LLC"
+      name_for_pro = "Partnership"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name_for_tp, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name_for_pro, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_tp.id)
+
+      assert match.match_for_business_enity_type == 50
+      assert format_name(bet_tp.name)            == name_for_tp
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name_for_pro
+      assert bet_pro.price                       == 22
+      assert data                                == %{}
+    end
+
+    test "return match_business_entity_type when name is nil by role Tp" do
+      name = "Partnership"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: nil, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_tp.id)
+
+      assert match.match_for_business_enity_type == 50
+      assert format_name(bet_tp.name)            == nil
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 22
+      assert data                                == :error
+    end
+
+    test "return match_business_entity_type when price is 0 by role Tp" do
+      name = "Partnership"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 0, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_tp.id)
+
+      assert match.match_for_business_enity_type == 50
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 0
+      assert data                                == %{}
+    end
+
+    test "return match_business_entity_type when price is nil by role Tp" do
+      name = "Partnership"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: nil, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_tp.id)
+
+      assert match.match_for_business_enity_type == 50
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == nil
+      assert data                                == %{}
+    end
+
+    test "return match_business_entity_type when price is 1 by role Tp" do
+      name = "Partnership"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 1, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_tp.id)
+
+      assert match.match_for_business_enity_type == 50
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 1
+      assert data                                == %{btr_pro.id => match.match_for_business_enity_type}
+    end
+
     test "return match_business_entity_type by role Pro" do
       name = "Partnership"
 
@@ -125,6 +302,183 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       }
     end
 
+    test "return match_business_entity_type when match is 0 by role Pro" do
+      name = "Partnership"
+
+      match = insert(:match_value_relat, match_for_business_enity_type: 0)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_pro.id)
+
+      assert match.match_for_business_enity_type == 0
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 22
+      assert data                                == %{btr_tp.id => match.match_for_business_enity_type}
+    end
+
+    test "return match_business_entity_type when match is nil by role Pro" do
+      name = "Partnership"
+
+      match = insert(:match_value_relat, match_for_business_enity_type: nil)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_pro.id)
+
+      assert match.match_for_business_enity_type == nil
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 22
+      assert data                                == %{btr_tp.id => 0}
+    end
+
+    test "return match_business_entity_type when match is 1 by role Pro" do
+      name = "Partnership"
+
+      match = insert(:match_value_relat, match_for_business_enity_type: 1)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_pro.id)
+
+      assert match.match_for_business_enity_type == 1
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 22
+      assert data                                == %{btr_tp.id => match.match_for_business_enity_type}
+    end
+
+    test "return match_business_entity_type when name is another one by role Pro" do
+      name_for_tp = "LLC"
+      name_for_pro = "Partnership"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name_for_tp, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name_for_pro, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_pro.id)
+
+      assert match.match_for_business_enity_type == 50
+      assert format_name(bet_tp.name)            == name_for_tp
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name_for_pro
+      assert bet_pro.price                       == 22
+      assert data                                == %{}
+    end
+
+    test "return match_business_entity_type when name is nil by role Pro" do
+      name = "Partnership"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: nil, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_pro.id)
+
+      assert match.match_for_business_enity_type == 50
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == nil
+      assert bet_pro.price                       == 22
+      assert data                                == :error
+    end
+
+    test "return match_business_entity_type when price is 0 by role Pro" do
+      name = "Partnership"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 0, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_pro.id)
+
+      assert match.match_for_business_enity_type == 50
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 0
+      assert data                                == :error
+    end
+
+    test "return match_business_entity_type when price is nil by role Pro" do
+      name = "Partnership"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: nil, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_pro.id)
+
+      assert match.match_for_business_enity_type == 50
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == nil
+      assert data                                == :error
+    end
+
+    test "return match_business_entity_type when price is 1 by role Pro" do
+      name = "Partnership"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 1, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_entity_type(btr_pro.id)
+
+      assert match.match_for_business_enity_type == 50
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 1
+      assert data                                == %{btr_tp.id => match.match_for_business_enity_type}
+    end
+
     test "return match_business_industry by role Tp" do
       name = Enum.sort(["Hospitality"])
       names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
@@ -180,6 +534,110 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       }
     end
 
+    test "return match_business_industry when match is 0 by role Tp" do
+      name = Enum.sort(["Hospitality"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+
+      match = insert(:match_value_relat, match_for_business_industry: 0)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bi_tp = insert(:tp_business_industry, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bi_pro = insert(:pro_business_industry, name: names, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_industry(btr_tp.id)
+
+      assert match.match_for_business_industry == 0
+      assert format_names(bi_tp.name)          == name
+      assert format_names(bi_pro.name)         == names
+      assert data                              == %{btr_pro.id => match.match_for_business_industry}
+    end
+
+    test "return match_business_industry when match is nil by role Tp" do
+      name = Enum.sort(["Hospitality"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+
+      match = insert(:match_value_relat, match_for_business_industry: nil)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bi_tp = insert(:tp_business_industry, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bi_pro = insert(:pro_business_industry, name: names, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_industry(btr_tp.id)
+
+      assert match.match_for_business_industry == nil
+      assert format_names(bi_tp.name)          == name
+      assert format_names(bi_pro.name)         == names
+      assert data                              == %{btr_pro.id => 0}
+    end
+
+    test "return match_business_industry when match is 1 by role Tp" do
+      name = Enum.sort(["Hospitality"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+
+      match = insert(:match_value_relat, match_for_business_industry: 1)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bi_tp = insert(:tp_business_industry, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bi_pro = insert(:pro_business_industry, name: names, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_industry(btr_tp.id)
+
+      assert match.match_for_business_industry == 1
+      assert format_names(bi_tp.name)          == name
+      assert format_names(bi_pro.name)         == names
+      assert data                              == %{btr_pro.id => match.match_for_business_industry}
+    end
+
+    test "return match_business_industry when name is nil by role Tp" do
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bi_tp = insert(:tp_business_industry, name: nil, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bi_pro = insert(:pro_business_industry, name: names, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_industry(btr_tp.id)
+
+      assert match.match_for_business_industry == 10
+      assert format_name(bi_tp.name)           == nil
+      assert format_names(bi_pro.name)         == names
+      assert data                              == :error
+    end
+
+    test "return match_business_industry when name is another one by role Tp" do
+      name = Enum.sort(["Non Profit"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bi_tp = insert(:tp_business_industry, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bi_pro = insert(:pro_business_industry, name: names, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_industry(btr_tp.id)
+
+      assert match.match_for_business_industry == 10
+      assert format_names(bi_tp.name)          == name
+      assert format_names(bi_pro.name)         == names
+      assert data                              == %{}
+    end
+
     test "return match_business_industry by role Pro" do
       name = Enum.sort(["Hospitality"])
       names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
@@ -233,6 +691,111 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
         btr_tp2.id => match.match_for_business_industry,
         btr_tp3.id => match.match_for_business_industry
       }
+    end
+
+    test "return match_business_industry when match is 0 by role Pro" do
+      name = Enum.sort(["Hospitality"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+
+      match = insert(:match_value_relat, match_for_business_industry: 0)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bi_tp = insert(:tp_business_industry, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bi_pro = insert(:pro_business_industry, name: names, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_industry(btr_pro.id)
+
+      assert match.match_for_business_industry == 0
+      assert format_names(bi_tp.name)          == name
+      assert format_names(bi_pro.name)         == names
+      assert data                              == %{btr_tp.id => match.match_for_business_industry}
+    end
+
+    test "return match_business_industry when match is nil by role Pro" do
+      name = Enum.sort(["Hospitality"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+
+      match = insert(:match_value_relat, match_for_business_industry: nil)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bi_tp = insert(:tp_business_industry, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bi_pro = insert(:pro_business_industry, name: names, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_industry(btr_pro.id)
+
+      assert match.match_for_business_industry == nil
+      assert format_names(bi_tp.name)          == name
+      assert format_names(bi_pro.name)         == names
+      assert data                              == %{btr_tp.id => 0}
+    end
+
+    test "return match_business_industry when match is 1 by role Pro" do
+      name = Enum.sort(["Hospitality"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+
+      match = insert(:match_value_relat, match_for_business_industry: 1)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bi_tp = insert(:tp_business_industry, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bi_pro = insert(:pro_business_industry, name: names, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_industry(btr_pro.id)
+
+      assert match.match_for_business_industry == 1
+      assert format_names(bi_tp.name)          == name
+      assert format_names(bi_pro.name)         == names
+      assert data                              == %{btr_tp.id => match.match_for_business_industry}
+    end
+
+    test "return match_business_industry when name is nil by role Pro" do
+      name = Enum.sort(["Hospitality"])
+      names = []
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bi_tp = insert(:tp_business_industry, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bi_pro = insert(:pro_business_industry, name: names, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_industry(btr_pro.id)
+
+      assert match.match_for_business_industry == 10
+      assert format_names(bi_tp.name)          == name
+      assert format_names(bi_pro.name)         == names
+      assert data                              == %{}
+    end
+
+    test "return match_business_industry when name is another one by role Pro" do
+      name = Enum.sort(["Non Profit"])
+      names = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bi_tp = insert(:tp_business_industry, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bi_pro = insert(:pro_business_industry, name: names, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_industry(btr_pro.id)
+
+      assert match.match_for_business_industry == 10
+      assert format_names(bi_tp.name)          == name
+      assert format_names(bi_pro.name)         == names
+      assert data                              == %{}
     end
 
     test "return match_business_number_employee by role Tp" do
@@ -293,6 +856,183 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       }
     end
 
+    test "return match_business_number_employee when match is 0 by role Tp" do
+      name = "1 employee"
+
+      match = insert(:match_value_relat, match_for_business_number_of_employee: 0)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_tp.id)
+
+      assert match.match_for_business_number_of_employee == 0
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 22
+      assert data                                        == %{btr_pro.id => match.match_for_business_number_of_employee}
+    end
+
+    test "return match_business_number_employee when match is nil by role Tp" do
+      name = "1 employee"
+
+      match = insert(:match_value_relat, match_for_business_number_of_employee: nil)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_tp.id)
+
+      assert match.match_for_business_number_of_employee == nil
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 22
+      assert data                                        == %{btr_pro.id => 0}
+    end
+
+    test "return match_business_number_employee when match is 1 by role Tp" do
+      name = "1 employee"
+
+      match = insert(:match_value_relat, match_for_business_number_of_employee: 1)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_tp.id)
+
+      assert match.match_for_business_number_of_employee == 1
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 22
+      assert data                                        == %{btr_pro.id => match.match_for_business_number_of_employee}
+    end
+
+    test "return match_business_number_employee when name is nil by role Tp" do
+      name = "1 employee"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: nil, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_tp.id)
+
+      assert match.match_for_business_number_of_employee == 20
+      assert format_name(bne_tp.name)                    == nil
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 22
+      assert data                                        == :error
+    end
+
+    test "return match_business_number_employee when name is another one by role Tp" do
+      name_for_tp = "101 - 500 employees"
+      name_for_pro = "1 employee"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name_for_tp, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name_for_pro, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_tp.id)
+
+      assert match.match_for_business_number_of_employee == 20
+      assert format_name(bne_tp.name)                    == name_for_tp
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name_for_pro
+      assert bne_pro.price                               == 22
+      assert data                                        == %{}
+    end
+
+    test "return match_business_number_employee when price is nil by role Tp" do
+      name = "1 employee"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: nil, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_tp.id)
+
+      assert match.match_for_business_number_of_employee == 20
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == nil
+      assert data                                        == %{}
+    end
+
+    test "return match_business_number_employee when price is 0 by role Tp" do
+      name = "1 employee"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 0, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_tp.id)
+
+      assert match.match_for_business_number_of_employee == 20
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 0
+      assert data                                        == %{}
+    end
+
+    test "return match_business_number_employee when price is 1 by role Tp" do
+      name = "1 employee"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 1, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_tp.id)
+
+      assert match.match_for_business_number_of_employee == 20
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 1
+      assert data                                        == %{btr_pro.id => match.match_for_business_number_of_employee}
+    end
+
     test "return match_business_number_employee by role Pro" do
       name = "1 employee"
 
@@ -349,6 +1089,183 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
         btr_tp2.id => match.match_for_business_number_of_employee,
         btr_tp3.id => match.match_for_business_number_of_employee
       }
+    end
+
+    test "return match_business_number_employee when match is 0 by role Pro" do
+      name = "1 employee"
+
+      match = insert(:match_value_relat, match_for_business_number_of_employee: 0)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_pro.id)
+
+      assert match.match_for_business_number_of_employee == 0
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 22
+      assert data                                        == %{btr_tp.id => match.match_for_business_number_of_employee}
+    end
+
+    test "return match_business_number_employee when match is nil by role Pro" do
+      name = "1 employee"
+
+      match = insert(:match_value_relat, match_for_business_number_of_employee: nil)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_pro.id)
+
+      assert match.match_for_business_number_of_employee == nil
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 22
+      assert data                                        == %{btr_tp.id => 0}
+    end
+
+    test "return match_business_number_employee when match is 1 by role Pro" do
+      name = "1 employee"
+
+      match = insert(:match_value_relat, match_for_business_number_of_employee: 1)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_pro.id)
+
+      assert match.match_for_business_number_of_employee == 1
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 22
+      assert data                                        == %{btr_tp.id => match.match_for_business_number_of_employee}
+    end
+
+    test "return match_business_number_employee when name is nil by role Pro" do
+      name = "1 employee"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: nil, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_pro.id)
+
+      assert match.match_for_business_number_of_employee == 20
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == nil
+      assert bne_pro.price                               == 22
+      assert data                                        == :error
+    end
+
+    test "return match_business_number_employee when name is another one by role Pro" do
+      name_for_tp = "101 - 500 employees"
+      name_for_pro = "1 employee"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name_for_tp, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name_for_pro, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_pro.id)
+
+      assert match.match_for_business_number_of_employee == 20
+      assert format_name(bne_tp.name)                    == name_for_tp
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name_for_pro
+      assert bne_pro.price                               == 22
+      assert data                                        == %{}
+    end
+
+    test "return match_business_number_employee when price is nil by role Pro" do
+      name = "1 employee"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: nil, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_tp.id)
+
+      assert match.match_for_business_number_of_employee == 20
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == nil
+      assert data                                        == %{}
+    end
+
+    test "return match_business_number_employee when price is 0 by role Pro" do
+      name = "1 employee"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 0, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_pro.id)
+
+      assert match.match_for_business_number_of_employee == 20
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 0
+      assert data                                        == :error
+    end
+
+    test "return match_business_number_employee when price is 1 by role Pro" do
+      name = "1 employee"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 1, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_number_of_employee(btr_pro.id)
+
+      assert match.match_for_business_number_of_employee == 20
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 1
+      assert data                                        == %{btr_tp.id => match.match_for_business_number_of_employee}
     end
 
     test "return match_business_total_revenue by role Tp" do
@@ -409,6 +1326,183 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       }
     end
 
+    test "return match_business_total_revenue when is match is 0 by role Tp" do
+      name = "$1M - $5M"
+
+      match = insert(:match_value_relat, match_for_business_total_revenue: 0)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_tp.id)
+
+      assert match.match_for_business_total_revenue == 0
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 22
+      assert data                                   == %{btr_pro.id => match.match_for_business_total_revenue}
+    end
+
+    test "return match_business_total_revenue when is match is nil by role Tp" do
+      name = "$1M - $5M"
+
+      match = insert(:match_value_relat, match_for_business_total_revenue: nil)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_tp.id)
+
+      assert match.match_for_business_total_revenue == nil
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 22
+      assert data                                   == %{btr_pro.id => 0}
+    end
+
+    test "return match_business_total_revenue when is match is 1 by role Tp" do
+      name = "$1M - $5M"
+
+      match = insert(:match_value_relat, match_for_business_total_revenue: 1)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_tp.id)
+
+      assert match.match_for_business_total_revenue == 1
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 22
+      assert data                                   == %{btr_pro.id => match.match_for_business_total_revenue}
+    end
+
+    test "return match_business_total_revenue when is name is nil by role Tp" do
+      name = "$1M - $5M"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: nil, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_tp.id)
+
+      assert match.match_for_business_total_revenue == 20
+      assert format_name(br_tp.name)                == nil
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 22
+      assert data                                   == :error
+    end
+
+    test "return match_business_total_revenue when is name is another one by role Tp" do
+      name_for_tp = "$500K - $1M"
+      name_for_pro = "$1M - $5M"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name_for_tp, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name_for_pro, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_tp.id)
+
+      assert match.match_for_business_total_revenue == 20
+      assert format_name(br_tp.name)                == name_for_tp
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name_for_pro
+      assert br_pro.price                           == 22
+      assert data                                   == %{}
+    end
+
+    test "return match_business_total_revenue when is price is nil by role Tp" do
+      name = "$1M - $5M"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: nil, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_tp.id)
+
+      assert match.match_for_business_total_revenue == 20
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == nil
+      assert data                                   == %{}
+    end
+
+    test "return match_business_total_revenue when is price is 0 by role Tp" do
+      name = "$1M - $5M"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 0, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_tp.id)
+
+      assert match.match_for_business_total_revenue == 20
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 0
+      assert data                                   == %{}
+    end
+
+    test "return match_business_total_revenue when is price is 1 by role Tp" do
+      name = "$1M - $5M"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 1, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_tp.id)
+
+      assert match.match_for_business_total_revenue == 20
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 1
+      assert data                                   == %{btr_pro.id => match.match_for_business_total_revenue}
+    end
+
     test "return match_business_total_revenue by role Pro" do
       name = "$1M - $5M"
 
@@ -466,6 +1560,183 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
         btr_tp3.id => match.match_for_business_total_revenue
       }
     end
+
+    test "return match_business_total_revenue when is match is 0 by role Pro" do
+      name = "$1M - $5M"
+
+      match = insert(:match_value_relat, match_for_business_total_revenue: 0)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_pro.id)
+
+      assert match.match_for_business_total_revenue == 0
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 22
+      assert data                                   == %{btr_tp.id => match.match_for_business_total_revenue}
+    end
+
+    test "return match_business_total_revenue when is match is nil by role Pro" do
+      name = "$1M - $5M"
+
+      match = insert(:match_value_relat, match_for_business_total_revenue: nil)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_pro.id)
+
+      assert match.match_for_business_total_revenue == nil
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 22
+      assert data                                   == %{btr_tp.id => 0}
+    end
+
+    test "return match_business_total_revenue when is match is 1 by role Pro" do
+      name = "$1M - $5M"
+
+      match = insert(:match_value_relat, match_for_business_total_revenue: 1)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_pro.id)
+
+      assert match.match_for_business_total_revenue == 1
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 22
+      assert data                                   == %{btr_tp.id => match.match_for_business_total_revenue}
+    end
+
+    test "return match_business_total_revenue when is name is nil by role Pro" do
+      name = "$1M - $5M"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: nil, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_pro.id)
+
+      assert match.match_for_business_total_revenue == 20
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == nil
+      assert br_pro.price                           == 22
+      assert data                                   == :error
+    end
+
+    test "return match_business_total_revenue when is name is another one by role Pro" do
+      name_for_tp = "$500K - $1M"
+      name_for_pro = "$1M - $5M"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name_for_tp, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name_for_pro, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_pro.id)
+
+      assert match.match_for_business_total_revenue == 20
+      assert format_name(br_tp.name)                == name_for_tp
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name_for_pro
+      assert br_pro.price                           == 22
+      assert data                                   == %{}
+    end
+
+    test "return match_business_total_revenue when is price is nil by role Pro" do
+      name = "$1M - $5M"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: nil, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_pro.id)
+
+      assert match.match_for_business_total_revenue == 20
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == nil
+      assert data                                   == :error
+    end
+
+    test "return match_business_total_revenue when is price is 0 by role Pro" do
+      name = "$1M - $5M"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 0, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_pro.id)
+
+      assert match.match_for_business_total_revenue == 20
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 0
+      assert data                                   == :error
+    end
+
+    test "return match_business_total_revenue when is price is 1 by role Pro" do
+      name = "$1M - $5M"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 1, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_match_business_total_revenue(btr_pro.id)
+
+      assert match.match_for_business_total_revenue == 20
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 1
+      assert data                                   == %{btr_tp.id => match.match_for_business_total_revenue}
+    end
   end
 
   describe "#check_price" do
@@ -521,6 +1792,102 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       }
     end
 
+    test "return price_business_entity_type when name is nil by role Tp" do
+      name = "Partnership"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: nil, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_entity_type(btr_tp.id)
+
+      assert format_name(bet_tp.name)            == nil
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 22
+      assert data                                == :error
+    end
+
+    test "return price_business_entity_type when name is another one by role Tp" do
+      name_for_tp = "LLC"
+      name_for_pro = "Partnership"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name_for_tp, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name_for_pro, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_entity_type(btr_tp.id)
+
+      assert format_name(bet_tp.name)            == name_for_tp
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name_for_pro
+      assert bet_pro.price                       == 22
+      assert data                                == %{}
+    end
+
+    test "return price_business_entity_type when price is nil by role Tp" do
+      name = "Partnership"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: nil, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_entity_type(btr_tp.id)
+
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == nil
+      assert data                                == %{}
+    end
+
+    test "return price_business_entity_type when price is 0 by role Tp" do
+      name = "Partnership"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 0, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_entity_type(btr_tp.id)
+
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 0
+      assert data                                == %{}
+    end
+
+    test "return price_business_entity_type when price is 1 by role Tp" do
+      name = "Partnership"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 1, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_entity_type(btr_tp.id)
+
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 1
+      assert data                                == %{btr_pro.id => 1}
+    end
+
     test "return price_business_entity_type by role Pro" do
       name = "Partnership"
 
@@ -571,6 +1938,102 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
         btr_tp2.id => 22,
         btr_tp3.id => 22
       }
+    end
+
+    test "return price_business_entity_type when name is nil by role Pro" do
+      name = "Partnership"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: nil, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_entity_type(btr_pro.id)
+
+      assert format_name(bet_tp.name)  == name
+      assert bet_tp.price              == nil
+      assert format_name(bet_pro.name) == nil
+      assert bet_pro.price             == 22
+      assert data                      == :error
+    end
+
+    test "return price_business_entity_type when name is another one by role Pro" do
+      name_for_tp = "LLC"
+      name_for_pro = "Partnership"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name_for_tp, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name_for_pro, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_entity_type(btr_pro.id)
+
+      assert format_name(bet_tp.name)            == name_for_tp
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name_for_pro
+      assert bet_pro.price                       == 22
+      assert data                                == %{}
+    end
+
+    test "return price_business_entity_type when price is nil by role Pro" do
+      name = "Partnership"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: nil, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_entity_type(btr_pro.id)
+
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == nil
+      assert data                                == :error
+    end
+
+    test "return price_business_entity_type when price is 0 by role Pro" do
+      name = "Partnership"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 0, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_entity_type(btr_pro.id)
+
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 0
+      assert data                                == :error
+    end
+
+    test "return price_business_entity_type when price is 1 by role Pro" do
+      name = "Partnership"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bet_pro = insert(:pro_business_entity_type, name: name, price: 1, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_entity_type(btr_pro.id)
+
+      assert format_name(bet_tp.name)            == name
+      assert bet_tp.price                        == nil
+      assert format_name(bet_pro.name)           == name
+      assert bet_pro.price                       == 1
+      assert data                                == %{btr_tp.id => 1}
     end
 
     test "return price_business_number_of_employee by role Tp" do
@@ -625,6 +2088,102 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       }
     end
 
+    test "return price_business_number_of_employee when name is nil by role Tp" do
+      name = "1 employee"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: nil, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_number_of_employee(btr_tp.id)
+
+      assert format_name(bne_tp.name)                    == nil
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 22
+      assert data                                        == :error
+    end
+
+    test "return price_business_number_of_employee when name is another one by role Tp" do
+      name_for_tp = "500+ employees"
+      name_for_pro = "1 employee"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name_for_tp, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name_for_pro, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_number_of_employee(btr_tp.id)
+
+      assert format_name(bne_tp.name)                    == name_for_tp
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name_for_pro
+      assert bne_pro.price                               == 22
+      assert data                                        == %{}
+    end
+
+    test "return price_business_number_of_employee when price is nil by role Tp" do
+      name = "1 employee"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: nil, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_number_of_employee(btr_tp.id)
+
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == nil
+      assert data                                        == %{}
+    end
+
+    test "return price_business_number_of_employee when price is 0 by role Tp" do
+      name = "1 employee"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 0, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_number_of_employee(btr_tp.id)
+
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 0
+      assert data                                        == %{}
+    end
+
+    test "return price_business_number_of_employee when price is 1 by role Tp" do
+      name = "1 employee"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 1, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_number_of_employee(btr_tp.id)
+
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 1
+      assert data                                        == %{btr_pro.id => 1}
+    end
+
     test "return price_business_number_of_employee by role Pro" do
       name = "1 employee"
 
@@ -675,6 +2234,102 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
         btr_tp2.id => 22,
         btr_tp3.id => 22
       }
+    end
+
+    test "return price_business_number_of_employee when name is nil by role Pro" do
+      name = "1 employee"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: nil, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_number_of_employee(btr_pro.id)
+
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == nil
+      assert bne_pro.price                               == 22
+      assert data                                        == :error
+    end
+
+    test "return price_business_number_of_employee when name is another one by role Pro" do
+      name_for_tp = "500+ employees"
+      name_for_pro = "1 employee"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name_for_tp, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name_for_pro, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_number_of_employee(btr_pro.id)
+
+      assert format_name(bne_tp.name)                    == name_for_tp
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name_for_pro
+      assert bne_pro.price                               == 22
+      assert data                                        == %{}
+    end
+
+    test "return price_business_number_of_employee when price is nil by role Pro" do
+      name = "1 employee"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: nil, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_number_of_employee(btr_pro.id)
+
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == nil
+      assert data                                        == :error
+    end
+
+    test "return price_business_number_of_employee when price is 0 by role Pro" do
+      name = "1 employee"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 0, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_number_of_employee(btr_pro.id)
+
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 0
+      assert data                                        == :error
+    end
+
+    test "return price_business_number_of_employee when price is 1 by role Pro" do
+      name = "1 employee"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bne_tp = insert(:tp_business_number_employee, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      bne_pro = insert(:pro_business_number_employee, name: name, price: 1, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_number_of_employee(btr_pro.id)
+
+      assert format_name(bne_tp.name)                    == name
+      assert bne_tp.price                                == nil
+      assert format_name(bne_pro.name)                   == name
+      assert bne_pro.price                               == 1
+      assert data                                        == %{btr_tp.id => 1}
     end
 
     test "return price_business_total_revenue by role Tp" do
@@ -729,6 +2384,102 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       }
     end
 
+    test "return price_business_total_revenue when name is nil by role Tp" do
+      name = "$1M - $5M"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: nil, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_total_revenue(btr_tp.id)
+
+      assert format_name(br_tp.name)                == nil
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 22
+      assert data                                   == :error
+    end
+
+    test "return price_business_total_revenue when name is another one by role Tp" do
+      name_for_tp = "$500K - $1M"
+      name_for_pro = "$1M - $5M"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name_for_tp, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name_for_pro, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_total_revenue(btr_tp.id)
+
+      assert format_name(br_tp.name)                == name_for_tp
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name_for_pro
+      assert br_pro.price                           == 22
+      assert data                                   == %{}
+    end
+
+    test "return price_business_total_revenue when price is nil by role Tp" do
+      name = "$1M - $5M"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: nil, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_total_revenue(btr_tp.id)
+
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == nil
+      assert data                                   == %{}
+    end
+
+    test "return price_business_total_revenue when price is 0 by role Tp" do
+      name = "$1M - $5M"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 0, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_total_revenue(btr_tp.id)
+
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 0
+      assert data                                   == %{}
+    end
+
+    test "return price_business_total_revenue when price is 1 by role Tp" do
+      name = "$1M - $5M"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 1, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_total_revenue(btr_tp.id)
+
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 1
+      assert data                                   == %{btr_pro.id => 1}
+    end
+
     test "return price_business_total_revenue by role Pro" do
       name = "$1M - $5M"
 
@@ -781,8 +2532,104 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       }
     end
 
+    test "return price_business_total_revenue when name is nil by role Pro" do
+      name = "$1M - $5M"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: nil, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_total_revenue(btr_pro.id)
+
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == nil
+      assert br_pro.price                           == 22
+      assert data                                   == :error
+    end
+
+    test "return price_business_total_revenue when name is another one by role Pro" do
+      name_for_tp = "$500K - $1M"
+      name_for_pro = "$1M - $5M"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name_for_tp, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name_for_pro, price: 22, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_total_revenue(btr_pro.id)
+
+      assert format_name(br_tp.name)                == name_for_tp
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name_for_pro
+      assert br_pro.price                           == 22
+      assert data                                   == %{}
+    end
+
+    test "return price_business_total_revenue when price is nil by role Pro" do
+      name = "$1M - $5M"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: nil, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_total_revenue(btr_pro.id)
+
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == nil
+      assert data                                   == :error
+    end
+
+    test "return price_business_total_revenue when price is 0 by role Pro" do
+      name = "$1M - $5M"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 0, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_total_revenue(btr_pro.id)
+
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 0
+      assert data                                   == :error
+    end
+
+    test "return price_business_total_revenue when price is 1 by role Pro" do
+      name = "$1M - $5M"
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, user: pro)
+      br_pro = insert(:pro_business_total_revenue, name: name, price: 1, business_tax_returns: btr_pro)
+
+      data = BusinessTaxReturn.check_price_business_total_revenue(btr_pro.id)
+
+      assert format_name(br_tp.name)                == name
+      assert br_tp.price                            == nil
+      assert format_name(br_pro.name)               == name
+      assert br_pro.price                           == 1
+      assert data                                   == %{btr_tp.id => 1}
+    end
+
     test "return price_state by role Tp" do
-      state = ["Alaska", "Michigan", "New Jersey"] |> Enum.sort()
+      state = ["Alaska", "Michigan", "New Jersey", "Michigan"] |> Enum.sort() |> Enum.uniq()
 
       tp = insert(:tp_user, languages: [])
       btr_tp = insert(:tp_business_tax_return, state: state, user: tp)
@@ -791,15 +2638,15 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
 
       data = BusinessTaxReturn.check_price_state(btr_tp.id)
 
-      assert format_names(btr_tp.state) == state
-      assert btr_tp.price_state         == nil
-      assert btr_pro.state              == nil
-      assert btr_pro.price_state        == 22
-      assert data                       == %{btr_pro.id => 66}
+      assert format_names(btr_tp.state)  == state
+      assert btr_tp.price_state          == nil
+      assert format_names(btr_pro.state) == nil
+      assert btr_pro.price_state         == 22
+      assert data                        == %{btr_pro.id => 66}
     end
 
     test "return price_state when more one pro by role Tp" do
-      state = ["Alaska", "Michigan", "New Jersey"] |> Enum.sort()
+      state = ["Alaska", "Michigan", "New Jersey", "Michigan"] |> Enum.sort() |> Enum.uniq()
 
       tp = insert(:tp_user, languages: [])
       btr_tp = insert(:tp_business_tax_return, state: state, user: tp)
@@ -812,19 +2659,121 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
 
       data = BusinessTaxReturn.check_price_state(btr_tp.id)
 
-      assert format_names(btr_tp.state) == state
-      assert btr_tp.price_state         == nil
-      assert btr_pro1.state             == nil
-      assert btr_pro2.state             == nil
-      assert btr_pro3.state             == nil
-      assert btr_pro1.price_state       == 22
-      assert btr_pro2.price_state       == 33
-      assert btr_pro3.price_state       == 44
-      assert data                       == %{
+      assert format_names(btr_tp.state)   == state
+      assert btr_tp.price_state           == nil
+      assert format_names(btr_pro1.state) == nil
+      assert format_names(btr_pro2.state) == nil
+      assert format_names(btr_pro3.state) == nil
+      assert btr_pro1.price_state         == 22
+      assert btr_pro2.price_state         == 33
+      assert btr_pro3.price_state         == 44
+      assert data                         == %{
         btr_pro1.id => 66,
         btr_pro2.id => 99,
         btr_pro3.id => 132
       }
+    end
+
+    test "return price_state when state is nil by role Tp" do
+      state = []
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, state: state, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_state: 22, user: pro)
+
+      data = BusinessTaxReturn.check_price_state(btr_tp.id)
+
+      assert format_names(btr_tp.state)  == state
+      assert btr_tp.price_state          == nil
+      assert format_names(btr_pro.state) == nil
+      assert btr_pro.price_state         == 22
+      assert data                        == %{btr_pro.id => 0}
+    end
+
+    test "return price_state when state is one by role Tp" do
+      state = ["Michigan", "Michigan", "Michigan"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, state: state, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_state: 22, user: pro)
+
+      data = BusinessTaxReturn.check_price_state(btr_tp.id)
+
+      assert format_names(btr_tp.state)  == state
+      assert btr_tp.price_state          == nil
+      assert format_names(btr_pro.state) == nil
+      assert btr_pro.price_state         == 22
+      assert data                        == %{btr_pro.id => 22}
+    end
+
+    test "return price_state when state is two by role Tp" do
+      state = ["Michigan", "New Jersey", "Michigan"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, state: state, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_state: 22, user: pro)
+
+      data = BusinessTaxReturn.check_price_state(btr_tp.id)
+
+      assert format_names(btr_tp.state)  == state
+      assert btr_tp.price_state          == nil
+      assert format_names(btr_pro.state) == nil
+      assert btr_pro.price_state         == 22
+      assert data                        == %{btr_pro.id => 44}
+    end
+
+    test "return price_state when price is nil by role Tp" do
+      state = ["Alaska", "Michigan", "New Jersey", "Michigan"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, state: state, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_state: nil, user: pro)
+
+      data = BusinessTaxReturn.check_price_state(btr_tp.id)
+
+      assert format_names(btr_tp.state)  == state
+      assert btr_tp.price_state          == nil
+      assert format_names(btr_pro.state) == nil
+      assert btr_pro.price_state         == nil
+      assert data                        == %{}
+    end
+
+    test "return price_state when price is 0 by role Tp" do
+      state = ["Alaska", "Michigan", "New Jersey", "Michigan"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, state: state, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_state: 0, user: pro)
+
+      data = BusinessTaxReturn.check_price_state(btr_tp.id)
+
+      assert format_names(btr_tp.state)  == state
+      assert btr_tp.price_state          == nil
+      assert format_names(btr_pro.state) == nil
+      assert btr_pro.price_state         == 0
+      assert data                        == %{btr_pro.id => 0}
+    end
+
+    test "return price_state when price is 1 by role Tp" do
+      state = ["Alaska", "Michigan", "New Jersey", "Michigan"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, state: state, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_state: 1, user: pro)
+
+      data = BusinessTaxReturn.check_price_state(btr_tp.id)
+
+      assert format_names(btr_tp.state)  == state
+      assert btr_tp.price_state          == nil
+      assert format_names(btr_pro.state) == nil
+      assert btr_pro.price_state         == 1
+      assert data                        == %{btr_pro.id => 3}
     end
 
     test "return price_state by role Pro" do
@@ -837,11 +2786,11 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
 
       data = BusinessTaxReturn.check_price_state(btr_pro.id)
 
-      assert format_names(btr_tp.state) == state
-      assert btr_tp.price_state         == nil
-      assert btr_pro.state              == nil
-      assert btr_pro.price_state        == 22
-      assert data                       == %{btr_tp.id => 22}
+      assert format_names(btr_tp.state)  == state
+      assert btr_tp.price_state          == nil
+      assert format_names(btr_pro.state) == nil
+      assert btr_pro.price_state         == 22
+      assert data                        == %{btr_tp.id => 22}
     end
 
     test "return price_state when more one tp by role Pro" do
@@ -866,13 +2815,115 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert btr_tp1.price_state         == nil
       assert btr_tp2.price_state         == nil
       assert btr_tp3.price_state         == nil
-      assert btr_pro.state               == nil
+      assert format_names(btr_pro.state) == nil
       assert btr_pro.price_state         == 22
       assert data                        == %{
         btr_tp1.id => 66,
         btr_tp2.id => 66,
         btr_tp3.id => 66
       }
+    end
+
+    test "return price_state when state is nil by role Pro" do
+      state = []
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, state: state, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_state: 22, user: pro)
+
+      data = BusinessTaxReturn.check_price_state(btr_pro.id)
+
+      assert format_names(btr_tp.state)  == state
+      assert btr_tp.price_state          == nil
+      assert format_names(btr_pro.state) == nil
+      assert btr_pro.price_state         == 22
+      assert data                        == %{}
+    end
+
+    test "return price_state when state is one by role Pro" do
+      state = ["Michigan", "Michigan", "Michigan"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, state: state, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_state: 22, user: pro)
+
+      data = BusinessTaxReturn.check_price_state(btr_pro.id)
+
+      assert format_names(btr_tp.state)  == state
+      assert btr_tp.price_state          == nil
+      assert format_names(btr_pro.state) == nil
+      assert btr_pro.price_state         == 22
+      assert data                        == %{}
+    end
+
+    test "return price_state when state is two by role Pro" do
+      state = ["Michigan", "New Jersey", "Michigan"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, state: state, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_state: 22, user: pro)
+
+      data = BusinessTaxReturn.check_price_state(btr_pro.id)
+
+      assert format_names(btr_tp.state)  == state
+      assert btr_tp.price_state          == nil
+      assert format_names(btr_pro.state) == nil
+      assert btr_pro.price_state         == 22
+      assert data                        == %{btr_tp.id => 22}
+    end
+
+    test "return price_state when price is nil by role Pro" do
+      state = ["Alaska", "Michigan", "New Jersey", "Michigan"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, state: state, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_state: nil, user: pro)
+
+      data = BusinessTaxReturn.check_price_state(btr_pro.id)
+
+      assert format_names(btr_tp.state)  == state
+      assert btr_tp.price_state          == nil
+      assert format_names(btr_pro.state) == nil
+      assert btr_pro.price_state         == nil
+      assert data                        == :error
+    end
+
+    test "return price_state when price is 0 by role Pro" do
+      state = ["Alaska", "Michigan", "New Jersey", "Michigan"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, state: state, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_state: 0, user: pro)
+
+      data = BusinessTaxReturn.check_price_state(btr_pro.id)
+
+      assert format_names(btr_tp.state)  == state
+      assert btr_tp.price_state          == nil
+      assert format_names(btr_pro.state) == nil
+      assert btr_pro.price_state         == 0
+      assert data                        == :error
+    end
+
+    test "return price_state when price is 1 by role Pro" do
+      state = ["Alaska", "Michigan", "New Jersey", "Michigan"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, state: state, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_state: 1, user: pro)
+
+      data = BusinessTaxReturn.check_price_state(btr_pro.id)
+
+      assert format_names(btr_tp.state)  == state
+      assert btr_tp.price_state          == nil
+      assert format_names(btr_pro.state) == nil
+      assert btr_pro.price_state         == 1
+      assert data                        == %{btr_tp.id => 1}
     end
 
     test "return price_tax_year by role Tp" do
@@ -885,11 +2936,11 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
 
       data = BusinessTaxReturn.check_price_tax_year(btr_tp.id)
 
-      assert format_names(btr_tp.tax_year) == tax_year
-      assert btr_tp.price_tax_year         == nil
-      assert btr_pro.tax_year              == nil
-      assert btr_pro.price_tax_year        == 22
-      assert data                          == %{btr_pro.id => 44}
+      assert format_names(btr_tp.tax_year)  == tax_year
+      assert btr_tp.price_tax_year          == nil
+      assert format_names(btr_pro.tax_year) == nil
+      assert btr_pro.price_tax_year         == 22
+      assert data                           == %{btr_pro.id => 44}
     end
 
     test "return price_tax_year when more one pro by role Tp" do
@@ -906,19 +2957,121 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
 
       data = BusinessTaxReturn.check_price_tax_year(btr_tp.id)
 
-      assert format_names(btr_tp.tax_year) == tax_year
-      assert btr_tp.price_tax_year         == nil
-      assert btr_pro1.tax_year             == nil
-      assert btr_pro2.tax_year             == nil
-      assert btr_pro3.tax_year             == nil
-      assert btr_pro1.price_tax_year       == 22
-      assert btr_pro2.price_tax_year       == 33
-      assert btr_pro3.price_tax_year       == 44
-      assert data                          == %{
+      assert format_names(btr_tp.tax_year)   == tax_year
+      assert btr_tp.price_tax_year           == nil
+      assert format_names(btr_pro1.tax_year) == nil
+      assert format_names(btr_pro2.tax_year) == nil
+      assert format_names(btr_pro3.tax_year) == nil
+      assert btr_pro1.price_tax_year         == 22
+      assert btr_pro2.price_tax_year         == 33
+      assert btr_pro3.price_tax_year         == 44
+      assert data                            == %{
         btr_pro1.id => 44,
         btr_pro2.id => 66,
         btr_pro3.id => 88
       }
+    end
+
+    test "return price_tax_year when tax_year is nil by role Tp" do
+      tax_year = []
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_year: tax_year, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_tax_year: 22, user: pro)
+
+      data = BusinessTaxReturn.check_price_tax_year(btr_tp.id)
+
+      assert format_names(btr_tp.tax_year)  == tax_year
+      assert btr_tp.price_tax_year          == nil
+      assert format_names(btr_pro.tax_year) == nil
+      assert btr_pro.price_tax_year         == 22
+      assert data                           == :error
+    end
+
+    test "return price_tax_year when tax_year is one by role Tp" do
+      tax_year = ["2017", "2017", "2017"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_year: tax_year, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_tax_year: 22, user: pro)
+
+      data = BusinessTaxReturn.check_price_tax_year(btr_tp.id)
+
+      assert format_names(btr_tp.tax_year)  == tax_year
+      assert btr_tp.price_tax_year          == nil
+      assert format_names(btr_pro.tax_year) == nil
+      assert btr_pro.price_tax_year         == 22
+      assert data                           == :error
+    end
+
+    test "return price_tax_year when tax_year is two by role Tp" do
+      tax_year = ["2015", "2017", "2017", "2015"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_year: tax_year, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_tax_year: 22, user: pro)
+
+      data = BusinessTaxReturn.check_price_tax_year(btr_tp.id)
+
+      assert format_names(btr_tp.tax_year)  == tax_year
+      assert btr_tp.price_tax_year          == nil
+      assert format_names(btr_pro.tax_year) == nil
+      assert btr_pro.price_tax_year         == 22
+      assert data                           == %{btr_pro.id => 22}
+    end
+
+    test "return price_tax_year when price_tax_year is nil by role Tp" do
+      tax_year = ["2015", "2016", "2016", "2015","2017", "2017"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_year: tax_year, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_tax_year: nil, user: pro)
+
+      data = BusinessTaxReturn.check_price_tax_year(btr_tp.id)
+
+      assert format_names(btr_tp.tax_year)  == tax_year
+      assert btr_tp.price_tax_year          == nil
+      assert format_names(btr_pro.tax_year) == nil
+      assert btr_pro.price_tax_year         == nil
+      assert data                           == %{}
+    end
+
+    test "return price_tax_year when price_tax_year is 0 by role Tp" do
+      tax_year = ["2015", "2016", "2016", "2015","2017", "2017"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_year: tax_year, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_tax_year: 0, user: pro)
+
+      data = BusinessTaxReturn.check_price_tax_year(btr_tp.id)
+
+      assert format_names(btr_tp.tax_year)  == tax_year
+      assert btr_tp.price_tax_year          == nil
+      assert format_names(btr_pro.tax_year) == nil
+      assert btr_pro.price_tax_year         == 0
+      assert data                           == %{btr_pro.id => 0}
+    end
+
+    test "return price_tax_year when price_tax_year is 1 by role Tp" do
+      tax_year = ["2015", "2016", "2016", "2015","2017", "2017"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_year: tax_year, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_tax_year: 1, user: pro)
+
+      data = BusinessTaxReturn.check_price_tax_year(btr_tp.id)
+
+      assert format_names(btr_tp.tax_year)  == tax_year
+      assert btr_tp.price_tax_year          == nil
+      assert format_names(btr_pro.tax_year) == nil
+      assert btr_pro.price_tax_year         == 1
+      assert data                           == %{btr_pro.id => 2}
     end
 
     test "return price_tax_year by role Pro" do
@@ -931,11 +3084,11 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
 
       data = BusinessTaxReturn.check_price_tax_year(btr_pro.id)
 
-      assert format_names(btr_tp.tax_year) == tax_year
-      assert btr_tp.price_tax_year         == nil
-      assert btr_pro.tax_year              == nil
-      assert btr_pro.price_tax_year        == 22
-      assert data                          == %{btr_tp.id => 44}
+      assert format_names(btr_tp.tax_year)  == tax_year
+      assert btr_tp.price_tax_year          == nil
+      assert format_names(btr_pro.tax_year) == nil
+      assert btr_pro.price_tax_year         == 22
+      assert data                           == %{btr_tp.id => 44}
     end
 
     test "return price_tax_year when more one tp by role Pro" do
@@ -960,13 +3113,115 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert btr_tp1.price_tax_year         == nil
       assert btr_tp2.price_tax_year         == nil
       assert btr_tp3.price_tax_year         == nil
-      assert btr_pro.tax_year               == nil
+      assert format_names(btr_pro.tax_year) == nil
       assert btr_pro.price_tax_year         == 22
       assert data                           == %{
         btr_tp1.id => 44,
         btr_tp2.id => 44,
         btr_tp3.id => 44
       }
+    end
+
+    test "return price_tax_year when tax_year is nil by role Pro" do
+      tax_year = []
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_year: tax_year, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_tax_year: 22, user: pro)
+
+      data = BusinessTaxReturn.check_price_tax_year(btr_pro.id)
+
+      assert format_names(btr_tp.tax_year)  == tax_year
+      assert btr_tp.price_tax_year          == nil
+      assert format_names(btr_pro.tax_year) == nil
+      assert btr_pro.price_tax_year         == 22
+      assert data                           == %{}
+    end
+
+    test "return price_tax_year when tax_year is one by role Pro" do
+      tax_year = ["2017", "2017", "2017"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_year: tax_year, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_tax_year: 22, user: pro)
+
+      data = BusinessTaxReturn.check_price_tax_year(btr_pro.id)
+
+      assert format_names(btr_tp.tax_year)  == tax_year
+      assert btr_tp.price_tax_year          == nil
+      assert format_names(btr_pro.tax_year) == nil
+      assert btr_pro.price_tax_year         == 22
+      assert data                           == %{}
+    end
+
+    test "return price_tax_year when tax_year is two by role Pro" do
+      tax_year = ["2015", "2017", "2017", "2015"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_year: tax_year, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_tax_year: 22, user: pro)
+
+      data = BusinessTaxReturn.check_price_tax_year(btr_pro.id)
+
+      assert format_names(btr_tp.tax_year)  == tax_year
+      assert btr_tp.price_tax_year          == nil
+      assert format_names(btr_pro.tax_year) == nil
+      assert btr_pro.price_tax_year         == 22
+      assert data                           == %{btr_tp.id => 22}
+    end
+
+    test "return price_tax_year when price_tax_year is nil by role Pro" do
+      tax_year = ["2015", "2016", "2016", "2015","2017", "2017"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_year: tax_year, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_tax_year: nil, user: pro)
+
+      data = BusinessTaxReturn.check_price_tax_year(btr_pro.id)
+
+      assert format_names(btr_tp.tax_year)  == tax_year
+      assert btr_tp.price_tax_year          == nil
+      assert format_names(btr_pro.tax_year) == nil
+      assert btr_pro.price_tax_year         == nil
+      assert data                           == :error
+    end
+
+    test "return price_tax_year when price_tax_year is 0 by role Pro" do
+      tax_year = ["2015", "2016", "2016", "2015","2017", "2017"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_year: tax_year, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_tax_year: 0, user: pro)
+
+      data = BusinessTaxReturn.check_price_tax_year(btr_pro.id)
+
+      assert format_names(btr_tp.tax_year)  == tax_year
+      assert btr_tp.price_tax_year          == nil
+      assert format_names(btr_pro.tax_year) == nil
+      assert btr_pro.price_tax_year         == 0
+      assert data                           == :error
+    end
+
+    test "return price_tax_year when price_tax_year is 1 by role Pro" do
+      tax_year = ["2015", "2016", "2016", "2015","2017", "2017"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_year: tax_year, user: tp)
+      pro = insert(:pro_user, languages: [])
+      btr_pro = insert(:pro_business_tax_return, price_tax_year: 1, user: pro)
+
+      data = BusinessTaxReturn.check_price_tax_year(btr_pro.id)
+
+      assert format_names(btr_tp.tax_year)  == tax_year
+      assert btr_tp.price_tax_year          == nil
+      assert format_names(btr_pro.tax_year) == nil
+      assert btr_pro.price_tax_year         == 1
+      assert data                           == %{btr_tp.id => 2}
     end
   end
 
@@ -1712,13 +3967,19 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
     end
   end
 
-  @spec format_name(atom()) :: String.t()
-  defp format_name(data), do: to_string(data)
+  @spec format_name(atom() | nil) :: String.t() | nil
+  defp format_name(data) do
+    if is_nil(data), do: nil, else: to_string(data)
+  end
 
   @spec format_names([atom()]) :: [String.t()]
   defp format_names(data) do
-    Enum.reduce(data, [], fn(x, acc) ->
-      [to_string(x) | acc]
-    end) |> Enum.sort()
+    if is_nil(data) do
+      nil
+    else
+      Enum.reduce(data, [], fn(x, acc) ->
+        [to_string(x) | acc]
+      end) |> Enum.sort()
+    end
   end
 end

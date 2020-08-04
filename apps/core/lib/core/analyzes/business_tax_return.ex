@@ -333,7 +333,9 @@ defmodule Core.Analyzes.BusinessTaxReturn do
               for {k, v} <- price, into: %{}, do: {k, v * Enum.count(state)}
             end
           true ->
-            if is_nil(state) || is_nil(price_state) || price_state == 0 do
+            if !is_nil(state) || is_nil(price_state) || price_state == 0 do
+              :error
+            else
               states = by_prices(BusinessTaxReturn, false, :state)
               data =
                 Enum.reduce(states, [], fn(x, acc) ->
@@ -341,8 +343,6 @@ defmodule Core.Analyzes.BusinessTaxReturn do
                   if count > 1, do: [x | acc], else: acc
                 end)
               for {k, _} <- data, into: %{}, do: {k, Enum.count(data) * price_state}
-            else
-              :error
             end
         end
     end
@@ -368,14 +368,16 @@ defmodule Core.Analyzes.BusinessTaxReturn do
       %BusinessTaxReturn{tax_year: tax_year, price_tax_year: price_tax_year} ->
         case BusinessTaxReturn.by_role(id) do
           false ->
-            if is_nil(tax_year) || !is_nil(price_tax_year) || Enum.count(tax_year) == 1 do
+            if is_nil(tax_year) || !is_nil(price_tax_year) || Enum.count(tax_year) <= 1 do
               :error
             else
               price = by_prices(BusinessTaxReturn, true, :price_tax_year)
               for {k, v} <- price, into: %{}, do: {k, v * (Enum.count(tax_year) - 1)}
             end
           true ->
-            if is_nil(tax_year) || !is_nil(price_tax_year) || price_tax_year == 0 do
+            if !is_nil(tax_year) || is_nil(price_tax_year) || price_tax_year == 0 do
+              :error
+            else
               years = by_prices(BusinessTaxReturn, false, :tax_year)
               data =
                 Enum.reduce(years, [], fn(x, acc) ->
@@ -383,8 +385,6 @@ defmodule Core.Analyzes.BusinessTaxReturn do
                   if count >= 2, do: [x | acc], else: acc
                 end)
               for {k, v} <- data, into: %{}, do: {k, (Enum.count(v) - 1) * price_tax_year}
-            else
-              :error
             end
         end
     end
