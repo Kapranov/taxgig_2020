@@ -3236,6 +3236,56 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert data                                                      == %{btr_tp.id => D.new("22")}
     end
 
+    test "return value_accounting_software match is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_accounting_software: 0)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, accounting_software: true, user: tp)
+      data = BusinessTaxReturn.check_value_accounting_software(btr_tp.id)
+      assert D.to_string(match.value_for_business_accounting_software) == "0"
+      assert btr_tp.accounting_software                                == true
+      assert data                                                      == %{btr_tp.id => D.new("0")}
+    end
+
+    test "return value_accounting_software match is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_accounting_software: 1)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, accounting_software: true, user: tp)
+      data = BusinessTaxReturn.check_value_accounting_software(btr_tp.id)
+      assert D.to_string(match.value_for_business_accounting_software) == "1"
+      assert btr_tp.accounting_software                                == true
+      assert data                                                      == %{btr_tp.id => D.new("1")}
+    end
+
+    test "return value_accounting_software match is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_accounting_software: nil)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, accounting_software: true, user: tp)
+      data = BusinessTaxReturn.check_value_accounting_software(btr_tp.id)
+      assert match.value_for_business_accounting_software == nil
+      assert btr_tp.accounting_software                   == true
+      assert data                                         == %{btr_tp.id => D.new("0.0")}
+    end
+
+    test "return value_accounting_software when is false by role Tp" do
+      match = insert(:match_value_relat, value_for_business_accounting_software: 22)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, accounting_software: false, user: tp)
+      data = BusinessTaxReturn.check_value_accounting_software(btr_tp.id)
+      assert D.to_string(match.value_for_business_accounting_software) == "22"
+      assert btr_tp.accounting_software                                == false
+      assert data                                                      == :error
+    end
+
+    test "return value_accounting_software when is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_accounting_software: 22)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, accounting_software: nil, user: tp)
+      data = BusinessTaxReturn.check_value_accounting_software(btr_tp.id)
+      assert D.to_string(match.value_for_business_accounting_software) == "22"
+      assert btr_tp.accounting_software                                == nil
+      assert data                                                      == :error
+    end
+
     test "return value_accounting_software by role Pro" do
       match = insert(:match_value_relat, value_for_business_accounting_software: 22)
       pro = insert(:pro_user)
@@ -3255,6 +3305,17 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert format_name(bet_tp.name)  == name
       assert bet_tp.price              == nil
       assert data                      == %{btr_tp.id => D.new("299.99")}
+    end
+
+    test "return value_business_entity_type when name is nil by role Tp" do
+      name = nil
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bet_tp = insert(:tp_business_entity_type, name: name, business_tax_returns: btr_tp)
+      data = BusinessTaxReturn.check_value_business_entity_type(btr_tp.id)
+      assert format_name(bet_tp.name)  == nil
+      assert bet_tp.price              == nil
+      assert data                      == :error
     end
 
     test "return value_business_entity_type by role Pro" do
@@ -3278,6 +3339,16 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert data                      == %{btr_tp.id => D.new("150.0")}
     end
 
+    test "return value_business_foreign_ownership_count when name is nil by role Tp" do
+      name = nil
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      bfo_tp = insert(:tp_business_foreign_ownership_count, name: name, business_tax_returns: btr_tp)
+      data = BusinessTaxReturn.check_value_business_foreign_ownership_count(btr_tp.id)
+      assert format_name(bfo_tp.name)  == nil
+      assert data                      == :error
+    end
+
     test "return value_business_total_revenue by role Tp" do
       name = "$1M - $5M"
       tp = insert(:tp_user, languages: [])
@@ -3287,6 +3358,17 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert format_name(br_tp.name)  == name
       assert br_tp.price              == nil
       assert data                     == %{btr_tp.id => D.new("300.0")}
+    end
+
+    test "return value_business_total_revenue when name is nil by role Tp" do
+      name = nil
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      br_tp = insert(:tp_business_total_revenue, name: name, business_tax_returns: btr_tp)
+      data = BusinessTaxReturn.check_value_business_total_revenue(btr_tp.id)
+      assert format_name(br_tp.name)  == nil
+      assert br_tp.price              == nil
+      assert data                     == :error
     end
 
     test "return value_business_total_revenue by role Pro" do
@@ -3310,6 +3392,16 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert data                      == %{btr_tp.id => D.new("29.99")}
     end
 
+    test "value_business_transaction_count when name is nil by role Tp" do
+      name = nil
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, user: tp)
+      btc_tp = insert(:tp_business_transaction_count, name: name, business_tax_returns: btr_tp)
+      data = BusinessTaxReturn.check_value_business_transaction_count(btr_tp.id)
+      assert format_name(btc_tp.name)  == name
+      assert data                      == :error
+    end
+
     test "return value_dispose_property by role Tp" do
       match = insert(:match_value_relat, value_for_business_dispose_property: 22)
       tp = insert(:tp_user, languages: [])
@@ -3318,6 +3410,56 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert D.to_string(match.value_for_business_dispose_property) == "22"
       assert btr_tp.dispose_property                                == true
       assert data                                                   == %{btr_tp.id => D.new("22")}
+    end
+
+    test "return value_dispose_property when match is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_dispose_property: 0)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, dispose_property: true, user: tp)
+      data = BusinessTaxReturn.check_value_dispose_property(btr_tp.id)
+      assert D.to_string(match.value_for_business_dispose_property) == "0"
+      assert btr_tp.dispose_property                                == true
+      assert data                                                   == %{btr_tp.id => D.new("0")}
+    end
+
+    test "return value_dispose_property when match is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_dispose_property: 1)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, dispose_property: true, user: tp)
+      data = BusinessTaxReturn.check_value_dispose_property(btr_tp.id)
+      assert D.to_string(match.value_for_business_dispose_property) == "1"
+      assert btr_tp.dispose_property                                == true
+      assert data                                                   == %{btr_tp.id => D.new("1")}
+    end
+
+    test "return value_dispose_property when match is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_dispose_property: nil)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, dispose_property: true, user: tp)
+      data = BusinessTaxReturn.check_value_dispose_property(btr_tp.id)
+      assert match.value_for_business_dispose_property == nil
+      assert btr_tp.dispose_property                   == true
+      assert data                                      == %{btr_tp.id => D.new("0.0")}
+    end
+
+    test "return value_dispose_property when is false by role Tp" do
+      match = insert(:match_value_relat, value_for_business_dispose_property: 22)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, dispose_property: false, user: tp)
+      data = BusinessTaxReturn.check_value_dispose_property(btr_tp.id)
+      assert D.to_string(match.value_for_business_dispose_property) == "22"
+      assert btr_tp.dispose_property                                == false
+      assert data                                                   == :error
+    end
+
+    test "return value_dispose_property when is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_dispose_property: 22)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, dispose_property: nil, user: tp)
+      data = BusinessTaxReturn.check_value_dispose_property(btr_tp.id)
+      assert D.to_string(match.value_for_business_dispose_property) == "22"
+      assert btr_tp.dispose_property                                == nil
+      assert data                                                   == :error
     end
 
     test "return value_dispose_property by role Pro" do
@@ -3340,6 +3482,56 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert data                                                      == %{btr_tp.id => D.new("22")}
     end
 
+    test "return value_foreign_shareholder when match is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_foreign_shareholder: 0)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, foreign_shareholder: true, user: tp)
+      data = BusinessTaxReturn.check_value_foreign_shareholder(btr_tp.id)
+      assert D.to_string(match.value_for_business_foreign_shareholder) == "0"
+      assert btr_tp.foreign_shareholder                                == true
+      assert data                                                      == %{btr_tp.id => D.new("0")}
+    end
+
+    test "return value_foreign_shareholder when match is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_foreign_shareholder: nil)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, foreign_shareholder: true, user: tp)
+      data = BusinessTaxReturn.check_value_foreign_shareholder(btr_tp.id)
+      assert match.value_for_business_foreign_shareholder == nil
+      assert btr_tp.foreign_shareholder                   == true
+      assert data                                         == %{btr_tp.id => D.new("0.0")}
+    end
+
+    test "return value_foreign_shareholder when match is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_foreign_shareholder: 1)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, foreign_shareholder: true, user: tp)
+      data = BusinessTaxReturn.check_value_foreign_shareholder(btr_tp.id)
+      assert D.to_string(match.value_for_business_foreign_shareholder) == "1"
+      assert btr_tp.foreign_shareholder                                == true
+      assert data                                                      == %{btr_tp.id => D.new("1")}
+    end
+
+    test "return value_foreign_shareholder when is false by role Tp" do
+      match = insert(:match_value_relat, value_for_business_foreign_shareholder: 22)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, foreign_shareholder: false, user: tp)
+      data = BusinessTaxReturn.check_value_foreign_shareholder(btr_tp.id)
+      assert D.to_string(match.value_for_business_foreign_shareholder) == "22"
+      assert btr_tp.foreign_shareholder                                == false
+      assert data                                                      == :error
+    end
+
+    test "return value_foreign_shareholder when is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_foreign_shareholder: 22)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, foreign_shareholder: nil, user: tp)
+      data = BusinessTaxReturn.check_value_foreign_shareholder(btr_tp.id)
+      assert D.to_string(match.value_for_business_foreign_shareholder) == "22"
+      assert btr_tp.foreign_shareholder                                == nil
+      assert data                                                      == :error
+    end
+
     test "return value_foreign_shareholder by role Pro" do
       match = insert(:match_value_relat, value_for_business_foreign_shareholder: 22)
       pro = insert(:pro_user, languages: [])
@@ -3358,6 +3550,56 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert D.to_string(match.value_for_business_income_over_thousand) == "22"
       assert btr_tp.income_over_thousand                                == true
       assert data                                                       == %{btr_tp.id => D.new("22")}
+    end
+
+    test "return value_income_over_thousand when match is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_income_over_thousand: 0)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, income_over_thousand: true, user: tp)
+      data = BusinessTaxReturn.check_value_income_over_thousand(btr_tp.id)
+      assert D.to_string(match.value_for_business_income_over_thousand) == "0"
+      assert btr_tp.income_over_thousand                                == true
+      assert data                                                       == %{btr_tp.id => D.new("0")}
+    end
+
+    test "return value_income_over_thousand when match is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_income_over_thousand: 1)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, income_over_thousand: true, user: tp)
+      data = BusinessTaxReturn.check_value_income_over_thousand(btr_tp.id)
+      assert D.to_string(match.value_for_business_income_over_thousand) == "1"
+      assert btr_tp.income_over_thousand                                == true
+      assert data                                                       == %{btr_tp.id => D.new("1")}
+    end
+
+    test "return value_income_over_thousand when match is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_income_over_thousand: nil)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, income_over_thousand: true, user: tp)
+      data = BusinessTaxReturn.check_value_income_over_thousand(btr_tp.id)
+      assert match.value_for_business_income_over_thousand == nil
+      assert btr_tp.income_over_thousand                   == true
+     assert data                                          == %{btr_tp.id => D.new("0.0")}
+    end
+
+    test "return value_income_over_thousand when is false by role Tp" do
+      match = insert(:match_value_relat, value_for_business_income_over_thousand: 22)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, income_over_thousand: false, user: tp)
+      data = BusinessTaxReturn.check_value_income_over_thousand(btr_tp.id)
+      assert D.to_string(match.value_for_business_income_over_thousand) == "22"
+      assert btr_tp.income_over_thousand                                == false
+      assert data                                                       == :error
+    end
+
+    test "return value_income_over_thousand when is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_income_over_thousand: 22)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, income_over_thousand: nil, user: tp)
+      data = BusinessTaxReturn.check_value_income_over_thousand(btr_tp.id)
+      assert D.to_string(match.value_for_business_income_over_thousand) == "22"
+      assert btr_tp.income_over_thousand                                == nil
+      assert data                                                       == :error
     end
 
     test "return value_income_over_thousand by role Pro" do
@@ -3380,6 +3622,56 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert data                                                  == %{btr_tp.id => D.new("22")}
     end
 
+    test "return value_invest_research when match is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_invest_research: 0)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, invest_research: true, user: tp)
+      data = BusinessTaxReturn.check_value_invest_research(btr_tp.id)
+      assert D.to_string(match.value_for_business_invest_research) == "0"
+      assert btr_tp.invest_research                                == true
+      assert data                                                  == %{btr_tp.id => D.new("0")}
+    end
+
+    test "return value_invest_research when match is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_invest_research: 1)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, invest_research: true, user: tp)
+      data = BusinessTaxReturn.check_value_invest_research(btr_tp.id)
+      assert D.to_string(match.value_for_business_invest_research) == "1"
+      assert btr_tp.invest_research                                == true
+      assert data                                                  == %{btr_tp.id => D.new("1")}
+    end
+
+    test "return value_invest_research when match is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_invest_research: nil)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, invest_research: true, user: tp)
+      data = BusinessTaxReturn.check_value_invest_research(btr_tp.id)
+      assert match.value_for_business_invest_research == nil
+      assert btr_tp.invest_research                   == true
+      assert data                                     == %{btr_tp.id => D.new("0.0")}
+    end
+
+    test "return value_invest_research when is false by role Tp" do
+      match = insert(:match_value_relat, value_for_business_invest_research: 22)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, invest_research: false, user: tp)
+      data = BusinessTaxReturn.check_value_invest_research(btr_tp.id)
+      assert D.to_string(match.value_for_business_invest_research) == "22"
+      assert btr_tp.invest_research                                == false
+      assert data                                                  == :error
+    end
+
+    test "return value_invest_research when is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_invest_research: 22)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, invest_research: nil, user: tp)
+      data = BusinessTaxReturn.check_value_invest_research(btr_tp.id)
+      assert D.to_string(match.value_for_business_invest_research) == "22"
+      assert btr_tp.invest_research                                == nil
+      assert data                                                  == :error
+    end
+
     test "return value_invest_research by role Pro" do
       match = insert(:match_value_relat, value_for_business_invest_research: 22)
       pro = insert(:pro_user, languages: [])
@@ -3400,7 +3692,37 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert data                                           == %{btr_tp.id => D.new("484")}
     end
 
-    test "return value_k1_count when k1_count is 0 by role Tp" do
+    test "return value_k1_count when match is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_k1_count: 0)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, k1_count: 22, user: tp)
+      data = BusinessTaxReturn.check_value_k1_count(btr_tp.id)
+      assert D.to_string(match.value_for_business_k1_count) == "0"
+      assert btr_tp.k1_count                                == 22
+      assert data                                           == %{btr_tp.id => D.new("0")}
+    end
+
+    test "return value_k1_count when match is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_k1_count: 1)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, k1_count: 22, user: tp)
+      data = BusinessTaxReturn.check_value_k1_count(btr_tp.id)
+      assert D.to_string(match.value_for_business_k1_count) == "1"
+      assert btr_tp.k1_count                                == 22
+      assert data                                           == %{btr_tp.id => D.new("22")}
+    end
+
+    test "return value_k1_count when match is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_k1_count: nil)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, k1_count: 22, user: tp)
+      data = BusinessTaxReturn.check_value_k1_count(btr_tp.id)
+      assert match.value_for_business_k1_count == nil
+      assert btr_tp.k1_count                   == 22
+      assert data                              == %{btr_tp.id => D.new("0.0")}
+    end
+
+    test "return value_k1_count when is 0 by role Tp" do
       match = insert(:match_value_relat, value_for_business_k1_count: 22)
       tp = insert(:tp_user, languages: [])
       btr_tp = insert(:tp_business_tax_return, k1_count: 0, user: tp)
@@ -3440,7 +3762,7 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert data                                           == :error
     end
 
-    test "return value_make_distribution bt role Tp" do
+    test "return value_make_distribution by role Tp" do
       match = insert(:match_value_relat, value_for_business_make_distribution: 22)
       tp = insert(:tp_user, languages: [])
       btr_tp = insert(:tp_business_tax_return, make_distribution: true, user: tp)
@@ -3448,6 +3770,56 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert D.to_string(match.value_for_business_make_distribution) == "22"
       assert btr_tp.make_distribution                                == true
       assert data                                                    == %{btr_tp.id => D.new("22")}
+    end
+
+    test "return value_make_distribution when match is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_make_distribution: 0)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, make_distribution: true, user: tp)
+      data = BusinessTaxReturn.check_value_make_distribution(btr_tp.id)
+      assert D.to_string(match.value_for_business_make_distribution) == "0"
+      assert btr_tp.make_distribution                                == true
+      assert data                                                    == %{btr_tp.id => D.new("0")}
+    end
+
+    test "return value_make_distribution when match is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_make_distribution: 1)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, make_distribution: true, user: tp)
+      data = BusinessTaxReturn.check_value_make_distribution(btr_tp.id)
+      assert D.to_string(match.value_for_business_make_distribution) == "1"
+      assert btr_tp.make_distribution                                == true
+      assert data                                                    == %{btr_tp.id => D.new("1")}
+    end
+
+    test "return value_make_distribution when match is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_make_distribution: nil)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, make_distribution: true, user: tp)
+      data = BusinessTaxReturn.check_value_make_distribution(btr_tp.id)
+      assert match.value_for_business_make_distribution == nil
+      assert btr_tp.make_distribution                   == true
+      assert data                                       == %{btr_tp.id => D.new("0.0")}
+    end
+
+    test "return value_make_distribution when is false by role Tp" do
+      match = insert(:match_value_relat, value_for_business_make_distribution: 22)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, make_distribution: false, user: tp)
+      data = BusinessTaxReturn.check_value_make_distribution(btr_tp.id)
+      assert D.to_string(match.value_for_business_make_distribution) == "22"
+      assert btr_tp.make_distribution                                == false
+      assert data                                                    == :error
+    end
+
+    test "return value_make_distribution when is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_make_distribution: 22)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, make_distribution: nil, user: tp)
+      data = BusinessTaxReturn.check_value_make_distribution(btr_tp.id)
+      assert D.to_string(match.value_for_business_make_distribution) == "22"
+      assert btr_tp.make_distribution                                == nil
+      assert data                                                    == :error
     end
 
     test "return value_make_distribution bt role Pro" do
@@ -3528,6 +3900,56 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert data                                                == %{btr_tp.id => D.new("22")}
     end
 
+    test "return value_tax_exemption when match is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_tax_exemption: 0)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_exemption: true, user: tp)
+      data = BusinessTaxReturn.check_value_tax_exemption(btr_tp.id)
+      assert D.to_string(match.value_for_business_tax_exemption) == "0"
+      assert btr_tp.tax_exemption                                == true
+      assert data                                                == %{btr_tp.id => D.new("0")}
+    end
+
+    test "return value_tax_exemption when match is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_tax_exemption: 1)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_exemption: true, user: tp)
+      data = BusinessTaxReturn.check_value_tax_exemption(btr_tp.id)
+      assert D.to_string(match.value_for_business_tax_exemption) == "1"
+      assert btr_tp.tax_exemption                                == true
+      assert data                                                == %{btr_tp.id => D.new("1")}
+    end
+
+    test "return value_tax_exemption when match is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_tax_exemption: nil)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_exemption: true, user: tp)
+      data = BusinessTaxReturn.check_value_tax_exemption(btr_tp.id)
+      assert match.value_for_business_tax_exemption == nil
+      assert btr_tp.tax_exemption                   == true
+      assert data                                   == %{btr_tp.id => D.new("0.0")}
+    end
+
+    test "return value_tax_exemption when is false by role Tp" do
+      match = insert(:match_value_relat, value_for_business_tax_exemption: 22)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_exemption: false, user: tp)
+      data = BusinessTaxReturn.check_value_tax_exemption(btr_tp.id)
+      assert D.to_string(match.value_for_business_tax_exemption) == "22"
+      assert btr_tp.tax_exemption                                == false
+      assert data                                                == :error
+    end
+
+    test "return value_tax_exemption when is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_tax_exemption: nil)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, tax_exemption: false, user: tp)
+      data = BusinessTaxReturn.check_value_tax_exemption(btr_tp.id)
+      assert match.value_for_business_tax_exemption == nil
+      assert btr_tp.tax_exemption                   == false
+      assert data                                   == :error
+    end
+
     test "return value_tax_exemption by role Pro" do
       match = insert(:match_value_relat, value_for_business_tax_exemption: 22)
       pro = insert(:pro_user, languages: [])
@@ -3548,7 +3970,7 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert data                  == %{btr_tp.id => D.new("4")}
     end
 
-    test "return value_tax_year when tax_year is 0 by role Tp" do
+    test "return value_tax_year when is 0 by role Tp" do
       tax_year = []
       tp = insert(:tp_user, languages: [])
       btr_tp = insert(:tp_business_tax_return, tax_year: tax_year, user: tp)
@@ -3557,7 +3979,7 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert data            == %{btr_tp.id => D.new("0")}
     end
 
-    test "return value_tax_year when tax_year is 1 by role Tp" do
+    test "return value_tax_year when is 1 by role Tp" do
       tax_year = ["2012", "2012", "2012", "2012", "2012"] |> Enum.sort() |> Enum.uniq()
       tp = insert(:tp_user, languages: [])
       btr_tp = insert(:tp_business_tax_return, tax_year: tax_year, user: tp)
@@ -3584,6 +4006,56 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
       assert D.to_string(match.value_for_business_total_asset_over) == "22"
       assert btr_tp.total_asset_over                                == true
       assert data                                                   == %{btr_tp.id => D.new("22")}
+    end
+
+    test "return value_total_asset_over when match is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_total_asset_over: 0)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, total_asset_over: true, user: tp)
+      data = BusinessTaxReturn.check_value_total_asset_over(btr_tp.id)
+      assert D.to_string(match.value_for_business_total_asset_over) == "0"
+      assert btr_tp.total_asset_over                                == true
+      assert data                                                   == %{btr_tp.id => D.new("0")}
+    end
+
+    test "return value_total_asset_over when match is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_business_total_asset_over: 1)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, total_asset_over: true, user: tp)
+      data = BusinessTaxReturn.check_value_total_asset_over(btr_tp.id)
+      assert D.to_string(match.value_for_business_total_asset_over) == "1"
+      assert btr_tp.total_asset_over                                == true
+      assert data                                                   == %{btr_tp.id => D.new("1")}
+    end
+
+    test "return value_total_asset_over when match is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_total_asset_over: nil)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, total_asset_over: true, user: tp)
+      data = BusinessTaxReturn.check_value_total_asset_over(btr_tp.id)
+      assert match.value_for_business_total_asset_over == nil
+      assert btr_tp.total_asset_over                   == true
+      assert data                                      == %{btr_tp.id => D.new("0.0")}
+    end
+
+    test "return value_total_asset_over when is false by role Tp" do
+      match = insert(:match_value_relat, value_for_business_total_asset_over: 22)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, total_asset_over: false, user: tp)
+      data = BusinessTaxReturn.check_value_total_asset_over(btr_tp.id)
+      assert D.to_string(match.value_for_business_total_asset_over) == "22"
+      assert btr_tp.total_asset_over                                == false
+      assert data                                                   == :error
+    end
+
+    test "return value_total_asset_over when is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_business_total_asset_over: 22)
+      tp = insert(:tp_user, languages: [])
+      btr_tp = insert(:tp_business_tax_return, total_asset_over: nil, user: tp)
+      data = BusinessTaxReturn.check_value_total_asset_over(btr_tp.id)
+      assert D.to_string(match.value_for_business_total_asset_over) == "22"
+      assert btr_tp.total_asset_over                                == nil
+      assert data                                                   == :error
     end
 
     test "return value_total_asset_over by role Pro" do
@@ -3972,7 +4444,7 @@ defmodule Core.Analyzes.BusinessTaxReturnTest do
     if is_nil(data), do: nil, else: to_string(data)
   end
 
-  @spec format_names([atom()]) :: [String.t()]
+  @spec format_names([atom()] | nil) :: [String.t()] | nil
   defp format_names(data) do
     if is_nil(data) do
       nil
