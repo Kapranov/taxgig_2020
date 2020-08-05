@@ -70,6 +70,12 @@ clean:
 													$(V)$(MIX) do clean
 													$(V)rm -fr _build/ ./deps/
 
+schema_json:              $(V)$(MIX) absinthe.schema.json --schema ServerWeb.GraphQL.Schema
+
+schema_json_pretty:       $(V)$(MIX) absinthe.schema.json --schema ServerWeb.GraphQL.Schema --pretty ./schema.json
+
+schema_graphql:           $(V)$(MIX) absinthe.schema.json --schema ServerWeb.GraphQL.Schema ./schema.graphql
+
 packs:
 													$(V)$(MIX) deps.get
 													$(V)$(MIX) deps.update --all
