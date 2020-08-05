@@ -21,6 +21,9 @@ chat.tar.bz2
 elixir_chat_server.tar.bz2
 Project-Aquamarine.tar.bz2
 
+streamers.ex
+streamers_test.exs
+
 curl_twitter.sh
 phx-1.5-upgrade.md
 DAXX.md
