@@ -1126,33 +1126,483 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
 
   describe "#check_price" do
     test "return price_foreign_account by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 22, user: pro)
+
+      data = IndividualTaxReturn.check_price_foreign_account(itr_tp.id)
+
+      assert itr_tp.foreign_account        == true
+      assert itr_tp.price_foreign_account  == nil
+      assert itr_pro.foreign_account       == true
+      assert itr_pro.price_foreign_account == 22
+      assert data                          == %{itr_pro.id => 22}
+    end
+
+    test "return price_foreign_account when more one pro by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro1 = insert(:pro_user, email: "arakawa@yahoo.com", languages: [])
+      pro2 = insert(:pro_user, email: "harrison@yahoo.com", languages: [])
+      pro3 = insert(:pro_user, email: "knapp@yahoo.com", languages: [])
+      itr_pro1 = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 22, user: pro1)
+      itr_pro2 = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 33, user: pro2)
+      itr_pro3 = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 44, user: pro3)
+
+      data = IndividualTaxReturn.check_price_foreign_account(itr_tp.id)
+
+      assert itr_tp.foreign_account         == true
+      assert itr_tp.price_foreign_account   == nil
+      assert itr_pro1.foreign_account       == true
+      assert itr_pro2.foreign_account       == true
+      assert itr_pro3.foreign_account       == true
+      assert itr_pro1.price_foreign_account == 22
+      assert itr_pro2.price_foreign_account == 33
+      assert itr_pro3.price_foreign_account == 44
+      assert data                           == %{
+        itr_pro1.id => 22,
+        itr_pro2.id => 33,
+        itr_pro3.id => 44
+      }
     end
 
     test "return price_foreign_account by role Pro" do
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 22, user: pro)
+
+      data = IndividualTaxReturn.check_price_foreign_account(itr_pro.id)
+
+      assert itr_tp.foreign_account        == true
+      assert itr_tp.price_foreign_account  == nil
+      assert itr_pro.foreign_account       == true
+      assert itr_pro.price_foreign_account == 22
+      assert data                          == %{itr_tp.id => 22}
+    end
+
+    test "return price_foreign_account when more one tp by role Pro" do
+      tp1 = insert(:tp_user, email: "arakawa@yahoo.com", languages: [])
+      tp2 = insert(:tp_user, email: "harrison@yahoo.com", languages: [])
+      tp3 = insert(:tp_user, email: "knapp@yahoo.com", languages: [])
+      itr_tp1 = insert(:tp_individual_tax_return, foreign_account: true, user: tp1)
+      itr_tp2 = insert(:tp_individual_tax_return, foreign_account: true, user: tp2)
+      itr_tp3 = insert(:tp_individual_tax_return, foreign_account: true, user: tp3)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 22, user: pro)
+
+      data = IndividualTaxReturn.check_price_foreign_account(itr_pro.id)
+
+      assert itr_tp1.foreign_account       == true
+      assert itr_tp2.foreign_account       == true
+      assert itr_tp3.foreign_account       == true
+      assert itr_tp1.price_foreign_account == nil
+      assert itr_tp2.price_foreign_account == nil
+      assert itr_tp3.price_foreign_account == nil
+      assert itr_pro.foreign_account       == true
+      assert itr_pro.price_foreign_account == 22
+      assert data                          == %{
+        itr_tp1.id => 22,
+        itr_tp2.id => 22,
+        itr_tp3.id => 22
+      }
     end
 
     test "return price_home_owner by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 22, user: pro)
+
+      data = IndividualTaxReturn.check_price_home_owner(itr_tp.id)
+
+      assert itr_tp.home_owner        == true
+      assert itr_tp.price_home_owner  == nil
+      assert itr_pro.home_owner       == true
+      assert itr_pro.price_home_owner == 22
+      assert data                     == %{itr_pro.id => 22}
+    end
+
+    test "return price_home_owner when more one pro by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro1 = insert(:pro_user, email: "arakawa@yahoo.com", languages: [])
+      pro2 = insert(:pro_user, email: "harrison@yahoo.com", languages: [])
+      pro3 = insert(:pro_user, email: "knapp@yahoo.com", languages: [])
+      itr_pro1 = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 22, user: pro1)
+      itr_pro2 = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 33, user: pro2)
+      itr_pro3 = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 44, user: pro3)
+
+      data = IndividualTaxReturn.check_price_home_owner(itr_tp.id)
+
+      assert itr_tp.home_owner         == true
+      assert itr_tp.price_home_owner   == nil
+      assert itr_pro1.home_owner       == true
+      assert itr_pro2.home_owner       == true
+      assert itr_pro3.home_owner       == true
+      assert itr_pro1.price_home_owner == 22
+      assert itr_pro2.price_home_owner == 33
+      assert itr_pro3.price_home_owner == 44
+      assert data                      == %{
+        itr_pro1.id => 22,
+        itr_pro2.id => 33,
+        itr_pro3.id => 44
+      }
     end
 
     test "return price_home_owner by role Pro" do
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 22, user: pro)
+
+      data = IndividualTaxReturn.check_price_home_owner(itr_pro.id)
+
+      assert itr_tp.home_owner        == true
+      assert itr_tp.price_home_owner  == nil
+      assert itr_pro.home_owner       == true
+      assert itr_pro.price_home_owner == 22
+      assert data                     == %{itr_tp.id => 22}
+    end
+
+    test "return price_home_owner when more one tp by role Pro" do
+      tp1 = insert(:tp_user, email: "arakawa@yahoo.com", languages: [])
+      tp2 = insert(:tp_user, email: "harrison@yahoo.com", languages: [])
+      tp3 = insert(:tp_user, email: "knapp@yahoo.com", languages: [])
+      itr_tp1 = insert(:tp_individual_tax_return, home_owner: true, user: tp1)
+      itr_tp2 = insert(:tp_individual_tax_return, home_owner: true, user: tp2)
+      itr_tp3 = insert(:tp_individual_tax_return, home_owner: true, user: tp3)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 22, user: pro)
+
+      data = IndividualTaxReturn.check_price_home_owner(itr_pro.id)
+
+      assert itr_tp1.home_owner       == true
+      assert itr_tp2.home_owner       == true
+      assert itr_tp3.home_owner       == true
+      assert itr_tp1.price_home_owner == nil
+      assert itr_tp2.price_home_owner == nil
+      assert itr_tp3.price_home_owner == nil
+      assert itr_pro.home_owner       == true
+      assert itr_pro.price_home_owner == 22
+      assert data                     == %{
+        itr_tp1.id => 22,
+        itr_tp2.id => 22,
+        itr_tp3.id => 22
+      }
     end
 
     test "return price_individual_employment_status by role Tp" do
+      name = "unemployed"
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_price_individual_employment_status(itr_tp.id)
+
+      assert format_name(ies_tp.name)  == name
+      assert ies_tp.price              == nil
+      assert format_name(ies_pro.name) == name
+      assert ies_pro.price             == 22
+      assert data                      == %{itr_pro.id => 22}
+    end
+
+    test "return price_individual_employment_status when more one pro by role Tp" do
+      name = "unemployed"
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro1 = insert(:pro_user, email: "arakawa@yahoo.com", languages: [])
+      pro2 = insert(:pro_user, email: "harrison@yahoo.com", languages: [])
+      pro3 = insert(:pro_user, email: "knapp@yahoo.com", languages: [])
+      itr_pro1 = insert(:pro_individual_tax_return, user: pro1)
+      itr_pro2 = insert(:pro_individual_tax_return, user: pro2)
+      itr_pro3 = insert(:pro_individual_tax_return, user: pro3)
+      ies_pro1 = insert(:pro_individual_employment_status, name: name, price: 22, individual_tax_returns: itr_pro1)
+      ies_pro2 = insert(:pro_individual_employment_status, name: name, price: 33, individual_tax_returns: itr_pro2)
+      ies_pro3 = insert(:pro_individual_employment_status, name: name, price: 44, individual_tax_returns: itr_pro3)
+
+      data = IndividualTaxReturn.check_price_individual_employment_status(itr_tp.id)
+
+      assert format_name(ies_tp.name)   == name
+      assert ies_tp.price               == nil
+      assert format_name(ies_pro1.name) == name
+      assert format_name(ies_pro2.name) == name
+      assert format_name(ies_pro3.name) == name
+      assert ies_pro1.price             == 22
+      assert ies_pro2.price             == 33
+      assert ies_pro3.price             == 44
+      assert data                       == %{
+        itr_pro1.id => 22,
+        itr_pro2.id => 33,
+        itr_pro3.id => 44
+      }
     end
 
     test "return price_individual_employment_status by role Pro" do
+      name = "unemployed"
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_price_individual_employment_status(itr_pro.id)
+
+      assert format_name(ies_tp.name)  == name
+      assert ies_tp.price              == nil
+      assert format_name(ies_pro.name) == name
+      assert ies_pro.price             == 22
+      assert data                      == %{itr_tp.id => 22}
+    end
+
+    test "return price_individual_employment_status when more one tp by role Pro" do
+      name = "unemployed"
+
+      tp1 = insert(:tp_user, email: "arakawa@yahoo.com", languages: [])
+      tp2 = insert(:tp_user, email: "harrison@yahoo.com", languages: [])
+      tp3 = insert(:tp_user, email: "knapp@yahoo.com", languages: [])
+      itr_tp1 = insert(:tp_individual_tax_return, user: tp1)
+      itr_tp2 = insert(:tp_individual_tax_return, user: tp2)
+      itr_tp3 = insert(:tp_individual_tax_return, user: tp3)
+      ies_tp1 = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp1)
+      ies_tp2 = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp2)
+      ies_tp3 = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp3)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_price_individual_employment_status(itr_pro.id)
+
+      assert format_name(ies_tp1.name) == name
+      assert format_name(ies_tp2.name) == name
+      assert format_name(ies_tp3.name) == name
+      assert ies_tp1.price             == nil
+      assert ies_tp2.price             == nil
+      assert ies_tp3.price             == nil
+      assert format_name(ies_pro.name) == name
+      assert ies_pro.price             == 22
+      assert data                      == %{
+        itr_tp1.id => 22,
+        itr_tp2.id => 22,
+        itr_tp3.id => 22
+      }
     end
 
     test "return price_individual_filing_status by role Tp" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_price_individual_filing_status(itr_tp.id)
+
+      assert format_name(ifs_tp.name)  == name
+      assert ifs_tp.price              == nil
+      assert format_name(ifs_pro.name) == name
+      assert ifs_pro.price             == 22
+      assert data                      == %{itr_pro.id => 22}
+    end
+
+    test "return price_individual_filing_status when more one pro by role Tp" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro1 = insert(:pro_user, email: "arakawa@yahoo.com", languages: [])
+      pro2 = insert(:pro_user, email: "harrison@yahoo.com", languages: [])
+      pro3 = insert(:pro_user, email: "knapp@yahoo.com", languages: [])
+      itr_pro1 = insert(:pro_individual_tax_return, user: pro1)
+      itr_pro2 = insert(:pro_individual_tax_return, user: pro2)
+      itr_pro3 = insert(:pro_individual_tax_return, user: pro3)
+      ifs_pro1 = insert(:pro_individual_filing_status, name: name, price: 22, individual_tax_returns: itr_pro1)
+      ifs_pro2 = insert(:pro_individual_filing_status, name: name, price: 33, individual_tax_returns: itr_pro2)
+      ifs_pro3 = insert(:pro_individual_filing_status, name: name, price: 44, individual_tax_returns: itr_pro3)
+
+      data = IndividualTaxReturn.check_price_individual_filing_status(itr_tp.id)
+
+      assert format_name(ifs_tp.name)   == name
+      assert ifs_tp.price               == nil
+      assert format_name(ifs_pro1.name) == name
+      assert format_name(ifs_pro2.name) == name
+      assert format_name(ifs_pro3.name) == name
+      assert ifs_pro1.price             == 22
+      assert ifs_pro2.price             == 33
+      assert ifs_pro3.price             == 44
+      assert data                       == %{
+        itr_pro1.id => 22,
+        itr_pro2.id => 33,
+        itr_pro3.id => 44
+      }
     end
 
     test "return price_individual_filing_status by role Pro" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_price_individual_filing_status(itr_pro.id)
+
+      assert format_name(ifs_tp.name)  == name
+      assert ifs_tp.price              == nil
+      assert format_name(ifs_pro.name) == name
+      assert ifs_pro.price             == 22
+      assert data                      == %{itr_tp.id => 22}
+    end
+
+    test "return price_individual_filing_status when more one tp by role Pro" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      tp1 = insert(:tp_user, email: "arakawa@yahoo.com", languages: [])
+      tp2 = insert(:tp_user, email: "harrison@yahoo.com", languages: [])
+      tp3 = insert(:tp_user, email: "knapp@yahoo.com", languages: [])
+      itr_tp1 = insert(:tp_individual_tax_return, user: tp1)
+      itr_tp2 = insert(:tp_individual_tax_return, user: tp2)
+      itr_tp3 = insert(:tp_individual_tax_return, user: tp3)
+      ifs_tp1 = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp1)
+      ifs_tp2 = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp2)
+      ifs_tp3 = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp3)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_price_individual_filing_status(itr_pro.id)
+
+      assert format_name(ifs_tp1.name) == name
+      assert format_name(ifs_tp2.name) == name
+      assert format_name(ifs_tp3.name) == name
+      assert ifs_tp1.price             == nil
+      assert ifs_tp2.price             == nil
+      assert ifs_tp3.price             == nil
+      assert format_name(ifs_pro.name) == name
+      assert ifs_pro.price             == 22
+      assert data                      == %{
+        itr_tp1.id => 22,
+        itr_tp2.id => 22,
+        itr_tp3.id => 22
+      }
     end
 
     test "return price_individual_itemized_deduction by role Tp" do
+      name = "Charitable contributions"
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      iid_tp = insert(:tp_individual_itemized_deduction, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      iid_pro = insert(:pro_individual_itemized_deduction, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_price_individual_itemized_deduction(itr_tp.id)
+
+      assert format_name(iid_tp.name)  == name
+      assert iid_tp.price              == nil
+      assert format_name(iid_pro.name) == name
+      assert iid_pro.price             == 22
+      assert data                      == %{itr_pro.id => 22}
+    end
+
+    test "return price_individual_itemized_deduction when more one pro by role Tp" do
+      name = "Charitable contributions"
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      iid_tp = insert(:tp_individual_itemized_deduction, name: name, individual_tax_returns: itr_tp)
+      pro1 = insert(:pro_user, email: "arakawa@yahoo.com", languages: [])
+      pro2 = insert(:pro_user, email: "harrison@yahoo.com", languages: [])
+      pro3 = insert(:pro_user, email: "knapp@yahoo.com", languages: [])
+      itr_pro1 = insert(:pro_individual_tax_return, user: pro1)
+      itr_pro2 = insert(:pro_individual_tax_return, user: pro2)
+      itr_pro3 = insert(:pro_individual_tax_return, user: pro3)
+      iid_pro1 = insert(:pro_individual_itemized_deduction, name: name, price: 22, individual_tax_returns: itr_pro1)
+      iid_pro2 = insert(:pro_individual_itemized_deduction, name: name, price: 33, individual_tax_returns: itr_pro2)
+      iid_pro3 = insert(:pro_individual_itemized_deduction, name: name, price: 44, individual_tax_returns: itr_pro3)
+
+      data = IndividualTaxReturn.check_price_individual_itemized_deduction(itr_tp.id)
+
+      assert format_name(iid_tp.name)   == name
+      assert iid_tp.price               == nil
+      assert format_name(iid_pro1.name) == name
+      assert format_name(iid_pro2.name) == name
+      assert format_name(iid_pro3.name) == name
+      assert iid_pro1.price             == 22
+      assert iid_pro2.price             == 33
+      assert iid_pro3.price             == 44
+      assert data                       == %{
+        itr_pro1.id => 22,
+        itr_pro2.id => 33,
+        itr_pro3.id => 44
+      }
     end
 
     test "return price_individual_itemized_deduction by role Pro" do
+      name = "Charitable contributions"
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      iid_tp = insert(:tp_individual_itemized_deduction, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      iid_pro = insert(:pro_individual_itemized_deduction, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_price_individual_itemized_deduction(itr_pro.id)
+
+      assert format_name(iid_tp.name)  == name
+      assert iid_tp.price              == nil
+      assert format_name(iid_pro.name) == name
+      assert iid_pro.price             == 22
+      assert data                      == %{itr_tp.id => 22}
+    end
+
+    test "return price_individual_itemized_deduction when more one tp by role Pro" do
+      name = "Charitable contributions"
+
+      tp1 = insert(:tp_user, email: "arakawa@yahoo.com", languages: [])
+      tp2 = insert(:tp_user, email: "harrison@yahoo.com", languages: [])
+      tp3 = insert(:tp_user, email: "knapp@yahoo.com", languages: [])
+      itr_tp1 = insert(:tp_individual_tax_return, user: tp1)
+      itr_tp2 = insert(:tp_individual_tax_return, user: tp2)
+      itr_tp3 = insert(:tp_individual_tax_return, user: tp3)
+      iid_tp1 = insert(:tp_individual_itemized_deduction, name: name, individual_tax_returns: itr_tp1)
+      iid_tp2 = insert(:tp_individual_itemized_deduction, name: name, individual_tax_returns: itr_tp2)
+      iid_tp3 = insert(:tp_individual_itemized_deduction, name: name, individual_tax_returns: itr_tp3)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      iid_pro = insert(:pro_individual_itemized_deduction, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_price_individual_itemized_deduction(itr_pro.id)
+
+      assert format_name(iid_tp1.name) == name
+      assert format_name(iid_tp2.name) == name
+      assert format_name(iid_tp3.name) == name
+      assert iid_tp1.price             == nil
+      assert iid_tp2.price             == nil
+      assert iid_tp3.price             == nil
+      assert format_name(iid_pro.name) == name
+      assert iid_pro.price             == 22
+      assert data                      == %{
+        itr_tp1.id => 22,
+        itr_tp2.id => 22,
+        itr_tp3.id => 22
+      }
     end
 
     test "return price_living_abroad by role Tp" do
