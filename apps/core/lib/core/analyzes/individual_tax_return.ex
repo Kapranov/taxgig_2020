@@ -973,8 +973,22 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               price = by_prices(IndividualTaxReturn, true, :price_tax_year)
               for {k, v} <- price, into: %{}, do: {k, v * (Enum.count(tax_year) - 1)}
             end
+### PROBLEM PROBLEM PROBLEM PROBLEM PROBLEM.PROBLEM PROBLEM PROBLEM PROBLEM PROBLEM PROBLEM PROBLEM ###
+#          true ->
+#            if !is_nil(tax_year) || is_nil(price_tax_year) || price_tax_year < 2 do
+#              :error
+#            else
+#              years = by_prices(IndividualTaxReturn, false, :tax_year)
+#              data =
+#                Enum.reduce(years, [], fn(x, acc) ->
+#                  count = Enum.count(elem(x, 1))
+#                  if count >= 2, do: [x | acc], else: acc
+#                end)
+#              for {k, _} <- data, into: %{}, do: {k, (Enum.count(data) - 1) * price_tax_year}
+#            end
+### PROBLEM PROBLEM PROBLEM PROBLEM PROBLEM.PROBLEM PROBLEM PROBLEM PROBLEM PROBLEM PROBLEM PROBLEM ###
           true ->
-            if !is_nil(tax_year) || is_nil(price_tax_year) || price_tax_year < 2 do
+            if !is_nil(tax_year) || is_nil(price_tax_year) || price_tax_year == 0 do
               :error
             else
               years = by_prices(IndividualTaxReturn, false, :tax_year)
@@ -983,7 +997,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
                   count = Enum.count(elem(x, 1))
                   if count >= 2, do: [x | acc], else: acc
                 end)
-              for {k, _} <- data, into: %{}, do: {k, (Enum.count(data) - 1) * price_tax_year}
+              for {k, v} <- data, into: %{}, do: {k, (Enum.count(v) - 1) * price_tax_year}
             end
         end
     end
