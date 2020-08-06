@@ -6,6 +6,8 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
     Analyzes.IndividualTaxReturn
   }
 
+  alias Decimal, as: D
+
   describe "#check_match" do
     test "return match_foreign_account by role Tp" do
       match = insert(:match_value_relat)
@@ -2300,77 +2302,421 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
 
   describe "#check_value" do
     test "return value_foreign_account_limit by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_foreign_account_limit: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account_limit: true, user: tp)
+      data = IndividualTaxReturn.check_value_foreign_account_limit(itr_tp.id)
+      assert D.to_string(match.value_for_individual_foreign_account_limit) == "22"
+      assert itr_tp.foreign_account_limit                                  == true
+      assert data                                                          == %{itr_tp.id => D.new("22")}
     end
 
     test "return value_foreign_account_limit by role Pro" do
+      match = insert(:match_value_relat, value_for_individual_foreign_account_limit: 0)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account_limit: true, user: tp)
+      data = IndividualTaxReturn.check_value_foreign_account_limit(itr_tp.id)
+      assert D.to_string(match.value_for_individual_foreign_account_limit) == "0"
+      assert itr_tp.foreign_account_limit                                  == true
+      assert data                                                          == %{itr_tp.id => D.new("0")}
     end
 
     test "return value_foreign_financial_interest by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_foreign_financial_interest: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_financial_interest: true, user: tp)
+      data = IndividualTaxReturn.check_value_foreign_financial_interest(itr_tp.id)
+      assert D.to_string(match.value_for_individual_foreign_financial_interest) == "22"
+      assert itr_tp.foreign_financial_interest                                  == true
+      assert data                                                               == %{itr_tp.id => D.new("22")}
     end
 
     test "return value_foreign_financial_interest by role Pro" do
+      match = insert(:match_value_relat, value_for_individual_foreign_financial_interest: 0)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_financial_interest: true, user: tp)
+      data = IndividualTaxReturn.check_value_foreign_financial_interest(itr_tp.id)
+      assert D.to_string(match.value_for_individual_foreign_financial_interest) == "0"
+      assert itr_tp.foreign_financial_interest                                  == true
+      assert data                                                               == %{itr_tp.id => D.new("0")}
     end
 
     test "return value_home_owner by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_home_owner: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      data = IndividualTaxReturn.check_value_home_owner(itr_tp.id)
+      assert D.to_string(match.value_for_individual_home_owner) == "22"
+      assert itr_tp.home_owner                                  == true
+      assert data                                               == %{itr_tp.id => D.new("22")}
     end
 
     test "return value_home_owner by role Pro" do
+      match = insert(:match_value_relat, value_for_individual_home_owner: 0)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      data = IndividualTaxReturn.check_value_home_owner(itr_tp.id)
+      assert D.to_string(match.value_for_individual_home_owner) == "0"
+      assert itr_tp.home_owner                                  == true
+      assert data                                               == %{itr_tp.id => D.new("0")}
     end
 
     test "return value_individual_employment_status by role Tp" do
+      name = "self-employed"
+      match = insert(:match_value_relat, value_for_individual_employment_status: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      data = IndividualTaxReturn.check_value_individual_employment_status(itr_tp.id)
+      assert D.to_string(match.value_for_individual_employment_status) == "22"
+      assert format_name(ies_tp.name)                                  == name
+      assert ies_tp.price                                              == nil
+      assert data                                                      == %{itr_tp.id => match.value_for_individual_employment_status}
+    end
+
+    test "return value_individual_employment_status when is unemployed by role Tp" do
+      name = "unemployed"
+      match = insert(:match_value_relat, value_for_individual_employment_status: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      data = IndividualTaxReturn.check_value_individual_employment_status(itr_tp.id)
+      assert D.to_string(match.value_for_individual_employment_status) == "22"
+      assert format_name(ies_tp.name)                                  == name
+      assert ies_tp.price                                              == nil
+      assert data                                                      == :error
+    end
+
+    test "return value_individual_employment_status when is employed by role Tp" do
+      name = "employed"
+      match = insert(:match_value_relat, value_for_individual_employment_status: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      data = IndividualTaxReturn.check_value_individual_employment_status(itr_tp.id)
+      assert D.to_string(match.value_for_individual_employment_status) == "22"
+      assert format_name(ies_tp.name)                                  == name
+      assert ies_tp.price                                              == nil
+      assert data                                                      == :error
     end
 
     test "return value_individual_employment_status by role Pro" do
+      name = "self-employed"
+      match = insert(:match_value_relat, value_for_individual_employment_status: 22)
+      pro = insert(:pro_user)
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:tp_individual_employment_status, name: name, price: 22, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_value_individual_employment_status(itr_pro.id)
+      assert D.to_string(match.value_for_individual_employment_status) == "22"
+      assert format_name(ies_pro.name)                                 == name
+      assert ies_pro.price                                             == 22
+      assert data                                                      == :error
     end
 
     test "return value_individual_filing_status by role Tp" do
+      name = "Qualifying widow(-er) with dependent child"
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      data = IndividualTaxReturn.check_value_individual_filing_status(itr_tp.id)
+      assert format_name(ifs_tp.name)                                  == name
+      assert ifs_tp.price                                              == nil
+      assert data                                                      == %{itr_tp.id => D.new("79.99")}
     end
 
     test "return value_individual_filing_status by role Pro" do
+      name = "Qualifying widow(-er) with dependent child"
+      pro = insert(:pro_user)
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:tp_individual_filing_status, name: name, price: 22, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_value_individual_filing_status(itr_pro.id)
+      assert format_name(ifs_pro.name)                                 == name
+      assert ifs_pro.price                                             == 22
+      assert data                                                      == :error
     end
 
     test "return value_individual_stock_transaction_count by role Tp" do
-    end
-
-    test "return value_individual_stock_transaction_count by role Pro" do
+      name = "1-5"
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ist_tp = insert(:tp_individual_stock_transaction_count, name: name, individual_tax_returns: itr_tp)
+      data = IndividualTaxReturn.check_value_individual_stock_transaction_count(itr_tp.id)
+      assert format_name(ist_tp.name)                                  == name
+      assert data                                                      == %{itr_tp.id => D.new("30.0")}
     end
 
     test "return value_k1_count by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_k1_count: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, k1_count: 11, user: tp)
+      data = IndividualTaxReturn.check_value_k1_count(itr_tp.id)
+      assert D.to_string(match.value_for_individual_k1_count) == "22"
+      assert itr_tp.k1_count                                  == 11
+      assert data                                             == %{itr_tp.id => D.new("242")}
     end
 
     test "return value_k1_count by role Pro" do
+      match = insert(:match_value_relat, value_for_individual_k1_count: 22)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      data = IndividualTaxReturn.check_value_k1_count(itr_pro.id)
+      assert D.to_string(match.value_for_individual_k1_count) == "22"
+      assert itr_pro.k1_count                                 == nil
+      assert data                                             == :error
     end
 
     test "return value_rental_property_income by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_rental_prop_income: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, rental_property_income: true, user: tp)
+      data = IndividualTaxReturn.check_value_rental_property_income(itr_tp.id)
+      assert D.to_string(match.value_for_individual_rental_prop_income) == "22"
+      assert itr_tp.rental_property_income                              == true
+      assert data                                                       == %{itr_tp.id => D.new("22")}
     end
 
     test "return value_rental_property_income by role Pro" do
+      match = insert(:match_value_relat, value_for_individual_rental_prop_income: 22)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, rental_property_income: true, user: pro)
+      data = IndividualTaxReturn.check_value_rental_property_income(itr_pro.id)
+      assert D.to_string(match.value_for_individual_rental_prop_income) == "22"
+      assert itr_pro.rental_property_income                             == true
+      assert data                                                       == :error
     end
 
     test "return value_sole_proprietorship_count by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_sole_prop_count: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, sole_proprietorship_count: 11, user: tp)
+      data = IndividualTaxReturn.check_value_sole_proprietorship_count(itr_tp.id)
+      assert D.to_string(match.value_for_individual_sole_prop_count) == "22"
+      assert itr_tp.sole_proprietorship_count                        == 11
+      assert data                                                    == %{itr_tp.id => D.new("22")}
+    end
+
+    test "return value_sole_proprietorship_count when is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_sole_prop_count: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, sole_proprietorship_count: 0, user: tp)
+      data = IndividualTaxReturn.check_value_sole_proprietorship_count(itr_tp.id)
+      assert D.to_string(match.value_for_individual_sole_prop_count) == "22"
+      assert itr_tp.sole_proprietorship_count                        == 0
+      assert data                                                    == :error
+    end
+
+    test "return value_sole_proprietorship_count when is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_sole_prop_count: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, sole_proprietorship_count: 1, user: tp)
+      data = IndividualTaxReturn.check_value_sole_proprietorship_count(itr_tp.id)
+      assert D.to_string(match.value_for_individual_sole_prop_count) == "22"
+      assert itr_tp.sole_proprietorship_count                        == 1
+      assert data                                                    == %{itr_tp.id => D.new("22")}
     end
 
     test "return value_sole_proprietorship_count by role Pro" do
+      match = insert(:match_value_relat, value_for_individual_sole_prop_count: 22)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      data = IndividualTaxReturn.check_value_sole_proprietorship_count(itr_pro.id)
+      assert D.to_string(match.value_for_individual_sole_prop_count) == "22"
+      assert itr_pro.sole_proprietorship_count                       == nil
+      assert data                                                    == :error
     end
 
     test "return value_state by role Tp" do
+      state = [
+        "Alaska",
+        "Michigan",
+        "New Jersey",
+        "American Samoa",
+        "Michigan",
+        "American Samoa",
+        "New Jersey",
+        "Delaware",
+        "California",
+        "Connecticut"
+      ] |> Enum.sort() |> Enum.uniq()
+      match = insert(:match_value_relat, value_for_individual_state: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, state: state, user: tp)
+      data = IndividualTaxReturn.check_value_state(itr_tp.id)
+      assert D.to_string(match.value_for_individual_state) == "22"
+      assert itr_tp.state                                  == state
+      assert itr_tp.price_state                            == nil
+      assert data                                          == %{itr_tp.id => D.new("154")}
+    end
+
+    test "return value_state when state is 0 by role Tp" do
+      state = []
+      match = insert(:match_value_relat, value_for_individual_state: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, state: state, user: tp)
+      data = IndividualTaxReturn.check_value_state(itr_tp.id)
+      assert D.to_string(match.value_for_individual_state) == "22"
+      assert itr_tp.state                                  == state
+      assert itr_tp.price_state                            == nil
+      assert data                                          == :error
+    end
+
+    test "return value_state by when state is 1 role Tp" do
+      state = ["American Samoa"]
+      match = insert(:match_value_relat, value_for_individual_state: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, state: state, user: tp)
+      data = IndividualTaxReturn.check_value_state(itr_tp.id)
+      assert D.to_string(match.value_for_individual_state) == "22"
+      assert itr_tp.state                                  == state
+      assert itr_tp.price_state                            == nil
+      assert data                                          == %{itr_tp.id => D.new("22")}
     end
 
     test "return value_state by role Pro" do
+      match = insert(:match_value_relat, value_for_individual_state: 22)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      data = IndividualTaxReturn.check_value_state(itr_pro.id)
+      assert D.to_string(match.value_for_individual_state) == "22"
+      assert itr_pro.state                                 == nil
+      assert itr_pro.price_state                           == itr_pro.price_state
+      assert data                                          == :error
     end
 
     test "return value_tax_year by role Tp" do
+      tax_year = ["2012", "2015", "2011", "2012", "2017", "2011"] |> Enum.sort() |> Enum.uniq()
+      match = insert(:match_value_relat, value_for_individual_tax_year: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, tax_year: tax_year, user: tp)
+      data = IndividualTaxReturn.check_value_tax_year(itr_tp.id)
+      assert D.to_string(match.value_for_individual_tax_year) == "22"
+      assert itr_tp.tax_year                                  == tax_year
+      assert itr_tp.price_tax_year                            == nil
+      assert data                                             == %{itr_tp.id => D.new("66")}
+    end
+
+    test "return value_tax_year when is 0 by role Tp" do
+      tax_year = []
+      match = insert(:match_value_relat, value_for_individual_tax_year: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, tax_year: tax_year, user: tp)
+      data = IndividualTaxReturn.check_value_tax_year(itr_tp.id)
+      assert D.to_string(match.value_for_individual_tax_year) == "22"
+      assert itr_tp.tax_year                                  == tax_year
+      assert data                                             == :error
+    end
+
+    test "return value_tax_year when is 1 by role Tp" do
+      tax_year = ["2012", "2012", "2012", "2012", "2012"] |> Enum.sort() |> Enum.uniq()
+      match = insert(:match_value_relat, value_for_individual_tax_year: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, tax_year: tax_year, user: tp)
+      data = IndividualTaxReturn.check_value_tax_year(itr_tp.id)
+      assert D.to_string(match.value_for_individual_tax_year) == "22"
+      assert itr_tp.tax_year                                  == tax_year
+      assert itr_tp.price_tax_year                            == nil
+      assert data                                             == %{itr_tp.id => D.new("0")}
     end
 
     test "return value_tax_year by role Pro" do
+      match = insert(:match_value_relat, value_for_individual_tax_year: 22)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, price_tax_year: 11, user: pro)
+      data = IndividualTaxReturn.check_value_tax_year(itr_pro.id)
+      assert D.to_string(match.value_for_individual_tax_year) == "22"
+      assert itr_pro.tax_year                                 == nil
+      assert itr_pro.price_tax_year                           == 11
+      assert data                                             == :error
     end
   end
 
   describe "#total_match" do
     test "return result by total_match where role is Tp" do
+      name_employment_status = "employed"
+      name_filing_status = "Qualifying widow(-er) with dependent child"
+      name_industry = Enum.sort(["Hospitality"])
+      names_industry = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+      name_itemized_deduction = "Charitable contributions"
+
+      insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      pro = insert(:pro_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return,
+        foreign_account: true,
+        home_owner: true,
+        living_abroad: true,
+        non_resident_earning: true,
+        own_stock_crypto: true,
+        rental_property_income: true,
+        stock_divident: true,
+        user: tp)
+      itr_pro = insert(:pro_individual_tax_return,
+        foreign_account: true,
+        home_owner: true,
+        living_abroad: true,
+        non_resident_earning: true,
+        own_stock_crypto: true,
+        rental_property_income: true,
+        stock_divident: true,
+        user: pro)
+
+      insert(:pro_individual_employment_status, name: name_employment_status, price: 22, individual_tax_returns: itr_pro)
+      insert(:pro_individual_filing_status, name: name_filing_status, price: 22, individual_tax_returns: itr_pro)
+      insert(:pro_individual_industry, name: names_industry, individual_tax_returns: itr_pro)
+      insert(:pro_individual_itemized_deduction, name: name_itemized_deduction, price: 22, individual_tax_returns: itr_pro)
+
+      insert(:tp_individual_employment_status, name: name_employment_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_filing_status, name: name_filing_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_industry, name: name_industry, individual_tax_returns: itr_tp)
+      insert(:tp_individual_itemized_deduction, name: name_itemized_deduction, individual_tax_returns: itr_tp)
+
+      data = Analyzes.total_match(itr_tp.id)
+      assert data == %{itr_pro.id => 255}
     end
 
     test "return result by total_match where role is Pro" do
+      name_employment_status = "employed"
+      name_filing_status = "Qualifying widow(-er) with dependent child"
+      name_industry = Enum.sort(["Hospitality"])
+      names_industry = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+      name_itemized_deduction = "Charitable contributions"
+
+      insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      pro = insert(:pro_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return,
+        foreign_account: true,
+        home_owner: true,
+        living_abroad: true,
+        non_resident_earning: true,
+        own_stock_crypto: true,
+        rental_property_income: true,
+        stock_divident: true,
+        user: tp)
+      itr_pro = insert(:pro_individual_tax_return,
+        foreign_account: true,
+        home_owner: true,
+        living_abroad: true,
+        non_resident_earning: true,
+        own_stock_crypto: true,
+        rental_property_income: true,
+        stock_divident: true,
+        user: pro)
+
+      insert(:pro_individual_employment_status, name: name_employment_status, price: 22, individual_tax_returns: itr_pro)
+      insert(:pro_individual_filing_status, name: name_filing_status, price: 22, individual_tax_returns: itr_pro)
+      insert(:pro_individual_industry, name: names_industry, individual_tax_returns: itr_pro)
+      insert(:pro_individual_itemized_deduction, name: name_itemized_deduction, price: 22, individual_tax_returns: itr_pro)
+
+      insert(:tp_individual_employment_status, name: name_employment_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_filing_status, name: name_filing_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_industry, name: name_industry, individual_tax_returns: itr_tp)
+      insert(:tp_individual_itemized_deduction, name: name_itemized_deduction, individual_tax_returns: itr_tp)
+
+      data = Analyzes.total_match(itr_pro.id)
+      assert data == %{itr_tp.id => 255}
     end
 
     test "return error when is not correct individual_tax_return_id" do
@@ -2382,9 +2728,113 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
 
   describe "#total_price" do
     test "return result by total_price where role is Tp" do
+      name_employment_status = "employed"
+      name_filing_status = "Qualifying widow(-er) with dependent child"
+      name_itemized_deduction = "Charitable contributions"
+      state = ["Alaska", "Michigan", "New Jersey", "Michigan"] |> Enum.sort() |> Enum.uniq()
+      tax_year = ["2015", "2016", "2016", "2015","2017", "2017"] |> Enum.sort() |> Enum.uniq()
+
+      insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      pro = insert(:pro_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return,
+        foreign_account: true,
+        home_owner: true,
+        living_abroad: true,
+        non_resident_earning: true,
+        own_stock_crypto: true,
+        rental_property_income: true,
+        sole_proprietorship_count: 11,
+        state: state,
+        stock_divident: true,
+        tax_year: tax_year,
+        user: tp)
+      itr_pro = insert(:pro_individual_tax_return,
+        foreign_account: true,
+        price_foreign_account: 22,
+        home_owner: true,
+        price_home_owner: 22,
+        living_abroad: true,
+        price_living_abroad: 22,
+        non_resident_earning: true,
+        price_non_resident_earning: 22,
+        own_stock_crypto: true,
+        price_own_stock_crypto: 22,
+        rental_property_income: true,
+        price_rental_property_income: 22,
+        price_sole_proprietorship_count: 22,
+        price_state: 22,
+        stock_divident: true,
+        price_stock_divident: 22,
+        price_tax_year: 22,
+        user: pro)
+
+      insert(:pro_individual_employment_status, name: name_employment_status, price: 22, individual_tax_returns: itr_pro)
+      insert(:pro_individual_filing_status, name: name_filing_status, price: 22, individual_tax_returns: itr_pro)
+      insert(:pro_individual_itemized_deduction, name: name_itemized_deduction, price: 22, individual_tax_returns: itr_pro)
+
+      insert(:tp_individual_employment_status, name: name_employment_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_filing_status, name: name_filing_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_itemized_deduction, name: name_itemized_deduction, individual_tax_returns: itr_tp)
+
+      data = Analyzes.total_price(itr_tp.id)
+      assert data == %{itr_pro.id => 550}
     end
 
     test "return result by total_price where role is Pro" do
+      name_employment_status = "employed"
+      name_filing_status = "Qualifying widow(-er) with dependent child"
+      name_itemized_deduction = "Charitable contributions"
+      state = ["Alaska", "Michigan", "New Jersey", "Michigan"] |> Enum.sort() |> Enum.uniq()
+      tax_year = ["2015", "2016", "2016", "2015","2017", "2017"] |> Enum.sort() |> Enum.uniq()
+
+      insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      pro = insert(:pro_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return,
+        foreign_account: true,
+        home_owner: true,
+        living_abroad: true,
+        non_resident_earning: true,
+        own_stock_crypto: true,
+        rental_property_income: true,
+        sole_proprietorship_count: 11,
+        state: state,
+        stock_divident: true,
+        tax_year: tax_year,
+        user: tp)
+      itr_pro = insert(:pro_individual_tax_return,
+        foreign_account: true,
+        price_foreign_account: 22,
+        home_owner: true,
+        price_home_owner: 22,
+        living_abroad: true,
+        price_living_abroad: 22,
+        non_resident_earning: true,
+        price_non_resident_earning: 22,
+        own_stock_crypto: true,
+        price_own_stock_crypto: 22,
+        rental_property_income: true,
+        price_rental_property_income: 22,
+        price_sole_proprietorship_count: 22,
+        price_state: 22,
+        stock_divident: true,
+        price_stock_divident: 22,
+        price_tax_year: 22,
+        user: pro)
+
+      insert(:pro_individual_employment_status, name: name_employment_status, price: 22, individual_tax_returns: itr_pro)
+      insert(:pro_individual_filing_status, name: name_filing_status, price: 22, individual_tax_returns: itr_pro)
+      insert(:pro_individual_itemized_deduction, name: name_itemized_deduction, price: 22, individual_tax_returns: itr_pro)
+
+      insert(:tp_individual_employment_status, name: name_employment_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_filing_status, name: name_filing_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_itemized_deduction, name: name_itemized_deduction, individual_tax_returns: itr_tp)
+
+      data = Analyzes.total_price(itr_pro.id)
+      assert data == %{itr_tp.id => 550}
     end
 
     test "return error when is not correct individual_tax_return_id" do
@@ -2396,9 +2846,89 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
 
   describe "total_value" do
     test "return result by total_value where role is Tp" do
+      name_employment_status = "employed"
+      name_filing_status = "Qualifying widow(-er) with dependent child"
+      name_stock_transaction_count = "1-5"
+      state = [
+        "Alaska",
+        "Michigan",
+        "New Jersey",
+        "American Samoa",
+        "Michigan",
+        "American Samoa",
+        "New Jersey",
+        "Delaware",
+        "California",
+        "Connecticut"
+      ] |> Enum.sort() |> Enum.uniq()
+      tax_year = ["2012", "2015", "2011", "2012", "2017", "2011"] |> Enum.sort() |> Enum.uniq()
+
+      insert(:match_value_relat,
+        value_for_individual_foreign_account_limit: 22,
+        value_for_individual_foreign_financial_interest: 22,
+        value_for_individual_home_owner: 22,
+        value_for_individual_employment_status: 22,
+        value_for_individual_k1_count: 22,
+        value_for_individual_rental_prop_income: 22,
+        value_for_individual_sole_prop_count: 22,
+        value_for_individual_state: 22,
+        value_for_individual_tax_year: 22
+      )
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return,
+        foreign_account_limit: true,
+        foreign_financial_interest: true,
+        home_owner: true,
+        k1_count: 11,
+        rental_property_income: true,
+        sole_proprietorship_count: 11,
+        state: state,
+        tax_year: tax_year,
+        user: tp)
+
+      insert(:tp_individual_employment_status, name: name_employment_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_filing_status, name: name_filing_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_stock_transaction_count, name: name_stock_transaction_count, individual_tax_returns: itr_tp)
+
+      data = Analyzes.total_value(itr_tp.id)
+      assert data == %{itr_tp.id => D.new("681.99")}
     end
 
     test "return result by total_value where role is Pro" do
+      name_employment_status = "employed"
+      name_filing_status = "Qualifying widow(-er) with dependent child"
+      name_stock_transaction_count = "1-5"
+
+      insert(:match_value_relat,
+        value_for_individual_foreign_account_limit: 22,
+        value_for_individual_foreign_financial_interest: 22,
+        value_for_individual_home_owner: 22,
+        value_for_individual_employment_status: 22,
+        value_for_individual_k1_count: 22,
+        value_for_individual_rental_prop_income: 22,
+        value_for_individual_sole_prop_count: 22,
+        value_for_individual_state: 22,
+        value_for_individual_tax_year: 22
+      )
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return,
+        home_owner: true,
+        rental_property_income: true,
+        user: pro)
+
+      insert(:tp_individual_employment_status, name: name_employment_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_filing_status, name: name_filing_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_stock_transaction_count, name: name_stock_transaction_count, individual_tax_returns: itr_tp)
+
+      insert(:pro_individual_employment_status, name: name_employment_status, price: 22, individual_tax_returns: itr_pro)
+      insert(:pro_individual_filing_status, name: name_filing_status, price: 22, individual_tax_returns: itr_pro)
+
+      data = Analyzes.total_value(itr_pro.id)
+      assert data == %{itr_pro.id => D.new("0")}
     end
 
     test "return error when is not correct individual_tax_return_id" do
@@ -2410,9 +2940,183 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
 
   describe "#total_all" do
     test "return result by total_all where role is Tp" do
+      name_employment_status = "employed"
+      name_filing_status = "Qualifying widow(-er) with dependent child"
+      name_industry = Enum.sort(["Hospitality"])
+      names_industry = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+      name_itemized_deduction = "Charitable contributions"
+      name_stock_transaction_count = "1-5"
+      state = [
+        "Alaska",
+        "Michigan",
+        "New Jersey",
+        "American Samoa",
+        "Michigan",
+        "American Samoa",
+        "New Jersey",
+        "Delaware",
+        "California",
+        "Connecticut"
+      ] |> Enum.sort() |> Enum.uniq()
+      tax_year = ["2012", "2015", "2011", "2012", "2017", "2011"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      pro = insert(:pro_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return,
+        foreign_account: true,
+        foreign_account_limit: true,
+        foreign_financial_interest: true,
+        home_owner: true,
+        k1_count: 11,
+        living_abroad: true,
+        non_resident_earning: true,
+        own_stock_crypto: true,
+        rental_property_income: true,
+        sole_proprietorship_count: 11,
+        state: state,
+        stock_divident: true,
+        tax_year: tax_year,
+        user: tp)
+      itr_pro = insert(:pro_individual_tax_return,
+        foreign_account: true,
+        home_owner: true,
+        living_abroad: true,
+        non_resident_earning: true,
+        own_stock_crypto: true,
+        price_foreign_account: 22,
+        price_home_owner: 22,
+        price_living_abroad: 22,
+        price_non_resident_earning: 22,
+        price_own_stock_crypto: 22,
+        price_rental_property_income: 22,
+        price_sole_proprietorship_count: 22,
+        price_state: 22,
+        price_stock_divident: 22,
+        price_tax_year: 22,
+        rental_property_income: true,
+        stock_divident: true,
+        user: pro)
+
+      insert(:match_value_relat,
+        value_for_individual_employment_status: 22,
+        value_for_individual_foreign_account_limit: 22,
+        value_for_individual_foreign_financial_interest: 22,
+        value_for_individual_home_owner: 22,
+        value_for_individual_k1_count: 22,
+        value_for_individual_rental_prop_income: 22,
+        value_for_individual_sole_prop_count: 22,
+        value_for_individual_state: 22,
+        value_for_individual_tax_year: 22
+      )
+
+      insert(:pro_individual_employment_status, name: name_employment_status, price: 22, individual_tax_returns: itr_pro)
+      insert(:pro_individual_industry, name: names_industry, individual_tax_returns: itr_pro)
+      insert(:pro_individual_filing_status, name: name_filing_status, price: 22, individual_tax_returns: itr_pro)
+      insert(:pro_individual_itemized_deduction, name: name_itemized_deduction, price: 22, individual_tax_returns: itr_pro)
+
+      insert(:tp_individual_employment_status, name: name_employment_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_filing_status, name: name_filing_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_industry, name: name_industry, individual_tax_returns: itr_tp)
+      insert(:tp_individual_itemized_deduction, name: name_itemized_deduction, individual_tax_returns: itr_tp)
+      insert(:tp_individual_stock_transaction_count, name: name_stock_transaction_count, individual_tax_returns: itr_tp)
+
+      data = Analyzes.total_all(itr_tp.id)
+
+      assert data == [
+        %{id: itr_tp.id, sum_value: %{itr_tp.id => D.new("681.99")}},
+        %{id: itr_pro.id, sum_match: 255},
+        %{id: itr_pro.id, sum_price: 660}
+      ]
     end
 
     test "return result by total_all where role is Pro" do
+      name_employment_status = "employed"
+      name_filing_status = "Qualifying widow(-er) with dependent child"
+      name_industry = Enum.sort(["Hospitality"])
+      names_industry = Enum.sort(["Telecommunications", "Hospitality", "Property Management", "Legal", "Education"])
+      name_itemized_deduction = "Charitable contributions"
+      name_stock_transaction_count = "1-5"
+      state = [
+        "Alaska",
+        "Michigan",
+        "New Jersey",
+        "American Samoa",
+        "Michigan",
+        "American Samoa",
+        "New Jersey",
+        "Delaware",
+        "California",
+        "Connecticut"
+      ] |> Enum.sort() |> Enum.uniq()
+      tax_year = ["2012", "2015", "2011", "2012", "2017", "2011"] |> Enum.sort() |> Enum.uniq()
+
+      tp = insert(:tp_user, languages: [])
+      pro = insert(:pro_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return,
+        foreign_account: true,
+        foreign_account_limit: true,
+        foreign_financial_interest: true,
+        home_owner: true,
+        k1_count: 11,
+        living_abroad: true,
+        non_resident_earning: true,
+        own_stock_crypto: true,
+        rental_property_income: true,
+        sole_proprietorship_count: 11,
+        state: state,
+        stock_divident: true,
+        tax_year: tax_year,
+        user: tp)
+      itr_pro = insert(:pro_individual_tax_return,
+        foreign_account: true,
+        home_owner: true,
+        living_abroad: true,
+        non_resident_earning: true,
+        own_stock_crypto: true,
+        price_foreign_account: 22,
+        price_home_owner: 22,
+        price_living_abroad: 22,
+        price_non_resident_earning: 22,
+        price_own_stock_crypto: 22,
+        price_rental_property_income: 22,
+        price_sole_proprietorship_count: 22,
+        price_state: 22,
+        price_stock_divident: 22,
+        price_tax_year: 22,
+        rental_property_income: true,
+        stock_divident: true,
+        user: pro)
+
+      insert(:match_value_relat,
+        value_for_individual_employment_status: 22,
+        value_for_individual_foreign_account_limit: 22,
+        value_for_individual_foreign_financial_interest: 22,
+        value_for_individual_home_owner: 22,
+        value_for_individual_k1_count: 22,
+        value_for_individual_rental_prop_income: 22,
+        value_for_individual_sole_prop_count: 22,
+        value_for_individual_state: 22,
+        value_for_individual_tax_year: 22
+      )
+
+      insert(:pro_individual_employment_status, name: name_employment_status, price: 22, individual_tax_returns: itr_pro)
+      insert(:pro_individual_industry, name: names_industry, individual_tax_returns: itr_pro)
+      insert(:pro_individual_filing_status, name: name_filing_status, price: 22, individual_tax_returns: itr_pro)
+      insert(:pro_individual_itemized_deduction, name: name_itemized_deduction, price: 22, individual_tax_returns: itr_pro)
+
+      insert(:tp_individual_employment_status, name: name_employment_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_filing_status, name: name_filing_status, individual_tax_returns: itr_tp)
+      insert(:tp_individual_industry, name: name_industry, individual_tax_returns: itr_tp)
+      insert(:tp_individual_itemized_deduction, name: name_itemized_deduction, individual_tax_returns: itr_tp)
+      insert(:tp_individual_stock_transaction_count, name: name_stock_transaction_count, individual_tax_returns: itr_tp)
+
+      data = Analyzes.total_all(itr_pro.id)
+
+      assert data == [
+        %{id: itr_pro.id, sum_value: %{itr_pro.id => D.new("0")}},
+        %{id: itr_tp.id, sum_match: 255},
+        %{id: itr_tp.id, sum_price: 660}
+      ]
     end
 
     test "return error when is not correct individual_tax_return_id" do

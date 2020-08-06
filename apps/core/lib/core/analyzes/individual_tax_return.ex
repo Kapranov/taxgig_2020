@@ -1395,7 +1395,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{tax_year: tax_year, price_tax_year: price_tax_year} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if is_nil(tax_year) || !is_nil(price_tax_year) do
+            if is_nil(tax_year) || !is_nil(price_tax_year) || Enum.count(tax_year) == 0 do
               :error
             else
               data = tax_year |> Enum.uniq() |> Enum.count()
