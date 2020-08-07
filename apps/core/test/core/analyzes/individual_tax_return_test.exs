@@ -57,6 +57,132 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       }
     end
 
+    test "return match_foreign_account when match is 0 by role Tp" do
+      match = insert(:match_value_relat, match_for_individual_foreign_account: 0)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_tp.id)
+
+      assert match.match_for_individual_foreign_account == 0
+      assert itr_pro.foreign_account                    == true
+      assert itr_pro.price_foreign_account              == 22
+      assert itr_tp.foreign_account                     == true
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == %{itr_pro.id => match.match_for_individual_foreign_account}
+    end
+
+    test "return match_foreign_account when match is nil by role Tp" do
+      match = insert(:match_value_relat, match_for_individual_foreign_account: nil)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_tp.id)
+
+      assert match.match_for_individual_foreign_account == nil
+      assert itr_pro.foreign_account                    == true
+      assert itr_pro.price_foreign_account              == 22
+      assert itr_tp.foreign_account                     == true
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == %{itr_pro.id => 0}
+    end
+
+    test "return match_foreign_account when is false by role Tp" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: false, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_tp.id)
+
+      assert match.match_for_individual_foreign_account == 20
+      assert itr_pro.foreign_account                    == true
+      assert itr_pro.price_foreign_account              == 22
+      assert itr_tp.foreign_account                     == false
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == :error
+    end
+
+    test "return match_foreign_account when is nil by role Tp" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: nil, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_tp.id)
+
+      assert match.match_for_individual_foreign_account == 20
+      assert itr_pro.foreign_account                    == true
+      assert itr_pro.price_foreign_account              == 22
+      assert itr_tp.foreign_account                     == nil
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == :error
+    end
+
+    test "return match_foreign_account when price is nil by role Tp" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: nil, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_tp.id)
+
+      assert match.match_for_individual_foreign_account == 20
+      assert itr_pro.foreign_account                    == true
+      assert itr_pro.price_foreign_account              == nil
+      assert itr_tp.foreign_account                     == true
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == %{}
+    end
+
+    test "return match_foreign_account when price is 0 by role Tp" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 0, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_tp.id)
+
+      assert match.match_for_individual_foreign_account == 20
+      assert itr_pro.foreign_account                    == true
+      assert itr_pro.price_foreign_account              == 0
+      assert itr_tp.foreign_account                     == true
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == %{}
+    end
+
+    test "return match_foreign_account when price is 1 by role Tp" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 1, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_tp.id)
+
+      assert match.match_for_individual_foreign_account == 20
+      assert itr_pro.foreign_account                    == true
+      assert itr_pro.price_foreign_account              == 1
+      assert itr_tp.foreign_account                     == true
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == %{itr_pro.id => match.match_for_individual_foreign_account}
+    end
+
     test "return match_foreign_account by role Pro" do
       match = insert(:match_value_relat)
 
@@ -103,6 +229,114 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
         itr_tp2.id => match.match_for_individual_foreign_account,
         itr_tp3.id => match.match_for_individual_foreign_account
       }
+    end
+
+    test "return match_foreign_account when match is 0 by role Pro" do
+      match = insert(:match_value_relat, match_for_individual_foreign_account: 0)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_pro.id)
+
+      assert match.match_for_individual_foreign_account == 0
+      assert itr_pro.foreign_account                    == true
+      assert itr_pro.price_foreign_account              == 22
+      assert itr_tp.foreign_account                     == true
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == %{itr_tp.id => match.match_for_individual_foreign_account}
+    end
+
+    test "return match_foreign_account when match is nil by role Pro" do
+      match = insert(:match_value_relat, match_for_individual_foreign_account: nil)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_pro.id)
+
+      assert match.match_for_individual_foreign_account == nil
+      assert itr_pro.foreign_account                    == true
+      assert itr_pro.price_foreign_account              == 22
+      assert itr_tp.foreign_account                     == true
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == %{itr_tp.id => 0}
+    end
+
+    test "return match_foreign_account when is false by role Pro" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: false, price_foreign_account: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_pro.id)
+
+      assert match.match_for_individual_foreign_account == 20
+      assert itr_pro.foreign_account                    == false
+      assert itr_pro.price_foreign_account              == 22
+      assert itr_tp.foreign_account                     == true
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == :error
+    end
+
+    test "return match_foreign_account when price is nil by role Pro" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: nil, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_pro.id)
+
+      assert match.match_for_individual_foreign_account == 20
+      assert itr_pro.foreign_account                    == true
+      assert itr_pro.price_foreign_account              == nil
+      assert itr_tp.foreign_account                     == true
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == :error
+    end
+
+    test "return match_foreign_account when price is 0 by role Pro" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 0, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_pro.id)
+
+      assert match.match_for_individual_foreign_account == 20
+      assert itr_pro.foreign_account                    == true
+      assert itr_pro.price_foreign_account              == 0
+      assert itr_tp.foreign_account                     == true
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == :error
+    end
+
+    test "return match_foreign_account when price is 1 by role Pro" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 1, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_pro.id)
+
+      assert match.match_for_individual_foreign_account == 20
+      assert itr_pro.foreign_account                    == true
+      assert itr_pro.price_foreign_account              == 1
+      assert itr_tp.foreign_account                     == true
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == %{itr_tp.id => match.match_for_individual_foreign_account}
     end
 
     test "return match_home_owner by role Tp" do
@@ -153,6 +387,150 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       }
     end
 
+    test "return match_home_owner when match is 0 by role Tp" do
+      match = insert(:match_value_relat, match_for_individual_home_owner: 0)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_tp.id)
+
+      assert match.match_for_individual_home_owner == 0
+      assert itr_pro.home_owner                    == true
+      assert itr_pro.price_home_owner              == 22
+      assert itr_tp.home_owner                     == true
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == %{itr_pro.id => match.match_for_individual_home_owner}
+    end
+
+    test "return match_home_owner when match is nil by role Tp" do
+      match = insert(:match_value_relat, match_for_individual_home_owner: nil)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_tp.id)
+
+      assert match.match_for_individual_home_owner == nil
+      assert itr_pro.home_owner                    == true
+      assert itr_pro.price_home_owner              == 22
+      assert itr_tp.home_owner                     == true
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == %{itr_pro.id => 0}
+    end
+
+    test "return match_home_owner when match is 1 by role Tp" do
+      match = insert(:match_value_relat, match_for_individual_home_owner: 1)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_tp.id)
+
+      assert match.match_for_individual_home_owner == 1
+      assert itr_pro.home_owner                    == true
+      assert itr_pro.price_home_owner              == 22
+      assert itr_tp.home_owner                     == true
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == %{itr_pro.id => match.match_for_individual_home_owner}
+    end
+
+    test "return match_home_owner when is false by role Tp" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: false, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_tp.id)
+
+      assert match.match_for_individual_home_owner == 20
+      assert itr_pro.home_owner                    == true
+      assert itr_pro.price_home_owner              == 22
+      assert itr_tp.home_owner                     == false
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == :error
+    end
+
+    test "return match_home_owner when is nil by role Tp" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: nil, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_tp.id)
+
+      assert match.match_for_individual_home_owner == 20
+      assert itr_pro.home_owner                    == true
+      assert itr_pro.price_home_owner              == 22
+      assert itr_tp.home_owner                     == nil
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == :error
+    end
+
+    test "return match_home_owner when price is 0 by role Tp" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 0, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_tp.id)
+
+      assert match.match_for_individual_home_owner == 20
+      assert itr_pro.home_owner                    == true
+      assert itr_pro.price_home_owner              == 0
+      assert itr_tp.home_owner                     == true
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == %{}
+    end
+
+    test "return match_home_owner when price is nil by role Tp" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: nil, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_tp.id)
+
+      assert match.match_for_individual_home_owner == 20
+      assert itr_pro.home_owner                    == true
+      assert itr_pro.price_home_owner              == nil
+      assert itr_tp.home_owner                     == true
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == %{}
+    end
+
+    test "return match_home_owner when price is 1 by role Tp" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 1, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_tp.id)
+
+      assert match.match_for_individual_home_owner == 20
+      assert itr_pro.home_owner                    == true
+      assert itr_pro.price_home_owner              == 1
+      assert itr_tp.home_owner                     == true
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == %{itr_pro.id => match.match_for_individual_home_owner}
+    end
+
     test "return match_home_owner by role Pro" do
       match = insert(:match_value_relat)
 
@@ -199,6 +577,150 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
         itr_tp2.id => match.match_for_individual_home_owner,
         itr_tp3.id => match.match_for_individual_home_owner
       }
+    end
+
+    test "return match_home_owner when match is 0 by role Pro" do
+      match = insert(:match_value_relat, match_for_individual_home_owner: 0)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_pro.id)
+
+      assert match.match_for_individual_home_owner == 0
+      assert itr_pro.home_owner                    == true
+      assert itr_pro.price_home_owner              == 22
+      assert itr_tp.home_owner                     == true
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == %{itr_tp.id => match.match_for_individual_home_owner}
+    end
+
+    test "return match_home_owner when match is nil by role Pro" do
+      match = insert(:match_value_relat, match_for_individual_home_owner: nil)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_pro.id)
+
+      assert match.match_for_individual_home_owner == nil
+      assert itr_pro.home_owner                    == true
+      assert itr_pro.price_home_owner              == 22
+      assert itr_tp.home_owner                     == true
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == %{itr_tp.id => 0}
+    end
+
+    test "return match_home_owner when match is 1 by role Pro" do
+      match = insert(:match_value_relat, match_for_individual_home_owner: 1)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_pro.id)
+
+      assert match.match_for_individual_home_owner == 1
+      assert itr_pro.home_owner                    == true
+      assert itr_pro.price_home_owner              == 22
+      assert itr_tp.home_owner                     == true
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == %{itr_tp.id => match.match_for_individual_home_owner}
+    end
+
+    test "return match_home_owner when is false by role Pro" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: false, price_home_owner: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_pro.id)
+
+      assert match.match_for_individual_home_owner == 20
+      assert itr_pro.home_owner                    == false
+      assert itr_pro.price_home_owner              == 22
+      assert itr_tp.home_owner                     == true
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == :error
+    end
+
+    test "return match_home_owner when is nil by role Pro" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: nil, price_home_owner: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_pro.id)
+
+      assert match.match_for_individual_home_owner == 20
+      assert itr_pro.home_owner                    == nil
+      assert itr_pro.price_home_owner              == 22
+      assert itr_tp.home_owner                     == true
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == :error
+    end
+
+    test "return match_home_owner when price is 0 by role Pro" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 0, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_pro.id)
+
+      assert match.match_for_individual_home_owner == 20
+      assert itr_pro.home_owner                    == true
+      assert itr_pro.price_home_owner              == 0
+      assert itr_tp.home_owner                     == true
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == :error
+    end
+
+    test "return match_home_owner when price is nil by role Pro" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: nil, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_pro.id)
+
+      assert match.match_for_individual_home_owner == 20
+      assert itr_pro.home_owner                    == true
+      assert itr_pro.price_home_owner              == nil
+      assert itr_tp.home_owner                     == true
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == :error
+    end
+
+    test "return match_home_owner when price is 1 by role Pro" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 1, user: pro)
+
+      data = IndividualTaxReturn.check_match_home_owner(itr_tp.id)
+
+      assert match.match_for_individual_home_owner == 20
+      assert itr_pro.home_owner                    == true
+      assert itr_pro.price_home_owner              == 1
+      assert itr_tp.home_owner                     == true
+      assert itr_tp.price_home_owner               == nil
+      assert data                                  == %{itr_pro.id => match.match_for_individual_home_owner}
     end
 
     test "return match_individual_employment_status by role Tp" do
@@ -259,6 +781,160 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       }
     end
 
+    test "return match_individual_employment_status when match is 0 by role Tp" do
+      name = "employed"
+
+      match = insert(:match_value_relat, match_for_individual_employment_status: 0)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_match_individual_employment_status(itr_tp.id)
+
+      assert match.match_for_individual_employment_status == 0
+      assert format_name(ies_pro.name)                    == name
+      assert ies_pro.price                                == 22
+      assert format_name(ies_tp.name)                     == name
+      assert ies_tp.price                                 == nil
+      assert data                                         == %{itr_pro.id => match.match_for_individual_employment_status}
+    end
+
+    test "return match_individual_employment_status when match is nil by role Tp" do
+      name = "employed"
+
+      match = insert(:match_value_relat, match_for_individual_employment_status: nil)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_match_individual_employment_status(itr_tp.id)
+
+      assert match.match_for_individual_employment_status == nil
+      assert format_name(ies_pro.name)                    == name
+      assert ies_pro.price                                == 22
+      assert format_name(ies_tp.name)                     == name
+      assert ies_tp.price                                 == nil
+      assert data                                         == %{itr_pro.id => 0}
+    end
+
+    test "return match_individual_employment_status when match is 1 by role Tp" do
+      name = "employed"
+
+      match = insert(:match_value_relat, match_for_individual_employment_status: 1)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_match_individual_employment_status(itr_tp.id)
+
+      assert match.match_for_individual_employment_status == 1
+      assert format_name(ies_pro.name)                    == name
+      assert ies_pro.price                                == 22
+      assert format_name(ies_tp.name)                     == name
+      assert ies_tp.price                                 == nil
+      assert data                                         == %{itr_pro.id => match.match_for_individual_employment_status}
+    end
+
+    test "return match_individual_employment_status when is nil by role Tp" do
+      name = "employed"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: nil, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_match_individual_employment_status(itr_tp.id)
+
+      assert match.match_for_individual_employment_status == 35
+      assert format_name(ies_pro.name)                    == name
+      assert ies_pro.price                                == 22
+      assert format_name(ies_tp.name)                     == nil
+      assert ies_tp.price                                 == nil
+      assert data                                         == :error
+    end
+
+    test "return match_individual_employment_status when price is nil by role Tp" do
+      name = "employed"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: nil, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_match_individual_employment_status(itr_tp.id)
+
+      assert match.match_for_individual_employment_status == 35
+      assert format_name(ies_pro.name)                    == name
+      assert ies_pro.price                                == nil
+      assert format_name(ies_tp.name)                     == name
+      assert ies_tp.price                                 == nil
+      assert data                                         == %{}
+    end
+
+    test "return match_individual_employment_status when price is 0 by role Tp" do
+      name = "employed"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: 0, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_match_individual_employment_status(itr_tp.id)
+
+      assert match.match_for_individual_employment_status == 35
+      assert format_name(ies_pro.name)                    == name
+      assert ies_pro.price                                == 0
+      assert format_name(ies_tp.name)                     == name
+      assert ies_tp.price                                 == nil
+      assert data                                         == %{}
+    end
+
+    test "return match_individual_employment_status when price is 1 by role Tp" do
+      name = "employed"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: 1, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_match_individual_employment_status(itr_tp.id)
+
+      assert match.match_for_individual_employment_status == 35
+      assert format_name(ies_pro.name)                    == name
+      assert ies_pro.price                                == 1
+      assert format_name(ies_tp.name)                     == name
+      assert ies_tp.price                                 == nil
+      assert data                                         == %{itr_pro.id => match.match_for_individual_employment_status}
+    end
+
     test "return match_individual_employment_status by role Pro" do
       name = "employed"
 
@@ -317,6 +993,160 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       }
     end
 
+    test "return match_individual_employment_status when match is 0 by role Pro" do
+      name = "employed"
+
+      match = insert(:match_value_relat, match_for_individual_employment_status: 0)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_match_individual_employment_status(itr_pro.id)
+
+      assert match.match_for_individual_employment_status == 0
+      assert format_name(ies_pro.name)                    == name
+      assert ies_pro.price                                == 22
+      assert format_name(ies_tp.name)                     == name
+      assert ies_tp.price                                 == nil
+      assert data                                         == %{itr_tp.id => match.match_for_individual_employment_status}
+    end
+
+    test "return match_individual_employment_status when match is nil by role Pro" do
+      name = "employed"
+
+      match = insert(:match_value_relat, match_for_individual_employment_status: nil)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_match_individual_employment_status(itr_pro.id)
+
+      assert match.match_for_individual_employment_status == nil
+      assert format_name(ies_pro.name)                    == name
+      assert ies_pro.price                                == 22
+      assert format_name(ies_tp.name)                     == name
+      assert ies_tp.price                                 == nil
+      assert data                                         == %{itr_tp.id => 0}
+    end
+
+    test "return match_individual_employment_status when match is 1 by role Pro" do
+      name = "employed"
+
+      match = insert(:match_value_relat, match_for_individual_employment_status: 1)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_match_individual_employment_status(itr_pro.id)
+
+      assert match.match_for_individual_employment_status == 1
+      assert format_name(ies_pro.name)                    == name
+      assert ies_pro.price                                == 22
+      assert format_name(ies_tp.name)                     == name
+      assert ies_tp.price                                 == nil
+      assert data                                         == %{itr_tp.id => match.match_for_individual_employment_status}
+    end
+
+    test "return match_individual_employment_status when is nil by role Pro" do
+      name = "employed"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: nil, price: 22, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_match_individual_employment_status(itr_pro.id)
+
+      assert match.match_for_individual_employment_status == 35
+      assert format_name(ies_pro.name)                    == nil
+      assert ies_pro.price                                == 22
+      assert format_name(ies_tp.name)                     == name
+      assert ies_tp.price                                 == nil
+      assert data                                         == :error
+    end
+
+    test "return match_individual_employment_status when price is nil by role Pro" do
+      name = "employed"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: nil, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_match_individual_employment_status(itr_pro.id)
+
+      assert match.match_for_individual_employment_status == 35
+      assert format_name(ies_pro.name)                    == name
+      assert ies_pro.price                                == nil
+      assert format_name(ies_tp.name)                     == name
+      assert ies_tp.price                                 == nil
+      assert data                                         == :error
+    end
+
+    test "return match_individual_employment_status when price is 0 by role Pro" do
+      name = "employed"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: 0, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_match_individual_employment_status(itr_pro.id)
+
+      assert match.match_for_individual_employment_status == 35
+      assert format_name(ies_pro.name)                    == name
+      assert ies_pro.price                                == 0
+      assert format_name(ies_tp.name)                     == name
+      assert ies_tp.price                                 == nil
+      assert data                                         == :error
+    end
+
+    test "return match_individual_employment_status when price is 1 by role Pro" do
+      name = "employed"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ies_pro = insert(:pro_individual_employment_status, name: name, price: 1, individual_tax_returns: itr_pro)
+
+      data = IndividualTaxReturn.check_match_individual_employment_status(itr_tp.id)
+
+      assert match.match_for_individual_employment_status == 35
+      assert format_name(ies_pro.name)                    == name
+      assert ies_pro.price                                == 1
+      assert format_name(ies_tp.name)                     == name
+      assert ies_tp.price                                 == nil
+      assert data                                         == %{itr_pro.id => match.match_for_individual_employment_status}
+    end
+
     test "return match_individual_filing_status by role Tp" do
       name = "Qualifying widow(-er) with dependent child"
 
@@ -373,6 +1203,146 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       }
     end
 
+    test "return match_individual_filing_status when match is 0 by role Tp" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      match = insert(:match_value_relat, match_for_individual_filing_status: 0)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: 22, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_match_individual_filing_status(itr_tp.id)
+      assert match.match_for_individual_filing_status == 0
+      assert format_name(ifs_pro.name)                == name
+      assert ifs_pro.price                            == 22
+      assert format_name(ifs_tp.name)                 == name
+      assert ifs_tp.price                             == nil
+      assert data                                     == %{itr_pro.id => match.match_for_individual_filing_status}
+    end
+
+    test "return match_individual_filing_status when match is nil by role Tp" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      match = insert(:match_value_relat, match_for_individual_filing_status: nil)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: 22, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_match_individual_filing_status(itr_tp.id)
+      assert match.match_for_individual_filing_status == nil
+      assert format_name(ifs_pro.name)                == name
+      assert ifs_pro.price                            == 22
+      assert format_name(ifs_tp.name)                 == name
+      assert ifs_tp.price                             == nil
+      assert data                                     == %{itr_pro.id => 0}
+    end
+
+    test "return match_individual_filing_status when match is 1 by role Tp" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      match = insert(:match_value_relat, match_for_individual_filing_status: 1)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: 22, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_match_individual_filing_status(itr_tp.id)
+      assert match.match_for_individual_filing_status == 1
+      assert format_name(ifs_pro.name)                == name
+      assert ifs_pro.price                            == 22
+      assert format_name(ifs_tp.name)                 == name
+      assert ifs_tp.price                             == nil
+      assert data                                     == %{itr_pro.id => match.match_for_individual_filing_status}
+    end
+
+    test "return match_individual_filing_status when is nil by role Tp" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: nil, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: 22, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_match_individual_filing_status(itr_tp.id)
+      assert match.match_for_individual_filing_status == 50
+      assert format_name(ifs_pro.name)                == name
+      assert ifs_pro.price                            == 22
+      assert format_name(ifs_tp.name)                 == nil
+      assert ifs_tp.price                             == nil
+      assert data                                     == :error
+    end
+
+    test "return match_individual_filing_status when price is nil by role Tp" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: nil, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_match_individual_filing_status(itr_tp.id)
+      assert match.match_for_individual_filing_status == 50
+      assert format_name(ifs_pro.name)                == name
+      assert ifs_pro.price                            == nil
+      assert format_name(ifs_tp.name)                 == name
+      assert ifs_tp.price                             == nil
+      assert data                                     == %{}
+    end
+
+    test "return match_individual_filing_status when price is 0 by role Tp" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: 0, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_match_individual_filing_status(itr_tp.id)
+      assert match.match_for_individual_filing_status == 50
+      assert format_name(ifs_pro.name)                == name
+      assert ifs_pro.price                            == 0
+      assert format_name(ifs_tp.name)                 == name
+      assert ifs_tp.price                             == nil
+      assert data                                     == %{}
+    end
+
+    test "return match_individual_filing_status when price is 1 by role Tp" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: 1, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_match_individual_filing_status(itr_tp.id)
+      assert match.match_for_individual_filing_status == 50
+      assert format_name(ifs_pro.name)                == name
+      assert ifs_pro.price                            == 1
+      assert format_name(ifs_tp.name)                 == name
+      assert ifs_tp.price                             == nil
+      assert data                                     == %{itr_pro.id => match.match_for_individual_filing_status}
+    end
+
     test "return match_individual_filing_status by role Pro" do
       name = "Qualifying widow(-er) with dependent child"
 
@@ -427,6 +1397,146 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
         itr_tp2.id => match.match_for_individual_filing_status,
         itr_tp3.id => match.match_for_individual_filing_status
       }
+    end
+
+    test "return match_individual_filing_status when match is 0 by role Pro" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      match = insert(:match_value_relat, match_for_individual_filing_status: 0)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: 22, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_match_individual_filing_status(itr_pro.id)
+      assert match.match_for_individual_filing_status == 0
+      assert format_name(ifs_pro.name)                == name
+      assert ifs_pro.price                            == 22
+      assert format_name(ifs_tp.name)                 == name
+      assert ifs_tp.price                             == nil
+      assert data                                     == %{itr_tp.id => match.match_for_individual_filing_status}
+    end
+
+    test "return match_individual_filing_status when match is nil by role Pro" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      match = insert(:match_value_relat, match_for_individual_filing_status: nil)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: 22, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_match_individual_filing_status(itr_pro.id)
+      assert match.match_for_individual_filing_status == nil
+      assert format_name(ifs_pro.name)                == name
+      assert ifs_pro.price                            == 22
+      assert format_name(ifs_tp.name)                 == name
+      assert ifs_tp.price                             == nil
+      assert data                                     == %{itr_tp.id => 0}
+    end
+
+    test "return match_individual_filing_status when match is 1 by role Pro" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      match = insert(:match_value_relat, match_for_individual_filing_status: 1)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: 22, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_match_individual_filing_status(itr_pro.id)
+      assert match.match_for_individual_filing_status == 1
+      assert format_name(ifs_pro.name)                == name
+      assert ifs_pro.price                            == 22
+      assert format_name(ifs_tp.name)                 == name
+      assert ifs_tp.price                             == nil
+      assert data                                     == %{itr_tp.id => match.match_for_individual_filing_status}
+    end
+
+    test "return match_individual_filing_status when is nil by role Pro" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: nil, price: 22, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_match_individual_filing_status(itr_pro.id)
+      assert match.match_for_individual_filing_status == 50
+      assert format_name(ifs_pro.name)                == nil
+      assert ifs_pro.price                            == 22
+      assert format_name(ifs_tp.name)                 == name
+      assert ifs_tp.price                             == nil
+      assert data                                     == :error
+    end
+
+    test "return match_individual_filing_status when price is nil by role Pro" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: nil, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_match_individual_filing_status(itr_pro.id)
+      assert match.match_for_individual_filing_status == 50
+      assert format_name(ifs_pro.name)                == name
+      assert ifs_pro.price                            == nil
+      assert format_name(ifs_tp.name)                 == name
+      assert ifs_tp.price                             == nil
+      assert data                                     == :error
+    end
+
+    test "return match_individual_filing_status when price is 0 by role Pro" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: 0, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_match_individual_filing_status(itr_pro.id)
+      assert match.match_for_individual_filing_status == 50
+      assert format_name(ifs_pro.name)                == name
+      assert ifs_pro.price                            == 0
+      assert format_name(ifs_tp.name)                 == name
+      assert ifs_tp.price                             == nil
+      assert data                                     == :error
+    end
+
+    test "return match_individual_filing_status when price is 1 by role Pro" do
+      name = "Qualifying widow(-er) with dependent child"
+
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, user: pro)
+      ifs_pro = insert(:pro_individual_filing_status, name: name, price: 1, individual_tax_returns: itr_pro)
+      data = IndividualTaxReturn.check_match_individual_filing_status(itr_pro.id)
+      assert match.match_for_individual_filing_status == 50
+      assert format_name(ifs_pro.name)                == name
+      assert ifs_pro.price                            == 1
+      assert format_name(ifs_tp.name)                 == name
+      assert ifs_tp.price                             == nil
+      assert data                                     == %{itr_tp.id => match.match_for_individual_filing_status}
     end
 
     test "return match_individual_industry by role Tp" do
