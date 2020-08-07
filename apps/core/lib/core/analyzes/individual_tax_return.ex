@@ -937,7 +937,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               for {k, v} <- data, into: %{}, do: {k, v}
             end
           true ->
-            if is_nil(stock_divident) || is_nil(price_stock_divident) || stock_divident == false || price_stock_divident <= 1 do
+            if is_nil(stock_divident) || is_nil(price_stock_divident) || stock_divident == false || price_stock_divident == 0 do
               :error
             else
               data = by_values(IndividualTaxReturn, false, true, :stock_divident)
@@ -967,7 +967,7 @@ defmodule Core.Analyzes.IndividualTaxReturn do
       %IndividualTaxReturn{tax_year: tax_year, price_tax_year: price_tax_year} ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if is_nil(tax_year) || !is_nil(price_tax_year) || Enum.count(tax_year) == 1 do
+            if is_nil(tax_year) || !is_nil(price_tax_year) || Enum.count(tax_year) <= 1 do
               :error
             else
               price = by_prices(IndividualTaxReturn, true, :price_tax_year)
