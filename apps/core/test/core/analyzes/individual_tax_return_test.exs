@@ -7269,16 +7269,6 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                                               == :error
     end
 
-    test "return value_foreign_financial_interest by role Pro" do
-      match = insert(:match_value_relat, value_for_individual_foreign_financial_interest: 0)
-      tp = insert(:tp_user, languages: [])
-      itr_tp = insert(:tp_individual_tax_return, foreign_financial_interest: true, user: tp)
-      data = IndividualTaxReturn.check_value_foreign_financial_interest(itr_tp.id)
-      assert D.to_string(match.value_for_individual_foreign_financial_interest) == "0"
-      assert itr_tp.foreign_financial_interest                                  == true
-      assert data                                                               == %{itr_tp.id => D.new("0")}
-    end
-
     test "return value_home_owner by role Pro" do
       match = insert(:match_value_relat, value_for_individual_home_owner: 0)
       tp = insert(:tp_user, languages: [])
@@ -7315,8 +7305,8 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                                                      == :error
     end
 
-    test "return value_individual_employment_status when is employed by role Tp" do
-      name = "employed"
+    test "return value_individual_employment_status when is nil by role Tp" do
+      name = nil
       match = insert(:match_value_relat, value_for_individual_employment_status: 22)
       tp = insert(:tp_user, languages: [])
       itr_tp = insert(:tp_individual_tax_return, user: tp)
@@ -7326,6 +7316,45 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert format_name(ies_tp.name)                                  == name
       assert ies_tp.price                                              == nil
       assert data                                                      == :error
+    end
+
+    test "return value_individual_employment_status when match is 0 by role Tp" do
+      name = "self-employed"
+      match = insert(:match_value_relat, value_for_individual_employment_status: 0)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      data = IndividualTaxReturn.check_value_individual_employment_status(itr_tp.id)
+      assert D.to_string(match.value_for_individual_employment_status) == "0"
+      assert format_name(ies_tp.name)                                  == name
+      assert ies_tp.price                                              == nil
+      assert data                                                      == %{itr_tp.id => match.value_for_individual_employment_status}
+    end
+
+    test "return value_individual_employment_status when match is nil by role Tp" do
+      name = "self-employed"
+      match = insert(:match_value_relat, value_for_individual_employment_status: nil)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      data = IndividualTaxReturn.check_value_individual_employment_status(itr_tp.id)
+      assert match.value_for_individual_employment_status == nil
+      assert format_name(ies_tp.name)                     == name
+      assert ies_tp.price                                 == nil
+      assert data                                         == %{itr_tp.id => D.new("0.0")}
+    end
+
+    test "return value_individual_employment_status when match is 1 by role Tp" do
+      name = "self-employed"
+      match = insert(:match_value_relat, value_for_individual_employment_status: 1)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ies_tp = insert(:tp_individual_employment_status, name: name, individual_tax_returns: itr_tp)
+      data = IndividualTaxReturn.check_value_individual_employment_status(itr_tp.id)
+      assert D.to_string(match.value_for_individual_employment_status) == "1"
+      assert format_name(ies_tp.name)                                  == name
+      assert ies_tp.price                                              == nil
+      assert data                                                      == %{itr_tp.id => match.value_for_individual_employment_status}
     end
 
     test "return value_individual_employment_status by role Pro" do
@@ -7352,6 +7381,17 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                                                      == %{itr_tp.id => D.new("79.99")}
     end
 
+    test "return value_individual_filing_status when is nil by role Tp" do
+      name = nil
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ifs_tp = insert(:tp_individual_filing_status, name: name, individual_tax_returns: itr_tp)
+      data = IndividualTaxReturn.check_value_individual_filing_status(itr_tp.id)
+      assert format_name(ifs_tp.name)                                  == name
+      assert ifs_tp.price                                              == nil
+      assert data                                                      == :error
+    end
+
     test "return value_individual_filing_status by role Pro" do
       name = "Qualifying widow(-er) with dependent child"
       pro = insert(:pro_user)
@@ -7373,6 +7413,16 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                                                      == %{itr_tp.id => D.new("30.0")}
     end
 
+    test "return value_individual_stock_transaction_count when is nil by role Tp" do
+      name = nil
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, user: tp)
+      ist_tp = insert(:tp_individual_stock_transaction_count, name: name, individual_tax_returns: itr_tp)
+      data = IndividualTaxReturn.check_value_individual_stock_transaction_count(itr_tp.id)
+      assert format_name(ist_tp.name)                                  == name
+      assert data                                                      == :error
+    end
+
     test "return value_k1_count by role Tp" do
       match = insert(:match_value_relat, value_for_individual_k1_count: 22)
       tp = insert(:tp_user, languages: [])
@@ -7381,6 +7431,66 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert D.to_string(match.value_for_individual_k1_count) == "22"
       assert itr_tp.k1_count                                  == 11
       assert data                                             == %{itr_tp.id => D.new("242")}
+    end
+
+    test "return value_k1_count when match is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_k1_count: 0)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, k1_count: 11, user: tp)
+      data = IndividualTaxReturn.check_value_k1_count(itr_tp.id)
+      assert D.to_string(match.value_for_individual_k1_count) == "0"
+      assert itr_tp.k1_count                                  == 11
+      assert data                                             == %{itr_tp.id => match.value_for_individual_k1_count}
+    end
+
+    test "return value_k1_count when match is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_k1_count: nil)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, k1_count: 11, user: tp)
+      data = IndividualTaxReturn.check_value_k1_count(itr_tp.id)
+      assert match.value_for_individual_k1_count == nil
+      assert itr_tp.k1_count                     == 11
+      assert data                                == %{itr_tp.id => D.new("0.0")}
+    end
+
+    test "return value_k1_count when match is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_k1_count: 1)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, k1_count: 11, user: tp)
+      data = IndividualTaxReturn.check_value_k1_count(itr_tp.id)
+      assert D.to_string(match.value_for_individual_k1_count) == "1"
+      assert itr_tp.k1_count                                  == 11
+      assert data                                             == %{itr_tp.id => D.new("11")}
+    end
+
+    test "return value_k1_count when is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_k1_count: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, k1_count: nil, user: tp)
+      data = IndividualTaxReturn.check_value_k1_count(itr_tp.id)
+      assert D.to_string(match.value_for_individual_k1_count) == "22"
+      assert itr_tp.k1_count                                  == nil
+      assert data                                             == :error
+    end
+
+    test "return value_k1_count when is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_k1_count: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, k1_count: 0, user: tp)
+      data = IndividualTaxReturn.check_value_k1_count(itr_tp.id)
+      assert D.to_string(match.value_for_individual_k1_count) == "22"
+      assert itr_tp.k1_count                                  == 0
+      assert data                                             == :error
+    end
+
+    test "return value_k1_count when is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_k1_count: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, k1_count: 1, user: tp)
+      data = IndividualTaxReturn.check_value_k1_count(itr_tp.id)
+      assert D.to_string(match.value_for_individual_k1_count) == "22"
+      assert itr_tp.k1_count                                  == 1
+      assert data                                             == %{itr_tp.id => D.new("22")}
     end
 
     test "return value_k1_count by role Pro" do
@@ -7403,6 +7513,56 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                                                       == %{itr_tp.id => D.new("22")}
     end
 
+    test "return value_rental_property_income when match is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_rental_prop_income: 0)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, rental_property_income: true, user: tp)
+      data = IndividualTaxReturn.check_value_rental_property_income(itr_tp.id)
+      assert D.to_string(match.value_for_individual_rental_prop_income) == "0"
+      assert itr_tp.rental_property_income                              == true
+      assert data                                                       == %{itr_tp.id => D.new("0")}
+    end
+
+    test "return value_rental_property_income when match is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_rental_prop_income: nil)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, rental_property_income: true, user: tp)
+      data = IndividualTaxReturn.check_value_rental_property_income(itr_tp.id)
+      assert match.value_for_individual_rental_prop_income == nil
+      assert itr_tp.rental_property_income                 == true
+      assert data                                          == %{itr_tp.id => D.new("0.0")}
+    end
+
+    test "return value_rental_property_income when match is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_rental_prop_income: 1)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, rental_property_income: true, user: tp)
+      data = IndividualTaxReturn.check_value_rental_property_income(itr_tp.id)
+      assert D.to_string(match.value_for_individual_rental_prop_income) == "1"
+      assert itr_tp.rental_property_income                              == true
+      assert data                                                       == %{itr_tp.id => D.new("1")}
+    end
+
+    test "return value_rental_property_income when is false by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_rental_prop_income: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, rental_property_income: false, user: tp)
+      data = IndividualTaxReturn.check_value_rental_property_income(itr_tp.id)
+      assert D.to_string(match.value_for_individual_rental_prop_income) == "22"
+      assert itr_tp.rental_property_income                              == false
+      assert data                                                       == :error
+    end
+
+    test "return value_rental_property_income when is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_rental_prop_income: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, rental_property_income: nil, user: tp)
+      data = IndividualTaxReturn.check_value_rental_property_income(itr_tp.id)
+      assert D.to_string(match.value_for_individual_rental_prop_income) == "22"
+      assert itr_tp.rental_property_income                              == nil
+      assert data                                                       == :error
+    end
+
     test "return value_rental_property_income by role Pro" do
       match = insert(:match_value_relat, value_for_individual_rental_prop_income: 22)
       pro = insert(:pro_user, languages: [])
@@ -7423,6 +7583,36 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                                                    == %{itr_tp.id => D.new("22")}
     end
 
+    test "return value_sole_proprietorship_count when match is 0 by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_sole_prop_count: 0)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, sole_proprietorship_count: 11, user: tp)
+      data = IndividualTaxReturn.check_value_sole_proprietorship_count(itr_tp.id)
+      assert D.to_string(match.value_for_individual_sole_prop_count) == "0"
+      assert itr_tp.sole_proprietorship_count                        == 11
+      assert data                                                    == %{itr_tp.id => D.new("0")}
+    end
+
+    test "return value_sole_proprietorship_count when match is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_sole_prop_count: nil)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, sole_proprietorship_count: 11, user: tp)
+      data = IndividualTaxReturn.check_value_sole_proprietorship_count(itr_tp.id)
+      assert match.value_for_individual_sole_prop_count == nil
+      assert itr_tp.sole_proprietorship_count           == 11
+      assert data                                       == %{itr_tp.id => D.new("0.0")}
+    end
+
+    test "return value_sole_proprietorship_count when match is 1 by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_sole_prop_count: 1)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, sole_proprietorship_count: 11, user: tp)
+      data = IndividualTaxReturn.check_value_sole_proprietorship_count(itr_tp.id)
+      assert D.to_string(match.value_for_individual_sole_prop_count) == "1"
+      assert itr_tp.sole_proprietorship_count                        == 11
+      assert data                                                    == %{itr_tp.id => D.new("1")}
+    end
+
     test "return value_sole_proprietorship_count when is 0 by role Tp" do
       match = insert(:match_value_relat, value_for_individual_sole_prop_count: 22)
       tp = insert(:tp_user, languages: [])
@@ -7430,6 +7620,16 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       data = IndividualTaxReturn.check_value_sole_proprietorship_count(itr_tp.id)
       assert D.to_string(match.value_for_individual_sole_prop_count) == "22"
       assert itr_tp.sole_proprietorship_count                        == 0
+      assert data                                                    == :error
+    end
+
+    test "return value_sole_proprietorship_count when is nil by role Tp" do
+      match = insert(:match_value_relat, value_for_individual_sole_prop_count: 22)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, sole_proprietorship_count: nil, user: tp)
+      data = IndividualTaxReturn.check_value_sole_proprietorship_count(itr_tp.id)
+      assert D.to_string(match.value_for_individual_sole_prop_count) == "22"
+      assert itr_tp.sole_proprietorship_count                        == nil
       assert data                                                    == :error
     end
 
@@ -7500,6 +7700,75 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                                          == %{itr_tp.id => D.new("22")}
     end
 
+    test "return value_state when match is 0 by role Tp" do
+      state = [
+        "Alaska",
+        "Michigan",
+        "New Jersey",
+        "American Samoa",
+        "Michigan",
+        "American Samoa",
+        "New Jersey",
+        "Delaware",
+        "California",
+        "Connecticut"
+      ] |> Enum.sort() |> Enum.uniq()
+      match = insert(:match_value_relat, value_for_individual_state: 0)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, state: state, user: tp)
+      data = IndividualTaxReturn.check_value_state(itr_tp.id)
+      assert D.to_string(match.value_for_individual_state) == "0"
+      assert itr_tp.state                                  == state
+      assert itr_tp.price_state                            == nil
+      assert data                                          == %{itr_tp.id => D.new("0")}
+    end
+
+    test "return value_state when match is nil by role Tp" do
+      state = [
+        "Alaska",
+        "Michigan",
+        "New Jersey",
+        "American Samoa",
+        "Michigan",
+        "American Samoa",
+        "New Jersey",
+        "Delaware",
+        "California",
+        "Connecticut"
+      ] |> Enum.sort() |> Enum.uniq()
+      match = insert(:match_value_relat, value_for_individual_state: nil)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, state: state, user: tp)
+      data = IndividualTaxReturn.check_value_state(itr_tp.id)
+      assert match.value_for_individual_state == nil
+      assert itr_tp.state                     == state
+      assert itr_tp.price_state               == nil
+      assert data                             == %{itr_tp.id => D.new("0.0")}
+    end
+
+    test "return value_state when match is 1 by role Tp" do
+      state = [
+        "Alaska",
+        "Michigan",
+        "New Jersey",
+        "American Samoa",
+        "Michigan",
+        "American Samoa",
+        "New Jersey",
+        "Delaware",
+        "California",
+        "Connecticut"
+      ] |> Enum.sort() |> Enum.uniq()
+      match = insert(:match_value_relat, value_for_individual_state: 1)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, state: state, user: tp)
+      data = IndividualTaxReturn.check_value_state(itr_tp.id)
+      assert D.to_string(match.value_for_individual_state) == "1"
+      assert itr_tp.state                                  == state
+      assert itr_tp.price_state                            == nil
+      assert data                                          == %{itr_tp.id => D.new("7")}
+    end
+
     test "return value_state by role Pro" do
       match = insert(:match_value_relat, value_for_individual_state: 22)
       pro = insert(:pro_user, languages: [])
@@ -7521,6 +7790,42 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert itr_tp.tax_year                                  == tax_year
       assert itr_tp.price_tax_year                            == nil
       assert data                                             == %{itr_tp.id => D.new("66")}
+    end
+
+    test "return value_tax_year when match is 0 by role Tp" do
+      tax_year = ["2012", "2015", "2011", "2012", "2017", "2011"] |> Enum.sort() |> Enum.uniq()
+      match = insert(:match_value_relat, value_for_individual_tax_year: 0)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, tax_year: tax_year, user: tp)
+      data = IndividualTaxReturn.check_value_tax_year(itr_tp.id)
+      assert D.to_string(match.value_for_individual_tax_year) == "0"
+      assert itr_tp.tax_year                                  == tax_year
+      assert itr_tp.price_tax_year                            == nil
+      assert data                                             == %{itr_tp.id => D.new("0")}
+    end
+
+    test "return value_tax_year when match is nil by role Tp" do
+      tax_year = ["2012", "2015", "2011", "2012", "2017", "2011"] |> Enum.sort() |> Enum.uniq()
+      match = insert(:match_value_relat, value_for_individual_tax_year: nil)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, tax_year: tax_year, user: tp)
+      data = IndividualTaxReturn.check_value_tax_year(itr_tp.id)
+      assert match.value_for_individual_tax_year == nil
+      assert itr_tp.tax_year                     == tax_year
+      assert itr_tp.price_tax_year               == nil
+      assert data                                == %{itr_tp.id => D.new("0.0")}
+    end
+
+    test "return value_tax_year when match is 1 by role Tp" do
+      tax_year = ["2012", "2015", "2011", "2012", "2017", "2011"] |> Enum.sort() |> Enum.uniq()
+      match = insert(:match_value_relat, value_for_individual_tax_year: 1)
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, tax_year: tax_year, user: tp)
+      data = IndividualTaxReturn.check_value_tax_year(itr_tp.id)
+      assert D.to_string(match.value_for_individual_tax_year) == "1"
+      assert itr_tp.tax_year                                  == tax_year
+      assert itr_tp.price_tax_year                            == nil
+      assert data                                             == %{itr_tp.id => D.new("3")}
     end
 
     test "return value_tax_year when is 0 by role Tp" do
