@@ -93,6 +93,24 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                                       == %{itr_pro.id => 0}
     end
 
+    test "return match_foreign_account when match is 1 by role Tp" do
+      match = insert(:match_value_relat, match_for_individual_foreign_account: 1)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_tp.id)
+
+      assert match.match_for_individual_foreign_account == 1
+      assert itr_pro.foreign_account                    == true
+      assert itr_pro.price_foreign_account              == 22
+      assert itr_tp.foreign_account                     == true
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == %{itr_pro.id => match.match_for_individual_foreign_account}
+    end
+
     test "return match_foreign_account when is false by role Tp" do
       match = insert(:match_value_relat)
 
@@ -267,6 +285,24 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                                       == %{itr_tp.id => 0}
     end
 
+    test "return match_foreign_account when match is 1 by role Pro" do
+      match = insert(:match_value_relat, match_for_individual_foreign_account: 1)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_pro.id)
+
+      assert match.match_for_individual_foreign_account == 1
+      assert itr_pro.foreign_account                    == true
+      assert itr_pro.price_foreign_account              == 22
+      assert itr_tp.foreign_account                     == true
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == %{itr_tp.id => 1}
+    end
+
     test "return match_foreign_account when is false by role Pro" do
       match = insert(:match_value_relat)
 
@@ -279,6 +315,24 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
 
       assert match.match_for_individual_foreign_account == 20
       assert itr_pro.foreign_account                    == false
+      assert itr_pro.price_foreign_account              == 22
+      assert itr_tp.foreign_account                     == true
+      assert itr_tp.price_foreign_account               == nil
+      assert data                                       == :error
+    end
+
+    test "return match_foreign_account when is nil by role Pro" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: nil, price_foreign_account: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_foreign_account(itr_pro.id)
+
+      assert match.match_for_individual_foreign_account == 20
+      assert itr_pro.foreign_account                    == nil
       assert itr_pro.price_foreign_account              == 22
       assert itr_tp.foreign_account                     == true
       assert itr_tp.price_foreign_account               == nil
@@ -2307,6 +2361,24 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                                     == :error
     end
 
+    test "return match_living_abroad when is nil by role Tp" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, living_abroad: nil, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, living_abroad: true, price_living_abroad: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_living_abroad(itr_tp.id)
+
+      assert match.match_for_individual_living_abroad == 20
+      assert itr_pro.living_abroad                    == true
+      assert itr_pro.price_living_abroad              == 22
+      assert itr_tp.living_abroad                     == nil
+      assert itr_tp.price_living_abroad               == nil
+      assert data                                     == :error
+    end
+
     test "return match_living_abroad when price is 0 by role Tp" do
       match = insert(:match_value_relat)
 
@@ -2475,6 +2547,24 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
 
       assert match.match_for_individual_living_abroad == 20
       assert itr_pro.living_abroad                    == false
+      assert itr_pro.price_living_abroad              == 22
+      assert itr_tp.living_abroad                     == true
+      assert itr_tp.price_living_abroad               == nil
+      assert data                                     == :error
+    end
+
+    test "return match_living_abroad when is nil by role Pro" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, living_abroad: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, living_abroad: nil, price_living_abroad: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_living_abroad(itr_pro.id)
+
+      assert match.match_for_individual_living_abroad == 20
+      assert itr_pro.living_abroad                    == nil
       assert itr_pro.price_living_abroad              == 22
       assert itr_tp.living_abroad                     == true
       assert itr_tp.price_living_abroad               == nil
@@ -2655,6 +2745,24 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                                            == :error
     end
 
+    test "return match_non_resident_earning when is nil by role Tp" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, non_resident_earning: nil, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, non_resident_earning: true, price_non_resident_earning: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_non_resident_earning(itr_tp.id)
+
+      assert match.match_for_individual_non_resident_earning == 20
+      assert itr_pro.non_resident_earning                    == true
+      assert itr_pro.price_non_resident_earning              == 22
+      assert itr_tp.non_resident_earning                     == nil
+      assert itr_tp.price_non_resident_earning               == nil
+      assert data                                            == :error
+    end
+
     test "return match_non_resident_earning when price is 0 by role Tp" do
       match = insert(:match_value_relat)
 
@@ -2823,6 +2931,24 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
 
       assert match.match_for_individual_non_resident_earning == 20
       assert itr_pro.non_resident_earning                    == false
+      assert itr_pro.price_non_resident_earning              == 22
+      assert itr_tp.non_resident_earning                     == true
+      assert itr_tp.price_non_resident_earning               == nil
+      assert data                                            == :error
+    end
+
+    test "return match_non_resident_earning when is nil by role Pro" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, non_resident_earning: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, non_resident_earning: nil, price_non_resident_earning: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_non_resident_earning(itr_pro.id)
+
+      assert match.match_for_individual_non_resident_earning == 20
+      assert itr_pro.non_resident_earning                    == nil
       assert itr_pro.price_non_resident_earning              == 22
       assert itr_tp.non_resident_earning                     == true
       assert itr_tp.price_non_resident_earning               == nil
@@ -3003,6 +3129,24 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                                        == :error
     end
 
+    test "return match_own_stock_crypto when is nil by role Tp" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, own_stock_crypto: nil, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, own_stock_crypto: true, price_own_stock_crypto: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_own_stock_crypto(itr_tp.id)
+
+      assert match.match_for_individual_own_stock_crypto == 20
+      assert itr_pro.own_stock_crypto                    == true
+      assert itr_pro.price_own_stock_crypto              == 22
+      assert itr_tp.own_stock_crypto                     == nil
+      assert itr_tp.price_own_stock_crypto               == nil
+      assert data                                        == :error
+    end
+
     test "return match_own_stock_crypto when price is 0 by role Tp" do
       match = insert(:match_value_relat)
 
@@ -3171,6 +3315,24 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
 
       assert match.match_for_individual_own_stock_crypto == 20
       assert itr_pro.own_stock_crypto                    == false
+      assert itr_pro.price_own_stock_crypto              == 22
+      assert itr_tp.own_stock_crypto                     == true
+      assert itr_tp.price_own_stock_crypto               == nil
+      assert data                                        == :error
+    end
+
+    test "return match_own_stock_crypto when is nil by role Pro" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, own_stock_crypto: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, own_stock_crypto: nil, price_own_stock_crypto: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_own_stock_crypto(itr_pro.id)
+
+      assert match.match_for_individual_own_stock_crypto == 20
+      assert itr_pro.own_stock_crypto                    == nil
       assert itr_pro.price_own_stock_crypto              == 22
       assert itr_tp.own_stock_crypto                     == true
       assert itr_tp.price_own_stock_crypto               == nil
@@ -3351,6 +3513,24 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                                          == :error
     end
 
+    test "return match_rental_property_income when is nil by role Tp" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, rental_property_income: nil, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, rental_property_income: true, price_rental_property_income: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_rental_property_income(itr_tp.id)
+
+      assert match.match_for_individual_rental_prop_income == 20
+      assert itr_pro.rental_property_income                == true
+      assert itr_pro.price_rental_property_income          == 22
+      assert itr_tp.rental_property_income                 == nil
+      assert itr_tp.price_rental_property_income           == nil
+      assert data                                          == :error
+    end
+
     test "return match_rental_property_income when price is 0 by role Tp" do
       match = insert(:match_value_relat)
 
@@ -3519,6 +3699,24 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
 
       assert match.match_for_individual_rental_prop_income == 20
       assert itr_pro.rental_property_income                == false
+      assert itr_pro.price_rental_property_income          == 22
+      assert itr_tp.rental_property_income                 == true
+      assert itr_tp.price_rental_property_income           == nil
+      assert data                                          == :error
+    end
+
+    test "return match_rental_property_income when is nil by role Pro" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, rental_property_income: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, rental_property_income: nil, price_rental_property_income: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_rental_property_income(itr_pro.id)
+
+      assert match.match_for_individual_rental_prop_income == 20
+      assert itr_pro.rental_property_income                == nil
       assert itr_pro.price_rental_property_income          == 22
       assert itr_tp.rental_property_income                 == true
       assert itr_tp.price_rental_property_income           == nil
@@ -3699,6 +3897,24 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                                      == :error
     end
 
+    test "return match_stock_divident when is nil by role Tp" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, stock_divident: nil, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, stock_divident: true, price_stock_divident: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_stock_divident(itr_tp.id)
+
+      assert match.match_for_individual_stock_divident == 20
+      assert itr_pro.stock_divident                    == true
+      assert itr_pro.price_stock_divident              == 22
+      assert itr_tp.stock_divident                     == nil
+      assert itr_tp.price_stock_divident               == nil
+      assert data                                      == :error
+    end
+
     test "return match_stock_divident when price is 0 by role Tp" do
       match = insert(:match_value_relat)
 
@@ -3873,6 +4089,24 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                                      == :error
     end
 
+    test "return match_stock_divident when is nil by role Pro" do
+      match = insert(:match_value_relat)
+
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, stock_divident: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, stock_divident: nil, price_stock_divident: 22, user: pro)
+
+      data = IndividualTaxReturn.check_match_stock_divident(itr_pro.id)
+
+      assert match.match_for_individual_stock_divident == 20
+      assert itr_pro.stock_divident                    == nil
+      assert itr_pro.price_stock_divident              == 22
+      assert itr_tp.stock_divident                     == true
+      assert itr_tp.price_stock_divident               == nil
+      assert data                                      == :error
+    end
+
     test "return match_stock_divident when price is 0 by role Pro" do
       match = insert(:match_value_relat)
 
@@ -3986,6 +4220,21 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                          == :error
     end
 
+    test "return price_foreign_account when is nil by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: nil, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: true, price_foreign_account: 22, user: pro)
+
+      data = IndividualTaxReturn.check_price_foreign_account(itr_tp.id)
+
+      assert itr_tp.foreign_account        == nil
+      assert itr_tp.price_foreign_account  == nil
+      assert itr_pro.foreign_account       == true
+      assert itr_pro.price_foreign_account == 22
+      assert data                          == :error
+    end
+
     test "return price_foreign_account when price is 0 by role Tp" do
       tp = insert(:tp_user, languages: [])
       itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
@@ -4084,6 +4333,21 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert itr_tp.foreign_account        == true
       assert itr_tp.price_foreign_account  == nil
       assert itr_pro.foreign_account       == false
+      assert itr_pro.price_foreign_account == 22
+      assert data                          == :error
+    end
+
+    test "return price_foreign_account when is nil by role Pro" do
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, foreign_account: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, foreign_account: nil, price_foreign_account: 22, user: pro)
+
+      data = IndividualTaxReturn.check_price_foreign_account(itr_pro.id)
+
+      assert itr_tp.foreign_account        == true
+      assert itr_tp.price_foreign_account  == nil
+      assert itr_pro.foreign_account       == nil
       assert itr_pro.price_foreign_account == 22
       assert data                          == :error
     end
@@ -4190,6 +4454,21 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert data                     == :error
     end
 
+    test "return price_home_owner when is nil by role Tp" do
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: nil, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: true, price_home_owner: 22, user: pro)
+
+      data = IndividualTaxReturn.check_price_home_owner(itr_tp.id)
+
+      assert itr_tp.home_owner        == nil
+      assert itr_tp.price_home_owner  == nil
+      assert itr_pro.home_owner       == true
+      assert itr_pro.price_home_owner == 22
+      assert data                     == :error
+    end
+
     test "return price_home_owner when price is 0 by role Tp" do
       tp = insert(:tp_user, languages: [])
       itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
@@ -4288,6 +4567,21 @@ defmodule Core.Analyzes.IndividualTaxReturnTest do
       assert itr_tp.home_owner        == true
       assert itr_tp.price_home_owner  == nil
       assert itr_pro.home_owner       == false
+      assert itr_pro.price_home_owner == 22
+      assert data                     == :error
+    end
+
+    test "return price_home_owner when is nil by role Pro" do
+      tp = insert(:tp_user, languages: [])
+      itr_tp = insert(:tp_individual_tax_return, home_owner: true, user: tp)
+      pro = insert(:pro_user, languages: [])
+      itr_pro = insert(:pro_individual_tax_return, home_owner: nil, price_home_owner: 22, user: pro)
+
+      data = IndividualTaxReturn.check_price_home_owner(itr_pro.id)
+
+      assert itr_tp.home_owner        == true
+      assert itr_tp.price_home_owner  == nil
+      assert itr_pro.home_owner       == nil
       assert itr_pro.price_home_owner == 22
       assert data                     == :error
     end
