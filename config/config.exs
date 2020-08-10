@@ -1,6 +1,7 @@
 import Config
 
 import_config "../apps/server/config/config.exs"
+import_config "../apps/stripy/config/config.exs"
 
 elixir_logger_level = System.get_env("ELIXIR_LOGGER_LEVEL") || "info"
 
@@ -28,7 +29,12 @@ config :logger, :console,
     error: :red
   ]
 
-config :core, ecto_repos: [Core.Repo, Graphy.Repo, Ptin.Repo]
+config :core, ecto_repos: [
+  Core.Repo,
+  Graphy.Repo,
+  Ptin.Repo,
+  Stripy.Repo
+]
 
 config :core, base_url: "https://taxgig.me:4001"
 

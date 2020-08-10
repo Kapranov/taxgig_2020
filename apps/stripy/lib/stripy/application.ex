@@ -1,4 +1,4 @@
-defmodule Stripe.Application do
+defmodule Stripy.Application do
   @moduledoc false
 
   use Application
@@ -6,9 +6,9 @@ defmodule Stripe.Application do
   @spec start(Application.start_type(), start_args :: term()) ::
           {:ok, pid()} | {:ok, pid(), Application.state()} | {:error, reason :: term()}
   def start(_type, _args) do
-    children = []
+    children = [Stripy.Repo]
 
-    opts = [strategy: :one_for_one, name: Stripe.Supervisor]
+    opts = [strategy: :one_for_one, name: Stripy.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end

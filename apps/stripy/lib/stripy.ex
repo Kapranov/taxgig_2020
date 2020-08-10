@@ -1,3 +1,3 @@
-defmodule Stripe do
+defmodule Stripy do
   @moduledoc false
 end
