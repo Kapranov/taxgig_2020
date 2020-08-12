@@ -4,12 +4,14 @@ defmodule Stripy.MixProject do
   def project do
     [
       app: :stripy,
+      description: description(),
       version: "0.1.0",
       build_path: "../../_build",
       config_path: "config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
       elixir: "~> 1.9",
+      elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -17,20 +19,46 @@ defmodule Stripy.MixProject do
 
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: [:hackney, :logger, :jason, :uri_query],
+      env: env(),
       mod: {Stripy.Application, []}
     ]
   end
 
   defp deps do
     [
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.4"},
+      {:erlexec, "~> 1.17", only: :test},
+      {:exexec, "~> 0.2.0", only: :test},
+      {:hackney, "~> 1.16"},
       {:inch_ex, "~> 2.0", only: [:dev, :test]},
       {:jason, "~> 1.2"},
-      {:uri_query, "~> 0.1"},
-      {:mox, "~> 0.5"},
+      {:mox, "~> 0.5", only: :test},
       {:postgrex, "~> 0.15"},
-      {:stripity_stripe, "~> 2.9"}
+      {:stripity_stripe, "~> 2.9"},
+      {:uri_query, "~> 0.1"}
     ]
+  end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support", "test/fixtures"]
+  defp elixirc_paths(_), do: ["lib"]
+
+  defp env() do
+    [
+      api_base_url: "https://api.stripe.com/v1/",
+      api_upload_url: "https://files.stripe.com/v1/",
+      pool_options: [
+        timeout: 5_000,
+        max_connections: 10
+      ],
+      use_connection_pool: true
+    ]
+  end
+
+  defp description do
+    """
+    A Stripe client for Elixir.
+    """
   end
 end
