@@ -27,7 +27,6 @@ defmodule Stripy.MixProject do
 
   defp deps do
     [
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.4"},
       {:erlexec, "~> 1.17", only: :test},
       {:exexec, "~> 0.2.0", only: :test},

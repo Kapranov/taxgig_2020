@@ -85,9 +85,7 @@ defmodule Stripy.StripeMock do
     Logger.debug("Killing stripe_mock")
 
     case Exexec.stop(manager_pid) do
-      :ok ->
-        :ok
-
+      :ok -> :ok
       {:error, err} ->
         Logger.error("Error killing stripe_mock: #{inspect(err)}")
         :ok

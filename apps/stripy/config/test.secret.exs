@@ -8,14 +8,12 @@ config :core, Stripy.Repo,
   show_sensitive_data_on_connection_error: true,
   pool: Ecto.Adapters.SQL.Sandbox
 
+config :stripy, json_library: Jason
+
 config :stripity_stripe,
-  api_key: "sk_test_EyPenZJWC2GF14V1OcTqB2xV",
-  connect_client_id: "pk_test_eb0K6BGJp0NCljbcOlGUlwFh"
+  api_key: "sk_test_4HBAA9fY1u6YEZta9ZzCHpEz00K0Bds8d1",
+  connect_client_id: "pk_test_GjKfJhUQ22WaBjL38sIuPjif00pOTDWgZv"
 
 config :stripity_stripe, json_library: Jason
-
 config :stripity_stripe, :retries, [max_attempts: 3, base_backoff: 500, max_backoff: 2_000]
-
-config :stripy, :stripe, Stripe.StripeTesting
-
-config :stripy, :stripe_env, :test
+config :stripity_stripe, :stripe_mock_path, "/home/kapranov/bin"

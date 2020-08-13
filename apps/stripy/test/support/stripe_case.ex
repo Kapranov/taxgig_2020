@@ -20,7 +20,7 @@ defmodule Stripy.StripeCase do
   end
 
   def stripe_base_url() do
-    Application.get_env(:stripy, :api_base_url)
+    Application.get_env(:stripity_stripe, :api_base_url)
   end
 
   defp assert_stripe_request_headers(nil, _), do: nil
@@ -67,7 +67,7 @@ defmodule Stripy.StripeCase do
   using do
     quote do
       import Stripy.StripeCase, only: [assert_stripe_requested: 2, assert_stripe_requested: 3, stripe_base_url: 0]
-      Application.put_env(:stripy, :http_module, HackneyMock)
+      Application.put_env(:stripity_stripe, :http_module, HackneyMock)
     end
   end
 end
