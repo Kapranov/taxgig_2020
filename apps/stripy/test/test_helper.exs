@@ -14,6 +14,9 @@ Application.put_env(:stripity_stripe, :api_upload_url, "http://localhost:12123/v
 Application.put_env(:stripity_stripe, :api_key, "sk_test_123")
 Application.put_env(:stripity_stripe, :log_level, :debug)
 
+Mox.defmock(Stripe.Connect.OAuthMock, for: Stripe.Connect.OAuth)
+Mox.defmock(Stripe.APIMock, for: Stripe.API)
+
 defmodule Helper do
   @fixture_path "./test/fixtures/"
 
