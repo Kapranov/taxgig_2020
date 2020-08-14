@@ -6,6 +6,12 @@
 bash> mix new stripy --sup
 ```
 
+```
+bash> mix ecto.gen.migration -r Stripy.Repo add_uuid_generate_v4_extension
+bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_card_token
+bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_account_token
+```
+
 ### 10 Aug 2020 by Oleg G.Kapranov
 
 [1]: https://paper.dropbox.com/doc/Kapranov-tasks-KiiwUONoZm8UsQ0aS2Uc7

@@ -30,6 +30,7 @@ defmodule Stripy.MixProject do
       {:ecto_sql, "~> 3.4"},
       {:erlexec, "~> 1.17", only: :test},
       {:exexec, "~> 0.2.0", only: :test},
+      {:flake_id, "~> 0.1"},
       {:hackney, "~> 1.16"},
       {:inch_ex, "~> 2.0", only: [:dev, :test]},
       {:jason, "~> 1.2"},

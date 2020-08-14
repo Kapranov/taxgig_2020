@@ -3,10 +3,10 @@
 if [ "$1" = "--umbrella" ] || [ "$1" = "-u" ]
 then
   while true; do
-    inotifywait -r -e modify,move,create,delete test/ && mix test --include integration
+    inotifywait -r -e modify,move,create,delete test/ && mix test
   done
 else
   while true; do
-    inotifywait -r -e modify,move,create,delete test/ && mix test --include integration
+    inotifywait -r -e modify,move,create,delete test/ && mix test
   done
 fi

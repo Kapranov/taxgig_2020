@@ -1,6 +1,6 @@
 defmodule Stripy.Repo do
   @moduledoc """
-  Stripe Repo.
+  Stripy Repo.
   """
   use Ecto.Repo, otp_app: :core, adapter: Ecto.Adapters.Postgres
 
