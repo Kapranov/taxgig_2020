@@ -4,10 +4,10 @@ defmodule Stripy.Repo.Migrations.CreateStripeCardToken do
   def change do
     create table(:stripe_card_tokens, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
-      add :card_token, :string, null: false
-      add :card_account, :string, null: false
-      add :created, :integer, null: false
       add :brand, :string, null: false
+      add :card_account, :string, null: false
+      add :card_token, :string, null: false
+      add :created, :integer, null: false
       add :cvc_check, :string, null: false
       add :exp_month, :integer, null: false
       add :exp_year, :integer, null: false

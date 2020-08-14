@@ -9,6 +9,7 @@ defmodule Stripy.Payments do
 
   alias Stripy.{
     Payments.StripeAccountToken,
+    Payments.StripeBankAccountToken,
     Payments.StripeCardToken,
     Repo
   }
@@ -117,6 +118,121 @@ defmodule Stripy.Payments do
   def delete_stripe_account_token(%StripeAccountToken{} = struct), do: Repo.delete(struct)
 
   @doc """
+  Gets a single StripeBankAccountToken.
+
+  Raises `Ecto.NoResultsError` if the StripeBankAccountToken does not exist.
+
+  ## Examples
+
+      iex> get_stripe_bank_account_token!(123)
+      %StripeBankAccountToken{}
+
+      iex> get_stripe_bank_account_token!(456)
+      ** (Ecto.NoResultsError)
+  """
+  def get_stripe_bank_account_token!(id), do: Repo.get!(StripeBankAccountToken, id)
+
+  @doc """
+  Gets a single StripeBankAccountToken's User_id by their UserId.
+  Raises `Ecto.NoResultsError` if the StripeBankAccountToken's UserId does not exist.
+
+  ## Example
+
+      iex> get_banks_find_by_user_id('123')
+      %StripeBankAccountToken{}
+
+      iex> get_banks_find_by_usr_id('not a name')
+      ** (Ecto.NoResultsError)
+  """
+  def get_banks_find_by_user_id(user_id) do
+    bank = from p in StripeBankAccountToken, where: p.user_id == ^user_id
+
+    case user_id do
+      nil -> nil
+       _ -> Repo.all(bank)
+    end
+  end
+
+  @doc """
+  Multi for Complex Database Transactions `StripeBankAccountToken`
+  and then `StripeCustomer`.
+  """
+  def create_multi_bank_account_token_customer(attrs) do
+    bank_token_changeset =
+      StripeBankAccountToken.changeset(%StripeBankAccountToken{}, attrs)
+
+    # email = attrs["user_id"] |> Accounts.find_by_email
+    # {:ok, customer} = Stripe.Customer.create(%{source: token})
+    # customer_attrs = %{stripe_customer_id: customer.id}
+
+    Multi.new
+    |> Multi.insert(:stripe_bank_account_token, bank_token_changeset)
+#    |> Multi.run(:stripe_customer, fn _, %{stripe_bank_account_token: stripe_bank_account_token} ->
+#      stripe_customer_changeset =
+#        %StripeCustomer{
+#          user_id: stripe_bank_account_token.user_id,
+#          account_balance: customer.account_balance,
+#          created: customer.created,
+#          currency: customer.currency,
+#          delinquent: customer.delinquent,
+#          description: customer.description,
+#          email: email,
+#          livemode: customer.livemode
+#        }
+#        |> StripeCustomer.changeset(customer_attrs)
+#
+#      Repo.insert(stripe_customer_changeset)
+#    end)
+    |> Repo.transaction()
+  end
+
+  @doc """
+  Creates a StripeBankAccountToken.
+
+  ## Examples
+
+      iex> create_stripe_bank_account_token(%{field: value})
+      {:ok, %StripeBankAccountToken{}}
+
+      iex> create_stripe_bank_account_token(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_stripe_bank_account_token(attrs) do
+    %StripeBankAccountToken{}
+    |> StripeBankAccountToken.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  A customer's bank account must first be verified before it can be charged.
+  """
+  def create_multi_verify_bank_account(attrs) do
+    attrs
+  end
+
+  @doc """
+  A customer's bank account must first be verified before it can be charged.
+  """
+  def verify_bank_account(attrs) do
+    attrs
+  end
+
+  @doc """
+  Deletes a StripeBankAccountToken.
+
+  ## Examples
+
+      iex> delete_stripe_bank_account_token(stripe_bank_account_token)
+      {:ok, %StripeBankAccountToken{}}
+
+      iex> delete_stripe_bank_account_token(stripe_bank_account_token)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_stripe_bank_account_token(%StripeBankAccountToken{} = struct), do: Repo.delete(struct)
+
+  @doc """
   Gets a single StripeCardToken.
 
   Raises `Ecto.NoResultsError` if the StripeCardToken does not exist.
@@ -186,9 +302,7 @@ defmodule Stripy.Payments do
       StripeCardToken.changeset(%StripeCardToken{}, attrs)
 
 #    email = attrs["user_id"] |> Accounts.find_by_email
-
 #    {:ok, customer} = Stripe.Customer.create(%{source: attrs["card_token"]})
-
 #    customer_attrs = %{stripe_customer_id: customer.id}
 
     Multi.new
