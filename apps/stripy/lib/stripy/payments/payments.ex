@@ -5,12 +5,116 @@ defmodule Stripy.Payments do
 
   import Ecto.Query, warn: false
 
-  # alias Ecto.Multi
+  alias Ecto.Multi
 
   alias Stripy.{
+    Payments.StripeAccountToken,
     Payments.StripeCardToken,
     Repo
   }
+
+  @doc """
+  Gets a single StripeAccountToken.
+
+  Raises `Ecto.NoResultsError` if the StripeAccountToken does not exist.
+
+  ## Examples
+
+      iex> get_stripe_account_token!(123)
+      %StripeAccountToken{}
+
+      iex> get_stripe_account_token!(456)
+      ** (Ecto.NoResultsError)
+  """
+  def get_stripe_account_token!(id), do: Repo.get!(StripeAccountToken, id)
+
+  @doc """
+  Gets a single StripeAccountToken's User_id by their UserId.
+  Raises `Ecto.NoResultsError` if the StripeAccountToken's UserId does not exist.
+
+  ## Example
+
+      iex> get_account_token_find_by_user_id('123')
+      %StripeAccountToken{}
+
+      iex> get_account_token_find_by_usr_id('not a name')
+      ** (Ecto.NoResultsError)
+  """
+  def get_account_token_find_by_user_id(user_id) do
+    account_token = from(p in StripeAccountToken, where: p.user_id == ^user_id)
+
+    case user_id do
+      nil -> nil
+      _ -> Repo.all(account_token)
+    end
+  end
+
+  @doc """
+  Creates a StripeAccountToken.
+
+  ## Examples
+
+      iex> create_stripe_account_token(%{field: value})
+      {:ok, %StripeAccountToken{}}
+
+      iex> create_stripe_account_token(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  def create_stripe_account_token(attrs) do
+    %StripeAccountToken{}
+    |> StripeAccountToken.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Multi for Complex Database Transactions `StripeAccountToken`
+  and then `StripeCustomer`.
+
+  1. Try creating a `StripeAccountToken`
+  2. If `StripeAccountToken` creation fails, return an error
+  3. If `StripeAccountToken` creation succeeds, try creating `StripeCustomer`
+  4. If `StripeCustomer` creation fails, delete the `StripeAccountToken` and return an error
+  5. If `StripeCustomer` creation succeeds, return the while records
+  """
+  def create_multi_account_token(attrs) do
+    {:ok, account_token} = Stripe.Token.create(%{
+      :"account[individual][dob][day]" => attrs["dob_day"],
+      :"account[individual][dob][month]" => attrs["dob_month"],
+      :"account[individual][dob][year]" => attrs["dob_year"],
+      :"account[individual][first_name]" => attrs["first_name"],
+      :"account[individual][last_name]" => attrs["last_name"],
+      :"account[individual][ssn_last_4]" => attrs["ssn_last_4"],
+      :"account[tos_shown_and_accepted]" => attrs["tos_shown_and_accepted"],
+      :"account[business_type]" => attrs["business_type"]
+    })
+
+    result = %{
+      account_token: account_token.id,
+      created: account_token.created,
+      used: account_token.used,
+      user_id: attrs["user_id"]
+    }
+
+    account_token_changeset =
+      StripeAccountToken.changeset(%StripeAccountToken{}, result)
+
+    Multi.new
+    |> Multi.insert(:stripe_account_token, account_token_changeset)
+    |> Repo.transaction()
+  end
+
+  @doc """
+  Deletes a StripeAccountToken.
+
+  ## Examples
+
+      iex> delete_stripe_account_token(stripe_account_token)
+      {:ok, %StripeAccountToken{}}
+
+      iex> delete_stripe_account_token(stripe_account_token)
+      {:error, %Ecto.Changeset{}}
+  """
+  def delete_stripe_account_token(%StripeAccountToken{} = struct), do: Repo.delete(struct)
 
   @doc """
   Gets a single StripeCardToken.
@@ -67,32 +171,28 @@ defmodule Stripy.Payments do
     |> Repo.insert()
   end
 
-#  @doc """
-#  Multi for Complex Database Transactions `StripeCardToken`
-#  and then `StripeCustomer`.
-#
-#  1. Try creating a `StripeCardToken`
-#  2. If `StripeCardToken` creation fails, return an error
-#  3. If `StripeCardToken` creation succeeds, try creating `StripeCustomer`
-#  4. If `StripeCustomer` creation fails, delete the `StripeCardToken` and return an error
-#  5. If `StripeCustomer` creation succeeds, return the while records
-#  """
-#  def create_multi_card_token_customer(attrs) do
-#    card_token_changeset =
-#      StripeCardToken.changeset(%StripeCardToken{}, attrs)
-#
-#    email =
-#      attrs["user_id"]
-#      |> Accounts.find_by_email
-#
-#    token = attrs["card_token"]
-#
-#    {:ok, customer} = Stripe.Customer.create(%{source: token})
-#
+  @doc """
+  Multi for Complex Database Transactions `StripeCardToken`
+  and then `StripeCustomer`.
+
+  1. Try creating a `StripeCardToken`
+  2. If `StripeCardToken` creation fails, return an error
+  3. If `StripeCardToken` creation succeeds, try creating `StripeCustomer`
+  4. If `StripeCustomer` creation fails, delete the `StripeCardToken` and return an error
+  5. If `StripeCustomer` creation succeeds, return the while records
+  """
+  def create_multi_card_token_customer(attrs) do
+    card_token_changeset =
+      StripeCardToken.changeset(%StripeCardToken{}, attrs)
+
+#    email = attrs["user_id"] |> Accounts.find_by_email
+
+#    {:ok, customer} = Stripe.Customer.create(%{source: attrs["card_token"]})
+
 #    customer_attrs = %{stripe_customer_id: customer.id}
-#
-#    Multi.new
-#    |> Multi.insert(:stripe_card_token, card_token_changeset)
+
+    Multi.new
+    |> Multi.insert(:stripe_card_token, card_token_changeset)
 #    |> Multi.run(:stripe_customer, fn _, %{stripe_card_token: stripe_card_token} ->
 #      stripe_customer_changeset =
 #        %StripeCustomer{
@@ -108,8 +208,8 @@ defmodule Stripy.Payments do
 #        |> StripeCustomer.changeset(customer_attrs)
 #      Repo.insert(stripe_customer_changeset)
 #    end)
-#    |> Repo.transaction()
-#  end
+    |> Repo.transaction()
+  end
 
   @doc """
   Deletes a StripeCardToken.
