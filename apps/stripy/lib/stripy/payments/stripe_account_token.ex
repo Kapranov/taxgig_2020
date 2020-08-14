@@ -10,8 +10,8 @@ defmodule Stripy.Payments.StripeAccountToken do
 
   @type t :: %__MODULE__{
     account_token: String.t(),
-    created: integer(),
-    used: boolean(),
+    created: integer,
+    used: boolean,
     user_id: FlakeId.Ecto.CompatType.t()
   }
 

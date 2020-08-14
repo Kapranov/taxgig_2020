@@ -11,6 +11,7 @@ defmodule Stripy.Payments do
     Payments.StripeAccountToken,
     Payments.StripeBankAccountToken,
     Payments.StripeCardToken,
+    Payments.StripeCustomer,
     Repo
   }
 
@@ -154,39 +155,6 @@ defmodule Stripy.Payments do
   end
 
   @doc """
-  Multi for Complex Database Transactions `StripeBankAccountToken`
-  and then `StripeCustomer`.
-  """
-  def create_multi_bank_account_token_customer(attrs) do
-    bank_token_changeset =
-      StripeBankAccountToken.changeset(%StripeBankAccountToken{}, attrs)
-
-    # email = attrs["user_id"] |> Accounts.find_by_email
-    # {:ok, customer} = Stripe.Customer.create(%{source: token})
-    # customer_attrs = %{stripe_customer_id: customer.id}
-
-    Multi.new
-    |> Multi.insert(:stripe_bank_account_token, bank_token_changeset)
-#    |> Multi.run(:stripe_customer, fn _, %{stripe_bank_account_token: stripe_bank_account_token} ->
-#      stripe_customer_changeset =
-#        %StripeCustomer{
-#          user_id: stripe_bank_account_token.user_id,
-#          account_balance: customer.account_balance,
-#          created: customer.created,
-#          currency: customer.currency,
-#          delinquent: customer.delinquent,
-#          description: customer.description,
-#          email: email,
-#          livemode: customer.livemode
-#        }
-#        |> StripeCustomer.changeset(customer_attrs)
-#
-#      Repo.insert(stripe_customer_changeset)
-#    end)
-    |> Repo.transaction()
-  end
-
-  @doc """
   Creates a StripeBankAccountToken.
 
   ## Examples
@@ -202,20 +170,6 @@ defmodule Stripy.Payments do
     %StripeBankAccountToken{}
     |> StripeBankAccountToken.changeset(attrs)
     |> Repo.insert()
-  end
-
-  @doc """
-  A customer's bank account must first be verified before it can be charged.
-  """
-  def create_multi_verify_bank_account(attrs) do
-    attrs
-  end
-
-  @doc """
-  A customer's bank account must first be verified before it can be charged.
-  """
-  def verify_bank_account(attrs) do
-    attrs
   end
 
   @doc """
@@ -288,44 +242,6 @@ defmodule Stripy.Payments do
   end
 
   @doc """
-  Multi for Complex Database Transactions `StripeCardToken`
-  and then `StripeCustomer`.
-
-  1. Try creating a `StripeCardToken`
-  2. If `StripeCardToken` creation fails, return an error
-  3. If `StripeCardToken` creation succeeds, try creating `StripeCustomer`
-  4. If `StripeCustomer` creation fails, delete the `StripeCardToken` and return an error
-  5. If `StripeCustomer` creation succeeds, return the while records
-  """
-  def create_multi_card_token_customer(attrs) do
-    card_token_changeset =
-      StripeCardToken.changeset(%StripeCardToken{}, attrs)
-
-#    email = attrs["user_id"] |> Accounts.find_by_email
-#    {:ok, customer} = Stripe.Customer.create(%{source: attrs["card_token"]})
-#    customer_attrs = %{stripe_customer_id: customer.id}
-
-    Multi.new
-    |> Multi.insert(:stripe_card_token, card_token_changeset)
-#    |> Multi.run(:stripe_customer, fn _, %{stripe_card_token: stripe_card_token} ->
-#      stripe_customer_changeset =
-#        %StripeCustomer{
-#          user_id: stripe_card_token.user_id,
-#          account_balance: customer.account_balance,
-#          created: customer.created,
-#          currency: customer.currency,
-#          delinquent: customer.delinquent,
-#          description: customer.description,
-#          email: email,
-#          livemode: customer.livemode
-#        }
-#        |> StripeCustomer.changeset(customer_attrs)
-#      Repo.insert(stripe_customer_changeset)
-#    end)
-    |> Repo.transaction()
-  end
-
-  @doc """
   Deletes a StripeCardToken.
 
   ## Examples
@@ -338,4 +254,189 @@ defmodule Stripy.Payments do
 
   """
   def delete_stripe_card_token(%StripeCardToken{} = struct), do: Repo.delete(struct)
+
+  @doc """
+  Gets a single StripeCustomer.
+
+  Raises `Ecto.NoResultsError` if the StripeCustomer does not exist.
+
+  ## Example
+
+      iex> get_stripe_customer!(123)
+      %StripeCustomer{}
+
+      iex> get_stripe_customer!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_stripe_customer!(id), do: Repo.get!(StripeCustomer, id)
+
+  @doc """
+  Multi for Complex Database Transactions `StripeCardToken`
+  and then `StripeCustomer`.
+
+  1. Try creating a `StripeCardToken`
+  2. If `StripeCardToken` creation fails, return an error
+  3. If `StripeCardToken` creation succeeds, try creating `StripeCustomer`
+  4. If `StripeCustomer` creation fails, delete the `StripeCardToken` and return an error
+  5. If `StripeCustomer` creation succeeds, return the while records
+  """
+  def create_multi_card_token_customer(attrs) do
+    card_token_changeset =
+      StripeCardToken.changeset(%StripeCardToken{}, attrs)
+    user_id = FlakeId.from_string(attrs["user_id"])
+    [[email]] = Ecto.Adapters.SQL.query!(Repo, "SELECT email from users WHERE id = $1", [user_id]) |> Map.get(:rows)
+    {:ok, customer} = Stripe.Customer.create(%{source: attrs["card_token"]})
+    customer_attrs = %{stripe_customer_id: customer.id}
+
+    Multi.new
+    |> Multi.insert(:stripe_card_token, card_token_changeset)
+    |> Multi.run(:stripe_customer, fn _, %{stripe_card_token: stripe_card_token} ->
+      stripe_customer_changeset =
+        %StripeCustomer{
+          user_id: stripe_card_token.user_id,
+          account_balance: customer.account_balance,
+          created: customer.created,
+          currency: customer.currency,
+          delinquent: customer.delinquent,
+          description: customer.description,
+          email: email,
+          livemode: customer.livemode
+        }
+        |> StripeCustomer.changeset(customer_attrs)
+
+      Repo.insert(stripe_customer_changeset)
+    end)
+    |> Repo.transaction()
+  end
+
+  @doc """
+  Multi for Complex Database Transactions `StripeBankAccountToken`
+  and then `StripeCustomer`.
+  """
+  def create_multi_bank_account_token_customer(attrs) do
+    bank_token_changeset =
+      StripeBankAccountToken.changeset(%StripeBankAccountToken{}, attrs)
+    user_id = FlakeId.from_string(attrs["user_id"])
+    [[email]] = Ecto.Adapters.SQL.query!(Repo, "SELECT email from users WHERE id = $1", [user_id]) |> Map.get(:rows)
+    {:ok, customer} = Stripe.Customer.create(%{source: attrs["bank_token"]})
+    customer_attrs = %{stripe_customer_id: customer.id}
+
+    Multi.new
+    |> Multi.insert(:stripe_bank_account_token, bank_token_changeset)
+    |> Multi.run(:stripe_customer, fn _, %{stripe_bank_account_token: stripe_bank_account_token} ->
+      stripe_customer_changeset =
+        %StripeCustomer{
+          user_id: stripe_bank_account_token.user_id,
+          account_balance: customer.account_balance,
+          created: customer.created,
+          currency: customer.currency,
+          delinquent: customer.delinquent,
+          description: customer.description,
+          email: email,
+          livemode: customer.livemode
+        }
+        |> StripeCustomer.changeset(customer_attrs)
+      Repo.insert(stripe_customer_changeset)
+    end)
+    |> Repo.transaction()
+  end
+
+  @doc """
+  A customer's bank account must first be verified before it can be charged.
+  """
+  def create_multi_verify_bank_account(attrs) do
+    amounts1 = attrs["amounts1"]
+    amounts2 = attrs["amounts2"]
+    created = attrs["created"]
+    bank_account_id = attrs["bank_account"]
+    user_id = FlakeId.from_string(attrs["user_id"])
+    [[email]] = Ecto.Adapters.SQL.query!(Repo, "SELECT email from users WHERE id = $1", [user_id]) |> Map.get(:rows)
+    {:ok, customer} = Stripe.Customer.create(%{source: attrs["bank_token"]})
+    customer_attrs = %{stripe_customer_id: customer.id}
+    verify_data = %{
+      :customer => customer.id,
+      :"amounts[0]" => amounts1,
+      :"amounts[1]" => amounts2
+    }
+
+    {:ok, verify} = Stripe.BankAccount.verify(bank_account_id, verify_data)
+
+    updated_attrs = %{
+      :account_holder_name => verify.account_holder_name,
+      :account_holder_type => verify.account_holder_type,
+      :bank_account => verify.id,
+      :bank_name => verify.bank_name,
+      :bank_token => attrs["bank_token"],
+      :country => verify.country,
+      :created => created,
+      :currency => verify.currency,
+      :fingerprint => verify.fingerprint,
+      :last4 => verify.last4,
+      :routing_number => verify.routing_number,
+      :status => verify.status,
+      :user_id => attrs["user_id"]
+    }
+
+    bank_token_changeset =
+      StripeBankAccountToken.changeset(%StripeBankAccountToken{}, updated_attrs)
+
+    Multi.new
+    |> Multi.insert(:stripe_bank_account_token, bank_token_changeset)
+    |> Multi.run(:stripe_customer, fn _, %{stripe_bank_account_token: stripe_bank_account_token} ->
+      stripe_customer_changeset =
+        %StripeCustomer{
+          user_id: stripe_bank_account_token.user_id,
+          account_balance: customer.account_balance,
+          created: customer.created,
+          currency: customer.currency,
+          delinquent: customer.delinquent,
+          description: customer.description,
+          email: email,
+          livemode: customer.livemode
+        }
+        |> StripeCustomer.changeset(customer_attrs)
+      Repo.insert(stripe_customer_changeset)
+    end)
+    |> Repo.transaction()
+  end
+
+  @doc """
+  A customer's bank account must first be verified before it can be charged.
+  """
+  def verify_bank_account(attrs) do
+    verify_data = %{
+      :customer => attrs["customer"],
+      :"amounts[0]" => attrs["amounts1"],
+      :"amounts[1]" => attrs["amounts2"]
+    }
+
+    {:ok, verify} = Stripe.BankAccount.verify(attrs["bank_account"], verify_data)
+
+    updated_attrs = %{
+      :user_id => attrs["user_id"],
+      :status => verify.status
+    }
+
+    bank_token_changeset =
+      StripeBankAccountToken.changeset(%StripeBankAccountToken{}, updated_attrs)
+
+    Multi.new
+    |> Multi.update(:stripe_bank_account_token, bank_token_changeset)
+    |> Repo.transaction()
+  end
+
+  @doc """
+  Deletes a StripeCustomer.
+
+  ## Examples
+
+      iex> delete_stripe_customer(stripe_customer)
+      {:ok, %StripeCustomer{}}
+
+      iex> delete_stripe_customer(stripe_customer)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_stripe_customer(%StripeCustomer{} = struct), do: Repo.delete(struct)
 end

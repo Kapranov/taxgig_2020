@@ -12,10 +12,10 @@ defmodule Stripy.Payments.StripeCardToken do
     brand: String.t(),
     card_account: String.t(),
     card_token: String.t(),
-    created: integer(),
+    created: integer,
     cvc_check: String.t(),
-    exp_month: integer(),
-    exp_year: integer(),
+    exp_month: integer,
+    exp_year: integer,
     last4: String.t(),
     name: String.t(),
     user_id: FlakeId.Ecto.CompatType.t()

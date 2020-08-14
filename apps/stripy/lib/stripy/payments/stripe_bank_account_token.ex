@@ -15,7 +15,7 @@ defmodule Stripy.Payments.StripeBankAccountToken do
     bank_name: String.t(),
     bank_token: String.t(),
     country: String.t(),
-    created: integer(),
+    created: integer,
     currency: String.t(),
     fingerprint: String.t(),
     last4: String.t(),
