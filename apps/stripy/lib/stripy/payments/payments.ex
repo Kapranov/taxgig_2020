@@ -8,12 +8,80 @@ defmodule Stripy.Payments do
   alias Ecto.Multi
 
   alias Stripy.{
+    Payments.StripeAccount,
     Payments.StripeAccountToken,
     Payments.StripeBankAccountToken,
     Payments.StripeCardToken,
     Payments.StripeCustomer,
     Repo
   }
+
+  @doc """
+  Gets a single StripeAccount.
+
+  Raises `Ecto.NoResultsError` if the StripeAccount does not exist.
+
+  ## Example
+
+      iex> get_stripe_account!(123)
+      %StripeAccount{}
+
+      iex> get_stripe_account!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_stripe_account!(id), do: Repo.get!(StripeAccount, id)
+
+  @doc """
+  Gets a single StripeAccount's User_id by their UserId.
+  Raises `Ecto.NoResultsError` if the StripeAccount's UserId does not exist.
+
+  ## Example
+
+      iex> get_account_find_by_user_id('123')
+      %StripeAccount{}
+
+      iex> get_account_find_by_usr_id('not a name')
+      ** (Ecto.NoResultsError)
+  """
+  def get_account_find_by_user_id(user_id) do
+    account = from(p in StripeAccount, where: p.user_id == ^user_id)
+
+    case user_id do
+      nil -> nil
+      _ -> Repo.all(account)
+    end
+  end
+
+  @doc """
+  Creates a StripeAccount.
+
+  ## Examples
+
+      iex> create_stripe_account(%{field: value})
+      {:ok, %StripeAccount{}}
+
+      iex> create_stripe_account(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  def create_stripe_account(attrs) do
+    %StripeAccount{}
+    |> StripeAccount.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Deletes a StripeAccount.
+
+  ## Examples
+
+      iex> delete_stripe_account(stripe_account)
+      {:ok, %StripeAccount{}}
+
+      iex> delete_stripe_account(stripe_account)
+      {:error, %Ecto.Changeset{}}
+  """
+  def delete_stripe_account(%StripeAccount{} = struct), do: Repo.delete(struct)
 
   @doc """
   Gets a single StripeAccountToken.
