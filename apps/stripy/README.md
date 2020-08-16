@@ -38,8 +38,8 @@ bash> mix new stripy --sup
 - [] Create connected individual account with token - ``
 - [] Charge on Customer object                      - `stripe_charge.ex`                - `https://stripe.com/docs/api/charges/create`
 - [] Capture on Customer object                     - `stripe_charge_capture.ex`        - `https://stripe.com/docs/api/charges/capture`
-- [] External Account Card                          - `stripe_external_account_card.ex` - `https://stripe.com/docs/api/external_account_cards/create`
-- [] External Account Bank                          - `stripe_external_account_bank.ex` - `https://stripe.com/docs/api/external_account_bank_accounts/create`
+- [X] External Account Card                         - `stripe_external_account_card.ex` - `https://stripe.com/docs/api/external_account_cards/create`
+- [X] External Account Bank                         - `stripe_external_account_bank.ex` - `https://stripe.com/docs/api/external_account_bank_accounts/create`
 - [] Refund                                         - `stripe_refund.ex`                - `https://stripe.com/docs/api/refunds/create`
 - [] Transfer                                       - `stripe_transfer.ex`              - `https://stripe.com/docs/api/transfers/create`
 - [] Transfer reversal                              - `stripe_transfer_reversal.ex`     - `https://stripe.com/docs/api/transfer_reversals/create`
