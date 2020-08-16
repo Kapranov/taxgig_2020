@@ -24,25 +24,25 @@ bash> mix new stripy --sup
 - [] Transfer
 - [] Transfer reversal
 
-- [X] Card token                                    - `stripe_card_token.ex`         - `https://stripe.com/docs/api/tokens/create_card`
-- [X] Bank token                                    - `stripe_bank_account_token.ex` - `https://stripe.com/docs/api/tokens/create_bank_account`
-- [X] Account token                                 - `stripe_account_token.ex`      - `https://stripe.com/docs/api/tokens/create_account`
-- []  Retrieve Bank token                           - ``                             - `https://stripe.com/docs/api/tokens/retrieve`
-- []  Retrieve Card debit token                     - ``                             - `https://stripe.com/docs/api/tokens/retrieve`
-- []  Retrieve Card token                           - ``                             - `https://stripe.com/docs/api/tokens/retrieve`
-- [X] Customer                                      - `stripe_customer.ex`           - `https://stripe.com/docs/api/customers/create`
-- [X] Account                                       - `stripe_account.ex`            - `https://stripe.com/docs/api/accounts/create`
-- [] Add bank account to Customer                   -
-- [] Add card (token) to Customer                   -
-- [] Add card (token) to connected account          -
-- [] Create connected individual account with token -
-- [] Charge on Customer object                      -
-- [] Capture on Customer object                     -
-- [] External Account Card                          -
-- [] External Account Bank                          -
-- [] Refund                                         -
-- [] Transfer                                       -
-- [] Transfer reversal                              -
+- [X] Card token                                    - `stripe_card_token.ex`            - `https://stripe.com/docs/api/tokens/create_card`
+- [X] Bank token                                    - `stripe_bank_account_token.ex`    - `https://stripe.com/docs/api/tokens/create_bank_account`
+- [X] Account token                                 - `stripe_account_token.ex`         - `https://stripe.com/docs/api/tokens/create_account`
+- []  Retrieve Bank token                           - ``                                - `https://stripe.com/docs/api/tokens/retrieve`
+- []  Retrieve Card debit token                     - ``                                - `https://stripe.com/docs/api/tokens/retrieve`
+- []  Retrieve Card token                           - ``                                - `https://stripe.com/docs/api/tokens/retrieve`
+- [X] Customer                                      - `stripe_customer.ex`              - `https://stripe.com/docs/api/customers/create`
+- [X] Account                                       - `stripe_account.ex`               - `https://stripe.com/docs/api/accounts/create`
+- [] Add bank account to Customer                   - ``
+- [] Add card (token) to Customer                   - ``
+- [] Add card (token) to connected account          - ``
+- [] Create connected individual account with token - ``
+- [] Charge on Customer object                      - `stripe_charge.ex`                - `https://stripe.com/docs/api/charges/create`
+- [] Capture on Customer object                     - `stripe_charge_capture.ex`        - `https://stripe.com/docs/api/charges/capture`
+- [] External Account Card                          - `stripe_external_account_card.ex` - `https://stripe.com/docs/api/external_account_cards/create`
+- [] External Account Bank                          - `stripe_external_account_bank.ex` - `https://stripe.com/docs/api/external_account_bank_accounts/create`
+- [] Refund                                         - `stripe_refund.ex`                - `https://stripe.com/docs/api/refunds/create`
+- [] Transfer                                       - `stripe_transfer.ex`              - `https://stripe.com/docs/api/transfers/create`
+- [] Transfer reversal                              - `stripe_transfer_reversal.ex`     - `https://stripe.com/docs/api/transfer_reversals/create`
 
 ```
 bash> mix ecto.gen.migration -r Stripy.Repo add_uuid_generate_v4_extension
@@ -50,8 +50,10 @@ bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_card_token
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_bank_account_token
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_account_token
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_customer
-bash> mix ecto.gen.migration -r Stripy.Repo stripe_connect_account
-bash> mix ecto.gen.migration -r Stripy.Repo stripe_custom_accounts
+bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_connect_account
+bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_custom_accounts
+bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_external_account_bank
+bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_external_account_card
 ```
 
 ### 10 Aug 2020 by Oleg G.Kapranov

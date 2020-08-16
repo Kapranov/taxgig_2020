@@ -13,6 +13,8 @@ defmodule Stripy.Payments do
     Payments.StripeBankAccountToken,
     Payments.StripeCardToken,
     Payments.StripeCustomer,
+    Payments.StripeExternalAccountBank,
+    Payments.StripeExternalAccountCard,
     Repo
   }
 
@@ -30,7 +32,43 @@ defmodule Stripy.Payments do
       ** (Ecto.NoResultsError)
 
   """
-  def get_stripe_account!(id), do: Repo.get!(StripeAccount, id)
+  def get_stripe_account!(id), do: Repo.get(StripeAccount, id)
+
+  def get_or_insert_stripe_account(user, attrs \\ %{}) do
+    get_account!(user)
+  rescue
+    _ ->
+      attrs
+      |> Map.put(:user_id, user.id)
+      |> insert_stripe_account()
+  end
+
+  defp get_account!(id), do: Repo.get!(StripeAccount, id)
+
+  defp insert_stripe_account(attrs) do
+    Multi.new()
+    |> create_multi_stripe_account(attrs)
+    |> insert_multi_stripe_account(attrs)
+  end
+
+  defp create_multi_stripe_account(multi, _attrs) do
+    create_stripe_account_fn = fn _changes ->
+      params = %{}
+      Stripe.Account.create(params)
+    end
+
+    Multi.run(multi, :stripe_account, create_stripe_account_fn)
+  end
+
+  defp insert_multi_stripe_account(multi, attrs) do
+    insert_account_fn = fn _changes ->
+      attrs
+      |> StripeAccount.changeset()
+      |> Repo.insert()
+    end
+
+    Multi.run(multi, :account, insert_account_fn)
+  end
 
   @doc """
   Gets a single StripeAccount's User_id by their UserId.
@@ -507,4 +545,96 @@ defmodule Stripy.Payments do
 
   """
   def delete_stripe_customer(%StripeCustomer{} = struct), do: Repo.delete(struct)
+
+  @doc """
+  Gets a single StripeExternalAccountBank.
+
+  Raises `Ecto.NoResultsError` if the StripeExternalAccountBank does not exist.
+
+  ## Example
+
+      iex> get_stripe_external_account_bank!(123)
+      %StripeExternalAccountBank{}
+
+      iex> get_stripe_external_account_bank!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_stripe_external_account_bank!(id), do: Repo.get(StripeExternalAccountBank, id)
+
+  @doc """
+  Creates a StripeExternalAccountBank.
+
+  ## Examples
+
+      iex> create_stripe_external_account_bank(%{field: value})
+      {:ok, %StripeExternalAccountBank{}}
+
+      iex> create_stripe_external_account_bank(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  def create_stripe_external_account_bank(attrs) do
+    %StripeExternalAccountBank{}
+    |> StripeExternalAccountBank.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Deletes a StripeExternalAccountBank.
+
+  ## Examples
+
+      iex> delete_stripe_external_account_bank(stripe_external_account_bank)
+      {:ok, %StripeExternalAccountBank{}}
+
+      iex> delete_stripe_external_account_bank(stripe_external_account_bank)
+      {:error, %Ecto.Changeset{}}
+  """
+  def delete_stripe_external_account_bank(%StripeExternalAccountBank{} = struct), do: Repo.delete(struct)
+
+  @doc """
+  Gets a single StripeExternalAccountCard.
+
+  Raises `Ecto.NoResultsError` if the StripeExternalAccountCard does not exist.
+
+  ## Example
+
+      iex> get_stripe_external_account_card!(123)
+      %StripeExternalAccountCard{}
+
+      iex> get_stripe_external_account_card!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_stripe_external_account_card!(id), do: Repo.get(StripeExternalAccountCard, id)
+
+  @doc """
+  Creates a StripeExternalAccountCard.
+
+  ## Examples
+
+      iex> create_stripe_external_account_card(%{field: value})
+      {:ok, %StripeExternalAccountCard{}}
+
+      iex> create_stripe_external_account_card(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  def create_stripe_external_account_card(attrs) do
+    %StripeExternalAccountCard{}
+    |> StripeExternalAccountCard.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Deletes a StripeExternalAccountCard.
+
+  ## Examples
+
+      iex> delete_stripe_external_account_card(stripe_external_account_card)
+      {:ok, %StripeExternalAccountCard{}}
+
+      iex> delete_stripe_external_account_card(stripe_external_account_card)
+      {:error, %Ecto.Changeset{}}
+  """
+  def delete_stripe_external_account_card(%StripeExternalAccountCard{} = struct), do: Repo.delete(struct)
 end
