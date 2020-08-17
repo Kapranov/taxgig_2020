@@ -40,7 +40,7 @@ bash> mix new stripy --sup
 - [X] Capture on Customer object                     - `stripe_charge_capture.ex`        - `https://stripe.com/docs/api/charges/capture`
 - [X] External Account Card                          - `stripe_external_account_card.ex` - `https://stripe.com/docs/api/external_account_cards/create`
 - [X] External Account Bank                          - `stripe_external_account_bank.ex` - `https://stripe.com/docs/api/external_account_bank_accounts/create`
-- []  Refund                                         - `stripe_refund.ex`                - `https://stripe.com/docs/api/refunds/create`
+- [X] Refund                                         - `stripe_refund.ex`                - `https://stripe.com/docs/api/refunds/create`
 - []  Transfer                                       - `stripe_transfer.ex`              - `https://stripe.com/docs/api/transfers/create`
 - []  Transfer reversal                              - `stripe_transfer_reversal.ex`     - `https://stripe.com/docs/api/transfer_reversals/create`
 
@@ -56,6 +56,7 @@ bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_external_account_bank
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_external_account_card
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_charge
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_charge_capture
+bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_refund
 ```
 
 ### 10 Aug 2020 by Oleg G.Kapranov

@@ -17,7 +17,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeChargeCapture do
       timestamps(type: :utc_datetime_usec)
     end
 
-    create unique_index(:stripe_charge_captures, [:id_from_stripe], name: :stripe_charge_captures_id_from_stripe_index)
     create unique_index(:stripe_charge_captures, [:id_from_charge], name: :stripe_charge_captures_id_from_charge_index)
+    create unique_index(:stripe_charge_captures, [:id_from_stripe], name: :stripe_charge_captures_id_from_stripe_index)
   end
 end
