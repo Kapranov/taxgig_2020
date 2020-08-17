@@ -4,9 +4,8 @@ defmodule Stripy.Repo.Migrations.CreateStripeCustomer do
   def change do
     create table(:stripe_customers, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
-      add :stripe_customer_id, :string, null: false
-      add :account_balance, :integer
       add :address, {:array, :map}
+      add :balance, :integer
       add :created, :integer
       add :currency, :string
       add :default_source, :string
@@ -23,6 +22,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeCustomer do
       add :preferred_locales, {:array, :map}
       add :shipping, {:array, :map}
       add :sources, {:array, :map}
+      add :stripe_customer_id, :string, null: false
       add :subscriptions, {:array, :map}
       add :tax_exempt, :string
       add :tax_ids, {:array, :map}

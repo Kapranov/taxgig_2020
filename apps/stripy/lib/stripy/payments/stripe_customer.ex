@@ -9,8 +9,8 @@ defmodule Stripy.Payments.StripeCustomer do
   @type message() :: atom()
 
   @type t :: %__MODULE__{
-    account_balance: integer,
     address: tuple,
+    balance: integer,
     created: integer,
     currency: String.t(),
     default_source: String.t(),
@@ -35,8 +35,8 @@ defmodule Stripy.Payments.StripeCustomer do
   }
 
   @allowed_params ~w(
-    account_balance
     address
+    balance
     created
     currency
     default_source
@@ -66,8 +66,8 @@ defmodule Stripy.Payments.StripeCustomer do
   )a
 
   schema "stripe_customers" do
-    field :account_balance, :integer
     field :address, {:array, :map}
+    field :balance, :integer
     field :created, :integer, null: false
     field :currency, :string, null: false
     field :default_source, :string
