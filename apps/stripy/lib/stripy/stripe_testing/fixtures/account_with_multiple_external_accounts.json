@@ -1,0 +1,65 @@
+{
+  "id": "account_with_multiple_external_accounts",
+  "object": "account",
+  "business_logo": null,
+  "charges_enabled": false,
+  "country": "US",
+  "default_currency": "usd",
+  "details_submitted": false,
+  "email": "someone@mail.com",
+  "external_accounts": {
+    "object": "list",
+    "data": [
+      {
+        "id": "ba_111111111111111111111111",
+        "object": "bank_account",
+        "account": "account_with_multiple_external_accounts",
+        "account_holder_name": "Jane Austen",
+        "account_holder_type": "individual",
+        "bank_name": "STRIPE TEST BANK",
+        "country": "US",
+        "currency": "usd",
+        "default_for_currency": false,
+        "fingerprint": "3wib8M6m7DxSV0PP",
+        "last4": "6789",
+        "metadata": {
+        },
+        "routing_number": "110000000",
+        "status": "new"
+      },
+      {
+        "id": "ba_222222222222222222222222",
+        "object": "bank_account",
+        "account": "account_with_multiple_external_accounts",
+        "account_holder_name": "Jane Austen",
+        "account_holder_type": "individual",
+        "bank_name": "STRIPE TEST BANK",
+        "country": "US",
+        "currency": "usd",
+        "default_for_currency": false,
+        "fingerprint": "3wib8M6m7DxSV0PP",
+        "last4": "6789",
+        "metadata": {
+        },
+        "routing_number": "110000000",
+        "status": "new"
+      }
+    ],
+    "has_more": false,
+    "total_count": 0,
+    "url": "/v1/accounts/account_with_multiple_external_accounts/external_accounts"
+  },
+  "metadata": null,
+  "tos_acceptance": {
+    "date": null,
+    "ip": null,
+    "user_agent": null
+  },
+  "transfer_schedule": {
+    "delay_days": 2,
+    "interval": "daily"
+  },
+  "transfer_statement_descriptor": null,
+  "payouts_enabled": false,
+  "type": "custom"
+}
