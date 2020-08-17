@@ -19,6 +19,7 @@ defmodule Stripy.Payments do
     Payments.StripeExternalAccountCard,
     Payments.StripeRefund,
     Payments.StripeTransfer,
+    Payments.StripeTransferReversal,
     Repo
   }
 
@@ -833,4 +834,52 @@ defmodule Stripy.Payments do
 
   """
   def delete_stripe_transfer(%StripeTransfer{} = struct), do: Repo.delete(struct)
+
+  @doc """
+  Gets a single StripeTransferReversal.
+
+  Raises `Ecto.NoResultsError` if the StripeTransferReversal does not exist.
+
+  ## Example
+
+      iex> get_stripe_transfer_reversal!(123)
+      %StripeTransferReversal{}
+
+      iex> get_stripe_transfer_reversal!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_stripe_transfer_reversal!(id), do: Repo.get!(StripeTransferReversal, id)
+
+  @doc """
+  Creates a StripeTransferReversal.
+
+  ## Examples
+
+      iex> create_stripe_transfer_reversal(%{field: value})
+      {:ok, %StripeTransferReversal{}}
+
+      iex> create_stripe_transfer_reversal(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_stripe_transfer_reversal(attrs) do
+    %StripeTransferReversal{}
+    |> StripeTransferReversal.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Deletes a StripeTransferReversal.
+
+  ## Examples
+
+      iex> delete_stripe_transfer_reversal(stripe_transfer_reversal)
+      {:ok, %StripeTransferReversal{}}
+
+      iex> delete_stripe_transfer_reversal(stripe_transfer_reversal)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_stripe_transfer_reversal(%StripeTransferReversal{} = struct), do: Repo.delete(struct)
 end

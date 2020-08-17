@@ -42,7 +42,7 @@ bash> mix new stripy --sup
 - [X] External Account Bank                          - `stripe_external_account_bank.ex` - `https://stripe.com/docs/api/external_account_bank_accounts/create`
 - [X] Refund                                         - `stripe_refund.ex`                - `https://stripe.com/docs/api/refunds/create`
 - [X] Transfer                                       - `stripe_transfer.ex`              - `https://stripe.com/docs/api/transfers/create`
-- []  Transfer reversal                              - `stripe_transfer_reversal.ex`     - `https://stripe.com/docs/api/transfer_reversals/create`
+- [X] Transfer reversal                              - `stripe_transfer_reversal.ex`     - `https://stripe.com/docs/api/transfer_reversals/create`
 
 ```
 bash> mix ecto.gen.migration -r Stripy.Repo add_uuid_generate_v4_extension
@@ -58,6 +58,7 @@ bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_charge
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_charge_capture
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_refund
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_transfer
+bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_transfer_reversal
 ```
 
 ### 10 Aug 2020 by Oleg G.Kapranov
