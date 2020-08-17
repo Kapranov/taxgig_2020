@@ -12,6 +12,8 @@ defmodule Stripy.Payments do
     Payments.StripeAccountToken,
     Payments.StripeBankAccountToken,
     Payments.StripeCardToken,
+    Payments.StripeCharge,
+    Payments.StripeChargeCapture,
     Payments.StripeCustomer,
     Payments.StripeExternalAccountBank,
     Payments.StripeExternalAccountCard,
@@ -360,6 +362,102 @@ defmodule Stripy.Payments do
 
   """
   def delete_stripe_card_token(%StripeCardToken{} = struct), do: Repo.delete(struct)
+
+  @doc """
+  Gets a single StripeCharge.
+
+  Raises `Ecto.NoResultsError` if the StripeCharge does not exist.
+
+  ## Example
+
+      iex> get_stripe_charge!(123)
+      %StripeCharge{}
+
+      iex> get_stripe_charge!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_stripe_charge!(id), do: Repo.get!(StripeCharge, id)
+
+  @doc """
+  Creates a StripeCharge.
+
+  ## Examples
+
+      iex> create_stripe_charge(%{field: value})
+      {:ok, %StripeCharge{}}
+
+      iex> create_stripe_charge(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_stripe_charge(attrs) do
+    %StripeCharge{}
+    |> StripeCharge.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Deletes a StripeCharge.
+
+  ## Examples
+
+      iex> delete_stripe_charge(stripe_charge)
+      {:ok, %StripeCharge{}}
+
+      iex> delete_stripe_charge(stripe_charge)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_stripe_charge(%StripeCharge{} = struct), do: Repo.delete(struct)
+
+  @doc """
+  Gets a single StripeChargeCapture.
+
+  Raises `Ecto.NoResultsError` if the StripeChargeCapture does not exist.
+
+  ## Example
+
+      iex> get_stripe_charge_capture!(123)
+      %StripeChargeCapture{}
+
+      iex> get_stripe_charge_capture!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_stripe_charge_capture!(id), do: Repo.get!(StripeChargeCapture, id)
+
+  @doc """
+  Creates a StripeChargeCapture.
+
+  ## Examples
+
+      iex> create_stripe_charge_capture(%{field: value})
+      {:ok, %StripeChargeCapture{}}
+
+      iex> create_stripe_charge_capture(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_stripe_charge_capture(attrs) do
+    %StripeChargeCapture{}
+    |> StripeChargeCapture.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Deletes a StripeChargeCapture.
+
+  ## Examples
+
+      iex> delete_stripe_charge_capture(stripe_charge_capture)
+      {:ok, %StripeChargeCapture{}}
+
+      iex> delete_stripe_charge_capture(stripe_charge_capture)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_stripe_charge_capture(%StripeChargeCapture{} = struct), do: Repo.delete(struct)
 
   @doc """
   Gets a single StripeCustomer.

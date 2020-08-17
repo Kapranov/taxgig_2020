@@ -37,7 +37,7 @@ bash> mix new stripy --sup
 - []  Add card (token) to connected account          - ``
 - []  Create connected individual account with token - ``
 - [X] Charge on Customer object                      - `stripe_charge.ex`                - `https://stripe.com/docs/api/charges/create`
-- []  Capture on Customer object                     - `stripe_charge_capture.ex`        - `https://stripe.com/docs/api/charges/capture`
+- [X] Capture on Customer object                     - `stripe_charge_capture.ex`        - `https://stripe.com/docs/api/charges/capture`
 - [X] External Account Card                          - `stripe_external_account_card.ex` - `https://stripe.com/docs/api/external_account_cards/create`
 - [X] External Account Bank                          - `stripe_external_account_bank.ex` - `https://stripe.com/docs/api/external_account_bank_accounts/create`
 - []  Refund                                         - `stripe_refund.ex`                - `https://stripe.com/docs/api/refunds/create`
@@ -55,6 +55,7 @@ bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_custom_accounts
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_external_account_bank
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_external_account_card
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_charge
+bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_charge_capture
 ```
 
 ### 10 Aug 2020 by Oleg G.Kapranov
@@ -75,5 +76,6 @@ bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_charge
 [14]: https://github.com/code-corps/code-corps-api
 [15]: https://medium.com/@paveltyk/custom-postgresql-driver-and-adapter-for-ecto-bedf1f9e0d19
 [16]: https://www.slideshare.net/aaforward/accepting-payments-using-stripe-and-elixir
-[17]: https://stripe.com/docs/api/tokens/create_card
-[18]: https://stripe.com/docs/api/customers
+[17]: https://stripe.com/docs/connect/account-tokens
+[18]: https://stripe.com/docs/api/tokens/create_card
+[19]: https://stripe.com/docs/api/customers
