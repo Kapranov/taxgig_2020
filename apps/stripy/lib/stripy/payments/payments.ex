@@ -18,6 +18,7 @@ defmodule Stripy.Payments do
     Payments.StripeExternalAccountBank,
     Payments.StripeExternalAccountCard,
     Payments.StripeRefund,
+    Payments.StripeTransfer,
     Repo
   }
 
@@ -784,4 +785,52 @@ defmodule Stripy.Payments do
 
   """
   def delete_stripe_refund(%StripeRefund{} = struct), do: Repo.delete(struct)
+
+  @doc """
+  Gets a single StripeTransfer.
+
+  Raises `Ecto.NoResultsError` if the StripeTransfer does not exist.
+
+  ## Example
+
+      iex> get_stripe_transfer!(123)
+      %StripeTransfer{}
+
+      iex> get_stripe_transfer!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_stripe_transfer!(id), do: Repo.get!(StripeTransfer, id)
+
+  @doc """
+  Creates a StripeTransfer.
+
+  ## Examples
+
+      iex> create_stripe_transfer(%{field: value})
+      {:ok, %StripeTransfer{}}
+
+      iex> create_stripe_transfer(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_stripe_transfer(attrs) do
+    %StripeTransfer{}
+    |> StripeTransfer.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Deletes a StripeTransfer.
+
+  ## Examples
+
+      iex> delete_stripe_transfer(stripe_transfer)
+      {:ok, %StripeTransfer{}}
+
+      iex> delete_stripe_transfer(stripe_transfer)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_stripe_transfer(%StripeTransfer{} = struct), do: Repo.delete(struct)
 end
