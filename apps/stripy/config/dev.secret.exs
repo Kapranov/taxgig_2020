@@ -10,6 +10,10 @@ config :core, Stripy.Repo,
 
 config :stripy, json_library: Jason
 
+config :stripy, :stripe, Stripe
+config :stripy, :stripe_env, :dev
+config :stripy, environment_name: Mix.env() || :dev
+
 config :stripity_stripe,
   api_key: "sk_test_4HBAA9fY1u6YEZta9ZzCHpEz00K0Bds8d1",
   connect_client_id: "pk_test_GjKfJhUQ22WaBjL38sIuPjif00pOTDWgZv"

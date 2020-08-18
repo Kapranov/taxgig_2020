@@ -9,6 +9,9 @@ config :core, Stripy.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :stripy, json_library: Jason
+config :stripy, :stripe, Stripy.StripeTesting
+config :stripy, :stripe_env, :test
+config :stripy, environment_name: Mix.env || :test
 
 config :stripity_stripe,
   api_key: "sk_test_4HBAA9fY1u6YEZta9ZzCHpEz00K0Bds8d1",

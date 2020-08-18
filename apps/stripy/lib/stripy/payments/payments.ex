@@ -502,7 +502,7 @@ defmodule Stripy.Payments do
       stripe_customer_changeset =
         %StripeCustomer{
           user_id: stripe_card_token.user_id,
-          account_balance: customer.account_balance,
+          balance: customer.balance,
           created: customer.created,
           currency: customer.currency,
           delinquent: customer.delinquent,
@@ -535,7 +535,7 @@ defmodule Stripy.Payments do
       stripe_customer_changeset =
         %StripeCustomer{
           user_id: stripe_bank_account_token.user_id,
-          account_balance: customer.account_balance,
+          balance: customer.balance,
           created: customer.created,
           currency: customer.currency,
           delinquent: customer.delinquent,
@@ -594,7 +594,7 @@ defmodule Stripy.Payments do
       stripe_customer_changeset =
         %StripeCustomer{
           user_id: stripe_bank_account_token.user_id,
-          account_balance: customer.account_balance,
+          balance: customer.balance,
           created: customer.created,
           currency: customer.currency,
           delinquent: customer.delinquent,

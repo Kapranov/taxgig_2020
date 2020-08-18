@@ -1,0 +1,13 @@
+{
+  "amount": 100,
+  "balance_transaction": "txn_1GfHDg2eZvKYlo2CNDjJyOvI",
+  "created": 1234567890,
+  "currency": "usd",
+  "destination_payment_refund": "pyr_1GfHDgI9Pbw6jkMZo83sSLra",
+  "id": "trr_1GfHDg2eZvKYlo2CcHxWjrwF",
+  "metadata": {
+  },
+  "object": "transfer_reversal",
+  "source_refund": null,
+  "transfer": "tr_1GfEh92eZvKYlo2CFCRI6zga"
+}

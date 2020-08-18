@@ -4,7 +4,8 @@ defmodule Stripy.StripeTesting.Helpers do
   stripity_stripe structs
   """
 
-  @fixture_path "./lib/stripy/stripe_testing/fixtures/"
+  @root_dir Path.expand("../../../lib/stripy/stripe_testing/", __DIR__)
+  @fixture_path "#{@root_dir}/fixtures/"
 
   @doc """
   Load a stripe response fixture through stripy, into a struct

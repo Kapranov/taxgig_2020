@@ -1,0 +1,17 @@
+{
+  "amount": 100,
+  "balance_transaction": null,
+  "charge": "ch_1032eS2eZvKYlo2CzLZWkihi",
+  "created": 1234567890,
+  "currency": "usd",
+  "id": "re_1HCXiN2eZvKYlo2C9DMTqeIn",
+  "metadata": {
+  },
+  "object": "refund",
+  "payment_intent": null,
+  "reason": null,
+  "receipt_number": null,
+  "source_transfer_reversal": null,
+  "status": "succeeded",
+  "transfer_reversal": null
+}
