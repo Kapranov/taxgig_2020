@@ -1,3 +1,15 @@
+defmodule Mix.Tasks.Compile.Erlexec do
+  def run(_) do
+    if match? {:win32, _}, :os.type do
+      IO.warn("Windows is not supported.")
+    else
+      {result, _error_code} = System.cmd("make", [], cd: "deps/erlexec", env: [{"MIX_ENV", "test"}], stderr_to_stdout: true)
+      IO.binwrite result
+    end
+    :ok
+  end
+end
+
 defmodule Stripy.MixProject do
   use Mix.Project
 
@@ -13,6 +25,7 @@ defmodule Stripy.MixProject do
       elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
+      compilers: [:erlexec, :elixir, :app],
       deps: deps()
     ]
   end
@@ -28,7 +41,7 @@ defmodule Stripy.MixProject do
   defp deps do
     [
       {:ecto_sql, "~> 3.4"},
-      {:erlexec, "~> 1.17", only: :test},
+      {:erlexec, git: "https://github.com/saleyn/erlexec.git", only: :test, override: true},
       {:exexec, "~> 0.2.0", only: :test},
       {:flake_id, "~> 0.1"},
       {:hackney, "~> 1.16"},

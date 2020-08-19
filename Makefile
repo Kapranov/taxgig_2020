@@ -70,6 +70,9 @@ clean:
 													$(V)$(MIX) do clean
 													$(V)rm -fr _build/ ./deps/
 
+install.erlexec:
+													$(V)cd deps/erlexec && make
+
 schema_json:              $(V)$(MIX) absinthe.schema.json --schema ServerWeb.GraphQL.Schema
 
 schema_json_pretty:       $(V)$(MIX) absinthe.schema.json --schema ServerWeb.GraphQL.Schema --pretty ./schema.json
@@ -107,6 +110,9 @@ start: kill clean packs
 up: kill
 													$(V)mix run --no-halt
 
+compile: kill clean packs install.erlexec
+													$(V)$(MIX) compile
+
 all: test credo start
 
-.PHONY: help git-% pull log kill clean packs test run halt start up all
+.PHONY: help git-% pull log kill clean compile_dev compile_test packs test run halt start up all
