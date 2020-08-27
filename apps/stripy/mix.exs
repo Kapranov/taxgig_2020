@@ -25,7 +25,7 @@ defmodule Stripy.MixProject do
       elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
-      compilers: [:erlexec, :elixir, :app],
+      # compilers: [:erlexec, :elixir, :app],
       deps: deps()
     ]
   end

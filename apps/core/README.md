@@ -8,6 +8,19 @@ bash> mix ecto.gen.migration -r Core.Repo add_uuid_generate_v4_extension
 bash> mix ecto.migrate -r Core.Repo
 ```
 
+### Introspecting Ecto Schemas
+
+```
+iex> data = User.__schema__(:fields)
+iex> data |> Enum.map(fn(f) -> {f, User.__schema__(:type, f)} end)
+iex> data |> Enum.map(&({&1, User.__schema__(:type, &1)}))
+iex> User.__schema__(:associations)
+iex> User.__schema__(:associations, :profile)
+iex> Profile.__schema__(:association, :user)
+iex> qry = User.__schema__(:query)
+iex> Repo.all(qry)
+```
+
 ```
 bash> mix ecto.gen.migration -r Core.Repo create_faq_categories
 bash> mix ecto.gen.migration -r Core.Repo create_faqs
@@ -60,7 +73,6 @@ bash> mix ecto.gen.migration -r Core.Repo create_universities
 bash> mix ecto.gen.migration -r Core.Repo create_educations
 bash> mix ecto.gen.migration -r Core.Repo create_work_experiences
 bash> mix ecto.gen.migration -r Core.Repo create_accounting_softwares
-
 
 iex> language1 = %Language{abbr: "fra", name: "french"
 iex> language2 = %Language{abbr: "ger", name: "german"}

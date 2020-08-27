@@ -12,13 +12,11 @@ defmodule Stripy.Repo.Migrations.CreateStripeExternalAccountCard do
       add :cvc, :integer
       add :cvc_check, :string
       add :default_for_currency, :boolean
-      add :dynamic_last4, :string
       add :exp_month, :integer, null: false
       add :exp_year, :integer, null: false
       add :fingerprint, :string
       add :funding, :string
       add :last4, :string
-      add :metadata, {:array, :map}
       add :name, :string
       add :number, :string, null: false
       add :tokenization_method, :string

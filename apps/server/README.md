@@ -38,3 +38,10 @@ bash> mix phx.nemix phx.new server --no-html --no-webpack --no-ecto
 7. `ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolver.update(nil, params, nil)`
 
 ### 21 Jan 2020 by Oleg G.Kapranov
+
+[1]: https://github.com/ueberauth/ueberauth_twitter
+[2]: https://cri.dev/posts/2020-02-15-Twitter-OAuth-by-example-in-Nodejs/
+[3]: https://itnext.io/a-beginners-guide-to-using-the-twitter-api-839c8d611b8c
+[4]: https://documenter.getpostman.com/view/2547817/RzZ3N3Ui?version=latest#intro
+[5]: https://developer.twitter.com/en/docs/authentication/overview
+

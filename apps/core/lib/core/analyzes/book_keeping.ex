@@ -184,8 +184,8 @@ defmodule Core.Analyzes.BookKeeping do
                :error
              else
               data =
-                Enum.reduce(name, [], fn(x, acc) ->
-                  names = by_match(BookKeepingIndustry, BookKeeping, false, :book_keeping_id, :name, to_string(x))
+                Enum.reduce(name, [], fn(key, acc) ->
+                  names = by_match(BookKeepingIndustry, BookKeeping, false, :book_keeping_id, :name, to_string(key))
                   [names | acc]
                 end) |> List.flatten
 

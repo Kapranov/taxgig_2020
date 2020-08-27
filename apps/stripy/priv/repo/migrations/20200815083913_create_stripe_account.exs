@@ -15,7 +15,6 @@ defmodule Stripy.Repo.Migrations.CreateStripeAccount do
       add :details_submitted, :boolean
       add :email, :string
       add :external_accounts, {:array, :map}
-      add :metadata, {:array, :map}
       add :payouts_enabled, :boolean
       add :requirements, {:array, :map}
       add :settings, {:array, :map}

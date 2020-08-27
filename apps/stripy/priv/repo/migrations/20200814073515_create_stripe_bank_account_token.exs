@@ -16,6 +16,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeBankAccountToken do
       add :last4, :string, null: false
       add :routing_number, :string, null: false
       add :status, :string, null: false
+      add :used, :boolean, null: false
       add :user_id, :uuid, null: false
 
       timestamps(type: :utc_datetime_usec)

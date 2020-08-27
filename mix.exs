@@ -16,12 +16,14 @@ defmodule TaxgigEx.MixProject do
       elixirc_options: [warnings_as_errors: warnings_as_errors(Mix.env())],
       homepage_url: "https://api.taxgig.com/",
       name: "Taxgig",
-      preferred_cli_env: preferred_cli_env(),
+      preferred_cli_env: cli_env_for(:test, [
+        "coveralls", "coveralls.detail", "coveralls.post",
+        "coveralls.html", "coveralls.json", "test.reset"
+      ]),
       releases: releases(),
       source_url: "https://github.com/kapranov/taxgig_2020",
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: ["coveralls.html": :test],
       updated: update_version(@version),
       version: version(@version)
     ]
@@ -84,15 +86,8 @@ defmodule TaxgigEx.MixProject do
     ]
   end
 
-  defp preferred_cli_env do
-    [
-      coveralls: :test,
-      "coveralls.detail": :test,
-      "coveralls.post": :test,
-      "coveralls.html": :test,
-      "coveralls.json": :test,
-      "test.reset": :test
-    ]
+  defp cli_env_for(env, tasks) do
+    Enum.reduce(tasks, [], fn(key, acc) -> Keyword.put(acc, :"#{key}", env) end)
   end
 
   defp releases do

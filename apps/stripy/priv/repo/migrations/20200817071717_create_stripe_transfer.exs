@@ -13,9 +13,6 @@ defmodule Stripy.Repo.Migrations.CreateStripeTransfer do
       add :description, :string
       add :destination, :string, null: false
       add :destination_payment, :string
-      add :livemode, :boolean
-      add :metadata, {:array, :map}
-      add :reversals, {:array, :map}
       add :reversed, :boolean
       add :source_transaction, :string
       add :source_type, :string

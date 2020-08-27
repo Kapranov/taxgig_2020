@@ -99,8 +99,10 @@ config :server, Facebook,
   scope: "email,user_photos"
 
 config :server, Twitter,
-  client_id: "86o1wzfjly49rc",
-  client_secret: "DyOjOFidMtPJQIlu",
+  access_token_key: "14943639-AMjbJmZEOtiv2LF7k7gGmRM3BDecGkot78BcouL8e",
+  access_token_secret: "d4wYVSk7A7VYjo2fD9J5OssEklz11DY2m1SMkfRdlpEwO",
+  consumer_key: "EjOshf6LQJqBWAxXL1OgRV7dk",
+  consumer_secret: "h24eToLvYW9SAh5zfin68VXroYqfzEVNYFxuJgyZaYZ8m2lqcm",
   redirect_uri: "https://taxgig.me:4001/graphiql"
 
 config :server, LinkedIn,

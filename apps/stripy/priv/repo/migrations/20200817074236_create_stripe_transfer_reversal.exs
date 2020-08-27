@@ -10,8 +10,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeTransferReversal do
       add :created, :integer
       add :currency, :string
       add :destination_payment_refund, :string
-      add :metadata, {:array, :map}
-      add :source_refund, :string
+      add :transfer, :string
       add :user_id, :uuid, null: false
 
       timestamps(type: :utc_datetime_usec)

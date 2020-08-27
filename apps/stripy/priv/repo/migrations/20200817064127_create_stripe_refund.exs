@@ -6,18 +6,10 @@ defmodule Stripy.Repo.Migrations.CreateStripeRefund do
       add :id_from_stripe, :string, null: false
       add :id_from_charge, :string, null: false
       add :amount, :integer
-      add :balance_transaction, :string
       add :created, :integer
       add :currency, :string
-      add :metadata, {:array, :map}
-      add :payment_intent, :string
       add :reason, :string
-      add :receipt_number, :string
-      add :refund_application_fee, :boolean
-      add :reverse_transfer, :boolean
-      add :source_transfer_reversal, :string
       add :status, :string
-      add :transfer_reversal, :string
       add :user_id, :uuid, null: false
 
       timestamps(type: :utc_datetime_usec)

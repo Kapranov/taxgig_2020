@@ -46,6 +46,7 @@ defmodule Core.MixProject do
       {:gravity, "~> 1.0"},
       {:jason, "~> 1.2"},
       {:mogrify, "~> 0.7"},
+      {:money, "~> 1.7"},
       {:mox, "~> 0.5"},
       {:nimble_parsec, "~> 0.6"},
       {:plug, "~> 1.10"},
