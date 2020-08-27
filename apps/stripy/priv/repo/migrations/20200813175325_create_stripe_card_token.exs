@@ -12,7 +12,6 @@ defmodule Stripy.Repo.Migrations.CreateStripeCardToken do
       add :cvc_check, :string, null: false
       add :exp_month, :integer, null: false
       add :exp_year, :integer, null: false
-      add :fingerprint, :string, null: false
       add :funding, :string, null: false
       add :last4, :string, null: false
       add :name, :string
