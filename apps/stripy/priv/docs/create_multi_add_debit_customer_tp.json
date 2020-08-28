@@ -1,0 +1,26 @@
+{
+  "id": "card_1HLA7LJ2Ju0cX1cPoQlOtlx2",
+  "object": "card",
+  "address_city": null,
+  "address_country": null,
+  "address_line1": null,
+  "address_line1_check": null,
+  "address_line2": null,
+  "address_state": null,
+  "address_zip": null,
+  "address_zip_check": null,
+  "brand": "Visa",
+  "country": "US",
+  "customer": "cus_HuzidRpURzLbwc",
+  "cvc_check": "pass",
+  "dynamic_last4": null,
+  "exp_month": 6,
+  "exp_year": 2026,
+  "fingerprint": "nI0OQt7DnoE1y9MG",
+  "funding": "debit",
+  "last4": "5556",
+  "metadata": {
+  },
+  "name": "Edward Witten",
+  "tokenization_method": null
+}

@@ -1,0 +1,33 @@
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "card_1HKo5XJ2Ju0cX1cPpF7P5ybC",
+      "object": "card",
+      "address_city": null,
+      "address_country": null,
+      "address_line1": null,
+      "address_line1_check": null,
+      "address_line2": null,
+      "address_state": null,
+      "address_zip": null,
+      "address_zip_check": null,
+      "brand": "Visa",
+      "country": "US",
+      "customer": "cus_HudMuWQ6aJtRrg",
+      "cvc_check": "pass",
+      "dynamic_last4": null,
+      "exp_month": 8,
+      "exp_year": 2021,
+      "fingerprint": "yszq6wuNLTJe3eZc",
+      "funding": "credit",
+      "last4": "4242",
+      "metadata": {
+      },
+      "name": "John Wick",
+      "tokenization_method": null
+    }
+  ],
+  "has_more": false,
+  "url": "/v1/customers/cus_HudMuWQ6aJtRrg/sources"
+}
