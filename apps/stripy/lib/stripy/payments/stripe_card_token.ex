@@ -10,7 +10,7 @@ defmodule Stripy.Payments.StripeCardToken do
 
   @type t :: %__MODULE__{
     brand: String.t(),
-    card_account: String.t(),
+    card_customer: String.t(),
     card_token: String.t(),
     created: integer,
     cvc_check: String.t(),
@@ -23,7 +23,7 @@ defmodule Stripy.Payments.StripeCardToken do
 
   @allowed_params ~w(
     brand
-    card_account
+    card_customer
     card_token
     created
     cvc_check
@@ -36,7 +36,7 @@ defmodule Stripy.Payments.StripeCardToken do
 
   @required_params ~w(
     brand
-    card_account
+    card_customer
     card_token
     cvc_check
     exp_month
@@ -47,7 +47,7 @@ defmodule Stripy.Payments.StripeCardToken do
 
   schema "stripe_card_tokens" do
     field :brand, :string, null: false
-    field :card_account, :string, null: false
+    field :card_customer, :string, null: false
     field :card_token, :string, null: false
     field :created, :integer
     field :cvc_check, :string, null: false

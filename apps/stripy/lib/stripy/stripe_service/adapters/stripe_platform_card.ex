@@ -1,16 +1,27 @@
-defmodule Stripy.StripeService.Adapters.StripeConnectCardAdapter do
+defmodule Stripy.StripeService.Adapters.StripePlatformCardAdapter do
   @moduledoc """
   Transfer model from Stripe.Card to Application schema model
   """
 
   import Stripy.MapUtils, only: [rename: 3, keys_to_string: 1]
 
-  @stripe_attributes [:id]
-
-  @non_stripe_attributes [
-    "stripe_connect_account_id",
-    "stripe_platform_card_id"
+  @stripe_attributes [
+    :brand,
+    :client_ip,
+    :created,
+    :customer,
+    :cvc_check,
+    :exp_month,
+    :exp_year,
+    :funding,
+    :id,
+    :last4,
+    :name,
+    :used,
+    :user_id
   ]
+
+  @non_stripe_attributes ["user_id"]
 
   @spec to_params(Stripe.Card.t, map) :: {:ok, map}
   def to_params(%Stripe.Card{} = stripe_card, %{} = attributes) do
@@ -18,7 +29,8 @@ defmodule Stripy.StripeService.Adapters.StripeConnectCardAdapter do
       stripe_card
       |> Map.from_struct
       |> Map.take(@stripe_attributes)
-      |> rename(:id, :id_from_stripe)
+      |> rename(:id, :card_token)
+      |> rename(:customer, :card_customer)
       |> keys_to_string
       |> add_non_stripe_attributes(attributes)
 
@@ -28,19 +40,7 @@ defmodule Stripy.StripeService.Adapters.StripeConnectCardAdapter do
   @spec add_non_stripe_attributes(map, map) :: map
   defp add_non_stripe_attributes(%{} = params, %{} = attributes) do
     attributes
-    |> get_non_stripe_attributes
-    |> add_to(params)
-  end
-
-  @spec get_non_stripe_attributes(map) :: map
-  defp get_non_stripe_attributes(%{} = attributes) do
-    attributes
     |> Map.take(@non_stripe_attributes)
-  end
-
-  @spec add_to(map, map) :: map
-  defp add_to(%{} = attributes, %{} = params) do
-    params
-    |> Map.merge(attributes)
+    |> Map.merge(params)
   end
 end

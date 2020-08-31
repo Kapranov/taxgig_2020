@@ -1,4 +1,4 @@
-defmodule Stripy.StripeService.Adapter.StripeConnectCustomerAdapter do
+defmodule Stripy.StripeService.Adapters.StripeConnectCustomerAdapter do
   @moduledoc """
   Transfer model from Stripe.Customer to Application schema model
   """
@@ -11,7 +11,7 @@ defmodule Stripy.StripeService.Adapter.StripeConnectCustomerAdapter do
     "user_id"
   ]
 
-  @spec to_params(%Stripe.Customer{} , map) :: {:ok, map}
+  @spec to_params(Stripe.Customer.t, map) :: {:ok, map}
   def to_params(%Stripe.Customer{} = customer, %{} = attributes) do
     result =
       customer
