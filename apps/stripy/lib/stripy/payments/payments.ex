@@ -501,14 +501,14 @@ defmodule Stripy.Payments do
     |> Multi.run(:stripe_customer, fn _, %{stripe_card_token: stripe_card_token} ->
       stripe_customer_changeset =
         %StripeCustomer{
-          user_id: stripe_card_token.user_id,
           balance: customer.balance,
           created: customer.created,
           currency: customer.currency,
-          delinquent: customer.delinquent,
-          description: customer.description,
           email: email,
-          livemode: customer.livemode
+          name: customer.name,
+          phone: customer.phone,
+          source: customer.source,
+          user_id: stripe_card_token.user_id
         }
         |> StripeCustomer.changeset(customer_attrs)
 
@@ -534,14 +534,14 @@ defmodule Stripy.Payments do
     |> Multi.run(:stripe_customer, fn _, %{stripe_bank_account_token: stripe_bank_account_token} ->
       stripe_customer_changeset =
         %StripeCustomer{
-          user_id: stripe_bank_account_token.user_id,
           balance: customer.balance,
           created: customer.created,
           currency: customer.currency,
-          delinquent: customer.delinquent,
-          description: customer.description,
           email: email,
-          livemode: customer.livemode
+          name: customer.name,
+          phone: customer.phone,
+          source: customer.source,
+          user_id: stripe_bank_account_token.user_id
         }
         |> StripeCustomer.changeset(customer_attrs)
       Repo.insert(stripe_customer_changeset)
@@ -593,14 +593,14 @@ defmodule Stripy.Payments do
     |> Multi.run(:stripe_customer, fn _, %{stripe_bank_account_token: stripe_bank_account_token} ->
       stripe_customer_changeset =
         %StripeCustomer{
-          user_id: stripe_bank_account_token.user_id,
           balance: customer.balance,
           created: customer.created,
           currency: customer.currency,
-          delinquent: customer.delinquent,
-          description: customer.description,
           email: email,
-          livemode: customer.livemode
+          name: customer.name,
+          phone: customer.phone,
+          source: customer.source,
+          user_id: stripe_bank_account_token.user_id,
         }
         |> StripeCustomer.changeset(customer_attrs)
       Repo.insert(stripe_customer_changeset)

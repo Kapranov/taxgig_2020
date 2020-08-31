@@ -18,5 +18,6 @@ defmodule Stripy.Repo.Migrations.CreateStripeCustomer do
     end
 
     create unique_index(:stripe_customers, [:stripe_customer_id], name: :stripe_customers_stripe_customer_id_index)
+    create unique_index(:stripe_customers, [:user_id], name: :stripe_customers_user_id_index)
   end
 end
