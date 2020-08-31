@@ -1,5 +1,6 @@
 defmodule Stripy.StripeService.Adapter.StripeConnectCardAdapter do
   @moduledoc """
+  Transfer model from Stripe.Card to Application schema model
   """
 
   import Stripy.MapUtils, only: [rename: 3, keys_to_string: 1]
