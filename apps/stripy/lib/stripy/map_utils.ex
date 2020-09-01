@@ -10,6 +10,21 @@ defmodule Stripy.MapUtils do
     |> Map.delete(old_key)
   end
 
+  @spec nested_merge(map, atom) :: map
+  def nested_merge(map, nested) do
+    n1 =
+      map
+      |> Map.from_struct
+      |> Map.delete(nested)
+
+    n2 =
+      map
+      |> Map.get(nested)
+      |> Map.from_struct
+
+    Map.merge(n1, n2)
+  end
+
   @spec keys_to_string(map) :: map
   def keys_to_string(map), do: stringify_keys(map)
 
