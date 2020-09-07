@@ -10,12 +10,12 @@ defmodule Core.Repo.Migrations.CreateUsers do
       add :bio, :string
       add :birthday, :date
       add :email, :string, null: false
-      add :first_name, :string
+      add :first_name, :string, null: false
       add :init_setup, :boolean
-      add :last_name, :string
+      add :last_name, :string, null: false
       add :middle_name, :string
       add :password_hash, :string, null: false
-      add :phone, :string
+      add :phone, :string, null: false
       add :role, :boolean, default: false, null: false
       add :provider, :string, default: "localhost", null: false
       add :sex, :string

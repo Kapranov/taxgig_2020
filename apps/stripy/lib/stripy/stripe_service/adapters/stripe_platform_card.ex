@@ -29,8 +29,8 @@ defmodule Stripy.StripeService.Adapters.StripePlatformCardAdapter do
       stripe_card
       |> Map.from_struct
       |> Map.take(@stripe_attributes)
-      |> rename(:id, :card_token)
-      |> rename(:customer, :card_customer)
+      |> rename(:id, :id_from_stripe)
+      |> rename(:customer, :id_from_customer)
       |> keys_to_string
       |> add_non_stripe_attributes(attributes)
 

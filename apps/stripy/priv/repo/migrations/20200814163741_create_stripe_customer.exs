@@ -10,7 +10,6 @@ defmodule Stripy.Repo.Migrations.CreateStripeCustomer do
       add :email, :string, null: false
       add :name, :string
       add :phone, :string
-      add :source, {:array, :map}
       add :stripe_customer_id, :string, null: false
       add :user_id, :uuid, null: false
 

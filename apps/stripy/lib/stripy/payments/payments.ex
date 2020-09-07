@@ -3,9 +3,7 @@ defmodule Stripy.Payments do
   The Payments for context.
   """
 
-  import Ecto.Query, warn: false
-
-  alias Ecto.Multi
+  use Stripy.Context
 
   alias Stripy.{
     Payments.StripeAccount,
@@ -353,6 +351,24 @@ defmodule Stripy.Payments do
   end
 
   @doc """
+  Updates a StripeCardToken only stripe_customer_id
+
+  ## Examples
+
+      iex> update_stripe_card_token(struct, %{field: new_value})
+      {:ok, %StripeCardToken{}}
+
+      iex> update_stripe_card_token(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  @spec update_stripe_card_token(StripeCardToken.t(), %{atom => any}) :: result() | error_tuple()
+  def update_stripe_card_token(struct, attrs) do
+    struct
+    |> StripeCardToken.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
   Deletes a StripeCardToken.
 
   ## Examples
@@ -507,7 +523,6 @@ defmodule Stripy.Payments do
           email: email,
           name: customer.name,
           phone: customer.phone,
-          source: customer.source,
           user_id: stripe_card_token.user_id
         }
         |> StripeCustomer.changeset(customer_attrs)
@@ -540,7 +555,6 @@ defmodule Stripy.Payments do
           email: email,
           name: customer.name,
           phone: customer.phone,
-          source: customer.source,
           user_id: stripe_bank_account_token.user_id
         }
         |> StripeCustomer.changeset(customer_attrs)
@@ -599,7 +613,6 @@ defmodule Stripy.Payments do
           email: email,
           name: customer.name,
           phone: customer.phone,
-          source: customer.source,
           user_id: stripe_bank_account_token.user_id,
         }
         |> StripeCustomer.changeset(customer_attrs)

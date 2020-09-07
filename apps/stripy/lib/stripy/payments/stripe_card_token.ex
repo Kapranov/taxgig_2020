@@ -10,51 +10,67 @@ defmodule Stripy.Payments.StripeCardToken do
 
   @type t :: %__MODULE__{
     brand: String.t(),
-    card_customer: String.t(),
-    card_token: String.t(),
+    client_ip: String.t(),
     created: integer,
     cvc_check: String.t(),
     exp_month: integer,
     exp_year: integer,
+    funding: String.t(),
+    id_from_customer: String.t(),
+    id_from_stripe: String.t(),
     last4: String.t(),
     name: String.t(),
+    used: boolean,
     user_id: FlakeId.Ecto.CompatType.t()
   }
 
   @allowed_params ~w(
     brand
-    card_customer
-    card_token
+    client_ip
     created
     cvc_check
     exp_month
     exp_year
+    funding
+    id_from_customer
+    id_from_stripe
     last4
     name
+    token
+    used
     user_id
   )a
 
   @required_params ~w(
     brand
-    card_customer
-    card_token
+    client_ip
+    created
     cvc_check
     exp_month
     exp_year
+    funding
+    id_from_stripe
     last4
+    name
+    token
+    used
     user_id
   )a
 
   schema "stripe_card_tokens" do
     field :brand, :string, null: false
-    field :card_customer, :string, null: false
-    field :card_token, :string, null: false
-    field :created, :integer
+    field :client_ip, :string, null: false
+    field :created, :integer, null: false
     field :cvc_check, :string, null: false
     field :exp_month, :integer, null: false
     field :exp_year, :integer, null: false
+    field :funding, :string, null: false
+    field :id_from_customer, :string
+    field :id_from_stripe, :string, null: false
     field :last4, :string, null: false
-    field :name, :string
+    field :name, :string, null: false
+    field :token, :string, null: false
+    field :used, :boolean, null: false
     field :user_id, FlakeId.Ecto.CompatType, null: false
 
     timestamps()
@@ -68,6 +84,6 @@ defmodule Stripy.Payments.StripeCardToken do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
-    |> unique_constraint(:card_token, name: :stripe_card_tokens_card_token_index)
+    |> unique_constraint(:id_from_stripe, name: :stripe_card_tokens_id_from_stripe_index)
   end
 end

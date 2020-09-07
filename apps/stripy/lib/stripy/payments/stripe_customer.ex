@@ -15,7 +15,6 @@ defmodule Stripy.Payments.StripeCustomer do
     email: String.t(),
     name: String.t(),
     phone: String.t(),
-    source: tuple,
     stripe_customer_id: String.t(),
     user_id: FlakeId.Ecto.CompatType.t()
   }
@@ -27,7 +26,6 @@ defmodule Stripy.Payments.StripeCustomer do
     email
     name
     phone
-    source
     stripe_customer_id
     user_id
   )a
@@ -44,7 +42,6 @@ defmodule Stripy.Payments.StripeCustomer do
     field :email, :string, null: false
     field :name, :string
     field :phone, :string
-    field :source, {:array, :map}
     field :stripe_customer_id, :string, null: false
     field :user_id, FlakeId.Ecto.CompatType, null: false
 

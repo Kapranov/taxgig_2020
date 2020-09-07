@@ -17,20 +17,22 @@ defmodule Stripy.StripeService.Adapters.StripePlatformCardTokenAdapter do
     :id,
     :last4,
     :name,
+    :token,
     :used,
     :user_id
   ]
 
-  @non_stripe_attributes ["user_id"]
+  @non_stripe_attributes ["token", "user_id"]
 
   @spec to_params(Stripe.Token.t, map) :: {:ok, map}
   def to_params(%Stripe.Token{} = stripe_card_token, %{} = attributes) do
     result =
       stripe_card_token
+      |> rename(:id, :token)
       |> nested_merge(:card)
       |> Map.take(@stripe_attributes)
-      |> rename(:id, :card_token)
-      |> rename(:customer, :card_customer)
+      |> rename(:id, :id_from_stripe)
+      |> rename(:customer, :id_from_customer)
       |> keys_to_string
       |> add_non_stripe_attributes(attributes)
 
