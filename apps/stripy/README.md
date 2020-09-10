@@ -61,6 +61,12 @@ bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_transfer
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_transfer_reversal
 ```
 
+```
+for role false => create card(10) -> create_custmer(1) -> create_charge() -> create_charge_capture(update_charge)
+for role true  => create_account(1) -> create_account_token() -> update_account -> create_card_token -> create_external_account_card() -> create_transfer() -> create_transfer_reversal()
+                                                                                -> create_bank_token -> create_external_account_bank() -> create_transfer() ->
+```
+
 ### 10 Aug 2020 by Oleg G.Kapranov
 
 [1]: https://paper.dropbox.com/doc/Kapranov-tasks-KiiwUONoZm8UsQ0aS2Uc7
@@ -82,3 +88,7 @@ bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_transfer_reversal
 [17]: https://stripe.com/docs/connect/account-tokens
 [18]: https://stripe.com/docs/api/tokens/create_card
 [19]: https://stripe.com/docs/api/customers
+[20]: https://paper.dropbox.com/doc/Stripe-functionality-and-logics-d0eLko6UEEBuv1sh9IyWX
+[21]: https://lostkobrakai.svbtle.com/a-case-against-many_to_many
+[22]: https://stripe.com/docs/api/charges/object
+[23]: https://stripe.com/docs/api/charges/capture

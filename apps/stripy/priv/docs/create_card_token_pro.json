@@ -1,0 +1,34 @@
+{
+  "id": "tok_1HPW1yJ2Ju0cX1cPBHRfMiHx",
+  "object": "token",
+  "card": {
+    "id": "card_1HPW1yJ2Ju0cX1cPpVFyW6rz",
+    "object": "card",
+    "address_city": null,
+    "address_country": null,
+    "address_line1": null,
+    "address_line1_check": null,
+    "address_line2": null,
+    "address_state": null,
+    "address_zip": null,
+    "address_zip_check": null,
+    "brand": "Visa",
+    "country": "US",
+    "cvc_check": "unchecked",
+    "dynamic_last4": null,
+    "exp_month": 5,
+    "exp_year": 2021,
+    "fingerprint": "nI0OQt7DnoE1y9MG",
+    "funding": "debit",
+    "last4": "5556",
+    "metadata": {
+    },
+    "name": "Running Man",
+    "tokenization_method": null
+  },
+  "client_ip": "159.224.174.183",
+  "created": 1599668422,
+  "livemode": false,
+  "type": "card",
+  "used": false
+}

@@ -15,7 +15,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeCardToken do
       add :funding, :string, null: false
       add :last4, :string, null: false
       add :name, :string, null: false
-      add :token, :string, null: 
+      add :token, :string, null: false
       add :used, :boolean, null: false
       add :user_id, :uuid, null: false
 

@@ -27,7 +27,7 @@ defmodule Stripy.StripeService.StripePlatformCardService do
   card_attrs8  = %{number: 3056930009020004, exp_month: 3, exp_year: 2025, cvc: 777, name: "Oleg G.Kapranov"}
   card_attrs9  = %{number: 3566002020360505, exp_month: 2, exp_year: 2022, cvc: 888, name: "Oleg G.Kapranov"}
   card_attrs10 = %{number: 6200000000000005, exp_month: 1, exp_year: 2023, cvc: 999, name: "Oleg G.Kapranov"}
-  card_attrs11 = %{number: 378282246310005, exp_month: 1, exp_year: 2021, cvc: 111, name: "Oleg G.Kapranov"}
+  card_attrs11 = %{number: 378282246310005,  exp_month: 1, exp_year: 2021, cvc: 111, name: "Oleg G.Kapranov"}
 
   ## Example
 

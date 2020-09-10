@@ -29,7 +29,7 @@ defmodule Stripy.StripeService.StripePlatformCustomerService do
          {:ok, params} <- StripePlatformCustomerAdapter.to_params(customer, user_attrs)
     do
       case Repo.aggregate(querty, :count, :id) < 1 do
-        false -> {:error, %Ecto.Changeset{}}
+        false -> %StripeCustomer{}
         true ->
           %StripeCustomer{}
           |> StripeCustomer.changeset(params)
@@ -45,7 +45,8 @@ defmodule Stripy.StripeService.StripePlatformCustomerService do
 #
 # attributes = %{"user_id" => user_id}
 # {:ok, created_token} = Stripe.Token.create(%{card: card_attrs})
-# source = created_token.id
+# customer_attrs = created_token.id
+# attributes = %{email: user.email, name: user.{last_name, first_name, middle_name}, phone: user.phone, source: data.token}
 # email = User.find_by(email: "kapranov.lugatex@gmail.com").email
 # phone = User.find_by(email: "kapranov.lugatex@gmail.com").phone
 # attributes = %{email: email, name: "Oleg G.Kapranov", phone: "999-999-9999", source: source}
