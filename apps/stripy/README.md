@@ -62,9 +62,9 @@ bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_transfer_reversal
 ```
 
 ```
-for role false => create card(10) -> create_custmer(1) -> create_charge() -> create_charge_capture(update_charge)
-for role true  => create_account(1) -> create_account_token() -> update_account -> create_card_token -> create_external_account_card() -> create_transfer() -> create_transfer_reversal()
-                                                                                -> create_bank_token -> create_external_account_bank() -> create_transfer() ->
+for role false => create_card_token(10) -> create_custmer(1) -> create_charge() -> create_charge_capture(update_charge)
+for role true  => create_account_token(1) -> create_account(1) -> create_card_token(10) -> create_external_account_card(10) -> create_transfer -> create_transfer_reversal.sh()
+                                                               -> create_bank_account_token(10) -> create_external_account_bank(10) -> create_transfer() -> create_transfer_reversal.sh()
 ```
 
 ### 10 Aug 2020 by Oleg G.Kapranov

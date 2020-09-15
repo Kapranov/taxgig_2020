@@ -1,0 +1,59 @@
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "ba_1HQ9pXC7lbhZAQNrtbuVcKUa",
+      "object": "bank_account",
+      "account": "acct_1HPssUC7lbhZAQNr",
+      "account_holder_name": "Jenny Rosen",
+      "account_holder_type": "individual",
+      "available_payout_methods": [
+        "standard"
+      ],
+      "bank_name": "STRIPE TEST BANK",
+      "country": "US",
+      "currency": "usd",
+      "default_for_currency": false,
+      "fingerprint": "Y9VtQN8ojOru9Jg4",
+      "last4": "6789",
+      "metadata": {
+      },
+      "routing_number": "110000000",
+      "status": "new"
+    },
+    {
+      "id": "card_1HQ9EaC7lbhZAQNrBXDhgOqM",
+      "object": "card",
+      "account": "acct_1HPssUC7lbhZAQNr",
+      "address_city": null,
+      "address_country": null,
+      "address_line1": null,
+      "address_line1_check": null,
+      "address_line2": null,
+      "address_state": null,
+      "address_zip": null,
+      "address_zip_check": null,
+      "available_payout_methods": [
+        "standard",
+        "instant"
+      ],
+      "brand": "Visa",
+      "country": "US",
+      "currency": "usd",
+      "cvc_check": "pass",
+      "default_for_currency": true,
+      "dynamic_last4": null,
+      "exp_month": 5,
+      "exp_year": 2021,
+      "fingerprint": "SWinqpJHZyoHRknt",
+      "funding": "debit",
+      "last4": "5556",
+      "metadata": {
+      },
+      "name": "Running Man",
+      "tokenization_method": null
+    }
+  ],
+  "has_more": false,
+  "url": "/v1/accounts/acct_1HPssUC7lbhZAQNr/external_accounts"
+}

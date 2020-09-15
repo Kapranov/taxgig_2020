@@ -16,8 +16,6 @@ defmodule Stripy.Payments.StripeTransferReversal do
     destination_payment_refund: String.t(),
     id_from_stripe: String.t(),
     id_from_transfer: String.t(),
-    metadata: tuple,
-    source_refund: String.t(),
     user_id: FlakeId.Ecto.CompatType.t()
   }
 
@@ -29,27 +27,28 @@ defmodule Stripy.Payments.StripeTransferReversal do
     destination_payment_refund
     id_from_stripe
     id_from_transfer
-    metadata
-    source_refund
     user_id
   )a
 
   @required_params ~w(
+    amount
+    balance_transaction
+    created
+    currency
+    destination_payment_refund
     id_from_stripe
     id_from_transfer
     user_id
   )a
 
   schema "stripe_transfer_reversals" do
+    field :amount, :integer, null: false
+    field :balance_transaction, :string, null: false
+    field :created, :integer, null: false
+    field :currency, :string, null: false
+    field :destination_payment_refund, :string, null: false
     field :id_from_stripe, :string, null: false
     field :id_from_transfer, :string, null: false
-    field :amount, :integer
-    field :balance_transaction, :string
-    field :created, :integer
-    field :currency, :string
-    field :destination_payment_refund, :string
-    field :metadata, {:array, :map}
-    field :source_refund, :string
     field :user_id, FlakeId.Ecto.CompatType, null: false
 
     timestamps()
@@ -64,5 +63,6 @@ defmodule Stripy.Payments.StripeTransferReversal do
     |> cast(params, @allowed_params)
     |> validate_required(@required_params)
     |> unique_constraint(:id_from_stripe, name: :stripe_transfer_reversals_id_from_stripe_index)
+    |> unique_constraint(:id_from_transfer, name: :stripe_transfer_reversals_id_from_transfer_index)
   end
 end

@@ -1,8 +1,8 @@
 {
-  "id": "tok_1HPW1yJ2Ju0cX1cPBHRfMiHx",
+  "id": "tok_1HQ9DtLhtqtNnMebLXlD2TAa",
   "object": "token",
   "card": {
-    "id": "card_1HPW1yJ2Ju0cX1cPpVFyW6rz",
+    "id": "card_1HQ9DtLhtqtNnMebeJ756E6X",
     "object": "card",
     "address_city": null,
     "address_country": null,
@@ -14,11 +14,12 @@
     "address_zip_check": null,
     "brand": "Visa",
     "country": "US",
+    "currency": "usd",
     "cvc_check": "unchecked",
     "dynamic_last4": null,
     "exp_month": 5,
     "exp_year": 2021,
-    "fingerprint": "nI0OQt7DnoE1y9MG",
+    "fingerprint": "SWinqpJHZyoHRknt",
     "funding": "debit",
     "last4": "5556",
     "metadata": {
@@ -27,7 +28,7 @@
     "tokenization_method": null
   },
   "client_ip": "159.224.174.183",
-  "created": 1599668422,
+  "created": 1599819077,
   "livemode": false,
   "type": "card",
   "used": false

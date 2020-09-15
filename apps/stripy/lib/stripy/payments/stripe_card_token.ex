@@ -65,7 +65,7 @@ defmodule Stripy.Payments.StripeCardToken do
     field :exp_month, :integer, null: false
     field :exp_year, :integer, null: false
     field :funding, :string, null: false
-    field :id_from_customer, :string
+    field :id_from_customer, :string, null: true
     field :id_from_stripe, :string, null: false
     field :last4, :string, null: false
     field :name, :string, null: false

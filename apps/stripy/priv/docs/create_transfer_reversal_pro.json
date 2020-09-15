@@ -1,0 +1,13 @@
+{
+  "id": "trr_1HQAMeLhtqtNnMebw6wQ2Vyk",
+  "object": "transfer_reversal",
+  "amount": 45,
+  "balance_transaction": "txn_1HQAMeLhtqtNnMebDBoOZ0dy",
+  "created": 1599823464,
+  "currency": "usd",
+  "destination_payment_refund": "pyr_1HQAMeC7lbhZAQNroSYRKHOC",
+  "metadata": {
+  },
+  "source_refund": null,
+  "transfer": "tr_1HQACVLhtqtNnMeb9Dd0g5Rm"
+}

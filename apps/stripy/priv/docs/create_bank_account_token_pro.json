@@ -1,0 +1,22 @@
+{
+  "id": "btok_1HQ9bjLhtqtNnMebggNERNkG",
+  "object": "token",
+  "bank_account": {
+    "id": "ba_1HQ9bjLhtqtNnMebrwp6MfgB",
+    "object": "bank_account",
+    "account_holder_name": "Jenny Rosen",
+    "account_holder_type": "individual",
+    "bank_name": "STRIPE TEST BANK",
+    "country": "US",
+    "currency": "usd",
+    "fingerprint": "rhWmG0doUxVHD6bo",
+    "last4": "6789",
+    "routing_number": "110000000",
+    "status": "new"
+  },
+  "client_ip": "159.224.174.183",
+  "created": 1599820555,
+  "livemode": false,
+  "type": "bank_account",
+  "used": false
+}

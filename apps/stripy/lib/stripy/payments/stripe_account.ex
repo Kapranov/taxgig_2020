@@ -9,8 +9,7 @@ defmodule Stripy.Payments.StripeAccount do
   @type message() :: atom()
 
   @type t :: %__MODULE__{
-    business_profile: tuple,
-    business_type: String.t(),
+    business_url: String.t(),
     capabilities: tuple,
     charges_enabled: boolean,
     country: String.t(),
@@ -18,20 +17,16 @@ defmodule Stripy.Payments.StripeAccount do
     default_currency: String.t(),
     details_submitted: boolean,
     email: String.t(),
-    external_accounts: tuple,
     id_from_stripe: String.t(),
-    metadata: tuple,
+    payout_schedule: tuple,
     payouts_enabled: boolean,
-    requirements: tuple,
-    settings: tuple,
     tos_acceptance: tuple,
     type: String.t(),
     user_id: FlakeId.Ecto.CompatType.t()
   }
 
   @allowed_params ~w(
-    business_profile
-    business_type
+    business_url
     capabilities
     charges_enabled
     country
@@ -39,41 +34,45 @@ defmodule Stripy.Payments.StripeAccount do
     default_currency
     details_submitted
     email
-    external_accounts
     id_from_stripe
-    metadata
+    payout_schedule
     payouts_enabled
-    requirements
-    settings
     tos_acceptance
     type
     user_id
   )a
 
   @required_params ~w(
+    business_url
+    capabilities
+    charges_enabled
+    country
+    created
+    default_currency
+    details_submitted
     email
     id_from_stripe
+    payout_schedule
+    payouts_enabled
+    tos_acceptance
+    type
     user_id
   )a
 
   schema "stripe_accounts" do
-    field :business_profile, {:array, :map}
-    field :business_type, :string, default: "individual"
-    field :capabilities, {:array, :map}
-    field :charges_enabled, :boolean
-    field :country, :string, default: "US"
-    field :created, :integer
-    field :default_currency, :string, default: "usd"
-    field :details_submitted, :boolean
-    field :email, :string
-    field :external_accounts, {:array, :map}
+    field :business_url, :string, null: false, default: "individual"
+    field :capabilities, {:array, :map}, null: false
+    field :charges_enabled, :boolean, null: false
+    field :country, :string, null: false, default: "US"
+    field :created, :integer, null: false
+    field :default_currency, :string, null: false, default: "usd"
+    field :details_submitted, :boolean, null: false
+    field :email, :string, null: false
     field :id_from_stripe, :string, null: false
-    field :metadata, {:array, :map}
-    field :payouts_enabled, :boolean
-    field :requirements, {:array, :map}
-    field :settings, {:array, :map}
-    field :tos_acceptance, {:array, :map}
-    field :type, :string, default: "custom"
+    field :payout_schedule, {:array, :map}, null: false
+    field :payouts_enabled, :boolean, null: false
+    field :tos_acceptance, {:array, :map}, null: false
+    field :type, :string, null: false, default: "custom"
     field :user_id, FlakeId.Ecto.CompatType, null: false
 
     timestamps()
@@ -87,7 +86,9 @@ defmodule Stripy.Payments.StripeAccount do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
+    |> unique_constraint(:business_url, name: :stripe_accounts_business_url_index)
     |> unique_constraint(:email, name: :stripe_accounts_email_index)
     |> unique_constraint(:id_from_stripe, name: :stripe_accounts_id_from_stripe_index)
+    |> unique_constraint(:user_id, name: :stripe_accounts_user_id_index)
   end
 end

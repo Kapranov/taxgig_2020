@@ -4,15 +4,16 @@ defmodule Stripy.Repo.Migrations.CreateStripeBankAccountToken do
   def change do
     create table(:stripe_bank_account_tokens, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
-      add :account_holder_name, :string
-      add :account_holder_type, :string
-      add :bank_account, :string, null: false
-      add :bank_name, :string
-      add :bank_token, :string, null: false
-      add :country, :string
-      add :currency, :string
+      add :id_from_stripe, :string, null: false
+      add :account_holder_name, :string, null: false
+      add :account_holder_type, :string, null: false
+      add :bank_name, :string, null: false
+      add :client_ip, :string, null: false
+      add :country, :string, null: false
       add :created, :integer, null: false
-      add :fingerprint, :string
+      add :currency, :string, null: false
+      add :fingerprint, :string, null: false
+      add :id_from_bank_account, :string, null: false
       add :last4, :string, null: false
       add :routing_number, :string, null: false
       add :status, :string, null: false
@@ -22,6 +23,8 @@ defmodule Stripy.Repo.Migrations.CreateStripeBankAccountToken do
       timestamps(type: :utc_datetime_usec)
     end
 
-    create unique_index(:stripe_bank_account_tokens, [:bank_token], name: :stripe_bank_account_tokens_bank_token_index)
+    create index(:stripe_bank_account_tokens, [:user_id])
+    create unique_index(:stripe_bank_account_tokens, [:id_from_stripe], name: :stripe_bank_account_tokens_id_from_stripe_index)
+    create unique_index(:stripe_bank_account_tokens, [:id_from_bank_account], name: :stripe_bank_account_tokens_id_from_bank_account_index)
   end
 end

@@ -16,7 +16,6 @@ defmodule Stripy.StripeService.Adapters.StripePlatformCustomerAdapter do
     :user_id
   ]
 
-  @new_stripe_attribute_keys ["source"]
   @non_stripe_attribute_keys ["user_id"]
 
   @spec to_params(Stripe.Customer.t, map) :: {:ok, map}
@@ -28,24 +27,6 @@ defmodule Stripy.StripeService.Adapters.StripePlatformCustomerAdapter do
       |> rename(:id, :stripe_customer_id)
       |> keys_to_string
       |> add_non_stripe_attributes(attributes)
-
-#    result1 =
-#      customer
-#      |> Map.from_struct
-#      |> Map.take(@stripe_attributes)
-#      |> rename(:id, :stripe_customer_id)
-#      |> keys_to_string
-#      |> add_non_stripe_attributes(attributes)
-#      |> add_non_stripe_attributes(%{source: result2})
-#
-#    result2 =
-#      customer.sources
-#      |> Map.from_struct
-#      |> Map.delete(:data)
-#      |> keys_to_string
-#
-#    result3 =
-#      customer.sources.data
 
     {:ok, result}
   end

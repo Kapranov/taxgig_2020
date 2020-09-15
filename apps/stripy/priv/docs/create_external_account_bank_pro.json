@@ -1,0 +1,20 @@
+{
+  "id": "ba_1HQ9pXC7lbhZAQNrtbuVcKUa",
+  "object": "bank_account",
+  "account": "acct_1HPssUC7lbhZAQNr",
+  "account_holder_name": "Jenny Rosen",
+  "account_holder_type": "individual",
+  "available_payout_methods": [
+    "standard"
+  ],
+  "bank_name": "STRIPE TEST BANK",
+  "country": "US",
+  "currency": "usd",
+  "default_for_currency": false,
+  "fingerprint": "Y9VtQN8ojOru9Jg4",
+  "last4": "6789",
+  "metadata": {
+  },
+  "routing_number": "110000000",
+  "status": "new"
+}

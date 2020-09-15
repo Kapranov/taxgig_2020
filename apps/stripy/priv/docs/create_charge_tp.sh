@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 curl https://api.stripe.com/v1/charges \
-  -u sk_test_4HBAA9fY1u6YEZta9ZzCHpEz00K0Bds8d1: \
+  -u sk_test_IFLwitpOxgYTWSEG4eJWyoVN: \
   -d amount=2000 \
   -d currency=usd \
   -d customer=cus_Hz0iaxWhaRWm6b \

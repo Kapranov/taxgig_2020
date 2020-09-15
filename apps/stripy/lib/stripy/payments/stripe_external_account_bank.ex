@@ -11,13 +11,11 @@ defmodule Stripy.Payments.StripeExternalAccountBank do
   @type t :: %__MODULE__{
     account_holder_name: String.t(),
     account_holder_type: String.t(),
-    account_id_from_stripe: String.t(),
     bank_name: String.t(),
     country: String.t(),
     currency: String.t(),
-    customer_id: String.t(),
-    default_for_currency: boolean,
     fingerprint: String.t(),
+    id_from_account: String.t(),
     id_from_stripe: String.t(),
     last4: String.t(),
     routing_number: String.t(),
@@ -28,13 +26,11 @@ defmodule Stripy.Payments.StripeExternalAccountBank do
   @allowed_params ~w(
     account_holder_name
     account_holder_type
-    account_id_from_stripe
     bank_name
     country
     currency
-    customer_id
-    default_for_currency
     fingerprint
+    id_from_account
     id_from_stripe
     last4
     routing_number
@@ -43,26 +39,32 @@ defmodule Stripy.Payments.StripeExternalAccountBank do
   )a
 
   @required_params ~w(
-    account_id_from_stripe
-    customer_id
+    account_holder_name
+    account_holder_type
+    bank_name
+    country
+    currency
+    fingerprint
+    id_from_account
     id_from_stripe
+    last4
+    routing_number
+    status
     user_id
   )a
 
   schema "stripe_external_account_banks" do
-    field :account_holder_name, :string
-    field :account_holder_type, :string
-    field :account_id_from_stripe, :string
-    field :bank_name, :string
+    field :account_holder_name, :string, null: false
+    field :account_holder_type, :string, null: false
+    field :bank_name, :string, null: false
     field :country, :string, null: false
-    field :currency, :string
-    field :customer_id, :string, null: false
-    field :default_for_currency, :boolean
-    field :fingerprint, :string
-    field :id_from_stripe, :string
-    field :last4, :string
-    field :routing_number, :string
-    field :status, :string
+    field :currency, :string, null: false
+    field :fingerprint, :string, null: false
+    field :id_from_account, :string, null: false
+    field :id_from_stripe, :string, null: false
+    field :last4, :string, null: false
+    field :routing_number, :string, null: false
+    field :status, :string, null: false
     field :user_id, FlakeId.Ecto.CompatType, null: false
 
     timestamps()
@@ -76,6 +78,7 @@ defmodule Stripy.Payments.StripeExternalAccountBank do
     struct
     |> cast(params, @allowed_params)
     |> validate_required(@required_params)
+    |> unique_constraint(:id_from_account, name: :stripe_external_account_banks_id_from_account_index)
     |> unique_constraint(:id_from_stripe, name: :stripe_external_account_banks_id_from_stripe_index)
   end
 end

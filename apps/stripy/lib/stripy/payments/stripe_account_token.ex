@@ -9,29 +9,33 @@ defmodule Stripy.Payments.StripeAccountToken do
   @type message() :: atom()
 
   @type t :: %__MODULE__{
-    account_token: String.t(),
+    client_ip: String.t(),
     created: integer,
+    id_from_stripe: String.t(),
     used: boolean,
     user_id: FlakeId.Ecto.CompatType.t()
   }
 
   @allowed_params ~w(
-    account_token
+    client_ip
     created
+    id_from_stripe
     used
     user_id
   )a
 
   @required_params ~w(
-    account_token
+    client_ip
     created
+    id_from_stripe
     used
     user_id
   )a
 
   schema "stripe_account_tokens" do
-    field :account_token, :string, null: false
+    field :client_ip, :string, null: false
     field :created, :integer, null: false
+    field :id_from_stripe, :string, null: false
     field :used, :boolean, null: false
     field :user_id, FlakeId.Ecto.CompatType, null: false
 
@@ -46,6 +50,6 @@ defmodule Stripy.Payments.StripeAccountToken do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
-    |> unique_constraint(:account_token, name: :stripe_account_tokens_account_token_index)
+    |> unique_constraint(:id_from_stripe, name: :stripe_account_tokens_id_from_stripe_index)
   end
 end

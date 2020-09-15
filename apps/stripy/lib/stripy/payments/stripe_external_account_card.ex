@@ -9,81 +9,70 @@ defmodule Stripy.Payments.StripeExternalAccountCard do
   @type message() :: atom()
 
   @type t :: %__MODULE__{
-    account_id_from_stripe: String.t(),
     brand: String.t(),
     country: String.t(),
     currency: String.t(),
-    customer_id: String.t(),
-    cvc: integer,
     cvc_check: String.t(),
     default_for_currency: boolean,
-    dynamic_last4: String.t(),
     exp_month: integer,
     exp_year: integer,
     fingerprint: String.t(),
     funding: String.t(),
+    id_from_account: String.t(),
     id_from_stripe: String.t(),
     last4: String.t(),
-    metadata: tuple,
     name: String.t(),
-    number: String.t(),
-    tokenization_method: String.t(),
     user_id: FlakeId.Ecto.CompatType.t()
   }
 
   @allowed_params ~w(
-    account_id_from_stripe
     brand
     country
     currency
-    customer_id
-    cvc
     cvc_check
     default_for_currency
-    dynamic_last4
     exp_month
     exp_year
     fingerprint
     funding
+    id_from_account
     id_from_stripe
     last4
-    metadata
     name
-    number
-    tokenization_method
     user_id
   )a
 
   @required_params ~w(
-    account_id_from_stripe
-    customer_id
+    brand
+    country
+    currency
+    cvc_check
+    default_for_currency
     exp_month
     exp_year
+    fingerprint
+    funding
+    id_from_account
     id_from_stripe
-    number
+    last4
+    name
     user_id
   )a
 
   schema "stripe_external_account_banks" do
-    field :account_id_from_stripe, :string, null: false
-    field :brand, :string
-    field :country, :string
-    field :currency, :string
-    field :customer_id, :string, null: false
-    field :cvc, :integer
-    field :cvc_check, :string
-    field :default_for_currency, :boolean
-    field :dynamic_last4, :string
+    field :brand, :string, null: false
+    field :country, :string, null: false
+    field :currency, :string, null: false
+    field :cvc_check, :string, null: false
+    field :default_for_currency, :boolean, null: false
     field :exp_month, :integer, null: false
     field :exp_year, :integer, null: false
-    field :fingerprint, :string
-    field :funding, :string
+    field :fingerprint, :string, null: false
+    field :funding, :string, null: false
+    field :id_from_account, :string, null: false
     field :id_from_stripe, :string, null: false
-    field :last4, :string
-    field :metadata, {:array, :map}
-    field :name, :string
-    field :number, :string, null: false
-    field :tokenization_method, :string
+    field :last4, :string, null: false
+    field :name, :string, null: false
     field :user_id, FlakeId.Ecto.CompatType, null: false
 
     timestamps()

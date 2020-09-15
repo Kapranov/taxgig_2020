@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
 curl https://api.stripe.com/v1/accounts \
-  -u sk_test_4eC39HqLyjWDarjtT1zdp7dc: \
+  -u sk_test_IFLwitpOxgYTWSEG4eJWyoVN: \
   -d type=custom \
   -d country=US \
-  -d email="op@taxgig.com" \
+  -d email="vk@taxgig.com" \
   -d "capabilities[card_payments][requested]"=true \
   -d "capabilities[transfers][requested]"=true \
-  -d business_type="individual"
+  -d "account_token"="ct_1HPsraLhtqtNnMebPsawyFas" \
+  -d "business_profile[mcc]"=8931 \
+  -d "business_profile[url]"="https://taxgig.com"

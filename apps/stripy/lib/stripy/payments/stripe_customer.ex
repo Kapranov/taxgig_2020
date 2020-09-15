@@ -13,9 +13,9 @@ defmodule Stripy.Payments.StripeCustomer do
     created: integer,
     currency: String.t(),
     email: String.t(),
+    id_from_stripe: String.t(),
     name: String.t(),
     phone: String.t(),
-    stripe_customer_id: String.t(),
     user_id: FlakeId.Ecto.CompatType.t()
   }
 
@@ -24,25 +24,31 @@ defmodule Stripy.Payments.StripeCustomer do
     created
     currency
     email
+    id_from_stripe
     name
     phone
-    stripe_customer_id
     user_id
   )a
 
   @required_params ~w(
-    stripe_customer_id
+    balance
+    created
+    currency
+    email
+    id_from_stripe
+    name
+    phone
     user_id
   )a
 
   schema "stripe_customers" do
-    field :balance, :integer
+    field :balance, :integer, null: false, default: 0
     field :created, :integer, null: false
     field :currency, :string, null: false
     field :email, :string, null: false
-    field :name, :string
-    field :phone, :string
-    field :stripe_customer_id, :string, null: false
+    field :id_from_stripe, :string, null: false
+    field :name, :string, null: false
+    field :phone, :string, null: false
     field :user_id, FlakeId.Ecto.CompatType, null: false
 
     timestamps()
@@ -56,7 +62,8 @@ defmodule Stripy.Payments.StripeCustomer do
     struct
     |> cast(params, @allowed_params)
     |> validate_required(@required_params)
-    |> unique_constraint(:stripe_customer_id, name: :stripe_customers_stripe_customer_id_index)
+    |> unique_constraint(:email, name: :stripe_customers_email_index)
+    |> unique_constraint(:id_from_stripe, name: :stripe_customers_id_from_stripe_index)
     |> unique_constraint(:user_id, name: :stripe_customers_user_id_index)
   end
 end

@@ -4,7 +4,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeCardToken do
   def change do
     create table(:stripe_card_tokens, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
-      add :id_from_customer, :string
+      add :id_from_customer, :string, null: true
       add :id_from_stripe, :string, null: false
       add :brand, :string, null: false
       add :client_ip, :string, null: false
@@ -22,6 +22,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeCardToken do
       timestamps(type: :utc_datetime_usec)
     end
 
+    create index(:stripe_card_tokens, [:user_id])
     create unique_index(:stripe_card_tokens, [:id_from_stripe], name: :stripe_card_tokens_id_from_stripe_index)
   end
 end

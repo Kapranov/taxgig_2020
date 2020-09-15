@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 curl https://api.stripe.com/v1/tokens \
-  -u sk_test_4HBAA9fY1u6YEZta9ZzCHpEz00K0Bds8d1: \
-  -d "account[individual][first_name]"=Oleh \
+  -u sk_test_IFLwitpOxgYTWSEG4eJWyoVN: \
+  -d "account[business_type"="individual" \
+  -d "account[individual][first_name]"=Vlad \
   -d "account[individual][last_name]"=Puryshev \
   -d "account[individual][maiden_name]"=Jr \
   -d "account[individual][address][city]"="New York" \
@@ -14,4 +15,6 @@ curl https://api.stripe.com/v1/tokens \
   -d "account[individual][dob][month]"=7 \
   -d "account[individual][dob][year]"=1989 \
   -d "account[individual][ssn_last_4]"=0000 \
-  -d "account[tos_shown_and_accepted]"=true
+  -d "account[tos_shown_and_accepted]"=true \
+  -d "account[individual][email]"="vk@taxgig.com" \
+  -d "account[individual][phone]"="999-999-9999"
