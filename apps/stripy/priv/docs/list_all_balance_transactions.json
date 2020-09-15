@@ -1,0 +1,102 @@
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "txn_1HRgXeC7lbhZAQNrsREgPwR6",
+      "object": "balance_transaction",
+      "amount": 5000,
+      "available_on": 1600185482,
+      "created": 1600185482,
+      "currency": "usd",
+      "description": null,
+      "exchange_rate": null,
+      "fee": 0,
+      "fee_details": [
+
+      ],
+      "net": 5000,
+      "reporting_category": "charge",
+      "source": "py_1HRgXeC7lbhZAQNrApHNkmev",
+      "status": "available",
+      "type": "payment"
+    },
+    {
+      "id": "txn_1HRgU1C7lbhZAQNrZvcYco6y",
+      "object": "balance_transaction",
+      "amount": 50,
+      "available_on": 1600185257,
+      "created": 1600185257,
+      "currency": "usd",
+      "description": null,
+      "exchange_rate": null,
+      "fee": 0,
+      "fee_details": [
+
+      ],
+      "net": 50,
+      "reporting_category": "charge",
+      "source": "py_1HRgU1C7lbhZAQNr6Zjl2e2j",
+      "status": "available",
+      "type": "payment"
+    },
+    {
+      "id": "txn_1HQjqRC7lbhZAQNr0fQFwcMh",
+      "object": "balance_transaction",
+      "amount": -5,
+      "available_on": 1600041600,
+      "created": 1599959851,
+      "currency": "usd",
+      "description": "STRIPE PAYOUT",
+      "exchange_rate": null,
+      "fee": 0,
+      "fee_details": [
+
+      ],
+      "net": -5,
+      "reporting_category": "payout",
+      "source": "po_1HQjqRC7lbhZAQNrj5iaXc66",
+      "status": "available",
+      "type": "payout"
+    },
+    {
+      "id": "txn_1HQAMeC7lbhZAQNrnFnELbEz",
+      "object": "balance_transaction",
+      "amount": -45,
+      "available_on": 1599823464,
+      "created": 1599823464,
+      "currency": "usd",
+      "description": "REFUND FOR PAYMENT",
+      "exchange_rate": null,
+      "fee": 0,
+      "fee_details": [
+
+      ],
+      "net": -45,
+      "reporting_category": "refund",
+      "source": "pyr_1HQAMeC7lbhZAQNroSYRKHOC",
+      "status": "available",
+      "type": "payment_refund"
+    },
+    {
+      "id": "txn_1HQACVC7lbhZAQNrM7UCKf2h",
+      "object": "balance_transaction",
+      "amount": 50,
+      "available_on": 1599822835,
+      "created": 1599822835,
+      "currency": "usd",
+      "description": null,
+      "exchange_rate": null,
+      "fee": 0,
+      "fee_details": [
+
+      ],
+      "net": 50,
+      "reporting_category": "charge",
+      "source": "py_1HQACVC7lbhZAQNrTl0w7fkt",
+      "status": "available",
+      "type": "payment"
+    }
+  ],
+  "has_more": false,
+  "url": "/v1/balance_transactions"
+}

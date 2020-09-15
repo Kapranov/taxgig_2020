@@ -64,8 +64,24 @@ bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_transfer_reversal
 ```
 for role false => create_card_token(10) -> create_custmer(1) -> create_charge() -> create_charge_capture(update_charge)
 for role true  => create_account_token(1) -> create_account(1) -> create_card_token(10) -> create_external_account_card(10) -> create_transfer -> create_transfer_reversal.sh()
-                                                               -> create_bank_account_token(10) -> create_external_account_bank(10) -> create_transfer() -> create_transfer_reversal.sh()
 ```
+
+### Live mode
+
+need "Stripe-Account: acct_1HPssUC7lbhZAQNr"
+
+```
+retrieve_balance.sh
+
+output:
+available: [],
+pending: []
+
+list_all_balance_transactions.sh
+
+```
+
+
 
 ### 10 Aug 2020 by Oleg G.Kapranov
 

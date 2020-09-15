@@ -1,14 +1,14 @@
 {
-  "id": "tr_1HQACVLhtqtNnMeb9Dd0g5Rm",
+  "id": "tr_1HRgXeLhtqtNnMebJ59ovr81",
   "object": "transfer",
-  "amount": 50,
+  "amount": 5000,
   "amount_reversed": 0,
-  "balance_transaction": "txn_1HQACVLhtqtNnMebYcl2pb49",
-  "created": 1599822835,
+  "balance_transaction": "txn_1HRgXeLhtqtNnMeb4ZgEl9Cg",
+  "created": 1600185482,
   "currency": "usd",
   "description": null,
   "destination": "acct_1HPssUC7lbhZAQNr",
-  "destination_payment": "py_1HQACVC7lbhZAQNrTl0w7fkt",
+  "destination_payment": "py_1HRgXeC7lbhZAQNrApHNkmev",
   "livemode": false,
   "metadata": {
   },
@@ -19,7 +19,7 @@
     ],
     "has_more": false,
     "total_count": 0,
-    "url": "/v1/transfers/tr_1HQACVLhtqtNnMeb9Dd0g5Rm/reversals"
+    "url": "/v1/transfers/tr_1HRgXeLhtqtNnMebJ59ovr81/reversals"
   },
   "reversed": false,
   "source_transaction": null,
