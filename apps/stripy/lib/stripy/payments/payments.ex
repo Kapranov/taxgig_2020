@@ -416,6 +416,24 @@ defmodule Stripy.Payments do
   end
 
   @doc """
+  Updates a StripeCharge
+
+  ## Examples
+
+      iex> update_stripe_charge(struct, %{field: new_value})
+      {:ok, %StripeCharge{}}
+
+      iex> update_stripe_charge(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  @spec update_stripe_charge(StripeCharge.t(), %{atom => any}) :: result() | error_tuple()
+  def update_stripe_charge(struct, attrs) do
+    struct
+    |> StripeCharge.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
   Deletes a StripeCharge.
 
   ## Examples

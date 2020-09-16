@@ -4,7 +4,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeCharge do
   def change do
     create table(:stripe_charges, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
-      add :id_from_card_token, :string, null: false
+      add :id_from_card, :string, null: false
       add :id_from_customer, :string, null: false
       add :id_from_stripe, :string, null: false
       add :amount, :integer, null: false
@@ -18,7 +18,6 @@ defmodule Stripy.Repo.Migrations.CreateStripeCharge do
       add :fraud_details, {:array, :map}, null: false, default: []
       add :outcome, {:array, :map}, null: false
       add :receipt_url, :string, null: false
-      add :source, {:array, :map}, null: false
       add :status, :string, null: false
       add :user_id, :uuid, null: false
 

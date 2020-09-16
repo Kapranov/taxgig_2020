@@ -40,45 +40,4 @@ defmodule Stripy.StripeService.StripePlatformCustomerService do
       failure -> failure
     end
   end
-
-# create customer
-#
-# attributes = %{"user_id" => user_id}
-# {:ok, created_token} = Stripe.Token.create(%{card: card_attrs})
-# customer_attrs = created_token.id
-# attributes = %{email: user.email, name: user.{last_name, first_name, middle_name}, phone: user.phone, source: data.token}
-# email = User.find_by(email: "kapranov.lugatex@gmail.com").email
-# phone = User.find_by(email: "kapranov.lugatex@gmail.com").phone
-# attributes = %{email: email, name: "Oleg G.Kapranov", phone: "999-999-9999", source: source}
-# attributes = %{email: email, name: "Oleg G.Kapranov", phone: "999-999-9999", source: card.token}
-# {:ok, created_cust} = Stripe.Customer.create(customer_attrs)
-# {:ok, result} = Stripy.StripeService.Adapters.StripePlatformCustomerAdapter.to_params(created_cust, attributes)
-#
-# get and update StripeCardToken
-# data1 = Stripy.Payments.get_stripe_card_token!(card.id)
-# data2 = %{id_from_customer: customer.stripe_customer_id}
-# Stripy.Payments.update_stripe_card_token(data1, data2)
-
-#  def create(%{"stripe_token" => stripe_token, "user_id" => user_id} = attributes) do
-#    with %StripeCustomer{} = customer <- StripeCustomer |> Repo.get_by(user_id: user_id),
-#         {:ok, %Stripe.Card{} = card} <- @api.Card.create(%{customer: customer.stripe_customer_id, source: stripe_token}),
-#         {:ok, params} <- StripePlatformCardAdapter.to_params(card, attributes)
-#    do
-#      %StripeCardToken{}
-#      |> StripeCardToken.changeset(params)
-#      |> Repo.insert
-#    else
-#      nil -> {:error, :not_found}
-#      failure -> failure
-#    end
-#  end
-# with
-#   %StripeCustomer{} = customer <- StripeCustomer |> Repo.get_by(user_id: user_id),
-#   {:ok, %Stripe.Card{} = card} <- @api.Card.create(%{customer: customer.stripe_customer_id, source: stripe_token}),
-#   {:ok, params} <- StripePlatformCardAdapter.to_params(card, attributes)
-# do
-# end
-# {:ok, %Stripe.Token{} = card} = @api.Token.create(%{card: card_attrs})
-
-# card_attrs = %{number: 4242424242424242, exp_month: 8, exp_year: 2021, cvc: 314, name: name}
 end

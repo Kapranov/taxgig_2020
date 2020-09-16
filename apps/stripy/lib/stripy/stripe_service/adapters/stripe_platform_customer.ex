@@ -6,14 +6,13 @@ defmodule Stripy.StripeService.Adapters.StripePlatformCustomerAdapter do
   import Stripy.MapUtils, only: [rename: 3, keys_to_string: 1]
 
   @stripe_attributes [
-    :id,
     :balance,
     :created,
     :currency,
     :email,
+    :id,
     :name,
-    :phone,
-    :user_id
+    :phone
   ]
 
   @non_stripe_attribute_keys ["user_id"]

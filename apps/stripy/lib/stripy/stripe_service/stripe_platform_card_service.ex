@@ -5,6 +5,7 @@ defmodule Stripy.StripeService.StripePlatformCardService do
   """
 
   alias Stripy.{
+    Payments,
     Payments.StripeCardToken,
     Queries,
     Repo,
@@ -36,6 +37,7 @@ defmodule Stripy.StripeService.StripePlatformCardService do
     iex> card_attrs = %{number: 4242424242424242, exp_month: 8, exp_year: 2021, cvc: 314, name: "Oleg G.Kapranov"}
     iex> {:ok, created_token} = Stripe.Token.create(%{card: card_attrs})
     iex> {:ok, result} = StripePlatformCardTokenAdapter.to_params(created_token, user_attrs)
+
   """
   @spec create(map, map) :: {:ok, StripeCardToken.t} |
                             {:error, Ecto.Changeset.t} |
@@ -56,9 +58,10 @@ defmodule Stripy.StripeService.StripePlatformCardService do
       case Repo.aggregate(querty, :count, :id) < 10 do
         false -> {:error, %Ecto.Changeset{}}
         true ->
-          %StripeCardToken{}
-          |> StripeCardToken.changeset(params)
-          |> Repo.insert
+          case Payments.create_stripe_card_token(params) do
+            {:error, error} -> {:error, error}
+            {:ok, data} -> {:ok, data}
+          end
       end
     else
       nil -> {:error, :not_found}

@@ -18,8 +18,7 @@ defmodule Stripy.StripeService.Adapters.StripePlatformCardTokenAdapter do
     :last4,
     :name,
     :token,
-    :used,
-    :user_id
+    :used
   ]
 
   @non_stripe_attributes ["token", "user_id"]

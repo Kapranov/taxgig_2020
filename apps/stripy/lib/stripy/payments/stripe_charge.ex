@@ -18,12 +18,11 @@ defmodule Stripy.Payments.StripeCharge do
     failure_code: String.t(),
     failure_message: String.t(),
     fraud_details: tuple,
-    id_from_card_token: String.t(),
+    id_from_card: String.t(),
     id_from_customer: String.t(),
     id_from_stripe: String.t(),
     outcome: tuple,
     receipt_url: String.t(),
-    source: tuple,
     status: String.t(),
     user_id: FlakeId.Ecto.CompatType.t()
   }
@@ -38,12 +37,11 @@ defmodule Stripy.Payments.StripeCharge do
     failure_code
     failure_message
     fraud_details
-    id_from_card_token
+    id_from_card
     id_from_customer
     id_from_stripe
     outcome
     receipt_url
-    source
     status
     user_id
   )a
@@ -56,12 +54,11 @@ defmodule Stripy.Payments.StripeCharge do
     currency
     description
     fraud_details
-    id_from_card_token
+    id_from_card
     id_from_customer
     id_from_stripe
     outcome
     receipt_url
-    source
     status
     user_id
   )a
@@ -76,12 +73,11 @@ defmodule Stripy.Payments.StripeCharge do
     field :failure_code, :string, null: true
     field :failure_message, :string, null: true
     field :fraud_details, {:array, :map}, null: false, default: []
-    field :id_from_card_token, :string, null: false
+    field :id_from_card, :string, null: false
     field :id_from_customer, :string, null: false
     field :id_from_stripe, :string, null: false
     field :outcome, {:array, :map}, null: false
     field :receipt_url, :string, null: false
-    field :source, {:array, :map}, null: false
     field :status, :string, null: false
     field :user_id, FlakeId.Ecto.CompatType, null: false
 
