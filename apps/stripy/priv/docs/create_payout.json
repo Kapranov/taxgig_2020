@@ -1,0 +1,23 @@
+{
+  "id": "po_1HSQaxC7lbhZAQNrWleJniUY",
+  "object": "payout",
+  "amount": 1100,
+  "arrival_date": 1600387200,
+  "automatic": false,
+  "balance_transaction": "txn_1HSQaxC7lbhZAQNrEw7yMBEj",
+  "created": 1600362511,
+  "currency": "usd",
+  "description": null,
+  "destination": "ba_1HQ9pXC7lbhZAQNrtbuVcKUa",
+  "failure_balance_transaction": null,
+  "failure_code": null,
+  "failure_message": null,
+  "livemode": false,
+  "metadata": {
+  },
+  "method": "standard",
+  "source_type": "card",
+  "statement_descriptor": "Test-bank-descriptor",
+  "status": "pending",
+  "type": "bank_account"
+}

@@ -2,19 +2,19 @@
   "object": "balance",
   "available": [
     {
-      "amount": 5050,
+      "amount": 4000,
       "currency": "usd",
       "source_types": {
-        "card": 5050
+        "card": 4000
       }
     }
   ],
   "instant_available": [
     {
-      "amount": 5050,
+      "amount": 4000,
       "currency": "usd",
       "source_types": {
-        "card": 5050
+        "card": 4000
       }
     }
   ],

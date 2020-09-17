@@ -5,8 +5,9 @@ curl https://api.stripe.com/v1/accounts \
   -d type=custom \
   -d country=US \
   -d email="vk@taxgig.com" \
-  -d "capabilities[card_payments][requested]"=true \
-  -d "capabilities[transfers][requested]"=true \
   -d "account_token"="ct_1HPsraLhtqtNnMebPsawyFas" \
   -d "business_profile[mcc]"=8931 \
-  -d "business_profile[url]"="https://taxgig.com"
+  -d "business_profile[url]"="https://taxgig.com" \
+  -d "capabilities[card_payments][requested]"=true \
+  -d "capabilities[transfers][requested]"=true \
+  -d "settings[payouts][schedule][interval]"=manual
