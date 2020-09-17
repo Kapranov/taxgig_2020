@@ -23,7 +23,7 @@ defmodule Stripy.StripeService.StripePlatformChargeService do
       iex> attrs = %{"user_id" => user_id, "id_from_card" => id_from_card}
       iex> charge_attrs = %{amount: 2000, currency: "usd", customer: id_from_customer, source: id_from_card, description: "Test description", capture: false}
       iex> {:ok, stripe_charge} = Stripe.Charge.create(charge_attrs)
-      iex> {:ok, result} = StripePlatformCardTokenAdapter.to_params(stripe_charge, attrs)
+      iex> {:ok, result} = StripePlatformChargeAdapter.to_params(stripe_charge, attrs)
 
   """
   @spec create(map, map) ::
