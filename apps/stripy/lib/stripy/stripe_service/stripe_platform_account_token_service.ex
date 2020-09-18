@@ -7,7 +7,9 @@ defmodule Stripy.StripeService.StripePlatformAccountTokenService do
   alias Stripy.{
     Payments,
     Payments.StripeAccountToken,
-    StripeService.Adapters.StripePlatformAccountTokenAdapter
+    StripeService.Adapters.StripePlatformAccountTokenAdapter,
+    Queries,
+    Repo
   }
 
   @api Application.get_env(:stripy, :stripe)
@@ -57,12 +59,23 @@ defmodule Stripy.StripeService.StripePlatformAccountTokenService do
           | {:error, :platform_not_ready}
           | {:error, :not_found}
   def create(account_attrs, user_attrs) do
-    with {:ok, %Stripe.Token{} = account} = @api.Token.create(%{account: account_attrs}),
-         {:ok, params} <- StripePlatformAccountTokenAdapter.to_params(account, user_attrs)
+    querty =
+      try do
+        Queries.by_count(StripeAccountToken, :user_id, user_attrs["user_id"])
+      rescue
+        ArgumentError -> :error
+      end
+
+    with {:ok, %Stripe.Token{} = account_token} = @api.Token.create(%{account: account_attrs}),
+         {:ok, params} <- StripePlatformAccountTokenAdapter.to_params(account_token, user_attrs)
     do
-      case Payments.create_stripe_account_token(params) do
-        {:error, error} -> {:error, error}
-        {:ok, data} -> {:ok, data}
+      case Repo.aggregate(querty, :count, :id) < 10 do
+        false -> {:error, %Ecto.Changeset{}}
+        true ->
+          case Payments.create_stripe_account_token(params) do
+            {:error, error} -> {:error, error}
+            {:ok, data} -> {:ok, data}
+          end
       end
     else
       nil -> {:error, :not_found}
