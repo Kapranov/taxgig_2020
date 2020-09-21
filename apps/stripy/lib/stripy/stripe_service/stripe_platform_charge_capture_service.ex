@@ -17,7 +17,7 @@ defmodule Stripy.StripeService.StripePlatformChargeCaptureService do
 
   ## Example
 
-        iex> user_id = "9yk8z0djhUG2r9LMK8"
+        iex> user_id = FlakeId.get()
         iex> id_from_charge = "ch_1HP2hvJ2Ju0cX1cPUxoku93W"
         iex> charge_capture_attrs = %{amount: 2000}
         iex> {:ok, stripe_charge_capture} = Stripe.Charge.create(id_from_charge, charge_capture_attrs)

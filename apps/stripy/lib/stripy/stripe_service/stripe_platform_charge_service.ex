@@ -17,7 +17,7 @@ defmodule Stripy.StripeService.StripePlatformChargeService do
 
   ## Example
 
-      iex> user_id = "9yk8z0djhUG2r9LMK8"
+      iex> user_id = FlakeId.get()
       iex> id_from_card = "card_1HP2frJ2Ju0cX1cPJqmUkzO3"
       iex> id_from_customer = "cus_Hz0iaxWhaRWm6b"
       iex> attrs = %{"user_id" => user_id, "id_from_card" => id_from_card}

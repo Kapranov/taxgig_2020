@@ -32,7 +32,7 @@ defmodule Stripy.StripeService.StripePlatformCardService do
 
   ## Example
 
-    iex> user_id = "9yk8z0djhUG2r9LMK8"
+    iex> user_id = FlakeId.get()
     iex> user_attrs = %{"user_id" => user_id}
     iex> card_attrs = %{number: 4242424242424242, exp_month: 8, exp_year: 2021, cvc: 314, name: "Oleg G.Kapranov"}
     iex> {:ok, created_token} = Stripe.Token.create(%{card: card_attrs})

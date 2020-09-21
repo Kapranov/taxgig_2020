@@ -17,6 +17,10 @@ defmodule Stripy.StripeService.StripePlatformCustomerService do
                             {:error, Stripe.Error.t} |
                             {:error, :platform_not_ready} |
                             {:error, :not_found}
+  @doc """
+  Creates a new `Stripe.Customer` record on Stripe API, as well as an associated local
+  `StripeCustomer` single records only via `StripeCardToken` an action
+  """
   def create(attrs, user_attrs) do
     querty =
       try do

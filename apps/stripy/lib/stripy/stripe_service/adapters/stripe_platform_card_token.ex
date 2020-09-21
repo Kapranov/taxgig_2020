@@ -21,7 +21,7 @@ defmodule Stripy.StripeService.Adapters.StripePlatformCardTokenAdapter do
     :used
   ]
 
-  @non_stripe_attributes ["token", "user_id"]
+  @non_stripe_attributes ["user_id"]
 
   @spec to_params(Stripe.Token.t, map) :: {:ok, map}
   def to_params(%Stripe.Token{} = stripe_card_token, %{} = attributes) do

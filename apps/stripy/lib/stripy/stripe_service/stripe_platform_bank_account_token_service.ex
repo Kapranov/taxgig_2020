@@ -19,7 +19,7 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
 
   ## Example
 
-      iex> user_id = "9yk8z0djhUG2r9LMK8"
+      iex> user_id = FlakeId.get()
       iex> user_attrs = %{"user_id" => user_id}
       iex> bank_account_attrs = %{
         bank_account: %{
