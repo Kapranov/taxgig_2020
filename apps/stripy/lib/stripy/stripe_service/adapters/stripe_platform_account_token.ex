@@ -15,9 +15,9 @@ defmodule Stripy.StripeService.Adapters.StripePlatformAccountTokenAdapter do
   @non_stripe_attributes ["user_id"]
 
   @spec to_params(Stripe.Token.t(), map) :: {:ok, map}
-  def to_params(%Stripe.Token{} = stripe_account, %{} = attributes) do
+  def to_params(%Stripe.Token{} = stripe_account_token, %{} = attributes) do
     result =
-      stripe_account
+      stripe_account_token
       |> Map.take(@stripe_attributes)
       |> rename(:id, :id_from_stripe)
       |> keys_to_string
