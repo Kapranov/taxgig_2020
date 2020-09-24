@@ -67,6 +67,14 @@ M = total only 1  record
 create_external_account_card and create_external_account_bank allow only 10 recods in total
 
 for role false => create_card_token(N)    -> create_custmer(M) -> create_charge()               -> update_charge(create_charge_capture)  -> create_refund()
+backend  -
+create_card_token []
+actions -
+   create_card_token => [list, show, create, delete]
+   create_charge     => []
+          
+frontend -
+create_card_token - []
 for role true  => create_account_token(N) -> create_account(M) -> create_card_token(N)          -> create_external_account_card(N)       -> create_transfer_external_account() -> create_transfer_reversal()
                                                                   create_bank_account_token(N)  -> create_external_account_bank(N)       -> create_transfer_external_account() -> create_transfer_reversal()
 ```
