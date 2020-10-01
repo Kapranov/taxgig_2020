@@ -1,13 +1,13 @@
 {
   "business_profile": {
-    "mcc": null,
+    "mcc": "8931",
     "name": "Stripe.com",
     "product_description": null,
     "support_address": null,
     "support_email": null,
     "support_phone": null,
     "support_url": null,
-    "url": null
+    "url": "HTTPs://taxgig.com"
   },
   "business_type": null,
   "capabilities": {

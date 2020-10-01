@@ -5,7 +5,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeAccount do
     create table(:stripe_accounts, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
       add :id_from_stripe, :string, null: false
-      add :business_url, :string, null: false, default: "individual"
+      add :business_url, :string, null: false, default: "https://taxgig.com"
       add :capabilities, {:array, :map}, null: false
       add :charges_enabled, :boolean, null: false
       add :country, :string, null: false, default: "US"

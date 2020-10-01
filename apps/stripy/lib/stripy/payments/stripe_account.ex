@@ -60,7 +60,7 @@ defmodule Stripy.Payments.StripeAccount do
   )a
 
   schema "stripe_accounts" do
-    field :business_url, :string, null: false, default: "individual"
+    field :business_url, :string, null: false, default: "https://taxgig.com"
     field :capabilities, {:array, :map}, null: false
     field :charges_enabled, :boolean, null: false
     field :country, :string, null: false, default: "US"
