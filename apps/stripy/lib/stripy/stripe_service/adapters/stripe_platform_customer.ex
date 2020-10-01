@@ -23,7 +23,7 @@ defmodule Stripy.StripeService.Adapters.StripePlatformCustomerAdapter do
       customer
       |> Map.from_struct
       |> Map.take(@stripe_attributes)
-      |> rename(:id, :stripe_customer_id)
+      |> rename(:id, :id_from_stripe)
       |> keys_to_string
       |> add_non_stripe_attributes(attributes)
 
