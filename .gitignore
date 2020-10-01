@@ -23,6 +23,8 @@ Project-Aquamarine.tar.bz2
 
 streamers.ex
 streamers_test.exs
+updated_frontend_schema.txt
+stripe_testing.tar.bz2
 
 curl_twitter.sh
 phx-1.5-upgrade.md

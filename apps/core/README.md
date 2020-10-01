@@ -73,7 +73,29 @@ bash> mix ecto.gen.migration -r Core.Repo create_universities
 bash> mix ecto.gen.migration -r Core.Repo create_educations
 bash> mix ecto.gen.migration -r Core.Repo create_work_experiences
 bash> mix ecto.gen.migration -r Core.Repo create_accounting_softwares
+```
 
+- projects
+  - offers
+  - addons
+  - service_reviews
+- media
+  - documents
+- talk
+  - chats
+  - messages
+  - reports
+- accounts
+  - pro_rating_projects
+  - ban_reasons
+  - deleted_users
+  - platforms
+
+Furthermore, we have a couple of questions:
+
+3. Should we add existing fields in Platforms to existing tables in Accounts?
+
+```
 iex> language1 = %Language{abbr: "fra", name: "french"
 iex> language2 = %Language{abbr: "ger", name: "german"}
 iex> language1 = Repo.insert!(language1)
