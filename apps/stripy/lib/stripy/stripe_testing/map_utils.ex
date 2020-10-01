@@ -8,8 +8,12 @@ defmodule Stripy.StripeTesting.MapUtils do
     |> Map.delete(old_key)
   end
 
+  def convert_to_string_map(map), do: to_string_map(map)
   def keys_to_string(map), do: stringify_keys(map)
   def keys_to_atom(map), do: atomize_keys(map)
+
+  defp to_string_map(map) when is_map(map), do: Map.new(map, fn {k,v} -> {Atom.to_string(k),to_string_map(v)} end)
+  defp to_string_map(v), do: v
 
   defp stringify_keys(%DateTime{} = val), do: val
 
