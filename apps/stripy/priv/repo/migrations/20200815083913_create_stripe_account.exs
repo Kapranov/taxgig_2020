@@ -6,7 +6,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeAccount do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
       add :id_from_stripe, :string, null: false
       add :business_url, :string, null: false, default: "https://taxgig.com"
-      add :capabilities, {:array, :map}, null: false
+      add :capabilities, :map, null: false
       add :charges_enabled, :boolean, null: false
       add :country, :string, null: false, default: "US"
       add :created, :integer, null: false
@@ -14,7 +14,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeAccount do
       add :details_submitted, :boolean, null: false
       add :email, :string, null: false
       add :payouts_enabled, :boolean, null: false
-      add :tos_acceptance, {:array, :map}, null: false
+      add :tos_acceptance, :map, null: false
       add :type, :string, null: false, default: "custom"
       add :user_id, :uuid, null: false
 
