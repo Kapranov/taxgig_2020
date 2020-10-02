@@ -17,8 +17,8 @@ defmodule Stripy.StripeService.Adapters.StripePlatformTransferReversalAdapter do
 
   @non_stripe_attributes ["user_id"]
 
-  @spec to_params(Stripe.Transfer.t, map) :: {:ok, map}
-  def to_params(%Stripe.Transfer{} = transfer_reversal, %{} = attributes) do
+  @spec to_params(Stripe.TransferReversal.t, map) :: {:ok, map}
+  def to_params(%Stripe.TransferReversal{} = transfer_reversal, %{} = attributes) do
     result =
       transfer_reversal
       |> Map.take(@stripe_attributes)
