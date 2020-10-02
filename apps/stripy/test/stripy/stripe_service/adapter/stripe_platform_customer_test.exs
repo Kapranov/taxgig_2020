@@ -9,15 +9,15 @@ defmodule Stripy.StripeService.Adapters.StripePlatformCustomerAdapterTest do
   @user_attrs %{"user_id" => FlakeId.get}
 
   test "to_params" do
-    created_customer = Helpers.load_fixture("customer")
-    assert {:ok, result} = StripePlatformCustomerAdapter.to_params(created_customer, @user_attrs)
-    assert result["balance"]        == created_customer.balance
-    assert result["created"]        == created_customer.created
-    assert result["currency"]       == created_customer.currency
-    assert result["email"]          == created_customer.email
-    assert result["id_from_stripe"] == created_customer.id
-    assert result["name"]           == created_customer.name
-    assert result["phone"]          == created_customer.phone
+    data = Helpers.load_fixture("customer")
+    assert {:ok, result} = StripePlatformCustomerAdapter.to_params(data, @user_attrs)
+    assert result["balance"]        == data.balance
+    assert result["created"]        == data.created
+    assert result["currency"]       == data.currency
+    assert result["email"]          == data.email
+    assert result["id_from_stripe"] == data.id
+    assert result["name"]           == data.name
+    assert result["phone"]          == data.phone
     assert result["user_id"]        == @user_attrs["user_id"]
   end
 end

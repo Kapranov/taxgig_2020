@@ -7,15 +7,15 @@ defmodule Stripy.StripeService.Adapters.StripePlatformChargeCaptureAdapterTest d
   }
 
   test "to_params" do
-    created_charge_capture = Helpers.load_fixture("charge_capture")
-    assert {:ok, result} = StripePlatformChargeCaptureAdapter.to_params(created_charge_capture)
-    assert result["amount"]          == created_charge_capture.amount
-    assert result["captured"]        == created_charge_capture.captured
-    assert result["created"]         == created_charge_capture.created
-    assert result["failure_code"]    == created_charge_capture.failure_code
-    assert result["failure_message"] == created_charge_capture.failure_message
-    assert result["fraud_details"]   == created_charge_capture.fraud_details
-    assert result["id_from_stripe"]  == created_charge_capture.id
-    assert result["status"]          == created_charge_capture.status
+    data = Helpers.load_fixture("charge_capture")
+    assert {:ok, result} = StripePlatformChargeCaptureAdapter.to_params(data)
+    assert result["amount"]          == data.amount
+    assert result["captured"]        == data.captured
+    assert result["created"]         == data.created
+    assert result["failure_code"]    == data.failure_code
+    assert result["failure_message"] == data.failure_message
+    assert result["fraud_details"]   == data.fraud_details
+    assert result["id_from_stripe"]  == data.id
+    assert result["status"]          == data.status
   end
 end

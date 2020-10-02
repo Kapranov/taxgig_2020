@@ -9,12 +9,12 @@ defmodule Stripy.StripeService.Adapters.StripePlatformAccountTokenAdapterTest do
   @user_attrs %{"user_id" => FlakeId.get}
 
   test "to_params" do
-    created_account_token = Helpers.load_fixture("account_token")
-    assert {:ok, result} = StripePlatformAccountTokenAdapter.to_params(created_account_token, @user_attrs)
-    assert result["client_ip"]      == created_account_token.client_ip
-    assert result["created"]        == created_account_token.created
-    assert result["id_from_stripe"] == created_account_token.id
-    assert result["used"]           == created_account_token.used
+    data = Helpers.load_fixture("account_token")
+    assert {:ok, result} = StripePlatformAccountTokenAdapter.to_params(data, @user_attrs)
+    assert result["client_ip"]      == data.client_ip
+    assert result["created"]        == data.created
+    assert result["id_from_stripe"] == data.id
+    assert result["used"]           == data.used
     assert result["user_id"]        == @user_attrs["user_id"]
   end
 end
