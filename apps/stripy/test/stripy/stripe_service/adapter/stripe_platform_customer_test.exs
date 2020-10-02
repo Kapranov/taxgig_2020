@@ -2,8 +2,8 @@ defmodule Stripy.StripeService.Adapters.StripePlatformCustomerAdapterTest do
   use Stripy.StripeCase, async: true
 
   alias Stripy.{
-    StripeTesting.Helpers,
-    StripeService.Adapters.StripePlatformCustomerAdapter
+    StripeService.Adapters.StripePlatformCustomerAdapter,
+    StripeTesting.Helpers
   }
 
   @user_attrs %{"user_id" => FlakeId.get}
