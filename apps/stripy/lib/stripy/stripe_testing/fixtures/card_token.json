@@ -15,7 +15,7 @@
     "customer": null,
     "cvc_check": "pass",
     "dynamic_last4": null,
-    "exp_month": 8,
+    "exp_month": 5,
     "exp_year": 2021,
     "fingerprint": "Xt5EWLLDS7FJjR1c",
     "funding": "credit",

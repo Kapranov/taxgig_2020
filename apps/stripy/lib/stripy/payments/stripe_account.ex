@@ -18,7 +18,6 @@ defmodule Stripy.Payments.StripeAccount do
     details_submitted: boolean,
     email: String.t(),
     id_from_stripe: String.t(),
-    payout_schedule: tuple,
     payouts_enabled: boolean,
     tos_acceptance: tuple,
     type: String.t(),
@@ -35,7 +34,6 @@ defmodule Stripy.Payments.StripeAccount do
     details_submitted
     email
     id_from_stripe
-    payout_schedule
     payouts_enabled
     tos_acceptance
     type
@@ -52,7 +50,6 @@ defmodule Stripy.Payments.StripeAccount do
     details_submitted
     email
     id_from_stripe
-    payout_schedule
     payouts_enabled
     tos_acceptance
     type
@@ -69,7 +66,6 @@ defmodule Stripy.Payments.StripeAccount do
     field :details_submitted, :boolean, null: false
     field :email, :string, null: false
     field :id_from_stripe, :string, null: false
-    field :payout_schedule, {:array, :map}, null: false
     field :payouts_enabled, :boolean, null: false
     field :tos_acceptance, {:array, :map}, null: false
     field :type, :string, null: false, default: "custom"

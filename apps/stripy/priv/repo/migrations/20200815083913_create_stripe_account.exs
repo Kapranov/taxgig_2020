@@ -13,7 +13,6 @@ defmodule Stripy.Repo.Migrations.CreateStripeAccount do
       add :default_currency, :string, null: false, default: "usd"
       add :details_submitted, :boolean, null: false
       add :email, :string, null: false
-      add :payout_schedule, {:array, :map}, null: false
       add :payouts_enabled, :boolean, null: false
       add :tos_acceptance, {:array, :map}, null: false
       add :type, :string, null: false, default: "custom"

@@ -82,8 +82,8 @@ defmodule Stripy.StripeServices.StripePlatformAccountServiceTest do
     assert account_attrs["tos_acceptance"]    == MapUtils.keys_to_string(created_account.tos_acceptance)
     assert account_attrs["type"]              == created_account.type
     assert account_attrs["user_id"]           == @user_attrs["user_id"]
-    # assert {:ok, data} = StripePlatformAccountService.create(account_attrs, @user_attrs)
-    # assert {:ok, data} = StripePlatformAccountService.create(@account_attrs, @user_attrs)
-    # assert data == %{}
+    #assert {:ok, data} = StripePlatformAccountService.create(@account_attrs, @user_attrs)
+    assert {:ok, data} = StripePlatformAccountService.create(account_attrs, @user_attrs)
+    assert data == %{}
   end
 end
