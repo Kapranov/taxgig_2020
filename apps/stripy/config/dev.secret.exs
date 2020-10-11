@@ -1,7 +1,7 @@
 use Mix.Config
 
 config :core, Stripy.Repo,
-  username: "kapranov",
+  username: "postgres",
   password: "nicmos6922",
   database: "taxgig",
   hostname: "localhost",
@@ -21,4 +21,4 @@ config :stripity_stripe,
   connect_client_id: "pk_test_gFslvBfs9DSKQFkPrXB9oo15"
 
 config :stripity_stripe, json_library: Jason
-config :stripity_stripe, :retries, [max_attempts: 3, base_backoff: 500, max_backoff: 2_000]
+config :stripity_stripe, :retries, max_attempts: 3, base_backoff: 500, max_backoff: 2_000

@@ -1,7 +1,8 @@
 {
   "id": "tok_1HHKkA2eZvKYlo2C2AyIL6B3",
   "object": "token",
-  "card": {
+  "card":
+  {
     "address_city": null,
     "address_country": null,
     "address_line1": null,
@@ -21,13 +22,13 @@
     "funding": "credit",
     "id": "card_1HCXiM2eZvKYlo2CNwXeOqc5",
     "last4": "4242",
-    "metadata": {
-    },
+    "metadata":
+    {},
     "name": "Oleg Puryshev",
     "object": "card",
     "tokenization_method": null
   },
-  "client_ip": null,
+  "client_ip": "159.224.174.183",
   "created": 1597718410,
   "livemode": false,
   "type": "card",

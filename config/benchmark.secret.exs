@@ -1,7 +1,7 @@
 use Mix.Config
 
 config :core, Core.Repo,
-  username: "kapranov",
+  username: "postgres",
   password: "nicmos6922",
   database: "taxgig_benchmark",
   hostname: "localhost",
@@ -9,7 +9,7 @@ config :core, Core.Repo,
   pool_size: 10
 
 config :core, Graphy.Repo,
-  username: "kapranov",
+  username: "postgres",
   password: "nicmos6922",
   database: "taxgig_benchmark",
   hostname: "localhost",
@@ -17,7 +17,7 @@ config :core, Graphy.Repo,
   pool_size: 10
 
 config :ptin, Ptin.Repo,
-  username: "kapranov",
+  username: "postgres",
   password: "nicmos6922",
   database: "ptin_benchmark",
   hostname: "localhost",
