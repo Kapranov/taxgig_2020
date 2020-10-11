@@ -8,6 +8,7 @@ defmodule Core.Seeder.Repo do
     Landing,
     Localization,
     Lookup,
+    Media,
     Services,
     Skills,
     Talk,
@@ -22,6 +23,7 @@ defmodule Core.Seeder.Repo do
     Lookup.seed!()
     Services.seed!()
     Skills.seed!()
+    Media.seed!()
     Talk.seed!()
     :ok
   end

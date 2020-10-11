@@ -16,6 +16,7 @@ defmodule Core.Factory do
     Localization.Language,
     Lookup.State,
     Lookup.UsZipcode,
+    Media.Document,
     Media.Picture,
     Repo,
     Services.BookKeeping,
@@ -102,6 +103,54 @@ defmodule Core.Factory do
           name: name
         }
     end
+  end
+
+  @spec document_factory() :: Document.t()
+  def document_factory do
+    %Document{
+      access_granted:                 random_boolean(),
+      category:                       random_integer(),
+      document_link:                  Internet.url(),
+      format:                         random_integer(),
+      name:                           random_integer(),
+      signature_required_from_client: random_boolean(),
+      signed_by_client:               random_boolean(),
+      signed_by_pro:                  random_boolean(),
+      size:                           random_float(),
+      user:                           build(:user)
+    }
+  end
+
+  @spec tp_document_factory() :: Document.t()
+  def tp_document_factory do
+    %Document{
+      access_granted:                 random_boolean(),
+      category:                       random_integer(),
+      document_link:                  Internet.url(),
+      format:                         random_integer(),
+      name:                           random_integer(),
+      signature_required_from_client: random_boolean(),
+      signed_by_client:               random_boolean(),
+      signed_by_pro:                  random_boolean(),
+      size:                           random_float(),
+      user:                           build(:tp_user)
+    }
+  end
+
+  @spec pro_document_factory() :: Document.t()
+  def pro_document_factory do
+    %Document{
+      access_granted:                 random_boolean(),
+      category:                       random_integer(),
+      document_link:                  Internet.url(),
+      format:                         random_integer(),
+      name:                           random_integer(),
+      signature_required_from_client: random_boolean(),
+      signed_by_client:               random_boolean(),
+      signed_by_pro:                  random_boolean(),
+      size:                           random_float(),
+      user:                           build(:pro_user)
+    }
   end
 
   @spec picture_factory() :: Picture.t()
@@ -1256,6 +1305,12 @@ defmodule Core.Factory do
   @spec random_integer() :: integer()
   defp random_integer(n \\ 99) when is_integer(n) do
     Enum.random(1..n)
+  end
+
+  @spec random_float() :: float()
+  def random_float do
+    :random.uniform() * 100
+    |> Float.round(2)
   end
 
   @spec random_state :: {String.t(), String.t()}

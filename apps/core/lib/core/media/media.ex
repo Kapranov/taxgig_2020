@@ -3,11 +3,14 @@ defmodule Core.Media do
   The Media context.
   """
 
+  use Core.Context
+
   import Ecto.Query, warn: false
 
   alias Ecto.Multi
 
   alias Core.{
+    Media.Document,
     Media.File,
     Media.Picture,
     Upload,
@@ -146,6 +149,103 @@ defmodule Core.Media do
           end
       end
 
+  end
+
+  @doc """
+  Returns the list of Documents.
+
+  ## Examples
+
+      iex> list_document()
+      [%Document{}, ...]
+  """
+  @spec list_document() :: [Document.t()]
+  def list_document, do: Repo.all(Document)
+
+  @doc """
+  Gets a single Document.
+
+  Raises `Ecto.NoResultsError` if the Document does not exist.
+
+  ## Examples
+
+      iex> get_document!(123)
+      %Document{}
+
+      iex> get_document!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_document!(String.t()) :: Document.t() | error_tuple()
+  def get_document!(id), do: Repo.get!(Document, id)
+
+  @doc """
+  Creates the Document.
+
+  ## Examples
+
+      iex> create_document(%{field: value})
+      {:ok, %Document{}}
+
+      iex> create_document(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_document(%{atom => any}) :: result() | error_tuple()
+  def create_document(attrs \\ %{}) do
+    %Document{}
+    |> Document.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates the Document.
+
+  ## Examples
+
+      iex> update_document(struct, %{field: new_value})
+      {:ok, %Document{}}
+
+      iex> update_document(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_document(Document.t(), %{atom => any}) :: result() | error_tuple()
+  def update_document(%Document{} = struct, attrs) do
+    struct
+    |> Document.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes the Document.
+
+  ## Examples
+
+      iex> delete_document(struct)
+      {:ok, %Document{}}
+
+      iex> delete_document(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_document(Document.t()) :: result()
+  def delete_document(%Document{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking Document Changes.
+
+  ## Examples
+
+      iex> change_document(struct)
+      %Ecto.Changeset{source: %Faq{}}
+
+  """
+  @spec change_document(Document.t()) :: Ecto.Changeset.t()
+  def change_document(%Document{} = struct) do
+    Document.changeset(struct, %{})
   end
 
   @spec picture_by_url_query(String.t()) :: Ecto.Query.t()
