@@ -27,7 +27,7 @@ defmodule Core.Skills do
       user: [
         :languages,
         :work_experience,
-        education: [:university],
+        education: [:university]
       ]
     ])
   end

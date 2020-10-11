@@ -46,6 +46,7 @@ defmodule Core.Factory do
     Services.SaleTax,
     Services.SaleTaxFrequency,
     Services.SaleTaxIndustry,
+    Services.ServiceLink,
     Skills.AccountingSoftware,
     Skills.Education,
     Skills.University,
@@ -1069,6 +1070,26 @@ defmodule Core.Factory do
   def pro_sale_tax_industry_factory do
     %SaleTaxIndustry{
       name: random_name_for_pro_industry(),
+      sale_taxes: build(:pro_sale_tax)
+    }
+  end
+
+  @spec tp_service_link_factory() :: ServiceLink.t()
+  def tp_service_link_factory do
+    %ServiceLink{
+      book_keepings: build(:tp_book_keeping),
+      business_tax_returns: build(:tp_business_tax_return),
+      individual_tax_returns: build(:tp_individual_tax_return),
+      sale_taxes: build(:tp_sale_tax)
+    }
+  end
+
+  @spec pro_service_link_factory() :: ServiceLink.t()
+  def pro_service_link_factory do
+    %ServiceLink{
+      book_keepings: build(:pro_book_keeping),
+      business_tax_returns: build(:pro_business_tax_return),
+      individual_tax_returns: build(:pro_individual_tax_return),
       sale_taxes: build(:pro_sale_tax)
     }
   end

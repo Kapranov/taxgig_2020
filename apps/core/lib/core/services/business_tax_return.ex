@@ -17,7 +17,8 @@ defmodule Core.Services.BusinessTaxReturn do
     Services.BusinessNumberEmployee,
     Services.BusinessTaxReturn,
     Services.BusinessTotalRevenue,
-    Services.BusinessTransactionCount
+    Services.BusinessTransactionCount,
+    Services.ServiceLink
   }
 
   @type word() :: String.t()
@@ -60,7 +61,8 @@ defmodule Core.Services.BusinessTaxReturn do
     tax_year: tuple,
     total_asset_less: boolean,
     total_asset_over: boolean,
-    user_id: User.t()
+    user_id: User.t(),
+    service_links: [ServiceLink.t()]
   }
 
   @allowed_params ~w(
@@ -153,6 +155,7 @@ defmodule Core.Services.BusinessTaxReturn do
     has_many :business_number_employees, BusinessNumberEmployee
     has_many :business_total_revenues, BusinessTotalRevenue
     has_many :business_transaction_counts, BusinessTransactionCount
+    has_many :service_links, ServiceLink
 
     belongs_to :user, User, foreign_key: :user_id,
       type: FlakeId.Ecto.CompatType, references: :id

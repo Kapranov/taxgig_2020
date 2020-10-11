@@ -83,9 +83,12 @@ defmodule Core.Accounts.User do
   )a
 
   @required_params ~w(
+    admin
     email
     password
     password_confirmation
+    provider
+    role
   )a
 
   schema "users" do
@@ -164,6 +167,7 @@ defmodule Core.Accounts.User do
     |> validate_length(:password, min: 5, max: 20)
     |> validate_confirmation(:password)
     |> update_change(:email, &String.downcase/1)
+    |> unique_constraint(:email)
     |> unique_constraint(:email, name: :users_email_index, message: "Only one an Email Record")
     |> validate_email()
     |> validate_length(:bio, max: bio_limit)

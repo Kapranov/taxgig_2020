@@ -73,6 +73,23 @@ bash> mix ecto.gen.migration -r Core.Repo create_universities
 bash> mix ecto.gen.migration -r Core.Repo create_educations
 bash> mix ecto.gen.migration -r Core.Repo create_work_experiences
 bash> mix ecto.gen.migration -r Core.Repo create_accounting_softwares
+
+bash> mix ecto.gen.migration -r Core.Repo create_service_links
+
+
+
+
+
+bash> mix ecto.gen.migration -r Core.Repo create_offers
+bash> mix ecto.gen.migration -r Core.Repo create_ddons
+bash> mix ecto.gen.migration -r Core.Repo create_service_reviews
+
+bash> mix ecto.gen.migration -r Core.Repo create_documents
+bash> mix ecto.gen.migration -r Core.Repo create_reports
+bash> mix ecto.gen.migration -r Core.Repo create_pro_rating_projects
+bash> mix ecto.gen.migration -r Core.Repo create_ban_reasons
+bash> mix ecto.gen.migration -r Core.Repo create_platforms
+bash> mix ecto.gen.migration -r Core.Repo create_deleted_users
 ```
 
 - projects

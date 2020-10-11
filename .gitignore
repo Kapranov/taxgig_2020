@@ -17,17 +17,16 @@ erl_crash.dump
 *.iml
 *.ez
 
-chat.tar.bz2
-elixir_chat_server.tar.bz2
+DAXX.md
 Project-Aquamarine.tar.bz2
-
+VERSION
+chat.tar.bz2
+curl_twitter.sh
+elixir_chat_server.tar.bz2
+mix.lock
+phx-1.5-upgrade.md
 streamers.ex
 streamers_test.exs
-updated_frontend_schema.txt
 stripe_testing.tar.bz2
-
-curl_twitter.sh
-phx-1.5-upgrade.md
-DAXX.md
-VERSION
-mix.lock
+stripe_users.txt
+updated_frontend_schema.txt

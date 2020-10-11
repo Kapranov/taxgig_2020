@@ -15,7 +15,8 @@ defmodule Core.Services.IndividualTaxReturn do
     Services.IndividualIndustry,
     Services.IndividualItemizedDeduction,
     Services.IndividualStockTransactionCount,
-    Services.IndividualTaxReturn
+    Services.IndividualTaxReturn,
+    Services.ServiceLink
   }
 
   @type word() :: String.t()
@@ -49,7 +50,8 @@ defmodule Core.Services.IndividualTaxReturn do
     state: tuple,
     stock_divident: boolean,
     tax_year: tuple,
-    user_id: User.t()
+    user_id: User.t(),
+    service_links: [ServiceLink.t()]
   }
 
   @allowed_params ~w(
@@ -122,6 +124,7 @@ defmodule Core.Services.IndividualTaxReturn do
     has_many :individual_industries, IndividualIndustry
     has_many :individual_itemized_deductions, IndividualItemizedDeduction
     has_many :individual_stock_transaction_counts, IndividualStockTransactionCount
+    has_many :service_links, ServiceLink
 
     belongs_to :user, User, foreign_key: :user_id,
       type: FlakeId.Ecto.CompatType, references: :id

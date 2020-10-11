@@ -40,6 +40,7 @@ defmodule Stripy.MixProject do
 
   defp deps do
     [
+      {:ecto_enum, "~> 1.4"},
       {:ecto_sql, "~> 3.4"},
       {:erlexec, git: "https://github.com/saleyn/erlexec.git", only: :test, override: true},
       {:exexec, "~> 0.2.0", only: :test},

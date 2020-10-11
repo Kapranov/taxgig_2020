@@ -16,7 +16,8 @@ defmodule Core.Services.BookKeeping do
     Services.BookKeepingIndustry,
     Services.BookKeepingNumberEmployee,
     Services.BookKeepingTransactionVolume,
-    Services.BookKeepingTypeClient
+    Services.BookKeepingTypeClient,
+    Services.ServiceLink
   }
 
   @type word() :: String.t()
@@ -40,7 +41,8 @@ defmodule Core.Services.BookKeeping do
     book_keeping_industries: [BookKeepingIndustry.t()],
     book_keeping_number_employees: [BookKeepingNumberEmployee.t()],
     book_keeping_transaction_volumes: [BookKeepingTransactionVolume.t()],
-    book_keeping_type_clients: [BookKeepingTypeClient.t()]
+    book_keeping_type_clients: [BookKeepingTypeClient.t()],
+    service_links: [ServiceLink.t()]
   }
 
   @allowed_params ~w(
@@ -80,6 +82,7 @@ defmodule Core.Services.BookKeeping do
     has_many :book_keeping_number_employees, BookKeepingNumberEmployee
     has_many :book_keeping_transaction_volumes, BookKeepingTransactionVolume
     has_many :book_keeping_type_clients, BookKeepingTypeClient
+    has_many :service_links, ServiceLink
 
     belongs_to :user, User, foreign_key: :user_id,
       type: FlakeId.Ecto.CompatType, references: :id

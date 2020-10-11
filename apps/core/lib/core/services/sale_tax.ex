@@ -11,7 +11,8 @@ defmodule Core.Services.SaleTax do
     Services,
     Services.SaleTax,
     Services.SaleTaxFrequency,
-    Services.SaleTaxIndustry
+    Services.SaleTaxIndustry,
+    Services.ServiceLink
   }
 
   @type word() :: String.t()
@@ -25,7 +26,8 @@ defmodule Core.Services.SaleTax do
     state: tuple,
     user_id: User.t(),
     sale_tax_frequencies: [SaleTaxFrequency.t()],
-    sale_tax_industries: [SaleTaxIndustry.t()]
+    sale_tax_industries: [SaleTaxIndustry.t()],
+    service_links: [ServiceLink.t()]
   }
 
   @allowed_params ~w(
@@ -50,6 +52,7 @@ defmodule Core.Services.SaleTax do
 
     has_many :sale_tax_frequencies, SaleTaxFrequency
     has_many :sale_tax_industries, SaleTaxIndustry
+    has_many :service_links, ServiceLink
 
     belongs_to :user, User, foreign_key: :user_id,
       type: FlakeId.Ecto.CompatType, references: :id

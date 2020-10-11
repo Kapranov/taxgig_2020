@@ -64,11 +64,21 @@ defmodule Core.Accounts.UserTest do
 
       data =
         Accounts.list_user
-        |> Repo.preload([:languages, :accounting_software, :education, :work_experience])
+        |> Repo.preload([
+          :accounting_software,
+          :languages,
+          :work_experience,
+          education: [:university]
+        ])
 
       user =
         [%User{struct | password: nil, password_confirmation: nil, languages: [langs]}]
-        |> Repo.preload([:languages, :accounting_software, :education, :work_experience])
+        |> Repo.preload([
+          :accounting_software,
+          :languages,
+          :work_experience,
+          education: [:university]
+        ])
 
       assert data == user
     end
@@ -103,8 +113,7 @@ defmodule Core.Accounts.UserTest do
       assert data.street      == struct.street
       assert data.updated_at  == struct.updated_at
       assert data.zip         == struct.zip
-
-    end
+   end
 
     test "create_user/1 with valid data creates user" do
       lang_a = insert(:language)
@@ -191,11 +200,21 @@ defmodule Core.Accounts.UserTest do
       insert(:work_experience, user: user)
       data =
         Accounts.get_user!(user.id)
-        |> Repo.preload([:languages, :accounting_software, :education, :work_experience])
+        |> Repo.preload([
+          :accounting_software,
+          :languages,
+          :work_experience,
+          education: [:university]
+        ])
 
       struct =
         %User{user | password: nil, password_confirmation: nil}
-        |> Repo.preload([:languages, :accounting_software, :education, :work_experience])
+        |> Repo.preload([
+          :accounting_software,
+          :languages,
+          :work_experience,
+          education: [:university]
+        ])
 
       assert {:error, %Ecto.Changeset{}} = Accounts.update_user(struct, @invalid_attrs)
       assert data == struct

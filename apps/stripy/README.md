@@ -72,11 +72,24 @@ create_card_token []
 actions -
    create_card_token => [list, show, create, delete]
    create_charge     => []
-          
+
 frontend -
 create_card_token - []
 for role true  => create_account_token(N) -> create_account(M) -> create_card_token(N)          -> create_external_account_card(N)       -> create_transfer_external_account() -> create_transfer_reversal()
                                                                   create_bank_account_token(N)  -> create_external_account_bank(N)       -> create_transfer_external_account() -> create_transfer_reversal()
+
+stripe_user1 - role false email, role
+ - create_card_token
+   - key: value, key: value
+ - create_custmer
+   - key: value, key: value
+ - create_charge
+   - key: value, key: value
+ - create_charge_capture
+   - key: value, key: value
+ - create_refund
+   - key: value, key: value
+stripe_user2 - role true  email, role
 ```
 
 ### Live mode
@@ -91,10 +104,110 @@ available: [],
 pending: []
 
 list_all_balance_transactions.sh
-
 ```
 
+### Ecto.Enum In Schemaless Changesets
 
+Beginning in Ecto 3.5, Ecto added Ecto.Enum as a new field type to use
+with schemas. This allows you to cast values to a known list of accepted
+values and have the values be atoms. Prior, you would have had to create
+your own Ecto type and implement the Ecto.Type behaviour. Using
+Ecto.Enum is very straightforward. Here's how you'd use it in a schema:
+
+```
+defmodule MyApp.User do
+  use Ecto.Schema
+
+  schema "users" do
+    field :type, Ecto.Enum, values: [:regular, :staff, :admin, :superuser]
+  end
+end
+```
+
+- Schemaless Changesets
+
+Schemaless changesets are a very powerful tool in Ecto. You can create
+an ephermal schema that you can use for validations and casting. This is
+extremely useful when dealing with data that's coming from outside your
+system. Here's an example:
+
+```
+import Ecto.Changeset
+
+params = %
+  "old_password" => "password1",
+  "new_password" => "password2",
+  "new_password_confirmation" => "password2"
+}
+
+initial_data = %{}
+
+field_types = %{
+  old_password: :string,
+  new_password: :string,
+  new_password_confirmation: :string
+}
+
+{initial_data, field_types}
+|> cast(params, ~w(old_password password new_password_confirmation)a)
+|> validate_required(~w(old_password new_password new_password_confirmation)a)
+|> validate_length(:new_password, min: 8)
+|> validate_confirmation(:new_password)
+```
+
+- Using Ecto.Enum in a Schemaless Changeset
+
+The underlying type of `Ecto.Enum` is actually a parameterized type
+(also new in Ecto 3.5). `Ecto.ParamaterizedType` is a behaviour, similar
+to `Ecto.Type`, that allows you to configure a type from a set of
+initialization options. Using a parameterized type requires a little
+extra syntax to work by using a three-element tuple:
+
+```
+types = %{
+  event_type: {
+    :parameterized,
+    Ecto.Enum,
+    Ecto.Enum.init(values: ~w(short medium long)a)
+  }
+}
+```
+
+The first element lets Ecto know that you want to use a parameterized
+type. The second element tells Ecto which module to use for casting
+data. The third element is the configuration for the type.
+With `Ecto.Enum`, the third element can be crafted by calling `init`
+on the `Ecto.Enum` module.
+
+Here's how it would look alltogether in a changeset:
+
+```
+import Ecto.Changeset
+
+initial_data = %{}
+
+params = %{"event_type" => "short"}
+
+types = %{
+  event_type: {
+    :parameterized,
+    Ecto.Enum,
+    Ecto.Enum.init(values: ~w(short medium long)a)
+  }
+}
+
+{initial_data, types}
+|> cast(params, [:event_type])
+|> validate_required([:event_type])
+# ...
+```
+
+`Ecto.Enum` is a great addition in Ecto 3.5. Even though it isn't
+obvious how to use `Ecto.Enum` in a schemaless changeset, adding a few
+extra bits of information will enable you to use it. If you haven't
+already tried using a schemless changeset, try them out the next time
+you want validate external data or even replace an embedded schema that
+is used in a similar fashion.
 
 ### 10 Aug 2020 by Oleg G.Kapranov
 
@@ -121,3 +234,11 @@ list_all_balance_transactions.sh
 [21]: https://lostkobrakai.svbtle.com/a-case-against-many_to_many
 [22]: https://stripe.com/docs/api/charges/object
 [23]: https://stripe.com/docs/api/charges/capture
+[24]: https://github.com/alfredclub/chargebee-elixir
+[25]: https://github.com/alexgaribay/chargebee-elixir
+[26]: https://github.com/alanvoss/connect_four
+[27]: https://github.com/alexgaribay/connect_four
+[28]: https://github.com/alexgaribay/Elixir-Slack
+[29]: https://github.com/BlakeWilliams/Elixir-Slack
+[30]: https://github.com/alexgaribay/braintree-elixir
+[31]: https://github.com/sorentwo/braintree-elixir
