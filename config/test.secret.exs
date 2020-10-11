@@ -5,7 +5,7 @@ config :logger, level: :warn
 config :argon2_elixir, t_cost: 2, m_cost: 12
 
 config :core, Core.Repo,
-  username: "kapranov",
+  username: "postgres",
   password: "nicmos6922",
   database: "taxgig_test",
   hostname: "localhost",
@@ -13,7 +13,7 @@ config :core, Core.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :core, Graphy.Repo,
-  username: "kapranov",
+  username: "postgres",
   password: "nicmos6922",
   database: "taxgig_test",
   hostname: "localhost",
@@ -21,7 +21,7 @@ config :core, Graphy.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :ptin, Ptin.Repo,
-  username: "kapranov",
+  username: "postgres",
   password: "nicmos6922",
   database: "ptin_test",
   hostname: "localhost",

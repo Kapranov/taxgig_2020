@@ -24,7 +24,7 @@ defmodule Stripy.StripeService.StripePlatformChargeCaptureService do
         iex> {:ok, result} = StripePlatformCardTokenAdapter.to_params(stripe_charge_capture)
 
   """
-  @spec create(map, map) ::
+  @spec create(String.t(), map) ::
           {:ok, StripeChargeCapture.t()}
           | {:error, Ecto.Changeset.t()}
           | {:error, Stripe.Error.t()}
@@ -32,11 +32,11 @@ defmodule Stripy.StripeService.StripePlatformChargeCaptureService do
           | {:error, :not_found}
   def create(id_from_charge, charge_capture_attrs) do
     with {:ok, %Stripe.Charge{} = stripe_charge_capture} =
-          @api.Charge.capture(id_from_charge, charge_capture_attrs),
-      {:ok, params} <-
-        StripePlatformChargeCaptureAdapter.to_params(stripe_charge_capture)
-    do
+           @api.Charge.capture(id_from_charge, charge_capture_attrs),
+         {:ok, params} <-
+           StripePlatformChargeCaptureAdapter.to_params(stripe_charge_capture) do
       {:ok, struct} = Payments.get_stripe_charge!(%{id_from_stripe: id_from_charge})
+
       case Payments.update_stripe_charge(struct, params) do
         {:error, error} -> {:error, error}
         {:ok, data} -> {:ok, data}

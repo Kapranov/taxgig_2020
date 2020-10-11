@@ -12,7 +12,7 @@ config :phoenix, :stacktrace_depth, 20
 config :remix, escript: false, silent: true
 
 config :core, Core.Repo,
-  username: "kapranov",
+  username: "postgres",
   password: "nicmos6922",
   database: "taxgig",
   hostname: "localhost",
@@ -20,7 +20,7 @@ config :core, Core.Repo,
   pool_size: 10
 
 config :core, Graphy.Repo,
-  username: "kapranov",
+  username: "postgres",
   password: "nicmos6922",
   database: "taxgig",
   hostname: "localhost",
@@ -28,7 +28,7 @@ config :core, Graphy.Repo,
   pool_size: 10
 
 config :ptin, Ptin.Repo,
-  username: "kapranov",
+  username: "postgres",
   password: "nicmos6922",
   database: "ptin",
   hostname: "localhost",
