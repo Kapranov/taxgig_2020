@@ -3,7 +3,7 @@ defmodule Stripy.StripeService.Adapters.StripePlatformAccountAdapter do
   Transfer model from Stripe.Account to Application schema model
   """
 
-  import Stripy.MapUtils, only: [keys_to_string: 1, rename: 3]
+  import Stripy.MapUtils, only: [keys_to_string: 1, nested_merge: 2, rename: 3]
 
   @stripe_attributes [
     :business_url,
@@ -27,6 +27,8 @@ defmodule Stripy.StripeService.Adapters.StripePlatformAccountAdapter do
   def to_params(%Stripe.Account{} = stripe_account, %{} = attributes) do
     result =
       stripe_account
+      |> nested_merge(:business_profile)
+      |> rename(:url, :business_url)
       |> Map.take(@stripe_attributes)
       |> rename(:id, :id_from_stripe)
       |> keys_to_string

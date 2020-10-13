@@ -17,7 +17,7 @@
     "routing_number": "110000000",
     "status": "new"
   },
-  "client_ip": null,
+  "client_ip": "159.224.174.183",
   "created": 1597718410,
   "livemode": false,
   "type": "bank_account",

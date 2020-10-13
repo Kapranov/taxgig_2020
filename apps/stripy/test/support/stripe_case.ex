@@ -5,6 +5,17 @@ defmodule Stripy.StripeCase do
 
   use ExUnit.CaseTemplate
 
+  alias Stripy.Repo
+  alias Ecto.Adapters.SQL.Sandbox, as: Adapter
+
+  setup tags do
+    :ok = Adapter.checkout(Repo)
+
+    unless tags[:async], do: Adapter.mode(Repo, {:shared, self()})
+
+    :ok
+  end
+
   def assert_stripe_requested(expected_method, path, extra \\ []) do
     expected_url = build_url(path, Keyword.get(extra, :query))
     expected_body = Keyword.get(extra, :body)

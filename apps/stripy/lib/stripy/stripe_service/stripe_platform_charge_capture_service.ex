@@ -24,7 +24,7 @@ defmodule Stripy.StripeService.StripePlatformChargeCaptureService do
         iex> {:ok, result} = StripePlatformCardTokenAdapter.to_params(stripe_charge_capture)
 
   """
-  @spec create(map, map) ::
+  @spec create(String.t(), map) ::
           {:ok, StripeChargeCapture.t()}
           | {:error, Ecto.Changeset.t()}
           | {:error, Stripe.Error.t()}

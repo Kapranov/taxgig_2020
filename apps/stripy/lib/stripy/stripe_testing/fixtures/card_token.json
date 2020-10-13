@@ -27,7 +27,7 @@
     "object": "card",
     "tokenization_method": null
   },
-  "client_ip": null,
+  "client_ip": "159.224.174.183",
   "created": 1597718410,
   "livemode": false,
   "type": "card",

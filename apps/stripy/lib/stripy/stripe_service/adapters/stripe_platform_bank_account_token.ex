@@ -14,7 +14,8 @@ defmodule Stripy.StripeService.Adapters.StripePlatformBankAccountTokenAdapter do
     :created,
     :currency,
     :fingerprint,
-    :id,
+    :id_from_bank_account,
+    :id_from_stripe,
     :last4,
     :routing_number,
     :status,
@@ -29,8 +30,8 @@ defmodule Stripy.StripeService.Adapters.StripePlatformBankAccountTokenAdapter do
       stripe_bank_account_token
       |> rename(:id, :id_from_stripe)
       |> nested_merge(:bank_account)
-      |> Map.take(@stripe_attributes)
       |> rename(:id ,:id_from_bank_account)
+      |> Map.take(@stripe_attributes)
       |> keys_to_string
       |> add_non_stripe_attributes(attributes)
 

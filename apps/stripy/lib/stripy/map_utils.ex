@@ -20,7 +20,11 @@ defmodule Stripy.MapUtils do
     n2 =
       map
       |> Map.get(nested)
-      |> Map.from_struct
+      |> case do
+        %_{} = struct ->
+          Map.from_struct(struct)
+        map -> map
+      end
 
     Map.merge(n1, n2)
   end

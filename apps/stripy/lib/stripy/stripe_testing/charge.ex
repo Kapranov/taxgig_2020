@@ -1,9 +1,9 @@
 defmodule Stripy.StripeTesting.Charge do
   @moduledoc false
 
-  import Stripy.StripeTesting.Helpers
+  alias Stripy.StripeTesting.Helpers
 
   def retrieve(id, _opts) do
-    {:ok, load_fixture(id)}
+    {:ok, Helpers.load_fixture(id)}
   end
 end

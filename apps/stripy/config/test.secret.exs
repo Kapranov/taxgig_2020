@@ -15,8 +15,6 @@ config :stripy, :stripe_env, :test
 config :stripy, environment_name: Mix.env || :test
 
 config :stripity_stripe,
-  # api_key: "sk_test_4HBAA9fY1u6YEZta9ZzCHpEz00K0Bds8d1",
-  # connect_client_id: "pk_test_GjKfJhUQ22WaBjL38sIuPjif00pOTDWgZv"
   api_key: "sk_test_IFLwitpOxgYTWSEG4eJWyoVN",
   connect_client_id: "pk_test_gFslvBfs9DSKQFkPrXB9oo15"
 

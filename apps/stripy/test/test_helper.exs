@@ -1,5 +1,7 @@
 ExUnit.start()
 
+Ecto.Adapters.SQL.Sandbox.mode(Stripy.Repo, :manual)
+
 Application.ensure_all_started(:erlexec)
 Application.ensure_all_started(:exexec)
 Application.ensure_all_started(:mox)
