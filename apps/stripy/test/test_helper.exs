@@ -26,7 +26,7 @@ defmodule Helper do
     File.read!(@fixture_path <> filename) |> Stripe.API.json_library().decode!()
   end
 
-  def wait_until_stripe_mock_launch do
+  def wait_until_stripe_mock_launch() do
     case Stripe.Charge.list() do
       {:error, %Stripe.Error{code: :network_error}} ->
         Process.sleep(250)

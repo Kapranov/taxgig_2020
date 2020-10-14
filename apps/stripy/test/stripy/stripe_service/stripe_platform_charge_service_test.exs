@@ -4,7 +4,7 @@ defmodule Stripy.StripeService.StripePlatformChargeServiceTest do
   alias Stripy.{
     MapUtils,
     StripeService.Adapters.StripePlatformChargeAdapter,
-    StripeService.StripePlatformChargeService,
+    #StripeService.StripePlatformChargeService,
     StripeTesting.Helpers
   }
 

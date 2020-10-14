@@ -7,6 +7,7 @@ defmodule Core.Seeder.Accounts do
 
   alias Core.{
     Accounts,
+    Accounts.BanReason,
     Accounts.Subscriber,
     Accounts.User,
     Localization.Language,
@@ -15,6 +16,7 @@ defmodule Core.Seeder.Accounts do
 
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
+    Repo.delete_all(BanReason)
     Repo.delete_all(Subscriber)
     Repo.delete_all(User)
   end
@@ -26,6 +28,7 @@ defmodule Core.Seeder.Accounts do
     # seed_multi_user()
     seed_users_languages()
     seed_multi_users_languages()
+    seed_ban_reason()
     admin_permission()
   end
 
@@ -49,9 +52,56 @@ defmodule Core.Seeder.Accounts do
     Ecto.Adapters.SQL.query!(Repo, "UPDATE users SET admin = $2 WHERE email = $1", [email, role])
   end
 
-  @spec admin_permission(any(), any()) :: {:error, String.t()}
-  def admin_permission(_, _) do
+  @spec admin_create_ban_reasons :: {:error, String.t()}
+  def admin_create_ban_reasons do
     {:error, "Oops! email and role is an empty"}
+  end
+
+  @spec admin_create_ban_reasons(any()) :: {:error, String.t()}
+  def admin_create_ban_reasons(_) do
+    {:error, "Oops! other is an empty"}
+  end
+
+  @spec admin_create_ban_reasons(any(), any()) :: {:error, String.t()}
+  def admin_create_ban_reasons(_, _) do
+    {:error, "Oops! other is an empty"}
+  end
+
+  @spec admin_create_ban_reasons(any(), any(), any()) :: {:error, String.t()}
+  def admin_create_ban_reasons(_, _, _) do
+    {:error, "Oops! other is an empty"}
+  end
+
+  @spec admin_create_ban_reasons(String.t(), String.t(), boolean(), String.t()) :: %Postgrex.Result{columns: nil, command: atom(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
+  def admin_create_ban_reasons(user_id, reasons, other, other_description) when is_bitstring(user_id) and is_bitstring(reasons) and is_boolean(other) and is_bitstring(other_description) do
+    user =
+      try do
+        Accounts.get_user!(user_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    now = :erlang.system_time(:second) |> DateTime.from_unix!()
+
+    if Accounts.User.superuser?(user) do
+      case Repo.aggregate(BanReason, :count, :id) > 0 do
+        true -> nil
+        false ->
+          case other do
+            true ->
+              Ecto.Adapters.SQL.query!(Repo, "INSERT INTO ban_reasons (other, other_description, inserted_at, updated_at) VALUES ($1, $2, $3, $4)", [other, other_description, now, now])
+            false ->
+              Ecto.Adapters.SQL.query!(Repo, "INSERT INTO ban_reasons (reasons, other, inserted_at, updated_at) VALUES ($1, $2, $3, $4)", [reasons, other, now, now])
+          end
+      end
+    else
+      {:error, "Permission Denied"}
+    end
+  end
+
+  @spec admin_create_ban_reasons(any(), any(), any(), any()) :: {:error, String.t()}
+  def admin_create_ban_reasons(_, _, _, _) do
+    {:error, "Oops! other is an empty"}
   end
 
   @spec seed_subscriber() :: nil | Ecto.Schema.t()
@@ -151,6 +201,14 @@ defmodule Core.Seeder.Accounts do
       )
       |> Repo.transaction()
     end)
+  end
+
+  @spec seed_ban_reason() :: nil | Ecto.Schema.t()
+  defp seed_ban_reason do
+    case Repo.aggregate(BanReason, :count, :id) > 0 do
+      true -> nil
+      false -> insert_ban_reason()
+    end
   end
 
   @spec insert_subscriber() :: Ecto.Schema.t()
@@ -277,6 +335,19 @@ defmodule Core.Seeder.Accounts do
     ]
   end
 
+  @spec insert_ban_reason() :: Ecto.Schema.t()
+  defp insert_ban_reason do
+    case Repo.aggregate(BanReason, :count, :id) > 0 do
+      true -> nil
+      false ->
+        Accounts.create_ban_reason(%{
+          reasons: random_reasons(),
+          other: random_boolean(),
+          other_description: "some text"
+        })
+    end
+  end
+
   @spec random_language() :: String.t()
   defp random_language do
     data =
@@ -311,5 +382,35 @@ defmodule Core.Seeder.Accounts do
       |> Enum.uniq()
 
     result
+  end
+
+  @spec random_reasons :: [String.t()]
+  defp random_reasons do
+    names = [
+      "Racism",
+      "Intolerance",
+      "Violate Terms",
+      "Fraud",
+      "Spam",
+      "Sexism",
+      "Harassment"
+    ]
+
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    [result] =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_boolean() :: boolean()
+  defp random_boolean do
+    value = ~W(true false)a
+    Enum.random(value)
   end
 end

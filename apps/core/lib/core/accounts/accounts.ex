@@ -6,6 +6,7 @@ defmodule Core.Accounts do
   use Core.Context
 
   alias Core.{
+    Accounts.BanReason,
     Accounts.Profile,
     Accounts.Subscriber,
     Accounts.User,
@@ -190,6 +191,19 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Returns the list of BanReason.
+
+  ## Examples
+
+      iex> list_ban_reason()
+      [%BanReason{}, ...]
+  """
+  @spec list_ban_reason() :: [BanReason.t()]
+  def list_ban_reason do
+    Repo.all(BanReason)
+  end
+
+  @doc """
   Returns the list of Subscriber.
 
   ## Examples
@@ -233,6 +247,25 @@ defmodule Core.Accounts do
   def list_profile do
     Repo.all(Profile)
     |> Repo.preload([:picture, :us_zipcode, user: [:languages, profile: [:picture]]])
+  end
+
+  @doc """
+  Gets a single BanReason.
+
+  Raises `Ecto.NoResultsError` if the BanReason does not exist.
+
+  ## Examples
+
+      iex> get_ban_reason!(123)
+      %BanReason{}
+
+      iex> get_ban_reason!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_ban_reason!(String.t()) :: BanReason.t() | error_tuple()
+  def get_ban_reason!(id) do
+    Repo.get!(BanReason, id)
   end
 
   @doc """
@@ -307,6 +340,36 @@ defmodule Core.Accounts do
   def get_profile!(id) do
     Repo.get!(Profile, id)
     |> Repo.preload([:picture, :us_zipcode, user: [:languages, profile: [:picture]]])
+  end
+
+  @doc """
+  Creates BanReason.
+
+  ## Examples
+
+      iex> create_ban_reason(%{field: value})
+      {:ok, %BanReason{}}
+
+      iex> create_ban_reason(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_ban_reason(%{atom => any}) :: result() | error_tuple()
+  def create_ban_reason(attrs \\ %{}) do
+    case Repo.aggregate(BanReason, :count, :id) > 0 do
+      true -> {:error, %Ecto.Changeset{}}
+      false ->
+        case attrs.other do
+          true ->
+            %BanReason{}
+            |> BanReason.changeset(Map.delete(attrs, :reasons))
+            |> Repo.insert()
+          false ->
+            %BanReason{}
+            |> BanReason.changeset(Map.delete(attrs, :other_description))
+            |> Repo.insert()
+        end
+    end
   end
 
   @doc """
@@ -868,6 +931,40 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Updates BanReason.
+
+  ## Examples
+
+      iex> update_ban_reason(struct, %{field: new_value})
+      {:ok, %BanReason{}}
+
+      iex> update_ban_reason(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_ban_reason(BanReason.t(), %{atom => any}) :: result() | error_tuple()
+  def update_ban_reason(struct, attrs) do
+    new_attrs1 =
+      Map.delete(attrs, :reasons)
+      |> Map.merge(%{reasons: nil})
+
+    new_attrs2 =
+      Map.delete(attrs, :other_description)
+      |> Map.merge(%{other_description: nil})
+
+    case attrs.other do
+      true ->
+        struct
+        |> BanReason.changeset(new_attrs1)
+        |> Repo.update()
+      false ->
+        struct
+        |> BanReason.changeset(new_attrs2)
+        |> Repo.update()
+    end
+  end
+
+  @doc """
   Updates Subscriber.
 
   ## Examples
@@ -925,6 +1022,23 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Deletes BanReason.
+
+  ## Examples
+
+      iex> delete_ban_reason(struct)
+      {:ok, %BanReason{}}
+
+      iex> delete_ban_reason(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_ban_reason(BanReason.t()) :: result()
+  def delete_ban_reason(%BanReason{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
   Deletes Subscriber.
 
   ## Examples
@@ -973,6 +1087,20 @@ defmodule Core.Accounts do
   @spec delete_profile(Profile.t()) :: result()
   def delete_profile(%Profile{} = struct) do
     Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking BanReason changes.
+
+  ## Examples
+
+      iex> change_ban_reason(struct)
+      %Ecto.Changeset{source: %BanReason{}}
+
+  """
+  @spec change_ban_reason(BanReason.t()) :: Ecto.Changeset.t()
+  def change_ban_reason(%BanReason{} = struct) do
+    BanReason.changeset(struct, %{})
   end
 
   @doc """

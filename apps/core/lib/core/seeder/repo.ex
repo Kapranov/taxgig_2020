@@ -30,6 +30,7 @@ defmodule Core.Seeder.Repo do
 
   @spec updated!() :: :ok
   def updated! do
+    Updated.Accounts.start!()
     Updated.Services.start!()
     :ok
   end
