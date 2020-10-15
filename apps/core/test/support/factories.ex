@@ -6,6 +6,7 @@ defmodule Core.Factory do
   use ExMachina.Ecto, repo: Core.Repo
 
   alias Core.{
+    Accounts.BanReason,
     Accounts.Profile,
     Accounts.Subscriber,
     Accounts.User,
@@ -1205,6 +1206,15 @@ defmodule Core.Factory do
     }
   end
 
+  @spec ban_reason_factory() :: BanReason.t()
+  def ban_reason_factory do
+    %BanReason{
+      other: false,
+      other_description: nil,
+      reasons: random_reasons()
+    }
+  end
+
   @spec random_language() :: {String.t()}
   defp random_language do
     names =
@@ -1697,6 +1707,30 @@ defmodule Core.Factory do
       end
       |> Enum.uniq()
       |> List.to_string
+
+    result
+  end
+
+  @spec random_reasons :: [String.t()]
+  defp random_reasons do
+    names = [
+      "Racism",
+      "Intolerance",
+      "Violate Terms",
+      "Fraud",
+      "Spam",
+      "Sexism",
+      "Harassment"
+    ]
+
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    [result] =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
 
     result
   end

@@ -95,13 +95,43 @@ defmodule Core.Seeder.Accounts do
           end
       end
     else
-      {:error, "Permission Denied"}
+      {:error, "Oops! Permission Denied"}
     end
   end
 
   @spec admin_create_ban_reasons(any(), any(), any(), any()) :: {:error, String.t()}
   def admin_create_ban_reasons(_, _, _, _) do
     {:error, "Oops! other is an empty"}
+  end
+
+  @spec admin_delete_ban_reasons :: {:error, String.t()}
+  def admin_delete_ban_reasons do
+    {:error, "Oops! Permission denied"}
+  end
+
+  @spec admin_delete_ban_reasons(String.t()) :: %Postgrex.Result{columns: nil, command: atom(), connection_id: integer, messages: [], num_rows: integer, rows: nil}
+  def admin_delete_ban_reasons(user_id) when is_bitstring(user_id) do
+    user =
+      try do
+        Accounts.get_user!(user_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    if Accounts.User.superuser?(user) do
+      case Repo.aggregate(BanReason, :count, :id) > 0 do
+        false -> nil
+        true ->
+          Ecto.Adapters.SQL.query!(Repo, "DELETE FROM ban_reasons", [])
+      end
+    else
+      {:error, "Oops! Permission Denied"}
+    end
+  end
+
+  @spec admin_delete_ban_reasons(any()) :: {:error, String.t()}
+  def admin_delete_ban_reasons(_) do
+    {:error, "Oops! Permission denied"}
   end
 
   @spec seed_subscriber() :: nil | Ecto.Schema.t()

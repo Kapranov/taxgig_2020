@@ -368,6 +368,7 @@ defmodule Core.Accounts do
             %BanReason{}
             |> BanReason.changeset(Map.delete(attrs, :other_description))
             |> Repo.insert()
+          nil -> {:error, %Ecto.Changeset{}}
         end
     end
   end
@@ -961,6 +962,7 @@ defmodule Core.Accounts do
         struct
         |> BanReason.changeset(new_attrs2)
         |> Repo.update()
+      nil -> {:error, %Ecto.Changeset{}}
     end
   end
 
