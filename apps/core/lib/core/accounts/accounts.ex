@@ -7,6 +7,7 @@ defmodule Core.Accounts do
 
   alias Core.{
     Accounts.BanReason,
+    Accounts.Platform,
     Accounts.Profile,
     Accounts.Subscriber,
     Accounts.User,
@@ -204,6 +205,20 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Returns the list of Platform.
+
+  ## Examples
+
+      iex> list_platform()
+      [%Platform{}, ...]
+  """
+  @spec list_platform() :: [Platform.t()]
+  def list_platform do
+    Repo.all(Platform)
+    |> Repo.preload([:ban_reason, user: [:languages]])
+  end
+
+  @doc """
   Returns the list of Subscriber.
 
   ## Examples
@@ -267,6 +282,26 @@ defmodule Core.Accounts do
   def get_ban_reason!(id) do
     Repo.get!(BanReason, id)
   end
+
+  @doc """
+  Gets a single Platform.
+
+  Raises `Ecto.NoResultsError` if the Platform does not exist.
+
+  ## Examples
+
+      iex> get_platform!(123)
+      %Platform{}
+
+      iex> get_platform!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_platform!(String.t()) :: Platform.t() | error_tuple()
+  def get_platform!(id) do
+    Repo.get!(Platform, id)
+  end
+
 
   @doc """
   Gets a single Subscriber.
@@ -371,6 +406,25 @@ defmodule Core.Accounts do
           nil -> {:error, %Ecto.Changeset{}}
         end
     end
+  end
+
+  @doc """
+  Creates Platform.
+
+  ## Examples
+
+      iex> create_platform(%{field: value})
+      {:ok, %Platform{}}
+
+      iex> create_platform(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_platform(%{atom => any}) :: result() | error_tuple()
+  def create_platform(attrs \\ %{}) do
+    %Platform{}
+    |> Platform.changeset(attrs)
+    |> Repo.insert()
   end
 
   @doc """
@@ -967,6 +1021,25 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Updates Platform.
+
+  ## Examples
+
+      iex> update_platfrom(struct, %{field: new_value})
+      {:ok, %Platform{}}
+
+      iex> update_platfrom(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_platfrom(Platform.t(), %{atom => any}) :: result() | error_tuple()
+  def update_platfrom(struct, attrs) do
+    struct
+    |> Platform.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
   Updates Subscriber.
 
   ## Examples
@@ -1041,6 +1114,23 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Deletes Platform.
+
+  ## Examples
+
+      iex> delete_platform(struct)
+      {:ok, %Platform{}}
+
+      iex> delete_platform(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_platform(Platform.t()) :: result()
+  def delete_platform(%Platform{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
   Deletes Subscriber.
 
   ## Examples
@@ -1103,6 +1193,20 @@ defmodule Core.Accounts do
   @spec change_ban_reason(BanReason.t()) :: Ecto.Changeset.t()
   def change_ban_reason(%BanReason{} = struct) do
     BanReason.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking Platform changes.
+
+  ## Examples
+
+      iex> change_platform(struct)
+      %Ecto.Changeset{source: %Platform{}}
+
+  """
+  @spec change_platform(Platform.t()) :: Ecto.Changeset.t()
+  def change_platform(%Platform{} = struct) do
+    Platform.changeset(struct, %{})
   end
 
   @doc """

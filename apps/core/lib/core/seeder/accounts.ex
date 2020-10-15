@@ -8,6 +8,7 @@ defmodule Core.Seeder.Accounts do
   alias Core.{
     Accounts,
     Accounts.BanReason,
+    Accounts.Platform,
     Accounts.Subscriber,
     Accounts.User,
     Localization.Language,
@@ -17,6 +18,7 @@ defmodule Core.Seeder.Accounts do
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
     Repo.delete_all(BanReason)
+    Repo.delete_all(Platform)
     Repo.delete_all(Subscriber)
     Repo.delete_all(User)
   end
@@ -29,6 +31,7 @@ defmodule Core.Seeder.Accounts do
     seed_users_languages()
     seed_multi_users_languages()
     seed_ban_reason()
+    seed_platform()
     admin_permission()
   end
 
@@ -241,6 +244,14 @@ defmodule Core.Seeder.Accounts do
     end
   end
 
+  @spec seed_platform() :: nil | Ecto.Schema.t()
+  defp seed_platform do
+    case Repo.aggregate(Platform, :count, :id) > 0 do
+      true -> nil
+      false -> insert_platform()
+    end
+  end
+
   @spec insert_subscriber() :: Ecto.Schema.t()
   defp insert_subscriber do
     [
@@ -378,6 +389,114 @@ defmodule Core.Seeder.Accounts do
     end
   end
 
+  @spec insert_ban_reason() :: Ecto.Schema.t()
+  defp insert_platform do
+    user_ids =
+      Enum.map(Repo.all(User), fn(data) -> data.id end)
+
+    {user, tp1, tp2, tp3, pro1, pro2, pro3} = {
+      Enum.at(user_ids, 0),
+      Enum.at(user_ids, 1),
+      Enum.at(user_ids, 2),
+      Enum.at(user_ids, 3),
+      Enum.at(user_ids, 4),
+      Enum.at(user_ids, 5),
+      Enum.at(user_ids, 6)
+    }
+
+    ban_reason_ids =
+      Enum.map(Repo.all(BanReason), fn(data) -> data.id end)
+
+    {ban_reason} = { Enum.at(ban_reason_ids, 0) }
+
+    [
+      Accounts.create_platform(%{
+        ban_reason_id: ban_reason,
+        client_limit_reach: random_boolean(),
+        hero_active: random_boolean(),
+        hero_status: random_boolean(),
+        is_banned: random_boolean(),
+        is_online: random_boolean(),
+        is_stuck: random_boolean(),
+        payment_active: random_boolean(),
+        stuck_stage: random_stuck_stage(),
+        user_id: user
+      }),
+      Accounts.create_platform(%{
+        ban_reason_id: ban_reason,
+        client_limit_reach: random_boolean(),
+        hero_active: random_boolean(),
+        hero_status: random_boolean(),
+        is_banned: random_boolean(),
+        is_online: random_boolean(),
+        is_stuck: random_boolean(),
+        payment_active: random_boolean(),
+        stuck_stage: random_stuck_stage(),
+        user_id: tp1
+      }),
+      Accounts.create_platform(%{
+        ban_reason_id: ban_reason,
+        client_limit_reach: random_boolean(),
+        hero_active: random_boolean(),
+        hero_status: random_boolean(),
+        is_banned: random_boolean(),
+        is_online: random_boolean(),
+        is_stuck: random_boolean(),
+        payment_active: random_boolean(),
+        stuck_stage: random_stuck_stage(),
+        user_id: tp2
+      }),
+      Accounts.create_platform(%{
+        ban_reason_id: ban_reason,
+        client_limit_reach: random_boolean(),
+        hero_active: random_boolean(),
+        hero_status: random_boolean(),
+        is_banned: random_boolean(),
+        is_online: random_boolean(),
+        is_stuck: random_boolean(),
+        payment_active: random_boolean(),
+        stuck_stage: random_stuck_stage(),
+        user_id: tp3
+      }),
+      Accounts.create_platform(%{
+        ban_reason_id: ban_reason,
+        client_limit_reach: random_boolean(),
+        hero_active: random_boolean(),
+        hero_status: random_boolean(),
+        is_banned: random_boolean(),
+        is_online: random_boolean(),
+        is_stuck: random_boolean(),
+        payment_active: random_boolean(),
+        stuck_stage: random_stuck_stage(),
+        user_id: pro1
+      }),
+      Accounts.create_platform(%{
+        ban_reason_id: ban_reason,
+        client_limit_reach: random_boolean(),
+        hero_active: random_boolean(),
+        hero_status: random_boolean(),
+        is_banned: random_boolean(),
+        is_online: random_boolean(),
+        is_stuck: random_boolean(),
+        payment_active: random_boolean(),
+        stuck_stage: random_stuck_stage(),
+        user_id: pro2
+      }),
+      Accounts.create_platform(%{
+        ban_reason_id: ban_reason,
+        client_limit_reach: random_boolean(),
+        hero_active: random_boolean(),
+        hero_status: random_boolean(),
+        is_banned: random_boolean(),
+        is_online: random_boolean(),
+        is_stuck: random_boolean(),
+        payment_active: random_boolean(),
+        stuck_stage: random_stuck_stage(),
+        user_id: pro3
+      })
+    ]
+  end
+
   @spec random_language() :: String.t()
   defp random_language do
     data =
@@ -424,6 +543,26 @@ defmodule Core.Seeder.Accounts do
       "Spam",
       "Sexism",
       "Harassment"
+    ]
+
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    [result] =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_stuck_stage :: [String.t()]
+  defp random_stuck_stage do
+    names = [
+      "Blockscore",
+      "PTIN",
+      "Stripe"
     ]
 
     numbers = 1..1

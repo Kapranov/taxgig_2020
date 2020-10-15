@@ -7,6 +7,7 @@ defmodule Core.Factory do
 
   alias Core.{
     Accounts.BanReason,
+    Accounts.Platform,
     Accounts.Profile,
     Accounts.Subscriber,
     Accounts.User,
@@ -1215,6 +1216,54 @@ defmodule Core.Factory do
     }
   end
 
+  @spec platform_factory() :: Platform.t()
+  def platform_factory do
+    %Platform{
+      ban_reason: build(:ban_reason),
+      client_limit_reach: random_boolean(),
+      hero_active: random_boolean(),
+      hero_status: random_boolean(),
+      is_banned: random_boolean(),
+      is_online: random_boolean(),
+      is_stuck: random_boolean(),
+      payment_active: random_boolean(),
+      stuck_stage: random_stuck_stage(),
+      user: build(:user)
+    }
+  end
+
+  @spec tp_platform_factory() :: Platform.t()
+  def tp_platform_factory do
+    %Platform{
+      ban_reason: build(:ban_reason),
+      client_limit_reach: random_boolean(),
+      hero_active: random_boolean(),
+      hero_status: random_boolean(),
+      is_banned: random_boolean(),
+      is_online: random_boolean(),
+      is_stuck: random_boolean(),
+      payment_active: random_boolean(),
+      stuck_stage: random_stuck_stage(),
+      user: build(:tp_user)
+    }
+  end
+
+  @spec pro_platform_factory() :: Platform.t()
+  def pro_platform_factory do
+    %Platform{
+      ban_reason: build(:ban_reason),
+      client_limit_reach: random_boolean(),
+      hero_active: random_boolean(),
+      hero_status: random_boolean(),
+      is_banned: random_boolean(),
+      is_online: random_boolean(),
+      is_stuck: random_boolean(),
+      payment_active: random_boolean(),
+      stuck_stage: random_stuck_stage(),
+      user: build(:pro_user)
+    }
+  end
+
   @spec random_language() :: {String.t()}
   defp random_language do
     names =
@@ -1721,6 +1770,26 @@ defmodule Core.Factory do
       "Spam",
       "Sexism",
       "Harassment"
+    ]
+
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    [result] =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_stuck_stage :: [String.t()]
+  defp random_stuck_stage do
+    names = [
+      "Blockscore",
+      "PTIN",
+      "Stripe"
     ]
 
     numbers = 1..1

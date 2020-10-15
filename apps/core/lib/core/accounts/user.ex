@@ -6,6 +6,7 @@ defmodule Core.Accounts.User do
   use Core.Model
 
   alias Core.{
+    Accounts.Platform,
     Accounts.Profile,
     Accounts.User,
     Config,
@@ -44,15 +45,17 @@ defmodule Core.Accounts.User do
     ssn: integer,
     street: String.t(),
     zip: integer,
-    accounting_software: [AccountingSoftware.t()],
+    accounting_software: AccountingSoftware.t(),
     book_keepings: [BookKeeping.t()],
     business_tax_returns: [BusinessTaxReturn.t()],
-    education: [Education.t()],
+    education: Education.t(),
     individual_tax_returns: [IndividualTaxReturn.t()],
     messages: [Message.t()],
+    platform: Platform.t(),
+    profile: Profile.t(),
     rooms: [Room.t()],
     sale_taxes: [SaleTax.t()],
-    work_experience: [WorkExperience.t()]
+    work_experience: WorkExperience.t()
   }
 
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
@@ -118,6 +121,7 @@ defmodule Core.Accounts.User do
     has_one :accounting_software, AccountingSoftware, on_delete: :delete_all
     has_one :education, Education, on_delete: :delete_all
     has_one :work_experience, WorkExperience, on_delete: :delete_all
+    has_one :platform, Platform, on_delete: :delete_all
 
     has_many :book_keepings, BookKeeping
     has_many :business_tax_returns, BusinessTaxReturn
@@ -167,7 +171,6 @@ defmodule Core.Accounts.User do
     |> validate_length(:password, min: 5, max: 20)
     |> validate_confirmation(:password)
     |> update_change(:email, &String.downcase/1)
-    |> unique_constraint(:email)
     |> unique_constraint(:email, name: :users_email_index, message: "Only one an Email Record")
     |> validate_email()
     |> validate_length(:bio, max: bio_limit)

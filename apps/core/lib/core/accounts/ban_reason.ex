@@ -5,11 +5,15 @@ defmodule Core.Accounts.BanReason do
 
   use Core.Model
 
-  alias Core.Accounts.Helpers.BanReasonsEnum
+  alias Core.Accounts.{
+    Helpers.BanReasonsEnum,
+    Platform
+  }
 
   @type t :: %__MODULE__{
     other: boolean,
     other_description: String.t(),
+    platform: Platform.t(),
     reasons: String.t()
   }
 
@@ -27,6 +31,8 @@ defmodule Core.Accounts.BanReason do
     field :other, :boolean
     field :other_description, :string
     field :reasons, BanReasonsEnum
+
+    has_one :platform, Platform, on_delete: :delete_all
 
     timestamps()
   end
