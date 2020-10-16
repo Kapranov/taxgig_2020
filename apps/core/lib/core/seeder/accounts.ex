@@ -8,6 +8,7 @@ defmodule Core.Seeder.Accounts do
   alias Core.{
     Accounts,
     Accounts.BanReason,
+    Accounts.DeletedUser,
     Accounts.Platform,
     Accounts.Subscriber,
     Accounts.User,
@@ -18,6 +19,7 @@ defmodule Core.Seeder.Accounts do
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
     Repo.delete_all(BanReason)
+    Repo.delete_all(DeletedUser)
     Repo.delete_all(Platform)
     Repo.delete_all(Subscriber)
     Repo.delete_all(User)
@@ -32,6 +34,7 @@ defmodule Core.Seeder.Accounts do
     seed_multi_users_languages()
     seed_ban_reason()
     seed_platform()
+    seed_deleted_user()
     admin_permission()
   end
 
@@ -249,6 +252,14 @@ defmodule Core.Seeder.Accounts do
     case Repo.aggregate(Platform, :count, :id) > 0 do
       true -> nil
       false -> insert_platform()
+    end
+  end
+
+  @spec seed_deleted_user() :: nil | Ecto.Schema.t()
+  defp seed_deleted_user do
+    case Repo.aggregate(DeletedUser, :count, :id) > 0 do
+      true -> nil
+      false -> insert_deleted_user()
     end
   end
 
@@ -497,6 +508,53 @@ defmodule Core.Seeder.Accounts do
     ]
   end
 
+  @spec insert_deleted_user() :: Ecto.Schema.t()
+  defp insert_deleted_user do
+    user_ids =
+      Enum.map(Repo.all(User), fn(data) -> data.id end)
+
+    {user, tp1, tp2, tp3, pro1, pro2, pro3} = {
+      Enum.at(user_ids, 0),
+      Enum.at(user_ids, 1),
+      Enum.at(user_ids, 2),
+      Enum.at(user_ids, 3),
+      Enum.at(user_ids, 4),
+      Enum.at(user_ids, 5),
+      Enum.at(user_ids, 6)
+    }
+
+    [
+      Repo.insert!(%DeletedUser{
+        reason: random_reason(),
+        user_id: user
+      }),
+      Repo.insert!(%DeletedUser{
+        reason: random_reason(),
+        user_id: tp1
+      }),
+      Repo.insert!(%DeletedUser{
+        reason: random_reason(),
+        user_id: tp2
+      }),
+      Repo.insert!(%DeletedUser{
+        reason: random_reason(),
+        user_id: tp3
+      }),
+      Repo.insert!(%DeletedUser{
+        reason: random_reason(),
+        user_id: pro1
+      }),
+      Repo.insert!(%DeletedUser{
+        reason: random_reason(),
+        user_id: pro2
+      }),
+      Repo.insert!(%DeletedUser{
+        reason: random_reason(),
+        user_id: pro3
+      })
+    ]
+  end
+
   @spec random_language() :: String.t()
   defp random_language do
     data =
@@ -527,6 +585,30 @@ defmodule Core.Seeder.Accounts do
     result =
       for i <- 1..number, i > 0 do
         Enum.random(data)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_reason :: [String.t()]
+  defp random_reason do
+    names = [
+      "another_service",
+      "change_account",
+      "needs",
+      "no_longer_require",
+      "not_easy",
+      "quality",
+      "wrong_account"
+    ]
+
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    [result] =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
       end
       |> Enum.uniq()
 

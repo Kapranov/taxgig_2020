@@ -79,6 +79,6 @@ defmodule Core.Accounts.Platform do
     |> validate_required(@required_params)
     |> foreign_key_constraint(:ban_reason_id, message: "Select the BanReason")
     |> foreign_key_constraint(:user_id, message: "Select an User")
-    |> unique_constraint(:user, name: :Platforms_user_id_index, message: "Only one an User")
+    |> unique_constraint(:user, name: :platforms_user_id_index, message: "Only one an User")
   end
 end

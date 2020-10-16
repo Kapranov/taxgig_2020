@@ -7,6 +7,7 @@ defmodule Core.Factory do
 
   alias Core.{
     Accounts.BanReason,
+    Accounts.DeletedUser,
     Accounts.Platform,
     Accounts.Profile,
     Accounts.Subscriber,
@@ -1264,6 +1265,14 @@ defmodule Core.Factory do
     }
   end
 
+  @spec deleted_user_factory() :: DeletedUser.t()
+  def deleted_user_factory do
+    %DeletedUser{
+      reason: random_reason(),
+      user: build(:user)
+    }
+  end
+
   @spec random_language() :: {String.t()}
   defp random_language do
     names =
@@ -1756,6 +1765,30 @@ defmodule Core.Factory do
       end
       |> Enum.uniq()
       |> List.to_string
+
+    result
+  end
+
+  @spec random_reason :: [String.t()]
+  defp random_reason do
+    names = [
+      "another_service",
+      "change_account",
+      "needs",
+      "no_longer_require",
+      "not_easy",
+      "quality",
+      "wrong_account"
+    ]
+
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    [result] =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
 
     result
   end

@@ -7,6 +7,7 @@ defmodule Core.Accounts do
 
   alias Core.{
     Accounts.BanReason,
+    Accounts.DeletedUser,
     Accounts.Platform,
     Accounts.Profile,
     Accounts.Subscriber,
@@ -219,6 +220,20 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Returns the list of DeletedUser.
+
+  ## Examples
+
+      iex> list_deleted_user()
+      [%DeletedUser{}, ...]
+  """
+  @spec list_deleted_user() :: [DeletedUser.t()]
+  def list_deleted_user do
+    Repo.all(DeletedUser)
+    |> Repo.preload([user: [:languages]])
+  end
+
+  @doc """
   Returns the list of Subscriber.
 
   ## Examples
@@ -302,6 +317,24 @@ defmodule Core.Accounts do
     Repo.get!(Platform, id)
   end
 
+  @doc """
+  Gets a single DeletedUser.
+
+  Raises `Ecto.NoResultsError` if the DeletedUser does not exist.
+
+  ## Examples
+
+      iex> get_deleted_user!(123)
+      %DeletedUser{}
+
+      iex> get_deleted_user!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_deleted_user!(String.t()) :: DeletedUser.t() | error_tuple()
+  def get_deleted_user!(id) do
+    Repo.get!(DeletedUser, id)
+  end
 
   @doc """
   Gets a single Subscriber.
@@ -424,6 +457,25 @@ defmodule Core.Accounts do
   def create_platform(attrs \\ %{}) do
     %Platform{}
     |> Platform.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Creates DeletedUser.
+
+  ## Examples
+
+      iex> create_deleted_user(%{field: value})
+      {:ok, %DeletedUser{}}
+
+      iex> create_deleted_user(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_deleted_user(%{atom => any}) :: result() | error_tuple()
+  def create_deleted_user(attrs \\ %{}) do
+    %DeletedUser{}
+    |> DeletedUser.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -1040,6 +1092,25 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Updates DeletedUser.
+
+  ## Examples
+
+      iex> update_deleted_user(struct, %{field: new_value})
+      {:ok, %DeletedUser{}}
+
+      iex> update_deleted_user(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_deleted_user(DeletedUser.t(), %{atom => any}) :: result() | error_tuple()
+  def update_deleted_user(struct, attrs) do
+    struct
+    |> DeletedUser.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
   Updates Subscriber.
 
   ## Examples
@@ -1131,6 +1202,23 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Deletes DeletedUser.
+
+  ## Examples
+
+      iex> delete_deleted_user(struct)
+      {:ok, %DeletedUser{}}
+
+      iex> delete_deleted_user(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_deleted_user(DeletedUser.t()) :: result()
+  def delete_deleted_user(%DeletedUser{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
   Deletes Subscriber.
 
   ## Examples
@@ -1207,6 +1295,20 @@ defmodule Core.Accounts do
   @spec change_platform(Platform.t()) :: Ecto.Changeset.t()
   def change_platform(%Platform{} = struct) do
     Platform.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking DeletedUser changes.
+
+  ## Examples
+
+      iex> change_deleted_user(struct)
+      %Ecto.Changeset{source: %DeletedUser{}}
+
+  """
+  @spec change_deleted_user(DeletedUser.t()) :: Ecto.Changeset.t()
+  def change_deleted_user(%DeletedUser{} = struct) do
+    DeletedUser.changeset(struct, %{})
   end
 
   @doc """

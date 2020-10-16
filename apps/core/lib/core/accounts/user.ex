@@ -6,6 +6,7 @@ defmodule Core.Accounts.User do
   use Core.Model
 
   alias Core.{
+    Accounts.DeletedUser,
     Accounts.Platform,
     Accounts.Profile,
     Accounts.User,
@@ -48,6 +49,7 @@ defmodule Core.Accounts.User do
     accounting_software: AccountingSoftware.t(),
     book_keepings: [BookKeeping.t()],
     business_tax_returns: [BusinessTaxReturn.t()],
+    deleted_user: DeletedUser.t(),
     education: Education.t(),
     individual_tax_returns: [IndividualTaxReturn.t()],
     messages: [Message.t()],
@@ -117,18 +119,19 @@ defmodule Core.Accounts.User do
     field :token, :string, virtual: true
     field :zip, :integer
 
-    has_one :profile, Profile, on_delete: :delete_all
     has_one :accounting_software, AccountingSoftware, on_delete: :delete_all
+    has_one :deleted_user, DeletedUser, on_delete: :delete_all
     has_one :education, Education, on_delete: :delete_all
-    has_one :work_experience, WorkExperience, on_delete: :delete_all
     has_one :platform, Platform, on_delete: :delete_all
+    has_one :profile, Profile, on_delete: :delete_all
+    has_one :work_experience, WorkExperience, on_delete: :delete_all
 
     has_many :book_keepings, BookKeeping
     has_many :business_tax_returns, BusinessTaxReturn
     has_many :individual_tax_returns, IndividualTaxReturn
-    has_many :sale_taxes, SaleTax
-    has_many :rooms, Room
     has_many :messages, Message
+    has_many :rooms, Room
+    has_many :sale_taxes, SaleTax
 
     many_to_many :languages, Language, join_through: "users_languages", on_replace: :delete
 

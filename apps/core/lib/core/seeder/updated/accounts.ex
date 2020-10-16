@@ -6,6 +6,7 @@ defmodule Core.Seeder.Updated.Accounts do
   alias Core.{
     Accounts,
     Accounts.BanReason,
+    Accounts.DeletedUser,
     Accounts.Platform,
     Repo
   }
@@ -17,6 +18,7 @@ defmodule Core.Seeder.Updated.Accounts do
     update_user()
     update_ban_reason()
     update_platform()
+    update_deleted_user()
   end
 
   @spec update_profile() :: Ecto.Schema.t()
@@ -139,6 +141,63 @@ defmodule Core.Seeder.Updated.Accounts do
         stuck_stage: random_stuck_stage()
       })
     ]
+  end
+
+  @spec update_deleted_user() :: Ecto.Schema.t()
+  defp update_deleted_user do
+    deleted_user_ids = Enum.map(Repo.all(DeletedUser), fn(data) -> data end)
+
+    {
+      deleted1,
+      deleted2,
+      deleted3,
+      deleted4,
+      deleted5,
+      deleted6,
+      deleted7
+    } = {
+      Enum.at(deleted_user_ids, 0),
+      Enum.at(deleted_user_ids, 1),
+      Enum.at(deleted_user_ids, 2),
+      Enum.at(deleted_user_ids, 3),
+      Enum.at(deleted_user_ids, 4),
+      Enum.at(deleted_user_ids, 5),
+      Enum.at(deleted_user_ids, 6)
+    }
+
+    [
+      Accounts.update_deleted_user(deleted1, %{reason: random_reason()}),
+      Accounts.update_deleted_user(deleted2, %{reason: random_reason()}),
+      Accounts.update_deleted_user(deleted3, %{reason: random_reason()}),
+      Accounts.update_deleted_user(deleted4, %{reason: random_reason()}),
+      Accounts.update_deleted_user(deleted5, %{reason: random_reason()}),
+      Accounts.update_deleted_user(deleted6, %{reason: random_reason()}),
+      Accounts.update_deleted_user(deleted7, %{reason: random_reason()})
+    ]
+  end
+
+  @spec random_reason :: [String.t()]
+  defp random_reason do
+    names = [
+      "another_service",
+      "change_account",
+      "needs",
+      "no_longer_require",
+      "not_easy",
+      "quality",
+      "wrong_account"
+    ]
+
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    [result] =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
   end
 
   @spec random_reasons :: [String.t()]
