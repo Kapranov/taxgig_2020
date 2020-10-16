@@ -5,11 +5,15 @@ defmodule Core.Talk.Message do
 
   use Core.Model
 
-  alias Core.Accounts.User
-  alias Core.Talk.Room
+  alias Core.{
+    Accounts.User,
+    Talk.Room,
+    Talk.Report
+  }
 
   @type t :: %__MODULE__{
     body: String.t(),
+    report: Report.t(),
     room: Room.t(),
     user: User.t()
   }
@@ -24,6 +28,8 @@ defmodule Core.Talk.Message do
 
   schema "messages" do
     field :body, :string
+
+    has_one :report, Report, on_delete: :delete_all
 
     belongs_to :room, Room,
       foreign_key: :room_id,

@@ -56,6 +56,7 @@ defmodule Core.Factory do
     Skills.University,
     Skills.WorkExperience,
     Talk.Message,
+    Talk.Report,
     Talk.Room,
     Upload
   }
@@ -83,9 +84,7 @@ defmodule Core.Factory do
 
   @spec faq_category_factory() :: FaqCategory.t()
   def faq_category_factory do
-    %FaqCategory{
-      title: Lorem.word()
-    }
+    %FaqCategory{ title: Lorem.word() }
   end
 
   @spec faq_factory() :: Faq.t()
@@ -1175,6 +1174,16 @@ defmodule Core.Factory do
     }
   end
 
+  @spec report_factory() :: Message.t()
+  def report_factory do
+    %Report{
+      message: build(:message),
+      other: random_boolean(),
+      other_description: Lorem.sentence(),
+      reasons: random_report_reasons()
+    }
+  end
+
   @spec accounting_software_factory() :: AccountingSoftware.t()
   def accounting_software_factory do
     %AccountingSoftware{
@@ -1803,6 +1812,27 @@ defmodule Core.Factory do
       "Spam",
       "Sexism",
       "Harassment"
+    ]
+
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    [result] =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_report_reasons :: [String.t()]
+  defp random_report_reasons do
+    names = [
+      "Abusive",
+      "Spam",
+      "Suspicious Link",
+      "Work Outside"
     ]
 
     numbers = 1..1

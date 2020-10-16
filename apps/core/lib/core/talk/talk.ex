@@ -6,9 +6,167 @@ defmodule Core.Talk do
   use Core.Context
 
   alias Core.{
+    Repo,
     Talk.Message,
+    Talk.Report,
     Talk.Room
   }
+
+  @doc """
+  Gets the list of messages.
+
+  Raises `Ecto.NoResultsError` if the Message does not exist.
+
+  ## Examples
+
+      iex> list_messages(123)
+      %Message{}
+
+      iex> list_messages(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec list_message(String.t()) :: Message.t() | error_tuple()
+  def list_message(room_id) do
+    Repo.all(
+      from msg in Message,
+      join: user in assoc(msg, :user),
+      where: msg.room_id == ^room_id,
+      order_by: [desc: msg.inserted_at],
+      select: %{
+        body: msg.body,
+        user: %{
+          first_name: user.first_name,
+          middle_name: user.middle_name,
+          last_name: user.last_name
+        }
+      }
+    )
+  end
+
+  @doc """
+  Creates the Message.
+
+  ## Examples
+
+      iex> create_message(struct, struct, %{field: value})
+      {:ok, %Message{}}
+
+      iex> create_message(struct, struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_message(String.t(), String.t(), %{atom => any}) :: result() | error_tuple()
+  def create_message(user, room, attrs \\ %{}) do
+    user
+    |> Ecto.build_assoc(:messages, room_id: room.id)
+    |> Message.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Returns the list of Report.
+
+  ## Examples
+
+      iex> list_report()
+      [%Report{}, ...]
+
+  """
+  @spec list_report() :: [Report.t()]
+  def list_report do
+    Repo.all(Report)
+    |> Repo.preload([:message])
+  end
+
+  @doc """
+  Gets a single Report.
+
+  Raises `Ecto.NoResultsError` if the Report does not exist.
+
+  ## Examples
+
+      iex> get_report!(123)
+      %Report{}
+
+      iex> get_report!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_report!(String.t()) :: Report.t() | error_tuple()
+  def get_report!(id) do
+    Repo.get!(Report, id)
+    |> Repo.preload([:message])
+  end
+
+  @doc """
+  Creates the Report.
+
+  ## Examples
+
+      iex> create_report(struct, %{field: value})
+      {:ok, %Report{}}
+
+      iex> create_report(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_report(%{atom => any}) :: result() | error_tuple()
+  def create_report(attrs \\ %{}) do
+    %Report{}
+    |> Report.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates the Report.
+
+  ## Examples
+
+      iex> update_report(struct, %{field: new_value})
+      {:ok, %Report{}}
+
+      iex> update_report(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_report(Report.t(), %{atom => any}) :: result() | error_tuple()
+  def update_report(%Report{} = struct, attrs) do
+    struct
+    |> Report.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes the Report.
+
+  ## Examples
+
+      iex> delete_report(struct)
+      {:ok, %Report{}}
+
+      iex> delete_report(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_report(Report.t()) :: result() | error_tuple()
+  def delete_report(%Report{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking Report changes.
+
+  ## Examples
+
+      iex> change_report(struct)
+      %Ecto.Changeset{source: %Report{}}
+
+  """
+  @spec change_report(Report.t()) :: Ecto.Changeset.t()
+  def change_report(%Report{} = struct) do
+    Report.changeset(struct, %{})
+  end
 
   @doc """
   Returns the list of Room.
@@ -113,57 +271,5 @@ defmodule Core.Talk do
   @spec change_room(Room.t()) :: Ecto.Changeset.t()
   def change_room(%Room{} = struct) do
     Room.changeset(struct, %{})
-  end
-
-  @doc """
-  Gets the list of messages.
-
-  Raises `Ecto.NoResultsError` if the Message does not exist.
-
-  ## Examples
-
-      iex> list_messages(123)
-      %Message{}
-
-      iex> list_messages(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  @spec list_message(String.t()) :: Message.t() | error_tuple()
-  def list_message(room_id) do
-    Repo.all(
-      from msg in Message,
-      join: user in assoc(msg, :user),
-      where: msg.room_id == ^room_id,
-      order_by: [desc: msg.inserted_at],
-      select: %{
-        body: msg.body,
-        user: %{
-          first_name: user.first_name,
-          middle_name: user.middle_name,
-          last_name: user.last_name
-        }
-      }
-    )
-  end
-
-  @doc """
-  Creates the Message.
-
-  ## Examples
-
-      iex> create_message(struct, struct, %{field: value})
-      {:ok, %Message{}}
-
-      iex> create_message(struct, struct, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  @spec create_message(String.t(), String.t(), %{atom => any}) :: result() | error_tuple()
-  def create_message(user, room, attrs \\ %{}) do
-    user
-    |> Ecto.build_assoc(:messages, room_id: room.id)
-    |> Message.changeset(attrs)
-    |> Repo.insert()
   end
 end

@@ -5,22 +5,25 @@ defmodule Core.Seeder.Talk do
 
   alias Core.{
     Accounts.User,
+    Repo,
     Talk,
     Talk.Message,
-    Talk.Room,
-    Repo
+    Talk.Report,
+    Talk.Room
   }
 
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
     Repo.delete_all(Message)
-    Repo.delete_all(Repo)
+    Repo.delete_all(Report)
+    Repo.delete_all(Room)
   end
 
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_rooms()
     seed_messages()
+    seed_reports()
   end
 
   @spec seed_rooms() :: nil | Ecto.Schema.t()
@@ -188,5 +191,14 @@ defmodule Core.Seeder.Talk do
       Talk.create_message(user9, room9, %{body: "They are using fake polls to prepare people giving mail in fraud credibility."}),
       Talk.create_message(user9, room9, %{body: "I'm not depressed. Fight these maggots with the convincing truth."})
     ]
+  end
+
+  @spec seed_reports() :: nil | Ecto.Schema.t()
+  defp seed_reports do
+    insert_reports()
+  end
+
+  @spec insert_reports() :: Ecto.Schema.t()
+  defp insert_reports do
   end
 end

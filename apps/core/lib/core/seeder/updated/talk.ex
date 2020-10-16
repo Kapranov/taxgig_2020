@@ -6,11 +6,16 @@ defmodule Core.Seeder.Updated.Talk do
   @spec start!() :: Ecto.Schema.t()
   def start! do
     update_message()
+    update_report()
     update_room()
   end
 
   @spec update_message() :: Ecto.Schema.t()
   defp update_message do
+  end
+
+  @spec update_report() :: Ecto.Schema.t()
+  defp update_report do
   end
 
   @spec update_room() :: Ecto.Schema.t()

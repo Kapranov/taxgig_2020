@@ -79,7 +79,6 @@ bash> mix ecto.gen.migration -r Core.Repo create_documents
 bash> mix ecto.gen.migration -r Core.Repo create_ban_reasons
 bash> mix ecto.gen.migration -r Core.Repo create_platforms
 bash> mix ecto.gen.migration -r Core.Repo create_deleted_users
-
 bash> mix ecto.gen.migration -r Core.Repo create_reports
 
 bash> mix ecto.gen.migration -r Core.Repo create_offers
