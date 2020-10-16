@@ -100,26 +100,34 @@ defmodule Core.Talk do
   end
 
   @doc """
-  Creates the Report.
+  Creates Report.
 
   ## Examples
 
-      iex> create_report(struct, %{field: value})
+      iex> create_report(%{field: value})
       {:ok, %Report{}}
 
-      iex> create_report(struct, %{field: bad_value})
+      iex> create_report(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
   @spec create_report(%{atom => any}) :: result() | error_tuple()
   def create_report(attrs \\ %{}) do
-    %Report{}
-    |> Report.changeset(attrs)
-    |> Repo.insert()
+    case attrs.other do
+      true ->
+        %Report{}
+        |> Report.changeset(Map.delete(attrs, :reasons))
+        |> Repo.insert()
+      false ->
+        %Report{}
+        |> Report.changeset(Map.delete(attrs, :other_description))
+        |> Repo.insert()
+      nil -> {:error, %Ecto.Changeset{}}
+    end
   end
 
   @doc """
-  Updates the Report.
+  Updates Report.
 
   ## Examples
 
@@ -131,10 +139,26 @@ defmodule Core.Talk do
 
   """
   @spec update_report(Report.t(), %{atom => any}) :: result() | error_tuple()
-  def update_report(%Report{} = struct, attrs) do
-    struct
-    |> Report.changeset(attrs)
-    |> Repo.update()
+  def update_report(struct, attrs) do
+    new_attrs1 =
+      Map.delete(attrs, :reasons)
+      |> Map.merge(%{reasons: nil})
+
+    new_attrs2 =
+      Map.delete(attrs, :other_description)
+      |> Map.merge(%{other_description: nil})
+
+    case attrs.other do
+      true ->
+        struct
+        |> Report.changeset(new_attrs1)
+        |> Repo.update()
+      false ->
+        struct
+        |> Report.changeset(new_attrs2)
+        |> Repo.update()
+      nil -> {:error, %Ecto.Changeset{}}
+    end
   end
 
   @doc """

@@ -28,9 +28,9 @@ defmodule Core.Accounts.BanReason do
   )a
 
   schema "ban_reasons" do
-    field :other, :boolean
-    field :other_description, :string
-    field :reasons, BanReasonsEnum
+    field :other, :boolean, null: false
+    field :other_description, :string, null: true
+    field :reasons, BanReasonsEnum, null: true
 
     has_one :platform, Platform, on_delete: :delete_all
 

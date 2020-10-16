@@ -20,9 +20,7 @@ defmodule Core.Talk.ReportTest do
 
     @invalid_attrs %{
       message_id: nil,
-      other: nil,
-      other_description: nil,
-      reasons: nil
+      other: nil
     }
 
     test "requires message_id" do
@@ -37,8 +35,6 @@ defmodule Core.Talk.ReportTest do
       attrs = %{
         id: id,
         other: nil,
-        other_description: nil,
-        reasons: nil,
         message_id: nil
       }
 
@@ -83,7 +79,7 @@ defmodule Core.Talk.ReportTest do
       assert data.message.user_id == user.id
     end
 
-    test "create_report/1 with valid data creates the report" do
+    test "create_report/1 with valid data creates the report when other is true" do
       user = insert(:user)
       room = insert(:room, user: user)
       message = insert(:message, room: room, user: user)
@@ -102,7 +98,33 @@ defmodule Core.Talk.ReportTest do
       assert created.message_id        == message.id
       assert created.other             == true
       assert created.other_description == "some text"
-      assert created.reasons           == :Abusive
+      assert created.reasons           == nil
+
+      assert loaded.message.body    == message.body
+      assert loaded.message.room_id == message.room_id
+      assert loaded.message.user_id == message.user_id
+    end
+
+    test "create_report/1 with valid data creates the report when other is false" do
+      user = insert(:user)
+      room = insert(:room, user: user)
+      message = insert(:message, room: room, user: user)
+
+      params = Map.merge(@update_attrs, %{ message_id: message.id })
+
+      assert {:ok, %Report{} = created} =
+        Talk.create_report(params)
+
+      assert %Ecto.Association.NotLoaded{} = created.message
+
+      [loaded] =
+        Repo.preload([created], [:message])
+        |> sort_by_id()
+
+      assert created.message_id        == message.id
+      assert created.other             == false
+      assert created.other_description == nil
+      assert created.reasons           == :Spam
 
       assert loaded.message.body    == message.body
       assert loaded.message.room_id == message.room_id
@@ -120,15 +142,37 @@ defmodule Core.Talk.ReportTest do
     end
 
     test "create_report/1 with invalid data returns error changeset" do
-      params = %{message_id: nil}
+      params = %{other: nil, message_id: nil}
       assert {:error, %Ecto.Changeset{}} = Talk.create_report(params)
     end
 
-    test "update_report/2 with valid data updates the report" do
+    test "update_report/2 with valid data updates the report when other is true" do
       user = insert(:user)
       room = insert(:room, user: user)
       message = insert(:message, room: room, user: user)
-      struct = insert(:report, message: message)
+      struct = insert(:report, other: true, message: message)
+
+      params = Map.merge(@valid_attrs, %{ message_id: message.id })
+
+      assert {:ok, %Report{} = updated} =
+        Talk.update_report(struct, params)
+
+      assert updated.id                == struct.id
+      assert updated.message_id        == message.id
+      assert updated.other             == true
+      assert updated.other_description == "some text"
+      assert updated.reasons           == nil
+
+      assert updated.message.body    == message.body
+      assert updated.message.room_id == message.room_id
+      assert updated.message.user_id == message.user_id
+    end
+
+    test "update_report/2 with valid data updates the report when other is false" do
+      user = insert(:user)
+      room = insert(:room, user: user)
+      message = insert(:message, room: room, user: user)
+      struct = insert(:report, other: true, message: message)
 
       params = Map.merge(@update_attrs, %{ message_id: message.id })
 
@@ -138,7 +182,7 @@ defmodule Core.Talk.ReportTest do
       assert updated.id                == struct.id
       assert updated.message_id        == message.id
       assert updated.other             == false
-      assert updated.other_description == "updated some text"
+      assert updated.other_description == nil
       assert updated.reasons           == :Spam
 
       assert updated.message.body    == message.body

@@ -59,7 +59,15 @@ defmodule Core.Accounts.BanReasonTest do
         Accounts.create_ban_reason(@invalid_attrs)
     end
 
-    test "update_ban_reason/2 with valid data updates the ban_reason" do
+    test "update_ban_reason/2 with valid data updates the ban_reason when other is true" do
+      struct = insert(:ban_reason)
+      assert {:ok, %BanReason{} = updated} = Accounts.update_ban_reason(struct, @valid_attrs)
+      assert updated.other             == true
+      assert updated.other_description == "some text"
+      assert updated.reasons           == nil
+    end
+
+    test "update_ban_reason/2 with valid data updates the ban_reason when other is false" do
       struct = insert(:ban_reason)
       assert {:ok, %BanReason{} = updated} = Accounts.update_ban_reason(struct, @update_attrs)
       assert updated.other             == false

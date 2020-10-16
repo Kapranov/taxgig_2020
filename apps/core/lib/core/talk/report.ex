@@ -27,14 +27,12 @@ defmodule Core.Talk.Report do
   @required_params ~w(
     message_id
     other
-    other_description
-    reasons
   )a
 
   schema "reports" do
-    field :reasons, ReportEnum, null: false
+    field :reasons, ReportEnum, null: true
     field :other, :boolean, null: false
-    field :other_description, :string, null: false
+    field :other_description, :string, null: true
 
     belongs_to :message, Message,
       foreign_key: :message_id,

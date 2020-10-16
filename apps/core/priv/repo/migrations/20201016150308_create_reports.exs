@@ -6,8 +6,8 @@ defmodule Core.Repo.Migrations.CreateReports do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
       add :message_id, references(:messages, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
       add :other, :boolean, null: false
-      add :other_description, :string, null: false
-      add :reasons, :string, null: false
+      add :other_description, :string, null: true
+      add :reasons, :string, null: true
 
       timestamps(type: :utc_datetime_usec)
     end
