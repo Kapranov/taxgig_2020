@@ -12,6 +12,8 @@ defmodule Core.Factory do
     Accounts.Profile,
     Accounts.Subscriber,
     Accounts.User,
+    Contracts.Addon,
+    Contracts.Offer,
     Landing.Faq,
     Landing.FaqCategory,
     Landing.PressArticle,
@@ -1282,6 +1284,60 @@ defmodule Core.Factory do
     }
   end
 
+  @spec addon_factory() :: Addon.t()
+  def addon_factory do
+    %Addon{
+      addon_price: random_integer(),
+      status: random_status(),
+      user: build(:user)
+    }
+  end
+
+  @spec tp_addon_factory() :: Addon.t()
+  def tp_addon_factory do
+    %Addon{
+      addon_price: random_integer(),
+      status: random_status(),
+      user: build(:tp_user)
+    }
+  end
+
+  @spec pro_addon_factory() :: Addon.t()
+  def pro_addon_factory do
+    %Addon{
+      addon_price: random_integer(),
+      status: random_status(),
+      user: build(:pro_user)
+    }
+  end
+
+  @spec offer_factory() :: Offer.t()
+  def offer_factory do
+    %Offer{
+      offer_price: random_integer(),
+      status: random_status(),
+      user: build(:user)
+    }
+  end
+
+  @spec tp_offer_factory() :: Offer.t()
+  def tp_offer_factory do
+    %Offer{
+      offer_price: random_integer(),
+      status: random_status(),
+      user: build(:tp_user)
+    }
+  end
+
+  @spec pro_offer_factory() :: Offer.t()
+  def pro_offer_factory do
+    %Offer{
+      offer_price: random_integer(),
+      status: random_status(),
+      user: build(:pro_user)
+    }
+  end
+
   @spec random_language() :: {String.t()}
   defp random_language do
     names =
@@ -1853,6 +1909,26 @@ defmodule Core.Factory do
       "Blockscore",
       "PTIN",
       "Stripe"
+    ]
+
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    [result] =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_status :: [String.t()]
+  defp random_status do
+    names = [
+      "Sent",
+      "Accepted",
+      "Declined"
     ]
 
     numbers = 1..1

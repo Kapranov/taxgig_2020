@@ -80,11 +80,13 @@ bash> mix ecto.gen.migration -r Core.Repo create_ban_reasons
 bash> mix ecto.gen.migration -r Core.Repo create_platforms
 bash> mix ecto.gen.migration -r Core.Repo create_deleted_users
 bash> mix ecto.gen.migration -r Core.Repo create_reports
-
+bash> mix ecto.gen.migration -r Core.Repo create_addons
 bash> mix ecto.gen.migration -r Core.Repo create_offers
-bash> mix ecto.gen.migration -r Core.Repo create_ddons
-bash> mix ecto.gen.migration -r Core.Repo create_service_reviews
+bash> mix ecto.gen.migration -r Core.Repo create_projects
+bash> mix ecto.gen.migration -r Core.Repo create_pro_ratings
 
+bash> mix ecto.gen.migration -r Core.Repo create_service_reviews
+bash> mix ecto.gen.migration -r Core.Repo create_potential_clients
 bash> mix ecto.gen.migration -r Core.Repo create_pro_rating_projects
 ```
 
