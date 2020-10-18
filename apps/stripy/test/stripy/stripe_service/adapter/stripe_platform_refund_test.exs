@@ -6,9 +6,11 @@ defmodule Stripy.StripeService.Adapters.StripePlatformRefundAdapterTest do
     StripeTesting.Helpers
   }
 
+  @user_attrs %{"user_id" => FlakeId.get}
+
   test "to_params" do
     data = Helpers.load_fixture("refund")
-    assert {:ok, result} = StripePlatformRefundAdapter.to_params(data, %{})
+    assert {:ok, result} = StripePlatformRefundAdapter.to_params(data, @user_attrs)
     assert result["amount"]              == data.amount
     assert result["balance_transaction"] == data.balance_transaction
     assert result["created"]             == data.created

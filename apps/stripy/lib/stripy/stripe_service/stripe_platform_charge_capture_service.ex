@@ -31,12 +31,10 @@ defmodule Stripy.StripeService.StripePlatformChargeCaptureService do
           | {:error, :platform_not_ready}
           | {:error, :not_found}
   def create(id_from_charge, charge_capture_attrs) do
-    with {:ok, %Stripe.Charge{} = stripe_charge_capture} =
-          @api.Charge.capture(id_from_charge, charge_capture_attrs),
-      {:ok, params} <-
-        StripePlatformChargeCaptureAdapter.to_params(stripe_charge_capture)
+    with {:ok, %Stripe.Charge{} = stripe_charge_capture} = @api.Charge.capture(id_from_charge, charge_capture_attrs),
+      {:ok, params} <- StripePlatformChargeCaptureAdapter.to_params(stripe_charge_capture)
     do
-      {:ok, struct} = Payments.get_stripe_charge!(%{id_from_stripe: id_from_charge})
+      struct = Payments.get_stripe_charge!(id_from_charge)
       case Payments.update_stripe_charge(struct, params) do
         {:error, error} -> {:error, error}
         {:ok, data} -> {:ok, data}

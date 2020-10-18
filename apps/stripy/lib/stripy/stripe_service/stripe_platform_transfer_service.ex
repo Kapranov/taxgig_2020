@@ -31,7 +31,7 @@ defmodule Stripy.StripeService.StripePlatformTransferService do
           | {:error, :platform_not_ready}
           | {:error, :not_found}
   def create(transfer_attrs, attrs) do
-    with {:ok, %Stripe.Refund{} = transfer} = @api.Transfer.create(transfer_attrs),
+    with {:ok, %Stripe.Transfer{} = transfer} = @api.Transfer.create(transfer_attrs),
          {:ok, params} <- StripePlatformTransferAdapter.to_params(transfer, attrs)
     do
       case Payments.create_stripe_transfer(params) do

@@ -72,11 +72,11 @@ defmodule Stripy.Payments.StripeCharge do
     field :description, :string, null: false
     field :failure_code, :string, null: true
     field :failure_message, :string, null: true
-    field :fraud_details, {:array, :map}, null: false, default: []
+    field :fraud_details, :map, null: false, default: %{}
     field :id_from_card, :string, null: false
     field :id_from_customer, :string, null: false
     field :id_from_stripe, :string, null: false
-    field :outcome, {:array, :map}, null: false
+    field :outcome, :map, null: false, default: %{}
     field :receipt_url, :string, null: false
     field :status, :string, null: false
     field :user_id, FlakeId.Ecto.CompatType, null: false

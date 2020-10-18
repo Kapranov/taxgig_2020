@@ -22,7 +22,7 @@
   "captured": true,
   "created": 1234567890,
   "currency": "usd",
-  "customer": null,
+  "customer": "cus_Hz0iaxWhaRWm6b",
   "description": "Charge for test@example.com",
   "disputed": false,
   "failure_code": null,

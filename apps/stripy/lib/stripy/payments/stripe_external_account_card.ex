@@ -59,7 +59,7 @@ defmodule Stripy.Payments.StripeExternalAccountCard do
     user_id
   )a
 
-  schema "stripe_external_account_banks" do
+  schema "stripe_external_account_cards" do
     field :brand, :string, null: false
     field :country, :string, null: false
     field :currency, :string, null: false
