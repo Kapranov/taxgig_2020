@@ -32,7 +32,7 @@ defmodule Core.Accounts.BanReason do
     field :other_description, :string, null: true
     field :reasons, BanReasonsEnum, null: true
 
-    has_one :platform, Platform, on_delete: :delete_all
+    has_one :platform, Platform, on_delete: :nilify_all
 
     timestamps()
   end

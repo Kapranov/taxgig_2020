@@ -7,11 +7,13 @@ defmodule Core.Contracts.Addon do
 
   alias Core.{
     Accounts.User,
-    Contracts.Helpers.StatusEnum
+    Contracts.Helpers.StatusEnum,
+    Contracts.Project
   }
 
   @type t :: %__MODULE__{
     addon_price: integer,
+    project: Project.t(),
     status: String.t(),
     user_id: User.t()
   }
@@ -31,6 +33,8 @@ defmodule Core.Contracts.Addon do
   schema "addons" do
     field :addon_price, :integer, null: false, default: 0
     field :status, StatusEnum, null: false
+
+    has_one :project, Project, on_delete: :nilify_all
 
     belongs_to :user, User,
       foreign_key: :user_id,

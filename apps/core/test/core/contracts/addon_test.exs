@@ -88,8 +88,7 @@ defmodule Core.Contracts.AddonTest do
 
     test "create_addon/1 with invalid data returns error changeset" do
       params = %{user_id: nil}
-      assert {:error, %Ecto.Changeset{}} =
-        Contracts.create_addon(params)
+      assert {:error, %Ecto.Changeset{}} = Contracts.create_addon(params)
     end
 
     test "update_addon/2 with valid data updates an addon" do

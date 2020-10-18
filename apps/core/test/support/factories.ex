@@ -14,6 +14,7 @@ defmodule Core.Factory do
     Accounts.User,
     Contracts.Addon,
     Contracts.Offer,
+    Contracts.Project,
     Landing.Faq,
     Landing.FaqCategory,
     Landing.PressArticle,
@@ -1338,6 +1339,36 @@ defmodule Core.Factory do
     }
   end
 
+  @spec project_factory() :: Project.t()
+  def project_factory do
+    %Project{
+      addon: build(:addon),
+      assigned_pro: build(:pro_user).id,
+      end_time: Date.utc_today(),
+      instant_matched: random_boolean(),
+      offer: build(:offer),
+      project_price: random_float(),
+      status: random_project_status(),
+      stripe_card_token_id: FlakeId.get(),
+      users: build(:tp_user)
+    }
+  end
+
+  @spec tp_project_factory() :: Project.t()
+  def tp_project_factory do
+    %Project{
+      addon: build(:addon),
+      assigned_pro: build(:pro_user).id,
+      end_time: Date.utc_today(),
+      instant_matched: random_boolean(),
+      offer: build(:offer),
+      project_price: random_float(),
+      status: random_project_status(),
+      stripe_card_token_id: FlakeId.get(),
+      users: build(:tp_user)
+    }
+  end
+
   @spec random_language() :: {String.t()}
   defp random_language do
     names =
@@ -1929,6 +1960,28 @@ defmodule Core.Factory do
       "Sent",
       "Accepted",
       "Declined"
+    ]
+
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    [result] =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_project_status :: [String.t()]
+  defp random_project_status do
+    names = [
+      "Canceled",
+      "Done",
+      "In Progress",
+      "In Transition",
+      "New"
     ]
 
     numbers = 1..1

@@ -6,9 +6,16 @@ defmodule Core.Contracts do
   use Core.Context
 
   alias Core.{
+    Accounts,
+    Accounts.User,
+    Contracts,
     Contracts.Addon,
-    Contracts.Offer
+    Contracts.Offer,
+    Contracts.Project
   }
+
+  @type word() :: String.t()
+  @type message() :: atom()
 
   @doc """
   Returns the list of Addon.
@@ -202,5 +209,149 @@ defmodule Core.Contracts do
   @spec change_offer(Offer.t()) :: Ecto.Changeset.t()
   def change_offer(%Offer{} = struct) do
     Offer.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns the list the Projects.
+
+  ## Examples
+
+      iex> list_project()
+      [%Project{}, ...]
+  """
+  @spec list_project() :: [Project.t()]
+  def list_project, do: Repo.all(Project)
+
+  @doc """
+  Gets a single the Project.
+
+  Raises `Ecto.NoResultsError` if the Project does not exist.
+
+  ## Examples
+
+      iex> get_project!(123)
+      %Project{}
+
+      iex> get_project!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_project!(String.t()) :: Project.t() | error_tuple()
+  def get_project!(id), do: Repo.get!(Project, id)
+
+  @doc """
+  Creates the Project.
+
+  ## Examples
+
+      iex> create_project(%{field: value})
+      {:ok, %Project{}}
+
+      iex> create_project(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_project(%{atom => any}) :: result() | error_tuple()
+  def create_project(attrs \\ %{}) do
+    case Accounts.by_role(attrs.user_id) do
+      false ->
+        %Project{}
+        |> Project.changeset(attrs)
+        |> Repo.insert()
+      true -> {:error, %Changeset{}}
+    end
+  end
+
+  @doc """
+  Updates the Project.
+
+  ## Examples
+
+      iex> update_project(struct, %{field: new_value})
+      {:ok, %Project{}}
+
+      iex> update_project(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_project(Project.t(), %{atom => any}) :: result() | error_tuple()
+  def update_project(%Project{} = struct, attrs) do
+    case Contracts.by_role(struct.id) do
+      false ->
+        struct
+        |> Project.changeset(attrs)
+        |> Repo.update()
+      true -> {:error, %Changeset{}}
+    end
+  end
+
+  @doc """
+  Deletes the Project.
+
+  ## Examples
+
+      iex> delete_project(struct)
+      {:ok, %Project{}}
+
+      iex> delete_project(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_project(Project.t()) :: result()
+  def delete_project(%Project{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking the Project Changes.
+
+  ## Examples
+
+      iex> change_project(struct)
+      %Ecto.Changeset{source: %Project{}}
+
+  """
+  @spec change_project(Project.t()) :: Ecto.Changeset.t()
+  def change_project(%Project{} = struct) do
+    Project.changeset(struct, %{})
+  end
+
+  @doc """
+  Share user's role.
+  """
+  @spec by_role(word) :: boolean | {:error, nonempty_list(message)}
+  def by_role(id) when not is_nil(id) do
+    struct =
+      try do
+        Contracts.get_project!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case struct do
+      :error ->
+        {:error, [field: :user_id, message: "Project Not Found"]}
+      %Project{user_id: user_id} ->
+        with %User{role: role} <- by_user(user_id), do: role
+    end
+  end
+
+  @spec by_role(nil) :: {:error, nonempty_list(message)}
+  def by_role(id) when is_nil(id) do
+    {:error, [field: :user_id, message: "Can't be blank"]}
+  end
+
+  @spec by_role :: {:error, nonempty_list(message)}
+  def by_role do
+    {:error, [field: :user_id, message: "Can't be blank"]}
+  end
+
+  @spec by_user(word) :: Ecto.Schema.t() | nil
+  defp by_user(user_id) do
+    try do
+      Repo.one(from c in User, where: c.id == ^user_id)
+    rescue
+      Ecto.Query.CastError -> nil
+    end
   end
 end

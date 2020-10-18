@@ -4,9 +4,11 @@ defmodule Core.Seeder.Updated.Contracts do
   """
 
   alias Core.{
+    Accounts.User,
     Contracts,
     Contracts.Addon,
     Contracts.Offer,
+    Contracts.Project,
     Repo
   }
 
@@ -14,6 +16,7 @@ defmodule Core.Seeder.Updated.Contracts do
   def start! do
     update_addon()
     update_offer()
+    update_project()
   end
 
   @spec update_addon() :: Ecto.Schema.t()
@@ -124,9 +127,174 @@ defmodule Core.Seeder.Updated.Contracts do
     ]
   end
 
+  @spec update_project() :: Ecto.Schema.t()
+  defp update_project do
+    user_ids =
+      Enum.map(Repo.all(User), fn(data) -> data.id end)
+
+    {pro1, pro2, pro3} = {
+      Enum.at(user_ids, 4),
+      Enum.at(user_ids, 5),
+      Enum.at(user_ids, 6)
+    }
+
+    project_ids = Enum.map(Repo.all(Project), fn(data) -> data end)
+
+    {
+      project1,
+      project2,
+      project3,
+      project4,
+      project5,
+      project6,
+      project7,
+      project8,
+      project9
+    } = {
+      Enum.at(project_ids, 0),
+      Enum.at(project_ids, 1),
+      Enum.at(project_ids, 2),
+      Enum.at(project_ids, 3),
+      Enum.at(project_ids, 4),
+      Enum.at(project_ids, 5),
+      Enum.at(project_ids, 6),
+      Enum.at(project_ids, 7),
+      Enum.at(project_ids, 8)
+    }
+
+    addon_ids = Enum.map(Repo.all(Addon), fn(data) -> data end)
+
+    {
+      addon2,
+      addon3,
+      addon4
+    } = {
+      Enum.at(addon_ids, 1),
+      Enum.at(addon_ids, 2),
+      Enum.at(addon_ids, 3)
+    }
+
+    offer_ids = Enum.map(Repo.all(Offer), fn(data) -> data end)
+
+    {
+      offer2,
+      offer3,
+      offer4
+    } = {
+      Enum.at(offer_ids, 1),
+      Enum.at(offer_ids, 2),
+      Enum.at(offer_ids, 3)
+    }
+
+    [
+      Contracts.update_project(project1, %{
+        addon_id: addon2.id,
+        assigned_pro: pro2,
+        end_time: Date.utc_today(),
+        instant_matched: random_boolean(),
+        offer_id: offer2.id,
+        project_price: random_float(),
+        status: random_project_status(),
+        stripe_card_token_id: FlakeId.get()
+      }),
+      Contracts.update_project(project2, %{
+        addon_id: addon2.id,
+        assigned_pro: pro3,
+        end_time: Date.utc_today(),
+        instant_matched: random_boolean(),
+        offer_id: offer2.id,
+        project_price: random_float(),
+        status: random_project_status(),
+        stripe_card_token_id: FlakeId.get()
+      }),
+      Contracts.update_project(project3, %{
+        addon_id: addon2.id,
+        assigned_pro: pro1,
+        end_time: Date.utc_today(),
+        instant_matched: random_boolean(),
+        offer_id: offer2.id,
+        project_price: random_float(),
+        status: random_project_status(),
+        stripe_card_token_id: FlakeId.get()
+      }),
+      Contracts.update_project(project4, %{
+        addon_id: addon3.id,
+        assigned_pro: pro2,
+        end_time: Date.utc_today(),
+        instant_matched: random_boolean(),
+        offer_id: offer3.id,
+        project_price: random_float(),
+        status: random_project_status(),
+        stripe_card_token_id: FlakeId.get()
+      }),
+      Contracts.update_project(project5, %{
+        addon_id: addon3.id,
+        assigned_pro: pro3,
+        end_time: Date.utc_today(),
+        instant_matched: random_boolean(),
+        offer_id: offer3.id,
+        project_price: random_float(),
+        status: random_project_status(),
+        stripe_card_token_id: FlakeId.get()
+      }),
+      Contracts.update_project(project6, %{
+        addon_id: addon3.id,
+        assigned_pro: pro1,
+        end_time: Date.utc_today(),
+        instant_matched: random_boolean(),
+        offer_id: offer3.id,
+        project_price: random_float(),
+        status: random_project_status(),
+        stripe_card_token_id: FlakeId.get()
+      }),
+      Contracts.update_project(project7, %{
+        addon_id: addon4.id,
+        assigned_pro: pro2,
+        end_time: Date.utc_today(),
+        instant_matched: random_boolean(),
+        offer_id: offer4.id,
+        project_price: random_float(),
+        status: random_project_status(),
+        stripe_card_token_id: FlakeId.get()
+      }),
+      Contracts.update_project(project8, %{
+        addon_id: addon4.id,
+        assigned_pro: pro3,
+        end_time: Date.utc_today(),
+        instant_matched: random_boolean(),
+        offer_id: offer4.id,
+        project_price: random_float(),
+        status: random_project_status(),
+        stripe_card_token_id: FlakeId.get()
+      }),
+      Contracts.update_project(project9, %{
+        addon_id: addon4.id,
+        assigned_pro: pro1,
+        end_time: Date.utc_today(),
+        instant_matched: random_boolean(),
+        offer_id: offer4.id,
+        project_price: random_float(),
+        status: random_project_status(),
+        stripe_card_token_id: FlakeId.get()
+      })
+    ]
+  end
+
   @spec random_integer() :: integer()
   defp random_integer(n \\ 99) when is_integer(n) do
     Enum.random(1..n)
+  end
+
+  @spec random_boolean() :: boolean()
+  defp random_boolean do
+    data = ~W(true false)a
+    Enum.random(data)
+  end
+
+  @spec random_float() :: float()
+  def random_float do
+    :random.uniform() * 100
+    |> Float.round(2)
   end
 
   @spec random_status :: [String.t()]
@@ -135,6 +303,28 @@ defmodule Core.Seeder.Updated.Contracts do
       "Sent",
       "Accepted",
       "Declined"
+    ]
+
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    [result] =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_project_status :: [String.t()]
+  defp random_project_status do
+    names = [
+      "Canceled",
+      "Done",
+      "In Progress",
+      "In Transition",
+      "New"
     ]
 
     numbers = 1..1

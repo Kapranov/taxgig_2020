@@ -11,6 +11,9 @@ defmodule Core.Accounts.User do
     Accounts.Profile,
     Accounts.User,
     Config,
+    Contracts.Addon,
+    Contracts.Offer,
+    Contracts.Project,
     Localization.Language,
     Repo,
     Services.BookKeeping,
@@ -25,39 +28,42 @@ defmodule Core.Accounts.User do
   }
 
   @type t :: %__MODULE__{
+    accounting_software: AccountingSoftware.t(),
     active: boolean,
+    addon: Addon.t(),
     admin: boolean,
     avatar: String.t(),
     bio: String.t(),
     birthday: %Date{},
-    email: String.t(),
-    first_name: String.t(),
-    init_setup: boolean,
-    languages: [Language.t()],
-    last_name: String.t(),
-    middle_name: String.t(),
-    password: String.t(),
-    password_confirmation: String.t(),
-    password_hash: String.t(),
-    phone: String.t(),
-    role: boolean,
-    provider: String.t(),
-    sex: String.t(),
-    ssn: integer,
-    street: String.t(),
-    zip: integer,
-    accounting_software: AccountingSoftware.t(),
     book_keepings: [BookKeeping.t()],
     business_tax_returns: [BusinessTaxReturn.t()],
     deleted_user: DeletedUser.t(),
     education: Education.t(),
+    email: String.t(),
+    first_name: String.t(),
     individual_tax_returns: [IndividualTaxReturn.t()],
+    init_setup: boolean,
+    languages: [Language.t()],
+    last_name: String.t(),
     messages: [Message.t()],
+    middle_name: String.t(),
+    offer: Offer.t(),
+    password: String.t(),
+    password_confirmation: String.t(),
+    password_hash: String.t(),
+    phone: String.t(),
     platform: Platform.t(),
     profile: Profile.t(),
+    projects: [Project.t()],
+    provider: String.t(),
+    role: boolean,
     rooms: [Room.t()],
     sale_taxes: [SaleTax.t()],
-    work_experience: WorkExperience.t()
+    sex: String.t(),
+    ssn: integer,
+    street: String.t(),
+    work_experience: WorkExperience.t(),
+    zip: integer,
   }
 
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
@@ -125,13 +131,16 @@ defmodule Core.Accounts.User do
     has_one :platform, Platform, on_delete: :delete_all
     has_one :profile, Profile, on_delete: :delete_all
     has_one :work_experience, WorkExperience, on_delete: :delete_all
+    has_one :addon, Addon, on_delete: :delete_all
+    has_one :offer, Offer, on_delete: :delete_all
 
-    has_many :book_keepings, BookKeeping
-    has_many :business_tax_returns, BusinessTaxReturn
-    has_many :individual_tax_returns, IndividualTaxReturn
-    has_many :messages, Message
-    has_many :rooms, Room
-    has_many :sale_taxes, SaleTax
+    has_many :book_keepings, BookKeeping, on_delete: :nilify_all
+    has_many :business_tax_returns, BusinessTaxReturn, on_delete: :nilify_all
+    has_many :individual_tax_returns, IndividualTaxReturn, on_delete: :nilify_all
+    has_many :messages, Message, on_delete: :nilify_all
+    has_many :rooms, Room, on_delete: :nilify_all
+    has_many :sale_taxes, SaleTax, on_delete: :nilify_all
+    has_many :projects, Project, on_delete: :nilify_all
 
     many_to_many :languages, Language, join_through: "users_languages", on_replace: :delete
 

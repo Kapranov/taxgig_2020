@@ -123,7 +123,7 @@ defmodule Core.Contracts.OfferTest do
       assert updated.user.updated_at  == user.updated_at
     end
 
-    test "update_ban_offer/2 with invalid data returns error changeset" do
+    test "update_offer/2 with invalid data returns error changeset" do
       user = insert(:tp_user)
       struct = insert(:tp_offer, user: user)
       assert {:error, %Ecto.Changeset{}} = Contracts.update_offer(struct, @invalid_attrs)
@@ -136,7 +136,7 @@ defmodule Core.Contracts.OfferTest do
       assert_raise Ecto.NoResultsError, fn -> Contracts.get_offer!(struct.id) end
     end
 
-    test "change_offer/1 returns addon changeset" do
+    test "change_offer/1 returns an offer changeset" do
       user = insert(:tp_user)
       struct = insert(:tp_offer, user: user)
       assert %Ecto.Changeset{} = Contracts.change_offer(struct)
@@ -263,7 +263,7 @@ defmodule Core.Contracts.OfferTest do
       assert updated.user.updated_at  == user.updated_at
     end
 
-    test "update_ban_offer/2 with invalid data returns error changeset" do
+    test "update_offer/2 with invalid data returns error changeset" do
       user = insert(:pro_user)
       struct = insert(:pro_offer, user: user)
       assert {:error, %Ecto.Changeset{}} = Contracts.update_offer(struct, @invalid_attrs)
@@ -276,7 +276,7 @@ defmodule Core.Contracts.OfferTest do
       assert_raise Ecto.NoResultsError, fn -> Contracts.get_offer!(struct.id) end
     end
 
-    test "change_offer/1 returns addon changeset" do
+    test "change_offer/1 returns an offer changeset" do
       user = insert(:pro_user)
       struct = insert(:pro_offer, user: user)
       assert %Ecto.Changeset{} = Contracts.change_offer(struct)
