@@ -1,6 +1,8 @@
 defmodule Stripy.StripeTesting.Customer do
   @moduledoc false
 
+  alias Stripy.StripeTesting.Helpers
+
   def create(map, _opts \\ []) do
     {:ok, do_create(map)}
   end
@@ -14,37 +16,30 @@ defmodule Stripy.StripeTesting.Customer do
   end
 
   defp do_create(_) do
-    %Stripe.Customer{
-      id: "cus_9aMOFmqy1esIRE",
-      balance: 0,
-      created: 1_479_472_835,
-      currency: "usd",
-      default_source: nil,
-      delinquent: false,
-      description: nil,
-      email: "mail@test.com",
-      livemode: false,
-      metadata: %{}
-    }
+    "customer"
+    |> Helpers.load_raw_fixture()
+    |> Stripe.Converter.convert_result()
   end
 
   defp do_update(id, map) do
     %Stripe.Customer{
       id: id,
       balance: 0,
-      created: 1_479_472_835,
+      created: 1_598_546_223,
       currency: "usd",
       default_source: nil,
       delinquent: false,
       description: nil,
       email: map.email,
       livemode: false,
-      metadata: %{}
+      metadata: %{},
+      name: map.name,
+      phone: map.phone
     }
   end
 
   defp do_retrieve(id) do
-    created = 1_479_472_835
+    created = 1_598_546_223
 
     %Stripe.Customer{
       id: id,
@@ -56,7 +51,9 @@ defmodule Stripy.StripeTesting.Customer do
       description: nil,
       email: "hardcoded@test.com",
       livemode: false,
-      metadata: %{}
+      metadata: %{},
+      name: "Test",
+      phone: "999-999-9999"
     }
   end
 end
