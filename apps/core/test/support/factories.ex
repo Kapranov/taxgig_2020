@@ -9,6 +9,7 @@ defmodule Core.Factory do
     Accounts.BanReason,
     Accounts.DeletedUser,
     Accounts.Platform,
+    Accounts.ProRating,
     Accounts.Profile,
     Accounts.Subscriber,
     Accounts.User,
@@ -1275,6 +1276,17 @@ defmodule Core.Factory do
       payment_active: random_boolean(),
       stuck_stage: random_stuck_stage(),
       user: build(:pro_user)
+    }
+  end
+
+  @spec pro_rating_factory() :: Platform.t()
+  def pro_rating_factory do
+    %ProRating{
+      average_communication: random_float(),
+      average_professionalism: random_float(),
+      average_rating: random_float(),
+      average_work_quality: random_float(),
+      platforms: build(:platform)
     }
   end
 

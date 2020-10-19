@@ -8,6 +8,7 @@ defmodule Core.Seeder.Updated.Accounts do
     Accounts.BanReason,
     Accounts.DeletedUser,
     Accounts.Platform,
+    Accounts.ProRating,
     Repo
   }
 
@@ -18,6 +19,7 @@ defmodule Core.Seeder.Updated.Accounts do
     update_user()
     update_ban_reason()
     update_platform()
+    update_pro_rating()
     update_deleted_user()
   end
 
@@ -143,6 +145,28 @@ defmodule Core.Seeder.Updated.Accounts do
     ]
   end
 
+  @spec update_pro_rating() :: Ecto.Schema.t()
+  defp update_pro_rating do
+    pro_rating_ids = Enum.map(Repo.all(ProRating), fn(data) -> data end)
+
+    { pro_rating1 } = { Enum.at(pro_rating_ids, 0) }
+
+    platform_ids =
+      Enum.map(Repo.all(Platform), fn(data) -> data.id end)
+
+    {platform2} = { Enum.at(platform_ids, 1), }
+
+    [
+      Accounts.update_pro_rating(pro_rating1, %{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float(),
+        platform_id: platform2
+      })
+    ]
+  end
+
   @spec update_deleted_user() :: Ecto.Schema.t()
   defp update_deleted_user do
     deleted_user_ids = Enum.map(Repo.all(DeletedUser), fn(data) -> data end)
@@ -248,5 +272,11 @@ defmodule Core.Seeder.Updated.Accounts do
   defp random_boolean do
     value = ~W(true false)a
     Enum.random(value)
+  end
+
+  @spec random_float() :: float()
+  def random_float do
+    :random.uniform() * 100
+    |> Float.round(2)
   end
 end

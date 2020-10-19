@@ -10,6 +10,7 @@ defmodule Core.Seeder.Accounts do
     Accounts.BanReason,
     Accounts.DeletedUser,
     Accounts.Platform,
+    Accounts.ProRating,
     Accounts.Subscriber,
     Accounts.User,
     Localization.Language,
@@ -21,6 +22,7 @@ defmodule Core.Seeder.Accounts do
     Repo.delete_all(BanReason)
     Repo.delete_all(DeletedUser)
     Repo.delete_all(Platform)
+    Repo.delete_all(ProRating)
     Repo.delete_all(Subscriber)
     Repo.delete_all(User)
   end
@@ -34,6 +36,7 @@ defmodule Core.Seeder.Accounts do
     seed_multi_users_languages()
     seed_ban_reason()
     seed_platform()
+    seed_pro_rating()
     seed_deleted_user()
     admin_permission()
   end
@@ -252,6 +255,14 @@ defmodule Core.Seeder.Accounts do
     case Repo.aggregate(Platform, :count, :id) > 0 do
       true -> nil
       false -> insert_platform()
+    end
+  end
+
+  @spec seed_pro_rating() :: nil | Ecto.Schema.t()
+  defp seed_pro_rating do
+    case Repo.aggregate(ProRating, :count, :id) > 0 do
+      true -> nil
+      false -> insert_pro_rating()
     end
   end
 
@@ -508,6 +519,24 @@ defmodule Core.Seeder.Accounts do
     ]
   end
 
+  @spec insert_pro_rating() :: Ecto.Schema.t()
+  defp insert_pro_rating do
+    platform_ids =
+      Enum.map(Repo.all(Platform), fn(data) -> data.id end)
+
+    {platform1} = { Enum.at(platform_ids, 0), }
+
+    [
+      Accounts.create_pro_rating(%{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float(),
+        platform_id: platform1
+      })
+    ]
+  end
+
   @spec insert_deleted_user() :: Ecto.Schema.t()
   defp insert_deleted_user do
     user_ids =
@@ -663,5 +692,11 @@ defmodule Core.Seeder.Accounts do
   defp random_boolean do
     value = ~W(true false)a
     Enum.random(value)
+  end
+
+  @spec random_float() :: float()
+  def random_float do
+    :random.uniform() * 100
+    |> Float.round(2)
   end
 end

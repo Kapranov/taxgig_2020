@@ -9,6 +9,7 @@ defmodule Core.Accounts do
     Accounts.BanReason,
     Accounts.DeletedUser,
     Accounts.Platform,
+    Accounts.ProRating,
     Accounts.Profile,
     Accounts.Subscriber,
     Accounts.User,
@@ -220,6 +221,20 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Returns the list of ProRating.
+
+  ## Examples
+
+      iex> list_pro_rating()
+      [%ProRating{}, ...]
+  """
+  @spec list_pro_rating() :: [ProRating.t()]
+  def list_pro_rating do
+    Repo.all(ProRating)
+    |> Repo.preload([platforms: [user: [:languages]]])
+  end
+
+  @doc """
   Returns the list of DeletedUser.
 
   ## Examples
@@ -315,6 +330,25 @@ defmodule Core.Accounts do
   @spec get_platform!(String.t()) :: Platform.t() | error_tuple()
   def get_platform!(id) do
     Repo.get!(Platform, id)
+  end
+
+  @doc """
+  Gets a single ProRating.
+
+  Raises `Ecto.NoResultsError` if the ProRating does not exist.
+
+  ## Examples
+
+      iex> get_pro_rating!(123)
+      %ProRating{}
+
+      iex> get_pro_rating!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_pro_rating!(String.t()) :: ProRating.t() | error_tuple()
+  def get_pro_rating!(id) do
+    Repo.get!(ProRating, id)
   end
 
   @doc """
@@ -457,6 +491,25 @@ defmodule Core.Accounts do
   def create_platform(attrs \\ %{}) do
     %Platform{}
     |> Platform.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Creates ProRating.
+
+  ## Examples
+
+      iex> create_pro_rating(%{field: value})
+      {:ok, %ProRating{}}
+
+      iex> create_pro_rating(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_pro_rating(%{atom => any}) :: result() | error_tuple()
+  def create_pro_rating(attrs \\ %{}) do
+    %ProRating{}
+    |> ProRating.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -1092,6 +1145,25 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Updates ProRating.
+
+  ## Examples
+
+      iex> update_pro_rating(struct, %{field: new_value})
+      {:ok, %ProRating{}}
+
+      iex> update_pro_rating(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_pro_rating(ProRating.t(), %{atom => any}) :: result() | error_tuple()
+  def update_pro_rating(struct, attrs) do
+    struct
+    |> ProRating.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
   Updates DeletedUser.
 
   ## Examples
@@ -1202,6 +1274,23 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Deletes ProRating.
+
+  ## Examples
+
+      iex> delete_pro_rating(struct)
+      {:ok, %ProRating{}}
+
+      iex> delete_pro_rating(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_pro_rating(ProRating.t()) :: result()
+  def delete_pro_rating(%ProRating{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
   Deletes DeletedUser.
 
   ## Examples
@@ -1295,6 +1384,20 @@ defmodule Core.Accounts do
   @spec change_platform(Platform.t()) :: Ecto.Changeset.t()
   def change_platform(%Platform{} = struct) do
     Platform.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking ProRating changes.
+
+  ## Examples
+
+      iex> change_pro_rating(struct)
+      %Ecto.Changeset{source: %ProRating{}}
+
+  """
+  @spec change_pro_rating(ProRating.t()) :: Ecto.Changeset.t()
+  def change_pro_rating(%ProRating{} = struct) do
+    ProRating.changeset(struct, %{})
   end
 
   @doc """
