@@ -11,7 +11,8 @@ defmodule Core.Contracts do
     Contracts,
     Contracts.Addon,
     Contracts.Offer,
-    Contracts.Project
+    Contracts.Project,
+    Contracts.ServiceReview
   }
 
   @type word() :: String.t()
@@ -314,6 +315,103 @@ defmodule Core.Contracts do
   @spec change_project(Project.t()) :: Ecto.Changeset.t()
   def change_project(%Project{} = struct) do
     Project.changeset(struct, %{})
+  end
+
+  @doc """
+  Returns the list of ServiceReview.
+
+  ## Examples
+
+      iex> list_service_review()
+      [%ServiceReview{}, ...]
+  """
+  @spec list_service_review() :: [ServiceReview.t()]
+  def list_service_review, do: Repo.all(ServiceReview)
+
+  @doc """
+  Gets a single the ServiceReview.
+
+  Raises `Ecto.NoResultsError` if the ServiceReview does not exist.
+
+  ## Examples
+
+      iex> get_service_review!(123)
+      %ServiceReview{}
+
+      iex> get_service_review!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_service_review!(String.t()) :: ServiceReview.t() | error_tuple()
+  def get_service_review!(id), do: Repo.get!(ServiceReview, id)
+
+  @doc """
+  Creates the ServiceReview.
+
+  ## Examples
+
+      iex> create_service_review(%{field: value})
+      {:ok, %ServiceReview{}}
+
+      iex> create_service_review(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_service_review(%{atom => any}) :: result() | error_tuple()
+  def create_service_review(attrs \\ %{}) do
+    %ServiceReview{}
+    |> ServiceReview.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates the ServiceReview.
+
+  ## Examples
+
+      iex> update_service_review(struct, %{field: new_value})
+      {:ok, %ServiceReview{}}
+
+      iex> update_service_review(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_service_review(ServiceReview.t(), %{atom => any}) :: result() | error_tuple()
+  def update_service_review(%ServiceReview{} = struct, attrs) do
+    struct
+    |> ServiceReview.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes the ServiceReview.
+
+  ## Examples
+
+      iex> delete_service_review(struct)
+      {:ok, %ServiceReview{}}
+
+      iex> delete_addon(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_service_review(ServiceReview.t()) :: result()
+  def delete_service_review(%ServiceReview{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking the ServiceReview Changes.
+
+  ## Examples
+
+      iex> change_service_review(struct)
+      %Ecto.Changeset{source: %ServiceReview{}}
+
+  """
+  @spec change_service_review(ServiceReview.t()) :: Ecto.Changeset.t()
+  def change_service_review(%ServiceReview{} = struct) do
+    ServiceReview.changeset(struct, %{})
   end
 
   @doc """

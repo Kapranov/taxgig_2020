@@ -8,13 +8,17 @@ defmodule Core.Seeder.Contracts do
     Contracts.Addon,
     Contracts.Offer,
     Contracts.Project,
+    Contracts.ServiceReview,
     Repo
   }
+
+  alias Faker.Lorem
 
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
     Repo.delete_all(Addon)
     Repo.delete_all(Offer)
+    Repo.delete_all(ServiceReview)
   end
 
   @spec seed!() :: Ecto.Schema.t()
@@ -22,6 +26,7 @@ defmodule Core.Seeder.Contracts do
     seed_addon()
     seed_offer()
     seed_project()
+    seed_service_review()
   end
 
   @spec seed_addon() :: nil | Ecto.Schema.t()
@@ -45,6 +50,14 @@ defmodule Core.Seeder.Contracts do
     case Repo.aggregate(Project, :count, :id) > 0 do
       true -> nil
       false -> insert_project()
+    end
+  end
+
+  @spec seed_service_review() :: nil | Ecto.Schema.t()
+  defp seed_service_review do
+    case Repo.aggregate(ServiceReview, :count, :id) > 0 do
+      true -> nil
+      false -> insert_service_review()
     end
   end
 
@@ -293,6 +306,20 @@ defmodule Core.Seeder.Contracts do
         status: random_project_status(),
         stripe_card_token_id: FlakeId.get(),
         user_id: tp3
+      })
+    ]
+  end
+
+  @spec insert_service_review() :: Ecto.Schema.t()
+  defp insert_service_review do
+    [
+      Repo.insert!(%ServiceReview{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_float(),
+        pro_response: Lorem.sentence(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
       })
     ]
   end

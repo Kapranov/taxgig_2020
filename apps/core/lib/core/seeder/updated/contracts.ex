@@ -9,14 +9,18 @@ defmodule Core.Seeder.Updated.Contracts do
     Contracts.Addon,
     Contracts.Offer,
     Contracts.Project,
+    Contracts.ServiceReview,
     Repo
   }
+
+  alias Faker.Lorem
 
   @spec start!() :: Ecto.Schema.t()
   def start! do
     update_addon()
     update_offer()
     update_project()
+    update_service_review()
   end
 
   @spec update_addon() :: Ecto.Schema.t()
@@ -276,6 +280,25 @@ defmodule Core.Seeder.Updated.Contracts do
         project_price: random_float(),
         status: random_project_status(),
         stripe_card_token_id: FlakeId.get()
+      })
+    ]
+  end
+
+  @spec update_service_review() :: Ecto.Schema.t()
+  defp update_service_review do
+    service_review_ids =
+      Enum.map(Repo.all(ServiceReview), fn(data) -> data end)
+
+    { srv1 } = { Enum.at(service_review_ids, 0) }
+
+    [
+      Contracts.update_service_review(srv1, %{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_float(),
+        pro_response: Lorem.sentence(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
       })
     ]
   end

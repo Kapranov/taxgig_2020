@@ -15,6 +15,7 @@ defmodule Core.Factory do
     Contracts.Addon,
     Contracts.Offer,
     Contracts.Project,
+    Contracts.ServiceReview,
     Landing.Faq,
     Landing.FaqCategory,
     Landing.PressArticle,
@@ -1366,6 +1367,18 @@ defmodule Core.Factory do
       status: random_project_status(),
       stripe_card_token_id: FlakeId.get(),
       users: build(:tp_user)
+    }
+  end
+
+  @spec service_review_factory() :: Project.t()
+  def service_review_factory do
+    %ServiceReview{
+      client_comment: Lorem.sentence(),
+      communication: random_integer(),
+      final_rating: random_float(),
+      pro_response: Lorem.sentence(),
+      professionalism: random_integer(),
+      work_quality: random_integer()
     }
   end
 
