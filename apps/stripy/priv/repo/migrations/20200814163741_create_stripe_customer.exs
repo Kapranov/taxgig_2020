@@ -11,7 +11,6 @@ defmodule Stripy.Repo.Migrations.CreateStripeCustomer do
       add :email, :string, null: false
       add :name, :string, null: false
       add :phone, :string, null: false
-      add :type, :string, null: false
       add :user_id, :uuid, null: false
 
       timestamps(type: :utc_datetime_usec)

@@ -1,5 +1,5 @@
 {
-  "account": "acct_1032D82eZvKYlo2C",
+  "account": "acct_1HPssUC7lbhZAQNr",
   "address_city": null,
   "address_country": null,
   "address_line1": null,
@@ -8,19 +8,26 @@
   "address_state": null,
   "address_zip": null,
   "address_zip_check": null,
+  "available_payout_methods": [
+    "instant",
+    "standard"
+  ],
   "brand": "Visa",
   "country": "US",
+  "currency": "usd",
   "customer": null,
   "cvc_check": "pass",
+  "default_for_currency": true,
   "dynamic_last4": null,
   "exp_month": 8,
   "exp_year": 2021,
   "fingerprint": "Xt5EWLLDS7FJjR1c",
-  "funding": "credit",
-  "id": "card_1HCXiM2eZvKYlo2CNwXeOqc5",
-  "last4": "4242",
+  "funding": "debit",
+  "id": "card_1HQ9EaC7lbhZAQNrBXDhgOqM",
+  "last4": "5556",
   "metadata": {
   },
+  "name": "Running Man",
   "name": null,
   "object": "card",
   "tokenization_method": null

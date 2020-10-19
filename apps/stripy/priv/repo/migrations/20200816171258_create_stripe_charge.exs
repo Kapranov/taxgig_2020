@@ -15,8 +15,8 @@ defmodule Stripy.Repo.Migrations.CreateStripeCharge do
       add :description, :string, null: false
       add :failure_code, :string, null: true
       add :failure_message, :string, null: true
-      add :fraud_details, {:array, :map}, null: false, default: []
-      add :outcome, {:array, :map}, null: false
+      add :fraud_details, :map, null: false, default: %{}
+      add :outcome, :map, null: false, default: %{}
       add :receipt_url, :string, null: false
       add :status, :string, null: false
       add :user_id, :uuid, null: false

@@ -36,7 +36,7 @@ defmodule Stripy.StripeService.StripePlatformChargeCaptureService do
       {:ok, params} <-
         StripePlatformChargeCaptureAdapter.to_params(stripe_charge_capture)
     do
-      {:ok, struct} = Payments.get_stripe_charge!(%{id_from_stripe: id_from_charge})
+      struct = Payments.get_stripe_charge!(id_from_charge)
       case Payments.update_stripe_charge(struct, params) do
         {:error, error} -> {:error, error}
         {:ok, data} -> {:ok, data}

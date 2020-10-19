@@ -1,54 +1,82 @@
 {
+  "account_balance": 0,
   "address": null,
   "balance": 0,
-  "created": 1234567890,
+  "created": 1598546223,
   "currency": "usd",
-  "default_source": null,
+  "default_source": "card_1HKo5XJ2Ju0cX1cPpF7P5ybC",
   "delinquent": false,
   "description": null,
   "discount": null,
-  "email": null,
-  "id": "cus_HkmxAzEVev81e3",
-  "invoice_prefix": "6576AE0",
+  "email": "o.puryshev@gmail.com",
+  "id": "cus_HudMuWQ6aJtRrg",
+  "invoice_prefix": "417E89CB",
   "invoice_settings": {
     "custom_fields": null,
     "default_payment_method": null,
     "footer": null
   },
   "livemode": false,
-  "metadata": {
-  },
-  "name": null,
+  "metadata": { },
+  "name": "Robert Jr Downey",
   "next_invoice_sequence": 1,
   "object": "customer",
-  "phone": null,
-  "preferred_locales": [
-
-  ],
+  "phone": "999-999-9999",
+  "preferred_locales": [ ],
   "shipping": null,
   "sources": {
+    "object": "list",
     "data": [
-
+      {
+        "id": "card_1HKo5XJ2Ju0cX1cPpF7P5ybC",
+        "object": "card",
+        "address_city": null,
+        "address_country": null,
+        "address_line1": null,
+        "address_line1_check": null,
+        "address_line2": null,
+        "address_state": null,
+        "address_zip": null,
+        "address_zip_check": null,
+        "brand": "Visa",
+        "country": "US",
+        "customer": "cus_HudMuWQ6aJtRrg",
+        "cvc_check": "pass",
+        "dynamic_last4": null,
+        "exp_month": 8,
+        "exp_year": 2021,
+        "fingerprint": "yszq6wuNLTJe3eZc",
+        "funding": "credit",
+        "last4": "4242",
+        "metadata": {
+        },
+        "name": "John Wick",
+        "tokenization_method": null
+      }
     ],
     "has_more": false,
-    "object": "list",
-    "url": "/v1/customers/cus_HkmxAzEVev81e3/sources"
+    "total_count": 1,
+    "url": "/v1/customers/cus_HudMuWQ6aJtRrg/sources"
   },
   "subscriptions": {
+    "object": "list",
     "data": [
 
     ],
     "has_more": false,
-    "object": "list",
-    "url": "/v1/customers/cus_HkmxAzEVev81e3/subscriptions"
+    "total_count": 0,
+    "url": "/v1/customers/cus_HudMuWQ6aJtRrg/subscriptions"
   },
   "tax_exempt": "none",
   "tax_ids": {
+    "object": "list",
     "data": [
 
     ],
     "has_more": false,
-    "object": "list",
-    "url": "/v1/customers/cus_HkmxAzEVev81e3/tax_ids"
-  }
+    "total_count": 0,
+    "url": "/v1/customers/cus_HudMuWQ6aJtRrg/tax_ids"
+  },
+  "tax_info": null,
+  "tax_info_verification": null
 }
