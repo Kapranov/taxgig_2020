@@ -26,6 +26,7 @@ defmodule Stripy.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       # compilers: [:erlexec, :elixir, :app],
+      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -67,6 +68,15 @@ defmodule Stripy.MixProject do
         max_connections: 10
       ],
       use_connection_pool: true
+    ]
+  end
+
+  defp aliases do
+    [
+      setup: ["ecto.setup"],
+      "ecto.setup": ["ecto.migrate -r Stripy.Repo", "run priv/repo/seeds.exs"],
+      "ecto.reset": ["ecto.setup"],
+      test: ["ecto.migrate -r Stripy.Repo --quiet", "test"]
     ]
   end
 

@@ -2,6 +2,7 @@ defmodule TaxgigEx.MixProject do
   use Mix.Project
 
   @seed_core_repo_path "apps/core/priv/repo/seeds.exs"
+  @seed_stripy_repo_path "apps/stripy/priv/repo/seeds.exs"
   @seed_ptin_repo_path "apps/ptin/priv/repo/seeds.exs"
   @version "1.0.0-beta.1"
 
@@ -32,26 +33,107 @@ defmodule TaxgigEx.MixProject do
   defp aliases do
     [
       bless: [&bless/1],
-      "deps.get": ["deps.get", &update_version/1],
-      "ecto.setup.core": ["ecto.create -r Core.Repo", "cmd --app core mix ecto.migrate -r Core.Repo", "run #{@seed_core_repo_path}"],
-      "ecto.setup.ptin": ["ecto.create -r Ptin.Repo", "cmd --app ptin mix ecto.migrate -r Ptin.Repo", "run #{@seed_ptin_repo_path}"],
-      "ecto.reset.core": ["ecto.drop -r Core.Repo", "ecto.setup.core"],
-      "ecto.reset.ptin": ["ecto.drop -r Ptin.Repo", "ecto.setup.ptin"],
-      "ecto.drop.core": ["cmd --app core mix ecto.drop -r Core.Repo"],
-      "ecto.drop.ptin": ["cmd --app ptin mix ecto.drop -r Ptin.Repo"],
-      "ecto.migrate.core": ["ecto.migrate -r Core.Repo", "ecto.dump -r Core.Repo",],
-      "ecto.migrate.ptin": ["ecto.migrate -r Ptin.Repo", "ecto.dump -r Ptin.Repo",],
-      "ecto.create.core": ["cmd --app core mix ecto.create -r Core.Repo"],
-      "ecto.create.ptin": ["cmd --app ptin mix ecto.create -r Ptin.Repo"],
-      "benchmark.reset.core": ["ecto.drop -r Core.Repo", "ecto.create -r Core.Repo", "ecto.migrate -r Core.Repo"],
-      "benchmark.reset.ptin": ["ecto.drop -r Ptin.Repo", "ecto.create -r Ptin.Repo", "ecto.migrate -r Ptin.Repo"],
-      "test.core": ["ecto.drop -r Core.Repo", "ecto.create --quiet -r Core.Repo", "ecto.migrate -r Core.Repo"],
-      "test.ptin": ["ecto.drop -r Ptin.Repo", "ecto.create --quiet -r Ptin.Repo", "ecto.migrate -r Ptin.Repo"],
-      "test.reset.core": ["ecto.drop -r Core.Repo", "ecto.create -r Core.Repo", "ecto.migrate -r Core.Repo"],
-      "test.reset.ptin": ["ecto.drop -r Ptin.Repo", "ecto.create -r Ptin.Repo", "ecto.migrate -r Ptin.Repo"],
+      "deps.get": [
+        "deps.get",
+        &update_version/1
+      ],
+      "ecto.setup.core": [
+        "ecto.create -r Core.Repo",
+        "cmd --app core mix ecto.migrate -r Core.Repo",
+        "run #{@seed_core_repo_path}"
+      ],
+      "ecto.setup.stripy": [
+        "cmd --app stripy mix ecto.migrate -r Stripy.Repo",
+        "run #{@seed_stripy_repo_path}"
+      ],
+      "ecto.setup.ptin": [
+        "ecto.create -r Ptin.Repo",
+        "cmd --app ptin mix ecto.migrate -r Ptin.Repo",
+        "run #{@seed_ptin_repo_path}"
+      ],
+      "ecto.reset.core": [
+        "ecto.drop -r Core.Repo",
+        "ecto.setup.core"
+      ],
+      "ecto.reset.ptin": [
+        "ecto.drop -r Ptin.Repo",
+        "ecto.setup.ptin"
+      ],
+      "ecto.drop.core": [
+        "cmd --app core mix ecto.drop -r Core.Repo"
+      ],
+      "ecto.drop.ptin": [
+        "cmd --app ptin mix ecto.drop -r Ptin.Repo"
+      ],
+      "ecto.migrate.core": [
+        "ecto.migrate -r Core.Repo",
+        "ecto.dump -r Core.Repo"
+      ],
+      "ecto.migrate.stripy": [
+        "ecto.migrate -r Stripy.Repo",
+        "ecto.dump -r Stripy.Repo"
+      ],
+      "ecto.migrate.ptin": [
+        "ecto.migrate -r Ptin.Repo",
+        "ecto.dump -r Ptin.Repo"
+      ],
+      "ecto.create.core": [
+        "cmd --app core mix ecto.create -r Core.Repo"
+      ],
+      "ecto.create.ptin": [
+        "cmd --app ptin mix ecto.create -r Ptin.Repo"
+      ],
+      "benchmark.reset.core": [
+        "ecto.drop -r Core.Repo",
+        "ecto.create -r Core.Repo",
+        "ecto.migrate -r Core.Repo"
+      ],
+      "benchmark.reset.ptin": [
+        "ecto.drop -r Ptin.Repo",
+        "ecto.create -r Ptin.Repo",
+        "ecto.migrate -r Ptin.Repo"
+      ],
+      "benchmark.setup.stripy": [
+        "ecto.migrate -r Core.Repo"
+      ],
+      "test.core": [
+        "ecto.drop -r Core.Repo",
+        "ecto.create --quiet -r Core.Repo",
+        "ecto.migrate -r Core.Repo"
+      ],
+      "test.stripy": [
+        "cmd --app stripy mix ecto.migrate -r Stripy.Repo"
+      ],
+      "test.ptin": [
+        "ecto.drop -r Ptin.Repo",
+        "ecto.create --quiet -r Ptin.Repo",
+        "ecto.migrate -r Ptin.Repo"
+      ],
+      "test.reset.core": [
+        "ecto.drop -r Core.Repo",
+        "ecto.create -r Core.Repo",
+        "ecto.migrate -r Core.Repo",
+      ],
+      "test.reset.stripy": [
+        "cmd --app stripy mix ecto.migrate -r Stripy.Repo"
+      ],
+      "test.reset.ptin": [
+        "ecto.drop -r Ptin.Repo",
+        "ecto.create -r Ptin.Repo",
+        "ecto.migrate -r Ptin.Repo"
+      ],
+      "test.setup.stripy": [
+        "ecto.migrate -r Stripy.Repo"
+      ],
       "test.cover": &run_default_coverage/1,
       "test.cover.html": &run_html_coverage/1,
-      "test.no.start": ["test --no-start"]
+      "test.no.start": ["test --no-start"],
+      init: [
+      ],
+      reset: [
+      ],
+      seed: [
+      ]
     ]
   end
 

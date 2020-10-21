@@ -12,6 +12,7 @@ defmodule Core.MixProject do
       elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
+      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -55,6 +56,15 @@ defmodule Core.MixProject do
       {:stream_data, "~> 0.5", only: :test},
       {:sweet_xml, "~> 0.6"},
       {:timex, "~> 3.6"}
+    ]
+  end
+
+  defp aliases do
+    [
+      setup: ["ecto.reset"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]
   end
 end

@@ -6,6 +6,7 @@ defmodule Core.Repo.Migrations.CreatePressArticles do
       add :id, :uuid, primary_key: true,
         default: fragment("uuid_generate_v4()"), read_after_writes: true
       add :author, :string
+      add :img_url, :string
       add :preview_text, :string
       add :title, :string
       add :url, :string

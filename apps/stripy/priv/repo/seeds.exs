@@ -1,0 +1,2 @@
+Stripy.Seeder.Repo.seed!
+

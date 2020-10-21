@@ -9,30 +9,84 @@ defmodule Core.Seeder.Updated.Accounts do
     Accounts.DeletedUser,
     Accounts.Platform,
     Accounts.ProRating,
+    Accounts.Profile,
+    Accounts.User,
+    Lookup.UsZipcode,
     Repo
   }
 
   @spec start!() :: Ecto.Schema.t()
   def start! do
+    update_user()
     update_profile()
     update_subscriber()
-    update_user()
     update_ban_reason()
     update_platform()
     update_pro_rating()
     update_deleted_user()
   end
 
+  @spec update_user() :: Ecto.Schema.t()
+  defp update_user do
+    user_ids = Enum.map(Repo.all(User), fn(data) -> data end)
+
+    {
+      user1,
+      user2,
+      user3
+    } = {
+      Enum.at(user_ids, 1),
+      Enum.at(user_ids, 2),
+      Enum.at(user_ids, 5)
+    }
+
+    [
+      Accounts.update_user(user1, %{
+        first_name: "Vlad",
+        last_name: "Kobzan",
+        password: "qwerty",
+        password_confirmation: "qwerty",
+        phone: "563-917-8432"
+      }),
+      Accounts.update_user(user2, %{
+        first_name: "Oleg",
+        last_name: "Puryshev",
+        password: "qwerty",
+        password_confirmation: "qwerty",
+        phone: "917-777-8798"
+      }),
+      Accounts.update_user(user3, %{
+        first_name: "Oleh",
+        last_name: "Puryshev",
+        middle_name: "Jr.",
+        password: "qwerty",
+        password_confirmation: "qwerty",
+        phone: "593-657-4343",
+        birthday: Timex.to_date({1987, 7, 15}),
+        street: "95 Wall St",
+        ssn: 0000
+      })
+    ]
+  end
+
   @spec update_profile() :: Ecto.Schema.t()
   defp update_profile do
+    profile_ids = Enum.map(Repo.all(Profile), fn(data) -> data end)
+    zipcode_ids = Enum.map(Repo.all(UsZipcode), fn(data) -> data end)
+
+    { profile7 } = { Enum.at(profile_ids, 7) }
+    { record51 } = { Enum.at(zipcode_ids, 51) }
+
+    [
+      Accounts.update_profile(profile7, %{
+        address: "95 Wall St",
+        us_zipcode_id: record51.id
+      })
+    ]
   end
 
   @spec update_subscriber() :: Ecto.Schema.t()
   defp update_subscriber do
-  end
-
-  @spec update_user() :: Ecto.Schema.t()
-  defp update_user do
   end
 
   @spec update_ban_reason() :: Ecto.Schema.t()
