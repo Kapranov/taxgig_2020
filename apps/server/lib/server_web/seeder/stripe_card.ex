@@ -32,7 +32,7 @@ defmodule ServerWeb.Seeder.StripeCard do
   end
 
   @spec seed_stripe_card_token() :: [Ecto.Schema.t()]
-  def seed_stripe_card_token do
+  defp seed_stripe_card_token do
     user1 = CoreRepo.get_by(User, %{email: "v.kobzan@gmail.com"})
     user2 = CoreRepo.get_by(User, %{email: "o.puryshev@gmail.com"})
     user3 = CoreRepo.get_by(User, %{email: "op@taxgig.com"})
@@ -86,7 +86,7 @@ defmodule ServerWeb.Seeder.StripeCard do
                                               {:ok, StripeCardToken.t} |
                                               {:error, Ecto.Changeset.t} |
                                               {:error, :not_found}
-  def platform_card(card_attrs, user_attrs) do
+  def platform_card(attrs, user_attrs) do
     querty =
       try do
         Queries.by_value(StripeCardToken, :user_id, user_attrs["user_id"])
@@ -96,7 +96,7 @@ defmodule ServerWeb.Seeder.StripeCard do
 
     case CoreRepo.aggregate(querty, :count, :id) do
       0 ->
-        with {:ok, card} <- StripePlatformCardService.create(card_attrs, user_attrs),
+        with {:ok, card} <- StripePlatformCardService.create(attrs, user_attrs),
              user <- CoreRepo.get_by(User, id: user_attrs["user_id"]),
              full_name <- Accounts.by_full_name(user.id),
              {:ok, customer} <- StripePlatformCustomerService.create(%{email: user.email, name: full_name, phone: user.phone, source: card.token}, user_attrs)
@@ -109,7 +109,7 @@ defmodule ServerWeb.Seeder.StripeCard do
       n ->
         case n < 10 do
           true ->
-            with {:ok, card} <- StripePlatformCardService.create(card_attrs, user_attrs),
+            with {:ok, card} <- StripePlatformCardService.create(attrs, user_attrs),
                  id_from_customer <- StripyRepo.get_by(Payments.StripeCustomer, %{user_id: user_attrs["user_id"]}).id_from_stripe
             do
               {:ok, %StripeCardToken{}} = Payments.update_stripe_card_token(card, %{id_from_customer: id_from_customer})
