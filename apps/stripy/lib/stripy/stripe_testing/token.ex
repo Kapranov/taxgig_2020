@@ -1,15 +1,7 @@
 defmodule Stripy.StripeTesting.Token do
   @moduledoc false
 
-  alias Stripy.StripeTesting.Helpers
-
-#  def create(_params, _opts = [connect_account: _]) do
-#    {:ok, do_create()}
-#  end
-#
-#  defp do_create() do
-#    %Stripe.Token{id: "sub_123"}
-#  end
+  import Stripy.StripeTesting.Helpers, only: [load_raw_fixture: 1]
 
   def create(params, opts \\ [])
 
@@ -27,7 +19,7 @@ defmodule Stripy.StripeTesting.Token do
 
   defp create_stripy_record(token_type) do
     token_type
-    |> Helpers.load_raw_fixture()
+    |> load_raw_fixture()
     |> Stripe.Converter.convert_result
   end
 end

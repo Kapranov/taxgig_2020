@@ -62,7 +62,7 @@ defmodule Core.Seeder.Updated.Accounts do
         password: "qwerty",
         password_confirmation: "qwerty",
         phone: "593-657-4343",
-        birthday: Timex.to_date({1987, 7, 15}),
+        birthday: Timex.to_date({1989, 7, 15}),
         street: "95 Wall St",
         ssn: 0000
       })

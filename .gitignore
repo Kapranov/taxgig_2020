@@ -24,6 +24,7 @@ chat.tar.bz2
 curl_twitter.sh
 elixir_chat_server.tar.bz2
 mix.lock
+payments.ex
 phx-1.5-upgrade.md
 streamers.ex
 streamers_test.exs

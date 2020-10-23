@@ -4,6 +4,7 @@ defmodule TaxgigEx.MixProject do
   @seed_core_repo_path "apps/core/priv/repo/seeds.exs"
   @seed_stripy_repo_path "apps/stripy/priv/repo/seeds.exs"
   @seed_ptin_repo_path "apps/ptin/priv/repo/seeds.exs"
+  @seed_server_repo_path "apps/server/priv/repo/seeds.exs"
   @version "1.0.0-beta.1"
 
   def project do
@@ -44,7 +45,8 @@ defmodule TaxgigEx.MixProject do
       ],
       "ecto.setup.stripy": [
         "cmd --app stripy mix ecto.migrate -r Stripy.Repo",
-        "run #{@seed_stripy_repo_path}"
+        "run #{@seed_stripy_repo_path}",
+        "run #{@seed_server_repo_path}"
       ],
       "ecto.setup.ptin": [
         "ecto.create -r Ptin.Repo",

@@ -1,12 +1,14 @@
 defmodule Stripy.StripeTesting.Refund do
   @moduledoc false
 
-  alias Stripy.StripeTesting.Helpers
+  import Stripy.StripeTesting.Helpers, only: [load_raw_fixture: 1]
+
+  @refund "refund"
 
   def create(_refund_attrs) do
     refund =
-      "refund"
-      |> Helpers.load_raw_fixture()
+      @refund
+      |> load_raw_fixture()
       |> Stripe.Converter.convert_result()
 
     {:ok, refund}

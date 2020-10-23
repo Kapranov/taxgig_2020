@@ -1,7 +1,10 @@
 defmodule Stripy.StripeTesting.Charge do
   @moduledoc false
 
-  import Stripy.StripeTesting.Helpers
+  import Stripy.StripeTesting.Helpers, only: [
+    load_fixture: 1,
+    load_raw_fixture: 1
+  ]
 
   @charge "charge"
   @charge_capture "charge_capture"

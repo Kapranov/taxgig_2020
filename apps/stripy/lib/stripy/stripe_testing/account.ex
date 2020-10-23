@@ -1,10 +1,12 @@
 defmodule Stripy.StripeTesting.Account do
   @moduledoc false
 
-  alias Stripy.StripeTesting.{
-    Helpers,
-    MapUtils
-  }
+  alias Stripy.StripeTesting.MapUtils
+
+  import Stripy.StripeTesting.Helpers, only: [
+    load_fixture: 1,
+    load_raw_fixture: 1
+  ]
 
   @extra_keys ~w(
     business_logo
@@ -30,18 +32,11 @@ defmodule Stripy.StripeTesting.Account do
     {:ok, create_stripe_record(attributes |> Map.merge(%{id: id}))}
   end
 
-  def load_fixture(id) do
-    id
-    |> Helpers.load_raw_fixture
-    |> Map.drop(@extra_keys)
-    |> Stripe.Converter.convert_result
-  end
-
   defp create_stripe_record(attributes) do
     transformed_attributes =
       attributes
       |> MapUtils.keys_to_string
-      |> Map.merge("account" |> Helpers.load_raw_fixture)
+      |> Map.merge("account" |> load_raw_fixture())
       |> add_external_account
       |> Map.drop(@extra_keys)
 

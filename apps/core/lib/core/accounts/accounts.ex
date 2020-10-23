@@ -1474,6 +1474,27 @@ defmodule Core.Accounts do
     {:error, [field: :user_id, message: "Can't be blank"]}
   end
 
+  @doc """
+  Share user's full name.
+  """
+  @spec by_full_name(word) :: String.t() | {:error, nonempty_list(message)}
+  def by_full_name(id) when not is_nil(id) do
+    with %User{first_name: first_name, last_name: last_name, middle_name: middle_name} <- by_user(id) do
+      "#{first_name} #{middle_name} #{last_name}"
+      |> String.replace(~r/ +/, " ")
+    end
+  end
+
+  @spec by_full_name(nil) :: {:error, nonempty_list(message)}
+  def by_full_name(id) when is_nil(id) do
+    {:error, [field: :user_id, message: "Can't be blank"]}
+  end
+
+  @spec by_full_name :: {:error, nonempty_list(message)}
+  def by_full_name do
+    {:error, [field: :user_id, message: "Can't be blank"]}
+  end
+
   @spec by_user(word) :: Ecto.Schema.t() | nil
   defp by_user(user_id) do
     try do

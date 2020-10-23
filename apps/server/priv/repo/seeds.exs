@@ -1,0 +1,1 @@
+ServerWeb.Seeder.Repo.seed!

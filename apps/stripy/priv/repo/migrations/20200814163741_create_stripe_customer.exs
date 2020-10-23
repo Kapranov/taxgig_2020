@@ -7,7 +7,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeCustomer do
       add :id_from_stripe, :string, null: false
       add :balance, :integer, null: false, default: 0
       add :created, :integer, null: false
-      add :currency, :string, null: false
+      add :currency, :string, null: true
       add :email, :string, null: false
       add :name, :string, null: false
       add :phone, :string, null: false

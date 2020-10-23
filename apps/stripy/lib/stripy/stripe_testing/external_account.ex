@@ -1,12 +1,15 @@
 defmodule Stripy.StripeTesting.ExternalAccount do
   @moduledoc false
 
-  alias Stripy.StripeTesting.Helpers
+  import Stripy.StripeTesting.Helpers, only: [load_raw_fixture: 1]
+
+  @external_account_bank "external_account_bank"
+  @external_account_card "external_account_card"
 
   def create(%{"id_from_stripe" => "ba_1HAn5T2eZvKYlo2CqeMCKFGE"}) do
     external_account_bank =
-      "external_account_bank"
-      |> Helpers.load_raw_fixture()
+      @external_account_bank
+      |> load_raw_fixture()
       |> Stripe.Converter.convert_result()
 
     {:ok, external_account_bank}
@@ -14,8 +17,8 @@ defmodule Stripy.StripeTesting.ExternalAccount do
 
   def create(%{"id_from_stripe" => "card_1HQ9EaC7lbhZAQNrBXDhgOqM"}) do
     external_account_card =
-      "external_account_card"
-      |> Helpers.load_raw_fixture()
+      @external_account_card
+      |> load_raw_fixture()
       |> Stripe.Converter.convert_result()
 
     {:ok, external_account_card}

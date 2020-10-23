@@ -22,6 +22,12 @@ defmodule Core.Queries do
     data
   end
 
+  @spec by_value(map, atom, String.t()) :: Ecto.Query.t()
+  def by_value(struct, row, id) do
+    from c in struct,
+    where: field(c, ^row) == ^id
+  end
+
   @spec by_values(map, boolean, boolean, atom) :: [{word, integer}] | nil
   def by_values(struct, role, value, row) do
     try do

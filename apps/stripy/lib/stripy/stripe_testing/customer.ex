@@ -1,7 +1,9 @@
 defmodule Stripy.StripeTesting.Customer do
   @moduledoc false
 
-  alias Stripy.StripeTesting.Helpers
+  import Stripy.StripeTesting.Helpers, only: [load_raw_fixture: 1]
+
+  @created 1_598_546_223
 
   def create(map, _opts \\ []) do
     {:ok, do_create(map)}
@@ -17,7 +19,7 @@ defmodule Stripy.StripeTesting.Customer do
 
   defp do_create(_) do
     "customer"
-    |> Helpers.load_raw_fixture()
+    |> load_raw_fixture()
     |> Stripe.Converter.convert_result()
   end
 
@@ -39,12 +41,10 @@ defmodule Stripy.StripeTesting.Customer do
   end
 
   defp do_retrieve(id) do
-    created = 1_598_546_223
-
     %Stripe.Customer{
       id: id,
       balance: 0,
-      created: created,
+      created: @created,
       currency: "usd",
       default_source: nil,
       delinquent: false,

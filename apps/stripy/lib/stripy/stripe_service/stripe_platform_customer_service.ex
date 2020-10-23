@@ -20,6 +20,15 @@ defmodule Stripy.StripeService.StripePlatformCustomerService do
   @doc """
   Creates a new `Stripe.Customer` record on Stripe API, as well as an associated local
   `StripeCustomer` single records only via `StripeCardToken` an action
+
+  ## Example
+
+    iex> user_id = FlakeId.get()
+    iex> user_attrs = %{"user_id" => user_id}
+    iex> attrs = ${email: "v.kobzan@gmail.com", name: "Vlad Kobzan", phone: "563-917-8432", source: "tok_1HKo5YJ2Ju0cX1cPOS2VVTHB"}
+    iex> {:ok, created} = Stripe.Customer.create(attrs)
+    iex> {:ok, result} = StripePlatformCustomerAdapter.to_params(created, user_attrs)
+
   """
   def create(attrs, user_attrs) do
     querty =

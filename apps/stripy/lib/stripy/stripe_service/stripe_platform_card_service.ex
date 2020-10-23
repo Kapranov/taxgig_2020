@@ -35,8 +35,8 @@ defmodule Stripy.StripeService.StripePlatformCardService do
     iex> user_id = FlakeId.get()
     iex> user_attrs = %{"user_id" => user_id}
     iex> card_attrs = %{number: 4242424242424242, exp_month: 8, exp_year: 2021, cvc: 314, name: "Oleg G.Kapranov"}
-    iex> {:ok, created_token} = Stripe.Token.create(%{card: card_attrs})
-    iex> {:ok, result} = StripePlatformCardTokenAdapter.to_params(created_token, user_attrs)
+    iex> {:ok, created} = Stripe.Token.create(%{card: card_attrs})
+    iex> {:ok, result} = StripePlatformCardTokenAdapter.to_params(created, user_attrs)
 
   """
   @spec create(map, map) :: {:ok, StripeCardToken.t} |
