@@ -11,21 +11,21 @@ defmodule ServerWeb.Seeder.StripeRefund do
     StripyRepo.delete_all(StripeRefund)
   end
 
+  @doc """
+  """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_stripe_refund()
   end
 
   @spec seed_stripe_refund() :: [Ecto.Schema.t()]
-  def seed_stripe_refund do
+  defp seed_stripe_refund do
+    platform_refund(%{}, %{})
   end
 
-  @doc """
-  """
   @spec platform_refund(map, map) :: {:ok, StripeRefund.t} |
                                      {:error, Ecto.Changeset.t} |
                                      {:error, :not_found}
-  def platform_refund(attrs, user_attrs) do
-    {attrs, user_attrs}
+  defp platform_refund(_attrs, _user_attrs) do
   end
 end

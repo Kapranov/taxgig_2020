@@ -11,21 +11,21 @@ defmodule ServerWeb.Seeder.StripeAccount do
     StripyRepo.delete_all(StripeAccount)
   end
 
+  @doc """
+  """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_stripe_account()
   end
 
   @spec seed_stripe_account() :: [Ecto.Schema.t()]
-  def seed_stripe_account do
+  defp seed_stripe_account do
+    platform_account(%{}, %{})
   end
 
-  @doc """
-  """
   @spec platform_account(map, map) :: {:ok, StripeAccount.t} |
                                       {:error, Ecto.Changeset.t} |
                                       {:error, :not_found}
-  def platform_account(attrs, user_attrs) do
-    {attrs, user_attrs}
+  defp platform_account(_attrs, _user_attrs) do
   end
 end

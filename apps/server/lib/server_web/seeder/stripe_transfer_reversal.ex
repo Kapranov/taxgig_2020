@@ -11,21 +11,21 @@ defmodule ServerWeb.Seeder.StripeTransferReversal do
     StripyRepo.delete_all(StripeTransferReversal)
   end
 
+  @doc """
+  """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_stripe_transfer_reversal()
   end
 
   @spec seed_stripe_transfer_reversal() :: [Ecto.Schema.t()]
-  def seed_stripe_transfer_reversal do
+  defp seed_stripe_transfer_reversal do
+    platform_transfer_reversal(%{}, %{})
   end
 
-  @doc """
-  """
   @spec platform_transfer_reversal(map, map) :: {:ok, StripeTransferReversal.t} |
                                                 {:error, Ecto.Changeset.t} |
                                                 {:error, :not_found}
-  def platform_transfer_reversal(attrs, user_attrs) do
-    {attrs, user_attrs}
+  defp platform_transfer_reversal(_attrs, _user_attrs) do
   end
 end

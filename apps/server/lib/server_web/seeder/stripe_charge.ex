@@ -11,21 +11,21 @@ defmodule ServerWeb.Seeder.StripeCharge do
     StripyRepo.delete_all(StripeCharge)
   end
 
+  @doc """
+  """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_stripe_charge()
   end
 
   @spec seed_stripe_charge() :: [Ecto.Schema.t()]
-  def seed_stripe_charge do
+  defp seed_stripe_charge do
+    platform_charge(%{}, %{})
   end
 
-  @doc """
-  """
   @spec platform_charge(map, map) :: {:ok, StripeCharge.t} |
                                      {:error, Ecto.Changeset.t} |
                                      {:error, :not_found}
-  def platform_charge(attrs, user_attrs) do
-    {attrs, user_attrs}
+  defp platform_charge(_attrs, _user_attrs) do
   end
 end

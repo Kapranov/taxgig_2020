@@ -11,21 +11,21 @@ defmodule ServerWeb.Seeder.StripeExternalAccountBank do
     StripyRepo.delete_all(StripeExternalAccountBank)
   end
 
+  @doc """
+  """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_stripe_external_account_bank()
   end
 
   @spec seed_stripe_external_account_bank() :: [Ecto.Schema.t()]
-  def seed_stripe_external_account_bank do
+  defp seed_stripe_external_account_bank do
+    platform_external_account_bank(%{}, %{})
   end
 
-  @doc """
-  """
   @spec platform_external_account_bank(map, map) :: {:ok, StripeExternalAccountBank.t} |
                                                     {:error, Ecto.Changeset.t} |
                                                     {:error, :not_found}
-  def platform_external_account_bank(attrs, user_attrs) do
-    {attrs, user_attrs}
+  defp platform_external_account_bank(_attrs, _user_attrs) do
   end
 end

@@ -11,21 +11,21 @@ defmodule ServerWeb.Seeder.StripeBankAccountToken do
     StripyRepo.delete_all(StripeBankAccountToken)
   end
 
+  @doc """
+  """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_stripe_bank_account_token()
   end
 
   @spec seed_stripe_bank_account_token() :: [Ecto.Schema.t()]
-  def seed_stripe_bank_account_token do
+  defp seed_stripe_bank_account_token do
+    platform_bank_account_token(%{}, %{})
   end
 
-  @doc """
-  """
   @spec platform_bank_account_token(map, map) :: {:ok, StripeBankAccountToken.t} |
                                                  {:error, Ecto.Changeset.t} |
                                                  {:error, :not_found}
-  def platform_bank_account_token(attrs, user_attrs) do
-    {attrs, user_attrs}
+  defp platform_bank_account_token(_attrs, _user_attrs) do
   end
 end

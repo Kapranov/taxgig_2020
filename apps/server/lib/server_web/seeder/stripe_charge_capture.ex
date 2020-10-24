@@ -1,6 +1,6 @@
 defmodule ServerWeb.Seeder.StripeChargeCapture do
   @moduledoc """
-  Seeds for `Stripy.StripeChargeCapture` context.
+  Seeds for `Stripy.StripeCharge` context.
   """
 
   alias Stripy.Payments.StripeCharge
@@ -11,21 +11,21 @@ defmodule ServerWeb.Seeder.StripeChargeCapture do
     StripyRepo.delete_all(StripeCharge)
   end
 
+  @doc """
+  """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_stripe_charge_capture()
   end
 
   @spec seed_stripe_charge_capture() :: [Ecto.Schema.t()]
-  def seed_stripe_charge_capture do
+  defp seed_stripe_charge_capture do
+    platform_charge_capture(%{}, %{})
   end
 
-  @doc """
-  """
   @spec platform_charge_capture(map, map) :: {:ok, StripeCharge.t} |
                                              {:error, Ecto.Changeset.t} |
                                              {:error, :not_found}
-  def platform_charge_capture(attrs, user_attrs) do
-    {attrs, user_attrs}
+  defp platform_charge_capture(_attrs, _user_attrs) do
   end
 end

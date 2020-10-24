@@ -26,6 +26,17 @@ defmodule ServerWeb.Seeder.StripeCard do
     StripyRepo.delete_all(StripeCardToken)
   end
 
+  @doc """
+  Multi for Complex Database Transactions `StripeCardToken` and then `StripeCustomer`
+
+  1. If none record, it will created a`StripeCardToken` and `StripeCustomer` after
+     that updated attr's `id_from_customer` in `StripeCardToken`
+  2. if has one record, it will created only a new `StripeCardToken`
+  3. If `StripeCardToken` creation fails, return an error
+  4. If `StripeCardToken` creation succeeds, try creating `StripeCustomer` and updated `StripeCardToken` with `id_from_customer`
+  5. If `StripeCustomer` creation fails, delete the `StripeCardToken` and return an error
+  6. If `StripeCustomer` creation succeeds, return the while records
+  """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_stripe_card_token()
@@ -70,23 +81,11 @@ defmodule ServerWeb.Seeder.StripeCard do
     ]
   end
 
-
-  @doc """
-  Multi for Complex Database Transactions `StripeCardToken` and then `StripeCustomer`
-
-  1. If none record, it will created a`StripeCardToken` and `StripeCustomer` after
-     that updated attr's `id_from_customer` in `StripeCardToken`
-  2. if has one record, it will created only a new `StripeCardToken`
-  3. If `StripeCardToken` creation fails, return an error
-  4. If `StripeCardToken` creation succeeds, try creating `StripeCustomer` and updated `StripeCardToken` with `id_from_customer`
-  5. If `StripeCustomer` creation fails, delete the `StripeCardToken` and return an error
-  6. If `StripeCustomer` creation succeeds, return the while records
-  """
   @spec platform_card(map, map) :: {:ok, StripeCustomer.t} |
                                               {:ok, StripeCardToken.t} |
                                               {:error, Ecto.Changeset.t} |
                                               {:error, :not_found}
-  def platform_card(attrs, user_attrs) do
+  defp platform_card(attrs, user_attrs) do
     querty =
       try do
         Queries.by_value(StripeCardToken, :user_id, user_attrs["user_id"])

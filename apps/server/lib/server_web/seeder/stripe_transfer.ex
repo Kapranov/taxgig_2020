@@ -11,21 +11,21 @@ defmodule ServerWeb.Seeder.StripeTransfer do
     StripyRepo.delete_all(StripeTransfer)
   end
 
+  @doc """
+  """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
     seed_stripe_transfer()
   end
 
   @spec seed_stripe_transfer() :: [Ecto.Schema.t()]
-  def seed_stripe_transfer do
+  defp seed_stripe_transfer do
+    platform_transfer(%{}, %{})
   end
 
-  @doc """
-  """
   @spec platform_transfer(map, map) :: {:ok, StripeTransfer.t} |
                                        {:error, Ecto.Changeset.t} |
                                        {:error, :not_found}
-  def platform_transfer(attrs, user_attrs) do
-    {attrs, user_attrs}
+  defp platform_transfer(_attrs, _user_attrs) do
   end
 end

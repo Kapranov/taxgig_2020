@@ -19,6 +19,6 @@ defmodule Stripy.Seeder.StripeCard do
   end
 
   @spec seed_stripe_card_token() :: [Ecto.Schema.t()]
-  def seed_stripe_card_token do
+  defp seed_stripe_card_token do
   end
 end

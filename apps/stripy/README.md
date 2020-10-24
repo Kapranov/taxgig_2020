@@ -6,36 +6,36 @@
 bash> mix new stripy --sup
 ```
 
-- [] Account
-- [] Account token
-- [] Bank token
-- [] Capture charge
-- [] Card debit token customer
-- [] Card token
-- [] Charge card debit token customer
-- [] Charge with capture customer
-- [] External Account Bank
-- [] External Account Card
-- [] Refund charge card debit token customers
-- [] Refund charge card token customer
-- [] Retrieve Bank token
-- [] Retrieve Card debit token
-- [] Retrieve Card token
-- [] Transfer
-- [] Transfer reversal
+- [X] Account
+- [X] Account token
+- [X] Bank token
+- [X] Capture charge
+- [X] Card debit token customer
+- [X] Card token
+- [X] Charge card debit token customer
+- [X] Charge with capture customer
+- [X] External Account Bank
+- [X] External Account Card
+- [X] Refund charge card debit token customers
+- [X] Refund charge card token customer
+- [X] Retrieve Bank token
+- [X] Retrieve Card debit token
+- [X] Retrieve Card token
+- [X] Transfer
+- [X] Transfer reversal
 
 - [X] Card token                                     - `stripe_card_token.ex`            - `https://stripe.com/docs/api/tokens/create_card`
 - [X] Bank token                                     - `stripe_bank_account_token.ex`    - `https://stripe.com/docs/api/tokens/create_bank_account`
 - [X] Account token                                  - `stripe_account_token.ex`         - `https://stripe.com/docs/api/tokens/create_account`
-- []  Retrieve Bank token                            - ``                                - `https://stripe.com/docs/api/tokens/retrieve`
-- []  Retrieve Card debit token                      - ``                                - `https://stripe.com/docs/api/tokens/retrieve`
-- []  Retrieve Card token                            - ``                                - `https://stripe.com/docs/api/tokens/retrieve`
+- [X] Retrieve Bank token                            - ``                                - `https://stripe.com/docs/api/tokens/retrieve`
+- [X] Retrieve Card debit token                      - ``                                - `https://stripe.com/docs/api/tokens/retrieve`
+- [X] Retrieve Card token                            - ``                                - `https://stripe.com/docs/api/tokens/retrieve`
 - [X] Customer                                       - `stripe_customer.ex`              - `https://stripe.com/docs/api/customers/create`
 - [X] Account                                        - `stripe_account.ex`               - `https://stripe.com/docs/api/accounts/create`
-- []  Add bank account to Customer                   - ``
-- []  Add card (token) to Customer                   - ``
-- []  Add card (token) to connected account          - ``
-- []  Create connected individual account with token - ``
+- [X] Add bank account to Customer                   - ``
+- [X] Add card (token) to Customer                   - ``
+- [X] Add card (token) to connected account          - ``
+- [X] Create connected individual account with token - ``
 - [X] Charge on Customer object                      - `stripe_charge.ex`                - `https://stripe.com/docs/api/charges/create`
 - [X] Capture on Customer object                     - `stripe_charge_capture.ex`        - `https://stripe.com/docs/api/charges/capture`
 - [X] External Account Card                          - `stripe_external_account_card.ex` - `https://stripe.com/docs/api/external_account_cards/create`
@@ -46,16 +46,14 @@ bash> mix new stripy --sup
 
 ```
 bash> mix ecto.gen.migration -r Stripy.Repo add_uuid_generate_v4_extension
-bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_card_token
-bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_bank_account_token
+bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_account
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_account_token
+bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_bank_account_token
+bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_card_token
+bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_charge
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_customer
-bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_connect_account
-bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_custom_accounts
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_external_account_bank
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_external_account_card
-bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_charge
-bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_charge_capture
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_refund
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_transfer
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_transfer_reversal
@@ -66,17 +64,24 @@ N = total only 10 records
 M = total only 1  record
 create_external_account_card and create_external_account_bank allow only 10 recods in total
 
-for role false => create_card_token(N)    -> create_custmer(M) -> create_charge()               -> update_charge(create_charge_capture)  -> create_refund()
-backend  -
-create_card_token []
-actions -
-   create_card_token => [list, show, create, delete]
-   create_charge     => []
+- for role false => create_card_token(N)    -> create_custmer(M) -> create_charge()               -> update_charge(create_charge_capture)  -> create_refund()
 
-frontend -
-create_card_token - []
-for role true  => create_account_token(N) -> create_account(M) -> create_card_token(N)          -> create_external_account_card(N)       -> create_transfer_external_account() -> create_transfer_reversal()
-                                                                  create_bank_account_token(N)  -> create_external_account_bank(N)       -> create_transfer_external_account() -> create_transfer_reversal()
+- for role true  => create_account_token(N) -> create_account(M) -> create_card_token(N)          -> create_external_account_card(N)       -> create_transfer_external_account() -> create_transfer_reversal()
+                                                                    create_bank_account_token(N)  -> create_external_account_bank(N)       -> create_transfer_external_account() -> create_transfer_reversal()
+
+ACTIONS - [create: c, delete: d, index: i, show: s, update: u]
+create_account               => [c]
+create_account_token         => [c]
+create_bank_account_token    => [c]
+create_card_token            => [c]
+create_charge                => [c, u]
+create_charge_capture        => [c]
+create_customer              => [c]
+create_external_account_bank => [c]
+create_external_account_card => [c]
+create_refund                => [c]
+create_transfer              => [c]
+create_transfer_reversal     => [c]
 
 stripe_user1 - role false email, role
  - create_card_token
@@ -89,6 +94,7 @@ stripe_user1 - role false email, role
    - key: value, key: value
  - create_refund
    - key: value, key: value
+
 stripe_user2 - role true  email, role
 ```
 
