@@ -3,17 +3,23 @@ defmodule ServerWeb.Seeder.StripeCharge do
   Seeds for `Stripy.StripeCharge` context.
   """
 
-  alias Core.Accounts
+  alias Core.{
+    Accounts,
+    Accounts.User
+  }
+
   alias Stripy.{
     Payments.StripeCardToken,
     Payments.StripeCharge,
-    StripeService.StripePlatformChargeService,
-    Repo
+    StripeService.StripePlatformChargeService
   }
+
+  alias Core.Repo, as: CoreRepo
+  alias Stripy.Repo, as: StripyRepo
 
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
-    Repo.delete_all(StripeCharge)
+    StripyRepo.delete_all(StripeCharge)
   end
 
   @doc """
@@ -25,35 +31,9 @@ defmodule ServerWeb.Seeder.StripeCharge do
 
   @spec seed_stripe_charge() :: [Ecto.Schema.t()]
   defp seed_stripe_charge do
-    card_ids = Enum.map(Repo.all(StripeCardToken), fn(data) -> data end)
-
-    {
-      sct01,
-      _sct02,
-      _sct03,
-      _sct04,
-      _sct05,
-      _sct06,
-      _sct07,
-      _sct08,
-      _sct09,
-      _sct10,
-      _sct11,
-      _sct12
-    } = {
-      Enum.at(card_ids, 0),
-      Enum.at(card_ids, 1),
-      Enum.at(card_ids, 2),
-      Enum.at(card_ids, 3),
-      Enum.at(card_ids, 4),
-      Enum.at(card_ids, 5),
-      Enum.at(card_ids, 6),
-      Enum.at(card_ids, 7),
-      Enum.at(card_ids, 8),
-      Enum.at(card_ids, 9),
-      Enum.at(card_ids, 10),
-      Enum.at(card_ids, 11)
-    }
+    user1 = CoreRepo.get_by(User, %{email: "v.kobzan@gmail.com"})
+    card_ids = Enum.map(StripyRepo.all(StripeCardToken), fn(data) -> data end)
+    [sct01] = Enum.filter(card_ids, &(&1.user_id == user1.id))
 
     charge01_attrs = %{ amount: 2000, currency: "usd", customer: sct01.id_from_customer, source: sct01.id_from_stripe, description: "charge card 01 by user1", capture: false }
     # charge02_attrs = %{ amount: 2000, currency: "usd", customer: sct02.id_from_customer, source: sct02.id_from_stripe, description: "charge card 01 by user2", capture: false }

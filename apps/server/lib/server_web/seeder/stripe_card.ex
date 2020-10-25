@@ -24,6 +24,7 @@ defmodule ServerWeb.Seeder.StripeCard do
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
     StripyRepo.delete_all(StripeCardToken)
+    StripyRepo.delete_all(StripeCustomer)
   end
 
   @doc """

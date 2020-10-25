@@ -3,12 +3,16 @@ defmodule ServerWeb.Seeder.StripeChargeCapture do
   Seeds for `Stripy.StripeCharge` context.
   """
 
-  alias Stripy.Payments.StripeCharge
-  alias Stripy.Repo, as: StripyRepo
+  alias Core.Accounts
+  alias Stripy.{
+    Payments.StripeCharge,
+    Repo,
+    StripeService.StripePlatformChargeCaptureService
+  }
 
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
-    StripyRepo.delete_all(StripeCharge)
+    Repo.delete_all(StripeCharge)
   end
 
   @doc """
@@ -20,12 +24,27 @@ defmodule ServerWeb.Seeder.StripeChargeCapture do
 
   @spec seed_stripe_charge_capture() :: [Ecto.Schema.t()]
   defp seed_stripe_charge_capture do
-    platform_charge_capture(%{}, %{})
+    charge_ids = Enum.map(Repo.all(StripeCharge), &(&1))
+    { charged } = { Enum.at(charge_ids, 0) }
+
+    capture_attrs = %{ amount: 2000 , user_id: charged.user_id}
+
+    platform_charge_capture(charged.id_from_stripe, capture_attrs)
   end
 
   @spec platform_charge_capture(map, map) :: {:ok, StripeCharge.t} |
                                              {:error, Ecto.Changeset.t} |
                                              {:error, :not_found}
-  defp platform_charge_capture(_attrs, _user_attrs) do
+  defp platform_charge_capture(id_from_charge, attrs) do
+    case Accounts.by_role(attrs.user_id) do
+      true -> {:error, %Ecto.Changeset{}}
+      false ->
+        with {:ok,  %StripeCharge{} = data} <- StripePlatformChargeCaptureService.create(id_from_charge, Map.take(attrs, [:amount])) do
+          {:ok, data}
+        else
+          nil -> {:error, :not_found}
+          failure -> failure
+        end
+    end
   end
 end
