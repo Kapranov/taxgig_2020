@@ -5,7 +5,8 @@ defmodule ServerWeb.Seeder.StripeAccountToken do
 
   alias Core.{
     Accounts,
-    Accounts.User
+    Accounts.User,
+    Queries
   }
 
   alias Stripy.{
@@ -81,15 +82,26 @@ defmodule ServerWeb.Seeder.StripeAccountToken do
                                             {:error, Ecto.Changeset.t} |
                                             {:error, :not_found}
   defp platform_account_token(attrs, user_attrs) do
-    case Accounts.by_role(user_attrs["user_id"]) do
-      false -> {:error, %Ecto.Changeset{}}
+    querty =
+      try do
+        Queries.by_value(StripeAccountToken, :user_id, user_attrs["user_id"])
+      rescue
+        ArgumentError -> :error
+      end
+
+    case StripyRepo.aggregate(querty, :count, :id) < 10 do
       true ->
-        with {:ok,  %StripeAccountToken{} = data} <- StripePlatformAccountTokenService.create(attrs, user_attrs) do
-          {:ok, data}
-        else
-          nil -> {:error, :not_found}
-          failure -> failure
+        case Accounts.by_role(user_attrs["user_id"]) do
+          false -> {:error, %Ecto.Changeset{}}
+          true ->
+            with {:ok,  %StripeAccountToken{} = data} <- StripePlatformAccountTokenService.create(attrs, user_attrs) do
+              {:ok, data}
+            else
+              nil -> {:error, :not_found}
+              failure -> failure
+            end
         end
+      false -> {:error, %Ecto.Changeset{}}
     end
   end
 end
