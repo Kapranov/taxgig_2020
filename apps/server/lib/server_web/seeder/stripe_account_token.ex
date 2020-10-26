@@ -3,7 +3,17 @@ defmodule ServerWeb.Seeder.StripeAccountToken do
   Seeds for `Stripy.StripeAccountToken` context.
   """
 
-  alias Stripy.Payments.StripeAccountToken
+  alias Core.{
+    Accounts,
+    Accounts.User
+  }
+
+  alias Stripy.{
+    Payments.StripeAccountToken,
+    StripeService.StripePlatformAccountTokenService
+  }
+
+  alias Core.Repo, as: CoreRepo
   alias Stripy.Repo, as: StripyRepo
 
   @spec reset_database!() :: {integer(), nil | [term()]}
@@ -12,6 +22,8 @@ defmodule ServerWeb.Seeder.StripeAccountToken do
   end
 
   @doc """
+  Used to create a remote `Stripe.Account` record as well as
+  an associated local `StripeAccountToken` record.
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
@@ -20,12 +32,64 @@ defmodule ServerWeb.Seeder.StripeAccountToken do
 
   @spec seed_stripe_account_token() :: [Ecto.Schema.t()]
   defp seed_stripe_account_token do
-    platform_account_token(%{}, %{})
+    user =
+      CoreRepo.get_by(User, %{email: "op@taxgig.com"})
+      |> CoreRepo.preload([profile: [:us_zipcode]])
+
+    user_attrs = %{"user_id" => user.id}
+
+    [year, month, day] =
+      user.birthday
+      |> to_string
+      |> String.replace("0", "")
+      |> String.split("-")
+
+    ssn_last_4 =
+      user.ssn
+      |> Integer.to_string
+      |> String.replace("12345", "")
+
+    attrs = %{
+      business_type: "individual",
+      individual: %{
+        first_name: user.first_name,
+        last_name: user.last_name,
+        maiden_name: user.middle_name,
+        email: user.email,
+        phone: user.phone,
+        address: %{
+          city: user.profile.us_zipcode.city,
+          country: "us",
+          line1: user.profile.address,
+          postal_code: user.profile.us_zipcode.zipcode,
+          state: user.profile.us_zipcode.state
+        },
+        dob: %{
+          day: String.to_integer(day),
+          month: String.to_integer(month),
+          year: String.to_integer(year)
+        },
+        ssn_last_4: ssn_last_4
+      },
+      tos_shown_and_accepted: true
+    }
+
+    platform_account_token(attrs, user_attrs)
   end
 
   @spec platform_account_token(map, map) :: {:ok, StripeAccountToken.t} |
                                             {:error, Ecto.Changeset.t} |
                                             {:error, :not_found}
-  defp platform_account_token(_attrs, _user_attrs) do
+  defp platform_account_token(attrs, user_attrs) do
+    case Accounts.by_role(user_attrs["user_id"]) do
+      false -> {:error, %Ecto.Changeset{}}
+      true ->
+        with {:ok,  %StripeAccountToken{} = data} <- StripePlatformAccountTokenService.create(attrs, user_attrs) do
+          {:ok, data}
+        else
+          nil -> {:error, :not_found}
+          failure -> failure
+        end
+    end
   end
 end

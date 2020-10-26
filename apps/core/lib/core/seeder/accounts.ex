@@ -332,6 +332,7 @@ defmodule Core.Seeder.Accounts do
         email: "op@taxgig.com",
         password: "qwerty",
         password_confirmation: "qwerty",
+        ssn: 123456789,
         role: true
       }),
       Accounts.create_user(%{
