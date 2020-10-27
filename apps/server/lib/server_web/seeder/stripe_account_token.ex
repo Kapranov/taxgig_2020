@@ -23,7 +23,7 @@ defmodule ServerWeb.Seeder.StripeAccountToken do
   end
 
   @doc """
-  Used to create a remote `Stripe.Account` record as well as
+  Used to create a remote `Stripe.Token` record as well as
   an associated local `StripeAccountToken` record.
   """
   @spec seed!() :: Ecto.Schema.t()
@@ -33,9 +33,10 @@ defmodule ServerWeb.Seeder.StripeAccountToken do
 
   @spec seed_stripe_account_token() :: [Ecto.Schema.t()]
   defp seed_stripe_account_token do
+    preloads = [profile: [:us_zipcode]]
     user =
       CoreRepo.get_by(User, %{email: "op@taxgig.com"})
-      |> CoreRepo.preload([profile: [:us_zipcode]])
+      |> CoreRepo.preload(preloads)
 
     user_attrs = %{"user_id" => user.id}
 
@@ -45,10 +46,8 @@ defmodule ServerWeb.Seeder.StripeAccountToken do
       |> String.replace("0", "")
       |> String.split("-")
 
-    ssn_last_4 =
-      user.ssn
-      |> Integer.to_string
-      |> String.replace("12345", "")
+    [_, _, _, _, _, num1, num2, num3, num4] = user.ssn |> Integer.digits
+    ssn_last_4 = "#{num1}#{num2}#{num3}#{num4}" |> String.to_integer
 
     attrs = %{
       business_type: "individual",

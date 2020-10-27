@@ -61,13 +61,23 @@ bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_transfer_reversal
 
 ```
 N = total only 10 records
-M = total only 1  record
+S = total only 1  record
 create_external_account_card and create_external_account_bank allow only 10 recods in total
 
-- for role false => create_card_token(N)    -> create_custmer(M) -> create_charge()               -> create_charge_capture()         -> create_refund()
+- for role false
+  1. create_card_token(N)
+  2. create_custmer(S)
+  3. create_charge()
+  4. create_charge_capture()
+  5. create_refund()
 
-- for role true  => create_account_token(N) -> create_account(M) -> create_card_token(N)          -> create_external_account_card(N) -> create_transfer_external_account() -> create_transfer_reversal()
-                                                                    create_bank_account_token(N)  -> create_external_account_bank(N) -> create_transfer_external_account() -> create_transfer_reversal()
+- for role true
+  1. create_account_token(N)
+  2. create_account(S)
+  3. create_card_token(N)         and create_external_account_card(N)
+     create_bank_account_token(N) and create_external_account_bank(N)
+  4. create_transfer_external_account()
+  5. create_transfer_reversal()
 
 ACTIONS - [create: c, delete: d, index: i, show: s, update: u]
 create_account               => [c]
