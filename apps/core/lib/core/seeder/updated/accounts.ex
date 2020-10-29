@@ -64,7 +64,7 @@ defmodule Core.Seeder.Updated.Accounts do
         phone: "593-657-4343",
         birthday: Timex.to_date({1989, 7, 15}),
         street: "95 Wall St",
-        ssn: 0000
+        ssn: 987654321
       })
     ]
   end

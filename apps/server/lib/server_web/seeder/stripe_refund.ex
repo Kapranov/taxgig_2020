@@ -29,10 +29,10 @@ defmodule ServerWeb.Seeder.StripeRefund do
     charge_ids = Enum.map(Repo.all(StripeCharge), &(&1))
     { charged } = { Enum.at(charge_ids, 0) }
 
-    refund_attrs = %{amount: 1000, charge: charged.id_from_stripe}
+    attrs = %{amount: 1000, charge: charged.id_from_stripe}
     user_attrs = %{"user_id" => charged.user_id}
 
-    platform_refund(refund_attrs, user_attrs)
+    platform_refund(attrs, user_attrs)
   end
 
   @spec platform_refund(map, map) :: {:ok, StripeRefund.t} |

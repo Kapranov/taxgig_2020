@@ -24,7 +24,7 @@ defmodule Stripy.StripeService.Adapters.StripePlatformAccountAdapter do
   @non_stripe_attributes ["user_id"]
 
   @spec to_params(Stripe.Account.t(), map) :: {:ok, map}
-  def to_params(%Stripe.Account{} = stripe_account, %{} = attributes) do
+  def to_params(%Stripe.Account{} = stripe_account, %{} = attrs) do
     result =
       stripe_account
       |> nested_merge(:business_profile)
@@ -32,14 +32,14 @@ defmodule Stripy.StripeService.Adapters.StripePlatformAccountAdapter do
       |> Map.take(@stripe_attributes)
       |> rename(:id, :id_from_stripe)
       |> keys_to_string
-      |> add_non_stripe_attributes(attributes)
+      |> add_non_stripe_attributes(attrs)
 
     {:ok, result}
   end
 
   @spec add_non_stripe_attributes(map, map) :: map
-  defp add_non_stripe_attributes(%{} = params, %{} = attributes) do
-    attributes
+  defp add_non_stripe_attributes(%{} = params, %{} = attrs) do
+    attrs
     |> Map.take(@non_stripe_attributes)
     |> Map.merge(params)
   end

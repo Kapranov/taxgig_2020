@@ -28,6 +28,8 @@ payments.ex
 phx-1.5-upgrade.md
 streamers.ex
 streamers_test.exs
+stripe_card.ex.save
+stripe_platform_card_service.ex.save
 stripe_testing.tar.bz2
 stripe_users.txt
 updated_frontend_schema.txt

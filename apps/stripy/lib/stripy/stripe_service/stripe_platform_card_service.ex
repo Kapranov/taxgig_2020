@@ -34,9 +34,9 @@ defmodule Stripy.StripeService.StripePlatformCardService do
 
     iex> user_id = FlakeId.get()
     iex> user_attrs = %{"user_id" => user_id}
-    iex> card_attrs = %{number: 4242424242424242, exp_month: 8, exp_year: 2021, cvc: 314, name: "Oleg G.Kapranov"}
-    iex> {:ok, created} = Stripe.Token.create(%{card: card_attrs})
-    iex> {:ok, result} = StripePlatformCardTokenAdapter.to_params(created, user_attrs)
+    iex> attrs = %{number: 4242424242424242, exp_month: 8, exp_year: 2021, cvc: 314, name: "Oleg G.Kapranov"}
+    iex> {:ok, card} = Stripe.Token.create(%{card: attrs})
+    iex> {:ok, result} = StripePlatformCardTokenAdapter.to_params(card, user_attrs)
 
   """
   @spec create(map, map) :: {:ok, StripeCardToken.t} |
@@ -44,7 +44,7 @@ defmodule Stripy.StripeService.StripePlatformCardService do
                             {:error, Stripe.Error.t} |
                             {:error, :platform_not_ready} |
                             {:error, :not_found}
-  def create(card_attrs, user_attrs) do
+  def create(attrs, user_attrs) do
     querty =
       try do
         Queries.by_count(StripeCardToken, :user_id, user_attrs["user_id"])
@@ -52,7 +52,7 @@ defmodule Stripy.StripeService.StripePlatformCardService do
         ArgumentError -> :error
       end
 
-    with {:ok, %Stripe.Token{} = card} = @api.Token.create(%{card: card_attrs}),
+    with {:ok, %Stripe.Token{} = card} = @api.Token.create(%{card: attrs}),
          {:ok, params} <- StripePlatformCardTokenAdapter.to_params(card, user_attrs)
     do
       case Repo.aggregate(querty, :count, :id) < 10 do

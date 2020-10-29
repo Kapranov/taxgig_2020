@@ -21,15 +21,15 @@ defmodule ServerWeb.Seeder.Repo do
 
   @spec seed!() :: :ok
   def seed! do
-    StripeAccount.seed!()
-    StripeAccountToken.seed!()
-    StripeBankAccountToken.seed!()
     StripeCard.seed!()
     StripeCharge.seed!()
     StripeChargeCapture.seed!()
+    StripeRefund.seed!()
+    StripeAccountToken.seed!()
+    StripeAccount.seed!()
+    StripeBankAccountToken.seed!()
     StripeExternalAccountBank.seed!()
     StripeExternalAccountCard.seed!()
-    StripeRefund.seed!()
     StripeTransfer.seed!()
     StripeTransferReversal.seed!()
     :ok

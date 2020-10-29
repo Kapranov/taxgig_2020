@@ -43,13 +43,13 @@ defmodule ServerWeb.Seeder.StripeAccount do
   defp seed_stripe_account do
     user = CoreRepo.get_by(User, %{email: "op@taxgig.com"})
     user_attrs = %{"user_id" => user.id}
-    account_token = StripyRepo.get_by(StripeAccountToken, %{user_id: user_attrs["user_id"]})
+    token = StripyRepo.get_by(StripeAccountToken, %{user_id: user_attrs["user_id"]})
 
     attrs = %{
       type: @type_field,
       country: @country,
       email: user.email,
-      account_token: account_token.id_from_stripe,
+      account_token: token.id_from_stripe,
       business_profile: %{
         mcc: @mcc,
         url: @url
@@ -71,7 +71,7 @@ defmodule ServerWeb.Seeder.StripeAccount do
       }
     }
 
-    if is_nil(account_token.id_from_stripe) do
+    if is_nil(token.id_from_stripe) do
       {:error, %Ecto.Changeset{}}
     else
       platform_account(attrs, user_attrs)

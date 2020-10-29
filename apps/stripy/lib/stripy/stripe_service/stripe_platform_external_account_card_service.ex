@@ -6,7 +6,6 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountCardService do
 
   alias Stripy.{
     Payments,
-    Payments.StripeExternalAccountBank,
     Payments.StripeExternalAccountCard,
     Queries,
     Repo,
@@ -23,12 +22,12 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountCardService do
 
       iex> user_id = FlakeId.get()
       iex> user_attrs = %{"user_id" => user_id}
-      iex> external_account_card_attrs = %{
+      iex> attrs = %{
         account: "acct_1HPssUC7lbhZAQNr",
-        external_account: "tok_1HQ9DtLhtqtNnMebLXlD2TAas"
+        token: "tok_1HQ9DtLhtqtNnMebLXlD2TAas"
       }
-      iex> {:ok, card} = Stripe.ExternalAccount.create(external_account_card_attrs)
-      iex> {:ok, result} = StripePlatformAccountAdapter.to_params(card, user_attrs)
+      iex> {:ok, external_account_card} = Stripe.ExternalAccount.create(attrs)
+      iex> {:ok, result} = StripePlatformAccountAdapter.to_params(external_account_card, user_attrs)
 
   """
   @spec create(map, map) ::
@@ -37,15 +36,15 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountCardService do
           | {:error, Stripe.Error.t()}
           | {:error, :platform_not_ready}
           | {:error, :not_found}
-  def create(external_account_card_attrs, user_attrs) do
+  def create(attrs, user_attrs) do
     querty =
       try do
-        Queries.by_count(StripeExternalAccountCard, StripeExternalAccountBank, :user_id, user_attrs["user_id"])
+        Queries.by_count(StripeExternalAccountCard, :user_id, user_attrs["user_id"])
       rescue
         ArgumentError -> :error
       end
 
-    with {:ok, %Stripe.Card{} = card} = @api.ExternalAccount.create(external_account_card_attrs),
+    with {:ok, %Stripe.Card{} = card} <- @api.ExternalAccount.create(attrs),
          {:ok, params} <- StripePlatformExternalAccountCardAdapter.to_params(card, user_attrs)
     do
       case Repo.aggregate(querty, :count, :id) < 10 do

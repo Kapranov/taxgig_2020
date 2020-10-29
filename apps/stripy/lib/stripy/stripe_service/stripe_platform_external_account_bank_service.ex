@@ -23,12 +23,12 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountBankService do
 
       iex> user_id = FlakeId.get()
       iex> user_attrs = %{"user_id" => user_id}
-      iex> external_account_bank_attrs = %{
+      iex> attrs = %{
         account: "acct_1HPssUC7lbhZAQNr",
-        external_account: btok_1HQ9bjLhtqtNnMebggNERNkG
+        token: btok_1HQ9bjLhtqtNnMebggNERNkG
       }
-      iex> {:ok, bank_account} = Stripe.ExternalAccount.create(external_account_bank_attrs)
-      iex> {:ok, result} = StripePlatformExternalAccountBankAdapter.to_params(bank_account, user_attrs)
+      iex> {:ok, external_account_bank} = Stripe.ExternalAccount.create(attrs)
+      iex> {:ok, result} = StripePlatformExternalAccountBankAdapter.to_params(external_account_bank, user_attrs)
   """
   @spec create(map, map) ::
           {:ok, StripeExternalAccountBank.t()}
@@ -36,7 +36,7 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountBankService do
           | {:error, Stripe.Error.t()}
           | {:error, :platform_not_ready}
           | {:error, :not_found}
-  def create(external_account_bank_attrs, user_attrs) do
+  def create(attrs, user_attrs) do
     querty =
       try do
         Queries.by_count(StripeExternalAccountCard, StripeExternalAccountBank, :user_id, user_attrs["user_id"])
@@ -44,8 +44,8 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountBankService do
         ArgumentError -> :error
       end
 
-    with {:ok, %Stripe.BankAccount{} = bank_account} = @api.ExternalAccount.create(external_account_bank_attrs),
-         {:ok, params} <- StripePlatformExternalAccountBankAdapter.to_params(bank_account, user_attrs)
+    with {:ok, %Stripe.BankAccount{} = external_account_bank} = @api.ExternalAccount.create(attrs),
+         {:ok, params} <- StripePlatformExternalAccountBankAdapter.to_params(external_account_bank, user_attrs)
     do
       case Repo.aggregate(querty, :count, :id) < 10 do
         false -> {:error, %Ecto.Changeset{}}

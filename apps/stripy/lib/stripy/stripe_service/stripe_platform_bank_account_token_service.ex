@@ -21,7 +21,7 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
 
       iex> user_id = FlakeId.get()
       iex> user_attrs = %{"user_id" => user_id}
-      iex> bank_account_attrs = %{
+      iex> attrs = %{
         bank_account: %{
           account_holder_name: "Jenny Rosen",
           account_holder_type: "individual",
@@ -31,8 +31,8 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
           routing_number: 110000000
         }
       }
-      iex> {:ok, created_token} = Stripe.Token.create(bank_account_attrs)
-      iex> {:ok, result} = StripePlatformBankAccountTokenAdapter.to_params(created_token, user_attrs)
+      iex> {:ok, bank_account_token} = Stripe.Token.create(attrs)
+      iex> {:ok, result} = StripePlatformBankAccountTokenAdapter.to_params(bank_account_token, user_attrs)
 
   """
   @spec create(map, map) ::
@@ -41,7 +41,7 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
           | {:error, Stripe.Error.t()}
           | {:error, :platform_not_ready}
           | {:error, :not_found}
-  def create(bank_account_attrs, user_attrs) do
+  def create(attrs, user_attrs) do
     querty =
       try do
         Queries.by_count(StripeBankAccountToken, :user_id, user_attrs["user_id"])
@@ -49,7 +49,7 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
         ArgumentError -> :error
       end
 
-    with {:ok, %Stripe.Token{} = bank_account_token} = @api.Token.create(%{bank_account: bank_account_attrs}),
+    with {:ok, %Stripe.Token{} = bank_account_token} = @api.Token.create(%{bank_account: attrs}),
          {:ok, params} <- StripePlatformBankAccountTokenAdapter.to_params(bank_account_token, user_attrs)
     do
       case Repo.aggregate(querty, :count, :id) < 10 do

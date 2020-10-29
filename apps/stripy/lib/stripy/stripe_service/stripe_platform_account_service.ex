@@ -22,7 +22,7 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
 
       iex> user_id = FlakeId.get()
       iex> user_attrs = %{"user_id" => user_id}
-      iex> account_attrs = %{
+      iex> attrs = %{
         account_token: "ct_1HPsraLhtqtNnMebPsawyFas",
         business_profile: %{
           mcc: 8931,
@@ -44,7 +44,7 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
           }
         }
       }
-      iex> {:ok, account} = Stripe.Account.create(account_attrs)
+      iex> {:ok, account} = Stripe.Account.create(attrs)
       iex> {:ok, result} = StripePlatformAccountAdapter.to_params(account, user_attrs)
 
   """
@@ -54,7 +54,7 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
           | {:error, Stripe.Error.t()}
           | {:error, :platform_not_ready}
           | {:error, :not_found}
-  def create(account_attrs, user_attrs) do
+  def create(attrs, user_attrs) do
     querty =
       try do
         Queries.by_count(StripeAccount, :user_id, user_attrs["user_id"])
@@ -62,7 +62,7 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
         ArgumentError -> :error
       end
 
-    with {:ok, %Stripe.Account{} = account} = @api.Account.create(account_attrs),
+    with {:ok, %Stripe.Account{} = account} = @api.Account.create(attrs),
          {:ok, params} <- StripePlatformAccountAdapter.to_params(account, user_attrs)
     do
       case Repo.aggregate(querty, :count, :id) < 1 do

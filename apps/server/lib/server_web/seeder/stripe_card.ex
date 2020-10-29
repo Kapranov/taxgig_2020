@@ -8,8 +8,10 @@ defmodule ServerWeb.Seeder.StripeCard do
     Accounts.User
   }
 
-  alias Core.Queries
-  alias Core.Repo, as: CoreRepo
+  alias Core.{
+    Accounts,
+    Queries
+  }
 
   alias Stripy.{
     Payments,
@@ -19,6 +21,7 @@ defmodule ServerWeb.Seeder.StripeCard do
     StripeService.StripePlatformCustomerService
   }
 
+  alias Core.Repo, as: CoreRepo
   alias Stripy.Repo, as: StripyRepo
 
   @spec reset_database!() :: {integer(), nil | [term()]}
@@ -28,7 +31,8 @@ defmodule ServerWeb.Seeder.StripeCard do
   end
 
   @doc """
-  Multi for Complex Database Transactions `StripeCardToken` and then `StripeCustomer`
+  Multi for Complex Database Transactions `StripeCardToken` with `StripeCustomer`
+  for role false and for role true only `StripeCardToken`.
 
   1. If none record, it will created a`StripeCardToken` and `StripeCustomer` after
      that updated attr's `id_from_customer` in `StripeCardToken`
@@ -53,18 +57,18 @@ defmodule ServerWeb.Seeder.StripeCard do
     user2_full_name = Accounts.by_full_name(user2.id)
     user3_full_name = Accounts.by_full_name(user3.id)
 
-    card01_attrs = %{ cvc: 314, exp_month: 8, exp_year: 2021, name: user1_full_name, number: 4242424242424242 }
-    card02_attrs = %{ cvc: 365, exp_month: 3, exp_year: 2022, name: user2_full_name, number: 4242424242424242 }
-    card03_attrs = %{ cvc: 311, exp_month: 6, exp_year: 2026, name: user2_full_name, number: 4000056655665556 }
-    card04_attrs = %{ cvc: 322, exp_month: 5, exp_year: 2021, name: user2_full_name, number: 6011981111111113 }
-    card05_attrs = %{ cvc: 333, exp_month: 1, exp_year: 2029, name: user2_full_name, number: 5200828282828210 }
-    card06_attrs = %{ cvc: 344, exp_month: 4, exp_year: 2028, name: user2_full_name, number: 4000056755665555 }
-    card07_attrs = %{ cvc: 355, exp_month: 7, exp_year: 2022, name: user2_full_name, number: 4000056655665572 }
-    card08_attrs = %{ cvc: 366, exp_month: 9, exp_year: 2023, name: user2_full_name, number: 4000051240000005 }
-    card09_attrs = %{ cvc: 377, exp_month: 2, exp_year: 2024, name: user2_full_name, number: 4000051240000021 }
-    card10_attrs = %{ cvc: 388, exp_month: 5, exp_year: 2025, name: user2_full_name, number: 4000051240000039 }
-    card11_attrs = %{ cvc: 399, exp_month: 9, exp_year: 2026, name: user2_full_name, number: 5510121240000006}
-    card12_attrs = %{ cvc: 319, exp_month: 5, exp_year: 2021, name: user3_full_name, number: 4000056655665556 }
+    card01_attrs = %{ cvc: 314, exp_month: 8, exp_year: 2021, name: user1_full_name, number: 4242424242424242, }
+    card02_attrs = %{ cvc: 365, exp_month: 3, exp_year: 2022, name: user2_full_name, number: 4242424242424242, }
+    card03_attrs = %{ cvc: 311, exp_month: 6, exp_year: 2026, name: user2_full_name, number: 4000056655665556, }
+    card04_attrs = %{ cvc: 322, exp_month: 5, exp_year: 2021, name: user2_full_name, number: 6011981111111113, }
+    card05_attrs = %{ cvc: 333, exp_month: 1, exp_year: 2029, name: user2_full_name, number: 5200828282828210, }
+    card06_attrs = %{ cvc: 344, exp_month: 4, exp_year: 2028, name: user2_full_name, number: 4000056755665555, }
+    card07_attrs = %{ cvc: 355, exp_month: 7, exp_year: 2022, name: user2_full_name, number: 4000056655665572, }
+    card08_attrs = %{ cvc: 366, exp_month: 9, exp_year: 2023, name: user2_full_name, number: 4000051240000005, }
+    card09_attrs = %{ cvc: 377, exp_month: 2, exp_year: 2024, name: user2_full_name, number: 4000051240000021, }
+    card10_attrs = %{ cvc: 388, exp_month: 5, exp_year: 2025, name: user2_full_name, number: 4000051240000039, }
+    card11_attrs = %{ cvc: 399, exp_month: 9, exp_year: 2026, name: user2_full_name, number: 5510121240000006, }
+    card12_attrs = %{ cvc: 319, exp_month: 5, exp_year: 2021, name: user3_full_name, number: 4000056655665556, currency: "usd"}
 
     [
       platform_card(card01_attrs, %{"user_id" => user1.id}),
@@ -94,30 +98,44 @@ defmodule ServerWeb.Seeder.StripeCard do
         ArgumentError -> :error
       end
 
-    case CoreRepo.aggregate(querty, :count, :id) do
-      0 ->
-        with {:ok, card} <- StripePlatformCardService.create(attrs, user_attrs),
-             user <- CoreRepo.get_by(User, id: user_attrs["user_id"]),
-             full_name <- Accounts.by_full_name(user.id),
-             {:ok, customer} <- StripePlatformCustomerService.create(%{email: user.email, name: full_name, phone: user.phone, source: card.token}, user_attrs)
-        do
-          {:ok, %StripeCardToken{}} = Payments.update_stripe_card_token(card, %{id_from_customer: customer.id_from_stripe})
-        else
-          nil -> {:error, :not_found}
-          failure -> failure
-        end
-      n ->
-        case n < 10 do
+    case Accounts.by_role(user_attrs["user_id"]) do
+      true ->
+        case CoreRepo.aggregate(querty, :count, :id) < 10 do
           true ->
-            with {:ok, card} <- StripePlatformCardService.create(attrs, user_attrs),
-                 id_from_customer <- StripyRepo.get_by(Payments.StripeCustomer, %{user_id: user_attrs["user_id"]}).id_from_stripe
-            do
-              {:ok, %StripeCardToken{}} = Payments.update_stripe_card_token(card, %{id_from_customer: id_from_customer})
+            with {:ok, card} <- StripePlatformCardService.create(attrs, user_attrs) do
+              {:ok, card}
             else
               nil -> {:error, :not_found}
               failure -> failure
             end
           false -> {:error, %Ecto.Changeset{}}
+        end
+      false ->
+        case CoreRepo.aggregate(querty, :count, :id) do
+          0 ->
+            with {:ok, card} <- StripePlatformCardService.create(attrs, user_attrs),
+                 user <- CoreRepo.get_by(User, id: user_attrs["user_id"]),
+                 full_name <- Accounts.by_full_name(user.id),
+                 {:ok, customer} <- StripePlatformCustomerService.create(%{email: user.email, name: full_name, phone: user.phone, source: card.token}, user_attrs)
+            do
+              {:ok, %StripeCardToken{}} = Payments.update_stripe_card_token(card, %{id_from_customer: customer.id_from_stripe})
+            else
+              nil -> {:error, :not_found}
+              failure -> failure
+            end
+          n ->
+            case n < 10 do
+              true ->
+                with {:ok, card} <- StripePlatformCardService.create(attrs, user_attrs),
+                     id_from_customer <- StripyRepo.get_by(Payments.StripeCustomer, %{user_id: user_attrs["user_id"]}).id_from_stripe
+                do
+                  {:ok, %StripeCardToken{}} = Payments.update_stripe_card_token(card, %{id_from_customer: id_from_customer})
+                else
+                  nil -> {:error, :not_found}
+                  failure -> failure
+                end
+              false -> {:error, %Ecto.Changeset{}}
+            end
         end
     end
   end

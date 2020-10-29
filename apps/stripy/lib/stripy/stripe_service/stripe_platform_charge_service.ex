@@ -20,10 +20,10 @@ defmodule Stripy.StripeService.StripePlatformChargeService do
       iex> user_id = FlakeId.get()
       iex> id_from_card = "card_1HP2frJ2Ju0cX1cPJqmUkzO3"
       iex> id_from_customer = "cus_Hz0iaxWhaRWm6b"
-      iex> attrs = %{"user_id" => user_id, "id_from_card" => id_from_card}
-      iex> charge_attrs = %{amount: 2000, currency: "usd", customer: id_from_customer, source: id_from_card, description: "Test description", capture: false}
-      iex> {:ok, stripe_charge} = Stripe.Charge.create(charge_attrs)
-      iex> {:ok, result} = StripePlatformChargeAdapter.to_params(stripe_charge, attrs)
+      iex> user_attrs = %{"user_id" => user_id, "id_from_card" => id_from_card}
+      iex> attrs = %{amount: 2000, currency: "usd", customer: id_from_customer, source: id_from_card, description: "Test description", capture: false}
+      iex> {:ok, charge} = Stripe.Charge.create(attrs)
+      iex> {:ok, result} = StripePlatformChargeAdapter.to_params(charge, user_attrs)
 
   """
   @spec create(map, map) ::
@@ -32,9 +32,9 @@ defmodule Stripy.StripeService.StripePlatformChargeService do
           | {:error, Stripe.Error.t()}
           | {:error, :platform_not_ready}
           | {:error, :not_found}
-  def create(charge_attrs, attrs) do
-    with {:ok, %Stripe.Charge{} = charge} = @api.Charge.create(charge_attrs),
-         {:ok, params} <- StripePlatformChargeAdapter.to_params(charge, attrs)
+  def create(attrs, user_attrs) do
+    with {:ok, %Stripe.Charge{} = charge} = @api.Charge.create(attrs),
+         {:ok, params} <- StripePlatformChargeAdapter.to_params(charge, user_attrs)
     do
       case Payments.create_stripe_charge(params) do
         {:error, error} -> {:error, error}

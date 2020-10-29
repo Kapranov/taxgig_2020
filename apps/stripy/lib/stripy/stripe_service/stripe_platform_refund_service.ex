@@ -19,10 +19,10 @@ defmodule Stripy.StripeService.StripePlatformRefundService do
 
       iex> user_id = FlakeId.get()
       iex> id_from_charge = "ch_1HP2hvJ2Ju0cX1cPUxoku93W"
-      iex> attrs = %{"user_id" => user_id}
-      iex> refund_attrs = %{amount: 2000, charge: id_from_charge}
-      iex> {:ok, stripe_refund} = Stripe.Refund.create(refund_attrs)
-      iex> {:ok, result} = StripePlatformRefundAdapter.to_params(stripe_refund, attrs)
+      iex> user_attrs = %{"user_id" => user_id}
+      iex> attrs = %{amount: 2000, charge: id_from_charge}
+      iex> {:ok, refund} = Stripe.Refund.create(attrs)
+      iex> {:ok, result} = StripePlatformRefundAdapter.to_params(refund, user_attrs)
 
   """
   @spec create(map, map) ::
@@ -31,9 +31,9 @@ defmodule Stripy.StripeService.StripePlatformRefundService do
           | {:error, Stripe.Error.t()}
           | {:error, :platform_not_ready}
           | {:error, :not_found}
-  def create(refund_attrs, attrs) do
-    with {:ok, %Stripe.Refund{} = refund} = @api.Refund.create(refund_attrs),
-         {:ok, params} <- StripePlatformRefundAdapter.to_params(refund, attrs)
+  def create(attrs, user_attrs) do
+    with {:ok, %Stripe.Refund{} = refund} = @api.Refund.create(attrs),
+         {:ok, params} <- StripePlatformRefundAdapter.to_params(refund, user_attrs)
     do
       case Payments.create_stripe_refund(params) do
         {:error, error} -> {:error, error}

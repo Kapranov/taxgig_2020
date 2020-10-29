@@ -24,21 +24,21 @@ defmodule Stripy.StripeService.Adapters.StripePlatformExternalAccountCardAdapter
   @non_stripe_attributes ["user_id"]
 
   @spec to_params(Stripe.Card.t(), map) :: {:ok, map}
-  def to_params(%Stripe.Card{} = stripe_card, %{} = attributes) do
+  def to_params(%Stripe.Card{} = stripe_card, %{} = attrs) do
     result =
       stripe_card
       |> Map.take(@stripe_attributes)
       |> rename(:id, :id_from_stripe)
       |> rename(:account, :id_from_account)
       |> keys_to_string
-      |> add_non_stripe_attributes(attributes)
+      |> add_non_stripe_attributes(attrs)
 
     {:ok, result}
   end
 
   @spec add_non_stripe_attributes(map, map) :: map
-  defp add_non_stripe_attributes(%{} = params, %{} = attributes) do
-    attributes
+  defp add_non_stripe_attributes(%{} = params, %{} = attrs) do
+    attrs
     |> Map.take(@non_stripe_attributes)
     |> Map.merge(params)
   end
