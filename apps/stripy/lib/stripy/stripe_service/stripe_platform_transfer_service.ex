@@ -19,7 +19,7 @@ defmodule Stripy.StripeService.StripePlatformTransferService do
 
       iex> user_id = FlakeId.get()
       iex> user_attrs = %{"user_id" => user_id}
-      iex> attrs = %{amount: 2000, currency: "usd"}
+      iex> attrs = %{amount: 2000, currency: "usd", destination: "acct_1HhegAKd3U6sXORc"}
       iex> {:ok, transfer} = Stripe.Transfer.create(attrs)
       iex> {:ok, result} = StripePlatformTransferAdapter.to_params(stripe_transfer, user_attrs)
 

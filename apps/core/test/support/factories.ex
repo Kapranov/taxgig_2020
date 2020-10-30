@@ -1360,7 +1360,7 @@ defmodule Core.Factory do
       end_time: Date.utc_today(),
       instant_matched: random_boolean(),
       offer: build(:offer),
-      project_price: random_float(),
+      project_price: random_integer(),
       status: random_project_status(),
       stripe_card_token_id: FlakeId.get(),
       users: build(:tp_user)
@@ -1375,7 +1375,7 @@ defmodule Core.Factory do
       end_time: Date.utc_today(),
       instant_matched: random_boolean(),
       offer: build(:offer),
-      project_price: random_float(),
+      project_price: random_integer(),
       status: random_project_status(),
       stripe_card_token_id: FlakeId.get(),
       users: build(:tp_user)

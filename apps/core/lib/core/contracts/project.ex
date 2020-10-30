@@ -46,7 +46,7 @@ defmodule Core.Contracts.Project do
     field :assigned_pro, FlakeId.Ecto.Type, null: true
     field :end_time, :date, null: true
     field :instant_matched, :boolean, null: false
-    field :project_price, :decimal, null: true
+    field :project_price, :integer, null: true
     field :status, ProjectEnum, null: false
     field :stripe_card_token_id, FlakeId.Ecto.Type, null: true
 

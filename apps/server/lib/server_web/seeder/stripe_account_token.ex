@@ -46,8 +46,8 @@ defmodule ServerWeb.Seeder.StripeAccountToken do
       |> String.replace("0", "")
       |> String.split("-")
 
-    [_, _, _, _, _, num1, num2, num3, num4] = user.ssn |> Integer.digits
-    ssn_last_4 = "#{num1}#{num2}#{num3}#{num4}" |> String.to_integer
+    # [_, _, _, _, _, num1, num2, num3, num4] = user.ssn |> Integer.digits
+    # ssn_last_4 = "#{num1}#{num2}#{num3}#{num4}" |> String.to_integer
 
     attrs = %{
       business_type: "individual",
@@ -69,7 +69,7 @@ defmodule ServerWeb.Seeder.StripeAccountToken do
           month: String.to_integer(month),
           year: String.to_integer(year)
         },
-        ssn_last_4: ssn_last_4
+        ssn_last_4: "0000"
       },
       tos_shown_and_accepted: true
     }

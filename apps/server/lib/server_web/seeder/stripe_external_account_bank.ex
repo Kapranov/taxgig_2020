@@ -5,13 +5,15 @@ defmodule ServerWeb.Seeder.StripeExternalAccountBank do
 
   alias Core.{
     Accounts,
-    Accounts.User
+    Accounts.User,
+    Queries
   }
 
   alias Stripy.{
     Payments.StripeAccount,
     Payments.StripeBankAccountToken,
     Payments.StripeExternalAccountBank,
+    Payments.StripeExternalAccountCard,
     StripeService.StripePlatformExternalAccountBankService
   }
 
@@ -51,13 +53,31 @@ defmodule ServerWeb.Seeder.StripeExternalAccountBank do
                                                     {:error, Ecto.Changeset.t} |
                                                     {:error, :not_found}
   defp platform_external_account_bank(attrs, user_attrs) do
+    count_bank =
+      try do
+        Queries.by_value(StripeExternalAccountBank, :user_id, user_attrs["user_id"])
+      rescue
+        ArgumentError -> :error
+      end
+
+    count_card =
+      try do
+        Queries.by_value(StripeExternalAccountCard, :user_id, user_attrs["user_id"])
+      rescue
+        ArgumentError -> :error
+      end
+
     case Accounts.by_role(user_attrs["user_id"]) do
       true ->
-        with {:ok, %StripeExternalAccountBank{} = data} <- StripePlatformExternalAccountBankService.create(attrs, user_attrs) do
-          {:ok, data}
+        if (StripyRepo.aggregate(count_bank, :count, :id) + StripyRepo.aggregate(count_card, :count, :id)) < 10 do
+          with {:ok, %StripeExternalAccountBank{} = data} <- StripePlatformExternalAccountBankService.create(attrs, user_attrs) do
+            {:ok, data}
+          else
+            nil -> {:error, :not_found}
+            failure -> failure
+          end
         else
-          nil -> {:error, :not_found}
-          failure -> failure
+          {:error, %Ecto.Changeset{}}
         end
       false -> {:error, %Ecto.Changeset{}}
     end

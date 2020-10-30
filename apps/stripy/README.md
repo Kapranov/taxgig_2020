@@ -61,22 +61,26 @@ bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_transfer_reversal
 
 ```
 N = total only 10 records
-S = total only 1  record
-create_external_account_card and create_external_account_bank allow only 10 recods in total
+S = total only  1 record
 
-- for role false
+`external_account_card` \
+`external_account_bank`  allow only less and not more 10 recods in total
+You can set up a trigger that counts the records and, if count is more
+than 1, 
+
+- when a false role
   1. create_card_token(N)
   2. create_custmer(S)
   3. create_charge()
   4. create_charge_capture()
   5. create_refund()
 
-- for role true
+- when a true role
   1. create_account_token(N)
   2. create_account(S)
   3. create_card_token(N)         and create_external_account_card(N)
      create_bank_account_token(N) and create_external_account_bank(N)
-  4. create_transfer_external_account()
+  4. create_transfer()
   5. create_transfer_reversal()
 
 ACTIONS - [create: c, delete: d, index: i, show: s, update: u]

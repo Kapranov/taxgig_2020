@@ -10,7 +10,7 @@ defmodule Core.Contracts.ProjectTest do
     @valid_attrs %{
       end_time: Date.utc_today(),
       instant_matched: true,
-      project_price: 1.11,
+      project_price: 22,
       status: "Canceled",
       stripe_card_token_id: FlakeId.get()
     }
@@ -18,7 +18,7 @@ defmodule Core.Contracts.ProjectTest do
     @update_attrs %{
       end_time: Timex.shift(Timex.now, days: -2),
       instant_matched: false,
-      project_price: 9.99,
+      project_price: 33,
       status: "Done",
       stripe_card_token_id: FlakeId.get()
     }
@@ -92,7 +92,7 @@ defmodule Core.Contracts.ProjectTest do
       assert created.end_time             == Date.utc_today()
       assert created.instant_matched      == true
       assert created.offer_id             == offer.id
-      assert created.project_price        == D.new("1.11")
+      assert created.project_price        == 22
       assert created.status               == :Canceled
       assert created.stripe_card_token_id == @valid_attrs.stripe_card_token_id
       assert created.user_id              == user.id

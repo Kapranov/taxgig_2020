@@ -214,7 +214,7 @@ defmodule Core.Seeder.Contracts do
         end_time: Date.utc_today(),
         instant_matched: random_boolean(),
         offer_id: offer2.id,
-        project_price: random_float(),
+        project_price: random_integer(),
         status: random_project_status(),
         stripe_card_token_id: FlakeId.get(),
         user_id: tp1
@@ -225,7 +225,7 @@ defmodule Core.Seeder.Contracts do
         end_time: Date.utc_today(),
         instant_matched: random_boolean(),
         offer_id: offer2.id,
-        project_price: random_float(),
+        project_price: random_integer(),
         status: random_project_status(),
         stripe_card_token_id: FlakeId.get(),
         user_id: tp1
@@ -236,7 +236,7 @@ defmodule Core.Seeder.Contracts do
         end_time: Date.utc_today(),
         instant_matched: random_boolean(),
         offer_id: offer2.id,
-        project_price: random_float(),
+        project_price: random_integer(),
         status: random_project_status(),
         stripe_card_token_id: FlakeId.get(),
         user_id: tp1
@@ -247,7 +247,7 @@ defmodule Core.Seeder.Contracts do
         end_time: Date.utc_today(),
         instant_matched: random_boolean(),
         offer_id: offer3.id,
-        project_price: random_float(),
+        project_price: random_integer(),
         status: random_project_status(),
         stripe_card_token_id: FlakeId.get(),
         user_id: tp2
@@ -258,7 +258,7 @@ defmodule Core.Seeder.Contracts do
         end_time: Date.utc_today(),
         instant_matched: random_boolean(),
         offer_id: offer3.id,
-        project_price: random_float(),
+        project_price: random_integer(),
         status: random_project_status(),
         stripe_card_token_id: FlakeId.get(),
         user_id: tp2
@@ -269,7 +269,7 @@ defmodule Core.Seeder.Contracts do
         end_time: Date.utc_today(),
         instant_matched: random_boolean(),
         offer_id: offer3.id,
-        project_price: random_float(),
+        project_price: random_integer(),
         status: random_project_status(),
         stripe_card_token_id: FlakeId.get(),
         user_id: tp2
@@ -280,7 +280,7 @@ defmodule Core.Seeder.Contracts do
         end_time: Date.utc_today(),
         instant_matched: random_boolean(),
         offer_id: offer4.id,
-        project_price: random_float(),
+        project_price: random_integer(),
         status: random_project_status(),
         stripe_card_token_id: FlakeId.get(),
         user_id: tp3
@@ -291,7 +291,7 @@ defmodule Core.Seeder.Contracts do
         end_time: Date.utc_today(),
         instant_matched: random_boolean(),
         offer_id: offer4.id,
-        project_price: random_float(),
+        project_price: random_integer(),
         status: random_project_status(),
         stripe_card_token_id: FlakeId.get(),
         user_id: tp3
@@ -302,7 +302,7 @@ defmodule Core.Seeder.Contracts do
         end_time: Date.utc_today(),
         instant_matched: random_boolean(),
         offer_id: offer4.id,
-        project_price: random_float(),
+        project_price: random_integer(),
         status: random_project_status(),
         stripe_card_token_id: FlakeId.get(),
         user_id: tp3
