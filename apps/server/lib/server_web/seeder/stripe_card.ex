@@ -34,9 +34,18 @@ defmodule ServerWeb.Seeder.StripeCard do
   Multi for Complex Database Transactions `StripeCardToken` with `StripeCustomer`
   for role false and for role true only `StripeCardToken`.
 
+  stripe_card_tokens:
+  fronend - [:cvc, :exp_month, :exp_year, :name, :number]
+  backend - []
+
+  stripe_customers:
+  fronend - []
+  backend - [:email, :name, :phone, :source]
+
   1. If none record, it will created a`StripeCardToken` and `StripeCustomer` after
-     that updated attr's `id_from_customer` in `StripeCardToken`
-  2. if has one record, it will created only a new `StripeCardToken`
+     that updated attr's `id_from_customer` in `StripeCardToken` only for tp
+  2. if has one record, it will created only a new `StripeCardToken` and
+     that updated attr's `id_from_customer` only for tp
   3. If `StripeCardToken` creation fails, return an error
   4. If `StripeCardToken` creation succeeds, try creating `StripeCustomer` and updated `StripeCardToken` with `id_from_customer`
   5. If `StripeCustomer` creation fails, delete the `StripeCardToken` and return an error
@@ -127,9 +136,10 @@ defmodule ServerWeb.Seeder.StripeCard do
             case n < 10 do
               true ->
                 with {:ok, card} <- StripePlatformCardService.create(attrs, user_attrs),
-                     id_from_customer <- StripyRepo.get_by(Payments.StripeCustomer, %{user_id: user_attrs["user_id"]}).id_from_stripe
+                     id_from_customer <- StripyRepo.get_by(Payments.StripeCustomer, %{user_id: user_attrs["user_id"]}).id_from_stripe,
+                     {:ok, created_card} <- StripePlatformCardService.create_card(%{customer: id_from_customer, source: card.token})
                 do
-                  {:ok, %StripeCardToken{}} = Payments.update_stripe_card_token(card, %{id_from_customer: id_from_customer})
+                  {:ok, %StripeCardToken{}} = Payments.update_stripe_card_token(card, %{id_from_customer: created_card.customer})
                 else
                   nil -> {:error, :not_found}
                   failure -> failure

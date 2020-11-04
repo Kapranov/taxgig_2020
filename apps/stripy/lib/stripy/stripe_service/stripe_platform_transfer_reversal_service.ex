@@ -1,6 +1,9 @@
 defmodule Stripy.StripeService.StripePlatformTransferReversalService do
   @moduledoc """
-  Used to perform actions on StripeTransferReversal records
+  Work with Stripe transfer_reversal objects.
+  Used to perform actions on StripeTransferReversal records.
+
+  Stripe API reference: https://stripe.com/docs/api#transfer_reversal_object
   """
 
   alias Stripy.{
@@ -12,8 +15,8 @@ defmodule Stripy.StripeService.StripePlatformTransferReversalService do
   @api Application.get_env(:stripy, :stripe)
 
   @doc """
-  Creates a new `Stripe.TransferReversal` record on Stripe API, as well as an associated local
-  `StripeTransferReversal` record
+  Creates a new `Stripe.TransferReversal` record on Stripe API,
+  as well as an associated local `StripeTransferReversal` record
 
   ## Example
 

@@ -1,6 +1,18 @@
 defmodule Stripy.StripeService.StripePlatformChargeCaptureService do
   @moduledoc """
+  Capture a charge.
+
+  Capture the payment of an existing, uncaptured, charge. This is the second
+  half of the two-step payment flow, where first you created a charge with the
+  capture option set to false.
+
+  Uncaptured payments expire exactly seven days after they are created. If they
+  are not captured by that point in time, they will be marked as refunded and
+  will no longer be capturable.
+
   Used to perform actions on StripeChargeCapture records
+
+  See the [Stripe docs](https://stripe.com/docs/api/charges/capture).
   """
 
   alias Stripy.{

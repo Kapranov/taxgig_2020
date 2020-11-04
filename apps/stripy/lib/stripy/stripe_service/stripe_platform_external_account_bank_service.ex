@@ -2,6 +2,8 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountBankService do
   @moduledoc """
   Used to perform actions on Stripe.ExternalAccount records, while propagating to
   and from associated StripeExternalAccountBank records
+
+  Stripe API reference: https://stripe.com/docs/api#external_accounts
   """
 
   alias Stripy.{

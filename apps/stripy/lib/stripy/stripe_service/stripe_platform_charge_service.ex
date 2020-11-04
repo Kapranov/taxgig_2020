@@ -1,6 +1,14 @@
 defmodule Stripy.StripeService.StripePlatformChargeService do
   @moduledoc """
-  Used to perform actions on StripeCharge records
+  Work with [Stripe `charge` objects](https://stripe.com/docs/api/charges).
+  Used to perform actions on StripeCharge records.
+
+  You can:
+  - [Create a charge](https://stripe.com/docs/api/charges/create)
+  - [Retrieve a charge](https://stripe.com/docs/api/charges/retrieve)
+  - [Update a charge](https://stripe.com/docs/api/charges/update)
+  - [Capture a charge](https://stripe.com/docs/api/charges/capture)
+  - [List all charges](https://stripe.com/docs/api/charges/list)
   """
 
   alias Stripy.{
@@ -12,8 +20,10 @@ defmodule Stripy.StripeService.StripePlatformChargeService do
   @api Application.get_env(:stripy, :stripe)
 
   @doc """
-  Creates a new `Stripe.Charge` record on Stripe API, as well as an associated local
-  `StripeCharge` record
+  Creates a new `Stripe.Charge` record on Stripe API, as well as
+  an associated local `StripeCharge` record
+
+  See the [Stripe docs](https://stripe.com/docs/api/charges/create).
 
   ## Example
 

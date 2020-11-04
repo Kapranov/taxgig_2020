@@ -1,7 +1,17 @@
 defmodule Stripy.StripeService.StripePlatformAccountService do
   @moduledoc """
-  Used to perform actions on StripeAccount records, while propagating to
-  and from associated Stripe.StripeAccount records
+  Work with Stripe Connect account objects. Used to perform
+  actions on StripeAccount records, while propagating to and
+  from associated Stripe.StripeAccount records.
+
+  You can:
+
+  - Retrieve your own account
+  - Retrieve an account with a specified `id`
+
+  This module does not yet support managed accounts.
+
+  Stripe API reference: https://stripe.com/docs/api/accounts
   """
 
   alias Stripy.{
@@ -15,8 +25,8 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
   @api Application.get_env(:stripy, :stripe)
 
   @doc """
-  Creates a new `Stripe.Account` record on Stripe API, as well as an associated local
-  `StripeAccount` record
+  Creates a new `Stripe.Account` record on Stripe API,
+  as well as an associated local `StripeAccount` record
 
   ## Example
 

@@ -2,7 +2,10 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
   @moduledoc """
   Used to perform actions on StripeBankAccountToken records, while propagating to
   and from associated StripeBankAccountToken records
+
+  Stripe API reference: https://stripe.com/docs/api/tokens
   """
+
   alias Stripy.{
     Payments,
     Payments.StripeBankAccountToken,

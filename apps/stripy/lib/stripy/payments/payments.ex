@@ -159,6 +159,17 @@ defmodule Stripy.Payments do
   def delete_stripe_bank_account_token(%StripeBankAccountToken{} = struct), do: Repo.delete(struct)
 
   @doc """
+  Returns the list of the StripeCardToken.
+
+  ## Examples
+
+      iex> list_card_token()
+      [%StripeCardToken{}, ...]
+  """
+  @spec list_card_token() :: [StripeCardToken.t()]
+  def list_card_token, do: Repo.all(StripeCardToken)
+
+  @doc """
   Gets a single StripeCardToken.
 
   Raises `Ecto.NoResultsError` if the StripeCardToken does not exist.

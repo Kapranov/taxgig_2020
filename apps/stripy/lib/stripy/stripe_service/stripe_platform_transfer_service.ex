@@ -1,6 +1,9 @@
 defmodule Stripy.StripeService.StripePlatformTransferService do
   @moduledoc """
-  Used to perform actions on StripeTransfer records
+  Work with Stripe transfer objects.
+  Used to perform actions on StripeTransfer records.
+
+  Stripe API reference: https://stripe.com/docs/api#transfers
   """
 
   alias Stripy.{

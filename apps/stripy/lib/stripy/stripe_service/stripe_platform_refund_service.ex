@@ -1,6 +1,13 @@
 defmodule Stripy.StripeService.StripePlatformRefundService do
   @moduledoc """
-  Used to perform actions on StripeRefund records
+  Work with [Stripe `refund` objects](https://stripe.com/docs/api/refunds/object).
+  Used to perform actions on StripeRefund records.
+
+  You can:
+  - [Create a refund](https://stripe.com/docs/api/refunds/create)
+  - [Retrieve a refund](https://stripe.com/docs/api/refunds/retrieve)
+  - [Update a refund](https://stripe.com/docs/api/update)
+  - [List all refunds](https://stripe.com/docs/api/refunds/list)
   """
 
   alias Stripy.{
@@ -14,6 +21,20 @@ defmodule Stripy.StripeService.StripePlatformRefundService do
   @doc """
   Creates a new `Stripe.Refund` record on Stripe API, as well as an associated local
   `StripeRefund` record
+
+  When you create a new refund, you must specify a charge to create it on.
+  Creating a new refund will refund a charge that has previously been created
+  but not yet refunded. Funds will be refunded to the credit or debit card
+  that was originally charged.
+
+  You can optionally refund only part of a charge. You can do so as many times
+  as you wish until the entire charge has been refunded.
+
+  Once entirely refunded, a charge can't be refunded again. This method will
+  return an error when called on an already-refunded charge, or when trying to
+  refund more money than is left on a charge.
+
+  See the [Stripe docs](https://stripe.com/docs/api/refunds/create).
 
   ## Example
 

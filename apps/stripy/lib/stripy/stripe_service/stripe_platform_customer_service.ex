@@ -1,5 +1,15 @@
 defmodule Stripy.StripeService.StripePlatformCustomerService do
   @moduledoc """
+  Work with Stripe customer objects.
+
+  You can:
+
+  - Create a customer
+  - Retrieve a customer
+  - Update a customer
+  - Delete a customer
+
+  Stripe API reference: https://stripe.com/docs/api/customers
   """
 
   alias Stripy.{
