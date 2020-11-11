@@ -336,6 +336,24 @@ defmodule Stripy.Payments do
   end
 
   @doc """
+  Updates StripeCustomer
+
+  ## Examples
+
+      iex> update_stripe_customer(struct, %{field: new_value})
+      {:ok, %StripeCustomer{}}
+
+      iex> update_stripe_customer(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  @spec update_stripe_customer(StripeCustomer.t(), %{atom => any}) :: result() | error_tuple()
+  def update_stripe_customer(struct, attrs) do
+    struct
+    |> StripeCustomer.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
   Deletes StripeCustomer.
 
   ## Examples
@@ -584,4 +602,41 @@ defmodule Stripy.Payments do
 
   """
   def delete_stripe_transfer_reversal(%StripeTransferReversal{} = struct), do: Repo.delete(struct)
+
+  @doc """
+  Creates StripeCardToken and StripeCustomer.
+
+  ## Examples
+
+      iex> create_card_customer(%{field: value}, %{field: value})
+      {:ok, %StripeCardToken}}
+
+      iex> create_card_customer(%{field: bad_value}, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_card_customer(card_attrs, customer_attrs) do
+    card_token_changeset =
+      %StripeCardToken{}
+      |> StripeCardToken.changeset(card_attrs)
+
+    customer_changeset =
+      %StripeCustomer{}
+      |> StripeCustomer.changeset(customer_attrs)
+
+    transaction =
+      Multi.new
+      |> Multi.insert(:stripe_card_tokens, card_token_changeset)
+      |> Multi.insert(:stripe_customers, customer_changeset)
+      |> Repo.transaction()
+
+    case transaction do
+      {:ok, %StripeCardToken{} = card} ->
+        {:ok, card}
+      {:ok, %StripeCustomer{}} ->
+        {:ok, nil}
+      {:error, error} ->
+        {:error, error}
+    end
+  end
 end

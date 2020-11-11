@@ -1,0 +1,42 @@
+{
+  "object": "list",
+  "count": 2,
+  "data": [
+    {
+      "id": "re_1HlbLGLhtqtNnMeb9f6jyR1i",
+      "object": "refund",
+      "amount": 1000,
+      "balance_transaction": "txn_1HlbLHLhtqtNnMebDdWle8Sr",
+      "charge": "ch_1HlbJdLhtqtNnMeb5360KzUF",
+      "created": 1604932054,
+      "currency": "usd",
+      "metadata": {
+      },
+      "payment_intent": null,
+      "reason": null,
+      "receipt_number": null,
+      "source_transfer_reversal": null,
+      "status": "succeeded",
+      "transfer_reversal": null
+    },
+    {
+      "id": "re_1HlbKmLhtqtNnMebgJeNL9Sd",
+      "object": "refund",
+      "amount": 1000,
+      "balance_transaction": "txn_1HlbKnLhtqtNnMebjf2ZeV7w",
+      "charge": "ch_1HlbJdLhtqtNnMeb5360KzUF",
+      "created": 1604932024,
+      "currency": "usd",
+      "metadata": {
+      },
+      "payment_intent": null,
+      "reason": null,
+      "receipt_number": null,
+      "source_transfer_reversal": null,
+      "status": "succeeded",
+      "transfer_reversal": null
+    }
+  ],
+  "has_more": false,
+  "url": "/v1/refunds"
+}

@@ -62,4 +62,22 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountCardService do
       failure -> failure
     end
   end
+
+  @doc """
+  Delete external_account_cards from an account.
+  """
+  def delete do
+#    curl https://api.stripe.com/v1/accounts/acct_1032D82eZvKYlo2C/external_accounts/card_1HmKej2eZvKYlo2Cfy7AJPAW \
+#    -u sk_test_4eC39HqLyjWDarjtT1zdp7dc: \
+#    -X DELETE
+  end
+
+  @doc """
+  """
+  def list do
+#    curl https://api.stripe.com/v1/accounts/acct_1032D82eZvKYlo2C/external_accounts \
+#    -u sk_test_4eC39HqLyjWDarjtT1zdp7dc: \
+#    -d limit=10 \
+#    -G
+  end
 end

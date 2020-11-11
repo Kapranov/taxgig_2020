@@ -25,6 +25,20 @@ defmodule ServerWeb.Seeder.StripeTransfer do
   @doc """
   Used to create a remote `Stripe.ExternalAccount` record as well as
   an associated local `StripeTransfer` record.
+
+  frontend - []
+  backend  - [:amount, :destination, :currency]
+
+  1. Transfer can be performed infinite number of times
+  2. If no data, show error
+
+  transfer_amount = project price (100.00) * 0.8 = 8000
+  100.00 * 0.8 * 100 to_integer
+  amount = (project.project_price * 0.8 * 100) |> to_integer
+  attrs = %{amount: amount, currency: "usd", destination: destination.id_from_stripe}
+
+  ## Example
+
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
@@ -41,9 +55,12 @@ defmodule ServerWeb.Seeder.StripeTransfer do
     platform_transfer(attrs, user_attrs)
   end
 
-  @spec platform_transfer(map, map) :: {:ok, StripeTransfer.t} |
-                                       {:error, Ecto.Changeset.t} |
-                                       {:error, :not_found}
+  @spec platform_transfer(map, map) ::
+          {:ok, StripeTransfer.t}
+          | {:error, Ecto.Changeset.t}
+          | {:error, Stripe.Error.t()}
+          | {:error, :platform_not_ready}
+          | {:error, :not_found}
   defp platform_transfer(attrs, user_attrs) do
     case Accounts.by_role(user_attrs["user_id"]) do
       true ->

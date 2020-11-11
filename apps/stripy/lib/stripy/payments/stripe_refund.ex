@@ -63,7 +63,6 @@ defmodule Stripy.Payments.StripeRefund do
     |> cast(params, @allowed_params)
     |> validate_required(@required_params)
     |> unique_constraint(:balance_transaction, name: :stripe_refunds_balance_transaction_index)
-    |> unique_constraint(:id_from_charge, name: :stripe_refunds_id_from_charge_index)
     |> unique_constraint(:id_from_stripe, name: :stripe_refunds_id_from_stripe_index)
   end
 end

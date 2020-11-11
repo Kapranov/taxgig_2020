@@ -42,14 +42,19 @@ defmodule ServerWeb.Seeder.StripeCard do
   fronend - []
   backend - [:email, :name, :phone, :source]
 
-  1. If none record, it will created a`StripeCardToken` and `StripeCustomer` after
-     that updated attr's `id_from_customer` in `StripeCardToken` only for tp
-  2. if has one record, it will created only a new `StripeCardToken` and
-     that updated attr's `id_from_customer` only for tp
+  1. If no record yet, then we perform create`StripeCardToken` and `StripeCustomer`.
+     Afterwards, update attr's `id_from_customer` and `token` for `StripeCardToken`
+     this performs only for tp.
+  2. if has one and not more 10 records, it will created only `StripeCardToken` with
+     `id_from_stripe` by `StripeCustomer` and create Card. Afterwards updated attr's
+     `id_from_customer` for `StripeCardToken`, this performs only for role's tp
   3. If `StripeCardToken` creation fails, return an error
-  4. If `StripeCardToken` creation succeeds, try creating `StripeCustomer` and updated `StripeCardToken` with `id_from_customer`
-  5. If `StripeCustomer` creation fails, delete the `StripeCardToken` and return an error
-  6. If `StripeCustomer` creation succeeds, return the while records
+  4. If `StripeCustomer` creation succeeds, return created `StripeCardToken`
+  5. If `StripeCustomer` creation fails, don't create `StripeCardToken` and return an error
+  6. If create 11 and more cards for `StripeCardToken` return error
+
+  ## Example
+
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
@@ -95,10 +100,12 @@ defmodule ServerWeb.Seeder.StripeCard do
     ]
   end
 
-  @spec platform_card(map, map) :: {:ok, StripeCustomer.t} |
-                                              {:ok, StripeCardToken.t} |
-                                              {:error, Ecto.Changeset.t} |
-                                              {:error, :not_found}
+  @spec platform_card(map, map) ::
+          {:ok, StripeCustomer.t}
+          | {:error, Ecto.Changeset.t}
+          | {:error, Stripe.Error.t()}
+          | {:error, :platform_not_ready}
+          | {:error, :not_found}
   defp platform_card(attrs, user_attrs) do
     querty =
       try do
@@ -111,7 +118,7 @@ defmodule ServerWeb.Seeder.StripeCard do
       true ->
         case CoreRepo.aggregate(querty, :count, :id) < 10 do
           true ->
-            with {:ok, card} <- StripePlatformCardService.create(attrs, user_attrs) do
+            with {:ok, card} <- StripePlatformCardService.create_token(attrs, user_attrs) do
               {:ok, card}
             else
               nil -> {:error, :not_found}
@@ -122,12 +129,15 @@ defmodule ServerWeb.Seeder.StripeCard do
       false ->
         case CoreRepo.aggregate(querty, :count, :id) do
           0 ->
-            with {:ok, card} <- StripePlatformCardService.create(attrs, user_attrs),
+            with {:ok, card} <- StripePlatformCardService.create_token(attrs, user_attrs),
                  user <- CoreRepo.get_by(User, id: user_attrs["user_id"]),
                  full_name <- Accounts.by_full_name(user.id),
                  {:ok, customer} <- StripePlatformCustomerService.create(%{email: user.email, name: full_name, phone: user.phone, source: card.token}, user_attrs)
             do
-              {:ok, %StripeCardToken{}} = Payments.update_stripe_card_token(card, %{id_from_customer: customer.id_from_stripe})
+              {:ok, %StripeCardToken{}} = Payments.update_stripe_card_token(card, %{
+                id_from_customer: customer.id_from_stripe,
+                token: "xxxxxxxxx"
+              })
             else
               nil -> {:error, :not_found}
               failure -> failure
@@ -135,11 +145,14 @@ defmodule ServerWeb.Seeder.StripeCard do
           n ->
             case n < 10 do
               true ->
-                with {:ok, card} <- StripePlatformCardService.create(attrs, user_attrs),
-                     id_from_customer <- StripyRepo.get_by(Payments.StripeCustomer, %{user_id: user_attrs["user_id"]}).id_from_stripe,
-                     {:ok, created_card} <- StripePlatformCardService.create_card(%{customer: id_from_customer, source: card.token})
+                with {:ok, created_token} <- StripePlatformCardService.create_token(attrs, user_attrs),
+                     id_from_customer <- StripyRepo.get_by(StripeCustomer, %{user_id: user_attrs["user_id"]}).id_from_stripe,
+                     {:ok, created_card} <- StripePlatformCardService.create_card(%{customer: id_from_customer, source: created_token.token})
                 do
-                  {:ok, %StripeCardToken{}} = Payments.update_stripe_card_token(card, %{id_from_customer: created_card.customer})
+                  {:ok, %StripeCardToken{}} = Payments.update_stripe_card_token(created_token, %{
+                    id_from_customer: created_card.customer,
+                    token: "xxxxxxxxx"
+                  })
                 else
                   nil -> {:error, :not_found}
                   failure -> failure

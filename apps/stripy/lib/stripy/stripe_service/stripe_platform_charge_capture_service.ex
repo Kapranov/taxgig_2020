@@ -31,22 +31,21 @@ defmodule Stripy.StripeService.StripePlatformChargeCaptureService do
 
   ## Example
 
-        iex> id_from_charge = "ch_1HP2hvJ2Ju0cX1cPUxoku93W"
-        iex> attrs = %{amount: 2000}
-        iex> {:ok, charge_capture} = Stripe.Charge.create(id_from_charge, attrs)
-        iex> {:ok, result} = StripePlatformCardTokenAdapter.to_params(charge_capture)
+      iex> id = "ch_1HP2hvJ2Ju0cX1cPUxoku93W"
+      iex> attrs = %{amount: 2000}
+      iex> {:ok, captured} = create(id, attrs)
 
   """
-  @spec create(map, map) ::
+  @spec create(String.t, %{amount: integer}) ::
           {:ok, StripeChargeCapture.t()}
           | {:error, Ecto.Changeset.t()}
           | {:error, Stripe.Error.t()}
           | {:error, :platform_not_ready}
           | {:error, :not_found}
-  def create(id_from_charge, attrs) do
-    with {:ok, %Stripe.Charge{} = charge_capture} = @api.Charge.capture(id_from_charge, attrs),
-         {:ok, params} <- StripePlatformChargeCaptureAdapter.to_params(charge_capture),
-         struct <- Repo.get_by(StripeCharge, %{id_from_stripe: id_from_charge})
+  def create(id, attrs) do
+    with {:ok, %@api.Charge{} = captured} = @api.Charge.capture(id, attrs),
+         {:ok, params} <- StripePlatformChargeCaptureAdapter.to_params(captured),
+         struct <- Repo.get_by(StripeCharge, %{id_from_stripe: id})
     do
       case Payments.update_stripe_charge(struct, params) do
         {:ok, data} -> {:ok, data}

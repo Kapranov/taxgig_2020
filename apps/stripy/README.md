@@ -86,18 +86,19 @@ than 1,
   8. create_transfer_reversal()
 
 ACTIONS - [create: c, delete: d, index: i, show: s, update: u]
-create_account               => [c]
-create_account_token         => [c]
-create_bank_account_token    => [c]
+create_account               => [c,d,u]
+create_account_token         => [c,d]
+create_bank_account_token    => [c,d]
 create_card_token            => [c,d,i]
-create_charge                => [c,u]
+create_charge                => [c,d]
 create_charge_capture        => [c]
-create_customer              => [c]
-create_external_account_bank => [c]
-create_external_account_card => [c]
-create_refund                => [c]
-create_transfer              => [c]
-create_transfer_reversal     => [c]
+create_customer              => [c,d,u]
+create_external_account_bank => [c,d,i]
+create_external_account_card => [c,d,i]
+create_refund                => [c,d]
+create_transfer              => [c,d]
+create_transfer_reversal     => [c,d]
+create_payout                => [c]
 
 stripe_user1 - role false email, role
  - create_card_token

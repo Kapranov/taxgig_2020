@@ -26,6 +26,19 @@ defmodule ServerWeb.Seeder.StripeBankAccountToken do
   @doc """
   Used to create a remote `Stripe.Token` record as well as
   an associated local `StripeBankAccountToken` record.
+
+  fronend - [:account_holder_name, :account_holder_type, :account_number, :country, :currency, :routing_number]
+  backend - []
+
+  1. If no record yet, then we perform create`StripeBankAccountToken` and `StripeExternalAccountBank`.
+     Afterwards, update attr's `id_from_stripe` insert `xxx` for `StripeBankAccountToken`
+     this performs for one and not more 10 record and only for pro.
+  2. If `StripeBankAccountToken` creation fails, don't create `StripeExternalAccountBank` and return an error
+  3. If `StripeBankAccountToken` creation succeeds, return created `StripeBankAccountToken`
+  4. If create 11 and more bank_accounts for `StripeBankAccountToken` return error
+
+  ## Example
+
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
@@ -49,9 +62,12 @@ defmodule ServerWeb.Seeder.StripeBankAccountToken do
     platform_bank_account_token(attrs, user_attrs)
   end
 
-  @spec platform_bank_account_token(map, map) :: {:ok, StripeBankAccountToken.t} |
-                                                 {:error, Ecto.Changeset.t} |
-                                                 {:error, :not_found}
+  @spec platform_bank_account_token(map, map) ::
+          {:ok, StripeBankAccountToken.t}
+          | {:error, Ecto.Changeset.t}
+          | {:error, Stripe.Error.t()}
+          | {:error, :platform_not_ready}
+          | {:error, :not_found}
   defp platform_bank_account_token(attrs, user_attrs) do
     case Accounts.by_role(user_attrs["user_id"]) do
       false -> {:error, %Ecto.Changeset{}}

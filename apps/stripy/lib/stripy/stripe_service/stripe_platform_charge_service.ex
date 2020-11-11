@@ -5,15 +5,14 @@ defmodule Stripy.StripeService.StripePlatformChargeService do
 
   You can:
   - [Create a charge](https://stripe.com/docs/api/charges/create)
-  - [Retrieve a charge](https://stripe.com/docs/api/charges/retrieve)
   - [Update a charge](https://stripe.com/docs/api/charges/update)
   - [Capture a charge](https://stripe.com/docs/api/charges/capture)
-  - [List all charges](https://stripe.com/docs/api/charges/list)
   """
 
   alias Stripy.{
     Payments,
     Payments.StripeCharge,
+    Repo,
     StripeService.Adapters.StripePlatformChargeAdapter
   }
 
@@ -27,13 +26,12 @@ defmodule Stripy.StripeService.StripePlatformChargeService do
 
   ## Example
 
-      iex> user_id = FlakeId.get()
       iex> id_from_card = "card_1HP2frJ2Ju0cX1cPJqmUkzO3"
       iex> id_from_customer = "cus_Hz0iaxWhaRWm6b"
+      iex> user_id = FlakeId.get()
       iex> user_attrs = %{"user_id" => user_id, "id_from_card" => id_from_card}
       iex> attrs = %{amount: 2000, currency: "usd", customer: id_from_customer, source: id_from_card, description: "Test description", capture: false}
-      iex> {:ok, charge} = Stripe.Charge.create(attrs)
-      iex> {:ok, result} = StripePlatformChargeAdapter.to_params(charge, user_attrs)
+      iex> {:ok, charged} = create(attrs, user_attrs)
 
   """
   @spec create(map, map) ::
@@ -50,6 +48,32 @@ defmodule Stripy.StripeService.StripePlatformChargeService do
         {:error, error} -> {:error, error}
         {:ok, data} -> {:ok, data}
       end
+    else
+      nil -> {:error, :not_found}
+      failure -> failure
+    end
+  end
+
+  @doc """
+  Delete Charge
+
+  ## Example
+
+      iex> id = "ch_1HmHM4LhtqtNnMeb4r1LgOYL"
+      iex> {:ok, deleted} = delete(id)
+
+  """
+  @spec delete(String.t) ::
+          {:ok, StripeCharge.t} |
+          {:error, Ecto.Changeset.t} |
+          {:error, Stripe.Error.t} |
+          {:error, :platform_not_ready} |
+          {:error, :not_found}
+  def delete(id) do
+    with struct <- Repo.get_by(StripeCharge, %{id_from_stripe: id}),
+         {:ok, deleted} <- Payments.delete_stripe_charge(struct)
+    do
+      {:ok, deleted}
     else
       nil -> {:error, :not_found}
       failure -> failure

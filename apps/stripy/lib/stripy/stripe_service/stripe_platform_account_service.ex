@@ -88,4 +88,32 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
       failure -> failure
     end
   end
+
+  @doc """
+  When User is deleted, we must delete:
+  Stripe API - Stripe.Account,
+  Stripy DB  - StripeAccount,
+               StripeAccountToken,
+               StripeBankAccountToken,
+               StripeExternalAccountBank,
+               StripeExternalAccountCard,
+               StripeCardToken,
+               StripeTransfer,
+               StripeTransferReversal
+
+  ## Example
+
+  """
+  def delete do
+  end
+
+  @doc """
+  If updated User's fields `[:email]`,
+  we should updated `Stripe.Account` and  StripeAccount`.
+
+  ## Example
+
+  """
+  def update do
+  end
 end

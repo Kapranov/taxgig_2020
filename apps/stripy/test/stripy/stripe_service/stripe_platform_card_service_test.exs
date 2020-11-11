@@ -29,20 +29,20 @@ defmodule Stripy.StripeService.StripePlatformCardServiceTest do
     assert card_token_attrs["used"]             == created_card_token.used
     assert card_token_attrs["user_id"]          == @user_attrs["user_id"]
 
-    assert {:ok, card_token} = StripePlatformCardService.create(card_token_attrs, @user_attrs)
+    assert {:ok, token} = StripePlatformCardService.create_token(card_token_attrs, @user_attrs)
 
-    assert card_token.brand            == card_token_attrs["brand"]
-    assert card_token.client_ip        == card_token_attrs["client_ip"]
-    assert card_token.created          == card_token_attrs["created"]
-    assert card_token.cvc_check        == card_token_attrs["cvc_check"]
-    assert card_token.exp_month        == card_token_attrs["exp_month"]
-    assert card_token.funding          == card_token_attrs["funding"]
-    assert card_token.id_from_customer == card_token_attrs["id_from_customer"]
-    assert card_token.id_from_stripe   == card_token_attrs["id_from_stripe"]
-    assert card_token.last4            == card_token_attrs["last4"]
-    assert card_token.name             == card_token_attrs["name"]
-    assert card_token.token            == card_token_attrs["token"]
-    assert card_token.used             == card_token_attrs["used"]
-    assert card_token.user_id          == card_token_attrs["user_id"]
+    assert token.brand            == card_token_attrs["brand"]
+    assert token.client_ip        == card_token_attrs["client_ip"]
+    assert token.created          == card_token_attrs["created"]
+    assert token.cvc_check        == card_token_attrs["cvc_check"]
+    assert token.exp_month        == card_token_attrs["exp_month"]
+    assert token.funding          == card_token_attrs["funding"]
+    assert token.id_from_customer == card_token_attrs["id_from_customer"]
+    assert token.id_from_stripe   == card_token_attrs["id_from_stripe"]
+    assert token.last4            == card_token_attrs["last4"]
+    assert token.name             == card_token_attrs["name"]
+    assert token.token            == card_token_attrs["token"]
+    assert token.used             == card_token_attrs["used"]
+    assert token.user_id          == card_token_attrs["user_id"]
   end
 end

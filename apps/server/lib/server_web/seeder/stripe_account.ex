@@ -33,6 +33,30 @@ defmodule ServerWeb.Seeder.StripeAccount do
   @doc """
   Used to create a remote `Stripe.Account` record as well as
   an associated local `StripeAccount` record.
+
+  fronend - [
+    :type,
+    :country,
+    :email,
+    business_profile: [:mcc, :url],
+    capabilities: %{
+      card_payments: [:requested]
+      transfers: [:requested]
+    }
+    settings: %{
+      payouts: %{
+        schedule: [:interval]
+      }
+    }
+  ]
+  backend - [:account_token]
+
+  1. If create a new `StripeAccount` this performs only one records and for role's pro.
+  2. if has one record return error
+  3. If `StripeAccount` creation fails return an error
+
+  ## Example
+
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
@@ -78,9 +102,12 @@ defmodule ServerWeb.Seeder.StripeAccount do
     end
   end
 
-  @spec platform_account(map, map) :: {:ok, StripeAccount.t} |
-                                      {:error, Ecto.Changeset.t} |
-                                      {:error, :not_found}
+  @spec platform_account(map, map) ::
+          {:ok, StripeAccount.t}
+          | {:error, Ecto.Changeset.t}
+          | {:error, Stripe.Error.t()}
+          | {:error, :platform_not_ready}
+          | {:error, :not_found}
   defp platform_account(attrs, user_attrs) do
     querty =
       try do

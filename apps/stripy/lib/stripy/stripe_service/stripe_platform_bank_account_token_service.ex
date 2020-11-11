@@ -68,4 +68,10 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
       failure -> failure
     end
   end
+
+  @doc """
+  only local
+  """
+  def delete do
+  end
 end

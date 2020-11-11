@@ -28,6 +28,18 @@ defmodule ServerWeb.Seeder.StripeExternalAccountCard do
   @doc """
   Used to create a remote `Stripe.ExternalAccount` record as well as
   an associated local `StripeExternalAccountCard` record.
+
+  fronend - []
+  backend - [:account, :token]
+
+  1. if none or one and not more 10 records, it will created only `StripeExternalAccountCard`
+     Afterwards, update attr's `token` for `StripeCardToken` this performs only for pro.
+  2. If `StripeExternalAccountCard` creation fails, return an error
+  3. If `StripeExternalAccountCard` creation succeeds, return created `StripeExternalAccountCard`
+  6. If create 11 and more items for `StripeExternalAccountCard` return error
+
+  ## Example
+
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
@@ -49,9 +61,12 @@ defmodule ServerWeb.Seeder.StripeExternalAccountCard do
     platform_external_account_card(attrs, user_attrs)
   end
 
-  @spec platform_external_account_card(map, map) :: {:ok, StripeExternalAccountCard.t} |
-                                                    {:error, Ecto.Changeset.t} |
-                                                    {:error, :not_found}
+  @spec platform_external_account_card(map, map) ::
+          {:ok, StripeExternalAccountCard.t}
+          | {:error, Ecto.Changeset.t}
+          | {:error, Stripe.Error.t()}
+          | {:error, :platform_not_ready}
+          | {:error, :not_found}
   defp platform_external_account_card(attrs, user_attrs) do
     count_bank =
       try do

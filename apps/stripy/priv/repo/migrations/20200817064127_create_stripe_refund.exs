@@ -17,7 +17,6 @@ defmodule Stripy.Repo.Migrations.CreateStripeRefund do
     end
 
     create unique_index(:stripe_refunds, [:balance_transaction], name: :stripe_refunds_balance_transaction_index)
-    create unique_index(:stripe_refunds, [:id_from_charge], name: :stripe_refunds_id_from_charge_index)
     create unique_index(:stripe_refunds, [:id_from_stripe], name: :stripe_refunds_id_from_stripe_index)
   end
 end

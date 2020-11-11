@@ -25,6 +25,18 @@ defmodule ServerWeb.Seeder.StripeAccountToken do
   @doc """
   Used to create a remote `Stripe.Token` record as well as
   an associated local `StripeAccountToken` record.
+
+  fronend - [:business_type, :first_name, :last_name, :maiden_name, :email, :phone, address: %{:city, :country, :line1, :postal_code, :state}, dob: %{:day, :month, :year}, :ssn_last_4, :tos_shown_and_accepted]
+  backend - []
+
+  1. If create a new `StripeAccountToken` and `StripeAccount` this performs only
+     one records and for role's pro.
+  2. if has one record return error
+  3. If `StripeAccountToken` creation fails, don't create `StripeAccount` and return an error
+  4. If `StripeAccountToken` creation succeeds return created `StripeAccountToken`
+
+  ## Example
+
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
@@ -77,9 +89,12 @@ defmodule ServerWeb.Seeder.StripeAccountToken do
     platform_account_token(attrs, user_attrs)
   end
 
-  @spec platform_account_token(map, map) :: {:ok, StripeAccountToken.t} |
-                                            {:error, Ecto.Changeset.t} |
-                                            {:error, :not_found}
+  @spec platform_account_token(map, map) ::
+          {:ok, StripeAccountToken.t}
+          | {:error, Ecto.Changeset.t}
+          | {:error, Stripe.Error.t()}
+          | {:error, :platform_not_ready}
+          | {:error, :not_found}
   defp platform_account_token(attrs, user_attrs) do
     querty =
       try do

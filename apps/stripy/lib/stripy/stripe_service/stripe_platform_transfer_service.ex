@@ -46,4 +46,10 @@ defmodule Stripy.StripeService.StripePlatformTransferService do
       failure -> failure
     end
   end
+
+  @doc """
+  Delete `StripeTransfer`
+  """
+  def delete do
+  end
 end
