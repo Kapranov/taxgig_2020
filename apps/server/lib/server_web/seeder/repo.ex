@@ -26,7 +26,6 @@ defmodule ServerWeb.Seeder.Repo do
     StripeChargeCapture.seed!()
     StripeRefund.seed!()
     StripeAccountToken.seed!()
-    StripeAccount.seed!()
     StripeBankAccountToken.seed!()
     StripeExternalAccountBank.seed!()
     StripeExternalAccountCard.seed!()
@@ -37,7 +36,6 @@ defmodule ServerWeb.Seeder.Repo do
 
   @spec updated!() :: :ok
   def updated! do
-    Updated.StripeAccount.start!()
     Updated.StripeAccountToken.start!()
     Updated.StripeBankAccountToken.start!()
     Updated.StripeCard.start!()

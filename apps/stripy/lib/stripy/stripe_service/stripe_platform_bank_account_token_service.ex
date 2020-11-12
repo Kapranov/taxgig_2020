@@ -34,8 +34,7 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
           routing_number: 110000000
         }
       }
-      iex> {:ok, bank_account_token} = Stripe.Token.create(attrs)
-      iex> {:ok, result} = StripePlatformBankAccountTokenAdapter.to_params(bank_account_token, user_attrs)
+      iex> {:ok, bank_account_token} = create(attrs, user_attrs)
 
   """
   @spec create(map, map) ::
@@ -70,8 +69,28 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
   end
 
   @doc """
-  only local
+  Delete StripeBankAccountToken
+
+  ## Example
+
+      iex> id = "ct_1HmiqgLhtqtNnMebvcO8EfQh"
+      iex> {:ok, deleted} = delete(id)
+
   """
-  def delete do
+  @spec delete(String.t) ::
+          {:ok, StripeBankAccountToken.t()}
+          | {:error, Ecto.Changeset.t()}
+          | {:error, Stripe.Error.t()}
+          | {:error, :platform_not_ready}
+          | {:error, :not_found}
+  def delete(id) do
+    with struct <- Repo.get_by(StripeBankAccountToken, %{id_from_stripe: id}),
+         {:ok, deleted} <- Payments.delete_stripe_bank_account_token(struct)
+    do
+      {:ok, deleted}
+    else
+      nil -> {:error, :not_found}
+      failure -> failure
+    end
   end
 end

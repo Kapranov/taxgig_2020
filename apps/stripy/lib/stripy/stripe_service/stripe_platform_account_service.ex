@@ -54,8 +54,7 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
           }
         }
       }
-      iex> {:ok, account} = Stripe.Account.create(attrs)
-      iex> {:ok, result} = StripePlatformAccountAdapter.to_params(account, user_attrs)
+      iex> {:ok, account} = create(attrs, user_attrs)
 
   """
   @spec create(map, map) ::
@@ -103,8 +102,25 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
 
   ## Example
 
+      iex> id = "acct_1HmmYOQ1ofBpQHz3"
+      iex> {:ok, deleted} = delete(id)
+
   """
-  def delete do
+  @spec delete(String.t) ::
+          {:ok, StripeAccount.t()}
+          | {:error, Ecto.Changeset.t()}
+          | {:error, Stripe.Error.t()}
+          | {:error, :platform_not_ready}
+          | {:error, :not_found}
+  def delete(id) do
+    with struct <- Repo.get_by(StripeAccount, %{id_from_stripe: id}),
+         {:ok, deleted} <- Payments.delete_stripe_account(struct)
+    do
+      {:ok, deleted}
+    else
+      nil -> {:error, :not_found}
+      failure -> failure
+    end
   end
 
   @doc """
@@ -113,7 +129,26 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
 
   ## Example
 
+      iex> id = "acct_1HmmYOQ1ofBpQHz3"
+      iex> attrs = %{email: "edward@yahoo.com"}
+      iex> {:ok, updated} = update(id, attrs)
+
   """
-  def update do
+  @spec update(String.t, map) ::
+          {:ok, StripeAccount.t} |
+          {:error, Ecto.Changeset.t} |
+          {:error, Stripe.Error.t} |
+          {:error, :platform_not_ready} |
+          {:error, :not_found}
+  def update(id, attrs) do
+    with struct <- Repo.get_by(StripeAccount, %{id_from_stripe: id}),
+         {:ok, _data} <- @api.Account.update(id, attrs),
+         {:ok, updated} <- Payments.update_stripe_account(struct, attrs)
+    do
+      {:ok, updated}
+    else
+      nil -> {:error, :not_found}
+      failure -> failure
+    end
   end
 end

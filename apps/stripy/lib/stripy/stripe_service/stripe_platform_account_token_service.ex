@@ -50,8 +50,7 @@ defmodule Stripy.StripeService.StripePlatformAccountTokenService do
           tos_shown_and_accepted: true
         }
       }
-      iex> {:ok, account_token} = Stripe.Token.create(%{account: attrs})
-      iex> {:ok, result} = StripePlatformAccountTokenAdapter.to_params(account_token, user_attrs)
+      iex> {:ok, account_token} = create(attrs, user_attrs)
 
   """
   @spec create(map, map) ::
@@ -68,27 +67,47 @@ defmodule Stripy.StripeService.StripePlatformAccountTokenService do
         ArgumentError -> :error
       end
 
-      with {:ok, %Stripe.Token{} = account_token} = @api.Token.create(%{account: attrs}),
-           {:ok, params} <- StripePlatformAccountTokenAdapter.to_params(account_token, user_attrs)
-      do
-        case Repo.aggregate(querty, :count, :id) < 10 do
-          false -> {:error, %Ecto.Changeset{}}
-          true ->
-            case Payments.create_stripe_account_token(params) do
-              {:error, error} -> {:error, error}
-              {:ok, data} -> {:ok, data}
-            end
-        end
-
-      else
-        nil -> {:error, :not_found}
-        failure -> failure
+    with {:ok, %Stripe.Token{} = account_token} = @api.Token.create(%{account: attrs}),
+         {:ok, params} <- StripePlatformAccountTokenAdapter.to_params(account_token, user_attrs)
+    do
+      case Repo.aggregate(querty, :count, :id) < 10 do
+        false -> {:error, %Ecto.Changeset{}}
+        true ->
+          case Payments.create_stripe_account_token(params) do
+            {:error, error} -> {:error, error}
+            {:ok, data} -> {:ok, data}
+          end
       end
+
+    else
+      nil -> {:error, :not_found}
+      failure -> failure
+    end
   end
 
   @doc """
-  If delete `StripeAccountToken` only local record.
+  Delete StripeAccountToken
+
+  ## Example
+
+      iex> id = "ct_1HmiqgLhtqtNnMebvcO8EfQh"
+      iex> {:ok, deleted} = delete(id)
+
   """
-  def delete do
+  @spec delete(String.t) ::
+          {:ok, StripeAccountToken.t()}
+          | {:error, Ecto.Changeset.t()}
+          | {:error, Stripe.Error.t()}
+          | {:error, :platform_not_ready}
+          | {:error, :not_found}
+  def delete(id) do
+    with struct <- Repo.get_by(StripeAccountToken, %{id_from_stripe: id}),
+         {:ok, deleted} <- Payments.delete_stripe_account_token(struct)
+    do
+      {:ok, deleted}
+    else
+      nil -> {:error, :not_found}
+      failure -> failure
+    end
   end
 end

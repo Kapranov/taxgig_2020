@@ -71,17 +71,17 @@ defmodule ServerWeb.Seeder.StripeCard do
     user2_full_name = Accounts.by_full_name(user2.id)
     user3_full_name = Accounts.by_full_name(user3.id)
 
-    card01_attrs = %{ cvc: 314, exp_month: 8, exp_year: 2021, name: user1_full_name, number: 4242424242424242, }
-    card02_attrs = %{ cvc: 365, exp_month: 3, exp_year: 2022, name: user2_full_name, number: 4242424242424242, }
-    card03_attrs = %{ cvc: 311, exp_month: 6, exp_year: 2026, name: user2_full_name, number: 4000056655665556, }
-    card04_attrs = %{ cvc: 322, exp_month: 5, exp_year: 2021, name: user2_full_name, number: 6011981111111113, }
-    card05_attrs = %{ cvc: 333, exp_month: 1, exp_year: 2029, name: user2_full_name, number: 5200828282828210, }
-    card06_attrs = %{ cvc: 344, exp_month: 4, exp_year: 2028, name: user2_full_name, number: 4000056755665555, }
-    card07_attrs = %{ cvc: 355, exp_month: 7, exp_year: 2022, name: user2_full_name, number: 4000056655665572, }
-    card08_attrs = %{ cvc: 366, exp_month: 9, exp_year: 2023, name: user2_full_name, number: 4000051240000005, }
-    card09_attrs = %{ cvc: 377, exp_month: 2, exp_year: 2024, name: user2_full_name, number: 4000051240000021, }
-    card10_attrs = %{ cvc: 388, exp_month: 5, exp_year: 2025, name: user2_full_name, number: 4000051240000039, }
-    card11_attrs = %{ cvc: 399, exp_month: 9, exp_year: 2026, name: user2_full_name, number: 5510121240000006, }
+    card01_attrs = %{ cvc: 314, exp_month: 8, exp_year: 2021, name: user1_full_name, number: 4242424242424242 }
+    card02_attrs = %{ cvc: 365, exp_month: 3, exp_year: 2022, name: user2_full_name, number: 4242424242424242 }
+    card03_attrs = %{ cvc: 311, exp_month: 6, exp_year: 2026, name: user2_full_name, number: 4000056655665556 }
+    card04_attrs = %{ cvc: 322, exp_month: 5, exp_year: 2021, name: user2_full_name, number: 6011981111111113 }
+    card05_attrs = %{ cvc: 333, exp_month: 1, exp_year: 2029, name: user2_full_name, number: 5200828282828210 }
+    card06_attrs = %{ cvc: 344, exp_month: 4, exp_year: 2028, name: user2_full_name, number: 4000056755665555 }
+    card07_attrs = %{ cvc: 355, exp_month: 7, exp_year: 2022, name: user2_full_name, number: 4000056655665572 }
+    card08_attrs = %{ cvc: 366, exp_month: 9, exp_year: 2023, name: user2_full_name, number: 4000051240000005 }
+    card09_attrs = %{ cvc: 377, exp_month: 2, exp_year: 2024, name: user2_full_name, number: 4000051240000021 }
+    card10_attrs = %{ cvc: 388, exp_month: 5, exp_year: 2025, name: user2_full_name, number: 4000051240000039 }
+    card11_attrs = %{ cvc: 399, exp_month: 9, exp_year: 2026, name: user2_full_name, number: 5510121240000006 }
     card12_attrs = %{ cvc: 319, exp_month: 5, exp_year: 2021, name: user3_full_name, number: 4000056655665556, currency: "usd"}
 
     [

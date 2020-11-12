@@ -193,7 +193,7 @@ defmodule Stripy.StripeService.StripePlatformCardService do
           {:error, :platform_not_ready} |
           {:error, :not_found}
   def list_card(attrs) do
-    with {:ok, %Stripe.List{data: data}} <- Stripe.Card.list(attrs) do
+    with {:ok, %@api.List{data: data}} <- @api.Card.list(attrs, [limit: 10]) do
       {:ok, data}
     else
       nil -> {:error, :not_found}

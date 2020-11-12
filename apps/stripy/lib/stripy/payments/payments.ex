@@ -54,6 +54,24 @@ defmodule Stripy.Payments do
   end
 
   @doc """
+  Updates StripeAccount
+
+  ## Examples
+
+      iex> update_stripe_account(struct, %{field: new_value})
+      {:ok, %StripeAccount{}}
+
+      iex> update_stripe_account(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  @spec update_stripe_account(StripeAccount.t(), %{atom => any}) :: result() | error_tuple()
+  def update_stripe_account(struct, attrs) do
+    struct
+    |> StripeAccount.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
   Deletes StripeAccount.
 
   ## Examples
