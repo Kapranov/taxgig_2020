@@ -5,11 +5,7 @@ defmodule ServerWeb.Seeder.StripeCard do
 
   alias Core.{
     Accounts,
-    Accounts.User
-  }
-
-  alias Core.{
-    Accounts,
+    Accounts.User,
     Queries
   }
 
@@ -101,7 +97,7 @@ defmodule ServerWeb.Seeder.StripeCard do
   end
 
   @spec platform_card(map, map) ::
-          {:ok, StripeCustomer.t}
+          {:ok, StripeCardToken.t}
           | {:error, Ecto.Changeset.t}
           | {:error, Stripe.Error.t()}
           | {:error, :platform_not_ready}

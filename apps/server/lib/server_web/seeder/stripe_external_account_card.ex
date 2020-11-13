@@ -10,6 +10,7 @@ defmodule ServerWeb.Seeder.StripeExternalAccountCard do
   }
 
   alias Stripy.{
+    Payments,
     Payments.StripeAccount,
     Payments.StripeCardToken,
     Payments.StripeExternalAccountBank,
@@ -32,11 +33,11 @@ defmodule ServerWeb.Seeder.StripeExternalAccountCard do
   fronend - []
   backend - [:account, :token]
 
-  1. if none or one and not more 10 records, it will created only `StripeExternalAccountCard`
+  1. if none or not more 10 records, it will created only `StripeExternalAccountCard`
      Afterwards, update attr's `token` for `StripeCardToken` this performs only for pro.
   2. If `StripeExternalAccountCard` creation fails, return an error
   3. If `StripeExternalAccountCard` creation succeeds, return created `StripeExternalAccountCard`
-  6. If create 11 and more items for `StripeExternalAccountCard` return error
+  6. If create 11 the record for `StripeExternalAccountCard` return error
 
   ## Example
 
@@ -85,7 +86,10 @@ defmodule ServerWeb.Seeder.StripeExternalAccountCard do
     case Accounts.by_role(user_attrs["user_id"]) do
       true ->
         if (StripyRepo.aggregate(count_bank, :count, :id) + StripyRepo.aggregate(count_card, :count, :id)) < 10 do
-          with {:ok, %StripeExternalAccountCard{} = data} <- StripePlatformExternalAccountCardService.create(attrs, user_attrs) do
+          with card <- StripyRepo.get_by(StripeCardToken, %{token: attrs.token}),
+            {:ok, %StripeExternalAccountCard{} = data} <- StripePlatformExternalAccountCardService.create(attrs, user_attrs)
+          do
+            {:ok, %StripeCardToken{}} = Payments.update_stripe_card_token(card, %{token: "xxxxxxxxx"})
             {:ok, data}
           else
             nil -> {:error, :not_found}

@@ -29,8 +29,7 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountBankService do
         account: "acct_1HPssUC7lbhZAQNr",
         token: btok_1HQ9bjLhtqtNnMebggNERNkG
       }
-      iex> {:ok, external_account_bank} = Stripe.ExternalAccount.create(attrs)
-      iex> {:ok, result} = StripePlatformExternalAccountBankAdapter.to_params(external_account_bank, user_attrs)
+      iex> {:ok, external_account_bank} = create(attrs, user_attrs)
   """
   @spec create(map, map) ::
           {:ok, StripeExternalAccountBank.t()}
@@ -64,19 +63,54 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountBankService do
   end
 
   @doc """
+  Delete a bank account
+
+  ## Example
+
+      iex> attrs = %{account: "acct_1HmmYOQ1ofBpQHz3"}
+      iex> id = "ba_1HmsI52eZvKYlo2CGd9dkJKV"
+      iex> {:ok, deleted} = delete(id, attrs)
+
   """
-  def delete do
-  #curl https://api.stripe.com/v1/accounts/acct_1032D82eZvKYlo2C/external_accounts/ba_1HmKhK2eZvKYlo2C5uQrr4FR \
-  #-u sk_test_4eC39HqLyjWDarjtT1zdp7dc: \
-  #-X DELETE
+  @spec delete(String.t, %{account: String.t}) ::
+          {:ok, StripeExternalAccountBank.t} |
+          {:error, Ecto.Changeset.t} |
+          {:error, Stripe.Error.t} |
+          {:error, :platform_not_ready} |
+          {:error, :not_found}
+  def delete(id, attrs) do
+    with struct <- Repo.get_by(StripeExternalAccountBank, %{id_from_stripe: id}),
+         {:ok, _data} <- @api.ExternalAccount.delete(id, attrs),
+         {:ok, deleted} <- Payments.delete_stripe_external_account_bank(struct)
+    do
+      {:ok, deleted}
+    else
+      nil -> {:error, :not_found}
+      failure -> failure
+    end
   end
 
   @doc """
+  List all bank accounts
+
+  ## Example
+
+      iex> attrs = %{account: "acct_1HmmYOQ1ofBpQHz3"}
+      iex> {:ok, data} = list(:bank_account, attrs)
+
   """
-  def list do
-#    curl https://api.stripe.com/v1/accounts/acct_1032D82eZvKYlo2C/external_accounts \
-#    -u sk_test_4eC39HqLyjWDarjtT1zdp7dc: \
-#    -d limit=10 \
-#    -G
+  @spec list(atom, %{account: String.t}) ::
+          {:ok, Stripe.List.t} |
+          {:error, Ecto.Changeset.t} |
+          {:error, Stripe.Error.t} |
+          {:error, :platform_not_ready} |
+          {:error, :not_found}
+  def list(:bank_account, attrs) do
+    with {:ok, %@api.List{data: data}} <- @api.ExternalAccount.list(:bank_account, attrs) do
+      {:ok, data}
+    else
+      nil -> {:error, :not_found}
+      failure -> failure
+    end
   end
 end

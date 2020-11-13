@@ -4,7 +4,6 @@ defmodule ServerWeb.Seeder.Repo do
   """
 
   alias ServerWeb.Seeder.{
-    StripeAccount,
     StripeAccountToken,
     StripeBankAccountToken,
     StripeCard,
@@ -36,11 +35,13 @@ defmodule ServerWeb.Seeder.Repo do
 
   @spec updated!() :: :ok
   def updated! do
+    Updated.StripeAccount.start!()
     Updated.StripeAccountToken.start!()
     Updated.StripeBankAccountToken.start!()
     Updated.StripeCard.start!()
     Updated.StripeCharge.start!()
     Updated.StripeChargeCapture.start!()
+    Updated.StripeCustomer.start!()
     Updated.StripeExternalAccountBank.start!()
     Updated.StripeExternalAccountCard.start!()
     Updated.StripeRefund.start!()

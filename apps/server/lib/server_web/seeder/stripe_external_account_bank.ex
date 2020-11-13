@@ -32,11 +32,11 @@ defmodule ServerWeb.Seeder.StripeExternalAccountBank do
   fronend - []
   backend - [:account, :token]
 
-  1. if none or one and not more 10 records, it will created only `StripeExternalAccountBank`
+  1. if none or not more 10 records, it will created only `StripeExternalAccountBank`
      Afterwards, update attr's `token` for `StripeBankAccountToken` this performs only for pro.
   2. If `StripeExternalAccountBank` creation fails, return an error
   3. If `StripeExternalAccountBank` creation succeeds, return created `StripeExternalAccountBank`
-  6. If create 11 and more items for `StripeExternalAccountBank` return error
+  6. If create 11 the record for `StripeExternalAccountBank` return error
 
   ## Example
 
