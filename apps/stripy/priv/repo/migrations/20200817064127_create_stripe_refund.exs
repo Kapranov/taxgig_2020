@@ -9,7 +9,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeRefund do
       add :amount, :integer, null: false
       add :balance_transaction, :string, null: false
       add :created, :integer, null: false
-      add :currency, :string, null: false
+      add :currency, :string, null: false, default: "usd"
       add :status, :string, null: false
       add :user_id, :uuid, null: false
 

@@ -11,7 +11,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeCharge do
       add :amount_refunded, :integer, null: false
       add :captured, :boolean, null: false
       add :created, :integer, null: false
-      add :currency, :string, null: false
+      add :currency, :string, null: false, default: "usd"
       add :description, :string, null: false
       add :failure_code, :string, null: true
       add :failure_message, :string, null: true

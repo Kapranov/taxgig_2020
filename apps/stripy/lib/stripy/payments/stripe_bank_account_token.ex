@@ -69,7 +69,7 @@ defmodule Stripy.Payments.StripeBankAccountToken do
     field :client_ip, :string, null: false
     field :country, :string, null: false
     field :created, :integer, null: false
-    field :currency, :string, null: false
+    field :currency, :string, null: false, default: "usd"
     field :fingerprint, :string, null: false
     field :id_from_bank_account, :string, null: false
     field :id_from_stripe, :string, null: false

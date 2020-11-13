@@ -11,7 +11,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeBankAccountToken do
       add :client_ip, :string, null: false
       add :country, :string, null: false
       add :created, :integer, null: false
-      add :currency, :string, null: false
+      add :currency, :string, null: false, default: "usd"
       add :fingerprint, :string, null: false
       add :id_from_bank_account, :string, null: false
       add :last4, :string, null: false

@@ -10,7 +10,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeExternalAccountBank do
       add :account_holder_type, :string, null: false
       add :bank_name, :string, null: false
       add :country, :string, null: false
-      add :currency, :string, null: false
+      add :currency, :string, null: false, default: "usd"
       add :fingerprint, :string, null: false
       add :last4, :string, null: false
       add :routing_number, :string, null: false

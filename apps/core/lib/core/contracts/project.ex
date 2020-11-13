@@ -21,6 +21,7 @@ defmodule Core.Contracts.Project do
     project_price: integer,
     status: String.t(),
     stripe_card_token_id: FlakeId.Ecto.Type,
+    stripe_transfer: String.t(),
     user_id: User.t()
   }
 
@@ -33,6 +34,7 @@ defmodule Core.Contracts.Project do
     project_price
     status
     stripe_card_token_id
+    stripe_transfer
     user_id
   )a
 
@@ -49,6 +51,7 @@ defmodule Core.Contracts.Project do
     field :project_price, :integer, null: true
     field :status, ProjectEnum, null: false
     field :stripe_card_token_id, FlakeId.Ecto.Type, null: true
+    field :stripe_transfer, :string, null: true
 
     belongs_to :addon, Addon,
       foreign_key: :addon_id,

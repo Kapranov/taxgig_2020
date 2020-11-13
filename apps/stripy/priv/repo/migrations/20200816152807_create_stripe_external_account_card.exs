@@ -8,7 +8,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeExternalAccountCard do
       add :id_from_account, :string, null: false
       add :brand, :string, null: false
       add :country, :string, null: false
-      add :currency, :string, null: false
+      add :currency, :string, null: false, default: "usd"
       add :cvc_check, :string, null: false
       add :default_for_currency, :boolean, null: false
       add :exp_month, :integer, null: false

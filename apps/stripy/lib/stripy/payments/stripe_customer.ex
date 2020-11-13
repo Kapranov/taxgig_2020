@@ -43,7 +43,7 @@ defmodule Stripy.Payments.StripeCustomer do
   schema "stripe_customers" do
     field :balance, :integer, null: false, default: 0
     field :created, :integer, null: false
-    field :currency, :string, null: true
+    field :currency, :string, null: true, default: "usd"
     field :email, :string, null: false
     field :id_from_stripe, :string, null: false
     field :name, :string, null: false

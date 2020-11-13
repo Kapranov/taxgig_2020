@@ -3,9 +3,13 @@ defmodule ServerWeb.Seeder.StripeTransfer do
   Seeds for `Stripy.StripeTransfer` context.
   """
 
+  import Ecto.Query
+
   alias Core.{
     Accounts,
-    Accounts.User
+    Accounts.User,
+    Contracts,
+    Contracts.Project
   }
 
   alias Stripy.{
@@ -29,13 +33,12 @@ defmodule ServerWeb.Seeder.StripeTransfer do
   frontend - []
   backend  - [:amount, :destination, :currency]
 
-  1. Transfer can be performed infinite number of times
+  1. For create a new `StripeTransfer` check field's `stripe_transfer` by `Core.Project`
+     it must be null, it will take field's `project_price` by `Core.Project` and create
+     new value (amount = (project.project_price * 0.8 * 100)), result write in field's
+     `amount` by `StripeTransfer`. If Trasfer has been successful to update it.
+     Transfer can be performed once per Project.
   2. If no data, show error
-
-  transfer_amount = project price (100.00) * 0.8 = 8000
-  100.00 * 0.8 * 100 to_integer
-  amount = (project.project_price * 0.8 * 100) |> to_integer
-  attrs = %{amount: amount, currency: "usd", destination: destination.id_from_stripe}
 
   ## Example
 
@@ -49,22 +52,30 @@ defmodule ServerWeb.Seeder.StripeTransfer do
   defp seed_stripe_transfer do
     user = CoreRepo.get_by(User, %{email: "op@taxgig.com"})
     user_attrs = %{"user_id" => user.id}
-    destination = StripyRepo.get_by(StripeAccount, %{user_id: user_attrs["user_id"]})
-    attrs = %{amount: 1000, currency: "usd", destination: destination.id_from_stripe}
+    account = StripyRepo.get_by(StripeAccount, %{user_id: user_attrs["user_id"]})
+    querty = CoreRepo.all(from p in Project, where: p.assigned_pro == ^user.id) |> List.last
+    attrs = %{amount: amount(1000), currency: "usd", destination: account.id_from_stripe}
 
-    platform_transfer(attrs, user_attrs)
+    if is_nil(querty.stripe_transfer) do
+      platform_transfer(attrs, user_attrs, querty.id)
+    else
+      {:error, %Ecto.Changeset{}}
+    end
   end
 
-  @spec platform_transfer(map, map) ::
+  @spec platform_transfer(map, map, String.t()) ::
           {:ok, StripeTransfer.t}
           | {:error, Ecto.Changeset.t}
           | {:error, Stripe.Error.t()}
           | {:error, :platform_not_ready}
           | {:error, :not_found}
-  defp platform_transfer(attrs, user_attrs) do
+  defp platform_transfer(attrs, user_attrs, id) do
     case Accounts.by_role(user_attrs["user_id"]) do
       true ->
-        with {:ok, %StripeTransfer{} = data} <- StripePlatformTransferService.create(attrs, user_attrs) do
+        with project <- CoreRepo.get_by(Project, %{id: id}),
+             {:ok, %StripeTransfer{} = data} <- StripePlatformTransferService.create(attrs, user_attrs)
+        do
+          {:ok, %Project{}} = Contracts.update_project(project, %{stripe_transfer: data.id_from_stripe})
           {:ok, data}
         else
           nil -> {:error, :not_found}
@@ -72,5 +83,15 @@ defmodule ServerWeb.Seeder.StripeTransfer do
         end
       false -> {:error, %Ecto.Changeset{}}
     end
+  end
+
+  @spec amount(integer) :: integer
+  defp amount(value) do
+    sum =
+      (value * 0.8 * 100)
+      |> :erlang.float_to_binary(decimals: 0)
+      |> String.to_integer
+
+    sum
   end
 end

@@ -133,14 +133,9 @@ defmodule Core.Seeder.Updated.Contracts do
 
   @spec update_project() :: Ecto.Schema.t()
   defp update_project do
-    user_ids =
-      Enum.map(Repo.all(User), fn(data) -> data.id end)
-
-    {pro1, pro2, pro3} = {
-      Enum.at(user_ids, 4),
-      Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
-    }
+    %User{id: pro1} = Repo.get_by(User, %{email: "support@taxgig.com"})
+    %User{id: pro2} = Repo.get_by(User, %{email: "vk@taxgig.com"})
+    %User{id: pro3} = Repo.get_by(User, %{email: "op@taxgig.com"})
 
     project_ids = Enum.map(Repo.all(Project), fn(data) -> data end)
 

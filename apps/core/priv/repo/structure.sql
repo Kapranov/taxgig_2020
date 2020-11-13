@@ -748,6 +748,7 @@ CREATE TABLE public.projects (
     project_price integer,
     status character varying(255) NOT NULL,
     stripe_card_token_id uuid,
+    stripe_transfer character varying(255),
     user_id uuid NOT NULL,
     inserted_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL

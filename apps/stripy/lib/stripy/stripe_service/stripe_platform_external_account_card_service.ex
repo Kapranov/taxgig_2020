@@ -31,7 +31,7 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountCardService do
       iex> {:ok, external_account_card} = create(attrs, user_attrs)
 
   """
-  @spec create(%{account: String.t(), token: String.t()}, %{"user_id" => String.t}) ::
+  @spec create(map, map) ::
           {:ok, StripeExternalAccountCard.t()}
           | {:error, Ecto.Changeset.t()}
           | {:error, Stripe.Error.t()}

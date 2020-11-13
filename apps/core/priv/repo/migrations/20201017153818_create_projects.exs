@@ -12,6 +12,7 @@ defmodule Core.Repo.Migrations.CreateProjects do
       add :project_price, :integer, null: true
       add :status, :string, null: false
       add :stripe_card_token_id, :uuid, type: FlakeId.Ecto.Type, null: true
+      add :stripe_transfer, :string, null: true
       add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
 
       timestamps(type: :utc_datetime_usec)

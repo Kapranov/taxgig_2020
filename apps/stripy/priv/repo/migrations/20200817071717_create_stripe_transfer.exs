@@ -9,7 +9,7 @@ defmodule Stripy.Repo.Migrations.CreateStripeTransfer do
       add :amount_reversed, :integer, null: false
       add :balance_transaction, :string, null: false
       add :created, :integer, null: false
-      add :currency, :string, null: false
+      add :currency, :string, null: false, default: "usd"
       add :destination, :string, null: false
       add :destination_payment, :string, null: false
       add :reversed, :boolean, null: false

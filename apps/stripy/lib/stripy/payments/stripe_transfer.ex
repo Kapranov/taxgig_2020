@@ -55,7 +55,7 @@ defmodule Stripy.Payments.StripeTransfer do
     field :amount_reversed, :integer, null: false
     field :balance_transaction, :string, null: false
     field :created, :integer, null: false
-    field :currency, :string, null: false
+    field :currency, :string, null: false, default: "usd"
     field :destination, :string, null: false
     field :destination_payment, :string, null: false
     field :id_from_stripe, :string, null: false

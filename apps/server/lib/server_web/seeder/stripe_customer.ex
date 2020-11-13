@@ -27,6 +27,7 @@ defmodule ServerWeb.Seeder.StripeCustomer do
 
   @doc """
   Create `StripeCustomer` for role false
+  One record only for all cards.
 
   fronend - []
   backend - [:email, :name, :phone, :source]

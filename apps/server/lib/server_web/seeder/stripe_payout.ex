@@ -7,22 +7,44 @@ defmodule ServerWeb.Seeder.StripePayout do
   frontend - [:amount, :currency, destination]
   backend  - [:account]
 
-  user = CoreRepo.get_by(User, %{email: "op@taxgig.com"})
-  user_attrs = %{"user_id" => user.id}
-  account =  StripyRepo.get_by(StripeAccount, %{user_id: user_attrs["user_id"]}).id_from_stripe
-  destination = StripyRepo.get_by(StripeCardToken, %{user_id: user_attrs["user_id"]})
-
   ## Example
 
+    iex> account = "acct_1Hn6RgPwerpw7uUl"
+    iex> account_bank = "ba_1Hn6VNPwerpw7uUllbb32208"
+    iex> account_card = "card_1Hn6VHPwerpw7uUlhUkRCrlV"
+    iex> attrs_bank = %{amount: 2000, destination: account_bank, currency: "usd"}
+    iex> attrs_card = %{amount: 2000, destination: account_card, currency: "usd"}
+    iex> {:ok, payout_bank} = create(attrs_bank, account)
+    iex> {:ok, payout_card} = create(attrs_card, account)
+
   """
-  def create do
-#    # minimal amount to payout 10000 => $100.00
-#    curl https://api.stripe.com/v1/payouts \
-#    -u sk_test_IFLwitpOxgYTWSEG4eJWyoVN: \
-#    -H "Stripe-Account: acct_1HPssUC7lbhZAQNr" \
-#    -d amount=1100 \
-#    -d currency=usd \
-#    -d destination=ba_1HQ9pXC7lbhZAQNrtbuVcKUa
-#    -d destination=card_1HQ9pXC7lbhZAQNrtbuVcKUa
+  @spec create_bank(map, String.t()) ::
+          {:ok, Stripe.Payout.t}
+          | {:error, Ecto.Changeset.t}
+          | {:error, Stripe.Error.t()}
+          | {:error, :platform_not_ready}
+          | {:error, :not_found}
+  def create_bank(attrs, account) do
+    with {:ok,  %Stripe.Payout{} = data} <- Stripe.Payout.create(attrs, [], %{"Stripe-Account": account}) do
+      {:ok, data}
+    else
+      nil -> {:error, :not_found}
+      failure -> failure
+    end
+  end
+
+  @spec create_card(map, String.t()) ::
+          {:ok, Stripe.Payout.t}
+          | {:error, Ecto.Changeset.t}
+          | {:error, Stripe.Error.t()}
+          | {:error, :platform_not_ready}
+          | {:error, :not_found}
+  def create_card(attrs, account) do
+    with {:ok,  %Stripe.Payout{} = data} <- Stripe.Payout.create(attrs, [], %{"Stripe-Account": account}) do
+      {:ok, data}
+    else
+      nil -> {:error, :not_found}
+      failure -> failure
+    end
   end
 end

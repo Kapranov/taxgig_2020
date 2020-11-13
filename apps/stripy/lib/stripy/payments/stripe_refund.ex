@@ -45,7 +45,7 @@ defmodule Stripy.Payments.StripeRefund do
     field :amount, :integer, null: false
     field :balance_transaction, :string, null: false
     field :created, :integer, null: false
-    field :currency, :string, null: false
+    field :currency, :string, null: false, default: "usd"
     field :id_from_charge, :string, null: false
     field :id_from_stripe, :string, null: false
     field :status, :string, null: false

@@ -68,7 +68,7 @@ defmodule Stripy.Payments.StripeCharge do
     field :amount_refunded, :integer, null: false
     field :captured, :boolean, null: false
     field :created, :integer, null: false
-    field :currency, :string, null: false
+    field :currency, :string, null: false, default: "usd"
     field :description, :string, null: false
     field :failure_code, :string, null: true
     field :failure_message, :string, null: true

@@ -62,7 +62,7 @@ defmodule Stripy.Payments.StripeExternalAccountCard do
   schema "stripe_external_account_cards" do
     field :brand, :string, null: false
     field :country, :string, null: false
-    field :currency, :string, null: false
+    field :currency, :string, null: false, default: "usd"
     field :cvc_check, :string, null: false
     field :default_for_currency, :boolean, null: false
     field :exp_month, :integer, null: false

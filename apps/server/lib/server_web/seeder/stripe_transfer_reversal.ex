@@ -26,12 +26,21 @@ defmodule ServerWeb.Seeder.StripeTransferReversal do
   frontend - [:amount]
   backend  - [:project.stripe_transfer.id_from_stripe]
 
+
+
   1. If created a new `StripeTransferReversal` field's amount must be equels or less
      by `StripeTransfer.amount >= attrs["amount"].
      Check all records by userId with `id_from_transfer` in `StripeTransferReversal` take there are amounts summarized
      result must be less by `StripeTransfer.amount`. You can optionally reversal only part
      of a transfer. You can do so multiple times, until the entire transfer has been reversed.
   2. If created a new `StripeTransferReversal` if summarized more item above return error
+
+  1. Check `tr` in `StripeTransferReversal`
+     If created a new `StripeTransferReversal` take field `stripe_transfer` in `Core.Project`
+     search it `tr_` in `StripeTransfer` take field's amount it must be equels  `StripeTransfer.amount` >= attrs["amount"]
+  2.
+     You can optionally refund only part of a charge. You can do so multiple times,
+     until the entire charge has been refunded.
 
   ## Example
 
