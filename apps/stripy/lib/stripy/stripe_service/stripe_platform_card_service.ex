@@ -24,8 +24,6 @@ defmodule Stripy.StripeService.StripePlatformCardService do
     StripeService.Adapters.StripePlatformCardTokenAdapter
   }
 
-  @api Application.get_env(:stripy, :stripe)
-
   @doc """
   Creates a new `Stripe.Token` record on Stripe API, as well as an associated local
   `StripeCardToken` record
@@ -107,7 +105,7 @@ defmodule Stripy.StripeService.StripePlatformCardService do
         ArgumentError -> :error
       end
 
-    with {:ok, %Stripe.Token{} = card} = @api.Token.create(%{card: attrs}),
+    with {:ok, %Stripe.Token{} = card} = Stripe.Token.create(%{card: attrs}),
          {:ok, params} <- StripePlatformCardTokenAdapter.to_params(card, user_attrs)
     do
       case Repo.aggregate(querty, :count, :id) < 10 do
@@ -141,7 +139,7 @@ defmodule Stripy.StripeService.StripePlatformCardService do
           {:error, :platform_not_ready} |
           {:error, :not_found}
   def create_card(attrs) do
-    with {:ok, %@api.Card{} = data} <- @api.Card.create(attrs) do
+    with {:ok, %Stripe.Card{} = data} <- Stripe.Card.create(attrs) do
       {:ok, data}
     else
       nil -> {:error, :not_found}
@@ -167,7 +165,7 @@ defmodule Stripy.StripeService.StripePlatformCardService do
           {:error, :not_found}
   def delete_card(id, attrs) do
     with struct <- Repo.get_by(StripeCardToken, %{id_from_stripe: id}),
-         {:ok, _data} <- @api.Card.delete(id, attrs),
+         {:ok, _data} <- Stripe.Card.delete(id, attrs),
          {:ok, deleted} <- Payments.delete_stripe_card_token(struct)
     do
       {:ok, deleted}
@@ -193,7 +191,7 @@ defmodule Stripy.StripeService.StripePlatformCardService do
           {:error, :platform_not_ready} |
           {:error, :not_found}
   def list_card(attrs) do
-    with {:ok, %@api.List{data: data}} <- @api.Card.list(attrs, [limit: 10]) do
+    with {:ok, %Stripe.List{data: data}} <- Stripe.Card.list(attrs, [limit: 10]) do
       {:ok, data}
     else
       nil -> {:error, :not_found}

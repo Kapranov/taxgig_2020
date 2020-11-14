@@ -15,8 +15,6 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountBankService do
     StripeService.Adapters.StripePlatformExternalAccountBankAdapter
   }
 
-  @api Application.get_env(:stripy, :stripe)
-
   @doc """
   Creates a new `Stripe.ExternalAccount` record on Stripe API, as well as an associated local
   `StripeExternalAccountBank` record
@@ -45,7 +43,7 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountBankService do
         ArgumentError -> :error
       end
 
-    with {:ok, %Stripe.BankAccount{} = external_account_bank} = @api.ExternalAccount.create(attrs),
+    with {:ok, %Stripe.BankAccount{} = external_account_bank} = Stripe.ExternalAccount.create(attrs),
          {:ok, params} <- StripePlatformExternalAccountBankAdapter.to_params(external_account_bank, user_attrs)
     do
       case Repo.aggregate(querty, :count, :id) < 10 do
@@ -80,7 +78,7 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountBankService do
           {:error, :not_found}
   def delete(id, attrs) do
     with struct <- Repo.get_by(StripeExternalAccountBank, %{id_from_stripe: id}),
-         {:ok, _data} <- @api.ExternalAccount.delete(id, attrs),
+         {:ok, _data} <- Stripe.ExternalAccount.delete(id, attrs),
          {:ok, deleted} <- Payments.delete_stripe_external_account_bank(struct)
     do
       {:ok, deleted}
@@ -106,7 +104,7 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountBankService do
           {:error, :platform_not_ready} |
           {:error, :not_found}
   def list(:bank_account, attrs) do
-    with {:ok, %@api.List{data: data}} <- @api.ExternalAccount.list(:bank_account, attrs) do
+    with {:ok, %Stripe.List{data: data}} <- Stripe.ExternalAccount.list(:bank_account, attrs) do
       {:ok, data}
     else
       nil -> {:error, :not_found}

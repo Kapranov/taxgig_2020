@@ -51,7 +51,7 @@ defmodule Stripy.MixProject do
       {:jason, "~> 1.2"},
       {:mox, "~> 0.5", only: :test},
       {:postgrex, "~> 0.15"},
-      {:stripity_stripe, "~> 2.9"},
+      {:stripity_stripe, path: "src/stripity_stripe"},
       {:uri_query, "~> 0.1"}
     ]
   end

@@ -23,8 +23,6 @@ defmodule Stripy.StripeService.StripePlatformChargeCaptureService do
     StripeService.Adapters.StripePlatformChargeCaptureAdapter
   }
 
-  @api Application.get_env(:stripy, :stripe)
-
   @doc """
   Creates a new `Stripe.ChargeCapture` record on Stripe API, as well as an associated local
   `StripeChargeCapture` record
@@ -43,7 +41,7 @@ defmodule Stripy.StripeService.StripePlatformChargeCaptureService do
           | {:error, :platform_not_ready}
           | {:error, :not_found}
   def create(id, attrs) do
-    with {:ok, %@api.Charge{} = captured} = @api.Charge.capture(id, attrs),
+    with {:ok, %Stripe.Charge{} = captured} = Stripe.Charge.capture(id, attrs),
          {:ok, params} <- StripePlatformChargeCaptureAdapter.to_params(captured),
          struct <- Repo.get_by(StripeCharge, %{id_from_stripe: id})
     do

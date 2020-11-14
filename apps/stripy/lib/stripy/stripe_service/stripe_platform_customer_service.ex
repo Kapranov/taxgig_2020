@@ -23,8 +23,6 @@ defmodule Stripy.StripeService.StripePlatformCustomerService do
     StripeService.Adapters.StripePlatformCustomerAdapter
   }
 
-  @api Application.get_env(:stripy, :stripe)
-
   @spec create(map, map) ::
           {:ok, StripeCustomer.t}
           | {:error, Ecto.Changeset.t}
@@ -51,7 +49,7 @@ defmodule Stripy.StripeService.StripePlatformCustomerService do
         ArgumentError -> :error
       end
 
-    with {:ok, %Stripe.Customer{} = customer} = @api.Customer.create(attrs),
+    with {:ok, %Stripe.Customer{} = customer} = Stripe.Customer.create(attrs),
          {:ok, params} <- StripePlatformCustomerAdapter.to_params(customer, user_attrs)
     do
       case Repo.aggregate(querty, :count, :id) < 1 do
@@ -88,7 +86,7 @@ defmodule Stripy.StripeService.StripePlatformCustomerService do
           {:error, :not_found}
   def delete(id) do
     with struct <- Repo.get_by(StripeCustomer, %{id_from_stripe: id}),
-         {:ok, _data} <- @api.Customer.delete(id),
+         {:ok, _data} <- Stripe.Customer.delete(id),
          {:ok, deleted} <- Payments.delete_stripe_customer(struct)
     do
       {:ok, deleted}
@@ -117,7 +115,7 @@ defmodule Stripy.StripeService.StripePlatformCustomerService do
           {:error, :not_found}
   def update(id, attrs) do
     with struct <- Repo.get_by(StripeCustomer, %{id_from_stripe: id}),
-         {:ok, _data} <- @api.Customer.update(id, attrs),
+         {:ok, _data} <- Stripe.Customer.update(id, attrs),
          {:ok, updated} <- Payments.update_stripe_customer(struct, attrs)
     do
       {:ok, updated}
