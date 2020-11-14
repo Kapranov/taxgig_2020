@@ -33,6 +33,25 @@ defmodule Stripy.StripeService.StripePlatformCardService do
   These tokens can only be used once: by creating a new charge object, or
   attaching them to a customer.
 
+  stripe_card_tokens:
+  fronend - [:cvc, :exp_month, :exp_year, :name, :number]
+  backend - []
+
+  stripe_customers:
+  fronend - []
+  backend - [:email, :name, :phone, :source]
+
+  1. If no record yet, then we perform create`StripeCardToken` and `StripeCustomer`.
+     Afterwards, update attr's `id_from_customer` and `token` for `StripeCardToken`
+     this performs only for tp.
+  2. if has one and not more 10 records, it will created only `StripeCardToken` with
+     `id_from_stripe` by `StripeCustomer` and create Card. Afterwards updated attr's
+     `id_from_customer` for `StripeCardToken`, this performs only for role's tp
+  3. If `StripeCardToken` creation fails, return an error
+  4. If `StripeCustomer` creation succeeds, return created `StripeCardToken`
+  5. If `StripeCustomer` creation fails, don't create `StripeCardToken` and return an error
+  6. If create 11 and more cards for `StripeCardToken` return error
+
   card_attrs1  = %{number: 4242424242424242, exp_month: 8, exp_year: 2021, cvc: 314, name: "Oleg G.Kapranov"}
   card_attrs2  = %{number: 4000056655665556, exp_month: 9, exp_year: 2026, cvc: 111, name: "Oleg G.Kapranov"}
   card_attrs3  = %{number: 5555555555554444, exp_month: 8, exp_year: 2025, cvc: 222, name: "Oleg G.Kapranov"}

@@ -48,9 +48,6 @@ defmodule ServerWeb.Seeder.StripeCard do
   4. If `StripeCustomer` creation succeeds, return created `StripeCardToken`
   5. If `StripeCustomer` creation fails, don't create `StripeCardToken` and return an error
   6. If create 11 and more cards for `StripeCardToken` return error
-
-  ## Example
-
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do

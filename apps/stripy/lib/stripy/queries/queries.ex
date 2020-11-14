@@ -21,18 +21,30 @@ defmodule Stripy.Queries do
     where: field(c, ^row) == ct.id
   end
 
-  # Stripy.Queries.by_proba(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, id)
+  # Stripy.Queries.by_sum(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, id)
 
-  # struct_a = Stripy.Payments.StripeCharge
-  # struct_b = Stripy.Payments.StripeRefund
-  # row_a = :id_from_stripe
-  # row_b = :id_from_charge
-  # row_c = :user_id
-  # row_d = :amount
-  # id    = "ch_1Hmd6qLhtqtNnMebP0IOyvG7"
-  # => [true]
+  @doc """
+  ## Example
 
-  def by_proba(struct_a, struct_b, row_a, row_b, row_c, row_d, id) do
+      iex> struct_a = Stripy.Payments.StripeCharge
+      iex> struct_b = Stripy.Payments.StripeRefund
+      iex> row_a = :id_from_stripe
+      iex> row_b = :id_from_charge
+      iex> row_c = :user_id
+      iex> row_d = :amount
+      iex> id    = "ch_1Hmd6qLhtqtNnMebP0IOyvG7"
+      iex> [true] = by_sum(
+                      Stripy.Payments.StripeCharge,
+                      Stripy.Payments.StripeRefund,
+                      :id_from_stripe,
+                      :id_from_charge,
+                      :user_id,
+                      :amount,
+                      id
+                    )
+  """
+  @spec by_sum(map, map, atom, atom, atom, atom, String.t()) :: Ecto.Query.t()
+  def by_sum(struct_a, struct_b, row_a, row_b, row_c, row_d, id) do
     try do
       Repo.all(
         from c in struct_a,

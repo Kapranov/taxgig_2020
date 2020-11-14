@@ -16,13 +16,19 @@ defmodule Stripy.StripeService.StripePlatformChargeService do
     StripeService.Adapters.StripePlatformChargeAdapter
   }
 
-  @api Application.get_env(:stripy, :stripe)
-
   @doc """
   Creates a new `Stripe.Charge` record on Stripe API, as well as
   an associated local `StripeCharge` record
 
   See the [Stripe docs](https://stripe.com/docs/api/charges/create).
+
+  To charge a credit card or other payment source, you create a Charge object.
+
+  frontend: [:amount, :currency, :description, :capture]
+  backend:  [:customer, :source]
+
+  1. Charge can be performed infinite number of times and can charge the same card
+  2. If no data, show error
 
   ## Example
 
@@ -41,7 +47,7 @@ defmodule Stripy.StripeService.StripePlatformChargeService do
           | {:error, :platform_not_ready}
           | {:error, :not_found}
   def create(attrs, user_attrs) do
-    with {:ok, %Stripe.Charge{} = charge} = @api.Charge.create(attrs),
+    with {:ok, %Stripe.Charge{} = charge} = Stripe.Charge.create(attrs),
          {:ok, params} <- StripePlatformChargeAdapter.to_params(charge, user_attrs)
     do
       case Payments.create_stripe_charge(params) do

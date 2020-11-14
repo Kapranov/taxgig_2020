@@ -27,8 +27,12 @@ defmodule ServerWeb.Seeder.StripeTransfer do
   end
 
   @doc """
-  Used to create a remote `Stripe.ExternalAccount` record as well as
+  Used to create a remote `Stripe.Transfer` record as well as
   an associated local `StripeTransfer` record.
+
+  To send funds from your Stripe account to a connected account, you create a new
+  transfer object. Your Stripe balance must be able to cover the transfer amount,
+  or you’ll receive an Insufficient Funds error.
 
   frontend - []
   backend  - [:amount, :destination, :currency]
@@ -39,9 +43,6 @@ defmodule ServerWeb.Seeder.StripeTransfer do
      `amount` by `StripeTransfer`. If Trasfer has been successful to update it.
      Transfer can be performed once per Project.
   2. If no data, show error
-
-  ## Example
-
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do

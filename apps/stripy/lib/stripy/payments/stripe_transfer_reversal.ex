@@ -63,6 +63,5 @@ defmodule Stripy.Payments.StripeTransferReversal do
     |> cast(params, @allowed_params)
     |> validate_required(@required_params)
     |> unique_constraint(:id_from_stripe, name: :stripe_transfer_reversals_id_from_stripe_index)
-    |> unique_constraint(:id_from_transfer, name: :stripe_transfer_reversals_id_from_transfer_index)
   end
 end

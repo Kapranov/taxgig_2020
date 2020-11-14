@@ -14,11 +14,24 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
     StripeService.Adapters.StripePlatformBankAccountTokenAdapter
   }
 
-  @api Application.get_env(:stripy, :stripe)
-
   @doc """
   Creates a new `Stripe.Token` record on Stripe API, as well as an associated local
   `StripeBankAccountToken` record
+
+  Creates a single-use token that represents a bank account’s details. This token can be used
+  with any API method in place of a bank account dictionary. This token can be used only once,
+  by attaching it to a Custom account.
+
+  fronend - [:account_holder_name, :account_holder_type, :account_number, :country, :currency, :routing_number]
+  backend - []
+
+  1. If no record yet, then we perform create`StripeBankAccountToken` and `StripeExternalAccountBank`.
+     Afterwards, update attr's `id_from_stripe` insert `xxx` for `StripeBankAccountToken`
+     this performs for one and not more 10 record and only for pro.
+  2. If `StripeBankAccountToken` creation fails, don't create `StripeExternalAccountBank` and return an error
+  3. If `StripeBankAccountToken` creation succeeds, return created `StripeBankAccountToken`
+  4. If create 11 and more bank_accounts for `StripeBankAccountToken` return error
+
 
   ## Example
 
@@ -51,7 +64,7 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
         ArgumentError -> :error
       end
 
-    with {:ok, %Stripe.Token{} = bank_account_token} = @api.Token.create(%{bank_account: attrs}),
+    with {:ok, %Stripe.Token{} = bank_account_token} = Stripe.Token.create(%{bank_account: attrs}),
          {:ok, params} <- StripePlatformBankAccountTokenAdapter.to_params(bank_account_token, user_attrs)
     do
       case Repo.aggregate(querty, :count, :id) < 10 do

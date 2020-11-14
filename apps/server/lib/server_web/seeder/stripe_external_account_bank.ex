@@ -29,6 +29,12 @@ defmodule ServerWeb.Seeder.StripeExternalAccountBank do
   Used to create a remote `Stripe.ExternalAccount` record as well as
   an associated local `StripeExternalAccountBank` record.
 
+  When you create a new bank account, you must specify a Custom account to create it on.
+  If the bank account's owner has no other external account in the bank account's currency,
+  the new bank account will become the default for that currency. However, if the owner
+  already has a bank account for that currency, the new account will become the default
+  only if the `default_for_currency` parameter is set to `true`.
+
   fronend - []
   backend - [:account, :token]
 
@@ -37,9 +43,6 @@ defmodule ServerWeb.Seeder.StripeExternalAccountBank do
   2. If `StripeExternalAccountBank` creation fails, return an error
   3. If `StripeExternalAccountBank` creation succeeds, return created `StripeExternalAccountBank`
   6. If create 11 the record for `StripeExternalAccountBank` return error
-
-  ## Example
-
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do

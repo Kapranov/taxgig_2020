@@ -35,8 +35,32 @@ defmodule ServerWeb.Seeder.StripeAccountToken do
   Used to create a remote `Stripe.Token` record as well as
   an associated local `StripeAccountToken` record.
 
+  Creates a single-use token that wraps a user’s legal entity information.
+  Use this when creating or updating a Connect account.
+
   StripeAccountToken:
-  fronend - [:business_type, :first_name, :last_name, :maiden_name, :email, :phone, address: %{:city, :country, :line1, :postal_code, :state}, dob: %{:day, :month, :year}, :ssn_last_4, :tos_shown_and_accepted]
+  fronend - [
+    :business_type,
+    :first_name,
+    :last_name,
+    :maiden_name,
+    :email,
+    :phone,
+    address: %{
+      :city,
+      :country,
+      :line1,
+      :postal_code,
+      :state
+    },
+    dob: %{
+      :day,
+      :month,
+      :year
+    },
+    :ssn_last_4,
+    :tos_shown_and_accepted
+  ]
   backend - []
 
   StripeAccount:
@@ -48,9 +72,6 @@ defmodule ServerWeb.Seeder.StripeAccountToken do
   2. if has one record return error
   3. If `StripeAccountToken` creation fails, don't create `StripeAccount` and return an error
   4. If `StripeAccountToken` creation succeeds return created `StripeAccountToken`
-
-  ## Example
-
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do

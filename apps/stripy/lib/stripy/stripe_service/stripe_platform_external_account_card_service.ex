@@ -18,6 +18,22 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountCardService do
   Creates a new `Stripe.ExternalAccount` record on Stripe API, as well as an associated local
   `StripeExternalAccountCard` record
 
+  When you create a new debit card, you must specify a Custom account
+  to create it on. If the account has no default destination card,
+  then the new card will become the default. However, if the owner
+  already has a default then it will not change. To change the default,
+  you should set `efault_for_currency` to `true` when creating a card
+  for a Custom account.
+
+  fronend - []
+  backend - [:account, :token]
+
+  1. if none or not more 10 records, it will created only `StripeExternalAccountCard`
+     Afterwards, update attr's `token` for `StripeCardToken` this performs only for pro.
+  2. If `StripeExternalAccountCard` creation fails, return an error
+  3. If `StripeExternalAccountCard` creation succeeds, return created `StripeExternalAccountCard`
+  6. If create 11 the record for `StripeExternalAccountCard` return error
+
   ## Example
 
       iex> user_id = FlakeId.get()

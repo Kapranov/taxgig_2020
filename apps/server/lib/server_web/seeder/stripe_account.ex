@@ -34,6 +34,8 @@ defmodule ServerWeb.Seeder.StripeAccount do
   Used to create a remote `Stripe.Account` record as well as
   an associated local `StripeAccount` record.
 
+  With `Connect`, you can create Stripe accounts for your users.
+
   fronend - [
     :type,
     :country,
@@ -54,9 +56,6 @@ defmodule ServerWeb.Seeder.StripeAccount do
   1. If create a new `StripeAccount` this performs only one records and for role's pro.
   2. if has one record return error
   3. If `StripeAccount` creation fails return an error
-
-  ## Example
-
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do

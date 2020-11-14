@@ -14,8 +14,6 @@ defmodule Stripy.StripeService.StripePlatformRefundService do
     StripeService.Adapters.StripePlatformRefundAdapter
   }
 
-  @api Application.get_env(:stripy, :stripe)
-
   @doc """
   Creates a new `Stripe.Refund` record on Stripe API, as well as an associated local
   `StripeRefund` record
@@ -34,6 +32,21 @@ defmodule Stripy.StripeService.StripePlatformRefundService do
 
   See the [Stripe docs](https://stripe.com/docs/api/refunds/create).
 
+  Refund objects allow you to refund a charge that has previously been created but
+  not yet refunded. Funds will be refunded to the credit or debit card that was
+  originally charged.
+
+  frontend - [:amount]
+  backend = [:id_from_stripe]
+
+  1. If created a new `StripeRefund` field's captured must be true by `StripeCharge`,
+     field's amount must be equels or less by `StripeCharge.amount >= attrs["amount"]
+     Check all records by userId and `id_from_charge` in `StripeRefund` take there
+     are amounts summarized result must be less by `StripeCharge.amount`.
+     You can optionally refund only part of a charge. You can do so multiple times,
+     until the entire charge has been refunded.
+  2. If created a new `StripeRefund` in `StripeCharge` field's captured is false return error
+
   ## Example
 
       iex> id_from_charge = "ch_1HP2hvJ2Ju0cX1cPUxoku93W"
@@ -50,7 +63,7 @@ defmodule Stripy.StripeService.StripePlatformRefundService do
           | {:error, :platform_not_ready}
           | {:error, :not_found}
   def create(attrs, user_attrs) do
-    with {:ok, %Stripe.Refund{} = refund} = @api.Refund.create(attrs),
+    with {:ok, %Stripe.Refund{} = refund} = Stripe.Refund.create(attrs),
          {:ok, params} <- StripePlatformRefundAdapter.to_params(refund, user_attrs)
     do
       case Payments.create_stripe_refund(params) do

@@ -22,11 +22,33 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
     StripeService.Adapters.StripePlatformAccountAdapter
   }
 
-  @api Application.get_env(:stripy, :stripe)
-
   @doc """
   Creates a new `Stripe.Account` record on Stripe API,
   as well as an associated local `StripeAccount` record
+
+  With `Connect`, you can create Stripe accounts for your users.
+
+  fronend - [
+    :type,
+    :country,
+    :email,
+    business_profile: [:mcc, :url],
+    capabilities: %{
+      card_payments: [:requested]
+      transfers: [:requested]
+    }
+    settings: %{
+      payouts: %{
+        schedule: [:interval]
+      }
+    }
+  ]
+  backend - [:account_token]
+
+  1. If create a new `StripeAccount` this performs only one records and for role's pro.
+  2. if has one record return error
+  3. If `StripeAccount` creation fails return an error
+
 
   ## Example
 
@@ -71,7 +93,7 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
         ArgumentError -> :error
       end
 
-    with {:ok, %Stripe.Account{} = account} = @api.Account.create(attrs),
+    with {:ok, %Stripe.Account{} = account} = Stripe.Account.create(attrs),
          {:ok, params} <- StripePlatformAccountAdapter.to_params(account, user_attrs)
     do
       case Repo.aggregate(querty, :count, :id) < 1 do
@@ -142,7 +164,7 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
           {:error, :not_found}
   def update(id, attrs) do
     with struct <- Repo.get_by(StripeAccount, %{id_from_stripe: id}),
-         {:ok, _data} <- @api.Account.update(id, attrs),
+         {:ok, _data} <- Stripe.Account.update(id, attrs),
          {:ok, updated} <- Payments.update_stripe_account(struct, attrs)
     do
       {:ok, updated}

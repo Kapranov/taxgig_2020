@@ -16,14 +16,18 @@ defmodule ServerWeb.Seeder.StripeChargeCapture do
   end
 
   @doc """
+  Used to create a remote `Stripe.Charge.capture` record as well as
+  an associated local updated `StripeCharge` record.
+
+  Capture the payment of an existing, uncaptured, charge. This is the second
+  half of the two-step payment flow, where first you created a charge with
+  the capture option set to false.
+
   frontend - []
   backend - [:amount, :id_from_stripe]
 
   1. If field `capture` is false, create capture by 'StripeCharge'
   2. If field `capture` is true, return error
-
-  ## Example
-
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do

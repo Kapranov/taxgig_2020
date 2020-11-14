@@ -32,6 +32,15 @@ defmodule Stripy.StripeService.StripePlatformCustomerService do
   @doc """
   Creates a new `Stripe.Customer` record on Stripe API, as well as an associated local
   `StripeCustomer` single records only via `StripeCardToken` an action
+  One record only for all cards.
+
+  Customer objects allow you to perform recurring charges, and to track multiple charges,
+  that are associated with the same customer. The API allows you to create, delete, and
+  update your customers. You can retrieve individual customers as well as a list of all
+  your customers.
+
+  fronend - []
+  backend - [:email, :name, :phone, :source]
 
   ## Example
 

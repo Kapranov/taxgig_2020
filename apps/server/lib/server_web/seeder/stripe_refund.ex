@@ -18,6 +18,13 @@ defmodule ServerWeb.Seeder.StripeRefund do
   end
 
   @doc """
+  Used to create a remote `Stripe.Refund` record as well as
+  an associated local `StripeRefund` record.
+
+  Refund objects allow you to refund a charge that has previously been created but
+  not yet refunded. Funds will be refunded to the credit or debit card that was
+  originally charged.
+
   frontend - [:amount]
   backend = [:id_from_stripe]
 
@@ -28,9 +35,6 @@ defmodule ServerWeb.Seeder.StripeRefund do
      You can optionally refund only part of a charge. You can do so multiple times,
      until the entire charge has been refunded.
   2. If created a new `StripeRefund` in `StripeCharge` field's captured is false return error
-
-  ## Example
-
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
@@ -99,60 +103,60 @@ defmodule ServerWeb.Seeder.StripeRefund do
        ch10.amount >= attrs10.amount and
        ch11.amount >= attrs11.amount
     do
-      case Stripy.Queries.by_proba(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs01.charge) do
-        [true]  -> platform_refund(attrs01, user_attrs01)
+      case Stripy.Queries.by_sum(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs01.charge) do
+         [true] -> platform_refund(attrs01, user_attrs01)
         [false] -> {:error, %Ecto.Changeset{}}
-        [nil] -> platform_refund(attrs01, user_attrs01)
+          [nil] -> platform_refund(attrs01, user_attrs01)
       end
-      case Stripy.Queries.by_proba(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs02.charge) do
-        [true]  -> platform_refund(attrs02, user_attrs02)
+      case Stripy.Queries.by_sum(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs02.charge) do
+         [true] -> platform_refund(attrs02, user_attrs02)
         [false] -> {:error, %Ecto.Changeset{}}
-        [nil] -> platform_refund(attrs02, user_attrs02)
+          [nil] -> platform_refund(attrs02, user_attrs02)
       end
-      case Stripy.Queries.by_proba(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs03.charge) do
-        [true]  -> platform_refund(attrs03, user_attrs03)
+      case Stripy.Queries.by_sum(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs03.charge) do
+         [true] -> platform_refund(attrs03, user_attrs03)
         [false] -> {:error, %Ecto.Changeset{}}
-        [nil] -> platform_refund(attrs03, user_attrs03)
+          [nil] -> platform_refund(attrs03, user_attrs03)
       end
-      case Stripy.Queries.by_proba(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs04.charge) do
-        [true]  -> platform_refund(attrs04, user_attrs04)
+      case Stripy.Queries.by_sum(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs04.charge) do
+         [true] -> platform_refund(attrs04, user_attrs04)
         [false] -> {:error, %Ecto.Changeset{}}
-        [nil] -> platform_refund(attrs04, user_attrs04)
+          [nil] -> platform_refund(attrs04, user_attrs04)
       end
-      case Stripy.Queries.by_proba(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs05.charge) do
-        [true]  -> platform_refund(attrs05, user_attrs05)
+      case Stripy.Queries.by_sum(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs05.charge) do
+         [true] -> platform_refund(attrs05, user_attrs05)
         [false] -> {:error, %Ecto.Changeset{}}
-        [nil] -> platform_refund(attrs05, user_attrs05)
+          [nil] -> platform_refund(attrs05, user_attrs05)
       end
-      case Stripy.Queries.by_proba(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs06.charge) do
-        [true]  -> platform_refund(attrs06, user_attrs06)
+      case Stripy.Queries.by_sum(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs06.charge) do
+         [true] -> platform_refund(attrs06, user_attrs06)
         [false] -> {:error, %Ecto.Changeset{}}
-        [nil] -> platform_refund(attrs06, user_attrs06)
+          [nil] -> platform_refund(attrs06, user_attrs06)
       end
-      case Stripy.Queries.by_proba(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs07.charge) do
-        [true]  -> platform_refund(attrs07, user_attrs07)
+      case Stripy.Queries.by_sum(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs07.charge) do
+         [true] -> platform_refund(attrs07, user_attrs07)
         [false] -> {:error, %Ecto.Changeset{}}
-        [nil] -> platform_refund(attrs07, user_attrs07)
+          [nil] -> platform_refund(attrs07, user_attrs07)
       end
-      case Stripy.Queries.by_proba(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs08.charge) do
-        [true]  -> platform_refund(attrs08, user_attrs08)
+      case Stripy.Queries.by_sum(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs08.charge) do
+         [true] -> platform_refund(attrs08, user_attrs08)
         [false] -> {:error, %Ecto.Changeset{}}
-        [nil] -> platform_refund(attrs08, user_attrs08)
+          [nil] -> platform_refund(attrs08, user_attrs08)
       end
-      case Stripy.Queries.by_proba(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs09.charge) do
-        [true]  -> platform_refund(attrs09, user_attrs09)
+      case Stripy.Queries.by_sum(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs09.charge) do
+         [true] -> platform_refund(attrs09, user_attrs09)
         [false] -> {:error, %Ecto.Changeset{}}
-        [nil] -> platform_refund(attrs09, user_attrs09)
+          [nil] -> platform_refund(attrs09, user_attrs09)
       end
-      case Stripy.Queries.by_proba(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs10.charge) do
-        [true]  -> platform_refund(attrs10, user_attrs10)
+      case Stripy.Queries.by_sum(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs10.charge) do
+         [true] -> platform_refund(attrs10, user_attrs10)
         [false] -> {:error, %Ecto.Changeset{}}
-        [nil] -> platform_refund(attrs10, user_attrs10)
+          [nil] -> platform_refund(attrs10, user_attrs10)
       end
-      case Stripy.Queries.by_proba(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs11.charge) do
-        [true]  -> platform_refund(attrs11, user_attrs11)
+      case Stripy.Queries.by_sum(Stripy.Payments.StripeCharge, Stripy.Payments.StripeRefund, :id_from_stripe, :id_from_charge, :user_id, :amount, attrs11.charge) do
+         [true] -> platform_refund(attrs11, user_attrs11)
         [false] -> {:error, %Ecto.Changeset{}}
-        [nil] -> platform_refund(attrs11, user_attrs11)
+          [nil] -> platform_refund(attrs11, user_attrs11)
       end
     else
       {:error, %Ecto.Changeset{}}

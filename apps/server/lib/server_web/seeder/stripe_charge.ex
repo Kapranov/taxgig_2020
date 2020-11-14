@@ -23,14 +23,16 @@ defmodule ServerWeb.Seeder.StripeCharge do
   end
 
   @doc """
+  Used to create a remote `Stripe.Charge` record as well as
+  an associated local `StripeCharge` record.
+
+  To charge a credit card or other payment source, you create a Charge object.
+
   frontend: [:amount, :currency, :description, :capture]
   backend:  [:customer, :source]
 
   1. Charge can be performed infinite number of times and can charge the same card
   2. If no data, show error
-
-  ## Example
-
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do

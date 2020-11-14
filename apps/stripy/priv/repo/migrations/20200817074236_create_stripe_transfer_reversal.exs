@@ -17,6 +17,5 @@ defmodule Stripy.Repo.Migrations.CreateStripeTransferReversal do
     end
 
     create unique_index(:stripe_transfer_reversals, [:id_from_stripe], name: :stripe_transfer_reversals_id_from_stripe_index)
-    create unique_index(:stripe_transfer_reversals, [:id_from_transfer], name: :stripe_transfer_reversals_id_from_transfer_index)
   end
 end

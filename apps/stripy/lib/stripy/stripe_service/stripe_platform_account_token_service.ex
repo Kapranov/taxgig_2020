@@ -14,11 +14,47 @@ defmodule Stripy.StripeService.StripePlatformAccountTokenService do
     StripeService.Adapters.StripePlatformAccountTokenAdapter
   }
 
-  @api Application.get_env(:stripy, :stripe)
-
   @doc """
   Creates a new `Stripe.Token` record on Stripe API, as well as an associated local
   `StripeAccountToken` record
+
+  Creates a single-use token that wraps a user’s legal entity information.
+  Use this when creating or updating a Connect account.
+
+  StripeAccountToken:
+  fronend - [
+    :business_type,
+    :first_name,
+    :last_name,
+    :maiden_name,
+    :email,
+    :phone,
+    address: %{
+      :city,
+      :country,
+      :line1,
+      :postal_code,
+      :state
+    },
+    dob: %{
+      :day,
+      :month,
+      :year
+    },
+    :ssn_last_4,
+    :tos_shown_and_accepted
+  ]
+  backend - []
+
+  StripeAccount:
+  fronend - []
+  backend - []
+
+  1. If create a new `StripeAccountToken` and `StripeAccount` this performs only
+     one records and for role's pro.
+  2. if has one record return error
+  3. If `StripeAccountToken` creation fails, don't create `StripeAccount` and return an error
+  4. If `StripeAccountToken` creation succeeds return created `StripeAccountToken`
 
   ## Example
 
@@ -67,7 +103,7 @@ defmodule Stripy.StripeService.StripePlatformAccountTokenService do
         ArgumentError -> :error
       end
 
-    with {:ok, %Stripe.Token{} = account_token} = @api.Token.create(%{account: attrs}),
+    with {:ok, %Stripe.Token{} = account_token} = Stripe.Token.create(%{account: attrs}),
          {:ok, params} <- StripePlatformAccountTokenAdapter.to_params(account_token, user_attrs)
     do
       case Repo.aggregate(querty, :count, :id) < 10 do

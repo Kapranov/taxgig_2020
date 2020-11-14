@@ -27,6 +27,10 @@ defmodule ServerWeb.Seeder.StripeBankAccountToken do
   Used to create a remote `Stripe.Token` record as well as
   an associated local `StripeBankAccountToken` record.
 
+  Creates a single-use token that represents a bank account’s details. This token can be used
+  with any API method in place of a bank account dictionary. This token can be used only once,
+  by attaching it to a Custom account.
+
   fronend - [:account_holder_name, :account_holder_type, :account_number, :country, :currency, :routing_number]
   backend - []
 
@@ -36,9 +40,6 @@ defmodule ServerWeb.Seeder.StripeBankAccountToken do
   2. If `StripeBankAccountToken` creation fails, don't create `StripeExternalAccountBank` and return an error
   3. If `StripeBankAccountToken` creation succeeds, return created `StripeBankAccountToken`
   4. If create 11 and more bank_accounts for `StripeBankAccountToken` return error
-
-  ## Example
-
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do

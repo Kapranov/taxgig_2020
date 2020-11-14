@@ -1,6 +1,15 @@
-defmodule ServerWeb.Seeder.StripePayout do
+defmodule Stripy.StripeService.StripePlatformPayoutService do
   @moduledoc """
-  Seeds for `Stripe.Payout` context.
+  A Payout object is created when you receive funds from Stripe, or when you initiate
+  a payout to either a bank account or debit card of a connected Stripe account.
+  You can retrieve individual payouts, as well as list all payouts. Payouts are made
+  on varying schedules, depending on your country and industry.
+
+  You can:
+
+  - Create a payout
+
+  Stripe API reference: https://stripe.com/docs/api/payouts
   """
 
   @doc """

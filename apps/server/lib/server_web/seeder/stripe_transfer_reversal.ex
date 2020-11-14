@@ -23,27 +23,24 @@ defmodule ServerWeb.Seeder.StripeTransferReversal do
   end
 
   @doc """
+  Used to create a remote `Stripe.TransferReversal` record as well as
+  an associated local `StripeTransferReversal` record. When you create
+  a new reversal, you must specify a transfer to create it on.
+
+  When reversing transfers, you can optionally reverse part of the transfer.
+  You can do so as many times as you wish until the entire transfer has been
+  reversed.
+
   frontend - [:amount]
   backend  - [:project.stripe_transfer.id_from_stripe]
 
-
-
-  1. If created a new `StripeTransferReversal` field's amount must be equels or less
-     by `StripeTransfer.amount >= attrs["amount"].
-     Check all records by userId with `id_from_transfer` in `StripeTransferReversal` take there are amounts summarized
-     result must be less by `StripeTransfer.amount`. You can optionally reversal only part
-     of a transfer. You can do so multiple times, until the entire transfer has been reversed.
+  1. If create a new `StripeTransferReversal` field's amount must be equels or less
+     same field by `StripeTransfer` (StripeTransfer.amount >= attrs.amount) then need
+     check all records by userId and `id_from_transfer` in `StripeTransferReversal`
+     take there are amounts summarized and result must be less by `StripeTransfer`.
+     You can optionally reversal only part of a transfer. You can do so multiple times,
+     until the entire transfer has been reversed.
   2. If created a new `StripeTransferReversal` if summarized more item above return error
-
-  1. Check `tr` in `StripeTransferReversal`
-     If created a new `StripeTransferReversal` take field `stripe_transfer` in `Core.Project`
-     search it `tr_` in `StripeTransfer` take field's amount it must be equels  `StripeTransfer.amount` >= attrs["amount"]
-  2.
-     You can optionally refund only part of a charge. You can do so multiple times,
-     until the entire charge has been refunded.
-
-  ## Example
-
   """
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
@@ -57,7 +54,16 @@ defmodule ServerWeb.Seeder.StripeTransferReversal do
     transfer = StripyRepo.get_by(StripeTransfer, %{user_id: user_attrs["user_id"]})
     attrs = %{amount: 900}
 
-    platform_transfer_reversal(transfer.id_from_stripe, attrs, user_attrs)
+    if transfer.amount >= attrs.amount do
+      platform_transfer_reversal(transfer.id_from_stripe, attrs, user_attrs)
+      case Stripy.Queries.by_sum(StripeTransfer, StripeTransferReversal, :id_from_stripe, :id_from_transfer, :user_id, :amount, transfer.id_from_stripe) do
+         [true] -> platform_transfer_reversal(transfer.id_from_stripe, attrs, user_attrs)
+        [false] -> {:error, %Ecto.Changeset{}}
+          [nil] -> platform_transfer_reversal(transfer.id_from_stripe, attrs, user_attrs)
+      end
+    else
+      {:error, %Ecto.Changeset{}}
+    end
   end
 
   @spec platform_transfer_reversal(String.t(), map, map) ::
