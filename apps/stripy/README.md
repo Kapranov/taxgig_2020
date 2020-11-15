@@ -43,7 +43,7 @@ bash> mix new stripy --sup
 - [X] Refund                                         - `stripe_refund.ex`                - `https://stripe.com/docs/api/refunds/create`
 - [X] Transfer                                       - `stripe_transfer.ex`              - `https://stripe.com/docs/api/transfers/create`
 - [X] Transfer reversal                              - `stripe_transfer_reversal.ex`     - `https://stripe.com/docs/api/transfer_reversals/create`
-
+- [X] Payout                                         - `stripe_payout.ex`                - `https://stripe.com/docs/api/payouts/create`
 ```
 bash> mix ecto.gen.migration -r Stripy.Repo add_uuid_generate_v4_extension
 bash> mix ecto.gen.migration -r Stripy.Repo create_stripe_account
@@ -84,6 +84,7 @@ than 1,
   6. create_external_account_bank(N)
   7. create_transfer()
   8. create_transfer_reversal()
+  9. create_payout()
 
 ACTIONS - [create: c, delete: d, index: i, show: s, update: u]
 create_account               => [c,d,u]
@@ -99,25 +100,9 @@ create_refund                => [c,d]
 create_transfer              => [c,d]
 create_transfer_reversal     => [c,d]
 create_payout                => [c]
-
-stripe_user1 - role false email, role
- - create_card_token
-   - key: value, key: value
- - create_custmer
-   - key: value, key: value
- - create_charge
-   - key: value, key: value
- - create_charge_capture
-   - key: value, key: value
- - create_refund
-   - key: value, key: value
-
-stripe_user2 - role true  email, role
 ```
 
 ### Live mode
-
-need "Stripe-Account: acct_1HPssUC7lbhZAQNr"
 
 ```
 retrieve_balance.sh
