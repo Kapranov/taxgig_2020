@@ -39,6 +39,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformExternalAccountB
   object :stripe_platform_external_account_bank_mutations do
     @desc "Create the StripePlatformExternalAccountBank"
     field :create_stripe_platform_external_account_bank, :stripe_platform_external_account_bank, description: "Create a new stripe platform external account bank" do
+      arg :token, non_null(:string)
       arg :user_id, non_null(:string)
       resolve &StripePlatformExternalAccountBankResolver.create/3
     end
