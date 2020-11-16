@@ -42,6 +42,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformChargeTypes do
       arg :capture, non_null(:boolean)
       arg :customer, non_null(:string)
       arg :source, non_null(:string)
+      arg :user_id, non_null(:string)
       resolve &StripePlatformChargeResolver.create/3
     end
 

@@ -10,7 +10,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
 
-  @spec update(any, %{id: bitstring, stripe_platform_charge_capture: map()}, Absinthe.Resolution.t()) :: result()
-  def update(_root, %{id: _id, stripe_platform_charge_capture: _params}, _info) do
+  @spec update(any, %{id_from_stripe: bitstring, stripe_platform_charge_capture: map()}, Absinthe.Resolution.t()) :: result()
+  def update(_root, %{id_from_stripe: _id_from_stripe, stripe_platform_charge_capture: _params}, _info) do
   end
 end

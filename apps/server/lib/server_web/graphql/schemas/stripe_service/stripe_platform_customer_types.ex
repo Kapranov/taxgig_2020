@@ -35,7 +35,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformCustomerTypes do
   object :stripe_platform_customer_mutations do
     @desc "Update a specific StripePlatformCustomer"
     field :update_stripe_platform_customer, :stripe_platform_customer do
-      arg :id, non_null(:string)
+      arg :id_from_stripe, non_null(:string)
       arg :stripe_platform_customer, :update_stripe_platform_customer_params
       resolve &StripePlatformCustomerResolver.update/3
     end

@@ -18,7 +18,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver d
   def create(_parent, _args, _info) do
   end
 
-  @spec delete(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()
+  @spec delete(any, %{id: bitstring, customer: bitstring}, Absinthe.Resolution.t()) :: result()
   def delete(_parent, %{id: _id, customer: _customer}, _info) do
   end
 end

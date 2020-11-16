@@ -41,7 +41,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformChargeCaptureTyp
   object :stripe_platform_charge_capture_mutations do
     @desc "Update a specific StripePlatformChargeCapture"
     field :update_stripe_platform_charge_capture, :stripe_platform_charge_capture do
-      arg :id, non_null(:string)
+      arg :id_from_stripe, non_null(:string)
       arg :stripe_platform_charge_capture, :update_stripe_platform_charge_capture_params
       resolve &StripePlatformChargeCaptureResolver.update/3
     end

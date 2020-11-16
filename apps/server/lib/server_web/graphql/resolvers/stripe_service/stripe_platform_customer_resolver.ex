@@ -14,7 +14,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCustomerResolv
   def update(_root, %{id: _id, stripe_platform_customer: _params}, _info) do
   end
 
-  @spec delete(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()
-  def delete(_parent, %{id: _id, customer: _customer}, _info) do
+  @spec delete(any, %{id_from_stripe: bitstring}, Absinthe.Resolution.t()) :: result()
+  def delete(_parent, %{id_from_stripe: _id_from_stripe}, _info) do
   end
 end
