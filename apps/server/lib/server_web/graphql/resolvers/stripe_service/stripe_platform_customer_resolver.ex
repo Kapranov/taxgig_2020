@@ -2,4 +2,19 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCustomerResolv
   @moduledoc """
   The StripeCustomer GraphQL resolvers.
   """
+
+  @type t :: map
+  @type reason :: any
+  @type success_tuple :: {:ok, t}
+  @type success_list :: {:ok, [t]}
+  @type error_tuple :: {:error, reason}
+  @type result :: success_tuple | error_tuple
+
+  @spec update(any, %{id: bitstring, stripe_platform_customer: map()}, Absinthe.Resolution.t()) :: result()
+  def update(_root, %{id: _id, stripe_platform_customer: _params}, _info) do
+  end
+
+  @spec delete(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()
+  def delete(_parent, %{id: _id, customer: _customer}, _info) do
+  end
 end
