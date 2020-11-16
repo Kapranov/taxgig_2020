@@ -12,7 +12,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformCustomerTypes do
     Resolvers.StripeService.StripePlatformCustomerResolver
   }
 
-  @desc "The StripeCardCustomer"
+  @desc "The StripePlatformCustomer"
   object :stripe_platform_customer do
     field :id, non_null(:string)
     field :id_from_stripe, non_null(:string)
@@ -25,7 +25,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformCustomerTypes do
     field :users, :user, resolve: dataloader(Data)
   end
 
-  @desc "The StripeCardCustomer update via params"
+  @desc "The StripePlatformCustomer update via params"
   input_object :update_stripe_platform_customer_params, description: "update stripe platform customer" do
     field :email, :string, description: "email's an user"
     field :name, :string, description: "name's an user"
