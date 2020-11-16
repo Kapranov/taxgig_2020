@@ -27,22 +27,22 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTokenType
     @desc "Create the StripePlatformAccountToken"
     field :create_stripe_platform_account_token, :stripe_platform_account_token_mutations, description: "Create a new stripe platform account token" do
       arg :business_type, non_null(:string)
-      arg :first_name, non_null(:string)
-      arg :last_name, non_null(:string)
-      arg :maiden_name, non_null(:string)
-      arg :email, non_null(:string)
-      arg :phone, non_null(:string)
       arg :city, non_null(:string)
       arg :country, non_null(:string)
-      arg :line1, non_null(:string)
-      arg :postal_code, non_null(:integer)
-      arg :state, non_null(:string)
       arg :day, non_null(:integer)
+      arg :email, non_null(:string)
+      arg :first_name, non_null(:string)
+      arg :last_name, non_null(:string)
+      arg :line1, non_null(:string)
+      arg :maiden_name, non_null(:string)
       arg :month, non_null(:integer)
-      arg :year, non_null(:integer)
+      arg :phone, non_null(:string)
+      arg :postal_code, non_null(:integer)
       arg :ssn_last_4, non_null(:string)
+      arg :state, non_null(:string)
       arg :tos_shown_and_accepted, (:boolean)
       arg :user_id, non_null(:string)
+      arg :year, non_null(:integer)
       resolve &StripePlatformAccountTokenResolver.create/3
     end
 

@@ -25,21 +25,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformCustomerTypes do
     field :users, :user, resolve: dataloader(Data)
   end
 
-  @desc "The StripePlatformCustomer update via params"
-  input_object :update_stripe_platform_customer_params, description: "update stripe platform customer" do
-    field :email, :string, description: "email's an user"
-    field :name, :string, description: "name's an user"
-    field :phone, :string, description: "phone's an user"
-  end
-
   object :stripe_platform_customer_mutations do
-    @desc "Update a specific StripePlatformCustomer"
-    field :update_stripe_platform_customer, :stripe_platform_customer do
-      arg :id_from_stripe, non_null(:string)
-      arg :stripe_platform_customer, :update_stripe_platform_customer_params
-      resolve &StripePlatformCustomerResolver.update/3
-    end
-
     @desc "Delete a specific the StripePlatformCustomer"
     field :delete_stripe_platform_customer, :stripe_platform_customer do
       arg :id_from_stripe, non_null(:string)
