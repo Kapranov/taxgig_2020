@@ -5,12 +5,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTokenType
 
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
-
-  alias ServerWeb.GraphQL.{
-    Data,
-    Resolvers.StripeService.StripePlatformAccountTokenResolver
-  }
+  alias ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountTokenResolver
 
   @desc "The StripeAccountToken"
   object :stripe_platform_account_token do
@@ -20,7 +15,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTokenType
     field :created, non_null(:integer)
     field :currency, non_null(:string)
     field :used, non_null(:boolean)
-    field :users, :user, resolve: dataloader(Data)
+    field :user_id, non_null(:string)
   end
 
   object :stripe_platform_account_token_mutations do
@@ -41,7 +36,6 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTokenType
       arg :ssn_last_4, non_null(:string)
       arg :state, non_null(:string)
       arg :tos_shown_and_accepted, (:boolean)
-      arg :user_id, non_null(:string)
       arg :year, non_null(:integer)
       resolve &StripePlatformAccountTokenResolver.create/3
     end
