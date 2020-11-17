@@ -40,7 +40,6 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformPayoutTypes do
       arg :currency, non_null(:string)
       arg :destination, non_null(:string)
       arg :type, non_null(:string)
-      arg :user_id, non_null(:string)
       resolve &StripePlatformPayoutResolver.create/3
     end
   end
