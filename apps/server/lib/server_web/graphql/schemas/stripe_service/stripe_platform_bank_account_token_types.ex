@@ -5,12 +5,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformBankAccountToken
 
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
-
-  alias ServerWeb.GraphQL.{
-    Data,
-    Resolvers.StripeService.StripePlatformBankAccountTokenResolver
-  }
+  alias ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformBankAccountTokenResolver
 
   @desc "The StripeBankAccountToken"
   object :stripe_platform_bank_account_token do
@@ -29,7 +24,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformBankAccountToken
     field :routing_number, non_null(:string)
     field :status, non_null(:string)
     field :used, non_null(:boolean)
-    field :users, :user, resolve: dataloader(Data)
+    field :user_id, non_null(:string)
   end
 
   object :stripe_platform_bank_account_token_mutations do
@@ -41,7 +36,6 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformBankAccountToken
       arg :country, non_null(:string)
       arg :currency, non_null(:string)
       arg :routing_number, non_null(:integer)
-      arg :user_id, non_null(:string)
       resolve &StripePlatformBankAccountTokenResolver.create/3
     end
 
