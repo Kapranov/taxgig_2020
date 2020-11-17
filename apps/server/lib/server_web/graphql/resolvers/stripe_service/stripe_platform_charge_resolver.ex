@@ -25,7 +25,12 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
 
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
-    if is_nil(args[:amount]) || is_nil(args[:capture]) || is_nil(args[:currency]) || is_nil(args[:description]) || is_nil(args[:id_from_card]) do
+    if is_nil(args[:amount]) ||
+       is_nil(args[:capture]) ||
+       is_nil(args[:currency]) ||
+       is_nil(args[:description]) ||
+       is_nil(args[:id_from_card])
+    do
       {:error, [[field: :stripe_charge, message: "Can't be blank"]]}
     else
       case Accounts.by_role(current_user.id) do

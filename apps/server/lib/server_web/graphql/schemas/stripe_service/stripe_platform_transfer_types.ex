@@ -5,12 +5,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformTransferTypes do
 
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
-
-  alias ServerWeb.GraphQL.{
-    Data,
-    Resolvers.StripeService.StripePlatformTransferResolver
-  }
+  alias ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformTransferResolver
 
   @desc "The StripeTransfer"
   object :stripe_platform_transfer do
@@ -25,7 +20,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformTransferTypes do
     field :destination_payment, non_null(:string)
     field :reversed, non_null(:boolean)
     field :source_type, non_null(:string)
-    field :users, :user, resolve: dataloader(Data)
+    field :user_id, non_null(:string)
   end
 
   object :stripe_platform_transfer_mutations do
@@ -33,7 +28,6 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformTransferTypes do
     field :create_stripe_platform_transfer, :stripe_platform_transfer_mutations, description: "Create a new stripe platform transfer" do
       arg :id_from_project, non_null(:string)
       arg :currency, non_null(:string)
-      arg :user_id, non_null(:string)
       resolve &StripePlatformTransferResolver.create/3
     end
 
