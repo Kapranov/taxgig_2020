@@ -5,12 +5,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformExternalAccountC
 
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
-
-  alias ServerWeb.GraphQL.{
-    Data,
-    Resolvers.StripeService.StripePlatformExternalAccountCardResolver
-  }
+  alias ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformExternalAccountCardResolver
 
   @desc "The StripePlatformExternalAccountCard"
   object :stripe_platform_external_account_card do
@@ -27,7 +22,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformExternalAccountC
     field :fingerprint, non_null(:string)
     field :funding, non_null(:string)
     field :last4, non_null(:string)
-    field :users, :user, resolve: dataloader(Data)
+    field :user_id, non_null(:string)
   end
 
   object :stripe_platform_external_account_card_queries do
@@ -41,7 +36,6 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformExternalAccountC
     @desc "Create the StripePlatformExternalAccountCard"
     field :create_stripe_platform_external_account_card, :stripe_platform_external_account_card, description: "Create a new stripe platform external account card" do
       arg :token, non_null(:string)
-      arg :user_id, non_null(:string)
       resolve &StripePlatformExternalAccountCardResolver.create/3
     end
 
