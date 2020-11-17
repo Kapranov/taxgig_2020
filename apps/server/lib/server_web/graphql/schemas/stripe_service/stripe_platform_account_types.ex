@@ -5,12 +5,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTypes do
 
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
-
-  alias ServerWeb.GraphQL.{
-    Data,
-    Resolvers.StripeService.StripePlatformAccountResolver
-  }
+  alias ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountResolver
 
   @desc "The StripePlatformAccount"
   object :stripe_platform_account do
@@ -27,7 +22,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTypes do
     field :payouts_enabled, non_null(:boolean)
     field :tos_acceptance, list_of(:string)
     field :type, non_null(:string)
-    field :users, :user, resolve: dataloader(Data)
+    field :user_id, non_null(:string)
   end
 
   object :stripe_platform_account_mutations do
