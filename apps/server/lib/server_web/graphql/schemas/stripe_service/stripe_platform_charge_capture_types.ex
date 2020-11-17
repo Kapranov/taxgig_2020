@@ -5,12 +5,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformChargeCaptureTyp
 
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
-
-  alias ServerWeb.GraphQL.{
-    Data,
-    Resolvers.StripeService.StripePlatformChargeCaptureResolver
-  }
+  alias ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureResolver
 
   @desc "The StripeChargeCapture"
   object :stripe_platform_charge_capture do
@@ -30,7 +25,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformChargeCaptureTyp
     field :outcome,  list_of(:string)
     field :receipt_url, non_null(:string)
     field :status, non_null(:string)
-    field :users, :user, resolve: dataloader(Data)
+    field :user_id, non_null(:string)
   end
 
   @desc "The StripePlatformChargeCapture update via params"

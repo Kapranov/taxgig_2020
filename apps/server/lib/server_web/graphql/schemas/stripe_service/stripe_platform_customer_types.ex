@@ -5,12 +5,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformCustomerTypes do
 
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
-
-  alias ServerWeb.GraphQL.{
-    Data,
-    Resolvers.StripeService.StripePlatformCustomerResolver
-  }
+  alias ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCustomerResolver
 
   @desc "The StripePlatformCustomer"
   object :stripe_platform_customer do
@@ -22,7 +17,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformCustomerTypes do
     field :email, non_null(:string)
     field :name, non_null(:string)
     field :phone, non_null(:string)
-    field :users, :user, resolve: dataloader(Data)
+    field :user_id, non_null(:string)
   end
 
   object :stripe_platform_customer_mutations do

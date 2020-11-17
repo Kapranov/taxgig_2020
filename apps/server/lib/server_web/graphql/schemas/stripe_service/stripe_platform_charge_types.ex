@@ -5,12 +5,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformChargeTypes do
 
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
-
-  alias ServerWeb.GraphQL.{
-    Data,
-    Resolvers.StripeService.StripePlatformChargeResolver
-  }
+  alias ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
 
   @desc "The StripeCharge"
   object :stripe_platform_charge do
@@ -30,19 +25,18 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformChargeTypes do
     field :outcome,  list_of(:string)
     field :receipt_url, non_null(:string)
     field :status, non_null(:string)
-    field :users, :user, resolve: dataloader(Data)
+    field :user_id, non_null(:string)
   end
 
   object :stripe_platform_charge_mutations do
     @desc "Create the StripePlatformCharge"
     field :create_stripe_platform_charge, :stripe_platform_charge_mutations, description: "Create a new stripe platform charge" do
       arg :amount, non_null(:integer)
-      arg :currency, non_null(:string)
-      arg :description, non_null(:string)
       arg :capture, non_null(:boolean)
+      arg :currency, non_null(:string)
       arg :customer, non_null(:string)
-      arg :source, non_null(:string)
-      arg :user_id, non_null(:string)
+      arg :description, non_null(:string)
+      arg :id_from_card, non_null(:string)
       resolve &StripePlatformChargeResolver.create/3
     end
 

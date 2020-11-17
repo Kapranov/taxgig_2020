@@ -58,15 +58,17 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver d
     end
   end
 
-  @spec delete(any, %{id: bitstring, customer: bitstring}, Absinthe.Resolution.t()) :: result()
-  def delete(_parent, %{id: id_from_stripe, customer: id_from_customer}, %{context: %{current_user: current_user}}) do
+  @spec delete(any, %{id_from_stripe: bitstring}, Absinthe.Resolution.t()) :: result()
+  def delete(_parent, %{id_from_stripe: id_from_stripe}, %{context: %{current_user: current_user}}) do
     if is_nil(id_from_stripe) do
       {:error, [[field: :id_from_stripe, message: "Can't be blank"]]}
     else
       try do
         case !is_nil(current_user) do
           true ->
-            with {:ok, struct} <- StripePlatformCardService.delete_card(id_from_stripe, %{customer: id_from_customer}) do
+            with customer <- Repo.get_by(StripeCustomer, %{user_id: current_user.id}),
+                 {:ok, struct} <- StripePlatformCardService.delete_card(id_from_stripe, %{customer: customer.id})
+            do
               {:ok, struct}
             else
               nil -> {:error, :not_found}

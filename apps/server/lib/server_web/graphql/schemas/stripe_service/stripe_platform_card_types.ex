@@ -5,12 +5,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformCardTypes do
 
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
-
-  alias ServerWeb.GraphQL.{
-    Data,
-    Resolvers.StripeService.StripePlatformCardResolver
-  }
+  alias ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver
 
   @desc "The StripeCardToken"
   object :stripe_platform_card do
@@ -28,7 +23,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformCardTypes do
     field :name, non_null(:string)
     field :token, non_null(:string)
     field :used, non_null(:boolean)
-    field :users, :user, resolve: dataloader(Data)
+    field :user_id, non_null(:string)
   end
 
   object :stripe_platform_card_queries do
@@ -46,13 +41,11 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformCardTypes do
       arg :exp_year, non_null(:integer)
       arg :name, non_null(:string)
       arg :number, non_null(:integer)
-      arg :user_id, non_null(:string)
       resolve &StripePlatformCardResolver.create/3
     end
 
     @desc "Delete a specific the StripePlatformCardToken"
     field :delete_stripe_platform_card, :stripe_platform_card do
-      arg :id_from_customer, non_null(:string)
       arg :id_from_stripe, non_null(:string)
       resolve &StripePlatformCardResolver.delete/3
     end
