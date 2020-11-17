@@ -3,7 +3,11 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver d
   The StripeCardToken GraphQL resolvers.
   """
 
-  alias Core.Accounts
+  alias Core.{
+    Accounts,
+    Accounts.User
+  }
+
   alias Stripy.{
     Payments.StripeCardToken,
     Payments.StripeCustomer,
@@ -20,7 +24,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver d
                        {:error, Stripe.Error.t()}
   @type result :: success_tuple | error_tuple
 
-  @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: success_list() | error_tuple()
+  @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: success_list() | error_tuple()
   def list(_parent, _args, %{context: %{current_user: current_user}}) do
     if is_nil(current_user) do
       {:error, [[field: :user_id, message: "An User not found! or Unauthenticated"]]}
@@ -40,7 +44,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver d
     end
   end
 
-  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
+  @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
     if is_nil(args[:cvc]) || is_nil(args[:exp_month]) || is_nil(args[:exp_year]) || is_nil(args[:name]) || is_nil(args[:number]) do
       {:error, [[field: :stripe_card_token, message: "Can't be blank"]]}
@@ -58,7 +62,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver d
     end
   end
 
-  @spec delete(any, %{id_from_stripe: bitstring}, Absinthe.Resolution.t()) :: result()
+  @spec delete(any, %{id_from_stripe: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id_from_stripe: id_from_stripe}, %{context: %{current_user: current_user}}) do
     if is_nil(id_from_stripe) do
       {:error, [[field: :id_from_stripe, message: "Can't be blank"]]}

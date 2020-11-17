@@ -3,6 +3,8 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCustomerResolv
   The StripeCustomer GraphQL resolvers.
   """
 
+  alias Core.Accounts.User
+
   alias Stripy.{
     Payments.StripeCustomer,
     StripeService.StripePlatformCustomerService
@@ -18,7 +20,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCustomerResolv
                        {:error, Stripe.Error.t()}
   @type result :: success_tuple | error_tuple
 
-  @spec delete(any, %{id_from_stripe: bitstring}, Absinthe.Resolution.t()) :: result()
+  @spec delete(any, %{id_from_stripe: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id_from_stripe: id_from_stripe}, %{context: %{current_user: current_user}}) do
     if is_nil(id_from_stripe) do
       {:error, [[field: :id_from_stripe, message: "Can't be blank"]]}

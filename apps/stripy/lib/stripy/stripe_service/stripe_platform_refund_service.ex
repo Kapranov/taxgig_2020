@@ -49,8 +49,8 @@ defmodule Stripy.StripeService.StripePlatformRefundService do
 
   ## Example
 
-      iex> id_from_charge = "ch_1HP2hvJ2Ju0cX1cPUxoku93W"
-      iex> attrs = %{amount: 2000, charge: id_from_charge}
+      iex> id_from_stripe = "ch_1HP2hvJ2Ju0cX1cPUxoku93W"
+      iex> attrs = %{amount: 2000, charge: id_from_stripe}
       iex> user_id = FlakeId.get()
       iex> user_attrs = %{"user_id" => user_id}
       iex> {:ok, refuned} = create(attrs, user_attrs)

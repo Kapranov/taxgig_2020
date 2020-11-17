@@ -3,7 +3,10 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
   The StripeCharge GraphQL resolvers.
   """
 
-  alias Core.Accounts
+  alias Core.{
+    Accounts,
+    Accounts.User
+  }
 
   alias Stripy.{
     Payments.StripeCharge,
@@ -20,7 +23,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
                        {:error, Stripe.Error.t()}
   @type result :: success_tuple | error_tuple
 
-  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
+  @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
     if is_nil(args[:amount]) || is_nil(args[:capture]) || is_nil(args[:currency]) || is_nil(args[:description]) || is_nil(args[:id_from_card]) do
       {:error, [[field: :stripe_charge, message: "Can't be blank"]]}
@@ -49,7 +52,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
     end
   end
 
-  @spec delete(any, %{id_from_stripe: bitstring}, Absinthe.Resolution.t()) :: result()
+  @spec delete(any, %{id_from_stripe: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id_from_stripe: id_from_stripe}, %{context: %{current_user: current_user}}) do
     if is_nil(id_from_stripe) do
       {:error, [[field: :id_from_stripe, message: "Can't be blank"]]}
