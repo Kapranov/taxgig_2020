@@ -172,8 +172,8 @@ defmodule Stripy.StripeService.StripePlatformCardService do
   ## Example
 
       iex> attrs = %{customer: "cus_IMlbpTTiZ8thiF"}
-      iex> id_from_card = "card_1Hm24VLhtqtNnMebiqbcchQf"
-      iex> {:ok, deleted} = delete_card(id_from_card, attrs)
+      iex> id_from_stripe = "card_1Hm24VLhtqtNnMebiqbcchQf"
+      iex> {:ok, deleted} = delete_card(id_from_stripe, attrs)
 
   """
   @spec delete_card(String.t, %{customer: String.t}) ::
