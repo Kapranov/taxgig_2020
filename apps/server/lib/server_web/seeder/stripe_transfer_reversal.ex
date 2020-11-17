@@ -55,7 +55,6 @@ defmodule ServerWeb.Seeder.StripeTransferReversal do
     attrs = %{amount: 900}
 
     if transfer.amount >= attrs.amount do
-      platform_transfer_reversal(transfer.id_from_stripe, attrs, user_attrs)
       case Stripy.Queries.by_sum(StripeTransfer, StripeTransferReversal, :id_from_stripe, :id_from_transfer, :user_id, :amount, transfer.id_from_stripe) do
          [true] -> platform_transfer_reversal(transfer.id_from_stripe, attrs, user_attrs)
         [false] -> {:error, %Ecto.Changeset{}}
