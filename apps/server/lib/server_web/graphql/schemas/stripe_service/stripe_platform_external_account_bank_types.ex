@@ -5,12 +5,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformExternalAccountB
 
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
-
-  alias ServerWeb.GraphQL.{
-    Data,
-    Resolvers.StripeService.StripePlatformExternalAccountBankResolver
-  }
+  alias ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformExternalAccountBankResolver
 
   @desc "The StripePlatformExternalAccountBank"
   object :stripe_platform_external_account_bank do
@@ -26,7 +21,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformExternalAccountB
     field :last4, non_null(:string)
     field :routing_number, non_null(:string)
     field :status, non_null(:string)
-    field :users, :user, resolve: dataloader(Data)
+    field :user_id, non_null(:string)
   end
 
   object :stripe_platform_external_account_bank_queries do
