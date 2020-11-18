@@ -40,7 +40,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformTransferResolv
         true -> {:error, :not_found}
         false ->
           project = CoreRepo.get_by(Project, %{id: args[:id_from_project]})
-          if is_nil(project.stripe_transfer) do
+          if is_nil(project.id_from_stripe_transfer) do
             with account <- StripyRepo.get_by(StripeAccount, %{user_id: current_user.id}),
                  {:ok, struct} <- StripePlatformTransferService.create(%{
                     amount: amount(project.project_price),
@@ -50,7 +50,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformTransferResolv
                   %{"user_id" => current_user.id}
                  )
             do
-              {:ok, %Project{}} = Contracts.update_project(project, %{stripe_transfer: struct.id_from_stripe})
+              {:ok, %Project{}} = Contracts.update_project(project, %{id_from_stripe_transfer: struct.id_from_stripe})
               {:ok, struct}
             else
               nil -> {:error, :not_found}

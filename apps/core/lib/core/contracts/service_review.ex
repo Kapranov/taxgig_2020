@@ -5,12 +5,15 @@ defmodule Core.Contracts.ServiceReview do
 
   use Core.Model
 
+  alias Core.Contracts.Project
+
   @type t :: %__MODULE__{
     client_comment: String.t(),
     communication: integer,
     final_rating: integer,
     pro_response: String.t(),
     professionalism: integer,
+    project_id: Project.t(),
     work_quality: integer
   }
 
@@ -20,6 +23,7 @@ defmodule Core.Contracts.ServiceReview do
     final_rating
     pro_response
     professionalism
+    project_id
     work_quality
   )a
 
@@ -27,6 +31,7 @@ defmodule Core.Contracts.ServiceReview do
     communication
     final_rating
     professionalism
+    project_id
     work_quality
   )a
 
@@ -37,6 +42,11 @@ defmodule Core.Contracts.ServiceReview do
     field :pro_response, :string, null: true
     field :professionalism, :integer, null: false
     field :work_quality, :integer, null: false
+
+    belongs_to :project, Project,
+      foreign_key: :project_id,
+      type: FlakeId.Ecto.CompatType,
+      references: :id
 
     timestamps()
   end

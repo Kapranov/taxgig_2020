@@ -32,7 +32,7 @@ defmodule ServerWeb.Seeder.StripeTransferReversal do
   reversed.
 
   frontend - [:amount]
-  backend  - [:project.stripe_transfer.id_from_stripe]
+  backend  - [:project.id_from_stripe_transfer]
 
   1. If create a new `StripeTransferReversal` field's amount must be equels or less
      same field by `StripeTransfer` (StripeTransfer.amount >= attrs.amount) then need

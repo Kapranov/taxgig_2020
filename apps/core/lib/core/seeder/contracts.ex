@@ -212,99 +212,108 @@ defmodule Core.Seeder.Contracts do
         addon_id: addon2.id,
         assigned_pro: pro1,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer2.id,
         project_price: random_integer(),
         status: random_project_status(),
-        stripe_card_token_id: FlakeId.get(),
         user_id: tp1
       }),
       Repo.insert!(%Project{
         addon_id: addon2.id,
         assigned_pro: pro2,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer2.id,
         project_price: random_integer(),
         status: random_project_status(),
-        stripe_card_token_id: FlakeId.get(),
         user_id: tp1
       }),
       Repo.insert!(%Project{
         addon_id: addon2.id,
         assigned_pro: pro3,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer2.id,
         project_price: random_integer(),
         status: random_project_status(),
-        stripe_card_token_id: FlakeId.get(),
         user_id: tp1
       }),
       Repo.insert!(%Project{
         addon_id: addon3.id,
         assigned_pro: pro1,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer3.id,
         project_price: random_integer(),
         status: random_project_status(),
-        stripe_card_token_id: FlakeId.get(),
         user_id: tp2
       }),
       Repo.insert!(%Project{
         addon_id: addon3.id,
         assigned_pro: pro2,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer3.id,
         project_price: random_integer(),
         status: random_project_status(),
-        stripe_card_token_id: FlakeId.get(),
         user_id: tp2
       }),
       Repo.insert!(%Project{
         addon_id: addon3.id,
         assigned_pro: pro3,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer3.id,
         project_price: random_integer(),
         status: random_project_status(),
-        stripe_card_token_id: FlakeId.get(),
         user_id: tp2
       }),
       Repo.insert!(%Project{
         addon_id: addon4.id,
         assigned_pro: pro1,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer4.id,
         project_price: random_integer(),
         status: random_project_status(),
-        stripe_card_token_id: FlakeId.get(),
         user_id: tp3
       }),
       Repo.insert!(%Project{
         addon_id: addon4.id,
         assigned_pro: pro2,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer4.id,
         project_price: random_integer(),
         status: random_project_status(),
-        stripe_card_token_id: FlakeId.get(),
         user_id: tp3
       }),
       Repo.insert!(%Project{
         addon_id: addon4.id,
         assigned_pro: pro3,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer4.id,
         project_price: random_integer(),
         status: random_project_status(),
-        stripe_card_token_id: FlakeId.get(),
         user_id: tp3
       })
     ]
@@ -312,6 +321,9 @@ defmodule Core.Seeder.Contracts do
 
   @spec insert_service_review() :: Ecto.Schema.t()
   defp insert_service_review do
+    project_ids = Enum.map(Repo.all(Project), fn(data) -> data end)
+    { project1 } = { Enum.at(project_ids, 0) }
+
     [
       Repo.insert!(%ServiceReview{
         client_comment: Lorem.sentence(),
@@ -319,7 +331,8 @@ defmodule Core.Seeder.Contracts do
         final_rating: random_float(),
         pro_response: Lorem.sentence(),
         professionalism: random_integer(),
-        work_quality: random_integer()
+        project_id: project1.id,
+        work_quality: random_integer(),
       })
     ]
   end

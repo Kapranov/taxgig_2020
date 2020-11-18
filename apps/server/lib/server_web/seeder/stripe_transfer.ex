@@ -37,9 +37,10 @@ defmodule ServerWeb.Seeder.StripeTransfer do
   frontend - []
   backend  - [:amount, :destination, :currency]
 
-  1. For create a new `StripeTransfer` check field's `stripe_transfer` by `Core.Project`
-     it must be null, it will take field's `project_price` by `Core.Project` and create
-     new value (amount = (project.project_price * 0.8 * 100)), result write in field's
+  1. For create a new `StripeTransfer` check field's `id_drom_stripe_transfer`
+     by `Core.Project` it must be null, it will take field's `project_price`
+     by `Core.Project` and create new value:
+     (amount = (project.project_price * 0.8 * 100)), result write in field's
      `amount` by `StripeTransfer`. If Trasfer has been successful to update it.
      Transfer can be performed once per Project.
   2. If no data, show error
@@ -57,7 +58,7 @@ defmodule ServerWeb.Seeder.StripeTransfer do
     querty = CoreRepo.all(from p in Project, where: p.assigned_pro == ^user.id) |> List.last
     attrs = %{amount: amount(1000), currency: "usd", destination: account.id_from_stripe}
 
-    if is_nil(querty.stripe_transfer) do
+    if is_nil(querty.id_from_stripe_transfer) do
       platform_transfer(attrs, user_attrs, querty.id)
     else
       {:error, %Ecto.Changeset{}}
@@ -76,7 +77,7 @@ defmodule ServerWeb.Seeder.StripeTransfer do
         with project <- CoreRepo.get_by(Project, %{id: id}),
              {:ok, %StripeTransfer{} = data} <- StripePlatformTransferService.create(attrs, user_attrs)
         do
-          {:ok, %Project{}} = Contracts.update_project(project, %{stripe_transfer: data.id_from_stripe})
+          {:ok, %Project{}} = Contracts.update_project(project, %{id_from_stripe_transfer: data.id_from_stripe})
           {:ok, data}
         else
           nil -> {:error, :not_found}

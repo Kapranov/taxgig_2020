@@ -190,91 +190,100 @@ defmodule Core.Seeder.Updated.Contracts do
         addon_id: addon2.id,
         assigned_pro: pro2,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer2.id,
         project_price: random_integer(),
-        status: random_project_status(),
-        stripe_card_token_id: FlakeId.get()
+        status: random_project_status()
       }),
       Contracts.update_project(project2, %{
         addon_id: addon2.id,
         assigned_pro: pro3,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer2.id,
         project_price: random_integer(),
-        status: random_project_status(),
-        stripe_card_token_id: FlakeId.get()
+        status: random_project_status()
       }),
       Contracts.update_project(project3, %{
         addon_id: addon2.id,
         assigned_pro: pro1,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer2.id,
         project_price: random_integer(),
-        status: random_project_status(),
-        stripe_card_token_id: FlakeId.get()
+        status: random_project_status()
       }),
       Contracts.update_project(project4, %{
         addon_id: addon3.id,
         assigned_pro: pro2,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer3.id,
         project_price: random_integer(),
-        status: random_project_status(),
-        stripe_card_token_id: FlakeId.get()
+        status: random_project_status()
       }),
       Contracts.update_project(project5, %{
         addon_id: addon3.id,
         assigned_pro: pro3,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer3.id,
         project_price: random_integer(),
-        status: random_project_status(),
-        stripe_card_token_id: FlakeId.get()
+        status: random_project_status()
       }),
       Contracts.update_project(project6, %{
         addon_id: addon3.id,
         assigned_pro: pro1,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer3.id,
         project_price: random_integer(),
-        status: random_project_status(),
-        stripe_card_token_id: FlakeId.get()
+        status: random_project_status()
       }),
       Contracts.update_project(project7, %{
         addon_id: addon4.id,
         assigned_pro: pro2,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer4.id,
         project_price: random_integer(),
-        status: random_project_status(),
-        stripe_card_token_id: FlakeId.get()
+        status: random_project_status()
       }),
       Contracts.update_project(project8, %{
         addon_id: addon4.id,
         assigned_pro: pro3,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer4.id,
         project_price: random_integer(),
-        status: random_project_status(),
-        stripe_card_token_id: FlakeId.get()
+        status: random_project_status()
       }),
       Contracts.update_project(project9, %{
         addon_id: addon4.id,
         assigned_pro: pro1,
         end_time: Date.utc_today(),
+        id_from_stripe_card: FlakeId.get(),
+        id_from_stripe_transfer: FlakeId.get(),
         instant_matched: random_boolean(),
         offer_id: offer4.id,
         project_price: random_integer(),
-        status: random_project_status(),
-        stripe_card_token_id: FlakeId.get()
+        status: random_project_status()
       })
     ]
   end
@@ -286,6 +295,9 @@ defmodule Core.Seeder.Updated.Contracts do
 
     { srv1 } = { Enum.at(service_review_ids, 0) }
 
+    project_ids = Enum.map(Repo.all(Project), fn(data) -> data end)
+    { project1 } = { Enum.at(project_ids, 4) }
+
     [
       Contracts.update_service_review(srv1, %{
         client_comment: Lorem.sentence(),
@@ -293,6 +305,7 @@ defmodule Core.Seeder.Updated.Contracts do
         final_rating: random_float(),
         pro_response: Lorem.sentence(),
         professionalism: random_integer(),
+        project_id: project1.id,
         work_quality: random_integer()
       })
     ]

@@ -9,19 +9,21 @@ defmodule Core.Contracts.Project do
     Accounts.User,
     Contracts.Addon,
     Contracts.Helpers.ProjectEnum,
-    Contracts.Offer
+    Contracts.Offer,
+    Contracts.ServiceReview
   }
 
   @type t :: %__MODULE__{
     addon_id: Addon.t(),
     assigned_pro: FlakeId.Ecto.Type,
     end_time: DateTime.t(),
+    id_from_stripe_card: FlakeId.Ecto.Type,
+    id_from_stripe_transfer: String.t(),
     instant_matched: boolean,
     offer_id: Offer.t(),
     project_price: integer,
+    service_review: ServiceReview.t(),
     status: String.t(),
-    stripe_card_token_id: FlakeId.Ecto.Type,
-    stripe_transfer: String.t(),
     user_id: User.t()
   }
 
@@ -29,12 +31,12 @@ defmodule Core.Contracts.Project do
     addon_id
     assigned_pro
     end_time
+    id_from_stripe_card
+    id_from_stripe_transfer
     instant_matched
     offer_id
     project_price
     status
-    stripe_card_token_id
-    stripe_transfer
     user_id
   )a
 
@@ -47,11 +49,11 @@ defmodule Core.Contracts.Project do
   schema "projects" do
     field :assigned_pro, FlakeId.Ecto.Type, null: true
     field :end_time, :date, null: true
+    field :id_from_stripe_card, :string, null: true
+    field :id_from_stripe_transfer, :string, null: true
     field :instant_matched, :boolean, null: false
     field :project_price, :integer, null: true
     field :status, ProjectEnum, null: false
-    field :stripe_card_token_id, FlakeId.Ecto.Type, null: true
-    field :stripe_transfer, :string, null: true
 
     belongs_to :addon, Addon,
       foreign_key: :addon_id,
@@ -68,6 +70,8 @@ defmodule Core.Contracts.Project do
       type: FlakeId.Ecto.CompatType,
       references: :id
 
+    has_one :service_review, ServiceReview, on_delete: :delete_all
+
     timestamps()
   end
 
@@ -80,8 +84,9 @@ defmodule Core.Contracts.Project do
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
     |> foreign_key_constraint(:addon_id, message: "Select an Addon")
+    |> foreign_key_constraint(:id_from_stripe_card, message: "Select the StripeCard")
+    |> foreign_key_constraint(:id_from_stripe_transfer, message: "Select the StripeTransfer")
     |> foreign_key_constraint(:offer_id, message: "Select an Offer")
-    |> foreign_key_constraint(:stripe_card_token_id, message: "Select the Card")
     |> foreign_key_constraint(:user_id, message: "Select an User")
   end
 end

@@ -86,8 +86,8 @@ bash> mix ecto.gen.migration -r Core.Repo create_projects
 bash> mix ecto.gen.migration -r Core.Repo create_pro_ratings
 bash> mix ecto.gen.migration -r Core.Repo create_service_reviews
 bash> mix ecto.gen.migration -r Core.Repo create_pro_ratings
-
 bash> mix ecto.gen.migration -r Core.Repo create_potential_clients
+
 bash> mix ecto.gen.migration -r Core.Repo create_pro_rating_projects
 ```
 
@@ -438,45 +438,31 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 %{name: ["Manufacturing"]}
 ```
 
-### Action create and update by services
+### New Schemas
 
-- `book_keepings`
-  - `[:book_keeping_id, :name]`
-    - `book_keeping_classify_inventories`        - :string           - DONE!
-    - `book_keeping_industries`                  - {:array, :string} - DONE!
-  - `[:book_keeping_id, :name, :price]`
-    - `book_keeping_additional_needs`            - :string           - DONE!
-    - `book_keeping_annual_revenues`             - :string           - DONE!
-    - `book_keeping_number_employees`            - :string           - DONE!
-    - `book_keeping_transaction_volumes`         - :string           - DONE!
-    - `book_keeping_type_clients`                - :string           - DONE!
+Chat:
 
-- `business_tax_returns`
-  - `[:business_tax_return_id, :name]`
-    - `business_foreign_account_counts`          - :string           - DONE!
-    - `business_foreign_ownership_counts`        - :string           - DONE!
-    - `business_industries`                      - {:array, :string} - DONE!
-    - `business_llc_types`                       - :string           - DONE!
-    - `business_transaction_counts`              - :string           - DONE!
-  - `[:business_tax_return_id, :name, :price]`
-    - `business_entity_types`                    - :string           - DONE!
-    - `business_number_employees`                - :string           - DONE!
-    - `business_total_revenues`                  - :string           - DONE!
+- chat
+  - `id`      - uuid
+  - `user_id` - uuid
+  - `active`  - boolean
 
-- `individual_tax_returns`
-  - `[:individual_tax_return_id, :name]`
-    - `individual_foreign_account_counts`        - :string           - DONE!
-    - `individual_industries`                    - {:array, :string} - DONE!
-    - `individual_stock_transaction_counts`      - :string           - DONE!
-  - `[:individual_tax_return_id, :name, :price]`
-    - `individual_employment_statuses`           - :string           - DONE!
-    - `individual_filing_statuses`               - :string           - DONE!
-    - `individual_itemized_deductions`           - :string           - DONE!
+- message
+  - `id`         - uuid
+  - `chat_id`    - uuid
+  - `project_id` - uuid
+  - `sender`     - uuid
+  - `recipient`  - uuid
+  - `body`       - string
+  - `is_read`    - boolean
+  - `warning`    - boolean
 
-- `sale_taxes`
-  - `[:sale_tax_id, :name]`
-    - `sale_tax_industries`                      - {:array, :string} - DONE!
-  - `[:sale_tax_id, :name, :price]`
-    - `sale_tax_frequencies`                     - :string           - DONE!
+- report
+  - `id`         - uuid
+  - `sender`     - uuid
+  - `messages`   - array, string
+  - `reasons`    - enum
+  - `other`      - boolean
+  - `other_text` - string
 
 ### 21 Jan 2020 by Oleg G.Kapranov

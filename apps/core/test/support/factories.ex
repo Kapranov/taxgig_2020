@@ -1358,11 +1358,12 @@ defmodule Core.Factory do
       addon: build(:addon),
       assigned_pro: build(:pro_user).id,
       end_time: Date.utc_today(),
+      id_from_stripe_card: FlakeId.get(),
+      id_from_stripe_transfer: FlakeId.get(),
       instant_matched: random_boolean(),
       offer: build(:offer),
       project_price: random_integer(),
       status: random_project_status(),
-      stripe_card_token_id: FlakeId.get(),
       users: build(:tp_user)
     }
   end
@@ -1373,11 +1374,12 @@ defmodule Core.Factory do
       addon: build(:addon),
       assigned_pro: build(:pro_user).id,
       end_time: Date.utc_today(),
+      id_from_stripe_card: FlakeId.get(),
+      id_from_stripe_transfer: FlakeId.get(),
       instant_matched: random_boolean(),
       offer: build(:offer),
       project_price: random_integer(),
       status: random_project_status(),
-      stripe_card_token_id: FlakeId.get(),
       users: build(:tp_user)
     }
   end
@@ -1390,7 +1392,8 @@ defmodule Core.Factory do
       final_rating: random_float(),
       pro_response: Lorem.sentence(),
       professionalism: random_integer(),
-      work_quality: random_integer()
+      project: build(:tp_project),
+      work_quality: random_integer(),
     }
   end
 
