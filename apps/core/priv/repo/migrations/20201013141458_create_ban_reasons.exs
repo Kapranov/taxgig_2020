@@ -6,7 +6,7 @@ defmodule Core.Repo.Migrations.CreateBanReasons do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
       add :reasons, :string, null: true, default: nil
       add :other, :boolean, null: false
-      add :other_description, :string, null: true
+      add :description, :string, null: true
 
       timestamps(type: :utc_datetime_usec)
     end

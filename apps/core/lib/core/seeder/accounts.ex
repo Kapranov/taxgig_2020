@@ -407,7 +407,7 @@ defmodule Core.Seeder.Accounts do
         Accounts.create_ban_reason(%{
           reasons: random_reasons(),
           other: random_boolean(),
-          other_description: "some text"
+          description: "some text"
         })
     end
   end

@@ -8,13 +8,13 @@ defmodule Core.Accounts.BanReasonTest do
 
     @valid_attrs %{
       other: true,
-      other_description: "some text",
+      description: "some text",
       reasons: "Racism"
     }
 
     @update_attrs %{
       other: false,
-      other_description: "updated some text",
+      description: "updated some text",
       reasons: "Fraud"
     }
 
@@ -23,35 +23,35 @@ defmodule Core.Accounts.BanReasonTest do
     test "list_ban_reason/0 returns all ban_reasons" do
       struct = insert(:ban_reason)
       [data] = Accounts.list_ban_reason
-      assert data.other             == struct.other
-      assert data.other_description == struct.other_description
-      assert data.reasons           == struct.reasons
+      assert data.other       == struct.other
+      assert data.description == struct.description
+      assert data.reasons     == struct.reasons
     end
 
     test "get_ban_reason!/1 returns the ban_reason with given id" do
       struct = insert(:ban_reason)
       data = Accounts.get_ban_reason!(struct.id)
 
-      assert data.id                == struct.id
-      assert data.other             == struct.other
-      assert data.other_description == struct.other_description
-      assert data.reasons           == struct.reasons
-      assert data.inserted_at       == struct.inserted_at
-      assert data.updated_at        == struct.updated_at
+      assert data.id          == struct.id
+      assert data.other       == struct.other
+      assert data.description == struct.description
+      assert data.reasons     == struct.reasons
+      assert data.inserted_at == struct.inserted_at
+      assert data.updated_at  == struct.updated_at
    end
 
     test "create_ban_reason/1 with valid data when other is true" do
       assert {:ok, %BanReason{} = struct} = Accounts.create_ban_reason(@valid_attrs)
-      assert struct.other             == true
-      assert struct.other_description == "some text"
-      assert struct.reasons           == nil
+      assert struct.other       == true
+      assert struct.description == "some text"
+      assert struct.reasons     == nil
     end
 
     test "create_ban_reason/1 with valid data when other is false" do
       assert {:ok, %BanReason{} = struct} = Accounts.create_ban_reason(@update_attrs)
-      assert struct.other             == false
-      assert struct.other_description == nil
-      assert struct.reasons           == :Fraud
+      assert struct.other       == false
+      assert struct.description == "updated some text"
+      assert struct.reasons     == :Fraud
     end
 
     test "create_ban_reason/1 with invalid data returns error changeset" do
@@ -62,17 +62,17 @@ defmodule Core.Accounts.BanReasonTest do
     test "update_ban_reason/2 with valid data updates the ban_reason when other is true" do
       struct = insert(:ban_reason)
       assert {:ok, %BanReason{} = updated} = Accounts.update_ban_reason(struct, @valid_attrs)
-      assert updated.other             == true
-      assert updated.other_description == "some text"
-      assert updated.reasons           == nil
+      assert updated.other       == true
+      assert updated.description == "some text"
+      assert updated.reasons     == nil
     end
 
     test "update_ban_reason/2 with valid data updates the ban_reason when other is false" do
       struct = insert(:ban_reason)
       assert {:ok, %BanReason{} = updated} = Accounts.update_ban_reason(struct, @update_attrs)
-      assert updated.other             == false
-      assert updated.other_description == nil
-      assert updated.reasons           == :Fraud
+      assert updated.other       == false
+      assert updated.description == "updated some text"
+      assert updated.reasons     == :Fraud
     end
 
     test "update_ban_reason/2 with invalid data returns error changeset" do

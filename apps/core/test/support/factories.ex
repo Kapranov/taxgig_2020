@@ -1226,7 +1226,7 @@ defmodule Core.Factory do
   def ban_reason_factory do
     %BanReason{
       other: false,
-      other_description: nil,
+      description: nil,
       reasons: random_reasons()
     }
   end

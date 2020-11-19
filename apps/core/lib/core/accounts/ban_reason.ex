@@ -12,14 +12,14 @@ defmodule Core.Accounts.BanReason do
 
   @type t :: %__MODULE__{
     other: boolean,
-    other_description: String.t(),
+    description: String.t(),
     platform: Platform.t(),
     reasons: String.t()
   }
 
   @allowed_params ~w(
     other
-    other_description
+    description
     reasons
   )a
 
@@ -29,7 +29,7 @@ defmodule Core.Accounts.BanReason do
 
   schema "ban_reasons" do
     field :other, :boolean, null: false
-    field :other_description, :string, null: true
+    field :description, :string, null: true
     field :reasons, BanReasonsEnum, null: true
 
     has_one :platform, Platform, on_delete: :nilify_all

@@ -99,7 +99,7 @@ defmodule Core.Seeder.Updated.Accounts do
     Accounts.update_ban_reason(br1, %{
       reasons: random_reasons(),
       other: random_boolean(),
-      other_description: "updated some text"
+      description: "updated some text"
     })
   end
 
