@@ -53,6 +53,6 @@ defmodule Core.Contracts.Offer do
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
     |> foreign_key_constraint(:user_id, message: "Select an User")
-    |> unique_constraint(:user, name: :addons_user_id_index, message: "Only one an User")
+    |> unique_constraint(:user, name: :offers_user_id_index, message: "Only one an User")
   end
 end

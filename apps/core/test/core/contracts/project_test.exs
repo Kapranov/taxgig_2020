@@ -31,32 +31,37 @@ defmodule Core.Contracts.ProjectTest do
     }
 
     test "list_project/0 returns all projects" do
-      pro = insert(:pro_user)
-      user = insert(:tp_user)
+      langs = insert(:language)
+      pro = insert(:pro_user, languages: [langs])
+      user = insert(:tp_user, languages: [langs])
       addon = insert(:tp_addon, user: user)
       offer = insert(:tp_offer, user: user)
-      struct = insert(:tp_project, addon: addon, offer: offer, assigned_pro: pro.id, users: user)
+      service_review = insert(:service_review)
+      struct = insert(:tp_project, addon: addon, assigned_pro: pro.id, offer: offer, service_review: service_review, users: user)
       [data] = Contracts.list_project
 
-      assert data.id                      == struct.id
       assert data.addon_id                == addon.id
       assert data.assigned_pro            == pro.id
       assert data.end_time                == struct.end_time
+      assert data.id                      == struct.id
       assert data.id_from_stripe_card     == struct.id_from_stripe_card
       assert data.id_from_stripe_transfer == struct.id_from_stripe_transfer
       assert data.instant_matched         == struct.instant_matched
       assert data.offer_id                == offer.id
       assert data.project_price           == struct.project_price
+      assert data.service_review_id       == service_review.id
       assert data.status                  == struct.status
       assert data.user_id                 == user.id
     end
 
     test "get_project!/1 returns the project with given id" do
-      pro = insert(:pro_user)
-      user = insert(:tp_user)
+      langs = insert(:language)
+      pro = insert(:pro_user, languages: [langs])
+      user = insert(:tp_user, languages: [langs])
       addon = insert(:tp_addon, user: user)
       offer = insert(:tp_offer, user: user)
-      struct = insert(:tp_project, addon: addon, offer: offer, assigned_pro: pro.id, users: user)
+      service_review = insert(:service_review)
+      struct = insert(:tp_project, addon: addon, assigned_pro: pro.id, offer: offer, service_review: service_review, users: user)
       data = Contracts.get_project!(struct.id)
 
       assert data.addon_id                == addon.id
@@ -68,6 +73,7 @@ defmodule Core.Contracts.ProjectTest do
       assert data.instant_matched         == struct.instant_matched
       assert data.offer_id                == offer.id
       assert data.project_price           == struct.project_price
+      assert data.service_review_id       == service_review.id
       assert data.status                  == struct.status
       assert data.user_id                 == user.id
     end
@@ -78,11 +84,13 @@ defmodule Core.Contracts.ProjectTest do
       user = insert(:tp_user, languages: [langs])
       addon = insert(:tp_addon, user: user)
       offer = insert(:tp_offer, user: user)
+      service_review = insert(:service_review)
 
       params = Map.merge(@valid_attrs, %{
         addon_id: addon.id,
         assigned_pro: pro.id,
         offer_id: offer.id,
+        service_review_id: service_review.id,
         user_id: user.id
       })
 
@@ -98,12 +106,19 @@ defmodule Core.Contracts.ProjectTest do
       assert created.instant_matched         == true
       assert created.offer_id                == offer.id
       assert created.project_price           == 22
+      assert created.service_review_id       == service_review.id
       assert created.status                  == :Canceled
       assert created.user_id                 == user.id
     end
 
     test "create_project/1 with not correct some fields the project" do
-      user = insert(:tp_user)
+      langs = insert(:language)
+      pro = insert(:pro_user, languages: [langs])
+      user = insert(:tp_user, languages: [langs])
+      addon = insert(:tp_addon, user: user)
+      offer = insert(:tp_offer, user: user)
+      service_review = insert(:service_review)
+      insert(:tp_project, addon: addon, assigned_pro: pro.id, offer: offer, service_review: service_review, users: user)
       params = Map.merge(@invalid_attrs, %{ user_id: user.id })
       assert {:error, %Ecto.Changeset{}} = Contracts.create_addon(params)
     end
@@ -114,11 +129,12 @@ defmodule Core.Contracts.ProjectTest do
 
     test "update_project/2 with valid data updates the project" do
       langs = insert(:language)
-      pro = insert(:pro_user)
+      pro = insert(:pro_user, languages: [langs])
       user = insert(:tp_user, languages: [langs])
       addon = insert(:tp_addon, user: user)
       offer = insert(:tp_offer, user: user)
-      struct = insert(:tp_project, addon: addon, offer: offer, assigned_pro: pro.id, users: user)
+      service_review = insert(:service_review)
+      struct = insert(:tp_project, addon: addon, assigned_pro: pro.id, offer: offer, service_review: service_review, users: user)
       params = Map.merge(@update_attrs, %{ user_id: user.id })
       assert {:ok, %Project{} = updated} = Contracts.update_project(struct, params)
       assert updated.user_id     == user.id
@@ -126,26 +142,36 @@ defmodule Core.Contracts.ProjectTest do
 
     test "update_project/2 with invalid data returns error changeset" do
       langs = insert(:language)
+      pro = insert(:pro_user, languages: [langs])
       user = insert(:tp_user, languages: [langs])
-      struct = insert(:tp_project, users: user)
+      addon = insert(:tp_addon, user: user)
+      offer = insert(:tp_offer, user: user)
+      service_review = insert(:service_review)
+      struct = insert(:tp_project, addon: addon, assigned_pro: pro.id, offer: offer, service_review: service_review, users: user)
       assert {:error, %Ecto.Changeset{}} = Contracts.update_project(struct, @invalid_attrs)
     end
 
-#    test "delete_project/1 deletes the project" do
-#      langs = insert(:language)
-#      user = insert(:tp_user, languages: [langs])
-#      struct = insert(:tp_project, users: user)
-#      assert {:ok, %Project{}} = Contracts.delete_project(struct)
-#      assert_raise Ecto.NoResultsError, fn -> Contracts.get_project!(struct.id) end
-#    end
-#
-#    test "change_project/1 returns the project changeset" do
-#      pro = insert(:pro_user)
-#      user = insert(:tp_user)
-#      addon = insert(:tp_addon, user: user)
-#      offer = insert(:tp_offer, user: user)
-#      struct = insert(:tp_project, addon: addon, offer: offer, assigned_pro: pro.id, users: user)
-#      assert %Ecto.Changeset{} = Contracts.change_project(struct)
-#    end
+    test "delete_project/1 deletes the project" do
+      langs = insert(:language)
+      pro = insert(:pro_user, languages: [langs])
+      user = insert(:tp_user, languages: [langs])
+      addon = insert(:tp_addon, user: user)
+      offer = insert(:tp_offer, user: user)
+      service_review = insert(:service_review)
+      struct = insert(:tp_project, addon: addon, assigned_pro: pro.id, offer: offer, service_review: service_review, users: user)
+      assert {:ok, %Project{}} = Contracts.delete_project(struct)
+      assert_raise Ecto.NoResultsError, fn -> Contracts.get_project!(struct.id) end
+    end
+
+    test "change_project/1 returns the project changeset" do
+      langs = insert(:language)
+      pro = insert(:pro_user, languages: [langs])
+      user = insert(:tp_user, languages: [langs])
+      addon = insert(:tp_addon, user: user)
+      offer = insert(:tp_offer, user: user)
+      service_review = insert(:service_review)
+      struct = insert(:tp_project, addon: addon, assigned_pro: pro.id, offer: offer, service_review: service_review, users: user)
+      assert %Ecto.Changeset{} = Contracts.change_project(struct)
+    end
   end
 end

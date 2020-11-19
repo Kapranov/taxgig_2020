@@ -1352,6 +1352,18 @@ defmodule Core.Factory do
     }
   end
 
+  @spec service_review_factory() :: Project.t()
+  def service_review_factory do
+    %ServiceReview{
+      client_comment: Lorem.sentence(),
+      communication: random_integer(),
+      final_rating: random_float(),
+      pro_response: Lorem.sentence(),
+      professionalism: random_integer(),
+      work_quality: random_integer(),
+    }
+  end
+
   @spec project_factory() :: Project.t()
   def project_factory do
     %Project{
@@ -1363,6 +1375,7 @@ defmodule Core.Factory do
       instant_matched: random_boolean(),
       offer: build(:offer),
       project_price: random_integer(),
+      service_review: build(:service_review),
       status: random_project_status(),
       users: build(:tp_user)
     }
@@ -1379,21 +1392,9 @@ defmodule Core.Factory do
       instant_matched: random_boolean(),
       offer: build(:offer),
       project_price: random_integer(),
+      service_review: build(:service_review),
       status: random_project_status(),
       users: build(:tp_user)
-    }
-  end
-
-  @spec service_review_factory() :: Project.t()
-  def service_review_factory do
-    %ServiceReview{
-      client_comment: Lorem.sentence(),
-      communication: random_integer(),
-      final_rating: random_float(),
-      pro_response: Lorem.sentence(),
-      professionalism: random_integer(),
-      project: build(:tp_project),
-      work_quality: random_integer(),
     }
   end
 

@@ -12,6 +12,7 @@ defmodule Core.Repo.Migrations.CreateProjects do
       add :instant_matched, :boolean, null: false
       add :offer_id, references(:offers, type: :uuid, on_delete: :nilify_all), null: true, primary_key: false
       add :project_price, :integer, null: true
+      add :service_review_id, references(:service_reviews, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
       add :status, :string, null: false
       add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
 
@@ -22,6 +23,7 @@ defmodule Core.Repo.Migrations.CreateProjects do
     create index(:projects, [:id_from_stripe_card])
     create index(:projects, [:id_from_stripe_transfer])
     create index(:projects, [:offer_id])
+    create index(:projects, [:service_review_id])
     create index(:projects, [:user_id])
   end
 end
