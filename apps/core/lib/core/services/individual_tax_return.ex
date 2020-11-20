@@ -46,12 +46,12 @@ defmodule Core.Services.IndividualTaxReturn do
     price_tax_year: integer,
     rental_property_count: integer,
     rental_property_income: boolean,
+    service_link: ServiceLink.t(),
     sole_proprietorship_count: integer,
     state: tuple,
     stock_divident: boolean,
     tax_year: tuple,
-    user_id: User.t(),
-    service_links: [ServiceLink.t()]
+    user_id: User.t()
   }
 
   @allowed_params ~w(
@@ -118,13 +118,14 @@ defmodule Core.Services.IndividualTaxReturn do
     field :stock_divident, :boolean
     field :tax_year, {:array, :string}
 
+    has_one :service_link, ServiceLink, on_delete: :delete_all
+
     has_many :individual_employment_statuses, IndividualEmploymentStatus
     has_many :individual_filing_statuses, IndividualFilingStatus
     has_many :individual_foreign_account_counts, IndividualForeignAccountCount
     has_many :individual_industries, IndividualIndustry
     has_many :individual_itemized_deductions, IndividualItemizedDeduction
     has_many :individual_stock_transaction_counts, IndividualStockTransactionCount
-    has_many :service_links, ServiceLink
 
     belongs_to :user, User, foreign_key: :user_id,
       type: FlakeId.Ecto.CompatType, references: :id

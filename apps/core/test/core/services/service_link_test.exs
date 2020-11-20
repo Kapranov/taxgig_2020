@@ -25,7 +25,8 @@ defmodule Core.Services.ServiceLinkTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
       sale_tax = insert(:tp_sale_tax, user: user)
-      struct = insert(:tp_service_link, book_keepings: book_keeping, business_tax_returns: business_tax_return, individual_tax_returns: individual_tax_return, sale_taxes: sale_tax)
+      project = insert(:tp_project)
+      struct = insert(:tp_service_link, book_keeping: book_keeping, business_tax_return: business_tax_return, individual_tax_return: individual_tax_return, sale_tax: sale_tax, project: project)
       [data] = Services.list_service_link()
       attrs = [:password, :password_cofirmation]
       assert Map.take(data, attrs) == Map.take(struct, attrs)
@@ -37,7 +38,8 @@ defmodule Core.Services.ServiceLinkTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
       sale_tax = insert(:tp_sale_tax, user: user)
-      struct = insert(:tp_service_link, book_keepings: book_keeping, business_tax_returns: business_tax_return, individual_tax_returns: individual_tax_return, sale_taxes: sale_tax)
+      project = insert(:tp_project)
+      struct = insert(:tp_service_link, book_keeping: book_keeping, business_tax_return: business_tax_return, individual_tax_return: individual_tax_return, sale_tax: sale_tax, project: project)
       attrs = [:password, :password_cofirmation]
       data = Services.get_service_link!(struct.id)
       assert Map.take(data, attrs) == Map.take(struct, attrs)
@@ -49,10 +51,12 @@ defmodule Core.Services.ServiceLinkTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
       sale_tax = insert(:tp_sale_tax, user: user)
+      project = insert(:tp_project)
       params = %{
         book_keeping_id: book_keeping.id,
         business_tax_return_id: business_tax_return.id,
         individual_tax_return_id: individual_tax_return.id,
+        project_id: project.id,
         sale_tax_id: sale_tax.id
       }
 
@@ -60,6 +64,7 @@ defmodule Core.Services.ServiceLinkTest do
       assert created.book_keeping_id          == book_keeping.id
       assert created.business_tax_return_id   == business_tax_return.id
       assert created.individual_tax_return_id == individual_tax_return.id
+      assert created.project_id               == project.id
       assert created.sale_tax_id              == sale_tax.id
    end
 
@@ -74,12 +79,13 @@ defmodule Core.Services.ServiceLinkTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
       sale_tax = insert(:tp_sale_tax, user: user)
-      struct = insert(:tp_service_link, book_keepings: book_keeping, business_tax_returns: business_tax_return, individual_tax_returns: individual_tax_return, sale_taxes: sale_tax)
-      params = %{book_keeping_id: nil}
+      project = insert(:tp_project)
+      struct = insert(:tp_service_link, book_keeping: book_keeping, business_tax_return: business_tax_return, individual_tax_return: individual_tax_return, sale_tax: sale_tax, project: project)
+      params = %{project_id: nil}
 
       assert {:ok, %ServiceLink{} = updated} =
         Services.update_service_link(struct, params)
-      assert updated.book_keeping_id          == nil
+      assert updated.book_keeping_id          == book_keeping.id
       assert updated.business_tax_return_id   == business_tax_return.id
       assert updated.individual_tax_return_id == individual_tax_return.id
       assert updated.sale_tax_id              == sale_tax.id
@@ -91,7 +97,8 @@ defmodule Core.Services.ServiceLinkTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
       sale_tax = insert(:tp_sale_tax, user: user)
-      struct = insert(:tp_service_link, book_keepings: book_keeping, business_tax_returns: business_tax_return, individual_tax_returns: individual_tax_return, sale_taxes: sale_tax)
+      project = insert(:tp_project)
+      struct = insert(:tp_service_link, book_keeping: book_keeping, business_tax_return: business_tax_return, individual_tax_return: individual_tax_return, sale_tax: sale_tax, project: project)
       params = %{}
       assert {:error, %Ecto.Changeset{}} != Services.update_service_link(struct, params)
     end
@@ -102,7 +109,8 @@ defmodule Core.Services.ServiceLinkTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
       sale_tax = insert(:tp_sale_tax, user: user)
-      struct = insert(:tp_service_link, book_keepings: book_keeping, business_tax_returns: business_tax_return, individual_tax_returns: individual_tax_return, sale_taxes: sale_tax)
+      project = insert(:tp_project)
+      struct = insert(:tp_service_link, book_keeping: book_keeping, business_tax_return: business_tax_return, individual_tax_return: individual_tax_return, sale_tax: sale_tax, project: project)
       assert {:ok, %ServiceLink{}} = Services.delete_service_link(struct)
       assert_raise Ecto.NoResultsError, fn -> Services.get_service_link!(struct.id) end
     end
@@ -113,7 +121,8 @@ defmodule Core.Services.ServiceLinkTest do
       business_tax_return = insert(:tp_business_tax_return, user: user)
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
       sale_tax = insert(:tp_sale_tax, user: user)
-      struct = insert(:tp_service_link, book_keepings: book_keeping, business_tax_returns: business_tax_return, individual_tax_returns: individual_tax_return, sale_taxes: sale_tax)
+      project = insert(:tp_project)
+      struct = insert(:tp_service_link, book_keeping: book_keeping, business_tax_return: business_tax_return, individual_tax_return: individual_tax_return, sale_tax: sale_tax, project: project)
       assert %Ecto.Changeset{} = Services.change_service_link(struct)
     end
   end

@@ -26,7 +26,7 @@ defmodule Core.Accounts.ProRatingTest do
       average_professionalism: nil,
       average_rating: nil,
       average_work_quality: nil,
-      platform_id: nil
+      user_id: nil
     }
 
     test "requires platform_id" do
@@ -44,7 +44,7 @@ defmodule Core.Accounts.ProRatingTest do
         average_professionalism: nil,
         average_rating: nil,
         average_work_quality: nil,
-        platform_id: nil
+        user_id: nil
       }
       {result, changeset} =
         %ProRating{}
@@ -57,9 +57,8 @@ defmodule Core.Accounts.ProRatingTest do
     end
 
     test "list_pro_rating/0 returns all pro_ratings" do
-      user = insert(:user)
-      platform = insert(:platform, user: user)
-      struct = insert(:pro_rating, platforms: platform)
+      user = insert(:pro_user)
+      struct = insert(:pro_rating, user: user)
       [data] = Accounts.list_pro_rating()
 
       assert data.id                      == struct.id
@@ -67,13 +66,12 @@ defmodule Core.Accounts.ProRatingTest do
       assert data.average_professionalism == struct.average_professionalism
       assert data.average_rating          == struct.average_rating
       assert data.average_work_quality    == struct.average_work_quality
-      assert data.platform_id             == struct.platform_id
+      assert data.user_id                 == struct.user_id
     end
 
     test "get_pro-rating!/1 returns the pro_rating with given id" do
-      user = insert(:user)
-      platform = insert(:platform, user: user)
-      struct = insert(:pro_rating, platforms: platform)
+      user = insert(:pro_user)
+      struct = insert(:pro_rating, user: user)
       data = Accounts.get_pro_rating!(struct.id)
 
       assert data.id                      == struct.id
@@ -81,14 +79,13 @@ defmodule Core.Accounts.ProRatingTest do
       assert data.average_professionalism == struct.average_professionalism
       assert data.average_rating          == struct.average_rating
       assert data.average_work_quality    == struct.average_work_quality
-      assert data.platform_id             == struct.platform_id
+      assert data.user_id                 == struct.user_id
     end
 
     test "create_deleted_user/1 with valid data creates the deleted_user" do
-      user = insert(:user)
-      platform = insert(:platform, user: user)
+      user = insert(:pro_user)
 
-      params = Map.merge(@valid_attrs, %{ platform_id: platform.id })
+      params = Map.merge(@valid_attrs, %{ user_id: user.id })
 
       assert {:ok, %ProRating{} = created} =
         Accounts.create_pro_rating(params)
@@ -99,14 +96,13 @@ defmodule Core.Accounts.ProRatingTest do
       assert created.average_professionalism == D.new("1.99")
       assert created.average_rating          == D.new("1.99")
       assert created.average_work_quality    == D.new("1.99")
-      assert created.platform_id             == platform.id
+      assert created.user_id                 == user.id
     end
 
     test "create_pro_rating/1 with not correct some fields pro_rating" do
-      user = insert(:user)
-      platform = insert(:platform, user: user)
+      user = insert(:pro_user)
 
-      params = Map.merge(@invalid_attrs, %{ paltform_id: platform.id })
+      params = Map.merge(@invalid_attrs, %{ user_id: user.id })
 
       assert {:error, %Ecto.Changeset{}} = Accounts.create_pro_rating(params)
     end
@@ -117,40 +113,35 @@ defmodule Core.Accounts.ProRatingTest do
         average_professionalism: nil,
         average_rating: nil,
         average_work_quality: nil,
-        platform_id: nil
+        user_id: nil
       }
       assert {:error, %Ecto.Changeset{}} = Accounts.create_pro_rating(params)
     end
 
     test "update_pro_rating/2 with valid data updates the pro_rating" do
-      user = insert(:user)
-      platform = insert(:platform, user: user)
-      struct = insert(:pro_rating, platforms: platform)
-
-      params = Map.merge(@update_attrs, %{ platform_id: platform.id })
+      user = insert(:pro_user)
+      struct = insert(:pro_rating, user: user.id)
 
       assert {:ok, %ProRating{} = updated} =
-        Accounts.update_pro_rating(struct, params)
+        Accounts.update_pro_rating(struct, @update_attrs)
 
       assert updated.id                      == struct.id
       assert updated.average_communication   == D.new("9.99")
       assert updated.average_professionalism == D.new("9.99")
       assert updated.average_rating          == D.new("9.99")
       assert updated.average_work_quality    == D.new("9.99")
-      assert updated.platform_id             == platform.id
+      assert updated.user_id                 == user.id
     end
 
     test "update_pro_rating/2 with invalid data returns error changeset" do
-      user = insert(:user)
-      platform = insert(:platform, user: user)
-      struct = insert(:pro_rating, platforms: platform)
+      user = insert(:pro_user)
+      struct = insert(:pro_rating, user: user.id)
       assert {:error, %Ecto.Changeset{}} = Accounts.update_pro_rating(struct, @invalid_attrs)
     end
 
     test "delete_pro_rating/1 deletes the pro_rating" do
-      user = insert(:user)
-      platform = insert(:platform, user: user)
-      struct = insert(:pro_rating, platforms: platform)
+      user = insert(:pro_user)
+      struct = insert(:pro_rating, user: user.id)
       assert {:ok, %ProRating{}} =
         Accounts.delete_pro_rating(struct)
       assert_raise Ecto.NoResultsError, fn ->
@@ -159,9 +150,8 @@ defmodule Core.Accounts.ProRatingTest do
     end
 
     test "change_pro_rating/1 returns the pro_rating changeset" do
-      user = insert(:user)
-      platform = insert(:platform, user: user)
-      struct = insert(:pro_rating, platforms: platform)
+      user = insert(:pro_user)
+      struct = insert(:pro_rating, user: user.id)
       assert %Ecto.Changeset{} =
         Accounts.change_pro_rating(struct)
     end

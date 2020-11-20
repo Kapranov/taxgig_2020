@@ -56,13 +56,13 @@ defmodule Core.Services.BusinessTaxReturn do
     rental_property_count: integer,
     reported_grant: boolean,
     restricted_donation: boolean,
+    service_link: ServiceLink.t(),
     state: tuple,
     tax_exemption: boolean,
     tax_year: tuple,
     total_asset_less: boolean,
     total_asset_over: boolean,
-    user_id: User.t(),
-    service_links: [ServiceLink.t()]
+    user_id: User.t()
   }
 
   @allowed_params ~w(
@@ -147,6 +147,8 @@ defmodule Core.Services.BusinessTaxReturn do
     field :total_asset_less, :boolean
     field :total_asset_over, :boolean
 
+    has_one :service_link, ServiceLink, on_delete: :delete_all
+
     has_many :business_entity_types, BusinessEntityType
     has_many :business_foreign_account_counts, BusinessForeignAccountCount
     has_many :business_foreign_ownership_counts, BusinessForeignOwnershipCount
@@ -155,7 +157,6 @@ defmodule Core.Services.BusinessTaxReturn do
     has_many :business_number_employees, BusinessNumberEmployee
     has_many :business_total_revenues, BusinessTotalRevenue
     has_many :business_transaction_counts, BusinessTransactionCount
-    has_many :service_links, ServiceLink
 
     belongs_to :user, User, foreign_key: :user_id,
       type: FlakeId.Ecto.CompatType, references: :id

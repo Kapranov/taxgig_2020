@@ -10,7 +10,8 @@ defmodule Core.Contracts.Project do
     Contracts.Addon,
     Contracts.Helpers.ProjectEnum,
     Contracts.Offer,
-    Contracts.ServiceReview
+    Contracts.ServiceReview,
+    Services.ServiceLink
   }
 
   @type t :: %__MODULE__{
@@ -22,6 +23,7 @@ defmodule Core.Contracts.Project do
     instant_matched: boolean,
     offer_id: Offer.t(),
     project_price: integer,
+    service_link: ServiceLink.t(),
     service_review_id: ServiceReview.t(),
     status: String.t(),
     user_id: User.t()
@@ -75,6 +77,8 @@ defmodule Core.Contracts.Project do
       foreign_key: :service_review_id,
       type: FlakeId.Ecto.CompatType,
       references: :id
+
+    has_one :service_link, ServiceLink, on_delete: :delete_all
 
     timestamps()
   end

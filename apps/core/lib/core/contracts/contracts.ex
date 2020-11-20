@@ -221,7 +221,10 @@ defmodule Core.Contracts do
       [%Project{}, ...]
   """
   @spec list_project() :: [Project.t()]
-  def list_project, do: Repo.all(Project)
+  def list_project do
+    Repo.all(Project)
+    |> Repo.preload([:service_review])
+  end
 
   @doc """
   Gets a single the Project.
@@ -238,7 +241,10 @@ defmodule Core.Contracts do
 
   """
   @spec get_project!(String.t()) :: Project.t() | error_tuple()
-  def get_project!(id), do: Repo.get!(Project, id)
+  def get_project!(id) do
+    Repo.get!(Project, id)
+    |> Repo.preload([:service_review])
+  end
 
   @doc """
   Creates the Project.

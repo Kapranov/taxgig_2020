@@ -205,18 +205,12 @@ defmodule Core.Seeder.Updated.Accounts do
 
     { pro_rating1 } = { Enum.at(pro_rating_ids, 0) }
 
-    platform_ids =
-      Enum.map(Repo.all(Platform), fn(data) -> data.id end)
-
-    {platform2} = { Enum.at(platform_ids, 1), }
-
     [
       Accounts.update_pro_rating(pro_rating1, %{
         average_communication: random_float(),
         average_professionalism: random_float(),
         average_rating: random_float(),
-        average_work_quality: random_float(),
-        platform_id: platform2
+        average_work_quality: random_float()
       })
     ]
   end

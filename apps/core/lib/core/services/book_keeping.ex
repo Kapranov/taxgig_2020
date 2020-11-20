@@ -26,15 +26,6 @@ defmodule Core.Services.BookKeeping do
   @type t :: %__MODULE__{
     account_count: integer,
     balance_sheet: boolean,
-    deadline: DateTime.t(),
-    financial_situation: String.t(),
-    inventory: boolean,
-    inventory_count: integer,
-    payroll: boolean,
-    price_payroll: integer,
-    tax_return_current: boolean,
-    tax_year: tuple,
-    user_id: User.t(),
     book_keeping_additional_needs: [BookKeepingAdditionalNeed.t()],
     book_keeping_annual_revenues: [BookKeepingAnnualRevenue.t()],
     book_keeping_classify_inventories: [BookKeepingClassifyInventory.t()],
@@ -42,7 +33,16 @@ defmodule Core.Services.BookKeeping do
     book_keeping_number_employees: [BookKeepingNumberEmployee.t()],
     book_keeping_transaction_volumes: [BookKeepingTransactionVolume.t()],
     book_keeping_type_clients: [BookKeepingTypeClient.t()],
-    service_links: [ServiceLink.t()]
+    deadline: DateTime.t(),
+    financial_situation: String.t(),
+    inventory: boolean,
+    inventory_count: integer,
+    payroll: boolean,
+    price_payroll: integer,
+    service_link: ServiceLink.t(),
+    tax_return_current: boolean,
+    tax_year: tuple,
+    user_id: User.t()
   }
 
   @allowed_params ~w(
@@ -75,6 +75,8 @@ defmodule Core.Services.BookKeeping do
     field :tax_return_current, :boolean
     field :tax_year, {:array, :string}
 
+    has_one :service_link, ServiceLink, on_delete: :delete_all
+
     has_many :book_keeping_additional_needs, BookKeepingAdditionalNeed
     has_many :book_keeping_annual_revenues, BookKeepingAnnualRevenue
     has_many :book_keeping_classify_inventories, BookKeepingClassifyInventory
@@ -82,7 +84,6 @@ defmodule Core.Services.BookKeeping do
     has_many :book_keeping_number_employees, BookKeepingNumberEmployee
     has_many :book_keeping_transaction_volumes, BookKeepingTransactionVolume
     has_many :book_keeping_type_clients, BookKeepingTypeClient
-    has_many :service_links, ServiceLink
 
     belongs_to :user, User, foreign_key: :user_id,
       type: FlakeId.Ecto.CompatType, references: :id

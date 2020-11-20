@@ -87,8 +87,11 @@ bash> mix ecto.gen.migration -r Core.Repo create_pro_ratings
 bash> mix ecto.gen.migration -r Core.Repo create_service_reviews
 bash> mix ecto.gen.migration -r Core.Repo create_pro_ratings
 bash> mix ecto.gen.migration -r Core.Repo create_potential_clients
-
 bash> mix ecto.gen.migration -r Core.Repo create_pro_rating_projects
+
+bash> mix ecto.gen.migration -r Core.Repo create_chats
+bash> mix ecto.gen.migration -r Core.Repo create_messages
+bash> mix ecto.gen.migration -r Core.Repo create_reports
 ```
 
 - projects
@@ -437,32 +440,5 @@ Repo.get_by(SaleTaxFrequency, %{sale_tax_id: sale_tax_pro3})
 Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 %{name: ["Manufacturing"]}
 ```
-
-### New Schemas
-
-Chat:
-
-- chat
-  - `id`      - uuid
-  - `user_id` - uuid
-  - `active`  - boolean
-
-- message
-  - `id`         - uuid
-  - `chat_id`    - uuid
-  - `project_id` - uuid
-  - `sender`     - uuid
-  - `recipient`  - uuid
-  - `body`       - string
-  - `is_read`    - boolean
-  - `warning`    - boolean
-
-- report
-  - `id`         - uuid
-  - `sender`     - uuid
-  - `messages`   - array, string
-  - `reasons`    - enum
-  - `other`      - boolean
-  - `other_text` - string
 
 ### 21 Jan 2020 by Oleg G.Kapranov

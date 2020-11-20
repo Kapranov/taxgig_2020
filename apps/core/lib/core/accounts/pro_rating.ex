@@ -5,14 +5,14 @@ defmodule Core.Accounts.ProRating do
 
   use Core.Model
 
-  alias Core.Accounts.Platform
+  alias Core.Accounts.User
 
   @type t :: %__MODULE__{
     average_communication: integer,
     average_professionalism: integer,
     average_rating: integer,
     average_work_quality: integer,
-    platform_id: Platform.t()
+    user_id: User.t()
   }
 
   @allowed_params ~w(
@@ -20,7 +20,7 @@ defmodule Core.Accounts.ProRating do
     average_professionalism
     average_rating
     average_work_quality
-    platform_id
+    user_id
   )a
 
   @required_params ~w(
@@ -28,7 +28,7 @@ defmodule Core.Accounts.ProRating do
     average_professionalism
     average_rating
     average_work_quality
-    platform_id
+    user_id
   )a
 
   schema "pro_ratings" do
@@ -37,8 +37,8 @@ defmodule Core.Accounts.ProRating do
     field :average_rating, :decimal, null: false
     field :average_work_quality, :decimal, null: false
 
-    belongs_to :platforms, Platform,
-      foreign_key: :platform_id,
+    belongs_to :user, User,
+      foreign_key: :user_id,
       type: FlakeId.Ecto.CompatType,
       references: :id
 
@@ -53,7 +53,7 @@ defmodule Core.Accounts.ProRating do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
-    |> foreign_key_constraint(:platform_id, message: "Select the Platform")
-    |> unique_constraint(:platforms, name: :pro_ratings_platform_id_index, message: "Only one the Platform")
+    |> foreign_key_constraint(:user_id, message: "Select an User")
+    |> unique_constraint(:user, name: :pro_ratings_user_id_index, message: "Only one an User")
   end
 end

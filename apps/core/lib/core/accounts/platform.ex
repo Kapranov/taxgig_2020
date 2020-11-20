@@ -8,7 +8,6 @@ defmodule Core.Accounts.Platform do
   alias Core.Accounts.{
     BanReason,
     Helpers.StuckStageEnum,
-    ProRating,
     User
   }
 
@@ -21,7 +20,6 @@ defmodule Core.Accounts.Platform do
     is_online: boolean,
     is_stuck: boolean,
     payment_active: boolean,
-    pro_rating: ProRating.t(),
     stuck_stage: String.t(),
     user_id: User.t()
   }
@@ -57,8 +55,6 @@ defmodule Core.Accounts.Platform do
     field :is_stuck, :boolean, null: false, default: false
     field :payment_active, :boolean, null: false, default: false
     field :stuck_stage, StuckStageEnum, null: true
-
-    has_one :pro_rating, ProRating, on_delete: :delete_all
 
     belongs_to :ban_reason, BanReason,
       foreign_key: :ban_reason_id,

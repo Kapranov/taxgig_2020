@@ -23,11 +23,11 @@ defmodule Core.Services.SaleTax do
     financial_situation: String.t(),
     price_sale_tax_count: integer,
     sale_tax_count: integer,
-    state: tuple,
-    user_id: User.t(),
     sale_tax_frequencies: [SaleTaxFrequency.t()],
     sale_tax_industries: [SaleTaxIndustry.t()],
-    service_links: [ServiceLink.t()]
+    service_link: ServiceLink.t(),
+    state: tuple,
+    user_id: User.t()
   }
 
   @allowed_params ~w(
@@ -50,9 +50,10 @@ defmodule Core.Services.SaleTax do
     field :sale_tax_count, :integer
     field :state, {:array, :string}
 
+    has_one :service_link, ServiceLink, on_delete: :delete_all
+
     has_many :sale_tax_frequencies, SaleTaxFrequency
     has_many :sale_tax_industries, SaleTaxIndustry
-    has_many :service_links, ServiceLink
 
     belongs_to :user, User, foreign_key: :user_id,
       type: FlakeId.Ecto.CompatType, references: :id

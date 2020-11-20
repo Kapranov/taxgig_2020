@@ -4,7 +4,7 @@ defmodule Core.Seeder.Media do
   """
 
   alias Core.{
-    Accounts.User,
+    Contracts.Project,
     Media.Document,
     Repo
   }
@@ -22,17 +22,17 @@ defmodule Core.Seeder.Media do
   end
 
   defp seed_documents do
-    user_ids =
-      Enum.map(Repo.all(User), fn(data) -> data.id end)
+    project_ids =
+      Enum.map(Repo.all(Project), fn(data) -> data.id end)
 
-    {user, tp1, tp2, tp3, pro1, pro2, pro3} = {
-      Enum.at(user_ids, 0),
-      Enum.at(user_ids, 1),
-      Enum.at(user_ids, 2),
-      Enum.at(user_ids, 3),
-      Enum.at(user_ids, 4),
-      Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+    {prj1, prj2, prj3, prj4, prj5, prj6, prj7} = {
+      Enum.at(project_ids, 0),
+      Enum.at(project_ids, 1),
+      Enum.at(project_ids, 2),
+      Enum.at(project_ids, 3),
+      Enum.at(project_ids, 4),
+      Enum.at(project_ids, 5),
+      Enum.at(project_ids, 6)
     }
 
     case Repo.aggregate(Document, :count, :id) > 0 do
@@ -49,7 +49,7 @@ defmodule Core.Seeder.Media do
             signed_by_client:               random_boolean(),
             signed_by_pro:                  random_boolean(),
             size:                           random_float(),
-            user_id:                        user
+            project_id:                     prj1
           }),
           Repo.insert!(%Document{
             access_granted:                 random_boolean(),
@@ -61,7 +61,7 @@ defmodule Core.Seeder.Media do
             signed_by_client:               random_boolean(),
             signed_by_pro:                  random_boolean(),
             size:                           random_float(),
-            user_id:                        tp1
+            project_id:                     prj2
           }),
           Repo.insert!(%Document{
             access_granted:                 random_boolean(),
@@ -73,7 +73,7 @@ defmodule Core.Seeder.Media do
             signed_by_client:               random_boolean(),
             signed_by_pro:                  random_boolean(),
             size:                           random_float(),
-            user_id:                        tp2
+            project_id:                     prj3
           }),
           Repo.insert!(%Document{
             access_granted:                 random_boolean(),
@@ -85,7 +85,7 @@ defmodule Core.Seeder.Media do
             signed_by_client:               random_boolean(),
             signed_by_pro:                  random_boolean(),
             size:                           random_float(),
-            user_id:                        tp3
+            project_id:                     prj4
           }),
           Repo.insert!(%Document{
             access_granted:                 random_boolean(),
@@ -97,7 +97,7 @@ defmodule Core.Seeder.Media do
             signed_by_client:               random_boolean(),
             signed_by_pro:                  random_boolean(),
             size:                           random_float(),
-            user_id:                        pro1
+            project_id:                     prj5
           }),
           Repo.insert!(%Document{
             access_granted:                 random_boolean(),
@@ -109,7 +109,7 @@ defmodule Core.Seeder.Media do
             signed_by_client:               random_boolean(),
             signed_by_pro:                  random_boolean(),
             size:                           random_float(),
-            user_id:                        pro2
+            project_id:                     prj6
           }),
           Repo.insert!(%Document{
             access_granted:                 random_boolean(),
@@ -121,7 +121,7 @@ defmodule Core.Seeder.Media do
             signed_by_client:               random_boolean(),
             signed_by_pro:                  random_boolean(),
             size:                           random_float(),
-            user_id:                        pro3
+            project_id:                     prj7
           })
         ]
     end

@@ -522,10 +522,10 @@ defmodule Core.Seeder.Accounts do
 
   @spec insert_pro_rating() :: Ecto.Schema.t()
   defp insert_pro_rating do
-    platform_ids =
-      Enum.map(Repo.all(Platform), fn(data) -> data.id end)
+    user_ids =
+      Enum.map(Repo.all(User), fn(data) -> data.id end)
 
-    {platform1} = { Enum.at(platform_ids, 0), }
+    {pro3} = { Enum.at(user_ids, 6) }
 
     [
       Accounts.create_pro_rating(%{
@@ -533,7 +533,7 @@ defmodule Core.Seeder.Accounts do
         average_professionalism: random_float(),
         average_rating: random_float(),
         average_work_quality: random_float(),
-        platform_id: platform1
+        user_id: pro3
       })
     ]
   end

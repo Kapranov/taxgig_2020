@@ -5,7 +5,7 @@ defmodule Core.Media.Document do
 
   use Core.Model
 
-  alias Core.Accounts.User
+  alias Core.Contracts.Project
 
   import Ecto.Changeset, only: [
     cast: 3,
@@ -23,11 +23,12 @@ defmodule Core.Media.Document do
     document_link: String.t(),
     format: integer,
     name: integer,
+    project_id: Project.t(),
     signature_required_from_client: boolean,
     signed_by_client: boolean,
     signed_by_pro: boolean,
     size: integer,
-    user_id: User.t(),
+    uploader: map
   }
 
   @allowed_params ~w(
@@ -40,12 +41,10 @@ defmodule Core.Media.Document do
     signed_by_client
     signed_by_pro
     size
-    user_id
+    project_id
   )a
 
-  @required_params ~w(
-    user_id
-  )a
+  @required_params ~w(project_id)a
 
   schema "documents" do
     field :access_granted, :boolean
@@ -57,8 +56,9 @@ defmodule Core.Media.Document do
     field :signed_by_client, :boolean
     field :signed_by_pro, :boolean
     field :size, :decimal
+    field :uploader, :map, default: %{}
 
-    belongs_to :user, User, foreign_key: :user_id,
+    belongs_to :project, Project, foreign_key: :project_id,
       type: FlakeId.Ecto.CompatType, references: :id
 
     timestamps()

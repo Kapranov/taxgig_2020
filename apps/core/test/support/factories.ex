@@ -120,11 +120,11 @@ defmodule Core.Factory do
       document_link:                  Internet.url(),
       format:                         random_integer(),
       name:                           random_integer(),
+      project:                        build(:tp_project),
       signature_required_from_client: random_boolean(),
       signed_by_client:               random_boolean(),
       signed_by_pro:                  random_boolean(),
-      size:                           random_float(),
-      user:                           build(:user)
+      size:                           random_float()
     }
   end
 
@@ -136,11 +136,11 @@ defmodule Core.Factory do
       document_link:                  Internet.url(),
       format:                         random_integer(),
       name:                           random_integer(),
+      project:                        build(:tp_project),
       signature_required_from_client: random_boolean(),
       signed_by_client:               random_boolean(),
       signed_by_pro:                  random_boolean(),
-      size:                           random_float(),
-      user:                           build(:tp_user)
+      size:                           random_float()
     }
   end
 
@@ -152,11 +152,11 @@ defmodule Core.Factory do
       document_link:                  Internet.url(),
       format:                         random_integer(),
       name:                           random_integer(),
+      project:                        build(:tp_project),
       signature_required_from_client: random_boolean(),
       signed_by_client:               random_boolean(),
       signed_by_pro:                  random_boolean(),
-      size:                           random_float(),
-      user:                           build(:pro_user)
+      size:                           random_float()
     }
   end
 
@@ -1133,20 +1133,11 @@ defmodule Core.Factory do
   @spec tp_service_link_factory() :: ServiceLink.t()
   def tp_service_link_factory do
     %ServiceLink{
-      book_keepings: build(:tp_book_keeping),
-      business_tax_returns: build(:tp_business_tax_return),
-      individual_tax_returns: build(:tp_individual_tax_return),
-      sale_taxes: build(:tp_sale_tax)
-    }
-  end
-
-  @spec pro_service_link_factory() :: ServiceLink.t()
-  def pro_service_link_factory do
-    %ServiceLink{
-      book_keepings: build(:pro_book_keeping),
-      business_tax_returns: build(:pro_business_tax_return),
-      individual_tax_returns: build(:pro_individual_tax_return),
-      sale_taxes: build(:pro_sale_tax)
+      book_keeping: build(:tp_book_keeping),
+      business_tax_return: build(:tp_business_tax_return),
+      individual_tax_return: build(:tp_individual_tax_return),
+      project: build(:tp_project),
+      sale_tax: build(:tp_sale_tax)
     }
   end
 
@@ -1286,7 +1277,7 @@ defmodule Core.Factory do
       average_professionalism: random_float(),
       average_rating: random_float(),
       average_work_quality: random_float(),
-      platforms: build(:platform)
+      user: build(:pro_user)
     }
   end
 
@@ -1396,6 +1387,10 @@ defmodule Core.Factory do
       status: random_project_status(),
       users: build(:tp_user)
     }
+  end
+
+  @spec pro_rating_projects_factory() ::  {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
+  def pro_rating_projects_factory do
   end
 
   @spec random_language() :: {String.t()}
