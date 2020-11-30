@@ -117,10 +117,48 @@ bash> mix ecto.gen.migration -r Core.Repo create_reports
   - reason enum
   - userId uuid
 
+```
+with struct <- Accounts.get_user!(id),
+     {:ok, %User{id: user_id}} <- Repo.delete(struct),
+     {:ok, created} <- Accounts.create_deleted_user(%{user_id: user_id, reasons: reasons})
+do
+  {:ok, created}
+else
+  nil -> {:error, "permission denied"}
+  _ -> {:error, %Ecto.Changeset{}}
+end
+```
+
 - banReason only admin
   - description string
   - other       boolean
   - reasons     enum
+
+```
+user =
+  try do
+    Accounts.get_user!(user_id)
+  rescue
+    Ecto.NoResultsError -> :error
+  end
+
+now = :erlang.system_time(:second) |> DateTime.from_unix!()
+
+if Accounts.User.superuser?(user) do
+  case Repo.aggregate(BanReason, :count, :id) > 0 do
+    true -> nil
+    false ->
+      case other do
+        true ->
+          Ecto.Adapters.SQL.query!(Repo, "INSERT INTO ban_reasons (other, other_description, inserted_at, updated_at) VALUES ($1, $2, $3, $4)", [other, other_description, now, now])
+        false ->
+          Ecto.Adapters.SQL.query!(Repo, "INSERT INTO ban_reasons (reasons, other, inserted_at, updated_at) VALUES ($1, $2, $3, $4)", [reasons, other, now, now])
+      end
+  end
+else
+  {:error, "Oops! Permission Denied"}
+end
+```
 
 - platforms
   - banReasonId      uuid
@@ -165,6 +203,26 @@ bash> mix ecto.gen.migration -r Core.Repo create_reports
 - potentialClients only pro
   - projectId jsonb
   - userId    uuid
+
+
+- delete project
+
+```
+struct = Core.Contracts.PotentialClient
+row = :project
+str = "A1iyOkFTXX32A4Cldq"
+query = Core.Queries.by_project(struct, row, str)
+
+case query do
+  [] -> {:ok, %Core.Contracts.PotentialClient{}}
+  _ ->
+    Enum.map(query, fn ids ->
+      data = Repo.get_by(Core.Contracts.PotentialClient, %{id: ids})
+      attrs = data.project |> List.delete(str)
+      {:ok, %Core.Contracts.PotentialClient{}} = Core.Contracts.update_potential_client(data, %{project: attrs})
+    end)
+end
+```
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

@@ -98,6 +98,28 @@ defmodule Core.Queries do
     end
   end
 
+  @doc """
+  ## Example
+
+      iex> struct = Core.Contracts.PotentialClient
+      iex> row = :project
+      iex> str = "A1iyOkFTXX32A4Cldq"
+      iex> by_project(struct, row, str)
+  """
+  @spec by_project(map, atom, word) :: [{word}] | nil
+  def by_project(struct, row, str) do
+    try do
+      Repo.all(
+        from c in struct,
+        where: not is_nil(field(c, ^row)),
+        where: fragment("? @> ?", field(c, ^row), ^[str]),
+        select: c.id
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
   @spec by_name!(map, map, atom, String.t(), String.t()) :: [{String.t()}] | []
   def by_name!(struct_a, struct_b, row, id, name) do
     try do
