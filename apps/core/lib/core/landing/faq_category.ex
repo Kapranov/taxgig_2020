@@ -26,8 +26,7 @@ defmodule Core.Landing.FaqCategory do
     field :title, :string
     field :faqs_count, :integer, virtual: true, default: 0
 
-    has_many :faqs, Faq,
-      on_delete: :delete_all
+    has_many :faqs, Faq, on_delete: :delete_all
 
     timestamps()
   end

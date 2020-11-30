@@ -97,7 +97,7 @@ bash> mix ecto.gen.migration -r Core.Repo create_reports
 - projects
   - offers
   - addons
-  - service_reviews
+  - serviceReviews
 - media
   - documents
 - talk
@@ -105,10 +105,147 @@ bash> mix ecto.gen.migration -r Core.Repo create_reports
   - messages
   - reports
 - accounts
-  - pro_rating_projects
-  - ban_reasons
-  - deleted_users
+  - proRatingProjects
+  - banReasons
+  - deletedUsers
   - platforms
+
+
+### New New New Schemas
+
+- deletedUsers
+  - reason enum
+  - userId uuid
+
+- banReason only admin
+  - description string
+  - other       boolean
+  - reasons     enum
+
+- platforms
+  - banReasonId      uuid
+  - clientLimitReach boolean
+  - hereActive        boolean
+  - herpStatus        boolean
+  - isBanned          boolean
+  - isOnline          boolean
+  - isStuck           boolean
+  - paymentActive     boolean
+  - stuckStage        enum
+  - userId            uuid
+
+- serviceReview only tp
+  - clientComment   string
+  - communication   integer
+  - finalRating     decimal
+  - professionalism integer
+  - userId          uuid
+  - workQuality     integer
+
+- proRating only pro
+  - averageCommunication   decimal
+  - averageProfessionalism decimal
+  - averageRating          decimal
+  - averageWorkQuality     decimal
+  - userId                 uuid
+  - virtual field for projects
+
+- offers
+  - price  integer
+  - status enum
+  - userId uuid
+  - virtual field for projects
+
+- addon
+  - price  integer
+  - status enum
+  - userId uuid
+  - virtual field for projects
+
+- potentialClients only pro
+  - projectId jsonb
+  - userId    uuid
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+- project_service_reviews only pro
+  - pro_response      string
+  - project_id        uuid
+  - service_review_id uuid
+
+- service_link only tp
+  - bookkeeping_tax_return_id uuid
+  - business_tax_return_id    uuid
+  - individual_tax_return_id  uuid
+  - project_id                uuid
+  - sale_tax_return_id        uuid
+
+- pro_rating+projects
+  - pro_rating_id uuid
+  - project_id    uuid
+
+- offer_projects
+  - offer_id   uuid
+  - project_id uuid
+  - status     enum
+
+- addon_projects
+  - addon_id   uuid
+  - project_id uuid
+  - status     enum
+
+- project_files
+  - docs_pro   map
+  - docs_tp    map
+  - project_id uuid
+
+- documents
+  - access_granted                 boolean
+  - category                       enum
+  - document_link                  string
+  - format                         string
+  - name                           string
+  - signature_required_from_client boolean
+  - signed_by_pro                  boolean
+  - signed_by_tp                   boolean
+  - size                           integer
+
+- projects only tp
+  - assigned_pro      uuid
+  - end_time          date
+  - id_from_card      string
+  - instant_matched   boolean
+  - name              string
+  - price             decimal
+  - project_file_id   uuid
+  - service_review_id uuid
+  - status            enum
+  - user_id           uuid
+
+- chats
+  - active  boolean
+  - name    string
+  - user_id uuid
+
+- messages
+  - body       string
+  - chat_id    uuid
+  - is_read    boolean
+  - project_id uuid
+  - recipient  uuid
+  - user_id    uuid
+  - warning    boolean
+
+- report_messages
+  - message_id uuid
+  - report_id  uuid
+
+- reports
+  - description string
+  - messages    jsonb
+  - other       boolean
+  - reasons     enum
+  - user_id     uuid
 
 Furthermore, we have a couple of questions:
 

@@ -24,7 +24,6 @@ defmodule Core.Contracts.Project do
     offer_id: Offer.t(),
     project_price: integer,
     service_link: ServiceLink.t(),
-    service_review_id: ServiceReview.t(),
     status: String.t(),
     user_id: User.t()
   }
@@ -38,7 +37,6 @@ defmodule Core.Contracts.Project do
     instant_matched
     offer_id
     project_price
-    service_review_id
     status
     user_id
   )a
@@ -73,11 +71,6 @@ defmodule Core.Contracts.Project do
       type: FlakeId.Ecto.CompatType,
       references: :id
 
-    belongs_to :service_review, ServiceReview,
-      foreign_key: :service_review_id,
-      type: FlakeId.Ecto.CompatType,
-      references: :id
-
     has_one :service_link, ServiceLink, on_delete: :delete_all
 
     timestamps()
@@ -95,7 +88,6 @@ defmodule Core.Contracts.Project do
     |> foreign_key_constraint(:id_from_stripe_card, message: "Select the StripeCard")
     |> foreign_key_constraint(:id_from_stripe_transfer, message: "Select the StripeTransfer")
     |> foreign_key_constraint(:offer_id, message: "Select an Offer")
-    |> foreign_key_constraint(:service_review_id, message: "Select the ServiceReview")
     |> foreign_key_constraint(:user_id, message: "Select an User")
   end
 end

@@ -203,10 +203,78 @@ defmodule Core.Seeder.Updated.Accounts do
   defp update_pro_rating do
     pro_rating_ids = Enum.map(Repo.all(ProRating), fn(data) -> data end)
 
-    { pro_rating1 } = { Enum.at(pro_rating_ids, 0) }
+    {
+      pro_rating1,
+      pro_rating2,
+      pro_rating3,
+      pro_rating4,
+      pro_rating5,
+      pro_rating6,
+      pro_rating7,
+      pro_rating8,
+      pro_rating9
+    } = {
+      Enum.at(pro_rating_ids, 0),
+      Enum.at(pro_rating_ids, 1),
+      Enum.at(pro_rating_ids, 2),
+      Enum.at(pro_rating_ids, 3),
+      Enum.at(pro_rating_ids, 4),
+      Enum.at(pro_rating_ids, 5),
+      Enum.at(pro_rating_ids, 6),
+      Enum.at(pro_rating_ids, 7),
+      Enum.at(pro_rating_ids, 8)
+    }
 
     [
       Accounts.update_pro_rating(pro_rating1, %{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float()
+      }),
+      Accounts.update_pro_rating(pro_rating2, %{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float()
+      }),
+      Accounts.update_pro_rating(pro_rating3, %{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float()
+      }),
+      Accounts.update_pro_rating(pro_rating4, %{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float()
+      }),
+      Accounts.update_pro_rating(pro_rating5, %{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float()
+      }),
+      Accounts.update_pro_rating(pro_rating6, %{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float()
+      }),
+      Accounts.update_pro_rating(pro_rating7, %{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float()
+      }),
+      Accounts.update_pro_rating(pro_rating8, %{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float()
+      }),
+      Accounts.update_pro_rating(pro_rating9, %{
         average_communication: random_float(),
         average_professionalism: random_float(),
         average_rating: random_float(),

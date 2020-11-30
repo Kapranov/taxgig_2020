@@ -1289,55 +1289,19 @@ defmodule Core.Factory do
     }
   end
 
-  @spec addon_factory() :: Addon.t()
-  def addon_factory do
-    %Addon{
-      addon_price: random_integer(),
-      status: random_status(),
-      user: build(:user)
-    }
-  end
-
-  @spec tp_addon_factory() :: Addon.t()
-  def tp_addon_factory do
-    %Addon{
-      addon_price: random_integer(),
-      status: random_status(),
-      user: build(:tp_user)
-    }
-  end
-
   @spec pro_addon_factory() :: Addon.t()
   def pro_addon_factory do
     %Addon{
-      addon_price: random_integer(),
+      price: random_integer(),
       status: random_status(),
       user: build(:pro_user)
-    }
-  end
-
-  @spec offer_factory() :: Offer.t()
-  def offer_factory do
-    %Offer{
-      offer_price: random_integer(),
-      status: random_status(),
-      user: build(:user)
-    }
-  end
-
-  @spec tp_offer_factory() :: Offer.t()
-  def tp_offer_factory do
-    %Offer{
-      offer_price: random_integer(),
-      status: random_status(),
-      user: build(:tp_user)
     }
   end
 
   @spec pro_offer_factory() :: Offer.t()
   def pro_offer_factory do
     %Offer{
-      offer_price: random_integer(),
+      price: random_integer(),
       status: random_status(),
       user: build(:pro_user)
     }
@@ -1351,7 +1315,8 @@ defmodule Core.Factory do
       final_rating: random_float(),
       pro_response: Lorem.sentence(),
       professionalism: random_integer(),
-      work_quality: random_integer(),
+      user: build(:tp_user),
+      work_quality: random_integer()
     }
   end
 
@@ -1366,7 +1331,6 @@ defmodule Core.Factory do
       instant_matched: random_boolean(),
       offer: build(:offer),
       project_price: random_integer(),
-      service_review: build(:service_review),
       status: random_project_status(),
       users: build(:tp_user)
     }
@@ -1383,7 +1347,6 @@ defmodule Core.Factory do
       instant_matched: random_boolean(),
       offer: build(:offer),
       project_price: random_integer(),
-      service_review: build(:service_review),
       status: random_project_status(),
       users: build(:tp_user)
     }

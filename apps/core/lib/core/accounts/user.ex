@@ -8,12 +8,15 @@ defmodule Core.Accounts.User do
   alias Core.{
     Accounts.DeletedUser,
     Accounts.Platform,
+    Accounts.ProRating,
     Accounts.Profile,
     Accounts.User,
     Config,
     Contracts.Addon,
     Contracts.Offer,
+    Contracts.PotentialClient,
     Contracts.Project,
+    Contracts.ServiceReview,
     Localization.Language,
     Repo,
     Services.BookKeeping,
@@ -30,7 +33,7 @@ defmodule Core.Accounts.User do
   @type t :: %__MODULE__{
     accounting_software: AccountingSoftware.t(),
     active: boolean,
-    addon: Addon.t(),
+    addons: [Addon.t()],
     admin: boolean,
     avatar: String.t(),
     bio: String.t(),
@@ -47,12 +50,14 @@ defmodule Core.Accounts.User do
     last_name: String.t(),
     messages: [Message.t()],
     middle_name: String.t(),
-    offer: Offer.t(),
+    offers: [Offer.t()],
     password: String.t(),
     password_confirmation: String.t(),
     password_hash: String.t(),
     phone: String.t(),
     platform: Platform.t(),
+    potential_client: PotentialClient.t(),
+    pro_ratings: [ProRating.t()],
     profile: Profile.t(),
     projects: [Project.t()],
     provider: String.t(),
@@ -60,6 +65,7 @@ defmodule Core.Accounts.User do
     rooms: [Room.t()],
     sale_taxes: [SaleTax.t()],
     sex: String.t(),
+    service_reviews: [ServiceReview.t()],
     ssn: integer,
     street: String.t(),
     work_experience: WorkExperience.t(),
@@ -129,18 +135,21 @@ defmodule Core.Accounts.User do
     has_one :deleted_user, DeletedUser, on_delete: :delete_all
     has_one :education, Education, on_delete: :delete_all
     has_one :platform, Platform, on_delete: :delete_all
+    has_one :potential_client, PotentialClient, on_delete: :delete_all
     has_one :profile, Profile, on_delete: :delete_all
     has_one :work_experience, WorkExperience, on_delete: :delete_all
-    has_one :addon, Addon, on_delete: :delete_all
-    has_one :offer, Offer, on_delete: :delete_all
 
+    has_many :addons, Addon, on_delete: :delete_all
     has_many :book_keepings, BookKeeping, on_delete: :nilify_all
     has_many :business_tax_returns, BusinessTaxReturn, on_delete: :nilify_all
     has_many :individual_tax_returns, IndividualTaxReturn, on_delete: :nilify_all
     has_many :messages, Message, on_delete: :nilify_all
+    has_many :offers, Offer, on_delete: :delete_all
+    has_many :pro_ratings, ProRating, on_delete: :delete_all
+    has_many :projects, Project, on_delete: :nilify_all
     has_many :rooms, Room, on_delete: :nilify_all
     has_many :sale_taxes, SaleTax, on_delete: :nilify_all
-    has_many :projects, Project, on_delete: :nilify_all
+    has_many :service_reviews, ServiceReview, on_delete: :nilify_all
 
     many_to_many :languages, Language, join_through: "users_languages", on_replace: :delete
 

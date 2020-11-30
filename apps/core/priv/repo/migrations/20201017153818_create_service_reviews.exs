@@ -10,8 +10,11 @@ defmodule Core.Repo.Migrations.CreateServiceReviews do
       add :pro_response, :string, null: true
       add :professionalism, :integer, null: false
       add :work_quality, :integer, null: false
+      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
 
       timestamps(type: :utc_datetime_usec)
     end
+
+    create index(:service_reviews, [:user_id])
   end
 end

@@ -14,6 +14,5 @@ defmodule Core.Repo.Migrations.CreateProRatings do
     end
 
     create index(:pro_ratings, [:user_id])
-    create(unique_index(:pro_ratings, [:user_id], name: :user_id_unique_index))
   end
 end

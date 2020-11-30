@@ -26,6 +26,8 @@ elixir_chat_server.tar.bz2
 mix.lock
 payments.ex
 phx-1.5-upgrade.md
+project_schema.pdf
+project_schema.txt
 streamers.ex
 streamers_test.exs
 stripe_card.ex.save

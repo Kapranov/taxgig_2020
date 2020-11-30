@@ -2,7 +2,7 @@ defmodule Core.Repo.Migrations.CreateDeletedUsers do
   use Ecto.Migration
 
   def change do
-    create table(:deleted_users, primary_key: false) do
+    create_if_not_exists table(:deleted_users, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
       add :reason, :string, null: false
       add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false

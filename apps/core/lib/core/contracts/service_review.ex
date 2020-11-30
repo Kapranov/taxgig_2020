@@ -5,7 +5,10 @@ defmodule Core.Contracts.ServiceReview do
 
   use Core.Model
 
-  alias Core.Contracts.Project
+  alias Core.{
+    Accounts.User,
+    Contracts.Project
+  }
 
   @type t :: %__MODULE__{
     client_comment: String.t(),
@@ -13,7 +16,7 @@ defmodule Core.Contracts.ServiceReview do
     final_rating: integer,
     pro_response: String.t(),
     professionalism: integer,
-    project: Project.t(),
+    user_id: User.t(),
     work_quality: integer
   }
 
@@ -23,6 +26,7 @@ defmodule Core.Contracts.ServiceReview do
     final_rating
     pro_response
     professionalism
+    user_id
     work_quality
   )a
 
@@ -30,6 +34,7 @@ defmodule Core.Contracts.ServiceReview do
     communication
     final_rating
     professionalism
+    user_id
     work_quality
   )a
 
@@ -41,7 +46,10 @@ defmodule Core.Contracts.ServiceReview do
     field :professionalism, :integer, null: false
     field :work_quality, :integer, null: false
 
-    has_one :project, Project, on_delete: :delete_all
+    belongs_to :users, User,
+      foreign_key: :user_id,
+      type: FlakeId.Ecto.CompatType,
+      references: :id
 
     timestamps()
   end
@@ -54,5 +62,6 @@ defmodule Core.Contracts.ServiceReview do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
+    |> foreign_key_constraint(:user_id, message: "Select an User")
   end
 end

@@ -11,6 +11,7 @@ defmodule Core.Contracts do
     Contracts,
     Contracts.Addon,
     Contracts.Offer,
+    Contracts.PotentialClient,
     Contracts.Project,
     Contracts.ServiceReview
   }
@@ -213,6 +214,103 @@ defmodule Core.Contracts do
   end
 
   @doc """
+  Returns the list of PotentialClient.
+
+  ## Examples
+
+      iex> list_potential_client()
+      [%PotentialClient{}, ...]
+  """
+  @spec list_potential_client() :: [PotentialClient.t()]
+  def list_potential_client, do: Repo.all(PotentialClient)
+
+  @doc """
+  Gets a single PotentialClient.
+
+  Raises `Ecto.NoResultsError` if PotentialClient does not exist.
+
+  ## Examples
+
+      iex> get_potential_client!(123)
+      %PotentialClient{}
+
+      iex> get_potential_client!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_potential_client!(String.t()) :: PotentialClient.t() | error_tuple()
+  def get_potential_client!(id), do: Repo.get!(PotentialClient, id)
+
+  @doc """
+  Creates PotentialClient.
+
+  ## Examples
+
+      iex> create_potential_client(%{field: value})
+      {:ok, %PotentialClient{}}
+
+      iex> create_potential_client(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec create_potential_client(%{atom => any}) :: result() | error_tuple()
+  def create_potential_client(attrs \\ %{}) do
+    %PotentialClient{}
+    |> PotentialClient.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates PotentialClient.
+
+  ## Examples
+
+      iex> update_potential_client(struct, %{field: new_value})
+      {:ok, %PotentialClient{}}
+
+      iex> update_potential_client(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_potential_client(PotentialClient.t(), %{atom => any}) :: result() | error_tuple()
+  def update_potential_client(%PotentialClient{} = struct, attrs) do
+    struct
+    |> PotentialClient.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes PotentialClient.
+
+  ## Examples
+
+      iex> delete_potential_client(struct)
+      {:ok, %PotentialClient{}}
+
+      iex> delete_potential_client(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_potential_client(PotentialClient.t()) :: result()
+  def delete_potential_client(%PotentialClient{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking PotentialClient Changes.
+
+  ## Examples
+
+      iex> change_potential_client(struct)
+      %Ecto.Changeset{source: %PotentialClient{}}
+
+  """
+  @spec change_potential_client(PotentialClient.t()) :: Ecto.Changeset.t()
+  def change_potential_client(%PotentialClient{} = struct) do
+    PotentialClient.changeset(struct, %{})
+  end
+
+  @doc """
   Returns the list the Projects.
 
   ## Examples
@@ -243,7 +341,6 @@ defmodule Core.Contracts do
   @spec get_project!(String.t()) :: Project.t() | error_tuple()
   def get_project!(id) do
     Repo.get!(Project, id)
-    |> Repo.preload([:service_review])
   end
 
   @doc """

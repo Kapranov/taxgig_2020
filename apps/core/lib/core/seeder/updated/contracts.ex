@@ -8,6 +8,7 @@ defmodule Core.Seeder.Updated.Contracts do
     Contracts,
     Contracts.Addon,
     Contracts.Offer,
+    Contracts.PotentialClient,
     Contracts.Project,
     Contracts.ServiceReview,
     Repo
@@ -21,6 +22,7 @@ defmodule Core.Seeder.Updated.Contracts do
     update_offer()
     update_project()
     update_service_review()
+    update_potential_client()
   end
 
   @spec update_addon() :: Ecto.Schema.t()
@@ -34,7 +36,9 @@ defmodule Core.Seeder.Updated.Contracts do
       addon4,
       addon5,
       addon6,
-      addon7
+      addon7,
+      addon8,
+      addon9
     } = {
       Enum.at(addon_ids, 0),
       Enum.at(addon_ids, 1),
@@ -42,36 +46,46 @@ defmodule Core.Seeder.Updated.Contracts do
       Enum.at(addon_ids, 3),
       Enum.at(addon_ids, 4),
       Enum.at(addon_ids, 5),
-      Enum.at(addon_ids, 6)
+      Enum.at(addon_ids, 6),
+      Enum.at(addon_ids, 7),
+      Enum.at(addon_ids, 8)
     }
 
     [
       Contracts.update_addon(addon1, %{
-        addon_price: random_integer(),
+        price: random_integer(),
         status: random_status()
       }),
       Contracts.update_addon(addon2, %{
-        addon_price: random_integer(),
+        price: random_integer(),
         status: random_status()
       }),
       Contracts.update_addon(addon3, %{
-        addon_price: random_integer(),
+        price: random_integer(),
         status: random_status()
       }),
       Contracts.update_addon(addon4, %{
-        addon_price: random_integer(),
+        price: random_integer(),
         status: random_status()
       }),
       Contracts.update_addon(addon5, %{
-        addon_price: random_integer(),
+        price: random_integer(),
         status: random_status()
       }),
       Contracts.update_addon(addon6, %{
-        addon_price: random_integer(),
+        price: random_integer(),
         status: random_status()
       }),
       Contracts.update_addon(addon7, %{
-        addon_price: random_integer(),
+        price: random_integer(),
+        status: random_status()
+      }),
+      Contracts.update_addon(addon8, %{
+        price: random_integer(),
+        status: random_status()
+      }),
+      Contracts.update_addon(addon9, %{
+        price: random_integer(),
         status: random_status()
       })
     ]
@@ -88,7 +102,9 @@ defmodule Core.Seeder.Updated.Contracts do
       offer4,
       offer5,
       offer6,
-      offer7
+      offer7,
+      offer8,
+      offer9
     } = {
       Enum.at(offer_ids, 0),
       Enum.at(offer_ids, 1),
@@ -96,36 +112,46 @@ defmodule Core.Seeder.Updated.Contracts do
       Enum.at(offer_ids, 3),
       Enum.at(offer_ids, 4),
       Enum.at(offer_ids, 5),
-      Enum.at(offer_ids, 6)
+      Enum.at(offer_ids, 6),
+      Enum.at(offer_ids, 7),
+      Enum.at(offer_ids, 8)
     }
 
     [
       Contracts.update_offer(offer1, %{
-        offer_price: random_integer(),
+        price: random_integer(),
         status: random_status()
       }),
       Contracts.update_offer(offer2, %{
-        offer_price: random_integer(),
+        price: random_integer(),
         status: random_status()
       }),
       Contracts.update_offer(offer3, %{
-        offer_price: random_integer(),
+        price: random_integer(),
         status: random_status()
       }),
       Contracts.update_offer(offer4, %{
-        offer_price: random_integer(),
+        price: random_integer(),
         status: random_status()
       }),
       Contracts.update_offer(offer5, %{
-        offer_price: random_integer(),
+        price: random_integer(),
         status: random_status()
       }),
       Contracts.update_offer(offer6, %{
-        offer_price: random_integer(),
+        price: random_integer(),
         status: random_status()
       }),
       Contracts.update_offer(offer7, %{
-        offer_price: random_integer(),
+        price: random_integer(),
+        status: random_status()
+      }),
+      Contracts.update_offer(offer8, %{
+        price: random_integer(),
+        status: random_status()
+      }),
+      Contracts.update_offer(offer9, %{
+        price: random_integer(),
         status: random_status()
       })
     ]
@@ -293,10 +319,27 @@ defmodule Core.Seeder.Updated.Contracts do
     service_review_ids =
       Enum.map(Repo.all(ServiceReview), fn(data) -> data end)
 
-    { srv1 } = { Enum.at(service_review_ids, 0) }
-
-    project_ids = Enum.map(Repo.all(Project), fn(data) -> data end)
-    { project1 } = { Enum.at(project_ids, 4) }
+    {
+      srv1,
+      srv2,
+      srv3,
+      srv4,
+      srv5,
+      srv6,
+      srv7,
+      srv8,
+      srv9
+    } = {
+      Enum.at(service_review_ids, 0),
+      Enum.at(service_review_ids, 1),
+      Enum.at(service_review_ids, 2),
+      Enum.at(service_review_ids, 3),
+      Enum.at(service_review_ids, 4),
+      Enum.at(service_review_ids, 5),
+      Enum.at(service_review_ids, 6),
+      Enum.at(service_review_ids, 7),
+      Enum.at(service_review_ids, 8)
+    }
 
     [
       Contracts.update_service_review(srv1, %{
@@ -305,8 +348,102 @@ defmodule Core.Seeder.Updated.Contracts do
         final_rating: random_float(),
         pro_response: Lorem.sentence(),
         professionalism: random_integer(),
-        project_id: project1.id,
         work_quality: random_integer()
+      }),
+      Contracts.update_service_review(srv2, %{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_float(),
+        pro_response: Lorem.sentence(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
+      }),
+      Contracts.update_service_review(srv3, %{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_float(),
+        pro_response: Lorem.sentence(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
+      }),
+      Contracts.update_service_review(srv4, %{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_float(),
+        pro_response: Lorem.sentence(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
+      }),
+      Contracts.update_service_review(srv5, %{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_float(),
+        pro_response: Lorem.sentence(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
+      }),
+      Contracts.update_service_review(srv6, %{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_float(),
+        pro_response: Lorem.sentence(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
+      }),
+      Contracts.update_service_review(srv7, %{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_float(),
+        pro_response: Lorem.sentence(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
+      }),
+      Contracts.update_service_review(srv8, %{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_float(),
+        pro_response: Lorem.sentence(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
+      }),
+      Contracts.update_service_review(srv9, %{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_float(),
+        pro_response: Lorem.sentence(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
+      })
+    ]
+  end
+
+  @spec update_potential_client() :: Ecto.Schema.t()
+  defp update_potential_client do
+    potential_client_ids =
+      Enum.map(Repo.all(PotentialClient), fn(data) -> data end)
+
+    {
+      client1,
+      client2,
+      client3
+    } = {
+      Enum.at(potential_client_ids, 0),
+      Enum.at(potential_client_ids, 1),
+      Enum.at(potential_client_ids, 2)
+    }
+
+    project_ids =
+      Enum.map(Repo.all(Project), fn(data) -> data.id end)
+
+    [
+      Contracts.update_potential_client(client1, %{
+        project: random_project(project_ids)
+      }),
+      Contracts.update_potential_client(client2, %{
+        project: random_project(project_ids)
+      }),
+      Contracts.update_potential_client(client3, %{
+        project: random_project(project_ids)
       })
     ]
   end
@@ -364,6 +501,20 @@ defmodule Core.Seeder.Updated.Contracts do
     [result] =
       for i <- 1..number, i > 0 do
         Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_project([String.t()]) :: [String.t()]
+  defp random_project(ids) do
+    numbers = 1..9
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(ids)
       end
       |> Enum.uniq()
 

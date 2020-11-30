@@ -525,9 +525,69 @@ defmodule Core.Seeder.Accounts do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
-    {pro3} = { Enum.at(user_ids, 6) }
+    {pro1, pro2, pro3} = {
+      Enum.at(user_ids, 4),
+      Enum.at(user_ids, 5),
+      Enum.at(user_ids, 6)
+    }
 
     [
+      Accounts.create_pro_rating(%{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float(),
+        user_id: pro1
+      }),
+      Accounts.create_pro_rating(%{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float(),
+        user_id: pro1
+      }),
+      Accounts.create_pro_rating(%{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float(),
+        user_id: pro1
+      }),
+      Accounts.create_pro_rating(%{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float(),
+        user_id: pro2
+      }),
+      Accounts.create_pro_rating(%{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float(),
+        user_id: pro2
+      }),
+      Accounts.create_pro_rating(%{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float(),
+        user_id: pro2
+      }),
+      Accounts.create_pro_rating(%{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float(),
+        user_id: pro3
+      }),
+      Accounts.create_pro_rating(%{
+        average_communication: random_float(),
+        average_professionalism: random_float(),
+        average_rating: random_float(),
+        average_work_quality: random_float(),
+        user_id: pro3
+      }),
       Accounts.create_pro_rating(%{
         average_communication: random_float(),
         average_professionalism: random_float(),

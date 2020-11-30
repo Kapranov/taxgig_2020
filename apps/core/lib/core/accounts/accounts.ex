@@ -1480,7 +1480,8 @@ defmodule Core.Accounts do
   @spec by_full_name(word) :: String.t() | {:error, nonempty_list(message)}
   def by_full_name(id) when not is_nil(id) do
     with %User{first_name: first_name, last_name: last_name, middle_name: middle_name} <- by_user(id) do
-      "#{first_name} #{middle_name} #{last_name}"
+      [first_name, middle_name, last_name]
+      |> Enum.map_join(" ", &to_string/1)
       |> String.replace(~r/ +/, " ")
     end
   end
