@@ -12,7 +12,7 @@ defmodule Core.Accounts.Platform do
   }
 
   @type t :: %__MODULE__{
-    ban_reason_id: BanReason.t(),
+    ban_reason: BanReason.t(),
     client_limit_reach: boolean,
     hero_active: boolean,
     hero_status: boolean,
@@ -25,7 +25,6 @@ defmodule Core.Accounts.Platform do
   }
 
   @allowed_params ~w(
-    ban_reason_id
     client_limit_reach
     hero_active
     hero_status
@@ -56,15 +55,12 @@ defmodule Core.Accounts.Platform do
     field :payment_active, :boolean, null: false, default: false
     field :stuck_stage, StuckStageEnum, null: true
 
-    belongs_to :ban_reason, BanReason,
-      foreign_key: :ban_reason_id,
-      type: FlakeId.Ecto.CompatType,
-      references: :id
-
     belongs_to :user, User,
       foreign_key: :user_id,
       type: FlakeId.Ecto.CompatType,
       references: :id
+
+    has_one :ban_reason, BanReason, on_delete: :delete_all
 
     timestamps()
   end
@@ -77,7 +73,6 @@ defmodule Core.Accounts.Platform do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
-    |> foreign_key_constraint(:ban_reason_id, message: "Select the BanReason")
     |> foreign_key_constraint(:user_id, message: "Select an User")
     |> unique_constraint(:user, name: :platforms_user_id_index, message: "Only one an User")
   end

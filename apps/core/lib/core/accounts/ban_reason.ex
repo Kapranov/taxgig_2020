@@ -7,30 +7,46 @@ defmodule Core.Accounts.BanReason do
 
   alias Core.Accounts.{
     Helpers.BanReasonsEnum,
-    Platform
+    Platform,
+    User
   }
 
   @type t :: %__MODULE__{
     description: String.t(),
     other: boolean,
-    platform: Platform.t(),
-    reasons: String.t()
+    platform_id: Platform.t(),
+    reasons: String.t(),
+    user_id: User.t()
   }
 
   @allowed_params ~w(
     description
     other
+    platform_id
     reasons
+    user_id
   )a
 
-  @required_params ~w(other)a
+  @required_params ~w(
+    other
+    platform_id
+    user_id
+  )a
 
   schema "ban_reasons" do
     field :other, :boolean, null: false
     field :description, :string, null: true
     field :reasons, BanReasonsEnum, null: true
 
-    has_one :platform, Platform, on_delete: :nilify_all
+    belongs_to :platform, Platform,
+      foreign_key: :platform_id,
+      type: FlakeId.Ecto.CompatType,
+      references: :id
+
+    belongs_to :users, User,
+      foreign_key: :user_id,
+      type: FlakeId.Ecto.CompatType,
+      references: :id
 
     timestamps()
   end
@@ -43,5 +59,8 @@ defmodule Core.Accounts.BanReason do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
+    |> foreign_key_constraint(:platform_id, message: "Select the Platform")
+    |> foreign_key_constraint(:user_id, message: "Select an User")
+    |> unique_constraint(:platform, name: :ban_reasons_platform_id_index, message: "Only one a Platform")
   end
 end

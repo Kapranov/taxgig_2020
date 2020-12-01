@@ -2,9 +2,8 @@ defmodule Core.Repo.Migrations.CreatePlatforms do
   use Ecto.Migration
 
   def change do
-    create_if_not_exists table(:platforms, primary_key: false) do
+    create table(:platforms, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
-      add :ban_reason_id, references(:ban_reasons, type: :uuid, on_delete: :nilify_all), null: true, primary_key: false
       add :client_limit_reach, :boolean, null: false, default: false
       add :hero_active, :boolean, null: true
       add :hero_status, :boolean, null: true
@@ -18,7 +17,6 @@ defmodule Core.Repo.Migrations.CreatePlatforms do
       timestamps(type: :utc_datetime_usec)
     end
 
-    create index(:platforms, [:ban_reason_id])
     create(unique_index(:platforms, [:user_id], name: :platforms_user_id_index))
   end
 end

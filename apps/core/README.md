@@ -132,36 +132,22 @@ end
 - banReason only admin
   - description string
   - other       boolean
+  - platfromId  uuid
   - reasons     enum
+  - userId      uuid
 
 ```
-user =
-  try do
-    Accounts.get_user!(user_id)
-  rescue
-    Ecto.NoResultsError -> :error
-  end
+struct = Repo.get_by(Accounts.Platform, %{id: id})
+attrs = %{is_banned: true}
+Accounts.update_platfrom(struct, attrs)
 
-now = :erlang.system_time(:second) |> DateTime.from_unix!()
-
-if Accounts.User.superuser?(user) do
-  case Repo.aggregate(BanReason, :count, :id) > 0 do
-    true -> nil
-    false ->
-      case other do
-        true ->
-          Ecto.Adapters.SQL.query!(Repo, "INSERT INTO ban_reasons (other, other_description, inserted_at, updated_at) VALUES ($1, $2, $3, $4)", [other, other_description, now, now])
-        false ->
-          Ecto.Adapters.SQL.query!(Repo, "INSERT INTO ban_reasons (reasons, other, inserted_at, updated_at) VALUES ($1, $2, $3, $4)", [reasons, other, now, now])
-      end
-  end
-else
-  {:error, "Oops! Permission Denied"}
-end
+Accounts.delete_ban_reason(struct)
+struct = Repo.get_by(Accounts.Platform, %{id: struct.platform_id})
+attrs = %{is_banned: false}
+Accounts.update_platfrom(struct, attrs)
 ```
 
 - platforms
-  - banReasonId      uuid
   - clientLimitReach boolean
   - hereActive        boolean
   - herpStatus        boolean
@@ -210,8 +196,8 @@ end
 ```
 struct = Core.Contracts.PotentialClient
 row = :project
-str = "A1iyOkFTXX32A4Cldq"
-query = Core.Queries.by_project(struct, row, str)
+id = "A1iyOkFTXX32A4Cldq"
+query = Core.Queries.by_project(struct, row, id)
 
 case query do
   [] -> {:ok, %Core.Contracts.PotentialClient{}}
@@ -222,7 +208,62 @@ case query do
       {:ok, %Core.Contracts.PotentialClient{}} = Core.Contracts.update_potential_client(data, %{project: attrs})
     end)
 end
+
+struct = Core.Contracts.Project
+row_a = :status
+row_b = :New
+row_c = :id
+id = "A1iyOkFTXX32A4Cldq"
+by_project(struct, row_a, row_b, row_c, id)
+query = Core.Queries.by_project(struct, row_a, row_b, row_c, id)
+
+data = [
+  "A1iyOjqf1nCMv6awxm",
+  "A1iyOjwgfO1FDnPlMA",
+  "A1iyOjzWUqHtMak1mE",
+  "A1iyOk3mF1grZmjQPI",
+  "A1iyOk7g0WoFlsYXU8",
+  "A1iyOkBZm1vdxyNeZ0",
+  "A1iyOkFTXX32A4Cldq",
+  "A1iyOkJNJ2AQMA1sig",
+  "A1iyOkNH4XHoYFqznW"
+]
+
+Enum.map(data, fn ids ->
+  case by_project(Project, :status, :New, :id, ids) do
+    nil -> []
+    _ -> [] ++ [ids]
+  end
+end) |> List.flatten
 ```
+
+- projects only tp
+  - addonPrice           integer
+  - addons               uuid
+  - assignedPro          uuid
+  - endTime              date
+  - idFromStripeCard     uuid
+  - idFromStripeTransfer uuid
+  - instantMatched       booolean
+  - name                 string
+  - offerPrice           integer
+  - projectFileId        uuid
+  - projects             uuid
+  - serviceReviewId      uuid
+  - status               enum
+  - userId               uuid
+
+add :addon_price, :integer, null: true
+add :assigned_pro, :uuid, type: FlakeId.Ecto.Type, null: true
+add :assigned_pro, references(:users, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
+add :end_time, :date, null: true
+add :id_from_stripe_card, :uuid, type: FlakeId.Ecto.Type, null: true
+add :id_from_stripe_transfer, :uuid, type: FlakeId.Ecto.Type, null: true
+add :instant_matched, :boolean, null: false
+add :name, :string, null: false
+add :offer_price, :integer, null: true
+add :status, :string, null: false
+add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

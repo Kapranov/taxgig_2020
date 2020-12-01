@@ -99,20 +99,49 @@ defmodule Core.Queries do
   end
 
   @doc """
+  Find project_id in field's project by PotentialClient
+
   ## Example
 
       iex> struct = Core.Contracts.PotentialClient
       iex> row = :project
-      iex> str = "A1iyOkFTXX32A4Cldq"
+      iex> id = "A1iyOkFTXX32A4Cldq"
       iex> by_project(struct, row, str)
   """
   @spec by_project(map, atom, word) :: [{word}] | nil
-  def by_project(struct, row, str) do
+  def by_project(struct, row, id) do
     try do
       Repo.all(
         from c in struct,
         where: not is_nil(field(c, ^row)),
-        where: fragment("? @> ?", field(c, ^row), ^[str]),
+        where: fragment("? @> ?", field(c, ^row), ^[id]),
+        select: c.id
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Find id via status is New for created PotentialClient
+
+  ## Example
+
+      iex> struct = Core.Contracts.Project
+      iex> row_a = :status
+      iex> row_b = :New
+      iex> row_c = :id
+      iex> id = "A1iyOkFTXX32A4Cldq"
+      iex> by_project(struct, row_a, row_b, row_c, id)
+  """
+  @spec by_project(map, atom, atom, atom, word) :: [{word}] | nil
+  def by_project(struct, row_a, row_b, row_c, id) do
+    try do
+      Repo.one(
+        from c in struct,
+        where: not is_nil(field(c, ^row_a)),
+        where: field(c, ^row_a) == ^row_b,
+        where: field(c, ^row_c) == ^id,
         select: c.id
       )
     rescue

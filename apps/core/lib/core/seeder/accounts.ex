@@ -34,8 +34,8 @@ defmodule Core.Seeder.Accounts do
     # seed_multi_user()
     seed_users_languages()
     seed_multi_users_languages()
-    seed_ban_reason()
     seed_platform()
+    seed_ban_reason()
     seed_pro_rating()
     seed_deleted_user()
     admin_permission()
@@ -242,19 +242,19 @@ defmodule Core.Seeder.Accounts do
     end)
   end
 
-  @spec seed_ban_reason() :: nil | Ecto.Schema.t()
-  defp seed_ban_reason do
-    case Repo.aggregate(BanReason, :count, :id) > 0 do
-      true -> nil
-      false -> insert_ban_reason()
-    end
-  end
-
   @spec seed_platform() :: nil | Ecto.Schema.t()
   defp seed_platform do
     case Repo.aggregate(Platform, :count, :id) > 0 do
       true -> nil
       false -> insert_platform()
+    end
+  end
+
+  @spec seed_ban_reason() :: nil | Ecto.Schema.t()
+  defp seed_ban_reason do
+    case Repo.aggregate(BanReason, :count, :id) > 0 do
+      true -> nil
+      false -> insert_ban_reason()
     end
   end
 
@@ -292,6 +292,7 @@ defmodule Core.Seeder.Accounts do
   defp insert_user do
     [
       Accounts.create_user(%{
+        admin: true,
         email: "lugatex@yahoo.com",
         password: "qwerty",
         password_confirmation: "qwerty",
@@ -399,20 +400,7 @@ defmodule Core.Seeder.Accounts do
     ]
   end
 
-  @spec insert_ban_reason() :: Ecto.Schema.t()
-  defp insert_ban_reason do
-    case Repo.aggregate(BanReason, :count, :id) > 0 do
-      true -> nil
-      false ->
-        Accounts.create_ban_reason(%{
-          reasons: random_reasons(),
-          other: random_boolean(),
-          description: "some text"
-        })
-    end
-  end
-
-  @spec insert_ban_reason() :: Ecto.Schema.t()
+  @spec insert_platform() :: Ecto.Schema.t()
   defp insert_platform do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
@@ -427,14 +415,8 @@ defmodule Core.Seeder.Accounts do
       Enum.at(user_ids, 6)
     }
 
-    ban_reason_ids =
-      Enum.map(Repo.all(BanReason), fn(data) -> data.id end)
-
-    {ban_reason} = { Enum.at(ban_reason_ids, 0) }
-
     [
       Accounts.create_platform(%{
-        ban_reason_id: ban_reason,
         client_limit_reach: random_boolean(),
         hero_active: random_boolean(),
         hero_status: random_boolean(),
@@ -446,7 +428,6 @@ defmodule Core.Seeder.Accounts do
         user_id: user
       }),
       Accounts.create_platform(%{
-        ban_reason_id: ban_reason,
         client_limit_reach: random_boolean(),
         hero_active: random_boolean(),
         hero_status: random_boolean(),
@@ -458,7 +439,6 @@ defmodule Core.Seeder.Accounts do
         user_id: tp1
       }),
       Accounts.create_platform(%{
-        ban_reason_id: ban_reason,
         client_limit_reach: random_boolean(),
         hero_active: random_boolean(),
         hero_status: random_boolean(),
@@ -470,7 +450,6 @@ defmodule Core.Seeder.Accounts do
         user_id: tp2
       }),
       Accounts.create_platform(%{
-        ban_reason_id: ban_reason,
         client_limit_reach: random_boolean(),
         hero_active: random_boolean(),
         hero_status: random_boolean(),
@@ -482,7 +461,6 @@ defmodule Core.Seeder.Accounts do
         user_id: tp3
       }),
       Accounts.create_platform(%{
-        ban_reason_id: ban_reason,
         client_limit_reach: random_boolean(),
         hero_active: random_boolean(),
         hero_status: random_boolean(),
@@ -494,7 +472,6 @@ defmodule Core.Seeder.Accounts do
         user_id: pro1
       }),
       Accounts.create_platform(%{
-        ban_reason_id: ban_reason,
         client_limit_reach: random_boolean(),
         hero_active: random_boolean(),
         hero_status: random_boolean(),
@@ -506,7 +483,6 @@ defmodule Core.Seeder.Accounts do
         user_id: pro2
       }),
       Accounts.create_platform(%{
-        ban_reason_id: ban_reason,
         client_limit_reach: random_boolean(),
         hero_active: random_boolean(),
         hero_status: random_boolean(),
@@ -516,6 +492,84 @@ defmodule Core.Seeder.Accounts do
         payment_active: random_boolean(),
         stuck_stage: random_stuck_stage(),
         user_id: pro3
+      })
+    ]
+  end
+
+  @spec insert_ban_reason() :: Ecto.Schema.t()
+  defp insert_ban_reason do
+    platform_ids =
+      Enum.map(Repo.all(Platform), fn(data) -> data.id end)
+
+    {
+      platform1,
+      platform2,
+      platform3,
+      platform4,
+      platform5,
+      platform6,
+      platform7
+    } = {
+      Enum.at(platform_ids, 0),
+      Enum.at(platform_ids, 1),
+      Enum.at(platform_ids, 2),
+      Enum.at(platform_ids, 3),
+      Enum.at(platform_ids, 4),
+      Enum.at(platform_ids, 5),
+      Enum.at(platform_ids, 6)
+    }
+
+    admin = Repo.get_by(User, %{email: "lugatex@yahoo.com"})
+
+    [
+      Accounts.create_ban_reason(%{
+        description: "some text",
+        other: random_boolean(),
+        reasons: random_reasons(),
+        platform_id: platform1,
+        user_id: admin.id
+      }),
+      Accounts.create_ban_reason(%{
+        description: "some text",
+        other: random_boolean(),
+        reasons: random_reasons(),
+        platform_id: platform2,
+        user_id: admin.id
+      }),
+      Accounts.create_ban_reason(%{
+        description: "some text",
+        other: random_boolean(),
+        reasons: random_reasons(),
+        platform_id: platform3,
+        user_id: admin.id
+      }),
+      Accounts.create_ban_reason(%{
+        description: "some text",
+        other: random_boolean(),
+        reasons: random_reasons(),
+        platform_id: platform4,
+        user_id: admin.id
+      }),
+      Accounts.create_ban_reason(%{
+        description: "some text",
+        other: random_boolean(),
+        reasons: random_reasons(),
+        platform_id: platform5,
+        user_id: admin.id
+      }),
+      Accounts.create_ban_reason(%{
+        description: "some text",
+        other: random_boolean(),
+        reasons: random_reasons(),
+        platform_id: platform6,
+        user_id: admin.id
+      }),
+      Accounts.create_ban_reason(%{
+        description: "some text",
+        other: random_boolean(),
+        reasons: random_reasons(),
+        platform_id: platform7,
+        user_id: admin.id
       })
     ]
   end

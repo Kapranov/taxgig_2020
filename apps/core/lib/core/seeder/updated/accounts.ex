@@ -20,8 +20,8 @@ defmodule Core.Seeder.Updated.Accounts do
     update_user()
     update_profile()
     update_subscriber()
-    update_ban_reason()
     update_platform()
+    update_ban_reason()
     update_pro_rating()
     update_deleted_user()
   end
@@ -94,13 +94,61 @@ defmodule Core.Seeder.Updated.Accounts do
     ban_reason_ids =
       Enum.map(Repo.all(BanReason), fn(data) -> data end)
 
-    {br1} = {Enum.at(ban_reason_ids, 0)}
+    {
+      br1,
+      br2,
+      br3,
+      br4,
+      br5,
+      br6,
+      br7
+    } = {
+      Enum.at(ban_reason_ids, 0),
+      Enum.at(ban_reason_ids, 1),
+      Enum.at(ban_reason_ids, 2),
+      Enum.at(ban_reason_ids, 3),
+      Enum.at(ban_reason_ids, 4),
+      Enum.at(ban_reason_ids, 5),
+      Enum.at(ban_reason_ids, 6)
+    }
 
-    Accounts.update_ban_reason(br1, %{
-      reasons: random_reasons(),
-      other: random_boolean(),
-      description: "updated some text"
-    })
+    [
+      Accounts.update_ban_reason(br1, %{
+        reasons: random_reasons(),
+        other: random_boolean(),
+        description: "updated some text"
+      }),
+      Accounts.update_ban_reason(br2, %{
+        reasons: random_reasons(),
+        other: random_boolean(),
+        description: "updated some text"
+      }),
+      Accounts.update_ban_reason(br3, %{
+        reasons: random_reasons(),
+        other: random_boolean(),
+        description: "updated some text"
+      }),
+      Accounts.update_ban_reason(br4, %{
+        reasons: random_reasons(),
+        other: random_boolean(),
+        description: "updated some text"
+      }),
+      Accounts.update_ban_reason(br5, %{
+        reasons: random_reasons(),
+        other: random_boolean(),
+        description: "updated some text"
+      }),
+      Accounts.update_ban_reason(br6, %{
+        reasons: random_reasons(),
+        other: random_boolean(),
+        description: "updated some text"
+      }),
+      Accounts.update_ban_reason(br7, %{
+        reasons: random_reasons(),
+        other: random_boolean(),
+        description: "updated some text"
+      })
+    ]
   end
 
   @spec update_platform() :: Ecto.Schema.t()

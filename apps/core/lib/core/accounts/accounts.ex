@@ -458,20 +458,16 @@ defmodule Core.Accounts do
   """
   @spec create_ban_reason(%{atom => any}) :: result() | error_tuple()
   def create_ban_reason(attrs \\ %{}) do
-    case Repo.aggregate(BanReason, :count, :id) > 0 do
-      true -> {:error, %Ecto.Changeset{}}
+    case attrs.other do
+      true ->
+        %BanReason{}
+        |> BanReason.changeset(Map.delete(attrs, :reasons))
+        |> Repo.insert()
       false ->
-        case attrs.other do
-          true ->
-            %BanReason{}
-            |> BanReason.changeset(Map.delete(attrs, :reasons))
-            |> Repo.insert()
-          false ->
-            %BanReason{}
-            |> BanReason.changeset(Map.delete(attrs, :other_description))
-            |> Repo.insert()
-          nil -> {:error, %Ecto.Changeset{}}
-        end
+        %BanReason{}
+        |> BanReason.changeset(Map.delete(attrs, :other_description))
+        |> Repo.insert()
+      nil -> {:error, %Ecto.Changeset{}}
     end
   end
 

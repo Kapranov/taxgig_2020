@@ -2,7 +2,7 @@ defmodule Core.Repo.Migrations.CreateDocuments do
   use Ecto.Migration
 
   def change do
-    create_if_not_exists table(:documents, primary_key: false) do
+    create table(:documents, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
       add :access_granted, :boolean
       add :category, :integer
