@@ -48,6 +48,7 @@ defmodule Core.Accounts.Profile do
       foreign_key: :user_id,
       type: FlakeId.Ecto.CompatType,
       references: :id
+
     belongs_to :us_zipcode, UsZipcode,
       foreign_key: :us_zipcode_id,
       type: FlakeId.Ecto.CompatType,

@@ -20,8 +20,8 @@ defmodule Core.Seeder.Updated.Contracts do
   def start! do
     update_addon()
     update_offer()
-    update_project()
     update_service_review()
+    # update_project()
     update_potential_client()
   end
 
@@ -187,128 +187,104 @@ defmodule Core.Seeder.Updated.Contracts do
       Enum.at(project_ids, 8)
     }
 
-    addon_ids = Enum.map(Repo.all(Addon), fn(data) -> data end)
-
-    {
-      addon2,
-      addon3,
-      addon4
-    } = {
-      Enum.at(addon_ids, 1),
-      Enum.at(addon_ids, 2),
-      Enum.at(addon_ids, 3)
-    }
-
-    offer_ids = Enum.map(Repo.all(Offer), fn(data) -> data end)
-
-    {
-      offer2,
-      offer3,
-      offer4
-    } = {
-      Enum.at(offer_ids, 1),
-      Enum.at(offer_ids, 2),
-      Enum.at(offer_ids, 3)
-    }
-
     [
       Contracts.update_project(project1, %{
-        addon_id: addon2.id,
+        addon_price: random_integer(),
         assigned_pro: pro2,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HGMdsre2yNYS1KlMqTP7Hkw",
+        id_from_stripe_transfer: "tr_1HFksnldFHW3Alzp8qtrMkub",
         instant_matched: random_boolean(),
-        offer_id: offer2.id,
-        project_price: random_integer(),
+        name: Lorem.word(),
+        offer_price: random_integer(),
         status: random_project_status()
       }),
       Contracts.update_project(project2, %{
-        addon_id: addon2.id,
+        addon_price: random_integer(),
         assigned_pro: pro3,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HKawbxc7sFA9kmL4DFwmc91",
+        id_from_stripe_transfer: "tr_1HALhdvNQlF1M7HyrpAZ6oGM",
         instant_matched: random_boolean(),
-        offer_id: offer2.id,
-        project_price: random_integer(),
+        name: Lorem.word(),
+        offer_price: random_integer(),
         status: random_project_status()
       }),
       Contracts.update_project(project3, %{
-        addon_id: addon2.id,
+        addon_price: random_integer(),
         assigned_pro: pro1,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HRdjqwMv6AD8CxzLq5htRV7",
+        id_from_stripe_transfer: "tr_1HAQmkdvbzas7wE2tR6MA8B9",
         instant_matched: random_boolean(),
-        offer_id: offer2.id,
-        project_price: random_integer(),
+        name: Lorem.word(),
+        offer_price: random_integer(),
         status: random_project_status()
       }),
       Contracts.update_project(project4, %{
-        addon_id: addon3.id,
+        addon_price: random_integer(),
         assigned_pro: pro2,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HIKf6DQwe3NZ0JklMAS5qhT",
+        id_from_stripe_transfer: "tr_1HABkqWel7CvsazKLA8GO3Jm",
         instant_matched: random_boolean(),
-        offer_id: offer3.id,
-        project_price: random_integer(),
+        name: Lorem.word(),
+        offer_price: random_integer(),
         status: random_project_status()
       }),
       Contracts.update_project(project5, %{
-        addon_id: addon3.id,
+        addon_price: random_integer(),
         assigned_pro: pro3,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HCD5sDQlm7Cxs9Afbzyt4Mw",
+        id_from_stripe_transfer: "tr_1HLdf5AlMCV4qwErxt7JAqVi",
         instant_matched: random_boolean(),
-        offer_id: offer3.id,
-        project_price: random_integer(),
+        name: Lorem.word(),
+        offer_price: random_integer(),
         status: random_project_status()
       }),
       Contracts.update_project(project6, %{
-        addon_id: addon3.id,
+        addon_price: random_integer(),
         assigned_pro: pro1,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HV5Dgqxcd8DF3mSA7Nfkeq1",
+        id_from_stripe_transfer: "tr_1HW4Gawqlor6NrQwe0ndf751",
         instant_matched: random_boolean(),
-        offer_id: offer3.id,
-        project_price: random_integer(),
+        name: Lorem.word(),
+        offer_price: random_integer(),
         status: random_project_status()
       }),
       Contracts.update_project(project7, %{
-        addon_id: addon4.id,
+        addon_price: random_integer(),
         assigned_pro: pro2,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HChtqwe4VnBaZX6Lkqwe1Ju",
+        id_from_stripe_transfer: "tr_1HF3jKqWvam8Su1KM7DrAlz9",
         instant_matched: random_boolean(),
-        offer_id: offer4.id,
-        project_price: random_integer(),
+        name: Lorem.word(),
+        offer_price: random_integer(),
         status: random_project_status()
       }),
       Contracts.update_project(project8, %{
-        addon_id: addon4.id,
+        addon_price: random_integer(),
         assigned_pro: pro3,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HT6kisrtNX3pO5hQmavNXzP",
+        id_from_stripe_transfer: "tr_1HX9kquTr0FM2Csqp9MJaYLg",
         instant_matched: random_boolean(),
-        offer_id: offer4.id,
-        project_price: random_integer(),
+        name: Lorem.word(),
+        offer_price: random_integer(),
         status: random_project_status()
       }),
       Contracts.update_project(project9, %{
-        addon_id: addon4.id,
+        addon_price: random_integer(),
         assigned_pro: pro1,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
         instant_matched: random_boolean(),
-        offer_id: offer4.id,
-        project_price: random_integer(),
+        name: Lorem.word(),
+        offer_price: random_integer(),
         status: random_project_status()
       })
     ]

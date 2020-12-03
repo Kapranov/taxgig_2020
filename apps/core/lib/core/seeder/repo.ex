@@ -20,10 +20,10 @@ defmodule Core.Seeder.Repo do
   def seed! do
     Localization.seed!()
     Accounts.seed!()
-    Contracts.seed!()
     Landing.seed!()
     Lookup.seed!()
     Services.seed!()
+    Contracts.seed!()
     Skills.seed!()
     Media.seed!()
     Talk.seed!()
@@ -33,8 +33,8 @@ defmodule Core.Seeder.Repo do
   @spec updated!() :: :ok
   def updated! do
     Updated.Accounts.start!()
-    Updated.Contracts.start!()
     Updated.Services.start!()
+    Updated.Contracts.start!()
     :ok
   end
 end

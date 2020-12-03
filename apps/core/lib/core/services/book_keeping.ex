@@ -7,6 +7,7 @@ defmodule Core.Services.BookKeeping do
 
   alias Core.{
     Accounts.User,
+    Contracts.Project,
     Repo,
     Services,
     Services.BookKeeping,
@@ -16,8 +17,7 @@ defmodule Core.Services.BookKeeping do
     Services.BookKeepingIndustry,
     Services.BookKeepingNumberEmployee,
     Services.BookKeepingTransactionVolume,
-    Services.BookKeepingTypeClient,
-    Services.ServiceLink
+    Services.BookKeepingTypeClient
   }
 
   @type word() :: String.t()
@@ -39,7 +39,7 @@ defmodule Core.Services.BookKeeping do
     inventory_count: integer,
     payroll: boolean,
     price_payroll: integer,
-    service_link: ServiceLink.t(),
+    project: Project.t(),
     tax_return_current: boolean,
     tax_year: tuple,
     user_id: User.t()
@@ -75,7 +75,7 @@ defmodule Core.Services.BookKeeping do
     field :tax_return_current, :boolean
     field :tax_year, {:array, :string}
 
-    has_one :service_link, ServiceLink, on_delete: :delete_all
+    has_one :project, Project, on_delete: :delete_all
 
     has_many :book_keeping_additional_needs, BookKeepingAdditionalNeed
     has_many :book_keeping_annual_revenues, BookKeepingAnnualRevenue

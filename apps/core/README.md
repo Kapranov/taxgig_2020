@@ -239,31 +239,77 @@ end) |> List.flatten
 
 - projects only tp
   - addonPrice           integer
-  - addons               uuid
   - assignedPro          uuid
   - endTime              date
-  - idFromStripeCard     uuid
-  - idFromStripeTransfer uuid
-  - instantMatched       booolean
+  - idFromStripeCard     string
+  - idFromStripeTransfer string
+  - instantMatched       boolean
   - name                 string
   - offerPrice           integer
-  - projectFileId        uuid
-  - projects             uuid
-  - serviceReviewId      uuid
   - status               enum
   - userId               uuid
 
-add :addon_price, :integer, null: true
-add :assigned_pro, :uuid, type: FlakeId.Ecto.Type, null: true
-add :assigned_pro, references(:users, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
-add :end_time, :date, null: true
-add :id_from_stripe_card, :uuid, type: FlakeId.Ecto.Type, null: true
-add :id_from_stripe_transfer, :uuid, type: FlakeId.Ecto.Type, null: true
-add :instant_matched, :boolean, null: false
-add :name, :string, null: false
-add :offer_price, :integer, null: true
-add :status, :string, null: false
-add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
+  - addons
+  - projectFileId
+  - projects
+  - serviceReviewId
+
+```
+attrs = %{sale_tax_id: nil, individual_tax_return_id: "xxx", business_tax_return_id: nil, book_keeping_id: nil}
+
+case Map.has_key?(attrs, :book_keeping_id) do
+  true ->
+  false ->
+    case Map.has_key?(attrs, :book_keeping_id) do
+      true ->
+      false ->
+        case Map.has_key?(attrs, :book_keeping_id) do
+          true ->
+          false ->
+            case Map.has_key?(attrs, :book_keeping_id) do
+              true ->
+              false ->
+            end
+        end
+    end
+end
+
+case is_nil(attrs.book_keeping_id) do
+  true ->
+    case is_nil(attrs.business_tax_return_id) do
+      true ->
+        case is_nil(attrs.individual_tax_return_id) do
+          true ->
+            case is_nil(attrs.sale_tax_id) do
+              true ->
+                |> Map.delete(:book_keeping_id)
+                |> Map.delete(:business_tax_return_id)
+                |> Map.delete(:individual_tax_return_id)
+                |> Map.delete(:sale_tax_id)
+              false ->
+                |> Map.delete(:book_keeping_id)
+                |> Map.delete(:business_tax_return_id)
+                |> Map.delete(:individual_tax_return_id)
+            end
+          false ->
+            attrs
+            |> Map.delete(:book_keeping_id)
+            |> Map.delete(:business_tax_return_id)
+            |> Map.delete(:sale_tax_id)
+        end
+      false ->
+        attrs
+        |> Map.delete(:book_keeping_id)
+        |> Map.delete(:individual_tax_return_id)
+        |> Map.delete(:sale_tax_id)
+    end
+  false ->
+    attrs
+    |> Map.delete(:business_tax_return_id)
+    |> Map.delete(:individual_tax_return_id)
+    |> Map.delete(:sale_tax_id)
+end
+```
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -308,18 +354,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
   - signed_by_pro                  boolean
   - signed_by_tp                   boolean
   - size                           integer
-
-- projects only tp
-  - assigned_pro      uuid
-  - end_time          date
-  - id_from_card      string
-  - instant_matched   boolean
-  - name              string
-  - price             decimal
-  - project_file_id   uuid
-  - service_review_id uuid
-  - status            enum
-  - user_id           uuid
 
 - chats
   - active  boolean

@@ -37,8 +37,7 @@ defmodule Core.Services do
     Services.MatchValueRelate,
     Services.SaleTax,
     Services.SaleTaxFrequency,
-    Services.SaleTaxIndustry,
-    Services.ServiceLink
+    Services.SaleTaxIndustry
   }
 
   @tp_user  "9xLdkjWKKTjHbPdyls"
@@ -6485,120 +6484,6 @@ defmodule Core.Services do
   @spec change_sale_tax_industry(SaleTaxIndustry.t()) :: Ecto.Changeset.t()
   def change_sale_tax_industry(%SaleTaxIndustry{} = struct) do
     SaleTaxIndustry.changeset(struct, %{})
-  end
-
-  @doc """
-  Returns the list of service_links.
-
-  ## Examples
-
-      iex> list_service_link()
-      [%ServiceLink{}, ...]
-
-  """
-  @spec list_service_link() :: [ServiceLink.t()]
-  def list_service_link do
-    Repo.all(ServiceLink)
-    |> Repo.preload([
-      :book_keepings,
-      :business_tax_returns,
-      :individual_tax_returns,
-      :sale_taxes
-    ])
-  end
-
-  @doc """
-  Gets a single service_link.
-
-  Raises `Ecto.NoResultsError` if the Service Link does not exist.
-
-  ## Examples
-
-      iex> get_service_link!(123)
-      %ServiceLink{}
-
-      iex> get_service_link!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  @spec get_service_link!(String.t) :: ServiceLink.t() | error_tuple()
-  def get_service_link!(id) do
-    Repo.get!(ServiceLink, id)
-    |> Repo.preload([
-      :book_keepings,
-      :business_tax_returns,
-      :individual_tax_returns,
-      :sale_taxes
-    ])
-  end
-
-  @doc """
-  Creates ServiceLink.
-
-  ## Examples
-
-      iex> create_service_link(%{field: value})
-      {:ok, %ServiceLink{}}
-
-      iex> create_service_link(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  @spec create_service_link(%{atom => any}) :: result() | error_tuple()
-  def create_service_link(attrs \\ %{}) do
-    %ServiceLink{}
-    |> ServiceLink.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates ServiceLink.
-
-  ## Examples
-
-      iex> update_service_link(struct, %{field: new_value})
-      {:ok, %ServiceLink{}}
-
-      iex> update_service_link(struct, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  @spec update_service_link(ServiceLink.t(), %{atom => any}) :: result() | error_tuple()
-  def update_service_link(struct, attrs) do
-    struct
-    |> ServiceLink.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes ServiceLink.
-
-  ## Examples
-
-      iex> delete_service_link(struct)
-      {:ok, %ServiceLink{}}
-
-      iex> delete_service_link(struct)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  @spec delete_service_link(ServiceLink.t()) :: result()
-  def delete_service_link(%ServiceLink{} = struct) do
-    Repo.delete(struct)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking ServiceLink changes.
-
-  ## Examples
-
-      iex> change_service_link(struct)
-      %Ecto.Changeset{source: %UsZipcode{}}
-
-  """
-  @spec change_service_link(ServiceLink.t()) :: Ecto.Changeset.t()
-  def change_service_link(%ServiceLink{} = struct) do
-    ServiceLink.changeset(struct, %{})
   end
 
   @doc """

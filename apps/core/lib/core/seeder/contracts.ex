@@ -5,12 +5,17 @@ defmodule Core.Seeder.Contracts do
 
   alias Core.{
     Accounts.User,
+    Contracts,
     Contracts.Addon,
     Contracts.Offer,
     Contracts.PotentialClient,
     Contracts.Project,
     Contracts.ServiceReview,
-    Repo
+    Repo,
+    Services.BookKeeping,
+    Services.BusinessTaxReturn,
+    Services.IndividualTaxReturn,
+    Services.SaleTax
   }
 
   alias Faker.Lorem
@@ -303,136 +308,152 @@ defmodule Core.Seeder.Contracts do
       Enum.at(user_ids, 6)
     }
 
-    addon_ids = Enum.map(Repo.all(Addon), fn(data) -> data end)
+    tp1_book_keeping = Repo.get_by(BookKeeping, %{user_id: tp1})
+    tp2_book_keeping = Repo.get_by(BookKeeping, %{user_id: tp2})
 
-    {
-      addon2,
-      addon3,
-      addon4
-    } = {
-      Enum.at(addon_ids, 1),
-      Enum.at(addon_ids, 2),
-      Enum.at(addon_ids, 3)
-    }
+    tp1_business_tax_return = Repo.get_by(BusinessTaxReturn, %{user_id: tp1})
+    tp2_business_tax_return = Repo.get_by(BusinessTaxReturn, %{user_id: tp2})
+    tp3_business_tax_return = Repo.get_by(BusinessTaxReturn, %{user_id: tp3})
 
-    offer_ids = Enum.map(Repo.all(Offer), fn(data) -> data end)
+    tp1_individual_tax_return = Repo.get_by(IndividualTaxReturn, %{user_id: tp1})
+    tp3_individual_tax_return = Repo.get_by(IndividualTaxReturn, %{user_id: tp3})
 
-    {
-      offer2,
-      offer3,
-      offer4
-    } = {
-      Enum.at(offer_ids, 1),
-      Enum.at(offer_ids, 2),
-      Enum.at(offer_ids, 3)
-    }
+    tp2_sale_tax = Repo.get_by(SaleTax, %{user_id: tp2})
+    tp3_sale_tax = Repo.get_by(SaleTax, %{user_id: tp3})
 
     [
-      Repo.insert!(%Project{
-        addon_id: addon2.id,
+      Contracts.create_project(%{
+        addon_price: random_integer(),
         assigned_pro: pro1,
+        book_keeping_id: tp1_book_keeping.id,
+        business_tax_return_id: nil,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HGMdsre2yNYS1KlMqTP7Hkw",
+        id_from_stripe_transfer: "tr_1HFksnldFHW3Alzp8qtrMkub",
+        individual_tax_return_id: nil,
         instant_matched: random_boolean(),
-        offer_id: offer2.id,
-        project_price: random_integer(),
+        offer_price: random_integer(),
+        sale_tax_id: nil,
         status: random_project_status(),
         user_id: tp1
       }),
-      Repo.insert!(%Project{
-        addon_id: addon2.id,
+      Contracts.create_project(%{
+        addon_price: random_integer(),
         assigned_pro: pro2,
+        book_keeping_id: nil,
+        business_tax_return_id: tp1_business_tax_return.id,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HKawbxc7sFA9kmL4DFwmc91",
+        id_from_stripe_transfer: "tr_1HALhdvNQlF1M7HyrpAZ6oGM",
+        individual_tax_return_id: nil,
         instant_matched: random_boolean(),
-        offer_id: offer2.id,
-        project_price: random_integer(),
+        offer_price: random_integer(),
+        sale_tax_id: nil,
         status: random_project_status(),
         user_id: tp1
       }),
-      Repo.insert!(%Project{
-        addon_id: addon2.id,
+      Contracts.create_project(%{
+        addon_price: random_integer(),
         assigned_pro: pro3,
+        book_keeping_id: nil,
+        business_tax_return_id: nil,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HRdjqwMv6AD8CxzLq5htRV7",
+        id_from_stripe_transfer: "tr_1HAQmkdvbzas7wE2tR6MA8B9",
+        individual_tax_return_id: tp1_individual_tax_return.id,
         instant_matched: random_boolean(),
-        offer_id: offer2.id,
-        project_price: random_integer(),
+        offer_price: random_integer(),
+        sale_tax_id: nil,
         status: random_project_status(),
         user_id: tp1
       }),
-      Repo.insert!(%Project{
-        addon_id: addon3.id,
+      Contracts.create_project(%{
+        addon_price: random_integer(),
         assigned_pro: pro1,
+        book_keeping_id: nil,
+        business_tax_return_id: nil,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HIKf6DQwe3NZ0JklMAS5qhT",
+        id_from_stripe_transfer: "tr_1HABkqWel7CvsazKLA8GO3Jm",
+        individual_tax_return_id: nil,
         instant_matched: random_boolean(),
-        offer_id: offer3.id,
-        project_price: random_integer(),
+        offer_price: random_integer(),
+        sale_tax_id: tp2_sale_tax.id,
         status: random_project_status(),
         user_id: tp2
       }),
-      Repo.insert!(%Project{
-        addon_id: addon3.id,
+      Contracts.create_project(%{
+        addon_price: random_integer(),
         assigned_pro: pro2,
+        book_keeping_id: tp2_book_keeping.id,
+        business_tax_return_id: nil,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HCD5sDQlm7Cxs9Afbzyt4Mw",
+        id_from_stripe_transfer: "tr_1HLdf5AlMCV4qwErxt7JAqVi",
+        individual_tax_return_id: nil,
         instant_matched: random_boolean(),
-        offer_id: offer3.id,
-        project_price: random_integer(),
+        offer_price: random_integer(),
+        sale_tax_id: nil,
         status: random_project_status(),
         user_id: tp2
       }),
-      Repo.insert!(%Project{
-        addon_id: addon3.id,
+      Contracts.create_project(%{
+        addon_price: random_integer(),
         assigned_pro: pro3,
+        book_keeping_id: nil,
+        business_tax_return_id: tp2_business_tax_return.id,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HV5Dgqxcd8DF3mSA7Nfkeq1",
+        id_from_stripe_transfer: "tr_1HW4Gawqlor6NrQwe0ndf751",
+        individual_tax_return_id: nil,
         instant_matched: random_boolean(),
-        offer_id: offer3.id,
-        project_price: random_integer(),
+        offer_price: random_integer(),
+        sale_tax_id: nil,
         status: random_project_status(),
         user_id: tp2
       }),
-      Repo.insert!(%Project{
-        addon_id: addon4.id,
+      Contracts.create_project(%{
+        addon_price: random_integer(),
         assigned_pro: pro1,
+        book_keeping_id: nil,
+        business_tax_return_id: nil,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HChtqwe4VnBaZX6Lkqwe1Ju",
+        id_from_stripe_transfer: "tr_1HF3jKqWvam8Su1KM7DrAlz9",
+        individual_tax_return_id: tp3_individual_tax_return.id,
         instant_matched: random_boolean(),
-        offer_id: offer4.id,
-        project_price: random_integer(),
+        offer_price: random_integer(),
+        sale_tax_id: nil,
         status: random_project_status(),
         user_id: tp3
       }),
-      Repo.insert!(%Project{
-        addon_id: addon4.id,
+      Contracts.create_project(%{
+        addon_price: random_integer(),
         assigned_pro: pro2,
+        book_keeping_id: nil,
+        business_tax_return_id: nil,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HT6kisrtNX3pO5hQmavNXzP",
+        id_from_stripe_transfer: "tr_1HX9kquTr0FM2Csqp9MJaYLg",
+        individual_tax_return_id: nil,
         instant_matched: random_boolean(),
-        offer_id: offer4.id,
-        project_price: random_integer(),
+        offer_price: random_integer(),
+        sale_tax_id: tp3_sale_tax.id,
         status: random_project_status(),
         user_id: tp3
       }),
-      Repo.insert!(%Project{
-        addon_id: addon4.id,
+      Contracts.create_project(%{
+        addon_price: random_integer(),
         assigned_pro: pro3,
+        book_keeping_id: nil,
+        business_tax_return_id: tp3_business_tax_return.id,
         end_time: Date.utc_today(),
-        id_from_stripe_card: FlakeId.get(),
-        id_from_stripe_transfer: FlakeId.get(),
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
+        individual_tax_return_id: nil,
         instant_matched: random_boolean(),
-        offer_id: offer4.id,
-        project_price: random_integer(),
+        offer_price: random_integer(),
+        sale_tax_id: nil,
         status: random_project_status(),
         user_id: tp3
       })

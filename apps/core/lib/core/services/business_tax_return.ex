@@ -7,6 +7,7 @@ defmodule Core.Services.BusinessTaxReturn do
 
   alias Core.{
     Accounts.User,
+    Contracts.Project,
     Repo,
     Services,
     Services.BusinessEntityType,
@@ -17,8 +18,7 @@ defmodule Core.Services.BusinessTaxReturn do
     Services.BusinessNumberEmployee,
     Services.BusinessTaxReturn,
     Services.BusinessTotalRevenue,
-    Services.BusinessTransactionCount,
-    Services.ServiceLink
+    Services.BusinessTransactionCount
   }
 
   @type word() :: String.t()
@@ -51,12 +51,12 @@ defmodule Core.Services.BusinessTaxReturn do
     operate_facility: boolean,
     price_state: integer,
     price_tax_year: integer,
+    project: Project.t(),
     property_sale: boolean,
     public_charity: boolean,
     rental_property_count: integer,
     reported_grant: boolean,
     restricted_donation: boolean,
-    service_link: ServiceLink.t(),
     state: tuple,
     tax_exemption: boolean,
     tax_year: tuple,
@@ -147,7 +147,7 @@ defmodule Core.Services.BusinessTaxReturn do
     field :total_asset_less, :boolean
     field :total_asset_over, :boolean
 
-    has_one :service_link, ServiceLink, on_delete: :delete_all
+    has_one :project, Project, on_delete: :delete_all
 
     has_many :business_entity_types, BusinessEntityType
     has_many :business_foreign_account_counts, BusinessForeignAccountCount

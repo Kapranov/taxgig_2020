@@ -5,7 +5,6 @@ defmodule Core.Seeder.Services do
 
   alias Core.{
     Accounts.User,
-    Contracts.Project,
     Lookup.State,
     Repo,
     Services.BookKeeping,
@@ -35,8 +34,7 @@ defmodule Core.Seeder.Services do
     Services.MatchValueRelate,
     Services.SaleTax,
     Services.SaleTaxFrequency,
-    Services.SaleTaxIndustry,
-    Services.ServiceLink
+    Services.SaleTaxIndustry
   }
 
   alias Faker.Lorem
@@ -71,7 +69,6 @@ defmodule Core.Seeder.Services do
     Repo.delete_all(SaleTax)
     Repo.delete_all(SaleTaxFrequency)
     Repo.delete_all(SaleTaxIndustry)
-    Repo.delete_all(ServiceLink)
   end
 
   @spec seed!() :: Ecto.Schema.t()
@@ -104,7 +101,6 @@ defmodule Core.Seeder.Services do
     seed_individual_stock_transaction_count()
     seed_sale_tax_frequency()
     seed_sale_tax_industry()
-    seed_service_link()
   end
 
   @spec seed_match_value_relate() :: nil | Ecto.Schema.t()
@@ -1744,128 +1740,128 @@ defmodule Core.Seeder.Services do
     end
   end
 
-  @spec seed_service_link() :: Ecto.Schema.t()
-  defp seed_service_link do
-    book_keeping_ids =
-      Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
-
-    {bk1, bk2, bk3, bk4, bk5, bk6, bk7} =
-      {
-        Enum.at(book_keeping_ids, 0),
-        Enum.at(book_keeping_ids, 1),
-        Enum.at(book_keeping_ids, 2),
-        Enum.at(book_keeping_ids, 3),
-        Enum.at(book_keeping_ids, 4),
-        Enum.at(book_keeping_ids, 5),
-        Enum.at(book_keeping_ids, 6)
-      }
-
-    business_tax_returns_ids =
-      Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
-
-    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
-      {
-        Enum.at(business_tax_returns_ids, 0),
-        Enum.at(business_tax_returns_ids, 1),
-        Enum.at(business_tax_returns_ids, 2),
-        Enum.at(business_tax_returns_ids, 3),
-        Enum.at(business_tax_returns_ids, 4),
-        Enum.at(business_tax_returns_ids, 5),
-        Enum.at(business_tax_returns_ids, 6)
-      }
-
-    individual_tax_returns_ids =
-      Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
-
-    {itr1, itr2, itr3, itr4, itr5, itr6, itr7} =
-      {
-        Enum.at(individual_tax_returns_ids, 0),
-        Enum.at(individual_tax_returns_ids, 1),
-        Enum.at(individual_tax_returns_ids, 2),
-        Enum.at(individual_tax_returns_ids, 3),
-        Enum.at(individual_tax_returns_ids, 4),
-        Enum.at(individual_tax_returns_ids, 5),
-        Enum.at(individual_tax_returns_ids, 6)
-      }
-
-    sale_tax_ids =
-      Enum.map(Repo.all(SaleTax), fn(data) -> data.id end)
-
-    {st1, st2, st3, st4, st5, st6, st7} =
-      {
-        Enum.at(sale_tax_ids, 0),
-        Enum.at(sale_tax_ids, 1),
-        Enum.at(sale_tax_ids, 2),
-        Enum.at(sale_tax_ids, 3),
-        Enum.at(sale_tax_ids, 4),
-        Enum.at(sale_tax_ids, 5),
-        Enum.at(sale_tax_ids, 6)
-      }
-
-    project_ids =
-      Enum.map(Repo.all(Project), fn(data) -> data.id end)
-
-    {prj1, prj2, prj3, prj4, prj5, prj6, prj7} =
-      {
-        Enum.at(project_ids, 0),
-        Enum.at(project_ids, 1),
-        Enum.at(project_ids, 2),
-        Enum.at(project_ids, 3),
-        Enum.at(project_ids, 4),
-        Enum.at(project_ids, 5),
-        Enum.at(project_ids, 6)
-      }
-
-    Repo.insert!(%ServiceLink{
-      book_keeping_id:          bk1,
-      business_tax_return_id:   btr1,
-      individual_tax_return_id: itr1,
-      project_id:               prj1,
-      sale_tax_id:              st1
-    })
-    Repo.insert!(%ServiceLink{
-      book_keeping_id:          bk2,
-      business_tax_return_id:   btr2,
-      individual_tax_return_id: itr2,
-      project_id:               prj2,
-      sale_tax_id:              st2
-    })
-    Repo.insert!(%ServiceLink{
-      book_keeping_id:          bk3,
-      business_tax_return_id:   btr3,
-      individual_tax_return_id: itr3,
-      project_id:               prj3,
-      sale_tax_id:              st3
-    })
-    Repo.insert!(%ServiceLink{
-      book_keeping_id:          bk4,
-      business_tax_return_id:   btr4,
-      individual_tax_return_id: itr4,
-      project_id:               prj4,
-      sale_tax_id:              st4
-    })
-    Repo.insert!(%ServiceLink{
-      book_keeping_id:          bk5,
-      business_tax_return_id:   btr5,
-      individual_tax_return_id: itr5,
-      project_id:               prj5,
-      sale_tax_id:              st5
-    })
-    Repo.insert!(%ServiceLink{
-      book_keeping_id:          bk6,
-      business_tax_return_id:   btr6,
-      individual_tax_return_id: itr6,
-      project_id:               prj6,
-      sale_tax_id:              st6
-    })
-    Repo.insert!(%ServiceLink{
-      book_keeping_id:          bk7,
-      business_tax_return_id:   btr7,
-      individual_tax_return_id: itr7,
-      project_id:               prj7,
-      sale_tax_id:              st7
-    })
-  end
+#  @spec seed_service_link() :: Ecto.Schema.t()
+#  defp seed_service_link do
+#    book_keeping_ids =
+#      Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
+#
+#    {bk1, bk2, bk3, bk4, bk5, bk6, bk7} =
+#      {
+#        Enum.at(book_keeping_ids, 0),
+#        Enum.at(book_keeping_ids, 1),
+#        Enum.at(book_keeping_ids, 2),
+#        Enum.at(book_keeping_ids, 3),
+#        Enum.at(book_keeping_ids, 4),
+#        Enum.at(book_keeping_ids, 5),
+#        Enum.at(book_keeping_ids, 6)
+#      }
+#
+#    business_tax_returns_ids =
+#      Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
+#
+#    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+#      {
+#        Enum.at(business_tax_returns_ids, 0),
+#        Enum.at(business_tax_returns_ids, 1),
+#        Enum.at(business_tax_returns_ids, 2),
+#        Enum.at(business_tax_returns_ids, 3),
+#        Enum.at(business_tax_returns_ids, 4),
+#        Enum.at(business_tax_returns_ids, 5),
+#        Enum.at(business_tax_returns_ids, 6)
+#      }
+#
+#    individual_tax_returns_ids =
+#      Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
+#
+#    {itr1, itr2, itr3, itr4, itr5, itr6, itr7} =
+#      {
+#        Enum.at(individual_tax_returns_ids, 0),
+#        Enum.at(individual_tax_returns_ids, 1),
+#        Enum.at(individual_tax_returns_ids, 2),
+#        Enum.at(individual_tax_returns_ids, 3),
+#        Enum.at(individual_tax_returns_ids, 4),
+#        Enum.at(individual_tax_returns_ids, 5),
+#        Enum.at(individual_tax_returns_ids, 6)
+#      }
+#
+#    sale_tax_ids =
+#      Enum.map(Repo.all(SaleTax), fn(data) -> data.id end)
+#
+#    {st1, st2, st3, st4, st5, st6, st7} =
+#      {
+#        Enum.at(sale_tax_ids, 0),
+#        Enum.at(sale_tax_ids, 1),
+#        Enum.at(sale_tax_ids, 2),
+#        Enum.at(sale_tax_ids, 3),
+#        Enum.at(sale_tax_ids, 4),
+#        Enum.at(sale_tax_ids, 5),
+#        Enum.at(sale_tax_ids, 6)
+#      }
+#
+#    project_ids =
+#      Enum.map(Repo.all(Project), fn(data) -> data.id end)
+#
+#    {prj1, prj2, prj3, prj4, prj5, prj6, prj7} =
+#      {
+#        Enum.at(project_ids, 0),
+#        Enum.at(project_ids, 1),
+#        Enum.at(project_ids, 2),
+#        Enum.at(project_ids, 3),
+#        Enum.at(project_ids, 4),
+#        Enum.at(project_ids, 5),
+#        Enum.at(project_ids, 6)
+#      }
+#
+#    Repo.insert!(%ServiceLink{
+#      book_keeping_id:          bk1,
+#      business_tax_return_id:   btr1,
+#      individual_tax_return_id: itr1,
+#      project_id:               prj1,
+#      sale_tax_id:              st1
+#    })
+#    Repo.insert!(%ServiceLink{
+#      book_keeping_id:          bk2,
+#      business_tax_return_id:   btr2,
+#      individual_tax_return_id: itr2,
+#      project_id:               prj2,
+#      sale_tax_id:              st2
+#    })
+#    Repo.insert!(%ServiceLink{
+#      book_keeping_id:          bk3,
+#      business_tax_return_id:   btr3,
+#      individual_tax_return_id: itr3,
+#      project_id:               prj3,
+#      sale_tax_id:              st3
+#    })
+#    Repo.insert!(%ServiceLink{
+#      book_keeping_id:          bk4,
+#      business_tax_return_id:   btr4,
+#      individual_tax_return_id: itr4,
+#      project_id:               prj4,
+#      sale_tax_id:              st4
+#    })
+#    Repo.insert!(%ServiceLink{
+#      book_keeping_id:          bk5,
+#      business_tax_return_id:   btr5,
+#      individual_tax_return_id: itr5,
+#      project_id:               prj5,
+#      sale_tax_id:              st5
+#    })
+#    Repo.insert!(%ServiceLink{
+#      book_keeping_id:          bk6,
+#      business_tax_return_id:   btr6,
+#      individual_tax_return_id: itr6,
+#      project_id:               prj6,
+#      sale_tax_id:              st6
+#    })
+#    Repo.insert!(%ServiceLink{
+#      book_keeping_id:          bk7,
+#      business_tax_return_id:   btr7,
+#      individual_tax_return_id: itr7,
+#      project_id:               prj7,
+#      sale_tax_id:              st7
+#    })
+#  end
 
   @spec random_float() :: float()
   def random_float do

@@ -7,12 +7,12 @@ defmodule Core.Services.SaleTax do
 
   alias Core.{
     Accounts.User,
+    Contracts.Project,
     Repo,
     Services,
     Services.SaleTax,
     Services.SaleTaxFrequency,
-    Services.SaleTaxIndustry,
-    Services.ServiceLink
+    Services.SaleTaxIndustry
   }
 
   @type word() :: String.t()
@@ -22,10 +22,10 @@ defmodule Core.Services.SaleTax do
     deadline: DateTime.t(),
     financial_situation: String.t(),
     price_sale_tax_count: integer,
+    project: Project.t(),
     sale_tax_count: integer,
     sale_tax_frequencies: [SaleTaxFrequency.t()],
     sale_tax_industries: [SaleTaxIndustry.t()],
-    service_link: ServiceLink.t(),
     state: tuple,
     user_id: User.t()
   }
@@ -50,7 +50,7 @@ defmodule Core.Services.SaleTax do
     field :sale_tax_count, :integer
     field :state, {:array, :string}
 
-    has_one :service_link, ServiceLink, on_delete: :delete_all
+    has_one :project, Project, on_delete: :delete_all
 
     has_many :sale_tax_frequencies, SaleTaxFrequency
     has_many :sale_tax_industries, SaleTaxIndustry

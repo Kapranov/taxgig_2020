@@ -360,7 +360,7 @@ defmodule Core.Contracts do
     case Accounts.by_role(attrs.user_id) do
       false ->
         %Project{}
-        |> Project.changeset(attrs)
+        |> Project.changeset(filtered_service(attrs))
         |> Repo.insert()
       true -> {:error, %Changeset{}}
     end
@@ -383,7 +383,7 @@ defmodule Core.Contracts do
     case Contracts.by_role(struct.id) do
       false ->
         struct
-        |> Project.changeset(attrs)
+        |> Project.changeset(filtered_service(attrs))
         |> Repo.update()
       true -> {:error, %Changeset{}}
     end
@@ -554,5 +554,86 @@ defmodule Core.Contracts do
     rescue
       Ecto.Query.CastError -> nil
     end
+  end
+
+  @spec filtered_service(map) :: map
+  def filtered_service(attrs) do
+    case is_nil(attrs.book_keeping_id) do
+      true ->
+        case is_nil(attrs.business_tax_return_id) do
+          true ->
+            case is_nil(attrs.individual_tax_return_id) do
+              true ->
+                case is_nil(attrs.sale_tax_id) do
+                  true ->
+                    attrs
+                    |> Map.delete(:book_keeping_id)
+                    |> Map.delete(:business_tax_return_id)
+                    |> Map.delete(:individual_tax_return_id)
+                    |> Map.delete(:sale_tax_id)
+                  false ->
+                    attrs
+                    |> Map.delete(:book_keeping_id)
+                    |> Map.delete(:business_tax_return_id)
+                    |> Map.delete(:individual_tax_return_id)
+                    |> Map.merge(%{name: "Sales Tax"})
+                end
+              false ->
+                attrs
+                |> Map.delete(:book_keeping_id)
+                |> Map.delete(:business_tax_return_id)
+                |> Map.delete(:sale_tax_id)
+                |> Map.merge(%{name: "Individual Tax Return #{individual_tax_return_tax_year(attrs.individual_tax_return_id)}"})
+            end
+          false ->
+            attrs
+            |> Map.delete(:book_keeping_id)
+            |> Map.delete(:individual_tax_return_id)
+            |> Map.delete(:sale_tax_id)
+            |> Map.merge(%{name: "Business Tax Return #{business_tax_return_tax_year(attrs.business_tax_return_id)}"})
+        end
+      false ->
+        attrs
+        |> Map.delete(:business_tax_return_id)
+        |> Map.delete(:individual_tax_return_id)
+        |> Map.delete(:sale_tax_id)
+        |> Map.merge(%{name: "Bookkeeping #{book_keeping_tax_year(attrs.book_keeping_id)}"})
+    end
+  end
+
+  @spec book_keeping_tax_year(String.t()) :: String.t()
+  defp book_keeping_tax_year(id) do
+    id
+    |> Core.Services.get_book_keeping!()
+    |> Map.get(:tax_year)
+    |> Enum.sort
+    |> Enum.join(" & ")
+  end
+
+  @spec business_tax_return_tax_year(String.t()) :: String.t()
+  defp business_tax_return_tax_year(id) do
+    id
+    |> Core.Services.get_business_tax_return!()
+    |> Map.get(:tax_year)
+    |> Enum.sort
+    |> Enum.join(" & ")
+  end
+
+  @spec individual_tax_return_tax_year(String.t()) :: String.t()
+  defp individual_tax_return_tax_year(id) do
+    id
+    |> Core.Services.get_individual_tax_return!()
+    |> Map.get(:tax_year)
+    |> Enum.sort
+    |> Enum.join(" & ")
+  end
+
+  @spec sale_tax_return_tax_year(String.t()) :: String.t()
+  defp sale_tax_return_tax_year(id) do
+    id
+    |> Core.Services.get_sale_tax!()
+    |> Map.get(:tax_year)
+    |> Enum.sort
+    |> Enum.join(" & ")
   end
 end

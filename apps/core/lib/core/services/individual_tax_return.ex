@@ -7,6 +7,7 @@ defmodule Core.Services.IndividualTaxReturn do
 
   alias Core.{
     Accounts.User,
+    Contracts.Project,
     Repo,
     Services,
     Services.IndividualEmploymentStatus,
@@ -15,8 +16,7 @@ defmodule Core.Services.IndividualTaxReturn do
     Services.IndividualIndustry,
     Services.IndividualItemizedDeduction,
     Services.IndividualStockTransactionCount,
-    Services.IndividualTaxReturn,
-    Services.ServiceLink
+    Services.IndividualTaxReturn
   }
 
   @type word() :: String.t()
@@ -44,9 +44,9 @@ defmodule Core.Services.IndividualTaxReturn do
     price_state: integer,
     price_stock_divident: integer,
     price_tax_year: integer,
+    project: Project.t(),
     rental_property_count: integer,
     rental_property_income: boolean,
-    service_link: ServiceLink.t(),
     sole_proprietorship_count: integer,
     state: tuple,
     stock_divident: boolean,
@@ -118,7 +118,7 @@ defmodule Core.Services.IndividualTaxReturn do
     field :stock_divident, :boolean
     field :tax_year, {:array, :string}
 
-    has_one :service_link, ServiceLink, on_delete: :delete_all
+    has_one :project, Project, on_delete: :delete_all
 
     has_many :individual_employment_statuses, IndividualEmploymentStatus
     has_many :individual_filing_statuses, IndividualFilingStatus
