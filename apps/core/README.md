@@ -259,9 +259,111 @@ attrs = %{sale_tax_id: nil, individual_tax_return_id: "xxx", business_tax_return
 
 case Map.has_key?(attrs, :book_keeping_id) do
   true ->
-  false ->
-    case Map.has_key?(attrs, :book_keeping_id) do
+    case is_nil(attrs.book_keeping_id) do
       true ->
+        case Map.has_key?(attrs, :business_tax_return_id) do
+          true ->
+            case is_nil(attrs.business_tax_return_id) do
+              true ->
+                case Map.has_key?(attrs, :individual_tax_return_id) do
+                  true ->
+                     case is_nil(attrs.individual_tax_return_id) do
+                       true ->
+                         case Map.has_key?(attrs, :sale_tax_id) do
+                           true ->
+                             case is_nil(attrs.sale_tax_id) do
+                               true ->
+                                 attrs
+                                 |> Map.delete(:book_keeping_id)
+                                 |> Map.delete(:business_tax_return_id)
+                                 |> Map.delete(:individual_tax_return_id)
+                                 |> Map.delete(:sale_tax_id)
+                               false ->
+                                 attrs
+                                 |> Map.delete(:book_keeping_id)
+                                 |> Map.delete(:business_tax_return_id)
+                                 |> Map.delete(:individual_tax_return_id)
+                             end
+                           false ->
+                             attrs
+                             |> Map.delete(:individual_tax_return_id)
+                             |> Map.delete(:business_tax_return_id)
+                             |> Map.delete(:book_keeping_id)
+                         end
+                       false ->
+                         attrs
+                         |> Map.delete(:book_keeping_id)
+                         |> Map.delete(:business_tax_return_id)
+                         |> Map.delete(:sale_tax_id)
+                     end
+                  false ->
+                    case Map.has_key?(attrs, :sale_tax_id) do
+                    end
+                end
+              false ->
+                attrs
+                |> Map.delete(:book_keeping_id)
+                |> Map.delete(:individual_tax_return_id)
+                |> Map.delete(:sale_tax_id)
+            end
+          false ->
+            case Map.has_key?(attrs, :individual_tax_return_id) do
+              true ->
+                case is_nil(attrs.individual_tax_return_id) do
+                  true ->
+                    case Map.has_key?(attrs, :sale_tax_id) do
+                      true ->
+                         case is_nil(attrs.sale_tax_id) do
+                           true ->
+                             attrs
+                             |> Map.delete(:individual_tax_return_id)
+                             |> Map.delete(:sale_tax_id)
+                           false ->
+                             attrs
+                             |> Map.delete(:individual_tax_return_id)
+                         end
+                      false ->
+                        attrs
+                        |> Map.delete(:individual_tax_return_id)
+                    end
+                  false ->
+                    attrs
+                    |> Map.delete(:sale_tax_id)
+                end
+              false ->
+                case Map.has_key?(attrs, :sale_tax_id) do
+                  true ->
+                    case is_nil(attrs.sale_tax_id) do
+                      true ->
+                        attrs
+                        |> Map.delete(:sale_tax_id)
+                      false -> attrs
+                    end
+                  false -> attrs
+                end
+            end
+        end
+      false ->
+        attrs
+        |> Map.delete(:business_tax_return_id)
+        |> Map.delete(:individual_tax_return_id)
+        |> Map.delete(:sale_tax_id)
+    end
+  false ->
+    case Map.has_key?(attrs, :business_tax_return_id) do
+      true ->
+        case is_nil(attrs.business_tax_return_id) do
+          true ->
+            case Map.has_key?(attrs, :individual_tax_return_id) do
+              true ->
+              false ->
+                case Map.has_key?(attrs, :sale_tax_id) do
+                  true ->
+                  false ->
+                end
+            end
+          false -> attrs
+        end
       false ->
         case Map.has_key?(attrs, :book_keeping_id) do
           true ->
@@ -273,6 +375,10 @@ case Map.has_key?(attrs, :book_keeping_id) do
         end
     end
 end
+
+
+
+
 
 case is_nil(attrs.book_keeping_id) do
   true ->
