@@ -24,7 +24,6 @@ defmodule Core.Contracts.Project do
     id_from_stripe_transfer: String.t(),
     individual_tax_return_id: IndividualTaxReturn.t(),
     instant_matched: boolean,
-    name: String.t(),
     offer_price: integer,
     sale_tax_id: SaleTax.t(),
     status: String.t(),
@@ -41,7 +40,6 @@ defmodule Core.Contracts.Project do
     id_from_stripe_transfer
     individual_tax_return_id
     instant_matched
-    name
     offer_price
     sale_tax_id
     status
@@ -51,7 +49,6 @@ defmodule Core.Contracts.Project do
   @required_params ~w(
     addon_price
     instant_matched
-    name
     status
     user_id
   )a
@@ -63,7 +60,6 @@ defmodule Core.Contracts.Project do
     field :id_from_stripe_card, :string, null: true
     field :id_from_stripe_transfer, :string, null: true
     field :instant_matched, :boolean, null: false
-    field :name, :string, null: false
     field :offer_price, :integer, null: true
     field :status, ProjectEnum, null: false
 
