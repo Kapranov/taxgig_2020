@@ -31,26 +31,18 @@ defmodule Core.Seeder.Contracts do
 
   @spec seed!() :: Ecto.Schema.t()
   def seed! do
-    seed_addon()
-    seed_offer()
     seed_service_review()
     seed_project()
     seed_potential_client()
+    seed_addon()
+    seed_offer()
   end
 
-  @spec seed_addon() :: nil | Ecto.Schema.t()
-  defp seed_addon do
-    case Repo.aggregate(Addon, :count, :id) > 0 do
+  @spec seed_service_review() :: nil | Ecto.Schema.t()
+  defp seed_service_review do
+    case Repo.aggregate(ServiceReview, :count, :id) > 0 do
       true -> nil
-      false -> insert_addon()
-    end
-  end
-
-  @spec seed_offer() :: nil | Ecto.Schema.t()
-  defp seed_offer do
-    case Repo.aggregate(Offer, :count, :id) > 0 do
-      true -> nil
-      false -> insert_offer()
+      false -> insert_service_review()
     end
   end
 
@@ -70,132 +62,20 @@ defmodule Core.Seeder.Contracts do
     end
   end
 
-  @spec seed_service_review() :: nil | Ecto.Schema.t()
-  defp seed_service_review do
-    case Repo.aggregate(ServiceReview, :count, :id) > 0 do
+  @spec seed_addon() :: nil | Ecto.Schema.t()
+  defp seed_addon do
+    case Repo.aggregate(Addon, :count, :id) > 0 do
       true -> nil
-      false -> insert_service_review()
+      false -> insert_addon()
     end
   end
 
-  @spec insert_addon() :: Ecto.Schema.t()
-  defp insert_addon do
-    user_ids =
-      Enum.map(Repo.all(User), fn(data) -> data.id end)
-
-    {pro1, pro2, pro3} = {
-      Enum.at(user_ids, 4),
-      Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
-    }
-
-    [
-      Repo.insert!(%Addon{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro1
-      }),
-      Repo.insert!(%Addon{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro1
-      }),
-      Repo.insert!(%Addon{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro1
-      }),
-      Repo.insert!(%Addon{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro2
-      }),
-      Repo.insert!(%Addon{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro2
-      }),
-      Repo.insert!(%Addon{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro2
-      }),
-      Repo.insert!(%Addon{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro3
-      }),
-      Repo.insert!(%Addon{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro3
-      }),
-      Repo.insert!(%Addon{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro3
-      })
-    ]
-  end
-
-  @spec insert_offer() :: Ecto.Schema.t()
-  defp insert_offer do
-    user_ids =
-      Enum.map(Repo.all(User), fn(data) -> data.id end)
-
-    {pro1, pro2, pro3} = {
-      Enum.at(user_ids, 4),
-      Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
-    }
-
-    [
-      Repo.insert!(%Offer{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro1
-      }),
-      Repo.insert!(%Offer{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro1
-      }),
-      Repo.insert!(%Offer{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro1
-      }),
-      Repo.insert!(%Offer{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro2
-      }),
-      Repo.insert!(%Offer{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro2
-      }),
-      Repo.insert!(%Offer{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro2
-      }),
-      Repo.insert!(%Offer{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro3
-      }),
-      Repo.insert!(%Offer{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro3
-      }),
-      Repo.insert!(%Offer{
-        price: random_integer(),
-        status: random_status(),
-        user_id: pro3
-      })
-    ]
+  @spec seed_offer() :: nil | Ecto.Schema.t()
+  defp seed_offer do
+    case Repo.aggregate(Offer, :count, :id) > 0 do
+      true -> nil
+      false -> insert_offer()
+    end
   end
 
   @spec insert_service_review() :: Ecto.Schema.t()
@@ -214,7 +94,6 @@ defmodule Core.Seeder.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         user_id: tp1,
         work_quality: random_integer()
@@ -223,7 +102,6 @@ defmodule Core.Seeder.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         user_id: tp1,
         work_quality: random_integer()
@@ -232,7 +110,6 @@ defmodule Core.Seeder.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         user_id: tp1,
         work_quality: random_integer()
@@ -241,7 +118,6 @@ defmodule Core.Seeder.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         user_id: tp2,
         work_quality: random_integer()
@@ -250,7 +126,6 @@ defmodule Core.Seeder.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         user_id: tp2,
         work_quality: random_integer()
@@ -259,7 +134,6 @@ defmodule Core.Seeder.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         user_id: tp2,
         work_quality: random_integer()
@@ -268,7 +142,6 @@ defmodule Core.Seeder.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         user_id: tp3,
         work_quality: random_integer()
@@ -277,7 +150,6 @@ defmodule Core.Seeder.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         user_id: tp3,
         work_quality: random_integer()
@@ -286,7 +158,6 @@ defmodule Core.Seeder.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         user_id: tp3,
         work_quality: random_integer()
@@ -458,6 +329,194 @@ defmodule Core.Seeder.Contracts do
       }),
       Repo.insert!(%PotentialClient{
         project: random_project(project_ids),
+        user_id: pro3
+      })
+    ]
+  end
+
+  @spec insert_addon() :: Ecto.Schema.t()
+  defp insert_addon do
+    user_ids =
+      Enum.map(Repo.all(User), fn(data) -> data.id end)
+
+    {pro1, pro2, pro3} = {
+      Enum.at(user_ids, 4),
+      Enum.at(user_ids, 5),
+      Enum.at(user_ids, 6)
+    }
+
+    project_ids =
+      Enum.map(Repo.all(Project), fn(data) -> data.id end)
+
+    {
+      project1,
+      project2,
+      project3,
+      project4,
+      project5,
+      project6,
+      project7,
+      project8,
+      project9
+    } = {
+      Enum.at(project_ids, 0),
+      Enum.at(project_ids, 1),
+      Enum.at(project_ids, 2),
+      Enum.at(project_ids, 3),
+      Enum.at(project_ids, 4),
+      Enum.at(project_ids, 5),
+      Enum.at(project_ids, 6),
+      Enum.at(project_ids, 7),
+      Enum.at(project_ids, 8)
+    }
+
+    [
+      Repo.insert!(%Addon{
+        price: random_integer(),
+        project_id: project1,
+        status: random_status(),
+        user_id: pro1
+      }),
+      Repo.insert!(%Addon{
+        price: random_integer(),
+        project_id: project2,
+        status: random_status(),
+        user_id: pro1
+      }),
+      Repo.insert!(%Addon{
+        price: random_integer(),
+        project_id: project3,
+        status: random_status(),
+        user_id: pro1
+      }),
+      Repo.insert!(%Addon{
+        price: random_integer(),
+        project_id: project4,
+        status: random_status(),
+        user_id: pro2
+      }),
+      Repo.insert!(%Addon{
+        price: random_integer(),
+        project_id: project5,
+        status: random_status(),
+        user_id: pro2
+      }),
+      Repo.insert!(%Addon{
+        price: random_integer(),
+        project_id: project6,
+        status: random_status(),
+        user_id: pro2
+      }),
+      Repo.insert!(%Addon{
+        price: random_integer(),
+        project_id: project7,
+        status: random_status(),
+        user_id: pro3
+      }),
+      Repo.insert!(%Addon{
+        price: random_integer(),
+        project_id: project8,
+        status: random_status(),
+        user_id: pro3
+      }),
+      Repo.insert!(%Addon{
+        price: random_integer(),
+        project_id: project9,
+        status: random_status(),
+        user_id: pro3
+      })
+    ]
+  end
+
+  @spec insert_offer() :: Ecto.Schema.t()
+  defp insert_offer do
+    user_ids =
+      Enum.map(Repo.all(User), fn(data) -> data.id end)
+
+    {pro1, pro2, pro3} = {
+      Enum.at(user_ids, 4),
+      Enum.at(user_ids, 5),
+      Enum.at(user_ids, 6)
+    }
+
+    project_ids =
+      Enum.map(Repo.all(Project), fn(data) -> data.id end)
+
+    {
+      project1,
+      project2,
+      project3,
+      project4,
+      project5,
+      project6,
+      project7,
+      project8,
+      project9
+    } = {
+      Enum.at(project_ids, 0),
+      Enum.at(project_ids, 1),
+      Enum.at(project_ids, 2),
+      Enum.at(project_ids, 3),
+      Enum.at(project_ids, 4),
+      Enum.at(project_ids, 5),
+      Enum.at(project_ids, 6),
+      Enum.at(project_ids, 7),
+      Enum.at(project_ids, 8)
+    }
+
+    [
+      Repo.insert!(%Offer{
+        price: random_integer(),
+        project_id: project1,
+        status: random_status(),
+        user_id: pro1
+      }),
+      Repo.insert!(%Offer{
+        price: random_integer(),
+        project_id: project2,
+        status: random_status(),
+        user_id: pro1
+      }),
+      Repo.insert!(%Offer{
+        price: random_integer(),
+        project_id: project3,
+        status: random_status(),
+        user_id: pro1
+      }),
+      Repo.insert!(%Offer{
+        price: random_integer(),
+        project_id: project4,
+        status: random_status(),
+        user_id: pro2
+      }),
+      Repo.insert!(%Offer{
+        price: random_integer(),
+        project_id: project5,
+        status: random_status(),
+        user_id: pro2
+      }),
+      Repo.insert!(%Offer{
+        price: random_integer(),
+        project_id: project6,
+        status: random_status(),
+        user_id: pro2
+      }),
+      Repo.insert!(%Offer{
+        price: random_integer(),
+        project_id: project7,
+        status: random_status(),
+        user_id: pro3
+      }),
+      Repo.insert!(%Offer{
+        price: random_integer(),
+        project_id: project8,
+        status: random_status(),
+        user_id: pro3
+      }),
+      Repo.insert!(%Offer{
+        price: random_integer(),
+        project_id: project9,
+        status: random_status(),
         user_id: pro3
       })
     ]

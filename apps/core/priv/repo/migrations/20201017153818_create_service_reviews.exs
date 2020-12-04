@@ -9,8 +9,8 @@ defmodule Core.Repo.Migrations.CreateServiceReviews do
       add :final_rating, :decimal, null: false
       add :pro_response, :string, null: true
       add :professionalism, :integer, null: false
-      add :work_quality, :integer, null: false
       add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
+      add :work_quality, :integer, null: false
 
       timestamps(type: :utc_datetime_usec)
     end

@@ -7,7 +7,9 @@ defmodule Core.Contracts.Project do
 
   alias Core.{
     Accounts.User,
+    Contracts.Addon,
     Contracts.Helpers.ProjectEnum,
+    Contracts.Offer,
     Services.BookKeeping,
     Services.BusinessTaxReturn,
     Services.IndividualTaxReturn,
@@ -16,6 +18,7 @@ defmodule Core.Contracts.Project do
 
   @type t :: %__MODULE__{
     addon_price: integer,
+    addons: Addon.t(),
     assigned_pro: FlakeId.Ecto.Type,
     book_keeping_id: BookKeeping.t(),
     business_tax_return_id: BusinessTaxReturn.t(),
@@ -25,6 +28,7 @@ defmodule Core.Contracts.Project do
     individual_tax_return_id: IndividualTaxReturn.t(),
     instant_matched: boolean,
     offer_price: integer,
+    offers: Offer.t(),
     sale_tax_id: SaleTax.t(),
     status: String.t(),
     user_id: User.t()
@@ -87,6 +91,9 @@ defmodule Core.Contracts.Project do
       foreign_key: :user_id,
       type: FlakeId.Ecto.CompatType,
       references: :id
+
+    has_many :addons, Addon, on_delete: :delete_all
+    has_many :offers, Offer, on_delete: :delete_all
 
     timestamps()
   end

@@ -5,10 +5,7 @@ defmodule Core.Contracts.ServiceReview do
 
   use Core.Model
 
-  alias Core.{
-    Accounts.User,
-    Contracts.Project
-  }
+  alias Core.Accounts.User
 
   @type t :: %__MODULE__{
     client_comment: String.t(),

@@ -18,11 +18,11 @@ defmodule Core.Seeder.Updated.Contracts do
 
   @spec start!() :: Ecto.Schema.t()
   def start! do
+    update_service_review()
+    update_project()
+    update_potential_client()
     update_addon()
     update_offer()
-    update_service_review()
-    # update_project()
-    update_potential_client()
   end
 
   @spec update_addon() :: Ecto.Schema.t()
@@ -195,7 +195,6 @@ defmodule Core.Seeder.Updated.Contracts do
         id_from_stripe_card: "card_1HGMdsre2yNYS1KlMqTP7Hkw",
         id_from_stripe_transfer: "tr_1HFksnldFHW3Alzp8qtrMkub",
         instant_matched: random_boolean(),
-        name: Lorem.word(),
         offer_price: random_integer(),
         status: random_project_status()
       }),
@@ -206,7 +205,6 @@ defmodule Core.Seeder.Updated.Contracts do
         id_from_stripe_card: "card_1HKawbxc7sFA9kmL4DFwmc91",
         id_from_stripe_transfer: "tr_1HALhdvNQlF1M7HyrpAZ6oGM",
         instant_matched: random_boolean(),
-        name: Lorem.word(),
         offer_price: random_integer(),
         status: random_project_status()
       }),
@@ -217,7 +215,6 @@ defmodule Core.Seeder.Updated.Contracts do
         id_from_stripe_card: "card_1HRdjqwMv6AD8CxzLq5htRV7",
         id_from_stripe_transfer: "tr_1HAQmkdvbzas7wE2tR6MA8B9",
         instant_matched: random_boolean(),
-        name: Lorem.word(),
         offer_price: random_integer(),
         status: random_project_status()
       }),
@@ -228,7 +225,6 @@ defmodule Core.Seeder.Updated.Contracts do
         id_from_stripe_card: "card_1HIKf6DQwe3NZ0JklMAS5qhT",
         id_from_stripe_transfer: "tr_1HABkqWel7CvsazKLA8GO3Jm",
         instant_matched: random_boolean(),
-        name: Lorem.word(),
         offer_price: random_integer(),
         status: random_project_status()
       }),
@@ -239,7 +235,6 @@ defmodule Core.Seeder.Updated.Contracts do
         id_from_stripe_card: "card_1HCD5sDQlm7Cxs9Afbzyt4Mw",
         id_from_stripe_transfer: "tr_1HLdf5AlMCV4qwErxt7JAqVi",
         instant_matched: random_boolean(),
-        name: Lorem.word(),
         offer_price: random_integer(),
         status: random_project_status()
       }),
@@ -250,7 +245,6 @@ defmodule Core.Seeder.Updated.Contracts do
         id_from_stripe_card: "card_1HV5Dgqxcd8DF3mSA7Nfkeq1",
         id_from_stripe_transfer: "tr_1HW4Gawqlor6NrQwe0ndf751",
         instant_matched: random_boolean(),
-        name: Lorem.word(),
         offer_price: random_integer(),
         status: random_project_status()
       }),
@@ -261,7 +255,6 @@ defmodule Core.Seeder.Updated.Contracts do
         id_from_stripe_card: "card_1HChtqwe4VnBaZX6Lkqwe1Ju",
         id_from_stripe_transfer: "tr_1HF3jKqWvam8Su1KM7DrAlz9",
         instant_matched: random_boolean(),
-        name: Lorem.word(),
         offer_price: random_integer(),
         status: random_project_status()
       }),
@@ -272,7 +265,6 @@ defmodule Core.Seeder.Updated.Contracts do
         id_from_stripe_card: "card_1HT6kisrtNX3pO5hQmavNXzP",
         id_from_stripe_transfer: "tr_1HX9kquTr0FM2Csqp9MJaYLg",
         instant_matched: random_boolean(),
-        name: Lorem.word(),
         offer_price: random_integer(),
         status: random_project_status()
       }),
@@ -283,7 +275,6 @@ defmodule Core.Seeder.Updated.Contracts do
         id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
         instant_matched: random_boolean(),
-        name: Lorem.word(),
         offer_price: random_integer(),
         status: random_project_status()
       })
@@ -322,7 +313,6 @@ defmodule Core.Seeder.Updated.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
@@ -330,7 +320,6 @@ defmodule Core.Seeder.Updated.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
@@ -338,7 +327,6 @@ defmodule Core.Seeder.Updated.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
@@ -346,7 +334,6 @@ defmodule Core.Seeder.Updated.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
@@ -354,7 +341,6 @@ defmodule Core.Seeder.Updated.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
@@ -362,7 +348,6 @@ defmodule Core.Seeder.Updated.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
@@ -370,7 +355,6 @@ defmodule Core.Seeder.Updated.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
@@ -378,7 +362,6 @@ defmodule Core.Seeder.Updated.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
@@ -386,7 +369,6 @@ defmodule Core.Seeder.Updated.Contracts do
         client_comment: Lorem.sentence(),
         communication: random_integer(),
         final_rating: random_float(),
-        pro_response: Lorem.sentence(),
         professionalism: random_integer(),
         work_quality: random_integer()
       })

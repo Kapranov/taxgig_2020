@@ -255,167 +255,25 @@ end) |> List.flatten
   - serviceReviewId
 
 ```
-attrs = %{sale_tax_id: nil, individual_tax_return_id: "xxx", business_tax_return_id: nil, book_keeping_id: nil}
+required_keys = ["a", "b", "c"]
+map_to_check = %{a: "foo", b: "bar", c: "baz"}
+Enum.map(required_keys, fn k -> Map.has_key?(map_to_check, k) end)
 
-case Map.has_key?(attrs, :book_keeping_id) do
-  true ->
-    case is_nil(attrs.book_keeping_id) do
-      true ->
-        case Map.has_key?(attrs, :business_tax_return_id) do
-          true ->
-            case is_nil(attrs.business_tax_return_id) do
-              true ->
-                case Map.has_key?(attrs, :individual_tax_return_id) do
-                  true ->
-                     case is_nil(attrs.individual_tax_return_id) do
-                       true ->
-                         case Map.has_key?(attrs, :sale_tax_id) do
-                           true ->
-                             case is_nil(attrs.sale_tax_id) do
-                               true ->
-                                 attrs
-                                 |> Map.delete(:book_keeping_id)
-                                 |> Map.delete(:business_tax_return_id)
-                                 |> Map.delete(:individual_tax_return_id)
-                                 |> Map.delete(:sale_tax_id)
-                               false ->
-                                 attrs
-                                 |> Map.delete(:book_keeping_id)
-                                 |> Map.delete(:business_tax_return_id)
-                                 |> Map.delete(:individual_tax_return_id)
-                             end
-                           false ->
-                             attrs
-                             |> Map.delete(:individual_tax_return_id)
-                             |> Map.delete(:business_tax_return_id)
-                             |> Map.delete(:book_keeping_id)
-                         end
-                       false ->
-                         attrs
-                         |> Map.delete(:book_keeping_id)
-                         |> Map.delete(:business_tax_return_id)
-                         |> Map.delete(:sale_tax_id)
-                     end
-                  false ->
-                    case Map.has_key?(attrs, :sale_tax_id) do
-                    end
-                end
-              false ->
-                attrs
-                |> Map.delete(:book_keeping_id)
-                |> Map.delete(:individual_tax_return_id)
-                |> Map.delete(:sale_tax_id)
-            end
-          false ->
-            case Map.has_key?(attrs, :individual_tax_return_id) do
-              true ->
-                case is_nil(attrs.individual_tax_return_id) do
-                  true ->
-                    case Map.has_key?(attrs, :sale_tax_id) do
-                      true ->
-                         case is_nil(attrs.sale_tax_id) do
-                           true ->
-                             attrs
-                             |> Map.delete(:individual_tax_return_id)
-                             |> Map.delete(:sale_tax_id)
-                           false ->
-                             attrs
-                             |> Map.delete(:individual_tax_return_id)
-                         end
-                      false ->
-                        attrs
-                        |> Map.delete(:individual_tax_return_id)
-                    end
-                  false ->
-                    attrs
-                    |> Map.delete(:sale_tax_id)
-                end
-              false ->
-                case Map.has_key?(attrs, :sale_tax_id) do
-                  true ->
-                    case is_nil(attrs.sale_tax_id) do
-                      true ->
-                        attrs
-                        |> Map.delete(:sale_tax_id)
-                      false -> attrs
-                    end
-                  false -> attrs
-                end
-            end
-        end
-      false ->
-        attrs
-        |> Map.delete(:business_tax_return_id)
-        |> Map.delete(:individual_tax_return_id)
-        |> Map.delete(:sale_tax_id)
-    end
-  false ->
-    case Map.has_key?(attrs, :business_tax_return_id) do
-      true ->
-        case is_nil(attrs.business_tax_return_id) do
-          true ->
-            case Map.has_key?(attrs, :individual_tax_return_id) do
-              true ->
-              false ->
-                case Map.has_key?(attrs, :sale_tax_id) do
-                  true ->
-                  false ->
-                end
-            end
-          false -> attrs
-        end
-      false ->
-        case Map.has_key?(attrs, :book_keeping_id) do
-          true ->
-          false ->
-            case Map.has_key?(attrs, :book_keeping_id) do
-              true ->
-              false ->
-            end
-        end
-    end
-end
+map_to_check = %{ "a" => "foo", "b" => "bar", "c" => "baz" }
+required_keys |> Enum.all?(&(Map.has_key?(map_to_check, &1)))
 
+map = %{"track" => "bogus", "artist" => "someone"}
+map2 = %{"track" => "bogus", "artist" => "someone", "year" => 2016}
+required_keys = ["artist", "track", "year"]
+Enum.all?(required_keys, &Map.has_key?(map, &1))
+Enum.all?(required_keys, &Map.has_key?(map2, &1))
+match?(%{"artist" => _, "track" => _, "year" => _}, map)
+match?(%{"artist" => _, "track" => _, "year" => _}, map2)
 
-
-
-
-case is_nil(attrs.book_keeping_id) do
-  true ->
-    case is_nil(attrs.business_tax_return_id) do
-      true ->
-        case is_nil(attrs.individual_tax_return_id) do
-          true ->
-            case is_nil(attrs.sale_tax_id) do
-              true ->
-                |> Map.delete(:book_keeping_id)
-                |> Map.delete(:business_tax_return_id)
-                |> Map.delete(:individual_tax_return_id)
-                |> Map.delete(:sale_tax_id)
-              false ->
-                |> Map.delete(:book_keeping_id)
-                |> Map.delete(:business_tax_return_id)
-                |> Map.delete(:individual_tax_return_id)
-            end
-          false ->
-            attrs
-            |> Map.delete(:book_keeping_id)
-            |> Map.delete(:business_tax_return_id)
-            |> Map.delete(:sale_tax_id)
-        end
-      false ->
-        attrs
-        |> Map.delete(:book_keeping_id)
-        |> Map.delete(:individual_tax_return_id)
-        |> Map.delete(:sale_tax_id)
-    end
-  false ->
-    attrs
-    |> Map.delete(:business_tax_return_id)
-    |> Map.delete(:individual_tax_return_id)
-    |> Map.delete(:sale_tax_id)
-end
+Using in instead of Map.has_key?:
+def contains_fields?(keys, fields), do: Enum.all?(fields, &(&1 in keys))
 ```
+
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
