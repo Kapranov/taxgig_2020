@@ -11,6 +11,7 @@ defmodule Core.Seeder.Updated.Accounts do
     Accounts.ProRating,
     Accounts.Profile,
     Accounts.User,
+    Contracts.Project,
     Lookup.UsZipcode,
     Repo
   }
@@ -24,6 +25,7 @@ defmodule Core.Seeder.Updated.Accounts do
     update_ban_reason()
     update_pro_rating()
     update_deleted_user()
+    seed_pro_ratings_projects()
   end
 
   @spec update_user() :: Ecto.Schema.t()
@@ -362,6 +364,95 @@ defmodule Core.Seeder.Updated.Accounts do
       Accounts.update_deleted_user(deleted6, %{reason: random_reason()}),
       Accounts.update_deleted_user(deleted7, %{reason: random_reason()})
     ]
+  end
+
+  @spec seed_pro_ratings_projects() :: Ecto.Schema.t()
+  defp seed_pro_ratings_projects do
+    pro_rating_ids = Enum.map(Repo.all(ProRating), &(&1))
+
+    {
+      pro_rating1,
+      pro_rating2,
+      pro_rating3,
+      pro_rating4,
+      pro_rating5,
+      pro_rating6,
+      pro_rating7,
+      pro_rating8,
+      pro_rating9
+    } = {
+      Repo.preload(Enum.at(pro_rating_ids, 0), [:projects]),
+      Repo.preload(Enum.at(pro_rating_ids, 1), [:projects]),
+      Repo.preload(Enum.at(pro_rating_ids, 2), [:projects]),
+      Repo.preload(Enum.at(pro_rating_ids, 3), [:projects]),
+      Repo.preload(Enum.at(pro_rating_ids, 4), [:projects]),
+      Repo.preload(Enum.at(pro_rating_ids, 5), [:projects]),
+      Repo.preload(Enum.at(pro_rating_ids, 6), [:projects]),
+      Repo.preload(Enum.at(pro_rating_ids, 7), [:projects]),
+      Repo.preload(Enum.at(pro_rating_ids, 8), [:projects])
+    }
+
+    pro_rating_changeset1 = Ecto.Changeset.change(pro_rating1)
+    pro_rating_changeset2 = Ecto.Changeset.change(pro_rating2)
+    pro_rating_changeset3 = Ecto.Changeset.change(pro_rating3)
+    pro_rating_changeset4 = Ecto.Changeset.change(pro_rating4)
+    pro_rating_changeset5 = Ecto.Changeset.change(pro_rating5)
+    pro_rating_changeset6 = Ecto.Changeset.change(pro_rating6)
+    pro_rating_changeset7 = Ecto.Changeset.change(pro_rating7)
+    pro_rating_changeset8 = Ecto.Changeset.change(pro_rating8)
+    pro_rating_changeset9 = Ecto.Changeset.change(pro_rating9)
+
+    pro_rating_changeset1
+    |> Ecto.Changeset.put_assoc(:projects, random_projects())
+    |> Repo.update!()
+
+    pro_rating_changeset2
+    |> Ecto.Changeset.put_assoc(:projects, random_projects())
+    |> Repo.update!()
+
+    pro_rating_changeset3
+    |> Ecto.Changeset.put_assoc(:projects, random_projects())
+    |> Repo.update!()
+
+    pro_rating_changeset4
+    |> Ecto.Changeset.put_assoc(:projects, random_projects())
+    |> Repo.update!()
+
+    pro_rating_changeset5
+    |> Ecto.Changeset.put_assoc(:projects, random_projects())
+    |> Repo.update!()
+
+    pro_rating_changeset6
+    |> Ecto.Changeset.put_assoc(:projects, random_projects())
+    |> Repo.update!()
+
+    pro_rating_changeset7
+    |> Ecto.Changeset.put_assoc(:projects, random_projects())
+    |> Repo.update!()
+
+    pro_rating_changeset8
+    |> Ecto.Changeset.put_assoc(:projects, random_projects())
+    |> Repo.update!()
+
+    pro_rating_changeset9
+    |> Ecto.Changeset.put_assoc(:projects, random_projects())
+    |> Repo.update!()
+  end
+
+  @spec random_projects() :: [Language.t()]
+  defp random_projects do
+    data = Repo.all(Project)
+
+    numbers = 1..9
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(data)
+      end
+      |> Enum.uniq()
+
+    result
   end
 
   @spec random_reason :: [String.t()]
