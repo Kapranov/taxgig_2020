@@ -46,8 +46,8 @@ defmodule Core.Media.Picture do
   Create changeset for Picture.
   """
   @spec changeset(t, %{atom => any}) :: Ecto.Changeset.t()
-  def changeset(%__MODULE__{} = picture, attrs) do
-    picture
+  def changeset(%__MODULE__{} = struct, attrs) do
+    struct
     |> cast(attrs, @allowed_params)
     |> cast_embed(:file)
     |> validate_required(@required_params)

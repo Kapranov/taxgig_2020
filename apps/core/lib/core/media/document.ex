@@ -1,65 +1,77 @@
 defmodule Core.Media.Document do
   @moduledoc """
-  Represents the Document.
+  Represents a document entity.
   """
 
   use Core.Model
 
-  alias Core.Contracts.Project
-
   import Ecto.Changeset, only: [
     cast: 3,
+    cast_embed: 2,
+    validate_required: 2,
     foreign_key_constraint: 3,
-    unique_constraint: 3,
-    validate_required: 2
+    unique_constraint: 3
   ]
 
-  @type word() :: String.t()
-  @type message() :: atom()
+  alias Core.{
+    Contracts.ProjectDoc,
+    Media.File,
+    Media.Helpers.CategoryEnum
+  }
 
   @type t :: %__MODULE__{
     access_granted: boolean,
-    category: integer,
-    document_link: String.t(),
-    format: integer,
-    name: integer,
-    project_id: Project.t(),
-    signature_required_from_client: boolean,
-    signed_by_client: boolean,
+    category: String.t(),
+    file: File.t(),
+    format: String.t(),
+    name: String.t(),
+    project_doc: ProjectDoc.t(),
+    signature: boolean,
     signed_by_pro: boolean,
-    size: integer,
-    uploader: map
+    signed_by_tp: boolean,
+    url: String.t()
   }
 
   @allowed_params ~w(
     access_granted
     category
-    document_link
     format
     name
-    signature_required_from_client
-    signed_by_client
+    project_doc_id
+    signature
     signed_by_pro
-    size
-    project_id
+    signed_by_tp
+    url
   )a
 
-  @required_params ~w(project_id)a
+  @required_params ~w(
+    access_granted
+    category
+    format
+    name
+    project_doc_id
+    signature
+    signed_by_pro
+    signed_by_tp
+    url
+  )a
 
   schema "documents" do
-    field :access_granted, :boolean
-    field :category, :integer
-    field :document_link, :string
-    field :format, :integer
-    field :name, :integer
-    field :signature_required_from_client, :boolean
-    field :signed_by_client, :boolean
-    field :signed_by_pro, :boolean
-    field :size, :decimal
-    field :uploader, :map, default: %{}
+    field :access_granted, :boolean, null: false
+    field :category, CategoryEnum, null: false
+    field :format, :string, null: false
+    field :name, :string, null: false
+    field :signature, :boolean, null: false
+    field :signed_by_pro, :boolean, null: false
+    field :signed_by_tp, :boolean, null: false
+    field :url, :string, null: false
 
-    belongs_to :project, Project, foreign_key: :project_id,
-      type: FlakeId.Ecto.CompatType, references: :id
+    embeds_one(:file, File, on_replace: :update)
+
+    belongs_to :project_doc, ProjectDoc,
+      foreign_key: :project_doc_id,
+      type: FlakeId.Ecto.CompatType,
+      references: :id
 
     timestamps()
   end
@@ -68,11 +80,12 @@ defmodule Core.Media.Document do
   Create changeset for Document.
   """
   @spec changeset(t, %{atom => any}) :: Ecto.Changeset.t()
-  def changeset(struct, attrs) do
+  def changeset(%__MODULE__{} = struct, attrs) do
     struct
     |> cast(attrs, @allowed_params)
+    |> cast_embed(:file)
     |> validate_required(@required_params)
-    |> foreign_key_constraint(:user_id, message: "Select an User")
-    |> unique_constraint(:user, name: :documents_user_id_index, message: "Only one an User")
+    |> foreign_key_constraint(:project_doc_id, name: :documents_project_doc_id_fkey, message: "Select the ProjectDoc")
+    |> unique_constraint(:project_doc_id, name: :documents_project_doc_id_index, message: "Only one a ProjectDoc Record")
   end
 end

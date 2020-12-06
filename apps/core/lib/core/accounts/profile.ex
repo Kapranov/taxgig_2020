@@ -33,9 +33,7 @@ defmodule Core.Accounts.Profile do
     user_id
   )a
 
-  @required_params ~w(
-    user_id
-  )a
+  @required_params ~w(user_id)a
 
   schema "profiles" do
     field :address, :string, null: true
