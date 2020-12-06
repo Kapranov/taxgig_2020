@@ -148,50 +148,38 @@ defmodule Core.Media do
               {:error, changeset}
           end
       end
-
   end
 
   @doc """
-  Returns the list of Documents.
-
-  ## Examples
-
-      iex> list_document()
-      [%Document{}, ...]
+  Gets a single document.
   """
-  @spec list_document() :: [Document.t()]
-  def list_document, do: Repo.all(Document)
+  @spec get_document(String.t()) :: Document.t() | nil
+  def get_document(id) do
+    Repo.get(Document, id)
+    |> Repo.preload([:project_doc])
+  end
 
   @doc """
-  Gets a single Document.
-
-  Raises `Ecto.NoResultsError` if the Document does not exist.
-
-  ## Examples
-
-      iex> get_document!(123)
-      %Document{}
-
-      iex> get_document!(456)
-      ** (Ecto.NoResultsError)
-
+  Gets a single document.
+  Raises `Ecto.NoResultsError` if the document does not exist.
   """
-  @spec get_document!(String.t()) :: Document.t() | error_tuple()
-  def get_document!(id), do: Repo.get!(Document, id)
+  @spec get_document!(String.t()) :: Document.t()
+  def get_document!(project_doc_id), do: Repo.get_by(Document, %{project_doc_id: project_doc_id})
 
   @doc """
-  Creates the Document.
-
-  ## Examples
-
-      iex> create_document(%{field: value})
-      {:ok, %Document{}}
-
-      iex> create_document(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
+  Get a document by its URL.
   """
-  @spec create_document(%{atom => any}) :: result() | error_tuple()
+  @spec get_document_by_url(String.t()) :: Document.t() | nil
+  def get_document_by_url(url) do
+    url
+    |> document_by_url_query()
+    |> Repo.one()
+  end
+
+  @doc """
+  Creates a document.
+  """
+  @spec create_document(%{atom => any}) :: {:ok, Document.t()} | {:error, Ecto.Changeset.t()}
   def create_document(attrs \\ %{}) do
     %Document{}
     |> Document.changeset(attrs)
@@ -199,59 +187,112 @@ defmodule Core.Media do
   end
 
   @doc """
-  Updates the Document.
-
-  ## Examples
-
-      iex> update_document(struct, %{field: new_value})
-      {:ok, %Document{}}
-
-      iex> update_document(struct, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
+  Updates a document.
   """
-  @spec update_document(Document.t(), %{atom => any}) :: result() | error_tuple()
-  def update_document(%Document{} = struct, attrs) do
-    struct
-    |> Document.changeset(attrs)
-    |> Repo.update()
+  @spec update_document(Document.t(), %{atom => any}) :: {:ok, Document.t()} | {:error, Ecto.Changeset.t()}
+  def update_document(%Document{} = document, attrs) do
+    document_changeset =
+      document
+      |> Document.changeset(attrs)
+
+    if document.file.url == attrs.file.url do
+      transaction =
+        Multi.new()
+        |> Multi.update(:update, document_changeset)
+        |> Repo.transaction()
+
+      case transaction do
+        {:ok, %{update: %Document{} = document}} ->
+          {:ok, document}
+        {:error, error} ->
+          {:error, error}
+        {:error, :update, error, _} ->
+          {:error, error}
+        {:error, _model, changeset, _completed} ->
+          {:error, changeset}
+      end
+    else
+      transaction =
+        Multi.new()
+        |> Multi.update(:update, document_changeset)
+        |> Multi.run(:document, fn _, _ ->
+          Upload.remove(document.file.url)
+        end)
+        |> Repo.transaction()
+
+      case transaction do
+        {:ok, %{document: _header, update: %Document{} = document}} ->
+          {:ok, document}
+        {:error, error} ->
+          {:error, error}
+        {:error, :document, error, _} ->
+          {:error, error}
+        {:error, _model, changeset, _completed} ->
+          {:error, changeset}
+      end
+    end
   end
 
   @doc """
-  Deletes the Document.
-
-  ## Examples
-
-      iex> delete_document(struct)
-      {:ok, %Document{}}
-
-      iex> delete_document(struct)
-      {:error, %Ecto.Changeset{}}
-
+  Deletes a document.
   """
-  @spec delete_document(Document.t()) :: result()
-  def delete_document(%Document{} = struct) do
-    Repo.delete(struct)
-  end
+  @spec delete_document(Document.t()) :: {:ok, Document.t()} | {:error, Ecto.Changeset.t()}
+  def delete_document(%Document{} = document) do
+      [_, _, _, _, file_name] = String.split(document.file.url, "/")
+      status_code =
+        try do
+          ExAws.S3.get_object(@bucket, file_name)
+          |> ExAws.request!
+          |> get_in([:status_code])
+        rescue
+          ExAws.Error ->
+            :error
+        end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking Document Changes.
+      case status_code do
+        :error ->
+          transaction =
+            Multi.new()
+            |> Multi.delete(:document, document)
+            |> Repo.transaction()
+          case transaction do
+            {:ok, %{document: %Document{} = document}} ->
+              {:ok, document}
+            {:error, _model, changeset, _completed} ->
+              {:error, changeset}
+          end
+        200 ->
+          transaction =
+            Multi.new()
+            |> Multi.delete(:document, document)
+            |> Multi.run(:remove, fn _repo, %{document: %Document{file: %File{url: url}}} ->
+              Upload.remove(url)
+            end)
+            |> Repo.transaction()
 
-  ## Examples
-
-      iex> change_document(struct)
-      %Ecto.Changeset{source: %Faq{}}
-
-  """
-  @spec change_document(Document.t()) :: Ecto.Changeset.t()
-  def change_document(%Document{} = struct) do
-    Document.changeset(struct, %{})
+          case transaction do
+            {:ok, %{document: %Document{} = document}} ->
+              {:ok, document}
+            {:error, :remove, error, _} ->
+              {:error, error}
+            {:error, _model, changeset, _completed} ->
+              {:error, changeset}
+          end
+      end
   end
 
   @spec picture_by_url_query(String.t()) :: Ecto.Query.t()
   defp picture_by_url_query(url) do
     from(
       p in Picture,
+      where: fragment("? @> ?", p.file, ~s|{"url": "#{url}"}|)
+    )
+  end
+
+  @spec document_by_url_query(String.t()) :: Ecto.Query.t()
+  defp document_by_url_query(url) do
+    from(
+      p in Document,
       where: fragment("? @> ?", p.file, ~s|{"url": "#{url}"}|)
     )
   end

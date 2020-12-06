@@ -15,7 +15,8 @@ defmodule Core.Contracts.Project do
     Services.BookKeeping,
     Services.BusinessTaxReturn,
     Services.IndividualTaxReturn,
-    Services.SaleTax
+    Services.SaleTax,
+    Talk.Message
   }
 
   @type t :: %__MODULE__{
@@ -29,6 +30,7 @@ defmodule Core.Contracts.Project do
     id_from_stripe_transfer: String.t(),
     individual_tax_return_id: IndividualTaxReturn.t(),
     instant_matched: boolean,
+    messages: [Message.t()],
     offer_price: integer,
     offers: Offer.t(),
     pro_ratings: [ProRating.t()],
@@ -97,6 +99,7 @@ defmodule Core.Contracts.Project do
       references: :id
 
     has_many :addons, Addon, on_delete: :delete_all
+    has_many :messages, Message, on_delete: :delete_all
     has_many :offers, Offer, on_delete: :delete_all
     has_many :project_docs, ProjectDoc, on_delete: :delete_all
 

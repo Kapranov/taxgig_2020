@@ -7,29 +7,54 @@ defmodule Core.Talk.Message do
 
   alias Core.{
     Accounts.User,
-    Talk.Room,
-    Talk.Report
+    Contracts.Project,
+    Talk.Report,
+    Talk.Room
   }
 
   @type t :: %__MODULE__{
     body: String.t(),
+    is_read: boolean,
+    project_id: Project.t(),
+    recipient: String.t(),
     report: Report.t(),
-    room: Room.t(),
-    user: User.t()
+    room_id: Room.t(),
+    user_id: User.t(),
+    warning: boolean
   }
 
   @allowed_params ~w(
     body
+    is_read
+    project_id
+    recipient
+    room_id
+    user_id
+    warning
   )a
 
   @required_params ~w(
     body
+    is_read
+    project_id
+    recipient
+    room_id
+    user_id
+    warning
   )a
 
   schema "messages" do
-    field :body, :string
+    field :body, :string, null: false
+    field :is_read, :boolean, null: false
+    field :recipient, FlakeId.Ecto.Type, null: true
+    field :warning, :boolean, null: false
 
     has_one :report, Report, on_delete: :delete_all
+
+    belongs_to :projects, Project,
+      foreign_key: :project_id,
+      type: FlakeId.Ecto.CompatType,
+      references: :id
 
     belongs_to :room, Room,
       foreign_key: :room_id,
@@ -52,9 +77,8 @@ defmodule Core.Talk.Message do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
-    |> foreign_key_constraint(:room_id, message: "Select a room")
+    |> foreign_key_constraint(:project_id, message: "Select a Project")
+    |> foreign_key_constraint(:room_id, message: "Select a Room")
     |> foreign_key_constraint(:user_id, message: "Select an User")
-    |> unique_constraint(:room_id, name: :messages_room_id_index)
-    |> unique_constraint(:user_id, name: :messages_user_id_index)
   end
 end
