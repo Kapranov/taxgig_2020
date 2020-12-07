@@ -11,7 +11,7 @@ defmodule Core.Talk.Report do
   }
 
   @type t :: %__MODULE__{
-    message: User.t(),
+    message: Message.t(),
     other: boolean(),
     other_description: String.t(),
     reasons: String.t()

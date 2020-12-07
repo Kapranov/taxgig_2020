@@ -9,6 +9,7 @@ defmodule Core.Talk.Room do
   alias Core.Talk.Message
 
   @type t :: %__MODULE__{
+    active: boolean,
     description: String.t(),
     messages: [Message.t()],
     name: String.t(),
@@ -17,19 +18,26 @@ defmodule Core.Talk.Room do
   }
 
   @allowed_params ~w(
+    active
     description
     name
     topic
+    user_id
   )a
 
   @required_params ~w(
+    active
+    description
     name
+    topic
+    user_id
   )a
 
   schema "rooms" do
-    field :description, :string
-    field :name, :string
-    field :topic, :string
+    field :active, :boolean, null: false, default: false
+    field :description, :string, null: false
+    field :name, :string, null: false
+    field :topic, :string, null: false
 
     belongs_to :user, User,
       foreign_key: :user_id,

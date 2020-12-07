@@ -54,54 +54,63 @@ defmodule Core.Seeder.Talk do
     }
 
     attrs_for_user1 = %{
+      active: true,
       description: "Raheem Kassam, Jack Maxey, and Greg Manz are joined",
       name: "citizens of republic",
       topic: "warroom"
     }
 
     attrs_for_user2 = %{
+      active: true,
       description: "This Is Exactly What Is Going To Happen If Police",
       name: "defunded",
       topic: "infowars"
     }
 
     attrs_for_user3 = %{
+      active: true,
       description: "The lion cannot protect himself from traps",
       name: "it can't get any more",
       topic: "lionelnation"
     }
 
     attrs_for_user4 = %{
+      active: true,
       description: "John Sununu, former White House chief of staff",
       name: "trump dismisses report",
       topic: "foxnews"
     }
 
     attrs_for_user5 = %{
-      descriptien: "For reference on size this day was about 18ft-20ft!",
+      active: true,
+      description: "For reference on size this day was about 18ft-20ft!",
       name: "full raw waimea session",
       topic: "florence"
     }
 
     attrs_for_user6 = %{
+      active: true,
       description: "too funny no police...to passify the left",
       name: "we're witnessing",
       topic: "rush_limbaugh"
     }
 
     attrs_for_user7 = %{
+      active: true,
       description: "The democrats are more outraged that Trump",
       name: "why socialism sucks",
       topic: "dan_bongino"
     }
 
     attrs_for_user8 = %{
+      active: true,
       description: "A society that puts equality before freedom",
       name: "sounds like",
       topic: "mark_levin"
     }
 
     attrs_for_user9 = %{
+      active: true,
       description: "As summer arrives, the waves go flat",
       name: "perfect summertime",
       topic: "koa_rothman"
@@ -116,7 +125,7 @@ defmodule Core.Seeder.Talk do
       Talk.create_room(user6, attrs_for_user6),
       Talk.create_room(user7, attrs_for_user7),
       Talk.create_room(user8, attrs_for_user8),
-      Talk.create_room(user9, attrs_for_user9),
+      Talk.create_room(user9, attrs_for_user9)
     ]
   end
 

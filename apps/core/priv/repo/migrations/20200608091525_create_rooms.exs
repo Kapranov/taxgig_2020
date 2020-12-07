@@ -4,9 +4,10 @@ defmodule Core.Repo.Migrations.CreateRooms do
   def change do
     create table(:rooms, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
-      add :name, :string, null: false, size: 30
-      add :description, :string
-      add :topic, :string, size: 120
+      add :active, :boolean, null: false, default: false
+      add :description, :string, null: false
+      add :name, :string, size: 30, null: false
+      add :topic, :string, size: 120, null: false
       add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
 
       timestamps(type: :utc_datetime_usec)
