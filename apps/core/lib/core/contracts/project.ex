@@ -11,7 +11,8 @@ defmodule Core.Contracts.Project do
     Contracts.Addon,
     Contracts.Helpers.ProjectEnum,
     Contracts.Offer,
-    Contracts.ProjectDoc,
+    Media.ProDoc,
+    Media.TpDoc,
     Services.BookKeeping,
     Services.BusinessTaxReturn,
     Services.IndividualTaxReturn,
@@ -33,10 +34,11 @@ defmodule Core.Contracts.Project do
     messages: [Message.t()],
     offer_price: integer,
     offers: Offer.t(),
+    pro_docs: [ProDoc.t()],
     pro_ratings: [ProRating.t()],
-    project_docs: [ProjectDoc.t()],
     sale_tax_id: SaleTax.t(),
     status: String.t(),
+    tp_docs: [TpDoc.t()],
     user_id: User.t()
   }
 
@@ -101,7 +103,8 @@ defmodule Core.Contracts.Project do
     has_many :addons, Addon, on_delete: :delete_all
     has_many :messages, Message, on_delete: :delete_all
     has_many :offers, Offer, on_delete: :delete_all
-    has_many :project_docs, ProjectDoc, on_delete: :delete_all
+    has_many :pro_docs, ProDoc, on_delete: :delete_all
+    has_many :tp_docs, TpDoc, on_delete: :delete_all
 
     many_to_many :pro_ratings, ProRating, join_through: "pro_ratings_projects", on_replace: :delete
 

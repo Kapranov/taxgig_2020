@@ -5,37 +5,40 @@ defmodule Core.Talk.Report do
 
   use Core.Model
 
-  alias Core.Talk.{
-    Helpers.ReportEnum,
-    Message
+  alias Core.{
+    Accounts.User,
+    Talk.Helpers.ReportEnum
   }
 
   @type t :: %__MODULE__{
-    message: Message.t(),
+    description: String.t(),
+    messages: tuple,
     other: boolean(),
-    other_description: String.t(),
-    reasons: String.t()
+    reasons: String.t(),
+    user_id: User.t()
   }
 
   @allowed_params ~w(
-    message_id
+    description
+    messages
     other
-    other_description
     reasons
+    user_id
   )a
 
   @required_params ~w(
-    message_id
-    other
+    messages
+    user_id
   )a
 
   schema "reports" do
+    field :description, :string, null: true
+    field :messages, {:array, :string}, null: false, default: []
+    field :other, :boolean, null: true
     field :reasons, ReportEnum, null: true
-    field :other, :boolean, null: false
-    field :other_description, :string, null: true
 
-    belongs_to :message, Message,
-      foreign_key: :message_id,
+    belongs_to :users, User,
+      foreign_key: :user_id,
       type: FlakeId.Ecto.CompatType,
       references: :id
 
@@ -50,7 +53,6 @@ defmodule Core.Talk.Report do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
-    |> foreign_key_constraint(:message_id, message: "Select the Message")
-    |> unique_constraint(:message, name: :reports_message_id_index)
+    |> foreign_key_constraint(:user_id, message: "Select an User")
   end
 end

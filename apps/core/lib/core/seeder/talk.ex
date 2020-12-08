@@ -5,12 +5,15 @@ defmodule Core.Seeder.Talk do
 
   alias Core.{
     Accounts.User,
+    Contracts.Project,
     Repo,
     Talk,
     Talk.Message,
     Talk.Report,
     Talk.Room
   }
+
+  alias Faker.Lorem
 
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
@@ -139,11 +142,17 @@ defmodule Core.Seeder.Talk do
 
   @spec insert_messages() :: Ecto.Schema.t()
   defp insert_messages do
-    user_ids =
-      Enum.map(Repo.all(User), fn(data) -> data end)
+    project_ids =
+      Enum.map(Repo.all(Project), fn(data) -> data.id end)
 
     room_ids =
       Enum.map(Repo.all(Room), fn(data) -> data end)
+
+    user_ids =
+      Enum.map(Repo.all(User), fn(data) -> data end)
+
+    users_ids =
+      Enum.map(Repo.all(User), fn(data) -> data.id end)
 
     {
       user1, user2, user3, user4, user5, user6, user7, user8, user9
@@ -174,40 +183,347 @@ defmodule Core.Seeder.Talk do
     }
 
     [
-      Talk.create_message(user1, room1, %{body: "The left have been using racism to fuel."}),
-      Talk.create_message(user1, room1, %{body: "If I could put a face on all of this, it would be Obama's first."}),
-      Talk.create_message(user1, room1, %{body: "Nancy and crew are used being on their knees."}),
-      Talk.create_message(user2, room2, %{body: "Nothing I regret more than being a Democrat"}),
-      Talk.create_message(user2, room2, %{body: "In Minnesota,  defunding the police is an excellent open door for Sharia law"}),
-      Talk.create_message(user2, room2, %{body: "Only cult people act to defund the police."}),
-      Talk.create_message(user3, room3, %{body: "Only 1 person is responsible for the killing."}),
-      Talk.create_message(user3, room3, %{body: "Minnisota will get Sharia Law if they defund the police!"}),
-      Talk.create_message(user4, room4, %{body: "Liberalism is a severe mental disorder."}),
-      Talk.create_message(user5, room5, %{body: "whose paying for the riots and  damage"}),
-      Talk.create_message(user5, room5, %{body: "Somalia has brought their country, their violence, and their insanity right to our door step."}),
-      Talk.create_message(user6, room6, %{body: "Rush is the best. God bless you. Praying for you"}),
-      Talk.create_message(user6, room6, %{body: "Why do we allow the DemocRATS to be this dumb on our dime"}),
-      Talk.create_message(user6, room6, %{body: "See what happens when government gets too big"}),
-      Talk.create_message(user6, room6, %{body: "It's all a plan to federalize the police"}),
-      Talk.create_message(user7, room7, %{body: "The road to hell is paved with liberal intentions."}),
-      Talk.create_message(user7, room7, %{body: "How are a bunch of easily-triggered snowflakes going to handle actual violence"}),
-      Talk.create_message(user8, room8, %{body: "Liberalism is a Mental illness."}),
-      Talk.create_message(user8, room8, %{body: "if im taking a knee its because the target is short"}),
-      Talk.create_message(user8, room8, %{body: "These are the times that try men’s souls"}),
-      Talk.create_message(user8, room8, %{body: "Your show is the best. Ding Ding Ding"}),
-      Talk.create_message(user9, room9, %{body: "Oh Rush is on Sundays now, cool. lol"}),
-      Talk.create_message(user9, room9, %{body: "Joe Biden wants to know who Aunt Teefa is and why is she always so mad."}),
-      Talk.create_message(user9, room9, %{body: "They are using fake polls to prepare people giving mail in fraud credibility."}),
-      Talk.create_message(user9, room9, %{body: "I'm not depressed. Fight these maggots with the convincing truth."})
+      Talk.create_message(user1, room1, %{
+        body: "The left have been using racism to fuel.",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user1, room1, %{
+        body: "If I could put a face on all of this, it would be Obama's first.",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user1, room1, %{
+        body: "Nancy and crew are used being on their knees.",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user2, room2, %{
+        body: "Nothing I regret more than being a Democrat",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user2, room2, %{
+        body: "In Minnesota,  defunding the police is an excellent open door for Sharia law",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user2, room2, %{
+        body: "Only cult people act to defund the police.",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user3, room3, %{
+        body: "Only 1 person is responsible for the killing.",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user3, room3, %{
+        body: "Minnisota will get Sharia Law if they defund the police!",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user4, room4, %{
+        body: "Liberalism is a severe mental disorder.",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user5, room5, %{
+        body: "whose paying for the riots and  damage",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user5, room5, %{
+        body: "Somalia has brought their country, their violence, and their insanity right to our door step.",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user6, room6, %{
+        body: "Rush is the best. God bless you. Praying for you",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user6, room6, %{
+        body: "Why do we allow the DemocRATS to be this dumb on our dime",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user6, room6, %{
+        body: "See what happens when government gets too big",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user6, room6, %{
+        body: "It's all a plan to federalize the police",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user7, room7, %{
+        body: "The road to hell is paved with liberal intentions.",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user7, room7, %{
+        body: "How are a bunch of easily-triggered snowflakes going to handle actual violence",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user8, room8, %{
+        body: "Liberalism is a Mental illness.",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user8, room8, %{
+        body: "if im taking a knee its because the target is short",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user8, room8, %{
+        body: "These are the times that try men’s souls",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user8, room8, %{
+        body: "Your show is the best. Ding Ding Ding",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user9, room9, %{
+        body: "Oh Rush is on Sundays now, cool. lol",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user9, room9, %{
+        body: "Joe Biden wants to know who Aunt Teefa is and why is she always so mad.",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user9, room9, %{
+        body: "They are using fake polls to prepare people giving mail in fraud credibility.",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      }),
+      Talk.create_message(user9, room9, %{
+        body: "I'm not depressed. Fight these maggots with the convincing truth.",
+        is_read: random_boolean(),
+        project_id: random_project(project_ids),
+        recipient: random_user(users_ids),
+        warning: random_boolean()
+      })
     ]
   end
 
   @spec seed_reports() :: nil | Ecto.Schema.t()
   defp seed_reports do
-    insert_reports()
+    case Repo.aggregate(Report, :count, :id) > 0 do
+      true -> nil
+      false -> insert_reports()
+    end
   end
 
   @spec insert_reports() :: Ecto.Schema.t()
   defp insert_reports do
+    user_ids =
+      Enum.map(Repo.all(User), fn(data) -> data end)
+
+    message_ids =
+      Enum.map(Repo.all(Message), fn(data) -> data.id end)
+
+    {
+      user1, user2, user3, user4, user5, user6, user7, user8, user9
+    } = {
+      Enum.at(user_ids, 0),
+      Enum.at(user_ids, 1),
+      Enum.at(user_ids, 2),
+      Enum.at(user_ids, 3),
+      Enum.at(user_ids, 4),
+      Enum.at(user_ids, 5),
+      Enum.at(user_ids, 6),
+      Enum.at(user_ids, 7),
+      Enum.at(user_ids, 8)
+    }
+
+    [
+      Repo.insert!(%Report{
+        description: Lorem.sentence(),
+        messages: random_messages(message_ids),
+        other: random_boolean(),
+        reasons: random_reasons(),
+        user_id: user1.id
+      }),
+      Repo.insert!(%Report{
+        description: Lorem.sentence(),
+        messages: random_messages(message_ids),
+        other: random_boolean(),
+        reasons: random_reasons(),
+        user_id: user2.id
+      }),
+      Repo.insert!(%Report{
+        description: Lorem.sentence(),
+        messages: random_messages(message_ids),
+        other: random_boolean(),
+        reasons: random_reasons(),
+        user_id: user3.id
+      }),
+      Repo.insert!(%Report{
+        description: Lorem.sentence(),
+        messages: random_messages(message_ids),
+        other: random_boolean(),
+        reasons: random_reasons(),
+        user_id: user4.id
+      }),
+      Repo.insert!(%Report{
+        description: Lorem.sentence(),
+        messages: random_messages(message_ids),
+        other: random_boolean(),
+        reasons: random_reasons(),
+        user_id: user5.id
+      }),
+      Repo.insert!(%Report{
+        description: Lorem.sentence(),
+        messages: random_messages(message_ids),
+        other: random_boolean(),
+        reasons: random_reasons(),
+        user_id: user6.id
+      }),
+      Repo.insert!(%Report{
+        description: Lorem.sentence(),
+        messages: random_messages(message_ids),
+        other: random_boolean(),
+        reasons: random_reasons(),
+        user_id: user7.id
+      }),
+      Repo.insert!(%Report{
+        description: Lorem.sentence(),
+        messages: random_messages(message_ids),
+        other: random_boolean(),
+        reasons: random_reasons(),
+        user_id: user8.id
+      }),
+      Repo.insert!(%Report{
+        description: Lorem.sentence(),
+        messages: random_messages(message_ids),
+        other: random_boolean(),
+        reasons: random_reasons(),
+        user_id: user9.id
+      })
+    ]
+  end
+
+  @spec random_boolean() :: boolean()
+  defp random_boolean do
+    value = ~W(true false)a
+    Enum.random(value)
+  end
+
+  @spec random_reasons :: [String.t()]
+  defp random_reasons do
+    names = [
+      "Abusive",
+      "Spam",
+      "Suspicious Link",
+      "Work Outside"
+    ]
+
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    [result] =
+      for i <- 1..number, i > 0 do
+        Enum.random(names)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_messages([String.t()]) :: [String.t()]
+  defp random_messages(ids) do
+    numbers = 1..25
+    number = Enum.random(numbers)
+
+    result =
+      for i <- 1..number, i > 0 do
+        Enum.random(ids)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_project([String.t()]) :: [String.t()]
+  defp random_project(ids) do
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    [result] =
+      for i <- 1..number, i > 0 do
+        Enum.random(ids)
+      end
+      |> Enum.uniq()
+
+    result
+  end
+
+  @spec random_user([String.t()]) :: [String.t()]
+  defp random_user(ids) do
+    numbers = 1..1
+    number = Enum.random(numbers)
+
+    [result] =
+      for i <- 1..number, i > 0 do
+        Enum.random(ids)
+      end
+      |> Enum.uniq()
+
+    result
   end
 end

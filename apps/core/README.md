@@ -86,7 +86,8 @@ bash> mix ecto.gen.migration -r Core.Repo create_offers
 bash> mix ecto.gen.migration -r Core.Repo create_pro_ratings
 bash> mix ecto.gen.migration -r Core.Repo create_pro_ratings_projects
 bash> mix ecto.gen.migration -r Core.Repo create_project_docs
-bash> mix ecto.gen.migration -r Core.Repo create_documents
+bash> mix ecto.gen.migration -r Core.Repo create_pro_docs
+bash> mix ecto.gen.migration -r Core.Repo create_tp_docs
 ```
 
 - projects

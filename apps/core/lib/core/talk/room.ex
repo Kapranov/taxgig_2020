@@ -61,6 +61,5 @@ defmodule Core.Talk.Room do
     |> validate_length(:topic, min: 1, max: 120)
     |> foreign_key_constraint(:user_id, message: "Select an User")
     |> unique_constraint(:name)
-    |> unique_constraint(:user_id, name: :rooms_user_id_index)
   end
 end

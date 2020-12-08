@@ -8,7 +8,6 @@ defmodule Core.Talk.Message do
   alias Core.{
     Accounts.User,
     Contracts.Project,
-    Talk.Report,
     Talk.Room
   }
 
@@ -17,7 +16,6 @@ defmodule Core.Talk.Message do
     is_read: boolean,
     project_id: Project.t(),
     recipient: String.t(),
-    report: Report.t(),
     room_id: Room.t(),
     user_id: User.t(),
     warning: boolean
@@ -48,8 +46,6 @@ defmodule Core.Talk.Message do
     field :is_read, :boolean, null: false
     field :recipient, FlakeId.Ecto.Type, null: true
     field :warning, :boolean, null: false
-
-    has_one :report, Report, on_delete: :delete_all
 
     belongs_to :projects, Project,
       foreign_key: :project_id,

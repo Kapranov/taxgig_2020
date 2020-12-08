@@ -40,7 +40,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformCardTypes do
       arg :exp_month, non_null(:integer)
       arg :exp_year, non_null(:integer)
       arg :name, non_null(:string)
-      arg :number, non_null(:integer)
+      arg :number, non_null(:string)
       resolve &StripePlatformCardResolver.create/3
     end
 

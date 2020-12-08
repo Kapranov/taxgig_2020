@@ -1,6 +1,6 @@
-defmodule Core.Media.Document do
+defmodule Core.Media.TpDoc do
   @moduledoc """
-  Represents a document entity.
+  Represents a tp document entity.
   """
 
   use Core.Model
@@ -14,7 +14,7 @@ defmodule Core.Media.Document do
   ]
 
   alias Core.{
-    Contracts.ProjectDoc,
+    Contracts.Project,
     Media.File,
     Media.Helpers.CategoryEnum
   }
@@ -23,53 +23,33 @@ defmodule Core.Media.Document do
     access_granted: boolean,
     category: String.t(),
     file: File.t(),
-    format: String.t(),
-    name: String.t(),
-    project_doc: ProjectDoc.t(),
-    signature: boolean,
-    signed_by_pro: boolean,
-    signed_by_tp: boolean,
-    url: String.t()
+    project_id: Project.t(),
+    signed_by_tp: boolean
   }
 
   @allowed_params ~w(
     access_granted
     category
-    format
-    name
-    project_doc_id
-    signature
-    signed_by_pro
+    project_id
     signed_by_tp
-    url
   )a
 
   @required_params ~w(
     access_granted
     category
-    format
-    name
-    project_doc_id
-    signature
-    signed_by_pro
+    project_id
     signed_by_tp
-    url
   )a
 
-  schema "documents" do
+  schema "tp_docs" do
     field :access_granted, :boolean, null: false
     field :category, CategoryEnum, null: false
-    field :format, :string, null: false
-    field :name, :string, null: false
-    field :signature, :boolean, null: false
-    field :signed_by_pro, :boolean, null: false
     field :signed_by_tp, :boolean, null: false
-    field :url, :string, null: false
 
     embeds_one(:file, File, on_replace: :update)
 
-    belongs_to :project_doc, ProjectDoc,
-      foreign_key: :project_doc_id,
+    belongs_to :projects, Project,
+      foreign_key: :project_id,
       type: FlakeId.Ecto.CompatType,
       references: :id
 
@@ -77,7 +57,7 @@ defmodule Core.Media.Document do
   end
 
   @doc """
-  Create changeset for Document.
+  Create changeset for Tp Document.
   """
   @spec changeset(t, %{atom => any}) :: Ecto.Changeset.t()
   def changeset(%__MODULE__{} = struct, attrs) do
@@ -85,7 +65,7 @@ defmodule Core.Media.Document do
     |> cast(attrs, @allowed_params)
     |> cast_embed(:file)
     |> validate_required(@required_params)
-    |> foreign_key_constraint(:project_doc_id, name: :documents_project_doc_id_fkey, message: "Select the ProjectDoc")
-    |> unique_constraint(:project_doc_id, name: :documents_project_doc_id_index, message: "Only one a ProjectDoc Record")
+    |> foreign_key_constraint(:project_id, name: :tp_docs_project_id_fkey, message: "Select the Project")
+    |> unique_constraint(:project_id, name: :tp_docs_project_id_index, message: "Only one a Project Record")
   end
 end

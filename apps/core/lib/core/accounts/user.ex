@@ -27,6 +27,7 @@ defmodule Core.Accounts.User do
     Skills.Education,
     Skills.WorkExperience,
     Talk.Message,
+    Talk.Report,
     Talk.Room
   }
 
@@ -61,15 +62,16 @@ defmodule Core.Accounts.User do
     profile: Profile.t(),
     projects: [Project.t()],
     provider: String.t(),
+    reports: [Report.t()],
     role: boolean,
     rooms: [Room.t()],
     sale_taxes: [SaleTax.t()],
-    sex: String.t(),
     service_reviews: [ServiceReview.t()],
+    sex: String.t(),
     ssn: integer,
     street: String.t(),
     work_experience: WorkExperience.t(),
-    zip: integer,
+    zip: integer
   }
 
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
@@ -147,6 +149,7 @@ defmodule Core.Accounts.User do
     has_many :offers, Offer, on_delete: :delete_all
     has_many :pro_ratings, ProRating, on_delete: :delete_all
     has_many :projects, Project, on_delete: :nilify_all
+    has_many :reports, Report, on_delete: :delete_all
     has_many :rooms, Room, on_delete: :nilify_all
     has_many :sale_taxes, SaleTax, on_delete: :nilify_all
     has_many :service_reviews, ServiceReview, on_delete: :nilify_all

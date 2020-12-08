@@ -20,7 +20,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTokenType
 
   object :stripe_platform_account_token_mutations do
     @desc "Create the StripePlatformAccountToken"
-    field :create_stripe_platform_account_token, :stripe_platform_account_token_mutations, description: "Create a new stripe platform account token" do
+    field :create_stripe_platform_account_token, :stripe_platform_account_token, description: "Create a new stripe platform account token" do
       arg :business_type, non_null(:string)
       arg :city, non_null(:string)
       arg :country, non_null(:string)
