@@ -1,8 +1,6 @@
 defmodule Restarter.Server do
   use GenServer
 
-  require Logger
-
   @name __MODULE__
   @init_state %{need_reboot: false, rebooted: false, after_boot: false}
 
@@ -43,7 +41,6 @@ defmodule Restarter.Server do
   def handle_cast(:refresh, _state), do: {:noreply, @init_state}
 
   def handle_cast({:restart, :test, _}, state) do
-    Logger.warn("taxgig restarted")
     {:noreply, Map.put(state, :need_reboot, false)}
   end
 
@@ -56,7 +53,6 @@ defmodule Restarter.Server do
   def handle_cast({:after_boot, _}, %{after_boot: true} = state), do: {:noreply, state}
 
   def handle_cast({:after_boot, :test}, state) do
-    Logger.warn("taxgig restarted")
     state = %{state | after_boot: true, rebooted: true}
     {:noreply, state}
   end

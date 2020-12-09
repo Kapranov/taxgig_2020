@@ -9,7 +9,7 @@ defmodule Core.MixProject do
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
-      elixir: "~> 1.9",
+      elixir: "~> 1.11",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
@@ -24,8 +24,8 @@ defmodule Core.MixProject do
     ]
   end
 
-  defp applications(:dev), do: applications(:all) ++ [:remix]
-  defp applications(:test), do: applications(:all) ++ [:faker]
+  defp applications(:dev), do: applications(:all) ++ [:logger, :remix]
+  defp applications(:test), do: applications(:all) ++ [:logger, :faker]
   defp applications(_all), do: [:logger]
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]

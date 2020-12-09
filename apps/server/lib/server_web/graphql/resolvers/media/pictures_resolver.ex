@@ -18,19 +18,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
 
-  @doc """
-  Get picture for an event's pic
-  """
   @spec picture(%{profile_id: bitstring}, %{atom => any}, Absinthe.Resolution.t()) :: result()
   def picture(%{profile_id: profile_id} = _parent, _args, _resolution) do
      with {:ok, picture} <- do_fetch_picture(profile_id), do: {:ok, picture}
   end
 
-  @doc """
-  Get picture for an event that has an attached
-
-  See ServerWeb.GraphQL.Resolvers.EventsResolver.create_event/3
-  """
   @spec picture(%{picture: t}, %{atom => any}, Absinthe.Resolution.t()) :: result()
   def picture(%{picture: picture} = _parent, _args, _resolution), do: {:ok, picture}
 

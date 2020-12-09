@@ -9,7 +9,7 @@ defmodule Mailings.MixProject do
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
-      elixir: "~> 1.9",
+      elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -26,7 +26,8 @@ defmodule Mailings.MixProject do
     [
       {:exvcr, "~> 0.11"},
       {:faker, "~> 0.13", only: [:dev, :test]},
-      {:mailgun, "~> 0.1"}
+      {:mailgun, "~> 0.1"},
+      {:timex, "~> 3.6"}
     ]
   end
 end

@@ -9,7 +9,7 @@ defmodule Chat.MixProject do
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
-      elixir: "~> 1.10",
+      elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
@@ -18,7 +18,7 @@ defmodule Chat.MixProject do
 
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: [:crypto, :logger],
       mod: {Chat, []}
     ]
   end
