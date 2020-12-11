@@ -13,7 +13,6 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTokenType
     field :id_from_stripe, non_null(:string)
     field :client_ip, non_null(:string)
     field :created, non_null(:integer)
-    field :currency, non_null(:string)
     field :used, non_null(:boolean)
     field :user_id, non_null(:string)
   end
@@ -29,11 +28,11 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTokenType
       arg :first_name, non_null(:string)
       arg :last_name, non_null(:string)
       arg :line1, non_null(:string)
-      arg :maiden_name, non_null(:string)
+      arg :maiden_name, :string
       arg :month, non_null(:integer)
       arg :phone, non_null(:string)
       arg :postal_code, non_null(:integer)
-      arg :ssn_last_4, non_null(:string)
+      arg :ssn_last4, non_null(:string)
       arg :state, non_null(:string)
       arg :tos_shown_and_accepted, (:boolean)
       arg :year, non_null(:integer)

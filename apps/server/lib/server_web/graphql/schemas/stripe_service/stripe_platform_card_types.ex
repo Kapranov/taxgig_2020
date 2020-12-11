@@ -17,7 +17,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformCardTypes do
     field :exp_month, non_null(:integer)
     field :exp_year, non_null(:integer)
     field :funding, non_null(:string)
-    field :id_from_customer, non_null(:string)
+    field :id_from_customer, :string
     field :id_from_stripe, non_null(:string)
     field :last4, non_null(:string)
     field :name, non_null(:string)

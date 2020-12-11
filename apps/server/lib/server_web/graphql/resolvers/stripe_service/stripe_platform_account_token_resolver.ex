@@ -45,18 +45,17 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountTokenRe
        is_nil(args[:first_name]) ||
        is_nil(args[:last_name]) ||
        is_nil(args[:line1]) ||
-       is_nil(args[:maiden_name]) ||
        is_nil(args[:month]) ||
        is_nil(args[:phone]) ||
        is_nil(args[:postal_code]) ||
-       is_nil(args[:ssn_last_4]) ||
+       is_nil(args[:ssn_last4]) ||
        is_nil(args[:state]) ||
        is_nil(args[:tos_shown_and_accepted]) ||
        is_nil(args[:year])
     do
-      {:error, [[field: :stripe_charge, message: "Can't be blank"]]}
+      {:error, [[field: :account_token, message: "Can't be blank"]]}
     else
-      querty_accpunt_token =
+      querty_account_token =
         try do
           Queries.by_value(StripeAccountToken, :user_id, current_user.id)
         rescue
@@ -68,18 +67,41 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountTokenRe
         rescue
           ArgumentError -> :error
         end
+
       case Accounts.by_role(current_user.id) do
         false -> {:error, %Ecto.Changeset{}}
         true ->
-          case StripyRepo.aggregate(querty_accpunt_token, :count, :id) < 1 do
+          case StripyRepo.aggregate(querty_account_token, :count, :id) < 1 do
             false -> {:error, %Ecto.Changeset{}}
             true ->
               case StripyRepo.aggregate(querty_account, :count, :id) < 1 do
                 false -> {:error, %Ecto.Changeset{}}
                 true ->
-                  with {:ok, struct} <- StripePlatformAccountTokenService.create(args, %{"user_id" => current_user.id}),
+                  with {:ok, struct} <- StripePlatformAccountTokenService.create(%{
+                    business_type: args[:business_type],
+                    individual: %{
+                      first_name: args[:first_name],
+                      last_name: args[:last_name],
+                      maiden_name: args[:maiden_name],
+                      email: args[:email],
+                      phone: args[:phone],
+                      address: %{
+                        city: args[:city],
+                        country: args[:country],
+                        line1: args[:line1],
+                        postal_code: args[:postal_code],
+                        state: args[:state]
+                      },
+                      dob: %{
+                        day: args[:day],
+                        month: args[:month],
+                        year: args[:year] },
+                        ssn_last_4: args[:ssn_last4]
+                      },
+                      tos_shown_and_accepted: args[:tos_shown_and_accepted]
+                    }, %{"user_id" => current_user.id}),
                        user <- CoreRepo.get_by(User, id: current_user.id),
-                       Process.sleep(60000),
+                       Process.sleep(10000),
                        {:ok, _account} <- StripePlatformAccountService.create(%{
                          type: @type_field,
                          country: @country,

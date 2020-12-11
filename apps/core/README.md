@@ -271,6 +271,14 @@ def contains_fields?(keys, fields), do: Enum.all?(fields, &(&1 in keys))
 ```
 
 
+```
+params = ~w(business_type city country day email first_name)a
+args = %{business_type: "Individual", city: "NY", country: "us", day: 22, email: nil}
+Enum.map(args, &(&1)) |> Keyword.values |> Enum.any?(&is_nil/1)
+Map.has_key?(args, :ssn)
+Keyword.merge([a: "xxx", b: "yyy", c: "zzz"], [d: "ddd", f: "fff"])
+```
+
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 - project_service_reviews only pro

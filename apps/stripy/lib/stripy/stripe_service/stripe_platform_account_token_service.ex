@@ -61,30 +61,28 @@ defmodule Stripy.StripeService.StripePlatformAccountTokenService do
       iex> user_id = FlakeId.get()
       iex> user_attrs = %{"user_id" => user_id}
       iex> attrs = %{
-        account: %{
-          business_type: "individual",
-          individual: %{
-            first_name: "Vlad",
-            last_name: "Puryshev",
-            maiden_name: "Jr",
-            email: "vk@taxgig.com",
-            phone: "999-999-9999",
-            address: %{
-              city: "New York",
-              country: "us",
-              line1: "95 Wall St",
-              postal_code: 10005,
-              state: "NY"
-            },
-            dob: %{
-              day: 15,
-              month: 7,
-              year: 1989
-            },
-            ssn_last_4: "0000"
+        business_type: "individual",
+        individual: %{
+          first_name: "Vlad",
+          last_name: "Puryshev",
+          maiden_name: "Jr",
+          email: "vk@taxgig.com",
+          phone: "999-999-9999",
+          address: %{
+            city: "New York",
+            country: "us",
+            line1: "95 Wall St",
+            postal_code: 10005,
+            state: "NY"
           },
-          tos_shown_and_accepted: true
-        }
+          dob: %{
+            day: 15,
+            month: 7,
+            year: 1989
+          },
+          ssn_last_4: "0000"
+        },
+        tos_shown_and_accepted: true
       }
       iex> {:ok, account_token} = create(attrs, user_attrs)
 
