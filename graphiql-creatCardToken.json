@@ -1,0 +1,105 @@
+{
+  "key": "graphiql",
+  "lastId": 3,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMGFvYnZlUkFxTUdkcmtuBgC9obFSdgFiAAFRgA.yHwfdII_0w4qMFkIbfDDx4oGfBDL234ivNPS7UEvTJ4"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab3",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "",
+      "graphiql:variables": "",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {accessToken error errorDescription provider}\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signIn(\n    email: \"o.puryshev@gmail.com\",\n    password: \"querty\",\n    passwordConfirmation: \"querty\",\n    provider: \"localhost\"\n  ) {accessToken error errorDescription provider}\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signIn(\n    email: \"o.puryshev@gmail.com\",\n    password: \"querty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {accessToken error errorDescription provider}\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {accessToken error errorDescription provider}\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"querty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"querty\\\",\\n    passwordConfirmation: \\\"querty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.5735981308411215,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMGFvYnZlUkFxTUdkcmtuBgC9obFSdgFiAAFRgA.yHwfdII_0w4qMFkIbfDDx4oGfBDL234ivNPS7UEvTJ4"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createStripePlatformCard(\n    cvc: 314,\n    expMonth: 8,\n    expYear: 2021,\n    name: \"Oleh Puryshev\",\n    number: \"4242424242424242\"\n  ) {\n    id\n    brand\n    clientIp\n    created\n    cvcCheck\n    expMonth\n    expYear\n    funding\n    idFromStripe\n    idFromCustomer\n    last4\n    name\n    token\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createStripePlatformCard(\n    cvc: 314,\n    expMonth: 8,\n    expYear: 2021,\n    name: \"Oleh Puryshev\",\n    number: \"4242424242424242\"\n  ) {\n    id\n    brand\n    clientIp\n    created\n    cvcCheck\n    expMonth\n    expYear\n    funding\n    idFromStripe\n    idFromCustomer\n    last4\n    name\n    token\n    userId\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformCard(\\n    cvc: 314,\\n    expMonth: 8,\\n    expYear: 2021,\\n    name: \\\"Oleh Puryshev\\\",\\n    number: \\\"4242424242424242\\\"\\n  ) {\\n    id\\n    brand\\n    clientIp\\n    created\\n    cvcCheck\\n    expMonth\\n    expYear\\n    funding\\n    idFromStripe\\n    idFromCustomer\\n    last4\\n    name\\n    token\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    }
+  ]
+}
