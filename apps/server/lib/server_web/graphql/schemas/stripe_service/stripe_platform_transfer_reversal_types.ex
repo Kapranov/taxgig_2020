@@ -22,7 +22,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformTransferReversal
 
   object :stripe_platform_transfer_reversal_mutations do
     @desc "Create the StripePlatformTransferReversal"
-    field :create_stripe_platform_transfer_reversal, :stripe_platform_transfer_reversal_mutations, description: "Create a new stripe platform transfer reversal" do
+    field :create_stripe_platform_transfer_reversal, :stripe_platform_transfer_reversal, description: "Create a new stripe platform transfer reversal" do
       arg :amount, non_null(:integer)
       arg :id_from_transfer, non_null(:string)
       resolve &StripePlatformTransferReversalResolver.create/3

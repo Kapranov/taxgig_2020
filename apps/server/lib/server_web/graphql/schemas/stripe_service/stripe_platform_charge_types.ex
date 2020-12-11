@@ -30,7 +30,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformChargeTypes do
 
   object :stripe_platform_charge_mutations do
     @desc "Create the StripePlatformCharge"
-    field :create_stripe_platform_charge, :stripe_platform_charge_mutations, description: "Create a new stripe platform charge" do
+    field :create_stripe_platform_charge, :stripe_platform_charge, description: "Create a new stripe platform charge" do
       arg :amount, non_null(:integer)
       arg :capture, non_null(:boolean)
       arg :currency, non_null(:string)

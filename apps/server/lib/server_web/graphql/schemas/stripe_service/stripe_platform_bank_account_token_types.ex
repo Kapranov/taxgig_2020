@@ -29,7 +29,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformBankAccountToken
 
   object :stripe_platform_bank_account_token_mutations do
     @desc "Create the StripePlatformBankAccountToken"
-    field :create_stripe_platform_bank_account_token, :stripe_platform_bank_account_token_mutations, description: "Create a new stripe platform bank account token" do
+    field :create_stripe_platform_bank_account_token, :stripe_platform_bank_account_token, description: "Create a new stripe platform bank account token" do
       arg :account_holder_name, non_null(:string)
       arg :account_holder_type, non_null(:string)
       arg :account_number, non_null(:integer)

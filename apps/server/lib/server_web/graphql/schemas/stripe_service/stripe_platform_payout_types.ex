@@ -35,7 +35,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformPayoutTypes do
 
   object :stripe_platform_payout_mutations do
     @desc "Create the StripePlatformPayout"
-    field :create_stripe_platform_payout, :stripe_platform_payout_mutations, description: "Create a new stripe platform payout" do
+    field :create_stripe_platform_payout, :stripe_platform_payout, description: "Create a new stripe platform payout" do
       arg :amount, non_null(:integer)
       arg :currency, non_null(:string)
       arg :destination, non_null(:string)

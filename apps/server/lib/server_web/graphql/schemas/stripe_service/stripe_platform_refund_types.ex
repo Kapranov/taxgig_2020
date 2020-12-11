@@ -22,7 +22,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformRefundTypes do
 
   object :stripe_platform_refund_mutations do
     @desc "Create the StripePlatformRefund"
-    field :create_stripe_platform_refund, :stripe_platform_refund_mutations, description: "Create a new stripe platform refund" do
+    field :create_stripe_platform_refund, :stripe_platform_refund, description: "Create a new stripe platform refund" do
       arg :amount, non_null(:integer)
       arg :id_from_stripe, non_null(:string)
       resolve &StripePlatformRefundResolver.create/3

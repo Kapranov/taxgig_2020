@@ -25,7 +25,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformTransferTypes do
 
   object :stripe_platform_transfer_mutations do
     @desc "Create the StripePlatformTransfer"
-    field :create_stripe_platform_transfer, :stripe_platform_transfer_mutations, description: "Create a new stripe platform transfer" do
+    field :create_stripe_platform_transfer, :stripe_platform_transfer, description: "Create a new stripe platform transfer" do
       arg :id_from_project, non_null(:string)
       arg :currency, non_null(:string)
       resolve &StripePlatformTransferResolver.create/3
