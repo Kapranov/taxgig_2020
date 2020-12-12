@@ -1,10 +1,12 @@
 {
   "key": "graphiql",
-  "lastId": 3,
+  "lastId": 5,
   "tabIds": [
     "tab1",
     "tab2",
-    "tab3"
+    "tab3",
+    "tab4",
+    "tab5"
   ],
   "closedTabs": [],
   "defaultUrl": "http://localhost:4000/graphiql",
@@ -19,6 +21,14 @@
   "recentHeaders": [
     {
       "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMHN2SWJXVHowSlhFbjJuBgD8XN1XdgFiAAFRgA.arHomqqhu1N5G4fMg_TyeCYCaH2CTGdA3EUyD4D_E5g"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMGFvYnZlUkFxTUdkcmtuBgB1INtXdgFiAAFRgA.-JMezPRCr7TMd4I9KC8iRhH3TBdmE_GQvPZP9QiRuFs"
+    },
+    {
+      "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMGFvYnZlUkFxTUdkcmtuBgC9obFSdgFiAAFRgA.yHwfdII_0w4qMFkIbfDDx4oGfBDL234ivNPS7UEvTJ4"
     }
   ],
@@ -26,7 +36,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab3",
+  "activeId": "tab2",
   "tabs": [
     {
       "id": "tab1",
@@ -38,8 +48,6 @@
       "collapsed": true,
       "maxHistory": 20,
       "history": [],
-      "graphiql:query": "",
-      "graphiql:variables": "",
       "graphiql:editorFlex": 1,
       "graphiql:variableEditorHeight": 200,
       "graphiql:docExplorerWidth": 350
@@ -51,7 +59,7 @@
       "websocketUrl": "ws://localhost:4000/socket",
       "proxy": false,
       "headers": [],
-      "collapsed": true,
+      "collapsed": false,
       "maxHistory": 20,
       "history": [
         {
@@ -69,10 +77,10 @@
       ],
       "graphiql:query": "query {\n  signIn(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {accessToken error errorDescription provider}\n}",
       "graphiql:variables": "",
+      "graphiql:docExplorerWidth": 350,
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"querty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"querty\\\",\\n    passwordConfirmation: \\\"querty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 0.5735981308411215,
       "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350
+      "graphiql:editorFlex": 0.5735981308411215
     },
     {
       "id": "tab3",
@@ -83,10 +91,10 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMGFvYnZlUkFxTUdkcmtuBgC9obFSdgFiAAFRgA.yHwfdII_0w4qMFkIbfDDx4oGfBDL234ivNPS7UEvTJ4"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMGFvYnZlUkFxTUdkcmtuBgB1INtXdgFiAAFRgA.-JMezPRCr7TMd4I9KC8iRhH3TBdmE_GQvPZP9QiRuFs"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -96,7 +104,56 @@
       ],
       "graphiql:query": "mutation {\n  createStripePlatformCard(\n    cvc: 314,\n    expMonth: 8,\n    expYear: 2021,\n    name: \"Oleh Puryshev\",\n    number: \"4242424242424242\"\n  ) {\n    id\n    brand\n    clientIp\n    created\n    cvcCheck\n    expMonth\n    expYear\n    funding\n    idFromStripe\n    idFromCustomer\n    last4\n    name\n    token\n    userId\n  }\n}",
       "graphiql:variables": "",
+      "graphiql:docExplorerWidth": 350,
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformCard(\\n    cvc: 314,\\n    expMonth: 8,\\n    expYear: 2021,\\n    name: \\\"Oleh Puryshev\\\",\\n    number: \\\"4242424242424242\\\"\\n  ) {\\n    id\\n    brand\\n    clientIp\\n    created\\n    cvcCheck\\n    expMonth\\n    expYear\\n    funding\\n    idFromStripe\\n    idFromCustomer\\n    last4\\n    name\\n    token\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.34163346613545814,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMHN2SWJXVHowSlhFbjJuBgD8XN1XdgFiAAFRgA.arHomqqhu1N5G4fMg_TyeCYCaH2CTGdA3EUyD4D_E5g"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createStripePlatformCard(\n    cvc: 111,\n    expMonth: 9,\n    expYear: 2026,\n    name: \"Edward Witten\",\n    number: \"4000056655665556\"\n  ) {\n    id\n    brand\n    clientIp\n    created\n    cvcCheck\n    expMonth\n    expYear\n    funding\n    idFromStripe\n    idFromCustomer\n    last4\n    name\n    token\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createStripePlatformCard(\n    cvc: 111,\n    expMonth: 9,\n    expYear: 2026,\n    name: \"Edward Witten\",\n    number: \"4000056655665556\"\n  ) {\n    id\n    brand\n    clientIp\n    created\n    cvcCheck\n    expMonth\n    expYear\n    funding\n    idFromStripe\n    idFromCustomer\n    last4\n    name\n    token\n    userId\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformCard(\\n    cvc: 111,\\n    expMonth: 9,\\n    expYear: 2026,\\n    name: \\\"Edward Witten\\\",\\n    number: \\\"4000056655665556\\\"\\n  ) {\\n    id\\n    brand\\n    clientIp\\n    created\\n    cvcCheck\\n    expMonth\\n    expYear\\n    funding\\n    idFromStripe\\n    idFromCustomer\\n    last4\\n    name\\n    token\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:editorFlex": 1,
       "graphiql:variableEditorHeight": 200,
       "graphiql:docExplorerWidth": 350
