@@ -17,6 +17,8 @@ defmodule Core.Seeder.Accounts do
     Repo
   }
 
+  alias Ecto.Adapters.SQL
+
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
     Repo.delete_all(BanReason)
@@ -25,6 +27,12 @@ defmodule Core.Seeder.Accounts do
     Repo.delete_all(ProRating)
     Repo.delete_all(Subscriber)
     Repo.delete_all(User)
+    SQL.query!(Repo, "TRUNCATE ban_reasons CASCADE;")
+    SQL.query!(Repo, "TRUNCATE deleted_users CASCADE;")
+    SQL.query!(Repo, "TRUNCATE platforms CASCADE;")
+    SQL.query!(Repo, "TRUNCATE pro_ratings CASCADE;")
+    SQL.query!(Repo, "TRUNCATE subscribers CASCADE;")
+    SQL.query!(Repo, "TRUNCATE usersCASCADE;")
   end
 
   @spec seed!() :: Ecto.Schema.t()

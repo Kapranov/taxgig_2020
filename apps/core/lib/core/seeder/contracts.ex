@@ -18,15 +18,17 @@ defmodule Core.Seeder.Contracts do
     Services.SaleTax
   }
 
+  alias Ecto.Adapters.SQL
   alias Faker.Lorem
 
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
-    Repo.delete_all(Addon)
-    Repo.delete_all(Offer)
-    Repo.delete_all(PotentialClient)
-    Repo.delete_all(Project)
-    Repo.delete_all(ServiceReview)
+    IO.puts("Deleting old data...\n")
+    SQL.query!(Repo, "TRUNCATE addons CASCADE;")
+    SQL.query!(Repo, "TRUNCATE offers CASCADE;")
+    SQL.query!(Repo, "TRUNCATE potential_clients CASCADE;")
+    SQL.query!(Repo, "TRUNCATE projects CASCADE;")
+    SQL.query!(Repo, "TRUNCATE service_reviews CASCADE;")
   end
 
   @spec seed!() :: Ecto.Schema.t()

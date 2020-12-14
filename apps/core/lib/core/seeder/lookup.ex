@@ -9,6 +9,8 @@ defmodule Core.Seeder.Lookup do
     Repo
   }
 
+  alias Ecto.Adapters.SQL
+
   @root_dir Path.expand("../../../priv/data/", __DIR__)
   @usa_states "#{@root_dir}/us_states.json"
   @usa_zipcodes_part1 "#{@root_dir}/us_zip_part1.json"
@@ -17,8 +19,9 @@ defmodule Core.Seeder.Lookup do
 
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
-    Repo.delete_all(State)
-    Repo.delete_all(UsZipcode)
+    IO.puts("Deleting old data...\n")
+    SQL.query!(Repo, "TRUNCATE states CASCADE;")
+    SQL.query!(Repo, "TRUNCATE us_zipcodes CASCADE;")
   end
 
   @spec seed!() :: Ecto.Schema.t()

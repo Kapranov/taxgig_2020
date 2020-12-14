@@ -12,6 +12,7 @@ defmodule Core.Seeder.Skills do
     Skills.WorkExperience
   }
 
+  alias Ecto.Adapters.SQL
   alias Faker.Lorem
 
   @root_dir Path.expand("../../../priv/data/", __DIR__)
@@ -19,10 +20,11 @@ defmodule Core.Seeder.Skills do
 
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
-    Repo.delete_all(AccountingSoftware)
-    Repo.delete_all(Education)
-    Repo.delete_all(University)
-    Repo.delete_all(WorkExperience)
+    IO.puts("Deleting old data...\n")
+    SQL.query!(Repo, "TRUNCATE accounting_softwares CASCADE;")
+    SQL.query!(Repo, "TRUNCATE educations CASCADE;")
+    SQL.query!(Repo, "TRUNCATE universities CASCADE;")
+    SQL.query!(Repo, "TRUNCATE work_experiences CASCADE;")
   end
 
   @spec seed!() :: Ecto.Schema.t()

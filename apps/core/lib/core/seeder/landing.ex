@@ -12,6 +12,8 @@ defmodule Core.Seeder.Landing do
     Repo
   }
 
+  alias Ecto.Adapters.SQL
+
   @marketing_director %{
     title: "Marketing Director",
     department: "Marketing",
@@ -522,10 +524,11 @@ defmodule Core.Seeder.Landing do
 
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
-    Repo.delete_all(FaqCategory)
-    Repo.delete_all(Faq)
-    Repo.delete_all(PressArticle)
-    Repo.delete_all(Vacancy)
+    IO.puts("Deleting old data...\n")
+    SQL.query!(Repo, "TRUNCATE faq_categories CASCADE;")
+    SQL.query!(Repo, "TRUNCATE faqs CASCADE;")
+    SQL.query!(Repo, "TRUNCATE press_articles CASCADE;")
+    SQL.query!(Repo, "TRUNCATE vacancies CASCADE;")
   end
 
   @spec seed!() :: Ecto.Schema.t()

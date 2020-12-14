@@ -13,13 +13,15 @@ defmodule Core.Seeder.Talk do
     Talk.Room
   }
 
+  alias Ecto.Adapters.SQL
   alias Faker.Lorem
 
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
-    Repo.delete_all(Message)
-    Repo.delete_all(Report)
-    Repo.delete_all(Room)
+    IO.puts("Deleting old data...\n")
+    SQL.query!(Repo, "TRUNCATE messages CASCADE;")
+    SQL.query!(Repo, "TRUNCATE reports CASCADE;")
+    SQL.query!(Repo, "TRUNCATE rooms CASCADE;")
   end
 
   @spec seed!() :: Ecto.Schema.t()

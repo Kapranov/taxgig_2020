@@ -8,12 +8,15 @@ defmodule Core.Seeder.Localization do
     Repo
   }
 
+  alias Ecto.Adapters.SQL
+
   @root_dir Path.expand("../../../priv/data/", __DIR__)
   @languages "#{@root_dir}/languages.json"
 
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
-    Repo.delete_all(Language)
+    IO.puts("Deleting old data...\n")
+    SQL.query!(Repo, "TRUNCATE languages CASCADE;")
   end
 
   @spec seed!() :: Ecto.Schema.t()
