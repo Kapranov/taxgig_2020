@@ -32,10 +32,10 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformBankAccountToken
     field :create_stripe_platform_bank_account_token, :stripe_platform_bank_account_token, description: "Create a new stripe platform bank account token" do
       arg :account_holder_name, non_null(:string)
       arg :account_holder_type, non_null(:string)
-      arg :account_number, non_null(:integer)
+      arg :account_number, non_null(:string)
       arg :country, non_null(:string)
       arg :currency, non_null(:string)
-      arg :routing_number, non_null(:integer)
+      arg :routing_number, non_null(:string)
       resolve &StripePlatformBankAccountTokenResolver.create/3
     end
 

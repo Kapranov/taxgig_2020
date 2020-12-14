@@ -1,0 +1,97 @@
+{
+  "key": "graphiql",
+  "lastId": 3,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMHN2SWJXVHowSlhFbjJuBgAlnpZidgFiAAFRgA.4eDtgTlRu4QVLnLYowCIC1OeE3yUDWPtEqKTC1bd6C8"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMHN2SWJXVHowSlhFbjJuBgAjlJRidgFiAAFRgA.pfm8q_6PKM0bPc4N12QXq7nkQVkh0Gzfefccxc4GNPw"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab3",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.33498513379583744,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"}]}"
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMHN2SWJXVHowSlhFbjJuBgAlnpZidgFiAAFRgA.4eDtgTlRu4QVLnLYowCIC1OeE3yUDWPtEqKTC1bd6C8"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createStripePlatformBankAccountToken (\n    accountNumber: \"000123456789\",\n    accountHolderName: \"Jenny Rosen\",\n    accountHolderType: \"individual\",\n    country: \"US\",\n    currency: \"usd\",\n    routingNumber: \"110000000\"\n  ) {\n    id\n    idFromStripe\n    idFromBankAccount\n    accountHolderName\n    accountHolderType\n    bankName\n    clientIp\n    country\n    created\n    currency\n    fingerprint\n    last4\n    routingNumber\n    status\n    used\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createStripePlatformBankAccountToken (\n    accountNumber: \"000123456789\",\n    accountHolderName: \"Jenny Rosen\",\n    accountHolderType: \"individual\",\n    country: \"US\",\n    currency: \"usd\",\n    routingNumber: \"110000000\"\n  ) {\n    id\n    idFromStripe\n    idFromBankAccount\n    accountHolderName\n    accountHolderType\n    bankName\n    clientIp\n    country\n    created\n    currency\n    fingerprint\n    last4\n    routingNumber\n    status\n    used\n    userId\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformBankAccountToken (\\n    accountNumber: \\\"000123456789\\\",\\n    accountHolderName: \\\"Jenny Rosen\\\",\\n    accountHolderType: \\\"individual\\\",\\n    country: \\\"US\\\",\\n    currency: \\\"usd\\\",\\n    routingNumber: \\\"110000000\\\"\\n  ) {\\n    id\\n    idFromStripe\\n    idFromBankAccount\\n    accountHolderName\\n    accountHolderType\\n    bankName\\n    clientIp\\n    country\\n    created\\n    currency\\n    fingerprint\\n    last4\\n    routingNumber\\n    status\\n    used\\n    userId\\n  }\\n}\"}]}"
+    }
+  ]
+}

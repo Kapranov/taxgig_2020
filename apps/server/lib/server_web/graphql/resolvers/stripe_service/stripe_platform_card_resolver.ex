@@ -51,7 +51,8 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver d
 
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
-    if is_nil(args[:cvc]) ||
+    if is_nil(args[:currency]) ||
+       is_nil(args[:cvc]) ||
        is_nil(args[:exp_month]) ||
        is_nil(args[:exp_year]) ||
        is_nil(args[:name]) ||

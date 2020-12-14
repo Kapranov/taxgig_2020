@@ -9,8 +9,12 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformBankAccountTok
   }
 
   alias Stripy.{
+    Payments,
     Payments.StripeBankAccountToken,
-    StripeService.StripePlatformBankAccountTokenService,
+    Queries,
+    Repo,
+    StripeService.Adapters.StripePlatformBankAccountTokenAdapter,
+    StripeService.StripePlatformBankAccountTokenService
   }
 
   @type t :: StripeBankAccountToken.t()
@@ -34,14 +38,31 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformBankAccountTok
       {:error, [[field: :stripe_charge, message: "Can't be blank"]]}
     else
       case Accounts.by_role(current_user.id) do
-        false -> {:error, %Ecto.Changeset{}}
+        false ->
+          {:error, [[field: :user_id, message: "Can't be blank or Permission denied for current_user"]]}
         true ->
-          with {:ok,  struct} <- StripePlatformBankAccountTokenService.create(args, %{"user_id" => current_user.id}) do
-            {:ok, struct}
-          else
-            nil -> {:error, :not_found}
-            failure -> failure
-          end
+          querty =
+            try do
+              Queries.by_count(StripeBankAccountToken, :user_id, current_user.id)
+            rescue
+              ArgumentError -> :error
+            end
+
+            with {:ok, %Stripe.Token{} = bank_account_token} = Stripe.Token.create(%{bank_account: args}),
+                 {:ok, params} <- StripePlatformBankAccountTokenAdapter.to_params(bank_account_token, %{"user_id" => current_user.id})
+            do
+              case Repo.aggregate(querty, :count, :id) < 10 do
+                false -> {:error, %Ecto.Changeset{}}
+                true ->
+                  case Payments.create_stripe_bank_account_token(params) do
+                    {:error, error} -> {:error, error}
+                    {:ok, data} -> {:ok, data}
+                  end
+              end
+            else
+              nil -> {:error, :not_found}
+              failure -> failure
+            end
       end
     end
   end

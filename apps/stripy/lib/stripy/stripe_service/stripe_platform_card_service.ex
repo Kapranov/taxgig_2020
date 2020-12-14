@@ -52,7 +52,7 @@ defmodule Stripy.StripeService.StripePlatformCardService do
   5. If `StripeCustomer` creation fails, don't create `StripeCardToken` and return an error
   6. If create 11 and more cards for `StripeCardToken` return error
 
-  card_attrs1  = %{number: 4242424242424242, exp_month: 8, exp_year: 2021, cvc: 314, name: "Oleg G.Kapranov"}
+  card_attrs1  = %{number: 4242424242424242, exp_month: 8, exp_year: 2021, cvc: 314, name: "Oleg G.Kapranov", currency: "usd"}
   card_attrs2  = %{number: 4000056655665556, exp_month: 9, exp_year: 2026, cvc: 111, name: "Oleg G.Kapranov"}
   card_attrs3  = %{number: 5555555555554444, exp_month: 8, exp_year: 2025, cvc: 222, name: "Oleg G.Kapranov"}
   card_attrs4  = %{number: 5200828282828210, exp_month: 7, exp_year: 2022, cvc: 333, name: "Oleg G.Kapranov"}
@@ -105,7 +105,7 @@ defmodule Stripy.StripeService.StripePlatformCardService do
   ## Example
 
     iex> user_id = FlakeId.get()
-    iex> attrs = %{number: 4242424242424242, exp_month: 8, exp_year: 2021, cvc: 314, name: "Oleg G.Kapranov"}
+    iex> attrs = %{number: 4242424242424242, exp_month: 8, exp_year: 2021, cvc: 314, name: "Oleg G.Kapranov", currency: "usd"}
     iex> user_attrs = %{"user_id" => user_id}
     iex> {:ok, created} = create_token(attrs, user_attrs)
 

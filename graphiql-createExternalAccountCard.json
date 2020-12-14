@@ -1,0 +1,84 @@
+{
+  "key": "graphiql",
+  "lastId": 2,
+  "tabIds": [
+    "tab1",
+    "tab2"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMHN2SWJXVHowSlhFbjJuBgCk1HZidgFiAAFRgA.wz3PRUqh2FTiXwPUUldq9O5ROYuGpzuIcj88jxkqTv0"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMHN2SWJXVHowSlhFbjJuBgDgJWBidgFiAAFRgA.6aj2gp6Lg50SAg-KfwJGCbC0y7hdJDoCl4ZQdTNyiCA"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab2",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.3270935960591133,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMHN2SWJXVHowSlhFbjJuBgCk1HZidgFiAAFRgA.wz3PRUqh2FTiXwPUUldq9O5ROYuGpzuIcj88jxkqTv0"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createStripePlatformExternalAccountCard(\n    token: \"tok_1HyLZCLhtqtNnMebRA2gfC6w\",\n  ) {\n    id\n    idFromStripe\n    idFromAccount\n    brand\n    country\n    currency\n    cvcCheck\n    defaultForCurrency\n    expMonth\n    expYear\n    fingerprint\n    fingerprint\n    last4\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createStripePlatformExternalAccountCard(\n    token: \"tok_1HyLZCLhtqtNnMebRA2gfC6w\",\n  ) {\n    id\n    idFromStripe\n    idFromAccount\n    brand\n    country\n    currency\n    cvcCheck\n    defaultForCurrency\n    expMonth\n    expYear\n    fingerprint\n    fingerprint\n    last4\n    userId\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformExternalAccountCard(\\n    token: \\\"tok_1HyL6SLhtqtNnMeb1LPMMZZS\\\"\\n  ) {\\n    id\\n    idFromStripe\\n    idFromAccount\\n    brand\\n    country\\n    currency\\n    cvcCheck\\n    defaultForCurrency\\n    expMonth\\n    expYear\\n    fingerprint\\n    fingerprint\\n    last4\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createStripePlatformExternalAccountCard(\\n    token: \\\"tok_1HyLZCLhtqtNnMebRA2gfC6w\\\",\\n  ) {\\n    id\\n    idFromStripe\\n    idFromAccount\\n    brand\\n    country\\n    currency\\n    cvcCheck\\n    defaultForCurrency\\n    expMonth\\n    expYear\\n    fingerprint\\n    fingerprint\\n    last4\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    }
+  ]
+}

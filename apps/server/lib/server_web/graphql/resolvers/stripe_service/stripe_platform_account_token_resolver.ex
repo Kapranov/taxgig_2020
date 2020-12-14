@@ -69,7 +69,8 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountTokenRe
         end
 
       case Accounts.by_role(current_user.id) do
-        false -> {:error, %Ecto.Changeset{}}
+        false ->
+          {:error, [[field: :user_id, message: "Can't be blank or Permission denied for current_user"]]}
         true ->
           case StripyRepo.aggregate(querty_account_token, :count, :id) < 1 do
             false -> {:error, %Ecto.Changeset{}}
