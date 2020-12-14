@@ -54,7 +54,8 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformExternalAccoun
       {:error, [[field: :stripe_charge, message: "Can't be blank"]]}
     else
       case Accounts.by_role(current_user.id) do
-        false -> {:error, %Ecto.Changeset{}}
+        false ->
+          {:error, [[field: :user_id, message: "Can't be blank or Permission denied for current_user"]]}
         true ->
           count_bank =
             try do
