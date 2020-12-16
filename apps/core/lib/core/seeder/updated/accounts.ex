@@ -176,7 +176,7 @@ defmodule Core.Seeder.Updated.Accounts do
     }
 
     [
-      Accounts.update_platfrom(platform1, %{
+      Accounts.update_platform(platform1, %{
         client_limit_reach: random_boolean(),
         hero_active: random_boolean(),
         hero_status: random_boolean(),
@@ -186,7 +186,7 @@ defmodule Core.Seeder.Updated.Accounts do
         payment_active: random_boolean(),
         stuck_stage: random_stuck_stage()
       }),
-      Accounts.update_platfrom(platform2, %{
+      Accounts.update_platform(platform2, %{
         client_limit_reach: random_boolean(),
         hero_active: random_boolean(),
         hero_status: random_boolean(),
@@ -196,7 +196,7 @@ defmodule Core.Seeder.Updated.Accounts do
         payment_active: random_boolean(),
         stuck_stage: random_stuck_stage()
       }),
-      Accounts.update_platfrom(platform3, %{
+      Accounts.update_platform(platform3, %{
         client_limit_reach: random_boolean(),
         hero_active: random_boolean(),
         hero_status: random_boolean(),
@@ -206,7 +206,7 @@ defmodule Core.Seeder.Updated.Accounts do
         payment_active: random_boolean(),
         stuck_stage: random_stuck_stage()
       }),
-      Accounts.update_platfrom(platform4, %{
+      Accounts.update_platform(platform4, %{
         client_limit_reach: random_boolean(),
         hero_active: random_boolean(),
         hero_status: random_boolean(),
@@ -216,7 +216,7 @@ defmodule Core.Seeder.Updated.Accounts do
         payment_active: random_boolean(),
         stuck_stage: random_stuck_stage()
       }),
-      Accounts.update_platfrom(platform5, %{
+      Accounts.update_platform(platform5, %{
         client_limit_reach: random_boolean(),
         hero_active: random_boolean(),
         hero_status: random_boolean(),
@@ -226,7 +226,7 @@ defmodule Core.Seeder.Updated.Accounts do
         payment_active: random_boolean(),
         stuck_stage: random_stuck_stage()
       }),
-      Accounts.update_platfrom(platform6, %{
+      Accounts.update_platform(platform6, %{
         client_limit_reach: random_boolean(),
         hero_active: random_boolean(),
         hero_status: random_boolean(),
@@ -236,7 +236,7 @@ defmodule Core.Seeder.Updated.Accounts do
         payment_active: random_boolean(),
         stuck_stage: random_stuck_stage()
       }),
-      Accounts.update_platfrom(platform7, %{
+      Accounts.update_platform(platform7, %{
         client_limit_reach: random_boolean(),
         hero_active: random_boolean(),
         hero_status: random_boolean(),

@@ -15,6 +15,7 @@ defmodule ServerWeb.GraphQL.Schema do
   import_types(Absinthe.Plug.Types)
   import_types(Absinthe.Type.Custom)
   import_types(ServerWeb.GraphQL.Schemas.Accounts.DeletedUserTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Accounts.PlatformTypes)
   import_types(ServerWeb.GraphQL.Schemas.Accounts.ProfileTypes)
   import_types(ServerWeb.GraphQL.Schemas.Accounts.SubscriberTypes)
   import_types(ServerWeb.GraphQL.Schemas.Accounts.UserTypes)
@@ -113,6 +114,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:language_queries)
     import_fields(:match_value_relate_queries)
     import_fields(:picture_queries)
+    import_fields(:platform_queries)
     import_fields(:potential_client_queries)
     import_fields(:press_article_queries)
     import_fields(:profile_queries)
@@ -168,6 +170,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:language_mutations)
     import_fields(:match_value_relate_mutations)
     import_fields(:picture_mutations)
+    import_fields(:platform_mutations)
     import_fields(:potential_client_mutations)
     import_fields(:press_article_mutations)
     import_fields(:profile_mutations)
@@ -223,6 +226,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:update_individual_tax_return_params)
     import_fields(:update_language_params)
     import_fields(:update_match_value_relate_params)
+    import_fields(:update_platform_params)
     import_fields(:update_potential_client_params)
     import_fields(:update_press_article_params)
     import_fields(:update_profile_params)
@@ -239,6 +243,7 @@ defmodule ServerWeb.GraphQL.Schema do
 
   @desc "The root subscription type."
   subscription do
+    import_fields(:platform_subscriptions)
     import_fields(:accounting_software_subscriptions)
     import_fields(:blockscore_subscriptions)
     import_fields(:book_keeping_subscriptions)

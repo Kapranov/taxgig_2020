@@ -1126,15 +1126,15 @@ defmodule Core.Accounts do
 
   ## Examples
 
-      iex> update_platfrom(struct, %{field: new_value})
+      iex> update_platform(struct, %{field: new_value})
       {:ok, %Platform{}}
 
-      iex> update_platfrom(struct, %{field: bad_value})
+      iex> update_platform(struct, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_platfrom(Platform.t(), %{atom => any}) :: result() | error_tuple()
-  def update_platfrom(struct, attrs) do
+  @spec update_platform(Platform.t(), %{atom => any}) :: result() | error_tuple()
+  def update_platform(struct, attrs) do
     struct
     |> Platform.changeset(attrs)
     |> Repo.update()
