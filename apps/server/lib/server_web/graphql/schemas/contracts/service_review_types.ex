@@ -1,6 +1,6 @@
 defmodule ServerWeb.GraphQL.Schemas.Contracts.ServiceReviewTypes do
   @moduledoc """
-  The FaqCategory GraphQL interface.
+  The Service Review GraphQL interface.
   """
 
   use Absinthe.Schema.Notation
