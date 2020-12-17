@@ -34,7 +34,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :street, :string, description: "accounts user street"
     field :zip, :integer, description: "accounts user zip"
     field :rooms, list_of(:room), resolve: dataloader(Data), description: "list user's room"
-    field :messages, list_of(:message), resolve: dataloader(Data), description: "list user's messages"
   end
 
   @desc "Provider's code"
