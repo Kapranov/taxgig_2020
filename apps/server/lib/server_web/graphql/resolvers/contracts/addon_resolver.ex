@@ -1,17 +1,17 @@
-defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
+defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
   @moduledoc """
-  The an Offer GraphQL resolvers.
+  The an Addon GraphQL resolvers.
   """
 
   alias Core.{
     Accounts,
     Accounts.User,
     Contracts,
-    Contracts.Offer,
+    Contracts.Addon,
     Repo
   }
 
-  @type t :: Offer.t()
+  @type t :: Addon.t()
   @type reason :: any
   @type ok :: {:ok}
   @type success_tuple :: {:ok, t}
@@ -24,7 +24,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
     if is_nil(current_user) || current_user.role == false do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct = Contracts.list_offer()
+      struct = Contracts.list_addon()
       {:ok, struct}
     end
   end
@@ -40,11 +40,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Show"]]}
     else
       try do
-        struct = Contracts.get_offer!(id)
+        struct = Contracts.get_addon!(id)
         {:ok, struct}
       rescue
         Ecto.NoResultsError ->
-          {:error, "The an Offer #{id} not found!"}
+          {:error, "The an Addon #{id} not found!"}
       end
     end
   end
@@ -64,7 +64,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
           {:error, [[field: :user_id, message: "Can't be blank or Permission denied for current_user"]]}
         true ->
           args
-          |> Contracts.create_offer()
+          |> Contracts.create_addon()
           |> case do
             {:ok, struct} ->
               {:ok, struct}
@@ -86,8 +86,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
       try do
-        Repo.get!(Offer, id)
-        |> Contracts.update_offer(params)
+        Repo.get!(Addon, id)
+        |> Contracts.update_addon(params)
         |> case do
           {:ok, struct} ->
             {:ok, struct}
@@ -96,14 +96,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
         end
       rescue
         Ecto.NoResultsError ->
-          {:error, "The an Offer #{id} not found!"}
+          {:error, "The an Addon #{id} not found!"}
       end
     end
   end
 
   @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def update(_parent, _args, _info) do
-    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :offer, message: "Can't be blank"]]}
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :addon, message: "Can't be blank"]]}
   end
 
   @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
@@ -112,11 +112,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
     else
       try do
-        struct = Contracts.get_offer!(id)
+        struct = Contracts.get_addon!(id)
         Repo.delete(struct)
       rescue
         Ecto.NoResultsError ->
-          {:error, "The an Offer #{id} not found!"}
+          {:error, "The an Addon #{id} not found!"}
       end
     end
   end

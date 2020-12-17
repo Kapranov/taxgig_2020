@@ -1,6 +1,6 @@
 defmodule ServerWeb.GraphQL.Schemas.Contracts.OfferTypes do
   @moduledoc """
-  The Offer GraphQL interface.
+  The an Offer GraphQL interface.
   """
 
   use Absinthe.Schema.Notation

@@ -20,6 +20,8 @@ defmodule ServerWeb.GraphQL.Schema do
   import_types(ServerWeb.GraphQL.Schemas.Accounts.ProfileTypes)
   import_types(ServerWeb.GraphQL.Schemas.Accounts.SubscriberTypes)
   import_types(ServerWeb.GraphQL.Schemas.Accounts.UserTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Contracts.AddonTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Contracts.OfferTypes)
   import_types(ServerWeb.GraphQL.Schemas.Contracts.PotentialClientTypes)
   import_types(ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes)
   import_types(ServerWeb.GraphQL.Schemas.Contracts.ServiceReviewTypes)
@@ -84,6 +86,7 @@ defmodule ServerWeb.GraphQL.Schema do
   @desc "The root query type."
   query do
     import_fields(:accounting_software_queries)
+    import_fields(:addon_queries)
     import_fields(:blockscore_queries)
     import_fields(:book_keeping_additional_need_queries)
     import_fields(:book_keeping_annual_revenue_queries)
@@ -115,6 +118,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:individual_tax_return_queries)
     import_fields(:language_queries)
     import_fields(:match_value_relate_queries)
+    import_fields(:offer_queries)
     import_fields(:picture_queries)
     import_fields(:platform_queries)
     import_fields(:potential_client_queries)
@@ -143,6 +147,7 @@ defmodule ServerWeb.GraphQL.Schema do
   @desc "The root mutation type."
   mutation do
     import_fields(:accounting_software_mutations)
+    import_fields(:addon_mutations)
     import_fields(:book_keeping_additional_need_mutations)
     import_fields(:book_keeping_annual_revenue_mutations)
     import_fields(:book_keeping_classify_inventory_mutations)
@@ -173,6 +178,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:individual_tax_return_mutations)
     import_fields(:language_mutations)
     import_fields(:match_value_relate_mutations)
+    import_fields(:offer_mutations)
     import_fields(:picture_mutations)
     import_fields(:platform_mutations)
     import_fields(:potential_client_mutations)
@@ -203,6 +209,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:user_mutations)
     import_fields(:vacancy_mutations)
     import_fields(:work_experience_mutations)
+    import_fields(:update_addon_params)
     import_fields(:update_book_keeping_additional_need_params)
     import_fields(:update_book_keeping_annual_revenue_params)
     import_fields(:update_book_keeping_classify_inventory_params)
@@ -232,6 +239,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:update_individual_tax_return_params)
     import_fields(:update_language_params)
     import_fields(:update_match_value_relate_params)
+    import_fields(:update_offer_params)
     import_fields(:update_platform_params)
     import_fields(:update_potential_client_params)
     import_fields(:update_press_article_params)
@@ -252,6 +260,7 @@ defmodule ServerWeb.GraphQL.Schema do
   @desc "The root subscription type."
   subscription do
     import_fields(:accounting_software_subscriptions)
+    import_fields(:addon_subscriptions)
     import_fields(:blockscore_subscriptions)
     import_fields(:book_keeping_subscriptions)
     import_fields(:business_tax_return_subscriptions)
@@ -261,6 +270,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:individual_tax_return_subscriptions)
     import_fields(:language_subscriptions)
     import_fields(:match_value_relate_subscriptions)
+    import_fields(:offer_subscriptions)
     import_fields(:platform_subscriptions)
     import_fields(:potential_client_subscriptions)
     import_fields(:press_article_subscriptions)
