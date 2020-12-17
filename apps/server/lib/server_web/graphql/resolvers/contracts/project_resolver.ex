@@ -1,17 +1,17 @@
-defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
+defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
   @moduledoc """
-  The ServiceReview GraphQL resolvers.
+  The Project GraphQL resolvers.
   """
 
   alias Core.{
     Accounts,
     Accounts.User,
     Contracts,
-    Contracts.PotentialClient,
+    Contracts.Project,
     Repo
   }
 
-  @type t :: PotentialClient.t()
+  @type t :: Project.t()
   @type reason :: any
   @type ok :: {:ok}
   @type success_tuple :: {:ok, t}
@@ -21,10 +21,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
 
   @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def list(_parent, _args, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) || current_user.role == false do
+    if is_nil(current_user) || current_user.role == true do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct = Contracts.list_potential_client()
+      struct = Contracts.list_project()
       {:ok, struct}
     end
   end
@@ -36,15 +36,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
 
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.role == false do
+    if is_nil(id) || is_nil(current_user) || current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Show"]]}
     else
       try do
-        struct = Contracts.get_potential_client!(id)
+        struct = Contracts.get_project!(id)
         {:ok, struct}
       rescue
         Ecto.NoResultsError ->
-          {:error, "The Potential Client #{id} not found!"}
+          {:error, "The Project #{id} not found!"}
       end
     end
   end
@@ -56,21 +56,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
 
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) || current_user.role == false do
+    if is_nil(current_user) || current_user.role == true do
       {:error, [[field: :current_user, message: "Permission denied for current_user to perform action Create"]]}
     else
       case Accounts.by_role(current_user.id) do
         false ->
-          {:error, [[field: :user_id, message: "Can't be blank or Permission denied for current_user"]]}
-        true ->
           args
-          |> Contracts.create_potential_client()
+          |> Contracts.create_project()
           |> case do
             {:ok, struct} ->
               {:ok, struct}
             {:error, changeset} ->
               {:error, extract_error_msg(changeset)}
           end
+        true ->
+          {:error, [[field: :user_id, message: "Can't be blank or Permission denied for current_user"]]}
       end
     end
   end
@@ -80,14 +80,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
     {:error, "Unauthenticated"}
   end
 
-  @spec update(any, %{id: bitstring, potential_client: map()}, %{context: %{current_user: User.t()}}) :: result()
-  def update(_parent, %{id: id, potential_client: params}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.role == false do
+  @spec update(any, %{id: bitstring, project: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update(_parent, %{id: id, project: params}, %{context: %{current_user: current_user}}) do
+    if is_nil(id) || is_nil(current_user) || current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
       try do
-        Repo.get!(PotentialClient, id)
-        |> Contracts.update_potential_client(params)
+        Repo.get!(Project, id)
+        |> Contracts.update_project(params)
         |> case do
           {:ok, struct} ->
             {:ok, struct}
@@ -96,27 +96,27 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
         end
       rescue
         Ecto.NoResultsError ->
-          {:error, "The Potential Client #{id} not found!"}
+          {:error, "The Project #{id} not found!"}
       end
     end
   end
 
   @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def update(_parent, _args, _info) do
-    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :potential_client, message: "Can't be blank"]]}
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :project, message: "Can't be blank"]]}
   end
 
   @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.role == false do
+    if is_nil(id) || is_nil(current_user) || current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
     else
       try do
-        struct = Contracts.get_potential_client!(id)
+        struct = Contracts.get_project!(id)
         Repo.delete(struct)
       rescue
         Ecto.NoResultsError ->
-          {:error, "The Potential Client #{id} not found!"}
+          {:error, "The Project #{id} not found!"}
       end
     end
   end

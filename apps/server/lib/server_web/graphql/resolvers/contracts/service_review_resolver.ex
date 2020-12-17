@@ -21,7 +21,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ServiceReviewResolver do
 
   @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def list(_parent, _args, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) do
+    if is_nil(current_user) || current_user.role == true do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
       struct = Contracts.list_service_review()
@@ -36,7 +36,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ServiceReviewResolver do
 
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) do
+    if is_nil(id) || is_nil(current_user) || current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Show"]]}
     else
       try do
@@ -56,7 +56,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ServiceReviewResolver do
 
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) do
+    if is_nil(current_user) || current_user.role == true do
       {:error, [[field: :current_user, message: "Permission denied for current_user to perform action Create"]]}
     else
       case Accounts.by_role(current_user.id) do
@@ -82,7 +82,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ServiceReviewResolver do
 
   @spec update(any, %{id: bitstring, service_review: map()}, %{context: %{current_user: User.t()}}) :: result()
   def update(_parent, %{id: id, service_review: params}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) do
+    if is_nil(id) || is_nil(current_user) || current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
       try do
@@ -108,7 +108,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ServiceReviewResolver do
 
   @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) do
+    if is_nil(id) || is_nil(current_user) || current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
     else
       try do
