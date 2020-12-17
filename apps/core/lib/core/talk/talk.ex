@@ -45,6 +45,26 @@ defmodule Core.Talk do
   end
 
   @doc """
+  Gets a single Message.
+
+  Raises `Ecto.NoResultsError` if the Message does not exist.
+
+  ## Examples
+
+      iex> get_message!(123)
+      %Message{}
+
+      iex> get_message!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_message!(String.t()) :: Message.t() | error_tuple()
+  def get_message!(id) do
+    Repo.get!(Message, id)
+    |> Repo.preload([:user])
+  end
+
+  @doc """
   Creates the Message.
 
   ## Examples
@@ -62,6 +82,56 @@ defmodule Core.Talk do
     |> Ecto.build_assoc(:messages, room_id: room.id)
     |> Message.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Updates the Message.
+
+  ## Examples
+
+      iex> update_message(struct, %{field: new_value})
+      {:ok, %Message{}}
+
+      iex> update_message(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_message(Message.t(), %{atom => any}) :: result() | error_tuple()
+  def update_message(%Message{} = struct, attrs) do
+    struct
+    |> Message.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes the Message.
+
+  ## Examples
+
+      iex> delete_message(struct)
+      {:ok, %Message{}}
+
+      iex> delete_message(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_message(Message.t()) :: result() | error_tuple()
+  def delete_message(%Message{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking Message changes.
+
+  ## Examples
+
+      iex> change_message(struct)
+      %Ecto.Changeset{source: %Message{}}
+
+  """
+  @spec change_message(Message.t()) :: Ecto.Changeset.t()
+  def change_message(%Message{} = struct) do
+    Message.changeset(struct, %{})
   end
 
   @doc """
