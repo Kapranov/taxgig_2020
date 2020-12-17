@@ -152,6 +152,17 @@ defmodule Core.Media do
   end
 
   @doc """
+  Returns the list of ProDoc.
+
+  ## Examples
+
+      iex> list_pro_doc()
+      [%ProDoc{}, ...]
+  """
+  @spec list_pro_doc() :: [ProDoc.t()]
+  def list_pro_doc, do: Repo.all(ProDoc)
+
+  @doc """
   Gets a single pro document.
   """
   @spec get_pro_doc(String.t()) :: ProDoc.t() | nil
@@ -281,6 +292,17 @@ defmodule Core.Media do
           end
       end
   end
+
+  @doc """
+  Returns the list of TpDoc.
+
+  ## Examples
+
+      iex> list_tp_doc()
+      [%TpDoc{}, ...]
+  """
+  @spec list_tp_doc() :: [TpDoc.t()]
+  def list_tp_doc, do: Repo.all(TpDoc)
 
   @doc """
   Gets a single tp document.
