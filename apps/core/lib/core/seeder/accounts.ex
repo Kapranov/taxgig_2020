@@ -21,18 +21,13 @@ defmodule Core.Seeder.Accounts do
 
   @spec reset_database!() :: {integer(), nil | [term()]}
   def reset_database! do
-    Repo.delete_all(BanReason)
-    Repo.delete_all(DeletedUser)
-    Repo.delete_all(Platform)
-    Repo.delete_all(ProRating)
-    Repo.delete_all(Subscriber)
-    Repo.delete_all(User)
+    IO.puts("Deleting old data...\n")
     SQL.query!(Repo, "TRUNCATE ban_reasons CASCADE;")
     SQL.query!(Repo, "TRUNCATE deleted_users CASCADE;")
     SQL.query!(Repo, "TRUNCATE platforms CASCADE;")
     SQL.query!(Repo, "TRUNCATE pro_ratings CASCADE;")
     SQL.query!(Repo, "TRUNCATE subscribers CASCADE;")
-    SQL.query!(Repo, "TRUNCATE usersCASCADE;")
+    SQL.query!(Repo, "TRUNCATE users CASCADE;")
   end
 
   @spec seed!() :: Ecto.Schema.t()
@@ -663,7 +658,7 @@ defmodule Core.Seeder.Accounts do
   @spec insert_deleted_user() :: Ecto.Schema.t()
   defp insert_deleted_user do
     user_ids =
-      Enum.map(Repo.all(User), fn(data) -> data.id end)
+      Enum.map(Repo.all(User), fn(data) -> data end)
 
     {user, tp1, tp2, tp3, pro1, pro2, pro3} = {
       Enum.at(user_ids, 0),
@@ -677,32 +672,46 @@ defmodule Core.Seeder.Accounts do
 
     [
       Repo.insert!(%DeletedUser{
+        email:       user.email,
         reason: random_reason(),
-        user_id: user
+        role:         user.role,
+        user_id:        user.id
       }),
       Repo.insert!(%DeletedUser{
+        email:        tp1.email,
         reason: random_reason(),
-        user_id: tp1
+        role:          tp1.role,
+        user_id:         tp1.id
       }),
       Repo.insert!(%DeletedUser{
+        email:        tp2.email,
         reason: random_reason(),
-        user_id: tp2
+        role:          tp2.role,
+        user_id:         tp2.id
       }),
       Repo.insert!(%DeletedUser{
+        email:        tp3.email,
         reason: random_reason(),
-        user_id: tp3
+        role:          tp3.role,
+        user_id:         tp3.id
       }),
       Repo.insert!(%DeletedUser{
+        email:       pro1.email,
         reason: random_reason(),
-        user_id: pro1
+        role:         pro1.role,
+        user_id:        pro1.id
       }),
       Repo.insert!(%DeletedUser{
+        email:       pro2.email,
         reason: random_reason(),
-        user_id: pro2
+        role:         pro2.role,
+        user_id:        pro2.id
       }),
       Repo.insert!(%DeletedUser{
+        email:       pro3.email,
         reason: random_reason(),
-        user_id: pro3
+        role:         pro3.role,
+        user_id:        pro3.id
       })
     ]
   end
@@ -746,13 +755,13 @@ defmodule Core.Seeder.Accounts do
   @spec random_reason :: [String.t()]
   defp random_reason do
     names = [
-      "another_service",
-      "change_account",
-      "needs",
-      "no_longer_require",
-      "not_easy",
-      "quality",
-      "wrong_account"
+      "Another Service",
+      "Change Account",
+      "Needs",
+      "No longer require",
+      "Not Easy",
+      "Quality",
+      "Wrong Account"
     ]
 
     numbers = 1..1

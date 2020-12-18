@@ -245,7 +245,6 @@ defmodule Core.Accounts do
   @spec list_deleted_user() :: [DeletedUser.t()]
   def list_deleted_user do
     Repo.all(DeletedUser)
-    |> Repo.preload([user: [:languages]])
   end
 
   @doc """

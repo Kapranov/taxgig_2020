@@ -5,18 +5,15 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.DeletedUserTypes do
 
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
-
-  alias ServerWeb.GraphQL.{
-    Data,
-    Resolvers.Accounts.DeletedUserResolver
-  }
+  alias ServerWeb.GraphQL.Resolvers.Accounts.DeletedUserResolver
 
   @desc "The deleted user on the site"
   object :deleted_user do
     field :id, non_null(:string)
+    field :email, non_null(:string)
     field :reason, non_null(list_of(:string))
-    field :user, :user, resolve: dataloader(Data)
+    field :role, non_null(:boolean)
+    field :user_id, non_null(:string)
   end
 
   @desc "The deleted user update via params"

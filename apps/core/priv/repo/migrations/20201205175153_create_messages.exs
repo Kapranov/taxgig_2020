@@ -8,8 +8,8 @@ defmodule Core.Repo.Migrations.CreateMessages do
       add :is_read, :boolean, null: false
       add :project_id, references(:projects, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
       add :recipient, :uuid, type: FlakeId.Ecto.Type, null: false
-      add :room_id, references(:rooms, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
-      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
+      add :room_id, references(:rooms, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
+      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
       add :warning, :boolean, null: false
 
       timestamps(type: :utc_datetime_usec)

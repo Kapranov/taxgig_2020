@@ -7,7 +7,7 @@ defmodule Core.Repo.Migrations.CreateTpDocs do
       add :access_granted, :boolean, null: false
       add :category, :string, null: false
       add :file, :map, null: false, default: Map.new()
-      add :project_id, references(:projects, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
+      add :project_id, references(:projects, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
       add :signed_by_tp, :boolean, null: false
 
       timestamps(type: :utc_datetime_usec)

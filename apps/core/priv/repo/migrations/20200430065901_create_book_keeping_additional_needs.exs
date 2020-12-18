@@ -4,7 +4,7 @@ defmodule Core.Repo.Migrations.CreateBookKeepingAdditionalNeeds do
   def change do
     create table(:book_keeping_additional_needs, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
-      add :book_keeping_id, references(:book_keepings, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
+      add :book_keeping_id, references(:book_keepings, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
       add :name, :string, default: nil, null: true
       add :price, :integer, default: nil, null: true
 

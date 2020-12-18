@@ -16,7 +16,7 @@ defmodule Core.Repo.Migrations.CreateProjects do
       add :offer_price, :integer, null: true
       add :sale_tax_id, references(:sale_taxes, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
       add :status, :string, null: false
-      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
+      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
 
       timestamps(type: :utc_datetime_usec)
     end

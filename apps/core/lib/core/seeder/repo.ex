@@ -13,6 +13,7 @@ defmodule Core.Seeder.Repo do
     Services,
     Skills,
     Talk,
+    Deleted,
     Updated
   }
 
@@ -35,6 +36,12 @@ defmodule Core.Seeder.Repo do
     Updated.Accounts.start!()
     Updated.Services.start!()
     Updated.Contracts.start!()
+    :ok
+  end
+
+  @spec deleted!() :: :ok
+  def deleted! do
+    Deleted.Accounts.start!()
     :ok
   end
 end

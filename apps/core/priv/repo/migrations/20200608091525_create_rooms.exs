@@ -8,7 +8,7 @@ defmodule Core.Repo.Migrations.CreateRooms do
       add :description, :string, null: false
       add :name, :string, size: 30, null: false
       add :topic, :string, size: 120, null: false
-      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
+      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
 
       timestamps(type: :utc_datetime_usec)
     end

@@ -6,7 +6,6 @@ defmodule Core.Accounts.User do
   use Core.Model
 
   alias Core.{
-    Accounts.DeletedUser,
     Accounts.Platform,
     Accounts.ProRating,
     Accounts.Profile,
@@ -41,7 +40,6 @@ defmodule Core.Accounts.User do
     birthday: %Date{},
     book_keepings: [BookKeeping.t()],
     business_tax_returns: [BusinessTaxReturn.t()],
-    deleted_user: DeletedUser.t(),
     education: Education.t(),
     email: String.t(),
     first_name: String.t(),
@@ -134,7 +132,6 @@ defmodule Core.Accounts.User do
     field :zip, :integer
 
     has_one :accounting_software, AccountingSoftware, on_delete: :delete_all
-    has_one :deleted_user, DeletedUser, on_delete: :delete_all
     has_one :education, Education, on_delete: :delete_all
     has_one :platform, Platform, on_delete: :delete_all
     has_one :potential_client, PotentialClient, on_delete: :delete_all

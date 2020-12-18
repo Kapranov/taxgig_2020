@@ -15,7 +15,7 @@ defmodule Core.Repo.Migrations.CreateBookKeepings do
       add :price_payroll, :integer, default: nil, null: true
       add :tax_return_current, :boolean, default: nil, null: true
       add :tax_year, {:array, :string}, default: nil, null: true
-      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
+      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
 
       timestamps(type: :utc_datetime_usec)
     end

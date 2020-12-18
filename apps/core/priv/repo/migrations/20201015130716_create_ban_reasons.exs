@@ -6,9 +6,9 @@ defmodule Core.Repo.Migrations.CreateBanReasons do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
       add :description, :string, null: true
       add :other, :boolean, null: false
-      add :platform_id, references(:platforms, type: :uuid, on_delete: :nilify_all), null: false, primary_key: false
+      add :platform_id, references(:platforms, type: :uuid, on_delete: :nilify_all), null: true, primary_key: false
       add :reasons, :string, null: true, default: nil
-      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
+      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
 
       timestamps(type: :utc_datetime_usec)
     end

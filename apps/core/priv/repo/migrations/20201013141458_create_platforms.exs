@@ -12,7 +12,7 @@ defmodule Core.Repo.Migrations.CreatePlatforms do
       add :is_stuck, :boolean, null: false, default: false
       add :payment_active, :boolean,  null: false, default: false
       add :stuck_stage, :string, null: true
-      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
+      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
 
       timestamps(type: :utc_datetime_usec)
     end

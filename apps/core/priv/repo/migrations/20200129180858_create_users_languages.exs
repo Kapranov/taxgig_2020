@@ -4,8 +4,8 @@ defmodule Core.Repo.Migrations.CreateUsersLanguages do
   def change do
     create table(:users_languages, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
-      add :language_id, references(:languages, type: :uuid, on_delete: :delete_all, on_replace: :delete), null: false, primary_key: false
-      add :user_id,     references(:users,     type: :uuid, on_delete: :delete_all, on_replace: :delete), null: false, primary_key: false
+      add :language_id, references(:languages, type: :uuid, on_delete: :delete_all, on_replace: :delete), null: true, primary_key: false
+      add :user_id,     references(:users,     type: :uuid, on_delete: :delete_all, on_replace: :delete), null: true, primary_key: false
     end
 
     create index(:users_languages, [:language_id])

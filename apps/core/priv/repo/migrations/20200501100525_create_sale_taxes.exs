@@ -10,7 +10,7 @@ defmodule Core.Repo.Migrations.CreateSaleTaxes do
       add :price_sale_tax_count, :integer, default: nil, null: true
       add :sale_tax_count, :integer, default: nil, null: true
       add :state, {:array, :string}, default: nil, null: true
-      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
+      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
 
       timestamps(type: :utc_datetime_usec)
     end

@@ -1,0 +1,158 @@
+{
+  "key": "graphiql",
+  "lastId": 5,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMktjNm16Rjc4QlRQYk5FeThuBgChejd3dgFiAAFRgA.lPi_WymubCc4mNgGbx5jWTIK-KT169YK3oZ9dvBpq3M"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMktjNm16Rjc4QlRQYk5FeThuBgBj0zN3dgFiAAFRgA.-sg7XTGjc2CQ74f6raDrjOma4Mm4nQecQtMZna7Zh94"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMktjNm16Rjc4QlRQYk5FeThuBgBKMy53dgFiAAFRgA.x1dP_0fNLsZI_I_pKJSYzmOKPJTWNhVG9zm80a7MK1c"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMktsYnVGUUZxbDA2MG1JdGNuBgBu1Cl3dgFiAAFRgA.vcWinvG30gjWvsGDZ7M8znAj_cj9NY0yR4lGezcPx3U"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab5",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.33763654419066536
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMktsYnVGUUZxbDA2MG1JdGNuBgBu1Cl3dgFiAAFRgA.vcWinvG30gjWvsGDZ7M8znAj_cj9NY0yR4lGezcPx3U"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  deleteUser(\n    id: \"A2KlbuFQFql060mItc\",\n    reason: \"Needs\"\n  ) {\n    id\n    email\n    role\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deleteUser(\n    id: \"A2KlbuFQFql060mItc\",\n    reason: \"Needs\"\n  ) {\n    id\n    email\n    role\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteUser(\\n    id: \\\"A2KlbuFQFql060mItc\\\",\\n    reason: \\\"Needs\\\"\\n  ) {\\n    id\\n    email\\n    role\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"kapranov.pure@gmail.com\",\n    password: \"nES0p04pVklw\",\n    passwordConfirmation: \"nES0p04pVklw\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signIn(\n    email: \"kapranov.pure@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"kapranov.pure@gmail.com\",\n    password: \"nES0p04pVklw\",\n    passwordConfirmation: \"nES0p04pVklw\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"kapranov.pure@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"kapranov.pure@gmail.com\\\",\\n    password: \\\"nES0p04pVklw\\\",\\n    passwordConfirmation: \\\"nES0p04pVklw\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.39730290456431533,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMktjNm16Rjc4QlRQYk5FeThuBgChejd3dgFiAAFRgA.lPi_WymubCc4mNgGbx5jWTIK-KT169YK3oZ9dvBpq3M"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allDeletedUsers {\n    id\n    email\n    role\n    reason\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allDeletedUsers {\n    id\n    email\n    role\n    reason\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allDeletedUsers {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allDeletedUsers {\\n    id\\n    email\\n    role\\n    reason\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.22789425706472197,
+      "graphiql:variableEditorHeight": 200
+    }
+  ]
+}

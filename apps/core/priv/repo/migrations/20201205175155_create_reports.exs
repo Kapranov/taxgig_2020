@@ -8,7 +8,7 @@ defmodule Core.Repo.Migrations.CreateReports do
       add :messages, {:array, :string}, null: false, default: []
       add :other, :boolean, null: true
       add :reasons, :string, null: true
-      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
+      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
 
       timestamps(type: :utc_datetime_usec)
     end

@@ -458,13 +458,13 @@ defmodule Core.Seeder.Updated.Accounts do
   @spec random_reason :: [String.t()]
   defp random_reason do
     names = [
-      "another_service",
-      "change_account",
-      "needs",
-      "no_longer_require",
-      "not_easy",
-      "quality",
-      "wrong_account"
+      "Another Service",
+      "Change Account",
+      "Needs",
+      "No longer require",
+      "Not Easy",
+      "Quality",
+      "Wrong Account"
     ]
 
     numbers = 1..1

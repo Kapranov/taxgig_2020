@@ -7,7 +7,7 @@ defmodule Core.Repo.Migrations.CreateWorkExperiences do
       add :name, :string, default: nil, null: true
       add :start_date, :date, default: nil, null: true
       add :end_date, :date, default: nil, null: true
-      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
+      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
 
       timestamps(type: :utc_datetime_usec)
     end

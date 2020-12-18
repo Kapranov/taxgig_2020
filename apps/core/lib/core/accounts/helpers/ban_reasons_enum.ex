@@ -1,11 +1,11 @@
 import EctoEnum
 
 defenum Core.Accounts.Helpers.BanReasonsEnum, :reasons, [
-  "Racism",
-  "Intolerance",
-  "Violate Terms",
   "Fraud",
-  "Spam",
+  "Harassment",
+  "Intolerance",
+  "Racism",
   "Sexism",
-  "Harassment"
+  "Spam",
+  "Violate Terms"
 ]

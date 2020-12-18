@@ -8,7 +8,7 @@ defmodule Core.Repo.Migrations.CreateProRatings do
       add :average_professionalism, :decimal, null: false
       add :average_rating, :decimal, null: false
       add :average_work_quality, :decimal, null: false
-      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false, primary_key: false
+      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
 
       timestamps(type: :utc_datetime_usec)
     end

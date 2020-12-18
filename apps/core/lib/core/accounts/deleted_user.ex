@@ -5,33 +5,34 @@ defmodule Core.Accounts.DeletedUser do
 
   use Core.Model
 
-  alias Core.Accounts.{
-    Helpers.DeletedUserEnum,
-    User
-  }
+  alias Core.Accounts.Helpers.DeletedUserEnum
 
   @type t :: %__MODULE__{
+    email: String.t(),
     reason: String.t(),
-    user_id: User.t()
+    role: boolean,
+    user_id: String.t()
   }
 
   @allowed_params ~w(
+    email
     reason
+    role
     user_id
   )a
 
   @required_params ~w(
+    email
     reason
+    role
     user_id
   )a
 
   schema "deleted_users" do
+    field :email, :string, null: false
     field :reason, DeletedUserEnum, null: false
-
-    belongs_to :user, User,
-      foreign_key: :user_id,
-      type: FlakeId.Ecto.CompatType,
-      references: :id
+    field :role, :boolean, null: false
+    field :user_id, FlakeId.Ecto.Type, null: false
 
     timestamps()
   end
@@ -44,7 +45,7 @@ defmodule Core.Accounts.DeletedUser do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
-    |> foreign_key_constraint(:user_id, message: "Select an User")
-    |> unique_constraint(:user, name: :deleted_users_user_id_index, message: "Only one an User")
+    |> foreign_key_constraint(:email, message: "Select an Email")
+    |> unique_constraint(:email, name: :deleted_users_email_index, message: "Only one an Email")
   end
 end

@@ -90,40 +90,7 @@ bash> mix ecto.gen.migration -r Core.Repo create_pro_docs
 bash> mix ecto.gen.migration -r Core.Repo create_tp_docs
 ```
 
-- projects
-  - offers
-  - addons
-  - serviceReviews
-- media
-  - documents
-- talk
-  - chats
-  - messages
-  - reports
-- accounts
-  - proRatingProjects
-  - banReasons
-  - deletedUsers
-  - platforms
-
-
 ### New New New Schemas
-
-- deletedUsers
-  - reason enum
-  - userId uuid
-
-```
-with struct <- Accounts.get_user!(id),
-     {:ok, %User{id: user_id}} <- Repo.delete(struct),
-     {:ok, created} <- Accounts.create_deleted_user(%{user_id: user_id, reasons: reasons})
-do
-  {:ok, created}
-else
-  nil -> {:error, "permission denied"}
-  _ -> {:error, %Ecto.Changeset{}}
-end
-```
 
 - banReason only admin
   - description string
@@ -270,7 +237,6 @@ Using in instead of Map.has_key?:
 def contains_fields?(keys, fields), do: Enum.all?(fields, &(&1 in keys))
 ```
 
-
 ```
 params = ~w(business_type city country day email first_name)a
 args = %{business_type: "Individual", city: "NY", country: "us", day: 22, email: nil}
@@ -279,74 +245,38 @@ Map.has_key?(args, :ssn)
 Keyword.merge([a: "xxx", b: "yyy", c: "zzz"], [d: "ddd", f: "fff"])
 ```
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+### Migrations always add `null: true` option in migrations
 
-- project_service_reviews only pro
-  - pro_response      string
-  - project_id        uuid
-  - service_review_id uuid
+```
+** (Postgrex.Error) ERROR (not_null_violation): null value in column
+"user" violates not-null constraint
+```
 
-- service_link only tp
-  - bookkeeping_tax_return_id uuid
-  - business_tax_return_id    uuid
-  - individual_tax_return_id  uuid
-  - project_id                uuid
-  - sale_tax_return_id        uuid
+Ecto doesn’t add not-null constraint by default when adding new column
+but specifying `null: true` option explicitly is required when modifying
+column to drop existing not-null constraint (or else it won’t be
+dropped). so always add `null: true` in migrations for the sake of
+consistency.
 
-- pro_rating+projects
-  - pro_rating_id uuid
-  - project_id    uuid
+With 1.1 the solution to this issue is callbacks, even though they are
+deprecated.
+With 2.0 fields that are `nil` and that don't have a default value are not
+sent to the database, which solves the issue entirely.
 
-- offer_projects
-  - offer_id   uuid
-  - project_id uuid
-  - status     enum
-
-- addon_projects
-  - addon_id   uuid
-  - project_id uuid
-  - status     enum
-
-- project_files
-  - docs_pro   map
-  - docs_tp    map
-  - project_id uuid
-
-- documents
-  - access_granted                 boolean
-  - category                       enum
-  - document_link                  string
-  - format                         string
-  - name                           string
-  - signature_required_from_client boolean
-  - signed_by_pro                  boolean
-  - signed_by_tp                   boolean
-  - size                           integer
-
-- chats
-  - active  boolean
-  - name    string
-  - user_id uuid
-
-- messages
-  - body       string
-  - chat_id    uuid
-  - is_read    boolean
-  - project_id uuid
-  - recipient  uuid
-  - user_id    uuid
-  - warning    boolean
-
-- report_messages
-  - message_id uuid
-  - report_id  uuid
-
-- reports
-  - description string
-  - messages    jsonb
-  - other       boolean
-  - reasons     enum
-  - user_id     uuid
+- [X] `deleted_users`
+- []  `potential_clients`
+- []  `service_reviews`
+- []  `platforms`
+- []  `ban_reasons`
+- []  `projects`
+- []  `pro_ratings`
+- []  `offers`
+- []  `addons`
+- []  `pro_docs`
+- []  `tp_docs`
+- []  `rooms`
+- []  `messages`
+- []  `reports`
 
 Furthermore, we have a couple of questions:
 
