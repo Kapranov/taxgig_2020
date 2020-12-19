@@ -17,10 +17,10 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ServiceReviewTypes do
     field :id, non_null(:string), description: "unique identifier"
     field :client_comment, :string
     field :communication, non_null(:integer)
-    field :final_rating, non_null(:decimal)
+    field :final_rating, non_null(:integer)
     field :pro_response, :string
     field :professionalism, non_null(:integer)
-    field :user, :user, resolve: dataloader(Data)
+    field :users, :user, resolve: dataloader(Data)
     field :work_quality, non_null(:integer)
   end
 
@@ -28,8 +28,6 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ServiceReviewTypes do
   input_object :update_service_review_params, description: "update service review" do
     field :client_comment, :string
     field :communication, :integer
-    field :final_rating, :decimal
-    field :pro_response, :string
     field :professionalism, :integer
     field :work_quality, :integer
   end
@@ -52,8 +50,6 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ServiceReviewTypes do
     field :create_service_review, :service_review, description: "Create a new service review" do
       arg :client_comment, :string
       arg :communication, non_null(:integer)
-      arg :final_rating, non_null(:decimal)
-      arg :pro_response, :string
       arg :professionalism, non_null(:integer)
       arg :user_id, non_null(:string)
       arg :work_quality, non_null(:integer)

@@ -61,7 +61,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ServiceReviewResolver do
     else
       case Accounts.by_role(current_user.id) do
         false ->
-          args
+          attrs = Map.merge(args, %{
+            final_rating: total(args[:communication], args[:professionalism], args[:work_quality])
+          })
+
+          attrs
           |> Contracts.create_service_review()
           |> case do
             {:ok, struct} ->
@@ -86,8 +90,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ServiceReviewResolver do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
       try do
+        attrs = Map.merge(params, %{
+          final_rating: total(params[:communication], params[:professionalism], params[:work_quality])
+        })
+
         Repo.get!(ServiceReview, id)
-        |> Contracts.update_service_review(params)
+        |> Contracts.update_service_review(attrs)
         |> case do
           {:ok, struct} ->
             {:ok, struct}
@@ -136,4 +144,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ServiceReviewResolver do
       ]
     end)
   end
+
+  @spec total(integer, integer, integer) :: integer
+  defp total(val1, val2, val3) when is_integer(val1) when  is_integer(val2) when is_integer(val3) do
+    result = (val1 + val2 + val3)/3 |> trunc
+    result
+  end
+
+  @spec total(any(), any(), any()) :: integer
+  defp total(_, _, _), do: 0
 end

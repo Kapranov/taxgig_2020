@@ -1,0 +1,212 @@
+{
+  "key": "graphiql",
+  "lastId": 6,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab5",
+    "tab6"
+  ],
+  "closedTabs": [
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "",
+      "graphiql:variables": "",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    }
+  ],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMk1vNGo2MUJVY0FEWHZyQ1NuBgBpwlt8dgFiAAFRgA.3bWraOjGmw9fvcJH_FzJZD37b1iJefD60Y8Az4DqcEA"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMk1vNGo2MUJVY0FEWHZyQ1NuBgArgFR8dgFiAAFRgA.5el80sbV3wQur_JYcBZLxgBPlD0qAYlzpCuX1kcG8p8"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMk1vNGo2MUJVY0FEWHZyQ1NuBgDF_kt8dgFiAAFRgA.nhlPvmoOQXaZrnZ2Mlq742-6Bcsw9QGwgUNLh3IRS2o"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMk1vNGo2MUJVY0FEWHZyQ1NuBgDfCEh8dgFiAAFRgA.-bimiaTmfUUqKJ34EEEAHCWVhb-PE59ZzntkFmP_9zQ"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMk1vNGo2MUJVY0FEWHZyQ1NuBgBZakV8dgFiAAFRgA.m5lR5hjIuuEvbldR4DANjMP5iTH1acdxvLYmq0oM9DU"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMk1vNHlWTnRTb20wWXVwSnduBgDbHUN8dgFiAAFRgA.6qpFApZjbafLnI73n3YHAOgdQah4m7W67aW72ascSRM"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMk1vNFE3Ump4VDNNVFNFSHduBgB7Tz98dgFiAAFRgA.RllzmJw6yVSdEVd9MYGllsZksR3YoaeaEZzcB-kVYhU"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab2",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signIn(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.3257874015748031
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMk1vNGo2MUJVY0FEWHZyQ1NuBgDfCEh8dgFiAAFRgA.-bimiaTmfUUqKJ34EEEAHCWVhb-PE59ZzntkFmP_9zQ"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createServiceReview(\n    userId: \"A2Mo4j61BUcADXvrCS\",\n    clientComment: \"some text\",\n    communication: 1,\n    professionalism: 2,\n    workQuality: 3\n  ) {\n    id\n    finalRating\n    clientComment\n    communication\n    professionalism\n    proResponse\n    workQuality\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createServiceReview(\n    userId: \"A2Mo4j61BUcADXvrCS\",\n    clientComment: \"some text\",\n    communication: 22,\n    professionalism: 22,\n    workQuality: 22\n  ) {\n    id\n    finalRating\n    clientComment\n    communication\n    professionalism\n    proResponse\n    workQuality\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createServiceReview(\n    userId: \"A2Mo4j61BUcADXvrCS\",\n    clientComment: \"some text\",\n    communication: 22,\n    professionalism: 22,\n    workQuality: 22\n  ) {\n    id\n    clientComment\n    communication\n    professionalism\n    proResponse\n    workQuality\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createServiceReview(\n    userId: \"A2Mo4j61BUcADXvrCS\",\n    clientComment: \"some text\",\n    communication: 1,\n    professionalism: 2,\n    workQuality: 3\n  ) {\n    id\n    finalRating\n    clientComment\n    communication\n    professionalism\n    proResponse\n    workQuality\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createServiceReview(\\n    userId: \\\"A2Mo4j61BUcADXvrCS\\\",\\n    clientComment: \\\"some text\\\",\\n    communication: 22,\\n    professionalism: 22,\\n    workQuality: 22\\n  ) {\\n    id\\n    clientComment\\n    communication\\n    professionalism\\n    proResponse\\n    workQuality\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createServiceReview(\\n    userId: \\\"A2Mo4j61BUcADXvrCS\\\",\\n    clientComment: \\\"some text\\\",\\n    communication: 22,\\n    professionalism: 22,\\n    workQuality: 22\\n  ) {\\n    id\\n    finalRating\\n    clientComment\\n    communication\\n    professionalism\\n    proResponse\\n    workQuality\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createServiceReview(\\n    userId: \\\"A2Mo4j61BUcADXvrCS\\\",\\n    clientComment: \\\"some text\\\",\\n    communication: 1,\\n    professionalism: 2,\\n    workQuality: 3\\n  ) {\\n    id\\n    finalRating\\n    clientComment\\n    communication\\n    professionalism\\n    proResponse\\n    workQuality\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab5",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMk1vNGo2MUJVY0FEWHZyQ1NuBgBpwlt8dgFiAAFRgA.3bWraOjGmw9fvcJH_FzJZD37b1iJefD60Y8Az4DqcEA"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allServiceReviews {\n    id\n    finalRating\n    workQuality\n    clientComment\n    communication\n    professionalism\n    proResponse\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allServiceReviews {\n    id\n    finalRating\n    workQuality\n    clientComment\n    communication\n    professionalism\n    proResponse\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allServiceReviews {\n    id\n    finalRating\n    workQuality\n    clientComment\n    communication\n    professionalism\n    proResponse\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allServiceReviews {\\n    id\\n    finalRating\\n    workQuality\\n    clientComment\\n    communication\\n    professionalism\\n    proResponse\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allServiceReviews {\\n    id\\n    finalRating\\n    workQuality\\n    clientComment\\n    communication\\n    professionalism\\n    proResponse\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab6",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMk1vNGo2MUJVY0FEWHZyQ1NuBgBpwlt8dgFiAAFRgA.3bWraOjGmw9fvcJH_FzJZD37b1iJefD60Y8Az4DqcEA"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateServiceReview(\n    id: \"A2MqC7dSTUuwPqb4EK\",\n    serviceReview: {\n      clientComment: \"updated text\",\n      communication: 77,\n      professionalism: 55,\n      workQuality: 33\n    }\n  ) {\n    id\n    clientComment\n    communication\n    proResponse\n    professionalism\n    workQuality\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateServiceReview(\n    id: \"A2MqC7dSTUuwPqb4EK\",\n    serviceReview: {\n      clientComment: \"updated text\",\n      communication: 77,\n      professionalism: 55,\n      workQuality: 33\n    }\n  ) {\n    id\n    clientComment\n    communication\n    proResponse\n    professionalism\n    workQuality\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateServiceReview(\n    id: \"A2MqC7dSTUuwPqb4EK\",\n    serviceReview: {\n      clientComment: \"updated text\",\n      communication: 77,\n      professionalism: 55,\n      workQuality: 33\n    }\n  ) {\n    id\n    clientComment\n    communication\n    proResponse\n    professionalism\n    workQuality\n    users {id email role}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.35376884422110555,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateServiceReview(\\n    id: \\\"A2MqC7dSTUuwPqb4EK\\\",\\n    serviceReview: {\\n      clientComment: \\\"updated text\\\",\\n      communication: 77,\\n      professionalism: 55,\\n      workQuality: 33\\n    }\\n  ) {\\n    id\\n    clientComment\\n    communication\\n    proResponse\\n    professionalism\\n    workQuality\\n    user { id email role }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateServiceReview(\\n    id: \\\"A2MqC7dSTUuwPqb4EK\\\",\\n    serviceReview: {\\n      clientComment: \\\"updated text\\\",\\n      communication: 77,\\n      professionalism: 55,\\n      workQuality: 33\\n    }\\n  ) {\\n    id\\n    clientComment\\n    communication\\n    proResponse\\n    professionalism\\n    workQuality\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateServiceReview(\\n    id: \\\"A2MqC7dSTUuwPqb4EK\\\",\\n    serviceReview: {\\n      clientComment: \\\"updated text\\\",\\n      communication: 77,\\n      professionalism: 55,\\n      workQuality: 33\\n    }\\n  ) {\\n    id\\n    clientComment\\n    communication\\n    proResponse\\n    professionalism\\n    workQuality\\n    user {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateServiceReview(\\n    id: \\\"A2MqC7dSTUuwPqb4EK\\\",\\n    serviceReview: {\\n      clientComment: \\\"updated text\\\",\\n      communication: 77,\\n      professionalism: 55,\\n      workQuality: 33\\n    }\\n  ) {\\n    id\\n    clientComment\\n    communication\\n    proResponse\\n    professionalism\\n    workQuality\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350
+    }
+  ]
+}

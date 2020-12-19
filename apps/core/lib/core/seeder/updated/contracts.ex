@@ -312,63 +312,63 @@ defmodule Core.Seeder.Updated.Contracts do
       Contracts.update_service_review(srv1, %{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
       Contracts.update_service_review(srv2, %{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
       Contracts.update_service_review(srv3, %{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
       Contracts.update_service_review(srv4, %{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
       Contracts.update_service_review(srv5, %{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
       Contracts.update_service_review(srv6, %{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
       Contracts.update_service_review(srv7, %{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
       Contracts.update_service_review(srv8, %{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         work_quality: random_integer()
       }),
       Contracts.update_service_review(srv9, %{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         work_quality: random_integer()
       })

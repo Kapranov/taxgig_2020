@@ -42,6 +42,7 @@ defmodule Core.Seeder.Repo do
   @spec deleted!() :: :ok
   def deleted! do
     Deleted.Accounts.start!()
+    Deleted.Contracts.start!()
     :ok
   end
 end

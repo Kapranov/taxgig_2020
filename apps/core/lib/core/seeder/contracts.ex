@@ -95,7 +95,7 @@ defmodule Core.Seeder.Contracts do
       Repo.insert!(%ServiceReview{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         user_id: tp1,
         work_quality: random_integer()
@@ -103,7 +103,7 @@ defmodule Core.Seeder.Contracts do
       Repo.insert!(%ServiceReview{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         user_id: tp1,
         work_quality: random_integer()
@@ -111,7 +111,7 @@ defmodule Core.Seeder.Contracts do
       Repo.insert!(%ServiceReview{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         user_id: tp1,
         work_quality: random_integer()
@@ -119,7 +119,7 @@ defmodule Core.Seeder.Contracts do
       Repo.insert!(%ServiceReview{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         user_id: tp2,
         work_quality: random_integer()
@@ -127,7 +127,7 @@ defmodule Core.Seeder.Contracts do
       Repo.insert!(%ServiceReview{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         user_id: tp2,
         work_quality: random_integer()
@@ -135,7 +135,7 @@ defmodule Core.Seeder.Contracts do
       Repo.insert!(%ServiceReview{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         user_id: tp2,
         work_quality: random_integer()
@@ -143,7 +143,7 @@ defmodule Core.Seeder.Contracts do
       Repo.insert!(%ServiceReview{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         user_id: tp3,
         work_quality: random_integer()
@@ -151,7 +151,7 @@ defmodule Core.Seeder.Contracts do
       Repo.insert!(%ServiceReview{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         user_id: tp3,
         work_quality: random_integer()
@@ -159,7 +159,7 @@ defmodule Core.Seeder.Contracts do
       Repo.insert!(%ServiceReview{
         client_comment: Lorem.sentence(),
         communication: random_integer(),
-        final_rating: random_float(),
+        final_rating: random_integer(),
         professionalism: random_integer(),
         user_id: tp3,
         work_quality: random_integer()

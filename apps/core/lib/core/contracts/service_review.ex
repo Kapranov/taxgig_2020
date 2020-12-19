@@ -38,7 +38,7 @@ defmodule Core.Contracts.ServiceReview do
   schema "service_reviews" do
     field :client_comment, :string, null: true
     field :communication, :integer, null: false
-    field :final_rating, :decimal, null: false
+    field :final_rating, :integer, null: false
     field :pro_response, :string, null: true
     field :professionalism, :integer, null: false
     field :work_quality, :integer, null: false
