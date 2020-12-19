@@ -264,7 +264,7 @@ With 2.0 fields that are `nil` and that don't have a default value are not
 sent to the database, which solves the issue entirely.
 
 - [X] `deleted_users`
-- []  `potential_clients`
+- [X]  `potential_clients`
 - []  `service_reviews`
 - []  `platforms`
 - []  `ban_reasons`

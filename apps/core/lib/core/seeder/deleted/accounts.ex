@@ -13,7 +13,7 @@ defmodule Core.Seeder.Deleted.Accounts do
 
   @spec deleted_deleted_user() :: Ecto.Schema.t()
   defp deleted_deleted_user do
-    IO.puts("Deleting old data...\n")
+    IO.puts("Deleting data on model's DeletedUser\n")
     SQL.query!(Repo, "TRUNCATE deleted_users CASCADE;")
   end
 end

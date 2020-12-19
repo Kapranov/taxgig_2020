@@ -8,6 +8,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
     Accounts.User,
     Contracts,
     Contracts.PotentialClient,
+    Contracts.Project,
+    Queries,
     Repo
   }
 
@@ -63,7 +65,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
         false ->
           {:error, [[field: :user_id, message: "Can't be blank or Permission denied for current_user"]]}
         true ->
-          args
+          project_idx =
+            Enum.map(args[:project], fn ids ->
+              case Queries.by_project(Project, :status, :New, :id, ids) do
+                nil -> []
+                _ -> [] ++ [ids]
+              end
+            end) |> List.flatten
+
+          attrs = %{project: project_idx, user_id: args[:user_id]}
+
+          attrs
           |> Contracts.create_potential_client()
           |> case do
             {:ok, struct} ->
@@ -86,8 +98,18 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
       try do
+        project_idx =
+          Enum.map(params[:project], fn ids ->
+            case Queries.by_project(Project, :status, :New, :id, ids) do
+              nil -> []
+              _ -> [] ++ [ids]
+            end
+          end) |> List.flatten
+
+        attrs = %{project: project_idx}
+
         Repo.get!(PotentialClient, id)
-        |> Contracts.update_potential_client(params)
+        |> Contracts.update_potential_client(attrs)
         |> case do
           {:ok, struct} ->
             {:ok, struct}
