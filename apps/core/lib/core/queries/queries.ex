@@ -15,6 +15,18 @@ defmodule Core.Queries do
 
   @type word() :: String.t()
 
+  @spec by_list(map, atom, String.t()) :: Ecto.Query.t()
+  def by_list(struct, row, id) do
+    try do
+      Repo.all(
+        from c in struct,
+        where: field(c, ^row) == ^id
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
   @spec find_match(atom) :: integer | float | nil
   def find_match(row) do
     q = from r in MatchValueRelate, select: {field(r, ^row)}

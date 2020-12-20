@@ -4,9 +4,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.EducationResolver do
   """
 
   alias Core.{
+    Queries,
+    Repo,
     Skills,
-    Skills.Education,
-    Repo
+    Skills.Education
   }
 
   @type t :: Education.t()
@@ -27,7 +28,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.EducationResolver do
           ]
         ]}
     else
-      struct = Skills.list_education()
+      # struct = Repo.all(from c in Education, where: field(c, :user_id) == ^current_user.id)
+      # struct = Skills.list_education()
+      struct = Queries.by_list(Education, :user_id, current_user.id)
       {:ok, struct}
     end
   end

@@ -7,6 +7,18 @@ defmodule Stripy.Queries do
 
   alias Stripy.Repo
 
+  @spec by_list(map, atom, String.t()) :: Ecto.Query.t()
+  def by_list(struct, row, id) do
+    try do
+      Repo.all(
+        from c in struct,
+        where: field(c, ^row) == ^id
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
   @spec by_count(map, atom, String.t()) :: Ecto.Query.t()
   def by_count(struct, row, id) do
     from c in struct,
