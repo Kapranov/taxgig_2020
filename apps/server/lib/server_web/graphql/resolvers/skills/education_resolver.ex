@@ -108,7 +108,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.EducationResolver do
         true  ->
           try do
             Repo.get!(Education, id)
-            |> Education.changeset(params)
+            |> Education.changeset(Map.delete(params, :user_id))
             |> Repo.update
           rescue
             Ecto.NoResultsError ->

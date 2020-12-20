@@ -17,16 +17,16 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.EducationTypes do
     field :id, non_null(:string), description: "unique identifier"
     field :course, :string, description: "education course"
     field :graduation, :date, description: "education graduation"
-    field :university, :university, resolve: dataloader(Data)
-    field :user, :user, resolve: dataloader(Data)
+    field :universities, :university, resolve: dataloader(Data)
+    field :users, :user, resolve: dataloader(Data)
   end
 
   @desc "The Education update via params"
   input_object :update_education_params, description: "create Education" do
-    field :course, non_null(:string), description: "Required course"
-    field :graduation, non_null(:date), description: "Required graduation"
+    field :course, :string, description: "Required course"
+    field :graduation, :date, description: "Required graduation"
+    field :university_id, :string
     field :user_id, non_null(:string)
-    field :university_id, non_null(:string)
   end
 
   object :education_queries do

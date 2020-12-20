@@ -12,6 +12,6 @@ defmodule Core.Repo.Migrations.CreateWorkExperiences do
       timestamps(type: :utc_datetime_usec)
     end
 
-    create(unique_index(:work_experiences, [:user_id], name: :work_experiences_user_id_index))
+    create index(:work_experiences, [:user_id])
   end
 end

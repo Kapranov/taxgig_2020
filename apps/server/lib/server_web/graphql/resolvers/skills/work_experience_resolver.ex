@@ -108,7 +108,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.WorkExperienceResolver do
         true  ->
           try do
             Repo.get!(WorkExperience, id)
-            |> WorkExperience.changeset(params)
+            |> WorkExperience.changeset(Map.delete(params, :user_id))
             |> Repo.update
           rescue
             Ecto.NoResultsError ->

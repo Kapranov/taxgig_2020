@@ -19,7 +19,7 @@ defmodule Core.Skills.WorkExperience do
     end_date: DateTime.t(),
     name: String.t(),
     start_date: DateTime.t(),
-    user_id: User.t()
+    users: User.t()
   }
 
   @allowed_params ~w(
@@ -41,7 +41,7 @@ defmodule Core.Skills.WorkExperience do
     field :name, :string
     field :start_date, :date
 
-    belongs_to :user, User,
+    belongs_to :users, User,
       foreign_key: :user_id, type: FlakeId.Ecto.CompatType, references: :id
 
     timestamps()
@@ -56,7 +56,6 @@ defmodule Core.Skills.WorkExperience do
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
     |> foreign_key_constraint(:user_id, message: "Select an User")
-    |> unique_constraint(:user_id, name: :accounting_softwares_user_id_index)
   end
 
   @doc """

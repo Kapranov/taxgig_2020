@@ -19,8 +19,8 @@ defmodule Core.Skills.Education do
   @type t :: %__MODULE__{
     course: String.t(),
     graduation: String.t(),
-    university_id: University.t(),
-    user_id: User.t()
+    universities: University.t(),
+    users: User.t()
   }
 
   @allowed_params ~w(
@@ -41,9 +41,10 @@ defmodule Core.Skills.Education do
     field :course, :string
     field :graduation, :date
 
-    belongs_to :university, University,
+    belongs_to :universities, University,
       foreign_key: :university_id, type: FlakeId.Ecto.CompatType, references: :id
-    belongs_to :user, User,
+
+    belongs_to :users, User,
       foreign_key: :user_id, type: FlakeId.Ecto.CompatType, references: :id
 
     timestamps()
@@ -60,7 +61,6 @@ defmodule Core.Skills.Education do
     |> foreign_key_constraint(:university_id, message: "Select an University")
     |> foreign_key_constraint(:user_id, message: "Select an User")
     |> unique_constraint(:university_id, name: :universities_user_id_index)
-    |> unique_constraint(:user_id, name: :accounting_softwares_user_id_index)
   end
 
   @doc """

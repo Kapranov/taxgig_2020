@@ -22,7 +22,7 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.AccountingSoftwareTypes do
   @desc "The accounting software update via params"
   input_object :update_accounting_software_params, description: "create AccountingSoftware" do
     field :name, list_of(:string), description: "Required name"
-    field :user_id, :string, description: "Required userId"
+    field :user_id, non_null(:string), description: "Required userId"
   end
 
   object :accounting_software_queries do

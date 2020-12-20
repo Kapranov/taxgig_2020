@@ -5,7 +5,7 @@ config :server, ServerWeb.Endpoint,
   salt: "user",
   redirect_uri: "https://taxgig.me:4001/graphiql",
   secret_key_base: "4rKBiN5BznqeClNzy1t+4LmfMH48TxlPCUT996MELKJ2t/zwrvQsPrG71vhE7vKu",
-  max_age: :timer.minutes(5) / 1000,
+  max_age: :timer.minutes(30) / 1000,
   render_errors: [view: ServerWeb.ErrorView, accepts: ~w(json)],
   pubsub_server: Server.PubSub,
   version: Mix.Project.config()[:version]

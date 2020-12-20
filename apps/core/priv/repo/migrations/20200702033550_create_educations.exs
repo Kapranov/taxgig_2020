@@ -12,7 +12,7 @@ defmodule Core.Repo.Migrations.CreateEducations do
       timestamps(type: :utc_datetime_usec)
     end
 
-    create(unique_index(:educations, [:user_id], name: :educations_user_id_index))
+    create index(:educations, [:user_id])
     create(unique_index(:educations, [:university_id], name: :universities_user_id_index))
   end
 end

@@ -274,8 +274,8 @@ defmodule Core.Accounts do
     |> Repo.preload([
       :accounting_software,
       :languages,
-      :work_experience,
-      education: [:university],
+      :work_experiences,
+      educations: [:universities],
     ])
   end
 
@@ -408,8 +408,8 @@ defmodule Core.Accounts do
     |> Repo.preload([
       :accounting_software,
       :languages,
-      :work_experience,
-      education: [:university],
+      :work_experiences,
+      educations: [:universities],
     ])
   end
 

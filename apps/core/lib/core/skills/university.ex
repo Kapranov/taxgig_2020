@@ -9,7 +9,7 @@ defmodule Core.Skills.University do
   alias Core.Skills.Education
 
   @type t :: %__MODULE__{
-    education: [Education.t()],
+    educations: [Education.t()],
     name: String.t()
   }
 
@@ -24,7 +24,7 @@ defmodule Core.Skills.University do
   schema "universities" do
     field :name, :string
 
-    has_one :education, Education, on_delete: :nothing
+    has_many :educations, Education, on_delete: :nothing
   end
 
   @doc """

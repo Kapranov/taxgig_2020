@@ -40,7 +40,7 @@ defmodule Core.Accounts.User do
     birthday: %Date{},
     book_keepings: [BookKeeping.t()],
     business_tax_returns: [BusinessTaxReturn.t()],
-    education: Education.t(),
+    educations: Education.t(),
     email: String.t(),
     first_name: String.t(),
     individual_tax_returns: [IndividualTaxReturn.t()],
@@ -68,7 +68,7 @@ defmodule Core.Accounts.User do
     sex: String.t(),
     ssn: integer,
     street: String.t(),
-    work_experience: WorkExperience.t(),
+    work_experiences: WorkExperience.t(),
     zip: integer
   }
 
@@ -132,15 +132,14 @@ defmodule Core.Accounts.User do
     field :zip, :integer
 
     has_one :accounting_software, AccountingSoftware, on_delete: :delete_all
-    has_one :education, Education, on_delete: :delete_all
     has_one :platform, Platform, on_delete: :delete_all
     has_one :potential_client, PotentialClient, on_delete: :delete_all
     has_one :profile, Profile, on_delete: :delete_all
-    has_one :work_experience, WorkExperience, on_delete: :delete_all
 
     has_many :addons, Addon, on_delete: :delete_all
     has_many :book_keepings, BookKeeping, on_delete: :nilify_all
     has_many :business_tax_returns, BusinessTaxReturn, on_delete: :nilify_all
+    has_many :educations, Education, on_delete: :delete_all
     has_many :individual_tax_returns, IndividualTaxReturn, on_delete: :nilify_all
     has_many :messages, Message, on_delete: :nilify_all
     has_many :offers, Offer, on_delete: :delete_all
@@ -150,6 +149,7 @@ defmodule Core.Accounts.User do
     has_many :rooms, Room, on_delete: :nilify_all
     has_many :sale_taxes, SaleTax, on_delete: :nilify_all
     has_many :service_reviews, ServiceReview, on_delete: :nilify_all
+    has_many :work_experiences, WorkExperience, on_delete: :delete_all
 
     many_to_many :languages, Language, join_through: "users_languages", on_replace: :delete
 

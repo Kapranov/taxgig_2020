@@ -18,14 +18,14 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.WorkExperienceTypes do
     field :end_date, :date, description: "WorkExperience end_date"
     field :name, :string, description: "WorkExperience name"
     field :start_date, :date, description: "WorkExperience start_date"
-    field :user, :user, resolve: dataloader(Data)
+    field :users, :user, resolve: dataloader(Data)
   end
 
   @desc "WorkExperience update via params"
   input_object :update_work_experience_params, description: "create WorkExperience" do
-    field :end_date, non_null(:date), description: "Required end_date"
-    field :name, non_null(:string), description: "Required name"
-    field :start_date, non_null(:date), description: "Required start_date"
+    field :end_date, :date, description: "Required end_date"
+    field :name, :string, description: "Required name"
+    field :start_date, :date, description: "Required start_date"
     field :user_id, non_null(:string)
   end
 

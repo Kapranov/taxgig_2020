@@ -26,8 +26,8 @@ defmodule Core.Skills do
     |> Repo.preload([
       user: [
         :languages,
-        :work_experience,
-        education: [:university]
+        :work_experiences,
+        educations: [:universities]
       ]
     ])
   end
@@ -52,8 +52,8 @@ defmodule Core.Skills do
     |> Repo.preload([
       user: [
         :languages,
-        :work_experience,
-        education: [:university],
+        :work_experiences,
+        educations: [:universities]
       ]
     ])
   end
@@ -147,8 +147,8 @@ defmodule Core.Skills do
   def list_education do
     Repo.all(Education)
     |> Repo.preload([
-      :university,
-      user: [:languages]
+      :universities,
+      users: [:languages]
     ])
   end
 
@@ -170,8 +170,8 @@ defmodule Core.Skills do
   def get_education!(id) do
     Repo.get!(Education, id)
     |> Repo.preload([
-      :university,
-      user: [:languages]
+      :universities,
+      users: [:languages]
     ])
   end
 
@@ -322,10 +322,10 @@ defmodule Core.Skills do
   def list_work_experience do
     Repo.all(WorkExperience)
     |> Repo.preload([
-      user: [
+      users: [
         :accounting_software,
         :languages,
-        education: [:university],
+        educations: [:universities],
       ]
     ])
   end
@@ -348,10 +348,10 @@ defmodule Core.Skills do
   def get_work_experience!(id) do
     Repo.get!(WorkExperience, id)
     |> Repo.preload([
-      user: [
+      users: [
         :accounting_software,
         :languages,
-        education: [:university],
+        educations: [:universities],
       ]
     ])
   end
