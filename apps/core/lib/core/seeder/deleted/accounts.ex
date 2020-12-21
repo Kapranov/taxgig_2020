@@ -8,8 +8,15 @@ defmodule Core.Seeder.Deleted.Accounts do
 
   @spec start!() :: Ecto.Schema.t()
   def start! do
+    deleted_ban_reason()
     deleted_deleted_user()
     deleted_platform()
+  end
+
+  @spec deleted_ban_reason() :: Ecto.Schema.t()
+  defp deleted_ban_reason do
+    IO.puts("Deleting data on model's BanReason\n")
+    SQL.query!(Repo, "TRUNCATE ban_reasons CASCADE;")
   end
 
   @spec deleted_deleted_user() :: Ecto.Schema.t()
