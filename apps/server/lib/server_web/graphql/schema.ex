@@ -14,6 +14,7 @@ defmodule ServerWeb.GraphQL.Schema do
 
   import_types(Absinthe.Plug.Types)
   import_types(Absinthe.Type.Custom)
+  import_types(ServerWeb.GraphQL.Schemas.Accounts.BanReasonTypes)
   import_types(ServerWeb.GraphQL.Schemas.Accounts.DeletedUserTypes)
   import_types(ServerWeb.GraphQL.Schemas.Accounts.PlatformTypes)
   import_types(ServerWeb.GraphQL.Schemas.Accounts.ProRatingTypes)
@@ -91,6 +92,7 @@ defmodule ServerWeb.GraphQL.Schema do
   query do
     import_fields(:accounting_software_queries)
     import_fields(:addon_queries)
+    import_fields(:ban_reason_queries)
     import_fields(:blockscore_queries)
     import_fields(:book_keeping_additional_need_queries)
     import_fields(:book_keeping_annual_revenue_queries)
@@ -156,6 +158,7 @@ defmodule ServerWeb.GraphQL.Schema do
   mutation do
     import_fields(:accounting_software_mutations)
     import_fields(:addon_mutations)
+    import_fields(:ban_reason_mutations)
     import_fields(:book_keeping_additional_need_mutations)
     import_fields(:book_keeping_annual_revenue_mutations)
     import_fields(:book_keeping_classify_inventory_mutations)
@@ -222,6 +225,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:vacancy_mutations)
     import_fields(:work_experience_mutations)
     import_fields(:update_addon_params)
+    import_fields(:update_ban_reason_params)
     import_fields(:update_book_keeping_additional_need_params)
     import_fields(:update_book_keeping_annual_revenue_params)
     import_fields(:update_book_keeping_classify_inventory_params)
@@ -278,6 +282,7 @@ defmodule ServerWeb.GraphQL.Schema do
   subscription do
     import_fields(:accounting_software_subscriptions)
     import_fields(:addon_subscriptions)
+    import_fields(:ban_reason_subscriptions)
     import_fields(:blockscore_subscriptions)
     import_fields(:book_keeping_subscriptions)
     import_fields(:business_tax_return_subscriptions)

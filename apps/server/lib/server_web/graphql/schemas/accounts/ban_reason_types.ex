@@ -18,8 +18,8 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.BanReasonTypes do
     field :description, :string
     field :other, :boolean
     field :platform, :platform, resolve: dataloader(Data)
-    field :reasons, list_of(:string)
-    field :user, :user, resolve: dataloader(Data)
+    field :reasons, :string
+    field :users, :user, resolve: dataloader(Data)
   end
 
   @desc "The ban reason update via params"
@@ -27,7 +27,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.BanReasonTypes do
     field :description, :string
     field :other, :boolean
     field :platform_id, :string
-    field :reasons, list_of(:string)
+    field :reasons, :string
   end
 
   object :ban_reason_queries do
@@ -46,10 +46,10 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.BanReasonTypes do
   object :ban_reason_mutations do
     @desc "Create the ban reason"
     field :create_ban_reason, :ban_reason, description: "Create a new ban reason" do
-      arg :description, :boolean
+      arg :description, :string
       arg :other, :boolean
       arg :platform_id, non_null(:string)
-      arg :reasons, list_of(:string)
+      arg :reasons, :string
       arg :user_id, non_null(:string)
       resolve &BanReasonResolver.create/3
     end

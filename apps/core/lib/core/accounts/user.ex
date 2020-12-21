@@ -6,6 +6,7 @@ defmodule Core.Accounts.User do
   use Core.Model
 
   alias Core.{
+    Accounts.BanReason,
     Accounts.Platform,
     Accounts.ProRating,
     Accounts.Profile,
@@ -137,6 +138,7 @@ defmodule Core.Accounts.User do
     has_one :profile, Profile, on_delete: :delete_all
 
     has_many :addons, Addon, on_delete: :delete_all
+    has_many :ban_reasons, BanReason, on_delete: :delete_all
     has_many :book_keepings, BookKeeping, on_delete: :nilify_all
     has_many :business_tax_returns, BusinessTaxReturn, on_delete: :nilify_all
     has_many :educations, Education, on_delete: :delete_all

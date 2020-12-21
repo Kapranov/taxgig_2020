@@ -73,8 +73,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.BanReasonResolver do
     {:error, "Unauthenticated"}
   end
 
-  @spec update(any, %{id: bitstring, platform: map()}, %{context: %{current_user: User.t()}}) :: result()
-  def update(_parent, %{id: id, platform: params}, %{context: %{current_user: current_user}}) do
+  @spec update(any, %{id: bitstring, ban_reason: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update(_parent, %{id: id, ban_reason: params}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) || current_user.admin == false do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else

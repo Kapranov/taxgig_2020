@@ -1,0 +1,179 @@
+{
+  "key": "graphiql",
+  "lastId": 5,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFFVVhPbGRyVmxROHV2dEFuBgAqdi-FdgFiAAFRgA.IWGVWtlZ6IXUC21ApQwiuVWXS1ph0bFmgDRMDlGsgDw"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFFVVhPbGRyVmxROHV2dEFuBgCIIiKFdgFiAAFRgA.420tiIbUPK8aKjsOLYvGjTRoqF5vYT0cxSurgRJDERE"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab5",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3231827111984283
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFFVVhPbGRyVmxROHV2dEFuBgCIIiKFdgFiAAFRgA.420tiIbUPK8aKjsOLYvGjTRoqF5vYT0cxSurgRJDERE"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allBanReasons {\n    id\n    other\n    description\n    reasons\n    platform { id }\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allBanReasons {\n    id\n    description\n    reasons\n    platform { id }\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allBanReasons {\n    id\n    description\n    reasons\n    platform { id }\n    user {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allBanReasons {\n    id\n    other\n    description\n    reasons\n    platform { id }\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allBanReasons {\\n    id\\n    description\\n    reasons\\n    platform { id }\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allBanReasons {\\n    id\\n    description\\n    reasons\\n    platform { id }\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allBanReasons {\\n    id\\n    other\\n    description\\n    reasons\\n    platform { id }\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.24147465437788018
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFFVVhPbGRyVmxROHV2dEFuBgCIIiKFdgFiAAFRgA.420tiIbUPK8aKjsOLYvGjTRoqF5vYT0cxSurgRJDERE"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createBanReason(\n    reasons: \"Fraud\",\n    platformId: \"A2QKyl6HgSF4ZCb8oC\",\n    description: \"some text\",\n    other: true,\n    userId: \"A2QEUXOldrVlQ8uvtA\"\n  ) {\n    id\n    description\n    reasons\n    other\n    platform {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createBanReason(\n    reasons: \"Fraud\",\n    platformId: \"A2QKyl6HgSF4ZCb8oC\",\n    description: \"some text\",\n    other: true,\n    userId: \"A2QEUXOldrVlQ8uvtA\"\n  ) {\n    id\n    description\n    reasons\n    other\n    platform {id}\n    user {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createBanReason(\n    reasons: \"Fraud\",\n    platformId: \"A2QKyl6HgSF4ZCb8oC\",\n    description: \"some text\",\n    other: true,\n    userId: \"A2QEUXOldrVlQ8uvtA\"\n  ) {\n    id\n    description\n    reasons\n    other\n    platform {id}\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createBanReason(\\n    reasons: \\\"Fraud\\\",\\n    platformId: \\\"A2QKyl6HgSF4ZCb8oC\\\",\\n    description: \\\"some text\\\",\\n    other: true,\\n    userId: \\\"A2QEUXOldrVlQ8uvtA\\\"\\n  ) {\\n    id\\n    description\\n    reasons\\n    other\\n    platform {id}\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createBanReason(\\n    reasons: \\\"Fraud\\\",\\n    platformId: \\\"A2QKyl6HgSF4ZCb8oC\\\",\\n    description: \\\"some text\\\",\\n    other: true,\\n    userId: \\\"A2QEUXOldrVlQ8uvtA\\\"\\n  ) {\\n    id\\n    description\\n    reasons\\n    other\\n    platform {id}\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.403125,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFFVVhPbGRyVmxROHV2dEFuBgAqdi-FdgFiAAFRgA.IWGVWtlZ6IXUC21ApQwiuVWXS1ph0bFmgDRMDlGsgDw"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateBanReason(\n    id: \"A2QPtG8xGtDH0jQkIi\",\n    banReason: {\n      other: true,\n      reasons: \"Fraud\",\n      description: \"updated text\"\n    }\n  ) {\n    id\n    other\n    description\n    reasons\n    platform {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateBanReason(\n    id: \"A2QPtG8xGtDH0jQkIi\",\n    banReason: {\n      other: false,\n      reasons: \"Fraud\",\n      description: \"updated text\"\n    }\n  ) {\n    id\n    other\n    description\n    reasons\n    platform {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateBanReason(\n    id: \"A2QPtG8xGtDH0jQkIi\",\n    banReason: {\n      other: false,\n      reasons: \"Fraud\",\n      description: \"updated text\",\n      platformId: \"A2QKyl6HgSF4ZCb8oC\"\n    }\n  ) {\n    id\n    other\n    description\n    reasons\n    platform {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateBanReason(\n    id: \"A2QPtG8xGtDH0jQkIi\",\n    banReason: {\n      other: true,\n      reasons: \"Fraud\",\n      description: \"updated text\"\n    }\n  ) {\n    id\n    other\n    description\n    reasons\n    platform {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateBanReason(\n    id: \"A2QPtG8xGtDH0jQkIi\",\n    banReason: {\n      other: false,\n      reasons: \"Fraud\",\n      description: \"updated text\"\n    }\n  ) {\n    id\n    other\n    description\n    reasons\n    platform {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateBanReason(\n    id: \"A2QPtG8xGtDH0jQkIi\",\n    banReason: {\n      other: true,\n      reasons: \"Fraud\",\n      description: \"updated text\"\n    }\n  ) {\n    id\n    other\n    description\n    reasons\n    platform {id}\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateBanReason(\\n    id: \\\"A2QPtG8xGtDH0jQkIi\\\",\\n    banReason: {\\n      other: false,\\n      reasons: \\\"Fraud\\\",\\n      description: \\\"updated text\\\"\\n    }\\n  ) {\\n    id\\n    other\\n    description\\n    reasons\\n    platform {id}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateBanReason(\\n    id: \\\"A2QPtG8xGtDH0jQkIi\\\",\\n    banReason: {\\n      other: true,\\n      reasons: \\\"Fraud\\\",\\n      description: \\\"updated text\\\"\\n    }\\n  ) {\\n    id\\n    other\\n    description\\n    reasons\\n    platform {id}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateBanReason(\\n    id: \\\"A2QPtG8xGtDH0jQkIi\\\",\\n    banReason: {\\n      other: false,\\n      reasons: \\\"Fraud\\\",\\n      description: \\\"updated text\\\",\\n      platformId: \\\"A2QKyl6HgSF4ZCb8oC\\\"\\n    }\\n  ) {\\n    id\\n    other\\n    description\\n    reasons\\n    platform {id}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateBanReason(\\n    id: \\\"A2QPtG8xGtDH0jQkIi\\\",\\n    banReason: {\\n      other: false,\\n      reasons: \\\"Fraud\\\",\\n      description: \\\"updated text\\\"\\n    }\\n  ) {\\n    id\\n    other\\n    description\\n    reasons\\n    platform {id}\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateBanReason(\\n    id: \\\"A2QPtG8xGtDH0jQkIi\\\",\\n    banReason: {\\n      other: true,\\n      reasons: \\\"Fraud\\\",\\n      description: \\\"updated text\\\"\\n    }\\n  ) {\\n    id\\n    other\\n    description\\n    reasons\\n    platform {id}\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.37169042769857435,
+      "graphiql:variableEditorHeight": 200
+    }
+  ]
+}

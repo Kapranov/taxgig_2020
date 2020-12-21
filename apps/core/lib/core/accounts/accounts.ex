@@ -454,7 +454,7 @@ defmodule Core.Accounts do
         |> Repo.insert()
       false ->
         %BanReason{}
-        |> BanReason.changeset(Map.delete(attrs, :other_description))
+        |> BanReason.changeset(Map.delete(attrs, :description))
         |> Repo.insert()
       nil -> {:error, %Ecto.Changeset{}}
     end
@@ -1094,8 +1094,8 @@ defmodule Core.Accounts do
       |> Map.merge(%{reasons: nil})
 
     new_attrs2 =
-      Map.delete(attrs, :other_description)
-      |> Map.merge(%{other_description: nil})
+      Map.delete(attrs, :description)
+      |> Map.merge(%{description: nil})
 
     case attrs.other do
       true ->
