@@ -7,6 +7,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
     Accounts,
     Accounts.Platform,
     Accounts.User,
+    Queries,
     Repo
   }
 
@@ -22,7 +23,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
     if is_nil(current_user) do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct = Accounts.list_platform()
+      # struct = Accounts.list_platform()
+      # {:ok, struct}
+      struct = Queries.by_list(Platform, :user_id, current_user.id)
       {:ok, struct}
     end
   end
@@ -57,7 +60,23 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
     if is_nil(current_user) do
       {:error, [[field: :current_user, message: "Permission denied for current_user to perform action Create"]]}
     else
-      args
+      check_one =
+        if is_nil(args[:hero_status]) || args[:hero_status] == false || args[:client_limit_reach] == true do
+          Map.put(args, :hero_active, false)
+        else
+          Map.put(args, :hero_active, true)
+        end
+
+      check_two =
+        if is_nil(args[:stuck_stage]) do
+          Map.put(args, :is_stuck, false)
+        else
+          Map.put(args, :is_stuck, true)
+        end
+
+      attrs = Map.merge(check_one, check_two)
+
+      attrs
       |> Accounts.create_platform()
       |> case do
         {:ok, struct} ->
@@ -78,18 +97,38 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
     if is_nil(id) || is_nil(current_user) do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
-      try do
-        Repo.get!(Platform, id)
-        |> Accounts.update_platform(params)
-        |> case do
-          {:ok, struct} ->
-            {:ok, struct}
-          {:error, changeset} ->
-            {:error, extract_error_msg(changeset)}
-        end
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The Platform #{id} not found!"}
+      case params[:user_id] == current_user.id do
+        true  ->
+          check_one =
+            if is_nil(params[:hero_status]) || params[:hero_status] == false || params[:client_limit_reach] == true do
+              Map.put(params, :hero_active, false)
+            else
+              Map.put(params, :hero_active, true)
+            end
+
+          check_two =
+            if is_nil(params[:stuck_stage]) do
+              Map.put(params, :is_stuck, false)
+            else
+              Map.put(params, :is_stuck, true)
+            end
+
+          attrs = Map.merge(check_one, check_two)
+
+          try do
+            Repo.get!(Platform, id)
+            |> Accounts.update_platform(Map.delete(attrs, :user_id))
+            |> case do
+              {:ok, struct} ->
+                {:ok, struct}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
+          rescue
+            Ecto.NoResultsError ->
+              {:error, "The Platform #{id} not found!"}
+          end
+        false -> {:error, "permission denied"}
       end
     end
   end

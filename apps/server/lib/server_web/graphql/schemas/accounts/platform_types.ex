@@ -22,20 +22,19 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.PlatformTypes do
     field :is_online, non_null(:boolean)
     field :is_stuck, non_null(:boolean)
     field :payment_active, non_null(:boolean)
-    field :stuck_stage, list_of(:string)
+    field :stuck_stage, :string
     field :user, :user, resolve: dataloader(Data)
   end
 
   @desc "The platform update via params"
   input_object :update_platform_params, description: "update platform" do
     field :client_limit_reach, :boolean
-    field :hero_active, :boolean
     field :hero_status, :boolean
     field :is_banned, :boolean
     field :is_online, :boolean
-    field :is_stuck, :boolean
     field :payment_active, :boolean
-    field :stuck_stage, list_of(:string)
+    field :stuck_stage, :string
+    field :user_id, non_null(:string)
   end
 
   object :platform_queries do
@@ -55,13 +54,11 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.PlatformTypes do
     @desc "Create the platform"
     field :create_platform, :platform, description: "Create a new platform" do
       arg :client_limit_reach, non_null(:boolean)
-      arg :hero_active, :boolean
       arg :hero_status, :boolean
       arg :is_banned, non_null(:boolean)
       arg :is_online, non_null(:boolean)
-      arg :is_stuck, non_null(:boolean)
       arg :payment_active, non_null(:boolean)
-      arg :stuck_stage, list_of(:string)
+      arg :stuck_stage, :string
       arg :user_id, non_null(:string)
       resolve &PlatformResolver.create/3
     end

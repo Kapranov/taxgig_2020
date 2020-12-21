@@ -308,9 +308,7 @@ defmodule Core.Accounts do
 
   """
   @spec get_ban_reason!(String.t()) :: BanReason.t() | error_tuple()
-  def get_ban_reason!(id) do
-    Repo.get!(BanReason, id)
-  end
+  def get_ban_reason!(id), do: Repo.get!(BanReason, id)
 
   @doc """
   Gets a single Platform.
@@ -327,9 +325,7 @@ defmodule Core.Accounts do
 
   """
   @spec get_platform!(String.t()) :: Platform.t() | error_tuple()
-  def get_platform!(id) do
-    Repo.get!(Platform, id)
-  end
+  def get_platform!(id), do: Repo.get!(Platform, id)
 
   @doc """
   Gets a single ProRating.
@@ -346,9 +342,7 @@ defmodule Core.Accounts do
 
   """
   @spec get_pro_rating!(String.t()) :: ProRating.t() | error_tuple()
-  def get_pro_rating!(id) do
-    Repo.get!(ProRating, id)
-  end
+  def get_pro_rating!(id), do: Repo.get!(ProRating, id)
 
   @doc """
   Gets a single DeletedUser.
@@ -365,9 +359,7 @@ defmodule Core.Accounts do
 
   """
   @spec get_deleted_user!(String.t()) :: DeletedUser.t() | error_tuple()
-  def get_deleted_user!(id) do
-    Repo.get!(DeletedUser, id)
-  end
+  def get_deleted_user!(id), do: Repo.get!(DeletedUser, id)
 
   @doc """
   Gets a single Subscriber.
@@ -384,9 +376,7 @@ defmodule Core.Accounts do
 
   """
   @spec get_subscriber!(String.t()) :: Subscriber.t() | error_tuple()
-  def get_subscriber!(id) do
-    Repo.get!(Subscriber, id)
-  end
+  def get_subscriber!(id), do: Repo.get!(Subscriber, id)
 
   @doc """
   Gets a single User.
