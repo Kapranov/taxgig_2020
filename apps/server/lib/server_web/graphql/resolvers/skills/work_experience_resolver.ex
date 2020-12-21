@@ -4,6 +4,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.WorkExperienceResolver do
   """
 
   alias Core.{
+    Queries,
     Skills,
     Skills.WorkExperience,
     Repo
@@ -27,7 +28,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.WorkExperienceResolver do
           ]
         ]}
     else
-      struct = Skills.list_work_experience()
+      struct = Queries.by_list(WorkExperience, :user_id, current_user.id)
       {:ok, struct}
     end
   end

@@ -1,0 +1,167 @@
+{
+  "key": "graphiql",
+  "lastId": 5,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMk9tcjhPeE1WckhZQVRsamNuBgDMczWBdgFiAAFRgA.NnDov-oz3buwvr1NlyinYu8E8AiSDjFPs9ZRO_UvlQM"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMk9tcjhPeE1WckhZQVRsamNuBgAJySWBdgFiAAFRgA.ctSIS5zRDq2HaWa_jTrjGUUquSoEnSgSr9mKb4aSKgA"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab5",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn (\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn (\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn (\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.37029501525940994
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMk9tcjhPeE1WckhZQVRsamNuBgAJySWBdgFiAAFRgA.ctSIS5zRDq2HaWa_jTrjGUUquSoEnSgSr9mKb4aSKgA"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allWorkExperiences {\n    id\n    name\n    startDate\n    endDate\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allWorkExperiences {\n    id\n    name\n    startDate\n    endDate\n    users {id email role}\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allWorkExperiences {\\n    id\\n    name\\n    startDate\\n    endDate\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3633603238866397
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMk9tcjhPeE1WckhZQVRsamNuBgAJySWBdgFiAAFRgA.ctSIS5zRDq2HaWa_jTrjGUUquSoEnSgSr9mKb4aSKgA"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createWorkExperience(\n    name: \"some text text\",\n    startDate: \"2020-12-22\",\n    endDate: \"2020-12-24\",\n    userId: \"A2Omr8OxMVrHYATljc\"\n  ) {\n    id\n    name\n    startDate\n    endDate\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createWorkExperience(\n    name: \"some text\",\n    startDate: \"2020-12-20\",\n    endDate: \"2020-12-22\",\n    userId: \"A2Omr8OxMVrHYATljc\"\n  ) {\n    id\n    name\n    startDate\n    endDate\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createWorkExperience(\n    name: \"some text text\",\n    startDate: \"2020-12-22\",\n    endDate: \"2020-12-24\",\n    userId: \"A2Omr8OxMVrHYATljc\"\n  ) {\n    id\n    name\n    startDate\n    endDate\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createWorkExperience(\\n    name: \\\"some text\\\",\\n    startDate: \\\"2020-12-20\\\",\\n    endDate: \\\"2020-12-22\\\",\\n    userId: \\\"A2Omr8OxMVrHYATljc\\\"\\n  ) {\\n    id\\n    name\\n    startDate\\n    endDate\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createWorkExperience(\\n    name: \\\"some text text\\\",\\n    startDate: \\\"2020-12-22\\\",\\n    endDate: \\\"2020-12-24\\\",\\n    userId: \\\"A2Omr8OxMVrHYATljc\\\"\\n  ) {\\n    id\\n    name\\n    startDate\\n    endDate\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.32188420019627084,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMk9tcjhPeE1WckhZQVRsamNuBgDMczWBdgFiAAFRgA.NnDov-oz3buwvr1NlyinYu8E8AiSDjFPs9ZRO_UvlQM"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateWorkExperience(\n    id: \"A2OoEtwCcrWXgmvKEK\",\n    workExperience: {\n      name: \"updated text\",\n      startDate: \"2020-12-25\",\n      endDate: \"2020-12-28\",\n      userId: \"A2Omr8OxMVrHYATljc\"\n    }\n  ) {\n    id\n    name\n    startDate\n    endDate\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateWorkExperience(\n    id: \"A2OoEtwCcrWXgmvKEK\",\n    workExperience: {\n      startDate: \"2020-12-25\",\n      endDate: \"2020-12-28\"\n    }\n  ) {\n    id\n    name\n    startDate\n    endDate\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateWorkExperience(\n    id: \"A2OoEtwCcrWXgmvKEK\",\n    workExperience: {\n      name: \"updated text\",\n      startDate: \"2020-12-25\",\n      endDate: \"2020-12-28\"\n    }\n  ) {\n    id\n    name\n    startDate\n    endDate\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateWorkExperience(\n    id: \"A2OoEtwCcrWXgmvKEK\",\n    workExperience: {\n      name: \"updated test\",\n      startDate: \"2020-12-25\",\n      endDate: \"2020-12-28\"\n    }\n  ) {\n    id\n    name\n    startDate\n    endDate\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateWorkExperience(\n    id: \"A2OoEtwCcrWXgmvKEK\",\n    workExperience: {\n      name: \"updated text\",\n      startDate: \"2020-12-25\",\n      endDate: \"2020-12-28\",\n      userId: \"A2Omr8OxMVrHYATljc\"\n    }\n  ) {\n    id\n    name\n    startDate\n    endDate\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateWorkExperience(\\n    id: \\\"A2OoEtwCcrWXgmvKEK\\\",\\n    workExperience: {\\n      name: \\\"updated test\\\",\\n      startDate: \\\"2020-12-25\\\",\\n      endDate: \\\"2020-12-28\\\"\\n    }\\n  ) {\\n    id\\n    name\\n    startDate\\n    endDate\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateWorkExperience(\\n    id: \\\"A2OoEtwCcrWXgmvKEK\\\",\\n    workExperience: {\\n      startDate: \\\"2020-12-25\\\",\\n      endDate: \\\"2020-12-28\\\"\\n    }\\n  ) {\\n    id\\n    name\\n    startDate\\n    endDate\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateWorkExperience(\\n    id: \\\"A2OoEtwCcrWXgmvKEK\\\",\\n    workExperience: {\\n      name: \\\"updated text\\\",\\n      startDate: \\\"2020-12-25\\\",\\n      endDate: \\\"2020-12-28\\\"\\n    }\\n  ) {\\n    id\\n    name\\n    startDate\\n    endDate\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateWorkExperience(\\n    id: \\\"A2OoEtwCcrWXgmvKEK\\\",\\n    workExperience: {\\n      startDate: \\\"2020-12-25\\\",\\n      endDate: \\\"2020-12-28\\\"\\n    }\\n  ) {\\n    id\\n    name\\n    startDate\\n    endDate\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateWorkExperience(\\n    id: \\\"A2OoEtwCcrWXgmvKEK\\\",\\n    workExperience: {\\n      name: \\\"updated text\\\",\\n      startDate: \\\"2020-12-25\\\",\\n      endDate: \\\"2020-12-28\\\",\\n      userId: \\\"A2Omr8OxMVrHYATljc\\\"\\n    }\\n  ) {\\n    id\\n    name\\n    startDate\\n    endDate\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.35240963855421686,
+      "graphiql:variableEditorHeight": 200
+    }
+  ]
+}

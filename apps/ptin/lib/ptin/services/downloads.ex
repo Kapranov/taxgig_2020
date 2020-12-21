@@ -132,7 +132,7 @@ defmodule Ptin.Services.Downloads do
   `Ptin.Services.Downloads.import("2020-1-16", "foia_west_virginia_extract.csv")`
   """
   @spec insert(bitstring(), bitstring()) :: result()
-  def insert(path, file \\ "foia_utah_extract.csv") when is_bitstring(path) and is_bitstring(file) do
+  def insert(path, file \\ "foia_extract.csv") when is_bitstring(path) and is_bitstring(file) do
     data =
       Path.join(base_data(), path)
       |> Path.join(file)
@@ -184,7 +184,7 @@ defmodule Ptin.Services.Downloads do
   `Ptin.Services.Downloads.import("2020-1-16", "foia_west_virginia_extract.csv")`
   """
   @spec insert!(bitstring(), bitstring()) :: result()
-  def insert!(path, file \\ "foia_utah_extract.csv") when is_bitstring(path) and is_bitstring(file) do
+  def insert!(path, file \\ "foia_extract.csv") when is_bitstring(path) and is_bitstring(file) do
     data =
       Path.join(base_data(), path)
       |> Path.join(file)

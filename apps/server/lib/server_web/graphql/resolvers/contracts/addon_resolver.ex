@@ -80,8 +80,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
     {:error, "Unauthenticated"}
   end
 
-  @spec update(any, %{id: bitstring, offer: map()}, %{context: %{current_user: User.t()}}) :: result()
-  def update(_parent, %{id: id, offer: params}, %{context: %{current_user: current_user}}) do
+  @spec update(any, %{id: bitstring, addon: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update(_parent, %{id: id, addon: params}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) || current_user.role == false do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
