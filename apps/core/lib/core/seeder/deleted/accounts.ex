@@ -11,6 +11,7 @@ defmodule Core.Seeder.Deleted.Accounts do
     deleted_ban_reason()
     deleted_deleted_user()
     deleted_platform()
+    deleted_pro_rating()
   end
 
   @spec deleted_ban_reason() :: Ecto.Schema.t()
@@ -29,5 +30,11 @@ defmodule Core.Seeder.Deleted.Accounts do
   defp deleted_platform do
     IO.puts("Deleting data on model's Platform\n")
     SQL.query!(Repo, "TRUNCATE platforms CASCADE;")
+  end
+
+  @spec deleted_pro_rating() :: Ecto.Schema.t()
+  defp deleted_pro_rating do
+    IO.puts("Deleting data on model's ProRating\n")
+    SQL.query!(Repo, "TRUNCATE pro_ratings CASCADE;")
   end
 end

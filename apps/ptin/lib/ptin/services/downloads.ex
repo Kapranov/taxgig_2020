@@ -19,9 +19,7 @@ defmodule Ptin.Services.Downloads do
   @type success_tuple :: {:ok}
   @type result :: success_tuple | error_tuple
 
-  @zip_url ~w(
-    https://www.irs.gov/pub/irs-utl/FOIA_Extract.zip
-  )s
+  @zip_url ~w(https://www.irs.gov/pub/irs-utl/FOIA_Extract.zip)s
 
   @csv_url ~w(
     https://www.irs.gov/pub/irs-utl/FOIA_Alabama_extract.csv
@@ -32,13 +30,13 @@ defmodule Ptin.Services.Downloads do
     https://www.irs.gov/pub/irs-utl/FOIA_Colorado_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Connecticut_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Delaware_extract.csv
+    https://www.irs.gov/pub/irs-utl/FOIA_Washington%20DC_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Florida_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Georgia_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Hawaii_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Idaho_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Illinois_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Indiana_extract.csv
-    https://www.irs.gov/pub/irs-utl/FOIA_International_Extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Iowa_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Kansas_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Kentucky_extract.csv
@@ -69,14 +67,14 @@ defmodule Ptin.Services.Downloads do
     https://www.irs.gov/pub/irs-utl/FOIA_Tennessee_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Texas_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Utah_extract.csv
-    https://www.irs.gov/pub/irs-utl/FOIA_US_Territories_Extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Vermont_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Virginia_extract.csv
-    https://www.irs.gov/pub/irs-utl/FOIA_Washington%20DC_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Washington_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_West%20Virginia_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Wisconsin_extract.csv
     https://www.irs.gov/pub/irs-utl/FOIA_Wyoming_extract.csv
+    https://www.irs.gov/pub/irs-utl/FOIA_US_Territories_Extract.csv
+    https://www.irs.gov/pub/irs-utl/FOIA_International_Extract.csv
   )s
 
   @doc """
@@ -140,7 +138,7 @@ defmodule Ptin.Services.Downloads do
     case Repo.delete_all(Ptin) do
       {_, nil} ->
         data
-        |> File.stream!
+        |> File.stream!(read_ahead: 99_000_000)
         |> Parser.parse_stream
         |> Stream.map(fn [
              val1,
@@ -192,7 +190,7 @@ defmodule Ptin.Services.Downloads do
     case Repo.delete_all(Ptin) do
       {_, nil} ->
         data
-        |> File.stream!
+        |> File.stream!(read_ahead: 99_000_000)
         |> Parser.parse_stream
         |> Stream.map(fn [
              val1,

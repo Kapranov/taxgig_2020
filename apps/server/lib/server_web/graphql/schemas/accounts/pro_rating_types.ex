@@ -19,8 +19,8 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProRatingTypes do
     field :average_professionalism, non_null(:decimal)
     field :average_rating, non_null(:decimal)
     field :average_work_quality, non_null(:decimal)
-    field :projects, non_null(list_of(:string))
-    field :user, :user, resolve: dataloader(Data)
+    field :projects, list_of(:project), description: "projects list"
+    field :users, :user, resolve: dataloader(Data)
   end
 
   @desc "The pro rating update via params"
@@ -29,7 +29,8 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProRatingTypes do
     field :average_professionalism, :decimal
     field :average_rating, :decimal
     field :average_work_quality, :decimal
-    field :projects, list_of(:string)
+    field :projects, :string
+    field :user_id, non_null(:string)
   end
 
   object :pro_rating_queries do
@@ -52,7 +53,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProRatingTypes do
       arg :average_professionalism, non_null(:decimal)
       arg :average_rating, non_null(:decimal)
       arg :average_work_quality, non_null(:decimal)
-      arg :projects, non_null(list_of(:string))
+      arg :projects, non_null(:string)
       arg :user_id, non_null(:string)
       resolve &ProRatingResolver.create/3
     end
@@ -67,6 +68,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProRatingTypes do
     @desc "Delete a specific the pro rating"
     field :delete_pro_rating, :pro_rating do
       arg :id, non_null(:string)
+      arg :user_id, non_null(:string)
       resolve &ProRatingResolver.delete/3
     end
   end

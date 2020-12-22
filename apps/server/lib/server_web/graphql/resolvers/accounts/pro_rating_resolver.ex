@@ -22,7 +22,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProRatingResolver do
     if is_nil(current_user) || current_user.role == false do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct = Accounts.list_pro_rating()
+      # struct = Accounts.list_pro_rating()
+      struct =
+        Repo.get_by(ProRating, %{user_id: current_user.id})
+        |> Repo.preload([:projects, users: [:languages]])
       {:ok, struct}
     end
   end
@@ -83,18 +86,22 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProRatingResolver do
     if is_nil(id) || is_nil(current_user) || current_user.role == false do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
-      try do
-        Repo.get!(ProRating, id)
-        |> Accounts.update_pro_rating(params)
-        |> case do
-          {:ok, struct} ->
-            {:ok, struct}
-          {:error, changeset} ->
-            {:error, extract_error_msg(changeset)}
-        end
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The Pro Rating #{id} not found!"}
+      case params[:user_id] == current_user.id do
+        true  ->
+          try do
+            Repo.get!(ProRating, id)
+            |> Accounts.update_pro_rating(Map.delete(params, :user_id))
+            |> case do
+              {:ok, struct} ->
+                {:ok, struct}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
+          rescue
+            Ecto.NoResultsError ->
+              {:error, "The Pro Rating #{id} not found!"}
+          end
+        false -> {:error, "permission denied"}
       end
     end
   end
@@ -104,17 +111,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProRatingResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :pro_rating, message: "Can't be blank"]]}
   end
 
-  @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
+  @spec delete(any, %{id: bitstring, user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def delete(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) || current_user.role == false do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
     else
-      try do
-        struct = Accounts.get_pro_rating!(id)
-        Repo.delete(struct)
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The Pro Rating #{id} not found!"}
+      case user_id == current_user.id do
+        true  ->
+          try do
+            struct = Accounts.get_pro_rating!(id)
+            Repo.delete(struct)
+          rescue
+            Ecto.NoResultsError ->
+              {:error, "The Pro Rating #{id} not found!"}
+          end
+        false -> {:error, "permission denied"}
       end
     end
   end

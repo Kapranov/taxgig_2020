@@ -231,7 +231,7 @@ defmodule Core.Accounts do
   @spec list_pro_rating() :: [ProRating.t()]
   def list_pro_rating do
     Repo.all(ProRating)
-    |> Repo.preload([platforms: [user: [:languages]]])
+    |> Repo.preload([projects: [users: [:languages]]])
   end
 
   @doc """
@@ -342,7 +342,10 @@ defmodule Core.Accounts do
 
   """
   @spec get_pro_rating!(String.t()) :: ProRating.t() | error_tuple()
-  def get_pro_rating!(id), do: Repo.get!(ProRating, id)
+  def get_pro_rating!(id) do
+    Repo.get!(ProRating, id)
+    |> Repo.preload([projects: [users: [:languages]]])
+  end
 
   @doc """
   Gets a single DeletedUser.

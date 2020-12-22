@@ -1,0 +1,244 @@
+{
+  "key": "graphiql",
+  "lastId": 6,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5",
+    "tab6"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZNlhtZVNoYXVFVEFtQUtuBgCs_hCKdgFiAAFRgA.equiARfb3Nz6aFM2RMp62xgSZQD65OMSnu3yRytYEpY"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZNlhtZVNoYXVFVEFtQUtuBgB-Xu2JdgFiAAFRgA.WX7P-bbNqs9s3mAD4p2qjJ4Hdv6fBFbtaIDj-05ue3E"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZNlhtZVNoYXVFVEFtQUtuBgAJwrKJdgFiAAFRgA.O1H14xp_n9kyT52ZgKjc1WJicvie3L94dLI51Ede8EQ"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab3",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\") {\n    accessToken\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\") {\n    accessToken\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\") {\\n    accessToken\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.34297108673978066
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZNlhtZVNoYXVFVEFtQUtuBgCs_hCKdgFiAAFRgA.equiARfb3Nz6aFM2RMp62xgSZQD65OMSnu3yRytYEpY"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    projects {id addonPrice}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    projects {id addonPrice}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    projects {\n      id\n    }\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    projects {addonPrice}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    projects {\n      id\n    }\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    user {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allProRatings {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    projects {id addonPrice}\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism,\\n    user {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    projects\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    projects {id}\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    projects {addonPrice}\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    projects {id}\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    projects\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    projects {id}\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    projects {id addonPrice}\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    projects {id}\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProRatings {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    projects {id addonPrice}\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.31414634146341464
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZNlhtZVNoYXVFVEFtQUtuBgCs_hCKdgFiAAFRgA.equiARfb3Nz6aFM2RMp62xgSZQD65OMSnu3yRytYEpY"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createProRating(\n    averageRating: 99.99,\n    averageWorkQuality: 99.99,\n    averageCommunication: 99.99,\n    averageProfessionalism: 99.99,\n    projects: \"A2QY8c9nAo9yNIz40O, A2QY8c6FNzKACJKETo, A2QY8c1zdnvBz7Kpqi\",\n    userId: \"A2QY6XmeShauETAmAK\"\n  ) {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    projects {id status addonPrice}\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createProRating(\n    averageRating: 99.99,\n    averageWorkQuality: 99.99,\n    averageCommunication: 99.99,\n    averageProfessionalism: 99.99,\n    projects: \"A2QY8c9nAo9yNIz40O, A2QY8c6FNzKACJKETo, A2QY8c1zdnvBz7Kpqi\",\n    userId: \"A2QY6XmeShauETAmAK\"\n  ) {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    projects {id status addonPrice}\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createProRating(\\n    averageRating: 99.99,\\n    averageWorkQuality: 99.99,\\n    averageCommunication: 99.99,\\n    averageProfessionalism: 99.99,\\n    projects: [\\\"A2QY8c9nAo9yNIz40O\\\", \\\"A2QY8c6FNzKACJKETo\\\"],\\n    userId: \\\"A2QY6XmeShauETAmAK\\\"\\n  ) {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    projects\\n    user { id email role }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createProRating(\\n    averageRating: 99.99,\\n    averageWorkQuality: 99.99,\\n    averageCommunication: 99.99,\\n    averageProfessionalism: 99.99,\\n    projects: \\\"A2QY8c9nAo9yNIz40O\\\",\\n    userId: \\\"A2QY6XmeShauETAmAK\\\"\\n  ) {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    projects\\n    user { id email role }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createProRating(\\n    averageRating: 99.99,\\n    averageWorkQuality: 99.99,\\n    averageCommunication: 99.99,\\n    averageProfessionalism: 99.99,\\n    projects: \\\"A2QY8c9nAo9yNIz40O, A2QY8c6FNzKACJKETo, A2QY8c1zdnvBz7Kpqi\\\",\\n    userId: \\\"A2QY6XmeShauETAmAK\\\"\\n  ) {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    projects {id status addonPrice}\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.9521739130434783,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZNlhtZVNoYXVFVEFtQUtuBgCs_hCKdgFiAAFRgA.equiARfb3Nz6aFM2RMp62xgSZQD65OMSnu3yRytYEpY"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateProRating(\n    id: \"A2SKbnyC01U7kfvNr6\",\n    proRating: {\n      averageRating: 33.99,\n      averageWorkQuality: 33.99,\n      averageCommunication: 33.99,\n      averageProfessionalism: 33.99,\n      projects: \"A2QY8c6FNzKACJKETo, A2QY8c9nAo9yNIz40O\",\n      userId: \"A2QY6XmeShauETAmAK\"\n    }\n  ) {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateProRating(\n    id: \"\",\n    proRating: {\n      averageRating: 33.99,\n      averageWorkQuality: 33.99,\n      averageCommunication: 33.99,\n      averageProfessionalism: 33.99,\n      projects: \"A2QY8c6FNzKACJKETo, A2QY8c9nAo9yNIz40O\",\n      userId: \"A2QY6XmeShauETAmAK\"\n    }\n  ) {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    projects {id status user {id email role}}\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateProRating(\n    id: \"A2SKbnyC01U7kfvNr6\",\n    proRating: {\n      averageRating: 33.99,\n      averageWorkQuality: 33.99,\n      averageCommunication: 33.99,\n      averageProfessionalism: 33.99,\n      projects: \"A2QY8c6FNzKACJKETo, A2QY8c9nAo9yNIz40O\",\n      userId: \"A2QY6XmeShauETAmAK\"\n    }\n  ) {\n    id\n    averageRating\n    averageWorkQuality\n    averageCommunication\n    averageProfessionalism\n    projects {id}\n    users {id email role}\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateProRating(\\n    id: \\\"\\\",\\n    proRating: {\\n      averageRating: 33.99,\\n      averageWorkQuality: 33.99,\\n      averageCommunication: 33.99,\\n      averageProfessionalism: 33.99,\\n      projects: \\\"A2QY8c6FNzKACJKETo, A2QY8c9nAo9yNIz40O\\\",\\n      userId: \\\"A2QY6XmeShauETAmAK\\\"\\n    }\\n  ) {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    projects {id status user {id email role}}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateProRating(\\n    id: \\\"A2SKbnyC01U7kfvNr6\\\",\\n    proRating: {\\n      averageRating: 33.99,\\n      averageWorkQuality: 33.99,\\n      averageCommunication: 33.99,\\n      averageProfessionalism: 33.99,\\n      projects: \\\"A2QY8c6FNzKACJKETo, A2QY8c9nAo9yNIz40O\\\",\\n      userId: \\\"A2QY6XmeShauETAmAK\\\"\\n    }\\n  ) {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    projects {id status user {id email role}}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateProRating(\\n    id: \\\"A2SKbnyC01U7kfvNr6\\\",\\n    proRating: {\\n      averageRating: 33.99,\\n      averageWorkQuality: 33.99,\\n      averageCommunication: 33.99,\\n      averageProfessionalism: 33.99,\\n      projects: \\\"A2QY8c6FNzKACJKETo, A2QY8c9nAo9yNIz40O\\\",\\n      userId: \\\"A2QY6XmeShauETAmAK\\\"\\n    }\\n  ) {\\n    id\\n    averageRating\\n    averageWorkQuality\\n    averageCommunication\\n    averageProfessionalism\\n    projects {id}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.6228915662650603,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab6",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZNlhtZVNoYXVFVEFtQUtuBgCs_hCKdgFiAAFRgA.equiARfb3Nz6aFM2RMp62xgSZQD65OMSnu3yRytYEpY"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  deleteProRating(\n    id: \"A2SKbnyC01U7kfvNr6\",\n    userId: \"A2QY6XmeShauETAmAK\"\n  ) {id projects {id}}\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deleteProRating(\n    id: \"A2SKbnyC01U7kfvNr6\",\n    userId: \"A2QY6XmeShauETAmAK\"\n  ) {id projects {id}}\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteProRating(\\n    id: \\\"A2SKbnyC01U7kfvNr6\\\",\\n    userId: \\\"A2QY6XmeShauETAmAK\\\"\\n  ) {id projects {id}}\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.38722966014418125,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    }
+  ]
+}
