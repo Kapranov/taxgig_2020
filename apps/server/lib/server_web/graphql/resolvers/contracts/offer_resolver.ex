@@ -8,6 +8,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
     Accounts.User,
     Contracts,
     Contracts.Offer,
+    Queries,
     Repo
   }
 
@@ -24,7 +25,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
     if is_nil(current_user) || current_user.role == false do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct = Contracts.list_offer()
+      struct = Repo.all(Queries.by_offers(Offer, :user_id, current_user.id))
       {:ok, struct}
     end
   end
@@ -63,13 +64,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
         false ->
           {:error, [[field: :user_id, message: "Can't be blank or Permission denied for current_user"]]}
         true ->
-          args
-          |> Contracts.create_offer()
-          |> case do
-            {:ok, struct} ->
-              {:ok, struct}
-            {:error, changeset} ->
-              {:error, extract_error_msg(changeset)}
+          if Enum.count(Repo.all(Queries.by_offer(Offer, :user_id, :project_id, :status, "Declined", args[:user_id], args[:project_id]))) < 0 do
+            args
+            |> Contracts.create_offer()
+            |> case do
+              {:ok, struct} ->
+                {:ok, struct}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
+          else
+            {:error, [[field: :status, message: "You have some a record's of status is Sent."]]}
           end
       end
     end
@@ -85,18 +90,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
     if is_nil(id) || is_nil(current_user) || current_user.role == false do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
-      try do
-        Repo.get!(Offer, id)
-        |> Contracts.update_offer(params)
-        |> case do
-          {:ok, struct} ->
-            {:ok, struct}
-          {:error, changeset} ->
-            {:error, extract_error_msg(changeset)}
-        end
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The an Offer #{id} not found!"}
+      case params[:user_id] == current_user.id do
+        true  ->
+          if Repo.get_by(Offer, %{id: id}).status == :Declined || Repo.get_by(Offer, %{id: id}).status == :Accepted do
+            {:error, [[field: :status, message: "You have some a record's of status is Declined or Accepted."]]}
+          else
+            try do
+              Repo.get!(Offer, id)
+              |> Contracts.update_offer(Map.delete(params, :user_id))
+              |> case do
+                {:ok, struct} ->
+                  {:ok, struct}
+                {:error, changeset} ->
+                  {:error, extract_error_msg(changeset)}
+              end
+            rescue
+              Ecto.NoResultsError ->
+                {:error, "The an Offer #{id} not found!"}
+            end
+          end
+        false -> {:error, "permission denied"}
       end
     end
   end
@@ -106,17 +119,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :offer, message: "Can't be blank"]]}
   end
 
-  @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
+  @spec delete(any, %{id: bitstring, user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def delete(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) || current_user.role == false do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
     else
-      try do
-        struct = Contracts.get_offer!(id)
-        Repo.delete(struct)
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The an Offer #{id} not found!"}
+      case user_id == current_user.id do
+        true  ->
+          try do
+            struct = Contracts.get_offer!(id)
+            Repo.delete(struct)
+          rescue
+            Ecto.NoResultsError ->
+              {:error, "The an Offer #{id} not found!"}
+          end
+        false -> {:error, "permission denied"}
       end
     end
   end

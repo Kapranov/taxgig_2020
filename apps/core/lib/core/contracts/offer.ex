@@ -34,7 +34,7 @@ defmodule Core.Contracts.Offer do
 
   schema "offers" do
     field :price, :integer, null: false, default: 0
-    field :status, StatusEnum, null: false
+    field :status, StatusEnum, null: false, default: "Sent"
 
     belongs_to :projects, Project,
       foreign_key: :project_id,

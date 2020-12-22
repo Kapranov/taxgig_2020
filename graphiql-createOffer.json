@@ -1,0 +1,217 @@
+{
+  "key": "graphiql",
+  "lastId": 7,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5",
+    "tab6",
+    "tab7"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgAUI46LdgFiAAFRgA.AnOFo3ZfEEnSW_DTC4XveKQKfEp47EeGM7tB_IeNbaM"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgC832SLdgFiAAFRgA.hLUNhomXDYSy-7ehpq9Ij-ummuNC7ys-0L-EUuJqmQ4"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab7",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 1,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.35786290322580644
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgAUI46LdgFiAAFRgA.AnOFo3ZfEEnSW_DTC4XveKQKfEp47EeGM7tB_IeNbaM"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allOffers {\n    id\n    price\n    status\n    projects {id}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allOffers {\n    id\n    price\n    status\n    projects {id}\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allOffers {\\n    id\\n    price\\n    status\\n    project {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allOffers {\\n    id\\n    price\\n    status\\n    projects {id}\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.19414893617021275
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgAUI46LdgFiAAFRgA.AnOFo3ZfEEnSW_DTC4XveKQKfEp47EeGM7tB_IeNbaM"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createOffer(\n    userId: \"A2QY7Y1h2sSvH4gfDc\",\n    price: 22,\n    projectId: \"A2QY8bdX6kM6lFtIiu\"\n  ) {\n    id\n    price\n    projects {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createOffer(\n    userId: \"A2QY7Y1h2sSvH4gfDc\",\n    price: 22,\n    projectId: \"A2QY8bdX6kM6lFtIiu\"\n  ) {\n    id\n    price\n    projects {id}\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createOffer(\\n    userId: \\\"A2QY7Y1h2sSvH4gfDc\\\",\\n    price: 22,\\n    projectId: \\\"A2QY8bdX6kM6lFtIiu\\\"\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3929679420889349,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgAUI46LdgFiAAFRgA.AnOFo3ZfEEnSW_DTC4XveKQKfEp47EeGM7tB_IeNbaM"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createOffer(\n    userId: \"A2QY7Y1h2sSvH4gfDc\",\n    price: 22,\n    projectId: \"A2QY8bdX6kM6lFtIiu\"\n  ) {\n    id\n    price\n    projects {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createOffer(\n    userId: \"A2QY7Y1h2sSvH4gfDc\",\n    price: 22,\n    projectId: \"A2QY8bdX6kM6lFtIiu\"\n  ) {\n    id\n    price\n    projects {id}\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createOffer(\\n    userId: \\\"A2QY7Y1h2sSvH4gfDc\\\",\\n    price: 22,\\n    projectId: \\\"A2QY8bdX6kM6lFtIiu\\\"\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3402985074626866,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab6",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgAUI46LdgFiAAFRgA.AnOFo3ZfEEnSW_DTC4XveKQKfEp47EeGM7tB_IeNbaM"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateOffer(\n    id: \"A2Swzb5OGaYfINibtA\",\n    offer: {\n      status: \"Accepted\",\n      userId: \"A2QY7Y1h2sSvH4gfDc\"\n    }\n  ) {\n    id\n    price\n    status\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateOffer(\n    id: \"A2Swzb5OGaYfINibtA\",\n    offer: {\n      status: \"Declined\",\n      userId: \"A2QY7Y1h2sSvH4gfDc\"\n    }\n  ) {\n    id\n    price\n    status\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateOffer(\n    id: \"A2Swzb5OGaYfINibtA\",\n    offer: {\n      status: \"Accepted\",\n      userId: \"A2QY7Y1h2sSvH4gfDc\"\n    }\n  ) {\n    id\n    price\n    status\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateOffer(\n    id: \"A2Swzb5OGaYfINibtA\",\n    offer: {\n      status: \"Declined\",\n      userId: \"A2QY7Y1h2sSvH4gfDc\"\n    }\n  ) {\n    id\n    price\n    status\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateOffer(\n    id: \"A2Swzb5OGaYfINibtA\",\n    offer: {\n      status: \"Accepted\",\n      userId: \"A2QY7Y1h2sSvH4gfDc\"\n    }\n  ) {\n    id\n    price\n    status\n    projects {id}\n    users {id email role}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.34565434565434566,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateOffer(\\n    id: \\\"A2Swzb5OGaYfINibtA\\\",\\n    offer: {\\n      status: \\\"Declined\\\",\\n      userId: \\\"A2QY7Y1h2sSvH4gfDc\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    status\\n    projects {id}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateOffer(\\n    id: \\\"A2Swzb5OGaYfINibtA\\\",\\n    offer: {\\n      status: \\\"Accepted\\\",\\n      userId: \\\"A2QY7Y1h2sSvH4gfDc\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    status\\n    projects {id}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateOffer(\\n    id: \\\"A2Swzb5OGaYfINibtA\\\",\\n    offer: {\\n      status: \\\"Declined\\\",\\n      userId: \\\"A2QY7Y1h2sSvH4gfDc\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    status\\n    projects {id}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateOffer(\\n    id: \\\"A2Swzb5OGaYfINibtA\\\",\\n    offer: {\\n      status: \\\"Accepted\\\",\\n      userId: \\\"A2QY7Y1h2sSvH4gfDc\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    status\\n    projects {id}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab7",
+      "name": "Query 7",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgAUI46LdgFiAAFRgA.AnOFo3ZfEEnSW_DTC4XveKQKfEp47EeGM7tB_IeNbaM"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  deleteOffer(\n    id: \"A2Swzb5OGaYfINibtA\",\n    userId: \"A2QY7Y1h2sSvH4gfDc\"\n  ) {\n    id status users {email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deleteOffer(\n    id: \"A2Swzb5OGaYfINibtA\",\n    userId: \"A2QY7Y1h2sSvH4gfDc\"\n  ) {\n    id status users {email role}\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.41343126967471144,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteOffer(\\n    id: \\\"A2Swzb5OGaYfINibtA\\\",\\n    userId: \\\"A2QY7Y1h2sSvH4gfDc\\\"\\n  ) {\\n    id status users {email role}\\n  }\\n}\"}]}"
+    }
+  ]
+}

@@ -145,6 +145,7 @@ defmodule Core.Queries do
       iex> row_c = :id
       iex> id = "A1iyOkFTXX32A4Cldq"
       iex> by_project(struct, row_a, row_b, row_c, id)
+
   """
   @spec by_project(map, atom, atom, atom, word) :: [{word}] | nil
   def by_project(struct, row_a, row_b, row_c, id) do
@@ -159,6 +160,46 @@ defmodule Core.Queries do
     rescue
       Ecto.Query.CastError -> nil
     end
+  end
+
+  @doc """
+  Check out status via project_id for Offer
+
+  ## Example
+
+      iex> struct = Core.Contracts.Offer
+      iex> row_a = :user_id
+      iex> row_b = :project_id
+      iex> row_c = :status
+      iex> name = "Declined"
+      iex> ida  = current_user.id
+      iex> idb  = current_user.project_id
+      iex> by_offer(struct, row_a, row_b, row_c, name, ida, idb)
+
+  """
+  @spec by_offer(map, atom, atom, atom, word, word, word) :: [] | nil
+  def by_offer(struct, row_a, row_b, row_c, name, id_a, id_b) do
+    from c in struct,
+    where: field(c, ^row_a) == ^id_a,
+    where: field(c, ^row_b) == ^id_b,
+    where: field(c, ^row_c) == ^name
+  end
+
+  @doc """
+  Retrurn all records
+
+  ## Example
+
+      iex> struct = Core.Contracts.Offer
+      iex> row = :user_id
+      iex> id  = current_user.id
+      iex> by_offer(struct, row, id)
+
+  """
+  @spec by_offers(map, atom, word) :: [] | nil
+  def by_offers(struct, row, id) do
+    from c in struct,
+    where: field(c, ^row) == ^id
   end
 
   @spec by_name!(map, map, atom, String.t(), String.t()) :: [{String.t()}] | []
