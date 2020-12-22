@@ -23,8 +23,8 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.OfferTypes do
 
   @desc "The an offer update via params"
   input_object :update_offer_params, description: "update an offer" do
-    field :user_id, non_null(:string)
     field :status, :string
+    field :user_id, non_null(:string)
   end
 
   object :offer_queries do

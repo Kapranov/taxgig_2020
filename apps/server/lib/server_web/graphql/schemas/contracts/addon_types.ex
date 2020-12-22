@@ -16,16 +16,15 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.AddonTypes do
   object :addon, description: "Addon" do
     field :id, non_null(:string), description: "unique identifier"
     field :price, non_null(:integer)
-    field :project, :project, resolve: dataloader(Data)
-    field :status, non_null(list_of(:string))
-    field :user, :user, resolve: dataloader(Data)
+    field :projects, :project, resolve: dataloader(Data)
+    field :status, non_null(:string)
+    field :users, :user, resolve: dataloader(Data)
   end
 
   @desc "The an addon update via params"
   input_object :update_addon_params, description: "update an addon" do
-    field :price, :integer
-    field :project_id, :string
-    field :status, list_of(:string)
+    field :status, :string
+    field :user_id, non_null(:string)
   end
 
   object :addon_queries do
@@ -46,7 +45,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.AddonTypes do
     field :create_addon, :addon, description: "Create a new an addon" do
       arg :price, non_null(:integer)
       arg :project_id, non_null(:string)
-      arg :status, non_null(list_of(:string))
+      arg :status, non_null(:string)
       arg :user_id, non_null(:string)
       resolve &AddonResolver.create/3
     end
@@ -61,6 +60,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.AddonTypes do
     @desc "Delete a specific the an addon"
     field :delete_addon, :addon do
       arg :id, non_null(:string)
+      arg :user_id, non_null(:string)
       resolve &AddonResolver.delete/3
     end
   end

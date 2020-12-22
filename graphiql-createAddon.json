@@ -1,0 +1,215 @@
+{
+  "key": "graphiql",
+  "lastId": 7,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5",
+    "tab6",
+    "tab7"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgBNu8uLdgFiAAFRgA.dVvzOkT9_CwMogp69M5ZYcyPSruuO92XALVGRPJtMmg"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgCAFrCLdgFiAAFRgA.i3dprC_G9tzOCGTVrDEklepD2OV3YdGQw1I4T0qSD78"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab3",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 1,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.33763654419066536
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgBNu8uLdgFiAAFRgA.dVvzOkT9_CwMogp69M5ZYcyPSruuO92XALVGRPJtMmg"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allAddons {\n    id\n    price\n    status\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allAddons {\n    id\n    price\n    status\n    projects {id}\n    users {id email role}\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allAddons {\\n    id\\n    price\\n    status\\n    projects {id}\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.23805147058823528
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgCAFrCLdgFiAAFRgA.i3dprC_G9tzOCGTVrDEklepD2OV3YdGQw1I4T0qSD78"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createAddon(\n    status: \"Sent\",\n    price: 22,\n    projectId: \"A2QY8bzrliDhsWL8XA\",\n    userId: \"A2QY7Y1h2sSvH4gfDc\"\n  ) {\n    id\n    status\n    price\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createAddon(\n    price: 22,\n    projectId: \"A2QY8bzrliDhsWL8XA\",\n    userId: \"A2QY7Y1h2sSvH4gfDc\"\n  ) {\n    id\n    status\n    price\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createAddon(\n    status: \"Sent\",\n    price: 22,\n    projectId: \"A2QY8bzrliDhsWL8XA\",\n    userId: \"A2QY7Y1h2sSvH4gfDc\"\n  ) {\n    id\n    status\n    price\n    projects {id}\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createAddon(\\n    price: 22,\\n    projectId: \\\"A2QY8bzrliDhsWL8XA\\\",\\n    userId: \\\"A2QY7Y1h2sSvH4gfDc\\\"\\n  ) {\\n    id\\n    status\\n    price\\n    projects {id}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createAddon(\\n    status: \\\"Sent\\\",\\n    price: 22,\\n    projectId: \\\"A2QY8bzrliDhsWL8XA\\\",\\n    userId: \\\"A2QY7Y1h2sSvH4gfDc\\\"\\n  ) {\\n    id\\n    status\\n    price\\n    projects {id}\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.35376884422110555,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgCAFrCLdgFiAAFRgA.i3dprC_G9tzOCGTVrDEklepD2OV3YdGQw1I4T0qSD78"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "mutation {\n  createAddon(\n    status: \"Sent\",\n    price: 22,\n    projectId: \"A2QY8bzrliDhsWL8XA\",\n    userId: \"A2QY7Y1h2sSvH4gfDc\"\n  ) {\n    id\n    status\n    price\n    projects {id}\n    users {id email role}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab6",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgCAFrCLdgFiAAFRgA.i3dprC_G9tzOCGTVrDEklepD2OV3YdGQw1I4T0qSD78"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateAddon(\n    id: \"A2T3V7Ot5xJlthj0kq\",\n    addon: {\n      status: \"Declined\",\n      userId: \"A2QY7Y1h2sSvH4gfDc\",\n    }\n  ) {\n    id\n    status\n    price\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateAddon(\n    id: \"A2T3V7Ot5xJlthj0kq\",\n    addon: {\n      status: \"Sent\",\n      userId: \"A2QY7Y1h2sSvH4gfDc\",\n    }\n  ) {\n    id\n    status\n    price\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateAddon(\n    id: \"A2T3V7Ot5xJlthj0kq\",\n    addon: {\n      status: \"Accepted\",\n      userId: \"A2QY7Y1h2sSvH4gfDc\",\n    }\n  ) {\n    id\n    status\n    price\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateAddon(\n    id: \"A2T3V7Ot5xJlthj0kq\",\n    addon: {\n      status: \"Declined\",\n      userId: \"A2QY7Y1h2sSvH4gfDc\",\n    }\n  ) {\n    id\n    status\n    price\n    projects {id}\n    users {id email role}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.347,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"A2T3V7Ot5xJlthj0kq\\\",\\n    addon: {\\n      status: \\\"Accepted\\\",\\n      userId: \\\"A2QY7Y1h2sSvH4gfDc\\\",\\n    }\\n  ) {\\n    id\\n    status\\n    price\\n    projects {id}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"A2T3V7Ot5xJlthj0kq\\\",\\n    addon: {\\n      status: \\\"Sent\\\",\\n      userId: \\\"A2QY7Y1h2sSvH4gfDc\\\",\\n    }\\n  ) {\\n    id\\n    status\\n    price\\n    projects {id}\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"A2T3V7Ot5xJlthj0kq\\\",\\n    addon: {\\n      status: \\\"Declined\\\",\\n      userId: \\\"A2QY7Y1h2sSvH4gfDc\\\",\\n    }\\n  ) {\\n    id\\n    status\\n    price\\n    projects {id}\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab7",
+      "name": "Query 7",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgBNu8uLdgFiAAFRgA.dVvzOkT9_CwMogp69M5ZYcyPSruuO92XALVGRPJtMmg"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  deleteAddon(\n    id: \"A2QY8d2jsW717igweO\",\n    userId: \"A2QY7Y1h2sSvH4gfDc\"\n  ) {\n    id\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteAddon(\n    id: \"A2T3V7Ot5xJlthj0kq\",\n    userId: \"A2QY7Y1h2sSvH4gfDc\"\n  ) {\n    id\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deleteAddon(\n    id: \"A2QY8d2jsW717igweO\",\n    userId: \"A2QY7Y1h2sSvH4gfDc\"\n  ) {\n    id\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteAddon(\\n    id: \\\"A2T3V7Ot5xJlthj0kq\\\",\\n    userId: \\\"A2QY7Y1h2sSvH4gfDc\\\"\\n  ) {\\n    id\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteAddon(\\n    id: \\\"A2QY8d2jsW717igweO\\\",\\n    userId: \\\"A2QY7Y1h2sSvH4gfDc\\\"\\n  ) {\\n    id\\n  }\\n}\"}]}"
+    }
+  ]
+}

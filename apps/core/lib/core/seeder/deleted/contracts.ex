@@ -9,6 +9,7 @@ defmodule Core.Seeder.Deleted.Contracts do
   @spec start!() :: Ecto.Schema.t()
   def start! do
     deleted_service_review()
+    deleted_addon()
     deleted_offer()
   end
 
@@ -16,6 +17,12 @@ defmodule Core.Seeder.Deleted.Contracts do
   defp deleted_service_review do
     IO.puts("Deleting data on model's ServiceReview\n")
     SQL.query!(Repo, "TRUNCATE service_reviews CASCADE;")
+  end
+
+  @spec deleted_addon() :: Ecto.Schema.t()
+  defp deleted_addon do
+    IO.puts("Deleting data on model's an Addon\n")
+    SQL.query!(Repo, "TRUNCATE addons CASCADE;")
   end
 
   @spec deleted_offer() :: Ecto.Schema.t()
