@@ -43,6 +43,7 @@ defmodule Core.Seeder.Repo do
   def deleted! do
     Deleted.Accounts.start!()
     Deleted.Contracts.start!()
+    Deleted.Talk.start!()
     :ok
   end
 end

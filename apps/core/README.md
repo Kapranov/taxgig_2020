@@ -263,20 +263,20 @@ deprecated.
 With 2.0 fields that are `nil` and that don't have a default value are not
 sent to the database, which solves the issue entirely.
 
-- [X] `deleted_users`
+- [X]  `addons`
+- [X]  `ban_reasons`
+- [X]  `offers`
+- [X]  `platforms`
 - [X]  `potential_clients`
-- []  `service_reviews`
-- []  `platforms`
-- []  `ban_reasons`
-- []  `projects`
-- []  `pro_ratings`
-- []  `offers`
-- []  `addons`
-- []  `pro_docs`
-- []  `tp_docs`
-- []  `rooms`
+- [X]  `pro_ratings`
+- [X]  `service_reviews`
+- [X] `deleted_users`
 - []  `messages`
+- []  `pro_docs`
+- []  `projects`
 - []  `reports`
+- []  `rooms`
+- []  `tp_docs`
 
 Furthermore, we have a couple of questions:
 
