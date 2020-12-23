@@ -27,17 +27,15 @@ defmodule Core.Talk.Room do
 
   @required_params ~w(
     active
-    description
     name
-    topic
     user_id
   )a
 
   schema "rooms" do
     field :active, :boolean, null: false, default: false
-    field :description, :string, null: false
+    field :description, :string, null: true
     field :name, :string, null: false
-    field :topic, :string, null: false
+    field :topic, :string, null: true
 
     belongs_to :user, User,
       foreign_key: :user_id,
@@ -59,7 +57,9 @@ defmodule Core.Talk.Room do
     |> validate_required(@required_params)
     |> validate_length(:name, min: 1, max: 30)
     |> validate_length(:topic, min: 1, max: 120)
+    |> foreign_key_constraint(:name, message: "Only a single unique names")
     |> foreign_key_constraint(:user_id, message: "Select an User")
-    |> unique_constraint(:name)
+    |> unique_constraint(:name, name: :rooms_name_index)
+    |> unique_constraint(:user_id, name: :rooms_user_id_index)
   end
 end

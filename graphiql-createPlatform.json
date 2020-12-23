@@ -1,12 +1,13 @@
 {
   "key": "graphiql",
-  "lastId": 5,
+  "lastId": 6,
   "tabIds": [
     "tab1",
     "tab2",
     "tab3",
     "tab4",
-    "tab5"
+    "tab5",
+    "tab6"
   ],
   "closedTabs": [],
   "defaultUrl": "http://localhost:4000/graphiql",
@@ -19,6 +20,10 @@
     "http://localhost:4000/graphiql"
   ],
   "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlVhZzdoTDZla3Z6R3dCOEtuBgDBsI2PdgFiAAFRgA.p_BDAqVKoKt_w8uCFVGX8Wmz6t_raWUWATs9xm-QIgg"
+    },
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFFVjAyUjl4c2VGSGgwYm9uBgAHKPOEdgFiAAFRgA.p_BMCD9wQlNZLJPAagsiK_-sjYXUEgGPvAG5QdisjCs"
@@ -40,7 +45,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab5",
+  "activeId": "tab6",
   "tabs": [
     {
       "id": "tab1",
@@ -52,8 +57,8 @@
       "collapsed": true,
       "maxHistory": 20,
       "history": [],
-      "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -86,7 +91,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFFVjAyUjl4c2VGSGgwYm9uBgAHKPOEdgFiAAFRgA.p_BMCD9wQlNZLJPAagsiK_-sjYXUEgGPvAG5QdisjCs"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlVhZzdoTDZla3Z6R3dCOEtuBgDBsI2PdgFiAAFRgA.p_BDAqVKoKt_w8uCFVGX8Wmz6t_raWUWATs9xm-QIgg"
         }
       ],
       "collapsed": true,
@@ -98,10 +103,10 @@
         }
       ],
       "graphiql:query": "query {\n  allPlatforms {\n    id\n    isStuck\n    isBanned\n    isOnline\n    heroActive\n    heroStatus\n    paymentActive\n    clientLimitReach\n    stuckStage\n    user {id email role}\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allPlatforms {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 0.23464711274060496,
       "graphiql:docExplorerWidth": 350,
-      "graphiql:variableEditorHeight": 200
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allPlatforms {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.23464711274060496
     },
     {
       "id": "tab4",
@@ -112,12 +117,16 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFFVjAyUjl4c2VGSGgwYm9uBgAHKPOEdgFiAAFRgA.p_BMCD9wQlNZLJPAagsiK_-sjYXUEgGPvAG5QdisjCs"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlVhZzdoTDZla3Z6R3dCOEtuBgDBsI2PdgFiAAFRgA.p_BDAqVKoKt_w8uCFVGX8Wmz6t_raWUWATs9xm-QIgg"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "mutation {\n  createPlatform(\n    clientLimitReach: false,\n    heroStatus: false,\n    isBanned: false,\n    isOnline: false,\n    paymentActive: false,\n    userId: \"A2Uag7hL6ekvzGwB8K\"\n  ) {\n    id\n    isStuck\n    isBanned\n    isOnline\n    heroActive\n    paymentActive\n    stuckStage\n    clientLimitReach\n    heroStatus\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
         {
           "query": "mutation {\n  createPlatform(\n    clientLimitReach: false,\n    heroStatus: false,\n    isBanned: false,\n    isOnline: false,\n    paymentActive: false,\n    userId: \"A2QEV02R9xseFHh0bo\"\n  ) {\n    id\n    isStuck\n    isBanned\n    isOnline\n    heroActive\n    paymentActive\n    stuckStage\n    clientLimitReach\n    heroStatus\n    user {id email role}\n  }\n}",
           "variables": null
@@ -131,10 +140,10 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  createPlatform(\n    clientLimitReach: false,\n    heroStatus: false,\n    isBanned: false,\n    isOnline: false,\n    paymentActive: false,\n    userId: \"A2QEV02R9xseFHh0bo\"\n  ) {\n    id\n    isStuck\n    isBanned\n    isOnline\n    heroActive\n    paymentActive\n    stuckStage\n    clientLimitReach\n    heroStatus\n    user {id email role}\n  }\n}",
-      "graphiql:editorFlex": 0.34565434565434566,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createPlatform(\\n    clientLimitReach: false,\\n    heroStatus: false,\\n    isBanned: false,\\n    isOnline: false,\\n    paymentActive: false,\\n    userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    paymentActive\\n    stuckStage\\n    clientLimitReach\\n    heroStatus\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createPlatform(\\n    clientLimitReach: false,\\n    heroStatus: false,\\n    isBanned: false,\\n    isOnline: false,\\n    paymentActive: false,\\n    stuckStage: \\\"Stripe\\\",\\n    userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    paymentActive\\n    stuckStage\\n    clientLimitReach\\n    heroStatus\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPlatform(\\n    clientLimitReach: false,\\n    heroStatus: false,\\n    isBanned: false,\\n    isOnline: false,\\n    paymentActive: false,\\n    userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    paymentActive\\n    stuckStage\\n    clientLimitReach\\n    heroStatus\\n    user {id email role}\\n  }\\n}\"}]}",
+      "graphiql:query": "mutation {\n  createPlatform(\n    clientLimitReach: false,\n    heroStatus: false,\n    isBanned: false,\n    isOnline: false,\n    paymentActive: false,\n    userId: \"A2Uag7hL6ekvzGwB8K\"\n  ) {\n    id\n    isStuck\n    isBanned\n    isOnline\n    heroActive\n    paymentActive\n    stuckStage\n    clientLimitReach\n    heroStatus\n    user {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createPlatform(\\n    clientLimitReach: false,\\n    heroStatus: false,\\n    isBanned: false,\\n    isOnline: false,\\n    paymentActive: false,\\n    userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    paymentActive\\n    stuckStage\\n    clientLimitReach\\n    heroStatus\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createPlatform(\\n    clientLimitReach: false,\\n    heroStatus: false,\\n    isBanned: false,\\n    isOnline: false,\\n    paymentActive: false,\\n    stuckStage: \\\"Stripe\\\",\\n    userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    paymentActive\\n    stuckStage\\n    clientLimitReach\\n    heroStatus\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPlatform(\\n    clientLimitReach: false,\\n    heroStatus: false,\\n    isBanned: false,\\n    isOnline: false,\\n    paymentActive: false,\\n    userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    paymentActive\\n    stuckStage\\n    clientLimitReach\\n    heroStatus\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPlatform(\\n    clientLimitReach: false,\\n    heroStatus: false,\\n    isBanned: false,\\n    isOnline: false,\\n    paymentActive: false,\\n    userId: \\\"A2Uag7hL6ekvzGwB8K\\\"\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    paymentActive\\n    stuckStage\\n    clientLimitReach\\n    heroStatus\\n    user {id email role}\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.34565434565434566,
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -146,12 +155,20 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFFVjAyUjl4c2VGSGgwYm9uBgAHKPOEdgFiAAFRgA.p_BMCD9wQlNZLJPAagsiK_-sjYXUEgGPvAG5QdisjCs"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlVhZzdoTDZla3Z6R3dCOEtuBgDBsI2PdgFiAAFRgA.p_BDAqVKoKt_w8uCFVGX8Wmz6t_raWUWATs9xm-QIgg"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "mutation {\n  updatePlatform(\n    id: \"A2UbJqDVuXljevYyS8\",\n    platform: {\n      heroStatus: true,\n      clientLimitReach: true,\n      stuckStage: \"PTIN\",\n      userId: \"A2Uag7hL6ekvzGwB8K\"\n    }\n  ) {\n    id\n    isStuck\n    isBanned\n    isOnline\n    heroActive\n    heroStatus\n    paymentActive\n    clientLimitReach\n    stuckStage\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updatePlatform(\n    id: \"A2UbJqDVuXljevYyS8\",\n    platform: {\n      heroStatus: true,\n      clientLimitReach: true,\n      stuckStage: \"PTIN\",\n      userId: \"A2UagGrx0ZakQmyHQG\"\n    }\n  ) {\n    id\n    isStuck\n    isBanned\n    isOnline\n    heroActive\n    heroStatus\n    paymentActive\n    clientLimitReach\n    stuckStage\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
         {
           "query": "mutation {\n  updatePlatform(\n    id: \"A2QKlGOmWKhvaBoaw4\",\n    platform: {\n      heroStatus: true,\n      clientLimitReach: true,\n      stuckStage: \"PTIN\",\n      userId: \"A2QEV02R9xseFHh0bo\"\n    }\n  ) {\n    id\n    isStuck\n    isBanned\n    isOnline\n    heroActive\n    heroStatus\n    paymentActive\n    clientLimitReach\n    stuckStage\n    user {id email role}\n  }\n}",
           "variables": null
@@ -213,11 +230,38 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  updatePlatform(\n    id: \"A2QKlGOmWKhvaBoaw4\",\n    platform: {\n      heroStatus: true,\n      clientLimitReach: true,\n      stuckStage: \"PTIN\",\n      userId: \"A2QEV02R9xseFHh0bo\"\n    }\n  ) {\n    id\n    isStuck\n    isBanned\n    isOnline\n    heroActive\n    heroStatus\n    paymentActive\n    clientLimitReach\n    stuckStage\n    user {id email role}\n  }\n}",
+      "graphiql:query": "mutation {\n  updatePlatform(\n    id: \"A2UbJqDVuXljevYyS8\",\n    platform: {\n      heroStatus: true,\n      clientLimitReach: true,\n      stuckStage: \"PTIN\",\n      userId: \"A2Uag7hL6ekvzGwB8K\"\n    }\n  ) {\n    id\n    isStuck\n    isBanned\n    isOnline\n    heroActive\n    heroStatus\n    paymentActive\n    clientLimitReach\n    stuckStage\n    user {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"Blockscore\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: [\\\"Blockscore\\\"]\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"Blockscore\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: [\\\"Blockscore\\\"],\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"Blockscore\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: [\\\"Blockscore\\\"],\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"Blockscore\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: [\\\"Blockscore\\\"],\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"Blockscore\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: [\\\"Blockscore\\\"],\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"Blockscore\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QKdhdRN8lHjq4BAe\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"PTIN\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QKlGOmWKhvaBoaw4\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: nil,\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QKlGOmWKhvaBoaw4\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QKlGOmWKhvaBoaw4\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"PTIN\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2UbJqDVuXljevYyS8\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"PTIN\\\",\\n      userId: \\\"A2UagGrx0ZakQmyHQG\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2UbJqDVuXljevYyS8\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"PTIN\\\",\\n      userId: \\\"A2Uag7hL6ekvzGwB8K\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"Blockscore\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: [\\\"Blockscore\\\"]\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"Blockscore\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: [\\\"Blockscore\\\"],\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"Blockscore\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: [\\\"Blockscore\\\"],\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"Blockscore\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: [\\\"Blockscore\\\"],\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"Blockscore\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: [\\\"Blockscore\\\"],\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QG5zdRj2sQOY9PU0\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"Blockscore\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QKdhdRN8lHjq4BAe\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"PTIN\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QKlGOmWKhvaBoaw4\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: nil,\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QKlGOmWKhvaBoaw4\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2QKlGOmWKhvaBoaw4\\\",\\n    platform: {\\n      heroStatus: true,\\n      clientLimitReach: true,\\n      stuckStage: \\\"PTIN\\\",\\n      userId: \\\"A2QEV02R9xseFHh0bo\\\"\\n    }\\n  ) {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    paymentActive\\n    clientLimitReach\\n    stuckStage\\n    user {id email role}\\n  }\\n}\"}]}",
       "graphiql:editorFlex": 0.3619817997977755,
       "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab6",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlVhZzdoTDZla3Z6R3dCOEtuBgDBsI2PdgFiAAFRgA.p_BDAqVKoKt_w8uCFVGX8Wmz6t_raWUWATs9xm-QIgg"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  deletePlatform(\n    id: \"A2UagGrx0ZakQmyHQG\"\n  ) {id}\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deletePlatform(\n    id: \"A2UagGrx0ZakQmyHQG\"\n  ) {id}\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deletePlatform(\\n    id: \\\"A2UagGrx0ZakQmyHQG\\\"\\n  ) {id}\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.35923309788092833,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
     }
   ]
 }

@@ -4,7 +4,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
   """
 
   alias Core.{
+    Accounts.Platform,
     Accounts.User,
+    Queries,
     Repo,
     Talk,
     Talk.Room
@@ -18,9 +20,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
 
-  @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: success_list()
-  def list(_parent, _args, _info) do
-    struct = Talk.list_room()
+  @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def list(_parent, _args, %{context: %{current_user: current_user}}) do
+    struct = Repo.all(Queries.by_offers(Room, :user_id, current_user.id))
     {:ok, struct}
   end
 
@@ -46,12 +48,23 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
 
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) || Repo.get(User, current_user.id) != nil do
+    if is_nil(current_user) do
       {:error, [[field: :current_user, message: "Permission denied for current_user to perform action Create"]]}
     else
-      case Talk.create_room(current_user, args) do
-        {:ok, room} -> {:ok, room}
-        {:error, _changeset} -> {:error, "Something went wrong with your room"}
+      case Repo.get_by(Platform, %{user_id: args[:user_id]}) do
+        nil -> {:error, [[field: :user_id, message: "Please create Platform for your user_id"]]}
+        data ->
+          if data.payment_active == true do
+            case Talk.create_room(current_user, Map.merge(args, %{active: true})) do
+              {:ok, room} -> {:ok, room}
+              {:error, _changeset} -> {:error, "Something went wrong with your room"}
+            end
+          else
+            case Talk.create_room(current_user, Map.merge(args, %{active: false})) do
+              {:ok, room} -> {:ok, room}
+              {:error, _changeset} -> {:error, "Something went wrong with your room"}
+            end
+          end
       end
     end
   end
@@ -66,18 +79,22 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
     if is_nil(id) || is_nil(current_user) do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
-      try do
-        Repo.get!(Room, id)
-        |> Talk.update_room(params)
-        |> case do
-          {:ok, struct} ->
-            {:ok, struct}
-          {:error, changeset} ->
-            {:error, extract_error_msg(changeset)}
-        end
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The Room #{id} not found!"}
+      case params[:user_id] == current_user.id do
+        true  ->
+          try do
+            Repo.get!(Room, id)
+            |> Talk.update_room(Map.delete(params, :user_id))
+            |> case do
+              {:ok, struct} ->
+                {:ok, struct}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
+          rescue
+            Ecto.NoResultsError ->
+              {:error, "The Room #{id} not found!"}
+          end
+        false -> {:error, "permission denied"}
       end
     end
   end
@@ -88,16 +105,20 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
   end
 
   @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
+  def delete(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
     else
-      try do
-        struct = Talk.get_room!(id)
-        Repo.delete(struct)
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The Room #{id} not found!"}
+      case user_id == current_user.id do
+        true  ->
+          try do
+            struct = Talk.get_room!(id)
+            Repo.delete(struct)
+          rescue
+            Ecto.NoResultsError ->
+              {:error, "The Room #{id} not found!"}
+          end
+        false -> {:error, "permission denied"}
       end
     end
   end

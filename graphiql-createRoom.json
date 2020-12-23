@@ -1,0 +1,256 @@
+{
+  "key": "graphiql",
+  "lastId": 8,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5",
+    "tab6",
+    "tab7",
+    "tab8"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlYwWnpmQ01mcTkwQmxBWWFuBgAdxMWQdgFiAAFRgA.sIAch5OXXCFPGU75Fqa8AooStnq42RfiSltbFfIBbhk"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlYwWnpmQ01mcTkwQmxBWWFuBgB79ZiQdgFiAAFRgA.nNZ84ioNMT3w36ihKyXdiswpvOdxXbV7VdZ3pXrebXQ"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab3",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 0.3915289256198347,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3323442136498516
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlYwWnpmQ01mcTkwQmxBWWFuBgAdxMWQdgFiAAFRgA.sIAch5OXXCFPGU75Fqa8AooStnq42RfiSltbFfIBbhk"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  rooms {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  rooms {\n    id\n    name\n    topic\n    description\n    user {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  rooms {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  rooms {\\n    id\\n    name\\n    topic\\n    description\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.24953617810760667
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlYwWnpmQ01mcTkwQmxBWWFuBgAdxMWQdgFiAAFRgA.sIAch5OXXCFPGU75Fqa8AooStnq42RfiSltbFfIBbhk"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allPlatforms {\n    id\n    isStuck\n    isBanned\n    isOnline\n    heroActive\n    heroStatus\n    clientLimitReach\n    paymentActive\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPlatforms {\n    id\n    isStuck\n    isBanned\n    isOnline\n    heroActive\n    heroStatus\n    clientLimitReach\n    paymentActive\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allPlatforms {\n    id\n    isStuck\n    isBanned\n    isOnline\n    heroActive\n    heroStatus\n    clientLimitReach\n    paymentActive\n    user {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allPlatforms {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    clientLimitReach\\n    paymentActive\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allPlatforms {\\n    id\\n    isStuck\\n    isBanned\\n    isOnline\\n    heroActive\\n    heroStatus\\n    clientLimitReach\\n    paymentActive\\n    user {id email role}\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.30776699029126214,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlYwWnpmQ01mcTkwQmxBWWFuBgB79ZiQdgFiAAFRgA.nNZ84ioNMT3w36ihKyXdiswpvOdxXbV7VdZ3pXrebXQ"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createRoom(\n    name: \"Aloha\",\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"A2V0ZzfCMfq90BlAYa\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createRoom(\n    name: \"Aloha\",\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"A2V0ZzfCMfq90BlAYa\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    user {id email role}\n    \n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createRoom(\\n    name: \\\"Aloha\\\",\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"A2V0ZzfCMfq90BlAYa\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    user {id email role}\\n    \\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3730886850152905,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab6",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlYwWnpmQ01mcTkwQmxBWWFuBgB79ZiQdgFiAAFRgA.nNZ84ioNMT3w36ihKyXdiswpvOdxXbV7VdZ3pXrebXQ"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateRoom(\n    id: \"A2V27CMwvQNB2zBcf2\",\n    room: {\n      name: \"Aloha\",\n      description: \"updated text\",\n      topic: \"updated text\",\n      userId: \"A2V0ZzfCMfq90BlAYa\"\n    }\n  ) {\n    id\n    active\n    name\n    description\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateRoom(\n    id: \"A2V27CMwvQNB2zBcf2\",\n    room: {\n      name: \"Witten\",\n      description: \"updated text\",\n      topic: \"updated text\",\n      userId: \"A2V0ZzfCMfq90BlAYa\"\n    }\n  ) {\n    id\n    active\n    name\n    description\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateRoom(\n    id: \"A2V27CMwvQNB2zBcf2\",\n    room: {\n      name: \"Witten\",\n      description: \"updated text\",\n      topic: \"updated text\"\n    }\n  ) {\n    id\n    active\n    name\n    description\n    user {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateRoom(\n    id: \"A2V27CMwvQNB2zBcf2\",\n    room: {\n      name: \"Nau\",\n      description: \"updated text\",\n      topic: \"updated text\",\n      userId: \"A2V0ZzfCMfq90BlAYa\"\n    }\n  ) {\n    id\n    active\n    name\n    description\n    user {id email role}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.34565434565434566,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"A2V27CMwvQNB2zBcf2\\\",\\n    room: {\\n      name: \\\"Witten\\\",\\n      description: \\\"updated text\\\",\\n      topic: \\\"updated text\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"A2V27CMwvQNB2zBcf2\\\",\\n    room: {\\n      name: \\\"Witten\\\",\\n      description: \\\"updated text\\\",\\n      topic: \\\"updated text\\\",\\n      userId: \\\"A2V0ZzfCMfq90BlAYa\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"A2V27CMwvQNB2zBcf2\\\",\\n    room: {\\n      name: \\\"Aloha\\\",\\n      description: \\\"updated text\\\",\\n      topic: \\\"updated text\\\",\\n      userId: \\\"A2V0ZzfCMfq90BlAYa\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab7",
+      "name": "Query 7",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlYwWnpmQ01mcTkwQmxBWWFuBgB79ZiQdgFiAAFRgA.nNZ84ioNMT3w36ihKyXdiswpvOdxXbV7VdZ3pXrebXQ"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  deleteRoom(id: \"A2V27CMwvQNB2zBcf2\", userId: \"A2V0ZzfCMfq90BlAYa\") {id}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteRoom(id: \"A2V0ZzfCMfq90BlAYa\", userId: \"A2V0ZzfCMfq90BlAYa\") {id}\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deleteRoom(id: \"A2V27CMwvQNB2zBcf2\", userId: \"A2V0ZzfCMfq90BlAYa\") {id}\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteRoom(id: \\\"A2V0ZzfCMfq90BlAYa\\\", userId: \\\"A2V0ZzfCMfq90BlAYa\\\") {id}\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteRoom(id: \\\"A2V27CMwvQNB2zBcf2\\\", userId: \\\"A2V0ZzfCMfq90BlAYa\\\") {id}\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab8",
+      "name": "Query 8",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlYwWnpmQ01mcTkwQmxBWWFuBgAdxMWQdgFiAAFRgA.sIAch5OXXCFPGU75Fqa8AooStnq42RfiSltbFfIBbhk"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updatePlatform(\n    id: \"A2V0aBOGlRQdN9vops\",\n    platform: {\n      paymentActive: false,\n      userId: \"A2V0ZzfCMfq90BlAYa\"\n    }\n  ) {\n    id\n    isBanned\n    isStuck\n    isOnline\n    heroStatus\n    heroActive\n    clientLimitReach\n    paymentActive\n    stuckStage\n    user {id, email, role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updatePlatform(\n    id: \"A2V0aBOGlRQdN9vops\",\n    platform: {\n      paymentActive: true,\n      userId: \"A2V0ZzfCMfq90BlAYa\"\n    }\n  ) {\n    id\n    isBanned\n    isStuck\n    isOnline\n    heroStatus\n    heroActive\n    clientLimitReach\n    paymentActive\n    stuckStage\n    user {id, email, role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updatePlatform(\n    id: \"A2V0aBOGlRQdN9vops\",\n    platform: {\n      paymentActive: false,\n      userId: \"A2V0ZzfCMfq90BlAYa\"\n    }\n  ) {\n    id\n    isBanned\n    isStuck\n    isOnline\n    heroStatus\n    heroActive\n    clientLimitReach\n    paymentActive\n    stuckStage\n    user {id, email, role}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2V0aBOGlRQdN9vops\\\",\\n    platform: {\\n      paymentActive: true,\\n      userId: \\\"A2V0ZzfCMfq90BlAYa\\\"\\n    }\\n  ) {\\n    id\\n    isBanned\\n    isStuck\\n    isOnline\\n    heroStatus\\n    heroActive\\n    clientLimitReach\\n    paymentActive\\n    stuckStage\\n    user {id, email, role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2V0aBOGlRQdN9vops\\\",\\n    platform: {\\n      paymentActive: false,\\n      userId: \\\"A2V0ZzfCMfq90BlAYa\\\"\\n    }\\n  ) {\\n    id\\n    isBanned\\n    isStuck\\n    isOnline\\n    heroStatus\\n    heroActive\\n    clientLimitReach\\n    paymentActive\\n    stuckStage\\n    user {id, email, role}\\n  }\\n}\"}]}",
+      "graphiql:editorFlex": 0.4119496855345912
+    }
+  ]
+}

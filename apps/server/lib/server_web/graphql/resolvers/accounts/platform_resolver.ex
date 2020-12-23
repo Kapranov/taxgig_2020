@@ -8,7 +8,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
     Accounts.Platform,
     Accounts.User,
     Queries,
-    Repo
+    Repo,
+    Talk,
+    Talk.Room
   }
 
   @type t :: Platform.t()
@@ -115,18 +117,38 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
 
           attrs = Map.merge(check_one, check_two)
 
-          try do
-            Repo.get!(Platform, id)
-            |> Accounts.update_platform(Map.delete(attrs, :user_id))
-            |> case do
-              {:ok, struct} ->
-                {:ok, struct}
-              {:error, changeset} ->
-                {:error, extract_error_msg(changeset)}
+          room = Repo.get_by(Room, %{user_id: params[:user_id]})
+
+          if params[:payment_active] ==  true do
+            try do
+              Repo.get!(Platform, id)
+              |> Accounts.update_platform(Map.delete(attrs, :user_id))
+              |> case do
+                {:ok, struct} ->
+                  {:ok, _} = Talk.update_room(room, %{active: true})
+                  {:ok, struct}
+                {:error, changeset} ->
+                  {:error, extract_error_msg(changeset)}
+              end
+            rescue
+              Ecto.NoResultsError ->
+                {:error, "The Platform #{id} not found!"}
             end
-          rescue
-            Ecto.NoResultsError ->
-              {:error, "The Platform #{id} not found!"}
+          else
+            try do
+              Repo.get!(Platform, id)
+              |> Accounts.update_platform(Map.delete(attrs, :user_id))
+              |> case do
+                {:ok, struct} ->
+                  {:ok, _} = Talk.update_room(room, %{active: false})
+                  {:ok, struct}
+                {:error, changeset} ->
+                  {:error, extract_error_msg(changeset)}
+              end
+            rescue
+              Ecto.NoResultsError ->
+                {:error, "The Platform #{id} not found!"}
+            end
           end
         false -> {:error, "permission denied"}
       end

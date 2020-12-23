@@ -30,7 +30,7 @@ defmodule Core.Seeder.Deleted.Accounts do
   @spec deleted_platform() :: Ecto.Schema.t()
   defp deleted_platform do
     IO.puts("Deleting data on model's Platform\n")
-    SQL.query!(Repo, "TRUNCATE platforms CASCADE;")
+    # SQL.query!(Repo, "TRUNCATE platforms CASCADE;")
   end
 
   @spec deleted_pro_rating() :: Ecto.Schema.t()
