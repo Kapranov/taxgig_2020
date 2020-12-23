@@ -16,10 +16,10 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.ReportTypes do
   object :report, description: "Report" do
     field :id, non_null(:string), description: "unique identifier"
     field :description, :string
-    field :messages, non_null(list_of(:string))
+    field :messages, list_of(:string)
     field :other, :boolean
-    field :reasons, list_of(:string)
-    field :user, :user, resolve: dataloader(Data)
+    field :reasons, :string
+    field :users, :user, resolve: dataloader(Data)
   end
 
   @desc "The report update via params"
@@ -27,8 +27,8 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.ReportTypes do
     field :description, :string
     field :messages, list_of(:string)
     field :other, :boolean
-    field :reasons, list_of(:string)
-    field :user_id, :string
+    field :reasons, :string
+    field :user_id, non_null(:string)
   end
 
   object :report_queries do
@@ -50,7 +50,7 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.ReportTypes do
       arg :description, :string
       arg :messages, non_null(list_of(:string))
       arg :other, :boolean
-      arg :reasons, list_of(:string)
+      arg :reasons, :string
       arg :user_id, non_null(:string)
       resolve &ReportResolver.create/3
     end
@@ -65,6 +65,7 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.ReportTypes do
     @desc "Delete a specific the report"
     field :delete_report, :report do
       arg :id, non_null(:string)
+      arg :user_id, non_null(:string)
       resolve &ReportResolver.delete/3
     end
   end

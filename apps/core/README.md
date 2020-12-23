@@ -274,7 +274,7 @@ sent to the database, which solves the issue entirely.
 - []  `messages`
 - []  `pro_docs`
 - []  `projects`
-- []  `reports`
+- [X]  `reports`
 - []  `rooms`
 - []  `tp_docs`
 

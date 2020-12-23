@@ -146,7 +146,7 @@ defmodule Core.Talk do
   @spec list_report() :: [Report.t()]
   def list_report do
     Repo.all(Report)
-    |> Repo.preload([:message])
+    |> Repo.preload([users: [:languages]])
   end
 
   @doc """
@@ -166,7 +166,7 @@ defmodule Core.Talk do
   @spec get_report!(String.t()) :: Report.t() | error_tuple()
   def get_report!(id) do
     Repo.get!(Report, id)
-    |> Repo.preload([:message])
+    |> Repo.preload([users: [:languages]])
   end
 
   @doc """
@@ -183,16 +183,21 @@ defmodule Core.Talk do
   """
   @spec create_report(%{atom => any}) :: result() | error_tuple()
   def create_report(attrs \\ %{}) do
-    case attrs.other do
-      true ->
-        %Report{}
-        |> Report.changeset(Map.delete(attrs, :reasons))
-        |> Repo.insert()
-      false ->
-        %Report{}
-        |> Report.changeset(Map.delete(attrs, :other_description))
-        |> Repo.insert()
-      nil -> {:error, %Ecto.Changeset{}}
+    if Map.has_key?(attrs, :other) do
+      case attrs.other do
+        true ->
+          %Report{}
+          |> Report.changeset(attrs |> Map.delete(:reasons))
+          |> Repo.insert()
+        false ->
+          %Report{}
+          |> Report.changeset(attrs |> Map.delete(:description))
+          |> Repo.insert()
+      end
+    else
+      %Report{}
+      |> Report.changeset(attrs |> Map.delete(:description) |> Map.delete(:reasons) |> Map.delete(:other))
+      |> Repo.insert()
     end
   end
 
@@ -210,24 +215,25 @@ defmodule Core.Talk do
   """
   @spec update_report(Report.t(), %{atom => any}) :: result() | error_tuple()
   def update_report(struct, attrs) do
-    new_attrs1 =
-      Map.delete(attrs, :reasons)
-      |> Map.merge(%{reasons: nil})
+    attrs1 = Map.delete(attrs, :reasons) |> Map.merge(%{reasons: nil})
+    attrs2 = Map.delete(attrs, :description) |> Map.merge(%{description: nil})
+    attrs3 = attrs |> Map.delete(:description) |> Map.delete(:other) |> Map.delete(:reasons) |> Map.merge(%{description: nil, other: nil, reasons: nil})
 
-    new_attrs2 =
-      Map.delete(attrs, :other_description)
-      |> Map.merge(%{other_description: nil})
-
-    case attrs.other do
-      true ->
-        struct
-        |> Report.changeset(new_attrs1)
-        |> Repo.update()
-      false ->
-        struct
-        |> Report.changeset(new_attrs2)
-        |> Repo.update()
-      nil -> {:error, %Ecto.Changeset{}}
+    if Map.has_key?(attrs, :other) do
+      case attrs.other do
+        true ->
+          struct
+          |> Report.changeset(attrs1)
+          |> Repo.update()
+        false ->
+          struct
+          |> Report.changeset(attrs2)
+          |> Repo.update()
+      end
+    else
+      struct
+      |> Report.changeset(attrs3)
+      |> Repo.update()
     end
   end
 

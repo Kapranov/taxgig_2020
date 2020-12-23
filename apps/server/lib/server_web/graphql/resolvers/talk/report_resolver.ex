@@ -5,6 +5,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.ReportResolver do
 
   alias Core.{
     Accounts.User,
+    Queries,
     Repo,
     Talk,
     Talk.Report
@@ -23,7 +24,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.ReportResolver do
     if is_nil(current_user) do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct = Talk.list_report()
+      struct = Repo.all(Queries.by_offers(Report, :user_id, current_user.id))
       {:ok, struct}
     end
   end
@@ -79,18 +80,22 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.ReportResolver do
     if is_nil(id) || is_nil(current_user) do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
-      try do
-        Repo.get!(Report, id)
-        |> Talk.update_report(params)
-        |> case do
-          {:ok, struct} ->
-            {:ok, struct}
-          {:error, changeset} ->
-            {:error, extract_error_msg(changeset)}
-        end
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The Report #{id} not found!"}
+      case params[:user_id] == current_user.id do
+        true  ->
+          try do
+            Repo.get!(Report, id)
+            |> Talk.update_report(Map.delete(params, :user_id))
+            |> case do
+              {:ok, struct} ->
+                {:ok, struct}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
+          rescue
+            Ecto.NoResultsError ->
+              {:error, "The Report #{id} not found!"}
+          end
+        false -> {:error, "permission denied"}
       end
     end
   end
@@ -101,16 +106,20 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.ReportResolver do
   end
 
   @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
+  def delete(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
     else
-      try do
-        struct = Talk.get_report!(id)
-        Repo.delete(struct)
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The Report #{id} not found!"}
+      case user_id == current_user.id do
+        true  ->
+          try do
+            struct = Talk.get_report!(id)
+            Repo.delete(struct)
+          rescue
+            Ecto.NoResultsError ->
+              {:error, "The Report #{id} not found!"}
+          end
+        false -> {:error, "permission denied"}
       end
     end
   end

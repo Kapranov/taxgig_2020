@@ -1,0 +1,310 @@
+{
+  "key": "graphiql",
+  "lastId": 6,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5",
+    "tab6"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlVJZG1ESnhZaGNyTDJLQ2VuBgARk0KPdgFiAAFRgA.EiRAP5S60SKma11kv7K9jJxQFM4QX8a2_5kdHq1S90c"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlVJZG1ESnhZaGNyTDJLQ2VuBgBiWiOPdgFiAAFRgA.EPuXqNKsC2jEBA1Pme9KjxCJrYZl13c9QBPCoavvrUs"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlVJZG1ESnhZaGNyTDJLQ2VuBgBDCwOPdgFiAAFRgA.SonGqUwUxE8HDjeahbNjJMTQGOc14tVHY39MAFcheZI"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlVJZG1ESnhZaGNyTDJLQ2VuBgAMVdSOdgFiAAFRgA.w_SGeCP2OT8RUzBvVAo9uRE-oU4BNhqP6HeTcBjmleg"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab4",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 1,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3336633663366337
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlVJZG1ESnhZaGNyTDJLQ2VuBgARk0KPdgFiAAFRgA.EiRAP5S60SKma11kv7K9jJxQFM4QX8a2_5kdHq1S90c"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allReports {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allReports {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allReports {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allReports {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.24606845513413506
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlVJZG1ESnhZaGNyTDJLQ2VuBgARk0KPdgFiAAFRgA.EiRAP5S60SKma11kv7K9jJxQFM4QX8a2_5kdHq1S90c"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createReport(\n    description: \"some text\",\n    messages: [\n      \"A2UIek3pRylETH3ajo\",\n      \"A2UIejzvgTdqHBETey\",\n      \"A2UIekhB5gEiRJT14S\"\n    ],\n    other: true,\n    reasons: \"Spam\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {\n    id\n    description\n    messages\n    reasons\n    other\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createReport(\n    description: \"some text\",\n    messages: [\n      \"A2UIek3pRylETH3ajo\",\n      \"A2UIejzvgTdqHBETey\",\n      \"A2UIekhB5gEiRJT14S\"\n    ],\n    other: false,\n    reasons: \"Spam\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {\n    id\n    description\n    messages\n    reasons\n    other\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createReport(\n    description: \"some text\",\n    messages: [\n      \"A2UIek3pRylETH3ajo\",\n      \"A2UIejzvgTdqHBETey\",\n      \"A2UIekhB5gEiRJT14S\"\n    ],\n    other: true,\n    reasons: \"Spam\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {\n    id\n    description\n    messages\n    reasons\n    other\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createReport(\n    description: \"some text\",\n    messages: [\n      \"A2UIek3pRylETH3ajo\",\n      \"A2UIejzvgTdqHBETey\",\n      \"A2UIekhB5gEiRJT14S\"\n    ],\n    reasons: \"Spam\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {\n    id\n    description\n    messages\n    reasons\n    other\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createReport(\n    description: \"some text\",\n    messages: [\n      \"A2UIek3pRylETH3ajo\",\n      \"A2UIejzvgTdqHBETey\",\n      \"A2UIekhB5gEiRJT14S\"\n    ],\n    other: nil,\n    reasons: \"Spam\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {\n    id\n    description\n    messages\n    reasons\n    other\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createReport(\n    description: \"some text\",\n    messages: [\n      \"A2UIek3pRylETH3ajo\",\n      \"A2UIejzvgTdqHBETey\",\n      \"A2UIekhB5gEiRJT14S\"\n    ],\n    other: false,\n    reasons: \"Spam\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {\n    id\n    description\n    messages\n    other\n    reasons\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createReport(\n    description: \"some text\",\n    messages: [\n      \"A2UIek3pRylETH3ajo\",\n      \"A2UIejzvgTdqHBETey\",\n      \"A2UIekhB5gEiRJT14S\"\n    ],\n    other: true,\n    reasons: \"Spam\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {\n    id\n    description\n    messages\n    other\n    reasons\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createReport(\n    description: \"some text\",\n    messages: [\n      \"A2UIek3pRylETH3ajo\",\n      \"A2UIejzvgTdqHBETey\",\n      \"A2UIekhB5gEiRJT14S\"\n    ],\n    other: true,\n    reasons: \"Spam\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {\n    id\n    description\n    messages\n    reasons\n    other\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createReport(\\n    description: \\\"some text\\\",\\n    messages: [\\n      \\\"A2UIek3pRylETH3ajo\\\",\\n      \\\"A2UIejzvgTdqHBETey\\\",\\n      \\\"A2UIekhB5gEiRJT14S\\\"\\n    ],\\n    other: true,\\n    reasons: \\\"Spam\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {\\n    id\\n    description\\n    messages\\n    other\\n    reasons\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createReport(\\n    description: \\\"some text\\\",\\n    messages: [\\n      \\\"A2UIek3pRylETH3ajo\\\",\\n      \\\"A2UIejzvgTdqHBETey\\\",\\n      \\\"A2UIekhB5gEiRJT14S\\\"\\n    ],\\n    other: false,\\n    reasons: \\\"Spam\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {\\n    id\\n    description\\n    messages\\n    other\\n    reasons\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createReport(\\n    description: \\\"some text\\\",\\n    messages: [\\n      \\\"A2UIek3pRylETH3ajo\\\",\\n      \\\"A2UIejzvgTdqHBETey\\\",\\n      \\\"A2UIekhB5gEiRJT14S\\\"\\n    ],\\n    reasons: \\\"Spam\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {\\n    id\\n    description\\n    messages\\n    other\\n    reasons\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createReport(\\n    description: \\\"some text\\\",\\n    messages: [\\n      \\\"A2UIek3pRylETH3ajo\\\",\\n      \\\"A2UIejzvgTdqHBETey\\\",\\n      \\\"A2UIekhB5gEiRJT14S\\\"\\n    ],\\n    reasons: \\\"Spam\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {\\n    id\\n    description\\n    messages\\n    reasons\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createReport(\\n    description: \\\"some text\\\",\\n    messages: [\\n      \\\"A2UIek3pRylETH3ajo\\\",\\n      \\\"A2UIejzvgTdqHBETey\\\",\\n      \\\"A2UIekhB5gEiRJT14S\\\"\\n    ],\\n    other: nil,\\n    reasons: \\\"Spam\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {\\n    id\\n    description\\n    messages\\n    reasons\\n    other\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createReport(\\n    description: \\\"some text\\\",\\n    messages: [\\n      \\\"A2UIek3pRylETH3ajo\\\",\\n      \\\"A2UIejzvgTdqHBETey\\\",\\n      \\\"A2UIekhB5gEiRJT14S\\\"\\n    ],\\n    reasons: \\\"Spam\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {\\n    id\\n    description\\n    messages\\n    reasons\\n    other\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createReport(\\n    description: \\\"some text\\\",\\n    messages: [\\n      \\\"A2UIek3pRylETH3ajo\\\",\\n      \\\"A2UIejzvgTdqHBETey\\\",\\n      \\\"A2UIekhB5gEiRJT14S\\\"\\n    ],\\n    other: true,\\n    reasons: \\\"Spam\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {\\n    id\\n    description\\n    messages\\n    reasons\\n    other\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createReport(\\n    description: \\\"some text\\\",\\n    messages: [\\n      \\\"A2UIek3pRylETH3ajo\\\",\\n      \\\"A2UIejzvgTdqHBETey\\\",\\n      \\\"A2UIekhB5gEiRJT14S\\\"\\n    ],\\n    other: false,\\n    reasons: \\\"Spam\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {\\n    id\\n    description\\n    messages\\n    reasons\\n    other\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createReport(\\n    description: \\\"some text\\\",\\n    messages: [\\n      \\\"A2UIek3pRylETH3ajo\\\",\\n      \\\"A2UIejzvgTdqHBETey\\\",\\n      \\\"A2UIekhB5gEiRJT14S\\\"\\n    ],\\n    other: true,\\n    reasons: \\\"Spam\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {\\n    id\\n    description\\n    messages\\n    reasons\\n    other\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3661257606490872,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlVJZG1ESnhZaGNyTDJLQ2VuBgARk0KPdgFiAAFRgA.EiRAP5S60SKma11kv7K9jJxQFM4QX8a2_5kdHq1S90c"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: true,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: true,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: false,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: true,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: false,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: true,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: false,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: true,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: false,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: false,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: true,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: true,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: false,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: true,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: false,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: true,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    report: {\n      description: \"updated text\",\n      reasons: \"Spam\",\n      other: true,\n      messages: [\"A2UIek3pRylETH3ajo\", \"A2UIekhB5gEiRJT14S\"],\n      userId: \"A2UIdmDJxYhcrL2KCe\"\n    }\n  ) {\n    id\n    description\n    other\n    reasons\n    messages\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: true,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: false,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: true,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: false,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: true,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: true,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: false,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: false,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: true,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: false,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: true,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: false,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: true,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: false,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: true,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    report: {\\n      description: \\\"updated text\\\",\\n      reasons: \\\"Spam\\\",\\n      other: true,\\n      messages: [\\\"A2UIek3pRylETH3ajo\\\", \\\"A2UIekhB5gEiRJT14S\\\"],\\n      userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n    }\\n  ) {\\n    id\\n    description\\n    other\\n    reasons\\n    messages\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.6753731343283582,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab6",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlVJZG1ESnhZaGNyTDJLQ2VuBgARk0KPdgFiAAFRgA.EiRAP5S60SKma11kv7K9jJxQFM4QX8a2_5kdHq1S90c"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  deleteReport(\n    id: \"A2UU22JKzpcMNzkDmi\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {id}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteReport(\n    id: \"A2UTzzFjOaGuK25320\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {id}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteReport(\n    id: \"A2UTvRqrdcPnZXHil6\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {id}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteReport(\n    id: \"A2UOY3hpTVkijOQurw\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {id}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteReport(\n    id: \"A2UNhbEspvMZijVpXU\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {id}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteReport(\n    id: \"A2UNbX5fLeZr7GJ9yC\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {id}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteReport(\n    id: \"A2UIel4vfNEdcyZz5k\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {id}\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deleteReport(\n    id: \"A2UU22JKzpcMNzkDmi\",\n    userId: \"A2UIdmDJxYhcrL2KCe\"\n  ) {id}\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.4705240174672489,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteReport(\\n    id: \\\"A2UIel4vfNEdcyZz5k\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {id}\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteReport(\\n    id: \\\"A2UNbX5fLeZr7GJ9yC\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteReport(\\n    id: \\\"A2UNhbEspvMZijVpXU\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteReport(\\n    id: \\\"A2UOY3hpTVkijOQurw\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteReport(\\n    id: \\\"A2UTvRqrdcPnZXHil6\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteReport(\\n    id: \\\"A2UTzzFjOaGuK25320\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteReport(\\n    id: \\\"A2UU22JKzpcMNzkDmi\\\",\\n    userId: \\\"A2UIdmDJxYhcrL2KCe\\\"\\n  ) {id}\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350
+    }
+  ]
+}
