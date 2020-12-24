@@ -15,18 +15,19 @@ defmodule ServerWeb.GraphQL.Schemas.Media.TpDocTypes do
   @desc "The tp docs on the site"
   object :tp_doc do
     field :access_granted, non_null(:boolean)
-    field :category, non_null(list_of(:string))
+    field :category, non_null(:string)
     field :file, :picture, description: "An upload's file"
-    field :project, :project, resolve: dataloader(Data)
+    field :projects, :project, resolve: dataloader(Data)
     field :signed_by_tp, non_null(:boolean)
   end
 
   @desc "The tp docs an update via params"
   input_object :update_tp_doc_params do
     field :access_granted, :boolean
-    field :category, list_of(:string)
+    field :category, :string
     field :project_id, :string
     field :signed_by_tp, :boolean
+    field :user_id, non_null(:string)
   end
 
   object :tp_doc_queries do
@@ -46,7 +47,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.TpDocTypes do
     @desc "Create the tp docs"
     field :create_tp_doc, :tp_doc, description: "Create a new tp docs" do
       arg :access_granted, non_null(:boolean)
-      arg :category, non_null(list_of(:string))
+      arg :category, non_null(:string)
       arg :file, :picture_input
       arg :signed_by_tp, non_null(:boolean)
       resolve &TpDocResolver.create/3
@@ -63,6 +64,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.TpDocTypes do
     @desc "Delete a specific tp docs"
     field :delete_tp_doc, :tp_doc do
       arg :id, non_null(:string)
+      arg :user_id, non_null(:string)
       resolve &TpDocResolver.delete/3
     end
   end

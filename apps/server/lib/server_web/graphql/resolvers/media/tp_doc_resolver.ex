@@ -81,21 +81,25 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
 
   @spec update(any, %{id: bitstring, pro_doc: map()}, %{context: %{current_user: User.t()}}) :: result()
   def update(_parent, %{id: id, pro_doc: params}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.role == true do
+    if is_nil(id) || is_nil(current_user) || current_user.role == false do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
-      try do
-        Repo.get!(TpDoc, id)
-        |> Media.update_tp_doc(params)
-        |> case do
-          {:ok, struct} ->
-            {:ok, struct}
-          {:error, changeset} ->
-            {:error, extract_error_msg(changeset)}
-        end
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The Tp Docs #{id} not found!"}
+      case params[:user_id] == current_user.id do
+        true  ->
+          try do
+            Repo.get!(TpDoc, id)
+            |> Media.update_tp_doc(Map.delete(params, :user_id))
+            |> case do
+              {:ok, struct} ->
+                {:ok, struct}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
+          rescue
+            Ecto.NoResultsError ->
+              {:error, "The Tp Docs #{id} not found!"}
+          end
+        false -> {:error, "permission denied"}
       end
     end
   end
@@ -105,17 +109,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :tp_doc, message: "Can't be blank"]]}
   end
 
-  @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
+  @spec delete(any, %{id: bitstring, user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def delete(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) || current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
     else
-      try do
-        struct = Media.get_tp_doc!(id)
-        Repo.delete(struct)
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The Tp Docs #{id} not found!"}
+      case user_id == current_user.id do
+        true  ->
+          try do
+            struct = Media.get_tp_doc!(id)
+            Repo.delete(struct)
+          rescue
+            Ecto.NoResultsError ->
+              {:error, "The Tp Docs #{id} not found!"}
+          end
+        false -> {:error, "permission denied"}
       end
     end
   end

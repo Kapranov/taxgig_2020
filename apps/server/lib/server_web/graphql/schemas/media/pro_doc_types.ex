@@ -14,20 +14,21 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
 
   @desc "The pro docs on the site"
   object :pro_doc do
-    field :category, non_null(list_of(:string))
+    field :category, non_null(:string)
     field :file, :picture, description: "An upload's file"
-    field :project, :project, resolve: dataloader(Data)
+    field :projects, :project, resolve: dataloader(Data)
     field :signature, non_null(:boolean)
     field :signed_by_pro, non_null(:boolean)
-    field :user, :user, resolve: dataloader(Data)
+    field :users, :user, resolve: dataloader(Data)
   end
 
   @desc "The pro docs an update via params"
   input_object :update_pro_doc_params do
-    field :category, list_of(:string)
+    field :category, :string
     field :project_id, :string
     field :signature, :boolean
     field :signed_by_pro, :boolean
+    field :user_id, non_null(:string)
   end
 
   object :pro_doc_queries do
@@ -46,7 +47,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
   object :pro_doc_mutations do
     @desc "Create the pro docs"
     field :create_pro_doc, :pro_doc, description: "Create a new pro docs" do
-      arg :category, non_null(list_of(:string))
+      arg :category, non_null(:string)
       arg :file, :picture_input
       arg :signature, non_null(:boolean)
       arg :signed_by_pro, non_null(:boolean)
@@ -65,6 +66,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
     @desc "Delete a specific pro docs"
     field :delete_pro_doc, :pro_doc do
       arg :id, non_null(:string)
+      arg :user_id, non_null(:string)
       resolve &ProDocResolver.delete/3
     end
   end

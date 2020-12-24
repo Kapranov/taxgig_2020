@@ -4,6 +4,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
   """
 
   alias Core.{
+    Accounts,
     Accounts.User,
     Repo,
     Talk,
@@ -60,12 +61,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
       {:error, [[field: :current_user, message: "Permission denied for current_user to perform action Create"]]}
     else
       room = Repo.get_by(Room, %{id: args[:room_id]})
-      Talk.create_message(current_user, room, args)
-      |> case do
-        {:ok, struct} ->
-          {:ok, struct}
-        {:error, changeset} ->
-          {:error, extract_error_msg(changeset)}
+      if Accounts.by_role(args[:recipient_id]) == true do
+        Talk.create_message(current_user, room, args)
+        |> case do
+          {:ok, struct} ->
+            {:ok, struct}
+          {:error, changeset} ->
+            {:error, extract_error_msg(changeset)}
+        end
+      else
+        {:error, [[field: :recipient_id, message: "Permission denied for client's role"]]}
       end
     end
   end
@@ -82,18 +87,34 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
     else
       case params[:user_id] == current_user.id do
         true  ->
-          try do
-            Repo.get!(Message, id)
-            |> Talk.update_message(Map.delete(params, :user_id))
-            |> case do
-              {:ok, struct} ->
-                {:ok, struct}
-              {:error, changeset} ->
-                {:error, extract_error_msg(changeset)}
+          if Map.has_key?(params, :recipient_id) and Accounts.by_role(params[:recipient_id]) == true do
+            try do
+              Repo.get!(Message, id)
+              |> Talk.update_message(Map.delete(params, :user_id))
+              |> case do
+                {:ok, struct} ->
+                  {:ok, struct}
+                {:error, changeset} ->
+                  {:error, extract_error_msg(changeset)}
+              end
+            rescue
+              Ecto.NoResultsError ->
+                {:error, "The Message #{id} not found!"}
             end
-          rescue
-            Ecto.NoResultsError ->
-              {:error, "The Message #{id} not found!"}
+          else
+            try do
+              Repo.get!(Message, id)
+              |> Talk.update_message(params |> Map.delete(:user_id) |> Map.delete(:recipient_id))
+              |> case do
+                {:ok, struct} ->
+                  {:ok, struct}
+                {:error, changeset} ->
+                  {:error, extract_error_msg(changeset)}
+              end
+            rescue
+              Ecto.NoResultsError ->
+                {:error, "The Message #{id} not found!"}
+            end
           end
         false -> {:error, "permission denied"}
       end
