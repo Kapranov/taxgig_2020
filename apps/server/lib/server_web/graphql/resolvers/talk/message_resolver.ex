@@ -7,7 +7,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
     Accounts.User,
     Repo,
     Talk,
-    Talk.Message
+    Talk.Message,
+    Talk.Room
   }
 
   @type t :: Message.t()
@@ -20,7 +21,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
 
   @spec list(any, %{room_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def list(_parent, %{room_id: room_id}, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) || current_user.admin == false do
+    if is_nil(current_user) do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
       struct = Talk.list_message(room_id)
@@ -58,7 +59,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
     if is_nil(current_user) do
       {:error, [[field: :current_user, message: "Permission denied for current_user to perform action Create"]]}
     else
-      Talk.create_message(args["user_id"], args["room_id"], args)
+      room = Repo.get_by(Room, %{id: args[:room_id]})
+      Talk.create_message(current_user, room, args)
       |> case do
         {:ok, struct} ->
           {:ok, struct}
@@ -78,18 +80,22 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
     if is_nil(id) || is_nil(current_user) do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
-      try do
-        Repo.get!(Message, id)
-        |> Talk.update_message(params)
-        |> case do
-          {:ok, struct} ->
-            {:ok, struct}
-          {:error, changeset} ->
-            {:error, extract_error_msg(changeset)}
-        end
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The Message #{id} not found!"}
+      case params[:user_id] == current_user.id do
+        true  ->
+          try do
+            Repo.get!(Message, id)
+            |> Talk.update_message(Map.delete(params, :user_id))
+            |> case do
+              {:ok, struct} ->
+                {:ok, struct}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
+          rescue
+            Ecto.NoResultsError ->
+              {:error, "The Message #{id} not found!"}
+          end
+        false -> {:error, "permission denied"}
       end
     end
   end
@@ -99,17 +105,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :message, message: "Can't be blank"]]}
   end
 
-  @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
+  @spec delete(any, %{id: bitstring, user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def delete(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
     else
-      try do
-        struct = Talk.get_message!(id)
-        Repo.delete(struct)
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The Message #{id} not found!"}
+      case user_id == current_user.id do
+        true  ->
+          try do
+            struct = Talk.get_message!(id)
+            Repo.delete(struct)
+          rescue
+            Ecto.NoResultsError ->
+              {:error, "The Message #{id} not found!"}
+          end
+        false -> {:error, "permission denied"}
       end
     end
   end

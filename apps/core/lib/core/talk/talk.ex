@@ -32,16 +32,9 @@ defmodule Core.Talk do
       from msg in Message,
       join: user in assoc(msg, :user),
       where: msg.room_id == ^room_id,
-      order_by: [desc: msg.inserted_at],
-      select: %{
-        body: msg.body,
-        user: %{
-          first_name: user.first_name,
-          middle_name: user.middle_name,
-          last_name: user.last_name
-        }
-      }
-    )
+      order_by: [desc: msg.inserted_at]
+#      select: %{ body: msg.body, user: %{ first_name: user.first_name, middle_name: user.middle_name, last_name: user.last_name } }
+    ) |> Repo.preload(:user)
   end
 
   @doc """

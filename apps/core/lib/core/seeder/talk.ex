@@ -189,175 +189,175 @@ defmodule Core.Seeder.Talk do
         body: "The left have been using racism to fuel.",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user1, room1, %{
         body: "If I could put a face on all of this, it would be Obama's first.",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user1, room1, %{
         body: "Nancy and crew are used being on their knees.",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user2, room2, %{
         body: "Nothing I regret more than being a Democrat",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user2, room2, %{
         body: "In Minnesota,  defunding the police is an excellent open door for Sharia law",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user2, room2, %{
         body: "Only cult people act to defund the police.",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user3, room3, %{
         body: "Only 1 person is responsible for the killing.",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user3, room3, %{
         body: "Minnisota will get Sharia Law if they defund the police!",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user4, room4, %{
         body: "Liberalism is a severe mental disorder.",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user5, room5, %{
         body: "whose paying for the riots and  damage",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user5, room5, %{
         body: "Somalia has brought their country, their violence, and their insanity right to our door step.",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user6, room6, %{
         body: "Rush is the best. God bless you. Praying for you",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user6, room6, %{
         body: "Why do we allow the DemocRATS to be this dumb on our dime",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user6, room6, %{
         body: "See what happens when government gets too big",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user6, room6, %{
         body: "It's all a plan to federalize the police",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user7, room7, %{
         body: "The road to hell is paved with liberal intentions.",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user7, room7, %{
         body: "How are a bunch of easily-triggered snowflakes going to handle actual violence",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user8, room8, %{
         body: "Liberalism is a Mental illness.",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user8, room8, %{
         body: "if im taking a knee its because the target is short",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user8, room8, %{
         body: "These are the times that try men’s souls",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user8, room8, %{
         body: "Your show is the best. Ding Ding Ding",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user9, room9, %{
         body: "Oh Rush is on Sundays now, cool. lol",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user9, room9, %{
         body: "Joe Biden wants to know who Aunt Teefa is and why is she always so mad.",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user9, room9, %{
         body: "They are using fake polls to prepare people giving mail in fraud credibility.",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       }),
       Talk.create_message(user9, room9, %{
         body: "I'm not depressed. Fight these maggots with the convincing truth.",
         is_read: random_boolean(),
         project_id: random_project(project_ids),
-        recipient: random_user(users_ids),
+        recipient_id: random_user(users_ids),
         warning: random_boolean()
       })
     ]

@@ -15,7 +15,7 @@ defmodule Core.Talk.Message do
     body: String.t(),
     is_read: boolean,
     project_id: Project.t(),
-    recipient: String.t(),
+    recipient_id: User.t(),
     room_id: Room.t(),
     user_id: User.t(),
     warning: boolean
@@ -25,7 +25,7 @@ defmodule Core.Talk.Message do
     body
     is_read
     project_id
-    recipient
+    recipient_id
     room_id
     user_id
     warning
@@ -35,7 +35,7 @@ defmodule Core.Talk.Message do
     body
     is_read
     project_id
-    recipient
+    recipient_id
     room_id
     user_id
     warning
@@ -44,8 +44,8 @@ defmodule Core.Talk.Message do
   schema "messages" do
     field :body, :string, null: false
     field :is_read, :boolean, null: false
-    field :recipient, FlakeId.Ecto.Type, null: true
     field :warning, :boolean, null: false
+
 
     belongs_to :projects, Project,
       foreign_key: :project_id,
@@ -54,6 +54,11 @@ defmodule Core.Talk.Message do
 
     belongs_to :room, Room,
       foreign_key: :room_id,
+      type: FlakeId.Ecto.CompatType,
+      references: :id
+
+    belongs_to :recipient, User,
+      foreign_key: :recipient_id,
       type: FlakeId.Ecto.CompatType,
       references: :id
 
@@ -74,6 +79,7 @@ defmodule Core.Talk.Message do
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
     |> foreign_key_constraint(:project_id, message: "Select a Project")
+    |> foreign_key_constraint(:recipient_id, message: "Select Recipients")
     |> foreign_key_constraint(:room_id, message: "Select a Room")
     |> foreign_key_constraint(:user_id, message: "Select an User")
   end

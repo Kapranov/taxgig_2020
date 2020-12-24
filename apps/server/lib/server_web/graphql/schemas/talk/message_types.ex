@@ -14,10 +14,10 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
 
   @desc "The Message"
   object :message do
-    field :id, non_null(:string)
+    field :id, :string
     field :body, non_null(:string)
     field :is_read, non_null(:boolean)
-    field :project, list_of(:project), resolve: dataloader(Data)
+    field :projects, list_of(:project), resolve: dataloader(Data)
     field :recipient, list_of(:user), resolve: dataloader(Data)
     field :room, list_of(:room), resolve: dataloader(Data)
     field :user, list_of(:user), resolve: dataloader(Data)
@@ -26,11 +26,12 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
 
   @desc "The message update via params"
   input_object :update_message_params, description: "update message" do
-    field :body, :boolean
+    field :body, :string
     field :is_read, :boolean
     field :project_id, :string
-    field :recipient, :string
+    field :recipient_id, :string
     field :room_id, :string
+    field :user_id, non_null(:string)
     field :warning, :boolean
   end
 
@@ -53,8 +54,8 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
     field :create_message, :message, description: "Create a new message" do
       arg :body, non_null(:string)
       arg :is_read, non_null(:boolean)
-      arg :project_id, :string
-      arg :recipient, :string
+      arg :project_id, non_null(:string)
+      arg :recipient_id, non_null(:string)
       arg :room_id, non_null(:string)
       arg :user_id, non_null(:string)
       arg :warning, non_null(:boolean)
@@ -71,6 +72,7 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
     @desc "Delete a specific the message"
     field :delete_message, :message do
       arg :id, non_null(:string)
+      arg :user_id, non_null(:string)
       resolve &MessageResolver.delete/3
     end
   end

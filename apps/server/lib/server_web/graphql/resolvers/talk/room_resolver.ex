@@ -6,7 +6,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
   alias Core.{
     Accounts.Platform,
     Accounts.User,
-    Queries,
     Repo,
     Talk,
     Talk.Room
@@ -20,9 +19,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
 
-  @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
-  def list(_parent, _args, %{context: %{current_user: current_user}}) do
-    struct = Repo.all(Queries.by_offers(Room, :user_id, current_user.id))
+  @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: success_list()
+  def list(_parent, _args, _info) do
+    struct = Talk.list_room()
     {:ok, struct}
   end
 
