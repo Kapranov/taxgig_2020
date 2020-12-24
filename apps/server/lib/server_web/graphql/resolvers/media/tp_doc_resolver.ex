@@ -60,8 +60,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
     else
       case Accounts.by_role(current_user.id) do
         false ->
-          {:error, [[field: :user_id, message: "Can't be blank or Permission denied for current_user"]]}
-        true ->
           args
           |> Media.create_tp_doc()
           |> case do
@@ -70,6 +68,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
             {:error, changeset} ->
               {:error, extract_error_msg(changeset)}
           end
+        true ->
+          {:error, [[field: :user_id, message: "Can't be blank or Permission denied for current_user"]]}
       end
     end
   end
@@ -79,9 +79,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
     {:error, "Unauthenticated"}
   end
 
-  @spec update(any, %{id: bitstring, pro_doc: map()}, %{context: %{current_user: User.t()}}) :: result()
-  def update(_parent, %{id: id, pro_doc: params}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.role == false do
+  @spec update(any, %{id: bitstring, tp_doc: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update(_parent, %{id: id, tp_doc: params}, %{context: %{current_user: current_user}}) do
+    if is_nil(id) || is_nil(current_user) || current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
       case params[:user_id] == current_user.id do
@@ -110,7 +110,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
   end
 
   @spec delete(any, %{id: bitstring, user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def delete(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
+  def delete(_parent, %{project_id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) || current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
     else

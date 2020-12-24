@@ -14,6 +14,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.TpDocTypes do
 
   @desc "The tp docs on the site"
   object :tp_doc do
+    field :id, non_null(:string)
     field :access_granted, non_null(:boolean)
     field :category, non_null(:string)
     field :file, :picture, description: "An upload's file"
@@ -49,6 +50,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.TpDocTypes do
       arg :access_granted, non_null(:boolean)
       arg :category, non_null(:string)
       arg :file, :picture_input
+      arg :project_id, non_null(:string)
       arg :signed_by_tp, non_null(:boolean)
       resolve &TpDocResolver.create/3
     end
@@ -63,7 +65,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.TpDocTypes do
 
     @desc "Delete a specific tp docs"
     field :delete_tp_doc, :tp_doc do
-      arg :id, non_null(:string)
+      arg :project_id, non_null(:string)
       arg :user_id, non_null(:string)
       resolve &TpDocResolver.delete/3
     end

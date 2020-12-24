@@ -14,6 +14,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
 
   @desc "The pro docs on the site"
   object :pro_doc do
+    field :id, non_null(:string)
     field :category, non_null(:string)
     field :file, :picture, description: "An upload's file"
     field :projects, :project, resolve: dataloader(Data)

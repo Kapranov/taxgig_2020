@@ -310,7 +310,7 @@ defmodule Core.Media do
   @spec get_tp_doc(String.t()) :: TpDoc.t() | nil
   def get_tp_doc(id) do
     Repo.get(TpDoc, id)
-    |> Repo.preload([:project])
+    |> Repo.preload([:projects])
   end
 
   @doc """
@@ -349,7 +349,44 @@ defmodule Core.Media do
       tp_doc
       |> TpDoc.changeset(attrs)
 
-    if tp_doc.file.url == attrs.file.url do
+    if Map.has_key?(attrs, :file) do
+      if tp_doc.file.url == attrs.file.url do
+        transaction =
+          Multi.new()
+          |> Multi.update(:update, tp_doc_changeset)
+          |> Repo.transaction()
+
+        case transaction do
+          {:ok, %{update: %TpDoc{} = tp_doc}} ->
+            {:ok, tp_doc}
+          {:error, error} ->
+            {:error, error}
+          {:error, :update, error, _} ->
+            {:error, error}
+          {:error, _model, changeset, _completed} ->
+            {:error, changeset}
+        end
+      else
+        transaction =
+          Multi.new()
+          |> Multi.update(:update, tp_doc_changeset)
+          |> Multi.run(:tp_doc, fn _, _ ->
+            Upload.remove(tp_doc.file.url)
+          end)
+          |> Repo.transaction()
+
+        case transaction do
+          {:ok, %{tp_doc: _header, update: %TpDoc{} = tp_doc}} ->
+            {:ok, tp_doc}
+          {:error, error} ->
+            {:error, error}
+          {:error, :document, error, _} ->
+            {:error, error}
+          {:error, _model, changeset, _completed} ->
+            {:error, changeset}
+        end
+      end
+    else
       transaction =
         Multi.new()
         |> Multi.update(:update, tp_doc_changeset)
@@ -361,25 +398,6 @@ defmodule Core.Media do
         {:error, error} ->
           {:error, error}
         {:error, :update, error, _} ->
-          {:error, error}
-        {:error, _model, changeset, _completed} ->
-          {:error, changeset}
-      end
-    else
-      transaction =
-        Multi.new()
-        |> Multi.update(:update, tp_doc_changeset)
-        |> Multi.run(:tp_doc, fn _, _ ->
-          Upload.remove(tp_doc.file.url)
-        end)
-        |> Repo.transaction()
-
-      case transaction do
-        {:ok, %{tp_doc: _header, update: %TpDoc{} = tp_doc}} ->
-          {:ok, tp_doc}
-        {:error, error} ->
-          {:error, error}
-        {:error, :document, error, _} ->
           {:error, error}
         {:error, _model, changeset, _completed} ->
           {:error, changeset}

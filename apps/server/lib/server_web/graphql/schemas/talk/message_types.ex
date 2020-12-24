@@ -14,7 +14,7 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
 
   @desc "The Message"
   object :message do
-    field :id, :string
+    field :id, non_null(:string)
     field :body, non_null(:string)
     field :is_read, non_null(:boolean)
     field :projects, list_of(:project), resolve: dataloader(Data)
