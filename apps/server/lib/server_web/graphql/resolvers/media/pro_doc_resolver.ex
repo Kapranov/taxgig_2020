@@ -109,9 +109,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :pro_doc, message: "Can't be blank"]]}
   end
 
-  @spec delete(any, %{id: bitstring, user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def delete(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.role == true do
+  @spec delete(any, %{project_id: bitstring, user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def delete(_parent, %{project_id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
+    if is_nil(id) || is_nil(current_user) || current_user.role == false do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
     else
       case user_id == current_user.id do

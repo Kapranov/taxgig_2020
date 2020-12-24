@@ -50,6 +50,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
     field :create_pro_doc, :pro_doc, description: "Create a new pro docs" do
       arg :category, non_null(:string)
       arg :file, :picture_input
+      arg :project_id, non_null(:string)
       arg :signature, non_null(:boolean)
       arg :signed_by_pro, non_null(:boolean)
       arg :user_id, non_null(:string)
@@ -66,7 +67,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
 
     @desc "Delete a specific pro docs"
     field :delete_pro_doc, :pro_doc do
-      arg :id, non_null(:string)
+      arg :project_id, non_null(:string)
       arg :user_id, non_null(:string)
       resolve &ProDocResolver.delete/3
     end

@@ -168,7 +168,7 @@ defmodule Core.Media do
   @spec get_pro_doc(String.t()) :: ProDoc.t() | nil
   def get_pro_doc(id) do
     Repo.get(ProDoc, id)
-    |> Repo.preload([:project])
+    |> Repo.preload([:projects])
   end
 
   @doc """
@@ -207,7 +207,44 @@ defmodule Core.Media do
       pro_doc
       |> ProDoc.changeset(attrs)
 
-    if pro_doc.file.url == attrs.file.url do
+    if Map.has_key?(attrs, :file) do
+      if pro_doc.file.url == attrs.file.url do
+        transaction =
+          Multi.new()
+          |> Multi.update(:update, pro_doc_changeset)
+          |> Repo.transaction()
+
+        case transaction do
+          {:ok, %{update: %ProDoc{} = pro_doc}} ->
+            {:ok, pro_doc}
+          {:error, error} ->
+            {:error, error}
+          {:error, :update, error, _} ->
+            {:error, error}
+          {:error, _model, changeset, _completed} ->
+            {:error, changeset}
+        end
+      else
+        transaction =
+          Multi.new()
+          |> Multi.update(:update, pro_doc_changeset)
+          |> Multi.run(:pro_doc, fn _, _ ->
+            Upload.remove(pro_doc.file.url)
+          end)
+          |> Repo.transaction()
+
+        case transaction do
+          {:ok, %{pro_doc: _header, update: %ProDoc{} = pro_doc}} ->
+            {:ok, pro_doc}
+          {:error, error} ->
+            {:error, error}
+          {:error, :document, error, _} ->
+            {:error, error}
+          {:error, _model, changeset, _completed} ->
+            {:error, changeset}
+        end
+      end
+    else
       transaction =
         Multi.new()
         |> Multi.update(:update, pro_doc_changeset)
@@ -219,25 +256,6 @@ defmodule Core.Media do
         {:error, error} ->
           {:error, error}
         {:error, :update, error, _} ->
-          {:error, error}
-        {:error, _model, changeset, _completed} ->
-          {:error, changeset}
-      end
-    else
-      transaction =
-        Multi.new()
-        |> Multi.update(:update, pro_doc_changeset)
-        |> Multi.run(:pro_doc, fn _, _ ->
-          Upload.remove(pro_doc.file.url)
-        end)
-        |> Repo.transaction()
-
-      case transaction do
-        {:ok, %{pro_doc: _header, update: %ProDoc{} = pro_doc}} ->
-          {:ok, pro_doc}
-        {:error, error} ->
-          {:error, error}
-        {:error, :document, error, _} ->
           {:error, error}
         {:error, _model, changeset, _completed} ->
           {:error, changeset}

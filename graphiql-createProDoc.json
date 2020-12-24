@@ -1,0 +1,333 @@
+{
+  "key": "graphiql",
+  "lastId": 8,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab7",
+    "tab8"
+  ],
+  "closedTabs": [
+    {
+      "id": "tab6",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "",
+      "graphiql:variables": "",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSnVlbkhRRnFzVTRwNzJuBgC7a7eVdgFiAAFRgA.hgtFmtOIt_YXQP9-fjpJvWXpOjSDj0OZQI1Gbhun0g0"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "query {\n  allProjects {id}\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allProjects {id}\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.21680216802168023,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    }
+  ],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgAv9kCWdgFiAAFRgA.BjlpYQTxuhxcTm8O-2doOgVA1nAF1PKNWBBOKgZ5RZc"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgAjKz-WdgFiAAFRgA.3LgwBqn4n2rk6rtFZw9vLpxGE3VsSTnbj9rI7rpPWR0"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgCfCj6WdgFiAAFRgA.r-j4cWmoDk-5BwD05wL1BGRmHpJsZajWjdIr1-20au4"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgDNiS-WdgFiAAFRgA.rbO2FZlEs-m2xvD24XrRoSx61UmKyWXnAzvw5xHBxBE"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSnVlbkhRRnFzVTRwNzJuBgB4VgaWdgFiAAFRgA.qX7chRw0X4q2_JA1b9a-ctZoRG3Swuz0Imto2CxTtLs"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSnVlbkhRRnFzVTRwNzJuBgD16eeVdgFiAAFRgA.xs7Ypxgj50zoKRMwNq_royCTNHGNfNi6FDJyMmwnHlM"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSnVlbkhRRnFzVTRwNzJuBgCnudeVdgFiAAFRgA.GGZ6ZrjByg3VV1hvtRePtJKGuZq853aRVi60J7TO7Q4"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSnVlbkhRRnFzVTRwNzJuBgAaAs-VdgFiAAFRgA.TCjuIJI7ilXXntJ2SF3Xo2QaWSz6CF8R7GqwK_ARmic"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSnVlbkhRRnFzVTRwNzJuBgC7a7eVdgFiAAFRgA.hgtFmtOIt_YXQP9-fjpJvWXpOjSDj0OZQI1Gbhun0g0"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab2",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signIn(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signIn(\n    email: \"\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.364741641337386
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgDNiS-WdgFiAAFRgA.rbO2FZlEs-m2xvD24XrRoSx61UmKyWXnAzvw5xHBxBE"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allProDocs {\n    id\n    signature\n    signedByPro\n    category\n    projects {id}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProDocs {\n    id\n    signature\n    signedByPro\n    category\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProDocs {\n    id\n    signature\n    signedByPro\n    category\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allTpDocs {\n    id\n    category\n    projects {id}\n    accessGranted\n    signedByTp\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allTpDocs {\n    id\n    file {id}\n    category\n    projects {id}\n    accessGranted\n    signedByTp\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allProDocs {\n    id\n    signature\n    signedByPro\n    category\n    projects {id}\n    users {id email role}\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allTpDocs {\\n    id\\n    file {id}\\n    category\\n    projects {id}\\n    accessGranted\\n    signedByTp\\n  }\\n}\"},{\"query\":\"query {\\n  allTpDocs {\\n    id\\n    category\\n    projects {id}\\n    accessGranted\\n    signedByTp\\n  }\\n}\"},{\"query\":\"query {\\n  allProDocs {\\n    id\\n    signature\\n    signedByPro\\n    category\\n  }\\n}\"},{\"query\":\"query {\\n  allProDocs {\\n    id\\n    signature\\n    signedByPro\\n    category\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProDocs {\\n    id\\n    signature\\n    signedByPro\\n    category\\n    projects {id}\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.28530534351145037
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgDNiS-WdgFiAAFRgA.rbO2FZlEs-m2xvD24XrRoSx61UmKyWXnAzvw5xHBxBE"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createProDoc(\n    category: \"Files\",\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signature: true,\n    signedByPro: true,\n    userId: \"A2WQK7EgVo5ttGxeim\"\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createTpDoc(\n    accessGranted: true,\n    category: \"Files\",\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signedByTp: true\n  ) {\n    id\n    accessGranted\n    category\n    projects {id}\n    signedByTp\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createProDoc(\n    category: \"Files\",\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signature: true,\n    signedByPro: true,\n    userId: \"A2WQK7EgVo5ttGxeim\"\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\"},{\"query\":\"mutation {\\n  createProDoc(\\n    category: \\\"Files\\\",\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signature: true,\\n    signedByPro: true,\\n    userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n  ) {\\n    id\\n    category\\n    projects {id}\\n    signature\\n    signedByPro\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3606060606060606,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab7",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgCfCj6WdgFiAAFRgA.r-j4cWmoDk-5BwD05wL1BGRmHpJsZajWjdIr1-20au4"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateProDoc(\n    id: \"A2XIrw66byobb3e4ky\",\n    proDoc: {\n      category: \"Final Document\",\n      projectId: \"A2WQKsOv9ZD0Ad6zhY\",\n      signature: false,\n      signedByPro: false,\n      userId: \"A2WQK7EgVo5ttGxeim\"\n    }\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateProDoc(\n    id: \"A2XH6fhXAGDXWAochk\",\n    proDoc: {\n      category: \"Final Document\",\n      projectId: \"A2WQKsOv9ZD0Ad6zhY\",\n      signature: false,\n      signedByPro: false,\n      userId: \"A2WQK7EgVo5ttGxeim\"\n    }\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateProDoc(\n    id: \"A2XH6fhXAGDXWAochk\",\n    proDoc: {\n      category: \"Final Document\",\n      projectId: \"A2WQKsOv9ZD0Ad6zhY\",\n      signature: true,\n      signedByPro: true,\n      userId: \"A2WQK7EgVo5ttGxeim\"\n    }\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateProDoc(\n    id: \"A2XH6fhXAGDXWAochk\",\n    proDoc: {\n      category: \"Final Document\",\n      projectId: \"A2WQKs54LNKTB3p8l6\",\n      signature: false,\n      signedByPro: false,\n      userId: \"A2WQK7EgVo5ttGxeim\"\n    }\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateProDoc(\n    id: \"A2XH6fhXAGDXWAochk\",\n    proDoc: {\n      category: \"Final Document\",\n      projectId: \"A2WQKsOv9ZD0Ad6zhY\",\n      signature: false,\n      signedByPro: false,\n      userId: \"A2WQK7EgVo5ttGxeim\"\n    }\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateTpDoc(\n    id: \"A2XF1oy2FJU8hg4kXg\",\n    tpDoc: {\n      userId: \"A2WQJuenHQFqsU4p72\",\n      accessGranted: false,\n      category: \"Final Document\",\n      projectId: \"A2WQKs54LNKTB3p8l6\",\n      signedByTp: false\n      \n    }\n  ) {\n    id\n    accessGranted\n    category\n    projects {id}\n    signedByTp\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateTpDoc(\n    id: \"A2XDqkV4gs9eT1S6im\",\n    tpDoc: {\n      userId: \"A2WQJuenHQFqsU4p72\",\n      accessGranted: false,\n      category: \"Final Document\",\n      projectId: \"A2WQKs54LNKTB3p8l6\",\n      signedByTp: false\n      \n    }\n  ) {\n    id\n    accessGranted\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateTpDoc(\n    id: \"A2X78Ysi4k9mgsxNFw\",\n    file: [],\n    tpDoc: {\n      userId: \"A2WQJuenHQFqsU4p72\",\n      accessGranted: false,\n      category: \"Final Document\",\n      projectId: \"A2WQKsCrsNZFZFTMum\",\n      signedByTp: false\n      \n    }\n  ) {\n    id\n    accessGranted\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateTpDoc(\n    id: \"A2X78Ysi4k9mgsxNFw\",\n    tpDoc: {\n      userId: \"A2WQJuenHQFqsU4p72\",\n      accessGranted: false\n    }\n  ) {\n    id\n    accessGranted\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateTpDoc(\n    id: \"A2X78Ysi4k9mgsxNFw\",\n    tpDoc: {\n      userId: \"A2WQJuenHQFqsU4p72\",\n      accessGranted: false\n    }\n  ) {\n    id\n    accessGranted\n    category\n    accessGranted\n    signedByTp\n    projects {id}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateTpDoc(\n    id: \"A2X78Ysi4k9mgsxNFw\",\n    tpDoc: {\n      userId: \"A2WQJuenHQFqsU4p72\"\n    }\n  ) {\n    id\n    accessGranted\n    category\n    accessGranted\n    signedByTp\n    projects {id}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateTpDoc(\n    id: \"A2X78Ysi4k9mgsxNFw\",\n    tpDoc: {\n      userId: \"A2WQJuenHQFqsU4p72\",\n      accessGranted: false,\n      category: \"Final Document\",\n      projectId: \"A2WQKs8y6sRrN9eFpw\",\n      signedByTp: false\n    }\n  ) {\n    id\n    accessGranted\n    category\n    accessGranted\n    signedByTp\n    projects {id}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateProDoc(\n    id: \"A2XIrw66byobb3e4ky\",\n    proDoc: {\n      category: \"Final Document\",\n      projectId: \"A2WQKsOv9ZD0Ad6zhY\",\n      signature: false,\n      signedByPro: false,\n      userId: \"A2WQK7EgVo5ttGxeim\"\n    }\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKs8y6sRrN9eFpw\\\",\\n      signedByTp: false\\n    }\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    accessGranted\\n    signedByTp\\n    projects {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\"\\n    }\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    accessGranted\\n    signedByTp\\n    projects {id}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false\\n    }\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    accessGranted\\n    signedByTp\\n    projects {id}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false\\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsCrsNZFZFTMum\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    file: [],\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsCrsNZFZFTMum\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    file: {},\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsCrsNZFZFTMum\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    file: [],\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsCrsNZFZFTMum\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsCrsNZFZFTMum\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2XDqkV4gs9eT1S6im\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2XF1oy2FJU8hg4kXg\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProDoc(\\n    id: \\\"A2XH6fhXAGDXWAochk\\\",\\n    proDoc: {\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsOv9ZD0Ad6zhY\\\",\\n      signature: false,\\n      signedByPro: false,\\n      userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n    }\\n  ) {\\n    id\\n    category\\n    projects {id}\\n    signature\\n    signedByPro\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProDoc(\\n    id: \\\"A2XH6fhXAGDXWAochk\\\",\\n    proDoc: {\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n      signature: false,\\n      signedByPro: false,\\n      userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n    }\\n  ) {\\n    id\\n    category\\n    projects {id}\\n    signature\\n    signedByPro\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProDoc(\\n    id: \\\"A2XH6fhXAGDXWAochk\\\",\\n    proDoc: {\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsOv9ZD0Ad6zhY\\\",\\n      signature: true,\\n      signedByPro: true,\\n      userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n    }\\n  ) {\\n    id\\n    category\\n    projects {id}\\n    signature\\n    signedByPro\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProDoc(\\n    id: \\\"A2XH6fhXAGDXWAochk\\\",\\n    proDoc: {\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsOv9ZD0Ad6zhY\\\",\\n      signature: false,\\n      signedByPro: false,\\n      userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n    }\\n  ) {\\n    id\\n    category\\n    projects {id}\\n    signature\\n    signedByPro\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProDoc(\\n    id: \\\"A2XIrw66byobb3e4ky\\\",\\n    proDoc: {\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsOv9ZD0Ad6zhY\\\",\\n      signature: false,\\n      signedByPro: false,\\n      userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n    }\\n  ) {\\n    id\\n    category\\n    projects {id}\\n    signature\\n    signedByPro\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.4769736842105263,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab8",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgAv9kCWdgFiAAFRgA.BjlpYQTxuhxcTm8O-2doOgVA1nAF1PKNWBBOKgZ5RZc"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  deleteProDoc(\n    projectId: \"A2WQKsOv9ZD0Ad6zhY\",\n    userId: \"A2WQK7EgVo5ttGxeim\"\n  ) {id}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteProDoc(\n    projectId: \"A2XH6fhXAGDXWAochk\",\n    userId: \"A2WQK7EgVo5ttGxeim\"\n  ) {id}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteTpDoc(\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    userId: \"A2WQJuenHQFqsU4p72\"\n  ) {id}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteTpDoc(\n    id: \"A2WQKs54LNKTB3p8l6\",\n    userId: \"A2WQJuenHQFqsU4p72\"\n  ) {id}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteTpDoc(\n    id: \"A2X78Ysi4k9mgsxNFw\",\n    userId: \"A2WQJuenHQFqsU4p72\"\n  ) {id}\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deleteProDoc(\n    projectId: \"A2WQKsOv9ZD0Ad6zhY\",\n    userId: \"A2WQK7EgVo5ttGxeim\"\n  ) {id}\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    userId: \\\"A2WQJuenHQFqsU4p72\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteTpDoc(\\n    id: \\\"A2XCiXzvsXQFVbmWS8\\\",\\n    userId: \\\"A2WQJuenHQFqsU4p72\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteTpDoc(\\n    id: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    userId: \\\"A2WQJuenHQFqsU4p72\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteTpDoc(\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    userId: \\\"A2WQJuenHQFqsU4p72\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteProDoc(\\n    projectId: \\\"A2XH6fhXAGDXWAochk\\\",\\n    userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteProDoc(\\n    projectId: \\\"A2WQKsOv9ZD0Ad6zhY\\\",\\n    userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n  ) {id}\\n}\"}]}",
+      "graphiql:editorFlex": 0.3801229508196721
+    }
+  ]
+}
