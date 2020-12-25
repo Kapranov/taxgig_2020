@@ -28,6 +28,6 @@ defmodule Core.Seeder.Deleted.Talk do
   @spec deleted_room() :: Ecto.Schema.t()
   defp deleted_room do
     IO.puts("Deleting data on model's Room\n")
-    #SQL.query!(Repo, "TRUNCATE rooms CASCADE;")
+    SQL.query!(Repo, "TRUNCATE rooms CASCADE;")
   end
 end

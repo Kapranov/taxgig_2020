@@ -42,6 +42,6 @@ defmodule Core.Seeder.Deleted.Contracts do
   @spec deleted_project() :: Ecto.Schema.t()
   defp deleted_project do
     IO.puts("Deleting data on model's Project\n")
-    # SQL.query!(Repo, "TRUNCATE projects CASCADE;")
+    SQL.query!(Repo, "TRUNCATE projects CASCADE;")
   end
 end

@@ -561,7 +561,7 @@ defmodule Core.Seeder.Contracts do
     result
   end
 
-  @spec random_project_status :: [String.t()]
+  @spec random_project_status :: String.t()
   defp random_project_status do
     names = [
       "Canceled",

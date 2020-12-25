@@ -34,8 +34,13 @@ defmodule Core.Seeder.Repo do
   @spec updated!() :: :ok
   def updated! do
     Updated.Accounts.start!()
+    Updated.Landing.start!()
+    Updated.Localization.start!()
+    Updated.Lookup.start!()
     Updated.Services.start!()
     Updated.Contracts.start!()
+    Updated.Media.start!()
+    Updated.Talk.start!()
     :ok
   end
 
@@ -43,6 +48,7 @@ defmodule Core.Seeder.Repo do
   def deleted! do
     Deleted.Accounts.start!()
     Deleted.Contracts.start!()
+    Deleted.Media.start!()
     Deleted.Talk.start!()
     :ok
   end

@@ -501,7 +501,7 @@ defmodule Core.Seeder.Talk do
     result
   end
 
-  @spec random_project([String.t()]) :: [String.t()]
+  @spec random_project([String.t()]) :: String.t()
   defp random_project(ids) do
     numbers = 1..1
     number = Enum.random(numbers)
