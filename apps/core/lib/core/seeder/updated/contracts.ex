@@ -157,130 +157,6 @@ defmodule Core.Seeder.Updated.Contracts do
     ]
   end
 
-  @spec update_project() :: Ecto.Schema.t()
-  defp update_project do
-    %User{id: pro1} = Repo.get_by(User, %{email: "support@taxgig.com"})
-    %User{id: pro2} = Repo.get_by(User, %{email: "vk@taxgig.com"})
-    %User{id: pro3} = Repo.get_by(User, %{email: "op@taxgig.com"})
-
-    project_ids = Enum.map(Repo.all(Project), fn(data) -> data end)
-
-    {
-      project1,
-      project2,
-      project3,
-      project4,
-      project5,
-      project6,
-      project7,
-      project8,
-      project9
-    } = {
-      Enum.at(project_ids, 0),
-      Enum.at(project_ids, 1),
-      Enum.at(project_ids, 2),
-      Enum.at(project_ids, 3),
-      Enum.at(project_ids, 4),
-      Enum.at(project_ids, 5),
-      Enum.at(project_ids, 6),
-      Enum.at(project_ids, 7),
-      Enum.at(project_ids, 8)
-    }
-
-    [
-      Contracts.update_project(project1, %{
-        addon_price: random_integer(),
-        assigned_pro: pro2,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HGMdsre2yNYS1KlMqTP7Hkw",
-        id_from_stripe_transfer: "tr_1HFksnldFHW3Alzp8qtrMkub",
-        instant_matched: random_boolean(),
-        offer_price: random_integer(),
-        status: random_project_status()
-      }),
-      Contracts.update_project(project2, %{
-        addon_price: random_integer(),
-        assigned_pro: pro3,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HKawbxc7sFA9kmL4DFwmc91",
-        id_from_stripe_transfer: "tr_1HALhdvNQlF1M7HyrpAZ6oGM",
-        instant_matched: random_boolean(),
-        offer_price: random_integer(),
-        status: random_project_status()
-      }),
-      Contracts.update_project(project3, %{
-        addon_price: random_integer(),
-        assigned_pro: pro1,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HRdjqwMv6AD8CxzLq5htRV7",
-        id_from_stripe_transfer: "tr_1HAQmkdvbzas7wE2tR6MA8B9",
-        instant_matched: random_boolean(),
-        offer_price: random_integer(),
-        status: random_project_status()
-      }),
-      Contracts.update_project(project4, %{
-        addon_price: random_integer(),
-        assigned_pro: pro2,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HIKf6DQwe3NZ0JklMAS5qhT",
-        id_from_stripe_transfer: "tr_1HABkqWel7CvsazKLA8GO3Jm",
-        instant_matched: random_boolean(),
-        offer_price: random_integer(),
-        status: random_project_status()
-      }),
-      Contracts.update_project(project5, %{
-        addon_price: random_integer(),
-        assigned_pro: pro3,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HCD5sDQlm7Cxs9Afbzyt4Mw",
-        id_from_stripe_transfer: "tr_1HLdf5AlMCV4qwErxt7JAqVi",
-        instant_matched: random_boolean(),
-        offer_price: random_integer(),
-        status: random_project_status()
-      }),
-      Contracts.update_project(project6, %{
-        addon_price: random_integer(),
-        assigned_pro: pro1,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HV5Dgqxcd8DF3mSA7Nfkeq1",
-        id_from_stripe_transfer: "tr_1HW4Gawqlor6NrQwe0ndf751",
-        instant_matched: random_boolean(),
-        offer_price: random_integer(),
-        status: random_project_status()
-      }),
-      Contracts.update_project(project7, %{
-        addon_price: random_integer(),
-        assigned_pro: pro2,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HChtqwe4VnBaZX6Lkqwe1Ju",
-        id_from_stripe_transfer: "tr_1HF3jKqWvam8Su1KM7DrAlz9",
-        instant_matched: random_boolean(),
-        offer_price: random_integer(),
-        status: random_project_status()
-      }),
-      Contracts.update_project(project8, %{
-        addon_price: random_integer(),
-        assigned_pro: pro3,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HT6kisrtNX3pO5hQmavNXzP",
-        id_from_stripe_transfer: "tr_1HX9kquTr0FM2Csqp9MJaYLg",
-        instant_matched: random_boolean(),
-        offer_price: random_integer(),
-        status: random_project_status()
-      }),
-      Contracts.update_project(project9, %{
-        addon_price: random_integer(),
-        assigned_pro: pro1,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
-        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
-        instant_matched: random_boolean(),
-        offer_price: random_integer(),
-        status: random_project_status()
-      })
-    ]
-  end
-
   @spec update_service_review() :: Ecto.Schema.t()
   defp update_service_review do
     service_review_ids =
@@ -371,6 +247,130 @@ defmodule Core.Seeder.Updated.Contracts do
         final_rating: random_integer(),
         professionalism: random_integer(),
         work_quality: random_integer()
+      })
+    ]
+  end
+
+  @spec update_project() :: Ecto.Schema.t()
+  defp update_project do
+    %User{id: pro1} = Repo.get_by(User, %{email: "support@taxgig.com"})
+    %User{id: pro2} = Repo.get_by(User, %{email: "vk@taxgig.com"})
+    %User{id: pro3} = Repo.get_by(User, %{email: "op@taxgig.com"})
+
+    project_ids = Enum.map(Repo.all(Project), fn(data) -> data end)
+
+    {
+      project1,
+      project2,
+      project3,
+      project4,
+      project5,
+      project6,
+      project7,
+      project8,
+      project9
+    } = {
+      Enum.at(project_ids, 0),
+      Enum.at(project_ids, 1),
+      Enum.at(project_ids, 2),
+      Enum.at(project_ids, 3),
+      Enum.at(project_ids, 4),
+      Enum.at(project_ids, 5),
+      Enum.at(project_ids, 6),
+      Enum.at(project_ids, 7),
+      Enum.at(project_ids, 8)
+    }
+
+    [
+      Contracts.update_project(project1, %{
+        addon_price: random_integer(),
+        assigned_id: pro2,
+        end_time: Date.utc_today(),
+        id_from_stripe_card: "card_1HGMdsre2yNYS1KlMqTP7Hkw",
+        id_from_stripe_transfer: "tr_1HFksnldFHW3Alzp8qtrMkub",
+        instant_matched: random_boolean(),
+        offer_price: random_integer(),
+        status: random_project_status()
+      }),
+      Contracts.update_project(project2, %{
+        addon_price: random_integer(),
+        assigned_id: pro3,
+        end_time: Date.utc_today(),
+        id_from_stripe_card: "card_1HKawbxc7sFA9kmL4DFwmc91",
+        id_from_stripe_transfer: "tr_1HALhdvNQlF1M7HyrpAZ6oGM",
+        instant_matched: random_boolean(),
+        offer_price: random_integer(),
+        status: random_project_status()
+      }),
+      Contracts.update_project(project3, %{
+        addon_price: random_integer(),
+        assigned_id: pro1,
+        end_time: Date.utc_today(),
+        id_from_stripe_card: "card_1HRdjqwMv6AD8CxzLq5htRV7",
+        id_from_stripe_transfer: "tr_1HAQmkdvbzas7wE2tR6MA8B9",
+        instant_matched: random_boolean(),
+        offer_price: random_integer(),
+        status: random_project_status()
+      }),
+      Contracts.update_project(project4, %{
+        addon_price: random_integer(),
+        assigned_id: pro2,
+        end_time: Date.utc_today(),
+        id_from_stripe_card: "card_1HIKf6DQwe3NZ0JklMAS5qhT",
+        id_from_stripe_transfer: "tr_1HABkqWel7CvsazKLA8GO3Jm",
+        instant_matched: random_boolean(),
+        offer_price: random_integer(),
+        status: random_project_status()
+      }),
+      Contracts.update_project(project5, %{
+        addon_price: random_integer(),
+        assigned_id: pro3,
+        end_time: Date.utc_today(),
+        id_from_stripe_card: "card_1HCD5sDQlm7Cxs9Afbzyt4Mw",
+        id_from_stripe_transfer: "tr_1HLdf5AlMCV4qwErxt7JAqVi",
+        instant_matched: random_boolean(),
+        offer_price: random_integer(),
+        status: random_project_status()
+      }),
+      Contracts.update_project(project6, %{
+        addon_price: random_integer(),
+        assigned_id: pro1,
+        end_time: Date.utc_today(),
+        id_from_stripe_card: "card_1HV5Dgqxcd8DF3mSA7Nfkeq1",
+        id_from_stripe_transfer: "tr_1HW4Gawqlor6NrQwe0ndf751",
+        instant_matched: random_boolean(),
+        offer_price: random_integer(),
+        status: random_project_status()
+      }),
+      Contracts.update_project(project7, %{
+        addon_price: random_integer(),
+        assigned_id: pro2,
+        end_time: Date.utc_today(),
+        id_from_stripe_card: "card_1HChtqwe4VnBaZX6Lkqwe1Ju",
+        id_from_stripe_transfer: "tr_1HF3jKqWvam8Su1KM7DrAlz9",
+        instant_matched: random_boolean(),
+        offer_price: random_integer(),
+        status: random_project_status()
+      }),
+      Contracts.update_project(project8, %{
+        addon_price: random_integer(),
+        assigned_id: pro3,
+        end_time: Date.utc_today(),
+        id_from_stripe_card: "card_1HT6kisrtNX3pO5hQmavNXzP",
+        id_from_stripe_transfer: "tr_1HX9kquTr0FM2Csqp9MJaYLg",
+        instant_matched: random_boolean(),
+        offer_price: random_integer(),
+        status: random_project_status()
+      }),
+      Contracts.update_project(project9, %{
+        addon_price: random_integer(),
+        assigned_id: pro1,
+        end_time: Date.utc_today(),
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
+        instant_matched: random_boolean(),
+        offer_price: random_integer(),
+        status: random_project_status()
       })
     ]
   end

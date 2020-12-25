@@ -15,6 +15,5 @@ defmodule Core.Repo.Migrations.CreateProDocs do
     end
 
     create index(:pro_docs, [:user_id])
-    create unique_index(:pro_docs, [:project_id])
   end
 end

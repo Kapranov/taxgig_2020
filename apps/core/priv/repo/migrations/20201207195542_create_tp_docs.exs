@@ -13,6 +13,6 @@ defmodule Core.Repo.Migrations.CreateTpDocs do
       timestamps(type: :utc_datetime_usec)
     end
 
-    create unique_index(:tp_docs, [:project_id])
+    create index(:tp_docs, [:project_id])
   end
 end

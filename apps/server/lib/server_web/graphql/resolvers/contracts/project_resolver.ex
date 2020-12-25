@@ -8,6 +8,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     Accounts.User,
     Contracts,
     Contracts.Project,
+    Queries,
     Repo
   }
 
@@ -24,7 +25,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     if is_nil(current_user) || current_user.role == true do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct = Contracts.list_project()
+      struct = Repo.all(Queries.by_offers(Project, :user_id, current_user.id))
       {:ok, struct}
     end
   end
@@ -85,18 +86,22 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     if is_nil(id) || is_nil(current_user) || current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
-      try do
-        Repo.get!(Project, id)
-        |> Contracts.update_project(params)
-        |> case do
-          {:ok, struct} ->
-            {:ok, struct}
-          {:error, changeset} ->
-            {:error, extract_error_msg(changeset)}
-        end
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The Project #{id} not found!"}
+      case params[:user_id] == current_user.id do
+        true  ->
+          try do
+            Repo.get!(Project, id)
+            |> Contracts.update_project(Map.delete(params, :user_id))
+            |> case do
+              {:ok, struct} ->
+                {:ok, struct}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
+          rescue
+            Ecto.NoResultsError ->
+              {:error, "The Project #{id} not found!"}
+          end
+        false -> {:error, "permission denied"}
       end
     end
   end
@@ -106,17 +111,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :project, message: "Can't be blank"]]}
   end
 
-  @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
+  @spec delete(any, %{id: bitstring, user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def delete(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) || current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
     else
-      try do
-        struct = Contracts.get_project!(id)
-        Repo.delete(struct)
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The Project #{id} not found!"}
+      case user_id == current_user.id do
+        true  ->
+          try do
+            struct = Contracts.get_project!(id)
+            Repo.delete(struct)
+          rescue
+            Ecto.NoResultsError ->
+              {:error, "The Project #{id} not found!"}
+          end
+        false -> {:error, "permission denied"}
       end
     end
   end

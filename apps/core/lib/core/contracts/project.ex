@@ -11,6 +11,7 @@ defmodule Core.Contracts.Project do
     Contracts.Addon,
     Contracts.Helpers.ProjectEnum,
     Contracts.Offer,
+    Contracts.ServiceReview,
     Media.ProDoc,
     Media.TpDoc,
     Services.BookKeeping,
@@ -23,7 +24,7 @@ defmodule Core.Contracts.Project do
   @type t :: %__MODULE__{
     addon_price: integer,
     addons: Addon.t(),
-    assigned_pro: FlakeId.Ecto.Type,
+    assigned_id: User.t(),
     book_keeping_id: BookKeeping.t(),
     business_tax_return_id: BusinessTaxReturn.t(),
     end_time: DateTime.t(),
@@ -37,6 +38,7 @@ defmodule Core.Contracts.Project do
     pro_docs: [ProDoc.t()],
     pro_ratings: [ProRating.t()],
     sale_tax_id: SaleTax.t(),
+    service_review_id: ServiceReview.t(),
     status: String.t(),
     tp_docs: [TpDoc.t()],
     user_id: User.t()
@@ -44,7 +46,7 @@ defmodule Core.Contracts.Project do
 
   @allowed_params ~w(
     addon_price
-    assigned_pro
+    assigned_id
     book_keeping_id
     business_tax_return_id
     end_time
@@ -54,6 +56,7 @@ defmodule Core.Contracts.Project do
     instant_matched
     offer_price
     sale_tax_id
+    service_review_id
     status
     user_id
   )a
@@ -67,13 +70,17 @@ defmodule Core.Contracts.Project do
 
   schema "projects" do
     field :addon_price, :integer, null: false
-    field :assigned_pro, FlakeId.Ecto.Type, null: true
     field :end_time, :date, null: true
     field :id_from_stripe_card, :string, null: true
     field :id_from_stripe_transfer, :string, null: true
     field :instant_matched, :boolean, null: false
     field :offer_price, :integer, null: true
     field :status, ProjectEnum, null: false
+
+    belongs_to :assigned, User,
+      foreign_key: :assigned_id,
+      type: FlakeId.Ecto.CompatType,
+      references: :id
 
     belongs_to :book_keeping, BookKeeping,
       foreign_key: :book_keeping_id,
@@ -94,6 +101,9 @@ defmodule Core.Contracts.Project do
       foreign_key: :sale_tax_id,
       type: FlakeId.Ecto.CompatType,
       references: :id
+
+    belongs_to :service_review, ServiceReview,
+      foreign_key: :service_review_id, type: FlakeId.Ecto.CompatType, references: :id
 
     belongs_to :users, User,
       foreign_key: :user_id,
@@ -119,6 +129,7 @@ defmodule Core.Contracts.Project do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
+    |> foreign_key_constraint(:assigned_id, message: "Select an User's role Pro")
     |> foreign_key_constraint(:book_keeping_id, message: "Select a Service BookKeeping")
     |> foreign_key_constraint(:business_tax_return_id, message: "Select a Service BusinessTaxReturn")
     |> foreign_key_constraint(:id_from_stripe_card, message: "Select the StripeCard")
@@ -126,6 +137,7 @@ defmodule Core.Contracts.Project do
     |> foreign_key_constraint(:individual_tax_return_id, message: "Select a Service IndividualTaxReturn")
     |> foreign_key_constraint(:sale_tax_id, message: "Select a Service SaleTax")
     |> foreign_key_constraint(:user_id, message: "Select an User")
+    |> unique_constraint(:assigned_id, name: :assigned_id_unique_index)
     |> unique_constraint(:book_keeping_id, name: :book_keeping_id_unique_index)
     |> unique_constraint(:business_tax_return_id, name: :business_tax_return_id_unique_index)
     |> unique_constraint(:individual_tax_return_id, name: :individual_tax_return_id_unique_index)

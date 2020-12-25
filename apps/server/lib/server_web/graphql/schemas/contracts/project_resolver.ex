@@ -16,7 +16,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
   object :project, description: "Project" do
     field :id, non_null(:string), description: "unique identifier"
     field :addon_price, non_null(:integer)
-    field :assigned_pro, :user, resolve: dataloader(Data)
+    field :assigned, :user, resolve: dataloader(Data)
     field :book_keeping, :book_keeping, resolve: dataloader(Data)
     field :business_tax_return, :business_tax_return, resolve: dataloader(Data)
     field :end_time, :date
@@ -27,14 +27,14 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     field :off_price, :integer
     field :sale_tax, :sale_tax, resolve: dataloader(Data)
     field :service_review, :service_review, resolve: dataloader(Data)
-    field :status, non_null(list_of(:string))
-    field :user, :user, resolve: dataloader(Data)
+    field :status, non_null(:string)
+    field :users, :user, resolve: dataloader(Data)
   end
 
   @desc "The project update via params"
   input_object :update_project_params, description: "update project" do
     field :addon_price, :integer
-    field :assigned_pro, :string
+    field :assigned_id, :string
     field :book_keeping_id, :string
     field :business_tax_return_id, :string
     field :end_time, :date
@@ -45,7 +45,8 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     field :off_price, :integer
     field :sale_tax_id, :string
     field :service_review_id, :string
-    field :status, list_of(:string)
+    field :status, :string
+    field :user_id, non_null(:string)
   end
 
   object :project_queries do
@@ -65,7 +66,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     @desc "Create the project"
     field :create_project, :project, description: "Create a new project" do
       arg :addon_price, non_null(:integer)
-      arg :assigned_pro, :string
+      arg :assigned_id, :string
       arg :book_keeping_id, :string
       arg :business_tax_return_id, :string
       arg :end_time, :date
@@ -76,7 +77,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
       arg :off_price, :integer
       arg :sale_tax_id, :string
       arg :service_review_id, :string
-      arg :status, non_null(list_of(:string))
+      arg :status, non_null(:string)
       arg :user_id, non_null(:string)
       resolve &ProjectResolver.create/3
     end
@@ -91,6 +92,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     @desc "Delete a specific the project"
     field :delete_project, :project do
       arg :id, non_null(:string)
+      arg :user_id, non_null(:string)
       resolve &ProjectResolver.delete/3
     end
   end

@@ -5,7 +5,10 @@ defmodule Core.Contracts.ServiceReview do
 
   use Core.Model
 
-  alias Core.Accounts.User
+  alias Core.{
+    Accounts.User,
+    Contracts.Project
+  }
 
   @type t :: %__MODULE__{
     client_comment: String.t(),
@@ -13,6 +16,7 @@ defmodule Core.Contracts.ServiceReview do
     final_rating: integer,
     pro_response: String.t(),
     professionalism: integer,
+    project: Project.t(),
     user_id: User.t(),
     work_quality: integer
   }
@@ -47,6 +51,8 @@ defmodule Core.Contracts.ServiceReview do
       foreign_key: :user_id,
       type: FlakeId.Ecto.CompatType,
       references: :id
+
+    has_one :project, Project, on_delete: :delete_all
 
     timestamps()
   end

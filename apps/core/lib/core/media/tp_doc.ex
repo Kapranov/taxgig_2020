@@ -9,8 +9,7 @@ defmodule Core.Media.TpDoc do
     cast: 3,
     cast_embed: 2,
     validate_required: 2,
-    foreign_key_constraint: 3,
-    unique_constraint: 3
+    foreign_key_constraint: 3
   ]
 
   alias Core.{
@@ -66,6 +65,5 @@ defmodule Core.Media.TpDoc do
     |> cast_embed(:file)
     |> validate_required(@required_params)
     |> foreign_key_constraint(:project_id, name: :tp_docs_project_id_fkey, message: "Select the Project")
-    |> unique_constraint(:project_id, name: :tp_docs_project_id_index, message: "Only one a Project Record")
   end
 end
