@@ -62,13 +62,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     else
       case Accounts.by_role(current_user.id) do
         false ->
-          args
-          |> Contracts.create_project()
-          |> case do
-            {:ok, struct} ->
-              {:ok, struct}
-            {:error, changeset} ->
-              {:error, extract_error_msg(changeset)}
+          if Accounts.by_role(args[:assigned_id]) == true do
+            args
+            |> Contracts.create_project()
+            |> case do
+              {:ok, struct} ->
+                {:ok, struct}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
+          else
+            {:error, [[field: :assigned_id, message: "Permission denied for client's role"]]}
           end
         true ->
           {:error, [[field: :user_id, message: "Can't be blank or Permission denied for current_user"]]}
@@ -88,18 +92,34 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     else
       case params[:user_id] == current_user.id do
         true  ->
-          try do
-            Repo.get!(Project, id)
-            |> Contracts.update_project(Map.delete(params, :user_id))
-            |> case do
-              {:ok, struct} ->
-                {:ok, struct}
-              {:error, changeset} ->
-                {:error, extract_error_msg(changeset)}
+          if Map.has_key?(params, :assigned_id) and Accounts.by_role(params[:assigned_id]) == true do
+            try do
+              Repo.get!(Project, id)
+              |> Contracts.update_project(Map.delete(params, :user_id))
+              |> case do
+                {:ok, struct} ->
+                  {:ok, struct}
+                {:error, changeset} ->
+                  {:error, extract_error_msg(changeset)}
+              end
+            rescue
+              Ecto.NoResultsError ->
+                {:error, "The Project #{id} not found!"}
             end
-          rescue
-            Ecto.NoResultsError ->
-              {:error, "The Project #{id} not found!"}
+          else
+            try do
+              Repo.get!(Project, id)
+              |> Contracts.update_project(params |> Map.delete(:user_id) |> Map.delete(:assigned_id))
+              |> case do
+                {:ok, struct} ->
+                  {:ok, struct}
+                {:error, changeset} ->
+                  {:error, extract_error_msg(changeset)}
+              end
+            rescue
+              Ecto.NoResultsError ->
+                {:error, "The Project #{id} not found!"}
+            end
           end
         false -> {:error, "permission denied"}
       end
