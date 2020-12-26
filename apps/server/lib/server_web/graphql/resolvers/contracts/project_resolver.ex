@@ -25,7 +25,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     if is_nil(current_user) || current_user.role == true do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct = Repo.all(Queries.by_offers(Project, :user_id, current_user.id))
+      struct = Queries.by_list(Project, :user_id, current_user.id)
       {:ok, struct}
     end
   end

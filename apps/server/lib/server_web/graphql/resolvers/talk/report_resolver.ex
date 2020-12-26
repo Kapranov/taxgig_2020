@@ -24,7 +24,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.ReportResolver do
     if is_nil(current_user) do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct = Repo.all(Queries.by_offers(Report, :user_id, current_user.id))
+      struct = Queries.by_list(Report, :user_id, current_user.id)
       {:ok, struct}
     end
   end

@@ -15,6 +15,17 @@ defmodule Core.Queries do
 
   @type word() :: String.t()
 
+  @doc """
+  Retrurn all records
+
+  ## Example
+
+      iex> struct = Core.Contracts.Offer
+      iex> row = :user_id
+      iex> id  = current_user.id
+      iex> by_list(struct, row, id)
+
+  """
   @spec by_list(map, atom, String.t()) :: Ecto.Query.t()
   def by_list(struct, row, id) do
     try do
@@ -183,23 +194,6 @@ defmodule Core.Queries do
     where: field(c, ^row_a) == ^id_a,
     where: field(c, ^row_b) == ^id_b,
     where: field(c, ^row_c) == ^name
-  end
-
-  @doc """
-  Retrurn all records
-
-  ## Example
-
-      iex> struct = Core.Contracts.Offer
-      iex> row = :user_id
-      iex> id  = current_user.id
-      iex> by_offer(struct, row, id)
-
-  """
-  @spec by_offers(map, atom, word) :: [] | nil
-  def by_offers(struct, row, id) do
-    from c in struct,
-    where: field(c, ^row) == ^id
   end
 
   @spec by_name!(map, map, atom, String.t(), String.t()) :: [{String.t()}] | []
