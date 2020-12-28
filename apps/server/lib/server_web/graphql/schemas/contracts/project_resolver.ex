@@ -15,7 +15,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
   @desc "The project on the site"
   object :project, description: "Project" do
     field :id, non_null(:string), description: "unique identifier"
-    field :addon_price, non_null(:integer)
+    field :addon_price, :integer
     field :assigned, :user, resolve: dataloader(Data)
     field :book_keeping, :book_keeping, resolve: dataloader(Data)
     field :business_tax_return, :business_tax_return, resolve: dataloader(Data)
@@ -24,7 +24,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     field :id_from_stripe_transfer, :string
     field :individual_tax_return, :individual_tax_return, resolve: dataloader(Data)
     field :instant_matched, non_null(:boolean)
-    field :off_price, :integer
+    field :offer_price, :integer
     field :sale_tax, :sale_tax, resolve: dataloader(Data)
     field :service_review, :service_review, resolve: dataloader(Data)
     field :status, non_null(:string)
@@ -42,7 +42,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     field :id_from_stripe_transfer, :string
     field :individual_tax_return_id, :string
     field :instant_matched, :boolean
-    field :off_price, :integer
+    field :offer_price, :integer
     field :sale_tax_id, :string
     field :service_review_id, :string
     field :status, :string
@@ -65,7 +65,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
   object :project_mutations do
     @desc "Create the project"
     field :create_project, :project, description: "Create a new project" do
-      arg :addon_price, non_null(:integer)
+      arg :addon_price, :integer
       arg :assigned_id, :string
       arg :book_keeping_id, :string
       arg :business_tax_return_id, :string
@@ -74,7 +74,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
       arg :id_from_stripe_transfer, :string
       arg :individual_tax_return_id, :string
       arg :instant_matched, non_null(:boolean)
-      arg :off_price, :integer
+      arg :offer_price, :integer
       arg :sale_tax_id, :string
       arg :service_review_id, :string
       arg :status, non_null(:string)

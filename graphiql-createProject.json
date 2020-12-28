@@ -1,15 +1,68 @@
 {
   "key": "graphiql",
-  "lastId": 6,
+  "lastId": 9,
   "tabIds": [
     "tab1",
     "tab2",
     "tab3",
     "tab4",
     "tab5",
-    "tab6"
+    "tab6",
+    "tab9"
   ],
-  "closedTabs": [],
+  "closedTabs": [
+    {
+      "id": "tab8",
+      "name": "Query 7",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMmV4NnlVMG5RWEpsZkI4Z1NuBgDRj0ypdgFiAAFRgA.p57NsrHechNfcbNUghLhnBsJqCNXol6urxy6d7qrCDM"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createProject(\n    addonPrice: 22,\n    assignedId: \"A2ex7JMHBNpIVkil2e\",\n    bookKeepingId: \"A2ex7xWxp48v6U1rFo\",\n    businessTaxReturnId: \"A2ex7xxYEDPUQwT5hA\",\n    endTime: \"2020-12-12\",\n    idFromStripeCard: \"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\",\n    idFromStripeTransfer: \"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\",\n    individualTaxReturnId: \"A2ex7yOqajFDnbEtF2\",\n    instantMatched: false,\n    offerPrice: 22,\n    saleTaxId: \"A2ex7yqUvvMXBMAyLA\",\n    serviceReviewId: \"A2ex89NpkpyBrdqjgm\",\n    status: \"In Progress\",\n    userId: \"A2ex6yU0nQXJlfB8gS\"\n  ) {\n    id\n    addonPrice\n    assigned {id email role birthday}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createProject(\n    addonPrice: 22,\n    assignedId: \"A2ZD11AlLeuNEznjKi\",\n    bookKeepingId: \"A2ZD1YfOom1T7ZOAAS\",\n    businessTaxReturnId: \"A2ZD1ZAwvTGAhQ9MLQ\",\n    endTime: \"2020-12-12\",\n    idFromStripeCard: \"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\",\n    idFromStripeTransfer: \"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\",\n    individualTaxReturnId: \"A2ZD1Zfn4nviF4ZzPs\",\n    instantMatched: false,\n    offerPrice: 22,\n    saleTaxId: \"A2ZD1a7RQ031cpW4W0\",\n    serviceReviewId: \"A2ZD1jKXAgruC2i9fk\",\n    status: \"In Progress\",\n    userId: \"A2ZD0jz9FaW5w3EiMy\"\n  ) {\n    id\n    addonPrice\n    assigned {id email role birthday}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createProject(\n    addonPrice: 22,\n    assignedId: \"A2ex7JMHBNpIVkil2e\",\n    bookKeepingId: \"A2ex7xWxp48v6U1rFo\",\n    businessTaxReturnId: \"A2ex7xxYEDPUQwT5hA\",\n    endTime: \"2020-12-12\",\n    idFromStripeCard: \"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\",\n    idFromStripeTransfer: \"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\",\n    individualTaxReturnId: \"A2ex7yOqajFDnbEtF2\",\n    instantMatched: false,\n    offerPrice: 22,\n    saleTaxId: \"A2ex7yqUvvMXBMAyLA\",\n    serviceReviewId: \"A2ex89NpkpyBrdqjgm\",\n    status: \"In Progress\",\n    userId: \"A2ex6yU0nQXJlfB8gS\"\n  ) {\n    id\n    addonPrice\n    assigned {id email role birthday}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createProject(\\n    addonPrice: 22,\\n    assignedId: \\\"A2ZD11AlLeuNEznjKi\\\",\\n    bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n    businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n    endTime: \\\"2020-12-12\\\",\\n    idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n    idFromStripeTransfer: \\\"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\\\",\\n    individualTaxReturnId: \\\"A2ZD1Zfn4nviF4ZzPs\\\",\\n    instantMatched: false,\\n    offerPrice: 22,\\n    saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n    serviceReviewId: \\\"A2ZD1jKXAgruC2i9fk\\\",\\n    status: \\\"In Progress\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role birthday}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offerPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createProject(\\n    addonPrice: 22,\\n    assignedId: \\\"A2ew2FoilwfeUTZg7k\\\",\\n    bookKeepingId: \\\"A2ew2ylldm2vuLXSGe\\\",\\n    businessTaxReturnId: \\\"A2ew2zK9ZvYHczcurg\\\",\\n    endTime: \\\"2020-12-12\\\",\\n    idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n    idFromStripeTransfer: \\\"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\\\",\\n    individualTaxReturnId: \\\"A2ew2zpLhwVPBkDpUO\\\",\\n    instantMatched: false,\\n    offerPrice: 22,\\n    saleTaxId: \\\"A2ew30Ge4SL8YOzd2G\\\",\\n    serviceReviewId: \\\"A2ew3AYjo2koTPXDcm\\\",\\n    status: \\\"In Progress\\\",\\n    userId: \\\"A2ew1vIn2xFGreTtZo\\\"\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role birthday}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offerPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createProject(\\n    addonPrice: 22,\\n    assignedId: \\\"A2ex7JMHBNpIVkil2e\\\",\\n    bookKeepingId: \\\"A2ex7xWxp48v6U1rFo\\\",\\n    businessTaxReturnId: \\\"A2ex7xxYEDPUQwT5hA\\\",\\n    endTime: \\\"2020-12-12\\\",\\n    idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n    idFromStripeTransfer: \\\"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\\\",\\n    individualTaxReturnId: \\\"A2ex7yOqajFDnbEtF2\\\",\\n    instantMatched: false,\\n    offerPrice: 22,\\n    saleTaxId: \\\"A2ex7yqUvvMXBMAyLA\\\",\\n    serviceReviewId: \\\"A2ex89NpkpyBrdqjgm\\\",\\n    status: \\\"In Progress\\\",\\n    userId: \\\"A2ex6yU0nQXJlfB8gS\\\"\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role birthday}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offerPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:editorFlex": 0.6507352941176471
+    },
+    {
+      "id": "tab7",
+      "name": "Query 7",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlpEMGp6OUZhVzV3M0VpTXluBgBxDyupdgFiAAFRgA.TNbOuOfMuYCoEG5Qmei-grbFSKUgpS1jPZ-7_qIABIw"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "mutation {\n  createProject(\n    addonPrice: 22,\n    assignedId: \"A2ZD11AlLeuNEznjKi\",\n    bookKeepingId: \"A2ZD1YfOom1T7ZOAAS\",\n    businessTaxReturnId: \"A2ZD1ZAwvTGAhQ9MLQ\",\n    endTime: \"2020-12-12\",\n    idFromStripeCard: \"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\",\n    idFromStripeTransfer: \"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\",\n    individualTaxReturnId: \"A2ZD1Zfn4nviF4ZzPs\",\n    instantMatched: false, \n\nmutation {\n\n  createProject(\n\n    addonPrice: 22,\n\n    assignedId: \"A2ZD11AlLeuNEznjKi\",\n\n    bookKeepingId: \"A2ZD1YfOom1T7ZOAAS\",\n\n    businessTaxReturnId: \"A2ZD1ZAwvTGAhQ9MLQ\",\n\n    endTime: \"2020-12-12\",\n\n    idFromStripeCard: \"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\",\n\n    idFromStripeTransfer: \"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\",\n\n    individualTaxReturnId: \"A2ZD1Zfn4nviF4ZzPs\",\n\n    instantMatched: false,\n\n    offerPrice: 22,\n\n    saleTaxId: \"A2ZD1a7RQ031cpW4W0\",\n\n    serviceReviewId: \"A2ZD1jKXAgruC2i9fk\",\n\n    status: \"In Progress\",\n\n    userId: \"A2ZD0jz9FaW5w3EiMy\"\n\n  ) {\n\n    id\n\n    addonPrice\n\n    assigned {id email role birthday}\n\n    bookKeeping {id}\n\n    businessTaxReturn {id}\n\n    endTime\n\n    idFromStripeCard\n\n    idFromStripeTransfer\n\n    individualTaxReturn {id}\n\n    instantMatched\n\n    offerPrice\n\n    saleTax {id}\n\n    serviceReview {id}\n\n    status\n\n    users {id email role}\n\n  }\n\n}\n\n​\n\n​\n\n\n    offerPrice: 22,\n    saleTaxId: \"A2ZD1a7RQ031cpW4W0\",\n    serviceReviewId: \"A2ZD1jKXAgruC2i9fk\",\n    status: \"In Progress\",\n    userId: \"A2ZD0jz9FaW5w3EiMy\"\n  ) {\n    id\n    addonPrice\n    assigned {id email role birthday}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:editorFlex": 0.6426829268292683,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    }
+  ],
   "defaultUrl": "http://localhost:4000/graphiql",
   "defaultWebsocketUrl": "ws://localhost:4000/socket",
   "defaultQuery": "",
@@ -20,6 +73,38 @@
     "http://localhost:4000/graphiql"
   ],
   "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMmV4NnlVMG5RWEpsZkI4Z1NuBgAN4HSpdgFiAAFRgA.ntx_KjzvXaIFosGrU8XcoTjb6G0K5h7zVoKV7oLIEWg"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMmV4NnlVMG5RWEpsZkI4Z1NuBgBMGVWpdgFiAAFRgA.cd2Nh5gZnhvRHZ_5b1x5jElAwUwdM1by8xLHqpxP6VU"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMmV4NnlVMG5RWEpsZkI4Z1NuBgDRj0ypdgFiAAFRgA.p57NsrHechNfcbNUghLhnBsJqCNXol6urxy6d7qrCDM"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMmV3MXZJbjJ4RkdyZVR0Wm9uBgBk1T6pdgFiAAFRgA.DLk1njEI3mVodWV90c91JDxgBYApKDzDBPqVRGj1xgA"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlpEMGp6OUZhVzV3M0VpTXluBgC2QS6pdgFiAAFRgA.yk4QOwXr9hMDLamw-OTwRfq0ymQrQ_aARiSPqOcWhMM"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlpEMGp6OUZhVzV3M0VpTXluBgBxDyupdgFiAAFRgA.TNbOuOfMuYCoEG5Qmei-grbFSKUgpS1jPZ-7_qIABIw"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMlpEMGp6OUZhVzV3M0VpTXluBgCmVfyodgFiAAFRgA.YJ1HfojCDG5lbuWwqP5Epqi4H0LBFye6dA9VRs1td1M"
+    },
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBMlpEMGp6OUZhVzV3M0VpTXluBgBlm0WbdgFiAAFRgA.7_x7lOifXo072O-fVdgXpK_eywO1Yx9f3FoQvfaAS3E"
@@ -41,7 +126,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab3",
+  "activeId": "tab9",
   "tabs": [
     {
       "id": "tab1",
@@ -54,8 +139,8 @@
       "maxHistory": 20,
       "history": [],
       "graphiql:editorFlex": 1,
-      "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
     },
     {
       "id": "tab2",
@@ -73,8 +158,8 @@
         }
       ],
       "graphiql:query": "query {\n  signIn(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
-      "graphiql:docExplorerWidth": 350,
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.38722966014418125
     },
@@ -87,12 +172,48 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlpEMGp6OUZhVzV3M0VpTXluBgBPeDGbdgFiAAFRgA.KG12qQzPECKcCanuru_Q6giWunYHmLJHtkrhuakpvkk"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMmV4NnlVMG5RWEpsZkI4Z1NuBgAN4HSpdgFiAAFRgA.ntx_KjzvXaIFosGrU8XcoTjb6G0K5h7zVoKV7oLIEWg"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "query {\n  allProjects {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id communication finalRating}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProjects {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id communication finalRating}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProjects {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id communication}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProjects {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id deadline}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProjects {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProjects {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id deadline}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProjects {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProjects {\n    id\n    addonPrice\n    assigned {id email role bio, birthday}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProjects {\n    id\n    addonPrice\n    assigned {id email role bio}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
         {
           "query": "query {\n  allProjects {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
           "variables": null
@@ -136,37 +257,13 @@
         {
           "query": "query {\n  allProjects {\n    id\n    instantMatched\n    idFromStripeCard\n    individualTaxReturn {id}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    saleTax {id}\n    status\n    addonPrice\n    assignedPro {id}\n    endTime\n  }\n}",
           "variables": null
-        },
-        {
-          "query": "query {\n  allProjects {\n    id\n    instantMatched\n    idFromStripeCard\n    individualTaxReturn {id}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    saleTax {id}\n    status\n    addonPrice\n    assignedPro {id}\n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "query {\n  allProjects {\n    id\n    instantMatched\n    idFromStripeCard\n    individualTaxReturn {id}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    saleTax {id}\n    status\n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "query {\n  allProjects {\n    id\n    instantMatched\n    idFromStripeCard\n    individualTaxReturn {id}\n    bookKeeping {id}\n    businessTaxReturn {id}\n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "query {\n  allProjects {\n    id\n    instantMatched\n    idFromStripeCard\n    individualTaxReturn {id}\n    bookKeeping {id}\n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "query {\n  allProjects {\n    id\n    instantMatched\n    idFromStripeCard\n    individualTaxReturn {id}\n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "query {\n  allProjects {\n    id\n  }\n}",
-          "variables": null
         }
       ],
-      "graphiql:query": "query {\n  allProjects {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allProjects {\\n    id\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    individualTaxReturn {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    status\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    status\\n    addonPrice\\n    assignedPro {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    status\\n    addonPrice\\n    assignedPro {id}\\n    endTime\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    status\\n    addonPrice\\n    assignedPro {id}\\n    endTime\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    status\\n    addonPrice\\n    assignedPro {id}\\n    endTime\\n    offPrice\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    status\\n    addonPrice\\n    assignedPro {id}\\n    endTime\\n    offPrice\\n    serviceReview {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    status\\n    addonPrice\\n    assignedPro {id}\\n    endTime\\n    offPrice\\n    serviceReview {id}\\n    user {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assignedPro {id emaile role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assignedPro {id emaile role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    user {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assignedPro {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    user {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assignedPro {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:query": "query {\n  allProjects {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id communication finalRating}\n    status\n    users {id email role}\n  }\n}",
       "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.3154296875
+      "graphiql:editorFlex": 0.5394285714285715,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    status\\n    addonPrice\\n    assignedPro {id}\\n    endTime\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    status\\n    addonPrice\\n    assignedPro {id}\\n    endTime\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    status\\n    addonPrice\\n    assignedPro {id}\\n    endTime\\n    offPrice\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    status\\n    addonPrice\\n    assignedPro {id}\\n    endTime\\n    offPrice\\n    serviceReview {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    status\\n    addonPrice\\n    assignedPro {id}\\n    endTime\\n    offPrice\\n    serviceReview {id}\\n    user {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assignedPro {id emaile role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assignedPro {id emaile role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    user {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assignedPro {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    user {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assignedPro {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role bio}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role bio, birthday}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id deadline}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id deadline}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id communication}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id communication finalRating}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offerPrice\\n    saleTax {id}\\n    serviceReview {id communication finalRating}\\n    status\\n    users {id email role}\\n  }\\n}\"}]}"
     },
     {
       "id": "tab4",
@@ -177,12 +274,28 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlpEMGp6OUZhVzV3M0VpTXluBgBPeDGbdgFiAAFRgA.KG12qQzPECKcCanuru_Q6giWunYHmLJHtkrhuakpvkk"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMmV4NnlVMG5RWEpsZkI4Z1NuBgBMGVWpdgFiAAFRgA.cd2Nh5gZnhvRHZ_5b1x5jElAwUwdM1by8xLHqpxP6VU"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "mutation {\n  createProject(\n    addonPrice: 22,\n    assignedId: \"A2ex7JMHBNpIVkil2e\",\n    bookKeepingId: \"A2ex7xWxp48v6U1rFo\",\n    businessTaxReturnId: \"A2ex7xxYEDPUQwT5hA\",\n    endTime: \"2020-12-12\",\n    idFromStripeCard: \"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\",\n    idFromStripeTransfer: \"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\",\n    individualTaxReturnId: \"A2ex7yOqajFDnbEtF2\",\n    instantMatched: false,\n    offerPrice: 22,\n    saleTaxId: \"A2ex7yqUvvMXBMAyLA\",\n    serviceReviewId: \"A2ex89NpkpyBrdqjgm\",\n    status: \"In Progress\",\n    userId: \"A2ex6yU0nQXJlfB8gS\"\n  ) {\n    id\n    addonPrice\n    assigned {id email role birthday}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createProject(\n    addonPrice: 22,\n    assignedId: \"A2ex7JMHBNpIVkil2e\",\n    bookKeepingId: \"A2ex7xWxp48v6U1rFo\",\n    businessTaxReturnId: \"A2ex7xxYEDPUQwT5hA\",\n    endTime: \"2020-12-12\",\n    idFromStripeCard: \"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\",\n    idFromStripeTransfer: \"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\",\n    individualTaxReturnId: \"A2ex7yOqajFDnbEtF2\",\n    instantMatched: true,\n    offerPrice: 22,\n    saleTaxId: \"A2ex7yqUvvMXBMAyLA\",\n    serviceReviewId: \"A2ex89NpkpyBrdqjgm\",\n    status: \"In Progress\",\n    userId: \"A2ex6yU0nQXJlfB8gS\"\n  ) {\n    id\n    addonPrice\n    assigned {id email role birthday}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createProject(\n    addonPrice: 22,\n    assignedId: \"A2ZD11AlLeuNEznjKi\",\n    bookKeepingId: \"A2ZD1YfOom1T7ZOAAS\",\n    businessTaxReturnId: \"A2ZD1ZAwvTGAhQ9MLQ\",\n    endTime: \"2020-12-12\",\n    idFromStripeCard: \"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\",\n    idFromStripeTransfer: \"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\",\n    individualTaxReturnId: \"A2ZD1Zfn4nviF4ZzPs\",\n    instantMatched: true,\n    offPrice: 22,\n    saleTaxId: \"A2ZD1a7RQ031cpW4W0\",\n    serviceReviewId: \"A2ZD1jKXAgruC2i9fk\",\n    status: \"In Progress\",\n    userId: \"A2ZD0jz9FaW5w3EiMy\"\n  ) {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createProject(\n    addonPrice: 22,\n    assignedId: \"A2ZD0fISgLzjOVEZHM\",\n    bookKeepingId: \"A2ZD1YfOom1T7ZOAAS\",\n    businessTaxReturnId: \"A2ZD1ZAwvTGAhQ9MLQ\",\n    endTime: \"2020-12-12\",\n    idFromStripeCard: \"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\",\n    idFromStripeTransfer: \"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\",\n    individualTaxReturnId: \"A2ZD1Zfn4nviF4ZzPs\",\n    instantMatched: true,\n    offPrice: 22,\n    saleTaxId: \"A2ZD1a7RQ031cpW4W0\",\n    serviceReviewId: \"A2ZD1jKXAgruC2i9fk\",\n    status: \"In Progress\",\n    userId: \"A2ZD0jz9FaW5w3EiMy\"\n  ) {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
         {
           "query": "mutation {\n  createProject(\n    addonPrice: 22,\n    assignedId: \"A2ZD11AlLeuNEznjKi\",\n    bookKeepingId: \"A2ZD1YfOom1T7ZOAAS\",\n    businessTaxReturnId: \"A2ZD1ZAwvTGAhQ9MLQ\",\n    endTime: \"2020-12-12\",\n    idFromStripeCard: \"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\",\n    idFromStripeTransfer: \"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\",\n    individualTaxReturnId: \"A2ZD1Zfn4nviF4ZzPs\",\n    instantMatched: true,\n    offPrice: 22,\n    saleTaxId: \"A2ZD1a7RQ031cpW4W0\",\n    serviceReviewId: \"A2ZD1jKXAgruC2i9fk\",\n    status: \"In Progress\",\n    userId: \"A2ZD0jz9FaW5w3EiMy\"\n  ) {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
           "variables": null
@@ -196,10 +309,10 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  createProject(\n    addonPrice: 22,\n    assignedId: \"A2ZD11AlLeuNEznjKi\",\n    bookKeepingId: \"A2ZD1YfOom1T7ZOAAS\",\n    businessTaxReturnId: \"A2ZD1ZAwvTGAhQ9MLQ\",\n    endTime: \"2020-12-12\",\n    idFromStripeCard: \"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\",\n    idFromStripeTransfer: \"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\",\n    individualTaxReturnId: \"A2ZD1Zfn4nviF4ZzPs\",\n    instantMatched: true,\n    offPrice: 22,\n    saleTaxId: \"A2ZD1a7RQ031cpW4W0\",\n    serviceReviewId: \"A2ZD1jKXAgruC2i9fk\",\n    status: \"In Progress\",\n    userId: \"A2ZD0jz9FaW5w3EiMy\"\n  ) {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createProject(\\n    addonPrice: 22,\\n    assignedId: \\\"A2ZD11AlLeuNEznjKi\\\",\\n    bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n    businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n    endTime: \\\"12-28-2020\\\",\\n    idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n    idFromStripeTransfer: \\\"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\\\",\\n    instantMatched: true,\\n    offPrice: 22,\\n    saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n    serviceReviewId: \\\"A2ZD1jKXAgruC2i9fk\\\",\\n    status: \\\"In Progress\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createProject(\\n    addonPrice: 22,\\n    assignedId: \\\"A2ZD11AlLeuNEznjKi\\\",\\n    bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n    businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n    endTime: \\\"2020-12-28\\\",\\n    idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n    idFromStripeTransfer: \\\"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\\\",\\n    instantMatched: true,\\n    offPrice: 22,\\n    saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n    serviceReviewId: \\\"A2ZD1jKXAgruC2i9fk\\\",\\n    status: \\\"In Progress\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createProject(\\n    addonPrice: 22,\\n    assignedId: \\\"A2ZD11AlLeuNEznjKi\\\",\\n    bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n    businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n    endTime: \\\"2020-12-12\\\",\\n    idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n    idFromStripeTransfer: \\\"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\\\",\\n    instantMatched: true,\\n    offPrice: 22,\\n    saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n    serviceReviewId: \\\"A2ZD1jKXAgruC2i9fk\\\",\\n    status: \\\"In Progress\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createProject(\\n    addonPrice: 22,\\n    assignedId: \\\"A2ZD11AlLeuNEznjKi\\\",\\n    bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n    businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n    endTime: \\\"2020-12-12\\\",\\n    idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n    idFromStripeTransfer: \\\"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\\\",\\n    individualTaxReturnId: \\\"A2ZD1Zfn4nviF4ZzPs\\\",\\n    instantMatched: true,\\n    offPrice: 22,\\n    saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n    serviceReviewId: \\\"A2ZD1jKXAgruC2i9fk\\\",\\n    status: \\\"In Progress\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:query": "mutation {\n  createProject(\n    addonPrice: 22,\n    assignedId: \"A2ex7JMHBNpIVkil2e\",\n    bookKeepingId: \"A2ex7xWxp48v6U1rFo\",\n    businessTaxReturnId: \"A2ex7xxYEDPUQwT5hA\",\n    endTime: \"2020-12-12\",\n    idFromStripeCard: \"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\",\n    idFromStripeTransfer: \"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\",\n    individualTaxReturnId: \"A2ex7yOqajFDnbEtF2\",\n    instantMatched: false,\n    offerPrice: 22,\n    saleTaxId: \"A2ex7yqUvvMXBMAyLA\",\n    serviceReviewId: \"A2ex89NpkpyBrdqjgm\",\n    status: \"In Progress\",\n    userId: \"A2ex6yU0nQXJlfB8gS\"\n  ) {\n    id\n    addonPrice\n    assigned {id email role birthday}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createProject(\\n    addonPrice: 22,\\n    assignedId: \\\"A2ZD11AlLeuNEznjKi\\\",\\n    bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n    businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n    endTime: \\\"12-28-2020\\\",\\n    idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n    idFromStripeTransfer: \\\"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\\\",\\n    instantMatched: true,\\n    offPrice: 22,\\n    saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n    serviceReviewId: \\\"A2ZD1jKXAgruC2i9fk\\\",\\n    status: \\\"In Progress\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createProject(\\n    addonPrice: 22,\\n    assignedId: \\\"A2ZD11AlLeuNEznjKi\\\",\\n    bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n    businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n    endTime: \\\"2020-12-28\\\",\\n    idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n    idFromStripeTransfer: \\\"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\\\",\\n    instantMatched: true,\\n    offPrice: 22,\\n    saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n    serviceReviewId: \\\"A2ZD1jKXAgruC2i9fk\\\",\\n    status: \\\"In Progress\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createProject(\\n    addonPrice: 22,\\n    assignedId: \\\"A2ZD11AlLeuNEznjKi\\\",\\n    bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n    businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n    endTime: \\\"2020-12-12\\\",\\n    idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n    idFromStripeTransfer: \\\"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\\\",\\n    instantMatched: true,\\n    offPrice: 22,\\n    saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n    serviceReviewId: \\\"A2ZD1jKXAgruC2i9fk\\\",\\n    status: \\\"In Progress\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createProject(\\n    addonPrice: 22,\\n    assignedId: \\\"A2ZD11AlLeuNEznjKi\\\",\\n    bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n    businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n    endTime: \\\"2020-12-12\\\",\\n    idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n    idFromStripeTransfer: \\\"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\\\",\\n    individualTaxReturnId: \\\"A2ZD1Zfn4nviF4ZzPs\\\",\\n    instantMatched: true,\\n    offPrice: 22,\\n    saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n    serviceReviewId: \\\"A2ZD1jKXAgruC2i9fk\\\",\\n    status: \\\"In Progress\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createProject(\\n    addonPrice: 22,\\n    assignedId: \\\"A2ZD0fISgLzjOVEZHM\\\",\\n    bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n    businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n    endTime: \\\"2020-12-12\\\",\\n    idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n    idFromStripeTransfer: \\\"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\\\",\\n    individualTaxReturnId: \\\"A2ZD1Zfn4nviF4ZzPs\\\",\\n    instantMatched: true,\\n    offPrice: 22,\\n    saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n    serviceReviewId: \\\"A2ZD1jKXAgruC2i9fk\\\",\\n    status: \\\"In Progress\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createProject(\\n    addonPrice: 22,\\n    assignedId: \\\"A2ZD11AlLeuNEznjKi\\\",\\n    bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n    businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n    endTime: \\\"2020-12-12\\\",\\n    idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n    idFromStripeTransfer: \\\"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\\\",\\n    individualTaxReturnId: \\\"A2ZD1Zfn4nviF4ZzPs\\\",\\n    instantMatched: true,\\n    offPrice: 22,\\n    saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n    serviceReviewId: \\\"A2ZD1jKXAgruC2i9fk\\\",\\n    status: \\\"In Progress\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createProject(\\n    addonPrice: 22,\\n    assignedId: \\\"A2ex7JMHBNpIVkil2e\\\",\\n    bookKeepingId: \\\"A2ex7xWxp48v6U1rFo\\\",\\n    businessTaxReturnId: \\\"A2ex7xxYEDPUQwT5hA\\\",\\n    endTime: \\\"2020-12-12\\\",\\n    idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n    idFromStripeTransfer: \\\"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\\\",\\n    individualTaxReturnId: \\\"A2ex7yOqajFDnbEtF2\\\",\\n    instantMatched: true,\\n    offerPrice: 22,\\n    saleTaxId: \\\"A2ex7yqUvvMXBMAyLA\\\",\\n    serviceReviewId: \\\"A2ex89NpkpyBrdqjgm\\\",\\n    status: \\\"In Progress\\\",\\n    userId: \\\"A2ex6yU0nQXJlfB8gS\\\"\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role birthday}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offerPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createProject(\\n    addonPrice: 22,\\n    assignedId: \\\"A2ex7JMHBNpIVkil2e\\\",\\n    bookKeepingId: \\\"A2ex7xWxp48v6U1rFo\\\",\\n    businessTaxReturnId: \\\"A2ex7xxYEDPUQwT5hA\\\",\\n    endTime: \\\"2020-12-12\\\",\\n    idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n    idFromStripeTransfer: \\\"tr_1HQACVLhtqtNnMeb9Dd0g5Rm\\\",\\n    individualTaxReturnId: \\\"A2ex7yOqajFDnbEtF2\\\",\\n    instantMatched: false,\\n    offerPrice: 22,\\n    saleTaxId: \\\"A2ex7yqUvvMXBMAyLA\\\",\\n    serviceReviewId: \\\"A2ex89NpkpyBrdqjgm\\\",\\n    status: \\\"In Progress\\\",\\n    userId: \\\"A2ex6yU0nQXJlfB8gS\\\"\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role birthday}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offerPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.6446886446886447,
+      "graphiql:editorFlex": 0.7793923381770145,
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -211,12 +324,16 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlpEMGp6OUZhVzV3M0VpTXluBgAiXDabdgFiAAFRgA.fxkS4AQdwOUtumhlCGLDywcjau9D5ljF6nx-sW2xlmw"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlpEMGp6OUZhVzV3M0VpTXluBgCmVfyodgFiAAFRgA.YJ1HfojCDG5lbuWwqP5Epqi4H0LBFye6dA9VRs1td1M"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "mutation {\n  updateProject(\n    id: \"A2epk9fpdlKsZ3UfSq\",\n    project: {\n      addonPrice: 33,\n      assignedId: \"A2epk9fpdlKsZ3UfSq\",\n      bookKeepingId: \"A2ZD1YfOom1T7ZOAAS\",\n      businessTaxReturnId: \"A2ZD1ZAwvTGAhQ9MLQ\",\n      endTime: \"2020-12-29\",\n      idFromStripeCard: \"card_CCCCCCCCCCCCCCCCCCCCCCCC\",\n      idFromStripeTransfer: \"tr_RRRRRRRRRRRRRRRRRRRRRRRR\",\n      individualTaxReturnId: \"A2ZD1Zfn4nviF4ZzPs\",\n      instantMatched: false,\n      offPrice: 33,\n      saleTaxId: \"A2ZD1a7RQ031cpW4W0\",\n      serviceReviewId: \"A2ZD1jGHQVSvyqil2e\",\n      status: \"Canceled\",\n      userId: \"A2ZD0jz9FaW5w3EiMy\"\n    }\n  )\n  {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
         {
           "query": "mutation {\n  updateProject(\n    id: \"A2ZJbZKMLgtnSm4b1E\",\n    project: {\n      addonPrice: 33,\n      assignedId: \"A2ZD0RdvRkqT31AVn6\",\n      bookKeepingId: \"A2ZD1YfOom1T7ZOAAS\",\n      businessTaxReturnId: \"A2ZD1ZAwvTGAhQ9MLQ\",\n      endTime: \"2020-12-29\",\n      idFromStripeCard: \"card_CCCCCCCCCCCCCCCCCCCCCCCC\",\n      idFromStripeTransfer: \"tr_RRRRRRRRRRRRRRRRRRRRRRRR\",\n      individualTaxReturnId: \"A2ZD1Zfn4nviF4ZzPs\",\n      instantMatched: false,\n      offPrice: 33,\n      saleTaxId: \"A2ZD1a7RQ031cpW4W0\",\n      serviceReviewId: \"A2ZD1jGHQVSvyqil2e\",\n      status: \"Canceled\",\n      userId: \"A2ZD0jz9FaW5w3EiMy\"\n    }\n  )\n  {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
           "variables": null
@@ -226,11 +343,11 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  updateProject(\n    id: \"A2ZJbZKMLgtnSm4b1E\",\n    project: {\n      addonPrice: 33,\n      assignedId: \"A2ZD0RdvRkqT31AVn6\",\n      bookKeepingId: \"A2ZD1YfOom1T7ZOAAS\",\n      businessTaxReturnId: \"A2ZD1ZAwvTGAhQ9MLQ\",\n      endTime: \"2020-12-29\",\n      idFromStripeCard: \"card_CCCCCCCCCCCCCCCCCCCCCCCC\",\n      idFromStripeTransfer: \"tr_RRRRRRRRRRRRRRRRRRRRRRRR\",\n      individualTaxReturnId: \"A2ZD1Zfn4nviF4ZzPs\",\n      instantMatched: false,\n      offPrice: 33,\n      saleTaxId: \"A2ZD1a7RQ031cpW4W0\",\n      serviceReviewId: \"A2ZD1jGHQVSvyqil2e\",\n      status: \"Canceled\",\n      userId: \"A2ZD0jz9FaW5w3EiMy\"\n    }\n  )\n  {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
-      "graphiql:docExplorerWidth": 350,
-      "graphiql:editorFlex": 1,
+      "graphiql:query": "mutation {\n  updateProject(\n    id: \"A2eyPF9oO5Ix04CPfE\",\n    project: {\n      addonPrice: 33,\n      assignedId: \"A2epk9fpdlKsZ3UfSq\",\n      bookKeepingId: \"A2ZD1YfOom1T7ZOAAS\",\n      businessTaxReturnId: \"A2ZD1ZAwvTGAhQ9MLQ\",\n      endTime: \"2020-12-29\",\n      idFromStripeCard: \"card_CCCCCCCCCCCCCCCCCCCCCCCC\",\n      idFromStripeTransfer: \"tr_RRRRRRRRRRRRRRRRRRRRRRRR\",\n      individualTaxReturnId: \"A2ZD1Zfn4nviF4ZzPs\",\n      instantMatched: false,\n      offerPrice: 33,\n      saleTaxId: \"A2ZD1a7RQ031cpW4W0\",\n      serviceReviewId: \"A2ZD1jGHQVSvyqil2e\",\n      status: \"Canceled\",\n      userId: \"A2ZD0jz9FaW5w3EiMy\"\n    }\n  )\n  {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateProject(\\n    id: \\\"A2ZHuTPiMNUOiSSria\\\",\\n    project: {\\n      addonPrice: 33,\\n      assignedId: \\\"A2ZD0RdvRkqT31AVn6\\\",\\n      bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n      businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n      endTime: \\\"2020-12-29\\\",\\n      idFromStripeCard: \\\"card_CCCCCCCCCCCCCCCCCCCCCCCC\\\",\\n      idFromStripeTransfer: \\\"tr_RRRRRRRRRRRRRRRRRRRRRRRR\\\",\\n      individualTaxReturnId: \\\"A2ZD1Zfn4nviF4ZzPs\\\",\\n      instantMatched: false,\\n      offPrice: 33,\\n      saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n      serviceReviewId: \\\"A2ZD1jGHQVSvyqil2e\\\",\\n      status: \\\"Canceled\\\",\\n      userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n    }\\n  )\\n  {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProject(\\n    id: \\\"A2ZJbZKMLgtnSm4b1E\\\",\\n    project: {\\n      addonPrice: 33,\\n      assignedId: \\\"A2ZD0RdvRkqT31AVn6\\\",\\n      bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n      businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n      endTime: \\\"2020-12-29\\\",\\n      idFromStripeCard: \\\"card_CCCCCCCCCCCCCCCCCCCCCCCC\\\",\\n      idFromStripeTransfer: \\\"tr_RRRRRRRRRRRRRRRRRRRRRRRR\\\",\\n      individualTaxReturnId: \\\"A2ZD1Zfn4nviF4ZzPs\\\",\\n      instantMatched: false,\\n      offPrice: 33,\\n      saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n      serviceReviewId: \\\"A2ZD1jGHQVSvyqil2e\\\",\\n      status: \\\"Canceled\\\",\\n      userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n    }\\n  )\\n  {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProject(\\n    id: \\\"A2epk9fpdlKsZ3UfSq\\\",\\n    project: {\\n      addonPrice: 33,\\n      assignedId: \\\"A2epk9fpdlKsZ3UfSq\\\",\\n      bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n      businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n      endTime: \\\"2020-12-29\\\",\\n      idFromStripeCard: \\\"card_CCCCCCCCCCCCCCCCCCCCCCCC\\\",\\n      idFromStripeTransfer: \\\"tr_RRRRRRRRRRRRRRRRRRRRRRRR\\\",\\n      individualTaxReturnId: \\\"A2ZD1Zfn4nviF4ZzPs\\\",\\n      instantMatched: false,\\n      offPrice: 33,\\n      saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n      serviceReviewId: \\\"A2ZD1jGHQVSvyqil2e\\\",\\n      status: \\\"Canceled\\\",\\n      userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n    }\\n  )\\n  {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateProject(\\n    id: \\\"A2ZHuTPiMNUOiSSria\\\",\\n    project: {\\n      addonPrice: 33,\\n      assignedId: \\\"A2ZD0RdvRkqT31AVn6\\\",\\n      bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n      businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n      endTime: \\\"2020-12-29\\\",\\n      idFromStripeCard: \\\"card_CCCCCCCCCCCCCCCCCCCCCCCC\\\",\\n      idFromStripeTransfer: \\\"tr_RRRRRRRRRRRRRRRRRRRRRRRR\\\",\\n      individualTaxReturnId: \\\"A2ZD1Zfn4nviF4ZzPs\\\",\\n      instantMatched: false,\\n      offPrice: 33,\\n      saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n      serviceReviewId: \\\"A2ZD1jGHQVSvyqil2e\\\",\\n      status: \\\"Canceled\\\",\\n      userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n    }\\n  )\\n  {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProject(\\n    id: \\\"A2ZJbZKMLgtnSm4b1E\\\",\\n    project: {\\n      addonPrice: 33,\\n      assignedId: \\\"A2ZD0RdvRkqT31AVn6\\\",\\n      bookKeepingId: \\\"A2ZD1YfOom1T7ZOAAS\\\",\\n      businessTaxReturnId: \\\"A2ZD1ZAwvTGAhQ9MLQ\\\",\\n      endTime: \\\"2020-12-29\\\",\\n      idFromStripeCard: \\\"card_CCCCCCCCCCCCCCCCCCCCCCCC\\\",\\n      idFromStripeTransfer: \\\"tr_RRRRRRRRRRRRRRRRRRRRRRRR\\\",\\n      individualTaxReturnId: \\\"A2ZD1Zfn4nviF4ZzPs\\\",\\n      instantMatched: false,\\n      offPrice: 33,\\n      saleTaxId: \\\"A2ZD1a7RQ031cpW4W0\\\",\\n      serviceReviewId: \\\"A2ZD1jGHQVSvyqil2e\\\",\\n      status: \\\"Canceled\\\",\\n      userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n    }\\n  )\\n  {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"}]}"
+      "graphiql:editorFlex": 0.7050632911392405,
+      "graphiql:docExplorerWidth": 350
     },
     {
       "id": "tab6",
@@ -241,12 +358,24 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlpEMGp6OUZhVzV3M0VpTXluBgBlm0WbdgFiAAFRgA.7_x7lOifXo072O-fVdgXpK_eywO1Yx9f3FoQvfaAS3E"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMmV4NnlVMG5RWEpsZkI4Z1NuBgBMGVWpdgFiAAFRgA.cd2Nh5gZnhvRHZ_5b1x5jElAwUwdM1by8xLHqpxP6VU"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "mutation {\n  deleteProject(\n    id: \"A2exuyN2EfbMFWwyBM\",\n    userId: \"A2ex6yU0nQXJlfB8gS\"\n  ) {id}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteProject(\n    id: \"A2exuyN2EfbMFWwyBM\",\n    userId: \"A2ZD0jz9FaW5w3EiMy\"\n  ) {id}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteProject(\n    id: \"A2epk9fpdlKsZ3UfSq\",\n    userId: \"A2ZD0jz9FaW5w3EiMy\"\n  ) {id}\n}",
+          "variables": null
+        },
         {
           "query": "mutation {\n  deleteProject(\n    id: \"A2ZJbZKMLgtnSm4b1E\",\n    userId: \"A2ZD0jz9FaW5w3EiMy\"\n  ) {id}\n}",
           "variables": null
@@ -256,11 +385,40 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  deleteProject(\n    id: \"A2ZJbZKMLgtnSm4b1E\",\n    userId: \"A2ZD0jz9FaW5w3EiMy\"\n  ) {id}\n}",
-      "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteProject(\\n    id: \\\"A2ZHuTPiMNUOiSSria\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {id}\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteProject(\\n    id: \\\"A2ZJbZKMLgtnSm4b1E\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {id}\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 0.3661257606490872,
+      "graphiql:query": "mutation {\n  deleteProject(\n    id: \"A2exuyN2EfbMFWwyBM\",\n    userId: \"A2ex6yU0nQXJlfB8gS\"\n  ) {id}\n}",
       "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3661257606490872,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteProject(\\n    id: \\\"A2ZHuTPiMNUOiSSria\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {id}\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteProject(\\n    id: \\\"A2ZJbZKMLgtnSm4b1E\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {id}\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteProject(\\n    id: \\\"A2epk9fpdlKsZ3UfSq\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {id}\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteProject(\\n    id: \\\"A2exuyN2EfbMFWwyBM\\\",\\n    userId: \\\"A2ZD0jz9FaW5w3EiMy\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteProject(\\n    id: \\\"A2exuyN2EfbMFWwyBM\\\",\\n    userId: \\\"A2ex6yU0nQXJlfB8gS\\\"\\n  ) {id}\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab9",
+      "name": "Query 7",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMmV4NnlVMG5RWEpsZkI4Z1NuBgAN4HSpdgFiAAFRgA.ntx_KjzvXaIFosGrU8XcoTjb6G0K5h7zVoKV7oLIEWg"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateProject(\n    id: \"A2eyPF9oO5Ix04CPfE\",\n    project: {\n      addonPrice: 33,\n      assignedId: \"A2ex6Zj2qOhsz31I92\",\n      bookKeepingId: \"A2ex7xWxp48v6U1rFo\",\n      businessTaxReturnId: \"A2ex7xxYEDPUQwT5hA\",\n      endTime: \"2020-12-12\",\n      idFromStripeCard: \"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\",\n      idFromStripeTransfer: \"tr_RRRRRRRRRRRRRRRRRRRRRRRR\",\n      individualTaxReturnId: \"A2ex7yOqajFDnbEtF2\",\n      instantMatched: false,\n      offerPrice: 33,\n      saleTaxId: \"A2ex7yqUvvMXBMAyLA\",\n      serviceReviewId: \"A2ex89NpkpyBrdqjgm\",\n      status: \"New\",\n      userId: \"A2ex6yU0nQXJlfB8gS\"\n    }\n  )\n  {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateProject(\n    id: \"A2eyPF9oO5Ix04CPfE\",\n    project: {\n      addonPrice: 33,\n      assignedId: \"A2ex6Zj2qOhsz31I92\",\n      bookKeepingId: \"A2ex7xWxp48v6U1rFo\",\n      businessTaxReturnId: \"A2ex7xxYEDPUQwT5hA\",\n      endTime: \"2020-12-12\",\n      idFromStripeCard: \"card_CCCCCCCCCCCCCCCCCCCCCCCC\",\n      idFromStripeTransfer: \"tr_RRRRRRRRRRRRRRRRRRRRRRRR\",\n      individualTaxReturnId: \"A2ex7yOqajFDnbEtF2\",\n      instantMatched: false,\n      offerPrice: 33,\n      saleTaxId: \"A2ex7yqUvvMXBMAyLA\",\n      serviceReviewId: \"A2ex89NpkpyBrdqjgm\",\n      status: \"New\",\n      userId: \"A2ex6yU0nQXJlfB8gS\"\n    }\n  )\n  {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateProject(\n    id: \"A2eyPF9oO5Ix04CPfE\",\n    project: {\n      addonPrice: 33,\n      assignedId: \"A2ex6Zj2qOhsz31I92\",\n      bookKeepingId: \"A2ex7xWxp48v6U1rFo\",\n      businessTaxReturnId: \"A2ex7xxYEDPUQwT5hA\",\n      endTime: \"2020-12-12\",\n      idFromStripeCard: \"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\",\n      idFromStripeTransfer: \"tr_RRRRRRRRRRRRRRRRRRRRRRRR\",\n      individualTaxReturnId: \"A2ex7yOqajFDnbEtF2\",\n      instantMatched: false,\n      offerPrice: 33,\n      saleTaxId: \"A2ex7yqUvvMXBMAyLA\",\n      serviceReviewId: \"A2ex89NpkpyBrdqjgm\",\n      status: \"New\",\n      userId: \"A2ex6yU0nQXJlfB8gS\"\n    }\n  )\n  {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.7115628970775095,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateProject(\\n    id: \\\"A2eyPF9oO5Ix04CPfE\\\",\\n    project: {\\n      addonPrice: 33,\\n      assignedId: \\\"A2ex6Zj2qOhsz31I92\\\",\\n      bookKeepingId: \\\"A2ex7xWxp48v6U1rFo\\\",\\n      businessTaxReturnId: \\\"A2ex7xxYEDPUQwT5hA\\\",\\n      endTime: \\\"2020-12-31\\\",\\n      idFromStripeCard: \\\"card_CCCCCCCCCCCCCCCCCCCCCCCC\\\",\\n      idFromStripeTransfer: \\\"tr_RRRRRRRRRRRRRRRRRRRRRRRR\\\",\\n      individualTaxReturnId: \\\"A2ex7yOqajFDnbEtF2\\\",\\n      instantMatched: false,\\n      offerPrice: 33,\\n      saleTaxId: \\\"A2ex7yqUvvMXBMAyLA\\\",\\n      serviceReviewId: \\\"A2ex89NpkpyBrdqjgm\\\",\\n      status: \\\"New\\\",\\n      userId: \\\"A2ex6yU0nQXJlfB8gS\\\"\\n    }\\n  )\\n  {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offerPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProject(\\n    id: \\\"A2eyPF9oO5Ix04CPfE\\\",\\n    project: {\\n      addonPrice: 33,\\n      assignedId: \\\"A2ex6Zj2qOhsz31I92\\\",\\n      bookKeepingId: \\\"A2ex7xWxp48v6U1rFo\\\",\\n      businessTaxReturnId: \\\"A2ex7xxYEDPUQwT5hA\\\",\\n      endTime: \\\"2020-12-12\\\",\\n      idFromStripeCard: \\\"card_CCCCCCCCCCCCCCCCCCCCCCCC\\\",\\n      idFromStripeTransfer: \\\"tr_RRRRRRRRRRRRRRRRRRRRRRRR\\\",\\n      individualTaxReturnId: \\\"A2ex7yOqajFDnbEtF2\\\",\\n      instantMatched: false,\\n      offerPrice: 33,\\n      saleTaxId: \\\"A2ex7yqUvvMXBMAyLA\\\",\\n      serviceReviewId: \\\"A2ex89NpkpyBrdqjgm\\\",\\n      status: \\\"New\\\",\\n      userId: \\\"A2ex6yU0nQXJlfB8gS\\\"\\n    }\\n  )\\n  {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offerPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProject(\\n    id: \\\"A2eyPF9oO5Ix04CPfE\\\",\\n    project: {\\n      addonPrice: 33,\\n      assignedId: \\\"A2ex6Zj2qOhsz31I92\\\",\\n      bookKeepingId: \\\"A2ex7xWxp48v6U1rFo\\\",\\n      businessTaxReturnId: \\\"A2ex7xxYEDPUQwT5hA\\\",\\n      endTime: \\\"2020-12-12\\\",\\n      idFromStripeCard: \\\"card_1HKo5XJ2Ju0cX1cPpF7P5ybC\\\",\\n      idFromStripeTransfer: \\\"tr_RRRRRRRRRRRRRRRRRRRRRRRR\\\",\\n      individualTaxReturnId: \\\"A2ex7yOqajFDnbEtF2\\\",\\n      instantMatched: false,\\n      offerPrice: 33,\\n      saleTaxId: \\\"A2ex7yqUvvMXBMAyLA\\\",\\n      serviceReviewId: \\\"A2ex89NpkpyBrdqjgm\\\",\\n      status: \\\"New\\\",\\n      userId: \\\"A2ex6yU0nQXJlfB8gS\\\"\\n    }\\n  )\\n  {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offerPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350
     }
   ]

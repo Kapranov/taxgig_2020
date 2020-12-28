@@ -333,6 +333,22 @@ defmodule Core.Queries do
   @spec decimal_mult(any, any) :: nil
   def decimal_mult(_, _), do: nil
 
+  @doc """
+  Proper way to determine if a Map has certain keys
+
+  ## Example
+
+      iex> data1 = %{"track" => "bogus", "artist" => "someone"}
+      iex> data2 = %{"track" => "bogus", "artist" => "someone", "year" => 2016}
+      iex> data1 |> Map.keys() |> contains_fields?(["year"])
+      iex> false
+      iex> data2 |> Map.keys() |> contains_fields?(["year"])
+      iex> true
+
+  """
+  @spec contains_fields?(atom, atom) :: boolean
+  def contains_fields?(keys, fields), do: Enum.all?(fields, &(&1 in keys))
+
 #  @spec filtered_service(map) :: map
 #  def filtered_service(attrs) do
 #    case is_nil(attrs.book_keeping_id) do

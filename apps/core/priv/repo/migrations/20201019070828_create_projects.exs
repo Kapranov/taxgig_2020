@@ -4,7 +4,7 @@ defmodule Core.Repo.Migrations.CreateProjects do
   def change do
     create table(:projects, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
-      add :addon_price, :integer, null: false
+      add :addon_price, :integer, null: true
       add :assigned_id, references(:users, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
       add :book_keeping_id, references(:book_keepings, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
       add :business_tax_return_id, references(:business_tax_returns, type: :uuid, on_delete: :delete_all), null: true, primary_key: false

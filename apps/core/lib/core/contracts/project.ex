@@ -62,14 +62,13 @@ defmodule Core.Contracts.Project do
   )a
 
   @required_params ~w(
-    addon_price
     instant_matched
     status
     user_id
   )a
 
   schema "projects" do
-    field :addon_price, :integer, null: false
+    field :addon_price, :integer, null: true
     field :end_time, :date, null: true
     field :id_from_stripe_card, :string, null: true
     field :id_from_stripe_transfer, :string, null: true

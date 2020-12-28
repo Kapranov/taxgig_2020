@@ -218,23 +218,31 @@ end) |> List.flatten
   - serviceReviewId
 
 ```
-required_keys = ["a", "b", "c"]
-map_to_check = %{a: "foo", b: "bar", c: "baz"}
-Enum.map(required_keys, fn k -> Map.has_key?(map_to_check, k) end)
+keys = ["a", "b", "c"]
+data = %{a: "foo", b: "bar", c: "baz"}
+Enum.map(keys, fn k -> Map.has_key?(data, k) end) => [true, true]
+Enum.map(keys, &(Map.has_key?(args, &1)))         => [true, true]
+keys |> Enum.all?(&(Map.has_key?(args, &1)))      => true
 
-map_to_check = %{ "a" => "foo", "b" => "bar", "c" => "baz" }
-required_keys |> Enum.all?(&(Map.has_key?(map_to_check, &1)))
+if Enum.at(keys, 1) == :c , do: :ok, else: :error
+if Enum.at(keys, 1) == :d , do: :ok, else: :error
 
-map = %{"track" => "bogus", "artist" => "someone"}
-map2 = %{"track" => "bogus", "artist" => "someone", "year" => 2016}
-required_keys = ["artist", "track", "year"]
-Enum.all?(required_keys, &Map.has_key?(map, &1))
-Enum.all?(required_keys, &Map.has_key?(map2, &1))
-match?(%{"artist" => _, "track" => _, "year" => _}, map)
-match?(%{"artist" => _, "track" => _, "year" => _}, map2)
+data1 = %{"track" => "bogus", "artist" => "someone"}
+data2 = %{"track" => "bogus", "artist" => "someone", "year" => 2016}
+keys = ["artist", "track", "year"]
+Enum.all?(keys, &Map.has_key?(data1, &1)) => false
+Enum.all?(keys, &Map.has_key?(data2, &1)) => true
+match?(%{"artist" => _, "track" => _, "year" => _}, data1) => false
+match?(%{"artist" => _, "track" => _, "year" => _}, data2) => true
 
 Using in instead of Map.has_key?:
-def contains_fields?(keys, fields), do: Enum.all?(fields, &(&1 in keys))
+def contains_fields?(keys, fields),
+  do: Enum.all?(fields, &(&1 in keys))
+
+defp contains_fields?(keys, fields),
+  do: {Enum.all?(fields, &(&1 in keys)), fields, keys}
+
+unless verified, do: raise(IncompleteRequestError)
 ```
 
 ```
