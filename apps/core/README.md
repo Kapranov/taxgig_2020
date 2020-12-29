@@ -218,31 +218,54 @@ end) |> List.flatten
   - serviceReviewId
 
 ```
-keys = ["a", "b", "c"]
-data = %{a: "foo", b: "bar", c: "baz"}
-Enum.map(keys, fn k -> Map.has_key?(data, k) end) => [true, true]
-Enum.map(keys, &(Map.has_key?(args, &1)))         => [true, true]
-keys |> Enum.all?(&(Map.has_key?(args, &1)))      => true
+keys = [:a, :b, :c]
+args = %{a: "foo", b: "bar", c: "baz", d: "doom"}
+keys |> Enum.map(fn k -> Map.has_key?(args, k) end)
+keys |> Enum.map(&(Map.has_key?(args, &1)))
+keys |> Enum.all?(&(Map.has_key?(args, &1)))
 
-if Enum.at(keys, 1) == :c , do: :ok, else: :error
-if Enum.at(keys, 1) == :d , do: :ok, else: :error
+if Enum.at(keys, 0) == :a , do: :ok, else: :error
+if Enum.at(keys, 1) == :b , do: :ok, else: :error
+if Enum.at(keys, 2) == :c , do: :ok, else: :error
+if Enum.at(keys, 3) == :d , do: :ok, else: :error
+if Enum.at(keys, 4) == :f , do: :ok, else: :error
 
 data1 = %{"track" => "bogus", "artist" => "someone"}
 data2 = %{"track" => "bogus", "artist" => "someone", "year" => 2016}
 keys = ["artist", "track", "year"]
-Enum.all?(keys, &Map.has_key?(data1, &1)) => false
-Enum.all?(keys, &Map.has_key?(data2, &1)) => true
-match?(%{"artist" => _, "track" => _, "year" => _}, data1) => false
-match?(%{"artist" => _, "track" => _, "year" => _}, data2) => true
+Enum.all?(keys, &Map.has_key?(data1, &1))
+Enum.all?(keys, &Map.has_key?(data2, &1))
+match?(%{"artist" => _, "track" => _, "year" => _}, data1)
+match?(%{"artist" => _, "track" => _, "year" => _}, data2)
 
 Using in instead of Map.has_key?:
-def contains_fields?(keys, fields),
-  do: Enum.all?(fields, &(&1 in keys))
+def contains_fields?(keys, fields), do: Enum.all?(fields, &(&1 in keys))
+def contains_fields?(keys, fields), do: {Enum.all?(fields, &(&1 in keys)), fields, keys}
 
-defp contains_fields?(keys, fields),
-  do: {Enum.all?(fields, &(&1 in keys)), fields, keys}
+defmodule IncompleteRequestError do
+  @moduledoc """
+  Error raised when a required field is missing.
+  """
 
-unless verified, do: raise(IncompleteRequestError)
+  defexception message: ""
+end
+
+@spec verify_request!(%{key => value, [atom]}
+defp verify_request!(body_params, fields) do
+  verified =
+    body_params
+    |> Map.keys()
+    |> contains_fields?(fields)
+
+  unless verified, do: raise(IncompleteRequestError)
+end
+
+@spec contains_fields?([String.t()], [String.t()]) :: []
+defp contains_fields?(keys, fields), do: Enum.all?(fields, &(&1 in keys))
+
+inputs = %{"1 activity" => "Hello World"}
+args = %{"a" => "aaa", "b" => "bbb", "c" => "ccc"} |> Map.keys
+if Enum.at(args, 2) == "c", do: Map.merge(inputs, %{"d" => "ddd"}), else: inputs
 ```
 
 ```

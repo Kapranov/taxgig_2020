@@ -338,6 +338,7 @@ defmodule Core.Queries do
 
   ## Example
 
+      iex> keys = ["artist", "track", "year"]
       iex> data1 = %{"track" => "bogus", "artist" => "someone"}
       iex> data2 = %{"track" => "bogus", "artist" => "someone", "year" => 2016}
       iex> data1 |> Map.keys() |> contains_fields?(["year"])
@@ -346,7 +347,7 @@ defmodule Core.Queries do
       iex> true
 
   """
-  @spec contains_fields?(atom, atom) :: boolean
+  @spec contains_fields?([String.t()], [String.t()]) :: boolean
   def contains_fields?(keys, fields), do: Enum.all?(fields, &(&1 in keys))
 
 #  @spec filtered_service(map) :: map

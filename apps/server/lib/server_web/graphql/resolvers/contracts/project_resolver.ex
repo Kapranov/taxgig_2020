@@ -66,13 +66,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
             if args[:instant_matched] == false do
               params =
                 args
-                |> Map.delete(:addon_price)
                 |> Map.delete(:assigned_id)
-                |> Map.delete(:end_time)
-                |> Map.delete(:id_from_stripe_transfer)
-                |> Map.delete(:offer_price)
-                |> Map.delete(:service_review_id)
-                |> Map.delete(:status)
 
               params
               |> Map.merge(%{status: "New"})
@@ -85,6 +79,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
               end
             else
               args
+              |> Map.merge(%{status: "In Progress"})
               |> Contracts.create_project()
               |> case do
                 {:ok, struct} ->
@@ -112,6 +107,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     if is_nil(id) || is_nil(current_user) || current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
+#            case args[:status] do
+#              "Canceled" -> :ok
+#              "Done" -> :ok
+#              "In Progress" -> :ok
+#              "In Transition" -> :ok
+#              "New" -> :ok
+#            end
       case params[:user_id] == current_user.id do
         true  ->
           if Repo.get_by(Project, %{id: id}).status == :New and params[:status] == "New" do

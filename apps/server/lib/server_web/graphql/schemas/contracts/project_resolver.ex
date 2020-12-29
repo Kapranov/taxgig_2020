@@ -65,19 +65,13 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
   object :project_mutations do
     @desc "Create the project"
     field :create_project, :project, description: "Create a new project" do
-      arg :addon_price, :integer
       arg :assigned_id, :string
       arg :book_keeping_id, :string
       arg :business_tax_return_id, :string
-      arg :end_time, :date
       arg :id_from_stripe_card, :string
-      arg :id_from_stripe_transfer, :string
       arg :individual_tax_return_id, :string
       arg :instant_matched, non_null(:boolean)
-      arg :offer_price, :integer
       arg :sale_tax_id, :string
-      arg :service_review_id, :string
-      arg :status, non_null(:string)
       arg :user_id, non_null(:string)
       resolve &ProjectResolver.create/3
     end
