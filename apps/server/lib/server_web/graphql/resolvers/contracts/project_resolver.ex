@@ -107,75 +107,117 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     if is_nil(id) || is_nil(current_user) || current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
-#            case args[:status] do
-#              "Canceled" -> :ok
-#              "Done" -> :ok
-#              "In Progress" -> :ok
-#              "In Transition" -> :ok
-#              "New" -> :ok
-#            end
       case params[:user_id] == current_user.id do
         true  ->
-          if Repo.get_by(Project, %{id: id}).status == :New and params[:status] == "New" do
-            new_params =
-              params
-              |> Map.delete(:addon_price)
-              |> Map.delete(:assigned_id)
-              |> Map.delete(:book_keeping_id)
-              |> Map.delete(:business_tax_return_id)
-              |> Map.delete(:end_time)
-              |> Map.delete(:id_from_stripe_transfer)
-              |> Map.delete(:individual_tax_return_id)
-              |> Map.delete(:instant_matched)
-              |> Map.delete(:offer_price)
-              |> Map.delete(:sale_tax_id)
-              |> Map.delete(:service_review_id)
-              |> Map.delete(:status)
-
-              try do
-                Repo.get!(Project, id)
-                |> Contracts.update_project(Map.delete(new_params, :user_id))
-                |> case do
-                  {:ok, struct} ->
-                    {:ok, struct}
-                  {:error, changeset} ->
-                    {:error, extract_error_msg(changeset)}
-                end
-              rescue
-                Ecto.NoResultsError ->
-                  {:error, "The Project #{id} not found!"}
+          case Repo.get_by(Project, %{id: id}).status do
+            :Canceled        -> :ok
+            :Done            -> :ok
+            :"In Progress"   -> :ok
+            :"In Transition" -> :ok
+            :New ->
+              case params[:status] do
+                "Canceled" -> :ok
+                "Done" -> :ok
+                "In Progress" -> :ok
+                "In Transition" -> :ok
+                "New" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                      |> Map.delete(:status)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
               end
-          else
-            if Map.has_key?(params, :assigned_id) and Accounts.by_role(params[:assigned_id]) == true do
-              try do
-                Repo.get!(Project, id)
-                |> Contracts.update_project(Map.delete(params, :user_id))
-                |> case do
-                  {:ok, struct} ->
-                    {:ok, struct}
-                  {:error, changeset} ->
-                    {:error, extract_error_msg(changeset)}
-                end
-              rescue
-                Ecto.NoResultsError ->
-                  {:error, "The Project #{id} not found!"}
-              end
-            else
-              try do
-                Repo.get!(Project, id)
-                |> Contracts.update_project(params |> Map.delete(:user_id) |> Map.delete(:assigned_id))
-                |> case do
-                  {:ok, struct} ->
-                    {:ok, struct}
-                  {:error, changeset} ->
-                    {:error, extract_error_msg(changeset)}
-                end
-              rescue
-                Ecto.NoResultsError ->
-                  {:error, "The Project #{id} not found!"}
-              end
-            end
           end
+
+#          case args[:status] do
+#            "Canceled" -> :ok
+#            "Done" -> :ok
+#            "In Progress" -> :ok
+#            "In Transition" -> :ok
+#            "New" ->
+#              if Repo.get_by(Project, %{id: id}).status == :New and params[:status] == "New" do
+#                new_params =
+#                  params
+#                  |> Map.delete(:addon_price)
+#                  |> Map.delete(:assigned_id)
+#                  |> Map.delete(:book_keeping_id)
+#                  |> Map.delete(:business_tax_return_id)
+#                  |> Map.delete(:end_time)
+#                  |> Map.delete(:id_from_stripe_transfer)
+#                  |> Map.delete(:individual_tax_return_id)
+#                  |> Map.delete(:instant_matched)
+#                  |> Map.delete(:offer_price)
+#                  |> Map.delete(:sale_tax_id)
+#                  |> Map.delete(:service_review_id)
+#                  |> Map.delete(:status)
+#
+#                  try do
+#                    Repo.get!(Project, id)
+#                    |> Contracts.update_project(Map.delete(new_params, :user_id))
+#                    |> case do
+#                      {:ok, struct} ->
+#                        {:ok, struct}
+#                      {:error, changeset} ->
+#                        {:error, extract_error_msg(changeset)}
+#                    end
+#                  rescue
+#                    Ecto.NoResultsError ->
+#                      {:error, "The Project #{id} not found!"}
+#                  end
+#              else
+#                if Map.has_key?(params, :assigned_id) and Accounts.by_role(params[:assigned_id]) == true do
+#                  try do
+#                    Repo.get!(Project, id)
+#                    |> Contracts.update_project(Map.delete(params, :user_id))
+#                    |> case do
+#                      {:ok, struct} ->
+#                        {:ok, struct}
+#                      {:error, changeset} ->
+#                        {:error, extract_error_msg(changeset)}
+#                    end
+#                  rescue
+#                    Ecto.NoResultsError ->
+#                      {:error, "The Project #{id} not found!"}
+#                  end
+#                else
+#                  try do
+#                    Repo.get!(Project, id)
+#                    |> Contracts.update_project(params |> Map.delete(:user_id) |> Map.delete(:assigned_id))
+#                    |> case do
+#                      {:ok, struct} ->
+#                        {:ok, struct}
+#                      {:error, changeset} ->
+#                        {:error, extract_error_msg(changeset)}
+#                    end
+#                  rescue
+#                    Ecto.NoResultsError ->
+#                      {:error, "The Project #{id} not found!"}
+#                  end
+#                end
+#              end
+#          end
         false -> {:error, "permission denied"}
       end
     end
