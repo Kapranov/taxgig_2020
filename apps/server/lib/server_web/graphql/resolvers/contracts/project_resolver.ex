@@ -87,6 +87,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                 {:error, changeset} ->
                   {:error, extract_error_msg(changeset)}
               end
+              # Create action - stripe.charge {amount=project.offer_price, source=project.id_from_stripe_card}
+              # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35}, when 2
+              #                 hours pass since updated_at and update field captured with
+              #                 stripe.charge.capture.amount
             end
           else
             {:error, [[field: :assigned_id, message: "Permission denied for client's role"]]}
@@ -110,16 +114,738 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
       case params[:user_id] == current_user.id do
         true  ->
           case Repo.get_by(Project, %{id: id}).status do
-            :Canceled        -> :ok
-            :Done            -> :ok
-            :"In Progress"   -> :ok
-            :"In Transition" -> :ok
+            :Canceled ->
+              case params[:status] do
+                "Canceled" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                      |> Map.delete(:status)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                "Done" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                "In Progress" ->
+                  if !is_nil(params[:id_from_stripe_card]) and !is_nil(params[:offer_price]) and !is_nil(params[:assigned_id]) and params[:instant_matched] == true do
+                    try do
+                      Repo.get!(Project, id)
+                      |> Contracts.update_project(
+                        Map.delete(params, :user_id)
+                        |> Map.delete(:addon_price)
+                        |> Map.delete(:end_time)
+                        |> Map.delete(:id_from_stripe_transfer)
+                        |> Map.delete(:service_review_id)
+                        |> Map.merge(%{addon_price: nil})
+                      )
+                      |> case do
+                        {:ok, struct} ->
+                          {:ok, struct}
+                        {:error, changeset} ->
+                          {:error, extract_error_msg(changeset)}
+                      end
+                    rescue
+                      Ecto.NoResultsError ->
+                        {:error, "The Project #{id} not found!"}
+                    end
+                  else
+                    {:error, "There are field's :id_from_stripe_card, :offer_price, :assigned_id, :instant_matched can't blank"}
+                  end
+                  # Create action - stripe.charge {amount=project.offer_price, source=project.id_from_stripe_card}
+                  # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35}, when 2
+                  #                 hours pass since updated_at and update field captured with
+                  #                 stripe.charge.capture.amount
+                "In Transition" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                "New" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+              end
+            :Done ->
+              case params[:status] do
+                "Canceled" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                "Done" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                "In Progress" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                "In Transition" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                "New" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+              end
+            :"In Progress" ->
+              case params[:status] do
+                "Canceled" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                  # 8.1
+                  # If canceled by role=false
+                  # Create action - Stripe.charge.capture {amount=o}, If less than 2 hours passed since
+                  # updated_at, then
+                  # Or
+                  # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35}, when 2
+                  # hours pass since updated_at and update field captured with
+                  # stripe.charge.capture.amount
+                  # Or
+                  # Create action - Stripe.charge {amount=((vol1+vol3)-vol2) * 0.75} and perform
+                  # stripe.charge.capture {amount=((vol1+vol3)-vol2) * 0.75}
+                  # 8.2
+                  # If canceled by role=true (Pro)
+                  # Create action - Stripe.charge.capture {amount=o}, If less than 2 hours passed since
+                  # updated_at, then
+                  # Or
+                  # Create action - Stripe.refund{amount=project.offer_price * 0.35}, when 2 hours
+                  # passed since updated at
+                  # Allow project.user_id to create service_review
+                "Done" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                "In Progress" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                "In Transition" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                  # Create action - stripe.charge 2 {amount=(vol1+vol3)-vol2, source=project.id_from_stripe_card}
+                  # Logic:
+                  # vol1 = project.offer_price (status=“In Progress”)
+                  # vol2 = vol1 * 0.35
+                  # vol3 = project.addon_price = sum of all addons with addon_project.status="Accepted"
+                  # and their relative fields addon_project.addon_id.addon_price
+                "New" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+              end
+            :"In Transition" ->
+              case params[:status] do
+                "Canceled" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                "Done" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:sale_tax_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                  # 6.0
+                  # if project.status="In Transition" has not changed in 48 hours since updated_at
+                  # or if project.service_review_id is NOT nil,
+                  # create action 1 - stripe.charge.capture{amount=(vol1+vol3)-vol2}
+                  # if action 1 successful, create action 2 - stripe.transfer {amount=(vol1+vol3) * 0.8,
+                  # destination=project.assigned_pro.stripe_account.id_from_stripe= “acc_xxx”} and
+                  # save result to project.id_from_stripe
+                "In Progress" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                "In Transition" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                "New" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+              end
             :New ->
               case params[:status] do
-                "Canceled" -> :ok
-                "Done" -> :ok
-                "In Progress" -> :ok
-                "In Transition" -> :ok
+                "Canceled" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                "Done" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
+                "In Progress" ->
+                  if !is_nil(params[:id_from_stripe_card]) and !is_nil(params[:offer_price]) do
+                    try do
+                      Repo.get!(Project, id)
+                      |> Contracts.update_project(
+                        Map.delete(params, :user_id)
+                        |> Map.delete(:addon_price)
+                        |> Map.delete(:book_keeping_id)
+                        |> Map.delete(:business_tax_return_id)
+                        |> Map.delete(:end_time)
+                        |> Map.delete(:id_from_stripe_transfer)
+                        |> Map.delete(:individual_tax_return_id)
+                        |> Map.delete(:instant_matched)
+                        |> Map.delete(:sale_tax_id)
+                        |> Map.delete(:service_review_id)
+                      )
+                      |> case do
+                        {:ok, struct} ->
+                          {:ok, struct}
+                        {:error, changeset} ->
+                          {:error, extract_error_msg(changeset)}
+                      end
+                    rescue
+                      Ecto.NoResultsError ->
+                        {:error, "The Project #{id} not found!"}
+                    end
+                    # Create action - stripe.charge {amount=project.offer_price, source=project.id_from_stripe_card}
+                    # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35}, when 2
+                    #                 hours pass since updated_at and update field captured with
+                    #                 stripe.charge.capture.amount
+                  else
+                    {:error, "field's id_from_stripe_card must filled"}
+                  end
+                "In Transition" ->
+                  try do
+                    Repo.get!(Project, id)
+                    |> Contracts.update_project(
+                      Map.delete(params, :user_id)
+                      |> Map.delete(:addon_price)
+                      |> Map.delete(:assigned_id)
+                      |> Map.delete(:book_keeping_id)
+                      |> Map.delete(:business_tax_return_id)
+                      |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
+                      |> Map.delete(:id_from_stripe_transfer)
+                      |> Map.delete(:individual_tax_return_id)
+                      |> Map.delete(:instant_matched)
+                      |> Map.delete(:offer_price)
+                      |> Map.delete(:status)
+                      |> Map.delete(:sale_tax_id)
+                      |> Map.delete(:service_review_id)
+                    )
+                    |> case do
+                      {:ok, struct} ->
+                        {:ok, struct}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  rescue
+                    Ecto.NoResultsError ->
+                      {:error, "The Project #{id} not found!"}
+                  end
                 "New" ->
                   try do
                     Repo.get!(Project, id)
@@ -150,74 +876,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                   end
               end
           end
-
-#          case args[:status] do
-#            "Canceled" -> :ok
-#            "Done" -> :ok
-#            "In Progress" -> :ok
-#            "In Transition" -> :ok
-#            "New" ->
-#              if Repo.get_by(Project, %{id: id}).status == :New and params[:status] == "New" do
-#                new_params =
-#                  params
-#                  |> Map.delete(:addon_price)
-#                  |> Map.delete(:assigned_id)
-#                  |> Map.delete(:book_keeping_id)
-#                  |> Map.delete(:business_tax_return_id)
-#                  |> Map.delete(:end_time)
-#                  |> Map.delete(:id_from_stripe_transfer)
-#                  |> Map.delete(:individual_tax_return_id)
-#                  |> Map.delete(:instant_matched)
-#                  |> Map.delete(:offer_price)
-#                  |> Map.delete(:sale_tax_id)
-#                  |> Map.delete(:service_review_id)
-#                  |> Map.delete(:status)
-#
-#                  try do
-#                    Repo.get!(Project, id)
-#                    |> Contracts.update_project(Map.delete(new_params, :user_id))
-#                    |> case do
-#                      {:ok, struct} ->
-#                        {:ok, struct}
-#                      {:error, changeset} ->
-#                        {:error, extract_error_msg(changeset)}
-#                    end
-#                  rescue
-#                    Ecto.NoResultsError ->
-#                      {:error, "The Project #{id} not found!"}
-#                  end
-#              else
-#                if Map.has_key?(params, :assigned_id) and Accounts.by_role(params[:assigned_id]) == true do
-#                  try do
-#                    Repo.get!(Project, id)
-#                    |> Contracts.update_project(Map.delete(params, :user_id))
-#                    |> case do
-#                      {:ok, struct} ->
-#                        {:ok, struct}
-#                      {:error, changeset} ->
-#                        {:error, extract_error_msg(changeset)}
-#                    end
-#                  rescue
-#                    Ecto.NoResultsError ->
-#                      {:error, "The Project #{id} not found!"}
-#                  end
-#                else
-#                  try do
-#                    Repo.get!(Project, id)
-#                    |> Contracts.update_project(params |> Map.delete(:user_id) |> Map.delete(:assigned_id))
-#                    |> case do
-#                      {:ok, struct} ->
-#                        {:ok, struct}
-#                      {:error, changeset} ->
-#                        {:error, extract_error_msg(changeset)}
-#                    end
-#                  rescue
-#                    Ecto.NoResultsError ->
-#                      {:error, "The Project #{id} not found!"}
-#                  end
-#                end
-#              end
-#          end
         false -> {:error, "permission denied"}
       end
     end
