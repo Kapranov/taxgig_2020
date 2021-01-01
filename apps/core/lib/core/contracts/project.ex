@@ -73,7 +73,7 @@ defmodule Core.Contracts.Project do
     field :id_from_stripe_card, :string, null: true
     field :id_from_stripe_transfer, :string, null: true
     field :instant_matched, :boolean, null: false
-    field :offer_price, :integer, null: true
+    field :offer_price, :decimal, null: true
     field :status, ProjectEnum, null: false
 
     belongs_to :assigned, User,

@@ -65,7 +65,6 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
   object :project_mutations do
     @desc "Create the project"
     field :create_project, :project, description: "Create a new project" do
-      arg :assigned_id, :string
       arg :book_keeping_id, :string
       arg :business_tax_return_id, :string
       arg :id_from_stripe_card, :string

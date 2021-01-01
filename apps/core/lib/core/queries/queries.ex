@@ -45,6 +45,23 @@ defmodule Core.Queries do
     data
   end
 
+  @spec by_hero_status(map, map, boolean, atom, atom, atom, atom) :: [{word, word}] | nil
+  def by_hero_status(struct_a, struct_b, role, row_a, row_b, row_c, row_d) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: cu in ^struct_b,
+        where: field(c, ^row_a) == ^role,
+        where: field(cu, ^row_b) == ^role,
+        where: not is_nil(field(cu, ^row_b)),
+        where: field(c, ^row_c) == field(cu, ^row_d),
+        select: {c.id, c.email}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
   @spec by_value(map, atom, String.t()) :: Ecto.Query.t()
   def by_value(struct, row, id) do
     from c in struct,
@@ -98,6 +115,21 @@ defmodule Core.Queries do
         where: not is_nil(field(c, ^row_b)),
         where: fragment("? @> ?", field(c, ^row_b), ^name),
         select: {cu.id}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @spec by_match(map, map, atom, atom, String.t()) :: {String.t(), boolean} | nil
+  def by_match(struct_a, struct_b, row_a, row_b, id) do
+    try do
+      Repo.one(
+        from c in struct_a,
+        join: ct in ^struct_b,
+        where: field(c, ^row_a) == ^id,
+        where: field(ct, ^row_b) == field(c, ^row_b),
+        select: {c.user_id, ct.hero_active}
       )
     rescue
       Ecto.Query.CastError -> nil
