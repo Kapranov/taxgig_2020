@@ -45,17 +45,32 @@ defmodule Core.Queries do
     data
   end
 
-  @spec by_hero_status(map, map, boolean, atom, atom, atom, atom) :: [{word, word}] | nil
-  def by_hero_status(struct_a, struct_b, role, row_a, row_b, row_c, row_d) do
+  @doc """
+  Return all User's role true via Platform of field's hero status
+
+  ## Example
+      iex> struct_a = Core.Accounts.User
+      iex> struct_b = Core.Accounts.Platform
+      iex> role = true
+      iex> row_a = :role
+      iex> row_b = :id
+      iex> row_c = :user_id
+      iex> row_d = :hero_status
+      iex> row_h = :email
+      iex> by_hero_status(struct_a, struct_b, role, row_a, row_b, row_c, row_d, row_h)
+      [{"some text"}, {"some text"}]
+  """
+  @spec by_hero_status(map, map, boolean, atom, atom, atom, atom, atom) :: [{word, word}] | nil
+  def by_hero_status(struct_a, struct_b, role, row_a, row_b, row_c, row_d, row_h) do
     try do
       Repo.all(
         from c in struct_a,
         join: cu in ^struct_b,
         where: field(c, ^row_a) == ^role,
-        where: field(cu, ^row_b) == ^role,
-        where: not is_nil(field(cu, ^row_b)),
-        where: field(c, ^row_c) == field(cu, ^row_d),
-        select: {c.id, c.email}
+        where: field(c, ^row_b) == field(cu, ^row_c),
+        where: not is_nil(field(cu, ^row_d)),
+        where: field(cu, ^row_d) == ^role,
+        select: {field(cu, ^row_c), field(c, ^row_h)}
       )
     rescue
       Ecto.Query.CastError -> nil

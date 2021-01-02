@@ -131,6 +131,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
               #   defp do_tta([]), do: []
               # end
               #
+              # Settings.mfa_methods()
+              # |> Enum.reduce([], fn m, acc ->
+              #   if method_enabled?(m, settings) do
+              #     acc ++ [m]
+              #   else
+              #     acc
+              #   end
+              # end) |> Enum.join(",")
+              #
               # defmodule Recursion do
               #   def tta(list), do: do_tta(list)
               #   defp do_tta([head | tail]) do
@@ -161,7 +170,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
               # [offer_price] = Core.Analyzes.total_value(sale_tax.id) |> Map.values
               # Map.merge(%{}, %{offer_price: offer_price})
               #
-              # Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :hero_status, :id, :user_id)
+              # Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
               #
               # 1. check out service's book_keeping
               #    [head | tail] = Core.Analyzes.total_all(book_keeping.id)
@@ -180,6 +189,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
               #     # when will be end
               #     # take any user with role true and platform.hero_status == true
               #     # all users send message
+              #     # Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
               #   end
               # 5.
               #    [value] = head |> Map.get(:sum_value) |> Map.values
