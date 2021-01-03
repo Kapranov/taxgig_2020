@@ -640,4 +640,98 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 %{name: ["Manufacturing"]}
 ```
 
+#
+# current_user = Repo.get_by(User, email: "o.puryshev@gmail.com")
+#
+# book_keeping          = Repo.get_by(Core.Services.BookKeeping,         user_id: current_user.id)
+# business_tax_return   = Repo.get_by(Core.Services.BusinessTaxReturn,   user_id: current_user.id)
+# individual_tax_return = Repo.get_by(Core.Services.IndividualTaxReturn, user_id: current_user.id)
+# sale_tax              = Repo.get_by(Core.Services.SaleTax,             user_id: current_user.id)
+#
+# match = Core.Analyzes.total_match(book_keeping.id)          |> Enum.to_list() |> Enum.sort(fn({_, value1}, {_, value2}) -> value2 < value1 end)
+# match = Core.Analyzes.total_match(business_tax_return.id)   |> Enum.to_list() |> Enum.sort(fn({_, value1}, {_, value2}) -> value2 < value1 end)
+# match = Core.Analyzes.total_match(individual_tax_return.id) |> Enum.to_list() |> Enum.sort(fn({_, value1}, {_, value2}) -> value2 < value1 end)
+# match = Core.Analyzes.total_match(sale_tax.id)              |> Enum.to_list() |> Enum.sort(fn({_, value1}, {_, value2}) -> value2 < value1 end)
+#
+# defmodule Recursion do
+#   def double(list), do: map(list, &(Core.Queries.by_match(Core.Services.IndividualTaxReturn, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
+#   def map([h|t], fun), do: [fun.(h)|map(t, fun)] |> List.delete(nil)
+#   def map([], _fun), do: []
+# end
+#
+# defmodule Recursion do
+#   def check(service, data), do: search(service, data)
+#   defp search(service, [h|t]) do
+#     value = Core.Queries.by_match(service, Core.Accounts.Platform, :id, :user_id, elem(h, 0)) |> elem(1)
+#     if value == true, do: h, else: search(service, t)
+#   end
+# end
+#
+# Settings.mfa_methods()
+# |> Enum.reduce([], fn m, acc ->
+#   if method_enabled?(m, settings) do
+#     acc ++ [m]
+#   else
+#     acc
+#   end
+# end) |> Enum.join(",")
+#
+# defmodule Recursion do
+#   def check(service, data), do: search(service, data)
+#   defp search(service, [h|t]) do
+#     data = Core.Queries.by_match(service, Core.Accounts.Platform, :id, :user_id, elem(h, 0))
+#     try do
+#       if elem(data, 1) == true, do: %{user_id: elem(data, 0)}, else: search(service, t)
+#     rescue
+#       ArgumentError -> search(service, t)
+#     end
+#   end
+#   defp search(_service, []), do: Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
+# end
+#
+# defmodule Recursion do
+#   def double(list), do: map(list, &(Core.Queries.by_match(Core.Services.IndividualTaxReturn, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
+#   def map([h|t], fun), do: [fun.(h)|map(t, fun)] |> List.delete(nil)
+#   def map([], _fun), do: []
+# end
+# |> Enum.map(fn x -> if elem(x,1) == true, do: [elem(x, 0)], else: [] end) |> List.flatten |> List.first
+#
+#
+# [offer_price] = Core.Analyzes.total_value(book_keeping.id) |> Map.values
+# [offer_price] = Core.Analyzes.total_value(business_tax_return.id) |> Map.values
+# [offer_price] = Core.Analyzes.total_value(individual_tax_return.id) |> Map.values
+# [offer_price] = Core.Analyzes.total_value(sale_tax.id) |> Map.values
+# Map.merge(%{}, %{offer_price: offer_price})
+#
+# Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
+#
+# 1. check out service's book_keeping
+#    [head | tail] = Core.Analyzes.total_all(book_keeping.id)
+#    Core.Analyzes.total_match(book_keeping.id)
+#    tail |> Enum.map(&(&1 |> Map.take([:sum_match])))
+#
+#    Core.Analyzes.total_all(book_keeping.id)
+# 2. take id max row in total list by
+#    %{id: "A2ex7xgtEA5BbGfmj2", sum_match: 60},
+# 3. ttt = Repo.get_by(Core.Services.BookKeeping, %{id: "A2ex7xgtEA5BbGfmj2"}).user_id
+# 4.
+#   if Repo.get_by(Core.Accounts.Platform, %{user_id: ttt}).hero_active == true do
+#     Map.merge(args, %{:assigned_id: ttt})
+#   else
+#     # take  %{id: "A2ex7xczSexnPAqfeC", sum_match: 20}, and do same do it in the end.
+#     # when will be end
+#     # take any user with role true and platform.hero_status == true
+#     # all users send message
+#     # Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
+#   end
+# 5.
+#    [value] = head |> Map.get(:sum_value) |> Map.values
+#    [value] = Core.Analyzes.total_value(book_keeping.id) |> Map.values
+#    Map.merge(args, %{offer_price: value})
+#
+# Create action - stripe.charge {amount=project.offer_price, source=project.id_from_stripe_card}
+# Create action - Stripe.charge.capture {amount=project.offer_price * 0.35}, when 2
+#                 hours pass since updated_at and update field captured with
+#                 stripe.charge.capture.amount
+
 ### 21 Jan 2020 by Oleg G.Kapranov
