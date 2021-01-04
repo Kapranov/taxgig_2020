@@ -648,6 +648,16 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 # individual_tax_return = Repo.get_by(Core.Services.IndividualTaxReturn, user_id: current_user.id)
 # sale_tax              = Repo.get_by(Core.Services.SaleTax,             user_id: current_user.id)
 #
+# match = Core.Queries.transform_match(book_keeping.id)
+# match = Core.Queries.transform_match(business_tax_return.id)
+# match = Core.Queries.transform_match(individual_tax_return.id)
+# match = Core.Queries.transform_match(sale_tax.id)
+#
+# Core.Queries.max_match(Core.Services.BookKeeping, match)
+# Core.Queries.max_match(Core.Services.BusinessTaxReturn, match)
+# Core.Queries.max_match(Core.Services.IndividualTaxReturn, match)
+# Core.Queries.max_match(Core.Services.SaleTax, match)
+#
 # match = Core.Analyzes.total_match(book_keeping.id)          |> Enum.to_list() |> Enum.sort(fn({_, value1}, {_, value2}) -> value2 < value1 end)
 # match = Core.Analyzes.total_match(business_tax_return.id)   |> Enum.to_list() |> Enum.sort(fn({_, value1}, {_, value2}) -> value2 < value1 end)
 # match = Core.Analyzes.total_match(individual_tax_return.id) |> Enum.to_list() |> Enum.sort(fn({_, value1}, {_, value2}) -> value2 < value1 end)

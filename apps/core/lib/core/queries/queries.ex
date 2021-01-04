@@ -6,7 +6,9 @@ defmodule Core.Queries do
   import Ecto.Query
 
   alias Core.{
+    Accounts.Platform,
     Accounts.User,
+    Analyzes,
     Repo,
     Services.MatchValueRelate
   }
@@ -379,6 +381,56 @@ defmodule Core.Queries do
 
   @spec decimal_mult(any, any) :: nil
   def decimal_mult(_, _), do: nil
+
+  @doc """
+  Recursion with first a maximum integer and check it out
+  hero_status by Platform via total_match or returns all
+  an user are emails with role's pro
+
+  ## Example
+
+      iex> service = Core.Services.BookKeeping
+      iex> book_keeping_id = FlakeId.get()
+      iex> data = transform_match(book_keeping_id)
+      iex> max_match(service, data)
+      %{user_id: FlakeId.get()}
+  """
+  @spec max_match(atom, list) :: %{user_id: String.t()} | [tuple]
+  def max_match(service, data), do: check_hero_status(service, data)
+  defp check_hero_status(service, [h|t]) do
+    data = by_match(service, Platform, :id, :user_id, elem(h, 0))
+    if elem(data, 1) == true, do: %{user_id: elem(data, 0)}, else: check_hero_status(service, t)
+  end
+  defp check_hero_status(_service, []), do: by_hero_status(User, Platform, true, :role, :id, :user_id, :hero_status, :email)
+
+  @doc """
+  Transformation total match by Id's Service
+
+  ## Example
+
+    iex> book_keeping_id = FlakeId.get()
+    iex> transform_match(book_keeping_id)
+    [{FlakeId.get(), 30}]
+  """
+  @spec transform_match(String.t() | nil) :: [{String.t(), integer}] | []
+  def transform_match(id) do
+    if is_nil(id) do
+      []
+    else
+      data =
+        Analyzes.total_match(id)
+        |> Enum.to_list()
+        |> Enum.sort(fn({_, value1}, {_, value2}) ->
+          value2 < value1
+        end)
+
+      data |> case do
+        [message: "UserId Not Found in SaleTax", field: :user_id] -> []
+        _ -> data
+      end
+
+    end
+  end
 
   @doc """
   Proper way to determine if a Map has certain keys
