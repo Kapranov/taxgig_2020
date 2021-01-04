@@ -601,49 +601,7 @@ defmodule Core.Seeder.Accounts do
         average_professionalism: random_float(),
         average_rating: random_float(),
         average_work_quality: random_float(),
-        user_id: pro1
-      }),
-      Accounts.create_pro_rating(%{
-        average_communication: random_float(),
-        average_professionalism: random_float(),
-        average_rating: random_float(),
-        average_work_quality: random_float(),
-        user_id: pro1
-      }),
-      Accounts.create_pro_rating(%{
-        average_communication: random_float(),
-        average_professionalism: random_float(),
-        average_rating: random_float(),
-        average_work_quality: random_float(),
         user_id: pro2
-      }),
-      Accounts.create_pro_rating(%{
-        average_communication: random_float(),
-        average_professionalism: random_float(),
-        average_rating: random_float(),
-        average_work_quality: random_float(),
-        user_id: pro2
-      }),
-      Accounts.create_pro_rating(%{
-        average_communication: random_float(),
-        average_professionalism: random_float(),
-        average_rating: random_float(),
-        average_work_quality: random_float(),
-        user_id: pro2
-      }),
-      Accounts.create_pro_rating(%{
-        average_communication: random_float(),
-        average_professionalism: random_float(),
-        average_rating: random_float(),
-        average_work_quality: random_float(),
-        user_id: pro3
-      }),
-      Accounts.create_pro_rating(%{
-        average_communication: random_float(),
-        average_professionalism: random_float(),
-        average_rating: random_float(),
-        average_work_quality: random_float(),
-        user_id: pro3
       }),
       Accounts.create_pro_rating(%{
         average_communication: random_float(),

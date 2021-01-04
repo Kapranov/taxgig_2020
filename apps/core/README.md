@@ -640,6 +640,19 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 %{name: ["Manufacturing"]}
 ```
 
+# if create project with assigned_id need updated platform hero_active = false for it assigned_id
+#
+# 1. x = match |> List.first |> elem(1)
+# 2. match |> Enum.map(&(elem(&1, 1) == x)
+# 3. check hero_active = by_match(service, Platform, :id, :user_id, elem(h, 0))
+# 4. if found only single record we save result assigned_id
+# 5. if found more we check pro_rating average_rating max one record
+#
+# match |> Enum.filter(&(elem(&1, 1) == List.first(Enum.take(match, 1)) |> elem(1) ))
+# data = new_match |> Enum.map(&(Core.Queries.by_match(Core.Services.SaleTax, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
+# if Enum.count(data) == 1, do: :ok, else: :error
+# case [] -> first_record
+# case -> 
 #
 # current_user = Repo.get_by(User, email: "o.puryshev@gmail.com")
 #
@@ -658,6 +671,10 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 # Core.Queries.max_match(Core.Services.IndividualTaxReturn, match)
 # Core.Queries.max_match(Core.Services.SaleTax, match)
 #
+# match = Core.Queries.transform_match(attrs[:sale_tax_id])
+# value = Core.Queries.max_match(SaleTax, match)
+# %{user_id: user_id} = Core.Queries.max_match(SaleTax, match)
+# |> Map.merge(%{assigned_id: user_id})
 # match = Core.Analyzes.total_match(book_keeping.id)          |> Enum.to_list() |> Enum.sort(fn({_, value1}, {_, value2}) -> value2 < value1 end)
 # match = Core.Analyzes.total_match(business_tax_return.id)   |> Enum.to_list() |> Enum.sort(fn({_, value1}, {_, value2}) -> value2 < value1 end)
 # match = Core.Analyzes.total_match(individual_tax_return.id) |> Enum.to_list() |> Enum.sort(fn({_, value1}, {_, value2}) -> value2 < value1 end)
@@ -705,6 +722,7 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 #   def map([], _fun), do: []
 # end
 # |> Enum.map(fn x -> if elem(x,1) == true, do: [elem(x, 0)], else: [] end) |> List.flatten |> List.first
+#
 #
 #
 # [offer_price] = Core.Analyzes.total_value(book_keeping.id) |> Map.values

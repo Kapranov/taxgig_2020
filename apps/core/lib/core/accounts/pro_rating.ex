@@ -63,6 +63,7 @@ defmodule Core.Accounts.ProRating do
     |> changeset_preload(:projects)
     |> put_assoc_nochange(:projects, parse_id(attrs))
     |> foreign_key_constraint(:user_id, message: "Select an User")
+    |> unique_constraint(:user_id, name: :pro_ratings_user_id_index)
   end
 
   @spec changeset_preload(map, Keyword.t()) :: Ecto.Changeset.t()

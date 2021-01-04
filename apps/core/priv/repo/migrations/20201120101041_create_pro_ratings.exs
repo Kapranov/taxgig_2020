@@ -13,6 +13,6 @@ defmodule Core.Repo.Migrations.CreateProRatings do
       timestamps(type: :utc_datetime_usec)
     end
 
-    create index(:pro_ratings, [:user_id])
+    create(unique_index(:pro_ratings, [:user_id], name: :pro_ratings_user_id_index))
   end
 end

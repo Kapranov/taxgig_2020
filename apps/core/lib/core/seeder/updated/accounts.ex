@@ -257,22 +257,10 @@ defmodule Core.Seeder.Updated.Accounts do
       pro_rating1,
       pro_rating2,
       pro_rating3,
-      pro_rating4,
-      pro_rating5,
-      pro_rating6,
-      pro_rating7,
-      pro_rating8,
-      pro_rating9
     } = {
       Enum.at(pro_rating_ids, 0),
       Enum.at(pro_rating_ids, 1),
-      Enum.at(pro_rating_ids, 2),
-      Enum.at(pro_rating_ids, 3),
-      Enum.at(pro_rating_ids, 4),
-      Enum.at(pro_rating_ids, 5),
-      Enum.at(pro_rating_ids, 6),
-      Enum.at(pro_rating_ids, 7),
-      Enum.at(pro_rating_ids, 8)
+      Enum.at(pro_rating_ids, 2)
     }
 
     [
@@ -289,42 +277,6 @@ defmodule Core.Seeder.Updated.Accounts do
         average_work_quality: random_float()
       }),
       Accounts.update_pro_rating(pro_rating3, %{
-        average_communication: random_float(),
-        average_professionalism: random_float(),
-        average_rating: random_float(),
-        average_work_quality: random_float()
-      }),
-      Accounts.update_pro_rating(pro_rating4, %{
-        average_communication: random_float(),
-        average_professionalism: random_float(),
-        average_rating: random_float(),
-        average_work_quality: random_float()
-      }),
-      Accounts.update_pro_rating(pro_rating5, %{
-        average_communication: random_float(),
-        average_professionalism: random_float(),
-        average_rating: random_float(),
-        average_work_quality: random_float()
-      }),
-      Accounts.update_pro_rating(pro_rating6, %{
-        average_communication: random_float(),
-        average_professionalism: random_float(),
-        average_rating: random_float(),
-        average_work_quality: random_float()
-      }),
-      Accounts.update_pro_rating(pro_rating7, %{
-        average_communication: random_float(),
-        average_professionalism: random_float(),
-        average_rating: random_float(),
-        average_work_quality: random_float()
-      }),
-      Accounts.update_pro_rating(pro_rating8, %{
-        average_communication: random_float(),
-        average_professionalism: random_float(),
-        average_rating: random_float(),
-        average_work_quality: random_float()
-      }),
-      Accounts.update_pro_rating(pro_rating9, %{
         average_communication: random_float(),
         average_professionalism: random_float(),
         average_rating: random_float(),
@@ -373,34 +325,16 @@ defmodule Core.Seeder.Updated.Accounts do
     {
       pro_rating1,
       pro_rating2,
-      pro_rating3,
-      pro_rating4,
-      pro_rating5,
-      pro_rating6,
-      pro_rating7,
-      pro_rating8,
-      pro_rating9
+      pro_rating3
     } = {
       Repo.preload(Enum.at(pro_rating_ids, 0), [:projects]),
       Repo.preload(Enum.at(pro_rating_ids, 1), [:projects]),
-      Repo.preload(Enum.at(pro_rating_ids, 2), [:projects]),
-      Repo.preload(Enum.at(pro_rating_ids, 3), [:projects]),
-      Repo.preload(Enum.at(pro_rating_ids, 4), [:projects]),
-      Repo.preload(Enum.at(pro_rating_ids, 5), [:projects]),
-      Repo.preload(Enum.at(pro_rating_ids, 6), [:projects]),
-      Repo.preload(Enum.at(pro_rating_ids, 7), [:projects]),
-      Repo.preload(Enum.at(pro_rating_ids, 8), [:projects])
+      Repo.preload(Enum.at(pro_rating_ids, 2), [:projects])
     }
 
     pro_rating_changeset1 = Ecto.Changeset.change(pro_rating1)
     pro_rating_changeset2 = Ecto.Changeset.change(pro_rating2)
     pro_rating_changeset3 = Ecto.Changeset.change(pro_rating3)
-    pro_rating_changeset4 = Ecto.Changeset.change(pro_rating4)
-    pro_rating_changeset5 = Ecto.Changeset.change(pro_rating5)
-    pro_rating_changeset6 = Ecto.Changeset.change(pro_rating6)
-    pro_rating_changeset7 = Ecto.Changeset.change(pro_rating7)
-    pro_rating_changeset8 = Ecto.Changeset.change(pro_rating8)
-    pro_rating_changeset9 = Ecto.Changeset.change(pro_rating9)
 
     pro_rating_changeset1
     |> Ecto.Changeset.put_assoc(:projects, random_projects())
@@ -411,30 +345,6 @@ defmodule Core.Seeder.Updated.Accounts do
     |> Repo.update!()
 
     pro_rating_changeset3
-    |> Ecto.Changeset.put_assoc(:projects, random_projects())
-    |> Repo.update!()
-
-    pro_rating_changeset4
-    |> Ecto.Changeset.put_assoc(:projects, random_projects())
-    |> Repo.update!()
-
-    pro_rating_changeset5
-    |> Ecto.Changeset.put_assoc(:projects, random_projects())
-    |> Repo.update!()
-
-    pro_rating_changeset6
-    |> Ecto.Changeset.put_assoc(:projects, random_projects())
-    |> Repo.update!()
-
-    pro_rating_changeset7
-    |> Ecto.Changeset.put_assoc(:projects, random_projects())
-    |> Repo.update!()
-
-    pro_rating_changeset8
-    |> Ecto.Changeset.put_assoc(:projects, random_projects())
-    |> Repo.update!()
-
-    pro_rating_changeset9
     |> Ecto.Changeset.put_assoc(:projects, random_projects())
     |> Repo.update!()
   end
