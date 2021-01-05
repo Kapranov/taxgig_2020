@@ -30,17 +30,9 @@ defmodule Core.Seeder.Updated.Accounts do
 
   @spec update_user() :: Ecto.Schema.t()
   defp update_user do
-    user_ids = Enum.map(Repo.all(User), fn(data) -> data end)
-
-    {
-      user1,
-      user2,
-      user3
-    } = {
-      Enum.at(user_ids, 3),
-      Enum.at(user_ids, 4),
-      Enum.at(user_ids, 7)
-    }
+    user1 = Repo.get_by(User, %{email: "v.kobzan@gmail.com"})
+    user2 = Repo.get_by(User, %{email: "o.puryshev@gmail.com"})
+    user3 = Repo.get_by(User, %{email: "op@taxgig.com"})
 
     [
       Accounts.update_user(user1, %{

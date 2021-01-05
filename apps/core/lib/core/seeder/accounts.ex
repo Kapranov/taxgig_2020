@@ -621,14 +621,9 @@ defmodule Core.Seeder.Accounts do
 
   @spec insert_pro_rating() :: Ecto.Schema.t()
   defp insert_pro_rating do
-    user_ids =
-      Enum.map(Repo.all(User), fn(data) -> data.id end)
-
-    {pro1, pro2, pro3} = {
-      Enum.at(user_ids, 6),
-      Enum.at(user_ids, 7),
-      Enum.at(user_ids, 8)
-    }
+    pro1 = Repo.get_by(User, %{email: "support@taxgig.com"})
+    pro2 = Repo.get_by(User, %{email: "op@taxgig.com"})
+    pro3 = Repo.get_by(User, %{email: "vk@taxgig.com"})
 
     [
       Accounts.create_pro_rating(%{
@@ -636,21 +631,21 @@ defmodule Core.Seeder.Accounts do
         average_professionalism: random_float(),
         average_rating: random_float(),
         average_work_quality: random_float(),
-        user_id: pro1
+        user_id: pro1.id
       }),
       Accounts.create_pro_rating(%{
         average_communication: random_float(),
         average_professionalism: random_float(),
         average_rating: random_float(),
         average_work_quality: random_float(),
-        user_id: pro2
+        user_id: pro2.id
       }),
       Accounts.create_pro_rating(%{
         average_communication: random_float(),
         average_professionalism: random_float(),
         average_rating: random_float(),
         average_work_quality: random_float(),
-        user_id: pro3
+        user_id: pro3.id
       })
     ]
   end

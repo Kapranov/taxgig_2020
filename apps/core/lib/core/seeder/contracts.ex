@@ -219,16 +219,11 @@ defmodule Core.Seeder.Contracts do
 
   @spec insert_project() :: Ecto.Schema.t()
   defp insert_project do
-    user_ids =
-      Enum.map(Repo.all(User), fn(data) -> data.id end)
-
-    {tp1, tp2, tp3, tp4, tp5} = {
-      Enum.at(user_ids, 1),
-      Enum.at(user_ids, 2),
-      Enum.at(user_ids, 3),
-      Enum.at(user_ids, 4),
-      Enum.at(user_ids, 5)
-    }
+    %User{id: tp1} = Repo.get_by(User, %{email: "kapranov.lugatex@gmail.com"})
+    %User{id: tp2} = Repo.get_by(User, %{email: "kapranov.pure@gmail.com"})
+    %User{id: tp3} = Repo.get_by(User, %{email: "v.kobzan@gmail.com"})
+    %User{id: tp4} = Repo.get_by(User, %{email: "o.puryshev@gmail.com"})
+    %User{id: tp5} = Repo.get_by(User, %{email: "vlacho777@gmail.com"})
 
     service_review_ids =
       Enum.map(Repo.all(ServiceReview), fn(data) -> data.id end)

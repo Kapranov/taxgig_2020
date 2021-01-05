@@ -77,6 +77,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                 {:error, extract_error_msg(changeset)}
             end
           else
+            # Create action - stripe.charge {amount=project.offer_price, source=project.id_from_stripe_card}
+            # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35}, when 2
+            #                 hours pass since updated_at and update field captured with
+            #                 stripe.charge.capture.amount
             args
             |> Map.merge(%{status: "In Progress"})
             |> Contracts.create_project()

@@ -644,15 +644,21 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 #
 # 1. x = match |> List.first |> elem(1)
 # 2. match |> Enum.map(&(elem(&1, 1) == x)
-# 3. check hero_active = by_match(service, Platform, :id, :user_id, elem(h, 0))
+# 2. check hero_active = by_match(service, Platform, :id, :user_id, elem(h, 0))
 # 4. if found only single record we save result assigned_id
-# 5. if found more we check pro_rating average_rating max one record
+# 4. if found more we check pro_rating average_rating max one record
 #
-# match |> Enum.filter(&(elem(&1, 1) == List.first(Enum.take(match, 1)) |> elem(1) ))
-# data = new_match |> Enum.map(&(Core.Queries.by_match(Core.Services.SaleTax, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
-# if Enum.count(data) == 1, do: :ok, else: :error
-# case [] -> first_record
-# case ->
+# 1. match |> Enum.filter(&(elem(&1, 1) == List.first(Enum.take(match, 1)) |> elem(1) ))
+# 2. [data] = new_match |> Enum.map(&(Core.Queries.by_match(Core.Services.SaleTax, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
+# 3. if is_nil(data), do: [], else: if Enum.count(data) == 1, do: :ok, else: :error
+# id1 = data |> List.first |> elem(0)
+# id2 = data |> List.last |> elem(0)
+# val1 = Repo.one(from c in Core.Accounts.ProRating, where: field(c, :user_id) == ^id1, select: c.average_rating) |> Decimal.to_float
+# val2 = Repo.one(from c in Core.Accounts.ProRating, where: field(c, :user_id) == ^id2, select: c.average_rating) |> Decimal.to_float
+# max val - save in field assigned_id
+# if max val equal will take first record
+#
+# if instantMatched == true
 #
 # current_user = Repo.get_by(User, email: "o.puryshev@gmail.com")
 #
@@ -670,6 +676,13 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 # Core.Queries.max_match(Core.Services.BusinessTaxReturn, match)
 # Core.Queries.max_match(Core.Services.IndividualTaxReturn, match)
 # Core.Queries.max_match(Core.Services.SaleTax, match)
+#
+# Map.merge(%{}, %{assigned_id: ,offer_price: offer_price})
+#
+# [offer_price] = Core.Analyzes.total_value(book_keeping.id) |> Map.values
+# [offer_price] = Core.Analyzes.total_value(business_tax_return.id) |> Map.values
+# [offer_price] = Core.Analyzes.total_value(individual_tax_return.id) |> Map.values
+# [offer_price] = Core.Analyzes.total_value(sale_tax.id) |> Map.values
 #
 # match = Core.Queries.transform_match(attrs[:sale_tax_id])
 # value = Core.Queries.max_match(SaleTax, match)
@@ -723,8 +736,6 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 # end
 # |> Enum.map(fn x -> if elem(x,1) == true, do: [elem(x, 0)], else: [] end) |> List.flatten |> List.first
 #
-#
-#
 # [offer_price] = Core.Analyzes.total_value(book_keeping.id) |> Map.values
 # [offer_price] = Core.Analyzes.total_value(business_tax_return.id) |> Map.values
 # [offer_price] = Core.Analyzes.total_value(individual_tax_return.id) |> Map.values
@@ -753,7 +764,7 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 #     # Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
 #   end
 # 5.
-#    [value] = head |> Map.get(:sum_value) |> Map.values
+#    [value] = head |> Map.get(:sum_vValue) |> Map.values
 #    [value] = Core.Analyzes.total_value(book_keeping.id) |> Map.values
 #    Map.merge(args, %{offer_price: value})
 #
