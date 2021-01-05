@@ -652,7 +652,7 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 # data = new_match |> Enum.map(&(Core.Queries.by_match(Core.Services.SaleTax, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
 # if Enum.count(data) == 1, do: :ok, else: :error
 # case [] -> first_record
-# case -> 
+# case ->
 #
 # current_user = Repo.get_by(User, email: "o.puryshev@gmail.com")
 #

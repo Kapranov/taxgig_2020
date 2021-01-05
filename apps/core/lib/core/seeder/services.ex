@@ -172,14 +172,16 @@ defmodule Core.Seeder.Services do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
-    {user, tp1, tp2, tp3, pro1, pro2, pro3} = {
+    {user, tp1, tp2, tp3, tp4, tp5, pro1, pro2, pro3} = {
       Enum.at(user_ids, 0),
       Enum.at(user_ids, 1),
       Enum.at(user_ids, 2),
       Enum.at(user_ids, 3),
       Enum.at(user_ids, 4),
       Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+      Enum.at(user_ids, 6),
+      Enum.at(user_ids, 7),
+      Enum.at(user_ids, 8)
     }
 
     case Repo.aggregate(BookKeeping, :count, :id) > 0 do
@@ -228,6 +230,30 @@ defmodule Core.Seeder.Services do
             user_id:                          tp3
           }),
           Repo.insert!(%BookKeeping{
+            account_count:       random_integer(),
+            balance_sheet:       random_boolean(),
+            deadline:            Date.utc_today(),
+            financial_situation: Lorem.sentence(),
+            inventory:           random_boolean(),
+            inventory_count:     random_integer(),
+            payroll:             random_boolean(),
+            tax_return_current:  random_boolean(),
+            tax_year:               random_year(),
+            user_id:                          tp4
+          }),
+          Repo.insert!(%BookKeeping{
+            account_count:       random_integer(),
+            balance_sheet:       random_boolean(),
+            deadline:            Date.utc_today(),
+            financial_situation: Lorem.sentence(),
+            inventory:           random_boolean(),
+            inventory_count:     random_integer(),
+            payroll:             random_boolean(),
+            tax_return_current:  random_boolean(),
+            tax_year:               random_year(),
+            user_id:                          tp5
+          }),
+          Repo.insert!(%BookKeeping{
             payroll:       random_boolean(),
             price_payroll: random_integer(),
             user_id:                   pro1
@@ -251,7 +277,7 @@ defmodule Core.Seeder.Services do
     book_keeping_ids =
       Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
 
-    {bk1, bk2, bk3, bk4, bk5, bk6, bk7} =
+    {bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8, bk9} =
       {
         Enum.at(book_keeping_ids, 0),
         Enum.at(book_keeping_ids, 1),
@@ -259,7 +285,9 @@ defmodule Core.Seeder.Services do
         Enum.at(book_keeping_ids, 3),
         Enum.at(book_keeping_ids, 4),
         Enum.at(book_keeping_ids, 5),
-        Enum.at(book_keeping_ids, 6)
+        Enum.at(book_keeping_ids, 6),
+        Enum.at(book_keeping_ids, 7),
+        Enum.at(book_keeping_ids, 8)
       }
 
     case Repo.aggregate(BookKeepingAdditionalNeed, :count, :id) > 0 do
@@ -285,16 +313,24 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%BookKeepingAdditionalNeed{
             book_keeping_id:                bk5,
-            name: random_name_additional_need(),
-            price:             random_integer()
+            name: random_name_additional_need()
           }),
           Repo.insert!(%BookKeepingAdditionalNeed{
             book_keeping_id:                bk6,
+            name: random_name_additional_need()
+          }),
+          Repo.insert!(%BookKeepingAdditionalNeed{
+            book_keeping_id:                bk7,
             name: random_name_additional_need(),
             price:             random_integer()
           }),
           Repo.insert!(%BookKeepingAdditionalNeed{
-            book_keeping_id:                bk7,
+            book_keeping_id:                bk8,
+            name: random_name_additional_need(),
+            price:             random_integer()
+          }),
+          Repo.insert!(%BookKeepingAdditionalNeed{
+            book_keeping_id:                bk9,
             name: random_name_additional_need(),
             price:             random_integer()
           })
@@ -307,7 +343,7 @@ defmodule Core.Seeder.Services do
     book_keeping_ids =
       Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
 
-    {bk1, bk2, bk3, bk4, bk5, bk6, bk7} =
+    {bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8, bk9} =
       {
         Enum.at(book_keeping_ids, 0),
         Enum.at(book_keeping_ids, 1),
@@ -315,7 +351,9 @@ defmodule Core.Seeder.Services do
         Enum.at(book_keeping_ids, 3),
         Enum.at(book_keeping_ids, 4),
         Enum.at(book_keeping_ids, 5),
-        Enum.at(book_keeping_ids, 6)
+        Enum.at(book_keeping_ids, 6),
+        Enum.at(book_keeping_ids, 7),
+        Enum.at(book_keeping_ids, 8)
       }
 
     case Repo.aggregate(BookKeepingAnnualRevenue, :count, :id) > 0 do
@@ -341,16 +379,24 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%BookKeepingAnnualRevenue{
             book_keeping_id:        bk5,
-            name: random_name_revenue(),
-            price:     random_integer()
+            name: random_name_revenue()
           }),
           Repo.insert!(%BookKeepingAnnualRevenue{
             book_keeping_id:        bk6,
+            name: random_name_revenue()
+          }),
+          Repo.insert!(%BookKeepingAnnualRevenue{
+            book_keeping_id:        bk7,
             name: random_name_revenue(),
             price:     random_integer()
           }),
           Repo.insert!(%BookKeepingAnnualRevenue{
-            book_keeping_id:        bk7,
+            book_keeping_id:        bk8,
+            name: random_name_revenue(),
+            price:     random_integer()
+          }),
+          Repo.insert!(%BookKeepingAnnualRevenue{
+            book_keeping_id:        bk9,
             name: random_name_revenue(),
             price:     random_integer()
           })
@@ -363,10 +409,12 @@ defmodule Core.Seeder.Services do
     book_keepenig_ids =
       Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
 
-    {bk1, bk2, bk3} = {
+    {bk1, bk2, bk3, bk4, bk5} = {
       Enum.at(book_keepenig_ids, 1),
       Enum.at(book_keepenig_ids, 2),
-      Enum.at(book_keepenig_ids, 3)
+      Enum.at(book_keepenig_ids, 3),
+      Enum.at(book_keepenig_ids, 4),
+      Enum.at(book_keepenig_ids, 5)
     }
 
     case Repo.aggregate(BookKeepingClassifyInventory, :count, :id) > 0 do
@@ -384,6 +432,14 @@ defmodule Core.Seeder.Services do
           Repo.insert!(%BookKeepingClassifyInventory{
             book_keeping_id:                   bk3,
             name: random_name_classify_inventory()
+          }),
+          Repo.insert!(%BookKeepingClassifyInventory{
+            book_keeping_id:                   bk4,
+            name: random_name_classify_inventory()
+          }),
+          Repo.insert!(%BookKeepingClassifyInventory{
+            book_keeping_id:                   bk5,
+            name: random_name_classify_inventory()
           })
         ]
     end
@@ -394,7 +450,7 @@ defmodule Core.Seeder.Services do
     book_keeping_ids =
       Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
 
-    {bk1, bk2, bk3, bk4, bk5, bk6, bk7} =
+    {bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8, bk9} =
       {
         Enum.at(book_keeping_ids, 0),
         Enum.at(book_keeping_ids, 1),
@@ -402,7 +458,9 @@ defmodule Core.Seeder.Services do
         Enum.at(book_keeping_ids, 3),
         Enum.at(book_keeping_ids, 4),
         Enum.at(book_keeping_ids, 5),
-        Enum.at(book_keeping_ids, 6)
+        Enum.at(book_keeping_ids, 6),
+        Enum.at(book_keeping_ids, 7),
+        Enum.at(book_keeping_ids, 8)
       }
 
     case Repo.aggregate(BookKeepingIndustry, :count, :id) > 0 do
@@ -426,15 +484,23 @@ defmodule Core.Seeder.Services do
             name: random_name_for_tp_industry()
           }),
           Repo.insert!(%BookKeepingIndustry{
-            book_keeping_id:                 bk5,
-            name: random_name_for_pro_industry()
+            book_keeping_id:                bk5,
+            name: random_name_for_tp_industry()
           }),
           Repo.insert!(%BookKeepingIndustry{
-            book_keeping_id:                 bk6,
-            name: random_name_for_pro_industry()
+            book_keeping_id:                bk6,
+            name: random_name_for_tp_industry()
           }),
           Repo.insert!(%BookKeepingIndustry{
             book_keeping_id:                 bk7,
+            name: random_name_for_pro_industry()
+          }),
+          Repo.insert!(%BookKeepingIndustry{
+            book_keeping_id:                 bk8,
+            name: random_name_for_pro_industry()
+          }),
+          Repo.insert!(%BookKeepingIndustry{
+            book_keeping_id:                 bk9,
             name: random_name_for_pro_industry()
           })
         ]
@@ -446,7 +512,7 @@ defmodule Core.Seeder.Services do
     book_keeping_ids =
       Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
 
-    {bk1, bk2, bk3, bk4, bk5, bk6, bk7} =
+    {bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8, bk9} =
       {
         Enum.at(book_keeping_ids, 0),
         Enum.at(book_keeping_ids, 1),
@@ -454,7 +520,9 @@ defmodule Core.Seeder.Services do
         Enum.at(book_keeping_ids, 3),
         Enum.at(book_keeping_ids, 4),
         Enum.at(book_keeping_ids, 5),
-        Enum.at(book_keeping_ids, 6)
+        Enum.at(book_keeping_ids, 6),
+        Enum.at(book_keeping_ids, 7),
+        Enum.at(book_keeping_ids, 8)
       }
 
     case Repo.aggregate(BookKeepingNumberEmployee, :count, :id) > 0 do
@@ -480,16 +548,24 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%BookKeepingNumberEmployee{
             book_keeping_id:         bk5,
-            name: random_name_employee(),
-            price:      random_integer()
+            name: random_name_employee()
           }),
           Repo.insert!(%BookKeepingNumberEmployee{
             book_keeping_id:         bk6,
+            name: random_name_employee()
+          }),
+          Repo.insert!(%BookKeepingNumberEmployee{
+            book_keeping_id:         bk7,
             name: random_name_employee(),
             price:      random_integer()
           }),
           Repo.insert!(%BookKeepingNumberEmployee{
-            book_keeping_id:         bk7,
+            book_keeping_id:         bk8,
+            name: random_name_employee(),
+            price:      random_integer()
+          }),
+          Repo.insert!(%BookKeepingNumberEmployee{
+            book_keeping_id:         bk9,
             name: random_name_employee(),
             price:      random_integer()
           })
@@ -502,7 +578,7 @@ defmodule Core.Seeder.Services do
     book_keeping_ids =
       Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
 
-    {bk1, bk2, bk3, bk4, bk5, bk6, bk7} =
+    {bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8, bk9} =
       {
         Enum.at(book_keeping_ids, 0),
         Enum.at(book_keeping_ids, 1),
@@ -510,7 +586,9 @@ defmodule Core.Seeder.Services do
         Enum.at(book_keeping_ids, 3),
         Enum.at(book_keeping_ids, 4),
         Enum.at(book_keeping_ids, 5),
-        Enum.at(book_keeping_ids, 6)
+        Enum.at(book_keeping_ids, 6),
+        Enum.at(book_keeping_ids, 7),
+        Enum.at(book_keeping_ids, 8)
       }
 
     case Repo.aggregate(BookKeepingTransactionVolume, :count, :id) > 0 do
@@ -536,16 +614,24 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%BookKeepingTransactionVolume{
             book_keeping_id:                   bk5,
-            name: random_name_transaction_volume(),
-            price:                random_integer()
+            name: random_name_transaction_volume()
           }),
           Repo.insert!(%BookKeepingTransactionVolume{
             book_keeping_id:                   bk6,
+            name: random_name_transaction_volume()
+          }),
+          Repo.insert!(%BookKeepingTransactionVolume{
+            book_keeping_id:                   bk7,
             name: random_name_transaction_volume(),
             price:                random_integer()
           }),
           Repo.insert!(%BookKeepingTransactionVolume{
-            book_keeping_id:                   bk7,
+            book_keeping_id:                   bk8,
+            name: random_name_transaction_volume(),
+            price:                random_integer()
+          }),
+          Repo.insert!(%BookKeepingTransactionVolume{
+            book_keeping_id:                   bk9,
             name: random_name_transaction_volume(),
             price:                random_integer()
           })
@@ -558,7 +644,7 @@ defmodule Core.Seeder.Services do
     book_keeping_ids =
       Enum.map(Repo.all(BookKeeping), fn(data) -> data.id end)
 
-    {bk1, bk2, bk3, bk4, bk5, bk6, bk7} =
+    {bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8, bk9} =
       {
         Enum.at(book_keeping_ids, 0),
         Enum.at(book_keeping_ids, 1),
@@ -566,7 +652,9 @@ defmodule Core.Seeder.Services do
         Enum.at(book_keeping_ids, 3),
         Enum.at(book_keeping_ids, 4),
         Enum.at(book_keeping_ids, 5),
-        Enum.at(book_keeping_ids, 6)
+        Enum.at(book_keeping_ids, 6),
+        Enum.at(book_keeping_ids, 7),
+        Enum.at(book_keeping_ids, 8)
       }
 
     case Repo.aggregate(BookKeepingTypeClient, :count, :id) > 0 do
@@ -592,16 +680,24 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%BookKeepingTypeClient{
             book_keeping_id:            bk5,
-            name: random_name_type_client(),
-            price:         random_integer()
+            name: random_name_type_client()
           }),
           Repo.insert!(%BookKeepingTypeClient{
             book_keeping_id:            bk6,
+            name: random_name_type_client()
+          }),
+          Repo.insert!(%BookKeepingTypeClient{
+            book_keeping_id:            bk7,
             name: random_name_type_client(),
             price:         random_integer()
           }),
           Repo.insert!(%BookKeepingTypeClient{
-            book_keeping_id:            bk7,
+            book_keeping_id:            bk8,
+            name: random_name_type_client(),
+            price:         random_integer()
+          }),
+          Repo.insert!(%BookKeepingTypeClient{
+            book_keeping_id:            bk9,
             name: random_name_type_client(),
             price:         random_integer()
           })
@@ -614,14 +710,16 @@ defmodule Core.Seeder.Services do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
-    {user, tp1, tp2, tp3, pro1, pro2, pro3} = {
+    {user, tp1, tp2, tp3, tp4, tp5, pro1, pro2, pro3} = {
       Enum.at(user_ids, 0),
       Enum.at(user_ids, 1),
       Enum.at(user_ids, 2),
       Enum.at(user_ids, 3),
       Enum.at(user_ids, 4),
       Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+      Enum.at(user_ids, 6),
+      Enum.at(user_ids, 7),
+      Enum.at(user_ids, 8)
     }
 
     case Repo.aggregate(BusinessTaxReturn, :count, :id) > 0 do
@@ -752,6 +850,84 @@ defmodule Core.Seeder.Services do
             user_id:                                 tp3
           }),
           Repo.insert!(%BusinessTaxReturn{
+            accounting_software:        random_boolean(),
+            capital_asset_sale:         random_boolean(),
+            church_hospital:            random_boolean(),
+            deadline:                   Date.utc_today(),
+            dispose_asset:              random_boolean(),
+            dispose_property:           random_boolean(),
+            educational_facility:       random_boolean(),
+            financial_situation:        Lorem.sentence(),
+            foreign_account_interest:   random_boolean(),
+            foreign_account_value_more: random_boolean(),
+            foreign_entity_interest:    random_boolean(),
+            foreign_partner_count:      random_integer(),
+            foreign_shareholder:        random_boolean(),
+            foreign_value:              random_boolean(),
+            fundraising_over:           random_boolean(),
+            has_contribution:           random_boolean(),
+            has_loan:                   random_boolean(),
+            income_over_thousand:       random_boolean(),
+            invest_research:            random_boolean(),
+            k1_count:                   random_integer(),
+            lobbying:                   random_boolean(),
+            make_distribution:          random_boolean(),
+            none_expat:                 random_boolean(),
+            operate_facility:           random_boolean(),
+            price_state:                random_integer(),
+            price_tax_year:             random_integer(),
+            property_sale:              random_boolean(),
+            public_charity:             random_boolean(),
+            rental_property_count:      random_integer(),
+            reported_grant:             random_boolean(),
+            restricted_donation:        random_boolean(),
+            state:                        random_state(),
+            tax_exemption:              random_boolean(),
+            tax_year:                      random_year(),
+            total_asset_less:           random_boolean(),
+            total_asset_over:           random_boolean(),
+            user_id:                                 tp4
+          }),
+          Repo.insert!(%BusinessTaxReturn{
+            accounting_software:        random_boolean(),
+            capital_asset_sale:         random_boolean(),
+            church_hospital:            random_boolean(),
+            deadline:                   Date.utc_today(),
+            dispose_asset:              random_boolean(),
+            dispose_property:           random_boolean(),
+            educational_facility:       random_boolean(),
+            financial_situation:        Lorem.sentence(),
+            foreign_account_interest:   random_boolean(),
+            foreign_account_value_more: random_boolean(),
+            foreign_entity_interest:    random_boolean(),
+            foreign_partner_count:      random_integer(),
+            foreign_shareholder:        random_boolean(),
+            foreign_value:              random_boolean(),
+            fundraising_over:           random_boolean(),
+            has_contribution:           random_boolean(),
+            has_loan:                   random_boolean(),
+            income_over_thousand:       random_boolean(),
+            invest_research:            random_boolean(),
+            k1_count:                   random_integer(),
+            lobbying:                   random_boolean(),
+            make_distribution:          random_boolean(),
+            none_expat:                 random_boolean(),
+            operate_facility:           random_boolean(),
+            price_state:                random_integer(),
+            price_tax_year:             random_integer(),
+            property_sale:              random_boolean(),
+            public_charity:             random_boolean(),
+            rental_property_count:      random_integer(),
+            reported_grant:             random_boolean(),
+            restricted_donation:        random_boolean(),
+            state:                        random_state(),
+            tax_exemption:              random_boolean(),
+            tax_year:                      random_year(),
+            total_asset_less:           random_boolean(),
+            total_asset_over:           random_boolean(),
+            user_id:                                 tp5
+          }),
+          Repo.insert!(%BusinessTaxReturn{
             none_expat:     random_boolean(),
             price_state:    random_integer(),
             price_tax_year: random_integer(),
@@ -778,7 +954,7 @@ defmodule Core.Seeder.Services do
     business_tax_returns_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+    {btr1, btr2, btr3, btr4, btr5, btr6, btr7, btr8, btr9} =
       {
         Enum.at(business_tax_returns_ids, 0),
         Enum.at(business_tax_returns_ids, 1),
@@ -786,7 +962,9 @@ defmodule Core.Seeder.Services do
         Enum.at(business_tax_returns_ids, 3),
         Enum.at(business_tax_returns_ids, 4),
         Enum.at(business_tax_returns_ids, 5),
-        Enum.at(business_tax_returns_ids, 6)
+        Enum.at(business_tax_returns_ids, 6),
+        Enum.at(business_tax_returns_ids, 7),
+        Enum.at(business_tax_returns_ids, 8)
       }
 
     case Repo.aggregate(BusinessEntityType, :count, :id) > 0 do
@@ -812,16 +990,24 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id:    btr5,
-            name: random_name_entity_type(),
-            price:       Enum.random(1..99)
+            name: random_name_entity_type()
           }),
           Repo.insert!(%BusinessEntityType{
             business_tax_return_id:    btr6,
+            name: random_name_entity_type()
+          }),
+          Repo.insert!(%BusinessEntityType{
+            business_tax_return_id:    btr7,
             name: random_name_entity_type(),
             price:       Enum.random(1..99)
           }),
           Repo.insert!(%BusinessEntityType{
-            business_tax_return_id:    btr7,
+            business_tax_return_id:    btr8,
+            name: random_name_entity_type(),
+            price:       Enum.random(1..99)
+          }),
+          Repo.insert!(%BusinessEntityType{
+            business_tax_return_id:    btr9,
             name: random_name_entity_type(),
             price:       Enum.random(1..99)
           })
@@ -834,11 +1020,13 @@ defmodule Core.Seeder.Services do
     business_tax_returns_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3} =
+    {btr1, btr2, btr3, btr4, btr5} =
       {
         Enum.at(business_tax_returns_ids, 1),
         Enum.at(business_tax_returns_ids, 2),
-        Enum.at(business_tax_returns_ids, 3)
+        Enum.at(business_tax_returns_ids, 3),
+        Enum.at(business_tax_returns_ids, 4),
+        Enum.at(business_tax_returns_ids, 5)
       }
 
     case Repo.aggregate(BusinessForeignAccountCount, :count, :id) > 0 do
@@ -856,6 +1044,14 @@ defmodule Core.Seeder.Services do
           Repo.insert!(%BusinessForeignAccountCount{
             business_tax_return_id: btr3,
             name:    random_name_count()
+          }),
+          Repo.insert!(%BusinessForeignAccountCount{
+            business_tax_return_id: btr4,
+            name:    random_name_count()
+          }),
+          Repo.insert!(%BusinessForeignAccountCount{
+            business_tax_return_id: btr5,
+            name:    random_name_count()
           })
         ]
     end
@@ -866,11 +1062,13 @@ defmodule Core.Seeder.Services do
     business_tax_returns_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3} =
+    {btr1, btr2, btr3, btr4, btr5} =
       {
         Enum.at(business_tax_returns_ids, 1),
         Enum.at(business_tax_returns_ids, 2),
-        Enum.at(business_tax_returns_ids, 3)
+        Enum.at(business_tax_returns_ids, 3),
+        Enum.at(business_tax_returns_ids, 4),
+        Enum.at(business_tax_returns_ids, 5)
       }
 
     case Repo.aggregate(BusinessForeignOwnershipCount, :count, :id) > 0 do
@@ -888,6 +1086,14 @@ defmodule Core.Seeder.Services do
           Repo.insert!(%BusinessForeignOwnershipCount{
             business_tax_return_id: btr3,
             name:    random_name_count()
+          }),
+          Repo.insert!(%BusinessForeignOwnershipCount{
+            business_tax_return_id: btr4,
+            name:    random_name_count()
+          }),
+          Repo.insert!(%BusinessForeignOwnershipCount{
+            business_tax_return_id: btr5,
+            name:    random_name_count()
           })
         ]
     end
@@ -898,7 +1104,7 @@ defmodule Core.Seeder.Services do
     business_tax_returns_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+    {btr1, btr2, btr3, btr4, btr5, btr6, btr7, btr8, btr9} =
       {
         Enum.at(business_tax_returns_ids, 0),
         Enum.at(business_tax_returns_ids, 1),
@@ -906,7 +1112,9 @@ defmodule Core.Seeder.Services do
         Enum.at(business_tax_returns_ids, 3),
         Enum.at(business_tax_returns_ids, 4),
         Enum.at(business_tax_returns_ids, 5),
-        Enum.at(business_tax_returns_ids, 6)
+        Enum.at(business_tax_returns_ids, 6),
+        Enum.at(business_tax_returns_ids, 7),
+        Enum.at(business_tax_returns_ids, 8)
       }
 
     case Repo.aggregate(BusinessIndustry, :count, :id) > 0 do
@@ -931,14 +1139,22 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id:         btr5,
-            name: random_name_for_pro_industry()
+            name: random_name_for_tp_industry()
           }),
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id:         btr6,
-            name: random_name_for_pro_industry()
+            name: random_name_for_tp_industry()
           }),
           Repo.insert!(%BusinessIndustry{
             business_tax_return_id:         btr7,
+            name: random_name_for_pro_industry()
+          }),
+          Repo.insert!(%BusinessIndustry{
+            business_tax_return_id:         btr8,
+            name: random_name_for_pro_industry()
+          }),
+          Repo.insert!(%BusinessIndustry{
+            business_tax_return_id:         btr9,
             name: random_name_for_pro_industry()
           })
         ]
@@ -950,11 +1166,13 @@ defmodule Core.Seeder.Services do
     business_tax_returns_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3} =
+    {btr1, btr2, btr3, btr4, btr5} =
       {
         Enum.at(business_tax_returns_ids, 1),
         Enum.at(business_tax_returns_ids, 2),
-        Enum.at(business_tax_returns_ids, 3)
+        Enum.at(business_tax_returns_ids, 3),
+        Enum.at(business_tax_returns_ids, 4),
+        Enum.at(business_tax_returns_ids, 5)
       }
 
     case Repo.aggregate(BusinessLlcType, :count, :id) > 0 do
@@ -972,6 +1190,14 @@ defmodule Core.Seeder.Services do
           Repo.insert!(%BusinessLlcType{
             business_tax_return_id: btr3,
             name: random_name_llc_type()
+          }),
+          Repo.insert!(%BusinessLlcType{
+            business_tax_return_id: btr4,
+            name: random_name_llc_type()
+          }),
+          Repo.insert!(%BusinessLlcType{
+            business_tax_return_id: btr5,
+            name: random_name_llc_type()
           })
         ]
     end
@@ -982,7 +1208,7 @@ defmodule Core.Seeder.Services do
     business_tax_returns_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+    {btr1, btr2, btr3, btr4, btr5, btr6, btr7, btr8, btr9} =
       {
         Enum.at(business_tax_returns_ids, 0),
         Enum.at(business_tax_returns_ids, 1),
@@ -990,7 +1216,9 @@ defmodule Core.Seeder.Services do
         Enum.at(business_tax_returns_ids, 3),
         Enum.at(business_tax_returns_ids, 4),
         Enum.at(business_tax_returns_ids, 5),
-        Enum.at(business_tax_returns_ids, 6)
+        Enum.at(business_tax_returns_ids, 6),
+        Enum.at(business_tax_returns_ids, 7),
+        Enum.at(business_tax_returns_ids, 8)
       }
 
     case Repo.aggregate(BusinessNumberEmployee, :count, :id) > 0 do
@@ -1016,16 +1244,24 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr5,
-            name: random_name_employee(),
-            price:    Enum.random(1..99)
+            name: random_name_employee()
           }),
           Repo.insert!(%BusinessNumberEmployee{
             business_tax_return_id: btr6,
+            name: random_name_employee()
+          }),
+          Repo.insert!(%BusinessNumberEmployee{
+            business_tax_return_id: btr7,
             name: random_name_employee(),
             price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessNumberEmployee{
-            business_tax_return_id: btr7,
+            business_tax_return_id: btr8,
+            name: random_name_employee(),
+            price:    Enum.random(1..99)
+          }),
+          Repo.insert!(%BusinessNumberEmployee{
+            business_tax_return_id: btr9,
             name: random_name_employee(),
             price:    Enum.random(1..99)
           })
@@ -1038,7 +1274,7 @@ defmodule Core.Seeder.Services do
     business_tax_returns_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3, btr4, btr5, btr6, btr7} =
+    {btr1, btr2, btr3, btr4, btr5, btr6, btr7, btr8, btr9} =
       {
         Enum.at(business_tax_returns_ids, 0),
         Enum.at(business_tax_returns_ids, 1),
@@ -1046,7 +1282,9 @@ defmodule Core.Seeder.Services do
         Enum.at(business_tax_returns_ids, 3),
         Enum.at(business_tax_returns_ids, 4),
         Enum.at(business_tax_returns_ids, 5),
-        Enum.at(business_tax_returns_ids, 6)
+        Enum.at(business_tax_returns_ids, 6),
+        Enum.at(business_tax_returns_ids, 7),
+        Enum.at(business_tax_returns_ids, 8)
       }
 
     case Repo.aggregate(BusinessTotalRevenue, :count, :id) > 0 do
@@ -1072,16 +1310,24 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr5,
-            name:  random_name_revenue(),
-            price:    Enum.random(1..99)
+            name:  random_name_revenue()
           }),
           Repo.insert!(%BusinessTotalRevenue{
             business_tax_return_id: btr6,
+            name:  random_name_revenue()
+          }),
+          Repo.insert!(%BusinessTotalRevenue{
+            business_tax_return_id: btr7,
             name:  random_name_revenue(),
             price:    Enum.random(1..99)
           }),
           Repo.insert!(%BusinessTotalRevenue{
-            business_tax_return_id: btr7,
+            business_tax_return_id: btr8,
+            name:  random_name_revenue(),
+            price:    Enum.random(1..99)
+          }),
+          Repo.insert!(%BusinessTotalRevenue{
+            business_tax_return_id: btr9,
             name:  random_name_revenue(),
             price:    Enum.random(1..99)
           })
@@ -1094,11 +1340,13 @@ defmodule Core.Seeder.Services do
     business_tax_returns_ids =
       Enum.map(Repo.all(BusinessTaxReturn), fn(data) -> data.id end)
 
-    {btr1, btr2, btr3} =
+    {btr1, btr2, btr3, btr4, btr5} =
       {
         Enum.at(business_tax_returns_ids, 1),
         Enum.at(business_tax_returns_ids, 2),
-        Enum.at(business_tax_returns_ids, 3)
+        Enum.at(business_tax_returns_ids, 3),
+        Enum.at(business_tax_returns_ids, 4),
+        Enum.at(business_tax_returns_ids, 5)
       }
 
     case Repo.aggregate(BusinessTransactionCount, :count, :id) > 0 do
@@ -1116,6 +1364,14 @@ defmodule Core.Seeder.Services do
           Repo.insert!(%BusinessTransactionCount{
             business_tax_return_id:          btr3,
             name: random_name_transaction_count()
+          }),
+          Repo.insert!(%BusinessTransactionCount{
+            business_tax_return_id:          btr4,
+            name: random_name_transaction_count()
+          }),
+          Repo.insert!(%BusinessTransactionCount{
+            business_tax_return_id:          btr5,
+            name: random_name_transaction_count()
           })
         ]
     end
@@ -1126,14 +1382,16 @@ defmodule Core.Seeder.Services do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
-    {user, tp1, tp2, tp3, pro1, pro2, pro3} = {
+    {user, tp1, tp2, tp3, tp4, tp5, pro1, pro2, pro3} = {
       Enum.at(user_ids, 0),
       Enum.at(user_ids, 1),
       Enum.at(user_ids, 2),
       Enum.at(user_ids, 3),
       Enum.at(user_ids, 4),
       Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+      Enum.at(user_ids, 6),
+      Enum.at(user_ids, 7),
+      Enum.at(user_ids, 8)
     }
 
     case Repo.aggregate(IndividualTaxReturn, :count, :id) > 0 do
@@ -1222,6 +1480,46 @@ defmodule Core.Seeder.Services do
             user_id:                                 tp3
           }),
           Repo.insert!(%IndividualTaxReturn{
+            deadline:                   Date.utc_today(),
+            foreign_account:            random_boolean(),
+            foreign_account_limit:      random_boolean(),
+            foreign_financial_interest: random_boolean(),
+            home_owner:                 random_boolean(),
+            k1_count:                   random_integer(),
+            k1_income:                  random_boolean(),
+            living_abroad:              random_boolean(),
+            non_resident_earning:       random_boolean(),
+            none_expat:                 random_boolean(),
+            own_stock_crypto:           random_boolean(),
+            rental_property_count:      random_integer(),
+            rental_property_income:     random_boolean(),
+            sole_proprietorship_count:  random_integer(),
+            state:                        random_state(),
+            stock_divident:             random_boolean(),
+            tax_year:                      random_year(),
+            user_id:                                 tp4
+          }),
+          Repo.insert!(%IndividualTaxReturn{
+            deadline:                   Date.utc_today(),
+            foreign_account:            random_boolean(),
+            foreign_account_limit:      random_boolean(),
+            foreign_financial_interest: random_boolean(),
+            home_owner:                 random_boolean(),
+            k1_count:                   random_integer(),
+            k1_income:                  random_boolean(),
+            living_abroad:              random_boolean(),
+            non_resident_earning:       random_boolean(),
+            none_expat:                 random_boolean(),
+            own_stock_crypto:           random_boolean(),
+            rental_property_count:      random_integer(),
+            rental_property_income:     random_boolean(),
+            sole_proprietorship_count:  random_integer(),
+            state:                        random_state(),
+            stock_divident:             random_boolean(),
+            tax_year:                      random_year(),
+            user_id:                                 tp5
+          }),
+          Repo.insert!(%IndividualTaxReturn{
             foreign_account:                 random_boolean(),
             home_owner:                      random_boolean(),
             living_abroad:                   random_boolean(),
@@ -1293,7 +1591,7 @@ defmodule Core.Seeder.Services do
     individual_tax_returns_ids =
       Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
 
-    {itr1, itr2, itr3, itr4, itr5, itr6, itr7} =
+    {itr1, itr2, itr3, itr4, itr5, itr6, itr7, itr8, itr9} =
       {
         Enum.at(individual_tax_returns_ids, 0),
         Enum.at(individual_tax_returns_ids, 1),
@@ -1301,7 +1599,9 @@ defmodule Core.Seeder.Services do
         Enum.at(individual_tax_returns_ids, 3),
         Enum.at(individual_tax_returns_ids, 4),
         Enum.at(individual_tax_returns_ids, 5),
-        Enum.at(individual_tax_returns_ids, 6)
+        Enum.at(individual_tax_returns_ids, 6),
+        Enum.at(individual_tax_returns_ids, 7),
+        Enum.at(individual_tax_returns_ids, 8)
       }
 
     case Repo.aggregate(IndividualEmploymentStatus, :count, :id) > 0 do
@@ -1327,16 +1627,24 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id:        itr5,
-            name: random_name_employment_status(),
-            price:             Enum.random(1..99)
+            name: random_name_employment_status()
           }),
           Repo.insert!(%IndividualEmploymentStatus{
             individual_tax_return_id:        itr6,
+            name: random_name_employment_status()
+          }),
+          Repo.insert!(%IndividualEmploymentStatus{
+            individual_tax_return_id:        itr7,
             name: random_name_employment_status(),
             price:             Enum.random(1..99)
           }),
           Repo.insert!(%IndividualEmploymentStatus{
-            individual_tax_return_id:        itr7,
+            individual_tax_return_id:        itr8,
+            name: random_name_employment_status(),
+            price:             Enum.random(1..99)
+          }),
+          Repo.insert!(%IndividualEmploymentStatus{
+            individual_tax_return_id:        itr9,
             name: random_name_employment_status(),
             price:             Enum.random(1..99)
           })
@@ -1349,7 +1657,7 @@ defmodule Core.Seeder.Services do
     individual_tax_returns_ids =
       Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
 
-    {itr1, itr2, itr3, itr4, itr5, itr6, itr7} =
+    {itr1, itr2, itr3, itr4, itr5, itr6, itr7, itr8, itr9} =
       {
         Enum.at(individual_tax_returns_ids, 0),
         Enum.at(individual_tax_returns_ids, 1),
@@ -1357,7 +1665,9 @@ defmodule Core.Seeder.Services do
         Enum.at(individual_tax_returns_ids, 3),
         Enum.at(individual_tax_returns_ids, 4),
         Enum.at(individual_tax_returns_ids, 5),
-        Enum.at(individual_tax_returns_ids, 6)
+        Enum.at(individual_tax_returns_ids, 6),
+        Enum.at(individual_tax_returns_ids, 7),
+        Enum.at(individual_tax_returns_ids, 8)
       }
 
       case Repo.aggregate(IndividualFilingStatus, :count, :id) > 0 do
@@ -1383,16 +1693,24 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%IndividualFilingStatus{
             individual_tax_return_id:     itr5,
-            name: random_name_filling_status(),
-            price:          Enum.random(1..99)
+            name: random_name_filling_status()
           }),
           Repo.insert!(%IndividualFilingStatus{
             individual_tax_return_id:     itr6,
+            name: random_name_filling_status()
+          }),
+          Repo.insert!(%IndividualFilingStatus{
+            individual_tax_return_id:     itr7,
             name: random_name_filling_status(),
             price:          Enum.random(1..99)
           }),
           Repo.insert!(%IndividualFilingStatus{
-            individual_tax_return_id:     itr7,
+            individual_tax_return_id:     itr8,
+            name: random_name_filling_status(),
+            price:          Enum.random(1..99)
+          }),
+          Repo.insert!(%IndividualFilingStatus{
+            individual_tax_return_id:     itr9,
             name: random_name_filling_status(),
             price:          Enum.random(1..99)
           })
@@ -1405,11 +1723,13 @@ defmodule Core.Seeder.Services do
     individual_tax_returns_ids =
       Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
 
-    {itr1, itr2, itr3} =
+    {itr1, itr2, itr3, itr4, itr5} =
       {
         Enum.at(individual_tax_returns_ids, 1),
         Enum.at(individual_tax_returns_ids, 2),
-        Enum.at(individual_tax_returns_ids, 3)
+        Enum.at(individual_tax_returns_ids, 3),
+        Enum.at(individual_tax_returns_ids, 4),
+        Enum.at(individual_tax_returns_ids, 5)
       }
 
     case Repo.aggregate(IndividualForeignAccountCount, :count, :id) > 0 do
@@ -1427,6 +1747,14 @@ defmodule Core.Seeder.Services do
           Repo.insert!(%IndividualForeignAccountCount{
             individual_tax_return_id: itr3,
             name:      random_name_count()
+          }),
+          Repo.insert!(%IndividualForeignAccountCount{
+            individual_tax_return_id: itr4,
+            name:      random_name_count()
+          }),
+          Repo.insert!(%IndividualForeignAccountCount{
+            individual_tax_return_id: itr5,
+            name:      random_name_count()
           })
         ]
     end
@@ -1437,7 +1765,7 @@ defmodule Core.Seeder.Services do
     individual_tax_returns_ids =
       Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
 
-    {itr1, itr2, itr3, itr4, itr5, itr6, itr7} =
+    {itr1, itr2, itr3, itr4, itr5, itr6, itr7, itr8, itr9} =
       {
         Enum.at(individual_tax_returns_ids, 0),
         Enum.at(individual_tax_returns_ids, 1),
@@ -1445,7 +1773,9 @@ defmodule Core.Seeder.Services do
         Enum.at(individual_tax_returns_ids, 3),
         Enum.at(individual_tax_returns_ids, 4),
         Enum.at(individual_tax_returns_ids, 5),
-        Enum.at(individual_tax_returns_ids, 6)
+        Enum.at(individual_tax_returns_ids, 6),
+        Enum.at(individual_tax_returns_ids, 7),
+        Enum.at(individual_tax_returns_ids, 8)
       }
 
     case Repo.aggregate(IndividualIndustry, :count, :id) > 0 do
@@ -1467,18 +1797,25 @@ defmodule Core.Seeder.Services do
           Repo.insert!(%IndividualIndustry{
             individual_tax_return_id:      itr4,
             name: random_name_for_tp_industry()
-
           }),
           Repo.insert!(%IndividualIndustry{
-            individual_tax_return_id:       itr5,
-            name: random_name_for_pro_industry()
+            individual_tax_return_id:      itr5,
+            name: random_name_for_tp_industry()
           }),
           Repo.insert!(%IndividualIndustry{
-            individual_tax_return_id:       itr6,
-            name: random_name_for_pro_industry()
+            individual_tax_return_id:      itr6,
+            name: random_name_for_tp_industry()
           }),
           Repo.insert!(%IndividualIndustry{
             individual_tax_return_id:       itr7,
+            name: random_name_for_pro_industry()
+          }),
+          Repo.insert!(%IndividualIndustry{
+            individual_tax_return_id:       itr8,
+            name: random_name_for_pro_industry()
+          }),
+          Repo.insert!(%IndividualIndustry{
+            individual_tax_return_id:       itr9,
             name: random_name_for_pro_industry()
           })
         ]
@@ -1490,7 +1827,7 @@ defmodule Core.Seeder.Services do
     individual_tax_returns_ids =
       Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
 
-    {itr1, itr2, itr3, itr4, itr5, itr6, itr7} =
+    {itr1, itr2, itr3, itr4, itr5, itr6, itr7, itr8, itr9} =
       {
         Enum.at(individual_tax_returns_ids, 0),
         Enum.at(individual_tax_returns_ids, 1),
@@ -1498,7 +1835,9 @@ defmodule Core.Seeder.Services do
         Enum.at(individual_tax_returns_ids, 3),
         Enum.at(individual_tax_returns_ids, 4),
         Enum.at(individual_tax_returns_ids, 5),
-        Enum.at(individual_tax_returns_ids, 6)
+        Enum.at(individual_tax_returns_ids, 6),
+        Enum.at(individual_tax_returns_ids, 7),
+        Enum.at(individual_tax_returns_ids, 8)
       }
 
     case Repo.aggregate(IndividualItemizedDeduction, :count, :id) > 0 do
@@ -1524,16 +1863,24 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%IndividualItemizedDeduction{
             individual_tax_return_id:         itr5,
-            name: random_name_itemized_deduction(),
-            price:              Enum.random(1..99)
+            name: random_name_itemized_deduction()
           }),
           Repo.insert!(%IndividualItemizedDeduction{
             individual_tax_return_id:         itr6,
+            name: random_name_itemized_deduction()
+          }),
+          Repo.insert!(%IndividualItemizedDeduction{
+            individual_tax_return_id:         itr7,
             name: random_name_itemized_deduction(),
             price:              Enum.random(1..99)
           }),
           Repo.insert!(%IndividualItemizedDeduction{
-            individual_tax_return_id:         itr7,
+            individual_tax_return_id:         itr8,
+            name: random_name_itemized_deduction(),
+            price:              Enum.random(1..99)
+          }),
+          Repo.insert!(%IndividualItemizedDeduction{
+            individual_tax_return_id:         itr9,
             name: random_name_itemized_deduction(),
             price:              Enum.random(1..99)
           })
@@ -1546,11 +1893,13 @@ defmodule Core.Seeder.Services do
     individual_tax_returns_ids =
       Enum.map(Repo.all(IndividualTaxReturn), fn(data) -> data.id end)
 
-    {itr1, itr2, itr3} =
+    {itr1, itr2, itr3, itr4, itr5} =
       {
         Enum.at(individual_tax_returns_ids, 1),
         Enum.at(individual_tax_returns_ids, 2),
-        Enum.at(individual_tax_returns_ids, 3)
+        Enum.at(individual_tax_returns_ids, 3),
+        Enum.at(individual_tax_returns_ids, 4),
+        Enum.at(individual_tax_returns_ids, 5)
       }
 
     case Repo.aggregate(IndividualStockTransactionCount, :count, :id) > 0 do
@@ -1568,6 +1917,14 @@ defmodule Core.Seeder.Services do
           Repo.insert!(%IndividualStockTransactionCount{
             individual_tax_return_id:              itr3,
             name: random_name_stock_transaction_count()
+          }),
+          Repo.insert!(%IndividualStockTransactionCount{
+            individual_tax_return_id:              itr4,
+            name: random_name_stock_transaction_count()
+          }),
+          Repo.insert!(%IndividualStockTransactionCount{
+            individual_tax_return_id:              itr5,
+            name: random_name_stock_transaction_count()
           })
         ]
     end
@@ -1578,14 +1935,16 @@ defmodule Core.Seeder.Services do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
-    {user, tp1, tp2, tp3, pro1, pro2, pro3} = {
+    {user, tp1, tp2, tp3, tp4, tp5, pro1, pro2, pro3} = {
       Enum.at(user_ids, 0),
       Enum.at(user_ids, 1),
       Enum.at(user_ids, 2),
       Enum.at(user_ids, 3),
       Enum.at(user_ids, 4),
       Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+      Enum.at(user_ids, 6),
+      Enum.at(user_ids, 7),
+      Enum.at(user_ids, 8)
     }
 
     case Repo.aggregate(SaleTax, :count, :id) > 0 do
@@ -1618,6 +1977,20 @@ defmodule Core.Seeder.Services do
             user_id:                           tp3
           }),
           Repo.insert!(%SaleTax{
+            deadline:             Date.utc_today(),
+            financial_situation:  Lorem.sentence(),
+            sale_tax_count:       random_integer(),
+            state:                  random_state(),
+            user_id:                           tp4
+          }),
+          Repo.insert!(%SaleTax{
+            deadline:             Date.utc_today(),
+            financial_situation:  Lorem.sentence(),
+            sale_tax_count:       random_integer(),
+            state:                  random_state(),
+            user_id:                           tp5
+          }),
+          Repo.insert!(%SaleTax{
             price_sale_tax_count: random_integer(),
             user_id:                          pro1
           }),
@@ -1638,7 +2011,7 @@ defmodule Core.Seeder.Services do
     sale_tax_ids =
       Enum.map(Repo.all(SaleTax), fn(data) -> data.id end)
 
-    {st1, st2, st3, st4, st5, st6, st7} =
+    {st1, st2, st3, st4, st5, st6, st7, st8, st9} =
       {
         Enum.at(sale_tax_ids, 0),
         Enum.at(sale_tax_ids, 1),
@@ -1646,7 +2019,9 @@ defmodule Core.Seeder.Services do
         Enum.at(sale_tax_ids, 3),
         Enum.at(sale_tax_ids, 4),
         Enum.at(sale_tax_ids, 5),
-        Enum.at(sale_tax_ids, 6)
+        Enum.at(sale_tax_ids, 6),
+        Enum.at(sale_tax_ids, 7),
+        Enum.at(sale_tax_ids, 8)
       }
 
     case Repo.aggregate(SaleTaxFrequency, :count, :id) > 0 do
@@ -1672,18 +2047,26 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%SaleTaxFrequency{
             name: random_name_tax_frequency(),
-            price:           random_integer(),
             sale_tax_id:                  st5
           }),
           Repo.insert!(%SaleTaxFrequency{
             name: random_name_tax_frequency(),
-            price:           random_integer(),
             sale_tax_id:                  st6
           }),
           Repo.insert!(%SaleTaxFrequency{
             name: random_name_tax_frequency(),
             price:           random_integer(),
             sale_tax_id:                  st7
+          }),
+          Repo.insert!(%SaleTaxFrequency{
+            name: random_name_tax_frequency(),
+            price:           random_integer(),
+            sale_tax_id:                  st8
+          }),
+          Repo.insert!(%SaleTaxFrequency{
+            name: random_name_tax_frequency(),
+            price:           random_integer(),
+            sale_tax_id:                  st9
           })
         ]
     end
@@ -1694,7 +2077,7 @@ defmodule Core.Seeder.Services do
     sale_tax_ids =
       Enum.map(Repo.all(SaleTax), fn(data) -> data.id end)
 
-    {st1, st2, st3, st4, st5, st6, st7} =
+    {st1, st2, st3, st4, st5, st6, st7, st8, st9} =
       {
         Enum.at(sale_tax_ids, 0),
         Enum.at(sale_tax_ids, 1),
@@ -1702,7 +2085,9 @@ defmodule Core.Seeder.Services do
         Enum.at(sale_tax_ids, 3),
         Enum.at(sale_tax_ids, 4),
         Enum.at(sale_tax_ids, 5),
-        Enum.at(sale_tax_ids, 6)
+        Enum.at(sale_tax_ids, 6),
+        Enum.at(sale_tax_ids, 7),
+        Enum.at(sale_tax_ids, 8)
       }
 
     case Repo.aggregate(SaleTaxIndustry, :count, :id) > 0 do
@@ -1725,18 +2110,25 @@ defmodule Core.Seeder.Services do
             name: random_name_for_tp_tax_industry(),
             sale_tax_id:                        st4
           }),
-
           Repo.insert!(%SaleTaxIndustry{
             name: random_name_for_tp_tax_industry(),
             sale_tax_id:                        st5
           }),
           Repo.insert!(%SaleTaxIndustry{
-            name: random_name_for_pro_tax_industry(),
-            sale_tax_id:                         st6
+            name: random_name_for_tp_tax_industry(),
+            sale_tax_id:                        st6
           }),
           Repo.insert!(%SaleTaxIndustry{
             name: random_name_for_pro_tax_industry(),
             sale_tax_id:                         st7
+          }),
+          Repo.insert!(%SaleTaxIndustry{
+            name: random_name_for_pro_tax_industry(),
+            sale_tax_id:                         st8
+          }),
+          Repo.insert!(%SaleTaxIndustry{
+            name: random_name_for_pro_tax_industry(),
+            sale_tax_id:                         st9
           })
         ]
     end

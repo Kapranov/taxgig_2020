@@ -76,9 +76,9 @@ defmodule Core.Seeder.Skills do
       user1, user2, user3, user4
     } = {
       Enum.at(user_ids, 0),
-      Enum.at(user_ids, 4),
-      Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+      Enum.at(user_ids, 6),
+      Enum.at(user_ids, 7),
+      Enum.at(user_ids, 8)
     }
 
     Repo.insert!(%AccountingSoftware{
@@ -108,9 +108,9 @@ defmodule Core.Seeder.Skills do
       user1, user2, user3, user4
     } = {
       Enum.at(user_ids, 0),
-      Enum.at(user_ids, 4),
-      Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+      Enum.at(user_ids, 6),
+      Enum.at(user_ids, 7),
+      Enum.at(user_ids, 8)
     }
 
     univer_ids =
@@ -164,9 +164,9 @@ defmodule Core.Seeder.Skills do
       user1, user2, user3, user4
     } = {
       Enum.at(user_ids, 0),
-      Enum.at(user_ids, 4),
-      Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+      Enum.at(user_ids, 6),
+      Enum.at(user_ids, 7),
+      Enum.at(user_ids, 8)
     }
 
     Repo.insert!(%WorkExperience{

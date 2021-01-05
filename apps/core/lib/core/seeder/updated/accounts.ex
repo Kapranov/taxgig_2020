@@ -37,9 +37,9 @@ defmodule Core.Seeder.Updated.Accounts do
       user2,
       user3
     } = {
-      Enum.at(user_ids, 1),
-      Enum.at(user_ids, 2),
-      Enum.at(user_ids, 5)
+      Enum.at(user_ids, 3),
+      Enum.at(user_ids, 4),
+      Enum.at(user_ids, 7)
     }
 
     [
@@ -103,7 +103,9 @@ defmodule Core.Seeder.Updated.Accounts do
       br4,
       br5,
       br6,
-      br7
+      br7,
+      br8,
+      br9
     } = {
       Enum.at(ban_reason_ids, 0),
       Enum.at(ban_reason_ids, 1),
@@ -111,7 +113,9 @@ defmodule Core.Seeder.Updated.Accounts do
       Enum.at(ban_reason_ids, 3),
       Enum.at(ban_reason_ids, 4),
       Enum.at(ban_reason_ids, 5),
-      Enum.at(ban_reason_ids, 6)
+      Enum.at(ban_reason_ids, 6),
+      Enum.at(ban_reason_ids, 7),
+      Enum.at(ban_reason_ids, 8),
     }
 
     [
@@ -149,6 +153,16 @@ defmodule Core.Seeder.Updated.Accounts do
         reasons: random_reasons(),
         other: random_boolean(),
         description: "updated some text"
+      }),
+      Accounts.update_ban_reason(br8, %{
+        reasons: random_reasons(),
+        other: random_boolean(),
+        description: "updated some text"
+      }),
+      Accounts.update_ban_reason(br9, %{
+        reasons: random_reasons(),
+        other: random_boolean(),
+        description: "updated some text"
       })
     ]
   end
@@ -164,7 +178,9 @@ defmodule Core.Seeder.Updated.Accounts do
       platform4,
       platform5,
       platform6,
-      platform7
+      platform7,
+      platform8,
+      platform9
     } = {
       Enum.at(platform_ids, 0),
       Enum.at(platform_ids, 1),
@@ -172,7 +188,9 @@ defmodule Core.Seeder.Updated.Accounts do
       Enum.at(platform_ids, 3),
       Enum.at(platform_ids, 4),
       Enum.at(platform_ids, 5),
-      Enum.at(platform_ids, 6)
+      Enum.at(platform_ids, 6),
+      Enum.at(platform_ids, 7),
+      Enum.at(platform_ids, 8)
     }
 
     [
@@ -245,6 +263,26 @@ defmodule Core.Seeder.Updated.Accounts do
         is_stuck: random_boolean(),
         payment_active: random_boolean(),
         stuck_stage: random_stuck_stage()
+      }),
+      Accounts.update_platform(platform8, %{
+        client_limit_reach: random_boolean(),
+        hero_active: random_boolean(),
+        hero_status: random_boolean(),
+        is_banned: random_boolean(),
+        is_online: random_boolean(),
+        is_stuck: random_boolean(),
+        payment_active: random_boolean(),
+        stuck_stage: random_stuck_stage()
+      }),
+      Accounts.update_platform(platform9, %{
+        client_limit_reach: random_boolean(),
+        hero_active: random_boolean(),
+        hero_status: random_boolean(),
+        is_banned: random_boolean(),
+        is_online: random_boolean(),
+        is_stuck: random_boolean(),
+        payment_active: random_boolean(),
+        stuck_stage: random_stuck_stage()
       })
     ]
   end
@@ -296,7 +334,9 @@ defmodule Core.Seeder.Updated.Accounts do
       deleted4,
       deleted5,
       deleted6,
-      deleted7
+      deleted7,
+      deleted8,
+      deleted9
     } = {
       Enum.at(deleted_user_ids, 0),
       Enum.at(deleted_user_ids, 1),
@@ -304,7 +344,9 @@ defmodule Core.Seeder.Updated.Accounts do
       Enum.at(deleted_user_ids, 3),
       Enum.at(deleted_user_ids, 4),
       Enum.at(deleted_user_ids, 5),
-      Enum.at(deleted_user_ids, 6)
+      Enum.at(deleted_user_ids, 6),
+      Enum.at(deleted_user_ids, 7),
+      Enum.at(deleted_user_ids, 8)
     }
 
     [
@@ -314,7 +356,9 @@ defmodule Core.Seeder.Updated.Accounts do
       Accounts.update_deleted_user(deleted4, %{reason: random_reason()}),
       Accounts.update_deleted_user(deleted5, %{reason: random_reason()}),
       Accounts.update_deleted_user(deleted6, %{reason: random_reason()}),
-      Accounts.update_deleted_user(deleted7, %{reason: random_reason()})
+      Accounts.update_deleted_user(deleted7, %{reason: random_reason()}),
+      Accounts.update_deleted_user(deleted8, %{reason: random_reason()}),
+      Accounts.update_deleted_user(deleted9, %{reason: random_reason()})
     ]
   end
 

@@ -4,7 +4,6 @@ defmodule Core.Seeder.Updated.Contracts do
   """
 
   alias Core.{
-    Accounts.User,
     Contracts,
     Contracts.Addon,
     Contracts.Offer,
@@ -171,7 +170,13 @@ defmodule Core.Seeder.Updated.Contracts do
       srv6,
       srv7,
       srv8,
-      srv9
+      srv9,
+      srv10,
+      srv11,
+      srv12,
+      srv13,
+      srv14,
+      srv15
     } = {
       Enum.at(service_review_ids, 0),
       Enum.at(service_review_ids, 1),
@@ -181,7 +186,13 @@ defmodule Core.Seeder.Updated.Contracts do
       Enum.at(service_review_ids, 5),
       Enum.at(service_review_ids, 6),
       Enum.at(service_review_ids, 7),
-      Enum.at(service_review_ids, 8)
+      Enum.at(service_review_ids, 8),
+      Enum.at(service_review_ids, 9),
+      Enum.at(service_review_ids, 10),
+      Enum.at(service_review_ids, 11),
+      Enum.at(service_review_ids, 12),
+      Enum.at(service_review_ids, 13),
+      Enum.at(service_review_ids, 14)
     }
 
     [
@@ -247,16 +258,54 @@ defmodule Core.Seeder.Updated.Contracts do
         final_rating: random_integer(),
         professionalism: random_integer(),
         work_quality: random_integer()
+      }),
+      Contracts.update_service_review(srv10, %{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_integer(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
+      }),
+      Contracts.update_service_review(srv11, %{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_integer(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
+      }),
+      Contracts.update_service_review(srv12, %{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_integer(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
+      }),
+      Contracts.update_service_review(srv13, %{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_integer(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
+      }),
+      Contracts.update_service_review(srv14, %{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_integer(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
+      }),
+      Contracts.update_service_review(srv15, %{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_integer(),
+        professionalism: random_integer(),
+        work_quality: random_integer()
       })
     ]
   end
 
   @spec update_project() :: Ecto.Schema.t()
   defp update_project do
-    %User{id: pro1} = Repo.get_by(User, %{email: "support@taxgig.com"})
-    %User{id: pro2} = Repo.get_by(User, %{email: "vk@taxgig.com"})
-    %User{id: pro3} = Repo.get_by(User, %{email: "op@taxgig.com"})
-
     project_ids = Enum.map(Repo.all(Project), fn(data) -> data end)
 
     {
@@ -268,7 +317,13 @@ defmodule Core.Seeder.Updated.Contracts do
       project6,
       project7,
       project8,
-      project9
+      project9,
+      project10,
+      project11,
+      project12,
+      project13,
+      project14,
+      project15
     } = {
       Enum.at(project_ids, 0),
       Enum.at(project_ids, 1),
@@ -278,98 +333,104 @@ defmodule Core.Seeder.Updated.Contracts do
       Enum.at(project_ids, 5),
       Enum.at(project_ids, 6),
       Enum.at(project_ids, 7),
-      Enum.at(project_ids, 8)
+      Enum.at(project_ids, 8),
+      Enum.at(project_ids, 9),
+      Enum.at(project_ids, 10),
+      Enum.at(project_ids, 11),
+      Enum.at(project_ids, 12),
+      Enum.at(project_ids, 13),
+      Enum.at(project_ids, 14)
     }
 
     [
       Contracts.update_project(project1, %{
-        addon_price: random_integer(),
-        assigned_id: pro2,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HGMdsre2yNYS1KlMqTP7Hkw",
-        id_from_stripe_transfer: "tr_1HFksnldFHW3Alzp8qtrMkub",
+        id_from_stripe_card: "card_1HGMdsre2yNYS1KlMqTP7HHH",
+        id_from_stripe_transfer: "tr_1HFksnldFHW3Alzp8qtrMHHH",
         instant_matched: random_boolean(),
-        offer_price: random_float(),
         status: random_project_status()
       }),
       Contracts.update_project(project2, %{
-        addon_price: random_integer(),
-        assigned_id: pro3,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HKawbxc7sFA9kmL4DFwmc91",
-        id_from_stripe_transfer: "tr_1HALhdvNQlF1M7HyrpAZ6oGM",
+        id_from_stripe_card: "card_1HKawbxc7sFA9kmL4DFwm999",
+        id_from_stripe_transfer: "tr_1HALhdvNQlF1M7HyrpAZ6GGG",
         instant_matched: random_boolean(),
-        offer_price: random_float(),
         status: random_project_status()
       }),
       Contracts.update_project(project3, %{
-        addon_price: random_integer(),
-        assigned_id: pro1,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HRdjqwMv6AD8CxzLq5htRV7",
-        id_from_stripe_transfer: "tr_1HAQmkdvbzas7wE2tR6MA8B9",
+        id_from_stripe_card: "card_1HRdjqwMv6AD8CxzLq5ht777",
+        id_from_stripe_transfer: "tr_1HAQmkdvbzas7wE2tR6MABBB",
         instant_matched: random_boolean(),
-        offer_price: random_float(),
         status: random_project_status()
       }),
       Contracts.update_project(project4, %{
-        addon_price: random_integer(),
-        assigned_id: pro2,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HIKf6DQwe3NZ0JklMAS5qhT",
-        id_from_stripe_transfer: "tr_1HABkqWel7CvsazKLA8GO3Jm",
+        id_from_stripe_card: "card_1HIKf6DQwe3NZ0JklMAS5QQQ",
+        id_from_stripe_transfer: "tr_1HABkqWel7CvsazKLA8GO333",
         instant_matched: random_boolean(),
-        offer_price: random_float(),
         status: random_project_status()
       }),
       Contracts.update_project(project5, %{
-        addon_price: random_integer(),
-        assigned_id: pro3,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HCD5sDQlm7Cxs9Afbzyt4Mw",
-        id_from_stripe_transfer: "tr_1HLdf5AlMCV4qwErxt7JAqVi",
+        id_from_stripe_card: "card_1HCD5sDQlm7Cxs9AfbzytMMM",
+        id_from_stripe_transfer: "tr_1HLdf5AlMCV4qwErxt7JAVVV",
         instant_matched: random_boolean(),
-        offer_price: random_float(),
         status: random_project_status()
       }),
       Contracts.update_project(project6, %{
-        addon_price: random_integer(),
-        assigned_id: pro1,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HV5Dgqxcd8DF3mSA7Nfkeq1",
-        id_from_stripe_transfer: "tr_1HW4Gawqlor6NrQwe0ndf751",
+        id_from_stripe_card: "card_1HV5Dgqxcd8DF3mSA7NfkEEE",
+        id_from_stripe_transfer: "tr_1HW4Gawqlor6NrQwe0ndf555",
         instant_matched: random_boolean(),
-        offer_price: random_float(),
         status: random_project_status()
       }),
       Contracts.update_project(project7, %{
-        addon_price: random_integer(),
-        assigned_id: pro2,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HChtqwe4VnBaZX6Lkqwe1Ju",
-        id_from_stripe_transfer: "tr_1HF3jKqWvam8Su1KM7DrAlz9",
+        id_from_stripe_card: "card_1HChtqwe4VnBaZX6LkqweJJJ",
+        id_from_stripe_transfer: "tr_1HF3jKqWvam8Su1KM7DrAZZZ",
         instant_matched: random_boolean(),
-        offer_price: random_float(),
         status: random_project_status()
       }),
       Contracts.update_project(project8, %{
-        addon_price: random_integer(),
-        assigned_id: pro3,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HT6kisrtNX3pO5hQmavNXzP",
-        id_from_stripe_transfer: "tr_1HX9kquTr0FM2Csqp9MJaYLg",
+        id_from_stripe_card: "card_1HT6kisrtNX3pO5hQmavNZZZ",
+        id_from_stripe_transfer: "tr_1HX9kquTr0FM2Csqp9MJaLLL",
         instant_matched: random_boolean(),
-        offer_price: random_float(),
         status: random_project_status()
       }),
       Contracts.update_project(project9, %{
-        addon_price: random_integer(),
-        assigned_id: pro1,
-        end_time: Date.utc_today(),
-        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
-        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9TTT",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaXIII",
         instant_matched: random_boolean(),
-        offer_price: random_float(),
+        status: random_project_status()
+      }),
+      Contracts.update_project(project10, %{
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9FFF",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaXSSS",
+        instant_matched: random_boolean(),
+        status: random_project_status()
+      }),
+      Contracts.update_project(project11, %{
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9WWW",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaXNNN",
+        instant_matched: random_boolean(),
+        status: random_project_status()
+      }),
+      Contracts.update_project(project12, %{
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9DDD",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX222",
+        instant_matched: random_boolean(),
+        status: random_project_status()
+      }),
+      Contracts.update_project(project13, %{
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9777",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX999",
+        instant_matched: random_boolean(),
+        status: random_project_status()
+      }),
+      Contracts.update_project(project14, %{
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9000",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX111",
+        instant_matched: random_boolean(),
+        status: random_project_status()
+      }),
+      Contracts.update_project(project15, %{
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9333",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX888",
+        instant_matched: random_boolean(),
         status: random_project_status()
       })
     ]

@@ -85,10 +85,12 @@ defmodule Core.Seeder.Contracts do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
-    {tp1, tp2, tp3} = {
+    {tp1, tp2, tp3, tp4, tp5} = {
       Enum.at(user_ids, 1),
       Enum.at(user_ids, 2),
-      Enum.at(user_ids, 3)
+      Enum.at(user_ids, 3),
+      Enum.at(user_ids, 4),
+      Enum.at(user_ids, 5)
     }
 
     [
@@ -162,6 +164,54 @@ defmodule Core.Seeder.Contracts do
         final_rating: random_integer(),
         professionalism: random_integer(),
         user_id: tp3,
+        work_quality: random_integer()
+      }),
+      Repo.insert!(%ServiceReview{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_integer(),
+        professionalism: random_integer(),
+        user_id: tp4,
+        work_quality: random_integer()
+      }),
+      Repo.insert!(%ServiceReview{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_integer(),
+        professionalism: random_integer(),
+        user_id: tp4,
+        work_quality: random_integer()
+      }),
+      Repo.insert!(%ServiceReview{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_integer(),
+        professionalism: random_integer(),
+        user_id: tp4,
+        work_quality: random_integer()
+      }),
+      Repo.insert!(%ServiceReview{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_integer(),
+        professionalism: random_integer(),
+        user_id: tp5,
+        work_quality: random_integer()
+      }),
+      Repo.insert!(%ServiceReview{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_integer(),
+        professionalism: random_integer(),
+        user_id: tp5,
+        work_quality: random_integer()
+      }),
+      Repo.insert!(%ServiceReview{
+        client_comment: Lorem.sentence(),
+        communication: random_integer(),
+        final_rating: random_integer(),
+        professionalism: random_integer(),
+        user_id: tp5,
         work_quality: random_integer()
       })
     ]
@@ -172,19 +222,18 @@ defmodule Core.Seeder.Contracts do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
-    {tp1, tp2, tp3, pro1, pro2, pro3} = {
+    {tp1, tp2, tp3, tp4, tp5} = {
       Enum.at(user_ids, 1),
       Enum.at(user_ids, 2),
       Enum.at(user_ids, 3),
       Enum.at(user_ids, 4),
-      Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+      Enum.at(user_ids, 5)
     }
 
     service_review_ids =
       Enum.map(Repo.all(ServiceReview), fn(data) -> data.id end)
 
-    {srv1, srv2, srv3, srv4, srv5, srv6, srv7, srv8, srv9} = {
+    {srv1, srv2, srv3, srv4, srv5, srv6, srv7, srv8, srv9, srv10, srv11, srv12, srv13, srv14, srv15} = {
       Enum.at(service_review_ids, 0),
       Enum.at(service_review_ids, 1),
       Enum.at(service_review_ids, 2),
@@ -193,132 +242,109 @@ defmodule Core.Seeder.Contracts do
       Enum.at(service_review_ids, 5),
       Enum.at(service_review_ids, 6),
       Enum.at(service_review_ids, 7),
-      Enum.at(service_review_ids, 8)
+      Enum.at(service_review_ids, 8),
+      Enum.at(service_review_ids, 9),
+      Enum.at(service_review_ids, 10),
+      Enum.at(service_review_ids, 11),
+      Enum.at(service_review_ids, 12),
+      Enum.at(service_review_ids, 13),
+      Enum.at(service_review_ids, 14)
     }
 
     tp1_book_keeping = Repo.get_by(BookKeeping, %{user_id: tp1})
     tp2_book_keeping = Repo.get_by(BookKeeping, %{user_id: tp2})
+    tp4_book_keeping = Repo.get_by(BookKeeping, %{user_id: tp4})
+    tp5_book_keeping = Repo.get_by(BookKeeping, %{user_id: tp5})
 
     tp1_business_tax_return = Repo.get_by(BusinessTaxReturn, %{user_id: tp1})
     tp2_business_tax_return = Repo.get_by(BusinessTaxReturn, %{user_id: tp2})
     tp3_business_tax_return = Repo.get_by(BusinessTaxReturn, %{user_id: tp3})
+    tp5_business_tax_return = Repo.get_by(BusinessTaxReturn, %{user_id: tp5})
 
     tp1_individual_tax_return = Repo.get_by(IndividualTaxReturn, %{user_id: tp1})
     tp3_individual_tax_return = Repo.get_by(IndividualTaxReturn, %{user_id: tp3})
+    tp4_individual_tax_return = Repo.get_by(IndividualTaxReturn, %{user_id: tp4})
 
     tp2_sale_tax = Repo.get_by(SaleTax, %{user_id: tp2})
     tp3_sale_tax = Repo.get_by(SaleTax, %{user_id: tp3})
+    tp4_sale_tax = Repo.get_by(SaleTax, %{user_id: tp4})
+    tp5_sale_tax = Repo.get_by(SaleTax, %{user_id: tp5})
 
     [
       Contracts.create_project(%{
-        addon_price: random_integer(),
-        assigned_id: pro1,
         book_keeping_id: tp1_book_keeping.id,
-        end_time: Date.utc_today(),
         id_from_stripe_card: "card_1HGMdsre2yNYS1KlMqTP7Hkw",
         id_from_stripe_transfer: "tr_1HFksnldFHW3Alzp8qtrMkub",
         instant_matched: random_boolean(),
-        offer_price: random_float(),
         service_review_id: srv1,
         status: random_project_status(),
         user_id: tp1
       }),
       Contracts.create_project(%{
-        addon_price: random_integer(),
-        assigned_id: pro2,
         business_tax_return_id: tp1_business_tax_return.id,
-        end_time: Date.utc_today(),
         id_from_stripe_card: "card_1HKawbxc7sFA9kmL4DFwmc91",
         id_from_stripe_transfer: "tr_1HALhdvNQlF1M7HyrpAZ6oGM",
         instant_matched: random_boolean(),
-        offer_price: random_float(),
         service_review_id: srv2,
         status: random_project_status(),
         user_id: tp1
       }),
       Contracts.create_project(%{
-        addon_price: random_integer(),
-        assigned_id: pro3,
-        end_time: Date.utc_today(),
         id_from_stripe_card: "card_1HRdjqwMv6AD8CxzLq5htRV7",
         id_from_stripe_transfer: "tr_1HAQmkdvbzas7wE2tR6MA8B9",
         individual_tax_return_id: tp1_individual_tax_return.id,
         instant_matched: random_boolean(),
-        offer_price: random_float(),
         service_review_id: srv3,
         status: random_project_status(),
         user_id: tp1
       }),
       Contracts.create_project(%{
-        addon_price: random_integer(),
-        assigned_id: pro1,
-        end_time: Date.utc_today(),
         id_from_stripe_card: "card_1HIKf6DQwe3NZ0JklMAS5qhT",
         id_from_stripe_transfer: "tr_1HABkqWel7CvsazKLA8GO3Jm",
         instant_matched: random_boolean(),
-        offer_price: random_float(),
         sale_tax_id: tp2_sale_tax.id,
         service_review_id: srv4,
         status: random_project_status(),
         user_id: tp2
       }),
       Contracts.create_project(%{
-        addon_price: random_integer(),
-        assigned_id: pro2,
         book_keeping_id: tp2_book_keeping.id,
-        end_time: Date.utc_today(),
         id_from_stripe_card: "card_1HCD5sDQlm7Cxs9Afbzyt4Mw",
         id_from_stripe_transfer: "tr_1HLdf5AlMCV4qwErxt7JAqVi",
         instant_matched: random_boolean(),
-        offer_price: random_float(),
         service_review_id: srv5,
         status: random_project_status(),
         user_id: tp2
       }),
       Contracts.create_project(%{
-        addon_price: random_integer(),
-        assigned_id: pro3,
         business_tax_return_id: tp2_business_tax_return.id,
-        end_time: Date.utc_today(),
         id_from_stripe_card: "card_1HV5Dgqxcd8DF3mSA7Nfkeq1",
         id_from_stripe_transfer: "tr_1HW4Gawqlor6NrQwe0ndf751",
         instant_matched: random_boolean(),
-        offer_price: random_float(),
         service_review_id: srv6,
         status: random_project_status(),
         user_id: tp2
       }),
       Contracts.create_project(%{
-        addon_price: random_integer(),
-        assigned_id: pro1,
-        end_time: Date.utc_today(),
         id_from_stripe_card: "card_1HChtqwe4VnBaZX6Lkqwe1Ju",
         id_from_stripe_transfer: "tr_1HF3jKqWvam8Su1KM7DrAlz9",
         individual_tax_return_id: tp3_individual_tax_return.id,
         instant_matched: random_boolean(),
-        offer_price: random_integer(),
         service_review_id: srv7,
         status: random_project_status(),
         user_id: tp3
       }),
       Contracts.create_project(%{
-        addon_price: random_integer(),
-        assigned_id: pro2,
-        end_time: Date.utc_today(),
         id_from_stripe_card: "card_1HT6kisrtNX3pO5hQmavNXzP",
         id_from_stripe_transfer: "tr_1HX9kquTr0FM2Csqp9MJaYLg",
         instant_matched: random_boolean(),
-        offer_price: random_float(),
         sale_tax_id: tp3_sale_tax.id,
         service_review_id: srv8,
         status: random_project_status(),
         user_id: tp3
       }),
       Contracts.create_project(%{
-        addon_price: random_integer(),
-        assigned_id: pro3,
         business_tax_return_id: tp3_business_tax_return.id,
-        end_time: Date.utc_today(),
         id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
         instant_matched: random_boolean(),
@@ -326,6 +352,60 @@ defmodule Core.Seeder.Contracts do
         service_review_id: srv9,
         status: random_project_status(),
         user_id: tp3
+      }),
+      Contracts.create_project(%{
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
+        individual_tax_return_id: tp4_individual_tax_return.id,
+        instant_matched: random_boolean(),
+        service_review_id: srv10,
+        status: random_project_status(),
+        user_id: tp4
+      }),
+      Contracts.create_project(%{
+        book_keeping_id: tp4_book_keeping.id,
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
+        instant_matched: random_boolean(),
+        service_review_id: srv11,
+        status: random_project_status(),
+        user_id: tp4
+      }),
+      Contracts.create_project(%{
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
+        instant_matched: random_boolean(),
+        sale_tax_id: tp4_sale_tax.id,
+        service_review_id: srv12,
+        status: random_project_status(),
+        user_id: tp4
+      }),
+      Contracts.create_project(%{
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
+        instant_matched: random_boolean(),
+        sale_tax_id: tp5_sale_tax.id,
+        service_review_id: srv13,
+        status: random_project_status(),
+        user_id: tp5
+      }),
+      Contracts.create_project(%{
+        business_tax_return_id: tp5_business_tax_return.id,
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
+        instant_matched: random_boolean(),
+        service_review_id: srv14,
+        status: random_project_status(),
+        user_id: tp5
+      }),
+      Contracts.create_project(%{
+        book_keeping_id: tp5_book_keeping.id,
+        id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
+        id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
+        instant_matched: random_boolean(),
+        service_review_id: srv15,
+        status: random_project_status(),
+        user_id: tp5
       })
     ]
   end
@@ -336,9 +416,9 @@ defmodule Core.Seeder.Contracts do
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
     {pro1, pro2, pro3} = {
-      Enum.at(user_ids, 4),
-      Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+      Enum.at(user_ids, 6),
+      Enum.at(user_ids, 7),
+      Enum.at(user_ids, 8)
     }
 
     project_ids =
@@ -366,9 +446,9 @@ defmodule Core.Seeder.Contracts do
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
     {pro1, pro2, pro3} = {
-      Enum.at(user_ids, 4),
-      Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+      Enum.at(user_ids, 6),
+      Enum.at(user_ids, 7),
+      Enum.at(user_ids, 8)
     }
 
     project_ids =
@@ -460,9 +540,9 @@ defmodule Core.Seeder.Contracts do
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
     {pro1, pro2, pro3} = {
-      Enum.at(user_ids, 4),
-      Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+      Enum.at(user_ids, 6),
+      Enum.at(user_ids, 7),
+      Enum.at(user_ids, 8)
     }
 
     project_ids =

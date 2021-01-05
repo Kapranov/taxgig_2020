@@ -63,9 +63,9 @@ defmodule Core.Seeder.Media do
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
     {pro1, pro2, pro3} = {
-      Enum.at(user_ids, 4),
-      Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+      Enum.at(user_ids, 6),
+      Enum.at(user_ids, 7),
+      Enum.at(user_ids, 8)
     }
 
     project_ids =
@@ -101,7 +101,10 @@ defmodule Core.Seeder.Media do
     project_ids =
       Enum.map(Repo.all(Project), fn(data) -> data.id end)
 
-    {prj1, prj2, prj3, prj4, prj5, prj6, prj7, prj8, prj9} = {
+    {
+      prj1, prj2, prj3, prj4, prj5, prj6, prj7, prj8,
+      prj9, prj10, prj11, prj12, prj13, prj14, prj15
+    } = {
       Enum.at(project_ids, 0),
       Enum.at(project_ids, 1),
       Enum.at(project_ids, 2),
@@ -112,7 +115,15 @@ defmodule Core.Seeder.Media do
 
       Enum.at(project_ids, 6),
       Enum.at(project_ids, 7),
-      Enum.at(project_ids, 8)
+      Enum.at(project_ids, 8),
+
+      Enum.at(project_ids, 9),
+      Enum.at(project_ids, 10),
+      Enum.at(project_ids, 11),
+
+      Enum.at(project_ids, 12),
+      Enum.at(project_ids, 13),
+      Enum.at(project_ids, 14)
     }
 
     [
@@ -168,6 +179,42 @@ defmodule Core.Seeder.Media do
         access_granted: random_boolean(),
         category: random_category(),
         project_id: prj9,
+        signed_by_tp: random_boolean()
+      }),
+      Repo.insert!(%TpDoc{
+        access_granted: random_boolean(),
+        category: random_category(),
+        project_id: prj10,
+        signed_by_tp: random_boolean()
+      }),
+      Repo.insert!(%TpDoc{
+        access_granted: random_boolean(),
+        category: random_category(),
+        project_id: prj11,
+        signed_by_tp: random_boolean()
+      }),
+      Repo.insert!(%TpDoc{
+        access_granted: random_boolean(),
+        category: random_category(),
+        project_id: prj12,
+        signed_by_tp: random_boolean()
+      }),
+      Repo.insert!(%TpDoc{
+        access_granted: random_boolean(),
+        category: random_category(),
+        project_id: prj13,
+        signed_by_tp: random_boolean()
+      }),
+      Repo.insert!(%TpDoc{
+        access_granted: random_boolean(),
+        category: random_category(),
+        project_id: prj14,
+        signed_by_tp: random_boolean()
+      }),
+      Repo.insert!(%TpDoc{
+        access_granted: random_boolean(),
+        category: random_category(),
+        project_id: prj15,
         signed_by_tp: random_boolean()
       })
     ]

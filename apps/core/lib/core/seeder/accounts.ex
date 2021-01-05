@@ -354,13 +354,13 @@ defmodule Core.Seeder.Accounts do
       Accounts.create_multi_user(%{
         email: "lugatex@yahoo.com",
         password: "qwerty",
-        password_confirmation: "qwerty"
+        password_confirmation: "qwerty",
+        role: true
       }),
       Accounts.create_multi_user(%{
         email: "kapranov.lugatex@gmail.com",
         password: "qwerty",
         password_confirmation: "qwerty",
-        role: true
       }),
       Accounts.create_multi_user(%{
         email: "kapranov.pure@gmail.com",
@@ -408,14 +408,16 @@ defmodule Core.Seeder.Accounts do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
-    {user, tp1, tp2, tp3, pro1, pro2, pro3} = {
+    {user, tp1, tp2, tp3, tp4, tp5, pro1, pro2, pro3} = {
       Enum.at(user_ids, 0),
       Enum.at(user_ids, 1),
       Enum.at(user_ids, 2),
       Enum.at(user_ids, 3),
       Enum.at(user_ids, 4),
       Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+      Enum.at(user_ids, 6),
+      Enum.at(user_ids, 7),
+      Enum.at(user_ids, 8)
     }
 
     [
@@ -472,6 +474,28 @@ defmodule Core.Seeder.Accounts do
         is_stuck: random_boolean(),
         payment_active: random_boolean(),
         stuck_stage: random_stuck_stage(),
+        user_id: tp4
+      }),
+      Accounts.create_platform(%{
+        client_limit_reach: random_boolean(),
+        hero_active: random_boolean(),
+        hero_status: random_boolean(),
+        is_banned: random_boolean(),
+        is_online: random_boolean(),
+        is_stuck: random_boolean(),
+        payment_active: random_boolean(),
+        stuck_stage: random_stuck_stage(),
+        user_id: tp5
+      }),
+      Accounts.create_platform(%{
+        client_limit_reach: random_boolean(),
+        hero_active: random_boolean(),
+        hero_status: random_boolean(),
+        is_banned: random_boolean(),
+        is_online: random_boolean(),
+        is_stuck: random_boolean(),
+        payment_active: random_boolean(),
+        stuck_stage: random_stuck_stage(),
         user_id: pro1
       }),
       Accounts.create_platform(%{
@@ -511,7 +535,9 @@ defmodule Core.Seeder.Accounts do
       platform4,
       platform5,
       platform6,
-      platform7
+      platform7,
+      platform8,
+      platform9
     } = {
       Enum.at(platform_ids, 0),
       Enum.at(platform_ids, 1),
@@ -519,7 +545,9 @@ defmodule Core.Seeder.Accounts do
       Enum.at(platform_ids, 3),
       Enum.at(platform_ids, 4),
       Enum.at(platform_ids, 5),
-      Enum.at(platform_ids, 6)
+      Enum.at(platform_ids, 6),
+      Enum.at(platform_ids, 7),
+      Enum.at(platform_ids, 8)
     }
 
     admin = Repo.get_by(User, %{email: "lugatex@yahoo.com"})
@@ -573,6 +601,20 @@ defmodule Core.Seeder.Accounts do
         reasons: random_reasons(),
         platform_id: platform7,
         user_id: admin.id
+      }),
+      Accounts.create_ban_reason(%{
+        description: "some text",
+        other: random_boolean(),
+        reasons: random_reasons(),
+        platform_id: platform8,
+        user_id: admin.id
+      }),
+      Accounts.create_ban_reason(%{
+        description: "some text",
+        other: random_boolean(),
+        reasons: random_reasons(),
+        platform_id: platform9,
+        user_id: admin.id
       })
     ]
   end
@@ -583,9 +625,9 @@ defmodule Core.Seeder.Accounts do
       Enum.map(Repo.all(User), fn(data) -> data.id end)
 
     {pro1, pro2, pro3} = {
-      Enum.at(user_ids, 4),
-      Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+      Enum.at(user_ids, 6),
+      Enum.at(user_ids, 7),
+      Enum.at(user_ids, 8)
     }
 
     [
@@ -618,14 +660,16 @@ defmodule Core.Seeder.Accounts do
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data end)
 
-    {user, tp1, tp2, tp3, pro1, pro2, pro3} = {
+    {user, tp1, tp2, tp3, tp4, tp5, pro1, pro2, pro3} = {
       Enum.at(user_ids, 0),
       Enum.at(user_ids, 1),
       Enum.at(user_ids, 2),
       Enum.at(user_ids, 3),
       Enum.at(user_ids, 4),
       Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
+      Enum.at(user_ids, 6),
+      Enum.at(user_ids, 7),
+      Enum.at(user_ids, 8)
     }
 
     [
@@ -652,6 +696,18 @@ defmodule Core.Seeder.Accounts do
         reason: random_reason(),
         role:          tp3.role,
         user_id:         tp3.id
+      }),
+      Repo.insert!(%DeletedUser{
+        email:        tp4.email,
+        reason: random_reason(),
+        role:          tp4.role,
+        user_id:         tp4.id
+      }),
+      Repo.insert!(%DeletedUser{
+        email:        tp5.email,
+        reason: random_reason(),
+        role:          tp5.role,
+        user_id:         tp5.id
       }),
       Repo.insert!(%DeletedUser{
         email:       pro1.email,

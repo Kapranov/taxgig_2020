@@ -398,8 +398,12 @@ defmodule Core.Queries do
   @spec max_match(atom, list) :: %{user_id: String.t()} | [tuple]
   def max_match(service, data), do: check_hero_status(service, data)
   defp check_hero_status(service, [h|t]) do
-    data = by_match(service, Platform, :id, :user_id, elem(h, 0))
-    if elem(data, 1) == true, do: %{user_id: elem(data, 0)}, else: check_hero_status(service, t)
+    try do
+      data = by_match(service, Platform, :id, :user_id, elem(h, 0))
+      if elem(data, 1) == true, do: %{user_id: elem(data, 0)}, else: check_hero_status(service, t)
+    rescue
+      ArgumentError -> check_hero_status(service, t)
+    end
   end
   defp check_hero_status(_service, []), do: by_hero_status(User, Platform, true, :role, :id, :user_id, :hero_status, :email)
 
