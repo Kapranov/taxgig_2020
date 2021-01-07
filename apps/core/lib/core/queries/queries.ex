@@ -7,6 +7,7 @@ defmodule Core.Queries do
 
   alias Core.{
     Accounts.Platform,
+    Accounts.ProRating,
     Accounts.User,
     Analyzes,
     Repo,
@@ -45,6 +46,31 @@ defmodule Core.Queries do
     q = from r in MatchValueRelate, select: {field(r, ^row)}
     [{data}] = Repo.all(q)
     data
+  end
+
+  @doc """
+  ## Example
+
+      iex> struct = Core.Accounts.ProRating
+      iex> row_a = :user_id
+      iex> roe_b = :average_rating
+      iex> id  = FlakeId.get()
+      iex> by_pro_rating(struct, row_a, row_b, id)
+      iex> [FlakeId.get()]
+
+  """
+  @spec by_pro_rating(map, atom, atom, String.t()) :: [String.t()] | nil
+  def by_pro_rating(struct, row_a, row_b, id) do
+    try do
+      Repo.one(
+        from c in struct,
+        where: field(c, ^row_a) == ^id,
+        where: not is_nil(field(c, ^row_b)),
+        select: {field(c, ^row_a), field(c, ^row_b)}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
   end
 
   @doc """
@@ -132,6 +158,22 @@ defmodule Core.Queries do
         where: not is_nil(field(c, ^row_b)),
         where: fragment("? @> ?", field(c, ^row_b), ^name),
         select: {cu.id}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @spec by_hero_active(map, map, atom, atom, String.t()) :: {String.t(), boolean} | nil
+  def by_hero_active(struct_a, struct_b, row_a, row_b, id) do
+    try do
+      Repo.one(
+        from c in struct_a,
+        join: ct in ^struct_b,
+        where: field(c, ^row_a) == ^id,
+        where: field(ct, ^row_b) == field(c, ^row_b),
+        where: ct.hero_active == true,
+        select: c.user_id
       )
     rescue
       Ecto.Query.CastError -> nil
@@ -396,16 +438,52 @@ defmodule Core.Queries do
       %{user_id: FlakeId.get()}
   """
   @spec max_match(atom, list) :: %{user_id: String.t()} | [tuple]
-  def max_match(service, data), do: check_hero_status(service, data)
-  defp check_hero_status(service, [h|t]) do
+  def max_match(service, data), do: status(service, data)
+  defp status(service, [h|t]) do
     try do
       data = by_match(service, Platform, :id, :user_id, elem(h, 0))
-      if elem(data, 1) == true, do: %{user_id: elem(data, 0)}, else: check_hero_status(service, t)
+      if elem(data, 1) == true, do: %{user_id: elem(data, 0)}, else: status(service, t)
     rescue
-      ArgumentError -> check_hero_status(service, t)
+      ArgumentError -> status(service, t)
     end
   end
-  defp check_hero_status(_service, []), do: by_hero_status(User, Platform, true, :role, :id, :user_id, :hero_status, :email)
+  defp status(_service, []), do: by_hero_status(User, Platform, true, :role, :id, :user_id, :hero_status, :email)
+
+  @doc """
+  Recursion with field's an average_rating by ProRating
+  and return all recoders with userId and Decimal value
+
+  ## Example
+
+      iex> data = [FlakeId.get()]
+      iex> max_pro_rating(data)
+      [{FlakeId.get(), decimal}]
+  """
+  @spec max_pro_rating(list) :: [tuple] | []
+  def max_pro_rating(data), do: pro_status(data, &(by_pro_rating(ProRating, :user_id, :average_rating, &1)))
+  def pro_status([h|t], fun), do: [fun.(h)|pro_status(t, fun)] |> List.delete(nil)
+  def pro_status([], _fun), do: []
+
+  @doc """
+  Recursion with first a maximum integer and check it out
+  hero_status by Platform via total_match if get more are
+  items then check fields's average_rating by ProRating
+  and select maximume a row and result save, if we get nil
+  or false then need the returns all an user are emails
+  with role's pro
+
+  ## Example
+
+      iex> service = Core.Services.BookKeeping
+      iex> book_keeping_id = FlakeId.get()
+      iex> data = transform_match(book_keeping_id)
+      iex> get_hero_active(service, data)
+      [{FlakeId.get()}]
+  """
+  @spec get_hero_active(atom, list) :: [String.t()] | []
+  def get_hero_active(service, data), do: get_map(data, &(by_hero_active(service, Platform, :id, :user_id, elem(&1, 0))))
+  def get_map([h|t], fun), do: [fun.(h)|get_map(t, fun)] |> List.delete(nil)
+  def get_map([], _fun), do: []
 
   @doc """
   Transformation total match by Id's Service

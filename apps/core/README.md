@@ -648,9 +648,12 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 # 4. if found only single record we save result assigned_id
 # 4. if found more we check pro_rating average_rating max one record
 #
-# 1. match |> Enum.filter(&(elem(&1, 1) == List.first(Enum.take(match, 1)) |> elem(1) ))
-# 2. [data] = new_match |> Enum.map(&(Core.Queries.by_match(Core.Services.SaleTax, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
+# 1. data =
+#      match
+#      |> Enum.filter(&(elem(&1, 1) == List.first(Enum.take(match, 1)) |> elem(1) ))
+#      |> Enum.map(&(Core.Queries.by_match(Core.Services.SaleTax, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
 # 3. if is_nil(data), do: [], else: if Enum.count(data) == 1, do: :ok, else: :error
+#
 # id1 = data |> List.first |> elem(0)
 # id2 = data |> List.last |> elem(0)
 # val1 = Repo.one(from c in Core.Accounts.ProRating, where: field(c, :user_id) == ^id1, select: c.average_rating) |> Decimal.to_float
@@ -659,6 +662,10 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 # if max val equal will take first record
 #
 # if instantMatched == true
+#
+# ################################################################
+#
+# Version #1
 #
 # current_user = Repo.get_by(User, email: "o.puryshev@gmail.com")
 #
@@ -672,10 +679,37 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 # match = Core.Queries.transform_match(individual_tax_return.id)
 # match = Core.Queries.transform_match(sale_tax.id)
 #
-# Core.Queries.max_match(Core.Services.BookKeeping, match)
-# Core.Queries.max_match(Core.Services.BusinessTaxReturn, match)
-# Core.Queries.max_match(Core.Services.IndividualTaxReturn, match)
-# Core.Queries.max_match(Core.Services.SaleTax, match)
+# [offer_price] = Core.Analyzes.total_value(book_keeping.id) |> Map.values
+# [offer_price] = Core.Analyzes.total_value(business_tax_return.id) |> Map.values
+# [offer_price] = Core.Analyzes.total_value(individual_tax_return.id) |> Map.values
+# [offer_price] = Core.Analyzes.total_value(sale_tax.id) |> Map.values
+#
+# data = Core.Queries.get_hero_active(Core.Services.SaleTax, match)
+#
+# try do
+#   if Enum.count(data) == 1 do
+#     %{assigned_id: List.first(data), offer_price: offer_price}
+#   else
+#     {user_id, _offer_price} = Core.Queries.max_pro_rating(data) |> Enum.max_by(&(elem(&1, 1)))
+#     %{assigned_id: user_id, offer_price: offer_price}
+#   end
+# rescue
+#  Enum.EmptyError -> %{}
+# end
+#
+# Version #2
+#   Core.Queries.max_pro_rating(data) |> Enum.reduce(elem(hd(data), 1), &Decimal.max(elem(&1, 1), &2))
+#   Core.Queries.max_pro_rating(data) |> Enum.map(&(&1 |> elem(1) |> Decimal.to_string)) |> Enum.sort(:desc) |> Enum.map(&(Decimal.new(&1)))
+#
+# Version #3
+#
+# Version #4
+#
+# Version #5
+#
+# ################################################################
+#
+# Version #1
 #
 # Map.merge(%{}, %{assigned_id: ,offer_price: offer_price})
 #
@@ -683,6 +717,32 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 # [offer_price] = Core.Analyzes.total_value(business_tax_return.id) |> Map.values
 # [offer_price] = Core.Analyzes.total_value(individual_tax_return.id) |> Map.values
 # [offer_price] = Core.Analyzes.total_value(sale_tax.id) |> Map.values
+#
+# Version #2
+#
+# data = Core.Queries.get_hero_active(Core.Services.SaleTax, match)
+#
+# if Enum.count(data) == 1 do
+#   Map.merge(%{}, %{assigned_id: List.first(data)})
+# else
+#   Core.Queries.max_pro_rating(data) |> Enum.max_by(&(elem(&1, 1)))
+#   Core.Queries.max_pro_rating(data) |> Enum.reduce(elem(hd(data), 1), &Decimal.max(elem(&1, 1), &2))
+#   Core.Queries.max_pro_rating(data) |> Enum.map(&(&1 |> elem(1) |> Decimal.to_string)) |> Enum.sort(:desc) |> Enum.map(&(Decimal.new(&1)))
+# end
+#
+# defmodule Recursion do
+#   def double(list), do: map(list, &(Core.Queries.by_pro_rating(Core.Accounts.ProRating, :user_id, :average_rating, &1)))
+#   def map([h|t], fun), do: [fun.(h)|map(t, fun)]
+#   def map([], _fun), do: []
+# end
+#
+# defmodule Recursion do
+#   def double(list), do: map(list, &(Core.Queries.by_hero_active(Core.Services.SaleTax, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
+#   def map([h|t], fun), do: [fun.(h)|map(t, fun)] |> List.delete(nil)
+#   def map([], _fun), do: []
+# end
+#
+# Version #3
 #
 # match = Core.Queries.transform_match(attrs[:sale_tax_id])
 # value = Core.Queries.max_match(SaleTax, match)
@@ -695,6 +755,7 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 #
 # defmodule Recursion do
 #   def double(list), do: map(list, &(Core.Queries.by_match(Core.Services.IndividualTaxReturn, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
+#   def double(list), do: map(list, &(Core.Queries.by_hero_active(Core.Services.SaleTax, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
 #   def map([h|t], fun), do: [fun.(h)|map(t, fun)] |> List.delete(nil)
 #   def map([], _fun), do: []
 # end
@@ -743,6 +804,38 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 # Map.merge(%{}, %{offer_price: offer_price})
 #
 # Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
+#
+# def minimal_decimal(products) do
+#   Enum.reduce(tl(products), hd(products).price, &Decimal.min(&1.price, &2))
+# end
+#
+# min = Enum.min_by(products, &(&1.price)).price
+# max = Enum.max_by(products, &(&1.price)).price
+#
+# def reduce([], value,_func), do: value
+# def reduce([head | tail], value, func), do: reduce(tail, func.(head, value), func)
+#
+# def max([a]), do: a
+# def max([head | tail]), do: reduce([head | [second | tail]], check_big(head,second), check_big)
+# def check_big(a,b) when a > b, do: a
+# def check_big(a,b) when a <= b, do: b
+#
+# def max([a]), do: a
+# def max([head | tail]), do: reduce(tail, head, &check_big/2)
+#
+# def check_big(a,b) when a > b, do: a
+# def check_big(a,b) when a <= b, do: b
+#
+# defmodule Recrmax do
+#   def max([head|tail]), do: _max(head, tail)
+#   defp _max(current, []), do: current
+#
+$   defp _max(current, [head|tail]) when current < head do
+#     _max(head, tail)
+#   end
+#
+#   defp _max(current, [_|tail]), do: _max(current, tail)
+# end
 #
 # 1. check out service's book_keeping
 #    [head | tail] = Core.Analyzes.total_all(book_keeping.id)
