@@ -640,29 +640,6 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 %{name: ["Manufacturing"]}
 ```
 
-# if create project with assigned_id need updated platform hero_active = false for it assigned_id
-#
-# 1. x = match |> List.first |> elem(1)
-# 2. match |> Enum.map(&(elem(&1, 1) == x)
-# 2. check hero_active = by_match(service, Platform, :id, :user_id, elem(h, 0))
-# 4. if found only single record we save result assigned_id
-# 4. if found more we check pro_rating average_rating max one record
-#
-# 1. data =
-#      match
-#      |> Enum.filter(&(elem(&1, 1) == List.first(Enum.take(match, 1)) |> elem(1) ))
-#      |> Enum.map(&(Core.Queries.by_match(Core.Services.SaleTax, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
-# 3. if is_nil(data), do: [], else: if Enum.count(data) == 1, do: :ok, else: :error
-#
-# id1 = data |> List.first |> elem(0)
-# id2 = data |> List.last |> elem(0)
-# val1 = Repo.one(from c in Core.Accounts.ProRating, where: field(c, :user_id) == ^id1, select: c.average_rating) |> Decimal.to_float
-# val2 = Repo.one(from c in Core.Accounts.ProRating, where: field(c, :user_id) == ^id2, select: c.average_rating) |> Decimal.to_float
-# max val - save in field assigned_id
-# if max val equal will take first record
-#
-# if instantMatched == true
-#
 # ################################################################
 #
 # Version #1
@@ -698,36 +675,21 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 # end
 #
 # Version #2
-#   Core.Queries.max_pro_rating(data) |> Enum.reduce(elem(hd(data), 1), &Decimal.max(elem(&1, 1), &2))
-#   Core.Queries.max_pro_rating(data) |> Enum.map(&(&1 |> elem(1) |> Decimal.to_string)) |> Enum.sort(:desc) |> Enum.map(&(Decimal.new(&1)))
+#
+# match
+# |> Enum.filter(&(elem(&1, 1) == List.first(Enum.take(match, 1)) |> elem(1) ))
+# |> Enum.map(&(Core.Queries.by_match(Core.Services.SaleTax, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
+#
+# value = Core.Queries.max_pro_rating(data)
+# Enum.reduce(tl(value), elem(hd(value), 1), &Decimal.max(elem(&1, 1), &2))
+# Core.Queries.max_pro_rating(data) |> Enum.map(&(&1 |> elem(1) |> Decimal.to_string)) |> Enum.sort(:desc) |> Enum.map(&(Decimal.new(&1)))
 #
 # Version #3
-#
-# Version #4
-#
-# Version #5
-#
-# ################################################################
-#
-# Version #1
-#
-# Map.merge(%{}, %{assigned_id: ,offer_price: offer_price})
-#
-# [offer_price] = Core.Analyzes.total_value(book_keeping.id) |> Map.values
-# [offer_price] = Core.Analyzes.total_value(business_tax_return.id) |> Map.values
-# [offer_price] = Core.Analyzes.total_value(individual_tax_return.id) |> Map.values
-# [offer_price] = Core.Analyzes.total_value(sale_tax.id) |> Map.values
-#
-# Version #2
-#
-# data = Core.Queries.get_hero_active(Core.Services.SaleTax, match)
 #
 # if Enum.count(data) == 1 do
 #   Map.merge(%{}, %{assigned_id: List.first(data)})
 # else
 #   Core.Queries.max_pro_rating(data) |> Enum.max_by(&(elem(&1, 1)))
-#   Core.Queries.max_pro_rating(data) |> Enum.reduce(elem(hd(data), 1), &Decimal.max(elem(&1, 1), &2))
-#   Core.Queries.max_pro_rating(data) |> Enum.map(&(&1 |> elem(1) |> Decimal.to_string)) |> Enum.sort(:desc) |> Enum.map(&(Decimal.new(&1)))
 # end
 #
 # defmodule Recursion do
@@ -742,31 +704,56 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 #   def map([], _fun), do: []
 # end
 #
-# Version #3
+# Version #4
 #
-# match = Core.Queries.transform_match(attrs[:sale_tax_id])
-# value = Core.Queries.max_match(SaleTax, match)
-# %{user_id: user_id} = Core.Queries.max_match(SaleTax, match)
-# |> Map.merge(%{assigned_id: user_id})
 # match = Core.Analyzes.total_match(book_keeping.id)          |> Enum.to_list() |> Enum.sort(fn({_, value1}, {_, value2}) -> value2 < value1 end)
 # match = Core.Analyzes.total_match(business_tax_return.id)   |> Enum.to_list() |> Enum.sort(fn({_, value1}, {_, value2}) -> value2 < value1 end)
 # match = Core.Analyzes.total_match(individual_tax_return.id) |> Enum.to_list() |> Enum.sort(fn({_, value1}, {_, value2}) -> value2 < value1 end)
 # match = Core.Analyzes.total_match(sale_tax.id)              |> Enum.to_list() |> Enum.sort(fn({_, value1}, {_, value2}) -> value2 < value1 end)
 #
 # defmodule Recursion do
-#   def double(list), do: map(list, &(Core.Queries.by_match(Core.Services.IndividualTaxReturn, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
-#   def double(list), do: map(list, &(Core.Queries.by_hero_active(Core.Services.SaleTax, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
+#   def double(match), do: map(match, &(Core.Queries.by_match(Core.Services.SaleTax, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
 #   def map([h|t], fun), do: [fun.(h)|map(t, fun)] |> List.delete(nil)
 #   def map([], _fun), do: []
 # end
 #
 # defmodule Recursion do
-#   def check(service, data), do: search(service, data)
+#   def double(match), do: map(match, &(Core.Queries.by_hero_active(Core.Services.SaleTax, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
+#   def map([h|t], fun), do: [fun.(h)|map(t, fun)] |> List.delete(nil)
+#   def map([], _fun), do: []
+# end
+#
+# defmodule Recursion do
+#   def check(service, match), do: search(service, match)
 #   defp search(service, [h|t]) do
 #     value = Core.Queries.by_match(service, Core.Accounts.Platform, :id, :user_id, elem(h, 0)) |> elem(1)
 #     if value == true, do: h, else: search(service, t)
 #   end
 # end
+#
+# defmodule Recursion do
+#   def check(service, match), do: search(service, match)
+#   defp search(service, [h|t]) do
+#     value = Core.Queries.by_match(service, Core.Accounts.Platform, :id, :user_id, elem(h, 0))
+#     try do
+#       if elem(value, 1) == true, do: %{user_id: elem(value, 0)}, else: search(service, t)
+#     rescue
+#       ArgumentError -> search(service, t)
+#     end
+#   end
+#   defp search(_service, []), do: Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
+# end
+#
+# defmodule Recursion do
+#   def double(match), do: map(match, &(Core.Queries.by_match(Core.Services.SaleTax, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
+#   def map([h|t], fun), do: [fun.(h)|map(t, fun)] |> List.delete(nil)
+#   def map([], _fun), do: []
+# end
+# |> Enum.map(fn x -> if elem(x,1) == true, do: [elem(x, 0)], else: [] end) |> List.flatten |> List.first
+#
+# Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
+#
+# Version #5
 #
 # Settings.mfa_methods()
 # |> Enum.reduce([], fn m, acc ->
@@ -776,34 +763,6 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 #     acc
 #   end
 # end) |> Enum.join(",")
-#
-# defmodule Recursion do
-#   def check(service, data), do: search(service, data)
-#   defp search(service, [h|t]) do
-#     data = Core.Queries.by_match(service, Core.Accounts.Platform, :id, :user_id, elem(h, 0))
-#     try do
-#       if elem(data, 1) == true, do: %{user_id: elem(data, 0)}, else: search(service, t)
-#     rescue
-#       ArgumentError -> search(service, t)
-#     end
-#   end
-#   defp search(_service, []), do: Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
-# end
-#
-# defmodule Recursion do
-#   def double(list), do: map(list, &(Core.Queries.by_match(Core.Services.IndividualTaxReturn, Core.Accounts.Platform, :id, :user_id, elem(&1, 0))))
-#   def map([h|t], fun), do: [fun.(h)|map(t, fun)] |> List.delete(nil)
-#   def map([], _fun), do: []
-# end
-# |> Enum.map(fn x -> if elem(x,1) == true, do: [elem(x, 0)], else: [] end) |> List.flatten |> List.first
-#
-# [offer_price] = Core.Analyzes.total_value(book_keeping.id) |> Map.values
-# [offer_price] = Core.Analyzes.total_value(business_tax_return.id) |> Map.values
-# [offer_price] = Core.Analyzes.total_value(individual_tax_return.id) |> Map.values
-# [offer_price] = Core.Analyzes.total_value(sale_tax.id) |> Map.values
-# Map.merge(%{}, %{offer_price: offer_price})
-#
-# Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
 #
 # def minimal_decimal(products) do
 #   Enum.reduce(tl(products), hd(products).price, &Decimal.min(&1.price, &2))
@@ -838,16 +797,12 @@ $   defp _max(current, [head|tail]) when current < head do
 # end
 #
 # 1. check out service's book_keeping
-#    [head | tail] = Core.Analyzes.total_all(book_keeping.id)
-#    Core.Analyzes.total_match(book_keeping.id)
-#    tail |> Enum.map(&(&1 |> Map.take([:sum_match])))
-#
-#    Core.Analyzes.total_all(book_keeping.id)
-# 2. take id max row in total list by
-#    %{id: "A2ex7xgtEA5BbGfmj2", sum_match: 60},
-# 3. ttt = Repo.get_by(Core.Services.BookKeeping, %{id: "A2ex7xgtEA5BbGfmj2"}).user_id
-# 4.
-#   if Repo.get_by(Core.Accounts.Platform, %{user_id: ttt}).hero_active == true do
+#    `[head | tail] = Core.Analyzes.total_all(sale_tax.id)`
+#    `tail |> Enum.map(&(&1 |> Map.take([:sum_match])))`
+# 2. take `id` max row in total list by
+#    `%{id: "A2ex7xgtEA5BbGfmj2", sum_match: 60}`
+# 3. `user_id = Repo.get_by(Core.Services.BookKeeping, %{id: "A2ex7xgtEA5BbGfmj2"}).user_id`
+#   if Repo.get_by(Core.Accounts.Platform, %{user_id: user_id}).hero_active == true do
 #     Map.merge(args, %{:assigned_id: ttt})
 #   else
 #     # take  %{id: "A2ex7xczSexnPAqfeC", sum_match: 20}, and do same do it in the end.
@@ -857,7 +812,7 @@ $   defp _max(current, [head|tail]) when current < head do
 #     # Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
 #   end
 # 5.
-#    [value] = head |> Map.get(:sum_vValue) |> Map.values
+#    [value] = head |> Map.get(:sum_Value) |> Map.values
 #    [value] = Core.Analyzes.total_value(book_keeping.id) |> Map.values
 #    Map.merge(args, %{offer_price: value})
 #
@@ -865,5 +820,5 @@ $   defp _max(current, [head|tail]) when current < head do
 # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35}, when 2
 #                 hours pass since updated_at and update field captured with
 #                 stripe.charge.capture.amount
-
+#
 ### 21 Jan 2020 by Oleg G.Kapranov
