@@ -83,7 +83,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
             #                 stripe.charge.capture.amount
             args
             |> Map.merge(%{status: "In Progress"})
-            |> Contracts.create_project()
+            |> Contracts.extention_project()
             |> case do
               {:ok, struct} ->
                 {:ok, struct}

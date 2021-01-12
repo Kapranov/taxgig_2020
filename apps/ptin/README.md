@@ -11,3 +11,5 @@ bash> mix ecto.gen.migration -r Ptin.Repo create_ptins
 ```
 
 ### 21 Jan 2020 by Oleg G.Kapranov
+
+[1]: https://www.postgresqltutorial.com/import-csv-file-into-posgresql-table/

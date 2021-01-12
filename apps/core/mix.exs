@@ -50,6 +50,7 @@ defmodule Core.MixProject do
       {:money, "~> 1.7"},
       {:mox, "~> 0.5"},
       {:nimble_parsec, "~> 0.6"},
+      {:oban, "~> 2.3"},
       {:plug, "~> 1.10"},
       {:postgrex, "~> 0.15"},
       {:remix, "~> 0.0", only: [:dev]},

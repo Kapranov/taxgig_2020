@@ -90,6 +90,82 @@ bash> mix ecto.gen.migration -r Core.Repo create_pro_docs
 bash> mix ecto.gen.migration -r Core.Repo create_tp_docs
 ```
 
+```
+bash> mix ecto.gen.migration -r Core.Repo create_trade_events
+bash> mix ecto.gen.migration -r Core.Repo create_orders
+```
+
+# You can create a bash file as import.sh (that your CSV format is a tab delimiter)
+
+```
+#!/usr/bin/env bash
+
+USER="test"
+DB="postgres"
+TABLE_NAME="user"
+CSV_DIR="$(pwd)/csv"
+FILE_NAME="user.txt"
+
+echo $(psql -d $DB -U $USER  -c "\copy $TABLE_NAME from '$CSV_DIR/$FILE_NAME' DELIMITER E'\t' csv" 2>&1 |tee /dev/tty)
+```
+
+```
+bash> cd /tmp
+bash> wget https://github.com/Cinderella-Man/binance-trade-events/raw/master/XRPUSDT/XRPUSDT-2019-06-03.csv.gz
+bash> gunzip XRPUSDT-2019-06-03.csv.gz
+bash> PGPASSWORD=your_password psql -Uyour_login -h localhost -dyour_database  -c "\COPY trade_events(ZIP,CITY,STATE) FROM '/tmp/XRPUSDT-2019-06-03.csv' WITH (FORMAT csv, delimiter ';');"
+```
+
+```
+defmodule Core.Repo.Migrations.CreateTradeEvents do
+  use Ecto.Migration
+
+  def change do
+    create table(:trade_events, primary_key: false) do
+      add(:id, :uuid, primary_key: true)
+      add(:event_type, :text)
+      add(:event_time, :bigint)
+      add(:symbol, :text)
+      add(:trade_id, :integer)
+      add(:price, :text)
+      add(:quantity, :text)
+      add(:buyer_order_id, :bigint)
+      add(:seller_order_id, :bigint)
+      add(:trade_time, :bigint)
+      add(:buyer_market_maker, :bool)
+
+      timestamps()
+    end
+  end
+end
+
+defmodule Core.Repo.Migrations.CreateOrders do
+  use Ecto.Migration
+
+  def change do
+    create table(:orders, primary_key: false) do
+      add(:order_id, :bigint, primary_key: true)
+      add(:client_order_id, :text)
+      add(:symbol, :text)
+      add(:price, :text)
+      add(:original_quantity, :text)
+      add(:executed_quantity, :text)
+      add(:cummulative_quote_quantity, :text)
+      add(:status, :text)
+      add(:time_in_force, :text)
+      add(:type, :text)
+      add(:side, :text)
+      add(:stop_price, :text)
+      add(:iceberg_quantity, :text)
+      add(:time, :bigint)
+      add(:update_time, :bigint)
+
+      timestamps()
+    end
+  end
+end
+```
+
 ### New New New Schemas
 
 - banReason only admin
@@ -661,17 +737,22 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 # [offer_price] = Core.Analyzes.total_value(individual_tax_return.id) |> Map.values
 # [offer_price] = Core.Analyzes.total_value(sale_tax.id) |> Map.values
 #
-# data = Core.Queries.get_hero_active(Core.Services.SaleTax, match)
+# counter = match |> Enum.filter(&(elem(&1, 1) == List.first(Enum.take(match, 1)) |> elem(1) )) |> Enum.count
 #
-# try do
-#   if Enum.count(data) == 1 do
-#     %{assigned_id: List.first(data), offer_price: offer_price}
-#   else
-#     {user_id, _offer_price} = Core.Queries.max_pro_rating(data) |> Enum.max_by(&(elem(&1, 1)))
-#     %{assigned_id: user_id, offer_price: offer_price}
+# if counter <= 1 do
+#   data = Core.Queries.max_match(Core.Services.BookKeeping, match)
+# else
+#   data = Core.Queries.get_hero_active(Core.Services.SaleTax, match)
+#   try do
+#     if Enum.count(data) == 1 do
+#       %{assigned_id: List.first(data), offer_price: offer_price}
+#     else
+#       {user_id, _offer_price} = Core.Queries.max_pro_rating(data) |> Enum.max_by(&(elem(&1, 1)))
+#       %{assigned_id: user_id, offer_price: offer_price}
+#     end
+#   rescue
+#     Enum.EmptyError -> %{}
 #   end
-# rescue
-#  Enum.EmptyError -> %{}
 # end
 #
 # Version #2
