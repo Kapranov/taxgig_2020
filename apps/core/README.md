@@ -755,6 +755,40 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 #   end
 # end
 #
+# attrs = %{id_from_stripe_card: "XXXXXXXXX", instant_matched: true, book_keeping_id: book_keeping.id, status: "New", user_id: current_user.id}
+# attrs = %{id_from_stripe_card: "XXXXXXXXX", instant_matched: true, business_tax_return_id: business_tax_return.id, status: "New", user_id: current_user.id}
+# attrs = %{id_from_stripe_card: "XXXXXXXXX", instant_matched: true, individual_tax_return_id: individual_tax_return.id, status: "New", user_id: current_user.id}
+# attrs = %{id_from_stripe_card: "XXXXXXXXX", instant_matched: true, sale_tax_id: sale_tax.id, status: "New", user_id: current_user.id}
+#
+# Core.Contracts.transfers(Core.Services.BookKeeping, book_keeping.id)
+# Core.Contracts.transfers(Core.Services.BusinessTaxReturn, business_tax_return.id)
+# Core.Contracts.transfers(Core.Services.IndividualTaxReturn, individual_tax_return.id)
+# Core.Contracts.transfers(Core.Services.SaleTax, sale_tax.id)
+#
+# Core.Contracts.create_project(attrs)
+#
+# def create_project(attrs \\ %{}) do
+#   case Accounts.by_role(attrs.user_id) do
+#     false ->
+#        %Project{}
+#        |> Project.changeset(filtered(attrs))
+#        |> Repo.insert()
+#     true -> {:error, %Changeset{}}
+#   end
+# end
+#
+# Core.Contracts.extention_project(attrs)
+#
+# def extention_project(attrs \\ %{}) do
+#   case Accounts.by_role(attrs.user_id) do
+#     false ->
+#       %Project{}
+#       |> Project.changeset(extention_filtered(attrs))
+#       |> Repo.insert()
+#     true -> {:error, %Changeset{}}
+#   end
+# end
+#
 # Version #2
 #
 # match

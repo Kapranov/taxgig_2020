@@ -8,12 +8,14 @@ defmodule Core.Contracts do
   alias Core.{
     Accounts,
     Accounts.User,
+    Analyzes,
     Contracts,
     Contracts.Addon,
     Contracts.Offer,
     Contracts.PotentialClient,
     Contracts.Project,
-    Contracts.ServiceReview
+    Contracts.ServiceReview,
+    Queries
   }
 
   @type word() :: String.t()
@@ -972,6 +974,60 @@ defmodule Core.Contracts do
                 end
             end
         end
+    end
+  end
+
+  @spec transfers(atom, String.t()) ::
+          %{assigned_id: String.t(), offer_price: integer}
+          | %{user_id: String.t()}
+          | [{String.t(), String.t()}]
+  def transfers(struct, id) do
+    with offer_price <- by_offer_price(id),
+         match <- by_match(id),
+         single <- Queries.get_hero_active(struct, match),
+         counter <- by_counter(match)
+    do
+      if counter <= 1 do
+        Queries.max_match(struct, match)
+      else
+        try do
+          if Enum.count(match) == 1 do
+            %{assigned_id: List.first(single), offer_price: offer_price}
+          else
+            {user_id, _offer_price} = Queries.max_pro_rating(single) |> Enum.max_by(&(elem(&1, 1)))
+            %{assigned_id: user_id, offer_price: offer_price}
+          end
+        rescue
+          Enum.EmptyError -> %{}
+        end
+      end
+    end
+  end
+
+  @spec by_counter([{String.t(), integer}]) :: integer
+  defp by_counter(data) do
+    data
+    |> Enum.filter(&(elem(&1, 1) == List.first(Enum.take(data, 1))
+    |> elem(1) ))
+    |> Enum.count
+  end
+
+  @spec by_offer_price(String.t()) :: integer | nil
+  defp by_offer_price(id) do
+    case by_value(id) do
+      [] -> nil
+      [data] -> data
+    end
+  end
+
+  @spec by_match(String.t()) :: [{String.t(), integer}] | []
+  defp by_match(id), do: Queries.transform_match(id)
+
+  @spec by_value(String.t()) :: [integer] | []
+  defp by_value(id) do
+    case Analyzes.total_value(id) do
+      [field: :user_id, message: _] -> []
+      data -> Map.values(data)
     end
   end
 end

@@ -36,6 +36,7 @@ defmodule Core.MixProject do
       {:burnex, "~> 1.1"},
       {:decimal, "~> 1.8", optional: true},
       {:ecto_enum, "~> 1.4"},
+      {:ecto_job, "~> 3.1"},
       {:ecto_sql, "~> 3.4"},
       {:ex_aws, "~> 2.1"},
       {:ex_aws_s3, "~> 2.0"},
