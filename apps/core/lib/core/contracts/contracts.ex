@@ -15,7 +15,8 @@ defmodule Core.Contracts do
     Contracts.PotentialClient,
     Contracts.Project,
     Contracts.ServiceReview,
-    Queries
+    Queries,
+    Services.SaleTax
   }
 
   @type word() :: String.t()
@@ -807,6 +808,7 @@ defmodule Core.Contracts do
                                      |> Map.delete(:book_keeping_id)
                                      |> Map.delete(:business_tax_return_id)
                                      |> Map.delete(:individual_tax_return_id)
+                                     |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
                                  end
                                false ->
                                  attrs
@@ -833,6 +835,7 @@ defmodule Core.Contracts do
                                 attrs
                                 |> Map.delete(:book_keeping_id)
                                 |> Map.delete(:business_tax_return_id)
+                                |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
                             end
                           false ->
                             attrs
@@ -858,6 +861,7 @@ defmodule Core.Contracts do
                                  attrs
                                  |> Map.delete(:individual_tax_return_id)
                                  |> Map.delete(:sale_tax_id)
+                                 |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
                                false ->
                                  attrs
                                  |> Map.delete(:individual_tax_return_id)
@@ -877,7 +881,9 @@ defmodule Core.Contracts do
                           true ->
                             attrs
                             |> Map.delete(:sale_tax_id)
-                          false -> attrs
+                          false ->
+                            attrs
+                            |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
                         end
                       false -> attrs
                     end
@@ -910,6 +916,7 @@ defmodule Core.Contracts do
                                 attrs
                                 |> Map.delete(:business_tax_return_id)
                                 |> Map.delete(:individual_tax_return_id)
+                                |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
                             end
                           false ->
                             attrs
@@ -932,6 +939,7 @@ defmodule Core.Contracts do
                           false ->
                             attrs
                             |> Map.delete(:business_tax_return_id)
+                            |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
                         end
                       false ->
                         attrs
@@ -956,6 +964,7 @@ defmodule Core.Contracts do
                       false ->
                         attrs
                         |> Map.delete(:individual_tax_return_id)
+                        |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
                     end
                   false ->
                     attrs
@@ -968,7 +977,9 @@ defmodule Core.Contracts do
                       true ->
                         attrs
                         |> Map.delete(:sale_tax_id)
-                      false -> attrs
+                      false ->
+                        attrs
+                        |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
                     end
                   false -> attrs
                 end
@@ -988,7 +999,8 @@ defmodule Core.Contracts do
          counter <- by_counter(match)
     do
       if counter <= 1 do
-        Queries.max_match(struct, match)
+        data = Queries.max_match(struct, match)
+        if is_list(data), do: %{}, else: %{assigned_id: data[:user_id], offer_price: offer_price}
       else
         try do
           if Enum.count(match) == 1 do

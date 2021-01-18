@@ -24,7 +24,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     field :id_from_stripe_transfer, :string
     field :individual_tax_return, :individual_tax_return, resolve: dataloader(Data)
     field :instant_matched, non_null(:boolean)
-    field :offer_price, :integer
+    field :offer_price, :decimal
     field :sale_tax, :sale_tax, resolve: dataloader(Data)
     field :service_review, :service_review, resolve: dataloader(Data)
     field :status, non_null(:string)

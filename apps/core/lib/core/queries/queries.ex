@@ -105,6 +105,17 @@ defmodule Core.Queries do
     end
   end
 
+  @spec by_hero_statuses(map, map, boolean, atom, atom, atom, atom, atom) :: [{word, word}] | nil
+  def by_hero_statuses(struct_a, struct_b, role, row_a, row_b, row_c, row_d, row_h) do
+    from c in struct_a,
+    join: cu in ^struct_b,
+    where: field(c, ^row_a) == ^role,
+    where: field(c, ^row_b) == field(cu, ^row_c),
+    where: not is_nil(field(cu, ^row_d)),
+    where: field(cu, ^row_d) == ^role,
+    select: field(c, ^row_h)
+  end
+
   @spec by_value(map, atom, String.t()) :: Ecto.Query.t()
   def by_value(struct, row, id) do
     from c in struct,

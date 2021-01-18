@@ -79,8 +79,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
           else
             # Create action - stripe.charge {amount=project.offer_price, source=project.id_from_stripe_card}
             # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35}, when 2
-            #                 hours pass since updated_at and update field captured with
+            #                 hours pass since updated_at and status="In Progress" and update field captured with
             #                 stripe.charge.capture.amount
+            #
+            # :amount       => project.offer_price
+            # :capture      => false
+            # :currency     => "usd"
+            # :description  => "charge for #{struct.id}"
+            # :id_from_card => struct.id_from_stripe_card
+            #
             args
             |> Map.merge(%{status: "In Progress"})
             |> Contracts.extention_project()

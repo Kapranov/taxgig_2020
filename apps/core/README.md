@@ -755,10 +755,10 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 #   end
 # end
 #
-# attrs = %{id_from_stripe_card: "XXXXXXXXX", instant_matched: true, book_keeping_id: book_keeping.id, status: "New", user_id: current_user.id}
-# attrs = %{id_from_stripe_card: "XXXXXXXXX", instant_matched: true, business_tax_return_id: business_tax_return.id, status: "New", user_id: current_user.id}
-# attrs = %{id_from_stripe_card: "XXXXXXXXX", instant_matched: true, individual_tax_return_id: individual_tax_return.id, status: "New", user_id: current_user.id}
-# attrs = %{id_from_stripe_card: "XXXXXXXXX", instant_matched: true, sale_tax_id: sale_tax.id, status: "New", user_id: current_user.id}
+# attrs = %{id_from_stripe_card: "XXXXXXXXX", instant_matched: true, book_keeping_id: book_keeping.id, status: "In Progress", user_id: current_user.id}
+# attrs = %{id_from_stripe_card: "XXXXXXXXX", instant_matched: true, business_tax_return_id: business_tax_return.id, status: "In Progress", user_id: current_user.id}
+# attrs = %{id_from_stripe_card: "XXXXXXXXX", instant_matched: true, individual_tax_return_id: individual_tax_return.id, status: "In Progress", user_id: current_user.id}
+# attrs = %{id_from_stripe_card: "XXXXXXXXX", instant_matched: true, sale_tax_id: sale_tax.id, status: "In Progress", user_id: current_user.id}
 #
 # Core.Contracts.transfers(Core.Services.BookKeeping, book_keeping.id)
 # Core.Contracts.transfers(Core.Services.BusinessTaxReturn, business_tax_return.id)
@@ -788,6 +788,10 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 #     true -> {:error, %Changeset{}}
 #   end
 # end
+#
+# mailers = Core.Queries.by_hero_statuses(User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
+# Enum.each(Repo.all(mailers), fn email ->  %{email: email, body: "Hello World!"} end)
+# Enum.map(Repo.all(mailers),  fn email ->  %{email: email, body: "Hello World!"} end)
 #
 # Version #2
 #
@@ -909,6 +913,73 @@ $   defp _max(current, [head|tail]) when current < head do
 #   end
 #
 #   defp _max(current, [_|tail]), do: _max(current, tail)
+# end
+#
+# alphabet_positions = %{"a" => 1, "b" => 2, "c" => 3}
+# Enum.reduce(alphabet_positions, 0, fn {letter, position}, acc ->
+#   if letter in ~w[a e i o u], do: acc + position, else: acc
+# end)
+# alphabet_positions |> Map.keys() |> Enum.reduce([], fn key, list -> [{key, alphabet_positions[key]} | list] end)
+# Enum.reduce(%{"a" => 1, "b" => 2}, [], fn {k, v}, acc -> [{k, v} | acc] end)
+#
+# distributions = [
+#   {1001, 'itunes', 'complete'},
+#   {1002, 'spotify', 'complete'},
+#   {1003, 'spotify', 'error'},
+#   {1004, 'amazon', 'complete'},
+#   {1005, 'itunes', 'error'},
+#   {1006, 'amazon', 'complete'},
+#   {1007, 'amazon', 'complete'},
+#   {1008, 'itunes', 'processing'},
+#   {1009, 'itunes', 'processing'},
+#   {1010, 'spotify', 'processing'}
+# ]
+#
+# errors = Enum.reduce(distributions, [], fn(x, acc) ->
+#   state = elem(x, 2)
+#   if state == 'error', do: [x | acc], else: acc
+# end)
+#
+# spotify_distros = Enum.reduce(distributions, [], fn(x, acc) ->
+#   store = elem(x, 1)
+#   if store == 'spotify', do: [x | acc], else: acc
+# end)
+#
+# steps = [1,2,3,-4,5,6,-1]
+# Enum.reduce(steps,0,fn x, acc -> acc+x end)
+#
+# [1,2,3,-4,5,6,-1] |> Enum.reduce_while(0, fn x, acc ->
+#   if x > 0, do: {:cont, acc + x}, else: {:halt, acc}
+# end)
+#
+# Enum.take_while([0, 1, 2, 3, -4, 5, 6, -1], fn(x) -> x >= 0 end) |> Enum.sum
+#
+# list = [0, 1, 2, 3, -4, 5, 6, -1]
+# Enum.take_while(list, &(&1 >= 0)) |> Enum.sum
+#
+# def commonly_used_function(list, fun) do
+#   Enum.reduce(list, [], fn(item, acc) ->
+#     [fun.(item)|acc]
+#   end)
+#   |> Enum.reverse
+# end
+#
+# @spec command_available?(String.t()) :: boolean()
+# def command_available?(command) do
+#   match?({_output, 0}, System.cmd("sh", ["-c", "command -v {command}"]))
+# end
+#
+# list = [a: 1, b: 2, a: 3]
+# Enum.filter(list, &match?({:a, x} when x < 2, &1))
+#
+# def missing_dependencies do
+#   Enum.reduce([imagemagick: "convert", ffmpeg: "ffmpeg"], [], fn {sym, executable}, acc ->
+#     if command_available?(executable) do
+#       acc
+#     else
+#       [sym | acc]
+#     end
+#   end)
 # end
 #
 # 1. check out service's book_keeping
