@@ -94,6 +94,10 @@
   "recentHeaders": [
     {
       "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgADwMcZdwFiAAFRgA.Z0nuNHL9inizAewingRaJ7o_bBAF3iE5kBZyJor1Um4"
+    },
+    {
+      "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgAbDQsXdwFiAAFRgA.TgIxiS9XmfPFcSmo_mLVV3D6SpSk4WAZLgAqGzFdi9k"
     },
     {
@@ -137,7 +141,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab3",
+  "activeId": "tab2",
   "tabs": [
     {
       "id": "tab1",
@@ -160,7 +164,7 @@
       "websocketUrl": "ws://localhost:4000/socket",
       "proxy": false,
       "headers": [],
-      "collapsed": true,
+      "collapsed": false,
       "maxHistory": 20,
       "history": [
         {
@@ -194,7 +198,7 @@
           "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgAbDQsXdwFiAAFRgA.TgIxiS9XmfPFcSmo_mLVV3D6SpSk4WAZLgAqGzFdi9k"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -207,8 +211,8 @@
         }
       ],
       "graphiql:query": "mutation {\n  createStripePlatformCard(\n    currency: \"usd\",\n    cvc: 314,\n    expMonth: 8,\n    expYear: 2021,\n    name: \"Oleh Puryshev\",\n    number: \"4242424242424242\"\n  ) {\n    id\n    brand\n    clientIp\n    created\n    cvcCheck\n    expMonth\n    expYear\n    funding\n    idFromStripe\n    idFromCustomer\n    last4\n    name\n    token\n    userId\n  }\n}",
-      "graphiql:docExplorerWidth": 350,
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformCard(\\n    cvc: 314,\\n    expMonth: 8,\\n    expYear: 2021,\\n    name: \\\"Oleh Puryshev\\\",\\n    number: \\\"4242424242424242\\\"\\n  ) {\\n    id\\n    brand\\n    clientIp\\n    created\\n    cvcCheck\\n    expMonth\\n    expYear\\n    funding\\n    idFromStripe\\n    idFromCustomer\\n    last4\\n    name\\n    token\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createStripePlatformCard(\\n    currency: \\\"usd\\\",\\n    cvc: 314,\\n    expMonth: 8,\\n    expYear: 2021,\\n    name: \\\"Oleh Puryshev\\\",\\n    number: \\\"4242424242424242\\\"\\n  ) {\\n    id\\n    brand\\n    clientIp\\n    created\\n    cvcCheck\\n    expMonth\\n    expYear\\n    funding\\n    idFromStripe\\n    idFromCustomer\\n    last4\\n    name\\n    token\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.3929679420889349
     },
@@ -221,7 +225,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgBoswQXdwFiAAFRgA.mnsct9BUfTp1htuGM-vY70HQ1PQ6KXM54hiP9OSjXJw"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgADwMcZdwFiAAFRgA.Z0nuNHL9inizAewingRaJ7o_bBAF3iE5kBZyJor1Um4"
         }
       ],
       "collapsed": true,
@@ -237,10 +241,10 @@
         }
       ],
       "graphiql:query": "query {\n  allProjects {\n    id\n    instantMatched\n    idFromStripeCard\n    individualTaxReturn {id}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    saleTax {id}\n    endTime\n    assigned {id email role}\n    addonPrice\n    offerPrice\n    status\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.5884433962264151,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    endTime\\n    assigned {id email role}\\n    addonPrice\\n    offerPrice\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    endTime\\n    assigned {id email role}\\n    addonPrice\\n    offerPrice\\n    status\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:docExplorerWidth": 350
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    endTime\\n    assigned {id email role}\\n    addonPrice\\n    offerPrice\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    endTime\\n    assigned {id email role}\\n    addonPrice\\n    offerPrice\\n    status\\n  }\\n}\",\"variables\":\"\"}]}"
     },
     {
       "id": "tab7",
@@ -251,7 +255,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgBoswQXdwFiAAFRgA.mnsct9BUfTp1htuGM-vY70HQ1PQ6KXM54hiP9OSjXJw"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgADwMcZdwFiAAFRgA.Z0nuNHL9inizAewingRaJ7o_bBAF3iE5kBZyJor1Um4"
         }
       ],
       "collapsed": true,
@@ -305,7 +309,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgBoswQXdwFiAAFRgA.mnsct9BUfTp1htuGM-vY70HQ1PQ6KXM54hiP9OSjXJw"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgADwMcZdwFiAAFRgA.Z0nuNHL9inizAewingRaJ7o_bBAF3iE5kBZyJor1Um4"
         }
       ],
       "collapsed": true,
@@ -335,7 +339,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgBoswQXdwFiAAFRgA.mnsct9BUfTp1htuGM-vY70HQ1PQ6KXM54hiP9OSjXJw"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgADwMcZdwFiAAFRgA.Z0nuNHL9inizAewingRaJ7o_bBAF3iE5kBZyJor1Um4"
         }
       ],
       "collapsed": true,
@@ -348,10 +352,10 @@
       ],
       "graphiql:query": "mutation {\n  createProject(\n    idFromStripeCard: \"card_1IB3j1LhtqtNnMebgi8AnY1z\",\n    instantMatched: true,\n    individualTaxReturnId: \"A2xvH0pk2eDDwmNkIa\",\n    userId: \"A2xvGGtMqpmRShizZ2\"\n  ) {\n    id\n    instantMatched\n    idFromStripeCard\n    individualTaxReturn {id}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    saleTax {id}\n    endTime\n    assigned {id email role}\n    addonPrice\n    offerPrice\n  }\n}",
       "graphiql:variables": "",
+      "graphiql:docExplorerWidth": 350,
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createProject(\\n    idFromStripeCard: \\\"card_1IB3j1LhtqtNnMebgi8AnY1z\\\",\\n    instantMatched: true,\\n    individualTaxReturnId: \\\"A2xvH0pk2eDDwmNkIa\\\",\\n    userId: \\\"A2xvGGtMqpmRShizZ2\\\"\\n  ) {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    endTime\\n    assigned {id email role}\\n    addonPrice\\n    offerPrice\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:editorFlex": 0.6650185414091471,
-      "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350
+      "graphiql:variableEditorHeight": 200
     },
     {
       "id": "tab11",
@@ -362,7 +366,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgBoswQXdwFiAAFRgA.mnsct9BUfTp1htuGM-vY70HQ1PQ6KXM54hiP9OSjXJw"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgADwMcZdwFiAAFRgA.Z0nuNHL9inizAewingRaJ7o_bBAF3iE5kBZyJor1Um4"
         }
       ],
       "collapsed": true,
@@ -375,10 +379,10 @@
       ],
       "graphiql:query": "mutation {\n  createProject(\n    idFromStripeCard: \"card_1IB3j1LhtqtNnMebgi8AnY1z\",\n    instantMatched: true,\n    bookKeepingId: \"A2xvGzZOjvXq1njBBY\",\n    userId: \"A2xvGGtMqpmRShizZ2\"\n  ) {\n    id\n    instantMatched\n    idFromStripeCard\n    individualTaxReturn {id}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    saleTax {id}\n    endTime\n    assigned {id email role}\n    addonPrice\n    offerPrice\n  }\n}",
       "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createProject(\\n    idFromStripeCard: \\\"card_1IB3j1LhtqtNnMebgi8AnY1z\\\",\\n    instantMatched: true,\\n    bookKeepingId: \\\"A2xvGzZOjvXq1njBBY\\\",\\n    userId: \\\"A2xvGGtMqpmRShizZ2\\\"\\n  ) {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    endTime\\n    assigned {id email role}\\n    addonPrice\\n    offerPrice\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 0.6446886446886447,
+      "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350
+      "graphiql:editorFlex": 0.6446886446886447,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createProject(\\n    idFromStripeCard: \\\"card_1IB3j1LhtqtNnMebgi8AnY1z\\\",\\n    instantMatched: true,\\n    bookKeepingId: \\\"A2xvGzZOjvXq1njBBY\\\",\\n    userId: \\\"A2xvGGtMqpmRShizZ2\\\"\\n  ) {\\n    id\\n    instantMatched\\n    idFromStripeCard\\n    individualTaxReturn {id}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    saleTax {id}\\n    endTime\\n    assigned {id email role}\\n    addonPrice\\n    offerPrice\\n  }\\n}\",\"variables\":\"\"}]}"
     }
   ]
 }

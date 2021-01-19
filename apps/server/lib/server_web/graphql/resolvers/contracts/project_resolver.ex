@@ -181,7 +181,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                   if !is_nil(params[:id_from_stripe_card]) and !is_nil(params[:offer_price]) and !is_nil(params[:assigned_id]) and params[:instant_matched] == true do
                     try do
                       Repo.get!(Project, id)
-                      |> Contracts.update_project(
+                      |> Contracts.update_extention_project(
                         Map.delete(params, :user_id)
                         |> Map.delete(:addon_price)
                         |> Map.delete(:end_time)

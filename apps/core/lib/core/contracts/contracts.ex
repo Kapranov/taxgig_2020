@@ -16,6 +16,9 @@ defmodule Core.Contracts do
     Contracts.Project,
     Contracts.ServiceReview,
     Queries,
+    Services.BookKeeping,
+    Services.BusinessTaxReturn,
+    Services.IndividualTaxReturn,
     Services.SaleTax
   }
 
@@ -410,6 +413,29 @@ defmodule Core.Contracts do
       false ->
         struct
         |> Project.changeset(filtered(attrs))
+        |> Repo.update()
+      true -> {:error, %Changeset{}}
+    end
+  end
+
+  @doc """
+  Updates Extention the Project.
+
+  ## Examples
+
+      iex> update_extention_project(struct, %{field: new_value})
+      {:ok, %Project{}}
+
+      iex> update_extention_project(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_extention_project(Project.t(), %{atom => any}) :: result() | error_tuple()
+  def update_extention_project(%Project{} = struct, attrs) do
+    case Contracts.by_role(struct.id) do
+      false ->
+        struct
+        |> Project.changeset(extention_filtered(attrs))
         |> Repo.update()
       true -> {:error, %Changeset{}}
     end
@@ -821,6 +847,7 @@ defmodule Core.Contracts do
                              |> Map.delete(:book_keeping_id)
                              |> Map.delete(:business_tax_return_id)
                              |> Map.delete(:sale_tax_id)
+                             |> Map.merge(transfers(IndividualTaxReturn, attrs[:individual_tax_return_id]))
                          end
                       false ->
                         case Map.has_key?(attrs, :sale_tax_id) do
@@ -848,6 +875,7 @@ defmodule Core.Contracts do
                     |> Map.delete(:book_keeping_id)
                     |> Map.delete(:individual_tax_return_id)
                     |> Map.delete(:sale_tax_id)
+                    |> Map.merge(transfers(BusinessTaxReturn, attrs[:business_tax_return_id]))
                 end
               false ->
                 case Map.has_key?(attrs, :individual_tax_return_id) do
@@ -861,10 +889,10 @@ defmodule Core.Contracts do
                                  attrs
                                  |> Map.delete(:individual_tax_return_id)
                                  |> Map.delete(:sale_tax_id)
-                                 |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
                                false ->
                                  attrs
                                  |> Map.delete(:individual_tax_return_id)
+                                 |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
                              end
                           false ->
                             attrs
@@ -873,6 +901,7 @@ defmodule Core.Contracts do
                       false ->
                         attrs
                         |> Map.delete(:sale_tax_id)
+                        |> Map.merge(transfers(IndividualTaxReturn, attrs[:individual_tax_return_id]))
                     end
                   false ->
                     case Map.has_key?(attrs, :sale_tax_id) do
@@ -894,6 +923,7 @@ defmodule Core.Contracts do
             |> Map.delete(:business_tax_return_id)
             |> Map.delete(:individual_tax_return_id)
             |> Map.delete(:sale_tax_id)
+            |> Map.merge(transfers(BookKeeping, attrs[:book_keeping_id]))
         end
       false ->
         case Map.has_key?(attrs, :business_tax_return_id) do
@@ -927,6 +957,7 @@ defmodule Core.Contracts do
                         attrs
                         |> Map.delete(:business_tax_return_id)
                         |> Map.delete(:sale_tax_id)
+                        |> Map.merge(transfers(IndividualTaxReturn, attrs[:individual_tax_return_id]))
                     end
                   false ->
                     case Map.has_key?(attrs, :sale_tax_id) do
@@ -950,6 +981,7 @@ defmodule Core.Contracts do
                 attrs
                 |> Map.delete(:individual_tax_return_id)
                 |> Map.delete(:sale_tax_id)
+                |> Map.merge(transfers(BusinessTaxReturn, attrs[:business_tax_return_id]))
             end
           false ->
             case Map.has_key?(attrs, :individual_tax_return_id) do
@@ -969,6 +1001,7 @@ defmodule Core.Contracts do
                   false ->
                     attrs
                     |> Map.delete(:sale_tax_id)
+                    |> Map.merge(transfers(IndividualTaxReturn, attrs[:individual_tax_return_id]))
                 end
               false ->
                 case Map.has_key?(attrs, :sale_tax_id) do
