@@ -178,10 +178,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                       {:error, "The Project #{id} not found!"}
                   end
                 "In Progress" ->
-                  if !is_nil(params[:id_from_stripe_card]) and !is_nil(params[:offer_price]) and !is_nil(params[:assigned_id]) and params[:instant_matched] == true do
+                  if !is_nil(params[:id_from_stripe_card]) and is_nil(params[:offer_price]) and is_nil(params[:assigned_id]) and params[:instant_matched] == true do
                     try do
                       Repo.get!(Project, id)
                       |> Contracts.update_extention_project(
+                        #Map.delete(params, :user_id) |> Map.delete(:offer_price) |> Map.delete(:assigned_id)
                         Map.delete(params, :user_id)
                         |> Map.delete(:addon_price)
                         |> Map.delete(:end_time)
@@ -247,6 +248,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                       |> Map.delete(:instant_matched)
                       |> Map.delete(:offer_price)
                       |> Map.delete(:service_review_id)
+                      |> Map.merge(%{assigned_id: nil, offer_price: nil, instant_matched: false, addon_price: nil})
                     )
                     |> case do
                       {:ok, struct} ->
@@ -419,6 +421,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                       |> Map.delete(:book_keeping_id)
                       |> Map.delete(:business_tax_return_id)
                       |> Map.delete(:end_time)
+                      |> Map.delete(:id_from_stripe_card)
                       |> Map.delete(:id_from_stripe_transfer)
                       |> Map.delete(:individual_tax_return_id)
                       |> Map.delete(:instant_matched)

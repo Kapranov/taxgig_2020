@@ -42,7 +42,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     field :id_from_stripe_transfer, :string
     field :individual_tax_return_id, :string
     field :instant_matched, :boolean
-    field :offer_price, :integer
+    field :offer_price, :decimal
     field :sale_tax_id, :string
     field :service_review_id, :string
     field :status, :string
