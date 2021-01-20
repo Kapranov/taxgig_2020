@@ -793,6 +793,11 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 # Enum.each(Repo.all(mailers), fn email ->  %{email: email, body: "Hello World!"} end)
 # Enum.map(Repo.all(mailers),  fn email ->  %{email: email, body: "Hello World!"} end)
 #
+# query = from s in Stripy.Payments.StripeCardToken, where: s.user_id == ^current_user.id
+# Stripy.Queries.by_list(Stripy.Payments.StripeCardToken, :user_id, current_user.id
+# local = Stripy.Repo.all(query) |> Enum.sort
+# {:ok, external} = ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver.list(%{}, %{}, %{context: %{current_user: current_user}})
+#
 # Version #2
 #
 # match

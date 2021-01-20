@@ -19,6 +19,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
   @type success_list :: {:ok, [t]}
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
+  @current_time DateTime.to_unix(DateTime.utc_now)
+  @seconds  (2 * 24 * 3600)
 
   @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def list(_parent, _args, %{context: %{current_user: current_user}}) do
@@ -77,8 +79,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                 {:error, extract_error_msg(changeset)}
             end
           else
-            # Create action - stripe.charge {amount=project.offer_price, source=project.id_from_stripe_card}
-            # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35}, when 2
+            # Create action - stripe.charge {amount=project.offer_price, source=project.id_from_stripe_card, description: ""}
+            # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35},
+            #                 take project.updated_at + 7200 = xxx if xxx and status == "In Progres" > now, do: stripe_captur, else: :nothing
+            #                 and do stripe_capture
             #                 hours pass since updated_at and status="In Progress" and update field captured with
             #                 stripe.charge.capture.amount
             #
@@ -611,33 +615,70 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                   end
                 "Done" ->
                   try do
-                    Repo.get!(Project, id)
-                    |> Contracts.update_project(
-                      Map.delete(params, :user_id)
-                      |> Map.delete(:addon_price)
-                      |> Map.delete(:assigned_id)
-                      |> Map.delete(:book_keeping_id)
-                      |> Map.delete(:business_tax_return_id)
-                      |> Map.delete(:end_time)
-                      |> Map.delete(:id_from_stripe_card)
-                      |> Map.delete(:id_from_stripe_transfer)
-                      |> Map.delete(:individual_tax_return_id)
-                      |> Map.delete(:instant_matched)
-                      |> Map.delete(:offer_price)
-                      |> Map.delete(:sale_tax_id)
-                    )
-                    |> case do
-                      {:ok, struct} ->
-                        {:ok, struct}
-                      {:error, changeset} ->
-                        {:error, extract_error_msg(changeset)}
+                    project = Repo.get!(Project, id)
+                    if (DateTime.to_unix(project.updated_at) + @seconds) > @current_time do
+                      project
+                      |> Contracts.update_project(
+                        Map.delete(params, :user_id)
+                        |> Map.delete(:addon_price)
+                        |> Map.delete(:assigned_id)
+                        |> Map.delete(:book_keeping_id)
+                        |> Map.delete(:business_tax_return_id)
+                        |> Map.delete(:end_time)
+                        |> Map.delete(:id_from_stripe_card)
+                        |> Map.delete(:id_from_stripe_transfer)
+                        |> Map.delete(:individual_tax_return_id)
+                        |> Map.delete(:instant_matched)
+                        |> Map.delete(:offer_price)
+                        |> Map.delete(:sale_tax_id)
+                      )
+                      |> case do
+                        {:ok, struct} ->
+                          {:ok, struct}
+                        {:error, changeset} ->
+                          {:error, extract_error_msg(changeset)}
+                      end
+                    else
+                      project
+                      |> Contracts.update_project(
+                        Map.delete(params, :user_id)
+                        |> Map.delete(:addon_price)
+                        |> Map.delete(:assigned_id)
+                        |> Map.delete(:book_keeping_id)
+                        |> Map.delete(:business_tax_return_id)
+                        |> Map.delete(:end_time)
+                        |> Map.delete(:id_from_stripe_card)
+                        |> Map.delete(:id_from_stripe_transfer)
+                        |> Map.delete(:individual_tax_return_id)
+                        |> Map.delete(:instant_matched)
+                        |> Map.delete(:offer_price)
+                        |> Map.delete(:sale_tax_id)
+                        |> Map.delete(:service_review_id)
+                      )
+                      |> case do
+                        {:ok, struct} ->
+                          {:ok, struct}
+                        {:error, changeset} ->
+                          {:error, extract_error_msg(changeset)}
+                      end
                     end
                   rescue
                     Ecto.NoResultsError ->
                       {:error, "The Project #{id} not found!"}
                   end
-                  # 6.0
+                  #
+                  # Allow update project.status to "Done", if project.status=“In Transition”
                   # if project.status="In Transition" has not changed in 48 hours since updated_at
+                  #
+                  # minus 30 days, calculated as seconds
+                  # seconds = - 30 * 24 * 3600
+                  # add 2 day, calculated as seconds
+                  # seconds = 2 * 24 * 3600
+                  #
+                  # current_time = DateTime.to_unix(DateTime.utc_now)             => 1611147985
+                  # project_time = DateTime.to_unix(project.updated_at) + seconds => 1611314352
+                  # if (project_time + seconds) > current_time, do: :ok, else: :error
+                  #
                   # or if project.service_review_id is NOT nil,
                   # create action 1 - stripe.charge.capture{amount=(vol1+vol3)-vol2}
                   # if action 1 successful, create action 2 - stripe.transfer {amount=(vol1+vol3) * 0.8,
