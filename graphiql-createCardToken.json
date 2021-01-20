@@ -1,12 +1,13 @@
 {
   "key": "graphiql",
-  "lastId": 5,
+  "lastId": 6,
   "tabIds": [
     "tab1",
     "tab2",
     "tab3",
     "tab4",
-    "tab5"
+    "tab5",
+    "tab6"
   ],
   "closedTabs": [],
   "defaultUrl": "http://localhost:4000/graphiql",
@@ -19,6 +20,14 @@
     "http://localhost:4000/graphiql"
   ],
   "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgC3xjYfdwFiAAFRgA.kelGyZOWSGXqDahFyzRlUAxRmFWK_YjoXw7KCPoySr0"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgCOTPMedwFiAAFRgA.vtEa3dE_lDZ1WU1Taal48XjqD4qWjJfev_I0zapll5M"
+    },
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMGFvYnZlUkFxTUdkcmtuBgARknlidgFiAAFRgA.7ksE1UhoM_JcaOSbWPJcQ0OcLiWnuYLdYHGWlM5Ki_A"
@@ -44,7 +53,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab3",
+  "activeId": "tab6",
   "tabs": [
     {
       "id": "tab1",
@@ -57,8 +66,8 @@
       "maxHistory": 20,
       "history": [],
       "graphiql:editorFlex": 1,
-      "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
     },
     {
       "id": "tab2",
@@ -67,7 +76,7 @@
       "websocketUrl": "ws://localhost:4000/socket",
       "proxy": false,
       "headers": [],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -84,9 +93,8 @@
         }
       ],
       "graphiql:query": "query {\n  signIn(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {accessToken error errorDescription provider}\n}",
-      "graphiql:variables": "",
-      "graphiql:docExplorerWidth": 350,
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"querty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"querty\\\",\\n    passwordConfirmation: \\\"querty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.5735981308411215
     },
@@ -115,7 +123,6 @@
         }
       ],
       "graphiql:query": "mutation {\n  createStripePlatformCard(\n    currency: \"usd\",\n    cvc: 314,\n    expMonth: 8,\n    expYear: 2021,\n    name: \"Oleh Puryshev\",\n    number: \"4242424242424242\"\n  ) {\n    id\n    brand\n    clientIp\n    created\n    cvcCheck\n    expMonth\n    expYear\n    funding\n    idFromStripe\n    idFromCustomer\n    last4\n    name\n    token\n    userId\n  }\n}",
-      "graphiql:variables": "",
       "graphiql:docExplorerWidth": 350,
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformCard(\\n    cvc: 314,\\n    expMonth: 8,\\n    expYear: 2021,\\n    name: \\\"Oleh Puryshev\\\",\\n    number: \\\"4242424242424242\\\"\\n  ) {\\n    id\\n    brand\\n    clientIp\\n    created\\n    cvcCheck\\n    expMonth\\n    expYear\\n    funding\\n    idFromStripe\\n    idFromCustomer\\n    last4\\n    name\\n    token\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createStripePlatformCard(\\n    currency: \\\"usd\\\",\\n    cvc: 314,\\n    expMonth: 8,\\n    expYear: 2021,\\n    name: \\\"Oleh Puryshev\\\",\\n    number: \\\"4242424242424242\\\"\\n  ) {\\n    id\\n    brand\\n    clientIp\\n    created\\n    cvcCheck\\n    expMonth\\n    expYear\\n    funding\\n    idFromStripe\\n    idFromCustomer\\n    last4\\n    name\\n    token\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:variableEditorHeight": 200,
@@ -137,10 +144,9 @@
         }
       ],
       "graphiql:query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
-      "graphiql:variables": "",
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 0.31671554252199413,
       "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.31671554252199413,
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -168,11 +174,40 @@
         }
       ],
       "graphiql:query": "mutation {\n  createStripePlatformCard(\n    cvc: 111,\n    expMonth: 9,\n    expYear: 2026,\n    name: \"Edward Witten\",\n    number: \"4000056655665556\",\n    currency: \"usd\"\n  ) {\n    id\n    brand\n    clientIp\n    created\n    cvcCheck\n    expMonth\n    expYear\n    funding\n    idFromStripe\n    idFromCustomer\n    last4\n    name\n    token\n    userId\n  }\n}",
-      "graphiql:variables": "",
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformCard(\\n    cvc: 111,\\n    expMonth: 9,\\n    expYear: 2026,\\n    name: \\\"Edward Witten\\\",\\n    number: \\\"4000056655665556\\\"\\n  ) {\\n    id\\n    brand\\n    clientIp\\n    created\\n    cvcCheck\\n    expMonth\\n    expYear\\n    funding\\n    idFromStripe\\n    idFromCustomer\\n    last4\\n    name\\n    token\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createStripePlatformCard(\\n    cvc: 111,\\n    expMonth: 9,\\n    expYear: 2026,\\n    name: \\\"Edward Witten\\\",\\n    number: \\\"4000056655665556\\\",\\n    currency: \\\"usd\\\"\\n  ) {\\n    id\\n    brand\\n    clientIp\\n    created\\n    cvcCheck\\n    expMonth\\n    expYear\\n    funding\\n    idFromStripe\\n    idFromCustomer\\n    last4\\n    name\\n    token\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 1,
-      "graphiql:variableEditorHeight": 200
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab6",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgC3xjYfdwFiAAFRgA.kelGyZOWSGXqDahFyzRlUAxRmFWK_YjoXw7KCPoySr0"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allStripePlatformCards {\n    id\n    brand\n    clientIp\n    country\n    created\n    customer\n    cvcCheck\n    expMonth\n    expYear\n    fingerprint\n    funding\n    idFromCustomer\n    idFromStripe\n    last4\n    name\n    object\n    token\n    used\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allStripePlatformCards {\n    id\n    brand\n    clientIp\n    created\n    cvcCheck\n    expMonth\n    expYear\n    funding\n    idFromCustomer\n    idFromStripe\n    last4\n    name\n    token\n    used\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allStripePlatformCards {\n    id\n    brand\n    clientIp\n    country\n    created\n    customer\n    cvcCheck\n    expMonth\n    expYear\n    fingerprint\n    funding\n    idFromCustomer\n    idFromStripe\n    last4\n    name\n    object\n    token\n    used\n    userId\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.4933481152993348,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allStripePlatformCards {\\n    id\\n    brand\\n    clientIp\\n    created\\n    cvcCheck\\n    expMonth\\n    expYear\\n    funding\\n    idFromCustomer\\n    idFromStripe\\n    last4\\n    name\\n    token\\n    used\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allStripePlatformCards {\\n    id\\n    brand\\n    clientIp\\n    country\\n    created\\n    customer\\n    cvcCheck\\n    expMonth\\n    expYear\\n    fingerprint\\n    funding\\n    idFromCustomer\\n    idFromStripe\\n    last4\\n    name\\n    object\\n    token\\n    used\\n    userId\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350
     }
   ]
 }

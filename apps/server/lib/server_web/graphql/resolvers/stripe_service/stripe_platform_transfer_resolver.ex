@@ -63,6 +63,11 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformTransferResolv
     end
   end
 
+  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def create(_parent, _args, _info) do
+    {:error, "Unauthenticated"}
+  end
+
   @spec delete(any, %{id_from_stripe: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id_from_stripe: id_from_stripe}, %{context: %{current_user: current_user}}) do
     if is_nil(id_from_stripe) do
@@ -85,6 +90,11 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformTransferResolv
           {:error, "The StripeTransfer #{id_from_stripe} not found!"}
       end
     end
+  end
+
+  @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def delete(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
   @spec amount(integer) :: integer

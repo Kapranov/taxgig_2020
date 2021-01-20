@@ -59,4 +59,9 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformPayoutResolver
         end
     end
   end
+
+  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def create(_parent, _args, _info) do
+    {:error, "Unauthenticated"}
+  end
 end

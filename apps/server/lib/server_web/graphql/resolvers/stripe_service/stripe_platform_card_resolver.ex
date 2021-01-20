@@ -38,7 +38,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver d
         true -> {:error, :not_found}
         false ->
           with customer <- StripyRepo.get_by(StripeCustomer, %{user_id: current_user.id}),
-               {:ok, struct} <- StripePlatformCardService.list_card(%{customer: customer})
+               {:ok, struct} <- StripePlatformCardService.list_card(%{customer: customer.id_from_stripe})
           do
             {:ok, struct}
           else
@@ -47,6 +47,11 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver d
           end
       end
     end
+  end
+
+  @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def list(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
   end
 
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
@@ -117,6 +122,11 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver d
     end
   end
 
+  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def create(_parent, _args, _info) do
+    {:error, "Unauthenticated"}
+  end
+
   @spec delete(any, %{id_from_stripe: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id_from_stripe: id_from_stripe}, %{context: %{current_user: current_user}}) do
     if is_nil(id_from_stripe) do
@@ -141,5 +151,10 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver d
           {:error, "The StripeCarToken #{id_from_stripe} not found!"}
       end
     end
+  end
+
+  @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def delete(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 end

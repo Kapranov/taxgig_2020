@@ -47,4 +47,9 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
       end
     end
   end
+
+  @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :id_from_stripe, message: "Can't be blank"]]}
+  end
 end

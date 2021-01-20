@@ -42,4 +42,9 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountResolve
       end
     end
   end
+
+  @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def delete(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
+  end
 end

@@ -11,19 +11,23 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformCardTypes do
   object :stripe_platform_card do
     field :id, non_null(:string)
     field :brand, non_null(:string)
-    field :client_ip, non_null(:string)
-    field :created, non_null(:integer)
+    field :client_ip, :string
+    field :country, :string
+    field :created, :integer
+    field :customer, :string
     field :cvc_check, non_null(:string)
     field :exp_month, non_null(:integer)
     field :exp_year, non_null(:integer)
+    field :fingerprint, :string
     field :funding, non_null(:string)
     field :id_from_customer, :string
-    field :id_from_stripe, non_null(:string)
+    field :id_from_stripe, :string
     field :last4, non_null(:string)
     field :name, non_null(:string)
-    field :token, non_null(:string)
-    field :used, non_null(:boolean)
-    field :user_id, non_null(:string)
+    field :object, :string
+    field :token, :string
+    field :used, :boolean
+    field :user_id, :string
   end
 
   object :stripe_platform_card_queries do
