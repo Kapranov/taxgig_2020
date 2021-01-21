@@ -1,12 +1,13 @@
 {
   "key": "graphiql",
-  "lastId": 6,
+  "lastId": 7,
   "tabIds": [
     "tab1",
     "tab2",
     "tab4",
     "tab5",
-    "tab6"
+    "tab6",
+    "tab7"
   ],
   "closedTabs": [
     {
@@ -48,6 +49,10 @@
   "recentHeaders": [
     {
       "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgD3RuEldwFiAAFRgA.FEkhCxEPajdZjGplberz5sRSnOBt60HROPLfDQClg7Q"
+    },
+    {
+      "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgBQVy4kdwFiAAFRgA.xO6g6AwH6y39bOtCRg6faY3MmAR8an_vM9kW9wM81yE"
     },
     {
@@ -71,7 +76,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab6",
+  "activeId": "tab7",
   "tabs": [
     {
       "id": "tab1",
@@ -135,8 +140,8 @@
       "graphiql:query": "query {\n  allProjects {\n    id\n    addonPrice\n    assigned {id email role}\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offerPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350,
-      "graphiql:editorFlex": 0.3402985074626866
+      "graphiql:editorFlex": 0.3402985074626866,
+      "graphiql:docExplorerWidth": 350
     },
     {
       "id": "tab5",
@@ -160,9 +165,9 @@
       ],
       "graphiql:query": "query {\n  allStripePlatformCards {\n    id\n    brand\n    clientIp\n    country\n    created\n    customer\n    cvcCheck\n    expMonth\n    expYear\n    fingerprint\n    funding\n    idFromCustomer\n    idFromStripe\n    last4\n    name\n    object\n    token\n    used\n    userId\n  }\n}",
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allStripePlatformCards {\\n    id\\n    brand\\n    clientIp\\n    country\\n    created\\n    customer\\n    cvcCheck\\n    expMonth\\n    expYear\\n    fingerprint\\n    funding\\n    idFromCustomer\\n    idFromStripe\\n    last4\\n    name\\n    object\\n    token\\n    used\\n    userId\\n  }\\n}\"}]}",
-      "graphiql:docExplorerWidth": 350,
       "graphiql:editorFlex": 0.34297108673978066,
-      "graphiql:variableEditorHeight": 200
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
     },
     {
       "id": "tab6",
@@ -176,7 +181,7 @@
           "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgBQVy4kdwFiAAFRgA.xO6g6AwH6y39bOtCRg6faY3MmAR8an_vM9kW9wM81yE"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -188,6 +193,27 @@
       "graphiql:editorFlex": 0.6131736526946108,
       "graphiql:variableEditorHeight": 200,
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformCharge(\\n    amount: \\\"1530.0\\\",\\n    capture: false,\\n    currency: \\\"usd\\\",\\n    description: \\\"A3QvuYBWeIeFBxW3G4\\\",\\n    idFromCard: \\\"card_1IB3j1LhtqtNnMebgi8AnY1z\\\"\\n  ) {\\n    id\\n    idFromCard\\n    idFromCustomer\\n    idFromStripe\\n    amount\\n    amountRefunded\\n    captured\\n    created\\n    currency\\n    description\\n    failureCode\\n    failureMessage\\n    fraudDetails\\n    outcome\\n    receiptUrl\\n    status\\n    userId\\n    \\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab7",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgD3RuEldwFiAAFRgA.FEkhCxEPajdZjGplberz5sRSnOBt60HROPLfDQClg7Q"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "mutation {\n  updateStripePlatformChargeCapture(\n    idFromStripe: \"xxx\"\n  ) {\n    id\n    idFromCard\n    idFromStripe\n    idFromCustomer\n    amount\n    amountRefunded\n    captured\n    created\n    currency\n    description\n    failureCode\n    failureMessage\n    fraudDetails\n    outcome\n    receiptUrl\n    status\n    userId\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
       "graphiql:docExplorerWidth": 350
     }
   ]
