@@ -10,6 +10,9 @@ bash> git add README.md
 bash> git commit -m "created empty dir"
 bash> git push -u origin master
 
+bash> git commit --amend -m "fixed last a git commit message"
+bash> git push --force origin master
+
 bash> mix new ./ --app taxgig_ex --umbrella
 
 bash> mix docs

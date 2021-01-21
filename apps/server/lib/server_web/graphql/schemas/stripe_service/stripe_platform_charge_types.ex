@@ -13,7 +13,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformChargeTypes do
     field :id_from_card, non_null(:string)
     field :id_from_customer, non_null(:string)
     field :id_from_stripe, non_null(:string)
-    field :amount, non_null(:integer)
+    field :amount, non_null(:decimal)
     field :amount_refunded, non_null(:integer)
     field :captured, non_null(:boolean)
     field :created, non_null(:integer)
@@ -31,10 +31,9 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformChargeTypes do
   object :stripe_platform_charge_mutations do
     @desc "Create the StripePlatformCharge"
     field :create_stripe_platform_charge, :stripe_platform_charge, description: "Create a new stripe platform charge" do
-      arg :amount, non_null(:integer)
+      arg :amount, non_null(:decimal)
       arg :capture, non_null(:boolean)
       arg :currency, non_null(:string)
-      arg :customer, non_null(:string)
       arg :description, non_null(:string)
       arg :id_from_card, non_null(:string)
       resolve &StripePlatformChargeResolver.create/3

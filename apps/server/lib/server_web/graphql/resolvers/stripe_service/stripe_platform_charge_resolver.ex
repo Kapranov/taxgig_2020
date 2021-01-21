@@ -10,6 +10,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
 
   alias Stripy.{
     Payments.StripeCharge,
+    Payments.StripeCustomer,
     Repo,
     StripeService.StripePlatformChargeService
   }
@@ -38,10 +39,10 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
         false ->
           with customer <- Repo.get_by(StripeCustomer, %{user_id: current_user.id}),
                 {:ok, struct} <- StripePlatformChargeService.create(%{
-                  amount: args[:amount],
+                  amount: Decimal.to_integer(Decimal.round(args[:amount], 0, :down)),
                   capture: args[:capture],
                   currency: args[:currency],
-                  customer: customer[:id_from_stripe],
+                  customer: customer.id_from_stripe,
                   description: args[:description],
                   source: args[:id_from_card]
                 },

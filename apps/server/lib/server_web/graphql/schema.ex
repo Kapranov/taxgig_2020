@@ -210,6 +210,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:stripe_platform_account_token_mutations)
     import_fields(:stripe_platform_bank_account_token_mutations)
     import_fields(:stripe_platform_card_mutations)
+    import_fields(:stripe_platform_charge_mutations)
     import_fields(:stripe_platform_charge_capture_mutations)
     import_fields(:stripe_platform_customer_mutations)
     import_fields(:stripe_platform_external_account_bank_mutations)
