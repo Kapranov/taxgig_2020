@@ -8,6 +8,7 @@ defmodule Core.Repo.Migrations.CreateProjects do
       add :assigned_id, references(:users, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
       add :book_keeping_id, references(:book_keepings, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
       add :business_tax_return_id, references(:business_tax_returns, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
+      add :by_pro_status, :boolean, null: false, default: false
       add :end_time, :date, null: true
       add :id_from_stripe_card, :string, null: true
       add :id_from_stripe_transfer, :string, null: true

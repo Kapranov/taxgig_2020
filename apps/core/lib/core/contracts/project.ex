@@ -27,6 +27,7 @@ defmodule Core.Contracts.Project do
     assigned_id: User.t(),
     book_keeping_id: BookKeeping.t(),
     business_tax_return_id: BusinessTaxReturn.t(),
+    by_pro_status: boolean,
     end_time: DateTime.t(),
     id_from_stripe_card: String.t(),
     id_from_stripe_transfer: String.t(),
@@ -49,6 +50,7 @@ defmodule Core.Contracts.Project do
     assigned_id
     book_keeping_id
     business_tax_return_id
+    by_pro_status
     end_time
     id_from_stripe_card
     id_from_stripe_transfer
@@ -69,6 +71,7 @@ defmodule Core.Contracts.Project do
 
   schema "projects" do
     field :addon_price, :integer, null: true
+    field :by_pro_status, :boolean, null: false, default: false
     field :end_time, :date, null: true
     field :id_from_stripe_card, :string, null: true
     field :id_from_stripe_transfer, :string, null: true

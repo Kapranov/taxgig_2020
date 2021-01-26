@@ -143,6 +143,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:service_review_queries)
     import_fields(:state_queries)
     import_fields(:stripe_platform_card_queries)
+    import_fields(:stripe_platform_charge_queries)
     import_fields(:stripe_platform_external_account_bank_queries)
     import_fields(:stripe_platform_external_account_card_queries)
     import_fields(:subscriber_queries)

@@ -28,6 +28,13 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformRefundTypes do
       resolve &StripePlatformRefundResolver.create/3
     end
 
+    @desc "Create the StripePlatformRefund by Canceled"
+    field :create_by_canceled_stripe_platform_refund, :stripe_platform_refund, description: "Create a new stripe platform refund" do
+      arg :amount, non_null(:integer)
+      arg :id_from_stripe, non_null(:string)
+      resolve &StripePlatformRefundResolver.create_by_canceled/3
+    end
+
     @desc "Delete a specific the StripePlatformRefund"
     field :delete_stripe_platform_refund, :stripe_platform_refund do
       arg :id_from_charge, non_null(:string)

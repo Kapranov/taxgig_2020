@@ -409,13 +409,9 @@ defmodule Core.Contracts do
   """
   @spec update_project(Project.t(), %{atom => any}) :: result() | error_tuple()
   def update_project(%Project{} = struct, attrs) do
-    case Contracts.by_role(struct.id) do
-      false ->
-        struct
-        |> Project.changeset(filtered(attrs))
-        |> Repo.update()
-      true -> {:error, %Changeset{}}
-    end
+    struct
+    |> Project.changeset(filtered(attrs))
+    |> Repo.update()
   end
 
   @doc """

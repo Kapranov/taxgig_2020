@@ -19,6 +19,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     field :assigned, :user, resolve: dataloader(Data)
     field :book_keeping, :book_keeping, resolve: dataloader(Data)
     field :business_tax_return, :business_tax_return, resolve: dataloader(Data)
+    field :by_pro_status, :boolean
     field :end_time, :date
     field :id_from_stripe_card, :string
     field :id_from_stripe_transfer, :string
@@ -37,6 +38,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     field :assigned_id, :string
     field :book_keeping_id, :string
     field :business_tax_return_id, :string
+    field :by_pro_status, :boolean
     field :end_time, :date
     field :id_from_stripe_card, :string
     field :id_from_stripe_transfer, :string
@@ -53,6 +55,11 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     @desc "Get all projects"
     field :all_projects, list_of(:project) do
       resolve(&ProjectResolver.list/3)
+    end
+
+    @desc "Get all pro projects"
+    field :pro_projects, list_of(:project) do
+      resolve(&ProjectResolver.pro_list/3)
     end
 
     @desc "Get a specific project"

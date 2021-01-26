@@ -11,6 +11,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
   alias Stripy.{
     Payments.StripeCharge,
     Payments.StripeCustomer,
+    Queries,
     Repo,
     StripeService.StripePlatformChargeService
   }
@@ -23,6 +24,24 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
                        {:error, Ecto.Changeset.t} |
                        {:error, Stripe.Error.t()}
   @type result :: success_tuple | error_tuple
+
+  @spec show(any, %{description: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def show(_parent, %{description: id_from_project}, %{context: %{current_user: current_user}}) do
+    if is_nil(id_from_project) || is_nil(current_user) do
+      {:error, [[field: :id_from_project, message: "Can't be blank or Permission denied for current_user to perform action Show"]]}
+    else
+      case Queries.by_list(StripeCharge, :description, id_from_project) do
+        [] -> {:ok, Map.new()}
+        [struct] -> {:ok, struct}
+      end
+    end
+  end
+
+  @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def show(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
+  end
+
 
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
@@ -39,7 +58,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
         false ->
           with customer <- Repo.get_by(StripeCustomer, %{user_id: current_user.id}),
                 {:ok, struct} <- StripePlatformChargeService.create(%{
-                  amount: Decimal.to_integer(Decimal.round(args[:amount], 0, :down)),
+                  amount: elem(Float.ratio(Decimal.to_float(args[:amount]) * 100), 0),
                   capture: args[:capture],
                   currency: args[:currency],
                   customer: customer.id_from_stripe,
