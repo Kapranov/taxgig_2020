@@ -718,20 +718,14 @@ Repo.get_by(SaleTaxIndustry, %{sale_tax_id: sale_tax_pro3})
 
 Stripe.charge         -> ByCreate
 Stripe.charge.capture -> ByCreate
-
 Stripe.charge         -> ByInProgress
 Stripe.charge.capture -> ByInProgress
-
 Stripe.charge         -> ByCanceled
 Stripe.charge.capture -> ByCanceled
 Stripe.refund         -> ByCanceled
 
 Stripe.charge         -> ByTransition
 Stripe.charge.capture -> ByTransition
-
-Stripe.charge         -> ByInProgress
-Stripe.charge.capture -> ByInProgress
-
 Stripe.charge         -> ByDone
 Stripe.charge.capture -> ByDone
 

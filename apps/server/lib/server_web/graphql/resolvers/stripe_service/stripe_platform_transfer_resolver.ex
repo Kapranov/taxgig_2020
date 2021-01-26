@@ -41,9 +41,9 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformTransferResolv
         false ->
           project = CoreRepo.get_by(Project, %{id: args[:id_from_project]})
           if is_nil(project.id_from_stripe_transfer) do
-            with account <- StripyRepo.get_by(StripeAccount, %{user_id: current_user.id}),
+            with account <- StripyRepo.get_by(StripeAccount, %{user_id: project.assigned_id}),
                  {:ok, struct} <- StripePlatformTransferService.create(%{
-                    amount: amount(project.project_price),
+                    amount: amount(project.offer_price, project.addon_price),
                     currency: args[:currency],
                     destination: account.id_from_stripe
                   },
@@ -97,13 +97,15 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformTransferResolv
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
-  @spec amount(integer) :: integer
-  defp amount(value) do
-    sum =
-      (value * 0.8 * 100)
+  @spec amount(integer, integer) :: integer
+  defp amount(offer_price, addon_price) do
+    val1 =
+      (Decimal.to_float(offer_price) * 100)
       |> :erlang.float_to_binary(decimals: 0)
       |> String.to_integer
 
-    sum
+    ((val1 + addon_price) * 0.8)
+    |> :erlang.float_to_binary(decimals: 0)
+    |> String.to_integer
   end
 end

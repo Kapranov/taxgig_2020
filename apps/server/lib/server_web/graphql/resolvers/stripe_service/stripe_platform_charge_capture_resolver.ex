@@ -11,9 +11,11 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
 
   alias Stripy.{
     Payments.StripeCharge,
-    Repo,
     StripeService.StripePlatformChargeCaptureService
   }
+
+  alias Core.Repo, as: CoreRepo
+  alias Stripy.Repo, as: StripyRepo
 
   @type t :: StripeCharge.t()
   @type reason :: any
@@ -36,7 +38,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
         case Accounts.by_role(current_user.id) do
           true -> {:error, :not_found}
           false ->
-            with charge <- Repo.get_by(StripeCharge, %{id_from_stripe: id_from_stripe}),
+            with charge <- StripyRepo.get_by(StripeCharge, %{id_from_stripe: id_from_stripe}),
                  {:ok, struct} <- StripePlatformChargeCaptureService.create(charge.id_from_stripe, %{amount: charge.amount})
             do
               {:ok, struct}
@@ -66,8 +68,8 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
         case Accounts.by_role(current_user.id) do
           true -> {:error, :not_found}
           false ->
-            with charge <- Repo.get_by(StripeCharge, %{id_from_stripe: id_from_stripe}),
-                 project <- Repo.get_by(Project, %{id: charge.description}),
+            with charge <- StripyRepo.get_by(StripeCharge, %{id_from_stripe: id_from_stripe}),
+                 project <- CoreRepo.get_by(Project, %{id: charge.description}),
                  {:ok, struct} <- captured(charge, project)
             do
               {:ok, struct}
@@ -97,8 +99,8 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
         case Accounts.by_role(current_user.id) do
           true -> {:error, :not_found}
           false ->
-            with charge <- Repo.get_by(StripeCharge, %{id_from_stripe: id_from_stripe}),
-                 project <- Repo.get_by(Project, %{id: charge.description}),
+            with charge <- StripyRepo.get_by(StripeCharge, %{id_from_stripe: id_from_stripe}),
+                 project <- CoreRepo.get_by(Project, %{id: charge.description}),
                  {:ok, struct} <- captured(charge, project)
             do
               {:ok, struct}
@@ -128,7 +130,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
         case Accounts.by_role(current_user.id) do
           true -> {:error, :not_found}
           false ->
-            with charge <- Repo.get_by(StripeCharge, %{id_from_stripe: id_from_stripe}),
+            with charge <- StripyRepo.get_by(StripeCharge, %{id_from_stripe: id_from_stripe}),
                  {:ok, struct} <- captured_by_canceled(charge)
             do
               {:ok, struct}
@@ -149,6 +151,37 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :id_from_stripe, message: "Can't be blank"]]}
   end
 
+  @spec update_by_in_transion(any, %{id_from_stripe: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def update_by_in_transion(_root, %{id_from_stripe: id_from_stripe}, %{context: %{current_user: current_user}}) do
+    if is_nil(id_from_stripe) do
+      {:error, [[field: :id_from_stripe, message: "Can't be blank"]]}
+    else
+      try do
+        case Accounts.by_role(current_user.id) do
+          true -> {:error, :not_found}
+          false ->
+            with charge <- StripyRepo.get_by(StripeCharge, %{id_from_stripe: id_from_stripe}),
+                 project <- CoreRepo.get_by(Project, %{id: charge.description}),
+                 {:ok, struct} <- captured_by_in_transition(charge, project)
+            do
+              {:ok, struct}
+            else
+              nil -> {:error, :not_found}
+              failure -> failure
+            end
+        end
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "The StripeCharge #{id_from_stripe} not found!"}
+      end
+    end
+  end
+
+  @spec update_by_in_transition(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update_by_in_transition(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :id_from_stripe, message: "Can't be blank"]]}
+  end
+
   @spec update_by_done(any, %{id_from_stripe: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def update_by_done(_root, %{id_from_stripe: id_from_stripe}, %{context: %{current_user: current_user}}) do
     if is_nil(id_from_stripe) do
@@ -158,8 +191,8 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
         case Accounts.by_role(current_user.id) do
           true -> {:error, :not_found}
           false ->
-            with charge <- Repo.get_by(StripeCharge, %{id_from_stripe: id_from_stripe}),
-                 project <- Repo.get_by(Project, %{id: charge.description}),
+            with charge <- StripyRepo.get_by(StripeCharge, %{id_from_stripe: id_from_stripe}),
+                 project <- CoreRepo.get_by(Project, %{id: charge.description}),
                  {:ok, struct} <- captured(charge, project)
             do
               {:ok, struct}
@@ -193,6 +226,15 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
   defp captured_by_canceled(charge) do
     if (DateTime.to_unix(charge.updated_at) + @seconds) > @current_time do
       StripePlatformChargeCaptureService.create(charge.id_from_stripe, %{amount: 0})
+    else
+      {:ok, charge}
+    end
+  end
+
+  @spec captured_by_in_transition(StripeCharge.t(), Project.t()) :: {:ok, StripeCharge.t()}
+  defp captured_by_in_transition(charge, project) do
+    if project.status == "In Transition" do
+      StripePlatformChargeCaptureService.create(charge.id_from_stripe, %{amount: amounted(charge)})
     else
       {:ok, charge}
     end

@@ -5,16 +5,19 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
 
   alias Core.{
     Accounts,
-    Accounts.User
+    Accounts.User,
+    Contracts.Project
   }
 
   alias Stripy.{
     Payments.StripeCharge,
     Payments.StripeCustomer,
     Queries,
-    Repo,
     StripeService.StripePlatformChargeService
   }
+
+  alias Core.Repo, as: CoreRepo
+  alias Stripy.Repo, as: StripyRepo
 
   @type t :: StripeCharge.t()
   @type reason :: any
@@ -56,7 +59,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
       case Accounts.by_role(current_user.id) do
         true -> {:error, :not_found}
         false ->
-          with customer <- Repo.get_by(StripeCustomer, %{user_id: current_user.id}),
+          with customer <- StripyRepo.get_by(StripeCustomer, %{user_id: current_user.id}),
                 {:ok, struct} <- StripePlatformChargeService.create(%{
                   amount: elem(Float.ratio(Decimal.to_float(args[:amount]) * 100), 0),
                   capture: args[:capture],
@@ -79,6 +82,45 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
 
   @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def create(_parent, _args, _info) do
+    {:error, "Unauthenticated"}
+  end
+
+  @spec create_by_in_transition(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def create_by_in_transition(_parent, args, %{context: %{current_user: current_user}}) do
+    if is_nil(args[:capture]) ||
+       is_nil(args[:currency]) ||
+       is_nil(args[:description]) ||
+       is_nil(args[:id_from_card])
+    do
+      {:error, [[field: :stripe_charge, message: "Can't be blank"]]}
+    else
+      case Accounts.by_role(current_user.id) do
+        true -> {:error, :not_found}
+        false ->
+          with customer <- StripyRepo.get_by(StripeCustomer, %{user_id: current_user.id}),
+                project <- CoreRepo.get_by(Project, %{id: args[:description]}),
+                {:ok, struct} <- StripePlatformChargeService.create(%{
+                  amount: amounted(project),
+                  capture: args[:capture],
+                  currency: args[:currency],
+                  customer: customer.id_from_stripe,
+                  description: args[:description],
+                  source: args[:id_from_card]
+                },
+                %{"user_id" => current_user.id, "id_from_card" => args[:id_from_card]}
+               )
+          do
+            {:ok, struct}
+          else
+            nil -> {:error, :not_found}
+            failure -> failure
+          end
+      end
+    end
+  end
+
+  @spec create_by_in_transition(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def create_by_in_transition(_parent, _args, _info) do
     {:error, "Unauthenticated"}
   end
 
@@ -109,5 +151,28 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
   @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def delete(_parent, _args, _info) do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
+  end
+
+  @spec amounted(Project.t()) :: integer
+  defp amounted(project) do
+    val1 =
+      if is_nil(project.offer_price) do
+        0
+      else
+        (Decimal.to_float(project.offer_price) * 100)
+        |> Float.round(2)
+        |> Float.ceil(0)
+        |> Float.ratio
+        |> elem(0)
+      end
+
+    val2 =
+      (val1 * 0.35)
+      |> Float.ratio
+      |> elem(0)
+
+    val3 = if is_nil(project.addon_price), do: 0, else: project.addon_price
+
+    (val1 + val3) - val2
   end
 end

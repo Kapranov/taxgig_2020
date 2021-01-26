@@ -130,7 +130,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
       case Accounts.by_role(current_user.id) do
-        true -> :ok
+        true ->
           case Map.has_key?(params, :status) do
             true ->
               try do
@@ -250,7 +250,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                             |> Map.delete(:end_time)
                             |> Map.delete(:id_from_stripe_transfer)
                             |> Map.delete(:service_review_id)
-                            |> Map.merge(%{addon_price: nil})
+                            |> Map.merge(%{addon_price: nil, by_pro_status: false})
                           )
                           |> case do
                             {:ok, struct} ->
@@ -269,9 +269,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                       # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver.create/3
                       # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureResolver.update_by_in_progress/3
                       #
-                      # Create action - stripe.charge {amount=project.offer_price, source=project.id_from_stripe_card}
-                      # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35}, when 2
-                      #                 hours pass since updated_at and update field captured with
+                      # Create action - stripe.charge {amount=project.offer_price, source=project.id_from_stripe_card, description: ""}
+                      # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35},
+                      #                 take project.updated_at + 7200 = xxx if xxx and status == "In Progres" > now, do: stripe_captur, else: :nothing
+                      #                 and do stripe_capture hours pass since updated_at and status="In Progress" and update field captured with
                       #                 stripe.charge.capture.amount
                     "In Transition" ->
                       try do
@@ -314,7 +315,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                           |> Map.delete(:instant_matched)
                           |> Map.delete(:offer_price)
                           |> Map.delete(:service_review_id)
-                          |> Map.merge(%{assigned_id: nil, offer_price: nil, instant_matched: false, addon_price: nil})
+                          |> Map.merge(%{assigned_id: nil, offer_price: nil, instant_matched: false, addon_price: nil, by_pro_status: false})
                         )
                         |> case do
                           {:ok, struct} ->
@@ -636,12 +637,27 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         Ecto.NoResultsError ->
                           {:error, "The Project #{id} not found!"}
                       end
+                      # ACTION - ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver.list/3
+                      # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver.create_by_in_transition/3
+                      #
                       # Create action - stripe.charge 2 {amount=(vol1+vol3)-vol2, source=project.id_from_stripe_card}
                       # Logic:
+                      # (
+                      #   (Decimal.to_float(project.offer_price) * 100
+                      #   |> Float.round(2)
+                      #   |> Float.ceil(0)
+                      #   |> Float.ratio
+                      #   |> elem(0))
+                      # + project.addon_price) - ((Decimal.to_float(project.offer_price) * 100 |> Float.round(2) |> Float.ceil(0) |> Float.ratio |> elem(0)) * 0.35) |> Float.ratio |> elem(0)
+                      #
                       # vol1 = project.offer_price (status=“In Progress”)
                       # vol2 = vol1 * 0.35
+                      # if is_nil(project.addon_price), do: 0, else: project.addon_price
                       # vol3 = project.addon_price = sum of all addons with addon_project.status="Accepted"
                       # and their relative fields addon_project.addon_id.addon_price
+                      # (project.offer_price + (project.addon_price))-(project.offer_price * 0.35)
+                      #
+                      # ((Decimal.to_float(project.offer_price) * 100 |> Float.round(2) |> Float.ceil(0) |> Float.ratio |> elem(0)) + 0) - ((Decimal.to_float(project.offer_price) * 100 |> Float.round(2) |> Float.ceil(0) |> Float.ratio |> elem(0)) * 0.35) |> Float.ratio |> elem(0)
                     "New" ->
                       try do
                         Repo.get!(Project, id)
@@ -756,21 +772,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         Ecto.NoResultsError ->
                           {:error, "The Project #{id} not found!"}
                       end
+                      # ACTION - ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver.list/3
+                      # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver.show/3
+                      # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureResolver.update_by_done/3
+                      # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformTransferResolver.create/3
                       #
-                      # Allow update project.status to "Done", if project.status=“In Transition”
-                      # if project.status="In Transition" has not changed in 48 hours since updated_at
-                      #
-                      # minus 30 days, calculated as seconds
-                      # seconds = - 30 * 24 * 3600
-                      # add 2 day, calculated as seconds
-                      # seconds = 2 * 24 * 3600
-                      #
-                      # current_time = DateTime.to_unix(DateTime.utc_now)             => 1611147985
-                      # project_time = DateTime.to_unix(project.updated_at) + seconds => 1611314352
-                      # if (project_time + seconds) > current_time, do: :ok, else: :error
-                      #
-                      # or if project.service_review_id is NOT nil,
-                      # create action 1 - stripe.charge.capture{amount=(vol1+vol3)-vol2}
+                      # Allow update project.status to "Done",
                       # if action 1 successful, create action 2 - stripe.transfer {amount=(vol1+vol3) * 0.8,
                       # destination=project.assigned_pro.stripe_account.id_from_stripe= “acc_xxx”} and
                       # save result to project.id_from_stripe
@@ -951,9 +958,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver.create/3
                         # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureResolver.update_by_in_progress/3
                         #
-                        # Create action - stripe.charge {amount=project.offer_price, source=project.id_from_stripe_card}
-                        # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35}, when 2
-                        #                 hours pass since updated_at and update field captured with
+                        # Create action - stripe.charge {amount=project.offer_price, source=project.id_from_stripe_card, description: ""}
+                        # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35},
+                        #                 take project.updated_at + 7200 = xxx if xxx and status == "In Progres" > now, do: stripe_captur, else: :nothing
+                        #                 and do stripe_capture hours pass since updated_at and status="In Progress" and update field captured with
                         #                 stripe.charge.capture.amount
                       else
                         {:error, "field's id_from_stripe_card must filled"}

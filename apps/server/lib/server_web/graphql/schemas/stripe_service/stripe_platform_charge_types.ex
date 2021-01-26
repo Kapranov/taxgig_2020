@@ -55,6 +55,15 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformChargeTypes do
       resolve &StripePlatformChargeResolver.create/3
     end
 
+    @desc "Create the StripePlatformCharge by InTransition"
+    field :create_by_in_transition_stripe_platform_charge, :stripe_platform_charge, description: "Create a new stripe platform charge" do
+      arg :capture, non_null(:boolean)
+      arg :currency, non_null(:string)
+      arg :description, non_null(:string)
+      arg :id_from_card, non_null(:string)
+      resolve &StripePlatformChargeResolver.create_by_in_transition/3
+    end
+
     @desc "Delete a specific the StripePlatformCharge"
     field :delete_stripe_platform_charge, :stripe_platform_charge do
       arg :id_from_stripe, non_null(:string)
