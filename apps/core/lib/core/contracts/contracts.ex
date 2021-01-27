@@ -67,9 +67,21 @@ defmodule Core.Contracts do
   """
   @spec create_addon(%{atom => any}) :: result() | error_tuple()
   def create_addon(attrs \\ %{}) do
-    %Addon{}
-    |> Addon.changeset(attrs)
-    |> Repo.insert()
+    addon_changeset = Addon.changeset(%Addon{}, attrs)
+    project_ids = Repo.get_by(Project, %{id: attrs.project_id})
+
+    Multi.new
+    |> Multi.insert(:addons, addon_changeset)
+    |> Multi.update(:projects, fn %{addons: _addon} ->
+      Project.changeset(project_ids, %{addon_price: attrs.price})
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{addons: addon}} ->
+        {:ok, addon}
+      {:error, _model, changeset, _completed} ->
+        {:error, changeset}
+    end
   end
 
   @doc """
@@ -86,9 +98,22 @@ defmodule Core.Contracts do
   """
   @spec update_addon(Addon.t(), %{atom => any}) :: result() | error_tuple()
   def update_addon(%Addon{} = struct, attrs) do
-    struct
-    |> Addon.changeset(attrs)
-    |> Repo.update()
+    # struct |> Addon.changeset(attrs) |> Repo.update()
+    addon_changeset = Addon.changeset(struct, attrs)
+    project_ids = Repo.get_by(Project, %{id: struct.project_id})
+
+    Multi.new
+    |> Multi.update(:addons, addon_changeset)
+    |> Multi.update(:projects, fn %{addons: _addon} ->
+      Project.changeset(project_ids, %{addon_price: attrs.price})
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{addons: addon}} ->
+        {:ok, addon}
+      {:error, _model, changeset, _completed} ->
+        {:error, changeset}
+    end
   end
 
   @doc """

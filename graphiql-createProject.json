@@ -1,6 +1,6 @@
 {
   "key": "graphiql",
-  "lastId": 21,
+  "lastId": 22,
   "tabIds": [
     "tab1",
     "tab2",
@@ -19,7 +19,8 @@
     "tab17",
     "tab18",
     "tab19",
-    "tab21"
+    "tab21",
+    "tab22"
   ],
   "closedTabs": [
     {
@@ -112,6 +113,22 @@
   "recentHeaders": [
     {
       "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgDHSkpDdwFiAAFRgA.6Q79T5bIPb266emJ6XxDV5GEz__x0yYXKpRJaYiTJkg"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgCpDztDdwFiAAFRgA.yl-O6bFPbyfp1X7pPOhma7Ub1bty7sf6xbXP0cGcZSA"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgAzYjpDdwFiAAFRgA.sRZ6ix-oDfyUnq8togG8_pcrt-hGuHETbrsb5Ps3TY4"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgADLixDdwFiAAFRgA.hmXjgN4PY2SsH8dIhTjURohCLdNDx3dvPDZ25dbBGgQ"
+    },
+    {
+      "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgCm9Ps_dwFiAAFRgA.k1Zb3knvhTz5AXtE7Oy1_hJdZCD8pZ3CFJbCvHvBcCc"
     },
     {
@@ -173,29 +190,13 @@
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgB46686dwFiAAFRgA.6z2wqE__cwkDuiCJg0qA5-F7jo23NdkcZSthyVBK_E0"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgDQxK06dwFiAAFRgA.Ju9yAcx7b6T8M8yqy-WFGpmE7PbTB5Y2cWQllClnHbc"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgBPhZE6dwFiAAFRgA.z3-lsQ34wFeO1Jj-PTKxdf3EguSjNhaSwZOUMwUEE5M"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgDV7pA6dwFiAAFRgA.9n4cfTi5n9VB7_JtHT1n-YgXPiyohpg2x6FqUkv9r2M"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgAtr2s6dwFiAAFRgA.FAaDiyXU-jFvXGsQhOjBCEbdD_MCI3MmfgLxZ6j6I0w"
     }
   ],
   "maxTabHistory": 20,
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab21",
+  "activeId": "tab4",
   "tabs": [
     {
       "id": "tab1",
@@ -245,10 +246,10 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgCDY6o_dwFiAAFRgA.-nIwlkDSTUvZKZ_4dH4Zz6iMZT44g23DNM64WIxLno0"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgAzYjpDdwFiAAFRgA.sRZ6ix-oDfyUnq8togG8_pcrt-hGuHETbrsb5Ps3TY4"
         }
       ],
-      "collapsed": true,
+      "collapsed": false,
       "maxHistory": 20,
       "history": [
         {
@@ -275,7 +276,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgBW52Q_dwFiAAFRgA.9S3MMnwH3MF8OkjXN5w1B4hEC0YgjLNUSPBXsuChCtI"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgAzYjpDdwFiAAFRgA.sRZ6ix-oDfyUnq8togG8_pcrt-hGuHETbrsb5Ps3TY4"
         }
       ],
       "collapsed": true,
@@ -384,7 +385,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgB-ONY9dwFiAAFRgA.BSIiQkKx47PMMMH2skUA3h5Htm8wrCpF6nZHqf3Kbig"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgCpDztDdwFiAAFRgA.yl-O6bFPbyfp1X7pPOhma7Ub1bty7sf6xbXP0cGcZSA"
         }
       ],
       "collapsed": true,
@@ -418,7 +419,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgCDY6o_dwFiAAFRgA.-nIwlkDSTUvZKZ_4dH4Zz6iMZT44g23DNM64WIxLno0"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgCpDztDdwFiAAFRgA.yl-O6bFPbyfp1X7pPOhma7Ub1bty7sf6xbXP0cGcZSA"
         }
       ],
       "collapsed": true,
@@ -554,20 +555,40 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgBW52Q_dwFiAAFRgA.9S3MMnwH3MF8OkjXN5w1B4hEC0YgjLNUSPBXsuChCtI"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgDHSkpDdwFiAAFRgA.6Q79T5bIPb266emJ6XxDV5GEz__x0yYXKpRJaYiTJkg"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
+          "query": "mutation {\n  updateAddon(\n    id: \"A3ev7ZNt2ZNXUeetai\",\n    addon: {\n      price: 999,\n      status: \"Accepted\",\n      userId: \"A3b0dX1FwJ8zUlumlk\"\n    }\n  ) {\n    id\n    price\n    projects {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateAddon(\n    id: \"A3ev7ZNt2ZNXUeetai\",\n    addon: {\n      price: 999,\n      status: \"Sent\",\n      userId: \"A3b0dX1FwJ8zUlumlk\"\n    }\n  ) {\n    id\n    price\n    projects {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateAddon(\n    id: \"A3ev7ZNt2ZNXUeetai\",\n    addon: {\n      price: 999,\n      status: \"Declined\",\n      userId: \"A3b0dX1FwJ8zUlumlk\"\n    }\n  ) {\n    id\n    price\n    projects {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateAddon(\n    id: \"A3ev7ZNt2ZNXUeetai\",\n    addon: {\n      price: 999,\n      status: \"Accepted\",\n      userId: \"A3b0dX1FwJ8zUlumlk\"\n    }\n  ) {\n    id\n    price\n    projects {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateAddon(\n    id: \"A3dQCYt48qs8ZzJ7XE\",\n    addon: {\n      price: 999,\n      status: \"Accepted\",\n      userId: \"A3b0dX1FwJ8zUlumlk\"\n    }\n  ) {\n    id\n    price\n    projects {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
           "query": "mutation {\n  updateAddon(\n    id: \"A3dOsrcyehT6xLpFlA\",\n    addon: {\n      status: \"Accepted\",\n      userId: \"A3b0dnGjWX1ztPHN7A\"\n    }\n  ) {\n    id\n    price\n    projects {id}\n    status\n    users {id email role}\n  }\n}",
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  updateAddon(\n    id: \"A3dQCYt48qs8ZzJ7XE\",\n    addon: {\n      status: \"Accepted\",\n      userId: \"A3b0dX1FwJ8zUlumlk\"\n    }\n  ) {\n    id\n    price\n    projects {id}\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:query": "mutation {\n  updateAddon(\n    id: \"A3ev7ZNt2ZNXUeetai\",\n    addon: {\n      price: 999,\n      status: \"Accepted\",\n      userId: \"A3b0dX1FwJ8zUlumlk\"\n    }\n  ) {\n    id\n    price\n    projects {id}\n    status\n    users {id email role}\n  }\n}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"A3dOsrcyehT6xLpFlA\\\",\\n    addon: {\\n      status: \\\"Accepted\\\",\\n      userId: \\\"A3b0dnGjWX1ztPHN7A\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"A3dOsrcyehT6xLpFlA\\\",\\n    addon: {\\n      status: \\\"Accepted\\\",\\n      userId: \\\"A3b0dnGjWX1ztPHN7A\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"A3dQCYt48qs8ZzJ7XE\\\",\\n    addon: {\\n      price: 999,\\n      status: \\\"Accepted\\\",\\n      userId: \\\"A3b0dX1FwJ8zUlumlk\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"A3ev7ZNt2ZNXUeetai\\\",\\n    addon: {\\n      price: 999,\\n      status: \\\"Accepted\\\",\\n      userId: \\\"A3b0dX1FwJ8zUlumlk\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"A3ev7ZNt2ZNXUeetai\\\",\\n    addon: {\\n      price: 999,\\n      status: \\\"Declined\\\",\\n      userId: \\\"A3b0dX1FwJ8zUlumlk\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"A3ev7ZNt2ZNXUeetai\\\",\\n    addon: {\\n      price: 999,\\n      status: \\\"Sent\\\",\\n      userId: \\\"A3b0dX1FwJ8zUlumlk\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"A3ev7ZNt2ZNXUeetai\\\",\\n    addon: {\\n      price: 999,\\n      status: \\\"Accepted\\\",\\n      userId: \\\"A3b0dX1FwJ8zUlumlk\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\"}]}",
       "graphiql:editorFlex": 0.5100896860986547,
       "graphiql:variableEditorHeight": 200
     },
@@ -580,7 +601,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgAZ1oA_dwFiAAFRgA.AmAPBjHHEBa9kwfOBvFLvZo_7nTzK2aeFcRXOccBtJI"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgCpDztDdwFiAAFRgA.yl-O6bFPbyfp1X7pPOhma7Ub1bty7sf6xbXP0cGcZSA"
         }
       ],
       "collapsed": true,
@@ -680,9 +701,34 @@
       "maxHistory": 20,
       "history": [],
       "graphiql:query": "mutation {\n  createStripePlatformAccountToken(\n    businessType: \"\",\n    city: \"\",\n    country: \"\",\n    day: 22,\n    email: \"\",\n    firstName: \"\",\n    lastName: \"\",\n    line1: \"\",\n    maidenName: \"\",\n    month: 5,\n    phone: \"\",\n    postalCode: 20911,\n    ssnLast4: \"\",\n    state: \"\",\n    tosShownAndAccepted: true,\n    year: 1999\n  ) {\n    id\n    idFromStripe\n    clientIp\n    created\n    used\n    userId\n  }\n}",
-      "graphiql:variables": "",
-      "graphiql:editorFlex": 1,
       "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab22",
+      "name": "Query 19",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgCpDztDdwFiAAFRgA.yl-O6bFPbyfp1X7pPOhma7Ub1bty7sf6xbXP0cGcZSA"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allAddons {\n    id\n    price\n    projects {id addonPrice}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allAddons {\n    id\n    price\n    projects {id addonPrice}\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allAddons {\\n    id\\n    price\\n    projects {id addonPrice}\\n    status\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 1,
       "graphiql:docExplorerWidth": 350
     }
   ]

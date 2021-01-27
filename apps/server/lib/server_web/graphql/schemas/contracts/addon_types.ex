@@ -23,6 +23,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.AddonTypes do
 
   @desc "The an addon update via params"
   input_object :update_addon_params, description: "update an addon" do
+    field :price, :integer
     field :status, :string
     field :user_id, non_null(:string)
   end
