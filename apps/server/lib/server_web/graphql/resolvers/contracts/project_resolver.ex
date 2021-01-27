@@ -131,7 +131,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     else
       case Accounts.by_role(current_user.id) do
         true ->
-          case Map.has_key?(params, :status) do
+          case Map.has_key?(params, :status) and params[:status] == "In Progress" do
             true ->
               try do
                 Repo.get!(Project, id)
@@ -775,6 +775,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                       # ACTION - ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver.list/3
                       # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver.show/3
                       # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureResolver.update_by_done/3
+                      # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountTokenResolver.create/3
                       # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformTransferResolver.create/3
                       #
                       # Allow update project.status to "Done",
