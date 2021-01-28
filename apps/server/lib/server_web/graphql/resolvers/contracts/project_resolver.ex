@@ -533,14 +533,18 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                       end
                       # ACTION - ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver.pro_list/3
                       # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver.show/3
+                      # ACTION - ProDocs category: "Final Document" for struct.by_pro_status == false, take ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureResolver.update_by_canceled/3
+                      #
                       # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureResolver.update_by_canceled/3
+                      # ACTION -
+                      # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureResolver.update_by_canceled_with_doc/3
                       # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformRefundResolver.create_by_canceled/3
                       #
                       # 8.1
                       # If canceled by role=false
                       # create action list_charge(description: id_from_project)
                       # Create action - Stripe.charge.capture {amount=0, id_from_stripe: ch_}, If less than 2 hours passed since
-                      # charge.updated_at, insert into amount=0
+                      # charge.updated_at, insert into amount=0 and ProDocs.category == "Final Document" and if absent
                       # 8.2
                       # If canceled by role=true (Pro)
                       # create allProProject(assign_id: for_role_true)

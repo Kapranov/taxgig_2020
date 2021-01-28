@@ -51,7 +51,7 @@ defmodule Core.Contracts do
 
   """
   @spec get_addon!(String.t()) :: Addon.t() | error_tuple()
-  def get_addon!(id), do: Repo.get!(Addon, id)
+  def get_addon!(project_id), do: Repo.get_by!(Addon, %{project_id: project_id})
 
   @doc """
   Creates an Addon.
@@ -105,7 +105,7 @@ defmodule Core.Contracts do
     Multi.new
     |> Multi.update(:addons, addon_changeset)
     |> Multi.update(:projects, fn %{addons: _addon} ->
-      Project.changeset(project_ids, %{addon_price: attrs.price})
+      Project.changeset(project_ids, %{})
     end)
     |> Repo.transaction()
     |> case do

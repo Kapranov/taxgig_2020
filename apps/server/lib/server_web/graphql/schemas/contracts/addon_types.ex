@@ -23,9 +23,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.AddonTypes do
 
   @desc "The an addon update via params"
   input_object :update_addon_params, description: "update an addon" do
-    field :price, :integer
     field :status, :string
-    field :user_id, non_null(:string)
   end
 
   object :addon_queries do
@@ -36,7 +34,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.AddonTypes do
 
     @desc "Get a specific an addon"
     field :show_addon, :addon do
-      arg(:id, non_null(:string))
+      arg(:project_id, non_null(:string))
       resolve(&AddonResolver.show/3)
     end
   end
@@ -60,7 +58,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.AddonTypes do
 
     @desc "Delete a specific the an addon"
     field :delete_addon, :addon do
-      arg :id, non_null(:string)
+      arg :project_id, non_null(:string)
       arg :user_id, non_null(:string)
       resolve &AddonResolver.delete/3
     end
