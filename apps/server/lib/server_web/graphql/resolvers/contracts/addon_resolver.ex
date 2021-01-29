@@ -85,13 +85,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
     {:error, "Unauthenticated"}
   end
 
-  @spec update(any, %{id: bitstring, addon: map()}, %{context: %{current_user: User.t()}}) :: result()
-  def update(_parent, %{id: id, addon: params}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.role == true do
-      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
+  @spec update(any, %{project_id: bitstring, addon: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update(_parent, %{project_id: project_id, addon: params}, %{context: %{current_user: current_user}}) do
+    if is_nil(project_id) || is_nil(current_user) || current_user.role == true do
+      {:error, [[field: :project_id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
       try do
-        struct = Repo.get!(Addon, id)
+        struct = Repo.get_by!(Addon, %{project_id: project_id})
         if struct.status == :Sent do
           struct
           |> Contracts.update_addon(Map.delete(params, :user_id))
@@ -106,14 +106,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
         end
       rescue
         Ecto.NoResultsError ->
-          {:error, "The an Addon #{id} not found!"}
+          {:error, "The an Addon #{project_id} not found!"}
       end
     end
   end
 
   @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def update(_parent, _args, _info) do
-    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :addon, message: "Can't be blank"]]}
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :project_id, message: "Can't be blank"], [field: :addon, message: "Can't be blank"]]}
   end
 
   @spec delete(any, %{project_id: bitstring, user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()

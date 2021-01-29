@@ -36,7 +36,7 @@ defmodule ServerWeb.Router do
         socket: UserSocket
     end
 
-    forward "/api", Plug, schema: Schema
+    forward "/", Plug, schema: Schema
   end
 
   def inspect_conn(conn, _) do
