@@ -51,7 +51,7 @@ defmodule Core.Contracts do
 
   """
   @spec get_addon!(String.t()) :: Addon.t() | error_tuple()
-  def get_addon!(project_id), do: Repo.get_by!(Addon, %{project_id: project_id})
+  def get_addon!(id), do: Repo.get!(Addon, id)
 
   @doc """
   Creates an Addon.
@@ -67,21 +67,28 @@ defmodule Core.Contracts do
   """
   @spec create_addon(%{atom => any}) :: result() | error_tuple()
   def create_addon(attrs \\ %{}) do
-    addon_changeset = Addon.changeset(%Addon{}, attrs)
-    project_ids = Repo.get_by(Project, %{id: attrs.project_id})
-
-    Multi.new
-    |> Multi.insert(:addons, addon_changeset)
-    |> Multi.update(:projects, fn %{addons: _addon} ->
-      Project.changeset(project_ids, %{addon_price: attrs.price})
-    end)
-    |> Repo.transaction()
-    |> case do
-      {:ok, %{addons: addon}} ->
-        {:ok, addon}
-      {:error, _model, changeset, _completed} ->
-        {:error, changeset}
+    if attrs.status == "Sent" do
+      %Addon{}
+      |> Addon.changeset(attrs)
+      |> Repo.insert()
+    else
+      {:error, %Changeset{}}
     end
+
+#    addon_changeset = Addon.changeset(%Addon{}, attrs)
+#    project_ids = Repo.get_by(Project, %{id: attrs.project_id})
+#    Multi.new
+#    |> Multi.insert(:addons, addon_changeset)
+#    |> Multi.update(:projects, fn %{addons: _addon} ->
+#      Project.changeset(project_ids, %{addon_price: attrs.price})
+#    end)
+#    |> Repo.transaction()
+#    |> case do
+#      {:ok, %{addons: addon}} ->
+#        {:ok, addon}
+#      {:error, _model, changeset, _completed} ->
+#        {:error, changeset}
+#    end
   end
 
   @doc """
@@ -98,21 +105,33 @@ defmodule Core.Contracts do
   """
   @spec update_addon(Addon.t(), %{atom => any}) :: result() | error_tuple()
   def update_addon(%Addon{} = struct, attrs) do
-    # struct |> Addon.changeset(attrs) |> Repo.update()
     addon_changeset = Addon.changeset(struct, attrs)
     project_ids = Repo.get_by(Project, %{id: struct.project_id})
+    addon_price = if is_nil(project_ids.addon_price), do: 0, else: project_ids.addon_price
 
-    Multi.new
-    |> Multi.update(:addons, addon_changeset)
-    |> Multi.update(:projects, fn %{addons: _addon} ->
-      Project.changeset(project_ids, %{})
-    end)
-    |> Repo.transaction()
-    |> case do
-      {:ok, %{addons: addon}} ->
-        {:ok, addon}
-      {:error, _model, changeset, _completed} ->
-        {:error, changeset}
+    if struct.status == :Sent and attrs.status == "Accepted" do
+      Multi.new
+      |> Multi.update(:addons, addon_changeset)
+      |> Multi.update(:projects, fn %{addons: addon} ->
+        Project.changeset(project_ids, %{addon_price: (addon_price + addon.price)})
+      end)
+      |> Repo.transaction()
+      |> case do
+        {:ok, %{addons: addon}} ->
+          {:ok, addon}
+        {:error, _model, changeset, _completed} ->
+          {:error, changeset}
+      end
+    else
+      if struct.status == :Sent and attrs.status == "Declined" do
+        struct
+        |> Addon.changeset(attrs)
+        |> Repo.update()
+      else
+        struct
+        |> Addon.changeset(%{})
+        |> Repo.update()
+      end
     end
   end
 

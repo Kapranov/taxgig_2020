@@ -33,7 +33,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.AddonTypes do
     end
 
     @desc "Get a specific an addon via ProjectId"
-    field :show_addon, :addon do
+    field :show_addon, list_of(:addon) do
       arg(:project_id, non_null(:string))
       resolve(&AddonResolver.show/3)
     end
@@ -51,14 +51,14 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.AddonTypes do
 
     @desc "Update a specific an addon via ProjectId"
     field :update_addon, :addon do
-      arg :project_id, non_null(:string)
+      arg :id, non_null(:string)
       arg :addon, :update_addon_params
       resolve &AddonResolver.update/3
     end
 
-    @desc "Delete a specific the an addon via ProjectId"
+    @desc "Delete a specific the an addon"
     field :delete_addon, :addon do
-      arg :project_id, non_null(:string)
+      arg :id, non_null(:string)
       arg :user_id, non_null(:string)
       resolve &AddonResolver.delete/3
     end

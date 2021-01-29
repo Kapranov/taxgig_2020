@@ -41,7 +41,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
       {:error, [[field: :project_id, message: "Can't be blank or Permission denied for current_user to perform action Show"]]}
     else
       try do
-        struct = Contracts.get_addon!(project_id)
+        struct = Queries.by_list(Addon, :project_id, project_id)
         {:ok, struct}
       rescue
         Ecto.NoResultsError ->
@@ -85,28 +85,24 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
     {:error, "Unauthenticated"}
   end
 
-  @spec update(any, %{project_id: bitstring, addon: map()}, %{context: %{current_user: User.t()}}) :: result()
-  def update(_parent, %{project_id: project_id, addon: params}, %{context: %{current_user: current_user}}) do
-    if is_nil(project_id) || is_nil(current_user) || current_user.role == true do
-      {:error, [[field: :project_id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
+  @spec update(any, %{id: bitstring, addon: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update(_parent, %{id: id, addon: params}, %{context: %{current_user: current_user}}) do
+    if is_nil(id) || is_nil(current_user) || current_user.role == true do
+      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
       try do
-        struct = Repo.get_by!(Addon, %{project_id: project_id})
-        if struct.status == :Sent do
-          struct
-          |> Contracts.update_addon(Map.delete(params, :user_id))
-          |> case do
-            {:ok, struct} ->
-              {:ok, struct}
-            {:error, changeset} ->
-              {:error, extract_error_msg(changeset)}
-          end
-        else
-          {:error, [[field: :status, message: "You have some a record's of status is Accepted or Declined"]]}
+        struct = Repo.get!(Addon, id)
+        struct
+        |> Contracts.update_addon(Map.delete(params, :user_id))
+        |> case do
+          {:ok, struct} ->
+            {:ok, struct}
+          {:error, changeset} ->
+            {:error, extract_error_msg(changeset)}
         end
       rescue
         Ecto.NoResultsError ->
-          {:error, "The an Addon #{project_id} not found!"}
+          {:error, "The an Addon #{id} not found!"}
       end
     end
   end
@@ -116,19 +112,19 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :project_id, message: "Can't be blank"], [field: :addon, message: "Can't be blank"]]}
   end
 
-  @spec delete(any, %{project_id: bitstring, user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def delete(_parent, %{project_id: project_id, user_id: user_id}, %{context: %{current_user: current_user}}) do
-    if is_nil(project_id) || is_nil(current_user) || current_user.role == false do
-      {:error, [[field: :project_id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
+  @spec delete(any, %{id: bitstring, user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def delete(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
+    if is_nil(id) || is_nil(current_user) || current_user.role == false do
+      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
     else
       case user_id == current_user.id do
         true  ->
           try do
-            struct = Contracts.get_addon!(project_id)
+            struct = Contracts.get_addon!(id)
             Repo.delete(struct)
           rescue
             Ecto.NoResultsError ->
-              {:error, "The an Addon #{project_id} not found!"}
+              {:error, "The an Addon #{id} not found!"}
           end
         false -> {:error, "permission denied"}
       end
