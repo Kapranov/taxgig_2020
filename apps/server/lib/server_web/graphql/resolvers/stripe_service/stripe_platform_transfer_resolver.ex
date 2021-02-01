@@ -68,6 +68,46 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformTransferResolv
     {:error, "Unauthenticated"}
   end
 
+  @spec create_by_doc(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def create_by_doc(_parent, args, %{context: %{current_user: current_user}}) do
+    if is_nil(args[:id_from_project]) ||
+       is_nil(args[:currency])
+    do
+      {:error, [[field: :stripe_charge, message: "Can't be blank"]]}
+    else
+      case Accounts.by_role(current_user.id) do
+        true -> {:error, :not_found}
+        false ->
+          project = CoreRepo.get_by(Project, %{id: args[:id_from_project]})
+          if is_nil(project.id_from_stripe_transfer) do
+            with account <- StripyRepo.get_by(StripeAccount, %{user_id: project.assigned_id}),
+                 {:ok, struct} <- StripePlatformTransferService.create(%{
+                    amount: amount_doc(project.offer_price, project.addon_price),
+                    currency: args[:currency],
+                    destination: account.id_from_stripe
+                  },
+                  %{"user_id" => current_user.id}
+                 )
+            do
+              {:ok, %Project{}} = Contracts.update_project(project, %{id_from_stripe_transfer: struct.id_from_stripe})
+              {:ok, struct}
+            else
+              nil -> {:error, :not_found}
+              failure -> failure
+            end
+          else
+            {:error, %Ecto.Changeset{}}
+          end
+      end
+    end
+  end
+
+  @spec create_by_doc(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def create_by_doc(_parent, _args, _info) do
+    {:error, "Unauthenticated"}
+  end
+
+
   @spec delete(any, %{id_from_stripe: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id_from_stripe: id_from_stripe}, %{context: %{current_user: current_user}}) do
     if is_nil(id_from_stripe) do
@@ -105,6 +145,18 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformTransferResolv
       |> String.to_integer
 
     ((val1 + addon_price) * 0.8)
+    |> :erlang.float_to_binary(decimals: 0)
+    |> String.to_integer
+  end
+
+  @spec amount_doc(integer, integer) :: integer
+  defp amount_doc(offer_price, addon_price) do
+    val1 =
+      (Decimal.to_float(offer_price) * 100)
+      |> :erlang.float_to_binary(decimals: 0)
+      |> String.to_integer
+
+    (((val1 + addon_price) * 0.7) * 0.8)
     |> :erlang.float_to_binary(decimals: 0)
     |> String.to_integer
   end

@@ -31,6 +31,13 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformTransferTypes do
       resolve &StripePlatformTransferResolver.create/3
     end
 
+    @desc "Create the StripePlatformTransfer by Doc"
+    field :create_stripe_platform_transfer_by_doc, :stripe_platform_transfer, description: "Create a new stripe platform transfer" do
+      arg :id_from_project, non_null(:string)
+      arg :currency, non_null(:string)
+      resolve &StripePlatformTransferResolver.create_by_doc/3
+    end
+
     @desc "Delete a specific the StripePlatformTransfer"
     field :delete_stripe_platform_transfer, :stripe_platform_transfer do
       arg :id_from_stripe, non_null(:string)

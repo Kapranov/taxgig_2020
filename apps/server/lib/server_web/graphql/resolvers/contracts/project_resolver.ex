@@ -534,10 +534,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                       # ACTION - ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver.pro_list/3
                       # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver.show/3
                       # ACTION - ServerWeb.GraphQL.Resolvers.Media.ProDocResolver.list/3
-                      # ACTION - ProDocs category: "Final Document" for struct.by_pro_status == false, take ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureResolver.update_by_canceled/3
-                      #
-                      # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureResolver.update_by_canceled/3
-                      # ACTION -
+                      # ACTION - ProDocs category: "Final Document" for struct.by_pro_status == false,
                       # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureResolver.update_by_canceled_with_doc/3
                       # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformRefundResolver.create_by_canceled/3
                       #

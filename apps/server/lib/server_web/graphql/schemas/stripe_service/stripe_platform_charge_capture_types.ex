@@ -53,6 +53,12 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformChargeCaptureTyp
       resolve &StripePlatformChargeCaptureResolver.update_by_canceled/3
     end
 
+    @desc "Update a specific StripePlatformChargeCapture by field's canceledDoc"
+    field :update_by_canceled_doc_stripe_platform_charge_capture, :stripe_platform_charge_capture do
+      arg :id_from_stripe, non_null(:string)
+      resolve &StripePlatformChargeCaptureResolver.update_by_canceled_doc/3
+    end
+
     @desc "Update a specific StripePlatformChargeCapture by field's in transition"
     field :update_by_in_transition_stripe_platform_charge_capture, :stripe_platform_charge_capture do
       arg :id_from_stripe, non_null(:string)

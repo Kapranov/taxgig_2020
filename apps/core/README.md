@@ -418,6 +418,56 @@ iex> attrs = %{localhost: "facebook", languages: "spanish", password: "qwerty", 
 iex> Accounts.update_user(user, attrs)
 ```
 
+### Upload with ProDoc
+
+#### Common MIME types
+
+```
+application/msword
+application/pdf
+application/rtf
+application/vnd.ms-excel
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+application/vnd.openxmlformats-officedocument.wordprocessingml.document
+image/bmp
+image/gif
+image/jpeg
+image/tiff
+text/plain
+```
+
+```bash
+bash> convert xc:none -page Letter /tmp/demo.pdf
+```
+
+```elixir
+current_user = Repo.get_by(User, email: "lugatex@yahoo.com")
+project = Repo.get_by(Core.Contracts.Project, %{assigned_id: current_user.id})
+authenticated = %{context: %{current_user: current_user}}
+fields = Core.Media.ProDoc.__schema__(:fields) |> Enum.map(&({&1, Core.Media.ProDoc.__schema__(:type, &1)}))
+Core.Media.ProDoc.__schema__(:source)
+Core.Media.ProDoc.__schema__(:primary_key)
+Core.Media.ProDoc.__schema__(:fields)
+Core.Media.ProDoc.__schema__(:type, :file)
+Core.Media.ProDoc.__schema__(:associations)
+Core.Media.ProDoc.__schema__(:association, :users)
+Core.Media.ProDoc.__schema__(:association, :projects)
+Core.Media.ProDoc.__schema__(:embeds)
+Core.Media.ProDoc.__schema__(:embed, :file)
+source = %{alt: "created an empty pdf document", file: "demo.pdf", name: "demo"}
+file = %Plug.Upload{content_type: "application/pdf", filename: source.file, path: Path.absname("/tmp/demo.pdf")}
+args = %{category: "Final Document", signature: false, signed_by_pro: false, file: %{picture: %{file: file}}, project_id: project.id, user_id: current_user.id}
+ServerWeb.GraphQL.Resolvers.Media.ProDocResolver.create(%{}, args, authenticated)
+bucket = Application.get_env(:core, Core.Uploaders.S3)[:bucket]
+list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
+```
+
+### Upload with TpDoc
+
+```
+current_user = Repo.get_by(User, email: "o.puryshev@gmail.com")
+```
+
 ### Upload New Picture
 
 ```
@@ -427,7 +477,7 @@ iex> user = Accounts.User.find_by(email: "kapranov.lugatex@gmail.com")
 iex> authenticated = %{context: %{current_user: user}}
 iex> picture = %{alt: "created picture", file: "elixir.jpg", name: "avatar"}
 iex> file = %Plug.Upload{content_type: "image/jpg", filename: picture.file, path: Path.absname("/tmp/elixir.jpg")}
-iex> args = %{alt: picture.alt, file: file, name: picture.name, profile_id: user.id}
+iex> args = %{alt: picture.alt, file: %{picture: %{file: file}}, name: picture.name, profile_id: user.id}
 iex> ServerWeb.GraphQL.Resolvers.Media.PicturesResolver.upload_picture(%{}, args, authenticated)
 iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
 ```
