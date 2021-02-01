@@ -96,7 +96,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformTransferResolv
               failure -> failure
             end
           else
-            {:error, %Ecto.Changeset{}}
+            {:error, [[field: :id_from_stripe_ransfer, message: "StripeTransferId already exists by Project"]]}
           end
       end
     end

@@ -783,6 +783,24 @@ Stripe.charge.capture -> ByDone
 #
 # Version #1
 #
+# current_user = Repo.get_by(User, email: "kapranov.pure@gmail.com")
+# book_keeping = Repo.get_by(Core.Services.BookKeeping, user_id: current_user.id)
+# Core.Analyzes.total_match(book_keeping.id)                           => %{}
+# Core.Contracts.transfers(Core.Services.BookKeeping, book_keeping.id) => %{}
+# Core.Contracts.by_offer_price(book_keeping.id)                       => #Decimal<0>
+# Core.Contracts.by_match(book_keeping.id)                             => []
+#
+# 1. update project with status == "New"
+#
+# current_user = Repo.get_by(User, email: "vlacho777@gmail.com")
+# business_tax_return = Repo.get_by(Core.Services.BusinessTaxReturn, user_id: current_user.id)
+# Core.Contracts.transfers(Core.Services.BusinessTaxReturn, business_tax_return.id) => %{}
+# Core.Contracts.by_match(business_tax_return.id)                                   => [{"A3b0ebMTHTKXFgLf04", 10}]
+#
+# current_user = Repo.get_by(User, email: "vlacho777@gmail.com")
+# current_user = Repo.get_by(User, email: "kapranov.lugatex@gmail.com")
+# current_user = Repo.get_by(User, email: "kapranov.pure@gmail.com")
+# current_user = Repo.get_by(User, email: "v.kobzan@gmail.com")
 # current_user = Repo.get_by(User, email: "o.puryshev@gmail.com")
 #
 # book_keeping          = Repo.get_by(Core.Services.BookKeeping,         user_id: current_user.id)

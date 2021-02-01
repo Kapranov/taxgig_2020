@@ -1,6 +1,6 @@
 {
   "key": "graphiql",
-  "lastId": 26,
+  "lastId": 35,
   "tabIds": [
     "tab1",
     "tab2",
@@ -23,7 +23,16 @@
     "tab22",
     "tab23",
     "tab24",
-    "tab26"
+    "tab26",
+    "tab27",
+    "tab28",
+    "tab29",
+    "tab30",
+    "tab31",
+    "tab32",
+    "tab33",
+    "tab34",
+    "tab35"
   ],
   "closedTabs": [
     {
@@ -146,6 +155,30 @@
   "recentHeaders": [
     {
       "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgCTfAxedwFiAAFRgA.pJM5m3Fp525lRrAUm9w_G5-3eF4Qt22RRZD86JRwsZM"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgAatAledwFiAAFRgA.fQZmFZWczgQxwFCrgGDUQ2Ug6HO9CG5lXB-OAOKAu7U"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgDIsuxddwFiAAFRgA.RjcIkJP2YI3FvwY3jFbzUR3fRIgemkLAoyRypO-LQMc"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgCXOMlddwFiAAFRgA.kJ7VeKUIt8LpRFh1U0unlrtmTMm7DwhsDSQGsWh9_Pk"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer id     addonPrice     assigned {id email role}     byProStatus     bookKeeping {id}     businessTaxReturn {id}     endTime     idFromStripeCard     idFromStripeTransfer     individualTaxReturn {id}     instantMatched     offerPrice     saleTax {id}     serviceReview {id}     status     users {id email role}"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgCcM7hddwFiAAFRgA.Hzbvfce0ahk3gQrkb9icGZz9FcCxSinVhK1ag1xrs3w"
+    },
+    {
+      "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgAw3XdPdwFiAAFRgA.YWeItwTHu3Pjk4G3AH0D6zfozNVxrnoXHAX9n7vuvQ4"
     },
     {
@@ -199,37 +232,13 @@
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgDcaCpPdwFiAAFRgA.Gt8pnkhFrqXscFJU2B7jV-uj9Bjv4blfXZpu9233G0o"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgBzfClPdwFiAAFRgA.CXxiOGiss7LVnirWPbjkQIYKVFSUtJM3g-FTfvOBhdk\",       \"er"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgA4EBlPdwFiAAFRgA.CqTJ_SoE9tb3zHm6q5bXIc-kNzBsGOk7Vr_FYhgncLw"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgCcjhhPdwFiAAFRgA.xcoPO32Aw5Ejcid1DkYN_2Gcz-Z1LVrYqP8FC7yjV0s"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgA4uQZPdwFiAAFRgA.zcvtBcWtdUqrhIGOoPBi15tN6EdgdE-m-hHkP2InMGQ"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgD2ygZPdwFiAAFRgA.LRonYC1mKa9PwVOrmLpKG_2DZT8iQSJZJC-p8wCsJtg"
-    },
-    {
-      "name": "Authorization",
-      "value": "SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgDeeOBOdwFiAAFRgA.AiEr7GkFwP13KQgrwO92Z3mqPO15gS1L28DlwuD69T4Bearer "
     }
   ],
   "maxTabHistory": 20,
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab26",
+  "activeId": "tab27",
   "tabs": [
     {
       "id": "tab1",
@@ -265,9 +274,9 @@
         }
       ],
       "graphiql:query": "query {\n  signIn(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
-      "graphiql:variableEditorHeight": 200,
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.32188420019627084
     },
     {
@@ -279,7 +288,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgDzRXdPdwFiAAFRgA.QC1GM_bWqP6Nkl_LXEvOu3mgT57-kj0jTawzkDEiK-M"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgAatAledwFiAAFRgA.fQZmFZWczgQxwFCrgGDUQ2Ug6HO9CG5lXB-OAOKAu7U"
         }
       ],
       "collapsed": true,
@@ -295,9 +304,9 @@
         }
       ],
       "graphiql:query": "query {\n  allProjects {\n    id\n    addonPrice\n    assigned {id email role}\n    byProStatus\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:editorFlex": 0.6189903846153846,
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offerPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProjects {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    byProStatus\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offerPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 1,
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -418,7 +427,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgAw3XdPdwFiAAFRgA.YWeItwTHu3Pjk4G3AH0D6zfozNVxrnoXHAX9n7vuvQ4"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgCXOMlddwFiAAFRgA.kJ7VeKUIt8LpRFh1U0unlrtmTMm7DwhsDSQGsWh9_Pk"
         }
       ],
       "collapsed": true,
@@ -573,9 +582,9 @@
       ],
       "graphiql:query": "mutation {\n  createByCanceledStripePlatformRefund(\n    amount: 237000,\n    idFromStripe: \"ch_1IDbCdLhtqtNnMebiWglBqDd\"\n  ) {\n    id\n    idFromCharge\n    idFromStripe\n    amount\n    balanceTransaction\n    created\n    currency\n    status\n    userId\n  }\n}",
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createByCanceledStripePlatformRefund(\\n    amount: 237000,\\n    idFromStripe: \\\"ch_1IDbCdLhtqtNnMebiWglBqDd\\\"\\n  ) {\\n    id\\n    idFromCharge\\n    idFromStripe\\n    amount\\n    balanceTransaction\\n    created\\n    currency\\n    status\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 0.6151079136690647,
       "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.6151079136690647
     },
     {
       "id": "tab14",
@@ -599,9 +608,9 @@
       ],
       "graphiql:query": "mutation {\n  createByInTransitionStripePlatformCharge(\n    capture: false,\n    currency: \"usd\",\n    description: \"A3bMMJi2zA272VOQWe\",\n    idFromCard: \"card_1IDXyVLhtqtNnMebiwuNMk2o\"\n  ) {\n    id\n    idFromCard\n    idFromCustomer\n    idFromStripe\n    amount\n    amountRefunded\n    captured\n    created\n    currency\n    description\n    failureCode\n    failureMessage\n    receiptUrl\n    status\n    userId\n  }\n}",
       "graphiql:editorFlex": 0.6189903846153846,
+      "graphiql:variableEditorHeight": 200,
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createByInTransitionStripePlatformCharge(\\n    capture: false,\\n    currency: \\\"usd\\\",\\n    description: \\\"A3bMMJi2zA272VOQWe\\\",\\n    idFromCard: \\\"card_1IDXyVLhtqtNnMebiwuNMk2o\\\"\\n  ) {\\n    id\\n    idFromCard\\n    idFromCustomer\\n    idFromStripe\\n    amount\\n    amountRefunded\\n    captured\\n    created\\n    currency\\n    description\\n    failureCode\\n    failureMessage\\n    receiptUrl\\n    status\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:docExplorerWidth": 350,
-      "graphiql:variableEditorHeight": 200
+      "graphiql:docExplorerWidth": 350
     },
     {
       "id": "tab15",
@@ -700,8 +709,8 @@
         }
       ],
       "graphiql:query": "mutation {\n  updateAddon(\n    id: \"xxx\",\n    addon: {\n      status: \"Accepted\"\n    }\n  ) {\n    id\n    price\n    projects {id addonPrice}\n    status\n    users {id email role}\n  }\n}",
-      "graphiql:docExplorerWidth": 350,
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateAddon(\\n    projectId: \\\"A3bMMJi2zA272VOQWe\\\",\\n    addon: {\\n      status: \\\"Sent\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    projectId: \\\"A3bMMJi2zA272VOQWe\\\",\\n    addon: {\\n      status: \\\"Accepted\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    projectId: \\\"A3bMMJi2zA272VOQWe\\\",\\n    addon: {\\n      status: \\\"Declined\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    projectId: \\\"A3bMMJi2zA272VOQWe\\\",\\n    addon: {\\n      status: \\\"Sent\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    projectId: \\\"A3bMMJi2zA272VOQWe\\\",\\n    addon: {\\n      status: \\\"Declined\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    projectId: \\\"A3bMMJi2zA272VOQWe\\\",\\n    addon: {\\n      status: \\\"Sent\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    projectId: \\\"A3bMMJi2zA272VOQWe\\\",\\n    addon: {\\n      status: \\\"Declined\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    projectId: \\\"A3bMMJi2zA272VOQWe\\\",\\n    addon: {\\n      status: \\\"Accepted\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    projectId: \\\"A3bMMJi2zA272VOQWe\\\",\\n    addon: {\\n      status: \\\"Declined\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    projectId: \\\"A3bMMJi2zA272VOQWe\\\",\\n    addon: {\\n      status: \\\"Accepted\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    projectId: \\\"A3bMMJi2zA272VOQWe\\\",\\n    addon: {\\n      status: \\\"Sent\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id addonPrice}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    projectId: \\\"A3bMMJi2zA272VOQWe\\\",\\n    addon: {\\n      status: \\\"Declined\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id addonPrice}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    projectId: \\\"A3bMMJi2zA272VOQWe\\\",\\n    addon: {\\n      status: \\\"Sent\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id addonPrice}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    projectId: \\\"A3bMMJi2zA272VOQWe\\\",\\n    addon: {\\n      status: \\\"Accepted\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id addonPrice}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    projectId: \\\"A3bMMJi2zA272VOQWe\\\",\\n    addon: {\\n      status: \\\"Sent\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id addonPrice}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"A3jpVmGK8JC6BDb3D6\\\",\\n    addon: {\\n      status: \\\"Accepted\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id addonPrice}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"A3jpfE6JzzNt7tQKye\\\",\\n    addon: {\\n      status: \\\"Accepted\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id addonPrice}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"A3jpjvUUcOcsr7yFYO\\\",\\n    addon: {\\n      status: \\\"Sent\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id addonPrice}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"A3jpjvUUcOcsr7yFYO\\\",\\n    addon: {\\n      status: \\\"Accepted\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id addonPrice}\\n    status\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"xxx\\\",\\n    addon: {\\n      status: \\\"Accepted\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id addonPrice}\\n    status\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
       "graphiql:editorFlex": 1,
       "graphiql:variableEditorHeight": 200
     },
@@ -844,10 +853,10 @@
         }
       ],
       "graphiql:query": "mutation {\n  updateByDoneStripePlatformChargeCapture(\n    idFromStripe: \"ch_1IDujuLhtqtNnMebX8tKY7Zv\"\n  ) {\n    id\n    idFromCard\n    idFromStripe\n    idFromCustomer\n    amount\n    amountRefunded\n    captured\n    created\n    currency\n    description\n    failureCode\n    failureMessage\n    receiptUrl\n    status\n    userId\n  }\n}",
-      "graphiql:variableEditorHeight": 200,
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateByDoneStripePlatformChargeCapture(\\n    idFromStripe: \\\"ch_1IDujuLhtqtNnMebX8tKY7Zv\\\"\\n  ) {\\n    id\\n    idFromCard\\n    idFromStripe\\n    idFromCustomer\\n    amount\\n    amountRefunded\\n    captured\\n    created\\n    currency\\n    description\\n    failureCode\\n    failureMessage\\n    receiptUrl\\n    status\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:editorFlex": 0.5254813137032842
+      "graphiql:editorFlex": 0.5254813137032842,
+      "graphiql:variableEditorHeight": 200
     },
     {
       "id": "tab19",
@@ -870,10 +879,10 @@
         }
       ],
       "graphiql:query": "mutation {\n  createStripePlatformTransfer(\n    idFromProject: \"A3bMMJi2zA272VOQWe\",\n    currency: \"usd\"\n  ) {\n    idFromStripe\n    amount\n    amountReversed\n    balanceTransaction\n    created\n    currency\n    destination\n    destinationPayment\n    reversed\n    sourceType\n    userId\n  }\n}",
-      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformTransfer(\\n    idFromProject: \\\"A3bMMJi2zA272VOQWe\\\",\\n    currency: \\\"usd\\\"\\n  ) {\\n    idFromStripe\\n    amount\\n    amountReversed\\n    balanceTransaction\\n    created\\n    currency\\n    destination\\n    destinationPayment\\n    reversed\\n    sourceType\\n    userId\\n  }\\n}\"}]}",
       "graphiql:editorFlex": 0.4705240174672489,
-      "graphiql:variableEditorHeight": 200
+      "graphiql:docExplorerWidth": 350
     },
     {
       "id": "tab21",
@@ -897,8 +906,8 @@
       ],
       "graphiql:query": "mutation {\n  createStripePlatformAccountToken(\n    businessType: \"individual\",\n    city: \"New York\",\n    country: \"us\",\n    day: 15,\n    email: \"o.puryshev@gmail.com\",\n    firstName: \"Vlad\",\n    lastName: \"Puryshev\",\n    line1: \"95 Wall St\",\n    maidenName: \"Jr\",\n    month: 7,\n    phone: \"999-999-9999\",\n    postalCode: 20911,\n    ssnLast4: \"0000\",\n    state: \"NY\",\n    tosShownAndAccepted: true,\n    year: 1989\n  ) {\n    id\n    idFromStripe\n    clientIp\n    created\n    used\n    userId\n  }\n}",
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformAccountToken(\\n    businessType: \\\"individual\\\",\\n    city: \\\"New York\\\",\\n    country: \\\"us\\\",\\n    day: 15,\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    firstName: \\\"Vlad\\\",\\n    lastName: \\\"Puryshev\\\",\\n    line1: \\\"95 Wall St\\\",\\n    maidenName: \\\"Jr\\\",\\n    month: 7,\\n    phone: \\\"999-999-9999\\\",\\n    postalCode: 20911,\\n    ssnLast4: \\\"0000\\\",\\n    state: \\\"NY\\\",\\n    tosShownAndAccepted: true,\\n    year: 1989\\n  ) {\\n    id\\n    idFromStripe\\n    clientIp\\n    created\\n    used\\n    userId\\n  }\\n}\"}]}",
-      "graphiql:variableEditorHeight": 200,
       "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.4867549668874172
     },
     {
@@ -922,10 +931,10 @@
         }
       ],
       "graphiql:query": "query {\n  allAddons {\n    id\n    price\n    projects {id addonPrice}\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200,
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allAddons {\\n    id\\n    price\\n    projects {id addonPrice}\\n    status\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 0.416403785488959,
-      "graphiql:docExplorerWidth": 350
+      "graphiql:editorFlex": 0.416403785488959
     },
     {
       "id": "tab23",
@@ -1031,7 +1040,7 @@
           "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgAw3XdPdwFiAAFRgA.YWeItwTHu3Pjk4G3AH0D6zfozNVxrnoXHAX9n7vuvQ4"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -1040,9 +1049,246 @@
         }
       ],
       "graphiql:query": "query {\n  allProDocs {\n    id\n    file {id}\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
-      "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allProDocs {\\n    id\\n    file {id}\\n    category\\n    projects {id}\\n    signature\\n    signedByPro\\n    users {id email role}\\n    \\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:editorFlex": 1,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allProDocs {\\n    id\\n    file {id}\\n    category\\n    projects {id}\\n    signature\\n    signedByPro\\n    users {id email role}\\n    \\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab27",
+      "name": "Query 23",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgCcM7hddwFiAAFRgA.Hzbvfce0ahk3gQrkb9icGZz9FcCxSinVhK1ag1xrs3w"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createProject(\n    idFromStripeCard: \"card_1IDXyVLhtqtNnMebiwuNMk2o\",\n    individualTaxReturnId: \"A3b0ebkZpqc2SRcuZc\",\n    instantMatched: true,\n    userId: \"A3b0dnGjWX1ztPHN7A\"\n    \n  ) {\n    id\n    addonPrice\n    assigned {id email role}\n    byProStatus\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createProject(\n    idFromStripeCard: \"card_1IDXyVLhtqtNnMebiwuNMk2o\",\n    individualTaxReturnId: \"A3b0ebkZpqc2SRcuZc\",\n    instantMatched: true,\n    userId: \"A3b0dnGjWX1ztPHN7A\"\n    \n  ) {\n    id\n    addonPrice\n    assigned {id email role}\n    byProStatus\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createProject(\\n    idFromStripeCard: \\\"card_1IDXyVLhtqtNnMebiwuNMk2o\\\",\\n    individualTaxReturnId: \\\"A3b0ebkZpqc2SRcuZc\\\",\\n    instantMatched: true,\\n    userId: \\\"A3b0dnGjWX1ztPHN7A\\\"\\n    \\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    byProStatus\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offerPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab28",
+      "name": "Query 24",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgCcM7hddwFiAAFRgA.Hzbvfce0ahk3gQrkb9icGZz9FcCxSinVhK1ag1xrs3w"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createStripePlatformCharge(\n    amount: \"2183.81\",\n    capture: false,\n    currency: \"usd\",\n    description: \"A3paO2elUfmqulxdLs\",\n    idFromCard: \"card_1IDXyVLhtqtNnMebiwuNMk2o\"\n  ) {\n    id\n    idFromCard\n    idFromCustomer\n    idFromStripe\n    amount\n    amountRefunded\n    captured\n    created\n    currency\n    description\n    failureCode\n    failureMessage\n    receiptUrl\n    status\n    userId\n    \n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createStripePlatformCharge(\n    amount: \"2183.81\",\n    capture: false,\n    currency: \"usd\",\n    description: \"A3paO2elUfmqulxdLs\",\n    idFromCard: \"card_1IDXyVLhtqtNnMebiwuNMk2o\"\n  ) {\n    id\n    idFromCard\n    idFromCustomer\n    idFromStripe\n    amount\n    amountRefunded\n    captured\n    created\n    currency\n    description\n    failureCode\n    failureMessage\n    receiptUrl\n    status\n    userId\n    \n  }\n}",
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformCharge(\\n    amount: \\\"2183.81\\\",\\n    capture: false,\\n    currency: \\\"usd\\\",\\n    description: \\\"A3paO2elUfmqulxdLs\\\",\\n    idFromCard: \\\"card_1IDXyVLhtqtNnMebiwuNMk2o\\\"\\n  ) {\\n    id\\n    idFromCard\\n    idFromCustomer\\n    idFromStripe\\n    amount\\n    amountRefunded\\n    captured\\n    created\\n    currency\\n    description\\n    failureCode\\n    failureMessage\\n    receiptUrl\\n    status\\n    userId\\n    \\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab29",
+      "name": "Query 25",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgCcM7hddwFiAAFRgA.Hzbvfce0ahk3gQrkb9icGZz9FcCxSinVhK1ag1xrs3w"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateByCreatedStripePlatformChargeCapture(\n    idFromStripe: \"ch_1IG2M7LhtqtNnMeb6nz66fU4\"\n  ) {\n    id\n    idFromCard\n    idFromStripe\n    idFromCustomer\n    amount\n    amountRefunded\n    captured\n    created\n    currency\n    description\n    failureCode\n    failureMessage\n    receiptUrl\n    status\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateByCreatedStripePlatformChargeCapture(\n    idFromStripe: \"ch_1IG2M7LhtqtNnMeb6nz66fU4\"\n  ) {\n    id\n    idFromCard\n    idFromStripe\n    idFromCustomer\n    amount\n    amountRefunded\n    captured\n    created\n    currency\n    description\n    failureCode\n    failureMessage\n    receiptUrl\n    status\n    userId\n  }\n}",
+      "graphiql:editorFlex": 0.5306818181818181,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateByCreatedStripePlatformChargeCapture(\\n    idFromStripe: \\\"ch_1IG2M7LhtqtNnMeb6nz66fU4\\\"\\n  ) {\\n    id\\n    idFromCard\\n    idFromStripe\\n    idFromCustomer\\n    amount\\n    amountRefunded\\n    captured\\n    created\\n    currency\\n    description\\n    failureCode\\n    failureMessage\\n    receiptUrl\\n    status\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab30",
+      "name": "Query 26",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgCXOMlddwFiAAFRgA.kJ7VeKUIt8LpRFh1U0unlrtmTMm7DwhsDSQGsWh9_Pk"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createAddon(\n    status: \"Sent\",\n    price: 50000,\n    userId: \"A3b0dX1FwJ8zUlumlk\",\n    projectId: \"A3paO2elUfmqulxdLs\"\n  )\n  {\n    id\n    price\n    projects {id addonPrice}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createAddon(\n    status: \"Sent\",\n    price: 50000,\n    userId: \"A3b0dX1FwJ8zUlumlk\",\n    projectId: \"A3paO2elUfmqulxdLs\"\n  )\n  {\n    id\n    price\n    projects {id addonPrice}\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createAddon(\\n    status: \\\"Sent\\\",\\n    price: 50000,\\n    userId: \\\"A3b0dX1FwJ8zUlumlk\\\",\\n    projectId: \\\"A3paO2elUfmqulxdLs\\\"\\n  )\\n  {\\n    id\\n    price\\n    projects {id addonPrice}\\n    status\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.5254813137032842,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab31",
+      "name": "Query 27",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgCcM7hddwFiAAFRgA.Hzbvfce0ahk3gQrkb9icGZz9FcCxSinVhK1ag1xrs3w"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateAddon(\n    id: \"A3pblcLl3JJcELsNNo\",\n    addon: {\n      status: \"Accepted\"\n    }\n  ) {\n    id\n    price\n    projects {id addonPrice}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateAddon(\n    id: \"A3pblcLl3JJcELsNNo\",\n    addon: {\n      status: \"Accepted\"\n    }\n  ) {\n    id\n    price\n    projects {id addonPrice}\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateAddon(\\n    id: \\\"A3pblcLl3JJcELsNNo\\\",\\n    addon: {\\n      status: \\\"Accepted\\\"\\n    }\\n  ) {\\n    id\\n    price\\n    projects {id addonPrice}\\n    status\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab32",
+      "name": "Query 28",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgCXOMlddwFiAAFRgA.kJ7VeKUIt8LpRFh1U0unlrtmTMm7DwhsDSQGsWh9_Pk"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createProDoc(\n    category: \"Final Document\",\n    projectId: \"A3paO2elUfmqulxdLs\",\n    signature: false,\n    signedByPro: false,\n    userId: \"A3b0dnGjWX1ztPHN7A\"\n  ) {\n    id\n    category\n    projects {id addonPrice offerPrice}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createProDoc(\n    category: \"Final Document\",\n    projectId: \"A3paO2elUfmqulxdLs\",\n    signature: false,\n    signedByPro: false,\n    userId: \"A3b0dnGjWX1ztPHN7A\"\n  ) {\n    id\n    category\n    projects {id addonPrice offerPrice}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createProDoc(\\n    category: \\\"Final Document\\\",\\n    projectId: \\\"A3paO2elUfmqulxdLs\\\",\\n    signature: false,\\n    signedByPro: false,\\n    userId: \\\"A3b0dnGjWX1ztPHN7A\\\"\\n  ) {\\n    id\\n    category\\n    projects {id addonPrice offerPrice}\\n    signature\\n    signedByPro\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.4657236126224157,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab33",
+      "name": "Query 29",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgCcM7hddwFiAAFRgA.Hzbvfce0ahk3gQrkb9icGZz9FcCxSinVhK1ag1xrs3w"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateProject(\n    id: \"A3paO2elUfmqulxdLs\",\n    project: {\n      status: \"Canceled\",\n      userId: \"A3b0dnGjWX1ztPHN7A\"\n    }\n  ) {\n    id\n    addonPrice\n    assigned {id email role}\n    byProStatus\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateProject(\n    id: \"A3paO2elUfmqulxdLs\",\n    project: {\n      status: \"Canceled\",\n      userId: \"A3b0dnGjWX1ztPHN7A\"\n    }\n  ) {\n    id\n    addonPrice\n    assigned {id email role}\n    byProStatus\n    bookKeeping {id}\n    businessTaxReturn {id}\n    endTime\n    idFromStripeCard\n    idFromStripeTransfer\n    individualTaxReturn {id}\n    instantMatched\n    offerPrice\n    saleTax {id}\n    serviceReview {id}\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateProject(\\n    id: \\\"A3paO2elUfmqulxdLs\\\",\\n    project: {\\n      status: \\\"Canceled\\\",\\n      userId: \\\"A3b0dnGjWX1ztPHN7A\\\"\\n    }\\n  ) {\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    byProStatus\\n    bookKeeping {id}\\n    businessTaxReturn {id}\\n    endTime\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    individualTaxReturn {id}\\n    instantMatched\\n    offerPrice\\n    saleTax {id}\\n    serviceReview {id}\\n    status\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.4983314794215795
+    },
+    {
+      "id": "tab34",
+      "name": "Query 30",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgDIsuxddwFiAAFRgA.RjcIkJP2YI3FvwY3jFbzUR3fRIgemkLAoyRypO-LQMc"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createByCanceldDocStripePlatformCharge(\n    capture: true,\n    currency: \"usd\",\n    description: \"A3paO2elUfmqulxdLs\",\n    idFromCard: \"card_1IDXyVLhtqtNnMebiwuNMk2o\"\n  ) {\n    id\n    idFromCard\n    idFromCustomer\n    idFromStripe\n    amount\n    amountRefunded\n    captured\n    created\n    currency\n    description\n    failureCode\n    failureMessage\n    receiptUrl\n    status\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createByCanceldDocStripePlatformCharge(\n    capture: true,\n    currency: \"usd\",\n    description: \"A3paO2elUfmqulxdLs\",\n    idFromCard: \"card_1IDXyVLhtqtNnMebiwuNMk2o\"\n  ) {\n    id\n    idFromCard\n    idFromCustomer\n    idFromStripe\n    amount\n    amountRefunded\n    captured\n    created\n    currency\n    description\n    failureCode\n    failureMessage\n    receiptUrl\n    status\n    userId\n  }\n}",
+      "graphiql:editorFlex": 0.6016646848989299,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createByCanceldDocStripePlatformCharge(\\n    capture: true,\\n    currency: \\\"usd\\\",\\n    description: \\\"A3paO2elUfmqulxdLs\\\",\\n    idFromCard: \\\"card_1IDXyVLhtqtNnMebiwuNMk2o\\\"\\n  ) {\\n    id\\n    idFromCard\\n    idFromCustomer\\n    idFromStripe\\n    amount\\n    amountRefunded\\n    captured\\n    created\\n    currency\\n    description\\n    failureCode\\n    failureMessage\\n    receiptUrl\\n    status\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}"
+    },
+    {
+      "id": "tab35",
+      "name": "Query 31",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgCTfAxedwFiAAFRgA.pJM5m3Fp525lRrAUm9w_G5-3eF4Qt22RRZD86JRwsZM"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createStripePlatformTransferByDoc(\n    idFromProject: \"A3paO2elUfmqulxdLs\",\n    currency: \"usd\"\n  ) {\n    idFromStripe\n    amount\n    amountReversed\n    balanceTransaction\n    created\n    currency\n    destination\n    destinationPayment\n    reversed\n    sourceType\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createStripePlatformTransfer(\n    idFromProject: \"A3paO2elUfmqulxdLs\",\n    currency: \"usd\"\n  ) {\n    idFromStripe\n    amount\n    amountReversed\n    balanceTransaction\n    created\n    currency\n    destination\n    destinationPayment\n    reversed\n    sourceType\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createStripePlatformTransferByDoc(\n    idFromProject: \"A3paO2elUfmqulxdLs\",\n    currency: \"usd\"\n  ) {\n    idFromStripe\n    amount\n    amountReversed\n    balanceTransaction\n    created\n    currency\n    destination\n    destinationPayment\n    reversed\n    sourceType\n    userId\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformTransfer(\\n    idFromProject: \\\"A3paO2elUfmqulxdLs\\\",\\n    currency: \\\"usd\\\"\\n  ) {\\n    idFromStripe\\n    amount\\n    amountReversed\\n    balanceTransaction\\n    created\\n    currency\\n    destination\\n    destinationPayment\\n    reversed\\n    sourceType\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createStripePlatformTransferByDoc(\\n    idFromProject: \\\"A3paO2elUfmqulxdLs\\\",\\n    currency: \\\"usd\\\"\\n  ) {\\n    idFromStripe\\n    amount\\n    amountReversed\\n    balanceTransaction\\n    created\\n    currency\\n    destination\\n    destinationPayment\\n    reversed\\n    sourceType\\n    userId\\n  }\\n}\"}]}",
+      "graphiql:editorFlex": 0.49666666666666665,
       "graphiql:variableEditorHeight": 200,
       "graphiql:docExplorerWidth": 350
     }

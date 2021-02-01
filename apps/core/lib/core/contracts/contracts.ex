@@ -1090,7 +1090,7 @@ defmodule Core.Contracts do
   end
 
   @spec by_counter([{String.t(), integer}]) :: integer
-  defp by_counter(data) do
+  def by_counter(data) do
     data
     |> Enum.filter(&(elem(&1, 1) == List.first(Enum.take(data, 1))
     |> elem(1) ))
@@ -1098,7 +1098,7 @@ defmodule Core.Contracts do
   end
 
   @spec by_offer_price(String.t()) :: integer | nil
-  defp by_offer_price(id) do
+  def by_offer_price(id) do
     case by_value(id) do
       [] -> nil
       [data] -> data
@@ -1106,10 +1106,10 @@ defmodule Core.Contracts do
   end
 
   @spec by_match(String.t()) :: [{String.t(), integer}] | []
-  defp by_match(id), do: Queries.transform_match(id)
+  def by_match(id), do: Queries.transform_match(id)
 
   @spec by_value(String.t()) :: [integer] | []
-  defp by_value(id) do
+  def by_value(id) do
     case Analyzes.total_value(id) do
       [field: :user_id, message: _] -> []
       data -> Map.values(data)
