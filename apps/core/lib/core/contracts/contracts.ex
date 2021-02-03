@@ -874,7 +874,7 @@ defmodule Core.Contracts do
                                      |> Map.delete(:book_keeping_id)
                                      |> Map.delete(:business_tax_return_id)
                                      |> Map.delete(:individual_tax_return_id)
-                                     |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
+                                     |> Map.merge(check_match(SaleTax, attrs[:sale_tax_id]))
                                  end
                                false ->
                                  attrs
@@ -887,7 +887,7 @@ defmodule Core.Contracts do
                              |> Map.delete(:book_keeping_id)
                              |> Map.delete(:business_tax_return_id)
                              |> Map.delete(:sale_tax_id)
-                             |> Map.merge(transfers(IndividualTaxReturn, attrs[:individual_tax_return_id]))
+                             |> Map.merge(check_match(IndividualTaxReturn, attrs[:individual_tax_return_id]))
                          end
                       false ->
                         case Map.has_key?(attrs, :sale_tax_id) do
@@ -902,7 +902,7 @@ defmodule Core.Contracts do
                                 attrs
                                 |> Map.delete(:book_keeping_id)
                                 |> Map.delete(:business_tax_return_id)
-                                |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
+                                |> Map.merge(check_match(SaleTax, attrs[:sale_tax_id]))
                             end
                           false ->
                             attrs
@@ -915,7 +915,7 @@ defmodule Core.Contracts do
                     |> Map.delete(:book_keeping_id)
                     |> Map.delete(:individual_tax_return_id)
                     |> Map.delete(:sale_tax_id)
-                    |> Map.merge(transfers(BusinessTaxReturn, attrs[:business_tax_return_id]))
+                    |> Map.merge(check_match(BusinessTaxReturn, attrs[:business_tax_return_id]))
                 end
               false ->
                 case Map.has_key?(attrs, :individual_tax_return_id) do
@@ -932,7 +932,7 @@ defmodule Core.Contracts do
                                false ->
                                  attrs
                                  |> Map.delete(:individual_tax_return_id)
-                                 |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
+                                 |> Map.merge(check_match(SaleTax, attrs[:sale_tax_id]))
                              end
                           false ->
                             attrs
@@ -941,7 +941,7 @@ defmodule Core.Contracts do
                       false ->
                         attrs
                         |> Map.delete(:sale_tax_id)
-                        |> Map.merge(transfers(IndividualTaxReturn, attrs[:individual_tax_return_id]))
+                        |> Map.merge(check_match(IndividualTaxReturn, attrs[:individual_tax_return_id]))
                     end
                   false ->
                     case Map.has_key?(attrs, :sale_tax_id) do
@@ -952,7 +952,7 @@ defmodule Core.Contracts do
                             |> Map.delete(:sale_tax_id)
                           false ->
                             attrs
-                            |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
+                            |> Map.merge(check_match(SaleTax, attrs[:sale_tax_id]))
                         end
                       false -> attrs
                     end
@@ -963,7 +963,7 @@ defmodule Core.Contracts do
             |> Map.delete(:business_tax_return_id)
             |> Map.delete(:individual_tax_return_id)
             |> Map.delete(:sale_tax_id)
-            |> Map.merge(transfers(BookKeeping, attrs[:book_keeping_id]))
+            |> Map.merge(check_match(BookKeeping, attrs[:book_keeping_id]))
         end
       false ->
         case Map.has_key?(attrs, :business_tax_return_id) do
@@ -986,7 +986,7 @@ defmodule Core.Contracts do
                                 attrs
                                 |> Map.delete(:business_tax_return_id)
                                 |> Map.delete(:individual_tax_return_id)
-                                |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
+                                |> Map.merge(check_match(SaleTax, attrs[:sale_tax_id]))
                             end
                           false ->
                             attrs
@@ -997,7 +997,7 @@ defmodule Core.Contracts do
                         attrs
                         |> Map.delete(:business_tax_return_id)
                         |> Map.delete(:sale_tax_id)
-                        |> Map.merge(transfers(IndividualTaxReturn, attrs[:individual_tax_return_id]))
+                        |> Map.merge(check_match(IndividualTaxReturn, attrs[:individual_tax_return_id]))
                     end
                   false ->
                     case Map.has_key?(attrs, :sale_tax_id) do
@@ -1010,7 +1010,7 @@ defmodule Core.Contracts do
                           false ->
                             attrs
                             |> Map.delete(:business_tax_return_id)
-                            |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
+                            |> Map.merge(check_match(SaleTax, attrs[:sale_tax_id]))
                         end
                       false ->
                         attrs
@@ -1021,7 +1021,7 @@ defmodule Core.Contracts do
                 attrs
                 |> Map.delete(:individual_tax_return_id)
                 |> Map.delete(:sale_tax_id)
-                |> Map.merge(transfers(BusinessTaxReturn, attrs[:business_tax_return_id]))
+                |> Map.merge(check_match(BusinessTaxReturn, attrs[:business_tax_return_id]))
             end
           false ->
             case Map.has_key?(attrs, :individual_tax_return_id) do
@@ -1036,12 +1036,12 @@ defmodule Core.Contracts do
                       false ->
                         attrs
                         |> Map.delete(:individual_tax_return_id)
-                        |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
+                        |> Map.merge(check_match(SaleTax, attrs[:sale_tax_id]))
                     end
                   false ->
                     attrs
                     |> Map.delete(:sale_tax_id)
-                    |> Map.merge(transfers(IndividualTaxReturn, attrs[:individual_tax_return_id]))
+                    |> Map.merge(check_match(IndividualTaxReturn, attrs[:individual_tax_return_id]))
                 end
               false ->
                 case Map.has_key?(attrs, :sale_tax_id) do
@@ -1052,7 +1052,7 @@ defmodule Core.Contracts do
                         |> Map.delete(:sale_tax_id)
                       false ->
                         attrs
-                        |> Map.merge(transfers(SaleTax, attrs[:sale_tax_id]))
+                        |> Map.merge(check_match(SaleTax, attrs[:sale_tax_id]))
                     end
                   false -> attrs
                 end
@@ -1061,11 +1061,25 @@ defmodule Core.Contracts do
     end
   end
 
+  @spec check_match(map, atom) ::
+          %{assigned_id: String.t(), offer_price: integer}
+          | %{status: atom}
+  defp check_match(struct, id) do
+    case transfers(struct, id) do
+      %{} ->
+        if Enum.count(Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, struct, true, :role, :id, :user_id, :hero_status, :email)) > 0 do
+          %{}
+        else
+          %{status: "New"}
+        end
+      %{assigned_id: val1, offer_price: val2} -> %{assigned_id: val1, offer_price: val2}
+    end
+  end
+
   @spec transfers(atom, String.t()) ::
           %{assigned_id: String.t(), offer_price: integer}
-          | %{user_id: String.t()}
-          | [{String.t(), String.t()}]
-  def transfers(struct, id) do
+          | map
+  defp transfers(struct, id) do
     with offer_price <- by_offer_price(id),
          match <- by_match(id),
          single <- Queries.get_hero_active(struct, match),
@@ -1090,7 +1104,7 @@ defmodule Core.Contracts do
   end
 
   @spec by_counter([{String.t(), integer}]) :: integer
-  def by_counter(data) do
+  defp by_counter(data) do
     data
     |> Enum.filter(&(elem(&1, 1) == List.first(Enum.take(data, 1))
     |> elem(1) ))
@@ -1098,7 +1112,7 @@ defmodule Core.Contracts do
   end
 
   @spec by_offer_price(String.t()) :: integer | nil
-  def by_offer_price(id) do
+  defp by_offer_price(id) do
     case by_value(id) do
       [] -> nil
       [data] -> data
@@ -1109,7 +1123,7 @@ defmodule Core.Contracts do
   def by_match(id), do: Queries.transform_match(id)
 
   @spec by_value(String.t()) :: [integer] | []
-  def by_value(id) do
+  defp by_value(id) do
     case Analyzes.total_value(id) do
       [field: :user_id, message: _] -> []
       data -> Map.values(data)

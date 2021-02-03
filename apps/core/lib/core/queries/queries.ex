@@ -79,26 +79,30 @@ defmodule Core.Queries do
   ## Example
       iex> struct_a = Core.Accounts.User
       iex> struct_b = Core.Accounts.Platform
+      iex> struct_c = Core.Service.IndividualTaxReturn
       iex> role = true
       iex> row_a = :role
       iex> row_b = :id
       iex> row_c = :user_id
       iex> row_d = :hero_status
       iex> row_h = :email
-      iex> by_hero_status(struct_a, struct_b, role, row_a, row_b, row_c, row_d, row_h)
+      iex> by_hero_status(struct_a, struct_b, struct_c, role, row_a, row_b, row_c, row_d, row_h)
       [{"some text"}, {"some text"}]
   """
-  @spec by_hero_status(map, map, boolean, atom, atom, atom, atom, atom) :: [{word, word}] | nil
-  def by_hero_status(struct_a, struct_b, role, row_a, row_b, row_c, row_d, row_h) do
+  @spec by_hero_status(map, map, map, boolean, atom, atom, atom, atom, atom) :: [{word, word}] | nil
+  def by_hero_status(struct_a, struct_b, struct_c, role, row_a, row_b, row_c, row_d, row_h) do
     try do
       Repo.all(
         from c in struct_a,
-        join: cu in ^struct_b,
+        join: ct in ^struct_b,
+        join: cu in ^struct_c,
         where: field(c, ^row_a) == ^role,
+        where: field(c, ^row_b) == field(ct, ^row_c),
         where: field(c, ^row_b) == field(cu, ^row_c),
-        where: not is_nil(field(cu, ^row_d)),
-        where: field(cu, ^row_d) == ^role,
-        select: {field(cu, ^row_c), field(c, ^row_h)}
+        where: not is_nil(field(ct, ^row_d)),
+        where: not is_nil(field(cu, ^row_c)),
+        where: field(ct, ^row_d) == ^role,
+        select: {field(ct, ^row_c), field(c, ^row_h)}
       )
     rescue
       Ecto.Query.CastError -> nil
@@ -457,7 +461,7 @@ defmodule Core.Queries do
       ArgumentError -> status(service, t)
     end
   end
-  defp status(_service, []), do: by_hero_status(User, Platform, true, :role, :id, :user_id, :hero_status, :email)
+  defp status(service, []), do: by_hero_status(User, Platform, service, true, :role, :id, :user_id, :hero_status, :email)
 
   @doc """
   Recursion with field's an average_rating by ProRating
