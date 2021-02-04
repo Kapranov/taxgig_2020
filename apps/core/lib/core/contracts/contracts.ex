@@ -7,6 +7,7 @@ defmodule Core.Contracts do
 
   alias Core.{
     Accounts,
+    Accounts.Platform,
     Accounts.User,
     Analyzes,
     Contracts,
@@ -1063,12 +1064,15 @@ defmodule Core.Contracts do
 
   @spec check_match(map, atom) ::
           %{assigned_id: String.t(), offer_price: integer}
+          | %{mailers: [{String.t(), String.t()}]}
           | %{status: atom}
   defp check_match(struct, id) do
     case transfers(struct, id) do
       %{} ->
-        if Enum.count(Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, struct, true, :role, :id, :user_id, :hero_status, :email)) > 0 do
-          %{}
+        data = Queries.by_hero_status(User, Platform, struct, true, :role, :id, :user_id, :hero_status, :email)
+        users = for {k, v} <- data, into: [], do: %{user_id: k, email: v}
+        if Enum.count(users) > 0 do
+          %{mailers: users}
         else
           %{status: "New"}
         end

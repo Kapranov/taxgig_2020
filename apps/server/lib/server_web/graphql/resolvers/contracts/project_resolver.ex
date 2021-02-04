@@ -108,7 +108,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
             |> Contracts.extention_project()
             |> case do
               {:ok, struct} ->
-                {:ok, struct}
+                if is_nil(struct.assigned_id) do
+                  if is_nil(struct.mailers) do
+                    {:ok, struct}
+                  else
+                    # :ok = Mailings.Mailer.send_total_match(struct.mailers)
+                    {:ok, Map.delete(struct, :mailers)}
+                  end
+                else
+                  {:ok, Map.delete(struct, :mailers)}
+                end
               {:error, changeset} ->
                 {:error, extract_error_msg(changeset)}
             end

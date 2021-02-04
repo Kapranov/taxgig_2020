@@ -870,9 +870,11 @@ Stripe.charge.capture -> ByDone
 #   end
 # end
 #
-# mailers = Core.Queries.by_hero_statuses(User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
+# mailers = Core.Queries.by_hero_statuses(User, Core.Accounts.Platform, Core.Services.BookKeeping, true, :role, :id, :user_id, :hero_status, :email)
 # Enum.each(Repo.all(mailers), fn email ->  %{email: email, body: "Hello World!"} end)
 # Enum.map(Repo.all(mailers),  fn email ->  %{email: email, body: "Hello World!"} end)
+# Enum.map(mailers,  fn x ->  %{body: "Hello World by #{Map.get(x, :email)} and your account's https://taxgig.io/accounts/#{Map.get(x, :user_id)}"} end)
+# Enum.map(mailers, &(%{body: "Hello World by #{Map.get(&1, :email)} your account's link https://taxgig.io/accounts/#{Map.get(&1, :user_id)}"}))
 #
 # query = from s in Stripy.Payments.StripeCardToken, where: s.user_id == ^current_user.id
 # Stripy.Queries.by_list(Stripy.Payments.StripeCardToken, :user_id, current_user.id
@@ -946,7 +948,7 @@ Stripe.charge.capture -> ByDone
 #       ArgumentError -> search(service, t)
 #     end
 #   end
-#   defp search(_service, []), do: Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
+#   defp search(_service, []), do: Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, Core.Services.BookKeeping, true, :role, :id, :user_id, :hero_status, :email)
 # end
 #
 # defmodule Recursion do
@@ -956,7 +958,7 @@ Stripe.charge.capture -> ByDone
 # end
 # |> Enum.map(fn x -> if elem(x,1) == true, do: [elem(x, 0)], else: [] end) |> List.flatten |> List.first
 #
-# Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
+# Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, Core.Services.BookKeeping, true, :role, :id, :user_id, :hero_status, :email)
 #
 # Version #5
 #
@@ -1081,7 +1083,7 @@ $   defp _max(current, [head|tail]) when current < head do
 #     # when will be end
 #     # take any user with role true and platform.hero_status == true
 #     # all users send message
-#     # Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, true, :role, :id, :user_id, :hero_status, :email)
+#     # Core.Queries.by_hero_status(Core.Accounts.User, Core.Accounts.Platform, Core.Services.BookKeeping, true, :role, :id, :user_id, :hero_status, :email)
 #   end
 # 5.
 #    [value] = head |> Map.get(:sum_Value) |> Map.values

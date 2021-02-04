@@ -115,6 +115,21 @@ defmodule Mailings.Mailer do
     :ok
   end
 
+  @doc """
+  Send Message by Tp's user for user by role pro.
+
+  ## Examples
+
+      iex> users = [%{email: "kapranov.lugatex@gmail.com", user_id: FlakeId.get()}]
+      iex> Mailings.Mailer.send_total_match(users)
+      :ok
+  """
+  @spec send_total_match([%{email: String.t(), user_id: String.t()}]) :: :ok
+  def send_total_match(users) do
+    Enum.map(users, &(send_email(to: Map.get(&1, :email), from: @from, subject: email_subject(), text: welcome_tp_text())))
+    :ok
+  end
+
   @doc false
   @spec email_subject() :: String.t()
   defp email_subject do

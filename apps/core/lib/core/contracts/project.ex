@@ -33,6 +33,7 @@ defmodule Core.Contracts.Project do
     id_from_stripe_transfer: String.t(),
     individual_tax_return_id: IndividualTaxReturn.t(),
     instant_matched: boolean,
+    mailers: [%{email: String.t(), user_id: String.t()}],
     messages: [Message.t()],
     offer_price: integer,
     offers: Offer.t(),
@@ -56,6 +57,7 @@ defmodule Core.Contracts.Project do
     id_from_stripe_transfer
     individual_tax_return_id
     instant_matched
+    mailers
     offer_price
     sale_tax_id
     service_review_id
@@ -76,6 +78,7 @@ defmodule Core.Contracts.Project do
     field :id_from_stripe_card, :string, null: true
     field :id_from_stripe_transfer, :string, null: true
     field :instant_matched, :boolean, null: false
+    field :mailers, {:array, :map}, virtual: true
     field :offer_price, :decimal, null: true
     field :status, ProjectEnum, null: false
 
