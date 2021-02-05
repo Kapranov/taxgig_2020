@@ -114,9 +114,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                   else
                     Task.Supervisor.async_nolink(Server.TaskSupervisor, fn ->
                       Process.sleep(60000)
-                      Mailings.Mailer.send_total_match([%{email: "kapranov.lugatex@gmail.com", user_id: "xxx"}, %{email: "lugatex@yahoo.com", user_id: "zzz"}])
+                      Mailings.Mailer.send_total_match(struct.mailers)
                     end)
-                    {:ok, Map.delete(struct, :mailers)}
+                    {:ok, struct}
                   end
                 else
                   {:ok, Map.delete(struct, :mailers)}

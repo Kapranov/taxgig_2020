@@ -1062,7 +1062,7 @@ defmodule Core.Contracts do
     end
   end
 
-  @spec check_match(map, atom) ::
+  @spec check_match(map, String.t()) ::
           %{assigned_id: String.t(), offer_price: integer}
           | %{mailers: [{String.t(), String.t()}]}
           | %{status: atom}
