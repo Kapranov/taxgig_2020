@@ -17,7 +17,8 @@ defmodule Server.Application do
       ServerWeb.Endpoint,
       {Phoenix.PubSub, name: Server.PubSub},
       ServerWeb.Presence,
-      {Absinthe.Subscription, ServerWeb.Endpoint}
+      {Absinthe.Subscription, ServerWeb.Endpoint},
+      {Task.Supervisor, name: Server.TaskSupervisor, restart: :transient}
     ]
 
     opts = [strategy: :one_for_one, name: Server.Supervisor]
