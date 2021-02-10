@@ -781,6 +781,21 @@ Stripe.charge.capture -> ByDone
 
 # ################################################################
 #
+# timestamp = :os.system_time(:seconds) + 10
+#
+# encoded_email = email |> :erlang.term_to_binary() |> Base.encode64()
+# encoded_email |> Base.decode64!() |> :erlang.binary_to_term()
+#
+# defmodule Term do
+#   def store(anything, path) do
+#     bin = :erlang.term_to_binary(anything)
+#     File.write!(path, bin)
+#   end
+#   def fetch(path) do
+#     File.read!(path) |> :erlang.binary_to_term:
+#   end
+# end
+#
 # Version #1
 #
 # current_user = Repo.get_by(User, email: "kapranov.pure@gmail.com")

@@ -18,7 +18,7 @@ defmodule Server.Application do
       {Phoenix.PubSub, name: Server.PubSub},
       ServerWeb.Presence,
       {Absinthe.Subscription, ServerWeb.Endpoint},
-      {Task.Supervisor, name: Server.TaskSupervisor, restart: :transient}
+      Supervisor.child_spec({Task.Supervisor, [name: Server.TaskSupervisor, max_restarts: 3]}, id: :task_supervisor, restart: :transient, shutdown: 30_000)
     ]
 
     opts = [strategy: :one_for_one, name: Server.Supervisor]
