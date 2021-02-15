@@ -39,9 +39,24 @@ bash> mix phx.nemix phx.new server --no-html --no-webpack --no-ecto
 
 ### 21 Jan 2020 by Oleg G.Kapranov
 
-[1]: https://github.com/ueberauth/ueberauth_twitter
-[2]: https://cri.dev/posts/2020-02-15-Twitter-OAuth-by-example-in-Nodejs/
-[3]: https://itnext.io/a-beginners-guide-to-using-the-twitter-api-839c8d611b8c
-[4]: https://documenter.getpostman.com/view/2547817/RzZ3N3Ui?version=latest#intro
-[5]: https://developer.twitter.com/en/docs/authentication/overview
-
+ [1]: https://github.com/ueberauth/ueberauth_twitter
+ [2]: https://cri.dev/posts/2020-02-15-Twitter-OAuth-by-example-in-Nodejs/
+ [3]: https://itnext.io/a-beginners-guide-to-using-the-twitter-api-839c8d611b8c
+ [4]: https://documenter.getpostman.com/view/2547817/RzZ3N3Ui?version=latest#intro
+ [5]: https://developer.twitter.com/en/docs/authentication/overview
+ [6]: https://github.com/ueberauth/ueberauth_twitter
+ [7]: https://github.com/steveklebanoff/twitter_oauth_example
+ [8]: http://headynation.com/twitter-oauth-elixir-phoenix/
+ [9]: https://github.com/parroty/extwitter
+[10]: https://github.com/parroty/extwitter/blob/master/lib/extwitter.ex
+[11]: https://github.com/parroty/extwitter/blob/master/lib/extwitter/api/users.ex
+[12]: https://github.com/parroty/extwitter/blob/master/lib/extwitter/api/auth.ex
+[13]: https://developer.twitter.com/en/docs/tutorials/getting-started-with-the-account-activity-api
+[14]: https://developer.twitter.com/en/docs/authentication/oauth-2-0/application-only
+[15]: https://developer.twitter.com/en/docs/authentication/oauth-1-0a
+[16]: https://developer.twitter.com/en/docs/authentication/oauth-1-0a/obtaining-user-access-tokens
+[17]: https://developer.twitter.com/en/docs/authentication/api-reference/authorize
+[18]: https://documenter.getpostman.com/view/2547817/RzZ3N3Ui#intro
+[19]: https://stackoverflow.com/questions/38911936/how-to-make-twitter-api-call-through-curl-in-unix
+[20]: https://github.com/twitter/twurl
+[21]: https://github.com/almightycouch/twittex

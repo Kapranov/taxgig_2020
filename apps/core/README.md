@@ -781,6 +781,13 @@ Stripe.charge.capture -> ByDone
 
 # ################################################################
 #
+# :ets.new(:security_level, [:named_table])
+# :ets.lookup(:security_level, 1)
+# :ets.insert(:security_level, {1, :high})
+# :ets.lookup(:security_level, 1)
+#
+# ?a..?z |> Enum.take_random(3) |>  List.to_string()
+# Enum.map(1..81, fn x -> x end)
 # timestamp = :os.system_time(:seconds) + 10
 #
 # encoded_email = email |> :erlang.term_to_binary() |> Base.encode64()

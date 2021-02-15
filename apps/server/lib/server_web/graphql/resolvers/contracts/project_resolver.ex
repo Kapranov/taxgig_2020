@@ -19,7 +19,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
   @type success_list :: {:ok, [t]}
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
-  @current_time DateTime.to_unix(DateTime.utc_now)
+  @current_time :os.system_time(:seconds)
   @seconds  (2 * 24 * 3600)
 
   @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()

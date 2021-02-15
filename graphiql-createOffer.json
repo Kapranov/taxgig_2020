@@ -23,6 +23,10 @@
   "recentHeaders": [
     {
       "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZHpMNGVEZExLTFAwWHduBgCZDxyXdwFiAAFRgA.CgtfBXyECJWMPVYjRyQ56OEArA4XOsAT9niiW5bh3-0"
+    },
+    {
+      "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgAUI46LdgFiAAFRgA.AnOFo3ZfEEnSW_DTC4XveKQKfEp47EeGM7tB_IeNbaM"
     },
     {
@@ -34,7 +38,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab7",
+  "activeId": "tab2",
   "tabs": [
     {
       "id": "tab1",
@@ -57,7 +61,7 @@
       "websocketUrl": "ws://localhost:4000/socket",
       "proxy": false,
       "headers": [],
-      "collapsed": true,
+      "collapsed": false,
       "maxHistory": 20,
       "history": [
         {
@@ -80,7 +84,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgAUI46LdgFiAAFRgA.AnOFo3ZfEEnSW_DTC4XveKQKfEp47EeGM7tB_IeNbaM"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZHpMNGVEZExLTFAwWHduBgCZDxyXdwFiAAFRgA.CgtfBXyECJWMPVYjRyQ56OEArA4XOsAT9niiW5bh3-0"
         }
       ],
       "collapsed": true,
@@ -93,9 +97,9 @@
       ],
       "graphiql:query": "query {\n  allOffers {\n    id\n    price\n    status\n    projects {id}\n  }\n}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allOffers {\\n    id\\n    price\\n    status\\n    project {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allOffers {\\n    id\\n    price\\n    status\\n    projects {id}\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.19414893617021275
+      "graphiql:editorFlex": 0.19414893617021275,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allOffers {\\n    id\\n    price\\n    status\\n    project {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allOffers {\\n    id\\n    price\\n    status\\n    projects {id}\\n  }\\n}\"}]}"
     },
     {
       "id": "tab4",
@@ -106,21 +110,25 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgAUI46LdgFiAAFRgA.AnOFo3ZfEEnSW_DTC4XveKQKfEp47EeGM7tB_IeNbaM"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZHpMNGVEZExLTFAwWHduBgCZDxyXdwFiAAFRgA.CgtfBXyECJWMPVYjRyQ56OEArA4XOsAT9niiW5bh3-0"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
+          "query": "query {\n  proProjects{\n    id\n    addonPrice\n    assigned {id email role}\n    endTime\n    instantMatched\n    idFromStripeCard\n    idFromStripeTransfer\n    bookKeeping {id user {id email role}}\n    businessTaxReturn {id user {id email role}}\n    individualTaxReturn {id user {id email role}}\n    saleTax {id user {id email role}}\n    byProStatus\n    offerPrice\n    status\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
           "query": "mutation {\n  createOffer(\n    userId: \"A2QY7Y1h2sSvH4gfDc\",\n    price: 22,\n    projectId: \"A2QY8bdX6kM6lFtIiu\"\n  ) {\n    id\n    price\n    projects {id}\n    status\n    users {id email role}\n  }\n}",
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  createOffer(\n    userId: \"A2QY7Y1h2sSvH4gfDc\",\n    price: 22,\n    projectId: \"A2QY8bdX6kM6lFtIiu\"\n  ) {\n    id\n    price\n    projects {id}\n    status\n    users {id email role}\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createOffer(\\n    userId: \\\"A2QY7Y1h2sSvH4gfDc\\\",\\n    price: 22,\\n    projectId: \\\"A2QY8bdX6kM6lFtIiu\\\"\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:query": "query {\n  proProjects{\n    id\n    addonPrice\n    assigned {id email role}\n    endTime\n    instantMatched\n    idFromStripeCard\n    idFromStripeTransfer\n    bookKeeping {id user {id email role}}\n    businessTaxReturn {id user {id email role}}\n    individualTaxReturn {id user {id email role}}\n    saleTax {id user {id email role}}\n    byProStatus\n    offerPrice\n    status\n    users {id email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createOffer(\\n    userId: \\\"A2QY7Y1h2sSvH4gfDc\\\",\\n    price: 22,\\n    projectId: \\\"A2QY8bdX6kM6lFtIiu\\\"\\n  ) {\\n    id\\n    price\\n    projects {id}\\n    status\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  proProjects{\\n    id\\n    addonPrice\\n    assigned {id email role}\\n    endTime\\n    instantMatched\\n    idFromStripeCard\\n    idFromStripeTransfer\\n    bookKeeping {id user {id email role}}\\n    businessTaxReturn {id user {id email role}}\\n    individualTaxReturn {id user {id email role}}\\n    saleTax {id user {id email role}}\\n    byProStatus\\n    offerPrice\\n    status\\n    users {id email role}\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.3929679420889349,
+      "graphiql:editorFlex": 0.5554272517321016,
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -199,7 +207,7 @@
           "value": "Bearer SFMyNTY.g2gDbQAAABJBMlFZN1kxaDJzU3ZINGdmRGNuBgAUI46LdgFiAAFRgA.AnOFo3ZfEEnSW_DTC4XveKQKfEp47EeGM7tB_IeNbaM"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -208,10 +216,10 @@
         }
       ],
       "graphiql:query": "mutation {\n  deleteOffer(\n    id: \"A2Swzb5OGaYfINibtA\",\n    userId: \"A2QY7Y1h2sSvH4gfDc\"\n  ) {\n    id status users {email role}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteOffer(\\n    id: \\\"A2Swzb5OGaYfINibtA\\\",\\n    userId: \\\"A2QY7Y1h2sSvH4gfDc\\\"\\n  ) {\\n    id status users {email role}\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
       "graphiql:editorFlex": 0.41343126967471144,
-      "graphiql:variableEditorHeight": 200,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteOffer(\\n    id: \\\"A2Swzb5OGaYfINibtA\\\",\\n    userId: \\\"A2QY7Y1h2sSvH4gfDc\\\"\\n  ) {\\n    id status users {email role}\\n  }\\n}\"}]}"
+      "graphiql:variableEditorHeight": 200
     }
   ]
 }
