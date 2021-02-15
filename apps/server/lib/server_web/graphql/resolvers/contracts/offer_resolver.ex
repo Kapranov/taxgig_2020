@@ -88,7 +88,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
 
   @spec update(any, %{id: bitstring, offer: map()}, %{context: %{current_user: User.t()}}) :: result()
   def update(_parent, %{id: id, offer: params}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.role == false do
+    if is_nil(id) || is_nil(current_user) || current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
       case params[:user_id] == current_user.id do
