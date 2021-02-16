@@ -126,7 +126,8 @@ defmodule Mailings.Mailer do
   """
   @spec send_total_match([%{email: String.t(), user_id: String.t()}]) :: :ok
   def send_total_match(users) do
-    Enum.map(users, &(send_email(to: Map.get(&1, :email), from: @from, subject: email_subject(), text: welcome_tp_text())))
+    Process.sleep(3000)
+    Enum.map(users, &(send_email(to: Map.get(&1, :email), from: @from, subject: email_subject(), text: welcome_tp_text()))
     :ok
   end
 
