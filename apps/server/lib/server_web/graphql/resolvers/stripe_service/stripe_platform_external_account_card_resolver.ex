@@ -34,10 +34,10 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformExternalAccoun
       {:error, [[field: :user_id, message: "An User not found! or Unauthenticated"]]}
     else
       case Accounts.by_role(current_user.id) do
-        true -> {:error, :not_found}
-        false ->
+        true ->
           struct = Payments.list_stripe_external_account_card()
           {:ok, struct}
+        false -> > {:error, :not_found}
       end
     end
   end
@@ -53,8 +53,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformExternalAccoun
       {:error, [[field: :user_id, message: "An User not found! or Unauthenticated"]]}
     else
       case Accounts.by_role(current_user.id) do
-        true -> {:error, :not_found}
-        false ->
+        true ->
           with account <- Repo.get_by(StripeAccount, %{user_id: current_user.id}),
                {:ok, struct} <- StripePlatformExternalAccountCardService.list(:card, %{account: account.id_from_stripe})
           do
@@ -63,6 +62,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformExternalAccoun
             nil -> {:error, :not_found}
             failure -> failure
           end
+        false -> > {:error, :not_found}
       end
     end
   end
