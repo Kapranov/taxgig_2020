@@ -26,6 +26,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformExternalAccountC
   end
 
   object :by_stripe_external_account_card do
+    field :id, non_null(:string)
     field :account, non_null(:string)
     field :brand, non_null(:string)
     field :country, non_null(:string)
@@ -38,7 +39,6 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformExternalAccountC
     field :exp_year, non_null(:integer)
     field :fingerprint, non_null(:string)
     field :funding, non_null(:string)
-    field :id, non_null(:string)
     field :last4, non_null(:string)
     field :name, non_null(:string)
     field :object, non_null(:string)
