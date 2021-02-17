@@ -21,6 +21,7 @@ defmodule ServerWeb.GraphQL.Schema do
   import_types(ServerWeb.GraphQL.Schemas.Accounts.ProfileTypes)
   import_types(ServerWeb.GraphQL.Schemas.Accounts.SubscriberTypes)
   import_types(ServerWeb.GraphQL.Schemas.Accounts.UserTypes)
+  import_types(ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes)
   import_types(ServerWeb.GraphQL.Schemas.Contracts.AddonTypes)
   import_types(ServerWeb.GraphQL.Schemas.Contracts.OfferTypes)
   import_types(ServerWeb.GraphQL.Schemas.Contracts.PotentialClientTypes)
@@ -92,6 +93,7 @@ defmodule ServerWeb.GraphQL.Schema do
   query do
     import_fields(:accounting_software_queries)
     import_fields(:addon_queries)
+    import_fields(:analyze_queries)
     import_fields(:ban_reason_queries)
     import_fields(:blockscore_queries)
     import_fields(:book_keeping_additional_need_queries)
@@ -284,6 +286,7 @@ defmodule ServerWeb.GraphQL.Schema do
   subscription do
     import_fields(:accounting_software_subscriptions)
     import_fields(:addon_subscriptions)
+    import_fields(:analyze_subscriptions)
     import_fields(:ban_reason_subscriptions)
     import_fields(:blockscore_subscriptions)
     import_fields(:book_keeping_subscriptions)
