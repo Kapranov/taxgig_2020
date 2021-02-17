@@ -788,6 +788,10 @@ Stripe.charge.capture -> ByDone
 #
 # ?a..?z |> Enum.take_random(3) |>  List.to_string()
 # Enum.map(1..81, fn x -> x end)
+# events = [0]
+# number = 9
+# for event <- events, entry <- event..(event + number), do: entry
+#
 # timestamp = :os.system_time(:seconds) + 10
 #
 # encoded_email = email |> :erlang.term_to_binary() |> Base.encode64()

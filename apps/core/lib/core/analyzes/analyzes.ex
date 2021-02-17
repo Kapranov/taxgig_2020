@@ -30,7 +30,7 @@ defmodule Core.Analyzes do
                     match = total_match(id)
                     data2 = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
                     value = total_value(id)
-                    data3 = %{id: id, sum_value: value}
+                    data3 = for {k, v} <- value, into: [], do: %{id: k, sum_value: v}
                     [data3 | [data2 | [data1]]] |> List.flatten
                 end
               _ ->
@@ -39,7 +39,7 @@ defmodule Core.Analyzes do
                 match = total_match(id)
                 data2 = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
                 value = total_value(id)
-                data3 = %{id: id, sum_value: value}
+                data3 = for {k, v} <- value, into: [], do: %{id: k, sum_value: v}
                 [data3 | [data2 | [data1]]] |> List.flatten
             end
           _ ->
@@ -48,7 +48,7 @@ defmodule Core.Analyzes do
             match = total_match(id)
             data2 = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
             value = total_value(id)
-            data3 = %{id: id, sum_value: value}
+            data3 = for {k, v} <- value, into: [], do: %{id: k, sum_value: v}
             [data3 | [data2 | [data1]]] |> List.flatten
         end
       _ ->
@@ -57,7 +57,7 @@ defmodule Core.Analyzes do
         match = total_match(id)
         data2 = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
         value = total_value(id)
-        data3 = %{id: id, sum_value: value}
+        data3 = for {k, v} <- value, into: [], do: %{id: k, sum_value: v}
         [data3 | [data2 | [data1]]] |> List.flatten
     end
   end

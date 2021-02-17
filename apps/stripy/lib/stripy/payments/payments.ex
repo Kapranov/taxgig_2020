@@ -432,6 +432,17 @@ defmodule Stripy.Payments do
   def delete_stripe_external_account_bank(%StripeExternalAccountBank{} = struct), do: Repo.delete(struct)
 
   @doc """
+  Returns the list of the StripeExternalAccountCard.
+
+  ## Examples
+
+      iex> list_stripe_external_account_card()
+      [%StripeExternalAccountCard{}, ...]
+  """
+  @spec list_stripe_external_account_card() :: [StripeExternalAccountCard.t()]
+  def list_stripe_external_account_card, do: Repo.all(StripeExternalAccountCard)
+
+  @doc """
   Gets a single StripeExternalAccountCard.
 
   Raises `Ecto.NoResultsError` if the StripeExternalAccountCard does not exist.

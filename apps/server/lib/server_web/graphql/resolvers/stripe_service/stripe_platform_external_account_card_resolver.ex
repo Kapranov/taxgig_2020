@@ -36,6 +36,25 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformExternalAccoun
       case Accounts.by_role(current_user.id) do
         true -> {:error, :not_found}
         false ->
+          struct = Payments.list_stripe_external_account_card()
+          {:ok, struct}
+      end
+    end
+  end
+
+  @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def list(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
+  end
+
+  @spec list_by_stripe(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: success_list() | error_tuple()
+  def list_by_stripe(_parent, _args, %{context: %{current_user: current_user}}) do
+    if is_nil(current_user) do
+      {:error, [[field: :user_id, message: "An User not found! or Unauthenticated"]]}
+    else
+      case Accounts.by_role(current_user.id) do
+        true -> {:error, :not_found}
+        false ->
           with account <- Repo.get_by(StripeAccount, %{user_id: current_user.id}),
                {:ok, struct} <- StripePlatformExternalAccountCardService.list(:card, %{account: account.id_from_stripe})
           do
@@ -48,8 +67,8 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformExternalAccoun
     end
   end
 
-  @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
-  def list(_parent, _args, _resolutions) do
+  @spec list_by_stripe(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def list_by_stripe(_parent, _args, _resolutions) do
     {:error, "Unauthenticated"}
   end
 
