@@ -37,7 +37,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformExternalAccoun
         true ->
           struct = Payments.list_stripe_external_account_card()
           {:ok, struct}
-        false -> > {:error, :not_found}
+        false -> {:error, :not_found}
       end
     end
   end
@@ -62,7 +62,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformExternalAccoun
             nil -> {:error, :not_found}
             failure -> failure
           end
-        false -> > {:error, :not_found}
+        false -> {:error, :not_found}
       end
     end
   end
