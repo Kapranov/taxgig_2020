@@ -23,6 +23,7 @@ VERSION
 chat.tar.bz2
 curl_twitter.sh
 elixir_chat_server.tar.bz2
+gen_server_try.tar.bz2
 mix.lock
 payments.ex
 phx-1.5-upgrade.md
