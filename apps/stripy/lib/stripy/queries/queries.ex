@@ -7,6 +7,17 @@ defmodule Stripy.Queries do
 
   alias Stripy.Repo
 
+  @doc """
+  Retrurn all records
+
+  ## Example
+
+      iex> struct = Stripy.Payments.StripeExternalAccountCard
+      iex> row = :user_id
+      iex> id  = current_user.id
+      iex> by_list(struct, row, id)
+
+  """
   @spec by_list(map, atom, String.t()) :: Ecto.Query.t()
   def by_list(struct, row, id) do
     try do

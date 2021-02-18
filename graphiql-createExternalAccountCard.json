@@ -1,81 +1,152 @@
 {
   "key": "graphiql",
-  "lastId": 2,
+  "lastId": 5,
   "tabIds": [
     "tab1",
-    "tab2"
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5"
   ],
   "closedTabs": [],
-  "defaultUrl": "http://localhost:4000/graphiql",
-  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultUrl": "http://taxgig.com:4000/graphiql",
+  "defaultWebsocketUrl": "ws://taxgig.com:4000/socket",
   "defaultQuery": "",
   "defaultVariables": "",
   "defaultProxy": false,
   "defaultHeaders": [],
   "usedUrls": [
-    "http://localhost:4000/graphiql"
+    "http://taxgig.com:4000/graphiql"
   ],
   "recentHeaders": [
     {
       "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMHN2SWJXVHowSlhFbjJuBgCk1HZidgFiAAFRgA.wz3PRUqh2FTiXwPUUldq9O5ROYuGpzuIcj88jxkqTv0"
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNE1tN1VQc2NJdTFCQXBPaUduBgD8WECxdwFiAAFRgA.xgp6o4dBlktdn58e1jdW8TtCn7w_qIPO82nZit4xYbA"
     },
     {
       "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMHN2SWJXVHowSlhFbjJuBgDgJWBidgFiAAFRgA.6aj2gp6Lg50SAg-KfwJGCbC0y7hdJDoCl4ZQdTNyiCA"
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNE1tN1VQc2NJdTFCQXBPaUduBgAf3DKxdwFiAAFRgA.ngk1YZGrnzutthC0Qodjcn_7lFHrKtGl2VFJI00RYzQ"
     }
   ],
   "maxTabHistory": 20,
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab2",
+  "activeId": "tab5",
   "tabs": [
     {
       "id": "tab1",
       "name": "Query 1",
-      "url": "http://localhost:4000/graphiql",
-      "websocketUrl": "ws://localhost:4000/socket",
+      "url": "http://taxgig.com:4000/graphiql",
+      "websocketUrl": "ws://taxgig.com:4000/socket",
       "proxy": false,
       "headers": [],
-      "collapsed": true,
+      "collapsed": false,
       "maxHistory": 20,
-      "history": [
-        {
-          "query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
-          "variables": null
-        }
-      ],
-      "graphiql:query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
-      "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 0.3270935960591133,
+      "history": [],
+      "graphiql:editorFlex": 1,
       "graphiql:variableEditorHeight": 200,
       "graphiql:docExplorerWidth": 350
     },
     {
       "id": "tab2",
       "name": "Query 2",
-      "url": "http://localhost:4000/graphiql",
-      "websocketUrl": "ws://localhost:4000/socket",
+      "url": "http://taxgig.com:4000/graphiql",
+      "websocketUrl": "ws://taxgig.com:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"proone@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signIn(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"proone@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"proone@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.37589376915219613
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://taxgig.com:4000/graphiql",
+      "websocketUrl": "ws://taxgig.com:4000/socket",
       "proxy": false,
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMHN2SWJXVHowSlhFbjJuBgCk1HZidgFiAAFRgA.wz3PRUqh2FTiXwPUUldq9O5ROYuGpzuIcj88jxkqTv0"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNE1tN1VQc2NJdTFCQXBPaUduBgAf3DKxdwFiAAFRgA.ngk1YZGrnzutthC0Qodjcn_7lFHrKtGl2VFJI00RYzQ"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allStripeExternalAccountCards {\n    id\n    account\n    brand\n    country\n    currency\n    customer\n    cvcCheck\n    defaultForCurrency\n    dynamicLast4\n    expMonth\n    expYear\n    fingerprint\n    funding\n    last4\n    name\n    object\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allStripeExternalAccountCards {\n    id\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allStripeExternalAccountCards {\n    id\n    account\n    brand\n    country\n    currency\n    customer\n    cvcCheck\n    defaultForCurrency\n    dynamicLast4\n    expMonth\n    expYear\n    fingerprint\n    funding\n    last4\n    name\n    object\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allStripeExternalAccountCards {\\n    id\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allStripeExternalAccountCards {\\n    id\\n    account\\n    brand\\n    country\\n    currency\\n    customer\\n    cvcCheck\\n    defaultForCurrency\\n    dynamicLast4\\n    expMonth\\n    expYear\\n    fingerprint\\n    funding\\n    last4\\n    name\\n    object\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3915289256198347
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://taxgig.com:4000/graphiql",
+      "websocketUrl": "ws://taxgig.com:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNE1tN1VQc2NJdTFCQXBPaUduBgD8WECxdwFiAAFRgA.xgp6o4dBlktdn58e1jdW8TtCn7w_qIPO82nZit4xYbA"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allStripePlatformExternalAccountCards {\n    id\n    idFromAccount\n    idFromStripe\n    brand\n    country\n    currency\n    cvcCheck\n    defaultForCurrency\n    expMonth\n    expYear\n    fingerprint\n    funding\n    last4\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allStripePlatformExternalAccountCards {\n    id\n    idFromAccount\n    idFromStripe\n    brand\n    country\n    currency\n    cvcCheck\n    defaultForCurrency\n    expMonth\n    expYear\n    fingerprint\n    funding\n    last4\n    userId\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allStripePlatformExternalAccountCards {\\n    id\\n    idFromAccount\\n    idFromStripe\\n    brand\\n    country\\n    currency\\n    cvcCheck\\n    defaultForCurrency\\n    expMonth\\n    expYear\\n    fingerprint\\n    funding\\n    last4\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.4983314794215795,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://taxgig.com:4000/graphiql",
+      "websocketUrl": "ws://taxgig.com:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNE1tN1VQc2NJdTFCQXBPaUduBgD8WECxdwFiAAFRgA.xgp6o4dBlktdn58e1jdW8TtCn7w_qIPO82nZit4xYbA"
         }
       ],
       "collapsed": false,
       "maxHistory": 20,
-      "history": [
-        {
-          "query": "mutation {\n  createStripePlatformExternalAccountCard(\n    token: \"tok_1HyLZCLhtqtNnMebRA2gfC6w\",\n  ) {\n    id\n    idFromStripe\n    idFromAccount\n    brand\n    country\n    currency\n    cvcCheck\n    defaultForCurrency\n    expMonth\n    expYear\n    fingerprint\n    fingerprint\n    last4\n    userId\n  }\n}",
-          "variables": null
-        }
-      ],
+      "history": [],
       "graphiql:query": "mutation {\n  createStripePlatformExternalAccountCard(\n    token: \"tok_1HyLZCLhtqtNnMebRA2gfC6w\",\n  ) {\n    id\n    idFromStripe\n    idFromAccount\n    brand\n    country\n    currency\n    cvcCheck\n    defaultForCurrency\n    expMonth\n    expYear\n    fingerprint\n    fingerprint\n    last4\n    userId\n  }\n}",
       "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformExternalAccountCard(\\n    token: \\\"tok_1HyL6SLhtqtNnMeb1LPMMZZS\\\"\\n  ) {\\n    id\\n    idFromStripe\\n    idFromAccount\\n    brand\\n    country\\n    currency\\n    cvcCheck\\n    defaultForCurrency\\n    expMonth\\n    expYear\\n    fingerprint\\n    fingerprint\\n    last4\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createStripePlatformExternalAccountCard(\\n    token: \\\"tok_1HyLZCLhtqtNnMebRA2gfC6w\\\",\\n  ) {\\n    id\\n    idFromStripe\\n    idFromAccount\\n    brand\\n    country\\n    currency\\n    cvcCheck\\n    defaultForCurrency\\n    expMonth\\n    expYear\\n    fingerprint\\n    fingerprint\\n    last4\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:editorFlex": 1,
       "graphiql:variableEditorHeight": 200,
       "graphiql:docExplorerWidth": 350
