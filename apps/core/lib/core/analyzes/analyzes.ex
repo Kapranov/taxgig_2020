@@ -52,13 +52,30 @@ defmodule Core.Analyzes do
             [data3 | [data2 | [data1]]] |> List.flatten
         end
       _ ->
+#        price = total_price(id)
+#        data1 = for {k, v} <- price, into: [], do: %{id: k, sum_price: v}
+#        match = total_match(id)
+#        # data2 = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
+#        data2 = for {k, v} <- match, into: [], do: if k == List.first(data1).id, do: %{id: k, sum_price: List.first(data1).id, sum_match: v}, else: %{id: k, sum_price: nil, sum_match: v}
+#        value = total_value(id)
+#        data3 = for {k, v} <- value, into: [], do: %{id: k, sum_value: v}
+#        # [data3 | [data2 | [data1]]] |> List.flatten
+#        [data3 | data2] |> List.flatten
+        ########################################
         price = total_price(id)
         data1 = for {k, v} <- price, into: [], do: %{id: k, sum_price: v}
         match = total_match(id)
-        data2 = for {k, v} <- match, into: [], do: %{id: k, sum_match: v}
-        value = total_value(id)
-        data3 = for {k, v} <- value, into: [], do: %{id: k, sum_value: v}
-        [data3 | [data2 | [data1]]] |> List.flatten
+        value = total_value(id) |> Map.values |> List.last
+        data2 =
+          for {k, v} <- match, into: [] do
+            if k == List.first(data1).id do
+              %{id: k, sum_price: List.first(data1).sum_price, sum_match: v, sum_value: value}
+            else
+              %{id: k, sum_price: nil, sum_match: v, sum_value: value}
+            end
+          end
+
+        [data2] |> List.flatten
     end
   end
 
