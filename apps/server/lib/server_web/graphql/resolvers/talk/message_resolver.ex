@@ -61,16 +61,31 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
       {:error, [[field: :current_user, message: "Permission denied for current_user to perform action Create"]]}
     else
       room = Repo.get_by(Room, %{id: args[:room_id]})
-      if Accounts.by_role(args[:recipient_id]) == true do
-        Talk.create_message(current_user, room, args)
-        |> case do
-          {:ok, struct} ->
-            {:ok, struct}
-          {:error, changeset} ->
-            {:error, extract_error_msg(changeset)}
-        end
-      else
-        {:error, [[field: :recipient_id, message: "Permission denied for client's role"]]}
+      case Accounts.by_role(current_user.id) do
+        false ->
+          if Accounts.by_role(args[:recipient_id]) == true do
+            Talk.create_message(current_user, room, args)
+            |> case do
+              {:ok, struct} ->
+                {:ok, struct}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
+          else
+            {:error, [[field: :recipient_id, message: "Permission denied for client's role"]]}
+          end
+        true ->
+          if Accounts.by_role(args[:recipient_id]) == false do
+            Talk.create_message(current_user, room, args)
+            |> case do
+              {:ok, struct} ->
+                {:ok, struct}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
+          else
+            {:error, [[field: :recipient_id, message: "Permission denied for client's role"]]}
+          end
       end
     end
   end
