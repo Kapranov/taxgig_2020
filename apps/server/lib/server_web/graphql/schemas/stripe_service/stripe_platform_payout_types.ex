@@ -23,7 +23,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformPayoutTypes do
     field :failure_code, :string
     field :failure_message, :string
     field :livemode, non_null(:boolean)
-    field :metadata, list_of(:string)
+    #field :metadata, list_of(:string)
     field :method, non_null(:string)
     field :original_payout, :string
     field :reversed_by, :string
