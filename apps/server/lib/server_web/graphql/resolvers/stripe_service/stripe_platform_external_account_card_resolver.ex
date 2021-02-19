@@ -35,7 +35,6 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformExternalAccoun
     else
       case Accounts.by_role(current_user.id) do
         true ->
-          # struct = Payments.list_stripe_external_account_card()
           struct = Queries.by_list(StripeExternalAccountCard, :user_id, current_user.id)
           {:ok, struct}
         false -> {:error, :not_found}
