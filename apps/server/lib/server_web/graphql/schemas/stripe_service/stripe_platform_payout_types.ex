@@ -17,7 +17,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformPayoutTypes do
     field :balance_transaction, non_null(:string)
     field :created, non_null(:integer)
     field :currency, non_null(:string)
-    field :description, non_null(:string)
+    field :description, :string
     field :destination, non_null(:string)
     field :failure_balance_transaction, :string
     field :failure_code, :string
