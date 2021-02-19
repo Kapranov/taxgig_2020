@@ -30,7 +30,7 @@ defmodule Core.Seeder.Deleted.Contracts do
   @spec deleted_service_review() :: Ecto.Schema.t()
   defp deleted_service_review do
     IO.puts("Deleting data on model's ServiceReview\n")
-    # SQL.query!(Repo, "TRUNCATE service_reviews CASCADE;")
+    SQL.query!(Repo, "TRUNCATE service_reviews CASCADE;")
   end
 
   @spec deleted_potential_client() :: Ecto.Schema.t()
