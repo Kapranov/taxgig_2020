@@ -24,10 +24,32 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformExternalAccountB
     field :user_id, non_null(:string)
   end
 
+  object :by_stripe_external_account_bank do
+    field :id, non_null(:string)
+    field :account, non_null(:string)
+    field :account_holder_name, non_null(:string)
+    field :account_holder_type, non_null(:string)
+    field :available_payout_methods, non_null(list_of(:string))
+    field :bank_name, non_null(:string)
+    field :country, non_null(:string)
+    field :currency, non_null(:string)
+    field :default_for_currency, non_null(:boolean)
+    field :fingerprint, non_null(:string)
+    field :last4, non_null(:string)
+    field :object, non_null(:string)
+    field :routing_number, non_null(:string)
+    field :status, non_null(:string)
+  end
+
   object :stripe_platform_external_account_bank_queries do
     @desc "Get all StripePlatformExternalAccountBanks"
     field :all_stripe_platform_external_account_banks, list_of(:stripe_platform_external_account_bank) do
       resolve(&StripePlatformExternalAccountBankResolver.list/3)
+    end
+
+    @desc "Get all StripeExternalAccountBanks"
+    field :all_stripe_external_account_banks, list_of(:by_stripe_external_account_bank) do
+      resolve(&StripePlatformExternalAccountBankResolver.list_by_stripe/3)
     end
   end
 

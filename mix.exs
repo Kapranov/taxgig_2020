@@ -10,7 +10,7 @@ defmodule TaxgigEx.MixProject do
   def project do
     [
       aliases: aliases(),
-      app: :taxgig_ex,
+      app: :taxgig,
       apps_path: "apps",
       deps: deps(),
       description: description(),
