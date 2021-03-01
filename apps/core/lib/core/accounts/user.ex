@@ -194,7 +194,7 @@ defmodule Core.Accounts.User do
     |> validate_length(:password, min: 5, max: 20)
     |> validate_confirmation(:password)
     |> update_change(:email, &String.downcase/1)
-    |> unique_constraint(:email, name: :users_email_index, message: "Only one an Email Record")
+    |> unique_constraint(:email, name: :users_email_index, message: "The format of the email address isn't correct or email has already been taken!")
     |> validate_email()
     |> validate_length(:bio, max: bio_limit)
     |> validate_length(:first_name, max: name_limit)
