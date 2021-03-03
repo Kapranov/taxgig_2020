@@ -3,7 +3,7 @@ defmodule Stripy.StripeService.Adapters.StripePlatformChargeAdapter do
   Transfer model from Stripe.Charge to Application schema model
   """
 
-  import Stripy.MapUtils, only: [keys_to_string: 1, nested_merge: 2, rename: 3]
+  import Stripy.MapUtils, only: [keys_to_string: 1, rename: 3]
 
   @stripe_attributes [
     :amount,
@@ -22,7 +22,7 @@ defmodule Stripy.StripeService.Adapters.StripePlatformChargeAdapter do
     :status
   ]
 
-  @stripe_charges_attributes [
+  @stripe_list_charges_attributes [
     :amount,
     :amount_captured,
     :amount_refunded,
@@ -30,12 +30,10 @@ defmodule Stripy.StripeService.Adapters.StripePlatformChargeAdapter do
     :created,
     :currency,
     :object,
+    :payment_method,
     :refunded,
-    :source,
     :status
   ]
-
-  @nested_source_attributes ["brand", "funding", "id", "last4", "object"]
 
   @non_stripe_attributes ["id_from_card", "user_id"]
 
@@ -52,11 +50,46 @@ defmodule Stripy.StripeService.Adapters.StripePlatformChargeAdapter do
     {:ok, result}
   end
 
-  def to_list_params(%Stripe.Charge{} = stripe_charge, %{}) do
+  @spec to_params_for_list(String.t()) :: {:ok, map}
+  def to_params_for_list(stripe_charge) do
+    %{source: source} =
+      stripe_charge
+      |> List.first
+      |> Map.from_struct
+      |> Map.take([:source])
+
+    source_data = %{
+      source: %{
+        brand: source.brand,
+        funding: source.funding,
+        id: source.id,
+        last4: source.last4,
+        object: source.object
+      }
+    }
+
+    %{payment_method_details: payment_method_details} =
+      stripe_charge
+      |> List.first
+      |> Map.from_struct
+      |> Map.take([:payment_method_details])
+
+    payment_method_details_data = %{
+      payment_method_details: %{
+        brand: payment_method_details.card.brand,
+        funding: payment_method_details.card.funding,
+        last4: payment_method_details.card.last4,
+        type: payment_method_details.type
+      }
+    }
+
     result =
       stripe_charge
-      |> nested_merge(:source)
-      |> Map.take(@stripe_charges_attributes)
+      |> List.first
+      |> Map.from_struct
+      |> Map.take(@stripe_list_charges_attributes)
+      |> Map.merge(source_data)
+      |> Map.merge(payment_method_details_data)
       |> keys_to_string
 
     {:ok, result}

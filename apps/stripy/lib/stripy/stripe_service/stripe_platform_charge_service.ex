@@ -15,7 +15,7 @@ defmodule Stripy.StripeService.StripePlatformChargeService do
     Payments.StripeCharge,
     Repo,
     StripeService.Adapters.StripePlatformChargeAdapter
-  }
+   }
 
   @doc """
   List all charges
@@ -37,8 +37,10 @@ defmodule Stripy.StripeService.StripePlatformChargeService do
           {:error, :platform_not_ready} |
           {:error, :not_found}
   def list(customer) do
-    with {:ok, %Stripe.List{data: data}} <- Stripe.Charge.list(%{customer: customer}) do
-      {:ok, data}
+    with {:ok, %Stripe.List{data: data}} <- Stripe.Charge.list(%{customer: customer}, [:customer, limit: 10]),
+         {:ok, params} <- StripePlatformChargeAdapter.to_params_for_list(data)
+    do
+      {:ok, params}
     else
       nil -> {:error, :not_found}
       failure -> failure
