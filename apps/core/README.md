@@ -781,6 +781,8 @@ Stripe.charge.capture -> ByDone
 
 # ################################################################
 #
+# @email_validation_regex Application.get_env(:mail, :email_regex)
+#
 # :ets.new(:security_level, [:named_table])
 # :ets.lookup(:security_level, 1)
 # :ets.insert(:security_level, {1, :high})
@@ -793,6 +795,8 @@ Stripe.charge.capture -> ByDone
 # for event <- events, entry <- event..(event + number), do: entry
 #
 # timestamp = :os.system_time(:seconds) + 10
+#
+# @months ~w(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec)
 #
 # encoded_email = email |> :erlang.term_to_binary() |> Base.encode64()
 # encoded_email |> Base.decode64!() |> :erlang.binary_to_term()
@@ -1120,5 +1124,52 @@ $   defp _max(current, [head|tail]) when current < head do
 # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35}, when 2
 #                 hours pass since updated_at and update field captured with
 #                 stripe.charge.capture.amount
+#
+# Ecto — find records on empty associations
+#
+# import Ecto.Query
+# ...
+# from(store in Store,
+#   where: fragment("NOT EXISTS (SELECT * FROM APPLIANCES item WHERE item.store_id == ? AND item.name == 'VCR player')", store.id),
+#   where: fragment("NOT EXISTS (SELECT * FROM GAME_CONSOLES item WHERE item.store_id == ? AND item.name == 'Sega Genesis console')", store.id)
+# )
+#
+# import Ecto.Query
+# ...
+# from(store in Store,
+#   where: fragment("NOT EXISTS (SELECT * FROM APPLIANCES item WHERE item.store_id == ? AND item.name == 'VCR player')", store.id),
+#   where: fragment("NOT EXISTS (SELECT * FROM GAME_CONSOLES item WHERE item.store_id == ? AND item.name == 'Sega Genesis console')", store.id),
+#   where: fragment("NOT EXISTS (SELECT * FROM DELIVERY_TRUCKS truck WHERE truck.store_id == ?)", store.id)
+# )
+#
+# import Ecto.Query
+# ...
+# defmacro store_items_not_exist(store_items_table_name, store_id, item_name) do
+#   args = [
+#     "NOT EXISTS (SELECT * FROM #{store_items_table_name} item WHERE item.store_id = ? AND item.name == ?)",
+#     store_id,
+#     item_name
+#   ]
+#
+#   quote do: fragment(unquote_splicing(args))
+# end
+#
+# from(store in Store,
+#   where: store_items_not_exist("appliances", store.id, "VCR player"),
+#   where: store_items_not_exist("game_consoles", store.id, "Sega Genesis")
+# )
+#
+# Ecto's Repo.stream/1 to process large amounts of data
+#
+# Repo.transaction(fn ->
+#   YourSchema
+#   |> order_by(asc: :inserted_at)
+#   |> any_query()
+#   |> Repo.stream()
+#   |> Stream.map(fn user -> any_transformation(user) end)
+#   |> Stream.filter(&any_filter/1)
+#   |> Stream.each(fn user -> do_something_with_user(user) end)
+#   |> Stream.run()
+# end, timeout: :infinity)
 #
 ### 21 Jan 2020 by Oleg G.Kapranov

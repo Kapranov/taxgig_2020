@@ -58,6 +58,7 @@ defmodule Core.Accounts do
     avatar: "some avatar",
     bio: "some bio",
     birthday: Timex.today,
+    bus_addr_zip: "123456789",
     email: "lugatex@yahoo.com",
     first_name: "Oleg",
     init_setup: false,
@@ -68,7 +69,6 @@ defmodule Core.Accounts do
     phone: "123456789",
     provider: "localhost",
     sex: "Male",
-    ssn: "123456789",
     street: "410 Nahua St",
     zip: "96815"
   }
