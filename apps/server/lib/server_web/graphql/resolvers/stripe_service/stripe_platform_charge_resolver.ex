@@ -28,6 +28,45 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
                        {:error, Stripe.Error.t()}
   @type result :: success_tuple | error_tuple
 
+  @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: success_list() | error_tuple()
+  def list(_parent, _args, %{context: %{current_user: current_user}}) do
+    if is_nil(current_user) do
+      {:error, [[field: :user_id, message: "An User not found! or Unauthenticated"]]}
+    else
+      case Accounts.by_role(current_user.id) do
+        true -> {:error, :not_found}
+        false ->
+          with customer <- StripyRepo.get_by(StripeCustomer, %{user_id: current_user.id}),
+               {:ok, struct} <- StripePlatformChargeService.list(customer.id_from_stripe)
+          do
+            {:ok, struct}
+          else
+            nil -> {:error, :not_found}
+            failure ->
+              case failure do
+                {:error, %Stripe.Error{code: _, extra: %{
+                      card_code: _,
+                      http_status: http_status,
+                      raw_error: _
+                    },
+                    message: message,
+                    request_id: _,
+                    source: _,
+                    user_message: _
+                  }
+                } -> {:ok, %{error: "HTTP Status: #{http_status}, invalid request error. #{message}"}}
+                {:error, %Ecto.Changeset{}} -> {:ok, %{error: "Customer token not found!"}}
+              end
+          end
+      end
+    end
+  end
+
+  @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def list(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
+  end
+
   @spec show(any, %{description: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def show(_parent, %{description: id_from_project}, %{context: %{current_user: current_user}}) do
     if is_nil(id_from_project) || is_nil(current_user) do

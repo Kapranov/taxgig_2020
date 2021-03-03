@@ -28,6 +28,37 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformChargeTypes do
     field :user_id, non_null(:string)
   end
 
+  object :get_all_charges do
+    field :amount, :integer
+    field :amount_captured, :integer
+    field :amount_refunded, :integer
+    field :captured, :boolean
+    field :created, :integer
+    field :currency, :string
+    field :error, :string
+    field :object, :string
+    field :payment_method, :string
+    field :payment_method_details, list_of(:get_payment_method_details)
+    field :refunded, :boolean
+    field :source, list_of(:get_source)
+    field :status, :string
+  end
+
+  object :get_source do
+    field :brand, :string
+    field :funding, :string
+    field :id, :string
+    field :last4, :string
+    field :object, :string
+  end
+
+  object :get_payment_method_details do
+    field :brand, :string
+    field :funding, :string
+    field :last4, :string
+    field :type, :string
+  end
+
   object :get_stripe_platform_charge do
     field :amount, :integer
     field :amount_refunded, :integer
@@ -37,6 +68,11 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformChargeTypes do
   end
 
   object :stripe_platform_charge_queries do
+    @desc "Get all StripePlatformCharge"
+    field :all_stripe_platform_charge, list_of(:get_all_charges) do
+      resolve(&StripePlatformChargeResolver.list/3)
+    end
+
     @desc "Get a specific StripePlatformCharge"
     field :show_stripe_platform_charge, :get_stripe_platform_charge do
       arg(:description, non_null(:string))
