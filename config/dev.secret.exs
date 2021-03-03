@@ -62,6 +62,9 @@ config :core, Core.Uploaders.S3,
   public_endpoint: "https://nyc3.digitaloceanspaces.com",
   streaming_enabled: true
 
+config :core,
+  email_regex: ~r/[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}/
+
 config :mailings,
   mailgun_domain: "https://api.mailgun.net/v3/mail.taxgig.com",
   mailgun_key: "d88a0873cc6c3ca3f55e7a12465178cf-2d27312c-6a0b1e90"

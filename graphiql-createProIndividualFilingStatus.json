@@ -1,0 +1,262 @@
+{
+  "key": "graphiql",
+  "lastId": 8,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5",
+    "tab6",
+    "tab7",
+    "tab8"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://taxgig.me:4000/graphiql",
+  "defaultWebsocketUrl": "ws://taxgig.me:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://taxgig.me:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNFQ1UVdHZXhuQnVQQWdiQkluBgAX5E7AdwFiAAFRgA.NozRzq90iwIYjADMZj-6hRO5ahzq2iJrRhwHX795EqU"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNFQ1UVdHZXhuQnVQQWdiQkluBgBE7gjAdwFiAAFRgA.B3cJt6KIpYZQchUHPzJ9Lwt8bWfUqZyZdYsrJI7OYOg"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNFQ1UVdHZXhuQnVQQWdiQkluBgBK0OC_dwFiAAFRgA.8pqGj4_qfoCE1srDsHQc6vVX0hQcev15SxWEREunb1E"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab8",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://taxgig.me:4000/graphiql",
+      "websocketUrl": "ws://taxgig.me:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://taxgig.me:4000/graphiql",
+      "websocketUrl": "ws://taxgig.me:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n\tsignIn(\n    email: \"proone@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n\tsignUp(\n    email: \"proone@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n\tsignIn(\n    email: \"proone@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:editorFlex": 0.3551307847082495,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n\\tsignUp(\\n    email: \\\"proone@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n\\tsignIn(\\n    email: \\\"proone@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"}]}"
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://taxgig.me:4000/graphiql",
+      "websocketUrl": "ws://taxgig.me:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNFQ1UVdHZXhuQnVQQWdiQkluBgBK0OC_dwFiAAFRgA.8pqGj4_qfoCE1srDsHQc6vVX0hQcev15SxWEREunb1E"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateUser(\n    id: \"A4T5QWGexnBuPAgbBI\",\n    user: {\n      role: true,\n      password:\"qwerty\",\n      passwordConfirmation:\"qwerty\",\n      firstName: \"Pro\",\n      lastName: \"One\"\n    }) {\n    id\n    active\n    avatar\n    bio\n    birthday\n    email\n    firstName\n    initSetup\n    languages {abbr, name}\n    lastName\n    middleName\n    phone\n    provider\n    role\n    rooms {id topic active name description}\n    sex\n    ssn\n    street\n    zip\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateUser(\n    id: \"A4T5QWGexnBuPAgbBI\",\n    user: {\n      role: true,\n      password:\"qwerty\",\n      passwordConfirmation:\"qwerty\",\n      firstName: \"Pro\",\n      lastName: \"One\"\n    }) {\n    id\n    active\n    avatar\n    bio\n    birthday\n    email\n    firstName\n    initSetup\n    languages {abbr, name}\n    lastName\n    middleName\n    phone\n    provider\n    role\n    rooms {id topic active name description}\n    sex\n    ssn\n    street\n    zip\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateUser(\\n    id: \\\"A4T5QWGexnBuPAgbBI\\\",\\n    user: {\\n      role: true,\\n      password:\\\"qwerty\\\",\\n      passwordConfirmation:\\\"qwerty\\\",\\n      firstName: \\\"Pro\\\",\\n      lastName: \\\"One\\\"\\n    }) {\\n    id\\n    active\\n    avatar\\n    bio\\n    birthday\\n    email\\n    firstName\\n    initSetup\\n    languages {abbr, name}\\n    lastName\\n    middleName\\n    phone\\n    provider\\n    role\\n    rooms {id topic active name description}\\n    sex\\n    ssn\\n    street\\n    zip\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.5016722408026756,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://taxgig.me:4000/graphiql",
+      "websocketUrl": "ws://taxgig.me:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNFQ1UVdHZXhuQnVQQWdiQkluBgBK0OC_dwFiAAFRgA.8pqGj4_qfoCE1srDsHQc6vVX0hQcev15SxWEREunb1E"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createProIndividualTaxReturn(\n    foreignAccount: true,\n    homeOwner: true,\n    livingAbroad: true,\n    nonResidentEarning: true,\n    noneExpat: true,\n    ownStockCrypto: true,\n    priceForeignAccount: 250,\n    priceHomeOwner: 340,\n    priceLivingAbroad: 120,\n    priceNonResidentEarning: 135,\n    priceOwnStockCrypto: 12,\n    priceRentalPropertyIncome: 66,\n    priceSoleProprietorshipCount: 77,\n    priceState: 75,\n    priceStockDivident: 87,\n    priceTaxYear: 98,\n    rentalPropertyIncome: true,\n    stockDivident: true,\n    userId: \"A4T5QWGexnBuPAgbBI\"\n  ) {\n    id\n    foreignAccount\n    homeOwner\n    individualEmploymentStatuses {id}\n    individualFilingStatuses {id}\n    individualIndustries {id}\n    individualItemizedDeductions {id}\n    livingAbroad\n    nonResidentEarning\n    noneExpat\n    ownStockCrypto\n    priceForeignAccount\n    priceHomeOwner\n    priceLivingAbroad\n    priceNonResidentEarning\n    priceOwnStockCrypto\n    priceRentalPropertyIncome\n    priceSoleProprietorshipCount\n    priceState\n    priceStockDivident\n    priceTaxYear\n    rentalPropertyIncome\n    stockDivident\n    user {id email role}\n    priceState\n    \n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createProIndividualTaxReturn(\n    foreignAccount: true,\n    homeOwner: true,\n    livingAbroad: true,\n    nonResidentEarning: true,\n    noneExpat: true,\n    ownStockCrypto: true,\n    priceForeignAccount: 250,\n    priceHomeOwner: 340,\n    priceLivingAbroad: 120,\n    priceNonResidentEarning: 135,\n    priceOwnStockCrypto: 12,\n    priceRentalPropertyIncome: 66,\n    priceSoleProprietorshipCount: 77,\n    priceState: 75,\n    priceStockDivident: 87,\n    priceTaxYear: 98,\n    rentalPropertyIncome: true,\n    stockDivident: true,\n    userId: \"A4T5QWGexnBuPAgbBI\"\n  ) {\n    id\n    foreignAccount\n    homeOwner\n    individualEmploymentStatuses {id}\n    individualFilingStatuses {id}\n    individualIndustries {id}\n    individualItemizedDeductions {id}\n    livingAbroad\n    nonResidentEarning\n    noneExpat\n    ownStockCrypto\n    priceForeignAccount\n    priceHomeOwner\n    priceLivingAbroad\n    priceNonResidentEarning\n    priceOwnStockCrypto\n    priceRentalPropertyIncome\n    priceSoleProprietorshipCount\n    priceState\n    priceStockDivident\n    priceTaxYear\n    rentalPropertyIncome\n    stockDivident\n    user {id email role}\n    priceState\n    \n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createProIndividualTaxReturn(\\n    foreignAccount: true,\\n    homeOwner: true,\\n    livingAbroad: true,\\n    nonResidentEarning: true,\\n    noneExpat: true,\\n    ownStockCrypto: true,\\n    priceForeignAccount: 250,\\n    priceHomeOwner: 340,\\n    priceLivingAbroad: 120,\\n    priceNonResidentEarning: 135,\\n    priceOwnStockCrypto: 12,\\n    priceRentalPropertyIncome: 66,\\n    priceSoleProprietorshipCount: 77,\\n    priceState: 75,\\n    priceStockDivident: 87,\\n    priceTaxYear: 98,\\n    rentalPropertyIncome: true,\\n    stockDivident: true,\\n    userId: \\\"A4T5QWGexnBuPAgbBI\\\"\\n  ) {\\n    id\\n    foreignAccount\\n    homeOwner\\n    individualEmploymentStatuses {id}\\n    individualFilingStatuses {id}\\n    individualIndustries {id}\\n    individualItemizedDeductions {id}\\n    livingAbroad\\n    nonResidentEarning\\n    noneExpat\\n    ownStockCrypto\\n    priceForeignAccount\\n    priceHomeOwner\\n    priceLivingAbroad\\n    priceNonResidentEarning\\n    priceOwnStockCrypto\\n    priceRentalPropertyIncome\\n    priceSoleProprietorshipCount\\n    priceState\\n    priceStockDivident\\n    priceTaxYear\\n    rentalPropertyIncome\\n    stockDivident\\n    user {id email role}\\n    priceState\\n    \\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.4769736842105263,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://taxgig.me:4000/graphiql",
+      "websocketUrl": "ws://taxgig.me:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNFQ1UVdHZXhuQnVQQWdiQkluBgBE7gjAdwFiAAFRgA.B3cJt6KIpYZQchUHPzJ9Lwt8bWfUqZyZdYsrJI7OYOg"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  showProIndividualTaxReturn(id: \"A4T6rYkzurLVtlKlpw\") {\n    id\n    foreignAccount\n    homeOwner\n    individualEmploymentStatuses {id}\n    individualFilingStatuses {id name price individualTaxReturns {id}}\n    individualIndustries {id}\n    individualItemizedDeductions {id}\n    livingAbroad\n    nonResidentEarning\n    noneExpat\n    ownStockCrypto\n    priceForeignAccount\n    priceHomeOwner\n    priceLivingAbroad\n    priceNonResidentEarning\n    priceOwnStockCrypto\n    priceRentalPropertyIncome\n    priceSoleProprietorshipCount\n    priceState\n    priceStockDivident\n    priceTaxYear\n    rentalPropertyIncome\n    stockDivident\n    user {id email role}\n    priceState\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showProIndividualTaxReturn(id: \"A4T6rYkzurLVtlKlpw\") {\n    id\n    foreignAccount\n    homeOwner\n    individualEmploymentStatuses {id}\n    individualFilingStatuses {id name price}\n    individualIndustries {id}\n    individualItemizedDeductions {id}\n    livingAbroad\n    nonResidentEarning\n    noneExpat\n    ownStockCrypto\n    priceForeignAccount\n    priceHomeOwner\n    priceLivingAbroad\n    priceNonResidentEarning\n    priceOwnStockCrypto\n    priceRentalPropertyIncome\n    priceSoleProprietorshipCount\n    priceState\n    priceStockDivident\n    priceTaxYear\n    rentalPropertyIncome\n    stockDivident\n    user {id email role}\n    priceState\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showProIndividualTaxReturn(id: \"A4T6rYkzurLVtlKlpw\") {\n    id\n    foreignAccount\n    homeOwner\n    individualEmploymentStatuses {id}\n    individualFilingStatuses {id price}\n    individualIndustries {id}\n    individualItemizedDeductions {id}\n    livingAbroad\n    nonResidentEarning\n    noneExpat\n    ownStockCrypto\n    priceForeignAccount\n    priceHomeOwner\n    priceLivingAbroad\n    priceNonResidentEarning\n    priceOwnStockCrypto\n    priceRentalPropertyIncome\n    priceSoleProprietorshipCount\n    priceState\n    priceStockDivident\n    priceTaxYear\n    rentalPropertyIncome\n    stockDivident\n    user {id email role}\n    priceState\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showProIndividualTaxReturn(id: \"A4T6rYkzurLVtlKlpw\") {\n    id\n    foreignAccount\n    homeOwner\n    individualEmploymentStatuses {id}\n    individualFilingStatuses {id}\n    individualIndustries {id}\n    individualItemizedDeductions {id}\n    livingAbroad\n    nonResidentEarning\n    noneExpat\n    ownStockCrypto\n    priceForeignAccount\n    priceHomeOwner\n    priceLivingAbroad\n    priceNonResidentEarning\n    priceOwnStockCrypto\n    priceRentalPropertyIncome\n    priceSoleProprietorshipCount\n    priceState\n    priceStockDivident\n    priceTaxYear\n    rentalPropertyIncome\n    stockDivident\n    user {id email role}\n    priceState\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  showProIndividualTaxReturn(id: \"A4T6rYkzurLVtlKlpw\") {\n    id\n    foreignAccount\n    homeOwner\n    individualEmploymentStatuses {id}\n    individualFilingStatuses {id name price individualTaxReturns {id}}\n    individualIndustries {id}\n    individualItemizedDeductions {id}\n    livingAbroad\n    nonResidentEarning\n    noneExpat\n    ownStockCrypto\n    priceForeignAccount\n    priceHomeOwner\n    priceLivingAbroad\n    priceNonResidentEarning\n    priceOwnStockCrypto\n    priceRentalPropertyIncome\n    priceSoleProprietorshipCount\n    priceState\n    priceStockDivident\n    priceTaxYear\n    rentalPropertyIncome\n    stockDivident\n    user {id email role}\n    priceState\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showProIndividualTaxReturn(id: \\\"A4T6rYkzurLVtlKlpw\\\") {\\n    id\\n    foreignAccount\\n    homeOwner\\n    individualEmploymentStatuses {id}\\n    individualFilingStatuses {id}\\n    individualIndustries {id}\\n    individualItemizedDeductions {id}\\n    livingAbroad\\n    nonResidentEarning\\n    noneExpat\\n    ownStockCrypto\\n    priceForeignAccount\\n    priceHomeOwner\\n    priceLivingAbroad\\n    priceNonResidentEarning\\n    priceOwnStockCrypto\\n    priceRentalPropertyIncome\\n    priceSoleProprietorshipCount\\n    priceState\\n    priceStockDivident\\n    priceTaxYear\\n    rentalPropertyIncome\\n    stockDivident\\n    user {id email role}\\n    priceState\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showProIndividualTaxReturn(id: \\\"A4T6rYkzurLVtlKlpw\\\") {\\n    id\\n    foreignAccount\\n    homeOwner\\n    individualEmploymentStatuses {id}\\n    individualFilingStatuses {id price}\\n    individualIndustries {id}\\n    individualItemizedDeductions {id}\\n    livingAbroad\\n    nonResidentEarning\\n    noneExpat\\n    ownStockCrypto\\n    priceForeignAccount\\n    priceHomeOwner\\n    priceLivingAbroad\\n    priceNonResidentEarning\\n    priceOwnStockCrypto\\n    priceRentalPropertyIncome\\n    priceSoleProprietorshipCount\\n    priceState\\n    priceStockDivident\\n    priceTaxYear\\n    rentalPropertyIncome\\n    stockDivident\\n    user {id email role}\\n    priceState\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showProIndividualTaxReturn(id: \\\"A4T6rYkzurLVtlKlpw\\\") {\\n    id\\n    foreignAccount\\n    homeOwner\\n    individualEmploymentStatuses {id}\\n    individualFilingStatuses {id name price}\\n    individualIndustries {id}\\n    individualItemizedDeductions {id}\\n    livingAbroad\\n    nonResidentEarning\\n    noneExpat\\n    ownStockCrypto\\n    priceForeignAccount\\n    priceHomeOwner\\n    priceLivingAbroad\\n    priceNonResidentEarning\\n    priceOwnStockCrypto\\n    priceRentalPropertyIncome\\n    priceSoleProprietorshipCount\\n    priceState\\n    priceStockDivident\\n    priceTaxYear\\n    rentalPropertyIncome\\n    stockDivident\\n    user {id email role}\\n    priceState\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showProIndividualTaxReturn(id: \\\"A4T6rYkzurLVtlKlpw\\\") {\\n    id\\n    foreignAccount\\n    homeOwner\\n    individualEmploymentStatuses {id}\\n    individualFilingStatuses {id name price individualTaxReturns {id}}\\n    individualIndustries {id}\\n    individualItemizedDeductions {id}\\n    livingAbroad\\n    nonResidentEarning\\n    noneExpat\\n    ownStockCrypto\\n    priceForeignAccount\\n    priceHomeOwner\\n    priceLivingAbroad\\n    priceNonResidentEarning\\n    priceOwnStockCrypto\\n    priceRentalPropertyIncome\\n    priceSoleProprietorshipCount\\n    priceState\\n    priceStockDivident\\n    priceTaxYear\\n    rentalPropertyIncome\\n    stockDivident\\n    user {id email role}\\n    priceState\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.8918539325842697,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab6",
+      "name": "Query 6",
+      "url": "http://taxgig.me:4000/graphiql",
+      "websocketUrl": "ws://taxgig.me:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNFQ1UVdHZXhuQnVQQWdiQkluBgAX5E7AdwFiAAFRgA.NozRzq90iwIYjADMZj-6hRO5ahzq2iJrRhwHX795EqU"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createProIndividualFilingStatus(\n    name: \"Single\",\n    price: 300,\n    individualTaxReturnId: \"A4T6rYkzurLVtlKlpw\"\n  ) {\n    id\n    name\n    price\n    individualTaxReturns {id}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createProIndividualFilingStatus(\n    name: \"Head of Household\",\n    price: 235,\n    individualTaxReturnId: \"A4T6rYkzurLVtlKlpw\"\n  ) {\n    id\n    name\n    price\n    individualTaxReturns {id}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createProIndividualFilingStatus(\n    name: \"Single\",\n    price: 300,\n    individualTaxReturnId: \"A4T6rYkzurLVtlKlpw\"\n  ) {\n    id\n    name\n    price\n    individualTaxReturns {id}\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createProIndividualFilingStatus(\\n    name: \\\"Head of Household\\\",\\n    price: 235,\\n    individualTaxReturnId: \\\"A4T6rYkzurLVtlKlpw\\\"\\n  ) {\\n    id\\n    name\\n    price\\n    individualTaxReturns {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createProIndividualFilingStatus(\\n    name: \\\"Single\\\",\\n    price: 300,\\n    individualTaxReturnId: \\\"A4T6rYkzurLVtlKlpw\\\"\\n  ) {\\n    id\\n    name\\n    price\\n    individualTaxReturns {id}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.5203160270880361,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab7",
+      "name": "Query 7",
+      "url": "http://taxgig.me:4000/graphiql",
+      "websocketUrl": "ws://taxgig.me:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNFQ1UVdHZXhuQnVQQWdiQkluBgBK0OC_dwFiAAFRgA.8pqGj4_qfoCE1srDsHQc6vVX0hQcev15SxWEREunb1E"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createPlatform(\n    clientLimitReach: false,\n    heroStatus: true,\n    isBanned: false,\n    isOnline: true,\n    paymentActive: true,\n    userId:\"A4T5QWGexnBuPAgbBI\"\n  ) {\n    id\n    clientLimitReach\n    heroActive\n    heroStatus\n    isBanned\n    isOnline\n    isStuck\n    paymentActive\n    stuckStage\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createPlatform(\n    clientLimitReach: false,\n    heroStatus: true,\n    isBanned: false,\n    isOnline: true,\n    paymentActive: true,\n    userId:\"A4T5QWGexnBuPAgbBI\"\n  ) {\n    id\n    clientLimitReach\n    heroActive\n    heroStatus\n    isBanned\n    isOnline\n    isStuck\n    paymentActive\n    stuckStage\n    user {id email role}\n    \n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createPlatform(\\n    clientLimitReach: false,\\n    heroStatus: true,\\n    isBanned: false,\\n    isOnline: true,\\n    paymentActive: true,\\n    userId:\\\"A4T5QWGexnBuPAgbBI\\\"\\n  ) {\\n    id\\n    clientLimitReach\\n    heroActive\\n    heroStatus\\n    isBanned\\n    isOnline\\n    isStuck\\n    paymentActive\\n    stuckStage\\n    user {id email role}\\n    \\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.3801229508196721,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab8",
+      "name": "Query 8",
+      "url": "http://taxgig.me:4000/graphiql",
+      "websocketUrl": "ws://taxgig.me:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNFQ1UVdHZXhuQnVQQWdiQkluBgAX5E7AdwFiAAFRgA.NozRzq90iwIYjADMZj-6hRO5ahzq2iJrRhwHX795EqU"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  showAnalyze(serviceId: \"A4T6rYkzurLVtlKlpw\") {\n    id\n    sumMatch\n    sumPrice\n    sumValue\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  showAnalyze(serviceId: \"A4T6rYkzurLVtlKlpw\") {\n    id\n    sumMatch\n    sumPrice\n    sumValue\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"A4T6rYkzurLVtlKlpw\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.5134831460674157,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    }
+  ]
+}

@@ -15,22 +15,26 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
 
   @desc "The accounts user on the site"
   object :user do
-    field :id, non_null(:string), description: "language id"
+    field :id, :string, description: "language id"
     field :active, :boolean, description: "accounts user active"
     field :avatar, :string, description: "accounts user avatar"
     field :bio, :string, description: "accounts user bio"
     field :birthday, :date, description: "accounts user birthday"
-    field :email, non_null(:string), description: "accounts user email"
+    field :bus_addr_zip, :string, description: "zip customer by ptin"
+    field :email, :string, description: "accounts user email"
+    field :error, :string, description: "user error"
     field :first_name, :string, description: "accounts user first_name"
     field :init_setup, :boolean, description: "accounts user init_setup"
+    field :is_2fa, :boolean, description: "two factory authorization"
     field :languages, list_of(:language), description: "languages list for user"
     field :last_name, :string, description: "accounts user last_name"
     field :middle_name, :string, description: "accounts user middle_name"
+    field :otp_last, :integer, description: "2factor last code"
+    field :otp_secret, :string, description: "2factor token"
     field :phone, :string, description: "accounts user phone"
-    field :provider, non_null(:string), description: "accounts user provider"
+    field :provider, :string, description: "accounts user provider"
     field :role, :boolean, description: "accounts user role"
     field :sex, :string, description: "accounts user sex"
-    field :ssn, :integer, description: "accounts user ssn"
     field :street, :string, description: "accounts user street"
     field :zip, :integer, description: "accounts user zip"
     field :rooms, list_of(:room), resolve: dataloader(Data), description: "list user's room"
@@ -84,21 +88,27 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :avatar, :string
     field :bio, :string
     field :birthday, :date
+    field :bus_addr_zip, :string
     field :email, :string
+    field :error, :string
     field :first_name, :string
     field :init_setup, :boolean
+    field :is_2fa, :boolean
     field :languages, :string
     field :last_name, :string
     field :middle_name, :string
-    field :password, :string
-    field :password_confirmation, :string
     field :phone, :string
     field :provider, :string
     field :role, :boolean
     field :sex, :string
-    field :ssn, :integer
     field :street, :string
     field :zip, :integer
+  end
+
+  input_object :update_password_params do
+    field :old_password, :string
+    field :password, :string
+    field :password_confirmation, :string
   end
 
   object :user_queries do
@@ -153,6 +163,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :sign_in, :session do
       arg(:code, :string, description: "code by social networks, except by localhost")
       arg(:email, :string, description: "set email for localhost")
+      arg(:is_2fa, :boolean, description: "2factor enable or disable")
       arg(:password, :string, description: "set password for localhost")
       arg(:password_confirmation, :string, description: "set password for localhost")
       arg(:provider, non_null(:string), description: "set provider localhost or social networks")
@@ -170,6 +181,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       arg :email, :string
       arg :first_name, :string
       arg :init_setup, :boolean
+      arg :is_2fa, :boolean
       arg :languages, :string
       arg :last_name, :string
       arg :middle_name, :string
@@ -179,7 +191,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       arg :provider, :string
       arg :role, :boolean
       arg :sex, :string
-      arg :ssn, :integer
       arg :street, :string
       arg :zip, :integer
       resolve &UserResolver.create/3
@@ -190,6 +201,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :sign_up, :session do
       arg(:code, :string, description: "code by social networks, except for localhost")
       arg(:email, :string, description: "set email for localhost")
+      arg(:is_2fa, :boolean, description: "2factor enable or disable")
       arg(:password, :string, description: "set password for localhost")
       arg(:password_confirmation, :string, description: "set password for localhost")
       arg(:provider, non_null(:string), description: "set provider localhost or social networks")
@@ -202,6 +214,13 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       arg :id, non_null(:string)
       arg :user, :update_user_params
       resolve &UserResolver.update/3
+    end
+
+    @desc "Update only password a specific accounts an user"
+    field :update_password, :user do
+      arg :id, non_null(:string)
+      arg :user, :update_password_params
+      resolve &UserResolver.update_password/3
     end
 
     @desc "Delete a specific accounts an user"

@@ -40,17 +40,21 @@ defmodule Core.Accounts.User do
     bio: String.t(),
     birthday: %Date{},
     book_keepings: [BookKeeping.t()],
+    bus_addr_zip: String.t(),
     business_tax_returns: [BusinessTaxReturn.t()],
     educations: Education.t(),
     email: String.t(),
     first_name: String.t(),
     individual_tax_returns: [IndividualTaxReturn.t()],
     init_setup: boolean,
+    is_2fa: boolean,
     languages: [Language.t()],
     last_name: String.t(),
     messages: [Message.t()],
     middle_name: String.t(),
     offers: [Offer.t()],
+    otp_last: :integer,
+    otp_secret: String.t(),
     password: String.t(),
     password_confirmation: String.t(),
     password_hash: String.t(),
@@ -67,13 +71,13 @@ defmodule Core.Accounts.User do
     sale_taxes: [SaleTax.t()],
     service_reviews: [ServiceReview.t()],
     sex: String.t(),
-    ssn: integer,
     street: String.t(),
     work_experiences: WorkExperience.t(),
     zip: integer
   }
 
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+  # @email_validation_regex Application.get_env(:core, :email_regex)
   @phone ~r/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/
   @secret  Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_base]
   @pass_salt Argon2.hash_pwd_salt(@secret)
@@ -84,18 +88,21 @@ defmodule Core.Accounts.User do
     avatar
     bio
     birthday
+    bus_addr_zip
     email
     first_name
     init_setup
+    is_2fa
     last_name
     middle_name
+    otp_last
+    otp_secret
     password
     password_confirmation
     phone
-    role
     provider
+    role
     sex
-    ssn
     street
     zip
   )a
@@ -103,8 +110,8 @@ defmodule Core.Accounts.User do
   @required_params ~w(
     admin
     email
-    password
-    password_confirmation
+    is_2fa
+    otp_last
     provider
     role
   )a
@@ -115,11 +122,15 @@ defmodule Core.Accounts.User do
     field :avatar, :string
     field :bio, :string
     field :birthday, :date
+    field :bus_addr_zip, :string, null: true
     field :email, :string, null: false
     field :first_name, :string
     field :init_setup, :boolean
+    field :is_2fa, :boolean, null: false, default: false
     field :last_name, :string
     field :middle_name, :string
+    field :otp_last, :integer, null: false, default: 0
+    field :otp_secret, :string, null: true
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string, default: @pass_salt, null: false
@@ -127,7 +138,6 @@ defmodule Core.Accounts.User do
     field :provider, :string, default: "localhost", null: false
     field :role, :boolean, default: false, null: false
     field :sex, :string
-    field :ssn, :integer
     field :street, :string
     field :token, :string, virtual: true
     field :zip, :integer
@@ -194,7 +204,7 @@ defmodule Core.Accounts.User do
     |> validate_length(:password, min: 5, max: 20)
     |> validate_confirmation(:password)
     |> update_change(:email, &String.downcase/1)
-    |> unique_constraint(:email, name: :users_email_index, message: "Only one an Email Record")
+    |> unique_constraint(:email, name: :users_email_index, message: "The format of the email address isn't correct or email has already been taken!")
     |> validate_email()
     |> validate_length(:bio, max: bio_limit)
     |> validate_length(:first_name, max: name_limit)

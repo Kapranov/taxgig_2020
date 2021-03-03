@@ -180,15 +180,27 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               data = by_names(IndividualFilingStatus, IndividualTaxReturn, true, :individual_tax_return_id, :name, :price, name)
               for {k, _} <- data, into: %{}, do: {k, found}
             end
-           true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
+          true ->
+            if is_nil(name) || is_nil(price) || price == 0 do
+              :error
+            else
               data = by_name(IndividualFilingStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name, name)
               for {k} <- data, into: %{}, do: {k, found}
-             end
+            end
         end
     end
+
+    # Change Version on 20 Feb 2021
+    #
+    # case struct do
+    #   :error -> :error
+    #   _ ->
+    #   case IndividualTaxReturn.by_role(id) do
+    #     false ->
+    #     true ->
+    #   end
+    # end
+    #
   end
 
   @spec check_match_individual_filing_status :: :error

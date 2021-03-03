@@ -139,6 +139,48 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     {:error, [
         [field: :id, message: "Can't be blank"],
         [field: :user, message: "Can't be blank"],
+        [field: :current_user,  message: "Unauthenticated"]
+      ]
+    }
+  end
+
+  @spec update_password(any, %{id: bitstring, user: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update_password(_root, %{id: id, user: params}, %{context: %{current_user: current_user}}) do
+    if is_nil(id) || is_nil(current_user) do
+      {:error, [[field: :id, message: "Can't be blank or Unauthenticated"]]}
+    else
+      try do
+        case id == current_user.id do
+          true ->
+            case Argon2.check_pass(current_user, params[:old_password]) do
+              {:error, _} ->
+                {:ok, %{error: "old password is not correct"}}
+              {:ok, user} ->
+                user
+                |> User.changeset(params)
+                |> Repo.update
+                |> case do
+                  {:ok, struct} ->
+                    {:ok, struct}
+                  {:error, changeset} ->
+                    {:error, extract_error_msg(changeset)}
+                end
+            end
+          false ->
+            {:error, "permission denied"}
+        end
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "An User #{id} not found!"}
+      end
+    end
+  end
+
+  @spec update_password(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update_password(_root, _args, _info) do
+    {:error, [
+        [field: :id, message: "Can't be blank"],
+        [field: :user, message: "Can't be blank"],
         [field: :password, message: "Can't be blank"],
         [field: :password_confirmation, message: "Can't be blank"],
         [field: :current_user,  message: "Unauthenticated"]

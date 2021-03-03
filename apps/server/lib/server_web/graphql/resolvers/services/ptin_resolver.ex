@@ -52,7 +52,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PtinResolver do
       @search_fields ->
         case Services.search_profession(args) do
           nil ->
-            {:ok, %{profession: nil}}
+            {:ok, %{profession: "No Found Record!"}}
           data ->
             {:ok, %{profession: data}}
         end

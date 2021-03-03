@@ -84,8 +84,8 @@ defmodule Stripe.BalanceTransaction do
                optional(:starting_after) => Stripe.id() | Stripe.BalanceTransaction.t(),
                optional(:type) => String.t()
              }
-  def all(params \\ %{}, opts \\ []) do
-    new_request(opts)
+  def all(params \\ %{}, opts \\ [], header \\ %{}) do
+    new_request(opts, header)
     |> put_endpoint(@endpoint)
     |> put_method(:get)
     |> put_params(params)

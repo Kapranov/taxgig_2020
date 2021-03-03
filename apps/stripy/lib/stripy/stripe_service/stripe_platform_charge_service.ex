@@ -4,6 +4,7 @@ defmodule Stripy.StripeService.StripePlatformChargeService do
   Used to perform actions on StripeCharge records.
 
   You can:
+  - [List all charges](https://stripe.com/docs/api/charges/list)
   - [Create a charge](https://stripe.com/docs/api/charges/create)
   - [Update a charge](https://stripe.com/docs/api/charges/update)
   - [Capture a charge](https://stripe.com/docs/api/charges/capture)
@@ -15,6 +16,34 @@ defmodule Stripy.StripeService.StripePlatformChargeService do
     Repo,
     StripeService.Adapters.StripePlatformChargeAdapter
   }
+
+  @doc """
+  List all charges
+
+  Returns a list of charges you’ve previously created.
+  The charges are returned in sorted order, with the most
+  recent charges appearing first.
+
+  ## Example
+
+      iex> customer = "cus_IxlurcKgXfBKth"
+      iex> {:ok, data} = list(customer)
+
+  """
+  @spec list(String.t()) ::
+          {:ok, Stripe.List.t} |
+          {:error, Ecto.Changeset.t} |
+          {:error, Stripe.Error.t} |
+          {:error, :platform_not_ready} |
+          {:error, :not_found}
+  def list(customer) do
+    with {:ok, %Stripe.List{data: data}} <- Stripe.Charge.list(%{customer: customer}) do
+      {:ok, data}
+    else
+      nil -> {:error, :not_found}
+      failure -> failure
+    end
+  end
 
   @doc """
   Creates a new `Stripe.Charge` record on Stripe API, as well as
