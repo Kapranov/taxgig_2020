@@ -15,10 +15,12 @@ defmodule ServerWeb.GraphQL.Schemas.Services.PtinTypes do
 
   object :timestamp do
     field :path, :string
+    field :error, :string
   end
 
   object :directory do
     field :ptin, :string
+    field :error, :string
   end
 
   object :ptin_queries do

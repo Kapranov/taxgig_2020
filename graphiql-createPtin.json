@@ -1,11 +1,12 @@
 {
   "key": "graphiql",
-  "lastId": 4,
+  "lastId": 5,
   "tabIds": [
     "tab1",
     "tab2",
     "tab3",
-    "tab4"
+    "tab4",
+    "tab5"
   ],
   "closedTabs": [],
   "defaultUrl": "http://localhost:4000/graphiql",
@@ -47,9 +48,23 @@
       "headers": [],
       "collapsed": false,
       "maxHistory": 20,
-      "history": [],
-      "graphiql:query": "mutation {\n  createPtin(\n    expired: \"Updated August 27, 2020\",\n    url: \"https://www.irs.gov/pub/irs-utl/FOIA_Extract.zip\"\n  ) {\n    path\n  }\n}",
+      "history": [
+        {
+          "query": "mutation {\n  createPtin(\n    expired: \"Updated February 20, 2021\",\n    url: \"https://www.irs.gov/pub/irs-utl/FOIA_Alaska_extracttt.csv\"\n  ) {\n    path\n    error\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createPtin(\n    expired: \"Updated February 20, 2021\",\n    url: \"https://www.irs.gov/pub/irs-utl/FOIA_Alaska_extract.csv\"\n  ) {\n    path\n    error\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createPtin(\n    expired: \"Updated February 20, 2021\",\n    url: \"https://www.irs.gov/pub/irs-utl/FOIA_Alabama_extract.csv\"\n  ) {\n    path\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createPtin(\n    expired: \"Updated February 20, 2021\",\n    url: \"https://www.irs.gov/pub/irs-utl/FOIA_Alaska_extract.csv\"\n  ) {\n    path\n    error\n  }\n}",
       "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createPtin(\\n    expired: \\\"Updated February 20, 2021\\\",\\n    url: \\\"/tmp/FOIA_Alabama_extract.csv.zip\\\"\\n  ) {\\n    path\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPtin(\\n    expired: \\\"Updated February 20, 2021\\\",\\n    url: \\\"http://192.168.2.145:5000/FOIA_Alabama_extract.csv.zip\\\"\\n  ) {\\n    path\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPtin(\\n    expired: \\\"Updated February 20, 2021\\\",\\n    url: \\\"https://www.irs.gov/pub/irs-utl/FOIA_Alabama_extract.csv\\\"\\n  ) {\\n    path\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPtin(\\n    expired: \\\"Updated February 20, 2021\\\",\\n    url: \\\"https://www.irs.gov/pub/irs-utl/FOIA_Alaska_extract.csv\\\"\\n  ) {\\n    path\\n    error\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPtin(\\n    expired: \\\"Updated February 20, 2021\\\",\\n    url: \\\"https://www.irs.gov/pub/irs-utl/FOIA_Alaska_extracttt.csv\\\"\\n  ) {\\n    path\\n    error\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 1
     },
@@ -62,8 +77,30 @@
       "headers": [],
       "collapsed": true,
       "maxHistory": 20,
-      "history": [],
-      "graphiql:query": "mutation {\n  deleteDir(date: \"2020-12-21\") {path}\n}",
+      "history": [
+        {
+          "query": "mutation {\n  deleteDir(date: \"2021-3-4\") {path}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteDir(date: \"2021-3-5\") {path}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteDir(date: \"2021-3-4\") {path}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteDir(date: \"2021-3-5\") {path}\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteDir(date: \"2021-3-4\") {path}\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deleteDir(date: \"2021-3-4\") {path error}\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-4\\\") {path}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-5\\\") {path}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-4\\\") {path}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-5\\\") {path}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-4\\\") {path}\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 1
@@ -104,10 +141,31 @@
         }
       ],
       "graphiql:query": "query {\n  searchProfession(\n    busAddrZip: \"11779\",\n    busStCode: \"NY\",\n    firstName: \"Stephen\",\n    lastName: \"Mazza\"\n  ) { profession }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  searchProfession(\\n    busAddrZip: \\\"11779\\\",\\n    busStCode: \\\"NY\\\",\\n    firstName: \\\"Stephen\\\",\\n    lastName: \\\"Mazza\\\"\\n  ) {\\n    id\\n    profession\\n  }\\n}\"},{\"query\":\"query {\\n  searchProfession(\\n    busAddrZip: \\\"11779\\\",\\n    busStCode: \\\"NY\\\",\\n    firstName: \\\"Stephen\\\",\\n    lastName: \\\"Mazza\\\"\\n  ) {\\n    profession\\n  }\\n}\"},{\"query\":\"query {\\n  searchProfession(\\n    busAddrZip: \\\"11779\\\",\\n    busStCode: \\\"NY\\\",\\n    firstName: \\\"Stephen\\\",\\n    lastName: \\\"Mazza\\\"\\n  ) { profession },\\n  searchProfession(\\n    busAddrZip: \\\"23701\\\",\\n    busStCode: \\\"VA\\\",\\n    firstName: \\\"Esther\\\",\\n    lastName: \\\"Forehand\\\"\\n  ) { profession }\\n}\"},{\"query\":\"query {\\n  searchProfession(\\n    busAddrZip: \\\"11779\\\",\\n    busStCode: \\\"NY\\\",\\n    firstName: \\\"Stephen\\\",\\n    lastName: \\\"Mazza\\\"\\n  ) { profession }\\n  searchProfession(\\n    busAddrZip: \\\"23701\\\",\\n    busStCode: \\\"VA\\\",\\n    firstName: \\\"Esther\\\",\\n    lastName: \\\"Forehand\\\"\\n  ) { profession }\\n}\"},{\"query\":\"query {\\n  searchProfession(\\n    busAddrZip: \\\"11779\\\",\\n    busStCode: \\\"NY\\\",\\n    firstName: \\\"Stephen\\\",\\n    lastName: \\\"Mazza\\\"\\n  ) { profession }\\n}\\nquery {\\n  searchProfession(\\n    busAddrZip: \\\"23701\\\",\\n    busStCode: \\\"VA\\\",\\n    firstName: \\\"Esther\\\",\\n    lastName: \\\"Forehand\\\"\\n  ) { profession }\\n}\"},{\"query\":\"query {\\n  searchProfession(\\n    busAddrZip: \\\"11779\\\",\\n    busStCode: \\\"NY\\\",\\n    firstName: \\\"Stephen\\\",\\n    lastName: \\\"Mazza\\\"\\n  ) { profession }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.3154296875,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  deletePtin {\n    ptin\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deletePtin {\n    ptin\n    error\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deletePtin {\\n    ptin\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  searchProfession(\\n    busAddrZip: \\\"11779\\\",\\n    busStCode: \\\"NY\\\",\\n    firstName: \\\"Stephen\\\",\\n    lastName: \\\"Mazza\\\"\\n  ) {\\n    id\\n    profession\\n  }\\n}\"},{\"query\":\"query {\\n  searchProfession(\\n    busAddrZip: \\\"11779\\\",\\n    busStCode: \\\"NY\\\",\\n    firstName: \\\"Stephen\\\",\\n    lastName: \\\"Mazza\\\"\\n  ) {\\n    profession\\n  }\\n}\"},{\"query\":\"query {\\n  searchProfession(\\n    busAddrZip: \\\"11779\\\",\\n    busStCode: \\\"NY\\\",\\n    firstName: \\\"Stephen\\\",\\n    lastName: \\\"Mazza\\\"\\n  ) { profession },\\n  searchProfession(\\n    busAddrZip: \\\"23701\\\",\\n    busStCode: \\\"VA\\\",\\n    firstName: \\\"Esther\\\",\\n    lastName: \\\"Forehand\\\"\\n  ) { profession }\\n}\"},{\"query\":\"query {\\n  searchProfession(\\n    busAddrZip: \\\"11779\\\",\\n    busStCode: \\\"NY\\\",\\n    firstName: \\\"Stephen\\\",\\n    lastName: \\\"Mazza\\\"\\n  ) { profession }\\n  searchProfession(\\n    busAddrZip: \\\"23701\\\",\\n    busStCode: \\\"VA\\\",\\n    firstName: \\\"Esther\\\",\\n    lastName: \\\"Forehand\\\"\\n  ) { profession }\\n}\"},{\"query\":\"query {\\n  searchProfession(\\n    busAddrZip: \\\"11779\\\",\\n    busStCode: \\\"NY\\\",\\n    firstName: \\\"Stephen\\\",\\n    lastName: \\\"Mazza\\\"\\n  ) { profession }\\n}\\nquery {\\n  searchProfession(\\n    busAddrZip: \\\"23701\\\",\\n    busStCode: \\\"VA\\\",\\n    firstName: \\\"Esther\\\",\\n    lastName: \\\"Forehand\\\"\\n  ) { profession }\\n}\"},{\"query\":\"query {\\n  searchProfession(\\n    busAddrZip: \\\"11779\\\",\\n    busStCode: \\\"NY\\\",\\n    firstName: \\\"Stephen\\\",\\n    lastName: \\\"Mazza\\\"\\n  ) { profession }\\n}\"}]}"
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200
     }
   ]
 }
