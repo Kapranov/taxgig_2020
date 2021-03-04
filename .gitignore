@@ -4,6 +4,8 @@
 /doc/dist/*
 /doc/.build
 
+apps/ptin/priv/data/*
+
 /config/*.secret.exs
 
 uploads/*.gif

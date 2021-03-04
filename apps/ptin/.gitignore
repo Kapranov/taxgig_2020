@@ -3,6 +3,7 @@
 /deps/
 /doc/
 /.fetch
+/ptin/priv/data/
 
 erl_crash.dump
 *.ez
