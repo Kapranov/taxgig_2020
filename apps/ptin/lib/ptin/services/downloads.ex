@@ -92,7 +92,7 @@ defmodule Ptin.Services.Downloads do
       {:ok, _} ->
         get!()
       _ ->
-        {:error, message: "Oops something went wrong!"}
+        {:error, "Oops something went wrong!"}
     end
   end
 
@@ -107,7 +107,7 @@ defmodule Ptin.Services.Downloads do
       {:error, msg} ->
         {:error, msg}
       _ ->
-        get_zip(path)
+        get_csv(path)
     end
   end
 
@@ -130,7 +130,7 @@ defmodule Ptin.Services.Downloads do
   `Ptin.Services.Downloads.import("2020-1-16", "foia_west_virginia_extract.csv")`
   """
   @spec insert(bitstring(), bitstring()) :: result()
-  def insert(path, file \\ "foia_extract.csv") when is_bitstring(path) and is_bitstring(file) do
+  def insert(path, file) when is_bitstring(path) and is_bitstring(file) do
     data =
       Path.join(base_data(), path)
       |> Path.join(file)
@@ -138,7 +138,7 @@ defmodule Ptin.Services.Downloads do
     case Repo.delete_all(Ptin) do
       {_, nil} ->
         data
-        |> File.stream!(read_ahead: 99_000_000)
+        |> File.stream!(read_ahead: 10_000_000)
         |> Parser.parse_stream
         |> Stream.map(fn [
              val1,
@@ -172,7 +172,7 @@ defmodule Ptin.Services.Downloads do
         |> Stream.run
 
       {count, error} ->
-        {:error, message: "It isn't delete #{count} Ptin.Services.Ptin #{error}"}
+        {:error, "It isn't delete #{count} Ptin.Services.Ptin #{error}"}
     end
   end
 
@@ -182,7 +182,7 @@ defmodule Ptin.Services.Downloads do
   `Ptin.Services.Downloads.import("2020-1-16", "foia_west_virginia_extract.csv")`
   """
   @spec insert!(bitstring(), bitstring()) :: result()
-  def insert!(path, file \\ "foia_extract.csv") when is_bitstring(path) and is_bitstring(file) do
+  def insert!(path, file) when is_bitstring(path) and is_bitstring(file) do
     data =
       Path.join(base_data(), path)
       |> Path.join(file)
@@ -190,7 +190,7 @@ defmodule Ptin.Services.Downloads do
     case Repo.delete_all(Ptin) do
       {_, nil} ->
         data
-        |> File.stream!(read_ahead: 99_000_000)
+        |> File.stream!(read_ahead: 10_000_000)
         |> Parser.parse_stream
         |> Stream.map(fn [
              val1,
@@ -224,7 +224,7 @@ defmodule Ptin.Services.Downloads do
         |> Stream.run
 
       {count, error} ->
-        {:error, message: "It isn't delete #{count} Ptin.Services.Ptin #{error}"}
+        {:error, "It isn't delete #{count} Ptin.Services.Ptin #{error}"}
     end
   end
 
@@ -235,10 +235,10 @@ defmodule Ptin.Services.Downloads do
   @spec remove_repo(bitstring()) :: result()
   def remove_repo(path) when is_bitstring(path) do
     data = Path.join(base_data(), path)
-    if File.exists?(data) do
-      File.rm_rf(data)
-    else
-      {:error, message: "Directory #{data} doesn't exist!"}
+    case File.rm_rf(data) do
+      {:ok, []} -> {:ok, "Directory #{data} doesn't exist!"}
+      {:ok, _} -> {:ok, "Directory #{data} has been removed"}
+      {:error, _, _} -> {:ok, "Something wrong with directory #{data}"}
     end
   end
 
@@ -254,12 +254,12 @@ defmodule Ptin.Services.Downloads do
     if File.exists?(data) do
       case File.rm(Path.join(data, file)) do
         {:error, _} ->
-          {:error, message: "File doesn't exist!"}
+          {:error, "File doesn't exist!"}
         _->
-          {:ok, message: "File has been deleted!"}
+          {:ok, "File has been deleted!"}
       end
     else
-      {:error, message: "Directory #{data} or file doesn't exist!"}
+      {:error, "Directory #{data} or file doesn't exist!"}
     end
   end
 
@@ -273,14 +273,14 @@ defmodule Ptin.Services.Downloads do
   end
 
   @spec get_zip(bitstring()) :: result()
-  defp get_zip(path) when is_bitstring(path) do
+  def get_zip(path) when is_bitstring(path) do
     for zip <- @zip_url do
       %URI{path: "/pub/irs-utl/" <> name_zip} = URI.parse(zip)
       case download(zip) do
         {:ok, file_zip} ->
           save_files(full_path(path), name_zip, file_zip)
           extract(Path.join(full_path(path), filename(name_zip)), full_path(path))
-          insert(storage_data())
+          insert(storage_data(), filename(name_zip))
           File.rm_rf!(full_path(path))
         {:error, error} ->
           {:error, error}
@@ -297,7 +297,7 @@ defmodule Ptin.Services.Downloads do
         {:ok, file_zip} ->
           save_files(full_path(path), name_zip, file_zip)
           extract(Path.join(full_path(path), filename(name_zip)), full_path(path))
-          insert!(storage_data())
+          insert!(storage_data(), filename(name_zip))
           File.rm_rf!(full_path(path))
         {:error, error} ->
           {:error, error}
@@ -311,7 +311,7 @@ defmodule Ptin.Services.Downloads do
     time = storage_data()
 
     if File.exists?(data) do
-      {:error, message: "Directory #{data} has been exist!"}
+      {:error, "Directory #{data} has been exist!"}
     else
       File.mkdir!("#{path}/#{time}")
     end
@@ -325,7 +325,7 @@ defmodule Ptin.Services.Downloads do
         %HTTPoison.Response{body: file} = HTTPoison.get!(url)
         {:ok, file}
       _ ->
-        {:error, message: "HTTP url doesn't correct"}
+        {:error, "HTTP url doesn't correct"}
 
     end
   end

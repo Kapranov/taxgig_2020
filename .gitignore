@@ -25,6 +25,7 @@ ThePragmaticBookshelf.tar.bz2
 VERSION
 chat.tar.bz2
 curl_twitter.sh
+downloads.ex.v1
 elixir_chat_server.tar.bz2
 gen_server_try.tar.bz2
 mix.lock
@@ -32,6 +33,7 @@ payments.ex
 phx-1.5-upgrade.md
 project_schema.pdf
 project_schema.txt
+ptin_schema_csv.txt
 streamers.ex
 streamers_test.exs
 stripe_card.ex.save

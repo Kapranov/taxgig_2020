@@ -23,6 +23,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PtinResolver do
     last_name
   )a
 
+  @base_dir Application.get_env(:ptin, :base_data)
+
   @doc """
   Download, unpack zip, convert csv to json and insert into DB.
   """
@@ -33,10 +35,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PtinResolver do
         args
         |> Downloads.create()
         |> case do
-          [[dir, zip, csv]]->
-            {:ok, %{path: "Data in dir #{dir} unpack #{zip} and #{csv} has been inserted into DB"}}
+          [[_dir, csv]] ->
+            {:ok, %{path: csv}}
           {:error, msg} ->
-            {:ok, %{error: msg}}
+            {:ok, %{error: msg, path: "#{@base_dir}"}}
         end
       _ ->
         {:ok, %{error: "An expired and url hasn't been filled"}}
