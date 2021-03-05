@@ -101,6 +101,10 @@
       "maxHistory": 20,
       "history": [
         {
+          "query": "mutation {\n  deleteDir(date: \"2020-12-21\") {path error}\n}",
+          "variables": null
+        },
+        {
           "query": "mutation {\n  deleteDir(date: \"2021-3-5\") {path error}\n}",
           "variables": null
         },
@@ -129,9 +133,9 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  deleteDir(date: \"2021-3-5\") {path error}\n}",
+      "graphiql:query": "mutation {\n  deleteDir(date: \"2020-12-21\") {path error}\n}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-4\\\") {path}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-5\\\") {path}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-4\\\") {path}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-5\\\") {path}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-4\\\") {path}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-4\\\") {path error}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-5\\\") {path error}\\n}\"}]}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-4\\\") {path}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-5\\\") {path}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-4\\\") {path}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-5\\\") {path}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-4\\\") {path}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-4\\\") {path error}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-5\\\") {path error}\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2020-12-21\\\") {path error}\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 1
     },
