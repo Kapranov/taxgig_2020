@@ -10,6 +10,11 @@ bash> mix ecto.gen.migration -r Ptin.Repo create_expires
 bash> mix ecto.gen.migration -r Ptin.Repo create_ptins
 ```
 
+```
+COPY ptins(last_name, first_name, bus_st_code, bus_addr_zip, profession) FROM '/tmp/foia_california_extract.csv' WITH DELIMITER ',' NULL as ' ' CSV HEADER;
+```
+
 ### 21 Jan 2020 by Oleg G.Kapranov
 
 [1]: https://www.postgresqltutorial.com/import-csv-file-into-posgresql-table/
+[2]: https://csvjson.com/csv2json

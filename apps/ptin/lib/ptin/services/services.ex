@@ -29,7 +29,6 @@ defmodule Ptin.Services do
   def search_profession(attrs) do
     %{
       bus_addr_zip: bus_addr_zip,
-      bus_st_code: bus_st_code,
       first_name: first_name,
       last_name: last_name
     } = attrs
@@ -37,10 +36,9 @@ defmodule Ptin.Services do
     Repo.one(
       from u in Ptin,
       where: ilike(u.bus_addr_zip, ^("%" <> bus_addr_zip <> "%")) and
-             ilike(u.bus_st_code, ^("%" <> bus_st_code <> "%")) and
              ilike(u.first_name, ^("%" <> first_name <> "%")) and
              ilike(u.last_name, ^("%" <> last_name <> "%")),
-      select: u.profession
+      select: %{bus_addr_zip: u.bus_addr_zip, profession: u.profession}
     )
   end
 

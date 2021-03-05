@@ -18,7 +18,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PtinResolver do
 
   @search_fields ~w(
     bus_addr_zip
-    bus_st_code
     first_name
     last_name
   )a
@@ -54,9 +53,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PtinResolver do
       @search_fields ->
         case Services.search_profession(args) do
           nil ->
-            {:ok, %{profession: "No Found Record!"}}
-          data ->
-            {:ok, %{profession: data}}
+            {:ok, %{bus_addr_zip: nil, profession: "No Found Record!"}}
+          struct ->
+            {:ok, %{bus_addr_zip: struct.bus_addr_zip, profession: struct.profession}}
         end
       _ ->
         {:ok, %{error: "Some fields havn't been filled"}}
