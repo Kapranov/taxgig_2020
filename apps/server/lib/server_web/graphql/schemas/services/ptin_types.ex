@@ -9,7 +9,8 @@ defmodule ServerWeb.GraphQL.Schemas.Services.PtinTypes do
 
   @desc "The Ptin of the site"
   object :ptin do
-    field :id, non_null(:string)
+    field :id, :string
+    field :bus_addr_zip, :string
     field :profession, :string
   end
 
@@ -27,7 +28,6 @@ defmodule ServerWeb.GraphQL.Schemas.Services.PtinTypes do
     @desc "Search a specific a ptin"
     field :search_profession, :ptin do
       arg :bus_addr_zip, non_null(:string)
-      arg :bus_st_code, non_null(:string)
       arg :first_name, non_null(:string)
       arg :last_name, non_null(:string)
       resolve &PtinResolver.search/3
