@@ -47,7 +47,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     if is_nil(current_user) do
       {:error, [[field: :user_id, message: "An User not found! or Unauthenticated"]]}
     else
-      case Accounts.all(User, [desc: :id], [id: current_user.id], :languages) do
+      case Accounts.all(User, [desc: :id], [id: current_user.id], [
+        :book_keepings,
+        :business_tax_returns,
+        :individual_tax_returns,
+        :languages,
+        :platform,
+        :sale_taxes
+      ]) do
         nil -> {:error, "Not found"}
         struct -> {:ok, struct}
       end

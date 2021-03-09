@@ -38,6 +38,11 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :street, :string, description: "accounts user street"
     field :zip, :integer, description: "accounts user zip"
     field :rooms, list_of(:room), resolve: dataloader(Data), description: "list user's room"
+    field :book_keepings, list_of(:book_keeping), description: "list user's book keepings"
+    field :business_tax_returns, list_of(:business_tax_return), description: "list user's business tax returns"
+    field :individual_tax_returns, list_of(:individual_tax_return), description: "list user's business tax returns"
+    field :sale_taxes, list_of(:sale_tax), description: "list user's sale_taxes"
+    field :platform, list_of(:platform), description: "list user's platform"
   end
 
   @desc "Provider's code"
