@@ -19,6 +19,23 @@ defmodule Core.Queries do
   @type word() :: String.t()
 
   @doc """
+  ## Example
+
+      iex>
+  Core.Repo.all(from c in Core.Contracts.Project, join: cu in Core.Accounts.User, where: c.user_id == cu.id, where: cu.role == false, where: c.status == "Done" or c.status == "In Progress" or c.status == "In Transition", select: count(c.user_id))
+  """
+#  def by_count_projects(struct_a, struct_b) do
+#    try do
+#      Repo.all(
+#        from c in struct_a,
+#        join: cu in struct_b,
+#        where: c.user_id == cu.id, where: cu.role == false, where: c.status == "Done" or c.status == "In Progress" or c.status == "In Transition", select: count(c.user_id))
+#    rescue
+#      Ecto.Query.CastError -> nil
+#    end
+#  end
+
+  @doc """
   Retrurn all records
 
   ## Example
