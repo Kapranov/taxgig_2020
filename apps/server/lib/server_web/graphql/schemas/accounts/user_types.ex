@@ -46,6 +46,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :sale_taxes, list_of(:sale_tax), description: "list user's sale_taxes"
     field :sex, :string, description: "accounts user sex"
     field :street, :string, description: "accounts user street"
+    field :total_earned, :decimal, description: "sum of offerPrice and addonPrice from projects Done"
     field :work_experiences, list_of(:work_experience), description: "list user's work_experiences"
     field :zip, :integer, description: "accounts user zip"
   end

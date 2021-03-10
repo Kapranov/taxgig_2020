@@ -63,18 +63,34 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         nil -> {:error, "Not found"}
         struct ->
           if current_user.role == true do
-            case Core.Repo.all(from c in Core.Contracts.Project, join: cu in Core.Accounts.User, where: c.user_id == cu.id, where: cu.role == false, where: c.status == "Done", where: c.assigned_id == ^current_user.id, select: count(c.user_id)) do
-              [] -> {
-                :ok,
+            with val1 <- Core.Repo.all(from c in Core.Contracts.Project, join: cu in Core.Accounts.User, where: c.user_id == cu.id, where: cu.role == false, where: c.status == "Done", where: c.assigned_id == ^current_user.id, select: count(c.user_id)),
+                 [val2] <- Core.Repo.all(from c in Core.Contracts.Project, join: cu in Core.Accounts.User, where: c.user_id == cu.id, where: cu.role == false, where: c.status == "In Progress" or c.status == "In Transition", where: c.assigned_id == ^current_user.id, select: count(c.user_id)),
+                 val3 <- Core.Repo.all(from c in Core.Contracts.Project, join: cu in Core.Accounts.User, where: c.user_id == cu.id, where: cu.role == false, where: c.status == "Done", where: c.assigned_id == ^current_user.id, select: {c.offer_price, c.addon_price})
+            do
+              new_val1 = if val1 == [], do: 0, else: List.last(val1)
+              result =
+                val3
+                |> Enum.map(fn n ->
+                  if is_nil(elem(n, 1)) do
+                    n
+                    |> Tuple.delete_at(1)
+                    |> Tuple.insert_at(1, 0)
+                    |> elem(0)
+                    |> Decimal.to_string
+                    |> String.to_float
+                  else
+                    n |> elem(0) |> Decimal.to_string |> String.to_float
+                  end
+                end)
+
+              new_val3 = (List.first(result) + (List.last(result) * 0.01)) * 0.8 |> Float.round(2) |> Decimal.from_float
+
+              {:ok,
                 struct
                 |> List.last
-                |> Map.update!(:finished_project_count, fn _ -> 0 end)
-              }
-              [val] -> {
-                :ok,
-                struct
-                |> List.last
-                |> Map.update!(:finished_project_count, fn _ -> val end)
+                |> Map.update!(:finished_project_count, fn _ -> new_val1 end)
+                |> Map.update!(:on_going_project_count, fn _ -> val2 end)
+                |> Map.update!(:total_earned, fn _ -> new_val3 end)
               }
             end
           else
