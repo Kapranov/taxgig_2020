@@ -44,6 +44,7 @@ defmodule Core.Accounts.User do
     business_tax_returns: [BusinessTaxReturn.t()],
     educations: Education.t(),
     email: String.t(),
+    finished_project_count: integer,
     first_name: String.t(),
     individual_tax_returns: [IndividualTaxReturn.t()],
     init_setup: boolean,
@@ -53,6 +54,7 @@ defmodule Core.Accounts.User do
     messages: [Message.t()],
     middle_name: String.t(),
     offers: [Offer.t()],
+    on_going_project_count: integer,
     otp_last: :integer,
     otp_secret: String.t(),
     password: String.t(),
@@ -90,11 +92,13 @@ defmodule Core.Accounts.User do
     birthday
     bus_addr_zip
     email
+    finished_project_count
     first_name
     init_setup
     is_2fa
     last_name
     middle_name
+    on_going_project_count
     otp_last
     otp_secret
     password
@@ -124,11 +128,13 @@ defmodule Core.Accounts.User do
     field :birthday, :date
     field :bus_addr_zip, :string, null: true
     field :email, :string, null: false
+    field :finished_project_count, :integer, virtual: true
     field :first_name, :string
     field :init_setup, :boolean
     field :is_2fa, :boolean, null: false, default: false
     field :last_name, :string
     field :middle_name, :string
+    field :on_going_project_count, :integer, virtual: true
     field :otp_last, :integer, null: false, default: 0
     field :otp_secret, :string, null: true
     field :password, :string, virtual: true
