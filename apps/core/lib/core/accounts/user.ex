@@ -74,6 +74,7 @@ defmodule Core.Accounts.User do
     service_reviews: [ServiceReview.t()],
     sex: String.t(),
     street: String.t(),
+    total_earned: integer,
     work_experiences: WorkExperience.t(),
     zip: integer
   }
@@ -108,6 +109,7 @@ defmodule Core.Accounts.User do
     role
     sex
     street
+    total_earned
     zip
   )a
 
@@ -146,6 +148,7 @@ defmodule Core.Accounts.User do
     field :sex, :string
     field :street, :string
     field :token, :string, virtual: true
+    field :total_earned, :decimal, virtual: true
     field :zip, :integer
 
     has_one :accounting_software, AccountingSoftware, on_delete: :delete_all
