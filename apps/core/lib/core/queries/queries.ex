@@ -22,7 +22,6 @@ defmodule Core.Queries do
 #  ## Example
 #
 #      iex>
-#  Core.Repo.all(from c in Core.Contracts.Project, join: cu in Core.Accounts.User, where: c.user_id == cu.id, where: cu.role == false, where: c.status == "Done" or c.status == "In Progress" or c.status == "In Transition", select: count(c.user_id))
 #  """
 #  def by_count_projects(struct_a, struct_b) do
 #    try do

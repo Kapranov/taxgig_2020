@@ -3,6 +3,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   The User GraphQL resolvers.
   """
 
+  import Ecto.Query
+
   alias Core.{
     Accounts,
     Accounts.DeletedUser,
@@ -59,7 +61,25 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         :work_experiences
       ]) do
         nil -> {:error, "Not found"}
-        struct -> {:ok, struct}
+        struct ->
+          if current_user.role == true do
+            case Core.Repo.all(from c in Core.Contracts.Project, join: cu in Core.Accounts.User, where: c.user_id == cu.id, where: cu.role == false, where: c.status == "Done", where: c.assigned_id == ^current_user.id, select: count(c.user_id)) do
+              [] -> {
+                :ok,
+                struct
+                |> List.last
+                |> Map.update!(:finished_project_count, fn _ -> 0 end)
+              }
+              [val] -> {
+                :ok,
+                struct
+                |> List.last
+                |> Map.update!(:finished_project_count, fn _ -> val end)
+              }
+            end
+          else
+            {:ok, struct}
+          end
       end
     end
   end
