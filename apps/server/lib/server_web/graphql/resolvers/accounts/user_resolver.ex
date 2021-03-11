@@ -68,22 +68,25 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                  val3 <- Core.Repo.all(from c in Core.Contracts.Project, join: cu in Core.Accounts.User, where: c.user_id == cu.id, where: cu.role == false, where: c.status == "Done", where: c.assigned_id == ^current_user.id, select: {c.offer_price, c.addon_price})
             do
               new_val1 = if val1 == [], do: 0, else: List.last(val1)
-              result =
-                val3
-                |> Enum.map(fn n ->
-                  if is_nil(elem(n, 1)) do
-                    n
-                    |> Tuple.delete_at(1)
-                    |> Tuple.insert_at(1, 0)
-                    |> elem(0)
-                    |> Decimal.to_string
-                    |> String.to_float
-                  else
-                    n |> elem(0) |> Decimal.to_string |> String.to_float
-                  end
-                end)
+              new_val3 =
+                if val3 == [] do
+                  Decimal.new("0.0")
+                else
+                  val3
+                  |> Enum.map(fn n ->
+                    if is_nil(elem(n, 1)) do
+                      data = { n |> elem(0) |> Decimal.to_string |> String.to_float, 0 }
+                      ((elem(data, 0) + (elem(data, 1) * 0.01)) * 0.8) |> Float.round(2)
 
-              new_val3 = (List.first(result) + (List.last(result) * 0.01)) * 0.8 |> Float.round(2) |> Decimal.from_float
+                    else
+                      data = { n |> elem(0) |> Decimal.to_string |> String.to_float, n |> elem(1) }
+                      ((elem(data, 0) + (elem(data, 1) * 0.01)) * 0.8) |> Float.round(2)
+                    end
+                  end)
+                  |> Enum.sum
+                  |> Decimal.from_float
+                  |> Decimal.round(2)
+                end
 
               {:ok,
                 struct
