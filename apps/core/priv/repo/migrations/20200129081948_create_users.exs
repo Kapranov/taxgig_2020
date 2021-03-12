@@ -20,6 +20,7 @@ defmodule Core.Repo.Migrations.CreateUsers do
       add :otp_secret, :string, null: true
       add :password_hash, :string, null: false
       add :phone, :string
+      add :profession, :string, null: true
       add :provider, :string, default: "localhost", null: false
       add :role, :boolean, default: false, null: false
       add :sex, :string

@@ -40,6 +40,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :otp_secret, :string, description: "2factor token"
     field :phone, :string, description: "accounts user phone"
     field :platform, list_of(:platform), description: "list user's platform"
+    field :profession, :string, description: "credentials received from searchProfession"
     field :provider, :string, description: "accounts user provider"
     field :role, :boolean, description: "accounts user role"
     field :rooms, list_of(:room), resolve: dataloader(Data), description: "list user's room"
@@ -109,6 +110,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :last_name, :string
     field :middle_name, :string
     field :phone, :string
+    field :profession, :string
     field :provider, :string
     field :role, :boolean
     field :sex, :string

@@ -143,6 +143,7 @@ defmodule Core.Accounts.User do
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string, default: @pass_salt, null: false
     field :phone, :string
+    field :profession, :string, null: true
     field :provider, :string, default: "localhost", null: false
     field :role, :boolean, default: false, null: false
     field :sex, :string

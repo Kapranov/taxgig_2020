@@ -18,22 +18,6 @@ defmodule Core.Queries do
 
   @type word() :: String.t()
 
-#  @doc """
-#  ## Example
-#
-#      iex>
-#  """
-#  def by_count_projects(struct_a, struct_b) do
-#    try do
-#      Repo.all(
-#        from c in struct_a,
-#        join: cu in struct_b,
-#        where: c.user_id == cu.id, where: cu.role == false, where: c.status == "Done" or c.status == "In Progress" or c.status == "In Transition", select: count(c.user_id))
-#    rescue
-#      Ecto.Query.CastError -> nil
-#    end
-#  end
-
   @doc """
   Retrurn all records
 
@@ -560,6 +544,98 @@ defmodule Core.Queries do
   """
   @spec contains_fields?([String.t()], [String.t()]) :: boolean
   def contains_fields?(keys, fields), do: Enum.all?(fields, &(&1 in keys))
+
+  @doc """
+  ## Example
+
+      iex> struct_a = Core.Contracts.Project
+      iex> struct_b = Core.Accounts.User
+      iex> role = false
+      iex> status = "Done"
+      iex> current_user = Core.Repo.get_by(Core.Accounts.User, %{email: "kapranov.lugatex@gmail.com"})
+      iex> Core.Queries.by_count_with_status_projects(struct_a, struct_b, role, status, current_user)
+      [1]
+
+  """
+  @spec by_count_with_status_projects(atom, atom, boolean, String.t(), User.t()) :: [integer]  | []
+  def by_count_with_status_projects(struct_a, struct_b, role, status, current_user) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: cu in ^struct_b,
+        where: c.user_id == cu.id,
+        where: cu.role == ^role,
+        where: not is_nil(c.status),
+        where: c.status == ^status,
+        where: not is_nil(c.assigned_id),
+        where: c.assigned_id == ^current_user.id,
+        select: count(c.user_id)
+      )
+    rescue
+      Ecto.Query.CastError -> []
+    end
+  end
+
+  @doc """
+  ## Example
+
+      iex> struct_a = Core.Contracts.Project
+      iex> struct_b = Core.Accounts.User
+      iex> role = false
+      iex> status_a = "In Progress"
+      iex> status_b = "In Transition"
+      iex> current_user = Core.Repo.get_by(Core.Accounts.User, %{email: "kapranov.lugatex@gmail.com"})
+      iex> Core.Queries.by_count_with_status_projects(struct_a, struct_b, role, status_a, status_b, current_user)
+      [1]
+
+  """
+  @spec by_count_with_status_projects(atom, atom, boolean, String.t(), String.t(), User.t()) :: [integer] | []
+  def by_count_with_status_projects(struct_a, struct_b, role, status_a, status_b, current_user) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: cu in ^struct_b,
+        where: c.user_id == cu.id,
+        where: cu.role == ^role,
+        where: not is_nil(c.status),
+        where: c.status == ^status_a or c.status == ^status_b,
+        where: not is_nil(c.assigned_id),
+        where: c.assigned_id == ^current_user.id,
+        select: count(c.user_id)
+      )
+    rescue
+      Ecto.Query.CastError -> []
+    end
+  end
+
+  @doc """
+  ## Example
+
+      iex> struct_a = Core.Contracts.Project
+      iex> struct_b = Core.Accounts.User
+      iex> role = false
+      iex> status = "Done"
+      iex> current_user = Core.Repo.get_by(Core.Accounts.User, %{email: "kapranov.lugatex@gmail.com"})
+      [{1, 1}]
+  """
+  @spec by_count_with_offer_addon_projects(atom, atom, boolean, String.t(), User.t()) :: [{integer, integer | nil}]  | []
+  def by_count_with_offer_addon_projects(struct_a, struct_b, role, status, current_user) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: cu in ^struct_b,
+        where: c.user_id == cu.id,
+        where: cu.role == ^role,
+        where: not is_nil(c.status),
+        where: c.status == ^status,
+        where: not is_nil(c.assigned_id),
+        where: c.assigned_id == ^current_user.id,
+        select: {c.offer_price, c.addon_price}
+      )
+    rescue
+      Ecto.Query.CastError -> []
+    end
+  end
 
 #  @spec filtered_service(map) :: map
 #  def filtered_service(attrs) do
