@@ -944,7 +944,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                           {:error, "The Project #{id} not found!"}
                       end
                     "In Progress" ->
-                      if !is_nil(params[:id_from_stripe_card]) and !is_nil(params[:offer_price]) do
+                      if !is_nil(params[:id_from_stripe_card]) and !is_nil(params[:offer_price]) and is_nil(params[:instant_matched]) do
                         try do
                           Repo.get!(Project, id)
                           |> Contracts.update_project(
@@ -969,18 +969,71 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                           Ecto.NoResultsError ->
                             {:error, "The Project #{id} not found!"}
                         end
-                        # ACTION - ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver.list/3
-                        # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver.create/3
-                        # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureResolver.update_by_in_progress/3
-                        #
-                        # Create action - stripe.charge {amount=project.offer_price, source=project.id_from_stripe_card, description: ""}
-                        # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35},
-                        #                 take project.updated_at + 7200 = xxx if xxx and status == "In Progres" > now, do: stripe_captur, else: :nothing
-                        #                 and do stripe_capture hours pass since updated_at and status="In Progress" and update field captured with
-                        #                 stripe.charge.capture.amount
                       else
-                        {:error, "field's id_from_stripe_card must filled"}
+                        if !is_nil(params[:id_from_stripe_card]) and is_nil(params[:offer_price]) and params[:instant_matched] == true do
+                          try do
+                            Repo.get!(Project, id)
+                            |> Contracts.update_extention_project(
+                              Map.delete(params, :user_id)
+                              |> Map.delete(:addon_price)
+                              |> Map.delete(:book_keeping_id)
+                              |> Map.delete(:business_tax_return_id)
+                              |> Map.delete(:end_time)
+                              |> Map.delete(:id_from_stripe_transfer)
+                              |> Map.delete(:individual_tax_return_id)
+                              |> Map.delete(:sale_tax_id)
+                              |> Map.delete(:service_review_id)
+                            )
+                            |> case do
+                              {:ok, struct} ->
+                                {:ok, struct}
+                              {:error, changeset} ->
+                                {:error, extract_error_msg(changeset)}
+                            end
+                          rescue
+                            Ecto.NoResultsError ->
+                              {:error, "The Project #{id} not found!"}
+                          end
+                        else
+                          if !is_nil(params[:id_from_stripe_card]) and !is_nil(params[:offer_price]) do
+                            try do
+                              Repo.get!(Project, id)
+                              |> Contracts.update_project(
+                                Map.delete(params, :user_id)
+                                |> Map.delete(:addon_price)
+                                |> Map.delete(:book_keeping_id)
+                                |> Map.delete(:business_tax_return_id)
+                                |> Map.delete(:end_time)
+                                |> Map.delete(:id_from_stripe_transfer)
+                                |> Map.delete(:individual_tax_return_id)
+                                |> Map.delete(:instant_matched)
+                                |> Map.delete(:sale_tax_id)
+                                |> Map.delete(:service_review_id)
+                              )
+                              |> case do
+                                {:ok, struct} ->
+                                  {:ok, struct}
+                                {:error, changeset} ->
+                                  {:error, extract_error_msg(changeset)}
+                              end
+                            rescue
+                              Ecto.NoResultsError ->
+                                {:error, "The Project #{id} not found!"}
+                            end
+                          else
+                            {:error, "field's id_from_stripe_card must filled"}
+                          end
+                        end
                       end
+                      # ACTION - ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver.list/3
+                      # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver.create/3
+                      # ACTION - ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureResolver.update_by_in_progress/3
+                      #
+                      # Create action - stripe.charge {amount=project.offer_price, source=project.id_from_stripe_card, description: ""}
+                      # Create action - Stripe.charge.capture {amount=project.offer_price * 0.35},
+                      #                 take project.updated_at + 7200 = xxx if xxx and status == "In Progres" > now, do: stripe_captur, else: :nothing
+                      #                 and do stripe_capture hours pass since updated_at and status="In Progress" and update field captured with
+                      #                 stripe.charge.capture.amount
                     "In Transition" ->
                       try do
                         Repo.get!(Project, id)
