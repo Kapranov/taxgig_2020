@@ -950,13 +950,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                           |> Contracts.update_project(
                             Map.delete(params, :user_id)
                             |> Map.delete(:addon_price)
-                            |> Map.delete(:book_keeping_id)
-                            |> Map.delete(:business_tax_return_id)
                             |> Map.delete(:end_time)
                             |> Map.delete(:id_from_stripe_transfer)
-                            |> Map.delete(:individual_tax_return_id)
                             |> Map.delete(:instant_matched)
-                            |> Map.delete(:sale_tax_id)
                             |> Map.delete(:service_review_id)
                           )
                           |> case do
@@ -976,12 +972,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                             |> Contracts.update_extention_project(
                               Map.delete(params, :user_id)
                               |> Map.delete(:addon_price)
-                              |> Map.delete(:book_keeping_id)
-                              |> Map.delete(:business_tax_return_id)
                               |> Map.delete(:end_time)
                               |> Map.delete(:id_from_stripe_transfer)
-                              |> Map.delete(:individual_tax_return_id)
-                              |> Map.delete(:sale_tax_id)
                               |> Map.delete(:service_review_id)
                             )
                             |> case do
@@ -1001,13 +993,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                               |> Contracts.update_project(
                                 Map.delete(params, :user_id)
                                 |> Map.delete(:addon_price)
-                                |> Map.delete(:book_keeping_id)
-                                |> Map.delete(:business_tax_return_id)
                                 |> Map.delete(:end_time)
                                 |> Map.delete(:id_from_stripe_transfer)
-                                |> Map.delete(:individual_tax_return_id)
                                 |> Map.delete(:instant_matched)
-                                |> Map.delete(:sale_tax_id)
                                 |> Map.delete(:service_review_id)
                               )
                               |> case do

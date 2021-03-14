@@ -4,8 +4,8 @@ config :core, Stripy.Repo,
   username: "kapranov",
   password: "nicmos6922",
   database: "taxgig",
-  # hostname: "localhost",
-  hostname: "157.230.215.139",
+  hostname: "localhost",
+  # hostname: "157.230.215.139",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

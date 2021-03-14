@@ -1066,9 +1066,10 @@ defmodule Core.Contracts do
           %{assigned_id: String.t(), offer_price: integer}
           | %{mailers: [{String.t(), String.t()}]}
           | %{status: atom}
-  defp check_match(struct, id) do
+  def check_match(struct, id) do
     case transfers(struct, id) do
-      %{} ->
+      %{assigned_id: val1, offer_price: val2} -> %{assigned_id: val1, offer_price: val2}
+      _ ->
         data = Queries.by_hero_status(User, Platform, struct, true, :role, :id, :user_id, :hero_status, :email)
         users = for {k, v} <- data, into: [], do: %{user_id: k, email: v}
         if Enum.count(users) > 0 do
@@ -1076,14 +1077,13 @@ defmodule Core.Contracts do
         else
           %{status: "New"}
         end
-      %{assigned_id: val1, offer_price: val2} -> %{assigned_id: val1, offer_price: val2}
     end
   end
 
   @spec transfers(atom, String.t()) ::
           %{assigned_id: String.t(), offer_price: integer}
           | map
-  defp transfers(struct, id) do
+  def transfers(struct, id) do
     with offer_price <- by_offer_price(id),
          match <- by_match(id),
          single <- Queries.get_hero_active(struct, match),

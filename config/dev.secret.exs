@@ -15,8 +15,8 @@ config :core, Core.Repo,
   username: "kapranov",
   password: "nicmos6922",
   database: "taxgig",
-  # hostname: "localhost",
-  hostname: "157.230.215.139",
+  hostname: "localhost",
+  # hostname: "157.230.215.139",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -24,8 +24,8 @@ config :core, Graphy.Repo,
   username: "kapranov",
   password: "nicmos6922",
   database: "taxgig",
-  # hostname: "localhost",
-  hostname: "157.230.215.139",
+  hostname: "localhost",
+  # hostname: "157.230.215.139",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -33,8 +33,8 @@ config :ptin, Ptin.Repo,
   username: "kapranov",
   password: "nicmos6922",
   database: "ptin",
-  # hostname: "localhost",
-  hostname: "157.230.215.139",
+  hostname: "localhost",
+  # hostname: "157.230.215.139",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
