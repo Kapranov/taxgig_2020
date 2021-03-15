@@ -28,7 +28,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :error, :string, description: "user error"
     field :finished_project_count, :integer, description: "virtual field with calculates all projects with status Done"
     field :first_name, :string, description: "accounts user first_name"
-    field :id, :string, description: "language id"
+    field :id, :string, description: "account user's id"
     field :individual_tax_returns, list_of(:individual_tax_return), description: "list user's business tax returns"
     field :init_setup, :boolean, description: "accounts user init_setup"
     field :is_2fa, :boolean, description: "two factory authorization"
@@ -92,6 +92,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :error, :string, description: "accounts user error"
     field :error_description, :string
     field :provider, :string, description: "accounts user provider"
+    field :user_id, :string, description: "account user's id"
   end
 
   @desc "The accounts an user update via params"
