@@ -178,35 +178,6 @@ pro1 = User |> Repo.get_by!(email: "support@taxgig.com") |> Map.get(:id)
 pro2 = User |> Repo.get_by!(email: "op@taxgig.com") |> Map.get(:id)
 pro3 = User |> Repo.get_by!(email: "vk@taxgig.com") |> Map.get(:id)
 
-<<<<<<< HEAD
- bk_tp1 = BookKeeping |> Repo.get_by!(user_id: tp1) |> Map.get(:id)
- bk_tp2 = BookKeeping |> Repo.get_by!(user_id: tp2) |> Map.get(:id)
- bk_tp3 = BookKeeping |> Repo.get_by!(user_id: tp3) |> Map.get(:id)
-bk_pro1 = BookKeeping |> Repo.get_by!(user_id: pro1) |> Map.get(:id)
-bk_pro2 = BookKeeping |> Repo.get_by!(user_id: pro2) |> Map.get(:id)
-bk_pro3 = BookKeeping |> Repo.get_by!(user_id: pro3) |> Map.get(:id)
-
- btr_tp1 = BusinessTaxReturn |> Repo.get_by!(user_id: tp1) |> Map.get(:id)
- btr_tp2 = BusinessTaxReturn |> Repo.get_by!(user_id: tp2) |> Map.get(:id)
- btr_tp3 = BusinessTaxReturn |> Repo.get_by!(user_id: tp3) |> Map.get(:id)
-btr_pro1 = BusinessTaxReturn |> Repo.get_by!(user_id: pro1) |> Map.get(:id)
-btr_pro2 = BusinessTaxReturn |> Repo.get_by!(user_id: pro2) |> Map.get(:id)
-btr_pro3 = BusinessTaxReturn |> Repo.get_by!(user_id: pro3) |> Map.get(:id)
-
-# itr_tp1 = IndividualTaxReturn |> Repo.get_by!(user_id: tp1) |> Map.get(:id)
-# itr_tp2 = IndividualTaxReturn |> Repo.get_by!(user_id: tp2) |> Map.get(:id)
-# itr_tp3 = IndividualTaxReturn |> Repo.get_by!(user_id: tp3) |> Map.get(:id)
-# itr_pro1 = IndividualTaxReturn |> Repo.get_by!(user_id: pro1) |> Map.get(:id)
-# itr_pro2 = IndividualTaxReturn |> Repo.get_by!(user_id: pro2) |> Map.get(:id)
-# itr_pro3 = IndividualTaxReturn |> Repo.get_by!(user_id: pro3) |> Map.get(:id)
-
- st_tp1 = SaleTax |> Repo.get_by!(user_id: tp1) |> Map.get(:id)
- st_tp2 = SaleTax |> Repo.get_by!(user_id: tp2) |> Map.get(:id)
- st_tp3 = SaleTax |> Repo.get_by!(user_id: tp3) |> Map.get(:id)
-st_pro1 = SaleTax |> Repo.get_by!(user_id: pro1) |> Map.get(:id)
-st_pro2 = SaleTax |> Repo.get_by!(user_id: pro2) |> Map.get(:id)
-st_pro3 = SaleTax |> Repo.get_by!(user_id: pro3) |> Map.get(:id)
-=======
 # bk_tp1 = BookKeeping |> Repo.get_by!(user_id: tp1) |> Map.get(:id)
 # bk_tp2 = BookKeeping |> Repo.get_by!(user_id: tp2) |> Map.get(:id)
 # bk_tp3 = BookKeeping |> Repo.get_by!(user_id: tp3) |> Map.get(:id)
@@ -234,7 +205,6 @@ st_pro3 = SaleTax |> Repo.get_by!(user_id: pro3) |> Map.get(:id)
 #st_pro1 = SaleTax |> Repo.get_by!(user_id: pro1) |> Map.get(:id)
 #st_pro2 = SaleTax |> Repo.get_by!(user_id: pro2) |> Map.get(:id)
 #st_pro3 = SaleTax |> Repo.get_by!(user_id: pro3) |> Map.get(:id)
->>>>>>> 68a58669b53c413f03d6d95ed34c232d8b759deb
 
 defmodule LetMeSee do
   @moduledoc """
