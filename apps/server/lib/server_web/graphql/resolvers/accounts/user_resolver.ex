@@ -851,7 +851,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             with data <- generate_token(user) do
               {:ok, %{
                   access_token: data,
-                  provider: args[:provider]
+                  provider: args[:provider],
+                  user_id: user.id,
                 }}
             end
           {:error, changeset} ->
@@ -1066,7 +1067,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                         with token <- generate_token(user) do
                           {:ok, %{
                               access_token: token,
-                              provider: args[:provider]
+                              provider: args[:provider],
+                              user_id: user.id
                             }}
                         end
                       else
