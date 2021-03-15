@@ -170,41 +170,70 @@ alias Ptin.{
 
 ######################################################################
 
-tp1 = User |> Repo.get_by!(email: "v.kobzan@gmail.com") |> Map.get(:id)
-tp2 = User |> Repo.get_by!(email: "o.puryshev@gmail.com") |> Map.get(:id)
-tp3 = User |> Repo.get_by!(email: "vlacho777@gmail.com") |> Map.get(:id)
+email1 = "vlacho777@gmail.com"
+email2 = "kapranov.lugatex@gmail.com"
+email3 = "kapranov.pure@gmail.com"
+email4 = "v.kobzan@gmail.com"
+email5 = "o.puryshev@gmail.com"
+email6 = "lugatex@yahoo.com"
+email7 = "support@taxgig.com"
+email8 = "vk@taxgig.com"
+email9 = "op@taxgig.com"
 
-pro1 = User |> Repo.get_by!(email: "support@taxgig.com") |> Map.get(:id)
-pro2 = User |> Repo.get_by!(email: "op@taxgig.com") |> Map.get(:id)
-pro3 = User |> Repo.get_by!(email: "vk@taxgig.com") |> Map.get(:id)
+tp1 = User |> Repo.get_by!(email: email1) |> Map.get(:id)
+tp2 = User |> Repo.get_by!(email: email2) |> Map.get(:id)
+tp3 = User |> Repo.get_by!(email: email3) |> Map.get(:id)
+tp4 = User |> Repo.get_by!(email: email4) |> Map.get(:id)
+tp5 = User |> Repo.get_by!(email: email5) |> Map.get(:id)
 
-# bk_tp1 = BookKeeping |> Repo.get_by!(user_id: tp1) |> Map.get(:id)
-# bk_tp2 = BookKeeping |> Repo.get_by!(user_id: tp2) |> Map.get(:id)
-# bk_tp3 = BookKeeping |> Repo.get_by!(user_id: tp3) |> Map.get(:id)
-# bk_pro1 = BookKeeping |> Repo.get_by!(user_id: pro1) |> Map.get(:id)
-# bk_pro2 = BookKeeping |> Repo.get_by!(user_id: pro2) |> Map.get(:id)
-# bk_pro3 = BookKeeping |> Repo.get_by!(user_id: pro3) |> Map.get(:id)
+pro1 = User |> Repo.get_by!(email: email6) |> Map.get(:id)
+pro2 = User |> Repo.get_by!(email: email7) |> Map.get(:id)
+pro3 = User |> Repo.get_by!(email: email8) |> Map.get(:id)
+pro4 = User |> Repo.get_by!(email: email9) |> Map.get(:id)
 
-# btr_tp1 = BusinessTaxReturn |> Repo.get_by!(user_id: tp1) |> Map.get(:id)
-# btr_tp2 = BusinessTaxReturn |> Repo.get_by!(user_id: tp2) |> Map.get(:id)
-# btr_tp3 = BusinessTaxReturn |> Repo.get_by!(user_id: tp3) |> Map.get(:id)
-#btr_pro1 = BusinessTaxReturn |> Repo.get_by!(user_id: pro1) |> Map.get(:id)
-#btr_pro2 = BusinessTaxReturn |> Repo.get_by!(user_id: pro2) |> Map.get(:id)
-#btr_pro3 = BusinessTaxReturn |> Repo.get_by!(user_id: pro3) |> Map.get(:id)
-#
-# itr_tp1 = IndividualTaxReturn |> Repo.get_by!(user_id: tp1) |> Map.get(:id)
-# itr_tp2 = IndividualTaxReturn |> Repo.get_by!(user_id: tp2) |> Map.get(:id)
-# itr_tp3 = IndividualTaxReturn |> Repo.get_by!(user_id: tp3) |> Map.get(:id)
-#itr_pro1 = IndividualTaxReturn |> Repo.get_by!(user_id: pro1) |> Map.get(:id)
-#itr_pro2 = IndividualTaxReturn |> Repo.get_by!(user_id: pro2) |> Map.get(:id)
-#itr_pro3 = IndividualTaxReturn |> Repo.get_by!(user_id: pro3) |> Map.get(:id)
-#
-# st_tp1 = SaleTax |> Repo.get_by!(user_id: tp1) |> Map.get(:id)
-# st_tp2 = SaleTax |> Repo.get_by!(user_id: tp2) |> Map.get(:id)
-# st_tp3 = SaleTax |> Repo.get_by!(user_id: tp3) |> Map.get(:id)
-#st_pro1 = SaleTax |> Repo.get_by!(user_id: pro1) |> Map.get(:id)
-#st_pro2 = SaleTax |> Repo.get_by!(user_id: pro2) |> Map.get(:id)
-#st_pro3 = SaleTax |> Repo.get_by!(user_id: pro3) |> Map.get(:id)
+bk_tp1 = BookKeeping |> Repo.get_by!(user_id: tp1) |> Map.get(:id)
+bk_tp2 = BookKeeping |> Repo.get_by!(user_id: tp2) |> Map.get(:id)
+bk_tp3 = BookKeeping |> Repo.get_by!(user_id: tp3) |> Map.get(:id)
+bk_tp4 = BookKeeping |> Repo.get_by!(user_id: tp4) |> Map.get(:id)
+bk_tp5 = BookKeeping |> Repo.get_by!(user_id: tp5) |> Map.get(:id)
+
+bk_pro1 = BookKeeping |> Repo.get_by!(user_id: pro1) |> Map.get(:id)
+bk_pro2 = BookKeeping |> Repo.get_by!(user_id: pro2) |> Map.get(:id)
+bk_pro3 = BookKeeping |> Repo.get_by!(user_id: pro3) |> Map.get(:id)
+bk_pro4 = BookKeeping |> Repo.get_by!(user_id: pro4) |> Map.get(:id)
+
+btr_tp1 = BusinessTaxReturn |> Repo.get_by!(user_id: tp1) |> Map.get(:id)
+btr_tp2 = BusinessTaxReturn |> Repo.get_by!(user_id: tp2) |> Map.get(:id)
+btr_tp3 = BusinessTaxReturn |> Repo.get_by!(user_id: tp3) |> Map.get(:id)
+btr_tp4 = BusinessTaxReturn |> Repo.get_by!(user_id: tp4) |> Map.get(:id)
+btr_tp5 = BusinessTaxReturn |> Repo.get_by!(user_id: tp5) |> Map.get(:id)
+
+btr_pro1 = BusinessTaxReturn |> Repo.get_by!(user_id: pro1) |> Map.get(:id)
+btr_pro2 = BusinessTaxReturn |> Repo.get_by!(user_id: pro2) |> Map.get(:id)
+btr_pro3 = BusinessTaxReturn |> Repo.get_by!(user_id: pro3) |> Map.get(:id)
+btr_pro4 = BusinessTaxReturn |> Repo.get_by!(user_id: pro4) |> Map.get(:id)
+
+itr_tp1 = IndividualTaxReturn |> Repo.get_by!(user_id: tp1) |> Map.get(:id)
+itr_tp2 = IndividualTaxReturn |> Repo.get_by!(user_id: tp2) |> Map.get(:id)
+itr_tp3 = IndividualTaxReturn |> Repo.get_by!(user_id: tp3) |> Map.get(:id)
+itr_tp4 = IndividualTaxReturn |> Repo.get_by!(user_id: tp4) |> Map.get(:id)
+itr_tp5 = IndividualTaxReturn |> Repo.get_by!(user_id: tp5) |> Map.get(:id)
+
+itr_pro1 = IndividualTaxReturn |> Repo.get_by!(user_id: pro1) |> Map.get(:id)
+itr_pro2 = IndividualTaxReturn |> Repo.get_by!(user_id: pro2) |> Map.get(:id)
+itr_pro3 = IndividualTaxReturn |> Repo.get_by!(user_id: pro3) |> Map.get(:id)
+itr_pro4 = IndividualTaxReturn |> Repo.get_by!(user_id: pro4) |> Map.get(:id)
+
+st_tp1 = SaleTax |> Repo.get_by!(user_id: tp1) |> Map.get(:id)
+st_tp2 = SaleTax |> Repo.get_by!(user_id: tp2) |> Map.get(:id)
+st_tp3 = SaleTax |> Repo.get_by!(user_id: tp3) |> Map.get(:id)
+st_tp4 = SaleTax |> Repo.get_by!(user_id: tp4) |> Map.get(:id)
+st_tp5 = SaleTax |> Repo.get_by!(user_id: tp5) |> Map.get(:id)
+
+st_pro1 = SaleTax |> Repo.get_by!(user_id: pro1) |> Map.get(:id)
+st_pro2 = SaleTax |> Repo.get_by!(user_id: pro2) |> Map.get(:id)
+st_pro3 = SaleTax |> Repo.get_by!(user_id: pro3) |> Map.get(:id)
+st_pro4 = SaleTax |> Repo.get_by!(user_id: pro4) |> Map.get(:id)
 
 defmodule LetMeSee do
   @moduledoc """
@@ -295,21 +324,12 @@ defmodule LetMeSee do
   if Mix.env == :dev do
     import Ecto.Query
 
-    user_ids =
-      Enum.map(Repo.all(User), fn(data) -> data.id end)
-
-    {tp1, tp2, tp3, pro1, pro2, pro3} = {
-      Enum.at(user_ids, 1),
-      Enum.at(user_ids, 2),
-      Enum.at(user_ids, 3),
-      Enum.at(user_ids, 4),
-      Enum.at(user_ids, 5),
-      Enum.at(user_ids, 6)
-    }
-
     IO.puts "\n___________________________________________________________________________________________\n\nAaron - This is your self from the past. Remember to reset the DB! mix ecto.reset.core ptin\n___________________________________________________________________________________________\n"
-    IO.puts "\n\t\t\tApplication has started in Development ENV\n"
-    IO.puts "\nUsers: tp1: #{tp1}, tp2: #{tp2}, tp3: #{tp3}, pro1: #{pro1}, pro2: #{pro2}, pro3: #{pro3}\n"
+    IO.puts "\n\t\t\tApplication has started in Development ENV"
+    IO.puts "\n__________________________________________________________________________________________________________________________________\n"
+    IO.puts "Users: tp1: #{tp1}, tp2: #{tp2}, tp3: #{tp3}, tp4: #{tp4}, tp5: #{tp5}"
+    IO.puts "Users: pro1: #{pro1}, pro2: #{pro2}, pro3: #{pro3}, pro4: #{pro4}"
+    IO.puts "__________________________________________________________________________________________________________________________________\n\n"
     IO.puts ~s"""
           ###############################################################################
           #                                                                             #

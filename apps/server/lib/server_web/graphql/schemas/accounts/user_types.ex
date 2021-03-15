@@ -89,9 +89,9 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
   @desc "Get token for an authentication of user"
   object :session do
     field :access_token, :string, description: "token "
-    field :provider, :string, description: "accounts user provider"
-    field :error, :string
+    field :error, :string, description: "accounts user error"
     field :error_description, :string
+    field :provider, :string, description: "accounts user provider"
   end
 
   @desc "The accounts an user update via params"
@@ -217,7 +217,10 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       arg(:is_2fa, :boolean, description: "2factor enable or disable")
       arg(:password, :string, description: "set password for localhost")
       arg(:password_confirmation, :string, description: "set password for localhost")
+      arg(:phone, :string, description: "accounts user phone")
       arg(:provider, non_null(:string), description: "set provider localhost or social networks")
+      arg(:role, :boolean, description: "accounts user role")
+      arg(:zip, :integer, description: "accounts user zip")
       resolve(&UserResolver.signup/3)
     end
 
