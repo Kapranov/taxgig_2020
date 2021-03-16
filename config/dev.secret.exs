@@ -9,8 +9,6 @@ config :phoenix, :plug_init_mode, :runtime
 
 config :phoenix, :stacktrace_depth, 20
 
-config :remix, escript: false, silent: true
-
 config :core, Core.Repo,
   username: "kapranov",
   password: "nicmos6922",
