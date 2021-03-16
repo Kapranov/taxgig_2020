@@ -118,6 +118,7 @@ defmodule Core.Accounts.User do
     email
     is_2fa
     otp_last
+    phone
     provider
     role
   )a

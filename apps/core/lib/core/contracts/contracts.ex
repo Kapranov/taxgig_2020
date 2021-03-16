@@ -476,7 +476,7 @@ defmodule Core.Contracts do
     case Contracts.by_role(struct.id) do
       false ->
         struct
-        |> Project.changeset(extention_filtered(attrs))
+        |> Project.changeset(updated_extention_filtered(struct, attrs))
         |> Repo.update()
       true -> {:error, %Changeset{}}
     end
@@ -1056,6 +1056,294 @@ defmodule Core.Contracts do
                         |> Map.merge(check_match(SaleTax, attrs[:sale_tax_id]))
                     end
                   false -> attrs
+                end
+            end
+        end
+    end
+  end
+
+  @spec updated_extention_filtered(atom, map) :: map
+  def updated_extention_filtered(struct, attrs) do
+    case Map.has_key?(struct, :book_keeping_id) do
+      true ->
+        case is_nil(struct.book_keeping_id) do
+          true ->
+            case Map.has_key?(struct, :business_tax_return_id) do
+              true ->
+                case is_nil(struct.business_tax_return_id) do
+                  true ->
+                    case Map.has_key?(struct, :individual_tax_return_id) do
+                      true ->
+                         case is_nil(struct.individual_tax_return_id) do
+                           true ->
+                             case Map.has_key?(struct, :sale_tax_id) do
+                               true ->
+                                 case is_nil(struct.sale_tax_id) do
+                                   true ->
+                                     attrs
+                                     |> Map.delete(:book_keeping_id)
+                                     |> Map.delete(:business_tax_return_id)
+                                     |> Map.delete(:individual_tax_return_id)
+                                     |> Map.delete(:sale_tax_id)
+                                   false ->
+                                     attrs
+                                     |> Map.delete(:book_keeping_id)
+                                     |> Map.delete(:business_tax_return_id)
+                                     |> Map.delete(:individual_tax_return_id)
+                                     |> Map.delete(:sale_tax_id)
+                                     |> Map.merge(check_match(SaleTax, struct.sale_tax_id))
+                                 end
+                               false ->
+                                 attrs
+                                 |> Map.delete(:book_keeping_id)
+                                 |> Map.delete(:business_tax_return_id)
+                                 |> Map.delete(:individual_tax_return_id)
+                                 |> Map.delete(:sale_tax_id)
+                             end
+                           false ->
+                             attrs
+                             |> Map.delete(:book_keeping_id)
+                             |> Map.delete(:business_tax_return_id)
+                             |> Map.delete(:individual_tax_return_id)
+                             |> Map.delete(:sale_tax_id)
+                             |> Map.merge(check_match(IndividualTaxReturn, struct.individual_tax_return_id))
+                         end
+                      false ->
+                        case Map.has_key?(struct, :sale_tax_id) do
+                          true ->
+                            case is_nil(struct.sale_tax_id) do
+                              true ->
+                                attrs
+                                |> Map.delete(:book_keeping_id)
+                                |> Map.delete(:business_tax_return_id)
+                                |> Map.delete(:individual_tax_return_id)
+                                |> Map.delete(:sale_tax_id)
+                              false ->
+                                attrs
+                                |> Map.delete(:book_keeping_id)
+                                |> Map.delete(:business_tax_return_id)
+                                |> Map.delete(:individual_tax_return_id)
+                                |> Map.delete(:sale_tax_id)
+                                |> Map.merge(check_match(SaleTax, struct.sale_tax_id))
+                            end
+                          false ->
+                            attrs
+                            |> Map.delete(:book_keeping_id)
+                            |> Map.delete(:business_tax_return_id)
+                            |> Map.delete(:individual_tax_return_id)
+                            |> Map.delete(:sale_tax_id)
+                        end
+                    end
+                  false ->
+                    attrs
+                    |> Map.delete(:book_keeping_id)
+                    |> Map.delete(:business_tax_return_id)
+                    |> Map.delete(:individual_tax_return_id)
+                    |> Map.delete(:sale_tax_id)
+                    |> Map.merge(check_match(BusinessTaxReturn, struct.business_tax_return_id))
+                end
+              false ->
+                case Map.has_key?(struct, :individual_tax_return_id) do
+                  true ->
+                    case is_nil(struct.individual_tax_return_id) do
+                      true ->
+                        case Map.has_key?(struct, :sale_tax_id) do
+                          true ->
+                             case is_nil(struct.sale_tax_id) do
+                               true ->
+                                 attrs
+                                 |> Map.delete(:book_keeping_id)
+                                 |> Map.delete(:business_tax_return_id)
+                                 |> Map.delete(:individual_tax_return_id)
+                                 |> Map.delete(:sale_tax_id)
+                               false ->
+                                 attrs
+                                 |> Map.delete(:book_keeping_id)
+                                 |> Map.delete(:business_tax_return_id)
+                                 |> Map.delete(:individual_tax_return_id)
+                                 |> Map.delete(:sale_tax_id)
+                                 |> Map.merge(check_match(SaleTax, struct.sale_tax_id))
+                             end
+                          false ->
+                            attrs
+                            |> Map.delete(:book_keeping_id)
+                            |> Map.delete(:business_tax_return_id)
+                            |> Map.delete(:individual_tax_return_id)
+                            |> Map.delete(:sale_tax_id)
+                        end
+                      false ->
+                        attrs
+                        |> Map.delete(:book_keeping_id)
+                        |> Map.delete(:business_tax_return_id)
+                        |> Map.delete(:individual_tax_return_id)
+                        |> Map.delete(:sale_tax_id)
+                        |> Map.merge(check_match(IndividualTaxReturn, struct.individual_tax_return_id))
+                    end
+                  false ->
+                    case Map.has_key?(struct, :sale_tax_id) do
+                      true ->
+                        case is_nil(struct.sale_tax_id) do
+                          true ->
+                            attrs
+                            |> Map.delete(:book_keeping_id)
+                            |> Map.delete(:business_tax_return_id)
+                            |> Map.delete(:individual_tax_return_id)
+                            |> Map.delete(:sale_tax_id)
+                          false ->
+                            attrs
+                            |> Map.delete(:book_keeping_id)
+                            |> Map.delete(:business_tax_return_id)
+                            |> Map.delete(:individual_tax_return_id)
+                            |> Map.delete(:sale_tax_id)
+                            |> Map.merge(check_match(SaleTax, struct.sale_tax_id))
+                        end
+                      false ->
+                        attrs
+                        |> Map.delete(:book_keeping_id)
+                        |> Map.delete(:business_tax_return_id)
+                        |> Map.delete(:individual_tax_return_id)
+                        |> Map.delete(:sale_tax_id)
+                    end
+                end
+            end
+          false ->
+            attrs
+            |> Map.delete(:book_keeping_id)
+            |> Map.delete(:business_tax_return_id)
+            |> Map.delete(:individual_tax_return_id)
+            |> Map.delete(:sale_tax_id)
+            |> Map.merge(check_match(BookKeeping, struct.book_keeping_id))
+        end
+      false ->
+        case Map.has_key?(struct, :business_tax_return_id) do
+          true ->
+            case is_nil(struct.business_tax_return_id) do
+              true ->
+                case Map.has_key?(struct, :individual_tax_return_id) do
+                  true ->
+                    case is_nil(struct.individual_tax_return_id) do
+                      true ->
+                        case Map.has_key?(struct, :sale_tax_id) do
+                          true ->
+                            case is_nil(struct.sale_tax_id) do
+                              true ->
+                                attrs
+                                |> Map.delete(:book_keeping_id)
+                                |> Map.delete(:business_tax_return_id)
+                                |> Map.delete(:individual_tax_return_id)
+                                |> Map.delete(:sale_tax_id)
+                              false ->
+                                attrs
+                                |> Map.delete(:book_keeping_id)
+                                |> Map.delete(:business_tax_return_id)
+                                |> Map.delete(:individual_tax_return_id)
+                                |> Map.delete(:sale_tax_id)
+                                |> Map.merge(check_match(SaleTax, struct.sale_tax_id))
+                            end
+                          false ->
+                            attrs
+                            |> Map.delete(:book_keeping_id)
+                            |> Map.delete(:business_tax_return_id)
+                            |> Map.delete(:individual_tax_return_id)
+                            |> Map.delete(:sale_tax_id)
+                        end
+                      false ->
+                        attrs
+                        |> Map.delete(:book_keeping_id)
+                        |> Map.delete(:business_tax_return_id)
+                        |> Map.delete(:individual_tax_return_id)
+                        |> Map.delete(:sale_tax_id)
+                        |> Map.merge(check_match(IndividualTaxReturn, struct.individual_tax_return_id))
+                    end
+                  false ->
+                    case Map.has_key?(struct, :sale_tax_id) do
+                      true ->
+                        case is_nil(struct.sale_tax_id) do
+                          true ->
+                            attrs
+                            |> Map.delete(:book_keeping_id)
+                            |> Map.delete(:business_tax_return_id)
+                            |> Map.delete(:individual_tax_return_id)
+                            |> Map.delete(:sale_tax_id)
+                          false ->
+                            attrs
+                            |> Map.delete(:book_keeping_id)
+                            |> Map.delete(:business_tax_return_id)
+                            |> Map.delete(:individual_tax_return_id)
+                            |> Map.delete(:sale_tax_id)
+                            |> Map.merge(check_match(SaleTax, struct.sale_tax_id))
+                        end
+                      false ->
+                        attrs
+                        |> Map.delete(:book_keeping_id)
+                        |> Map.delete(:business_tax_return_id)
+                        |> Map.delete(:individual_tax_return_id)
+                        |> Map.delete(:sale_tax_id)
+                    end
+                end
+              false ->
+                attrs
+                |> Map.delete(:book_keeping_id)
+                |> Map.delete(:business_tax_return_id)
+                |> Map.delete(:individual_tax_return_id)
+                |> Map.delete(:sale_tax_id)
+                |> Map.merge(check_match(BusinessTaxReturn, struct.business_tax_return_id))
+            end
+          false ->
+            case Map.has_key?(struct, :individual_tax_return_id) do
+              true ->
+                case is_nil(struct.individual_tax_return_id) do
+                  true ->
+                    case is_nil(struct.sale_tax_id) do
+                      true ->
+                        attrs
+                        |> Map.delete(:book_keeping_id)
+                        |> Map.delete(:business_tax_return_id)
+                        |> Map.delete(:individual_tax_return_id)
+                        |> Map.delete(:sale_tax_id)
+                      false ->
+                        attrs
+                        |> Map.delete(:book_keeping_id)
+                        |> Map.delete(:business_tax_return_id)
+                        |> Map.delete(:individual_tax_return_id)
+                        |> Map.delete(:sale_tax_id)
+                        |> Map.merge(check_match(SaleTax, struct.sale_tax_id))
+                    end
+                  false ->
+                    attrs
+                    |> Map.delete(:book_keeping_id)
+                    |> Map.delete(:business_tax_return_id)
+                    |> Map.delete(:individual_tax_return_id)
+                    |> Map.delete(:sale_tax_id)
+                    |> Map.merge(check_match(IndividualTaxReturn, struct.individual_tax_return_id))
+                end
+              false ->
+                case Map.has_key?(struct, :sale_tax_id) do
+                  true ->
+                    case is_nil(struct.sale_tax_id) do
+                      true ->
+                        attrs
+                        |> Map.delete(:book_keeping_id)
+                        |> Map.delete(:business_tax_return_id)
+                        |> Map.delete(:individual_tax_return_id)
+                        |> Map.delete(:sale_tax_id)
+                        |> Map.delete(:sale_tax_id)
+                      false ->
+                        attrs
+                        |> Map.delete(:book_keeping_id)
+                        |> Map.delete(:business_tax_return_id)
+                        |> Map.delete(:individual_tax_return_id)
+                        |> Map.delete(:sale_tax_id)
+                        |> Map.delete(:sale_tax_id)
+                        |> Map.merge(check_match(SaleTax, struct.sale_tax_id))
+                    end
+                  false ->
+                    attrs
+                    |> Map.delete(:book_keeping_id)
+                    |> Map.delete(:business_tax_return_id)
+                    |> Map.delete(:individual_tax_return_id)
+                    |> Map.delete(:sale_tax_id)
+                    |> Map.delete(:sale_tax_id)
                 end
             end
         end

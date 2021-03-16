@@ -24,7 +24,7 @@ defmodule Core.MixProject do
     ]
   end
 
-  defp applications(:dev), do: applications(:all) ++ [:logger, :remix]
+  defp applications(:dev), do: applications(:all) ++ [:logger]
   defp applications(:test), do: applications(:all) ++ [:logger, :faker]
   defp applications(_all), do: [:logger]
   defp elixirc_paths(:test), do: ["lib", "test/support"]
@@ -56,7 +56,6 @@ defmodule Core.MixProject do
       {:plug, "~> 1.10"},
       {:postgrex, "~> 0.15"},
       {:qr_code, "~> 2.2"},
-      {:remix, "~> 0.0", only: [:dev]},
       {:stream_data, "~> 0.5", only: :test},
       {:sweet_xml, "~> 0.6"},
       {:timex, "~> 3.6"}

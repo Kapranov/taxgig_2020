@@ -3,12 +3,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   The User GraphQL resolvers.
   """
 
-  import Ecto.Query
-
   alias Core.{
     Accounts,
     Accounts.DeletedUser,
     Accounts.User,
+    Contracts.Project,
+    Queries,
     Repo
   }
 
@@ -63,9 +63,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         nil -> {:error, "Not found"}
         struct ->
           if current_user.role == true do
-            with val1 <- Core.Repo.all(from c in Core.Contracts.Project, join: cu in Core.Accounts.User, where: c.user_id == cu.id, where: cu.role == false, where: c.status == "Done", where: c.assigned_id == ^current_user.id, select: count(c.user_id)),
-                 [val2] <- Core.Repo.all(from c in Core.Contracts.Project, join: cu in Core.Accounts.User, where: c.user_id == cu.id, where: cu.role == false, where: c.status == "In Progress" or c.status == "In Transition", where: c.assigned_id == ^current_user.id, select: count(c.user_id)),
-                 val3 <- Core.Repo.all(from c in Core.Contracts.Project, join: cu in Core.Accounts.User, where: c.user_id == cu.id, where: cu.role == false, where: c.status == "Done", where: c.assigned_id == ^current_user.id, select: {c.offer_price, c.addon_price})
+            with val1 <- Queries.by_count_with_status_projects(Project, User, false, "Done", current_user.id),
+                 [val2] <- Queries.by_count_with_status_projects(Project, User, false, "In Progress", "In Transition", current_user.id),
+                 val3 <- Queries.by_count_with_offer_addon_projects(Project, User, false, "Done", current_user.id)
             do
               new_val1 = if val1 == [], do: 0, else: List.last(val1)
               new_val3 =
