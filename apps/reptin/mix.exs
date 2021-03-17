@@ -21,6 +21,7 @@ defmodule Reptin.MixProject do
   defp deps do
     [
       {:httpoison, "~> 1.8"},
+      {:nimble_csv, "~> 1.1"},
       {:poolboy, "~> 1.5"},
       {:rethinkdb, "~> 0.4.0"}
     ]
