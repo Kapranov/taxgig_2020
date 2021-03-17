@@ -676,8 +676,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                         last_name:           profile["last_name"],
                         middle_name:       profile["middle_name"],
                         provider:                 args[:provider],
-                        password:                        "qwerty",
-                        password_confirmation:           "qwerty"
+                        password:              execute_action([]),
+                        password_confirmation: execute_action([])
                       }
                     case Accounts.create_user(user_params) do
                       {:ok, created} ->
@@ -746,13 +746,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                   if is_nil(user) do
                     user_params =
                       %{
-                        avatar:         profile["picture"],
-                        email:            profile["email"],
-                        first_name: profile["family_name"],
-                        last_name:   profile["given_name"],
-                        provider:                 "google",
-                        password:                 "qwerty",
-                        password_confirmation:    "qwerty"
+                        avatar:                profile["picture"],
+                        email:                   profile["email"],
+                        first_name:        profile["family_name"],
+                        last_name:          profile["given_name"],
+                        provider:                        "google",
+                        password:              execute_action([]),
+                        password_confirmation: execute_action([])
                       }
 
                     case Accounts.create_user(user_params) do
@@ -807,13 +807,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                   if is_nil(user) do
                     user_params =
                       %{
-                        avatar:         profile["avatar"],
-                        email:              info["email"],
-                        first_name: profile["first_name"],
-                        last_name:   profile["last_name"],
-                        provider:         args[:provider],
-                        password:                "qwerty",
-                        password_confirmation:   "qwerty"
+                        avatar:                 profile["avatar"],
+                        email:                      info["email"],
+                        first_name:         profile["first_name"],
+                        last_name:           profile["last_name"],
+                        provider:                 args[:provider],
+                        password:              execute_action([]),
+                        password_confirmation: execute_action([])
                       }
                     case Accounts.create_user(user_params) do
                       {:ok, created} ->
@@ -1132,4 +1132,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       ]
     end)
   end
+
+  @spec execute_action([action: String.t()]) :: String.t()
+  def execute_action([] \\ [action: "generate_secret"]), do: FlakeId.get
 end
