@@ -63,9 +63,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         nil -> {:error, "Not found"}
         struct ->
           if current_user.role == true do
-            with val1 <- Queries.by_count_with_status_projects(Project, User, false, "Done", current_user.id),
-                 [val2] <- Queries.by_count_with_status_projects(Project, User, false, "In Progress", "In Transition", current_user.id),
-                 val3 <- Queries.by_count_with_offer_addon_projects(Project, User, false, "Done", current_user.id)
+            with val1 <- Queries.by_count_with_status_projects(Project, User, false, "Done", current_user),
+                 [val2] <- Queries.by_count_with_status_projects(Project, User, false, "In Progress", "In Transition", current_user),
+                 val3 <- Queries.by_count_with_offer_addon_projects(Project, User, false, "Done", current_user)
             do
               new_val1 = if val1 == [], do: 0, else: List.last(val1)
               new_val3 =
