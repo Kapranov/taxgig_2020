@@ -127,7 +127,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
             case Accounts.by_role(current_user.id) do
               true ->
                 if params[:payment_active] ==  true do
-                  if struct.hero_status == true || struct.client_limit_reach == false || params[:hero_active] == true do
+                  if struct.hero_status == true and struct.client_limit_reach == false and params[:hero_active] == true do
                     struct
                     |> Accounts.update_platform(attrs)
                     |> case do
@@ -149,7 +149,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                     end
                   end
                 else
-                  if struct.hero_status == true || struct.client_limit_reach == false || params[:hero_active] == true do
+                  if struct.hero_status == true and struct.client_limit_reach == false and params[:hero_active] == true do
                     struct
                     |> Accounts.update_platform(attrs)
                     |> case do
