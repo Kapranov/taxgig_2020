@@ -29,6 +29,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.PlatformTypes do
   @desc "The platform update via params"
   input_object :update_platform_params, description: "update platform" do
     field :client_limit_reach, :boolean
+    field :hero_active, :boolean
     field :hero_status, :boolean
     field :is_banned, :boolean
     field :is_online, :boolean
