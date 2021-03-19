@@ -102,10 +102,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
       case params[:user_id] == current_user.id do
         true  ->
           check_one =
-            if is_nil(params[:hero_status]) || params[:hero_status] == false || params[:client_limit_reach] == true do
-              Map.put(params, :hero_active, false)
-            else
+            if params[:hero_status] == true || params[:client_limit_reach] == false do
               Map.put(params, :hero_active, true)
+            else
+              Map.put(params, :hero_active, false)
             end
 
           check_two =
