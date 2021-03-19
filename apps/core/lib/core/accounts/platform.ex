@@ -40,6 +40,7 @@ defmodule Core.Accounts.Platform do
     client_limit_reach
     is_banned
     is_online
+    is_stuck
     payment_active
     user_id
   )a

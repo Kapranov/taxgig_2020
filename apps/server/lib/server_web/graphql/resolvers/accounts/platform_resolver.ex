@@ -117,7 +117,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
 
           attrs = Map.merge(check_one, check_two)
 
-          room = Repo.get_by(Room, %{user_id: params[:user_id]})
+          # if is_nil(room), do: :error, else: Repo.get_by(Room, %{user_id: params[:user_id]})
+          # room = Repo.get_by(Room, %{user_id: params[:user_id]})
 
           if params[:payment_active] ==  true do
             try do
@@ -125,7 +126,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
               |> Accounts.update_platform(Map.delete(attrs, :user_id))
               |> case do
                 {:ok, struct} ->
-                  {:ok, _} = Talk.update_room(room, %{active: true})
+                  # {:ok, _} = Talk.update_room(room, %{active: true})
                   {:ok, struct}
                 {:error, changeset} ->
                   {:error, extract_error_msg(changeset)}
@@ -140,7 +141,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
               |> Accounts.update_platform(Map.delete(attrs, :user_id))
               |> case do
                 {:ok, struct} ->
-                  {:ok, _} = Talk.update_room(room, %{active: false})
+                  # {:ok, _} = Talk.update_room(room, %{active: false})
                   {:ok, struct}
                 {:error, changeset} ->
                   {:error, extract_error_msg(changeset)}
