@@ -40,7 +40,8 @@ defmodule Core.Accounts do
     Services.MatchValueRelate,
     Services.SaleTax,
     Services.SaleTaxFrequency,
-    Services.SaleTaxIndustry
+    Services.SaleTaxIndustry,
+    Talk.Room
   }
 
   @type message() :: atom()
@@ -581,6 +582,10 @@ defmodule Core.Accounts do
     |> Multi.run(:profiles, fn _, %{users: user} ->
       profile_changeset = %Profile{user_id: user.id}
       Repo.insert(profile_changeset)
+    end)
+    |> Multi.run(:rooms, fn _, %{users: user} ->
+      room_changeset = %Room{user_id: user.id, name: "#{user.email}_room"}
+      Repo.insert(room_changeset)
     end)
     |> Repo.transaction()
     |> case do

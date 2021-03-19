@@ -62,29 +62,36 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
     if is_nil(current_user) do
       {:error, [[field: :current_user, message: "Permission denied for current_user to perform action Create"]]}
     else
-      check_one =
-        if is_nil(args[:hero_status]) || args[:hero_status] == false || args[:client_limit_reach] == true do
-          Map.put(args, :hero_active, false)
-        else
-          Map.put(args, :hero_active, true)
-        end
-
-      check_two =
+      params =
         if is_nil(args[:stuck_stage]) do
           Map.put(args, :is_stuck, false)
         else
           Map.put(args, :is_stuck, true)
         end
 
-      attrs = Map.merge(check_one, check_two)
+      attrs = Map.merge(args, params)
 
-      attrs
-      |> Accounts.create_platform()
-      |> case do
-        {:ok, struct} ->
-          {:ok, struct}
-        {:error, changeset} ->
-          {:error, extract_error_msg(changeset)}
+      case Accounts.by_role(current_user.id) do
+        false ->
+          attrs
+          |> Map.delete(:hero_active)
+          |> Map.delete(:hero_status)
+          |> Accounts.create_platform()
+          |> case do
+            {:ok, struct} ->
+              {:ok, struct}
+            {:error, changeset} ->
+              {:error, extract_error_msg(changeset)}
+          end
+        true ->
+          attrs
+          |> Accounts.create_platform()
+          |> case do
+            {:ok, struct} ->
+              {:ok, struct}
+            {:error, changeset} ->
+              {:error, extract_error_msg(changeset)}
+          end
       end
     end
   end
@@ -101,54 +108,104 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
     else
       case params[:user_id] == current_user.id do
         true  ->
-          check_one =
-            if params[:hero_status] == true || params[:client_limit_reach] == false do
-              Map.put(params, :hero_active, true)
-            else
-              Map.put(params, :hero_active, false)
-            end
-
-          check_two =
+          is_stuck_stage =
             if is_nil(params[:stuck_stage]) do
               Map.put(params, :is_stuck, false)
             else
               Map.put(params, :is_stuck, true)
             end
 
-          attrs = Map.merge(check_one, check_two)
+          attrs =
+            params
+            |> Map.merge(is_stuck_stage)
+            |> Map.delete(:user_id)
 
           room = Repo.get_by(Room, %{user_id: params[:user_id]})
 
-          if params[:payment_active] ==  true do
-            try do
-              Repo.get!(Platform, id)
-              |> Accounts.update_platform(Map.delete(attrs, :user_id))
-              |> case do
-                {:ok, struct} ->
-                  {:ok, _} = Talk.update_room(room, %{active: true})
-                  {:ok, struct}
-                {:error, changeset} ->
-                  {:error, extract_error_msg(changeset)}
-              end
-            rescue
-              Ecto.NoResultsError ->
-                {:error, "The Platform #{id} not found!"}
+          try do
+            case Repo.get!(Platform, id) do
+              {:ok, struct} ->
+                case Accounts.by_role(current_user.id) do
+                  true ->
+                    if params[:payment_active] ==  true do
+                      if struct.hero_status == true || struct.client_limit_reach == false || params[:hero_active] == true do
+                        struct
+                        |> Accounts.update_platform(attrs)
+                        |> case do
+                          {:ok, updated} ->
+                            {:ok, _} = Talk.update_room(room, %{active: true})
+                            {:ok, updated}
+                          {:error, changeset} ->
+                            {:error, extract_error_msg(changeset)}
+                        end
+                      else
+                        struct
+                        |> Accounts.update_platform(Map.put(attrs, :hero_active, false))
+                        |> case do
+                          {:ok, updated} ->
+                            {:ok, _} = Talk.update_room(room, %{active: true})
+                            {:ok, updated}
+                          {:error, changeset} ->
+                            {:error, extract_error_msg(changeset)}
+                        end
+                      end
+                    else
+                      if struct.hero_status == true || struct.client_limit_reach == false || params[:hero_active] == true do
+                        struct
+                        |> Accounts.update_platform(attrs)
+                        |> case do
+                          {:ok, updated} ->
+                            {:ok, _} = Talk.update_room(room, %{active: false})
+                            {:ok, updated}
+                          {:error, changeset} ->
+                            {:error, extract_error_msg(changeset)}
+                        end
+                      else
+                        struct
+                        |> Accounts.update_platform(Map.put(attrs, :hero_active, false))
+                        |> case do
+                          {:ok, updated} ->
+                            {:ok, _} = Talk.update_room(room, %{active: false})
+                            {:ok, updated}
+                          {:error, changeset} ->
+                            {:error, extract_error_msg(changeset)}
+                        end
+                      end
+                    end
+                  false ->
+                    deleted =
+                      attrs
+                      |> Map.delete(:hero_active)
+                      |> Map.delete(:hero_status)
+
+                    if params[:payment_active] ==  true do
+                      struct
+                      |> Accounts.update_platform(deleted)
+                      |> case do
+                        {:ok, updated} ->
+                          {:ok, _} = Talk.update_room(room, %{active: true})
+                          {:ok, updated}
+                        {:error, changeset} ->
+                          {:error, extract_error_msg(changeset)}
+                      end
+                    else
+                      struct
+                      |> Accounts.update_platform(deleted)
+                      |> case do
+                        {:ok, updated} ->
+                          {:ok, _} = Talk.update_room(room, %{active: false})
+                          {:ok, updated}
+                        {:error, changeset} ->
+                          {:error, extract_error_msg(changeset)}
+                      end
+                    end
+                end
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
             end
-          else
-            try do
-              Repo.get!(Platform, id)
-              |> Accounts.update_platform(Map.delete(attrs, :user_id))
-              |> case do
-                {:ok, struct} ->
-                  {:ok, _} = Talk.update_room(room, %{active: false})
-                  {:ok, struct}
-                {:error, changeset} ->
-                  {:error, extract_error_msg(changeset)}
-              end
-            rescue
-              Ecto.NoResultsError ->
-                {:error, "The Platform #{id} not found!"}
-            end
+          rescue
+            Ecto.NoResultsError ->
+              {:error, "The Platform #{id} not found!"}
           end
         false -> {:error, "permission denied"}
       end
