@@ -123,85 +123,81 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
           room = Repo.get_by(Room, %{user_id: params[:user_id]})
 
           try do
-            case Repo.get!(Platform, id) do
-              {:ok, struct} ->
-                case Accounts.by_role(current_user.id) do
-                  true ->
-                    if params[:payment_active] ==  true do
-                      if struct.hero_status == true || struct.client_limit_reach == false || params[:hero_active] == true do
-                        struct
-                        |> Accounts.update_platform(attrs)
-                        |> case do
-                          {:ok, updated} ->
-                            {:ok, _} = Talk.update_room(room, %{active: true})
-                            {:ok, updated}
-                          {:error, changeset} ->
-                            {:error, extract_error_msg(changeset)}
-                        end
-                      else
-                        struct
-                        |> Accounts.update_platform(Map.put(attrs, :hero_active, false))
-                        |> case do
-                          {:ok, updated} ->
-                            {:ok, _} = Talk.update_room(room, %{active: true})
-                            {:ok, updated}
-                          {:error, changeset} ->
-                            {:error, extract_error_msg(changeset)}
-                        end
-                      end
-                    else
-                      if struct.hero_status == true || struct.client_limit_reach == false || params[:hero_active] == true do
-                        struct
-                        |> Accounts.update_platform(attrs)
-                        |> case do
-                          {:ok, updated} ->
-                            {:ok, _} = Talk.update_room(room, %{active: false})
-                            {:ok, updated}
-                          {:error, changeset} ->
-                            {:error, extract_error_msg(changeset)}
-                        end
-                      else
-                        struct
-                        |> Accounts.update_platform(Map.put(attrs, :hero_active, false))
-                        |> case do
-                          {:ok, updated} ->
-                            {:ok, _} = Talk.update_room(room, %{active: false})
-                            {:ok, updated}
-                          {:error, changeset} ->
-                            {:error, extract_error_msg(changeset)}
-                        end
-                      end
+            struct = Repo.get!(Platform, id)
+            case Accounts.by_role(current_user.id) do
+              true ->
+                if params[:payment_active] ==  true do
+                  if struct.hero_status == true || struct.client_limit_reach == false || params[:hero_active] == true do
+                    struct
+                    |> Accounts.update_platform(attrs)
+                    |> case do
+                      {:ok, updated} ->
+                        {:ok, _} = Talk.update_room(room, %{active: true})
+                        {:ok, updated}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
                     end
-                  false ->
-                    deleted =
-                      attrs
-                      |> Map.delete(:hero_active)
-                      |> Map.delete(:hero_status)
-
-                    if params[:payment_active] ==  true do
-                      struct
-                      |> Accounts.update_platform(deleted)
-                      |> case do
-                        {:ok, updated} ->
-                          {:ok, _} = Talk.update_room(room, %{active: true})
-                          {:ok, updated}
-                        {:error, changeset} ->
-                          {:error, extract_error_msg(changeset)}
-                      end
-                    else
-                      struct
-                      |> Accounts.update_platform(deleted)
-                      |> case do
-                        {:ok, updated} ->
-                          {:ok, _} = Talk.update_room(room, %{active: false})
-                          {:ok, updated}
-                        {:error, changeset} ->
-                          {:error, extract_error_msg(changeset)}
-                      end
+                  else
+                    struct
+                    |> Accounts.update_platform(Map.put(attrs, :hero_active, false))
+                    |> case do
+                      {:ok, updated} ->
+                        {:ok, _} = Talk.update_room(room, %{active: true})
+                        {:ok, updated}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
                     end
+                  end
+                else
+                  if struct.hero_status == true || struct.client_limit_reach == false || params[:hero_active] == true do
+                    struct
+                    |> Accounts.update_platform(attrs)
+                    |> case do
+                      {:ok, updated} ->
+                        {:ok, _} = Talk.update_room(room, %{active: false})
+                        {:ok, updated}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  else
+                    struct
+                    |> Accounts.update_platform(Map.put(attrs, :hero_active, false))
+                    |> case do
+                      {:ok, updated} ->
+                        {:ok, _} = Talk.update_room(room, %{active: false})
+                        {:ok, updated}
+                      {:error, changeset} ->
+                        {:error, extract_error_msg(changeset)}
+                    end
+                  end
                 end
-              {:error, changeset} ->
-                {:error, extract_error_msg(changeset)}
+              false ->
+                deleted =
+                  attrs
+                  |> Map.delete(:hero_active)
+                  |> Map.delete(:hero_status)
+
+                if params[:payment_active] ==  true do
+                  struct
+                  |> Accounts.update_platform(deleted)
+                  |> case do
+                    {:ok, updated} ->
+                      {:ok, _} = Talk.update_room(room, %{active: true})
+                      {:ok, updated}
+                    {:error, changeset} ->
+                      {:error, extract_error_msg(changeset)}
+                  end
+                else
+                  struct
+                  |> Accounts.update_platform(deleted)
+                  |> case do
+                    {:ok, updated} ->
+                      {:ok, _} = Talk.update_room(room, %{active: false})
+                      {:ok, updated}
+                    {:error, changeset} ->
+                      {:error, extract_error_msg(changeset)}
+                  end
+                end
             end
           rescue
             Ecto.NoResultsError ->
