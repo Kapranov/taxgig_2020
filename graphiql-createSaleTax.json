@@ -1,0 +1,383 @@
+{
+  "key": "graphiql",
+  "lastId": 10,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5",
+    "tab6",
+    "tab7",
+    "tab8",
+    "tab9",
+    "tab10"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNThFam5lbkxOQmZ2QzBiNEtuBgAWI-tQeAFiAAFRgA.2ZU_Z9oHVMDd6DiNaCUCWa0wGlmGaGnBFdvPdcc2ErM"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNThFazVxNWs2djJKUlFzQXluBgCBg-RQeAFiAAFRgA.86dO1hLLIPcx8MtCtc8UYNIh54eKYQqMdJqo5SJIEUA"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNThFazVxNWs2djJKUlFzQXluBgCiu9RQeAFiAAFRgA.L3Y5TaKHU-tl_-eDePMndVm2Qe82Q_JY1kgujr9v_FE"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNThFazVxNWs2djJKUlFzQXluBgAFU7hQeAFiAAFRgA.pDd78mYStofl7o0oeMW56QPecjDnN9r0YMCDtp5Tr1U"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNThFam5lbkxOQmZ2QzBiNEtuBgBZcFtMeAFiAAFRgA.qia5QE2H7-vgPku5qLGUo8Ipw2Lj2jjGlnNw2dB3n14"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab6",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 1,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"vlacho777@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    userId\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    userId\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signIn(\n    email: \"vlacho777@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    userId\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"vlacho777@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    userId\n    provider\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"vlacho777@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    userId\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    userId\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"vlacho777@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    userId\\n    provider\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.39730290456431533
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNThFam5lbkxOQmZ2QzBiNEtuBgBZcFtMeAFiAAFRgA.qia5QE2H7-vgPku5qLGUo8Ipw2Lj2jjGlnNw2dB3n14"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allSaleTaxes {\n    id\n    deadline\n    financialSituation\n    priceSaleTaxCount\n    saleTaxCount\n    state\n    saleTaxIndustries {id name saleTaxes {id}}\n    saleTaxFrequencies {id name price saleTaxes {id}}\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allSaleTaxes {\n    id\n    deadline\n    financialSituation\n    priceSaleTaxCount\n    saleTaxCount\n    state\n    saleTaxIndustries {id name}\n    saleTaxFrequencies {id name price saleTaxes {id}}\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allSaleTaxes {\n    id\n    deadline\n    financialSituation\n    priceSaleTaxCount\n    saleTaxCount\n    state\n    saleTaxIndustries {id name}\n    saleTaxFrequencies {id name price}\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allSaleTaxes {\n    id\n    deadline\n    financialSituation\n    priceSaleTaxCount\n    saleTaxCount\n    state\n    saleTaxIndustries {id name}\n    saleTaxFrequencies {id name}\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allSaleTaxes {\n    id\n    deadline\n    financialSituation\n    priceSaleTaxCount\n    saleTaxCount\n    state\n    saleTaxIndustries {id}\n    saleTaxFrequencies {id}\n    user {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allSaleTaxes {\n    id\n    deadline\n    financialSituation\n    priceSaleTaxCount\n    saleTaxCount\n    state\n    saleTaxIndustries {id name saleTaxes {id}}\n    saleTaxFrequencies {id name price saleTaxes {id}}\n    user {id email role}\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allSaleTaxes {\\n    id\\n    deadline\\n    financialSituation\\n    priceSaleTaxCount\\n    saleTaxCount\\n    state\\n    saleTaxIndustries {id}\\n    saleTaxFrequencies {id}\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allSaleTaxes {\\n    id\\n    deadline\\n    financialSituation\\n    priceSaleTaxCount\\n    saleTaxCount\\n    state\\n    saleTaxIndustries {id name}\\n    saleTaxFrequencies {id name}\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allSaleTaxes {\\n    id\\n    deadline\\n    financialSituation\\n    priceSaleTaxCount\\n    saleTaxCount\\n    state\\n    saleTaxIndustries {id name}\\n    saleTaxFrequencies {id name price}\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allSaleTaxes {\\n    id\\n    deadline\\n    financialSituation\\n    priceSaleTaxCount\\n    saleTaxCount\\n    state\\n    saleTaxIndustries {id name}\\n    saleTaxFrequencies {id name price saleTaxes {id}}\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allSaleTaxes {\\n    id\\n    deadline\\n    financialSituation\\n    priceSaleTaxCount\\n    saleTaxCount\\n    state\\n    saleTaxIndustries {id name saleTaxes {id}}\\n    saleTaxFrequencies {id name price saleTaxes {id}}\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.652760736196319
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNThFam5lbkxOQmZ2QzBiNEtuBgBZcFtMeAFiAAFRgA.qia5QE2H7-vgPku5qLGUo8Ipw2Lj2jjGlnNw2dB3n14"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateSaleTaxIndustry(\n    id: \"A5GXEApDDG6n2s3KIC\"\n    saleTaxIndustry: {name: \"Manufacturing\"}\n  ) {\n    id\n    name\n    saleTaxes {id state deadline }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateSaleTaxIndustry(\n    id: \"A5GXEApDDG6n2s3KIC\"\n    saleTaxIndustry: {name: \"Manufacturing\"}\n  ) {\n    id\n    name\n    saleTaxes {id}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateSaleTaxIndustry(\n    id: \"A5GXEApDDG6n2s3KIC\"\n    saleTaxIndustry: {name: \"Manufacturing\"}\n  ) {\n    id\n    name\n    saleTaxes {id state deadline }\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateSaleTaxIndustry(\\n    id: \\\"A5GXEApDDG6n2s3KIC\\\"\\n    saleTaxIndustry: {name: \\\"Manufacturing\\\"}\\n  ) {\\n    id\\n    name\\n    saleTaxes {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateSaleTaxIndustry(\\n    id: \\\"A5GXEApDDG6n2s3KIC\\\"\\n    saleTaxIndustry: {name: \\\"Manufacturing\\\"}\\n  ) {\\n    id\\n    name\\n    saleTaxes {id state deadline }\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.5067114093959731,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNThFam5lbkxOQmZ2QzBiNEtuBgBZcFtMeAFiAAFRgA.qia5QE2H7-vgPku5qLGUo8Ipw2Lj2jjGlnNw2dB3n14"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateTpSaleTaxIndustry(\n    id: \"A5GXEApDDG6n2s3KIC\",\n    saleTaxIndustry: {\n      name: \"Retail\",\n      saleTaxId: \"A5GXEAYCEWUuC65jlo\"\n    }\n  ) {\n    id\n    name\n    saleTaxes {id deadline state}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateTpSaleTaxIndustry(\n    id: \"A5GXEApDDG6n2s3KIC\",\n    saleTaxIndustry: {\n      name: \"Retail\",\n      saleTaxId: \"A5GXEAYCEWUuC65jlo\"\n    }\n  ) {\n    id\n    name\n    saleTaxes {id}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateTpSaleTaxIndustry(\n    id: \"A5GXEApDDG6n2s3KIC\",\n    saleTaxIndustry: {name: \"Retail\"}\n  ) {\n    id\n    name\n    saleTaxes {id}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateTpSaleTaxIndustry(\n    id: \"A5GXEApDDG6n2s3KIC\",\n    saleTaxIndustry: {\n      name: \"Retail\",\n      saleTaxId: \"A5GXEAYCEWUuC65jlo\"\n    }\n  ) {\n    id\n    name\n    saleTaxes {id deadline state}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateTpSaleTaxIndustry(\\n    id: \\\"A5GXEApDDG6n2s3KIC\\\",\\n    saleTaxIndustry: {name: \\\"Retail\\\"}\\n  ) {\\n    id\\n    name\\n    saleTaxes {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateTpSaleTaxIndustry(\\n    id: \\\"A5GXEApDDG6n2s3KIC\\\",\\n    saleTaxIndustry: {\\n      name: \\\"Retail\\\",\\n      saleTaxId: \\\"A5GXEAYCEWUuC65jlo\\\"\\n    }\\n  ) {\\n    id\\n    name\\n    saleTaxes {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateTpSaleTaxIndustry(\\n    id: \\\"A5GXEApDDG6n2s3KIC\\\",\\n    saleTaxIndustry: {\\n      name: \\\"Retail\\\",\\n      saleTaxId: \\\"A5GXEAYCEWUuC65jlo\\\"\\n    }\\n  ) {\\n    id\\n    name\\n    saleTaxes {id deadline state}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.44683136412459723,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab6",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNThFazVxNWs2djJKUlFzQXluBgAFU7hQeAFiAAFRgA.pDd78mYStofl7o0oeMW56QPecjDnN9r0YMCDtp5Tr1U"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createProSaleTax(\n    priceSaleTaxCount: 22,\n    userId: \"A58Ek5q5k6v2JRQsAy\"\n  ) {\n    id\n    priceSaleTaxCount\n    saleTaxIndustries {id}\n    saleTaxFrequencies {id}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createProSaleTax(\n    priceSaleTaxCount: 22,\n    userId: \"A58Ek5q5k6v2JRQsAy\"\n  ) {\n    id\n    priceSaleTaxCount\n    saleTaxIndustries {id}\n    saleTaxFrequencies {id}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createProSaleTax(\\n    priceSaleTaxCount: 22,\\n    userId: \\\"A58Ek5q5k6v2JRQsAy\\\"\\n  ) {\\n    id\\n    priceSaleTaxCount\\n    saleTaxIndustries {id}\\n    saleTaxFrequencies {id}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab7",
+      "name": "Query 7",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNThFazVxNWs2djJKUlFzQXluBgCiu9RQeAFiAAFRgA.L3Y5TaKHU-tl_-eDePMndVm2Qe82Q_JY1kgujr9v_FE"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateProSaleTaxIndustry(\n    id: \"A5PNxzOV9FNkuEMoro\",\n    saleTaxIndustry: {\n    \tname: [\n      \t\"Agriculture/Farming\",\n      \t\"Automotive Sales/Repair\",\n      \t\"Computer/Software/IT\",\n        \"Construction/Contractors\",\n        \"Consulting\",\n        \"Design/Architecture/Engineering\",\n        \"Education\",\n        \"Financial Services\",\n        \"Government Agency\",\n        \"Hospitality\",\n        \"Insurance/Brokerage\",\n        \"Lawn Care/Landscaping\",\n        \"Legal\",\n        \"Manufacturing\",\n        \"Medical/Dental/Health Services\",\n        \"Non Profit\",\n        \"Property Management\",\n        \"Real Estate/Development\",\n        \"Restaurant/Bar\",\n        \"Retail\",\n        \"Salon/Beauty\",\n        \"Telecommunications\",\n        \"Transportation\",\n        \"Wholesale Distribution\"\n      ]\n    }\n  ) {\n    id\n    name\n    saleTaxes {\n      id\n      priceSaleTaxCount\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id, name}\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateSaleTaxIndustry(\n    id: \"A5PNxzOV9FNkuEMoro\",\n    saleTaxIndustry: {\n    \tname: [\n      \t\"Agriculture/Farming\",\n      \t\"Automotive Sales/Repair\",\n      \t\"Computer/Software/IT\",\n        \"Construction/Contractors\",\n        \"Consulting\",\n        \"Design/Architecture/Engineering\",\n        \"Education\",\n        \"Financial Services\",\n        \"Government Agency\",\n        \"Hospitality\",\n        \"Insurance/Brokerage\",\n        \"Lawn Care/Landscaping\",\n        \"Legal\",\n        \"Manufacturing\",\n        \"Medical/Dental/Health Services\",\n        \"Non Profit\",\n        \"Property Management\",\n        \"Real Estate/Development\",\n        \"Restaurant/Bar\",\n        \"Retail\",\n        \"Salon/Beauty\",\n        \"Telecommunications\",\n        \"Transportation\",\n        \"Wholesale Distribution\"\n      ]\n    }\n  ) {\n    id\n    name\n    saleTaxes {\n      id\n      priceSaleTaxCount\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id, name}\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateProSaleTaxIndustry(\n    id: \"A5PNxzOV9FNkuEMoro\",\n    saleTaxIndustry: {\n    \tname: [\n      \t\"Agriculture/Farming\",\n      \t\"Automotive Sales/Repair\",\n      \t\"Computer/Software/IT\",\n        \"Construction/Contractors\",\n        \"Consulting\",\n        \"Design/Architecture/Engineering\",\n        \"Education\",\n        \"Financial Services\",\n        \"Government Agency\",\n        \"Hospitality\",\n        \"Insurance/Brokerage\",\n        \"Lawn Care/Landscaping\",\n        \"Legal\",\n        \"Manufacturing\",\n        \"Medical/Dental/Health Services\",\n        \"Non Profit\",\n        \"Property Management\",\n        \"Real Estate/Development\",\n        \"Restaurant/Bar\",\n        \"Retail\",\n        \"Salon/Beauty\",\n        \"Telecommunications\",\n        \"Transportation\",\n        \"Wholesale Distribution\"\n      ]\n    }\n  ) {\n    id\n    name\n    saleTaxes {\n      id\n      priceSaleTaxCount\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id, name}\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateSaleTaxIndustry(\n    id: \"A5PNxzOV9FNkuEMoro\",\n    saleTaxIndustry: {\n    \tname: [\n      \t\"Agriculture/Farming\",\n      \t\"Automotive Sales/Repair\",\n      \t\"Computer/Software/IT\",\n        \"Construction/Contractors\",\n        \"Consulting\",\n        \"Design/Architecture/Engineering\",\n        \"Education\",\n        \"Financial Services\",\n        \"Government Agency\",\n        \"Hospitality\",\n        \"Insurance/Brokerage\",\n        \"Lawn Care/Landscaping\",\n        \"Legal\",\n        \"Manufacturing\",\n        \"Medical/Dental/Health Services\",\n        \"Non Profit\",\n        \"Property Management\",\n        \"Real Estate/Development\",\n        \"Restaurant/Bar\",\n        \"Retail\",\n        \"Salon/Beauty\",\n        \"Telecommunications\",\n        \"Transportation\",\n        \"Wholesale Distribution\"\n      ]\n    }\n  ) {\n    id\n    name\n    saleTaxes {\n      id\n      priceSaleTaxCount\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id, name}\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateSaleTaxIndustry(\n    id: \"A5PNxzOV9FNkuEMoro\",\n    saleTaxIndustry: {\n    \tname: [\n      \t\"Agriculture/Farming\",\n      \t\"Automotive Sales/Repair\",\n      \t\"Computer/Software/IT\",\n        \"Construction/Contractors\",\n        \"Consulting\",\n        \"Design/Architecture/Engineering\",\n        \"Education\",\n        \"Financial Services\",\n        \"Government Agency\",\n        \"Hospitality\",\n        \"Insurance/Brokerage\",\n        \"Lawn Care/Landscaping\",\n        \"Legal\",\n        \"Manufacturing\",\n        \"Medical/Dental/Health Services\",\n        \"Non Profit\",\n        \"Property Management\",\n        \"Real Estate/Development\",\n        \"Restaurant/Bar\",\n        \"Retail\",\n        \"Salon/Beauty\",\n        \"Telecommunications\",\n        \"Transportation\",\n        \"Wholesale Distribution\"\n      ],\n      price: 22\n    }\n  ) {\n    id\n    name\n    saleTaxes {\n      id\n      priceSaleTaxCount\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id, name}\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateProSaleTaxIndustry(\n    id: \"A5PNxzOV9FNkuEMoro\",\n    saleTaxIndustry: {\n    \tname: [\n      \t\"Agriculture/Farming\",\n      \t\"Automotive Sales/Repair\",\n      \t\"Computer/Software/IT\",\n        \"Construction/Contractors\",\n        \"Consulting\",\n        \"Design/Architecture/Engineering\",\n        \"Education\",\n        \"Financial Services\",\n        \"Government Agency\",\n        \"Hospitality\",\n        \"Insurance/Brokerage\",\n        \"Lawn Care/Landscaping\",\n        \"Legal\",\n        \"Manufacturing\",\n        \"Medical/Dental/Health Services\",\n        \"Non Profit\",\n        \"Property Management\",\n        \"Real Estate/Development\",\n        \"Restaurant/Bar\",\n        \"Retail\",\n        \"Salon/Beauty\",\n        \"Telecommunications\",\n        \"Transportation\",\n        \"Wholesale Distribution\"\n      ],\n      price: 22\n    }\n  ) {\n    id\n    name\n    saleTaxes {\n      id\n      priceSaleTaxCount\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id, name}\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateProSaleTaxIndustry(\n    id: \"A5PNxzOV9FNkuEMoro\",\n    saleTaxIndustry: {\n    \tname: [\n      \t\"Agriculture/Farming\",\n      \t\"Automotive Sales/Repair\",\n      \t\"Computer/Software/IT\",\n        \"Construction/Contractors\",\n        \"Consulting\",\n        \"Design/Architecture/Engineering\",\n        \"Education\",\n        \"Financial Services\",\n        \"Government Agency\",\n        \"Hospitality\",\n        \"Insurance/Brokerage\",\n        \"Lawn Care/Landscaping\",\n        \"Legal\",\n        \"Manufacturing\",\n        \"Medical/Dental/Health Services\",\n        \"Non Profit\",\n        \"Property Management\",\n        \"Real Estate/Development\",\n        \"Restaurant/Bar\",\n        \"Retail\",\n        \"Salon/Beauty\",\n        \"Telecommunications\",\n        \"Transportation\",\n        \"Wholesale Distribution\"\n      ]\n    }\n  ) {\n    id\n    name\n    saleTaxes {\n      id\n      priceSaleTaxCount\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id, name}\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateSaleTaxIndustry(\n    id: \"A5PNxzOV9FNkuEMoro\",\n    saleTaxIndustry: {\n    \tname: [\n      \t\"Agriculture/Farming\",\n      \t\"Automotive Sales/Repair\",\n      \t\"Computer/Software/IT\",\n        \"Construction/Contractors\",\n        \"Consulting\",\n        \"Design/Architecture/Engineering\",\n        \"Education\",\n        \"Financial Services\",\n        \"Government Agency\",\n        \"Hospitality\",\n        \"Insurance/Brokerage\",\n        \"Lawn Care/Landscaping\",\n        \"Legal\",\n        \"Manufacturing\",\n        \"Medical/Dental/Health Services\",\n        \"Non Profit\",\n        \"Property Management\",\n        \"Real Estate/Development\",\n        \"Restaurant/Bar\",\n        \"Retail\",\n        \"Salon/Beauty\",\n        \"Telecommunications\",\n        \"Transportation\",\n        \"Wholesale Distribution\"\n      ]\n    }\n  ) {\n    id\n    name\n    saleTaxes {\n      id\n      priceSaleTaxCount\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id, name}\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createProSaleTaxIndustry(\n    name: [\n      \"Agriculture/Farming\",\n      \"Automotive Sales/Repair\",\n      \"Computer/Software/IT\"\n    ],\n    saleTaxId: \"A5PNxydhxDx4Z6TRvk\"\n  ) {\n    id\n    name\n    saleTaxes {\n      id\n      priceSaleTaxCount\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id, name}\n    }\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateProSaleTaxIndustry(\n    id: \"A5PNxzOV9FNkuEMoro\",\n    saleTaxIndustry: {\n    \tname: [\n      \t\"Agriculture/Farming\",\n      \t\"Automotive Sales/Repair\",\n      \t\"Computer/Software/IT\",\n        \"Construction/Contractors\",\n        \"Consulting\",\n        \"Design/Architecture/Engineering\",\n        \"Education\",\n        \"Financial Services\",\n        \"Government Agency\",\n        \"Hospitality\",\n        \"Insurance/Brokerage\",\n        \"Lawn Care/Landscaping\",\n        \"Legal\",\n        \"Manufacturing\",\n        \"Medical/Dental/Health Services\",\n        \"Non Profit\",\n        \"Property Management\",\n        \"Real Estate/Development\",\n        \"Restaurant/Bar\",\n        \"Retail\",\n        \"Salon/Beauty\",\n        \"Telecommunications\",\n        \"Transportation\",\n        \"Wholesale Distribution\"\n      ]\n    }\n  ) {\n    id\n    name\n    saleTaxes {\n      id\n      priceSaleTaxCount\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id, name}\n    }\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createProSaleTaxIndustry(\\n    name: [\\n      \\\"Agriculture/Farming\\\",\\n      \\\"Automotive Sales/Repair\\\",\\n      \\\"Computer/Software/IT\\\"\\n    ],\\n    saleTaxId: \\\"A5PNxydhxDx4Z6TRvk\\\"\\n  ) {\\n    id\\n    name\\n    saleTaxes {\\n      id\\n      priceSaleTaxCount\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id, name}\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateSaleTaxIndustry(\\n    id: \\\"A5PNxzOV9FNkuEMoro\\\",\\n    saleTaxIndustry: {\\n    \\tname: [\\n      \\t\\\"Agriculture/Farming\\\",\\n      \\t\\\"Automotive Sales/Repair\\\",\\n      \\t\\\"Computer/Software/IT\\\",\\n        \\\"Construction/Contractors\\\",\\n        \\\"Consulting\\\",\\n        \\\"Design/Architecture/Engineering\\\",\\n        \\\"Education\\\",\\n        \\\"Financial Services\\\",\\n        \\\"Government Agency\\\",\\n        \\\"Hospitality\\\",\\n        \\\"Insurance/Brokerage\\\",\\n        \\\"Lawn Care/Landscaping\\\",\\n        \\\"Legal\\\",\\n        \\\"Manufacturing\\\",\\n        \\\"Medical/Dental/Health Services\\\",\\n        \\\"Non Profit\\\",\\n        \\\"Property Management\\\",\\n        \\\"Real Estate/Development\\\",\\n        \\\"Restaurant/Bar\\\",\\n        \\\"Retail\\\",\\n        \\\"Salon/Beauty\\\",\\n        \\\"Telecommunications\\\",\\n        \\\"Transportation\\\",\\n        \\\"Wholesale Distribution\\\"\\n      ]\\n    }\\n  ) {\\n    id\\n    name\\n    saleTaxes {\\n      id\\n      priceSaleTaxCount\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id, name}\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateProSaleTaxIndustry(\\n    id: \\\"A5PNxzOV9FNkuEMoro\\\",\\n    saleTaxIndustry: {\\n    \\tname: [\\n      \\t\\\"Agriculture/Farming\\\",\\n      \\t\\\"Automotive Sales/Repair\\\",\\n      \\t\\\"Computer/Software/IT\\\",\\n        \\\"Construction/Contractors\\\",\\n        \\\"Consulting\\\",\\n        \\\"Design/Architecture/Engineering\\\",\\n        \\\"Education\\\",\\n        \\\"Financial Services\\\",\\n        \\\"Government Agency\\\",\\n        \\\"Hospitality\\\",\\n        \\\"Insurance/Brokerage\\\",\\n        \\\"Lawn Care/Landscaping\\\",\\n        \\\"Legal\\\",\\n        \\\"Manufacturing\\\",\\n        \\\"Medical/Dental/Health Services\\\",\\n        \\\"Non Profit\\\",\\n        \\\"Property Management\\\",\\n        \\\"Real Estate/Development\\\",\\n        \\\"Restaurant/Bar\\\",\\n        \\\"Retail\\\",\\n        \\\"Salon/Beauty\\\",\\n        \\\"Telecommunications\\\",\\n        \\\"Transportation\\\",\\n        \\\"Wholesale Distribution\\\"\\n      ]\\n    }\\n  ) {\\n    id\\n    name\\n    saleTaxes {\\n      id\\n      priceSaleTaxCount\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id, name}\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateProSaleTaxIndustry(\\n    id: \\\"A5PNxzOV9FNkuEMoro\\\",\\n    saleTaxIndustry: {\\n    \\tname: [\\n      \\t\\\"Agriculture/Farming\\\",\\n      \\t\\\"Automotive Sales/Repair\\\",\\n      \\t\\\"Computer/Software/IT\\\",\\n        \\\"Construction/Contractors\\\",\\n        \\\"Consulting\\\",\\n        \\\"Design/Architecture/Engineering\\\",\\n        \\\"Education\\\",\\n        \\\"Financial Services\\\",\\n        \\\"Government Agency\\\",\\n        \\\"Hospitality\\\",\\n        \\\"Insurance/Brokerage\\\",\\n        \\\"Lawn Care/Landscaping\\\",\\n        \\\"Legal\\\",\\n        \\\"Manufacturing\\\",\\n        \\\"Medical/Dental/Health Services\\\",\\n        \\\"Non Profit\\\",\\n        \\\"Property Management\\\",\\n        \\\"Real Estate/Development\\\",\\n        \\\"Restaurant/Bar\\\",\\n        \\\"Retail\\\",\\n        \\\"Salon/Beauty\\\",\\n        \\\"Telecommunications\\\",\\n        \\\"Transportation\\\",\\n        \\\"Wholesale Distribution\\\"\\n      ],\\n      price: 22\\n    }\\n  ) {\\n    id\\n    name\\n    saleTaxes {\\n      id\\n      priceSaleTaxCount\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id, name}\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateSaleTaxIndustry(\\n    id: \\\"A5PNxzOV9FNkuEMoro\\\",\\n    saleTaxIndustry: {\\n    \\tname: [\\n      \\t\\\"Agriculture/Farming\\\",\\n      \\t\\\"Automotive Sales/Repair\\\",\\n      \\t\\\"Computer/Software/IT\\\",\\n        \\\"Construction/Contractors\\\",\\n        \\\"Consulting\\\",\\n        \\\"Design/Architecture/Engineering\\\",\\n        \\\"Education\\\",\\n        \\\"Financial Services\\\",\\n        \\\"Government Agency\\\",\\n        \\\"Hospitality\\\",\\n        \\\"Insurance/Brokerage\\\",\\n        \\\"Lawn Care/Landscaping\\\",\\n        \\\"Legal\\\",\\n        \\\"Manufacturing\\\",\\n        \\\"Medical/Dental/Health Services\\\",\\n        \\\"Non Profit\\\",\\n        \\\"Property Management\\\",\\n        \\\"Real Estate/Development\\\",\\n        \\\"Restaurant/Bar\\\",\\n        \\\"Retail\\\",\\n        \\\"Salon/Beauty\\\",\\n        \\\"Telecommunications\\\",\\n        \\\"Transportation\\\",\\n        \\\"Wholesale Distribution\\\"\\n      ],\\n      price: 22\\n    }\\n  ) {\\n    id\\n    name\\n    saleTaxes {\\n      id\\n      priceSaleTaxCount\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id, name}\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateSaleTaxIndustry(\\n    id: \\\"A5PNxzOV9FNkuEMoro\\\",\\n    saleTaxIndustry: {\\n    \\tname: [\\n      \\t\\\"Agriculture/Farming\\\",\\n      \\t\\\"Automotive Sales/Repair\\\",\\n      \\t\\\"Computer/Software/IT\\\",\\n        \\\"Construction/Contractors\\\",\\n        \\\"Consulting\\\",\\n        \\\"Design/Architecture/Engineering\\\",\\n        \\\"Education\\\",\\n        \\\"Financial Services\\\",\\n        \\\"Government Agency\\\",\\n        \\\"Hospitality\\\",\\n        \\\"Insurance/Brokerage\\\",\\n        \\\"Lawn Care/Landscaping\\\",\\n        \\\"Legal\\\",\\n        \\\"Manufacturing\\\",\\n        \\\"Medical/Dental/Health Services\\\",\\n        \\\"Non Profit\\\",\\n        \\\"Property Management\\\",\\n        \\\"Real Estate/Development\\\",\\n        \\\"Restaurant/Bar\\\",\\n        \\\"Retail\\\",\\n        \\\"Salon/Beauty\\\",\\n        \\\"Telecommunications\\\",\\n        \\\"Transportation\\\",\\n        \\\"Wholesale Distribution\\\"\\n      ]\\n    }\\n  ) {\\n    id\\n    name\\n    saleTaxes {\\n      id\\n      priceSaleTaxCount\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id, name}\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateProSaleTaxIndustry(\\n    id: \\\"A5PNxzOV9FNkuEMoro\\\",\\n    saleTaxIndustry: {\\n    \\tname: [\\n      \\t\\\"Agriculture/Farming\\\",\\n      \\t\\\"Automotive Sales/Repair\\\",\\n      \\t\\\"Computer/Software/IT\\\",\\n        \\\"Construction/Contractors\\\",\\n        \\\"Consulting\\\",\\n        \\\"Design/Architecture/Engineering\\\",\\n        \\\"Education\\\",\\n        \\\"Financial Services\\\",\\n        \\\"Government Agency\\\",\\n        \\\"Hospitality\\\",\\n        \\\"Insurance/Brokerage\\\",\\n        \\\"Lawn Care/Landscaping\\\",\\n        \\\"Legal\\\",\\n        \\\"Manufacturing\\\",\\n        \\\"Medical/Dental/Health Services\\\",\\n        \\\"Non Profit\\\",\\n        \\\"Property Management\\\",\\n        \\\"Real Estate/Development\\\",\\n        \\\"Restaurant/Bar\\\",\\n        \\\"Retail\\\",\\n        \\\"Salon/Beauty\\\",\\n        \\\"Telecommunications\\\",\\n        \\\"Transportation\\\",\\n        \\\"Wholesale Distribution\\\"\\n      ]\\n    }\\n  ) {\\n    id\\n    name\\n    saleTaxes {\\n      id\\n      priceSaleTaxCount\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id, name}\\n    }\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateSaleTaxIndustry(\\n    id: \\\"A5PNxzOV9FNkuEMoro\\\",\\n    saleTaxIndustry: {\\n    \\tname: [\\n      \\t\\\"Agriculture/Farming\\\",\\n      \\t\\\"Automotive Sales/Repair\\\",\\n      \\t\\\"Computer/Software/IT\\\",\\n        \\\"Construction/Contractors\\\",\\n        \\\"Consulting\\\",\\n        \\\"Design/Architecture/Engineering\\\",\\n        \\\"Education\\\",\\n        \\\"Financial Services\\\",\\n        \\\"Government Agency\\\",\\n        \\\"Hospitality\\\",\\n        \\\"Insurance/Brokerage\\\",\\n        \\\"Lawn Care/Landscaping\\\",\\n        \\\"Legal\\\",\\n        \\\"Manufacturing\\\",\\n        \\\"Medical/Dental/Health Services\\\",\\n        \\\"Non Profit\\\",\\n        \\\"Property Management\\\",\\n        \\\"Real Estate/Development\\\",\\n        \\\"Restaurant/Bar\\\",\\n        \\\"Retail\\\",\\n        \\\"Salon/Beauty\\\",\\n        \\\"Telecommunications\\\",\\n        \\\"Transportation\\\",\\n        \\\"Wholesale Distribution\\\"\\n      ]\\n    }\\n  ) {\\n    id\\n    name\\n    saleTaxes {\\n      id\\n      priceSaleTaxCount\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id, name}\\n    }\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProSaleTaxIndustry(\\n    id: \\\"A5PNxzOV9FNkuEMoro\\\",\\n    saleTaxIndustry: {\\n    \\tname: [\\n      \\t\\\"Agriculture/Farming\\\",\\n      \\t\\\"Automotive Sales/Repair\\\",\\n      \\t\\\"Computer/Software/IT\\\",\\n        \\\"Construction/Contractors\\\",\\n        \\\"Consulting\\\",\\n        \\\"Design/Architecture/Engineering\\\",\\n        \\\"Education\\\",\\n        \\\"Financial Services\\\",\\n        \\\"Government Agency\\\",\\n        \\\"Hospitality\\\",\\n        \\\"Insurance/Brokerage\\\",\\n        \\\"Lawn Care/Landscaping\\\",\\n        \\\"Legal\\\",\\n        \\\"Manufacturing\\\",\\n        \\\"Medical/Dental/Health Services\\\",\\n        \\\"Non Profit\\\",\\n        \\\"Property Management\\\",\\n        \\\"Real Estate/Development\\\",\\n        \\\"Restaurant/Bar\\\",\\n        \\\"Retail\\\",\\n        \\\"Salon/Beauty\\\",\\n        \\\"Telecommunications\\\",\\n        \\\"Transportation\\\",\\n        \\\"Wholesale Distribution\\\"\\n      ]\\n    }\\n  ) {\\n    id\\n    name\\n    saleTaxes {\\n      id\\n      priceSaleTaxCount\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id, name}\\n    }\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.5828437132784959,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab8",
+      "name": "Query 8",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNThFazVxNWs2djJKUlFzQXluBgCiu9RQeAFiAAFRgA.L3Y5TaKHU-tl_-eDePMndVm2Qe82Q_JY1kgujr9v_FE"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateTpSaleTaxIndustry(\n    id: \"A5GXEApDDG6n2s3KIC\",\n    saleTaxIndustry: {\n      name: [\n        \"Construction/Contractors\"\n      ]\n    }\n  ) {\n    id\n    name\n    saleTaxes {\n      id\n      deadline\n      priceSaleTaxCount\n      saleTaxCount\n      financialSituation\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id name}\n      user {id email role}\n    }\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateTpSaleTaxIndustry(\n    id: \"A5GXEApDDG6n2s3KIC\",\n    saleTaxIndustry: {\n      name: [\n        \"Construction/Contractors\"\n      ]\n    }\n  ) {\n    id\n    name\n    saleTaxes {\n      id\n      deadline\n      priceSaleTaxCount\n      saleTaxCount\n      financialSituation\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id name}\n      user {id email role}\n    }\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateTpSaleTaxIndustry(\\n    id: \\\"A5GXEApDDG6n2s3KIC\\\",\\n    saleTaxIndustry: {\\n      name: [\\n        \\\"Construction/Contractors\\\"\\n      ]\\n    }\\n  ) {\\n    id\\n    name\\n    saleTaxes {\\n      id\\n      deadline\\n      priceSaleTaxCount\\n      saleTaxCount\\n      financialSituation\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id name}\\n      user {id email role}\\n    }\\n  }\\n}\"}]}",
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab9",
+      "name": "Query 9",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNThFazVxNWs2djJKUlFzQXluBgCBg-RQeAFiAAFRgA.86dO1hLLIPcx8MtCtc8UYNIh54eKYQqMdJqo5SJIEUA"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateProSaleTaxFrequency(\n    id: \"A5PNxzKxMQXwjEhzLE\",\n    saleTaxFrequency: {\n      name: \"Monthly\",\n      price: 33\n    }\n  ) {\n    id\n    name\n    price\n    saleTaxes {\n      id\n      deadline\n      priceSaleTaxCount\n      financialSituation\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id name}\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateProSaleTaxFrequency(\n    id: \"A5PNxzKxMQXwjEhzLE\",\n    saleTaxFrequency: {\n      name: \"Monthly\",\n      price: 22,\n      saleTaxId: \"A5PNxydhxDx4Z6TRvk\"\n    }\n  ) {\n    id\n    name\n    price\n    saleTaxes {\n      id\n      deadline\n      priceSaleTaxCount\n      financialSituation\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id name}\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateProSaleTaxFrequency(\n    id: \"A5PNxzKxMQXwjEhzLE\",\n    saleTaxFrequency: {\n      name: \"Monthly\",\n      price: 22\n    }\n  ) {\n    id\n    name\n    price\n    saleTaxes {\n      id\n      deadline\n      priceSaleTaxCount\n      financialSituation\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id name}\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateProSaleTaxFrequency(\n    id: \"A5PNxzKxMQXwjEhzLE\",\n    saleTaxFrequency: {\n      name: \"Quarterly\",\n      price: 22\n    }\n  ) {\n    id\n    name\n    price\n    saleTaxes {\n      id\n      deadline\n      priceSaleTaxCount\n      financialSituation\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id name}\n    }\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateProSaleTaxFrequency(\n    id: \"A5PNxzKxMQXwjEhzLE\",\n    saleTaxFrequency: {\n      name: \"Monthly\",\n      price: 33\n    }\n  ) {\n    id\n    name\n    price\n    saleTaxes {\n      id\n      deadline\n      priceSaleTaxCount\n      financialSituation\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id name}\n    }\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateProSaleTaxFrequency(\\n    id: \\\"A5PNxzKxMQXwjEhzLE\\\",\\n    saleTaxFrequency: {\\n      name: \\\"Quarterly\\\",\\n      price: 22\\n    }\\n  ) {\\n    id\\n    name\\n    price\\n    saleTaxes {\\n      id\\n      deadline\\n      priceSaleTaxCount\\n      financialSituation\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id name}\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateProSaleTaxFrequency(\\n    id: \\\"A5PNxzKxMQXwjEhzLE\\\",\\n    saleTaxFrequency: {\\n      name: \\\"Monthly\\\",\\n      price: 22\\n    }\\n  ) {\\n    id\\n    name\\n    price\\n    saleTaxes {\\n      id\\n      deadline\\n      priceSaleTaxCount\\n      financialSituation\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id name}\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateProSaleTaxFrequency(\\n    id: \\\"A5PNxzKxMQXwjEhzLE\\\",\\n    saleTaxFrequency: {\\n      name: \\\"Monthly\\\",\\n      price: 22,\\n      saleTaxId: \\\"A5PNxydhxDx4Z6TRvk\\\"\\n    }\\n  ) {\\n    id\\n    name\\n    price\\n    saleTaxes {\\n      id\\n      deadline\\n      priceSaleTaxCount\\n      financialSituation\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id name}\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateProSaleTaxFrequency(\\n    id: \\\"A5PNxzKxMQXwjEhzLE\\\",\\n    saleTaxFrequency: {\\n      name: \\\"Monthly\\\",\\n      price: 33\\n    }\\n  ) {\\n    id\\n    name\\n    price\\n    saleTaxes {\\n      id\\n      deadline\\n      priceSaleTaxCount\\n      financialSituation\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id name}\\n    }\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab10",
+      "name": "Query 10",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNThFam5lbkxOQmZ2QzBiNEtuBgAWI-tQeAFiAAFRgA.2ZU_Z9oHVMDd6DiNaCUCWa0wGlmGaGnBFdvPdcc2ErM"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateTpSaleTaxFrequency(\n    id: \"A5GXEAn5LAPIwH3cye\",\n    saleTaxFrequency: {\n      name: \"Quarterly\"\n    }\n  ) {\n    id\n    name\n    saleTaxes {\n      id\n      deadline\n      priceSaleTaxCount\n      financialSituation\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id name}\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateTpSaleTaxFrequency(\n    id: \"A5GXEAn5LAPIwH3cye\",\n    saleTaxFrequency: {\n      name: \"Quarterly\"\n    }\n  ) {\n    id\n    name\n    price\n    saleTaxes {\n      id\n      deadline\n      priceSaleTaxCount\n      financialSituation\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id name}\n    }\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateTpSaleTaxFrequency(\n    id: \"A5GXEAn5LAPIwH3cye\",\n    saleTaxFrequency: {\n      name: \"Quarterly\"\n    }\n  ) {\n    id\n    name\n    saleTaxes {\n      id\n      deadline\n      priceSaleTaxCount\n      financialSituation\n      saleTaxIndustries {id name}\n      saleTaxFrequencies {id name}\n    }\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateTpSaleTaxFrequency(\\n    id: \\\"A5GXEAn5LAPIwH3cye\\\",\\n    saleTaxFrequency: {\\n      name: \\\"Quarterly\\\"\\n    }\\n  ) {\\n    id\\n    name\\n    price\\n    saleTaxes {\\n      id\\n      deadline\\n      priceSaleTaxCount\\n      financialSituation\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id name}\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateTpSaleTaxFrequency(\\n    id: \\\"A5GXEAn5LAPIwH3cye\\\",\\n    saleTaxFrequency: {\\n      name: \\\"Quarterly\\\"\\n    }\\n  ) {\\n    id\\n    name\\n    saleTaxes {\\n      id\\n      deadline\\n      priceSaleTaxCount\\n      financialSituation\\n      saleTaxIndustries {id name}\\n      saleTaxFrequencies {id name}\\n    }\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    }
+  ]
+}
