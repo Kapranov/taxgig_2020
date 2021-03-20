@@ -107,7 +107,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTransactionCountTypes do
     @desc "Update a specific the business transaction count via role's Tp"
     field :update_tp_business_transaction_count, :tp_business_transaction_count do
       arg :id, non_null(:string)
-      arg :business_llc_type, :update_tp_business_transaction_count_params
+      arg :business_transaction_count, :update_tp_business_transaction_count_params
 
       resolve &BusinessTransactionCountsResolver.update/3
     end

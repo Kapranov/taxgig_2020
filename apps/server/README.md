@@ -1,7 +1,7 @@
 # Server
 
 ```
-bash> mix phx.nemix phx.new server --no-html --no-webpack --no-ecto
+bash> mix phx.new server --no-html --no-webpack --no-ecto
 ```
 
 ### Channels
