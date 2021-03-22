@@ -35,11 +35,11 @@ defmodule Reptin.Client do
   @doc """
   ## Example:
 
-      iex> Reptin.Client.search("33602", "Steven", "Walk")
+      iex> Reptin.Client.search("33602", "StEvEn", "WaLk")
       %{bus_addr_zip: "33602", profession: "ATTY,CPA"}
-      iex> Reptin.Client.search("33155", "gustavo", "mata")
+      iex> Reptin.Client.search("33155", "GuStAvO", "MaTa")
       %{bus_addr_zip: "33155", profession: nil}
-      iex> Reptin.Client.search("33602", "Test", "Test")
+      iex> Reptin.Client.search("33602", "TEST", "tEsT")
       %{bus_addr_zip: nil, profession: "no found record"}
 
   """
@@ -47,7 +47,7 @@ defmodule Reptin.Client do
   def search(zip, first_name, last_name) when is_bitstring(zip) and is_bitstring(first_name) and is_bitstring(last_name) do
     q =
       table(@tbl2)
-      |> filter(%{"BUS_ADDR_ZIP": zip, "First_NAME": first_name, LAST_NAME: last_name})
+      |> filter(%{bus_addr_zip: zip, first_name: String.downcase(first_name), last_name: String.downcase(last_name)})
       |> Reptin.Database.run()
 
     case q do
@@ -56,11 +56,11 @@ defmodule Reptin.Client do
       %RethinkDB.Feed{
         data: [
           %{
-             "BUS_ADDR_ZIP" => bus_addr_zip,
-             "BUS_ST_CODE" => _bus_st_code,
-             "First_NAME" => _first_name,
-             "LAST_NAME" => _last_name,
-             "PROFESSION" => profession,
+             "bus_addr_zip" => bus_addr_zip,
+             "bus_st_code" => _bus_st_code,
+             "first_name" => _first_name,
+             "last_name" => _last_name,
+             "profession" => profession,
              "id" => _id
           }
         ],
@@ -69,18 +69,18 @@ defmodule Reptin.Client do
         profile: nil,
         token: _token
       } ->
-        %{
+        [%{
           bus_addr_zip: bus_addr_zip,
           error: nil,
           profession: profession
-        }
+        }]
       %RethinkDB.Feed{
         data: [
           %{
-             "BUS_ADDR_ZIP" => bus_addr_zip,
-             "BUS_ST_CODE" => _bus_st_code,
-             "First_NAME" => _first_name,
-             "LAST_NAME" => _last_name,
+             "bus_addr_zip" => bus_addr_zip,
+             "bus_st_code" => _bus_st_code,
+             "first_name" => _first_name,
+             "last_name" => _last_name,
              "id" => _id
           }
         ],
@@ -89,11 +89,11 @@ defmodule Reptin.Client do
         profile: nil,
         token: _token
       } ->
-        %{
+        [%{
           bus_addr_zip: bus_addr_zip,
           error: nil,
           profession: nil
-        }
+        }]
     end
   end
 

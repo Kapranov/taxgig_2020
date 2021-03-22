@@ -164,12 +164,12 @@ defmodule Core.Seeder.Accounts do
             "kapranov.lugatex@gmail.com",
             "kapranov.pure@gmail.com",
             "lugatex@yahoo.com",
-            "v.kobzan@gmail.com",
             "o.puryshev@gmail.com",
-            "vlacho777@gmail.com",
-            "support@taxgig.com",
             "op@taxgig.com",
-            "vk@taxgig.com"
+            "support@taxgig.com",
+            "v.kobzan@gmail.com",
+            "vk@taxgig.com",
+            "vlacho777@gmail.com"
           ]
         )
       false ->
@@ -299,49 +299,58 @@ defmodule Core.Seeder.Accounts do
         email: "lugatex@yahoo.com",
         password: "qwerty",
         password_confirmation: "qwerty",
+        phone: "555-555-5511",
         role: true
       }),
       Accounts.create_user(%{
         email: "kapranov.lugatex@gmail.com",
         password: "qwerty",
-        password_confirmation: "qwerty"
+        password_confirmation: "qwerty",
+        phone: "555-555-5512"
       }),
       Accounts.create_user(%{
         email: "kapranov.pure@gmail.com",
         password: "nES0p04pVklw",
-        password_confirmation: "nES0p04pVklw"
+        password_confirmation: "nES0p04pVklw",
+        phone: "555-555-5513"
       }),
       Accounts.create_user(%{
         email: "v.kobzan@gmail.com",
         password: "qwerty",
-        password_confirmation: "qwerty"
+        password_confirmation: "qwerty",
+        phone: "555-555-5514"
       }),
       Accounts.create_user(%{
         email: "o.puryshev@gmail.com",
         password: "qwerty",
-        password_confirmation: "qwerty"
+        password_confirmation: "qwerty",
+        phone: "555-555-5515"
       }),
       Accounts.create_user(%{
         email: "vlacho777@gmail.com",
         password: "qwerty",
-        password_confirmation: "qwerty"
+        password_confirmation: "qwerty",
+        phone: "555-555-5516"
       }),
       Accounts.create_user(%{
         email: "support@taxgig.com",
         password: "qwerty",
         password_confirmation: "qwerty",
+        phone: "555-555-5517",
         role: true
       }),
       Accounts.create_user(%{
         email: "op@taxgig.com",
         password: "qwerty",
         password_confirmation: "qwerty",
+        phone: "555-555-5518",
         role: true
       }),
       Accounts.create_user(%{
         email: "vk@taxgig.com",
         password: "qwerty",
         password_confirmation: "qwerty",
+        phone: "555-555-5519",
         role: true
       })
     ]
@@ -354,49 +363,58 @@ defmodule Core.Seeder.Accounts do
         email: "lugatex@yahoo.com",
         password: "qwerty",
         password_confirmation: "qwerty",
+        phone: "555-555-5511",
         role: true
       }),
       Accounts.create_multi_user(%{
         email: "kapranov.lugatex@gmail.com",
         password: "qwerty",
         password_confirmation: "qwerty",
+        phone: "555-555-5512"
       }),
       Accounts.create_multi_user(%{
         email: "kapranov.pure@gmail.com",
         password: "nES0p04pVklw",
-        password_confirmation: "nES0p04pVklw"
+        password_confirmation: "nES0p04pVklw",
+        phone: "555-555-5513"
       }),
       Accounts.create_multi_user(%{
         email: "v.kobzan@gmail.com",
         password: "qwerty",
-        password_confirmation: "qwerty"
+        password_confirmation: "qwerty",
+        phone: "555-555-5514"
       }),
       Accounts.create_multi_user(%{
         email: "o.puryshev@gmail.com",
         password: "qwerty",
-        password_confirmation: "qwerty"
+        password_confirmation: "qwerty",
+        phone: "555-555-5515"
       }),
       Accounts.create_multi_user(%{
         email: "vlacho777@gmail.com",
         password: "qwerty",
-        password_confirmation: "qwerty"
+        password_confirmation: "qwerty",
+        phone: "555-555-5516"
       }),
       Accounts.create_multi_user(%{
         email: "support@taxgig.com",
         password: "qwerty",
         password_confirmation: "qwerty",
+        phone: "555-555-5517",
         role: true
       }),
       Accounts.create_multi_user(%{
         email: "op@taxgig.com",
         password: "qwerty",
         password_confirmation: "qwerty",
+        phone: "555-555-5518",
         role: true
       }),
       Accounts.create_multi_user(%{
         email: "vk@taxgig.com",
         password: "qwerty",
         password_confirmation: "qwerty",
+        phone: "555-555-5519",
         role: true
       })
     ]

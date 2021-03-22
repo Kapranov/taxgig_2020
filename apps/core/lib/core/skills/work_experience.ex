@@ -18,6 +18,7 @@ defmodule Core.Skills.WorkExperience do
   @type t :: %__MODULE__{
     end_date: DateTime.t(),
     name: String.t(),
+    position: String.t(),
     start_date: DateTime.t(),
     users: User.t()
   }
@@ -25,20 +26,17 @@ defmodule Core.Skills.WorkExperience do
   @allowed_params ~w(
     end_date
     name
+    position
     start_date
     user_id
   )a
 
-  @required_params ~w(
-    end_date
-    name
-    start_date
-    user_id
-  )a
+  @required_params ~w(user_id)a
 
   schema "work_experiences" do
-    field :end_date, :date
-    field :name, :string
+    field :end_date, :date, null: true
+    field :name, :string, null: true
+    field :position, :string, null: true
     field :start_date, :date
 
     belongs_to :users, User,

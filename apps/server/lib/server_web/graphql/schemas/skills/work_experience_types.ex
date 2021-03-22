@@ -15,17 +15,19 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.WorkExperienceTypes do
   @desc "WorkExperience on the site"
   object :work_experience, description: "WorkExperience" do
     field :id, non_null(:string), description: "unique identifier"
-    field :end_date, :date, description: "WorkExperience end_date"
+    field :end_date, :date, description: "WorkExperience endDate"
     field :name, :string, description: "WorkExperience name"
-    field :start_date, :date, description: "WorkExperience start_date"
+    field :position, :string, description: "WorkExperience position"
+    field :start_date, :date, description: "WorkExperience startDate"
     field :users, :user, resolve: dataloader(Data)
   end
 
   @desc "WorkExperience update via params"
   input_object :update_work_experience_params, description: "create WorkExperience" do
-    field :end_date, :date, description: "Required end_date"
+    field :end_date, :date, description: "Required endDate"
     field :name, :string, description: "Required name"
-    field :start_date, :date, description: "Required start_date"
+    field :position, :string, description: "a position"
+    field :start_date, :date, description: "Required startDate"
     field :user_id, non_null(:string)
   end
 
@@ -45,9 +47,10 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.WorkExperienceTypes do
   object :work_experience_mutations do
     @desc "Create WorkExperience"
     field :create_work_experience, :work_experience, description: "Create a ane WorkExperience" do
-      arg :name, non_null(:string)
-      arg :start_date, non_null(:date)
-      arg :end_date, non_null(:date)
+      arg :end_date, :date
+      arg :name, :string
+      arg :position, :string
+      arg :start_date, :date
       arg :user_id, non_null(:string)
       resolve &WorkExperienceResolver.create/3
     end

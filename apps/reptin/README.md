@@ -23,18 +23,18 @@ iex> table_create("ptins") |> Reptin.Database.run
 iex> table_query = table("expires")
 iex> q = insert(table_query, %{expired: "Updated February 20, 2021", url: "https://www.irs.gov/pub/irs-utl/FOIA_Hawaii_extract.csv"})
 iex> Reptin.Database.run(q)
-iex> rethinkdb-import -c taxgig.com:28015 -f foia_extract.csv --force --format csv --table ptin.ptins --fields LAST_NAME,First_NAME,BUS_ST_CODE,BUS_ADDR_ZIP,PROFESSION
+iex> rethinkdb-import -c taxgig.com:28015 -f foia_extract.csv --force --format csv --table ptin.ptins --fields last_name,first_name,bus_st_code,bus_addr_zip,profession
 iex> table("ptins") |> count |> Reptin.Database.run
 %RethinkDB.Record{data: 672649, profile: nil}
-iex> table("ptins") |> filter(%{"BUS_ADDR_ZIP": "33602", "First_NAME": "Steven", LAST_NAME: "Walk"}) |> Reptin.Database.run
+iex> table("ptins") |> filter(%{"bus_addr_zip": "33602", "first_name": "steven", last_name: "walk"}) |> Reptin.Database.run
 %RethinkDB.Feed{
   data: [
     %{
-      "BUS_ADDR_ZIP" => "33602",
-      "BUS_ST_CODE" => "FL",
-      "First_NAME" => "Steven",
-      "LAST_NAME" => "Walk",
-      "PROFESSION" => "ATTY,CPA",
+      "bus_addr_zip" => "33602",
+      "bus_st_code" => "FL",
+      "first_name" => "steven",
+      "last_name" => "walk",
+      "profession" => "ATTY,CPA",
       "id" => "00d97ecf-0f57-4adb-a6f9-e64f642ad235"
     }
   ],
@@ -44,16 +44,16 @@ iex> table("ptins") |> filter(%{"BUS_ADDR_ZIP": "33602", "First_NAME": "Steven",
   token: <<10, 0, 0, 0, 0, 0, 0, 0>>
 }
 
-iex> table("ptins") |> filter(%{"BUS_ADDR_ZIP": "02125", "First_NAME": "Tara", LAST_NAME: "Allen"}) |> Reptin.Database.run
+iex> table("ptins") |> filter(%{"bus_addr_zip": "02125", "first_name": "tara", last_name: "allen"}) |> Reptin.Database.run
 r.db('ptin').table('ptins').run(conn, callback)
 
 %RethinkDB.Feed{
   data: [
     %{
-      "BUS_ADDR_ZIP" => "02125",
-      "BUS_ST_CODE" => "MA",
-      "First_NAME" => "Tara",
-      "LAST_NAME" => "Allen",
+      "bus_addr_zip" => "02125",
+      "bus_st_code" => "MA",
+      "first_name" => "Tara",
+      "last_name" => "Allen",
       "id" => "00d96cd2-5cc5-457c-baf8-bc094bf99c8b"
     }
   ],
@@ -65,13 +65,25 @@ r.db('ptin').table('ptins').run(conn, callback)
 ```
 
 ```
-console> r.db('ptin').table('ptins').filter({"BUS_ADDR_ZIP": "33602", "First_NAME": "Steven", LAST_NAME: "Walk"})
-console> r.db('ptin').table('ptins').filter({"BUS_ADDR_ZIP": "33155", "First_NAME": r.expr("GUSTAVO").downcase(), LAST_NAME: r.expr("mata").downcase()})
-console> r.db("ptin").table("ptins").update({"First_name": r.row("First_name").downcase()})
-console> r.db("ptin").table("ptins").update({"First_name": r.downcase(r.row["First_name"])})
-r.table('moviesUnique').filter(r.row('votes').lt(100000)).min('rank')
+console> r.db('ptin').table('ptins').filter({"bus_addr_zip": "33602", "first_name": "steven", last_name: "walk"})
+console> r.db('ptin').table('ptins').filter({"bus_addr_zip": "33155", "first_name": r.expr("gustavo").downcase(), last_name: r.expr("mata").downcase()})
+console> r.db("ptin").table("ptins").update({"first_name": r.row("first_name").downcase()})
+console> r.db("ptin").table("ptins").update({"first_name": r.downcase(r.row["first_name"])})
+console> r.db("ptin").table('moviesUnique').filter(r.row('votes').lt(100000)).min('rank')
+console> r.db("ptin").table("users").filter(r.row["First_name"]).downcase().update()
 
-r.db("ptin").table("users").filter(r.row["First_name"]).downcase().update()
+console> r.db("ptin").table("ptins").filter({first_name: "gustavo"})
+console> r.db("ptin").table("ptins").filter({last_name: "mata"})
+console> r.db("ptin").table("ptins").filter({bus_addr_zip: "33155"})
+
+console> r.db("ptin").table("ptins").replace(r.row.without('views'))
+console> r.db("ptin").table("ptins").replace(function (row) {return row.without('First_NAME').merge({'first_name': row('First_NAME')})})
+console> r.db("ptin").table("ptins").replace(function (row) {return row.without('LAST_NAME').merge({'last_name': row('LAST_NAME')})})
+console> r.db("ptin").table("ptins").replace(function (row) {return row.without('BUS_ADDR_ZIP').merge({'bus_addr_zip': row('BUS_ADDR_ZIP')})})
+console> r.db("ptin").table("ptins").replace(function (row) {return row.without('BUS_ST_CODE').merge({'bus_st_code': row('BUS_ST_CODE')})})
+console> r.db("ptin").table("ptins").replace(function (row) {return row.without('PROFESSION').merge({'profession': row('PROFESSION')})})
+console> r.db("ptin").table("ptins").update({LAST_NAME: r.row('LAST_NAME').downcase()}, {returnChanges: true})
+console> r.db("ptin").table("ptins").update({First_NAME: r.row('First_NAME').downcase()}, {returnChanges: true})
 ```
 
 #### 5 March 2021 by Oleg G.Kapranov

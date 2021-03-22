@@ -82,7 +82,7 @@ defmodule Core.Accounts.User do
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
   # @email_validation_regex Application.get_env(:core, :email_regex)
   @phone ~r/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/
-  @secret  Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_base]
+  @secret  Application.get_env(:server, ServerWeb.Endpoint)[:aad]
   @pass_salt Argon2.hash_pwd_salt(@secret)
 
   @allowed_params ~w(
@@ -143,7 +143,7 @@ defmodule Core.Accounts.User do
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string, default: @pass_salt, null: false
-    field :phone, :string
+    field :phone, :string, null: false
     field :profession, :string, null: true
     field :provider, :string, default: "localhost", null: false
     field :role, :boolean, default: false, null: false
