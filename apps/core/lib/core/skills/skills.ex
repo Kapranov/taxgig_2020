@@ -282,12 +282,21 @@ defmodule Core.Skills do
 
   @doc """
   Search record by University via `name`.
+
+  ## Example
+
+      iex> search_university("Abia")
+      [%University{}]
+
+      iex> search_university("Proba")
+      []
   """
-  @spec search_university(String.t()) :: University.t()
-  def search_university(name) do
-    Repo.one(
+  @spec search_university(String.t()) :: [University.t()]
+  def search_university(search_term) do
+    Repo.all(
       from u in University,
-      where: u.name == ^name
+      where: ilike(u.name, ^("%" <> search_term <> "%")),
+      limit: 10
     )
   end
 

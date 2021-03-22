@@ -29,6 +29,12 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.UniversityTypes do
       arg(:id, non_null(:string))
       resolve(&UniversityResolver.show/3)
     end
+
+    @desc "Search a name of university"
+    field :find_university, list_of(:university) do
+      arg(:search_term, non_null(:string))
+      resolve(&UniversityResolver.find/3)
+    end
   end
 
   object :university_mutations do
