@@ -59,6 +59,20 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.UniversityResolver do
     end
   end
 
+  @spec find(any, %{search_term: bitstring}, Absinthe.Resolution.t()) :: result()
+  def find(_parent, args, _info) do
+    if is_nil(args) do
+      {:error, [[field: :search_term, message: "Can't be blank"]]}
+    else
+      try do
+        {:ok, Skills.search_university(args[:search_term])}
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "The University #{args} not found!"}
+      end
+    end
+  end
+
   @spec delete(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()
   def delete(_parent, %{id: id}, _info) do
     if is_nil(id) do
