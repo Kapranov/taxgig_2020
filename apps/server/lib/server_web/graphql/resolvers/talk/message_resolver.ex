@@ -26,6 +26,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
       struct = Talk.list_message(room_id)
+      data = struct |> List.last
+      Absinthe.Subscription.publish(ServerWeb.Endpoint, data, message_room: data.room_id)
       {:ok, struct}
     end
   end

@@ -15,7 +15,8 @@ defmodule Server.Application do
 
     children = [
       ServerWeb.Endpoint,
-      {Phoenix.PubSub, name: Server.PubSub},
+      #{Phoenix.PubSub, name: Server.PubSub},
+      {Phoenix.PubSub, [name: Server.PubSub, adapter: Phoenix.PubSub.PG2]},
       ServerWeb.Presence,
       {Absinthe.Subscription, ServerWeb.Endpoint},
       Supervisor.child_spec({Task.Supervisor, [name: Server.TaskSupervisor, max_restarts: 3]}, id: :task_supervisor, restart: :transient, shutdown: 30_000)

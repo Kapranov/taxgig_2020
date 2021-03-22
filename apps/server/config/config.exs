@@ -9,6 +9,7 @@ config :server, ServerWeb.Endpoint,
   max_age: :timer.minutes(30) / 1000,
   render_errors: [view: ServerWeb.ErrorView, accepts: ~w(json)],
   pubsub_server: Server.PubSub,
+  # pubsub: [name: Server.PubSub, adapter: Phoenix.PubSub.PG2],
   version: Mix.Project.config()[:version]
 
 config :logger, :console,

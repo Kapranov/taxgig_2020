@@ -8,11 +8,11 @@ defmodule Core.Seeder.Deleted.Accounts do
 
   @spec start!() :: Ecto.Schema.t()
   def start! do
-    deleted_ban_reason()
-    deleted_deleted_user()
-    deleted_platform()
-    deleted_pro_rating()
-    deleted_pro_ratings_project()
+    # deleted_ban_reason()
+    # deleted_deleted_user()
+    # deleted_platform()
+    # deleted_pro_rating()
+    # deleted_pro_ratings_project()
   end
 
   @spec deleted_ban_reason() :: Ecto.Schema.t()

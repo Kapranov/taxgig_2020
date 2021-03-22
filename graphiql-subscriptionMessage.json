@@ -1,0 +1,359 @@
+{
+  "key": "graphiql",
+  "lastId": 13,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5",
+    "tab6",
+    "tab7",
+    "tab8",
+    "tab9",
+    "tab10",
+    "tab11",
+    "tab12",
+    "tab13"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNVRVMm0xOURnSUdsemtPUEluBgCRLq5beAFiAAFRgA.Qu6dousEciP8z5ljMQjDL5g7tqDr1-WU-A0vRnQL-bE"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNVRVMm0xOURnSUdsemtPUEluBgDjxXRbeAFiAAFRgA.3jXN4LT7_p_abS-XL5fQjKFYN_BbOlthscPmhpe4e0s"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNVRVMm0xOURnSUdsemtPUEluBgAC8l9beAFiAAFRgA.ducr6j66ag4KRpYCSOEd5Ip81Dil9P-7gq8X6b7_iVI"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNVRVMm0xOURnSUdsemtPUEluBgCxgzlbeAFiAAFRgA.WuVp9yhCwT7QOIsQpScnNI932dk26xu5NgEDEpNhks8"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNVRVMm0xOURnSUdsemtPUEluBgC7zi9beAFiAAFRgA.VU9fW5H-ypaTjq5KmKCXFCCmRwJb0et2_zCFNXSd7jo"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNVRVMm0xOURnSUdsemtPUEluBgCLhBxbeAFiAAFRgA.TjXSKWjwKX1icdfaDXEoKkmfjAuYl8L9bfpn5LC75o8"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNVRVMm0xOURnSUdsemtPUEluBgA-nhVbeAFiAAFRgA.ZBqmBUOALtNnfc7hr0MMcH0VjN_zHvFGsm9DSjXAqvs"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNVRVMm0xOURnSUdsemtPUEluBgCh0vFaeAFiAAFRgA.1yLlqRIDiL0lczRIocLD8vIPNaV_Y_Ma34BWyABtxfY"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab2",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "subscription {\n  messageRoom(roomId: \"A5TU2m1rB2rQoC4xVo\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n  allMessages {\\n    id\\n    warning\\n    recipient {id email role error}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n  messages {\\n    id\\n    warning\\n    recipient {id email role error}\\n  }\\n}\"},{\"query\":\"subscription {\\n  messagesRoom(roomId: \\\"A5TU2HC3p3bTArcAc4\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role}}\\n    recipient {id email role}\\n    room {id name topic active description user {id email role}}\\n    user {id email role error}\\n    warning\\n  }\\n}\"},{\"query\":\"subscription {\\n  messagesRoom(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role}}\\n    recipient {id email role}\\n    room {id name topic active description user {id email role}}\\n    user {id email role error}\\n    warning\\n  }\\n}\"},{\"query\":\"subscription {\\n  messageRoom(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role}}\\n    recipient {id email role}\\n    room {id name topic active description user {id email role}}\\n    user {id email role error}\\n    warning\\n  }\\n}\"},{\"query\":\"subscription {\\n  messageRoom(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"subscription {\\n  messageRoom {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"subscription {\\n  messageRoom(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.7291399229781772
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"vlacho777@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  roomMessages(roomId: \"A5TU2HC3p3bTArcAc4\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"vlacho777@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  roomMessages(roomId: \\\"A5TU2HC3p3bTArcAc4\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"vlacho777@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3801229508196721
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNVRVMm0xOURnSUdsemtPUEluBgCRLq5beAFiAAFRgA.Qu6dousEciP8z5ljMQjDL5g7tqDr1-WU-A0vRnQL-bE"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  roomMessage(roomId: \"A5TU2m1rB2rQoC4xVo\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  roomMessages(roomId: \"A5TU2m1rB2rQoC4xVo\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  roomMessages(roomId: \"A5TU2HC3p3bTArcAc4\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  roomMessage(roomId: \"A5TU2m1rB2rQoC4xVo\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  roomMessages(roomId: \\\"A5TU2HC3p3bTArcAc4\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  roomMessages(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"query {\\n  roomMessage(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"query {\\n  roomMessage(roomId: \\\"A5TU2HC3p3bTArcAc4\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"query {\\n  roomMessage(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.7137404580152672,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNVRVMm0xOURnSUdsemtPUEluBgCRLq5beAFiAAFRgA.Qu6dousEciP8z5ljMQjDL5g7tqDr1-WU-A0vRnQL-bE"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  showMessage(id: \"A5TU3tHVhLNfaivvzU\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  showMessage(id: \"A5TU3tHVhLNfaivvzU\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showMessage(id: \\\"A5TU3tHVhLNfaivvzU\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab6",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "subscription {\n  messageCreated {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n  messagesShow(id: \\\"A5TU3tHVhLNfaivvzU\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n  messageCreated {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"}]}"
+    },
+    {
+      "id": "tab7",
+      "name": "Query 7",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createFaqCategory(title: \"Trumpy Bear\") {\n    id\n    title\n    faqs {id}\n    faqsCount\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createFaqCategory(title: \"Banana Republic\") {\n    id\n    title\n    faqs {id}\n    faqsCount\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createFaqCategory(title: \"Edward Witten\") {\n    id\n    title\n    faqs {id}\n    faqsCount\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createFaqCategory(title: \"Trumpy Bear\") {\n    id\n    title\n    faqs {id}\n    faqsCount\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createFaqCategory(title: \\\"Edward Witten\\\") {\\n    id\\n    title\\n    faqs {id}\\n    faqsCount\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createFaqCategory(title: \\\"Banana Republic\\\") {\\n    id\\n    title\\n    faqs {id}\\n    faqsCount\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createFaqCategory(title: \\\"Trumpy Bear\\\") {\\n    id\\n    title\\n    faqs {id}\\n    faqsCount\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab8",
+      "name": "Query 8",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "subscription {\n  faqCategoryCreated {\n    id\n    title\n    faqsCount\n  }\n}",
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n  faqCategoryCreated {\\n    id\\n    title\\n    faqsCount\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab9",
+      "name": "Query 9",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNVRVMm0xOURnSUdsemtPUEluBgCxgzlbeAFiAAFRgA.WuVp9yhCwT7QOIsQpScnNI932dk26xu5NgEDEpNhks8"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createMessage(\n    body: \"Trumpy bear!!!!!\",\n    isRead: false,\n    projectId: \"A5TU3m4qU25hFPxDmK\",\n    recipientId: \"A5TU32yw99ctO3qMoy\",\n    roomId: \"A5TU2m1rB2rQoC4xVo\",\n    userId: \"A5TU2m19DgIGlzkOPI\",\n    warning: false\n  ) {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createMessage(\n    body: \"Sleepy Joe\",\n    isRead: false,\n    projectId: \"A5TU3m4qU25hFPxDmK\",\n    recipientId: \"A5TU32yw99ctO3qMoy\",\n    roomId: \"A5TU2m1rB2rQoC4xVo\",\n    userId: \"A5TU2m19DgIGlzkOPI\",\n    warning: false\n  ) {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createMessage(\n    body: \"hello world\",\n    isRead: false,\n    projectId: \"A5TU3m4qU25hFPxDmK\",\n    recipientId: \"A5TU32yw99ctO3qMoy\",\n    roomId: \"A5TU2m1rB2rQoC4xVo\",\n    userId: \"A5TU2m19DgIGlzkOPI\",\n    warning: false\n  ) {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createMessage(\n    body: \"Trumpy bear!!!!!\",\n    isRead: false,\n    projectId: \"A5TU3m4qU25hFPxDmK\",\n    recipientId: \"A5TU32yw99ctO3qMoy\",\n    roomId: \"A5TU2m1rB2rQoC4xVo\",\n    userId: \"A5TU2m19DgIGlzkOPI\",\n    warning: false\n  ) {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createMessage(\\n    body: \\\"hello world\\\",\\n    isRead: false,\\n    projectId: \\\"A5TU3m4qU25hFPxDmK\\\",\\n    recipientId: \\\"A5TU32yw99ctO3qMoy\\\",\\n    roomId: \\\"A5TU2m1rB2rQoC4xVo\\\",\\n    userId: \\\"A5TU2m19DgIGlzkOPI\\\",\\n    warning: false\\n  ) {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createMessage(\\n    body: \\\"Sleepy Joe\\\",\\n    isRead: false,\\n    projectId: \\\"A5TU3m4qU25hFPxDmK\\\",\\n    recipientId: \\\"A5TU32yw99ctO3qMoy\\\",\\n    roomId: \\\"A5TU2m1rB2rQoC4xVo\\\",\\n    userId: \\\"A5TU2m19DgIGlzkOPI\\\",\\n    warning: false\\n  ) {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"mutation {\\n  createMessage(\\n    body: \\\"Trumpy bear!!!!!\\\",\\n    isRead: false,\\n    projectId: \\\"A5TU3m4qU25hFPxDmK\\\",\\n    recipientId: \\\"A5TU32yw99ctO3qMoy\\\",\\n    roomId: \\\"A5TU2m1rB2rQoC4xVo\\\",\\n    userId: \\\"A5TU2m19DgIGlzkOPI\\\",\\n    warning: false\\n  ) {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab10",
+      "name": "Query 10",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNVRVMm0xOURnSUdsemtPUEluBgCRLq5beAFiAAFRgA.Qu6dousEciP8z5ljMQjDL5g7tqDr1-WU-A0vRnQL-bE"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  showMessage(id: \"A5TU3tHVhLNfaivvzU\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  showMessage(id: \"A5TU3tHVhLNfaivvzU\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showMessage(id: \\\"A5TU3tHVhLNfaivvzU\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\",\"variables\":\"\"}]}"
+    },
+    {
+      "id": "tab11",
+      "name": "Query 11",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "subscription {\n  messageShow(id: \"A5TU3tHVhLNfaivvzU\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n  messageShowed(id: \\\"A5TU3tHVhLNfaivvzU\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n  messageShowed {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"subscription {\\n  messageShow {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"subscription {\\n  messageShow(id: \\\"A5TU3tHVhLNfaivvzU\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"}]}",
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab12",
+      "name": "Query 12",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  showFaqCategory(id: \"A5TU35xd4TMYcsFrhQ\") {\n    id\n    title\n    faqs {id title content}\n    faqsCount\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  showFaqCategory(id: \"A5TU35xd4TMYcsFrhQ\") {\n    id\n    title\n    faqs {id title content}\n    faqsCount\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showFaqCategory(id: \\\"A5TU35xd4TMYcsFrhQ\\\") {\\n    id\\n    title\\n    faqs {id title content}\\n    faqsCount\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab13",
+      "name": "Query 13",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "subscription {\n  faqCategoryShowed(id: \"A5TU35xd4TMYcsFrhQ\") {\n    id\n    title\n    faqs {id title content}\n    faqsCount\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n  faqCategoryShowed(id: \\\"A5TU35xd4TMYcsFrhQ\\\") {\\n    id\\n    title\\n    faqs {id title content}\\n    faqsCount\\n  }\\n}\"}]}",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    }
+  ]
+}

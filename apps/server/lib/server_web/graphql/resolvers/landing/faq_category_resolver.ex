@@ -41,6 +41,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Landing.FaqCategoryResolver do
     else
       try do
         struct = Landing.get_faq_category!(id)
+        Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, faq_category_showed: struct.id)
         {:ok, struct}
       rescue
         Ecto.NoResultsError ->
