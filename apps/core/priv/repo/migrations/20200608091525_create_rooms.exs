@@ -6,7 +6,7 @@ defmodule Core.Repo.Migrations.CreateRooms do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
       add :active, :boolean, null: false, default: false
       add :description, :string, null: true
-      add :name, :string, size: 30, null: false
+      add :name, :string, size: 120, null: false
       add :topic, :string, size: 120, null: true
       add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
 

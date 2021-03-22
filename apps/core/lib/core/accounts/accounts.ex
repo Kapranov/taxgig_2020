@@ -67,7 +67,7 @@ defmodule Core.Accounts do
     middle_name: "G.",
     password: "qwerty",
     password_confirmation: "qwerty",
-    phone: "123456789",
+    phone: "555-555-5555",
     provider: "localhost",
     sex: "Male",
     street: "410 Nahua St",
