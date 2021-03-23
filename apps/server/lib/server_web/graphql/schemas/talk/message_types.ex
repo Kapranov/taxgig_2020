@@ -14,14 +14,14 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
 
   @desc "The Message"
   object :message do
-    field :id, non_null(:string)
-    field :body, non_null(:string)
-    field :is_read, non_null(:boolean)
+    field :id, :string
+    field :body, :string
+    field :is_read, :boolean
     field :projects, list_of(:project), resolve: dataloader(Data)
     field :recipient, list_of(:user), resolve: dataloader(Data)
     field :room, list_of(:room), resolve: dataloader(Data)
     field :user, list_of(:user), resolve: dataloader(Data)
-    field :warning, non_null(:boolean)
+    field :warning, :boolean
   end
 
   @desc "The message update via params"
@@ -77,34 +77,27 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
     end
   end
 
-#  object :message_subscriptions do
-#    @desc "Show all the messages via channel"
-#    field :messages_room, list_of(:message) do
-#      arg :room_id, non_null(:string)
+  object :message_subscriptions do
+#    @desc "Show all the messages via channel with roomId"
+#    field :message_room, :message do
+#      arg(:room_id, non_null(:string))
 #      config(fn args, _ ->
 #        {:ok, topic: args.room_id}
 #      end)
-#      trigger(:room_messages,
+#
+#      trigger(:room_message,
 #        topic: fn _ ->
 #          "messages"
 #        end
 #      )
 #    end
-#  end
 
-  object :message_subscriptions do
     @desc "Show all the messages via channel with roomId"
     field :message_room, :message do
       arg(:room_id, non_null(:string))
-      config(fn args, _ ->
+      config fn args, _ ->
         {:ok, topic: args.room_id}
-      end)
-
-      trigger(:room_message,
-        topic: fn _ ->
-          "messages"
-        end
-      )
+      end
     end
 
     @desc "Show the message via channel with id"

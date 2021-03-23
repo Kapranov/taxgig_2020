@@ -34,7 +34,7 @@ defmodule Core.Talk do
       where: msg.room_id == ^room_id,
       order_by: [desc: msg.inserted_at]
 #      select: %{ body: msg.body, user: %{ first_name: user.first_name, middle_name: user.middle_name, last_name: user.last_name } }
-    ) |> Repo.preload(:user)
+    ) |> Repo.preload([:user, :projects])
   end
 
   @doc """
@@ -54,7 +54,7 @@ defmodule Core.Talk do
   @spec get_message!(String.t()) :: Message.t() | error_tuple()
   def get_message!(id) do
     Repo.get!(Message, id)
-    |> Repo.preload([:user])
+    |> Repo.preload([:user, :projects])
   end
 
   @doc """
