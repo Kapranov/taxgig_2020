@@ -78,5 +78,19 @@ defmodule ServerWeb.GraphQL.Schemas.Landing.FaqCategoryTypes do
         end
       )
     end
+
+    @desc "Show the Faq Category via Channel with Id"
+    field :faq_category_showed, :faq_category do
+      arg(:id, non_null(:id))
+      config(fn args, _ ->
+        {:ok, topic: args.id}
+      end)
+
+      trigger(:show_faq_category,
+        topic: fn faq_category ->
+          faq_category.id
+        end
+      )
+    end
   end
 end

@@ -126,7 +126,7 @@ defmodule Core.Accounts.User do
   schema "users" do
     field :active, :boolean
     field :admin, :boolean, default: false, null: false
-    field :avatar, :string
+    field :avatar, :binary
     field :bio, :string
     field :birthday, :date
     field :bus_addr_zip, :string, null: true

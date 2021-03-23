@@ -14,14 +14,14 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
 
   @desc "The Message"
   object :message do
-    field :id, non_null(:string)
-    field :body, non_null(:string)
-    field :is_read, non_null(:boolean)
+    field :id, :string
+    field :body, :string
+    field :is_read, :boolean
     field :projects, list_of(:project), resolve: dataloader(Data)
     field :recipient, list_of(:user), resolve: dataloader(Data)
     field :room, list_of(:room), resolve: dataloader(Data)
     field :user, list_of(:user), resolve: dataloader(Data)
-    field :warning, non_null(:boolean)
+    field :warning, :boolean
   end
 
   @desc "The message update via params"
@@ -36,8 +36,8 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
   end
 
   object :message_queries do
-    @desc "Get all messages"
-    field :messages, list_of(:message) do
+    @desc "Get all messages via roomId"
+    field :room_message, list_of(:message) do
       arg(:room_id, non_null(:string))
       resolve &MessageResolver.list/3
     end
@@ -78,6 +78,43 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
   end
 
   object :message_subscriptions do
+#    @desc "Show all the messages via channel with roomId"
+#    field :message_room, :message do
+#      arg(:room_id, non_null(:string))
+#      config(fn args, _ ->
+#        {:ok, topic: args.room_id}
+#      end)
+#
+#      trigger(:room_message,
+#        topic: fn _ ->
+#          "messages"
+#        end
+#      )
+#    end
+
+    @desc "Show all the messages via channel with roomId"
+    field :message_room, :message do
+      arg(:room_id, non_null(:string))
+      config fn args, _ ->
+        {:ok, topic: args.room_id}
+      end
+    end
+
+    @desc "Show the message via channel with id"
+    field :message_show, :message do
+      arg(:id, non_null(:string))
+
+      config(fn args, _ ->
+        {:ok, topic: args.id}
+      end)
+
+      trigger(:show_message,
+        topic: fn message ->
+          message.id
+        end
+      )
+    end
+
     @desc "Create the message via channel"
     field :message_created, :message do
       config(fn _, _ ->

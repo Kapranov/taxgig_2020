@@ -6,7 +6,7 @@ defmodule Core.Repo.Migrations.CreateUsers do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
       add :active, :boolean
       add :admin, :boolean, default: false, null: false
-      add :avatar, :string
+      add :avatar, :binary
       add :bio, :string
       add :birthday, :date
       add :bus_addr_zip, :string, null: true
