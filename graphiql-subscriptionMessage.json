@@ -29,6 +29,18 @@
   "recentHeaders": [
     {
       "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNVZIRmNiRjBoMUJ2YlIyY2luBgBhikVgeAFiAAFRgA.V1Zum4Tyw5zMHybP-_MNaAz68c6BGKl9cWnJ78bdaL0"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNVZIRmNiRjBoMUJ2YlIyY2luBgC76CJgeAFiAAFRgA.y_5WM8VU705mccdPcMuqOYV9ql5MPnTznWF0aMMF1m8"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNVZIRmNiRjBoMUJ2YlIyY2luBgDt_wFgeAFiAAFRgA.A5xiHfryOF9JxJM-z8dZ11IbN4QG4UeHw9aUL2VFJcU"
+    },
+    {
+      "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBNVRVMm0xOURnSUdsemtPUEluBgCRLq5beAFiAAFRgA.Qu6dousEciP8z5ljMQjDL5g7tqDr1-WU-A0vRnQL-bE"
     },
     {
@@ -90,9 +102,9 @@
       "collapsed": false,
       "maxHistory": 20,
       "history": [],
-      "graphiql:query": "subscription {\n  messageRoom(roomId: \"A5TU2m1rB2rQoC4xVo\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+      "graphiql:query": "subscription {\n  messageRoom(roomId: \"A5VHFcbazNIlwhbKAy\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n  allMessages {\\n    id\\n    warning\\n    recipient {id email role error}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n  messages {\\n    id\\n    warning\\n    recipient {id email role error}\\n  }\\n}\"},{\"query\":\"subscription {\\n  messagesRoom(roomId: \\\"A5TU2HC3p3bTArcAc4\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role}}\\n    recipient {id email role}\\n    room {id name topic active description user {id email role}}\\n    user {id email role error}\\n    warning\\n  }\\n}\"},{\"query\":\"subscription {\\n  messagesRoom(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role}}\\n    recipient {id email role}\\n    room {id name topic active description user {id email role}}\\n    user {id email role error}\\n    warning\\n  }\\n}\"},{\"query\":\"subscription {\\n  messageRoom(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role}}\\n    recipient {id email role}\\n    room {id name topic active description user {id email role}}\\n    user {id email role error}\\n    warning\\n  }\\n}\"},{\"query\":\"subscription {\\n  messageRoom(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"subscription {\\n  messageRoom {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"subscription {\\n  messageRoom(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"}]}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n  allMessages {\\n    id\\n    warning\\n    recipient {id email role error}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n  messages {\\n    id\\n    warning\\n    recipient {id email role error}\\n  }\\n}\"},{\"query\":\"subscription {\\n  messagesRoom(roomId: \\\"A5TU2HC3p3bTArcAc4\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role}}\\n    recipient {id email role}\\n    room {id name topic active description user {id email role}}\\n    user {id email role error}\\n    warning\\n  }\\n}\"},{\"query\":\"subscription {\\n  messagesRoom(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role}}\\n    recipient {id email role}\\n    room {id name topic active description user {id email role}}\\n    user {id email role error}\\n    warning\\n  }\\n}\"},{\"query\":\"subscription {\\n  messageRoom(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role}}\\n    recipient {id email role}\\n    room {id name topic active description user {id email role}}\\n    user {id email role error}\\n    warning\\n  }\\n}\"},{\"query\":\"subscription {\\n  messageRoom(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"subscription {\\n  messageRoom {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"subscription {\\n  messageRoom(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"subscription {\\n  messageRoom(roomId: \\\"A5VHFcbazNIlwhbKAy\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
       "graphiql:editorFlex": 0.7291399229781772
     },
@@ -116,10 +128,10 @@
         }
       ],
       "graphiql:query": "query {\n  signIn(\n    email: \"vlacho777@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+      "graphiql:editorFlex": 0.3801229508196721,
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  roomMessages(roomId: \\\"A5TU2HC3p3bTArcAc4\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"vlacho777@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.3801229508196721
+      "graphiql:variableEditorHeight": 200
     },
     {
       "id": "tab4",
@@ -130,12 +142,16 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBNVRVMm0xOURnSUdsemtPUEluBgCRLq5beAFiAAFRgA.Qu6dousEciP8z5ljMQjDL5g7tqDr1-WU-A0vRnQL-bE"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNVZIRmNiRjBoMUJ2YlIyY2luBgBhikVgeAFiAAFRgA.V1Zum4Tyw5zMHybP-_MNaAz68c6BGKl9cWnJ78bdaL0"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "query {\n  roomMessage(roomId: \"A5VHFcbazNIlwhbKAy\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+          "variables": null
+        },
         {
           "query": "query {\n  roomMessage(roomId: \"A5TU2m1rB2rQoC4xVo\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
           "variables": null
@@ -149,8 +165,8 @@
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  roomMessage(roomId: \"A5TU2m1rB2rQoC4xVo\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  roomMessages(roomId: \\\"A5TU2HC3p3bTArcAc4\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  roomMessages(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"query {\\n  roomMessage(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"query {\\n  roomMessage(roomId: \\\"A5TU2HC3p3bTArcAc4\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"query {\\n  roomMessage(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"}]}",
+      "graphiql:query": "query {\n  roomMessage(roomId: \"A5VHFcbazNIlwhbKAy\") {\n    id\n    body\n    isRead\n    projects {id assigned {id email role error}}\n    recipient {id email role}\n    room {id active description name topic user {id email role}}\n    user {id email role error}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  roomMessages(roomId: \\\"A5TU2HC3p3bTArcAc4\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  roomMessages(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"query {\\n  roomMessage(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"query {\\n  roomMessage(roomId: \\\"A5TU2HC3p3bTArcAc4\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"query {\\n  roomMessage(roomId: \\\"A5TU2m1rB2rQoC4xVo\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"},{\"query\":\"query {\\n  roomMessage(roomId: \\\"A5VHFcbazNIlwhbKAy\\\") {\\n    id\\n    body\\n    isRead\\n    projects {id assigned {id email role error}}\\n    recipient {id email role}\\n    room {id active description name topic user {id email role}}\\n    user {id email role error}\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.7137404580152672,
       "graphiql:docExplorerWidth": 350
