@@ -78,26 +78,18 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
   end
 
   object :message_subscriptions do
-#    @desc "Show all the messages via channel with roomId"
-#    field :message_room, :message do
-#      arg(:room_id, non_null(:string))
-#      config(fn args, _ ->
-#        {:ok, topic: args.room_id}
-#      end)
-#
-#      trigger(:room_message,
-#        topic: fn _ ->
-#          "messages"
-#        end
-#      )
-#    end
-
     @desc "Show all the messages via channel with roomId"
-    field :message_room, :message do
+    field :message_room, list_of(:message) do
       arg(:room_id, non_null(:string))
       config fn args, _ ->
-        {:ok, topic: args.room_id}
+        {:ok, topic: [args.room_id]}
       end
+
+      trigger(:room_message,
+        topic: fn args ->
+          args.room_id
+        end
+      )
     end
 
     @desc "Show the message via channel with id"
