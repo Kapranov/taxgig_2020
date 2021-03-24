@@ -28,6 +28,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
       struct = Queries.by_list(Project, :user_id, current_user.id)
+      Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
       {:ok, struct}
     end
   end
@@ -59,6 +60,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     else
       try do
         struct = Contracts.get_project!(id)
+        Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
         {:ok, struct}
       rescue
         Ecto.NoResultsError ->

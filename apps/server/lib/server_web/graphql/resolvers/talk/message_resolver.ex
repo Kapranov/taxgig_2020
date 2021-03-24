@@ -25,8 +25,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
     if is_nil(current_user) do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct = Talk.list_message(room_id)
-      Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, message_room: room_id)
+      struct = Talk.list_by_room_id(room_id)
+      Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, msg_by_room: room_id)
       {:ok, struct}
     end
   end
@@ -43,6 +43,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
     else
       try do
         struct = Talk.get_message!(id)
+        Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, message_show: id)
         {:ok, struct}
       rescue
         Ecto.NoResultsError ->
@@ -54,6 +55,22 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
   @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def show(_parent, _args, _info) do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
+  end
+
+  @spec search(any, %{project_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def search(_parent, %{project_id: project_id}, %{context: %{current_user: current_user}}) do
+    if is_nil(current_user) do
+      {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
+    else
+      struct = Talk.list_by_project_id(project_id)
+      Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, msg_by_project: project_id)
+      {:ok, struct}
+    end
+  end
+
+  @spec search(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def search(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
   end
 
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()

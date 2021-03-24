@@ -98,6 +98,34 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
   end
 
   object :project_subscriptions do
+    @desc "Show all the projects via channel"
+    field :project_list, list_of(:project) do
+      config fn _, _ ->
+        {:ok, topic: "projects"}
+      end
+
+      trigger(:all_projects,
+        topic: fn _ ->
+          "projects"
+        end
+      )
+    end
+
+    @desc "Show the project via channel with id"
+    field :project_show, :project do
+      arg(:id, non_null(:string))
+
+      config(fn args, _ ->
+        {:ok, topic: args.id}
+      end)
+
+      trigger(:show_project,
+        topic: fn project ->
+          project.id
+        end
+      )
+    end
+
     @desc "Create the project via channel"
     field :project_created, :project do
       config(fn _, _ ->
