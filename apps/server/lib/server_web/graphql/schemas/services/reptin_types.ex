@@ -1,0 +1,45 @@
+defmodule ServerWeb.GraphQL.Schemas.Services.ReptinTypes do
+  @moduledoc """
+  The Reptin GraphQL interface.
+  """
+
+  use Absinthe.Schema.Notation
+
+  alias ServerWeb.GraphQL.Resolvers.Services.ReptinResolver
+
+  @desc "The Reptin of the site"
+  object :reptin do
+    field :id, :string
+    field :bus_addr_zip, :string
+    field :bus_st_code, :string
+    field :error, :string
+    field :first_name, :string
+    field :last_name, :string
+    field :profession, :string
+  end
+
+  object :reptin_queries do
+    @desc "Search a specific a ptin"
+    field :search_reptin, list_of(:reptin) do
+      arg :bus_addr_zip, non_null(:string)
+      arg :first_name, non_null(:string)
+      arg :last_name, non_null(:string)
+      resolve &ReptinResolver.search/3
+    end
+  end
+
+  object :reptin_subscriptions do
+    @desc "Search reptin via Channel"
+    field :reptin_search, list_of(:reptin) do
+      config(fn _, _ ->
+        {:ok, topic: ["reptins"]}
+      end)
+
+      trigger(:search_reptin,
+        topic: fn _ ->
+          "reptins"
+        end
+      )
+    end
+  end
+end

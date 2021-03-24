@@ -36,11 +36,37 @@ defmodule Reptin.Client do
   ## Example:
 
       iex> Reptin.Client.search("33602", "StEvEn", "WaLk")
-      %{bus_addr_zip: "33602", profession: "ATTY,CPA"}
+      [
+        %{
+          bus_addr_zip: "33602",
+          bus_st_code: "FL",
+          first_name: "steven",
+          id: "5f2f4939-1d07-4743-bb57-db6bd13f2805",
+          last_name: "walk",
+          profession: "ATTY,CPA"
+        }
+      ]
       iex> Reptin.Client.search("33155", "GuStAvO", "MaTa")
-      %{bus_addr_zip: "33155", profession: nil}
+      [
+        %{
+          bus_addr_zip: "33155",
+          bus_st_code: "FL",
+          first_name: "gustavo",
+          id: "0a7c367b-0dcd-4db2-8f16-5c26f626d8f4",
+          last_name: "mata"
+        },
+        %{
+          bus_addr_zip: "33155",
+          bus_st_code: "FL",
+          first_name: "gustavo",
+          id: "00030d9e-54bf-4b46-a013-37f4646969cc",
+          last_name: "mata"
+        }
+      ]
       iex> Reptin.Client.search("33602", "TEST", "tEsT")
-      %{bus_addr_zip: nil, profession: "no found record"}
+      [%{bus_addr_zip: nil, profession: "no found record"}]
+      iex> Reptin.Client.search("33602")
+
 
   """
   @spec search(String.t(), String.t(), String.t()) :: %{bus_addr_zip: integer, error: nil, profession: String.t() | nil}
@@ -52,60 +78,51 @@ defmodule Reptin.Client do
 
     case q do
       %RethinkDB.Collection{data: [], profile: nil} ->
-        %{bus_addr_zip: nil, profession: "no found record"}
+        [%{bus_addr_zip: nil, profession: "no found record"}]
       %RethinkDB.Feed{
-        data: [
-          %{
-             "bus_addr_zip" => bus_addr_zip,
-             "bus_st_code" => _bus_st_code,
-             "first_name" => _first_name,
-             "last_name" => _last_name,
-             "profession" => profession,
-             "id" => _id
-          }
-        ],
+        data: data,
         note: [],
         pid: Reptin.Database,
         profile: nil,
         token: _token
-      } ->
-        [%{
-          bus_addr_zip: bus_addr_zip,
-          error: nil,
-          profession: profession
-        }]
-      %RethinkDB.Feed{
-        data: [
-          %{
-             "bus_addr_zip" => bus_addr_zip,
-             "bus_st_code" => _bus_st_code,
-             "first_name" => _first_name,
-             "last_name" => _last_name,
-             "id" => _id
-          }
-        ],
-        note: [],
-        pid: Reptin.Database,
-        profile: nil,
-        token: _token
-      } ->
-        [%{
-          bus_addr_zip: bus_addr_zip,
-          error: nil,
-          profession: nil
-        }]
+      } -> transfer(data)
     end
   end
 
-  @spec search(any(), any(), any()) :: %{error: String.t()}
-  def search(_, _, _), do: %{error: "format is not correct"}
+  @spec search(any(), any(), any()) :: [%{error: String.t()}]
+  def search(_, _, _), do: [%{error: "format is not correct"}]
 
-  @spec search(any(), any()) :: %{error: String.t()}
-  def search(_, _), do: %{error: "format is not correct"}
+  @spec search(any(), any()) :: [%{error: String.t()}]
+  def search(_, _), do: [%{error: "format is not correct"}]
 
-  @spec search(any()) :: %{error: String.t()}
-  def search(_), do: %{error: "format is not correct"}
+  @spec search(any()) :: [%{error: String.t()}]
+  def search(_), do: [%{error: "format is not correct"}]
 
-  @spec search() :: %{error: String.t()}
-  def search, do: %{error: "format is not correct"}
+  @spec search() :: [%{error: String.t()}]
+  def search, do: [%{error: "format is not correct"}]
+
+  @spec transfer([%{String.t() => String.t()}]) :: [map]
+  def transfer(data) do
+    data
+    |> Enum.map(&(Reptin.Client.atomize_keys(&1)))
+  end
+
+  @doc """
+  Convert map string keys to :atom keys
+  """
+  def atomize_keys(nil), do: nil
+  def atomize_keys(struct = %{__struct__: _}) do
+    struct
+  end
+  def atomize_keys(map = %{}) do
+    map
+    |> Enum.map(fn {k, v} -> {String.to_atom(k), atomize_keys(v)} end)
+    |> Enum.into(%{})
+  end
+
+  def atomize_keys([head | rest]) do
+    [atomize_keys(head) | atomize_keys(rest)]
+  end
+
+  def atomize_keys(not_a_map), do: not_a_map
 end
