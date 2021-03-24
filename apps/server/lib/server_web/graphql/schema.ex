@@ -307,6 +307,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:press_article_subscriptions)
     import_fields(:pro_doc_subscriptions)
     import_fields(:pro_rating_subscriptions)
+    import_fields(:project_subscriptions)
     import_fields(:ptin_subscriptions)
     import_fields(:report_subscriptions)
     import_fields(:room_subscriptions)

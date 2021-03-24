@@ -37,9 +37,15 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
 
   object :message_queries do
     @desc "Get all messages via roomId"
-    field :room_message, list_of(:message) do
+    field :show_room_by_msg, list_of(:message) do
       arg(:room_id, non_null(:string))
       resolve &MessageResolver.list/3
+    end
+
+    @desc "Get all messages via projectId"
+    field :show_project_by_msg, list_of(:message) do
+      arg(:project_id, non_null(:string))
+      resolve &MessageResolver.search/3
     end
 
     @desc "Get a specific message"
@@ -79,13 +85,27 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
 
   object :message_subscriptions do
     @desc "Show all the messages via channel with roomId"
-    field :message_room, list_of(:message) do
+    field :msg_by_room, list_of(:message) do
       arg(:room_id, non_null(:string))
       config fn args, _ ->
         {:ok, topic: [args.room_id]}
       end
 
-      trigger(:room_message,
+      trigger(:show_room_by_msg,
+        topic: fn args ->
+          args.room_id
+        end
+      )
+    end
+
+    @desc "Show all the messages via channel with projectId"
+    field :msg_by_project, list_of(:message) do
+      arg(:project_id, non_null(:string))
+      config fn args, _ ->
+        {:ok, topic: [args.room_id]}
+      end
+
+      trigger(:show_project_by_msg,
         topic: fn args ->
           args.room_id
         end

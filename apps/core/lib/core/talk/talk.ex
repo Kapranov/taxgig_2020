@@ -13,27 +13,50 @@ defmodule Core.Talk do
   }
 
   @doc """
-  Gets the list of messages.
+  Gets the list of messages by roomId.
 
   Raises `Ecto.NoResultsError` if the Message does not exist.
 
   ## Examples
 
-      iex> list_messages(123)
+      iex> list_by_room_id(123)
       %Message{}
 
-      iex> list_messages(456)
+      iex> list_by_room_id(456)
       ** (Ecto.NoResultsError)
 
   """
-  @spec list_message(String.t()) :: Message.t() | error_tuple()
-  def list_message(room_id) do
+  @spec list_by_room_id(String.t()) :: Message.t() | error_tuple()
+  def list_by_room_id(room_id) do
     Repo.all(
       from msg in Message,
       join: user in assoc(msg, :user),
       where: msg.room_id == ^room_id,
       order_by: [desc: msg.inserted_at]
-#      select: %{ body: msg.body, user: %{ first_name: user.first_name, middle_name: user.middle_name, last_name: user.last_name } }
+    ) |> Repo.preload([:user, :projects])
+  end
+
+  @doc """
+  Gets the list of messages by projectId.
+
+  Raises `Ecto.NoResultsError` if the Message does not exist.
+
+  ## Examples
+
+      iex> list_by_project_id(123)
+      %Message{}
+
+      iex> list_by_project_id(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec list_by_project_id(String.t()) :: Message.t() | error_tuple()
+  def list_by_project_id(project_id) do
+    Repo.all(
+      from msg in Message,
+      join: user in assoc(msg, :user),
+      where: msg.project_id == ^project_id,
+      order_by: [desc: msg.inserted_at]
     ) |> Repo.preload([:user, :projects])
   end
 

@@ -29,7 +29,7 @@ defmodule ServerWeb.RoomChannel do
 
   def join("rooms:" <> room_id, _params, socket) do
     send(self(), :after_join)
-    {:ok, %{messages: Talk.list_message(room_id)}, assign(socket, :room_id, room_id)}
+    {:ok, %{messages: Talk.list_by_room_id(room_id)}, assign(socket, :room_id, room_id)}
   end
 
   def handle_in("index", _payload, socket) do
@@ -139,7 +139,7 @@ defmodule ServerWeb.RoomChannel do
           nil ->
             {:reply, {:error, ErrorView.render("404.json")}, socket}
           room ->
-            messages = Talk.list_message(room.id)
+            messages = Talk.list_by_room_id(room.id)
             response = MessageView.render("index.json", messages: messages)
             broadcast socket, "index", response
             {:reply, {:ok, response}, socket}
