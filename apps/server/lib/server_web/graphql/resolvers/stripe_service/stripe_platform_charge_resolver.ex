@@ -84,7 +84,6 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
-
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
     if is_nil(args[:amount]) ||
@@ -121,45 +120,6 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
 
   @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def create(_parent, _args, _info) do
-    {:error, "Unauthenticated"}
-  end
-
-  @spec create_by_fee(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
-  def create_by_fee(_parent, args, %{context: %{current_user: current_user}}) do
-    if is_nil(args[:amount]) ||
-       is_nil(args[:capture]) ||
-       is_nil(args[:currency]) ||
-       is_nil(args[:description]) ||
-       is_nil(args[:id_from_card])
-    do
-      {:error, [[field: :stripe_charge, message: "Can't be blank"]]}
-    else
-      case Accounts.by_role(current_user.id) do
-        true -> {:error, :not_found}
-        false ->
-          with customer <- StripyRepo.get_by(StripeCustomer, %{user_id: current_user.id}),
-                {:ok, struct} <- StripePlatformChargeService.create(%{
-                  amount: elem(Float.ratio(Decimal.to_float(args[:amount]) * 100), 0),
-                  capture: args[:capture],
-                  currency: args[:currency],
-                  customer: customer.id_from_stripe,
-                  source: args[:id_from_card],
-                  description: args[:description],
-                },
-                %{"user_id" => current_user.id, "id_from_card" => args[:id_from_card]}
-               )
-          do
-            {:ok, struct}
-          else
-            nil -> {:error, :not_found}
-            failure -> failure
-          end
-      end
-    end
-  end
-
-  @spec create_by_fee(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
-  def create_by_fee(_parent, _args, _info) do
     {:error, "Unauthenticated"}
   end
 
