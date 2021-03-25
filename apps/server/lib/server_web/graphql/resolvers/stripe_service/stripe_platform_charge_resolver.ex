@@ -139,7 +139,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
         false ->
           with customer <- StripyRepo.get_by(StripeCustomer, %{user_id: current_user.id}),
                 {:ok, struct} <- StripePlatformChargeService.create(%{
-                  amount: args[:amount],
+                  amount: elem(Float.ratio(Decimal.to_float(args[:amount]) * 100), 0),
                   capture: args[:capture],
                   currency: args[:currency],
                   customer: customer.id_from_stripe,
