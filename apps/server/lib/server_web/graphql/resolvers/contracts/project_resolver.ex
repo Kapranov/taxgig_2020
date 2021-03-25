@@ -27,7 +27,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     if is_nil(current_user) || current_user.role == true do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct = Queries.by_list(Project, :user_id, current_user.id)
+      struct =
+        Queries.by_list(Project, :user_id, current_user.id)
+        |> Repo.preload([:tp_docs, :pro_docs])
       Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
       {:ok, struct}
     end
@@ -43,7 +45,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     if is_nil(current_user) || current_user.role == false do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct = Queries.by_list(Project, :assigned_id, current_user.id)
+      struct =
+        Queries.by_list(Project, :assigned_id, current_user.id)
+        |> Repo.preload([:tp_docs, :pro_docs])
       {:ok, struct}
     end
   end
