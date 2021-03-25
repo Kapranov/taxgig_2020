@@ -30,6 +30,27 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     field :service_review, :service_review, resolve: dataloader(Data)
     field :status, non_null(:string)
     field :users, :user, resolve: dataloader(Data)
+    field :tp_docs, list_of(:doc_for_tp), resolve: dataloader(Data)
+    field :pro_docs, list_of(:doc_for_pro), resolve: dataloader(Data)
+  end
+
+  object :doc_for_tp do
+    field :id, :string
+    field :access_granted, :boolean
+    field :category, :string
+    field :file, :picture, description: "An upload's file"
+    field :projects, :project, resolve: dataloader(Data)
+    field :signed_by_tp, :boolean
+  end
+
+  object :doc_for_pro do
+    field :id, :string
+    field :category, :string
+    field :file, :picture, description: "An upload's file"
+    field :projects, :project, resolve: dataloader(Data)
+    field :signature, :boolean
+    field :signed_by_pro, :boolean
+    field :users, :user, resolve: dataloader(Data)
   end
 
   @desc "The project update via params"
