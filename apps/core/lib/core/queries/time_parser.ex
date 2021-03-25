@@ -32,6 +32,80 @@ defmodule Core.Queries.TimeParser do
     |> to_seconds
   end
 
+  @doc """
+  All dates between the two (Elixir) Dates
+
+  ## Example:
+
+      iex> days_between(~D{2017-02-20}, ~D{2017-02-20})
+      [~D{2017-02-20}]
+      iex> days_between(~D{2017-02-19}, ~D{2017-02-21})
+      [~D{2017-02-19}, ~D{2017-02-20}, ~D{2017-02-21}]
+      iex> days_between(~D{2017-02-21}, ~D{2017-02-19})
+      [~D{2017-02-21}, ~D{2017-02-20}, ~D{2017-02-19}]
+      iex> weekdays_between(~D{2017-02-17}, ~D{2017-02-20})
+      [~D{2017-02-17}, ~D{2017-02-20}]
+      iex> weekdays_between(~D{2017-02-18}, ~D{2017-02-19})
+      []
+
+  """
+  @spec days_between(Calendar.date, Calendar.date) :: [Calendar.date]
+  def days_between(date1, date2) do
+    days_between(date1, date2, fn(_) -> true end)
+  end
+
+  @doc """
+  All dates between the two (Elixir) Dates, ignoring Saturdays and Sundays
+  """
+  @spec weekdays_between(Calendar.date, Calendar.date) :: [Calendar.date]
+  def weekdays_between(date1, date2) do
+    days_between(date1, date2, &gregorian_weekday?/1)
+  end
+
+  @doc """
+  DateTime to tuple
+
+  ## Example:
+
+      iex> utc_now(:tuple)
+      {{2021, 3, 25}, {15, 22, 26}}
+
+  """
+  def utc_now(:tuple) do
+    dt = DateTime.utc_now()
+    y = dt.year
+    m = dt.month
+    d = dt.day
+    ho = dt.hour
+    mi = dt.minute
+    se = dt.second
+    {{y,m,d}, {ho,mi,se}}
+  end
+
+  def date({date, _time}) do
+    date |> quasi_iso_format
+  end
+
+  def short_date({date, _time}) do
+    date
+    |> quasi_iso_format
+    |> IO.iodata_to_binary
+  end
+
+  def amz_date({date, time}) do
+    date = date |> quasi_iso_format
+    time = time |> quasi_iso_format
+
+    [date, "T", time, "Z"]
+    |> IO.iodata_to_binary
+  end
+
+  def quasi_iso_format({y, m, d}) do
+    [y, m, d]
+    |> Enum.map(&Integer.to_string/1)
+    |> Enum.map(&zero_pad/1)
+  end
+
   @spec to_seconds({integer, String.t()}) :: {:ok, integer}
   defp to_seconds({seconds, name}) when name in @second_names do
     {:ok, seconds}
@@ -59,4 +133,34 @@ defmodule Core.Queries.TimeParser do
 
   @spec to_seconds(any) :: {:error, atom}
   defp to_seconds(_), do: {:error, :parse_error}
+
+  defp days_between(date1, date2, filter) do
+    for g <- (elixir_to_gregorian_days(date1)..elixir_to_gregorian_days(date2)), filter.(g), do:  gregorian_days_to_elixir_date(g)
+  end
+
+  defp elixir_to_gregorian_days(elixir_date) do
+    elixir_date
+    |> Date.to_erl
+    |> :calendar.date_to_gregorian_days
+  end
+
+  defp gregorian_days_to_elixir_date(gregorian_day) do
+    gregorian_day
+    |> :calendar.gregorian_days_to_date
+    |> Date.from_erl!
+  end
+
+  defp gregorian_weekday?(gregorian_day) do
+    gregorian_day
+    |> :calendar.gregorian_days_to_date
+    |> :calendar.day_of_the_week
+    |> case do
+      6 -> false
+      7 -> false
+      _ -> true
+    end
+  end
+
+  defp zero_pad(<<_>> = val), do: "0" <> val
+  defp zero_pad(val), do: val
 end
