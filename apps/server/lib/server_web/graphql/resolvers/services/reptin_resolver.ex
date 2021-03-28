@@ -3,13 +3,18 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.ReptinResolver do
   The Reptin GraphQL resolvers.
   """
 
-  alias Reptin.Client
+  alias Reptin.{
+    Client,
+    Downloads
+  }
 
   @type t :: map()
   @type reason :: any
   @type success_tuple :: {:ok, t}
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
+
+  @base_dir Application.get_env(:reptin, :base_data)
 
   @search_fields ~w(
     bus_addr_zip
@@ -33,6 +38,59 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.ReptinResolver do
         end
       _ ->
         {:ok, %{error: "Some fields havn't been filled"}}
+    end
+  end
+
+  @base_dir Application.get_env(:ptin, :base_data)
+
+  @doc """
+  Download, unpack zip, convert csv to json and insert into RethinkDB in during 118 seconds.
+  """
+  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
+  def create(_root, args, _info) do
+    case Map.keys(args) do
+      [:expired, :url] ->
+        args
+        |> Downloads.create()
+        |> case do
+          {:ok, data} ->
+            {:ok, Map.merge(data, %{path: @base_dir})}
+          {:error, msg} ->
+            {:ok, %{error: msg, path: @base_dir}}
+        end
+      _ ->
+        {:ok, %{error: "An expired and url hasn't been filled"}}
+    end
+  end
+
+  @doc """
+  Drop database without args.
+  """
+  @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
+  def delete(_root, _args, _info) do
+    Downloads.delete()
+    |> case do
+      {:ok, msg} ->
+        {:ok, msg}
+    end
+  end
+
+  @doc """
+  Destroy directory with timestamp in `apps/reptin/priv/data`.
+  """
+  @spec delete_dir(any, %{date: :datetime}, Absinthe.Resolution.t()) :: result()
+  def delete_dir(_root, args, _info) do
+    case Map.keys(args) do
+      [:date] ->
+        args
+        |> Map.get(:date)
+        |> Downloads.remove_repo()
+        |> case do
+          {:ok, dir} ->
+            {:ok, %{path: dir}}
+          {:error, msg} ->
+            {:ok, %{error: msg}}
+        end
     end
   end
 end

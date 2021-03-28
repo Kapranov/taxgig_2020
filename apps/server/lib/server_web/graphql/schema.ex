@@ -208,6 +208,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:project_mutations)
     import_fields(:ptin_mutations)
     import_fields(:report_mutations)
+    import_fields(:reptin_mutations)
     import_fields(:room_mutations)
     import_fields(:sale_tax_frequency_mutations)
     import_fields(:sale_tax_industry_mutations)

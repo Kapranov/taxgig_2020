@@ -23,7 +23,7 @@ iex> table_create("ptins") |> Reptin.Database.run
 iex> table_query = table("expires")
 iex> q = insert(table_query, %{expired: "Updated February 20, 2021", url: "https://www.irs.gov/pub/irs-utl/FOIA_Hawaii_extract.csv"})
 iex> Reptin.Database.run(q)
-iex> rethinkdb-import -c taxgig.com:28015 -f foia_extract.csv --force --format csv --table ptin.ptins --fields last_name,first_name,bus_st_code,bus_addr_zip,profession
+bash> rethinkdb-import -c taxgig.com:28015 -f foia_extract.csv --force --format csv --table ptin.ptins --fields last_name,first_name,bus_st_code,bus_addr_zip,profession
 iex> table("ptins") |> count |> Reptin.Database.run
 %RethinkDB.Record{data: 672649, profile: nil}
 iex> table("ptins") |> filter(%{"bus_addr_zip": "33602", "first_name": "steven", last_name: "walk"}) |> Reptin.Database.run
@@ -84,6 +84,25 @@ console> r.db("ptin").table("ptins").replace(function (row) {return row.without(
 console> r.db("ptin").table("ptins").replace(function (row) {return row.without('PROFESSION').merge({'profession': row('PROFESSION')})})
 console> r.db("ptin").table("ptins").update({LAST_NAME: r.row('LAST_NAME').downcase()}, {returnChanges: true})
 console> r.db("ptin").table("ptins").update({First_NAME: r.row('First_NAME').downcase()}, {returnChanges: true})
+          # old_file = path <> "/" <> name_csv
+          # new_file = path <> "/" <> "new_" <> name_csv
+          # System.cmd("/bin/sh", ["-c", "cat #{old_file} | awk 'NR==1{\$0=tolower(\$0)} 1' > #{new_file}"])
+          # [] = :os.cmd(:"cat #{old_file} | awk 'NR==1{$0=tolower($0)} 1' > #{new_file}")
+          # [] = :os.cmd(:"cat #{old_file} | awk -F"," 'BEGIN{OFS=","} {$1 = tolower($1); $2 = tolower($2); print}' > #{new_file}")
+          #
+          # [] = :os.cmd(:"#{exec1} #{old_file} #{new_file}")
+          # [] = :os.cmd(:"#{exec2} #{new_file}")
+          #
+          # bin_dir = Application.get_env(:reptin, :bin_dir)
+          # exec1 = bin_dir <> "/" <> "format.sh"
+          # {"", 0} = System.cmd("#{exec1}", ["#{old_file}", "#{new_file}"])
+          # [] = :os.cmd(:"#{exec1} #{old_file} #{new_file}")
+          # exec2 = bin_dir <> "/" <> "import.sh"
+          # {"", 0} = System.cmd("#{exec2}", ["#{new_file}"])
+          # [] = :os.cmd(:"#{exec2} #{new_file}")
+          # cat foia_extract.csv | awk 'NR==1{$0=tolower($0)} 1' | awk -F"," 'BEGIN{OFS=","} {$1 = tolower($1); $2 = tolower($2); print}' > new_foia_extract.csv
+          # awk --field-separator ',' 'BEGIN{OFS=","} {$1 = tolower($1); $2 = tolower($2); print}' foia_extract.csv > new_foia_extract.csv
+          # awk --field-separator , 'BEGIN{OFS=","} {$1 = tolower($1); $2 = tolower($2); print}' foia_extract.csv > new_foia_extract.csv
 ```
 
 #### 5 March 2021 by Oleg G.Kapranov

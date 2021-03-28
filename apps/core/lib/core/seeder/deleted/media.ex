@@ -8,9 +8,9 @@ defmodule Core.Seeder.Deleted.Media do
 
   @spec start!() :: Ecto.Schema.t()
   def start! do
-    # deleted_picture()
-    # deleted_pro_doc()
-    # deleted_tp_doc()
+    deleted_picture()
+    deleted_pro_doc()
+    deleted_tp_doc()
   end
 
   @spec deleted_picture() :: Ecto.Schema.t()

@@ -1,4 +1,4 @@
-defmodule Reptin.Services.Downloads do
+defmodule Reptin.Services.Services do
   @moduledoc """
   Utility module to ingest `foia_extract.zip`
   `https://www.irs.gov/pub/irs-utl/FOIA_Extract.zip`
@@ -57,7 +57,7 @@ defmodule Reptin.Services.Downloads do
 
 #  def create_destination(attrs \\ %{}) do
 #    %Destination{}
-#    |> Destination.changeset(attrs)
+#    |> destination.changeset(attrs)
 #    |> Repo.insert()
 #  end
 
