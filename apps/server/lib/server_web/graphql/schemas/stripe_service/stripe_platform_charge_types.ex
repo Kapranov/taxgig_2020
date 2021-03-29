@@ -98,7 +98,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformChargeTypes do
       arg :currency, non_null(:string)
       arg :description, non_null(:string)
       arg :id_from_card, non_null(:string)
-      resolve &StripePlatformChargeResolver.create_by_fee/3
+      resolve &StripePlatformChargeResolver.create/3
     end
 
     @desc "Create the StripePlatformCharge by InTransition"

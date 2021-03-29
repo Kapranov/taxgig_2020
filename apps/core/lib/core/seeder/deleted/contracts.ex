@@ -8,11 +8,11 @@ defmodule Core.Seeder.Deleted.Contracts do
 
   @spec start!() :: Ecto.Schema.t()
   def start! do
-    # deleted_addon()
-    # deleted_offer()
-    # deleted_potential_client()
-    # deleted_service_review()
-    # deleted_project()
+    deleted_addon()
+    deleted_offer()
+    deleted_potential_client()
+    deleted_service_review()
+    deleted_project()
   end
 
   @spec deleted_addon() :: Ecto.Schema.t()

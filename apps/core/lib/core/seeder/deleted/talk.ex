@@ -8,9 +8,9 @@ defmodule Core.Seeder.Deleted.Talk do
 
   @spec start!() :: Ecto.Schema.t()
   def start! do
-    # deleted_message()
-    # deleted_report()
-    # deleted_room()
+    deleted_message()
+    deleted_report()
+    deleted_room()
   end
 
   @spec deleted_message() :: Ecto.Schema.t()

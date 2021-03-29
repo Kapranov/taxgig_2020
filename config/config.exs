@@ -61,6 +61,10 @@ config :ptin,
   expired_after: 24 * 60 * 60 * 1000,
   clean_interval: 30 * 60 * 1000
 
+config :reptin,
+  base_data: "apps/reptin/priv/data",
+  bin_dir: "apps/reptin/bin"
+
 config :money, default_currency: :USD
 
 import_config "#{Mix.env()}.exs"
