@@ -52,6 +52,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.ReptinResolver do
         |> Downloads.create()
         |> case do
           {:ok, data} ->
+            # Process.sleep(160_000)
             {:ok, Map.merge(data, %{path: @base_dir})}
           {:error, msg} ->
             {:ok, %{error: msg, path: @base_dir}}

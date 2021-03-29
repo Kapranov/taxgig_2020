@@ -2,6 +2,7 @@ use Mix.Config
 
 config :server, ServerWeb.Endpoint,
   url: [host: "taxgig.me", port: 4001, ip: {127, 0, 0, 1}],
+  http: [ port: 4001, protocol_options: [idle_timeout: 160_000]],
   salt: "user",
   aad: "AES256GCM",
   redirect_uri: "https://taxgig.me:4001/graphiql",

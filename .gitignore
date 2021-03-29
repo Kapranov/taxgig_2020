@@ -5,6 +5,8 @@
 /doc/.build
 
 apps/ptin/priv/data/*
+apps/reptin/priv/data/*
+apps/reptin/src/*
 
 /config/*.secret.exs
 
