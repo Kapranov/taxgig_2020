@@ -122,8 +122,10 @@ defmodule Reptin.Downloads do
       {:error, msg} ->
         {:error, msg}
       _ ->
-        [ok: data] = get_zip!(path)
-        {:ok, data}
+        case get_zip!(path) do
+          [ok: data] -> {:ok, data}
+          [error: msg] -> {:error, msg}
+        end
     end
   end
 
@@ -141,16 +143,21 @@ defmodule Reptin.Downloads do
         ]
       }
       iex> remove_repo("2020-3-28")
-      {:error, [message: "Directory apps/reptin/priv/data/2021-3-26 doesn't exist!"]}
+      {:error, "Directory apps/reptin/priv/data/2021-3-26 doesn't exist!"}
 
   """
   @spec remove_repo(bitstring()) :: result()
   def remove_repo(path) when is_bitstring(path) do
     data = Path.join(base_data(), path)
     if File.exists?(data) do
-      File.rm_rf(data)
+      case File.rm_rf!(data) do
+        [dir, new, zip, csv] ->
+          {:ok, %{dir: dir, new: new, zip: zip, csv: csv}}
+        [dir] ->
+          {:ok, %{dir: dir, path: data}}
+      end
     else
-      {:error, message: "Directory #{data} doesn't exist!"}
+      {:error, "Directory #{data} doesn't exist!"}
     end
   end
 
@@ -163,13 +170,13 @@ defmodule Reptin.Downloads do
   ## Example:
 
       iex> remove_file("2020-3-28", "foia_extract.csv")
-      {:ok, [message: "File has been deleted!"]}
+      {:ok, "File has been deleted!"}
       iex> remove_file("2020-3-28", "foia_extract.csv")
-      {:error, [message: "File doesn't exist!"]}
+      {:error, "File doesn't exist!"}
       iex> Reptin.Downloads.remove_file("2021-3-27", "foia_extract.csv")
-      {:error, [message: "Directory apps/reptin/priv/data/2021-3-27 or file doesn't exist!"]}
+      {:error, "Directory apps/reptin/priv/data/2021-3-27 or file doesn't exist!"}
       iex> Reptin.Downloads.remove_file("2021-3-26", "foia_extractt.csv")
-      {:error, [message: "File doesn't exist!"]}
+      {:error, "File doesn't exist!"}
 
   """
   @spec remove_file(bitstring(), bitstring()) :: result()
@@ -178,12 +185,12 @@ defmodule Reptin.Downloads do
     if File.exists?(data) do
       case File.rm(Path.join(data, file)) do
         {:error, _} ->
-          {:error, message: "File doesn't exist!"}
+          {:error, "File doesn't exist!"}
         _->
-          {:ok, message: "File has been deleted!"}
+          {:ok, "File has been deleted!"}
       end
     else
-      {:error, message: "Directory #{data} or file doesn't exist!"}
+      {:error, "Directory #{data} or file doesn't exist!"}
     end
   end
 
@@ -243,7 +250,7 @@ defmodule Reptin.Downloads do
     time = storage_data()
 
     if File.exists?(data) do
-      {:error, message: "Directory #{data} has been exist!"}
+      {:error, "Directory #{data} has been exist!"}
     else
       File.mkdir!("#{path}/#{time}")
     end
@@ -283,7 +290,7 @@ defmodule Reptin.Downloads do
           [dir, new, zip, csv] = File.rm_rf!(full_path(path))
           {:ok, %{dir: dir, new: new, zip: zip, csv: csv}}
         {:error, error} ->
-          {:error, error}
+          {:ok, %{error: error}}
       end
     end
   end
@@ -296,7 +303,7 @@ defmodule Reptin.Downloads do
         %HTTPoison.Response{body: file} = HTTPoison.get!(url)
         {:ok, file}
       _ ->
-        {:error, message: "HTTP url doesn't correct"}
+        {:error, "HTTP url doesn't correct"}
     end
   end
 

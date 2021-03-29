@@ -41,8 +41,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.ReptinResolver do
     end
   end
 
-  @base_dir Application.get_env(:ptin, :base_data)
-
   @doc """
   Download, unpack zip, convert csv to json and insert into RethinkDB in during 118 seconds.
   """
@@ -87,7 +85,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.ReptinResolver do
         |> Downloads.remove_repo()
         |> case do
           {:ok, dir} ->
-            {:ok, %{path: dir}}
+            {:ok, Map.merge(dir, %{path: @base_dir})}
           {:error, msg} ->
             {:ok, %{error: msg}}
         end

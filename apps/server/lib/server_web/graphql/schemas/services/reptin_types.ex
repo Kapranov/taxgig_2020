@@ -19,17 +19,17 @@ defmodule ServerWeb.GraphQL.Schemas.Services.ReptinTypes do
   end
 
   object :reptin_timestamp do
-    field :path, :string
     field :csv, :string
     field :dir, :string
-    field :new, :string
-    field :zip, :string
     field :error, :string
+    field :new, :string
+    field :path, :string
+    field :zip, :string
   end
 
   object :reptin_directory do
-    field :reptin, :string
     field :error, :string
+    field :reptin, :string
   end
 
   object :reptin_queries do
