@@ -297,6 +297,8 @@ defmodule Core.Seeder.Accounts do
       Accounts.create_user(%{
         admin: true,
         email: "lugatex@yahoo.com",
+        first_name: "Oleg",
+        last_name: "Kapranov",
         password: "qwerty",
         password_confirmation: "qwerty",
         phone: "555-555-5511",
@@ -304,36 +306,48 @@ defmodule Core.Seeder.Accounts do
       }),
       Accounts.create_user(%{
         email: "kapranov.lugatex@gmail.com",
+        first_name: "Oleg",
+        last_name: "G.Kapranov",
         password: "qwerty",
         password_confirmation: "qwerty",
         phone: "555-555-5512"
       }),
       Accounts.create_user(%{
         email: "kapranov.pure@gmail.com",
+        first_name: "Oleg",
+        last_name: "Kaplanov",
         password: "nES0p04pVklw",
         password_confirmation: "nES0p04pVklw",
         phone: "555-555-5513"
       }),
       Accounts.create_user(%{
         email: "v.kobzan@gmail.com",
+        first_name: "Vlad",
+        last_name: "Kobzan",
         password: "qwerty",
         password_confirmation: "qwerty",
         phone: "555-555-5514"
       }),
       Accounts.create_user(%{
         email: "o.puryshev@gmail.com",
+        first_name: "Oleh",
+        last_name: "Puryshev",
         password: "qwerty",
         password_confirmation: "qwerty",
         phone: "555-555-5515"
       }),
       Accounts.create_user(%{
         email: "vlacho777@gmail.com",
+        first_name: "VVV",
+        last_name: "vlacho",
         password: "qwerty",
         password_confirmation: "qwerty",
         phone: "555-555-5516"
       }),
       Accounts.create_user(%{
         email: "support@taxgig.com",
+        first_name: "Joe",
+        last_name: "Sleepy",
         password: "qwerty",
         password_confirmation: "qwerty",
         phone: "555-555-5517",
@@ -341,6 +355,8 @@ defmodule Core.Seeder.Accounts do
       }),
       Accounts.create_user(%{
         email: "op@taxgig.com",
+        first_name: "Op",
+        last_name: "Creepy",
         password: "qwerty",
         password_confirmation: "qwerty",
         phone: "555-555-5518",
@@ -348,6 +364,8 @@ defmodule Core.Seeder.Accounts do
       }),
       Accounts.create_user(%{
         email: "vk@taxgig.com",
+        first_name: "Vk",
+        last_name: "Lazy",
         password: "qwerty",
         password_confirmation: "qwerty",
         phone: "555-555-5519",

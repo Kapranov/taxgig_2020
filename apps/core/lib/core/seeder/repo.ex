@@ -20,36 +20,36 @@ defmodule Core.Seeder.Repo do
   @spec seed!() :: :ok
   def seed! do
     Localization.seed!()
-    # Accounts.seed!()
+    Accounts.seed!()
     Landing.seed!()
     Lookup.seed!()
-    # Services.seed!()
-    # Contracts.seed!()
-    # Skills.seed!()
-    # Media.seed!()
-    # Talk.seed!()
+    Services.seed!()
+    Contracts.seed!()
+    Skills.seed!()
+    Media.seed!()
+    Talk.seed!()
     :ok
   end
 
   @spec updated!() :: :ok
   def updated! do
-#    Updated.Accounts.start!()
+    Updated.Accounts.start!()
     Updated.Landing.start!()
     Updated.Localization.start!()
     Updated.Lookup.start!()
-#    Updated.Services.start!()
-#    Updated.Contracts.start!()
-#    Updated.Media.start!()
-#    Updated.Talk.start!()
+    Updated.Services.start!()
+    Updated.Contracts.start!()
+    Updated.Media.start!()
+    Updated.Talk.start!()
     :ok
   end
 
   @spec deleted!() :: :ok
   def deleted! do
-#    Deleted.Accounts.start!()
-#    Deleted.Contracts.start!()
-#    Deleted.Media.start!()
-#    Deleted.Talk.start!()
+    Deleted.Accounts.start!()
+    Deleted.Contracts.start!()
+    Deleted.Media.start!()
+    Deleted.Talk.start!()
     :ok
   end
 end
