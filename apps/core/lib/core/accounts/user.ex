@@ -48,7 +48,7 @@ defmodule Core.Accounts.User do
     first_name: String.t(),
     individual_tax_returns: [IndividualTaxReturn.t()],
     init_setup: boolean,
-    is_2fa: boolean,
+    is2fa: boolean,
     languages: [Language.t()],
     last_name: String.t(),
     messages: [Message.t()],
@@ -96,7 +96,7 @@ defmodule Core.Accounts.User do
     finished_project_count
     first_name
     init_setup
-    is_2fa
+    is2fa
     last_name
     middle_name
     on_going_project_count
@@ -114,44 +114,44 @@ defmodule Core.Accounts.User do
   )a
 
   @required_params ~w(
-    admin
     email
-    is_2fa
+    first_name
+    is2fa
+    last_name
     otp_last
-    phone
     provider
     role
   )a
 
   schema "users" do
-    field :active, :boolean
+    field :active, :boolean, default: false, null: false
     field :admin, :boolean, default: false, null: false
-    field :avatar, :binary
-    field :bio, :string
-    field :birthday, :date
+    field :avatar, :binary, null: true
+    field :bio, :string, null: true
+    field :birthday, :date, null: true
     field :bus_addr_zip, :string, null: true
     field :email, :string, null: false
     field :finished_project_count, :integer, virtual: true
-    field :first_name, :string
-    field :init_setup, :boolean
-    field :is_2fa, :boolean, null: false, default: false
-    field :last_name, :string
-    field :middle_name, :string
+    field :first_name, :string, null: false
+    field :init_setup, :boolean, null: true
+    field :is2fa, :boolean, null: false, default: false
+    field :last_name, :string, null: false
+    field :middle_name, :string, null: true
     field :on_going_project_count, :integer, virtual: true
     field :otp_last, :integer, null: false, default: 0
     field :otp_secret, :string, null: true
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string, default: @pass_salt, null: false
-    field :phone, :string, null: false
+    field :phone, :string, null: true
     field :profession, :string, null: true
     field :provider, :string, default: "localhost", null: false
     field :role, :boolean, default: false, null: false
-    field :sex, :string
-    field :street, :string
+    field :sex, :string, null: true
+    field :street, :string, null: true
     field :token, :string, virtual: true
     field :total_earned, :decimal, virtual: true
-    field :zip, :integer
+    field :zip, :integer, null: true
 
     has_one :accounting_software, AccountingSoftware, on_delete: :delete_all
     has_one :platform, Platform, on_delete: :delete_all
@@ -160,18 +160,18 @@ defmodule Core.Accounts.User do
 
     has_many :addons, Addon, on_delete: :delete_all
     has_many :ban_reasons, BanReason, on_delete: :delete_all
-    has_many :book_keepings, BookKeeping, on_delete: :nilify_all
-    has_many :business_tax_returns, BusinessTaxReturn, on_delete: :nilify_all
+    has_many :book_keepings, BookKeeping, on_delete: :delete_all
+    has_many :business_tax_returns, BusinessTaxReturn, on_delete: :delete_all
     has_many :educations, Education, on_delete: :delete_all
-    has_many :individual_tax_returns, IndividualTaxReturn, on_delete: :nilify_all
-    has_many :messages, Message, on_delete: :nilify_all
+    has_many :individual_tax_returns, IndividualTaxReturn, on_delete: :delete_all
+    has_many :messages, Message, on_delete: :delete_all
     has_many :offers, Offer, on_delete: :delete_all
     has_many :pro_ratings, ProRating, on_delete: :delete_all
-    has_many :projects, Project, on_delete: :nilify_all
+    has_many :projects, Project, on_delete: :delete_all
     has_many :reports, Report, on_delete: :delete_all
-    has_many :rooms, Room, on_delete: :nilify_all
-    has_many :sale_taxes, SaleTax, on_delete: :nilify_all
-    has_many :service_reviews, ServiceReview, on_delete: :nilify_all
+    has_many :rooms, Room, on_delete: :delete_all
+    has_many :sale_taxes, SaleTax, on_delete: :delete_all
+    has_many :service_reviews, ServiceReview, on_delete: :delete_all
     has_many :work_experiences, WorkExperience, on_delete: :delete_all
 
     many_to_many :languages, Language, join_through: "users_languages", on_replace: :delete

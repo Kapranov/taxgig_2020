@@ -16,7 +16,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
   @desc "The accounts user on the site"
   object :user do
     field :accounting_software, list_of(:accounting_software), description: "list user's accounting_software"
-    field :active, :boolean, description: "accounts user active"
+    field :active, non_null(:boolean), description: "accounts user active"
     field :avatar, :string, description: "accounts user avatar"
     field :bio, :string, description: "accounts user bio"
     field :birthday, :date, description: "accounts user birthday"
@@ -24,25 +24,25 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :bus_addr_zip, :string, description: "zip customer by ptin"
     field :business_tax_returns, list_of(:business_tax_return), description: "list user's business tax returns"
     field :educations, list_of(:education), description: "list user's educations"
-    field :email, :string, description: "accounts user email"
+    field :email, non_null(:string), description: "accounts user email"
     field :error, :string, description: "user error"
     field :finished_project_count, :integer, description: "virtual field with calculates all projects with status Done"
-    field :first_name, :string, description: "accounts user first_name"
-    field :id, :string, description: "account user's id"
+    field :first_name, non_null(:string), description: "accounts user first_name"
+    field :id, non_null(:string), description: "account user's id"
     field :individual_tax_returns, list_of(:individual_tax_return), description: "list user's business tax returns"
     field :init_setup, :boolean, description: "accounts user init_setup"
-    field :is_2fa, :boolean, description: "two factory authorization"
+    field :is2fa, non_null(:boolean), description: "two factory authorization"
     field :languages, list_of(:language), description: "languages list for user"
-    field :last_name, :string, description: "accounts user last_name"
+    field :last_name, non_null(:string), description: "accounts user last_name"
     field :middle_name, :string, description: "accounts user middle_name"
     field :on_going_project_count, :integer, description: "virtual field with calculates all projects In Progress and in Transition"
-    field :otp_last, :integer, description: "2factor last code"
+    field :otp_last, non_null(:integer), description: "2factor last code"
     field :otp_secret, :string, description: "2factor token"
     field :phone, :string, description: "accounts user phone"
     field :platform, list_of(:platform), description: "list user's platform"
     field :profession, :string, description: "credentials received from searchProfession"
-    field :provider, :string, description: "accounts user provider"
-    field :role, :boolean, description: "accounts user role"
+    field :provider, non_null(:string), description: "accounts user provider"
+    field :role, non_null(:boolean), description: "accounts user role"
     field :rooms, list_of(:room), resolve: dataloader(Data), description: "list user's room"
     field :sale_taxes, list_of(:sale_tax), description: "list user's sale_taxes"
     field :sex, :string, description: "accounts user sex"
@@ -54,8 +54,8 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
 
   @desc "Provider's code"
   object :provider do
-    field :code, :string
-    field :provider, :string
+    field :code, non_null(:string)
+    field :provider, non_null(:string)
   end
 
   @desc "Provider's verify tokens"
@@ -80,7 +80,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :error_description, :string
     field :expires_in, :string
     field :id_token, :string
-    field :provider, :string
+    field :provider, non_null(:string)
     field :refresh_token, :string
     field :scope, :string
     field :token_type, :string
@@ -91,7 +91,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :access_token, :string, description: "token "
     field :error, :string, description: "accounts user error"
     field :error_description, :string
-    field :provider, :string, description: "accounts user provider"
+    field :provider, non_null(:string), description: "accounts user provider"
     field :user_id, :string, description: "account user's id"
   end
 
@@ -106,7 +106,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :error, :string
     field :first_name, :string
     field :init_setup, :boolean
-    field :is_2fa, :boolean
+    field :is2fa, :boolean
     field :languages, :string
     field :last_name, :string
     field :middle_name, :string
@@ -120,9 +120,9 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
   end
 
   input_object :update_password_params do
-    field :old_password, :string
-    field :password, :string
-    field :password_confirmation, :string
+    field :old_password, non_null(:string)
+    field :password, non_null(:string)
+    field :password_confirmation, non_null(:string)
   end
 
   object :user_queries do
@@ -177,7 +177,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :sign_in, :session do
       arg(:code, :string, description: "code by social networks, except by localhost")
       arg(:email, :string, description: "set email for localhost")
-      arg(:is_2fa, :boolean, description: "2factor enable or disable")
+      arg(:is2fa, :boolean, description: "2factor enable or disable")
       arg(:password, :string, description: "set password for localhost")
       arg(:password_confirmation, :string, description: "set password for localhost")
       arg(:provider, non_null(:string), description: "set provider localhost or social networks")
@@ -195,7 +195,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       arg :email, :string
       arg :first_name, :string
       arg :init_setup, :boolean
-      arg :is_2fa, :boolean
+      arg :is2fa, :boolean
       arg :languages, :string
       arg :last_name, :string
       arg :middle_name, :string
@@ -215,13 +215,11 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :sign_up, :session do
       arg(:code, :string, description: "code by social networks, except for localhost")
       arg(:email, :string, description: "set email for localhost")
-      arg(:is_2fa, :boolean, description: "2factor enable or disable")
       arg(:password, :string, description: "set password for localhost")
       arg(:password_confirmation, :string, description: "set password for localhost")
       arg(:phone, :string, description: "accounts user phone")
       arg(:provider, non_null(:string), description: "set provider localhost or social networks")
       arg(:role, :boolean, description: "accounts user role")
-      arg(:zip, :integer, description: "accounts user zip")
       resolve(&UserResolver.signup/3)
     end
 

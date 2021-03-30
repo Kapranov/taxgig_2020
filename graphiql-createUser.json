@@ -1,0 +1,179 @@
+{
+  "key": "graphiql",
+  "lastId": 6,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5",
+    "tab6"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNWp5ZHNWT2U2OW5GVDA1a09uBgCdBuuDeAFiAAFRgA.D0rKPphDtbrWe66Ez4oDolMMKMSD6figxdFEEaF4eLE"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNWp5ZHNWT2U2OW5GVDA1a09uBgDBXOGDeAFiAAFRgA.FE_GuqQJtcWMAcqT9_Xocan6AnOC3-sEHbW425k4dqs"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab6",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 1,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  getCode(provider: \"google\") {\n    code\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  getCode(provider: \"google.com\") {\n    code\n    provider\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  getCode(provider: \"google\") {\n    code\n    provider\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  getCode(provider: \\\"google.com\\\") {\\n    code\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  getCode(provider: \\\"google\\\") {\\n    code\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.2889952153110048
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  signUp(\n    code: \"4%2F0AY0e-g7oiIXMwl-iC9y8NPgo0VUfdrYeTKedpGKR64m4JMu7iR08cVtYLn2kSYs3DnVzgQ\",\n    provider: \"google\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  signUp(\n    code: \"4%2F0AY0e-g7oiIXMwl-iC9y8NPgo0VUfdrYeTKedpGKR64m4JMu7iR08cVtYLn2kSYs3DnVzgQ\",\n    provider: \"google\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  signUp(\\n    code: \\\"4%2F0AY0e-g7oiIXMwl-iC9y8NPgo0VUfdrYeTKedpGKR64m4JMu7iR08cVtYLn2kSYs3DnVzgQ\\\",\\n    provider: \\\"google\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.4299363057324841
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    code: \"4%2F0AY0e-g4V1DQH-xwQWFe8gsoWxQ5gcxq7B7l0fE5v6PY9lg2FWd9YBxDc1a9mgDhMfyOiKg\",\n    email: \"kapranov.lugatex@gmail.com\"\n    provider: \"google\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    code: \"4%2F0AY0e-g4V1DQH-xwQWFe8gsoWxQ5gcxq7B7l0fE5v6PY9lg2FWd9YBxDc1a9mgDhMfyOiKg\",\n    email: \"kapranov.lugatex@gmail.com\"\n    provider: \"google\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    code: \\\"4%2F0AY0e-g4V1DQH-xwQWFe8gsoWxQ5gcxq7B7l0fE5v6PY9lg2FWd9YBxDc1a9mgDhMfyOiKg\\\",\\n    email: \\\"kapranov.lugatex@gmail.com\\\"\\n    provider: \\\"google\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.41343126967471144,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signIn(\n    email: \"kapranov.lugatex@gmail.com\",\n    password: \"AES256GCM\",\n    passwordConfirmation: \"AES256GCM\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signIn(\n    email: \"kapranov.lugatex@gmail.com\",\n    password: \"AES256GCM\",\n    passwordConfirmation: \"AES256GCM\",\n    provider: \"google\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signIn(\n    email: \"kapranov.lugatex@gmail.com\",\n    password: \"\",\n    passwordConfirmation: \"AES256GCM\",\n    provider: \"google\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signIn(\n    email: \"kapranov.lugatex@gmail.com\",\n    password: \"AES256GCM\",\n    passwordConfirmation: \"AES256GCM\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    password: \\\"\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"google\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    password: \\\"AES256GCM\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"google\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    password: \\\"AES256GCM\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.4045881126173097,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab6",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNWp5ZHNWT2U2OW5GVDA1a09uBgCdBuuDeAFiAAFRgA.D0rKPphDtbrWe66Ez4oDolMMKMSD6figxdFEEaF4eLE"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  deleteUser(\n    id: \"A5jydsVOe69nFT05kO\",\n    reason: \"Wrong Account\"\n  ) {\n    id\n    accountingSoftware { id }\n    active\n    avatar\n    bio\n    birthday\n    bookKeepings { id }\n    busAddrZip\n    businessTaxReturns { id }\n    educations { id graduation universities {id name} }\n    email\n    error\n    finishedProjectCount\n    firstName\n    individualTaxReturns { id }\n    initSetup\n    languages {abbr name}\n    lastName\n    middleName\n    onGoingProjectCount\n    otpLast\n    otpSecret\n    phone\n    platform {id}\n    profession\n    provider\n    role\n    rooms {id active description name topic user {id email role}}\n    saleTaxes {id user {id email role}}\n    sex\n    street\n    totalEarned\n    workExperiences { id }\n    zip\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteUser(\n    id: \"A5jydsVOe69nFT05kO\",\n    reason: \"Wrong Account\"\n  ) {\n    id\n    accountingSoftware { id }\n    active\n    avatar\n    bio\n    birthday\n    bookKeepings { id }\n    busAddrZip\n    businessTaxReturns { id }\n    educations { id graduation universities {id name} }\n    email\n    error\n    finishedProjectCount\n    firstName\n    individualTaxReturns { id }\n    initSetup\n    is2fa\n    languages {abbr name}\n    lastName\n    middleName\n    onGoingProjectCount\n    otpLast\n    otpSecret\n    phone\n    platform {id}\n    profession\n    provider\n    role\n    rooms {id active description name topic user {id email role}}\n    saleTaxes {id user {id email role}}\n    sex\n    street\n    totalEarned\n    workExperiences { id }\n    zip\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deleteUser(\n    id: \"A5jydsVOe69nFT05kO\",\n    reason: \"Wrong Account\"\n  ) {\n    id\n    accountingSoftware { id }\n    active\n    avatar\n    bio\n    birthday\n    bookKeepings { id }\n    busAddrZip\n    businessTaxReturns { id }\n    educations { id graduation universities {id name} }\n    email\n    error\n    finishedProjectCount\n    firstName\n    individualTaxReturns { id }\n    initSetup\n    is2fa\n    languages {abbr name}\n    lastName\n    middleName\n    onGoingProjectCount\n    otpLast\n    otpSecret\n    phone\n    platform {id}\n    profession\n    provider\n    role\n    rooms {id active description name topic user {id email role}}\n    saleTaxes {id user {id email role}}\n    sex\n    street\n    totalEarned\n    workExperiences { id }\n    zip\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteUser(\\n    id: \\\"A5jydsVOe69nFT05kO\\\",\\n    reason: \\\"Wrong Account\\\"\\n  ) {\\n    id\\n    accountingSoftware { id }\\n    active\\n    avatar\\n    bio\\n    birthday\\n    bookKeepings { id }\\n    busAddrZip\\n    businessTaxReturns { id }\\n    educations { id graduation universities {id name} }\\n    email\\n    error\\n    finishedProjectCount\\n    firstName\\n    individualTaxReturns { id }\\n    initSetup\\n    is2fa\\n    languages {abbr name}\\n    lastName\\n    middleName\\n    onGoingProjectCount\\n    otpLast\\n    otpSecret\\n    phone\\n    platform {id}\\n    profession\\n    provider\\n    role\\n    rooms {id active description name topic user {id email role}}\\n    saleTaxes {id user {id email role}}\\n    sex\\n    street\\n    totalEarned\\n    workExperiences { id }\\n    zip\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteUser(\\n    id: \\\"A5jydsVOe69nFT05kO\\\",\\n    reason: \\\"Wrong Account\\\"\\n  ) {\\n    id\\n    accountingSoftware { id }\\n    active\\n    avatar\\n    bio\\n    birthday\\n    bookKeepings { id }\\n    busAddrZip\\n    businessTaxReturns { id }\\n    educations { id graduation universities {id name} }\\n    email\\n    error\\n    finishedProjectCount\\n    firstName\\n    individualTaxReturns { id }\\n    initSetup\\n    languages {abbr name}\\n    lastName\\n    middleName\\n    onGoingProjectCount\\n    otpLast\\n    otpSecret\\n    phone\\n    platform {id}\\n    profession\\n    provider\\n    role\\n    rooms {id active description name topic user {id email role}}\\n    saleTaxes {id user {id email role}}\\n    sex\\n    street\\n    totalEarned\\n    workExperiences { id }\\n    zip\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350
+    }
+  ]
+}

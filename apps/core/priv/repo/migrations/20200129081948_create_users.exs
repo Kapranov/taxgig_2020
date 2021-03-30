@@ -4,28 +4,28 @@ defmodule Core.Repo.Migrations.CreateUsers do
   def change do
     create table(:users, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
-      add :active, :boolean
+      add :active, :boolean, default: false, null: false
       add :admin, :boolean, default: false, null: false
-      add :avatar, :binary
-      add :bio, :string
-      add :birthday, :date
+      add :avatar, :string, null: true
+      add :bio, :string, null: true
+      add :birthday, :date, null: true
       add :bus_addr_zip, :string, null: true
       add :email, :string, null: false
-      add :first_name, :string
-      add :init_setup, :boolean
-      add :is_2fa, :boolean, null: false, default: false
-      add :last_name, :string
-      add :middle_name, :string
+      add :first_name, :string, null: false
+      add :init_setup, :boolean, null: true
+      add :is2fa, :boolean, null: false, default: false
+      add :last_name, :string, null: false
+      add :middle_name, :string, null: true
       add :otp_last, :integer, null: false, default: 0
       add :otp_secret, :string, null: true
       add :password_hash, :string, null: false
-      add :phone, :string, null: false
+      add :phone, :string, null: true
       add :profession, :string, null: true
       add :provider, :string, default: "localhost", null: false
       add :role, :boolean, default: false, null: false
-      add :sex, :string
-      add :street, :string
-      add :zip, :integer
+      add :sex, :string, null: true
+      add :street, :string, null: true
+      add :zip, :integer, null: true
 
       timestamps(type: :utc_datetime_usec)
     end
