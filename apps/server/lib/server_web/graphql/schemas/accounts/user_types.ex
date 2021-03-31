@@ -27,13 +27,13 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :email, non_null(:string), description: "accounts user email"
     field :error, :string, description: "user error"
     field :finished_project_count, :integer, description: "virtual field with calculates all projects with status Done"
-    field :first_name, non_null(:string), description: "accounts user first_name"
+    field :first_name, :string, description: "accounts user first_name"
     field :id, non_null(:string), description: "account user's id"
     field :individual_tax_returns, list_of(:individual_tax_return), description: "list user's business tax returns"
     field :init_setup, :boolean, description: "accounts user init_setup"
     field :is2fa, non_null(:boolean), description: "two factory authorization"
     field :languages, list_of(:language), description: "languages list for user"
-    field :last_name, non_null(:string), description: "accounts user last_name"
+    field :last_name, :string, description: "accounts user last_name"
     field :middle_name, :string, description: "accounts user middle_name"
     field :on_going_project_count, :integer, description: "virtual field with calculates all projects In Progress and in Transition"
     field :otp_last, non_null(:integer), description: "2factor last code"
@@ -237,9 +237,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     @desc "Sign up via localhost"
     field :sign_up_local, :session do
       arg(:email, non_null(:string), description: "A field type for email addresses")
-      arg(:first_name, non_null(:string), description: "Input for first name")
-      arg(:last_name, non_null(:string), description: "Input for last name")
-      arg(:middle_name, :string, description: "Input for middle name")
       arg(:password, non_null(:string), description: "Input a secure passphrase")
       arg(:password_confirmation, non_null(:string), description: "Input a secure passphrase match")
       arg(:phone, non_null(:string), description: "Input only allow US phone number format")

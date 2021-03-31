@@ -11,10 +11,10 @@ defmodule Core.Repo.Migrations.CreateUsers do
       add :birthday, :date, null: true
       add :bus_addr_zip, :string, null: true
       add :email, :string, null: false
-      add :first_name, :string, null: false
+      add :first_name, :string, null: true
       add :init_setup, :boolean, null: true
       add :is2fa, :boolean, null: false, default: false
-      add :last_name, :string, null: false
+      add :last_name, :string, null: true
       add :middle_name, :string, null: true
       add :otp_last, :integer, null: false, default: 0
       add :otp_secret, :string, null: true

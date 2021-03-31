@@ -1,6 +1,6 @@
 {
   "key": "graphiql",
-  "lastId": 10,
+  "lastId": 11,
   "tabIds": [
     "tab1",
     "tab2",
@@ -9,7 +9,8 @@
     "tab5",
     "tab6",
     "tab7",
-    "tab8"
+    "tab8",
+    "tab11"
   ],
   "closedTabs": [
     {
@@ -60,6 +61,30 @@
     "http://localhost:4000/graphiql"
   ],
   "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNW02RVZ3OHB1bUxmS2pLeW1uBgCWSSeJeAFiAAFRgA.DCSqzs_z5IyEtvvjACcAR5K9tmQw4SN5OzCwHKy00y4"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNW00SHVjbEhZVWk2QWpyeWluBgBH5CSJeAFiAAFRgA.sdzvBKFElF_JQJk_GTpl7f1u4eV3s7o3llXuDEFcIMI"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNW00cTNwM2M0SUhaQ0J6bWFuBgCNoRqJeAFiAAFRgA.F4XLW9JNnzbf0AgjdDaxAjx1LM_AbUHJg-_WBd-vRrg"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNW00SG15NWtNbnFNMGVuN0FuBgD3tBmJeAFiAAFRgA.5J9gs2iAElo37g2DiI5fAaSwCIcQnOpYOHcXx7AMbNQ"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNW00cTNwM2M0SUhaQ0J6bWFuBgCl-xiJeAFiAAFRgA.8Gj8fnAMmajk5OseYYf4o-ndJDmf4hgLRfyOQ3ey_SU"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNW00SGZFU1ZkOHFNU0ZrVzBuBgCUBxeJeAFiAAFRgA.fe0ScV_VpOOhsRxnp55f5LUFBkRP5Nzxy6iwSe7kpHY"
+    },
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBNWxxczhUeUpjR0VlNG5PVWFuBgAMtYmIeAFiAAFRgA.3f9O8rk3Te9OXahXG0rkU0teZloDA1meWFRjQE6pW48"
@@ -223,6 +248,10 @@
       "maxHistory": 20,
       "history": [
         {
+          "query": "mutation {\n  signUpLocal(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    phone: \"555-555-5555\",\n    provider: \"localhost\",\n    role: false\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
           "query": "mutation {\n  signUpLocal(\n    firstName: \"Oleh\",\n    lastName: \"Kapranov\",\n    middleName: \"George\"\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    phone: \"555-555-5555\",\n    provider: \"localhost\",\n    role: false\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
           "variables": null
         },
@@ -247,8 +276,8 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  signUpLocal(\n    firstName: \"Oleh\",\n    lastName: \"Kapranov\",\n    middleName: \"George\"\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    phone: \"555-555-5555\",\n    provider: \"localhost\",\n    role: false\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    password: \\\"\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"google\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    password: \\\"AES256GCM\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"google\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    password: \\\"AES256GCM\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    is2fa: false,\\n    password: \\\"AES256GCM\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  signUpLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    phone: \\\"555-555-5555\\\",\\n    provider: \\\"localhost\\\",\\n    role: false\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  signUpLocal(\\n    firstName: \\\"Oleh\\\",\\n    lastName: \\\"Kapranov\\\",\\n    middleName: \\\"George\\\"\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    phone: \\\"555-555-5555\\\",\\n    provider: \\\"localhost\\\",\\n    role: false\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
+      "graphiql:query": "mutation {\n  signUpLocal(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    phone: \"555-555-5555\",\n    provider: \"localhost\",\n    role: false\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    password: \\\"\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"google\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    password: \\\"AES256GCM\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"google\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    password: \\\"AES256GCM\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    is2fa: false,\\n    password: \\\"AES256GCM\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  signUpLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    phone: \\\"555-555-5555\\\",\\n    provider: \\\"localhost\\\",\\n    role: false\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  signUpLocal(\\n    firstName: \\\"Oleh\\\",\\n    lastName: \\\"Kapranov\\\",\\n    middleName: \\\"George\\\"\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    phone: \\\"555-555-5555\\\",\\n    provider: \\\"localhost\\\",\\n    role: false\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  signUpLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    phone: \\\"555-555-5555\\\",\\n    provider: \\\"localhost\\\",\\n    role: false\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.47859495060373214,
       "graphiql:docExplorerWidth": 350
@@ -259,10 +288,19 @@
       "url": "http://localhost:4000/graphiql",
       "websocketUrl": "ws://localhost:4000/socket",
       "proxy": false,
-      "headers": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNW00cTNwM2M0SUhaQ0J6bWFuBgCl-xiJeAFiAAFRgA.8Gj8fnAMmajk5OseYYf4o-ndJDmf4hgLRfyOQ3ey_SU"
+        }
+      ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "query {\n  signInLocal(\n    email: \"kapranov.lugatex@gmail.com\",\n    is2fa: false,\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
         {
           "query": "query {\n  signInLocal(\n    email: \"kapranov.lugatex@gmail.com\",\n    is2fa: false,\n    password: \"AES256GCM\",\n    passwordConfirmation: \"AES256GCM\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
           "variables": null
@@ -276,10 +314,10 @@
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  signInLocal(\n    email: \"kapranov.lugatex@gmail.com\",\n    is2fa: false,\n    password: \"AES256GCM\",\n    passwordConfirmation: \"AES256GCM\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+      "graphiql:query": "query {\n  signInLocal(\n    email: \"kapranov.lugatex@gmail.com\",\n    is2fa: false,\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.43450479233226835,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteUser(\\n    id: \\\"A5jydsVOe69nFT05kO\\\",\\n    reason: \\\"Wrong Account\\\"\\n  ) {\\n    id\\n    accountingSoftware { id }\\n    active\\n    avatar\\n    bio\\n    birthday\\n    bookKeepings { id }\\n    busAddrZip\\n    businessTaxReturns { id }\\n    educations { id graduation universities {id name} }\\n    email\\n    error\\n    finishedProjectCount\\n    firstName\\n    individualTaxReturns { id }\\n    initSetup\\n    is2fa\\n    languages {abbr name}\\n    lastName\\n    middleName\\n    onGoingProjectCount\\n    otpLast\\n    otpSecret\\n    phone\\n    platform {id}\\n    profession\\n    provider\\n    role\\n    rooms {id active description name topic user {id email role}}\\n    saleTaxes {id user {id email role}}\\n    sex\\n    street\\n    totalEarned\\n    workExperiences { id }\\n    zip\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteUser(\\n    id: \\\"A5jydsVOe69nFT05kO\\\",\\n    reason: \\\"Wrong Account\\\"\\n  ) {\\n    id\\n    accountingSoftware { id }\\n    active\\n    avatar\\n    bio\\n    birthday\\n    bookKeepings { id }\\n    busAddrZip\\n    businessTaxReturns { id }\\n    educations { id graduation universities {id name} }\\n    email\\n    error\\n    finishedProjectCount\\n    firstName\\n    individualTaxReturns { id }\\n    initSetup\\n    languages {abbr name}\\n    lastName\\n    middleName\\n    onGoingProjectCount\\n    otpLast\\n    otpSecret\\n    phone\\n    platform {id}\\n    profession\\n    provider\\n    role\\n    rooms {id active description name topic user {id email role}}\\n    saleTaxes {id user {id email role}}\\n    sex\\n    street\\n    totalEarned\\n    workExperiences { id }\\n    zip\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteUser(\\n    id: \\\"A5kBuciCfRUrecvRqa\\\",\\n    reason: \\\"Wrong Account\\\"\\n  ) {\\n    id\\n    accountingSoftware { id }\\n    active\\n    avatar\\n    bio\\n    birthday\\n    bookKeepings { id }\\n    busAddrZip\\n    businessTaxReturns { id }\\n    educations { id graduation universities {id name} }\\n    email\\n    error\\n    finishedProjectCount\\n    firstName\\n    individualTaxReturns { id }\\n    initSetup\\n    is2fa\\n    languages {abbr name}\\n    lastName\\n    middleName\\n    onGoingProjectCount\\n    otpLast\\n    otpSecret\\n    phone\\n    platform {id}\\n    profession\\n    provider\\n    role\\n    rooms {id active description name topic user {id email role}}\\n    saleTaxes {id user {id email role}}\\n    sex\\n    street\\n    totalEarned\\n    workExperiences { id }\\n    zip\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    is2fa: false,\\n    password: \\\"AES256GCM\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteUser(\\n    id: \\\"A5jydsVOe69nFT05kO\\\",\\n    reason: \\\"Wrong Account\\\"\\n  ) {\\n    id\\n    accountingSoftware { id }\\n    active\\n    avatar\\n    bio\\n    birthday\\n    bookKeepings { id }\\n    busAddrZip\\n    businessTaxReturns { id }\\n    educations { id graduation universities {id name} }\\n    email\\n    error\\n    finishedProjectCount\\n    firstName\\n    individualTaxReturns { id }\\n    initSetup\\n    is2fa\\n    languages {abbr name}\\n    lastName\\n    middleName\\n    onGoingProjectCount\\n    otpLast\\n    otpSecret\\n    phone\\n    platform {id}\\n    profession\\n    provider\\n    role\\n    rooms {id active description name topic user {id email role}}\\n    saleTaxes {id user {id email role}}\\n    sex\\n    street\\n    totalEarned\\n    workExperiences { id }\\n    zip\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteUser(\\n    id: \\\"A5jydsVOe69nFT05kO\\\",\\n    reason: \\\"Wrong Account\\\"\\n  ) {\\n    id\\n    accountingSoftware { id }\\n    active\\n    avatar\\n    bio\\n    birthday\\n    bookKeepings { id }\\n    busAddrZip\\n    businessTaxReturns { id }\\n    educations { id graduation universities {id name} }\\n    email\\n    error\\n    finishedProjectCount\\n    firstName\\n    individualTaxReturns { id }\\n    initSetup\\n    languages {abbr name}\\n    lastName\\n    middleName\\n    onGoingProjectCount\\n    otpLast\\n    otpSecret\\n    phone\\n    platform {id}\\n    profession\\n    provider\\n    role\\n    rooms {id active description name topic user {id email role}}\\n    saleTaxes {id user {id email role}}\\n    sex\\n    street\\n    totalEarned\\n    workExperiences { id }\\n    zip\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteUser(\\n    id: \\\"A5kBuciCfRUrecvRqa\\\",\\n    reason: \\\"Wrong Account\\\"\\n  ) {\\n    id\\n    accountingSoftware { id }\\n    active\\n    avatar\\n    bio\\n    birthday\\n    bookKeepings { id }\\n    busAddrZip\\n    businessTaxReturns { id }\\n    educations { id graduation universities {id name} }\\n    email\\n    error\\n    finishedProjectCount\\n    firstName\\n    individualTaxReturns { id }\\n    initSetup\\n    is2fa\\n    languages {abbr name}\\n    lastName\\n    middleName\\n    onGoingProjectCount\\n    otpLast\\n    otpSecret\\n    phone\\n    platform {id}\\n    profession\\n    provider\\n    role\\n    rooms {id active description name topic user {id email role}}\\n    saleTaxes {id user {id email role}}\\n    sex\\n    street\\n    totalEarned\\n    workExperiences { id }\\n    zip\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    is2fa: false,\\n    password: \\\"AES256GCM\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    is2fa: false,\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -295,12 +333,32 @@
         {
           "query": "query {\n  signInLocal(\n    email: \"lugatex@yahoo.com\",\n    is2fa: false,\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
           "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"lugatex@yahoo.com\",\n    is2fa: false,\n    password: \"nES0p04pVklw\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"qwerty\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"kapranov.pure@gmail.com\",\n    is2fa: false,\n    password: \"nES0p04pVklw\",\n    passwordConfirmation: \"nES0p04pVklw\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \" kapranov.pure@gmail.com\",\n    is2fa: false,\n    password: \"nES0p04pVklw\",\n    passwordConfirmation: \"nES0p04pVklw\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \" kapranov.pure@gmail.com\",\n    is2fa: false,\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"lugatex@yahoo.com\",\n    is2fa: false,\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
         }
       ],
       "graphiql:query": "query {\n  signInLocal(\n    email: \"lugatex@yahoo.com\",\n    is2fa: false,\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    is2fa: false,\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    is2fa: false,\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\" kapranov.pure@gmail.com\\\",\\n    is2fa: false,\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\" kapranov.pure@gmail.com\\\",\\n    is2fa: false,\\n    password: \\\"nES0p04pVklw\\\",\\n    passwordConfirmation: \\\"nES0p04pVklw\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"kapranov.pure@gmail.com\\\",\\n    is2fa: false,\\n    password: \\\"nES0p04pVklw\\\",\\n    passwordConfirmation: \\\"nES0p04pVklw\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    is2fa: false,\\n    password: \\\"nES0p04pVklw\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"qwerty\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    is2fa: false,\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:editorFlex": 0.4253968253968254,
+      "graphiql:editorFlex": 0.4016649323621228,
       "graphiql:variableEditorHeight": 200
     },
     {
@@ -312,12 +370,28 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBNWxxczhUeUpjR0VlNG5PVWFuBgAMtYmIeAFiAAFRgA.3f9O8rk3Te9OXahXG0rkU0teZloDA1meWFRjQE6pW48"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNW02RVZ3OHB1bUxmS2pLeW1uBgCWSSeJeAFiAAFRgA.DCSqzs_z5IyEtvvjACcAR5K9tmQw4SN5OzCwHKy00y4"
         }
       ],
       "collapsed": false,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "mutation {\n  deleteUser(\n    reason: \"Wrong Account\",\n    userId: \"A5m6EVw8pumLfKjKym\"\n  ) {\n    id\n    email\n    role\n    reason\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteUser(\n    reason: \"Wrong Account\",\n    userId: \"A5m4q3p3c4IHZCBzma\"\n  ) {\n    id\n    email\n    role\n    reason\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteUser(\n    reason: \"Wrong Account\",\n    userId: \"A5m4Hmy5kMnqM0en7A\"\n  ) {\n    id\n    email\n    role\n    reason\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteUser(\n    reason: \"Wrong Account\",\n    userId: \"A5m4HfESVd8qMSFkW0\"\n  ) {\n    id\n    email\n    role\n    reason\n    userId\n  }\n}",
+          "variables": null
+        },
         {
           "query": "mutation {\n  deleteUser(\n    reason: \"Wrong Account\",\n    userId: \"A5lqs8TyJcGEe4nOUa\"\n  ) {\n    id\n    email\n    role\n    reason\n    userId\n  }\n}",
           "variables": null
@@ -351,11 +425,38 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  deleteUser(\n    reason: \"Wrong Account\",\n    userId: \"A5lqs8TyJcGEe4nOUa\"\n  ) {\n    id\n    email\n    role\n    reason\n    userId\n  }\n}",
+      "graphiql:query": "mutation {\n  deleteUser(\n    reason: \"Wrong Account\",\n    userId: \"A5m6EVw8pumLfKjKym\"\n  ) {\n    id\n    email\n    role\n    reason\n    userId\n  }\n}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lRYTBna2pjv77Z2W\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lUEQSuIZ3vXhG0g4\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lRYTBna2pjv77Z2W\\\"\\n  ) {\\n    id\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lRYTBna2pjv77Z2W\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lWIdBC1VKCFhxCee\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lWIdBC1VKCFhxCee\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lXZCFXV843bkRxC4\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lYQMOHAfErKwHoxM\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lYh7XPe6u2C9YHwm\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lRYTBna2pjv77Z2W\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lqs8TyJcGEe4nOUa\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"}]}",
-      "graphiql:editorFlex": 0.3402985074626866
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lRYTBna2pjv77Z2W\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lUEQSuIZ3vXhG0g4\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lRYTBna2pjv77Z2W\\\"\\n  ) {\\n    id\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lRYTBna2pjv77Z2W\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lWIdBC1VKCFhxCee\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lWIdBC1VKCFhxCee\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lXZCFXV843bkRxC4\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lYQMOHAfErKwHoxM\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lYh7XPe6u2C9YHwm\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lRYTBna2pjv77Z2W\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lqs8TyJcGEe4nOUa\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5m4HfESVd8qMSFkW0\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5m4Hmy5kMnqM0en7A\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5m4q3p3c4IHZCBzma\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5m6EVw8pumLfKjKym\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"}]}",
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab11",
+      "name": "Query 9",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNW00SHVjbEhZVWk2QWpyeWluBgBH5CSJeAFiAAFRgA.sdzvBKFElF_JQJk_GTpl7f1u4eV3s7o3llXuDEFcIMI"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  deleteDeletedUser(id: \"A5m4if7H4V8UumBYx6\") {\n   id\n    email\n    role\n    reason\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deleteDeletedUser(id: \"A5m4if7H4V8UumBYx6\") {\n   id\n    email\n    role\n    reason\n    userId\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteDeletedUser(id: \\\"A5m4if7H4V8UumBYx6\\\") {\\n   id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.5828437132784959,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
     }
   ]
 }

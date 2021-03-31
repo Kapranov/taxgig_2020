@@ -115,9 +115,7 @@ defmodule Core.Accounts.User do
 
   @required_params ~w(
     email
-    first_name
     is2fa
-    last_name
     otp_last
     provider
     role
@@ -132,10 +130,10 @@ defmodule Core.Accounts.User do
     field :bus_addr_zip, :string, null: true
     field :email, :string, null: false
     field :finished_project_count, :integer, virtual: true
-    field :first_name, :string, null: false
+    field :first_name, :string, null: true
     field :init_setup, :boolean, null: true
     field :is2fa, :boolean, null: false, default: false
-    field :last_name, :string, null: false
+    field :last_name, :string, null: true
     field :middle_name, :string, null: true
     field :on_going_project_count, :integer, virtual: true
     field :otp_last, :integer, null: false, default: 0
