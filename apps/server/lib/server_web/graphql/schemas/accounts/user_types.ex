@@ -9,7 +9,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
 
   alias ServerWeb.GraphQL.{
     Data,
-    Resolvers.Accounts.DeletedUserResolver,
     Resolvers.Accounts.UserResolver,
     Schemas.Middleware
   }
@@ -55,8 +54,9 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
 
   @desc "The accounts has been destroy via model's deletedUser"
   object :user_deleted do
-    field :id, :string
     field :email, :string
+    field :error, :string
+    field :id, :string
     field :reason, :string
     field :role, :boolean
     field :user_id, :string

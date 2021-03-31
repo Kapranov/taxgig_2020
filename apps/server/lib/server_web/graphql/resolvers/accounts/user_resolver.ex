@@ -257,7 +257,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
               {:ok, deleted}
             else
               nil -> {:error, "permission denied"}
-              _ -> {:error, %Ecto.Changeset{}}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
             end
           false ->
             {:error, "permission denied"}

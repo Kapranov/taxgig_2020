@@ -62,6 +62,14 @@
   "recentHeaders": [
     {
       "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNWxxczhUeUpjR0VlNG5PVWFuBgAMtYmIeAFiAAFRgA.3f9O8rk3Te9OXahXG0rkU0teZloDA1meWFRjQE6pW48"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNWxSWVRCbmEycGp2NzdaMlduBgCTKYiIeAFiAAFRgA.3pqaUbUGBVWEYJWPeu3DvaRukaNKze9UO6qHNQe-9ug"
+    },
+    {
+      "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBNWxZaDdYUGU2dTJDOVlId21uBgA8O8-HeAFiAAFRgA.2KB2_lRuqFZCpI7keLS6STve0gEhXX3xjfQ1DssXG_0"
     },
     {
@@ -290,9 +298,9 @@
         }
       ],
       "graphiql:query": "query {\n  signInLocal(\n    email: \"lugatex@yahoo.com\",\n    is2fa: false,\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    is2fa: false,\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
       "graphiql:editorFlex": 0.4253968253968254,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    is2fa: false,\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200
     },
     {
@@ -304,12 +312,20 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBNWxZaDdYUGU2dTJDOVlId21uBgA8O8-HeAFiAAFRgA.2KB2_lRuqFZCpI7keLS6STve0gEhXX3xjfQ1DssXG_0"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNWxxczhUeUpjR0VlNG5PVWFuBgAMtYmIeAFiAAFRgA.3f9O8rk3Te9OXahXG0rkU0teZloDA1meWFRjQE6pW48"
         }
       ],
       "collapsed": false,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "mutation {\n  deleteUser(\n    reason: \"Wrong Account\",\n    userId: \"A5lqs8TyJcGEe4nOUa\"\n  ) {\n    id\n    email\n    role\n    reason\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteUser(\n    reason: \"Wrong Account\",\n    userId: \"A5lRYTBna2pjv77Z2W\"\n  ) {\n    id\n    email\n    role\n    reason\n    userId\n  }\n}",
+          "variables": null
+        },
         {
           "query": "mutation {\n  deleteUser(\n    reason: \"Wrong Account\",\n    userId: \"A5lYQMOHAfErKwHoxM\"\n  ) {\n    id\n    email\n    role\n    reason\n    userId\n  }\n}",
           "variables": null
@@ -335,10 +351,10 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  deleteUser(\n    reason: \"Wrong Account\",\n    userId: \"A5lYh7XPe6u2C9YHwm\"\n  ) {\n    id\n    email\n    role\n    reason\n    userId\n  }\n}",
+      "graphiql:query": "mutation {\n  deleteUser(\n    reason: \"Wrong Account\",\n    userId: \"A5lqs8TyJcGEe4nOUa\"\n  ) {\n    id\n    email\n    role\n    reason\n    userId\n  }\n}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lRYTBna2pjv77Z2W\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lUEQSuIZ3vXhG0g4\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lRYTBna2pjv77Z2W\\\"\\n  ) {\\n    id\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lRYTBna2pjv77Z2W\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lWIdBC1VKCFhxCee\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lWIdBC1VKCFhxCee\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lXZCFXV843bkRxC4\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lYQMOHAfErKwHoxM\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lYh7XPe6u2C9YHwm\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"}]}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lRYTBna2pjv77Z2W\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lUEQSuIZ3vXhG0g4\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lRYTBna2pjv77Z2W\\\"\\n  ) {\\n    id\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lRYTBna2pjv77Z2W\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lWIdBC1VKCFhxCee\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lWIdBC1VKCFhxCee\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lXZCFXV843bkRxC4\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lYQMOHAfErKwHoxM\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lYh7XPe6u2C9YHwm\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lRYTBna2pjv77Z2W\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteUser(\\n    reason: \\\"Wrong Account\\\",\\n    userId: \\\"A5lqs8TyJcGEe4nOUa\\\"\\n  ) {\\n    id\\n    email\\n    role\\n    reason\\n    userId\\n  }\\n}\"}]}",
       "graphiql:editorFlex": 0.3402985074626866
     }
   ]
