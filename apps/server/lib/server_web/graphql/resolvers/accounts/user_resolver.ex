@@ -5,7 +5,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   alias Core.{
     Accounts,
-    Accounts.DeletedUser,
     Accounts.User,
     Contracts.Project,
     Queries,
@@ -18,11 +17,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     OauthLinkedIn
   }
 
+  @type d :: DeletedUser.t()
   @type t :: User.t()
   @type reason :: any
   @type ok :: {:ok}
-  @type success_tuple :: {:ok, t}
-  @type success_list :: {:ok, [t]}
+  @type success_tuple :: {:ok, t} | {:ok, d}
+  @type success_list :: {:ok, [t]} | {:ok, [d]}
   @type error_tuple :: {:error, reason}
   @type error_map :: {:ok, %{error: any, error_description: any, provider: any}}
   @type result :: success_tuple | error_tuple
@@ -238,20 +238,20 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   end
 
   @spec delete(any, %{id: bitstring, reason: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def delete(_parent, %{id: id, reason: reason}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) do
+  def delete(_parent, %{user_id: user_id, reason: reason}, %{context: %{current_user: current_user}}) do
+    if is_nil(user_id) || is_nil(current_user) do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
     else
       try do
-        case !is_nil(current_user) and id == current_user.id do
+        case !is_nil(current_user) and user_id == current_user.id do
           true ->
-            with struct <- Accounts.get_user!(id),
-                 {:ok, deleted} <- Accounts.delete_user(struct),
-                 {:ok, %DeletedUser{}} <- Accounts.create_deleted_user(%{
+            with struct <- Accounts.get_user!(user_id),
+                 {:ok, _struct} <- Accounts.delete_user(struct),
+                 {:ok, deleted} <- Accounts.create_deleted_user(%{
                    email:  struct.email,
                    reason:       reason,
                    role:    struct.role,
-                   user_id:          id
+                   user_id:   struct.id
                  })
             do
               {:ok, deleted}
@@ -264,7 +264,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         end
       rescue
         Ecto.NoResultsError ->
-          {:error, "The an User #{id} not found!"}
+          {:error, "The an User #{user_id} not found!"}
       end
     end
   end
@@ -272,7 +272,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def delete(_parent, _args, _info) do
     {:error, [
-        [field: :id, message: "Can't be blank"],
+        [field: :user_id, message: "Can't be blank"],
         [field: :current_user,  message: "Unauthenticated"]
       ]
     }
@@ -682,7 +682,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                         with data <- generate_token(created) do
                           {:ok, %{
                               access_token: data,
-                              provider: args[:provider]
+                              provider: args[:provider],
+                              user_id: created.id
                             }}
                         end
                       {:error, %Ecto.Changeset{}} ->
@@ -756,7 +757,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                         with data <- generate_token(created) do
                           {:ok, %{
                               access_token: data,
-                              provider: args[:provider]
+                              provider: args[:provider],
+                              user_id: created.id
                             }}
                         end
                       {:error, %Ecto.Changeset{}} ->
@@ -814,7 +816,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                         with data <- generate_token(created) do
                           {:ok, %{
                               access_token: data,
-                              provider: args[:provider]
+                              provider: args[:provider],
+                              user_id: created.id
                             }}
                         end
                       {:error, %Ecto.Changeset{}} ->
@@ -902,7 +905,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                     with token <- generate_token(user) do
                       {:ok, %{
                           access_token: token,
-                          provider: args[:provider]
+                          provider: args[:provider],
+                          user_id: user.id
                         }}
                     end
                   false ->
@@ -955,7 +959,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                     with token <- generate_token(user) do
                       {:ok, %{
                           access_token: token,
-                          provider: args[:provider]
+                          provider: args[:provider],
+                          user_id: user.id
                         }}
                     end
                   false ->
@@ -1000,7 +1005,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                     with token <- generate_token(user) do
                       {:ok, %{
                           access_token: token,
-                          provider: args[:provider]
+                          provider: args[:provider],
+                          user_id: user.id
                         }}
                     end
                   false ->

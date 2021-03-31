@@ -9,6 +9,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
 
   alias ServerWeb.GraphQL.{
     Data,
+    Resolvers.Accounts.DeletedUserResolver,
     Resolvers.Accounts.UserResolver,
     Schemas.Middleware
   }
@@ -52,6 +53,15 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :zip, :integer, description: "accounts user zip"
   end
 
+  @desc "The accounts has been destroy via model's deletedUser"
+  object :user_deleted do
+    field :id, :string
+    field :email, :string
+    field :reason, :string
+    field :role, :boolean
+    field :user_id, :string
+  end
+
   @desc "Provider's code"
   object :provider do
     field :code, non_null(:string)
@@ -88,11 +98,11 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
 
   @desc "Get token for an authentication of user"
   object :session do
-    field :access_token, :string, description: "token "
-    field :error, :string, description: "accounts user error"
-    field :error_description, :string
-    field :provider, non_null(:string), description: "accounts user provider"
-    field :user_id, :string, description: "account user's id"
+    field :access_token, :string, description: "Generate JWT access token"
+    field :error, :string, description: "A short sentence with error"
+    field :error_description, :string, description: "Full details of the error"
+    field :provider, non_null(:string), description: "Choose provider service"
+    field :user_id, :string, description: "A userId is a unique identifier"
   end
 
   @desc "The accounts an user update via params"
@@ -173,14 +183,20 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       resolve(&UserResolver.verify_token/3)
     end
 
-    @desc "SignIn via localhost and social networks"
-    field :sign_in, :session do
-      arg(:code, :string, description: "code by social networks, except by localhost")
-      arg(:email, :string, description: "set email for localhost")
-      arg(:is2fa, :boolean, description: "2factor enable or disable")
-      arg(:password, :string, description: "set password for localhost")
-      arg(:password_confirmation, :string, description: "set password for localhost")
-      arg(:provider, non_null(:string), description: "set provider localhost or social networks")
+    @desc "SignIn via social networks"
+    field :sign_in_social, :session do
+      arg(:code, non_null(:string), description: "Generated the boiler-plate code through social networks, except for localhost")
+      arg(:provider, non_null(:string), description: "Choose provider service")
+      resolve(&UserResolver.signin/3)
+    end
+
+    @desc "SignIn via localhost"
+    field :sign_in_local, :session do
+      arg(:email, non_null(:string), description: "A field type for email addresses")
+      arg(:is2fa, non_null(:boolean), description: "2FA two-factor authentication")
+      arg(:password, non_null(:string), description: "Input created a secure passphrase")
+      arg(:password_confirmation, non_null(:string), description: "Input a secure passphrase match")
+      arg(:provider, non_null(:string), description: "Choose provider service")
       resolve(&UserResolver.signin/3)
     end
   end
@@ -211,18 +227,26 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       middleware Middleware.ChangesetErrors
     end
 
-    @desc "Sign up via localhost and social networks"
-    field :sign_up, :session do
-      arg(:code, :string, description: "code by social networks, except for localhost")
-      arg(:email, :string, description: "set email for localhost")
-      arg(:password, :string, description: "set password for localhost")
-      arg(:password_confirmation, :string, description: "set password for localhost")
-      arg(:phone, :string, description: "accounts user phone")
-      arg(:provider, non_null(:string), description: "set provider localhost or social networks")
-      arg(:role, :boolean, description: "accounts user role")
+    @desc "Sign up via social networks"
+    field :sign_up_social, :session do
+      arg(:code, non_null(:string), description: "Generated the boiler-plate code through social networks, except for localhost")
+      arg(:provider, non_null(:string), description: "Choose provider service")
       resolve(&UserResolver.signup/3)
     end
 
+    @desc "Sign up via localhost"
+    field :sign_up_local, :session do
+      arg(:email, non_null(:string), description: "A field type for email addresses")
+      arg(:first_name, non_null(:string), description: "Input for first name")
+      arg(:last_name, non_null(:string), description: "Input for last name")
+      arg(:middle_name, :string, description: "Input for middle name")
+      arg(:password, non_null(:string), description: "Input a secure passphrase")
+      arg(:password_confirmation, non_null(:string), description: "Input a secure passphrase match")
+      arg(:phone, non_null(:string), description: "Input only allow US phone number format")
+      arg(:provider, non_null(:string), description: "Choose provider service")
+      arg(:role, non_null(:boolean), description: "Type is-User Role")
+      resolve(&UserResolver.signup/3)
+    end
 
     @desc "Update a specific accounts an user"
     field :update_user, :user do
@@ -239,9 +263,9 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     end
 
     @desc "Delete a specific accounts an user"
-    field :delete_user, :user do
-      arg :id, non_null(:string)
+    field :delete_user, :user_deleted do
       arg :reason, non_null(:string)
+      arg :user_id, non_null(:string)
       resolve &UserResolver.delete/3
     end
   end
