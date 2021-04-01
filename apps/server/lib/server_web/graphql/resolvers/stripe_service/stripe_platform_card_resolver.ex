@@ -157,15 +157,4 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver d
   def delete(_parent, _args, _info) do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
-
-  @spec extract_error_msg(Ecto.Changeset.t()) :: Ecto.Changeset.t()
-  defp extract_error_msg(changeset) do
-    changeset.errors
-    |> Enum.map(fn {field, {error, _details}} ->
-      [
-        field: field,
-        message: String.capitalize(error)
-      ]
-    end)
-  end
 end
