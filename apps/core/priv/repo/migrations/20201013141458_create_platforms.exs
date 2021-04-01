@@ -4,7 +4,7 @@ defmodule Core.Repo.Migrations.CreatePlatforms do
   def change do
     create table(:platforms, primary_key: false) do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
-      add :client_limit_reach, :boolean, null: false, default: false
+      add :client_limit_reach, :boolean, null: true
       add :hero_active, :boolean, null: true
       add :hero_status, :boolean, null: true
       add :is_banned, :boolean, null: false, default: false

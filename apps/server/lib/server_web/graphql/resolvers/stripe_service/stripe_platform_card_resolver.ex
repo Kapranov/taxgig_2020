@@ -37,13 +37,18 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver d
       case Accounts.by_role(current_user.id) do
         true -> {:error, :not_found}
         false ->
-          with customer <- StripyRepo.get_by(StripeCustomer, %{user_id: current_user.id}),
-               {:ok, struct} <- StripePlatformCardService.list_card(%{customer: customer.id_from_stripe})
-          do
-            {:ok, struct}
+          struct = Queries.by_list(Accounts.Platform, :user_id, current_user.id)
+          if struct == [] or Map.get(List.last(struct), :payment_active) == false do
+            {:ok, []}
           else
-            nil -> {:error, :not_found}
-            failure -> failure
+            with customer <- StripyRepo.get_by(StripeCustomer, %{user_id: current_user.id}),
+                 {:ok, struct} <- StripePlatformCardService.list_card(%{customer: customer.id_from_stripe})
+            do
+              {:ok, struct}
+            else
+              nil -> {:error, :not_found}
+              failure -> failure
+            end
           end
       end
     end

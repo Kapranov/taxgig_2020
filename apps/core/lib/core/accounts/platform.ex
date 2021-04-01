@@ -37,7 +37,6 @@ defmodule Core.Accounts.Platform do
   )a
 
   @required_params ~w(
-    client_limit_reach
     is_banned
     is_online
     is_stuck
@@ -46,7 +45,7 @@ defmodule Core.Accounts.Platform do
   )a
 
   schema "platforms" do
-    field :client_limit_reach, :boolean, null: false, default: false
+    field :client_limit_reach, :boolean, null: true
     field :hero_active, :boolean, null: true
     field :hero_status, :boolean, null: true
     field :is_banned, :boolean, null: false, default: false

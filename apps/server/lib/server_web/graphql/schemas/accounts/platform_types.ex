@@ -15,7 +15,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.PlatformTypes do
   @desc "The platform on the site"
   object :platform, description: "Platform" do
     field :id, non_null(:string), description: "unique identifier"
-    field :client_limit_reach, non_null(:boolean)
+    field :client_limit_reach, :boolean
     field :hero_active, :boolean
     field :hero_status, :boolean
     field :is_banned, non_null(:boolean)
@@ -54,7 +54,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.PlatformTypes do
   object :platform_mutations do
     @desc "Create the platform"
     field :create_platform, :platform, description: "Create a new platform" do
-      arg :client_limit_reach, non_null(:boolean)
+      arg :client_limit_reach, :boolean
       arg :hero_status, :boolean
       arg :is_banned, non_null(:boolean)
       arg :is_online, non_null(:boolean)
