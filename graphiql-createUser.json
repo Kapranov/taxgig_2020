@@ -135,7 +135,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab4",
+  "activeId": "tab5",
   "tabs": [
     {
       "id": "tab1",
@@ -261,7 +261,7 @@
       "websocketUrl": "ws://localhost:4000/socket",
       "proxy": false,
       "headers": [],
-      "collapsed": true,
+      "collapsed": false,
       "maxHistory": 20,
       "history": [
         {
@@ -297,7 +297,7 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  signUpLocal(\n    email: \"kapranov.lugatex@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    phone: \"555-555-5555\",\n    provider: \"localhost\",\n    role: false\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+      "graphiql:query": "mutation {\n  signUpLocal(\n    email: \"kapranov.lugatex@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    phone: \"555-555-5555\",\n    provider: \"localhost\",\n    role: false,\n    zip: \"123456789\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    password: \\\"\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"google\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    password: \\\"AES256GCM\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"google\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    password: \\\"AES256GCM\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    is2fa: false,\\n    password: \\\"AES256GCM\\\",\\n    passwordConfirmation: \\\"AES256GCM\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  signUpLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    phone: \\\"555-555-5555\\\",\\n    provider: \\\"localhost\\\",\\n    role: false\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  signUpLocal(\\n    firstName: \\\"Oleh\\\",\\n    lastName: \\\"Kapranov\\\",\\n    middleName: \\\"George\\\"\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    phone: \\\"555-555-5555\\\",\\n    provider: \\\"localhost\\\",\\n    role: false\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  signUpLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    phone: \\\"555-555-5555\\\",\\n    provider: \\\"localhost\\\",\\n    role: false\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"mutation {\\n  signUpLocal(\\n    email: \\\"kapranov.lugatex@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    phone: \\\"555-555-5555\\\",\\n    provider: \\\"localhost\\\",\\n    role: false\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 1,
@@ -507,10 +507,10 @@
       ],
       "graphiql:query": "mutation {\n  updatePassword(\n    id: \"A5m7ClMyADA0ZJjwye\",\n    user: {\n      oldPassword: \"AES256GCM\",\n      password: \"qwerty\",\n      passwordConfirmation: \"qwerty\"\n    }\n  ) {\n    id\n    error\n    email\n  }\n}",
       "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updatePassword(\\n    id: \\\"A5m7ClMyADA0ZJjwye\\\",\\n    user: {\\n      oldPassword: \\\"AES256GCM\\\",\\n      password: \\\"qwerty\\\",\\n      passwordConfirmation: \\\"qwerty\\\"\\n    }\\n  ) {\\n    id\\n    error\\n    email\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 0.5168918918918919,
       "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updatePassword(\\n    id: \\\"A5m7ClMyADA0ZJjwye\\\",\\n    user: {\\n      oldPassword: \\\"AES256GCM\\\",\\n      password: \\\"qwerty\\\",\\n      passwordConfirmation: \\\"qwerty\\\"\\n    }\\n  ) {\\n    id\\n    error\\n    email\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.5168918918918919
     }
   ]
 }

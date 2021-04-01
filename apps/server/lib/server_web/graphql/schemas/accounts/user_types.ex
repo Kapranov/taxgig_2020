@@ -242,6 +242,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       arg(:phone, non_null(:string), description: "Input only allow US phone number format")
       arg(:provider, non_null(:string), description: "Choose provider service")
       arg(:role, non_null(:boolean), description: "Type is-User Role")
+      arg(:zip, :string, description: "Zip only USA authorize")
       resolve(&UserResolver.signup/3)
     end
 
