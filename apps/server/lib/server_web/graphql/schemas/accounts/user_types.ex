@@ -136,6 +136,11 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
   end
 
   object :user_queries do
+    @desc "Get default avatars"
+    field :default_avatars, list_of(:string) do
+      resolve(&UserResolver.default_avatars/3)
+    end
+
     @desc "Get all accounts an user"
     field :all_users, list_of(:user) do
       resolve(&UserResolver.list/3)

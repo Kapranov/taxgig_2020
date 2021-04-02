@@ -1,6 +1,6 @@
 {
   "key": "graphiql",
-  "lastId": 12,
+  "lastId": 13,
   "tabIds": [
     "tab1",
     "tab2",
@@ -11,7 +11,8 @@
     "tab7",
     "tab8",
     "tab11",
-    "tab12"
+    "tab12",
+    "tab13"
   ],
   "closedTabs": [
     {
@@ -135,7 +136,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab5",
+  "activeId": "tab13",
   "tabs": [
     {
       "id": "tab1",
@@ -511,6 +512,28 @@
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updatePassword(\\n    id: \\\"A5m7ClMyADA0ZJjwye\\\",\\n    user: {\\n      oldPassword: \\\"AES256GCM\\\",\\n      password: \\\"qwerty\\\",\\n      passwordConfirmation: \\\"qwerty\\\"\\n    }\\n  ) {\\n    id\\n    error\\n    email\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:docExplorerWidth": 350,
       "graphiql:editorFlex": 0.5168918918918919
+    },
+    {
+      "id": "tab13",
+      "name": "Query 11",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  defaultAvatars\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  defaultAvatars\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  defaultAvatars\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
     }
   ]
 }

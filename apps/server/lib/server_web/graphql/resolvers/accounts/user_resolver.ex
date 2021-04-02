@@ -44,6 +44,19 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   @error_request "invalid grant"
   @error_request_des "Bad Request"
 
+  def default_avatars(_parent, _args, _resolutions) do
+    image_url = "http://robohash.org/set_set1/bgset_bg1"
+    {:ok, [
+        "#{image_url}/RbY701OjHTBuUfgP8SM",
+        "#{image_url}/8Q",
+        "#{image_url}/3kmxQaPHLKJm",
+        "#{image_url}/PlCHlAkrc",
+        "#{image_url}/JvBkyiCDIsje",
+        "#{image_url}/2f80"
+      ]
+    }
+  end
+
   @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: success_list() | error_tuple()
   def list(_parent, _args, %{context: %{current_user: current_user}}) do
     if is_nil(current_user) do
