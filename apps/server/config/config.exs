@@ -7,7 +7,7 @@ config :server, ServerWeb.Endpoint,
   aad: "AES256GCM",
   redirect_uri: "https://taxgig.me:4001/graphiql",
   secret_key_base: "4rKBiN5BznqeClNzy1t+4LmfMH48TxlPCUT996MELKJ2t/zwrvQsPrG71vhE7vKu",
-  max_age: 604800,
+  max_age: 3 * 24 * 3600,
   render_errors: [view: ServerWeb.ErrorView, accepts: ~w(json)],
   pubsub_server: Server.PubSub,
   version: Mix.Project.config()[:version]
