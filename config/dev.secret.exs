@@ -14,25 +14,6 @@ config :core, Core.Repo,
   password: "nicmos6922",
   database: "taxgig",
   hostname: "localhost",
-  # hostname: "157.230.215.139",
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
-
-config :core, Graphy.Repo,
-  username: "kapranov",
-  password: "nicmos6922",
-  database: "taxgig",
-  hostname: "localhost",
-  # hostname: "157.230.215.139",
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
-
-config :ptin, Ptin.Repo,
-  username: "kapranov",
-  password: "nicmos6922",
-  database: "ptin",
-  hostname: "localhost",
-  # hostname: "157.230.215.139",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -93,30 +74,19 @@ config :ex_aws,
 
 config :server, Google,
   client_id: "991262252553-18hlqfkgmkmk9l9o1niuq0ehcqvd097u.apps.googleusercontent.com",
-  client_secret: "GYyCMYA1hLMYAJrfBZoJxHa0",
-  redirect_uri: "https://taxgig.me:4001/graphiql"
+  client_secret: "GYyCMYA1hLMYAJrfBZoJxHa0"
 
 config :server, Facebook,
   client_id: "693824267691319",
   client_secret: "250e5db3f21f6138c75f551f758a8652",
-  redirect_uri: "https://taxgig.me:4001/graphiql",
   scope: "email,user_photos"
 
 config :server, Twitter,
   access_token_key: "14943639-AMjbJmZEOtiv2LF7k7gGmRM3BDecGkot78BcouL8e",
   access_token_secret: "d4wYVSk7A7VYjo2fD9J5OssEklz11DY2m1SMkfRdlpEwO",
   consumer_key: "EjOshf6LQJqBWAxXL1OgRV7dk",
-  consumer_secret: "h24eToLvYW9SAh5zfin68VXroYqfzEVNYFxuJgyZaYZ8m2lqcm",
-  redirect_uri: "https://taxgig.me:4001/graphiql"
+  consumer_secret: "h24eToLvYW9SAh5zfin68VXroYqfzEVNYFxuJgyZaYZ8m2lqcm"
 
 config :server, LinkedIn,
-  client_id: "86o1wzfjly49rc",
-  client_secret: "DyOjOFidMtPJQIlu",
-  redirect_uri: "https://taxgig.me:4001/graphiql"
-
-config :graphy, ServerQLApi,
-  client: ServerQLApi.Client,
-  query_caller: CommonGraphQLClient.Caller.Http,
-  http_api_url: "http://127.0.0.1:4000/api",
-  subscription_caller: CommonGraphQLClient.Caller.WebSocket,
-  websocket_api_url: "ws://127.0.0.1:4000/socket/websocket"
+  client_id: "7836672fm66v60",
+  client_secret: "8pxTP1OulfSn5xaq"

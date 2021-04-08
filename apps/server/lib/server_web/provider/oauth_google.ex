@@ -14,13 +14,12 @@ defmodule ServerWeb.Provider.OauthGoogle do
   @google_user_profile_url "https://www.googleapis.com/oauth2/v3/userinfo"
   @google_user_email_url "https://www.googleapis.com/userinfo/v2/me"
 
-  @spec generate_url() :: String.t()
-  def generate_url do
+  @spec generate_url(String.t()) :: String.t()
+  def generate_url(link) do
     client_id = Application.get_env(:server, Google)[:client_id]
     scope = Application.get_env(:server, Google)[:scope] || "profile+email"
-    redirect_uri = Application.get_env(:server, Google)[:redirect_uri]
 
-    "#{@google_auth_url}&client_id=#{client_id}&scope=#{scope}&redirect_uri=#{redirect_uri}"
+    "#{@google_auth_url}&client_id=#{client_id}&scope=#{scope}&redirect_uri=#{link}"
   end
 
   @spec generate_refresh_token_url() :: String.t()

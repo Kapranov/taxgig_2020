@@ -31,8 +31,6 @@ config :logger, :console,
 
 config :core, ecto_repos: [
   Core.Repo,
-  Graphy.Repo,
-  Ptin.Repo,
   Stripy.Repo
 ]
 
@@ -55,11 +53,6 @@ config :core, :instance,
   account_field_value_length: 2048,
   external_user_synchronization: true,
   extended_nickname_format: true
-
-config :ptin,
-  base_data: "apps/ptin/priv/data",
-  expired_after: 24 * 60 * 60 * 1000,
-  clean_interval: 30 * 60 * 1000
 
 config :reptin,
   base_data: "apps/reptin/priv/data",

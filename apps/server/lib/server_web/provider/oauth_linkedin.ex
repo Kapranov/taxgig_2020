@@ -13,14 +13,13 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
   @linkedin_profile_url "https://api.linkedin.com/v2/me?projection=(localizedFirstName,localizedLastName,profilePicture(displayImage~:playableStreams))"
   @avatar_url "https://robohash.org/set_set3/bgset_bg2/dky6Sd"
 
-  @spec generate_url() :: {:ok, %{atom() => String.t()}}
-  def generate_url do
+  @spec generate_url(String.t()) :: {:ok, %{atom() => String.t()}}
+  def generate_url(link) do
     client_id = Application.get_env(:server, LinkedIn)[:client_id]
-    redirect_uri = Application.get_env(:server, LinkedIn)[:redirect_uri]
     state = Application.get_env(:server, LinkedIn)[:state] || "pureagency"
     scope = Application.get_env(:server, LinkedIn)[:scope] || "r_liteprofile%20r_emailaddress%20"
 
-    url = "#{@linkedin_auth_url}&client_id=#{client_id}&redirect_uri=#{redirect_uri}&state=#{state}&scope=#{scope}"
+    url = "#{@linkedin_auth_url}&client_id=#{client_id}&redirect_uri=#{link}&state=#{state}&scope=#{scope}"
     {:ok, %{"url" => url}}
   end
 

@@ -31,6 +31,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   @secret Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_base]
 
   @keys ~w(provider)a
+  @code_keys ~w(link provider)a
   @error_code "invalid code"
   @error_des "invalid url by"
   @error_pro "invalid provider"
@@ -165,7 +166,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     |> Repo.insert
     |> case do
       {:error, changeset} ->
-        {:error, extract_error_msg(changeset)}
+        {:error, error_details(changeset)}
     end
   end
 
@@ -294,25 +295,25 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   @spec get_code(any, %{atom => any}, Absinthe.Resolution.t()) :: result() | error_map()
   def get_code(_parent, args, _resolution) do
-    case required_keys(@keys, args) do
+    case required_keys(@code_keys, args) do
       true ->
         case args[:provider] do
           "facebook" ->
-            case OauthFacebook.generate_url() do
+            case OauthFacebook.generate_url(args[:link]) do
               nil ->
                 {:ok, %{error: @error_code, error_description: error_des(args[:provider]), provider: args[:provider]}}
               code ->
                 {:ok, %{code: code, provider: args[:provider]}}
             end
           "google" ->
-            case OauthGoogle.generate_url() do
+            case OauthGoogle.generate_url(args[:link]) do
               nil ->
                 {:ok, %{error: @error_code, error_description: error_des(args[:provider]), provider: args[:provider]}}
               code ->
                 {:ok, %{code: code, provider: args[:provider]}}
             end
           "linkedin" ->
-            case OauthLinkedIn.generate_url() do
+            case OauthLinkedIn.generate_url(args[:link]) do
               {:ok, data} ->
                 {:ok, %{code: data["url"], provider: args[:provider]}}
             end
@@ -1144,6 +1145,20 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         field: field,
         message: String.capitalize(error)
       ]
+    end)
+  end
+
+  @doc """
+  Traverses the changeset errors and returns a map of error messages.
+  For example:
+
+  %{start_date: ["can't be blank"], end_date: ["can't be blank"]}
+  """
+  def error_details(changeset) do
+    Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
+      Enum.reduce(opts, msg, fn {key, value}, acc ->
+        String.replace(acc, "%{#{key}}", to_string(value))
+      end)
     end)
   end
 

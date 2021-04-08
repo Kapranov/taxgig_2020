@@ -796,6 +796,8 @@ Stripe.charge.capture -> ByDone
 #
 # timestamp = :os.system_time(:seconds) + 10
 #
+# :erlang.system_time(:millisecond)
+#
 # @months ~w(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec)
 #
 # encoded_email = email |> :erlang.term_to_binary() |> Base.encode64()

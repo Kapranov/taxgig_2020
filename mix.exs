@@ -3,7 +3,6 @@ defmodule TaxgigEx.MixProject do
 
   @seed_core_repo_path "apps/core/priv/repo/seeds.exs"
   @seed_stripy_repo_path "apps/stripy/priv/repo/seeds.exs"
-  @seed_ptin_repo_path "apps/ptin/priv/repo/seeds.exs"
   @seed_server_repo_path "apps/server/priv/repo/seeds.exs"
   @version "1.0.0-beta.1"
 
@@ -48,24 +47,12 @@ defmodule TaxgigEx.MixProject do
         "run #{@seed_stripy_repo_path}",
         "run #{@seed_server_repo_path}"
       ],
-      "ecto.setup.ptin": [
-        "ecto.create -r Ptin.Repo",
-        "cmd --app ptin mix ecto.migrate -r Ptin.Repo",
-        "run #{@seed_ptin_repo_path}"
-      ],
       "ecto.reset.core": [
         "ecto.drop -r Core.Repo",
         "ecto.setup.core"
       ],
-      "ecto.reset.ptin": [
-        "ecto.drop -r Ptin.Repo",
-        "ecto.setup.ptin"
-      ],
       "ecto.drop.core": [
         "cmd --app core mix ecto.drop -r Core.Repo"
-      ],
-      "ecto.drop.ptin": [
-        "cmd --app ptin mix ecto.drop -r Ptin.Repo"
       ],
       "ecto.migrate.core": [
         "ecto.migrate -r Core.Repo",
@@ -75,25 +62,13 @@ defmodule TaxgigEx.MixProject do
         "ecto.migrate -r Stripy.Repo",
         "ecto.dump -r Stripy.Repo"
       ],
-      "ecto.migrate.ptin": [
-        "ecto.migrate -r Ptin.Repo",
-        "ecto.dump -r Ptin.Repo"
-      ],
       "ecto.create.core": [
         "cmd --app core mix ecto.create -r Core.Repo"
-      ],
-      "ecto.create.ptin": [
-        "cmd --app ptin mix ecto.create -r Ptin.Repo"
       ],
       "benchmark.reset.core": [
         "ecto.drop -r Core.Repo",
         "ecto.create -r Core.Repo",
         "ecto.migrate -r Core.Repo"
-      ],
-      "benchmark.reset.ptin": [
-        "ecto.drop -r Ptin.Repo",
-        "ecto.create -r Ptin.Repo",
-        "ecto.migrate -r Ptin.Repo"
       ],
       "benchmark.setup.stripy": [
         "ecto.migrate -r Core.Repo"
@@ -106,11 +81,6 @@ defmodule TaxgigEx.MixProject do
       "test.stripy": [
         "cmd --app stripy mix ecto.migrate -r Stripy.Repo"
       ],
-      "test.ptin": [
-        "ecto.drop -r Ptin.Repo",
-        "ecto.create --quiet -r Ptin.Repo",
-        "ecto.migrate -r Ptin.Repo"
-      ],
       "test.reset.core": [
         "ecto.drop -r Core.Repo",
         "ecto.create -r Core.Repo",
@@ -118,11 +88,6 @@ defmodule TaxgigEx.MixProject do
       ],
       "test.reset.stripy": [
         "cmd --app stripy mix ecto.migrate -r Stripy.Repo"
-      ],
-      "test.reset.ptin": [
-        "ecto.drop -r Ptin.Repo",
-        "ecto.create -r Ptin.Repo",
-        "ecto.migrate -r Ptin.Repo"
       ],
       "test.setup.stripy": [
         "ecto.migrate -r Stripy.Repo"

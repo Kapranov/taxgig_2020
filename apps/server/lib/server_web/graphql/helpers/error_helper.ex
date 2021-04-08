@@ -2,7 +2,7 @@ defmodule ServerWeb.GraphQL.Helpers.ErrorHelper do
   @behaviour Absinthe.Middleware
 
   def call(resolution, _) do
-     %{resolution | errors: Enum.flat_map(resolution.errors, &handle_error/1)}
+    %{resolution | errors: Enum.flat_map(resolution.errors, &handle_error/1)}
   end
 
   defp handle_error(%Ecto.Changeset{} = changeset) do

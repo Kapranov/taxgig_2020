@@ -12,22 +12,6 @@ config :core, Core.Repo,
   show_sensitive_data_on_connection_error: true,
   pool: Ecto.Adapters.SQL.Sandbox
 
-config :core, Graphy.Repo,
-  username: "kapranov",
-  password: "nicmos6922",
-  database: "taxgig_test",
-  hostname: "localhost",
-  show_sensitive_data_on_connection_error: true,
-  pool: Ecto.Adapters.SQL.Sandbox
-
-config :ptin, Ptin.Repo,
-  username: "kapranov",
-  password: "nicmos6922",
-  database: "ptin_test",
-  hostname: "localhost",
-  show_sensitive_data_on_connection_error: true,
-  pool: Ecto.Adapters.SQL.Sandbox
-
 config :mailings,
   mailgun_domain: "https://api.mailgun.net/v3/mail.taxgig.com",
   mailgun_key: "d88a0873cc6c3ca3f55e7a12465178cf-2d27312c-6a0b1e90"
@@ -82,28 +66,17 @@ config :core, Core.Uploaders.S3,
 
 config :server, Google,
   client_id: "991262252553-18hlqfkgmkmk9l9o1niuq0ehcqvd097u.apps.googleusercontent.com",
-  client_secret: "GYyCMYA1hLMYAJrfBZoJxHa0",
-  redirect_uri: "https://taxgig.me:4001/graphiql"
+  client_secret: "GYyCMYA1hLMYAJrfBZoJxHa0"
 
 config :server, Facebook,
   client_id: "693824267691319",
   client_secret: "250e5db3f21f6138c75f551f758a8652",
-  redirect_uri: "https://taxgig.me:4001/graphiql",
   scope: "email,user_photos"
 
 config :server, Twitter,
   client_id: "86o1wzfjly49rc",
-  client_secret: "DyOjOFidMtPJQIlu",
-  redirect_uri: "https://taxgig.me:4001/graphiql"
+  client_secret: "DyOjOFidMtPJQIlu"
 
 config :server, LinkedIn,
   client_id: "86o1wzfjly49rc",
-  client_secret: "DyOjOFidMtPJQIlu",
-  redirect_uri: "https://taxgig.me:4001/graphiql"
-
-config :graphy, ServerQLApi,
-  client: ServerQLApi.Client,
-  query_caller: CommonGraphQLClient.Caller.Http,
-  http_api_url: "http://127.0.0.1:4000/api",
-  subscription_caller: CommonGraphQLClient.Caller.WebSocket,
-  websocket_api_url: "ws://127.0.0.1:4000/socket/websocket"
+  client_secret: "DyOjOFidMtPJQIlu"
