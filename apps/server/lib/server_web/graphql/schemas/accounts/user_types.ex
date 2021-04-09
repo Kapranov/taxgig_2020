@@ -64,7 +64,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
 
   @desc "Provider's code"
   object :provider do
-    field :code, non_null(:string)
+    field :code, :string
     field :provider, non_null(:string)
   end
 
@@ -155,15 +155,17 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     @desc "Get code by Providers"
     field :get_code, :provider do
       arg(:provider, non_null(:string))
+      arg(:redirect, non_null(:string))
       resolve(&UserResolver.get_code/3)
     end
 
     @desc "Get token by Providers"
     field :get_token, :social_provider do
       arg(:code, :string)
-      arg(:provider, non_null(:string))
       arg(:email, :string)
       arg(:password, :string)
+      arg(:provider, non_null(:string))
+      arg(:redirect, non_null(:string))
       resolve(&UserResolver.get_token/3)
     end
 
@@ -192,6 +194,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :sign_in_social, :session do
       arg(:code, non_null(:string), description: "Generated the boiler-plate code through social networks, except for localhost")
       arg(:provider, non_null(:string), description: "Choose provider service")
+      arg(:redirect, non_null(:string), description: "Redirect URI by Social's network Dashboard")
       resolve(&UserResolver.signin/3)
     end
 
@@ -236,6 +239,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :sign_up_social, :session do
       arg(:code, non_null(:string), description: "Generated the boiler-plate code through social networks, except for localhost")
       arg(:provider, non_null(:string), description: "Choose provider service")
+      arg(:redirect, non_null(:string), description: "Redirect URI by Social's network Dashboard")
       resolve(&UserResolver.signup/3)
     end
 

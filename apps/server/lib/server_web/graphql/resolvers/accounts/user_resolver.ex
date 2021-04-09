@@ -31,6 +31,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   @secret Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_base]
 
   @keys ~w(provider)a
+  @code_keys ~w(provider redirect)a
   @error_code "invalid code"
   @error_des "invalid url by"
   @error_pro "invalid provider"
@@ -294,7 +295,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   @spec get_code(any, %{atom => any}, Absinthe.Resolution.t()) :: result() | error_map()
   def get_code(_parent, args, _resolution) do
-    case required_keys(@keys, args) do
+    case required_keys(@code_keys, args) do
       true ->
         case args[:provider] do
           "facebook" ->
@@ -305,7 +306,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                 {:ok, %{code: code, provider: args[:provider]}}
             end
           "google" ->
-            case OauthGoogle.generate_url() do
+            case OauthGoogle.generate_url(args[:redirect]) do
               nil ->
                 {:ok, %{error: @error_code, error_description: error_des(args[:provider]), provider: args[:provider]}}
               code ->
@@ -381,7 +382,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                     end
                 end
               "google" ->
-                case OauthGoogle.token(args[:code]) do
+                case OauthGoogle.token(args[:code], args[:redirect]) do
                   {:error, data} ->
                     %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
                     {:ok, %{error: @error_code, error_description: msg, provider: args[:provider]}}
@@ -737,7 +738,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             end
         end
       "google" ->
-        case OauthGoogle.token(args[:code]) do
+        case OauthGoogle.token(args[:code], args[:redirect]) do
           {:error, data} ->
             %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
             {:ok, %{
@@ -761,8 +762,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                       %{
                         avatar:                profile["picture"],
                         email:                   profile["email"],
-                        first_name:        profile["family_name"],
-                        last_name:          profile["given_name"],
+                        first_name:         profile["given_name"],
+                        last_name:         profile["family_name"],
                         provider:                        "google"
                       }
 
@@ -994,7 +995,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             end
         end
       "google" ->
-        case OauthGoogle.token(args[:code]) do
+        case OauthGoogle.token(args[:code], args[:redirect]) do
           {:error, data} ->
             %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
             {:ok, %{

@@ -14,13 +14,17 @@ defmodule ServerWeb.Provider.OauthGoogle do
   @google_user_profile_url "https://www.googleapis.com/oauth2/v3/userinfo"
   @google_user_email_url "https://www.googleapis.com/userinfo/v2/me"
 
-  @spec generate_url() :: String.t()
-  def generate_url() do
+  @spec generate_url(String.t()) :: String.t()
+  def generate_url(redirect) do
     client_id = Application.get_env(:server, Google)[:client_id]
     scope = Application.get_env(:server, Google)[:scope] || "profile+email"
     redirect_uri = Application.get_env(:server, Google)[:redirect_uri]
 
-    "#{@google_auth_url}&client_id=#{client_id}&scope=#{scope}&redirect_uri=#{redirect_uri}"
+    if Enum.find_value(redirect_uri, &(&1 == redirect)) do
+      "#{@google_auth_url}&client_id=#{client_id}&scope=#{scope}&redirect_uri=#{redirect}"
+    else
+      nil
+    end
   end
 
   @spec generate_refresh_token_url() :: String.t()
@@ -33,19 +37,28 @@ defmodule ServerWeb.Provider.OauthGoogle do
   end
 
   @spec token(String.t()) :: %{atom => any}
-  def token(code) when not is_nil(code) and is_bitstring(code) do
-    # redirect_uri |> Enum.find_value(&(&1 == redirect))
-    decode = URI.decode(code)
-    body = Jason.encode!(%{
-      code: decode,
-      client_id: Application.get_env(:server, Google)[:client_id],
-      client_secret: Application.get_env(:server, Google)[:client_secret],
-      redirect_uri: Application.get_env(:server, Google)[:redirect_uri],
-      grant_type: "authorization_code"
-    })
+  def token(code, redirect) when not is_nil(code) and is_bitstring(code) do
+    redirect_uri = Application.get_env(:server, Google)[:redirect_uri]
 
-    @httpoison.post(@google_token_url, body)
-    |> parse_body_response()
+    if Enum.find_value(redirect_uri, &(&1 == redirect)) do
+      decode = URI.decode(code)
+      body = Jason.encode!(%{
+        code: decode,
+        client_id: Application.get_env(:server, Google)[:client_id],
+        client_secret: Application.get_env(:server, Google)[:client_secret],
+        redirect_uri: redirect,
+        grant_type: "authorization_code"
+      })
+
+      @httpoison.post(@google_token_url, body)
+      |> parse_body_response()
+    else
+      {:ok, %{
+          "error" => "invalid_grant",
+          "error_description" => "Malformed auth code."
+        }
+      }
+    end
   end
 
   @spec token(any()) :: {:ok, %{atom => String.t()}}

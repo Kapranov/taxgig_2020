@@ -7,10 +7,11 @@ defmodule ServerWeb.HTTPoison.GoogleBehaviour do
 
   @typep code :: binary()
   @typep token :: binary()
+  @typep uri :: binary()
 
-  @callback generate_url() :: String.t()
+  @callback generate_url(uri) :: String.t()
   @callback generate_refresh_token_url() :: String.t()
-  @callback token(code) :: {:ok, map()} | {:error, binary() | map()}
+  @callback token(code, uri) :: {:ok, map()} | {:error, binary() | map()}
   @callback refresh_token(token) :: {:ok, map()} | {:error, binary() | map()}
   @callback verify_token(token) :: {:ok, map()} | {:error, binary() | map()}
   @callback user_profile(token) :: {:ok, map()} | {:error, binary() | map()}
