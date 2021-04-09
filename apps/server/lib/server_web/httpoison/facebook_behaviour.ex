@@ -7,9 +7,8 @@ defmodule ServerWeb.HTTPoison.FacebookBehaviour do
 
   @typep code :: binary()
   @typep token :: binary()
-  @typep url :: binary()
 
-  @callback generate_url(url) :: String.t()
+  @callback generate_url() :: String.t()
   @callback generate_refresh_token_url(token) :: {:ok, map()} | {:error, binary() | map()}
   @callback token(code) :: {:ok, map()} | {:error, binary() | map()}
   @callback refresh_token(token) :: {:ok, map()} | {:error, binary() | map()}

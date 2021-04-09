@@ -15,13 +15,14 @@ defmodule ServerWeb.Provider.OauthFacebook do
   @facebook_token_url "https://graph.facebook.com/oauth/access_token?"
   @facebook_user_profile_url "https://graph.facebook.com/me?"
 
-  @spec generate_url(String.t()) :: String.t()
-  def generate_url(link) do
+  @spec generate_url() :: String.t()
+  def generate_url() do
     client_id = Application.get_env(:server, Facebook)[:client_id]
     client_secret = Application.get_env(:server, Facebook)[:client_secret]
     scope = Application.get_env(:server, Facebook)[:scope]
+    redirect_uri = Application.get_env(:server, Facebook)[:redirect_uri]
 
-    "#{@facebook_auth_url}client_id=#{client_id}&client_secret=#{client_secret}&redirect_uri=#{link}&scope=#{scope}"
+    "#{@facebook_auth_url}client_id=#{client_id}&client_secret=#{client_secret}&redirect_uri=#{redirect_uri}&scope=#{scope}"
   end
 
   @spec generate_refresh_token_url(String.t()) :: {:ok, %{atom() => String.t()}}

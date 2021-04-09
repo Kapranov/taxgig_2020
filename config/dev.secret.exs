@@ -74,19 +74,23 @@ config :ex_aws,
 
 config :server, Google,
   client_id: "991262252553-18hlqfkgmkmk9l9o1niuq0ehcqvd097u.apps.googleusercontent.com",
-  client_secret: "GYyCMYA1hLMYAJrfBZoJxHa0"
+  client_secret: "GYyCMYA1hLMYAJrfBZoJxHa0",
+  redirect_uri: ["http://localhost:4200/auth/login?provider=google", "http://localhost:4200/auth/registration-creating-account?provider=google"]
 
 config :server, Facebook,
   client_id: "693824267691319",
   client_secret: "250e5db3f21f6138c75f551f758a8652",
+  redirect_uri: "https://taxgig.me:4001/graphiql",
   scope: "email,user_photos"
 
 config :server, Twitter,
   access_token_key: "14943639-AMjbJmZEOtiv2LF7k7gGmRM3BDecGkot78BcouL8e",
   access_token_secret: "d4wYVSk7A7VYjo2fD9J5OssEklz11DY2m1SMkfRdlpEwO",
   consumer_key: "EjOshf6LQJqBWAxXL1OgRV7dk",
-  consumer_secret: "h24eToLvYW9SAh5zfin68VXroYqfzEVNYFxuJgyZaYZ8m2lqcm"
+  consumer_secret: "h24eToLvYW9SAh5zfin68VXroYqfzEVNYFxuJgyZaYZ8m2lqcm",
+  redirect_uri: "https://taxgig.me:4001/graphiql"
 
 config :server, LinkedIn,
   client_id: "7836672fm66v60",
-  client_secret: "8pxTP1OulfSn5xaq"
+  client_secret: "8pxTP1OulfSn5xaq",
+  redirect_uri: "https://taxgig.me:4001/graphiql"

@@ -141,7 +141,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver d
         case !is_nil(current_user) do
           true ->
             with customer <- StripyRepo.get_by(StripeCustomer, %{user_id: current_user.id}),
-                 {:ok, struct} <- StripePlatformCardService.delete_card(id_from_stripe, %{customer: customer.id})
+                 {:ok, struct} <- StripePlatformCardService.delete_card(id_from_stripe, %{customer: customer.id_from_stripe})
             do
               {:ok, struct}
             else

@@ -155,7 +155,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     @desc "Get code by Providers"
     field :get_code, :provider do
       arg(:provider, non_null(:string))
-      arg(:link, non_null(:string))
       resolve(&UserResolver.get_code/3)
     end
 

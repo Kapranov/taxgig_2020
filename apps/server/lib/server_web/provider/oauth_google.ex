@@ -14,12 +14,13 @@ defmodule ServerWeb.Provider.OauthGoogle do
   @google_user_profile_url "https://www.googleapis.com/oauth2/v3/userinfo"
   @google_user_email_url "https://www.googleapis.com/userinfo/v2/me"
 
-  @spec generate_url(String.t()) :: String.t()
-  def generate_url(link) do
+  @spec generate_url() :: String.t()
+  def generate_url() do
     client_id = Application.get_env(:server, Google)[:client_id]
     scope = Application.get_env(:server, Google)[:scope] || "profile+email"
+    redirect_uri = Application.get_env(:server, Google)[:redirect_uri]
 
-    "#{@google_auth_url}&client_id=#{client_id}&scope=#{scope}&redirect_uri=#{link}"
+    "#{@google_auth_url}&client_id=#{client_id}&scope=#{scope}&redirect_uri=#{redirect_uri}"
   end
 
   @spec generate_refresh_token_url() :: String.t()
@@ -33,6 +34,7 @@ defmodule ServerWeb.Provider.OauthGoogle do
 
   @spec token(String.t()) :: %{atom => any}
   def token(code) when not is_nil(code) and is_bitstring(code) do
+    # redirect_uri |> Enum.find_value(&(&1 == redirect))
     decode = URI.decode(code)
     body = Jason.encode!(%{
       code: decode,
