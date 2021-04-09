@@ -80,7 +80,7 @@ config :server, Google,
 config :server, Facebook,
   client_id: "693824267691319",
   client_secret: "250e5db3f21f6138c75f551f758a8652",
-  redirect_uri: "https://taxgig.me:4001/graphiql",
+  redirect_uri: ["http://localhost:4200/auth/login?provider=google", "http://localhost:4200/auth/registration-creating-account?provider=google"],
   scope: "email,user_photos"
 
 config :server, Twitter,
@@ -88,9 +88,9 @@ config :server, Twitter,
   access_token_secret: "d4wYVSk7A7VYjo2fD9J5OssEklz11DY2m1SMkfRdlpEwO",
   consumer_key: "EjOshf6LQJqBWAxXL1OgRV7dk",
   consumer_secret: "h24eToLvYW9SAh5zfin68VXroYqfzEVNYFxuJgyZaYZ8m2lqcm",
-  redirect_uri: "https://taxgig.me:4001/graphiql"
+  redirect_uri: ["http://localhost:4200/auth/login?provider=google", "http://localhost:4200/auth/registration-creating-account?provider=google"]
 
 config :server, LinkedIn,
   client_id: "7836672fm66v60",
   client_secret: "8pxTP1OulfSn5xaq",
-  redirect_uri: "https://taxgig.me:4001/graphiql"
+  redirect_uri: ["http://localhost:4200/auth/login?provider=google", "http://localhost:4200/auth/registration-creating-account?provider=google"]

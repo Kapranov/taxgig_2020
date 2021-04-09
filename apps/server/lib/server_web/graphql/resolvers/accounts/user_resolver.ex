@@ -299,7 +299,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       true ->
         case args[:provider] do
           "facebook" ->
-            case OauthFacebook.generate_url() do
+            case OauthFacebook.generate_url(args[:redirect]) do
               nil ->
                 {:ok, %{error: @error_code, error_description: error_des(args[:provider]), provider: args[:provider]}}
               code ->
@@ -313,7 +313,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                 {:ok, %{code: code, provider: args[:provider]}}
             end
           "linkedin" ->
-            case OauthLinkedIn.generate_url() do
+            case OauthLinkedIn.generate_url(args[:redirect]) do
               {:ok, data} ->
                 {:ok, %{code: data["url"], provider: args[:provider]}}
             end
@@ -357,7 +357,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
           _ ->
             case args[:provider] do
               "facebook" ->
-                case OauthFacebook.token(args[:code]) do
+                case OauthFacebook.token(args[:code], args[:redirect]) do
                   {:ok, data} ->
                     if is_nil(data["error"]) do
                       {:ok, %{
@@ -402,7 +402,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                     }
                 end
               "linkedin" ->
-                case OauthLinkedIn.token(args[:code]) do
+                case OauthLinkedIn.token(args[:code], args[:redirect]) do
                   nil ->
                     {:ok, %{error: @error_email, error_description: @error_email_des, provider: args[:provider]}}
                   {:ok, data} ->
@@ -670,7 +670,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             provider: args[:provider]
           }}
       "facebook" ->
-        case OauthFacebook.token(args[:code]) do
+        case OauthFacebook.token(args[:code], args[:redirect]) do
           {:ok, data} ->
             if is_nil(data["error"]) do
               with {:ok, profile} <- OauthFacebook.user_profile(data["access_token"]) do
@@ -797,7 +797,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             end
         end
       "linkedin" ->
-        case OauthLinkedIn.token(args[:code]) do
+        case OauthLinkedIn.token(args[:code], args[:redirect]) do
           {:error, data} ->
             %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
             {:ok, %{
@@ -895,7 +895,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             provider: args[:provider]
           }}
       "facebook" ->
-        case OauthFacebook.token(args[:code]) do
+        case OauthFacebook.token(args[:code], args[:redirect]) do
           {:error, data} ->
             %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
             {:ok, %{
@@ -949,7 +949,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             end
         end
       "linkedin" ->
-        case OauthLinkedIn.token(args[:code]) do
+        case OauthLinkedIn.token(args[:code], args[:redirect]) do
           {:error, data} ->
             %{field: _, message: msg} = for {n, m} <- data, into: %{}, do: {n, m}
             {:ok, %{

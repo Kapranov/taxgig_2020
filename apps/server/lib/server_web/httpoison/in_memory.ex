@@ -34,7 +34,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
   @facebook_token   "https://graph.facebook.com/oauth/access_token?"
   @facebook_verify  "https://graph.facebook.com/oauth/access_token_info?"
 
-  @redirect_uri URI.decode("#{Application.get_env(:server, Facebook)[:redirect_uri]}")
+  @redirect_uri URI.decode("#{List.first(Application.get_env(:server, Facebook)[:redirect_uri])}")
 
   @body1 URI.encode_query(%{
     client_id: Application.get_env(:server, LinkedIn)[:client_id],
@@ -54,7 +54,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     code: @code_ok,
     client_id: Application.get_env(:server, LinkedIn)[:client_id],
     client_secret: Application.get_env(:server, LinkedIn)[:client_secret],
-    redirect_uri: Application.get_env(:server, LinkedIn)[:redirect_uri],
+    redirect_uri: List.first(Application.get_env(:server, LinkedIn)[:redirect_uri]),
     grant_type: "authorization_code"
   })
 
@@ -62,7 +62,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     code: @code_wrong,
     client_id: Application.get_env(:server, LinkedIn)[:client_id],
     client_secret: Application.get_env(:server, LinkedIn)[:client_secret],
-    redirect_uri: Application.get_env(:server, LinkedIn)[:redirect_uri],
+    redirect_uri: List.first(Application.get_env(:server, LinkedIn)[:redirect_uri]),
     grant_type: "authorization_code"
   })
 
@@ -84,7 +84,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     code: @code_ok,
     client_id: Application.get_env(:server, Google)[:client_id],
     client_secret: Application.get_env(:server, Google)[:client_secret],
-    redirect_uri: Application.get_env(:server, Google)[:redirect_uri],
+    redirect_uri: List.first(Application.get_env(:server, Google)[:redirect_uri]),
     grant_type: "authorization_code"
   })
 
@@ -92,7 +92,7 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
     code: @code_wrong,
     client_id: Application.get_env(:server, Google)[:client_id],
     client_secret: Application.get_env(:server, Google)[:client_secret],
-    redirect_uri: Application.get_env(:server, Google)[:redirect_uri],
+    redirect_uri: List.first(Application.get_env(:server, Google)[:redirect_uri]),
     grant_type: "authorization_code"
   })
 

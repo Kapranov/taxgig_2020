@@ -15,14 +15,18 @@ defmodule ServerWeb.Provider.OauthFacebook do
   @facebook_token_url "https://graph.facebook.com/oauth/access_token?"
   @facebook_user_profile_url "https://graph.facebook.com/me?"
 
-  @spec generate_url() :: String.t()
-  def generate_url() do
+  @spec generate_url(String.t()) :: String.t() | nil
+  def generate_url(redirect) when not is_nil(redirect) and is_bitstring(redirect) do
     client_id = Application.get_env(:server, Facebook)[:client_id]
     client_secret = Application.get_env(:server, Facebook)[:client_secret]
     scope = Application.get_env(:server, Facebook)[:scope]
     redirect_uri = Application.get_env(:server, Facebook)[:redirect_uri]
 
-    "#{@facebook_auth_url}client_id=#{client_id}&client_secret=#{client_secret}&redirect_uri=#{redirect_uri}&scope=#{scope}"
+    if Enum.find_value(redirect_uri, &(&1 == redirect)) do
+      "#{@facebook_auth_url}client_id=#{client_id}&client_secret=#{client_secret}&redirect_uri=#{redirect}&scope=#{scope}"
+    else
+      nil
+    end
   end
 
   @spec generate_refresh_token_url(String.t()) :: {:ok, %{atom() => String.t()}}
@@ -44,15 +48,23 @@ defmodule ServerWeb.Provider.OauthFacebook do
       }}
   end
 
-  @spec token(String.t()) :: %{atom => String.t()}
-  def token(code) when not is_nil(code) and is_bitstring(code) do
+  @spec token(String.t(), String.t()) :: %{atom => String.t()} | {:ok, %{atom => String.t()}}
+  def token(code, redirect) when not is_nil(code) and is_bitstring(code) and not is_nil(redirect) and is_bitstring(redirect) do
     client_id = Application.get_env(:server, Facebook)[:client_id]
     client_secret = Application.get_env(:server, Facebook)[:client_secret]
     redirect_uri = Application.get_env(:server, Facebook)[:redirect_uri]
 
-    "#{@facebook_token_url}client_id=#{client_id}&redirect_uri=#{redirect_uri}&client_secret=#{client_secret}&code=#{code}"
-    |> @httpoison.get()
-    |> parse_body_response()
+    if Enum.find_value(redirect_uri, &(&1 == redirect)) do
+      "#{@facebook_token_url}client_id=#{client_id}&redirect_uri=#{redirect}&client_secret=#{client_secret}&code=#{code}"
+      |> @httpoison.get()
+      |> parse_body_response()
+    else
+      {:ok, %{
+          "error" => "invalid_grant",
+          "error_description" => "Malformed auth code."
+        }
+      }
+    end
   end
 
   @spec token(any()) :: {:ok, %{atom => String.t()}}
