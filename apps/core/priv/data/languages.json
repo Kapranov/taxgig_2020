@@ -12,6 +12,10 @@
     "name": "chinese"
   },
   {
+    "abbr": "eng",
+    "name": "english"
+  },
+  {
     "abbr": "fra",
     "name": "french"
   },
