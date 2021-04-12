@@ -704,57 +704,39 @@ defmodule Core.Seeder.Accounts do
 
     [
       Repo.insert!(%DeletedUser{
-        email:       user.email,
         reason: random_reason(),
-        role:         user.role,
         user_id:        user.id
       }),
       Repo.insert!(%DeletedUser{
-        email:        tp1.email,
         reason: random_reason(),
-        role:          tp1.role,
         user_id:         tp1.id
       }),
       Repo.insert!(%DeletedUser{
-        email:        tp2.email,
         reason: random_reason(),
-        role:          tp2.role,
         user_id:         tp2.id
       }),
       Repo.insert!(%DeletedUser{
-        email:        tp3.email,
         reason: random_reason(),
-        role:          tp3.role,
         user_id:         tp3.id
       }),
       Repo.insert!(%DeletedUser{
-        email:        tp4.email,
         reason: random_reason(),
-        role:          tp4.role,
         user_id:         tp4.id
       }),
       Repo.insert!(%DeletedUser{
-        email:        tp5.email,
         reason: random_reason(),
-        role:          tp5.role,
         user_id:         tp5.id
       }),
       Repo.insert!(%DeletedUser{
-        email:       pro1.email,
         reason: random_reason(),
-        role:         pro1.role,
         user_id:        pro1.id
       }),
       Repo.insert!(%DeletedUser{
-        email:       pro2.email,
         reason: random_reason(),
-        role:         pro2.role,
         user_id:        pro2.id
       }),
       Repo.insert!(%DeletedUser{
-        email:       pro3.email,
         reason: random_reason(),
-        role:         pro3.role,
         user_id:        pro3.id
       })
     ]

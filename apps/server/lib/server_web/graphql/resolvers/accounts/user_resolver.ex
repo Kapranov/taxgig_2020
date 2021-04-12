@@ -260,15 +260,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         case !is_nil(current_user) and user_id == current_user.id do
           true ->
             with struct <- Accounts.get_user!(user_id),
-                 {:ok, _struct} <- Accounts.delete_user(struct),
-                 {:ok, deleted} <- Accounts.create_deleted_user(%{
-                   email:  struct.email,
-                   reason:       reason,
-                   role:    struct.role,
-                   user_id:   struct.id
+                 {:ok, deleted} <- Accounts.delete_user(struct),
+                 {:ok, created} <- Accounts.create_deleted_user(%{
+                   reason:      reason,
+                   user_id: deleted.id
                  })
             do
-              {:ok, deleted}
+              {:ok, created}
             else
               nil -> {:error, "permission denied"}
               {:error, changeset} ->

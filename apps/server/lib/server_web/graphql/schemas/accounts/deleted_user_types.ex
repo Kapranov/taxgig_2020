@@ -10,9 +10,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.DeletedUserTypes do
   @desc "The deleted user on the site"
   object :deleted_user do
     field :id, non_null(:string)
-    field :email, non_null(:string)
     field :reason, non_null(list_of(:string))
-    field :role, non_null(:boolean)
     field :user_id, non_null(:string)
   end
 
