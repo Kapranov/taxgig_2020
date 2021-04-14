@@ -1,13 +1,14 @@
 {
   "key": "graphiql",
-  "lastId": 6,
+  "lastId": 7,
   "tabIds": [
     "tab1",
     "tab2",
     "tab3",
     "tab4",
     "tab5",
-    "tab6"
+    "tab6",
+    "tab7"
   ],
   "closedTabs": [],
   "defaultUrl": "http://localhost:4000/graphiql",
@@ -20,6 +21,10 @@
     "http://localhost:4000/graphiql"
   ],
   "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNkVWNm55NFl1TmU3VVNNQ1duBgC28_bQeAFiAAFRgA.BPGA_o73lbSoLa8yAMOBMA6sIDbt6aTznOhVypl6b4k"
+    },
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgC3xjYfdwFiAAFRgA.kelGyZOWSGXqDahFyzRlUAxRmFWK_YjoXw7KCPoySr0"
@@ -53,7 +58,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab6",
+  "activeId": "tab7",
   "tabs": [
     {
       "id": "tab1",
@@ -80,6 +85,10 @@
       "maxHistory": 20,
       "history": [
         {
+          "query": "query {\n  signInLocal(\n    is2fa: false,\n    email: \"test@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {accessToken error errorDescription provider}\n}",
+          "variables": null
+        },
+        {
           "query": "query {\n  signIn(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {accessToken error errorDescription provider}\n}",
           "variables": null
         },
@@ -92,8 +101,8 @@
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  signIn(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {accessToken error errorDescription provider}\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"querty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"querty\\\",\\n    passwordConfirmation: \\\"querty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\",\"variables\":\"\"}]}",
+      "graphiql:query": "query {\n  signInLocal(\n    is2fa: false,\n    email: \"test@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {accessToken error errorDescription provider}\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"querty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"querty\\\",\\n    passwordConfirmation: \\\"querty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signInLocal(\\n    is2fa: false,\\n    email: \\\"test@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {accessToken error errorDescription provider}\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.5735981308411215
@@ -110,7 +119,7 @@
           "value": "Bearer SFMyNTY.g2gDbQAAABJBMjVVMGFvYnZlUkFxTUdkcmtuBgARknlidgFiAAFRgA.7ksE1UhoM_JcaOSbWPJcQ0OcLiWnuYLdYHGWlM5Ki_A"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -124,9 +133,9 @@
       ],
       "graphiql:query": "mutation {\n  createStripePlatformCard(\n    currency: \"usd\",\n    cvc: 314,\n    expMonth: 8,\n    expYear: 2021,\n    name: \"Oleh Puryshev\",\n    number: \"4242424242424242\"\n  ) {\n    id\n    brand\n    clientIp\n    created\n    cvcCheck\n    expMonth\n    expYear\n    funding\n    idFromStripe\n    idFromCustomer\n    last4\n    name\n    token\n    userId\n  }\n}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformCard(\\n    cvc: 314,\\n    expMonth: 8,\\n    expYear: 2021,\\n    name: \\\"Oleh Puryshev\\\",\\n    number: \\\"4242424242424242\\\"\\n  ) {\\n    id\\n    brand\\n    clientIp\\n    created\\n    cvcCheck\\n    expMonth\\n    expYear\\n    funding\\n    idFromStripe\\n    idFromCustomer\\n    last4\\n    name\\n    token\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createStripePlatformCard(\\n    currency: \\\"usd\\\",\\n    cvc: 314,\\n    expMonth: 8,\\n    expYear: 2021,\\n    name: \\\"Oleh Puryshev\\\",\\n    number: \\\"4242424242424242\\\"\\n  ) {\\n    id\\n    brand\\n    clientIp\\n    created\\n    cvcCheck\\n    expMonth\\n    expYear\\n    funding\\n    idFromStripe\\n    idFromCustomer\\n    last4\\n    name\\n    token\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 1
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformCard(\\n    cvc: 314,\\n    expMonth: 8,\\n    expYear: 2021,\\n    name: \\\"Oleh Puryshev\\\",\\n    number: \\\"4242424242424242\\\"\\n  ) {\\n    id\\n    brand\\n    clientIp\\n    created\\n    cvcCheck\\n    expMonth\\n    expYear\\n    funding\\n    idFromStripe\\n    idFromCustomer\\n    last4\\n    name\\n    token\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createStripePlatformCard(\\n    currency: \\\"usd\\\",\\n    cvc: 314,\\n    expMonth: 8,\\n    expYear: 2021,\\n    name: \\\"Oleh Puryshev\\\",\\n    number: \\\"4242424242424242\\\"\\n  ) {\\n    id\\n    brand\\n    clientIp\\n    created\\n    cvcCheck\\n    expMonth\\n    expYear\\n    funding\\n    idFromStripe\\n    idFromCustomer\\n    last4\\n    name\\n    token\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}"
     },
     {
       "id": "tab4",
@@ -135,7 +144,7 @@
       "websocketUrl": "ws://localhost:4000/socket",
       "proxy": false,
       "headers": [],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -188,10 +197,10 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMnh2R0d0TXFwbVJTaGl6WjJuBgC3xjYfdwFiAAFRgA.kelGyZOWSGXqDahFyzRlUAxRmFWK_YjoXw7KCPoySr0"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNkVWNm55NFl1TmU3VVNNQ1duBgC28_bQeAFiAAFRgA.BPGA_o73lbSoLa8yAMOBMA6sIDbt6aTznOhVypl6b4k"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -205,9 +214,35 @@
       ],
       "graphiql:query": "query {\n  allStripePlatformCards {\n    id\n    brand\n    clientIp\n    country\n    created\n    customer\n    cvcCheck\n    expMonth\n    expYear\n    fingerprint\n    funding\n    idFromCustomer\n    idFromStripe\n    last4\n    name\n    object\n    token\n    used\n    userId\n  }\n}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.4933481152993348,
+      "graphiql:editorFlex": 0.3510531594784353,
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allStripePlatformCards {\\n    id\\n    brand\\n    clientIp\\n    created\\n    cvcCheck\\n    expMonth\\n    expYear\\n    funding\\n    idFromCustomer\\n    idFromStripe\\n    last4\\n    name\\n    token\\n    used\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allStripePlatformCards {\\n    id\\n    brand\\n    clientIp\\n    country\\n    created\\n    customer\\n    cvcCheck\\n    expMonth\\n    expYear\\n    fingerprint\\n    funding\\n    idFromCustomer\\n    idFromStripe\\n    last4\\n    name\\n    object\\n    token\\n    used\\n    userId\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab7",
+      "name": "Query 7",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNkVWNm55NFl1TmU3VVNNQ1duBgC28_bQeAFiAAFRgA.BPGA_o73lbSoLa8yAMOBMA6sIDbt6aTznOhVypl6b4k"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  deleteStripePlatformCustomer(\n    idFromStripe: \"cus_JIh69fcGY6SzxQ\"\n  ) {\n    id\n    idFromStripe\n    balance\n    created\n    currency\n    email\n    error\n    name\n    phone\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deleteStripePlatformCustomer(\n    idFromStripe: \"cus_JIh69fcGY6SzxQ\"\n  ) {\n    id\n    idFromStripe\n    balance\n    created\n    currency\n    email\n    error\n    name\n    phone\n    userId\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.5644599303135889,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteStripePlatformCustomer(\\n    idFromStripe: \\\"cus_JIh69fcGY6SzxQ\\\"\\n  ) {\\n    id\\n    idFromStripe\\n    balance\\n    created\\n    currency\\n    email\\n    error\\n    name\\n    phone\\n    userId\\n  }\\n}\"}]}"
     }
   ]
 }

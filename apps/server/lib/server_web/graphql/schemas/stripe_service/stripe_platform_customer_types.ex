@@ -15,6 +15,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformCustomerTypes do
     field :created, :integer
     field :currency, :string
     field :email, :string
+    field :error, :string
     field :name, :string
     field :phone, :string
     field :user_id, :string

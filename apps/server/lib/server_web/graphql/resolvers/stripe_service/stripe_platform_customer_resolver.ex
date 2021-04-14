@@ -3,13 +3,17 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCustomerResolv
   The StripeCustomer GraphQL resolvers.
   """
 
-  alias Core.Accounts.User
-
-  alias Stripy.{
-    Payments.StripeCustomer,
-    StripeService.StripePlatformCustomerService
+  alias Core.{
+    Accounts.User,
+    Queries
   }
 
+  alias Stripy.{
+    Payments.StripeCardToken,
+    Payments.StripeCustomer,
+    Repo,
+    StripeService.StripePlatformCustomerService
+  }
 
   @type t :: StripeCustomer.t()
   @type reason :: any
@@ -22,17 +26,29 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCustomerResolv
 
   @spec delete(any, %{id_from_stripe: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id_from_stripe: id_from_stripe}, %{context: %{current_user: current_user}}) do
+    querty =
+      try do
+        Queries.by_value(StripeCardToken, :user_id, current_user.id)
+      rescue
+        ArgumentError -> :error
+      end
+
     if is_nil(id_from_stripe) do
       {:error, [[field: :id_from_stripe, message: "Can't be blank"]]}
     else
       try do
         case !is_nil(current_user) do
           true ->
-            with {:ok, struct} <- StripePlatformCustomerService.delete(id_from_stripe) do
-              {:ok, struct}
-            else
-              nil -> {:error, :not_found}
-              failure -> failure
+            case Repo.aggregate(querty, :count, :id) do
+              0 ->
+                with {:ok, struct} <- StripePlatformCustomerService.delete(id_from_stripe) do
+                  {:ok, struct}
+                else
+                  nil -> {:error, :not_found}
+                  failure -> failure
+                end
+              _ ->
+                {:error, "delete customer has been canceled"}
             end
           false ->
             {:error, "permission denied"}
