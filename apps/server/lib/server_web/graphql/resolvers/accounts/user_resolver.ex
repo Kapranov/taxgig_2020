@@ -252,21 +252,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   end
 
   @spec delete(any, %{id: bitstring, reason: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def delete(_parent, %{user_id: user_id, reason: reason}, %{context: %{current_user: current_user}}) do
-    if is_nil(user_id) || is_nil(current_user) do
+  def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
+    if is_nil(id) || is_nil(current_user) do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
     else
       try do
-        case !is_nil(current_user) and user_id == current_user.id do
+        case !is_nil(current_user) and id == current_user.id do
           true ->
-            with struct <- Accounts.get_user!(user_id),
-                 {:ok, deleted} <- Accounts.delete_user(struct),
-                 {:ok, created} <- Accounts.create_deleted_user(%{
-                   reason:      reason,
-                   user_id: deleted.id
-                 })
+            with struct <- Accounts.get_user!(id),
+                 {:ok, deleted} <- Accounts.delete_user(struct)
             do
-              {:ok, created}
+              {:ok, deleted}
             else
               nil -> {:error, "permission denied"}
               {:error, changeset} ->
@@ -277,7 +273,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         end
       rescue
         Ecto.NoResultsError ->
-          {:error, "The an User #{user_id} not found!"}
+          {:error, "The an User #{id} not found!"}
       end
     end
   end

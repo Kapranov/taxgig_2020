@@ -33,6 +33,12 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.DeletedUserTypes do
   end
 
   object :deleted_user_mutations do
+    @desc "Create the deleted user"
+    field :create_deleted_user, :deleted_user do
+      arg :reason, non_null(:string)
+      arg :user_id, non_null(:string)
+      resolve &DeletedUserResolver.create/3
+    end
     @desc "Update a specific deleted user"
     field :update_deleted_user, :deleted_user do
       arg :id, non_null(:string)

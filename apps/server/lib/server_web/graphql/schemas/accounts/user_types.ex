@@ -57,9 +57,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :email, :string
     field :error, :string
     field :id, :string
-    field :reason, :string
     field :role, :boolean
-    field :user_id, :string
   end
 
   @desc "Provider's code"
@@ -271,8 +269,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
 
     @desc "Delete a specific accounts an user"
     field :delete_user, :user_deleted do
-      arg :reason, non_null(:string)
-      arg :user_id, non_null(:string)
+      arg :id, non_null(:string)
       resolve &UserResolver.delete/3
     end
   end
