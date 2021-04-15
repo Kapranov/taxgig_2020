@@ -235,7 +235,7 @@ defmodule Core.Queries do
       iex> struct = Core.Contracts.PotentialClient
       iex> row = :project
       iex> id = "A1iyOkFTXX32A4Cldq"
-      iex> by_project(struct, row, str)
+      iex> by_project(struct, row, id)
   """
   @spec by_project(map, atom, word) :: [{word}] | nil
   def by_project(struct, row, id) do

@@ -3,14 +3,12 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCustomerResolv
   The StripeCustomer GraphQL resolvers.
   """
 
-  alias Core.{
-    Accounts.User,
-    Queries
-  }
+  alias Core.Accounts.User
 
   alias Stripy.{
     Payments.StripeCardToken,
     Payments.StripeCustomer,
+    Queries,
     Repo,
     StripeService.StripePlatformCustomerService
   }
@@ -28,7 +26,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCustomerResolv
   def delete(_parent, %{id_from_stripe: id_from_stripe}, %{context: %{current_user: current_user}}) do
     querty =
       try do
-        Queries.by_value(StripeCardToken, :user_id, current_user.id)
+        Queries.by_count(StripeCardToken, :user_id, current_user.id)
       rescue
         ArgumentError -> :error
       end

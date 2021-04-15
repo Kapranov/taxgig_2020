@@ -88,4 +88,30 @@ defmodule Stripy.Queries do
       Ecto.Query.CastError -> nil
     end
   end
+
+  @doc """
+  Find id in field's model and select some field
+
+  ## Example
+
+      iex> struct = Stripy.Payments.StripeCardToken
+      iex> row = :user_id
+      iex> id = "A1iyOkFTXX32A4Cldq"
+      iex> select = :id_from_customer
+      iex> by_select(struct, row, id, select)
+      ["cus_JIh69fcGY6SzxQ", "cus_JIh69fcGY6SzxQ", "cus_JIh69fcGY6SzxQ"]
+  """
+  @spec by_select(map, atom, String.t(), atom) :: [{String.t()}] | nil
+  def by_select(struct, row, id, select) do
+    try do
+      Repo.all(
+        from c in struct,
+        where: not is_nil(field(c, ^row)),
+        where: field(c, ^row) == ^id,
+        select: field(c, ^select)
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
 end
