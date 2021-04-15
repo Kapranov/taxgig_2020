@@ -270,6 +270,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     @desc "Delete a specific accounts an user"
     field :delete_user, :user_deleted do
       arg :id, non_null(:string)
+      arg :reason, non_null(:string)
       resolve &UserResolver.delete/3
     end
   end

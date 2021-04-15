@@ -1322,16 +1322,34 @@ defmodule Core.Accounts do
 
   ## Examples
 
-      iex> delete_user(struct)
+      iex> delete_user(struct, reason)
       {:ok, %User{}}
 
-      iex> delete_user(struct)
+      iex> delete_user(struct, reason)
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec delete_user(User.t()) :: result()
-  def delete_user(%User{} = struct) do
-    Repo.delete(struct)
+  @spec delete_user(User.t(), String.t()) :: result()
+  def delete_user(%User{} = struct, reason) do
+    deleted_user = DeletedUser.changeset(%DeletedUser{}, %{
+      reason: reason,
+      user_id: struct.id
+    })
+
+    transaction =
+      Multi.new()
+      |> Multi.delete(:user, struct)
+      |> Multi.insert(:delete_user, deleted_user)
+      |> Repo.transaction()
+
+    case transaction do
+      {:ok, %{user: %User{} = struct}} ->
+        {:ok, struct}
+      {:ok, %{user: %DeletedUser{} = created}} ->
+        {:ok, created}
+      {:error, _model, changeset, _completed} ->
+        {:error, changeset}
+    end
   end
 
   @doc """
