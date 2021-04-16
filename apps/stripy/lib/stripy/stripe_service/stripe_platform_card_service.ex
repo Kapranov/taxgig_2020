@@ -184,7 +184,7 @@ defmodule Stripy.StripeService.StripePlatformCardService do
           {:error, :not_found}
   def delete_card(id, attrs) do
     with struct <- Repo.get_by(StripeCardToken, %{id_from_stripe: id}),
-         {:ok, _data} <- Stripe.Card.delete(id, attrs),
+         {:ok, _data} <- Stripe.Card.delete(struct.id_from_stripe, attrs),
          {:ok, deleted} <- Payments.delete_stripe_card_token(struct)
     do
       {:ok, deleted}

@@ -75,12 +75,12 @@ config :ex_aws,
 config :server, Google,
   client_id: "991262252553-18hlqfkgmkmk9l9o1niuq0ehcqvd097u.apps.googleusercontent.com",
   client_secret: "GYyCMYA1hLMYAJrfBZoJxHa0",
-  redirect_uri: ["http://localhost:4200/auth/login?provider=google", "http://localhost:4200/auth/registration-creating-account?provider=google"]
+  redirect_uri: ["tax.unicore-group.com/auth/registration-creating-account?provider=google", "tax.unicore-group.com/auth/login?provider=google", "http://localhost:4200/auth/login?provider=google", "http://localhost:4200/auth/registration-creating-account?provider=google"]
 
 config :server, Facebook,
   client_id: "693824267691319",
   client_secret: "250e5db3f21f6138c75f551f758a8652",
-  redirect_uri: ["http://localhost:4200/auth/registration-creating-account?provider=facebook", "http://localhost:4200/auth/login?provider=facebook"],
+  redirect_uri: ["tax.unicore-group.com/auth/registration-creating-account?provider=facebook", "tax.unicore-group.com/auth/login?provider=facebook", "http://localhost:4200/auth/registration-creating-account?provider=facebook", "http://localhost:4200/auth/login?provider=facebook"],
   scope: "email,user_photos"
 
 config :server, Twitter,
@@ -93,4 +93,4 @@ config :server, Twitter,
 config :server, LinkedIn,
   client_id: "7836672fm66v60",
   client_secret: "8pxTP1OulfSn5xaq",
-  redirect_uri: ["http://localhost:4200/auth/registration-creating-account?provider=linkedin", "http://localhost:4200/auth/login?provider=linkedin"]
+  redirect_uri: ["tax.unicore-group.com/auth/registration-creating-account?provider=linkedin", "tax.unicore-group.com/auth/login?provider=linkedin", "http://localhost:4200/auth/registration-creating-account?provider=linkedin", "http://localhost:4200/auth/login?provider=linkedin"]

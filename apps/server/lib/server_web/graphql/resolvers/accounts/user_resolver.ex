@@ -260,8 +260,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         case !is_nil(current_user) and id == current_user.id do
           true ->
             with struct <- Accounts.get_user!(id),
+                 [querty1] <- Stripy.Queries.by_list(Stripy.Payments.StripeCustomer, :user_id, struct.id),
+                 {:ok, del} <- Stripy.StripeService.StripePlatformCustomerService.delete(querty1.id_from_stripe),
+                 querty2 <- Stripy.Queries.by_list(Stripy.Payments.StripeCardToken, :user_id, del.user_id),
                  {:ok, deleted} <- Accounts.delete_user(struct, reason)
             do
+              Enum.reduce(querty2, [], fn(x, acc) ->
+                [Stripy.Payments.delete_stripe_card_token(x) | acc]
+              end)
               {:ok, deleted}
             else
               nil -> {:error, "permission denied"}
