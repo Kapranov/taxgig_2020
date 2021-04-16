@@ -46,7 +46,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCustomerResolv
                   failure -> failure
                 end
               _ ->
-                {:error, "delete customer has been canceled"}
+                {:error, "delete connected cards before deleting the customer"}
             end
           false ->
             {:error, "permission denied"}

@@ -136,6 +136,7 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
           | {:error, :not_found}
   def delete(id) do
     with struct <- Repo.get_by(StripeAccount, %{id_from_stripe: id}),
+         {:ok, _data} <- Stripe.Account.delete(struct.id_from_stripe),
          {:ok, deleted} <- Payments.delete_stripe_account(struct)
     do
       {:ok, deleted}
