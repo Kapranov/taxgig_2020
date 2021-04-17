@@ -44,7 +44,21 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
               {:ok, struct}
             else
               nil -> {:error, :not_found}
-              failure -> failure
+              failure ->
+                case failure do
+                  {:error, %Stripe.Error{code: _, extra: %{
+                        card_code: _,
+                        http_status: http_status,
+                        raw_error: _
+                      },
+                      message: message,
+                      request_id: _,
+                      source: _,
+                      user_message: _
+                    }
+                  } -> {:ok, %{error: "HTTP Status: #{http_status}, charge capture invalid, invalid request error. #{message}"}}
+                  {:error, %Ecto.Changeset{}} -> {:ok, %{error: "charge capture not found!"}}
+                end
             end
         end
       rescue
@@ -75,7 +89,21 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
               {:ok, struct}
             else
               nil -> {:error, :not_found}
-              failure -> failure
+              failure ->
+                case failure do
+                  {:error, %Stripe.Error{code: _, extra: %{
+                        card_code: _,
+                        http_status: http_status,
+                        raw_error: _
+                      },
+                      message: message,
+                      request_id: _,
+                      source: _,
+                      user_message: _
+                    }
+                  } -> {:ok, %{error: "HTTP Status: #{http_status}, charge capture invalid, invalid request error. #{message}"}}
+                  {:error, %Ecto.Changeset{}} -> {:ok, %{error: "charge capture not found!"}}
+                end
             end
         end
       rescue
@@ -106,7 +134,21 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
               {:ok, struct}
             else
               nil -> {:error, :not_found}
-              failure -> failure
+              failure ->
+                case failure do
+                  {:error, %Stripe.Error{code: _, extra: %{
+                        card_code: _,
+                        http_status: http_status,
+                        raw_error: _
+                      },
+                      message: message,
+                      request_id: _,
+                      source: _,
+                      user_message: _
+                    }
+                  } -> {:ok, %{error: "HTTP Status: #{http_status}, charge capture invalid, invalid request error. #{message}"}}
+                  {:error, %Ecto.Changeset{}} -> {:ok, %{error: "charge capture not found!"}}
+                end
             end
         end
       rescue
@@ -136,7 +178,21 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
               {:ok, struct}
             else
               nil -> {:error, :not_found}
-              failure -> failure
+              failure ->
+                case failure do
+                  {:error, %Stripe.Error{code: _, extra: %{
+                        card_code: _,
+                        http_status: http_status,
+                        raw_error: _
+                      },
+                      message: message,
+                      request_id: _,
+                      source: _,
+                      user_message: _
+                    }
+                  } -> {:ok, %{error: "HTTP Status: #{http_status}, charge capture invalid, invalid request error. #{message}"}}
+                  {:error, %Ecto.Changeset{}} -> {:ok, %{error: "charge capture not found!"}}
+                end
             end
         end
       rescue
@@ -167,7 +223,21 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
               {:ok, struct}
             else
               nil -> {:error, :not_found}
-              failure -> failure
+              failure ->
+                case failure do
+                  {:error, %Stripe.Error{code: _, extra: %{
+                        card_code: _,
+                        http_status: http_status,
+                        raw_error: _
+                      },
+                      message: message,
+                      request_id: _,
+                      source: _,
+                      user_message: _
+                    }
+                  } -> {:ok, %{error: "HTTP Status: #{http_status}, charge capture invalid, invalid request error. #{message}"}}
+                  {:error, %Ecto.Changeset{}} -> {:ok, %{error: "charge capture not found!"}}
+                end
             end
         end
       rescue
@@ -198,7 +268,21 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
               {:ok, struct}
             else
               nil -> {:error, :not_found}
-              failure -> failure
+              failure ->
+                case failure do
+                  {:error, %Stripe.Error{code: _, extra: %{
+                        card_code: _,
+                        http_status: http_status,
+                        raw_error: _
+                      },
+                      message: message,
+                      request_id: _,
+                      source: _,
+                      user_message: _
+                    }
+                  } -> {:ok, %{error: "HTTP Status: #{http_status}, charge capture invalid, invalid request error. #{message}"}}
+                  {:error, %Ecto.Changeset{}} -> {:ok, %{error: "charge capture not found!"}}
+                end
             end
         end
       rescue
@@ -229,7 +313,21 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeCaptureR
               {:ok, struct}
             else
               nil -> {:error, :not_found}
-              failure -> failure
+              failure ->
+                case failure do
+                  {:error, %Stripe.Error{code: _, extra: %{
+                        card_code: _,
+                        http_status: http_status,
+                        raw_error: _
+                      },
+                      message: message,
+                      request_id: _,
+                      source: _,
+                      user_message: _
+                    }
+                  } -> {:ok, %{error: "HTTP Status: #{http_status}, charge capture invalid, invalid request error. #{message}"}}
+                  {:error, %Ecto.Changeset{}} -> {:ok, %{error: "charge capture not found!"}}
+                end
             end
         end
       rescue

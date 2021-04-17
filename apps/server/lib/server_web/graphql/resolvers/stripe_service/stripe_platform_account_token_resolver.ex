@@ -132,7 +132,21 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountTokenRe
                     {:ok, struct}
                   else
                     nil -> {:error, :not_found}
-                    failure -> failure
+                    failure ->
+                      case failure do
+                        {:error, %Stripe.Error{code: _, extra: %{
+                              card_code: _,
+                              http_status: http_status,
+                              raw_error: _
+                            },
+                            message: message,
+                            request_id: _,
+                            source: _,
+                            user_message: _
+                          }
+                        } -> {:ok, %{error: "HTTP Status: #{http_status}, account token invalid request error. #{message}"}}
+                        {:error, %Ecto.Changeset{}} -> {:ok, %{error: "account token not found!"}}
+                      end
                   end
               end
           end
@@ -157,7 +171,21 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountTokenRe
               {:ok, struct}
             else
               nil -> {:error, :not_found}
-              failure -> failure
+              failure ->
+                case failure do
+                  {:error, %Stripe.Error{code: _, extra: %{
+                        card_code: _,
+                        http_status: http_status,
+                        raw_error: _
+                      },
+                      message: message,
+                      request_id: _,
+                      source: _,
+                      user_message: _
+                    }
+                  } -> {:ok, %{error: "HTTP Status: #{http_status}, account token invalid request error. #{message}"}}
+                  {:error, %Ecto.Changeset{}} -> {:ok, %{error: "account token not found!"}}
+                end
             end
           false ->
             {:error, "permission denied"}

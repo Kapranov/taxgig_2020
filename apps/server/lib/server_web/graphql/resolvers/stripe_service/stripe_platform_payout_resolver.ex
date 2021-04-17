@@ -40,7 +40,21 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformPayoutResolver
               {:ok, struct}
             else
               nil -> {:error, :not_found}
-              failure -> failure
+              failure ->
+                case failure do
+                  {:error, %Stripe.Error{code: _, extra: %{
+                        card_code: _,
+                        http_status: http_status,
+                        raw_error: _
+                      },
+                      message: message,
+                      request_id: _,
+                      source: _,
+                      user_message: _
+                    }
+                  } -> {:ok, %{error: "HTTP Status: #{http_status}, payout invalid request error. #{message}"}}
+                  {:error, %Ecto.Changeset{}} -> {:ok, %{error: "payout not found!"}}
+                end
             end
           "card" ->
             with account <- Repo.get_by(StripeAccount, %{user_id: current_user.id}),
@@ -53,7 +67,21 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformPayoutResolver
               {:ok, struct}
             else
               nil -> {:error, :not_found}
-              failure -> failure
+              failure ->
+                case failure do
+                  {:error, %Stripe.Error{code: _, extra: %{
+                        card_code: _,
+                        http_status: http_status,
+                        raw_error: _
+                      },
+                      message: message,
+                      request_id: _,
+                      source: _,
+                      user_message: _
+                    }
+                  } -> {:ok, %{error: "HTTP Status: #{http_status}, payout invalid request error. #{message}"}}
+                  {:error, %Ecto.Changeset{}} -> {:ok, %{error: "payout not found!"}}
+                end
             end
           _ -> {:error, %Ecto.Changeset{}}
         end

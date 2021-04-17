@@ -20,9 +20,9 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformBalanceTransac
   @type error_tuple :: {:error, reason} |
                        {:error, Ecto.Changeset.t} |
                        {:error, Stripe.Error.t()}
+  @type result :: success_list | error_tuple
 
-
-  @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: success_list() | error_tuple()
+  @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def list(_parent, _args, %{context: %{current_user: current_user}}) do
     if is_nil(current_user) do
       {:error, [[field: :user_id, message: "An User not found! or Unauthenticated"]]}
@@ -47,8 +47,8 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformBalanceTransac
                     source: _,
                     user_message: _
                   }
-                } -> {:ok, %{error: "HTTP Status: #{http_status}, account invalid, invalid request error. #{message}"}}
-                {:error, %Ecto.Changeset{}} -> {:ok, %{error: "Account token not found!"}}
+                } -> {:ok, %{error: "HTTP Status: #{http_status}, balance transaction invalid, invalid request error. #{message}"}}
+                {:error, %Ecto.Changeset{}} -> {:ok, %{error: "balance transaction not found!"}}
               end
           end
         false -> {:error, :not_found}
