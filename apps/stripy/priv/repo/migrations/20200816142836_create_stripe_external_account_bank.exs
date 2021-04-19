@@ -20,8 +20,8 @@ defmodule Stripy.Repo.Migrations.CreateStripeExternalAccountBank do
       timestamps(type: :utc_datetime_usec)
     end
 
+    create index(:stripe_external_account_banks, [:id_from_account])
     create index(:stripe_external_account_banks, [:user_id])
-    create unique_index(:stripe_external_account_banks, [:id_from_account], name: :stripe_external_account_banks_id_from_account_index)
     create unique_index(:stripe_external_account_banks, [:id_from_stripe], name: :stripe_external_account_banks_id_from_stripe_index)
   end
 end

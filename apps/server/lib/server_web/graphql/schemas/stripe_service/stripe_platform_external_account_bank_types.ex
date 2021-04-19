@@ -9,19 +9,20 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformExternalAccountB
 
   @desc "The StripePlatformExternalAccountBank"
   object :stripe_platform_external_account_bank do
-    field :id, non_null(:string)
-    field :id_from_account, non_null(:string)
-    field :id_from_stripe, non_null(:string)
-    field :account_holder_name, non_null(:string)
-    field :account_holder_type, non_null(:string)
-    field :bank_name, non_null(:string)
-    field :country, non_null(:string)
-    field :currency, non_null(:string)
-    field :fingerprint, non_null(:string)
-    field :last4, non_null(:string)
-    field :routing_number, non_null(:string)
-    field :status, non_null(:string)
-    field :user_id, non_null(:string)
+    field :id, :string
+    field :account_holder_name, :string
+    field :account_holder_type, :string
+    field :bank_name, :string
+    field :country, :string
+    field :currency, :string
+    field :error, :string
+    field :fingerprint, :string
+    field :id_from_account, :string
+    field :id_from_stripe, :string
+    field :last4, :string
+    field :routing_number, :string
+    field :status, :string
+    field :user_id, :string
   end
 
   object :by_stripe_external_account_bank do

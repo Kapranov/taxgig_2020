@@ -78,7 +78,6 @@ defmodule Stripy.Payments.StripeExternalAccountBank do
     struct
     |> cast(params, @allowed_params)
     |> validate_required(@required_params)
-    |> unique_constraint(:id_from_account, name: :stripe_external_account_banks_id_from_account_index)
     |> unique_constraint(:id_from_stripe, name: :stripe_external_account_banks_id_from_stripe_index)
   end
 end

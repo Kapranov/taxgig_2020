@@ -35,7 +35,15 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformBankAccountTok
        is_nil(args[:currency]) ||
        is_nil(args[:routing_number])
     do
-      {:error, [[field: :stripe_charge, message: "Can't be blank"]]}
+      {:error, [
+          [field: :account_holder_name, message: "Can't be blank"],
+          [field: :account_holder_type, message: "Can't be blank"],
+          [field: :account_number, message: "Can't be blank"],
+          [field: :country, message: "Can't be blank"],
+          [field: :currency, message: "Can't be blank"],
+          [field: :routing_number, message: "Can't be blank"]
+        ]
+      }
     else
       case Accounts.by_role(current_user.id) do
         false ->
@@ -48,35 +56,21 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformBankAccountTok
               ArgumentError -> :error
             end
 
-            with {:ok, %Stripe.Token{} = bank_account_token} = Stripe.Token.create(%{bank_account: args}),
-                 {:ok, params} <- StripePlatformBankAccountTokenAdapter.to_params(bank_account_token, %{"user_id" => current_user.id})
-            do
-              case Repo.aggregate(querty, :count, :id) < 10 do
-                false -> {:error, %Ecto.Changeset{}}
-                true ->
-                  case Payments.create_stripe_bank_account_token(params) do
-                    {:error, error} -> {:error, error}
-                    {:ok, data} -> {:ok, data}
-                  end
+          case Repo.aggregate(querty, :count, :id) < 10 do
+            true ->
+              with {:ok, %Stripe.Token{} = bank_account_token} = Stripe.Token.create(%{bank_account: args}),
+                   {:ok, params} <- StripePlatformBankAccountTokenAdapter.to_params(bank_account_token, %{"user_id" => current_user.id}),
+                   {:ok, struct} <- Payments.create_stripe_bank_account_token(params)
+              do
+                {:ok, struct}
+              else
+                nil -> {:error, :not_found}
+                {:error, %Stripe.Error{code: :invalid_request_error, extra: %{card_code: :account_number_invalid, http_status: http_status, param: :"bank_account[account_number]", raw_error: %{"code" => "account_number_invalid", "doc_url" => "https://stripe.com/docs/error-codes/account-number-invalid", "message" => "You must use a test bank account number in test mode. Try 000123456789 or see more options at https://stripe.com/docs/connect/testing#account-numbers.", "param" => "bank_account[account_number]", "type" => "invalid_request_error"}}, message: "You must use a test bank account number in test mode. Try 000123456789 or see more options at https://stripe.com/docs/connect/testing#account-numbers.", request_id: nil, source: :stripe, user_message: nil}} ->
+                  {:ok, %{error: "HTTP Status: #{http_status}, bank account token invalid, invalid request error. #{http_status}"}}
+                {:error, %Ecto.Changeset{}} -> {:ok, %{error: "bank account token not found!"}}
               end
-            else
-              nil -> {:error, :not_found}
-              failure ->
-                case failure do
-                  {:error, %Stripe.Error{code: _, extra: %{
-                        card_code: _,
-                        http_status: http_status,
-                        raw_error: _
-                      },
-                      message: message,
-                      request_id: _,
-                      source: _,
-                      user_message: _
-                    }
-                  } -> {:ok, %{error: "HTTP Status: #{http_status}, bank account token invalid, invalid request error. #{message}"}}
-                  {:error, %Ecto.Changeset{}} -> {:ok, %{error: "bank account token not found!"}}
-                end
-            end
+            false -> {:error, %Ecto.Changeset{}}
+          end
       end
     end
   end

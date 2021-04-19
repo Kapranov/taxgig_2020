@@ -144,13 +144,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       {:error, [[field: :id, message: "Can't be blank or Unauthenticated"]]}
     else
       try do
-        case id == current_user.id do
-          true ->
-            struct = Accounts.get_user!(id)
-            {:ok, struct}
-          false ->
-            {:error, "permission denied"}
-        end
+        struct = Accounts.get_user!(id)
+        {:ok, struct}
       rescue
         Ecto.NoResultsError ->
           {:error, "An User #{id} not found!"}
