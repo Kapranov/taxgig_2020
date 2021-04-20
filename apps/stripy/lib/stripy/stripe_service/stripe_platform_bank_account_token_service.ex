@@ -57,27 +57,41 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
           | {:error, :platform_not_ready}
           | {:error, :not_found}
   def create(attrs, user_attrs) do
-    querty =
-      try do
-        Queries.by_count(StripeBankAccountToken, :user_id, user_attrs["user_id"])
-      rescue
-        ArgumentError -> :error
-      end
+    querty = Queries.by_count(StripeBankAccountToken, :user_id, user_attrs["user_id"])
 
-    with {:ok, %Stripe.Token{} = bank_account_token} = Stripe.Token.create(%{bank_account: attrs}),
-         {:ok, params} <- StripePlatformBankAccountTokenAdapter.to_params(bank_account_token, user_attrs)
-    do
-      case Repo.aggregate(querty, :count, :id) < 10 do
-        false -> {:error, %Ecto.Changeset{}}
-        true ->
-          case Payments.create_stripe_bank_account_token(params) do
-            {:error, error} -> {:error, error}
-            {:ok, data} -> {:ok, data}
-          end
-      end
-    else
-      nil -> {:error, :not_found}
-      failure -> failure
+    case Repo.aggregate(querty, :count, :id) < 10 do
+      false -> {:ok, %{error: "bank account token's record more 10"}}
+      true ->
+        case Stripe.Token.create(attrs) do
+          {:error, %Stripe.Error{
+            code: _,
+            extra: %{
+              card_code: _,
+              http_status: http_status,
+              param: _,
+              raw_error: %{
+                "code" => _,
+                "doc_url" => _,
+                "message" => _,
+                "param" => _,
+                "type" => _
+              }
+            },
+            message: message,
+            request_id: _,
+            source: _,
+            user_message: _
+          }} ->
+            {:ok, %{error: "http status: #{http_status}, bank account token invalid, invalid request error. #{message}"}}
+          {:ok, bank_account_token} ->
+            with {:ok, params} <- StripePlatformBankAccountTokenAdapter.to_params(bank_account_token, user_attrs),
+                 {:ok, struct} <- Payments.create_stripe_bank_account_token(params)
+            do
+              {:ok, struct}
+            else
+              {:error, %Ecto.Changeset{}} -> {:ok, %{error: "bank account token doesn't create"}}
+            end
+        end
     end
   end
 

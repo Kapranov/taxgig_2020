@@ -24,6 +24,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     Payments.StripeCustomer,
     Payments.StripeExternalAccountBank,
     Payments.StripeExternalAccountCard,
+    Queries,
     StripeService.StripePlatformAccountService,
     StripeService.StripePlatformCustomerService
   }
@@ -262,87 +263,101 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     }
   end
 
-  @spec delete(any, %{id: bitstring, reason: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def delete(_parent, %{id: id, reason: reason}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(reason) || is_nil(current_user) do
-      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
-    else
-      try do
-        case !is_nil(current_user) and id == current_user.id do
+  @spec delete(any, %{reason: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def delete(_parent, %{reason: reason}, %{context: %{current_user: current_user}}) do
+    case Accounts.by_role(current_user.id) do
+      true ->
+        querty = Queries.by_count(StripeAccount, :user_id, current_user.id)
+
+        case Repo.aggregate(querty, :count, :id) == 1 do
           true ->
-            case Accounts.by_role(current_user.id) do
-              true ->
-                with struct <- Accounts.get_user!(id),
-                     [account] = StripyQueries.by_list(StripeAccount, :user_id, struct.id),
-                     {:ok, stripe} <- StripePlatformAccountService.delete(account.id_from_stripe),
-                     ex_cards <- StripyQueries.by_list(StripeExternalAccountCard, :user_id, stripe.user_id),
-                     ex_banks <- StripyQueries.by_list(StripeExternalAccountBank, :user_id, stripe.user_id),
-                     cards <- StripyQueries.by_list(StripeCardToken, :user_id, stripe.user_id),
-                     bank_account_tokens <- StripyQueries.by_list(StripeBankAccountToken, :user_id, stripe.user_id),
-                     {:ok, deleted} <- Accounts.delete_user(struct, reason)
-                do
-                  Enum.reduce(ex_cards, [], fn(x, acc) ->
-                    [Payments.delete_stripe_external_account_card(x) | acc]
-                  end)
-                  Enum.reduce(ex_banks, [], fn(x, acc) ->
-                    [Payments.delete_stripe_external_account_bank(x) | acc]
-                  end)
-                  Enum.reduce(cards, [], fn(x, acc) ->
-                    [Payments.delete_stripe_card_token(x) | acc]
-                  end)
-                  Enum.reduce(bank_account_tokens, [], fn(x, acc) ->
-                    [Payments.delete_stripe_bank_account_token(x) | acc]
-                  end)
-                  {:ok, deleted}
-                else
-                  nil -> {:error, "permission denied"}
-                  {:error, %Stripe.Error{code: _, extra: %{
-                        card_code: _,
-                        http_status: http_status,
-                        raw_error: _
-                      },
-                      message: message,
-                      request_id: _,
-                      source: _,
-                      user_message: _
-                    }
-                  } -> {:ok, %{error: "HTTP Status: #{http_status}, invalid request error. #{message}"}}
-                  {:error, changeset} -> {:error, extract_error_msg(changeset)}
-                end
-              false ->
-                with struct <- Accounts.get_user!(id),
-                     [customer] <- StripyQueries.by_list(StripeCustomer, :user_id, struct.id),
-                     {:ok, stripe} <- StripePlatformCustomerService.delete(customer.id_from_stripe),
-                     cards <- StripyQueries.by_list(StripeCardToken, :user_id, stripe.user_id),
-                     {:ok, deleted} <- Accounts.delete_user(struct, reason)
-                do
-                  Enum.reduce(cards, [], fn(x, acc) ->
-                    [Payments.delete_stripe_card_token(x) | acc]
-                  end)
-                  {:ok, deleted}
-                else
-                  nil -> {:error, "permission denied"}
-                  {:error, %Stripe.Error{code: _, extra: %{
-                        card_code: _,
-                        http_status: http_status,
-                        raw_error: _
-                      },
-                      message: message,
-                      request_id: _,
-                      source: _,
-                      user_message: _
-                    }
-                  } -> {:ok, %{error: "HTTP Status: #{http_status}, invalid request error. #{message}"}}
-                  {:error, changeset} -> {:error, extract_error_msg(changeset)}
-                end
+            with struct <- Accounts.get_user!(current_user.id),
+                 [account] = StripyQueries.by_list(StripeAccount, :user_id, struct.id),
+                 {:ok, stripe} <- StripePlatformAccountService.delete(account.id_from_stripe),
+                 ex_cards <- StripyQueries.by_list(StripeExternalAccountCard, :user_id, stripe.user_id),
+                 ex_banks <- StripyQueries.by_list(StripeExternalAccountBank, :user_id, stripe.user_id),
+                 cards <- StripyQueries.by_list(StripeCardToken, :user_id, stripe.user_id),
+                 bank_account_tokens <- StripyQueries.by_list(StripeBankAccountToken, :user_id, stripe.user_id),
+                 {:ok, deleted} <- Accounts.delete_user(struct, reason)
+            do
+              Enum.reduce(ex_cards, [], fn(x, acc) ->
+                [Payments.delete_stripe_external_account_card(x) | acc]
+              end)
+              Enum.reduce(ex_banks, [], fn(x, acc) ->
+                [Payments.delete_stripe_external_account_bank(x) | acc]
+              end)
+              Enum.reduce(cards, [], fn(x, acc) ->
+                [Payments.delete_stripe_card_token(x) | acc]
+              end)
+              Enum.reduce(bank_account_tokens, [], fn(x, acc) ->
+                [Payments.delete_stripe_bank_account_token(x) | acc]
+              end)
+              {:ok, deleted}
+            else
+              nil -> {:error, "permission denied"}
+              {:error, %Stripe.Error{code: _, extra: %{
+                    card_code: _,
+                    http_status: http_status,
+                    raw_error: _
+                  },
+                  message: message,
+                  request_id: _,
+                  source: _,
+                  user_message: _
+                }
+              } -> {:ok, %{error: "HTTP Status: #{http_status}, invalid request error. #{message}"}}
+              {:error, changeset} -> {:error, extract_error_msg(changeset)}
             end
           false ->
-            {:error, "permission denied"}
+            with struct <- Accounts.get_user!(current_user.id),
+                 {:ok, deleted} <- Accounts.delete_user(struct, reason)
+            do
+              {:ok, deleted}
+            else
+              nil -> {:error, "permission denied"}
+              {:error, changeset} -> {:error, extract_error_msg(changeset)}
+            end
         end
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The an User #{id} not found!"}
-      end
+      false ->
+        querty = Queries.by_count(StripeCustomer, :user_id, current_user.id)
+
+        case Repo.aggregate(querty, :count, :id) == 1 do
+          true ->
+            with struct <- Accounts.get_user!(current_user.id),
+                 [customer] <- StripyQueries.by_list(StripeCustomer, :user_id, struct.id),
+                 {:ok, stripe} <- StripePlatformCustomerService.delete(customer.id_from_stripe),
+                 cards <- StripyQueries.by_list(StripeCardToken, :user_id, stripe.user_id),
+                 {:ok, deleted} <- Accounts.delete_user(struct, reason)
+            do
+              Enum.reduce(cards, [], fn(x, acc) ->
+                [Payments.delete_stripe_card_token(x) | acc]
+              end)
+              {:ok, deleted}
+            else
+              nil -> {:error, "permission denied"}
+              {:error, %Stripe.Error{code: _, extra: %{
+                    card_code: _,
+                    http_status: http_status,
+                    raw_error: _
+                  },
+                  message: message,
+                  request_id: _,
+                  source: _,
+                  user_message: _
+                }
+              } -> {:ok, %{error: "HTTP Status: #{http_status}, invalid request error. #{message}"}}
+              {:error, changeset} -> {:error, extract_error_msg(changeset)}
+            end
+          false ->
+            with struct <- Accounts.get_user!(current_user.id),
+                 {:ok, deleted} <- Accounts.delete_user(struct, reason)
+            do
+              {:ok, deleted}
+            else
+              nil -> {:error, "permission denied"}
+              {:error, changeset} -> {:error, extract_error_msg(changeset)}
+            end
+        end
     end
   end
 
