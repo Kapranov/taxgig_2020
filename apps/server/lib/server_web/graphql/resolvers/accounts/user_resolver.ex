@@ -174,7 +174,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       case Token.create(data.email, @secret_email, date_time: timestamp_one_day()) do
         {:ok, code} ->
           Task.async(fn ->
-            Mailer.send_forgot_password_html(code, data.email, data.name)
+            Mailer.send_forgot_password_html(code, data.email, data.first_name)
           end)
           {:ok, %{email: data.email}}
         {:error, :invalid_token} ->
