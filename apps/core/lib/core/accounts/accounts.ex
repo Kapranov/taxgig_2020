@@ -13,6 +13,7 @@ defmodule Core.Accounts do
     Accounts.Profile,
     Accounts.Subscriber,
     Accounts.User,
+    Repo,
     Services.BookKeeping,
     Services.BookKeepingAdditionalNeed,
     Services.BookKeepingAnnualRevenue,
@@ -49,6 +50,7 @@ defmodule Core.Accounts do
   @type order_by :: list()
   @type preload :: atom()
   @type return :: list()
+  @type return_map :: map()
   @type where :: list()
   @type word() :: String.t()
 
@@ -169,6 +171,17 @@ defmodule Core.Accounts do
     Repo.all(
       from(q in ecto_schema, where: ilike(fragment("?::text", q.email), ^"%#{pattern}%") or ilike(fragment("?::text", q.id), ^"%#{pattern}%"))
     )
+  end
+
+  @spec search_email(String.t()) :: return_map() | nil
+  def search_email(email) do
+    try do
+      data = Repo.get_by(User, %{email: email})
+      if is_nil(data), do: nil, else: %{email: data.email, first_name: data.first_name}
+    rescue
+      ArgumentError ->
+        "field is empty"
+    end
   end
 
   @doc """

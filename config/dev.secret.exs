@@ -49,7 +49,7 @@ config :core,
 
 config :mailings,
   mailgun_domain: "https://api.mailgun.net/v3/mail.taxgig.com",
-  mailgun_key: "d88a0873cc6c3ca3f55e7a12465178cf-2d27312c-6a0b1e90"
+  mailgun_key: "key-b31b4b2c597c0b4da2876f8a55e49b5f"
 
 config :blockscore,
   adapter: HTTPoison,

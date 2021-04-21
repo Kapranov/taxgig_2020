@@ -10,6 +10,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     Repo
   }
 
+  alias Mailings.Mailer
+  alias Server.Token
+
   alias ServerWeb.Provider.{
     OauthFacebook,
     OauthGoogle,
@@ -42,10 +45,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                        {:error, Ecto.Changeset.t} |
                        {:error, Stripe.Error.t()}
   @type error_map :: {:ok, %{error: any, error_description: any, provider: any}}
-  @type result :: success_tuple | error_tuple
+  @type result :: success_tuple | success_list | error_tuple
 
   @salt Application.get_env(:server, ServerWeb.Endpoint)[:salt]
   @secret Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_base]
+  @secret_email Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_email]
+  @email_age Application.get_env(:server, ServerWeb.Endpoint)[:email_age]
+  @ts DateTime.utc_now |> DateTime.to_unix
 
   @keys ~w(provider)a
   @code_keys ~w(provider redirect)a
@@ -159,6 +165,29 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
+  @spec search(any, %{email: bitstring}, any) :: result()
+  def search(_parent, %{email: term}, _resolutions) do
+    data = Accounts.search_email(term)
+    if is_nil(data) do
+      {:ok, %{error: "email not found"}}
+    else
+      case Token.create(data.email, @secret_email, date_time: timestamp_one_day()) do
+        {:ok, code} ->
+          Task.async(fn ->
+            Mailer.send_forgot_password_html(code, data.email, data.name)
+          end)
+          {:ok, %{email: data.email}}
+        {:error, :invalid_token} ->
+          {:ok, %{error: "invalid token"}}
+      end
+    end
+  end
+
+  @spec search(any, any, any) :: error_tuple()
+  def search(_parent, _args, _resolutions) do
+    {:ok, %{error: "field is empty"}}
+  end
+
   @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: result()
   def create(_parent, %{} = args, _info) do
     args
@@ -251,7 +280,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  @spec update_password(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  @spec update_password(any, any, any) :: error_tuple()
   def update_password(_root, _args, _info) do
     {:error, [
         [field: :id, message: "Can't be blank"],
@@ -261,6 +290,38 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         [field: :current_user,  message: "Unauthenticated"]
       ]
     }
+  end
+
+  @spec password_reset(any, %{code: String.t(), email: String.t(), password: String.t(), password_confirmation: String.t()}, any) :: result()
+  def password_reset(_root, %{code: code, password: password, password_confirmation: password_confirmation}, _info) do
+    if is_nil(code) do
+      {:error, "invalid authorization code"}
+    else
+      try do
+        case Token.verify(code, @secret_email, @ts) do
+          {:ok, email} ->
+            Repo.get_by!(User, %{email: email})
+            |> User.changeset(%{password: password, password_confirmation: password_confirmation})
+            |> Repo.update
+            |> case do
+              {:ok, struct} ->
+                {:ok, struct}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
+          {:error, :invalid_token} ->
+            {:ok, %{error: "invalid_token"}}
+        end
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "An User not found"}
+      end
+    end
+  end
+
+  @spec password_reset(any, any, any) :: error_tuple()
+  def password_reset(_root, _args, _info) do
+    {:ok, %{error: "invalid authorization code"}}
   end
 
   @spec delete(any, %{reason: bitstring}, %{context: %{current_user: User.t()}}) :: result()
@@ -1242,4 +1303,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   @spec execute_action([action: String.t()]) :: String.t()
   def execute_action([] \\ [action: "generate_secret"]), do: FlakeId.get
+
+  @spec timestamp_one_day() :: {{integer, integer, integer}, {integer, integer, integer}}
+  defp timestamp_one_day() do
+    :calendar.universal_time()
+    |> :calendar.datetime_to_gregorian_seconds()
+    |> (fn now_in_seconds -> now_in_seconds - @email_age end).()
+    |> :calendar.gregorian_seconds_to_datetime()
+  end
 end

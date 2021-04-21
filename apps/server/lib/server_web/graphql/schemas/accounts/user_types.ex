@@ -103,6 +103,12 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :user_id, :string, description: "A userId is a unique identifier"
   end
 
+  @desc "Get email"
+  object :info_email do
+    field :email, :string, description: "accounts user email"
+    field :error, :string, description: "a short sentence with error"
+  end
+
   @desc "The accounts an user update via params"
   input_object :update_user_params do
     field :active, :boolean
@@ -133,6 +139,12 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :password_confirmation, non_null(:string)
   end
 
+  input_object :update_password_reset_params do
+    field :code, non_null(:string)
+    field :password, non_null(:string)
+    field :password_confirmation, non_null(:string)
+  end
+
   object :user_queries do
     @desc "Get default avatars"
     field :default_avatars, list_of(:string) do
@@ -148,6 +160,12 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :show_user, :user do
       arg(:id, non_null(:string))
       resolve(&UserResolver.show/3)
+    end
+
+    @desc "Get email"
+    field :get_email, :info_email do
+      arg(:email, non_null(:string))
+      resolve(&UserResolver.search/3)
     end
 
     @desc "Get code by Providers"
@@ -265,6 +283,14 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       arg :id, non_null(:string)
       arg :user, :update_password_params
       resolve &UserResolver.update_password/3
+    end
+
+    @desc "Update only password a specific accounts an user via code"
+    field :update_password_reset, :user do
+      arg :code, non_null(:string)
+      arg :password, non_null(:string)
+      arg :password_confirmation, non_null(:string)
+      resolve &UserResolver.password_reset/3
     end
 
     @desc "Delete a specific accounts an user"
