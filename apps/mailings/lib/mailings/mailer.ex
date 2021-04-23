@@ -70,7 +70,8 @@ defmodule Mailings.Mailer do
     send_email to: customer,
                from: @from,
                subject: @tp_email_subject,
-               template: @tp_template
+               template: @tp_template,
+               'v:email_link': customer
     :ok
   end
 
@@ -87,7 +88,8 @@ defmodule Mailings.Mailer do
     send_email to: customer,
                from: @from,
                subject: @pro_email_subject,
-               template: @pro_template
+               template: @pro_template,
+               'v:email_link': customer
 
     :ok
   end
