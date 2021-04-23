@@ -80,9 +80,7 @@ defmodule Core.Accounts.User do
   }
 
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-  # @email_validation_regex Application.get_env(:core, :email_regex)
-  # @phone ~r/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/
-  @secret  Application.get_env(:server, ServerWeb.Endpoint)[:aad]
+  @secret :crypto.strong_rand_bytes(32) |> Base.url_encode64 |> binary_part(0, 32)
   @pass_salt Argon2.hash_pwd_salt(@secret)
 
   @allowed_params ~w(
@@ -209,7 +207,6 @@ defmodule Core.Accounts.User do
     |> changeset_preload(:languages)
     |> put_assoc_nochange(:languages, parse_name(attrs))
     |> validate_format(:email, email_regex())
-    #|> validate_format(:phone, @phone, message: "must be a valid number")
     |> validate_length(:password, min: 5, max: 20)
     |> validate_confirmation(:password)
     |> update_change(:email, &String.downcase/1)
