@@ -72,10 +72,10 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountTokenRe
         false ->
           {:error, [[field: :user_id, message: "Can't be blank or Permission denied for current_user"]]}
         true ->
-          case StripyRepo.aggregate(querty_account_token, :count, :id) < 1 do
+          case StripyRepo.aggregate(querty_account_token, :count, :id) == 0 do
             false -> {:error, %Ecto.Changeset{}}
             true ->
-              case StripyRepo.aggregate(querty_account, :count, :id) < 1 do
+              case StripyRepo.aggregate(querty_account, :count, :id) == 0 do
                 false -> {:error, %Ecto.Changeset{}}
                 true ->
                   with {:ok, struct} <- StripePlatformAccountTokenService.create(%{
@@ -145,7 +145,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountTokenRe
                             user_message: _
                           }
                         } -> {:ok, %{error: "HTTP Status: #{http_status}, account token invalid request error. #{message}"}}
-                        {:error, %Ecto.Changeset{}} -> {:ok, %{error: "account token not found!"}}
+                        # {:error, %Ecto.Changeset{}} -> {:ok, %{error: "account token not found!"}}
                       end
                   end
               end

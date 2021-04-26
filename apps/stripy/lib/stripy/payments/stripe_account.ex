@@ -82,7 +82,6 @@ defmodule Stripy.Payments.StripeAccount do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
-    |> unique_constraint(:business_url, name: :stripe_accounts_business_url_index)
     |> unique_constraint(:email, name: :stripe_accounts_email_index)
     |> unique_constraint(:id_from_stripe, name: :stripe_accounts_id_from_stripe_index)
     |> unique_constraint(:user_id, name: :stripe_accounts_user_id_index)

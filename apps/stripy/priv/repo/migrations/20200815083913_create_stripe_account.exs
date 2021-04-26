@@ -21,7 +21,6 @@ defmodule Stripy.Repo.Migrations.CreateStripeAccount do
       timestamps(type: :utc_datetime_usec)
     end
 
-    create unique_index(:stripe_accounts, [:business_url], name: :stripe_accounts_business_url_index)
     create unique_index(:stripe_accounts, [:email], name: :stripe_accounts_email_index)
     create unique_index(:stripe_accounts, [:id_from_stripe], name: :stripe_accounts_id_from_stripe_index)
     create unique_index(:stripe_accounts, [:user_id], name: :stripe_accounts_user_id_index)

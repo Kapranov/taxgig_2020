@@ -128,21 +128,27 @@ defmodule Core.Analyzes.IndividualTaxReturn do
 
     case struct do
       :error -> :error
-      %IndividualTaxReturn{individual_employment_statuses: [%IndividualEmploymentStatus{name: name, price: price}]} ->
+      _ ->
         case IndividualTaxReturn.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(IndividualEmploymentStatus, IndividualTaxReturn, true, :individual_tax_return_id, :name, :price, name)
-              for {k, _} <- data, into: %{}, do: {k, found}
-            end
+             case by_service_with_name_for_tp(IndividualEmploymentStatus, :individual_tax_return_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_name(IndividualEmploymentStatus, IndividualTaxReturn, true, :individual_tax_return_id, :name, x)  | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(IndividualEmploymentStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name, name)
-              for {k} <- data, into: %{}, do: {k, found}
+             case by_service_with_name_for_pro(IndividualEmploymentStatus, :individual_tax_return_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_name(IndividualEmploymentStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name, x)  | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
              end
         end
     end

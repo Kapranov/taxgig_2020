@@ -428,6 +428,63 @@ defmodule Core.Queries do
     end
   end
 
+  @doc """
+  Find Name in field's Service for role Pro
+
+  ## Example
+
+      iex> struct = Core.Services.IndividualEmploymentStatus
+      iex> row_a = :individual_tax_return_id
+      iex> row_b = :name
+      iex> row_c = :price
+      iex> id = "A1iyOkFTXX32A4Cldq"
+      iex> by_service_with_name_for_pro(struct, row_a, row_b, row_c, id)
+      [:employed, :"self-employed", :unemployed]
+  """
+  @spec by_service_with_name_for_pro(map, atom, atom, atom, word) :: [{word}] | nil
+  def by_service_with_name_for_pro(struct, row_a, row_b, row_c, id) do
+    try do
+      Repo.all(
+        from c in struct,
+        where: not is_nil(field(c, ^row_a)),
+        where: not is_nil(field(c, ^row_b)),
+        where: not is_nil(field(c, ^row_c)),
+        where: field(c, ^row_c) != 0,
+        where: field(c, ^row_a) == ^id,
+        select: c.name
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Find Name in field's Service for role Tp
+
+  ## Example
+
+      iex> struct = Core.Services.IndividualEmploymentStatus
+      iex> row_a = :individual_tax_return_id
+      iex> row_b = :name
+      iex> id = "A1iyOkFTXX32A4Cldq"
+      iex> by_service_with_name_for_tp(struct, row_a, row_b, row_c, id)
+      [:employed, :"self-employed", :unemployed]
+  """
+  @spec by_service_with_name_for_tp(map, atom, atom, word) :: [{word}] | nil
+  def by_service_with_name_for_tp(struct, row_a, row_b, id) do
+    try do
+      Repo.all(
+        from c in struct,
+        where: not is_nil(field(c, ^row_a)),
+        where: not is_nil(field(c, ^row_b)),
+        where: field(c, ^row_a) == ^id,
+        select: c.name
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
   @spec decimal_mult(float, integer) :: word
   def decimal_mult(val1, val2) when is_integer(val1) do
     val1
