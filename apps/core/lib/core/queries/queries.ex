@@ -335,6 +335,40 @@ defmodule Core.Queries do
     end
   end
 
+  @spec by_name_for_tp(map, map, boolean, atom, atom, word) :: [{word}] | nil
+  def by_name_for_tp(struct_a, struct_b, role, row_a, row_b, name) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in User,
+        join: cu in ^struct_b,
+        where: field(c, ^row_a) == cu.id and cu.user_id == ct.id and ct.role == ^role,
+        where: not is_nil(field(c, ^row_b)),
+        where: field(c, ^row_b) == ^name,
+        select: {cu.id}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @spec by_name_for_pro(map, map, boolean, atom, atom, word) :: [{word}] | nil
+  def by_name_for_pro(struct_a, struct_b, role, row_a, row_b, name) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in User,
+        join: cu in ^struct_b,
+        where: field(c, ^row_a) == cu.id and cu.user_id == ct.id and ct.role == ^role,
+        where: not is_nil(field(c, ^row_b)),
+        where: field(c, ^row_b) == ^name,
+        select: {cu.id, c.price}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
   @spec by_names(map, map, boolean, atom, atom, atom, word) :: [{word}] | nil
   def by_names(struct_a, struct_b, role, row_a, row_b, row_c, name) do
     try do
@@ -452,6 +486,36 @@ defmodule Core.Queries do
         where: field(c, ^row_c) != 0,
         where: field(c, ^row_a) == ^id,
         select: c.name
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Find Name and price in field's Service for role Pro
+
+  ## Example
+
+      iex> struct = Core.Services.IndividualEmploymentStatus
+      iex> row_a = :individual_tax_return_id
+      iex> row_b = :name
+      iex> row_c = :price
+      iex> id = "A1iyOkFTXX32A4Cldq"
+      iex> by_service_with_price_for_pro(struct, row_a, row_b, row_c, id)
+      [:employed, :"self-employed", :unemployed]
+  """
+  @spec by_service_with_price_for_pro(map, atom, atom, atom, word) :: [{word}] | nil
+  def by_service_with_price_for_pro(struct, row_a, row_b, row_c, id) do
+    try do
+      Repo.all(
+        from c in struct,
+        where: not is_nil(field(c, ^row_a)),
+        where: not is_nil(field(c, ^row_b)),
+        where: not is_nil(field(c, ^row_c)),
+        where: field(c, ^row_c) != 0,
+        where: field(c, ^row_a) == ^id,
+        select: {c.name, c.price}
       )
     rescue
       Ecto.Query.CastError -> nil
