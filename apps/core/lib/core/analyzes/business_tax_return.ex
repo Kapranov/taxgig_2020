@@ -40,21 +40,27 @@ defmodule Core.Analyzes.BusinessTaxReturn do
 
     case struct do
       :error -> :error
-      %BusinessTaxReturn{business_entity_types: [%BusinessEntityType{name: name, price: price}]} ->
+      _ ->
         case BusinessTaxReturn.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(BusinessEntityType, BusinessTaxReturn, true, :business_tax_return_id, :name, :price, name)
-              for {k, _} <- data, into: %{}, do: {k, found}
-            end
+             case by_service_with_name_for_tp(BusinessEntityType, :business_tax_return_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_name(BusinessEntityType, BusinessTaxReturn, true, :business_tax_return_id, :name, x)  | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(BusinessEntityType, BusinessTaxReturn, false, :business_tax_return_id, :name, to_string(name))
-              for {k} <- data, into: %{}, do: {k, found}
+             case by_service_with_name_for_pro(BusinessEntityType, :business_tax_return_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_name(BusinessEntityType, BusinessTaxReturn, false, :business_tax_return_id, :name, x)  | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
              end
         end
     end
@@ -132,21 +138,27 @@ defmodule Core.Analyzes.BusinessTaxReturn do
 
     case struct do
       :error -> :error
-      %BusinessTaxReturn{business_number_employees: [%BusinessNumberEmployee{name: name, price: price}]} ->
+      _ ->
         case BusinessTaxReturn.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(BusinessNumberEmployee, BusinessTaxReturn, true, :business_tax_return_id, :name, :price, name)
-              for {k, _} <- data, into: %{}, do: {k, found}
-            end
+             case by_service_with_name_for_tp(BusinessNumberEmployee, :business_tax_return_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_name(BusinessNumberEmployee, BusinessTaxReturn, true, :business_tax_return_id, :name, x)  | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(BusinessNumberEmployee, BusinessTaxReturn, false, :business_tax_return_id, :name, name)
-              for {k} <- data, into: %{}, do: {k, found}
+             case by_service_with_name_for_pro(BusinessNumberEmployee, :business_tax_return_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_name(BusinessNumberEmployee, BusinessTaxReturn, false, :business_tax_return_id, :name, x)  | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
              end
         end
     end
@@ -175,21 +187,27 @@ defmodule Core.Analyzes.BusinessTaxReturn do
 
     case struct do
       :error -> :error
-      %BusinessTaxReturn{business_total_revenues: [%BusinessTotalRevenue{name: name, price: price}]} ->
+      _ ->
         case BusinessTaxReturn.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(BusinessTotalRevenue, BusinessTaxReturn, true, :business_tax_return_id, :name, :price, name)
-              for {k, _} <- data, into: %{}, do: {k, found}
-            end
+             case by_service_with_name_for_tp(BusinessTotalRevenue, :business_tax_return_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_name(BusinessTotalRevenue, BusinessTaxReturn, true, :business_tax_return_id, :name, x)  | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(BusinessTotalRevenue, BusinessTaxReturn, false, :business_tax_return_id, :name, name)
-              for {k} <- data, into: %{}, do: {k, found}
+             case by_service_with_name_for_pro(BusinessTotalRevenue, :business_tax_return_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_name(BusinessTotalRevenue, BusinessTaxReturn, false, :business_tax_return_id, :name, x)  | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
              end
         end
     end
@@ -212,21 +230,33 @@ defmodule Core.Analyzes.BusinessTaxReturn do
 
     case struct do
       :error -> :error
-      %BusinessTaxReturn{business_entity_types: [%BusinessEntityType{name: name, price: price}]} ->
+      _ ->
         case BusinessTaxReturn.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(BusinessEntityType, BusinessTaxReturn, true, :business_tax_return_id, :name, :price, name)
-              for {k, v} <- data, into: %{}, do: {k, v}
-            end
+             case by_service_with_name_for_tp(BusinessEntityType, :business_tax_return_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_pro(BusinessEntityType, BusinessTaxReturn, true, :business_tax_return_id, :name, x) do
+                       [] -> acc
+                       data -> [data | acc] |> List.flatten
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(BusinessEntityType, BusinessTaxReturn, false, :business_tax_return_id, :name, name)
-              for {k} <- data, into: %{}, do: {k, price}
+             case by_service_with_price_for_pro(BusinessEntityType, :business_tax_return_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_tp(BusinessEntityType, BusinessTaxReturn, false, :business_tax_return_id, :name, elem(x, 0)) do
+                       [] -> acc
+                       data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
              end
         end
     end
@@ -249,21 +279,33 @@ defmodule Core.Analyzes.BusinessTaxReturn do
 
     case struct do
       :error -> :error
-      %BusinessTaxReturn{business_number_employees: [%BusinessNumberEmployee{name: name, price: price}]} ->
+      _ ->
         case BusinessTaxReturn.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(BusinessNumberEmployee, BusinessTaxReturn, true, :business_tax_return_id, :name, :price, name)
-              for {k, v} <- data, into: %{}, do: {k, v}
-            end
+             case by_service_with_name_for_tp(BusinessNumberEmployee, :business_tax_return_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_pro(BusinessNumberEmployee, BusinessTaxReturn, true, :business_tax_return_id, :name, x) do
+                       [] -> acc
+                       data -> [data | acc] |> List.flatten
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(BusinessNumberEmployee, BusinessTaxReturn, false, :business_tax_return_id, :name, name)
-              for {k} <- data, into: %{}, do: {k, price}
+             case by_service_with_price_for_pro(BusinessNumberEmployee, :business_tax_return_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_tp(BusinessNumberEmployee, BusinessTaxReturn, false, :business_tax_return_id, :name, elem(x, 0)) do
+                       [] -> acc
+                       data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
              end
         end
     end
@@ -286,21 +328,33 @@ defmodule Core.Analyzes.BusinessTaxReturn do
 
     case struct do
       :error -> :error
-      %BusinessTaxReturn{business_total_revenues: [%BusinessTotalRevenue{name: name, price: price}]} ->
+      _ ->
         case BusinessTaxReturn.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(BusinessTotalRevenue, BusinessTaxReturn, true, :business_tax_return_id, :name, :price, name)
-              for {k, v} <- data, into: %{}, do: {k, v}
-            end
+             case by_service_with_name_for_tp(BusinessTotalRevenue, :business_tax_return_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_pro(BusinessTotalRevenue, BusinessTaxReturn, true, :business_tax_return_id, :name, x) do
+                       [] -> acc
+                       data -> [data | acc] |> List.flatten
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(BusinessTotalRevenue, BusinessTaxReturn, false, :business_tax_return_id, :name, name)
-              for {k} <- data, into: %{}, do: {k, price}
+             case by_service_with_price_for_pro(BusinessTotalRevenue, :business_tax_return_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_tp(BusinessTotalRevenue, BusinessTaxReturn, false, :business_tax_return_id, :name, elem(x, 0)) do
+                       [] -> acc
+                       data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
              end
         end
     end
@@ -443,26 +497,25 @@ defmodule Core.Analyzes.BusinessTaxReturn do
 
     case struct do
       :error -> :error
-      %BusinessTaxReturn{business_entity_types: [%BusinessEntityType{name: name, price: price}]} ->
-        case BusinessTaxReturn.by_role(id) do
+      _ ->
+        case BusinessTaxReturn.by_role(struct.id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              value =
-                case name do
-                  :"Sole proprietorship"  -> 299.99
-                  :"Partnership"          -> 299.99
-                  :"C-Corp / Corporation" -> 299.99
-                  :"S-Corp"               -> 299.99
-                  :"LLC"                  -> 299.99
-                  :"Non-profit corp"      -> 249.99
-                end
-
+            case by_service_with_name_for_tp(BusinessEntityType, :business_tax_return_id, :name, struct.id) do
+              [] -> :error
+              [name] ->
+                value =
+                  case name do
+                    :"Sole proprietorship"  -> 299.99
+                    :"Partnership"          -> 299.99
+                    :"C-Corp / Corporation" -> 299.99
+                    :"S-Corp"               -> 299.99
+                    :"LLC"                  -> 299.99
+                    :"Non-profit corp"      -> 249.99
+                  end
               data = value |> Float.to_string() |> D.new()
               %{id => data}
             end
-           true -> :error
+          true -> :error
         end
     end
   end
@@ -486,19 +539,22 @@ defmodule Core.Analyzes.BusinessTaxReturn do
       false ->
         case struct do
           :error -> :error
-          %BusinessTaxReturn{business_foreign_ownership_counts: [%BusinessForeignOwnershipCount{name: name}]} ->
-            if is_nil(name) do
-              :error
-            else
-              value =
-                case name do
-                  :"1"   -> 150.00
-                  :"2-5" -> 300.00
-                  :"5+"  -> 500.00
+          _ ->
+            case BusinessTaxReturn.by_role(struct.id) do
+              false ->
+                case by_service_with_name_for_tp(BusinessForeignOwnershipCount, :business_tax_return_id, :name, struct.id) do
+                  [] -> :error
+                  [name] ->
+                    value =
+                      case name do
+                        :"1"   -> 150.00
+                        :"2-5" -> 300.00
+                        :"5+"  -> 500.00
+                      end
+                  data = value |> Float.to_string() |> D.new()
+                  %{id => data}
                 end
-
-              data = value |> Float.to_string() |> D.new()
-              %{id => data}
+              true -> :error
             end
         end
       true -> :error
@@ -522,26 +578,25 @@ defmodule Core.Analyzes.BusinessTaxReturn do
 
     case struct do
       :error -> :error
-      %BusinessTaxReturn{business_total_revenues: [%BusinessTotalRevenue{name: name, price: price}]} ->
-        case BusinessTaxReturn.by_role(id) do
+      _ ->
+        case BusinessTaxReturn.by_role(struct.id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              value =
-                case name do
-                  :"Less than $100K" ->   0.01
-                  :"$100K - $500K"   -> 100.0
-                  :"$500K - $1M"     -> 200.0
-                  :"$1M - $5M"       -> 300.0
-                  :"$5M - $10M"      -> 400.0
-                  :"$10M+"           -> 500.0
-                end
-
+            case by_service_with_name_for_tp(BusinessTotalRevenue, :business_tax_return_id, :name, struct.id) do
+              [] -> :error
+              [name] ->
+                value =
+                  case name do
+                    :"Less than $100K" ->   0.01
+                    :"$100K - $500K"   -> 100.0
+                    :"$500K - $1M"     -> 200.0
+                    :"$1M - $5M"       -> 300.0
+                    :"$5M - $10M"      -> 400.0
+                    :"$10M+"           -> 500.0
+                  end
               data = value |> Float.to_string() |> D.new()
               %{id => data}
             end
-           true -> :error
+          true -> :error
         end
     end
   end
@@ -565,19 +620,23 @@ defmodule Core.Analyzes.BusinessTaxReturn do
       false ->
         case struct do
           :error -> :error
-          %BusinessTaxReturn{business_transaction_counts: [%BusinessTransactionCount{name: name}]} ->
-            if is_nil(name) do
-              :error
-            else
-              value =
-                case name do
-                  :"1-10"  ->  29.99
-                  :"11-25" ->  59.99
-                  :"26-75" ->  89.99
-                  :"75+"   -> 119.99
+          _ ->
+            case BusinessTaxReturn.by_role(struct.id) do
+              false ->
+                case by_service_with_name_for_tp(BusinessTransactionCount, :business_tax_return_id, :name, struct.id) do
+                  [] -> :error
+                  [name] ->
+                    value =
+                      case name do
+                        :"1-10"  ->  29.99
+                        :"11-25" ->  59.99
+                        :"26-75" ->  89.99
+                        :"75+"   -> 119.99
+                      end
+                  data = value |> Float.to_string() |> D.new()
+                  %{id => data}
                 end
-              data = value |> Float.to_string() |> D.new()
-              %{id => data}
+              true -> :error
             end
         end
       true -> :error
