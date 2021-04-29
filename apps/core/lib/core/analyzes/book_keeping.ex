@@ -83,21 +83,27 @@ defmodule Core.Analyzes.BookKeeping do
 
     case struct do
       :error -> :error
-      %BookKeeping{book_keeping_additional_needs: [%BookKeepingAdditionalNeed{name: name, price: price}]} ->
+      _ ->
         case BookKeeping.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(BookKeepingAdditionalNeed, BookKeeping, true, :book_keeping_id, :name, :price, name)
-              for {k, _} <- data, into: %{}, do: {k, found}
-            end
+             case by_service_with_name_for_tp(BookKeepingAdditionalNeed, :book_keeping_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_names(BookKeepingAdditionalNeed, BookKeeping, true, :book_keeping_id, :name, :price, x) | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(BookKeepingAdditionalNeed, BookKeeping, false, :book_keeping_id, :name, name)
-              for {k} <- data, into: %{}, do: {k, found}
+             case by_service_with_name_for_pro(BookKeepingAdditionalNeed, :book_keeping_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_name(BookKeepingAdditionalNeed, BookKeeping, false, :book_keeping_id, :name, x)  | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
              end
         end
     end
@@ -126,21 +132,27 @@ defmodule Core.Analyzes.BookKeeping do
 
     case struct do
       :error -> :error
-      %BookKeeping{book_keeping_annual_revenues: [%BookKeepingAnnualRevenue{name: name, price: price}]} ->
+      _ ->
         case BookKeeping.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(BookKeepingAnnualRevenue, BookKeeping, true, :book_keeping_id, :name, :price, name)
-              for {k, _} <- data, into: %{}, do: {k, found}
-            end
+             case by_service_with_name_for_tp(BookKeepingAnnualRevenue, :book_keeping_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_names(BookKeepingAnnualRevenue, BookKeeping, true, :book_keeping_id, :name, :price, x) | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(BookKeepingAnnualRevenue, BookKeeping, false, :book_keeping_id, :name, name)
-              for {k} <- data, into: %{}, do: {k, found}
+             case by_service_with_name_for_pro(BookKeepingAnnualRevenue, :book_keeping_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_name(BookKeepingAnnualRevenue, BookKeeping, false, :book_keeping_id, :name, x)  | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
              end
         end
     end
@@ -218,21 +230,27 @@ defmodule Core.Analyzes.BookKeeping do
 
     case struct do
       :error -> :error
-      %BookKeeping{book_keeping_number_employees: [%BookKeepingNumberEmployee{name: name, price: price}]} ->
+      _ ->
         case BookKeeping.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(BookKeepingNumberEmployee, BookKeeping, true, :book_keeping_id, :name, :price, name)
-              for {k, _} <- data, into: %{}, do: {k, found}
-            end
+             case by_service_with_name_for_tp(BookKeepingNumberEmployee, :book_keeping_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_names(BookKeepingNumberEmployee, BookKeeping, true, :book_keeping_id, :name, :price, x) | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(BookKeepingNumberEmployee, BookKeeping, false, :book_keeping_id, :name, name)
-              for {k} <- data, into: %{}, do: {k, found}
+             case by_service_with_name_for_pro(BookKeepingNumberEmployee, :book_keeping_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_name(BookKeepingNumberEmployee, BookKeeping, false, :book_keeping_id, :name, x)  | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
              end
         end
     end
@@ -260,21 +278,27 @@ defmodule Core.Analyzes.BookKeeping do
 
     case struct do
       :error -> :error
-      %BookKeeping{book_keeping_type_clients: [%BookKeepingTypeClient{name: name, price: price}]} ->
+      _ ->
         case BookKeeping.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(BookKeepingTypeClient, BookKeeping, true, :book_keeping_id, :name, :price, name)
-              for {k, _} <- data, into: %{}, do: {k, found}
-            end
+             case by_service_with_name_for_tp(BookKeepingTypeClient, :book_keeping_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_names(BookKeepingTypeClient, BookKeeping, true, :book_keeping_id, :name, :price, x) | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(BookKeepingTypeClient, BookKeeping, false, :book_keeping_id, :name, name)
-              for {k} <- data, into: %{}, do: {k, found}
+             case by_service_with_name_for_pro(BookKeepingTypeClient, :book_keeping_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     [by_name(BookKeepingTypeClient, BookKeeping, false, :book_keeping_id, :name, x)  | acc]
+                   end) |> List.flatten
+                 for {k} <- data, into: %{}, do: {k, found}
              end
         end
     end
@@ -334,21 +358,33 @@ defmodule Core.Analyzes.BookKeeping do
 
     case struct do
       :error -> :error
-      %BookKeeping{book_keeping_additional_needs: [%BookKeepingAdditionalNeed{name: name, price: price}]} ->
+      _ ->
         case BookKeeping.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(BookKeepingAdditionalNeed, BookKeeping, true, :book_keeping_id, :name, :price, name)
-              for {k, v} <- data, into: %{}, do: {k, v}
-            end
+             case by_service_with_name_for_tp(BookKeepingAdditionalNeed, :book_keeping_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_pro(BookKeepingAdditionalNeed, BookKeeping, true, :book_keeping_id, :name, x) do
+                       [] -> acc
+                       data -> [data | acc] |> List.flatten
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(BookKeepingAdditionalNeed, BookKeeping, false, :book_keeping_id, :name, name)
-              for {k} <- data, into: %{}, do: {k, price}
+             case by_service_with_price_for_pro(BookKeepingAdditionalNeed, :book_keeping_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_tp(BookKeepingAdditionalNeed, BookKeeping, false, :book_keeping_id, :name, elem(x, 0)) do
+                       [] -> acc
+                       data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
              end
         end
     end
@@ -371,21 +407,33 @@ defmodule Core.Analyzes.BookKeeping do
 
     case struct do
       :error -> :error
-      %BookKeeping{book_keeping_annual_revenues: [%BookKeepingAnnualRevenue{name: name, price: price}]} ->
+      _ ->
         case BookKeeping.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(BookKeepingAnnualRevenue, BookKeeping, true, :book_keeping_id, :name, :price, name)
-              for {k, v} <- data, into: %{}, do: {k, v}
-            end
+             case by_service_with_name_for_tp(BookKeepingAnnualRevenue, :book_keeping_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_pro(BookKeepingAnnualRevenue, BookKeeping, true, :book_keeping_id, :name, x) do
+                       [] -> acc
+                       data -> [data | acc] |> List.flatten
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(BookKeepingAnnualRevenue, BookKeeping, false, :book_keeping_id, :name, name)
-              for {k} <- data, into: %{}, do: {k, price}
+             case by_service_with_price_for_pro(BookKeepingAnnualRevenue, :book_keeping_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_tp(BookKeepingAnnualRevenue, BookKeeping, false, :book_keeping_id, :name, elem(x, 0)) do
+                       [] -> acc
+                       data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
              end
         end
     end
@@ -408,21 +456,33 @@ defmodule Core.Analyzes.BookKeeping do
 
     case struct do
       :error -> :error
-      %BookKeeping{book_keeping_number_employees: [%BookKeepingNumberEmployee{name: name, price: price}]} ->
+      _ ->
         case BookKeeping.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(BookKeepingNumberEmployee, BookKeeping, true, :book_keeping_id, :name, :price, name)
-              for {k, v} <- data, into: %{}, do: {k, v}
-            end
+             case by_service_with_name_for_tp(BookKeepingNumberEmployee, :book_keeping_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_pro(BookKeepingNumberEmployee, BookKeeping, true, :book_keeping_id, :name, x) do
+                       [] -> acc
+                       data -> [data | acc] |> List.flatten
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(BookKeepingNumberEmployee, BookKeeping, false, :book_keeping_id, :name, name)
-              for {k} <- data, into: %{}, do: {k, price}
+             case by_service_with_price_for_pro(BookKeepingNumberEmployee, :book_keeping_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_tp(BookKeepingNumberEmployee, BookKeeping, false, :book_keeping_id, :name, elem(x, 0)) do
+                       [] -> acc
+                       data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
              end
         end
     end
@@ -445,21 +505,33 @@ defmodule Core.Analyzes.BookKeeping do
 
     case struct do
       :error -> :error
-      %BookKeeping{book_keeping_transaction_volumes: [%BookKeepingTransactionVolume{name: name, price: price}]} ->
+      _ ->
         case BookKeeping.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(BookKeepingTransactionVolume, BookKeeping, true, :book_keeping_id, :name, :price, name)
-              for {k, v} <- data, into: %{}, do: {k, v}
-            end
+             case by_service_with_name_for_tp(BookKeepingTransactionVolume, :book_keeping_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_pro(BookKeepingTransactionVolume, BookKeeping, true, :book_keeping_id, :name, x) do
+                       [] -> acc
+                       data -> [data | acc] |> List.flatten
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(BookKeepingTransactionVolume, BookKeeping, false, :book_keeping_id, :name, name)
-              for {k} <- data, into: %{}, do: {k, price}
+             case by_service_with_price_for_pro(BookKeepingTransactionVolume, :book_keeping_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_tp(BookKeepingTransactionVolume, BookKeeping, false, :book_keeping_id, :name, elem(x, 0)) do
+                       [] -> acc
+                       data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
              end
         end
     end
@@ -482,21 +554,33 @@ defmodule Core.Analyzes.BookKeeping do
 
     case struct do
       :error -> :error
-      %BookKeeping{book_keeping_type_clients: [%BookKeepingTypeClient{name: name, price: price}]} ->
+      _ ->
         case BookKeeping.by_role(id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              data = by_names(BookKeepingTypeClient, BookKeeping, true, :book_keeping_id, :name, :price, name)
-              for {k, v} <- data, into: %{}, do: {k, v}
-            end
+             case by_service_with_name_for_tp(BookKeepingTypeClient, :book_keeping_id, :name, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_pro(BookKeepingTypeClient, BookKeeping, true, :book_keeping_id, :name, x) do
+                       [] -> acc
+                       data -> [data | acc] |> List.flatten
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
+             end
            true ->
-             if is_nil(name) || is_nil(price) || price == 0 do
-               :error
-             else
-              data = by_name(BookKeepingTypeClient, BookKeeping, false, :book_keeping_id, :name, name)
-              for {k} <- data, into: %{}, do: {k, price}
+             case by_service_with_price_for_pro(BookKeepingTypeClient, :book_keeping_id, :name, :price, struct.id) do
+               [] -> :error
+               service ->
+                 data =
+                   Enum.reduce(service, [], fn(x, acc) ->
+                     case by_name_for_tp(BookKeepingTypeClient, BookKeeping, false, :book_keeping_id, :name, elem(x, 0)) do
+                       [] -> acc
+                       data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                     end
+                   end)
+                 for {k, v} <- data, into: %{}, do: {k, v}
              end
         end
     end
@@ -592,21 +676,20 @@ defmodule Core.Analyzes.BookKeeping do
 
     case struct do
       :error -> :error
-      %BookKeeping{book_keeping_additional_needs: [%BookKeepingAdditionalNeed{name: name, price: price}]} ->
-        case BookKeeping.by_role(id) do
+      _ ->
+        case BookKeeping.by_role(struct.id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              value =
-                case name do
-                  :"accounts receivable"          -> 15.0
-                  :"accounts payable"             -> 15.0
-                  :"bank reconciliation"          -> 20.0
-                  :"financial report preparation" -> 99.99
-                  :"sales tax"                    -> 30.0
-                end
-
+            case by_service_with_name_for_tp(BookKeepingAdditionalNeed, :book_keeping_id, :name, struct.id) do
+              [] -> :error
+              [name] ->
+                value =
+                  case name do
+                    :"accounts receivable"          -> 15.0
+                    :"accounts payable"             -> 15.0
+                    :"bank reconciliation"          -> 20.0
+                    :"financial report preparation" -> 99.99
+                    :"sales tax"                    -> 30.0
+                  end
               data = value |> Float.to_string() |> D.new()
               %{id => data}
             end
@@ -632,22 +715,21 @@ defmodule Core.Analyzes.BookKeeping do
 
     case struct do
       :error -> :error
-      %BookKeeping{book_keeping_annual_revenues: [%BookKeepingAnnualRevenue{name: name, price: price}]} ->
-        case BookKeeping.by_role(id) do
+      _ ->
+        case BookKeeping.by_role(struct.id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              value =
-                case name do
-                  :"Less than $100K" ->   0.01
-                  :"$100K - $500K"   ->  50.0
-                  :"$500K - $1M"     -> 100.0
-                  :"$1M - $5M"       -> 200.0
-                  :"$5M - $10M"      -> 350.0
-                  :"$10M+"           -> 500.0
-                end
-
+            case by_service_with_name_for_tp(BookKeepingAnnualRevenue, :book_keeping_id, :name, struct.id) do
+              [] -> :error
+              [name] ->
+                value =
+                  case name do
+                    :"Less than $100K" ->   0.01
+                    :"$100K - $500K"   ->  50.0
+                    :"$500K - $1M"     -> 100.0
+                    :"$1M - $5M"       -> 200.0
+                    :"$5M - $10M"      -> 350.0
+                    :"$10M+"           -> 500.0
+                  end
               data = value |> Float.to_string() |> D.new()
               %{id => data}
             end
@@ -673,22 +755,21 @@ defmodule Core.Analyzes.BookKeeping do
 
     case struct do
       :error -> :error
-      %BookKeeping{book_keeping_number_employees: [%BookKeepingNumberEmployee{name: name, price: price}]} ->
-        case BookKeeping.by_role(id) do
+      _ ->
+        case BookKeeping.by_role(struct.id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              value =
-                case name do
-                  :"1 employee"          ->   9.99
-                  :"2 - 20 employees"    ->  49.99
-                  :"21 - 50 employees"   ->  99.99
-                  :"51 - 100 employees"  -> 199.99
-                  :"101 - 500 employees" -> 349.99
-                  :"500+ employees"      -> 499.99
-                end
-
+            case by_service_with_name_for_tp(BookKeepingNumberEmployee, :book_keeping_id, :name, struct.id) do
+              [] -> :error
+              [name] ->
+                value =
+                  case name do
+                    :"1 employee"          ->   9.99
+                    :"2 - 20 employees"    ->  49.99
+                    :"21 - 50 employees"   ->  99.99
+                    :"51 - 100 employees"  -> 199.99
+                    :"101 - 500 employees" -> 349.99
+                    :"500+ employees"      -> 499.99
+                  end
               data = value |> Float.to_string() |> D.new()
               %{id => data}
             end
@@ -714,24 +795,23 @@ defmodule Core.Analyzes.BookKeeping do
 
     case struct do
       :error -> :error
-      %BookKeeping{book_keeping_transaction_volumes: [%BookKeepingTransactionVolume{name: name, price: price}]} ->
-        case BookKeeping.by_role(id) do
+      _ ->
+        case BookKeeping.by_role(struct.id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              value =
-                case name do
-                  :"1-25"   ->  30.0
-                  :"26-75"  ->  75.0
-                  :"76-199" -> 150.0
-                  :"200+"   -> 300.0
-                end
-
+            case by_service_with_name_for_tp(BookKeepingTransactionVolume, :book_keeping_id, :name, struct.id) do
+              [] -> :error
+              [name] ->
+                value =
+                  case name do
+                    :"1-25"   ->  30.0
+                    :"26-75"  ->  75.0
+                    :"76-199" -> 150.0
+                    :"200+"   -> 300.0
+                  end
               data = value |> Float.to_string() |> D.new()
               %{id => data}
             end
-           true -> :error
+          true -> :error
         end
     end
   end
@@ -753,26 +833,25 @@ defmodule Core.Analyzes.BookKeeping do
 
     case struct do
       :error -> :error
-      %BookKeeping{book_keeping_type_clients: [%BookKeepingTypeClient{name: name, price: price}]} ->
-        case BookKeeping.by_role(id) do
+      _ ->
+        case BookKeeping.by_role(struct.id) do
           false ->
-            if is_nil(name) || !is_nil(price) do
-              :error
-            else
-              value =
-                case name do
-                  :"Individual or Sole proprietorship" -> 119.99
-                  :"Partnership"                       -> 139.99
-                  :"C-Corp / Corporation"              -> 239.99
-                  :"S-Corp"                            -> 239.99
-                  :"LLC"                               -> 239.99
-                  :"Non-profit corp"                   -> 139.99
-                end
-
+            case by_service_with_name_for_tp(BookKeepingTypeClient, :book_keeping_id, :name, struct.id) do
+              [] -> :error
+              [name] ->
+                value =
+                  case name do
+                    :"Individual or Sole proprietorship" -> 119.99
+                    :"Partnership"                       -> 139.99
+                    :"C-Corp / Corporation"              -> 239.99
+                    :"S-Corp"                            -> 239.99
+                    :"LLC"                               -> 239.99
+                    :"Non-profit corp"                   -> 139.99
+                  end
               data = value |> Float.to_string() |> D.new()
               %{id => data}
             end
-           true -> :error
+          true -> :error
         end
     end
   end
