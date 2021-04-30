@@ -21,7 +21,7 @@ defmodule Mailings.Mailer do
 
   use Mailgun.Client, @config
 
-  @from "noreply@mail.taxgig.com"
+  @from "taxgig@mail.taxgig.com"
 
   @doc """
   Send an email in format txt for customer TP.

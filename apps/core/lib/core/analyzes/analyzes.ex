@@ -25,20 +25,16 @@ defmodule Core.Analyzes do
                 case Core.Services.SaleTax.by_role(id) do
                   {:error, msg} -> {:error, msg}
                   _ ->
-                    price = total_price(id)
-                    data1 = for {k, v} <- price, into: [], do: %{id: k, sum_price: v}
                     match = total_match(id)
-                    value = total_value(id) |> Map.values |> List.last
-                    data2 =
-                      for {k, v} <- match, into: [] do
-                        if k == List.first(data1).id do
-                          %{id: k, sum_price: List.first(data1).sum_price, sum_match: v, sum_value: value}
-                        else
-                          %{id: k, sum_price: nil, sum_match: v, sum_value: value}
-                        end
-                      end
-
-                    [data2] |> List.flatten
+                    price = total_price(id)
+                    [value] = total_value(id) |> Map.values
+                    # data = for {k, v} <- price, {n, m} <- match, into: %{}, do: {k, %{id: n, sum_match: m, sum_price: v, sum_value: value}}
+                    # data |> Enum.map(fn {_k, v} -> v end)
+                    Map.merge(
+                      Enum.into(match, %{}, fn {k, v} -> {k, %{id: k, sum_match: v}} end),
+                      Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
+                      fn _k, v1, v2 -> Map.merge(v1, v2) end
+                    ) |> Enum.map(fn {_k, v} -> v end)
                 end
               _ ->
                 price = total_price(id)
