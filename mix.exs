@@ -107,7 +107,7 @@ defmodule TaxgigEx.MixProject do
   defp deps do
     [
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.22", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.22", runtime: false},
       {:ex_spec, "~> 2.0", only: [:test]},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:excoveralls, "~> 0.13", only: [:test]},

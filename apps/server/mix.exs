@@ -55,6 +55,7 @@ defmodule Server.MixProject do
       {:ex_spec, "~> 2.0", only: [:test]},
       {:ex_syslogger, "~> 1.5"},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
+      {:ex_url, "~> 1.3"},
       {:faker, "~> 0.13", only: [:benchmark, :dev, :test]},
       {:httpoison, "~> 1.6"},
       {:jason, "~> 1.2"},

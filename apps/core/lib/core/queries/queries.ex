@@ -404,7 +404,7 @@ defmodule Core.Queries do
         join: cu in ^struct,
         where: cu.user_id == c.id,
         where: c.role == ^role,
-        where: field(cu, ^row) > 1,
+        where: field(cu, ^row) > 0,
         where: not is_nil(field(cu, ^row)),
         select: {cu.id, field(cu, ^row)}
       )
