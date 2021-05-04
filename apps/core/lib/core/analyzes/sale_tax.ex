@@ -43,14 +43,14 @@ defmodule Core.Analyzes.SaleTax do
               :error
             else
               price = by_counts(SaleTax, true, :price_sale_tax_count)
-              for {k, _} <- price, into: %{}, do: {k, found}
+              for {k, _v} <- price, into: %{}, do: {k, found}
             end
           true ->
             if !is_nil(sale_tax_count) || is_nil(price_sale_tax_count) || sale_tax_count == 0 || price_sale_tax_count == 0 do
               :error
             else
               data = by_counts(SaleTax, false, :sale_tax_count)
-              for {k, _} <- data, into: %{}, do: {k, found}
+              for {k, _v} <- data, into: %{}, do: {k, found}
             end
         end
     end
@@ -89,7 +89,7 @@ defmodule Core.Analyzes.SaleTax do
                    Enum.reduce(service, [], fn(x, acc) ->
                      [by_names(SaleTaxFrequency, SaleTax, true, :sale_tax_id, :name, :price, x) | acc]
                    end) |> List.flatten
-                 for {k} <- data, into: %{}, do: {k, found}
+                 for {k, _v} <- data, into: %{}, do: {k, found}
              end
            true ->
              case by_service_with_name_for_pro(SaleTaxFrequency, :sale_tax_id, :name, :price, struct.id) do

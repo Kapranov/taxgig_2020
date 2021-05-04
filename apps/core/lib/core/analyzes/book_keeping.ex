@@ -93,7 +93,7 @@ defmodule Core.Analyzes.BookKeeping do
                    Enum.reduce(service, [], fn(x, acc) ->
                      [by_names(BookKeepingAdditionalNeed, BookKeeping, true, :book_keeping_id, :name, :price, x) | acc]
                    end) |> List.flatten
-                 for {k} <- data, into: %{}, do: {k, found}
+                 for {k, _v} <- data, into: %{}, do: {k, found}
              end
            true ->
              case by_service_with_name_for_pro(BookKeepingAdditionalNeed, :book_keeping_id, :name, :price, struct.id) do
@@ -142,7 +142,7 @@ defmodule Core.Analyzes.BookKeeping do
                    Enum.reduce(service, [], fn(x, acc) ->
                      [by_names(BookKeepingAnnualRevenue, BookKeeping, true, :book_keeping_id, :name, :price, x) | acc]
                    end) |> List.flatten
-                 for {k} <- data, into: %{}, do: {k, found}
+                 for {k, _v} <- data, into: %{}, do: {k, found}
              end
            true ->
              case by_service_with_name_for_pro(BookKeepingAnnualRevenue, :book_keeping_id, :name, :price, struct.id) do
@@ -240,7 +240,7 @@ defmodule Core.Analyzes.BookKeeping do
                    Enum.reduce(service, [], fn(x, acc) ->
                      [by_names(BookKeepingNumberEmployee, BookKeeping, true, :book_keeping_id, :name, :price, x) | acc]
                    end) |> List.flatten
-                 for {k} <- data, into: %{}, do: {k, found}
+                 for {k, _v} <- data, into: %{}, do: {k, found}
              end
            true ->
              case by_service_with_name_for_pro(BookKeepingNumberEmployee, :book_keeping_id, :name, :price, struct.id) do
@@ -288,7 +288,7 @@ defmodule Core.Analyzes.BookKeeping do
                    Enum.reduce(service, [], fn(x, acc) ->
                      [by_names(BookKeepingTypeClient, BookKeeping, true, :book_keeping_id, :name, :price, x) | acc]
                    end) |> List.flatten
-                 for {k} <- data, into: %{}, do: {k, found}
+                 for {k, _v} <- data, into: %{}, do: {k, found}
              end
            true ->
              case by_service_with_name_for_pro(BookKeepingTypeClient, :book_keeping_id, :name, :price, struct.id) do
