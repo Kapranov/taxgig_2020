@@ -231,8 +231,7 @@ defmodule Core.Analyzes do
 
             rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
             rst2 = Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
-            rst3 = Map.merge(rst2, cnt4, fn _k, v1, v2 -> v1 + v2 end)
-            Map.merge(rst3, cnt4, fn _k, v1, v2 -> v1 + v2 end)
+            Map.merge(rst2, cnt4, fn _k, v1, v2 -> v1 + v2 end)
         end
               _ ->
                 cnt1 =

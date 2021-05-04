@@ -4,6 +4,12 @@
 bash> mix phx.new server --no-html --no-webpack --no-ecto
 ```
 
+### Update SSL on DigitalOcean
+
+```
+bash> certbot renew --dry-run
+```
+
 ### Channels
 
 - `socket_opts = [url: "ws://localhost:4000/socket/websocket"]`
