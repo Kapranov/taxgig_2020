@@ -29,22 +29,16 @@ defmodule Core.Upload do
   alias Ecto.UUID
   alias Core.{
     Config,
-    MIME,
     Upload,
     Uploaders
   }
 
+  alias Core.MIME, as: CoreMIME
+
   require Logger
 
   @name __MODULE__
-  # @host Application.get_env(:server, ServerWeb.Endpoint)[:url][:host]
-  # @host Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
   @host "nyc3.digitaloceanspaces.com"
-  # @bucket Application.get_env(:core, Core.Uploaders.S3)[:bucket]
-  # @port Application.get_env(:server, ServerWeb.Endpoint)[:url][:port]
-  # @url "https://" <> @host <> ":" <> "#{@port}"
-  # https://nyc3.digitaloceanspaces.com/taxgig/
-  # @url @host <> "/" <> @bucket
   @url "https://" <> @host
 
   @type source ::
@@ -96,7 +90,6 @@ defmodule Core.Upload do
 
   @spec remove(String.t(), list()) :: String.t() | {:error, String.t()}
   def remove(url, opts \\ []) do
-    # with opts <- get_opts(opts), %URI{path: "/media/" <> path, host: host} <- URI.parse(url), {:same_host, true} <- {:same_host, host == @host} do
     with opts <- get_opts(opts), %URI{path: "/taxgig/" <> path, host: host} <- URI.parse(url), {:same_host, true} <- {:same_host, host == @host} do
       Uploaders.Uploader.remove_file(opts.uploader, path)
     else
@@ -138,10 +131,50 @@ defmodule Core.Upload do
 
   @spec prepare_upload(Plug.Upload.t(), map()) :: {:ok, %__MODULE__{id: String.t(), name: String.t(), tempfile: String.t(), content_type: String.t(), size: integer()}}
   defp prepare_upload(%Plug.Upload{} = file, opts) do
-    with {:ok, size} <- check_file_size(file.path, opts.size_limit), {:ok, content_type, name} <- MIME.file_mime_type(file.path, file.filename) do
-      {:ok, %__MODULE__{id: UUID.generate(), name: name, tempfile: file.path, content_type: content_type, size: size}}
+    with {:ok, size} <- check_file_size(file.path, opts.size_limit),
+         {:ok, content_type, name} <- CoreMIME.file_mime_type(file.path, file.filename)
+    do
+      {:ok,
+        %__MODULE__{
+          id: UUID.generate(),
+          name: name,
+          tempfile: file.path,
+          content_type: content_type,
+          size: size
+        }}
     end
   end
+
+  @spec prepare_upload(%{img: bitstring()}, map()) :: {:ok, %__MODULE__{id: String.t(), name: String.t(), tempfile: String.t(), content_type: String.t(), size: integer()}}
+  defp  prepare_upload(%{img: "data:image/" <> image_data}, opts) do
+    parsed = Regex.named_captures(~r/(?<filetype>jpeg|png|gif);base64,(?<data>.*)/, image_data)
+    data = Base.decode64!(parsed["data"], ignore: :whitespace)
+    hash = Base.encode16(:crypto.hash(:sha256, data), lower: true)
+    content_type = "image/" <> parsed["filetype"]
+
+    with :ok <- check_binary_size(data, opts.size_limit),
+         tmp_path <- tempfile_for_image(data),
+         {:ok, size} <- check_file_size(tmp_path, opts.size_limit),
+         [ext | _] <- MIME.extensions(content_type)
+    do
+      {:ok,
+        %__MODULE__{
+          id: UUID.generate(),
+          name: hash <> "." <> ext,
+          tempfile: tmp_path,
+          content_type: content_type,
+          size: size
+        }}
+    end
+  end
+
+  @spec check_binary_size(bitstring(), integer()) :: tuple()
+  defp check_binary_size(binary, size_limit) when is_integer(size_limit) and size_limit > 0 and byte_size(binary) >= size_limit do
+    {:error, :file_too_large}
+  end
+
+  @spec check_binary_size(any(), any()) :: atom()
+  defp check_binary_size(_, _), do: :ok
 
   @spec check_file_size(String.t(), integer()) :: {:ok, integer()} | {:error, atom()} | atom()
   defp check_file_size(path, size_limit) when is_integer(size_limit) and size_limit > 0 do
@@ -156,6 +189,14 @@ defmodule Core.Upload do
   @spec check_file_size(any(), any()) :: atom()
   defp check_file_size(_, _), do: :ok
 
+  @spec tempfile_for_image(bitstring()) :: String.t()
+  defp tempfile_for_image(data) do
+    {:ok, tmp_path} = Plug.Upload.random_file("profile_pics")
+    {:ok, tmp_file} = File.open(tmp_path, [:write, :raw, :binary])
+    IO.binwrite(tmp_file, data)
+    tmp_path
+  end
+
   @spec url_from_spec(%__MODULE__{name: String.t()}, String.t(), {:file, String.t}) :: String.t
   defp url_from_spec(%__MODULE__{name: name}, base_url, {:file, path}) do
     path =
@@ -163,10 +204,9 @@ defmodule Core.Upload do
         if Config.get([@name, :link_name], false) do
           "?name=#{URI.encode(name, &char_unescaped?/1)}"
         else
-          ""
+           ""
         end
 
-    # [base_url, "media", path] |> Path.join()
     [base_url, "taxgig", path] |> Path.join()
   end
 
