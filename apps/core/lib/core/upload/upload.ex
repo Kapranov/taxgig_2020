@@ -131,16 +131,18 @@ defmodule Core.Upload do
 
   @spec prepare_upload(Plug.Upload.t(), map()) :: {:ok, %__MODULE__{id: String.t(), name: String.t(), tempfile: String.t(), content_type: String.t(), size: integer()}}
   defp prepare_upload(%Plug.Upload{} = file, opts) do
+    id = UUID.generate()
     with {:ok, size} <- check_file_size(file.path, opts.size_limit),
          {:ok, content_type, name} <- CoreMIME.file_mime_type(file.path, file.filename)
     do
       {:ok,
-        %__MODULE__{
-          id: UUID.generate(),
-          name: name,
-          tempfile: file.path,
+        %@name{
           content_type: content_type,
-          size: size
+          id: id,
+          name: name,
+          path: "#{id}/#{name}",
+          size: size,
+          tempfile: file.path
         }}
     end
   end
@@ -151,6 +153,7 @@ defmodule Core.Upload do
     data = Base.decode64!(parsed["data"], ignore: :whitespace)
     hash = Base.encode16(:crypto.hash(:sha256, data), lower: true)
     content_type = "image/" <> parsed["filetype"]
+    id = UUID.generate()
 
     with :ok <- check_binary_size(data, opts.size_limit),
          tmp_path <- tempfile_for_image(data),
@@ -158,26 +161,27 @@ defmodule Core.Upload do
          [ext | _] <- MIME.extensions(content_type)
     do
       {:ok,
-        %__MODULE__{
-          id: UUID.generate(),
-          name: hash <> "." <> ext,
-          tempfile: tmp_path,
+        %@name{
           content_type: content_type,
-          size: size
+          id: id,
+          name: hash <> "." <> ext,
+          path: "#{id}/#{hash <> "." <> ext}",
+          size: size,
+          tempfile: tmp_path
         }}
     end
   end
 
   @spec check_binary_size(bitstring(), integer()) :: tuple()
-  defp check_binary_size(binary, size_limit) when is_integer(size_limit) and size_limit > 0 and byte_size(binary) >= size_limit do
+  def check_binary_size(binary, size_limit) when is_integer(size_limit) and size_limit > 0 and byte_size(binary) >= size_limit do
     {:error, :file_too_large}
   end
 
   @spec check_binary_size(any(), any()) :: atom()
-  defp check_binary_size(_, _), do: :ok
+  def check_binary_size(_, _), do: :ok
 
   @spec check_file_size(String.t(), integer()) :: {:ok, integer()} | {:error, atom()} | atom()
-  defp check_file_size(path, size_limit) when is_integer(size_limit) and size_limit > 0 do
+  def check_file_size(path, size_limit) when is_integer(size_limit) and size_limit > 0 do
     with {:ok, %{size: size}} <- File.stat(path), true <- size <= size_limit do
       {:ok, size}
     else
@@ -187,13 +191,14 @@ defmodule Core.Upload do
   end
 
   @spec check_file_size(any(), any()) :: atom()
-  defp check_file_size(_, _), do: :ok
+  def check_file_size(_, _), do: :ok
 
   @spec tempfile_for_image(bitstring()) :: String.t()
-  defp tempfile_for_image(data) do
+  def tempfile_for_image(data) do
     {:ok, tmp_path} = Plug.Upload.random_file("profile_pics")
     {:ok, tmp_file} = File.open(tmp_path, [:write, :raw, :binary])
-    IO.binwrite(tmp_file, data)
+    :ok = IO.binwrite(tmp_file, data)
+    :ok = File.close(tmp_file)
     tmp_path
   end
 
