@@ -105,7 +105,7 @@ defmodule Mailings.Mailer do
   @spec send_forgot_password_html(String.t(), String.t(), String.t()) :: :ok
   def send_forgot_password_html(code, email, name) do
     year = Timex.format!(Timex.now, "%Y", :strftime)
-    user_link = "https://tax.unicore-group.com/auth/forgot-password#{code}"
+    user_link = "https://tax.unicore-group.com/auth/forgot-password?code=#{code}"
     send_email to: email,
                from: @from,
                subject: forgot_password_subject(),
