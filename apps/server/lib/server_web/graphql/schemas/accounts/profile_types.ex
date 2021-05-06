@@ -18,8 +18,8 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProfileTypes do
     field :banner, :string, description: "profile banner"
     field :description, :string, description: "profile description"
     field :logo, :picture, description: "An user's logo picture"
-    field :user, :user, resolve: dataloader(Data)
     field :us_zipcode, :us_zipcode, resolve: dataloader(Data)
+    field :user, :user, resolve: dataloader(Data)
   end
 
   @desc "The profile update via params"
@@ -46,7 +46,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProfileTypes do
   object :profile_mutations do
     @desc "Update a specific profiles"
     field :update_profile, :profile do
-      arg :id, non_null(:string)
+      # arg :id, non_null(:string)
       arg :logo, :picture_input, description: "The logo for the profile, either as an object or directly the ID of an existing Picture"
       arg :profile, :update_profile_params, description: "The params for profile, either as an object"
       resolve &ProfileResolver.update/3

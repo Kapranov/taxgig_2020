@@ -58,30 +58,91 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
-  @spec update(any, %{id: bitstring(), logo: map(), profile: map()}, %{context: %{current_user: User.t()}}) :: result()
-  def update(_root, %{id: user_id, logo: logo_params, profile: profile_params}, %{context: %{current_user: current_user}}) do
-    if is_nil(user_id) || is_nil(current_user) do
-      {:error, [[field: :user_id, message: "Can't be blank or Unauthenticated"]]}
-    else
-      try do
-        case user_id == current_user.id do
+#  @spec update(any, %{id: bitstring(), logo: map(), profile: map()}, %{context: %{current_user: User.t()}}) :: result()
+#  def update(_root, %{id: user_id, logo: logo_params, profile: profile_params}, %{context: %{current_user: current_user}}) do
+#    if is_nil(user_id) || is_nil(current_user) do
+#      {:error, [[field: :user_id, message: "Can't be blank or Unauthenticated"]]}
+#    else
+#      try do
+#        case user_id == current_user.id do
+#          true ->
+#            params =
+#              if is_nil(logo_params) do
+#                Map.merge(%{}, profile_params)
+#              else
+#                Map.merge(logo_params, profile_params)
+#              end
+#            Repo.get!(Profile, user_id)
+#            |> Profile.changeset(params)
+#            |> Repo.update
+#          false ->
+#            {:error, "permission denied"}
+#        end
+#      rescue
+#        Ecto.NoResultsError ->
+#          {:error, "An User #{user_id} not found!"}
+#      end
+#    end
+#  end
+
+  @spec update(any, %{logo: map(), profile: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update(_root, %{logo: logo_params, profile: profile_params}, %{context: %{current_user: current_user}}) do
+    case Repo.get!(Profile, current_user.id) do
+      nil ->
+        {:error, "unauthenticated"}
+      struct ->
+        case struct.user_id == current_user.id do
           true ->
-            params =
-              if is_nil(logo_params) do
-                Map.merge(%{}, profile_params)
-              else
-                Map.merge(logo_params, profile_params)
+            try do
+              params =
+                if is_nil(logo_params) do
+                  Map.merge(%{}, profile_params)
+                else
+                  Map.merge(logo_params, profile_params)
+                end
+
+              struct
+              |> Accounts.update_profile(params)
+              |> case do
+                {:ok, struct} ->
+                  {:ok, struct}
+                {:error, changeset} ->
+                  {:error, extract_error_msg(changeset)}
               end
-            Repo.get!(Profile, user_id)
-            |> Profile.changeset(params)
-            |> Repo.update
+            rescue
+              Ecto.NoResultsError ->
+                {:error, "An User #{struct.user_id} not found!"}
+            end
           false ->
-            {:error, "permission denied"}
+            {:error, "unauthenticated"}
         end
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "An User #{user_id} not found!"}
-      end
+    end
+  end
+
+  @spec update(any, %{profile: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update(_root, %{profile: profile_params}, %{context: %{current_user: current_user}}) do
+    case Repo.get!(Profile, current_user.id) do
+      nil ->
+        {:error, "unauthenticated"}
+      struct ->
+        case struct.user_id == current_user.id do
+          true ->
+            try do
+              struct
+              |> Accounts.update_profile(profile_params)
+              |> case do
+                {:ok, struct} ->
+                  {:ok, struct}
+                {:error, changeset} ->
+                  {:error, extract_error_msg(changeset)}
+              end
+            rescue
+              Ecto.NoResultsError ->
+                {:error, "An User #{struct.user_id} not found!"}
+            end
+          false ->
+            {:error, "unauthenticated"}
+        end
     end
   end
 
@@ -119,5 +180,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProfileResolver do
   @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def delete(_parent, _args, _info) do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
+  end
+
+  @spec extract_error_msg(Ecto.Changeset.t()) :: Ecto.Changeset.t()
+  defp extract_error_msg(changeset) do
+    changeset.errors
+    |> Enum.map(fn {field, {error, _details}} ->
+      [
+        field: field,
+        message: String.capitalize(error)
+      ]
+    end)
   end
 end
