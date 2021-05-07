@@ -477,10 +477,12 @@ iex> user = Accounts.User.find_by(email: "kapranov.lugatex@gmail.com")
 iex> authenticated = %{context: %{current_user: user}}
 iex> picture = %{alt: "created picture", file: "elixir.jpg", name: "avatar"}
 iex> file = %Plug.Upload{content_type: "image/jpg", filename: picture.file, path: Path.absname("/tmp/elixir.jpg")}
+iex> args = %{file: file}
 iex> args = %{alt: picture.alt, file: %{picture: %{file: file}}, name: picture.name, profile_id: user.id}
 iex> ServerWeb.GraphQL.Resolvers.Media.PicturesResolver.upload_picture(%{}, args, authenticated)
 iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
 ```
+
 
 ### Update Picture
 

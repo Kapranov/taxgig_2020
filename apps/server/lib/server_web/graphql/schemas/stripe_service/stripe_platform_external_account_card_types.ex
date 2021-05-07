@@ -22,6 +22,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformExternalAccountC
     field :fingerprint, non_null(:string)
     field :funding, non_null(:string)
     field :last4, non_null(:string)
+    field :name, non_null(:string)
     field :user_id, non_null(:string)
   end
 

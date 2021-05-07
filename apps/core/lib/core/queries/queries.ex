@@ -388,6 +388,12 @@ defmodule Core.Queries do
     end
   end
 
+  @spec by_count(map, atom, String.t()) :: Ecto.Query.t()
+  def by_count(struct, row, id) do
+    from c in struct,
+    where: field(c, ^row) == ^id
+  end
+
   @spec by_count(map, map, atom, String.t()) :: Ecto.Query.t()
   def by_count(struct_a, struct_b, row, id) do
     from c in struct_a,

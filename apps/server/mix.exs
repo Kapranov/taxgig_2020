@@ -57,6 +57,7 @@ defmodule Server.MixProject do
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:ex_url, "~> 1.3"},
       {:faker, "~> 0.13", only: [:benchmark, :dev, :test]},
+      {:gravity, "~> 1.0"},
       {:httpoison, "~> 1.6"},
       {:jason, "~> 1.2"},
       {:mox, "~> 0.5"},
