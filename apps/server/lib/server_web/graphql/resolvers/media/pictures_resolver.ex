@@ -5,7 +5,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
 
   alias Core.{
     Accounts,
-    # Accounts.Profile,
     Accounts.User,
     Media,
     Media.Picture,
@@ -39,38 +38,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
   def picture(_parent, _args, _resolution) do
     {:error, [[field: :profile_id, message: "Can't be blank"]]}
   end
-
-#  @spec upload_picture(any, %{file: Plug.Upload.t(), profile_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-#  def upload_picture(_parent, %{file: %Plug.Upload{} = file, profile_id: profile_id} = args, %{context: %{current_user: user}}) do
-#    if Repo.get(User, profile_id) != nil do
-#      with %Profile{} <- Accounts.get_profile!(user.id),
-#           {:ok, %{name: _name, url: url, content_type: content_type, size: size}} <-
-#             Core.Upload.store(file),
-#           args <-
-#             args
-#             |> Map.put(:url, url)
-#             |> Map.put(:size, size)
-#             |> Map.put(:content_type, content_type),
-#           {:ok, picture = %Picture{}} <-
-#             Media.create_picture(%{"file" => args, "profile_id" => profile_id}) do
-#        {:ok,
-#          %{
-#            name: picture.file.name,
-#            url: picture.file.url,
-#            id: picture.id,
-#            content_type: picture.file.content_type,
-#            size: picture.file.size
-#          }}
-#      else
-#        nil ->
-#          {:error, "User id is not owned by authenticated user"}
-#        {:error, changeset} ->
-#          {:error, extract_error_msg(changeset)}
-#      end
-#    else
-#      {:error, "Unauthenticated"}
-#    end
-#  end
 
   @spec upload_picture(any, %{file: Plug.Upload.t()}, %{context: %{current_user: User.t()}}) :: result()
   def upload_picture(_parent, %{file: %Plug.Upload{} = file}, %{context: %{current_user: current_user}}) do
@@ -109,45 +76,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
         {:error, "picture for current_user already exists"}
     end
   end
-
-#  @spec update_picture(any, %{profile_id: bitstring(), file: %{picture: %{file: %Plug.Upload{}}}}, %{context: %{current_user: User.t()}}) :: result()
-#  def update_picture(_parent, %{profile_id: profile_id, file: %{picture: %{file: %Plug.Upload{} = file}}}, %{context: %{current_user: current_user}}) do
-#    if is_nil(profile_id) || is_nil(current_user) do
-#      {:error, [[field: :user_id, message: "Can't be blank or Unauthenticated"]]}
-#    else
-#      try do
-#        case profile_id == current_user.id do
-#          true ->
-#            struct = Media.get_picture!(profile_id)
-#            params =
-#              with {:ok, %{name: _name, url: url, content_type: content_type, size: size}} <- Core.Upload.store(file) do
-#                Map.merge(%{file: %{url: url, size: size, content_type: content_type, name: file.filename}}, %{profile_id: profile_id})
-#              end
-#
-#            with {:ok, picture = %Picture{}} <- Media.update_picture(struct, params) do
-#              {:ok,
-#                %{
-#                  name: picture.file.name,
-#                  url: picture.file.url,
-#                  id: picture.id,
-#                  content_type: picture.file.content_type,
-#                  size: picture.file.size
-#                }}
-#            else
-#              nil ->
-#                {:error, "User id is not owned by authenticated user"}
-#              {:error, changeset} ->
-#                {:error, extract_error_msg(changeset)}
-#            end
-#          false ->
-#            {:error, "permission denied"}
-#        end
-#      rescue
-#        Ecto.NoResultsError ->
-#          {:error, "An User #{profile_id} not found!"}
-#      end
-#    end
-#  end
 
   @spec update_picture(any, %{file: %Plug.Upload{}}, %{context: %{current_user: User.t()}}) :: result()
   def update_picture(_parent, %{file: %Plug.Upload{} = file}, %{context: %{current_user: current_user}}) do

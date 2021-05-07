@@ -23,6 +23,18 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
     field :users, :user, resolve: dataloader(Data)
   end
 
+  @desc "An attached picture or a link to a picture"
+  input_object :picture_input do
+    field(:picture, :picture_input_object)
+  end
+
+  @desc "An attached picture"
+  input_object :picture_input_object do
+    field(:alt, :string)
+    field(:file, non_null(:upload))
+    field(:name, :string)
+  end
+
   @desc "The pro docs an update via params"
   input_object :update_pro_doc_params do
     field :category, :string

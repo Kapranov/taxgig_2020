@@ -25,18 +25,6 @@ defmodule ServerWeb.GraphQL.Schemas.Media.PictureTypes do
     field :error_description, :string
   end
 
-  @desc "An attached picture or a link to a picture"
-  input_object :picture_input do
-    field(:picture, :picture_input_object)
-  end
-
-  @desc "An attached picture"
-  input_object :picture_input_object do
-    field(:alt, :string)
-    field(:file, non_null(:upload))
-    field(:name, :string)
-  end
-
   object :picture_queries do
     @desc "Get a picture with param userId"
     field :picture, :picture do
