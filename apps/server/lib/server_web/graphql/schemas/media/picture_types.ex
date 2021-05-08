@@ -45,9 +45,21 @@ defmodule ServerWeb.GraphQL.Schemas.Media.PictureTypes do
       resolve(&PicturesResolver.upload_picture/3)
     end
 
+    @desc "Create a specific Base64-encoded picture uploads by profile_id"
+    field :upload_picture_base64, :picture do
+      arg(:file, non_null(:string))
+      resolve(&PicturesResolver.upload_picture/3)
+    end
+
     @desc "Update a specific picture"
     field :update_picture, :picture do
       arg :file, non_null(:upload)
+      resolve(&PicturesResolver.update_picture/3)
+    end
+
+    @desc "Update a specific Base64-encoded picture"
+    field :update_picture_base64, :picture do
+      arg :file, non_null(:string)
       resolve(&PicturesResolver.update_picture/3)
     end
 

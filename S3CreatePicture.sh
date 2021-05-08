@@ -6,26 +6,20 @@ set -eu
 
 echo -e "\n"
 
-ALT="curl upload picture example"
-FILE="@/tmp/logo.png"
-ID="9uvsZlk81Ng6EWMaYa"
-NAME="logo"
-TOKEN="SFMyNTY.g3QAAAACZAAEZGF0YW0AAAASOXV2c1psazgxTmc2RVdNYVlhZAAGc2lnbmVkbgYAC4f9CHIB.sVyxHBhNfRseIb7LdTmUsTz8sZgFqc-EZkH5jWYgojU"
-URL="http://taxgig.me:4000/graphiql"
+FILE="@/tmp/trump.jpg"
+TOKEN="SFMyNTY.g2gDbQAAABJBNlhrY2pnMVNVV25IZ2pFdFVuBgDiCydMeQFiAAFRgA.u5TE0lM9khQiw-aZ_0sawQj6brJA0UtDNvJvsnpi384"
+URL="http://localhost:4000"
 
-generate_post_data() {
+generate_data() {
 cat << EOF
-alt: "${ALT}",
 file: "input",
-name: "${NAME}",
-profileId: "${ID}"
 EOF
 }
 
 curl -X POST \
      -H 'Content-Type: multipart/form-data' \
      -H "Authorization: Bearer ${1:-$TOKEN} " \
-     -F query="mutation { uploadPicture($(generate_post_data)) {id content_type name size url} }" \
+     -F query="mutation { uploadPicture($(generate_data)) { id content_type error error_description name size url } }" \
      -F input=$FILE \
      ${URL}
 

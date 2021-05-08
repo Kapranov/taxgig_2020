@@ -77,11 +77,78 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
     end
   end
 
+  @spec upload_picture(any, %{file: String.t()}, %{context: %{current_user: User.t()}}) :: result()
+  def upload_picture(_parent, %{file: file}, %{context: %{current_user: current_user}}) do
+    querty = Queries.by_count(Picture, :profile_id, current_user.id)
+    case Repo.aggregate(querty, :count, :id) do
+      0 ->
+        try do
+          with struct <- Accounts.get_profile!(current_user.id),
+               {:ok, %{content_type: content_type, name: name, size: size, url: url}} = Core.Upload.store(%{img: file}),
+               params <-
+                 %{}
+                 |> Map.put(:content_type, content_type)
+                 |> Map.put(:name, name)
+                 |> Map.put(:size, size)
+                 |> Map.put(:url, url),
+               {:ok, picture = %Picture{}} <- Media.create_picture(%{"file" => params, "profile_id" => struct.user_id})
+          do
+            {:ok, %{
+                content_type: picture.file.content_type,
+                id: picture.id,
+                name: picture.file.name,
+                size: picture.file.size,
+                url: picture.file.url
+              }}
+          else
+            nil ->
+              {:error, "User id is not owned by authenticated user"}
+            {:error, changeset} ->
+              {:error, extract_error_msg(changeset)}
+          end
+        rescue
+          Ecto.NoResultsError ->
+            {:error, "An User #{current_user.id} not found!"}
+        end
+      _ ->
+        {:error, "picture for current_user already exists"}
+    end
+  end
+
   @spec update_picture(any, %{file: %Plug.Upload{}}, %{context: %{current_user: User.t()}}) :: result()
   def update_picture(_parent, %{file: %Plug.Upload{} = file}, %{context: %{current_user: current_user}}) do
     try do
       with struct <- Media.get_picture!(current_user.id),
            {:ok, %{content_type: content_type, name: name, size: size, url: url}} <- Core.Upload.store(file),
+           params <-
+             %{file: %{content_type: content_type, name: name, size: size, url: url}}
+             |> Map.merge(%{profile_id: current_user.id}),
+           {:ok, picture = %Picture{}} <- Media.update_picture(struct, params)
+      do
+        {:ok, %{
+            content_type: picture.file.content_type,
+            id: picture.id,
+            name: picture.file.name,
+            size: picture.file.size,
+            url: picture.file.url
+          }}
+      else
+        nil ->
+          {:error, "User id is not owned by authenticated user"}
+        {:error, changeset} ->
+          {:error, extract_error_msg(changeset)}
+      end
+    rescue
+      Ecto.NoResultsError ->
+        {:error, "An User #{current_user.id} not found!"}
+    end
+  end
+
+  @spec update_picture(any, %{file: String.t()}, %{context: %{current_user: User.t()}}) :: result()
+  def update_picture(_parent, %{file: file}, %{context: %{current_user: current_user}}) do
+    try do
+      with struct <- Media.get_picture!(current_user.id),
+           {:ok, %{content_type: content_type, name: name, size: size, url: url}} <- Core.Upload.store(%{img: file}),
            params <-
              %{file: %{content_type: content_type, name: name, size: size, url: url}}
              |> Map.merge(%{profile_id: current_user.id}),
@@ -132,7 +199,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
     end
   end
 
-  @spec upload_picture(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  @spec remove_picture(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def remove_picture(_parent, _args, _resolution) do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :profile_id, message: "Can't be blank"]]}
   end
