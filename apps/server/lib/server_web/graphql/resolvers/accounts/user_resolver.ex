@@ -821,10 +821,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                     }}
                 else
                   user = User.find_by(email: profile["email"])
+                  pict = profile["picture"]["data"]["url"]
+                  avatar = if is_nil(pict), do: Gravity.image(profile["email"]), else: pict
                   if is_nil(user) do
                     user_params =
                       %{
-                        avatar: profile["picture"]["data"]["url"],
+                        avatar:                            avatar,
                         email:                   profile["email"],
                         first_name:         profile["first_name"],
                         last_name:           profile["last_name"],
@@ -896,10 +898,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                     }}
                 else
                   user = User.find_by(email: profile["email"])
+                  pict = profile["picture"]
+                  avatar = if is_nil(pict), do: Gravity.image(profile["email"]), else: pict
                   if is_nil(user) do
                     user_params =
                       %{
-                        avatar:                profile["picture"],
+                        avatar:                            avatar,
                         email:                   profile["email"],
                         first_name:         profile["given_name"],
                         last_name:         profile["family_name"],
@@ -956,10 +960,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                     }}
                 else
                   user = User.find_by(email: info["email"])
+                  pict = profile["avatar"]
+                  avatar = if is_nil(pict), do: Gravity.image(info["email"]), else: pict
                   if is_nil(user) do
                     user_params =
                       %{
-                        avatar:                 profile["avatar"],
+                        avatar:                            avatar,
                         email:                      info["email"],
                         first_name:         profile["first_name"],
                         last_name:           profile["last_name"],
@@ -996,6 +1002,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         end
       "localhost" ->
         args
+        |> Map.merge(%{avatar: Gravity.image(args[:email])})
         |> Accounts.create_user()
         |> case do
           {:ok, user} ->
