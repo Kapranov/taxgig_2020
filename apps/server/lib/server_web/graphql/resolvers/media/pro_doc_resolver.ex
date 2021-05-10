@@ -20,8 +20,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
 
   @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def list(_parent, _args, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) || current_user.role == false do
-      {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
+    if current_user.role == false do
+      {:error, [[field: :current_user, message: "Permission denied for current user to perform action List"]]}
     else
       struct = Media.list_pro_doc()
       {:ok, struct}
