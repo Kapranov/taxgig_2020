@@ -93,7 +93,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
     {:error, "Unauthenticated"}
   end
 
-  @spec update(any, %{id: bitstring(), file: %{picture: %{file: %Plug.Upload{}}}}, %{context: %{current_user: User.t()}}) :: result()
+  @spec update(any, %{id: bitstring(), file: %{picture: %{file: %Plug.Upload{}}}, tp_doc: map}, %{context: %{current_user: User.t()}}) :: result()
   def update(_parent, %{id: id, file: %{picture: %{file: %Plug.Upload{} = file}}, tp_doc: params}, %{context: %{current_user: current_user}}) do
     if current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}

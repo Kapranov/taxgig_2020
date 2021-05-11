@@ -149,11 +149,11 @@ defmodule Core.Upload do
 
   @spec prepare_upload(%{img: bitstring()}, map()) :: {:ok, %__MODULE__{id: String.t(), name: String.t(), tempfile: String.t(), content_type: String.t(), size: integer()}}
   defp  prepare_upload(%{img: "data:image/" <> image_data}, opts) do
+    id = UUID.generate()
     parsed = Regex.named_captures(~r/(?<filetype>jpeg|png|gif);base64,(?<data>.*)/, image_data)
     data = Base.decode64!(parsed["data"], ignore: :whitespace)
     hash = Base.encode16(:crypto.hash(:sha256, data), lower: true)
     content_type = "image/" <> parsed["filetype"]
-    id = UUID.generate()
 
     with :ok <- check_binary_size(data, opts.size_limit),
          tmp_path <- tempfile_for_image(data),

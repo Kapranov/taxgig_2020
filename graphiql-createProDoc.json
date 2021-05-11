@@ -1,15 +1,32 @@
 {
   "key": "graphiql",
-  "lastId": 8,
+  "lastId": 10,
   "tabIds": [
     "tab1",
     "tab2",
     "tab3",
     "tab4",
     "tab7",
-    "tab8"
+    "tab8",
+    "tab10"
   ],
   "closedTabs": [
+    {
+      "id": "tab9",
+      "name": "Query 7",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "",
+      "graphiql:variables": "",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
     {
       "id": "tab6",
       "name": "Query 5",
@@ -61,19 +78,11 @@
   "recentHeaders": [
     {
       "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgAv9kCWdgFiAAFRgA.BjlpYQTxuhxcTm8O-2doOgVA1nAF1PKNWBBOKgZ5RZc"
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNlhrY2pnMVNVV25IZ2pFdFVuBgBLzq9beQFiAAFRgA.xudRCXOeRYkEMLEVSzjUs9PzpbR6_K94IUhEmamdsQo"
     },
     {
       "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgAjKz-WdgFiAAFRgA.3LgwBqn4n2rk6rtFZw9vLpxGE3VsSTnbj9rI7rpPWR0"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgCfCj6WdgFiAAFRgA.r-j4cWmoDk-5BwD05wL1BGRmHpJsZajWjdIr1-20au4"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgDNiS-WdgFiAAFRgA.rbO2FZlEs-m2xvD24XrRoSx61UmKyWXnAzvw5xHBxBE"
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNlhrd0xJZm5lTlBUUDlsSzRuBgCa6lxWeQFiAAFRgA.Ij3EnSQQGX5X9b14nqASFNvelVaVTEWNV-Xj_7XffvE"
     },
     {
       "name": "Authorization",
@@ -100,7 +109,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab2",
+  "activeId": "tab3",
   "tabs": [
     {
       "id": "tab1",
@@ -123,11 +132,15 @@
       "websocketUrl": "ws://localhost:4000/socket",
       "proxy": false,
       "headers": [],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
-          "query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    is2fa: false,\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"test@gmail.com\",\n    is2fa: false,\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
           "variables": null
         },
         {
@@ -139,8 +152,8 @@
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"}]}",
+      "graphiql:query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    is2fa: false,\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"test@gmail.com\\\",\\n    is2fa: false,\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    is2fa: false,\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.364741641337386
@@ -154,22 +167,30 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgDNiS-WdgFiAAFRgA.rbO2FZlEs-m2xvD24XrRoSx61UmKyWXnAzvw5xHBxBE"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNlhrY2pnMVNVV25IZ2pFdFVuBgBLzq9beQFiAAFRgA.xudRCXOeRYkEMLEVSzjUs9PzpbR6_K94IUhEmamdsQo"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
-          "query": "query {\n  allProDocs {\n    id\n    signature\n    signedByPro\n    category\n    projects {id}\n    users {id email role}\n  }\n}",
+          "query": "query {\n  allProDocs {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } }\n    signature\n    signedByPro\n    users { id email role }\n  }\n}",
           "variables": null
         },
         {
-          "query": "query {\n  allProDocs {\n    id\n    signature\n    signedByPro\n    category\n    users {id email role}\n  }\n}",
+          "query": "query {\n  allTpDocs {\n    id\n    accessGranted\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } } \n    signedByTp\n  }\n}",
           "variables": null
         },
         {
-          "query": "query {\n  allProDocs {\n    id\n    signature\n    signedByPro\n    category\n  }\n}",
+          "query": "query {\n  allTpDocs {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } } \n    accessGranted\n    signedByTp\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allTpDocs {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects {id}\n    accessGranted\n    signedByTp\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allTpDocs {\n    id\n    category\n    error\n    errorDescription\n    projects {id}\n    accessGranted\n    signedByTp\n  }\n}",
           "variables": null
         },
         {
@@ -181,11 +202,11 @@
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  allProDocs {\n    id\n    signature\n    signedByPro\n    category\n    projects {id}\n    users {id email role}\n  }\n}",
+      "graphiql:query": "query {\n  allProDocs {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } }\n    signature\n    signedByPro\n    users { id email role }\n  }\n}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allTpDocs {\\n    id\\n    file {id}\\n    category\\n    projects {id}\\n    accessGranted\\n    signedByTp\\n  }\\n}\"},{\"query\":\"query {\\n  allTpDocs {\\n    id\\n    category\\n    projects {id}\\n    accessGranted\\n    signedByTp\\n  }\\n}\"},{\"query\":\"query {\\n  allProDocs {\\n    id\\n    signature\\n    signedByPro\\n    category\\n  }\\n}\"},{\"query\":\"query {\\n  allProDocs {\\n    id\\n    signature\\n    signedByPro\\n    category\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  allProDocs {\\n    id\\n    signature\\n    signedByPro\\n    category\\n    projects {id}\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allTpDocs {\\n    id\\n    file {id}\\n    category\\n    projects {id}\\n    accessGranted\\n    signedByTp\\n  }\\n}\"},{\"query\":\"query {\\n  allTpDocs {\\n    id\\n    category\\n    projects {id}\\n    accessGranted\\n    signedByTp\\n  }\\n}\"},{\"query\":\"query {\\n  allTpDocs {\\n    id\\n    category\\n    error\\n    errorDescription\\n    projects {id}\\n    accessGranted\\n    signedByTp\\n  }\\n}\"},{\"query\":\"query {\\n  allTpDocs {\\n    id\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects {id}\\n    accessGranted\\n    signedByTp\\n  }\\n}\"},{\"query\":\"query {\\n  allTpDocs {\\n    id\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } } \\n    accessGranted\\n    signedByTp\\n  }\\n}\"},{\"query\":\"query {\\n  allTpDocs {\\n    id\\n    accessGranted\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } } \\n    signedByTp\\n  }\\n}\"},{\"query\":\"query {\\n  allProDocs {\\n    id\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } }\\n    signature\\n    signedByPro\\n    users { id email role }\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.28530534351145037
+      "graphiql:editorFlex": 1
     },
     {
       "id": "tab4",
@@ -196,25 +217,100 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgDNiS-WdgFiAAFRgA.rbO2FZlEs-m2xvD24XrRoSx61UmKyWXnAzvw5xHBxBE"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSnVlbkhRRnFzVTRwNzJuBgB4VgaWdgFiAAFRgA.qX7chRw0X4q2_JA1b9a-ctZoRG3Swuz0Imto2CxTtLs"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
-          "query": "mutation {\n  createProDoc(\n    category: \"Files\",\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signature: true,\n    signedByPro: true,\n    userId: \"A2WQK7EgVo5ttGxeim\"\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
+          "query": "mutation($img: Upload!) {\n  createTpDoc(\n    accessGranted: true,\n    category: \"Files\",\n    file: {picture: {file: $img}},\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signedByTp: true\n  ) {\n    id\n    accessGranted\n    category\n    projects {id}\n    signedByTp\n  }\n}",
+          "variables": {
+            "img": "/tmp/trumpy.jpg"
+          }
+        },
+        {
+          "query": "mutation($img: [Upload!]!) {\n  createTpDoc(\n    accessGranted: true,\n    category: \"Files\",\n    file: {picture: {file: $img}},\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signedByTp: true\n  ) {\n    id\n    accessGranted\n    category\n    projects {id}\n    signedByTp\n  }\n}",
+          "variables": {
+            "img": "/tmp/trumpy.jpg"
+          }
+        },
+        {
+          "query": "mutation($img: Upload!) {\n  createTpDoc(\n    accessGranted: true,\n    category: \"Files\",\n    file: {picture: {file: $img}},\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signedByTp: true\n  ) {\n    id\n    accessGranted\n    category\n    projects {id}\n    signedByTp\n  }\n}",
+          "variables": {
+            "img": "/tmp/trumpy.jpg"
+          }
+        },
+        {
+          "query": "mutation {\n  createTpDoc(\n    accessGranted: true,\n    category: \"Files\",\n    file: {picture: {file: \"/tmp/trumpy.jpg\"}},\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signedByTp: true\n  ) {\n    id\n    accessGranted\n    category\n    projects {id}\n    signedByTp\n  }\n}",
           "variables": null
+        },
+        {
+          "query": "mutation($files: PictureInputObject) {\n  createTpDoc(\n    accessGranted: true,\n    category: \"Files\",\n    file: {picture: $files},\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signedByTp: true\n  ) {\n    id\n    accessGranted\n    category\n    projects {id}\n    signedByTp\n  }\n}",
+          "variables": {
+            "files": {
+              "file": "/tmp/trumpy.jpg"
+            }
+          }
+        },
+        {
+          "query": "mutation($files: Upload!) {\n  createTpDoc(\n    accessGranted: true,\n    category: \"Files\",\n    file: {picture: {file: $files}},\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signedByTp: true\n  ) {\n    id\n    accessGranted\n    category\n    projects {id}\n    signedByTp\n  }\n}",
+          "variables": {
+            "files": "/tmp/trumpy.jpg"
+          }
+        },
+        {
+          "query": "mutation($files: PictureInputObject) {\n  createTpDoc(\n    accessGranted: true,\n    category: \"Files\",\n    file: {picture: $files},\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signedByTp: true\n  ) {\n    id\n    accessGranted\n    category\n    projects {id}\n    signedByTp\n  }\n}",
+          "variables": {
+            "files": {
+              "file": "/tmp/trumpy.jpg"
+            }
+          }
+        },
+        {
+          "query": "mutation($files: Upload!) {\n  createTpDoc(\n    accessGranted: true,\n    category: \"Files\",\n    file: {picture: {file: $files}},\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signedByTp: true\n  ) {\n    id\n    accessGranted\n    category\n    projects {id}\n    signedByTp\n  }\n}",
+          "variables": {
+            "files": "/tmp/trumpy.jpg"
+          }
+        },
+        {
+          "query": "mutation($files: Upload!) {\n  createTpDoc(\n    accessGranted: true,\n    category: \"Files\",\n    file: {picture: $files},\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signedByTp: true\n  ) {\n    id\n    accessGranted\n    category\n    projects {id}\n    signedByTp\n  }\n}",
+          "variables": {
+            "files": "/tmp/trumpy.jpg"
+          }
+        },
+        {
+          "query": "mutation($files: PictureInputObject) {\n  createTpDoc(\n    accessGranted: true,\n    category: \"Files\",\n    file: {picture: $files},\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signedByTp: true\n  ) {\n    id\n    accessGranted\n    category\n    projects {id}\n    signedByTp\n  }\n}",
+          "variables": {
+            "files": {
+              "alt": "god bless trumpy bear",
+              "name": "trumpy",
+              "file": "/tmp/trumpy.jpg"
+            }
+          }
+        },
+        {
+          "query": "mutation($files: PictureInput) {\n  createTpDoc(\n    accessGranted: true,\n    category: \"Files\",\n    file: $files,\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signedByTp: true\n  ) {\n    id\n    accessGranted\n    category\n    projects {id}\n    signedByTp\n  }\n}",
+          "variables": {
+            "files": {
+              "picture": {
+                "alt": "god bless trumpy bear",
+                "name": "trumpy",
+                "file": "/tmp/trumpy.jpg"
+              }
+            }
+          }
         },
         {
           "query": "mutation {\n  createTpDoc(\n    accessGranted: true,\n    category: \"Files\",\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signedByTp: true\n  ) {\n    id\n    accessGranted\n    category\n    projects {id}\n    signedByTp\n  }\n}",
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  createProDoc(\n    category: \"Files\",\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signature: true,\n    signedByPro: true,\n    userId: \"A2WQK7EgVo5ttGxeim\"\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\"},{\"query\":\"mutation {\\n  createProDoc(\\n    category: \\\"Files\\\",\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signature: true,\\n    signedByPro: true,\\n    userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n  ) {\\n    id\\n    category\\n    projects {id}\\n    signature\\n    signedByPro\\n    users {id email role}\\n  }\\n}\"}]}",
-      "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.3606060606060606,
+      "graphiql:query": "mutation($img: Upload!) {\n  createProDoc(\n    category: \"Files\",\n    file: {picture: {file: $img}},\n    projectId: \"A2WQKs54LNKTB3p8l6\",\n    signature: true,\n    signedByPro: true\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users { id email role }\n  }\n}",
+      "graphiql:variables": "{\n  \"img\": \"/tmp/trumpy.jpg\"\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\"},{\"query\":\"mutation($files: PictureInput) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: $files,\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\n  \\\"files\\\": {\\\"picture\\\": {\\\"alt\\\": \\\"god bless trumpy bear\\\", \\\"name\\\": \\\"trumpy\\\", \\\"file\\\": \\\"/tmp/trumpy.jpg\\\"}}\\n}\"},{\"query\":\"mutation($files: PictureInputObject) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: $files},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\\"files\\\": {\\\"alt\\\": \\\"god bless trumpy bear\\\", \\\"name\\\": \\\"trumpy\\\", \\\"file\\\": \\\"/tmp/trumpy.jpg\\\"}}\"},{\"query\":\"mutation($files: Upload!) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: $files},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\\"files\\\": \\\"/tmp/trumpy.jpg\\\"}\\n\"},{\"query\":\"mutation($files: Upload!) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: {file: $files}},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\\"files\\\": \\\"/tmp/trumpy.jpg\\\"}\\n\"},{\"query\":\"mutation($files: PictureInputObject) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: $files},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\\"files\\\": {\\\"file\\\": \\\"/tmp/trumpy.jpg\\\"}}\"},{\"query\":\"mutation($files: Upload!) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: {file: $files}},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\\"files\\\": \\\"/tmp/trumpy.jpg\\\"}\"},{\"query\":\"mutation($files: PictureInputObject) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: $files},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\\"files\\\": {\\\"file\\\": \\\"/tmp/trumpy.jpg\\\"}}\"},{\"query\":\"mutation {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: {file: \\\"/tmp/trumpy.jpg\\\"}},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation($img: Upload!) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: {file: $img}},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\n  \\\"img\\\": \\\"/tmp/trumpy.jpg\\\"\\n}\"},{\"query\":\"mutation($img: [Upload!]!) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: {file: $img}},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\n  \\\"img\\\": \\\"/tmp/trumpy.jpg\\\"\\n}\"},{\"query\":\"mutation($img: Upload!) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: {file: $img}},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\n  \\\"img\\\": \\\"/tmp/trumpy.jpg\\\"\\n}\"}]}",
+      "graphiql:variableEditorHeight": 176,
+      "graphiql:editorFlex": 0.7085427135678392,
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -226,32 +322,12 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgCfCj6WdgFiAAFRgA.r-j4cWmoDk-5BwD05wL1BGRmHpJsZajWjdIr1-20au4"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSnVlbkhRRnFzVTRwNzJuBgB4VgaWdgFiAAFRgA.qX7chRw0X4q2_JA1b9a-ctZoRG3Swuz0Imto2CxTtLs"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
-        {
-          "query": "mutation {\n  updateProDoc(\n    id: \"A2XIrw66byobb3e4ky\",\n    proDoc: {\n      category: \"Final Document\",\n      projectId: \"A2WQKsOv9ZD0Ad6zhY\",\n      signature: false,\n      signedByPro: false,\n      userId: \"A2WQK7EgVo5ttGxeim\"\n    }\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  updateProDoc(\n    id: \"A2XH6fhXAGDXWAochk\",\n    proDoc: {\n      category: \"Final Document\",\n      projectId: \"A2WQKsOv9ZD0Ad6zhY\",\n      signature: false,\n      signedByPro: false,\n      userId: \"A2WQK7EgVo5ttGxeim\"\n    }\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  updateProDoc(\n    id: \"A2XH6fhXAGDXWAochk\",\n    proDoc: {\n      category: \"Final Document\",\n      projectId: \"A2WQKsOv9ZD0Ad6zhY\",\n      signature: true,\n      signedByPro: true,\n      userId: \"A2WQK7EgVo5ttGxeim\"\n    }\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  updateProDoc(\n    id: \"A2XH6fhXAGDXWAochk\",\n    proDoc: {\n      category: \"Final Document\",\n      projectId: \"A2WQKs54LNKTB3p8l6\",\n      signature: false,\n      signedByPro: false,\n      userId: \"A2WQK7EgVo5ttGxeim\"\n    }\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  updateProDoc(\n    id: \"A2XH6fhXAGDXWAochk\",\n    proDoc: {\n      category: \"Final Document\",\n      projectId: \"A2WQKsOv9ZD0Ad6zhY\",\n      signature: false,\n      signedByPro: false,\n      userId: \"A2WQK7EgVo5ttGxeim\"\n    }\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
-          "variables": null
-        },
         {
           "query": "mutation {\n  updateTpDoc(\n    id: \"A2XF1oy2FJU8hg4kXg\",\n    tpDoc: {\n      userId: \"A2WQJuenHQFqsU4p72\",\n      accessGranted: false,\n      category: \"Final Document\",\n      projectId: \"A2WQKs54LNKTB3p8l6\",\n      signedByTp: false\n      \n    }\n  ) {\n    id\n    accessGranted\n    category\n    projects {id}\n    signedByTp\n    \n  }\n}",
           "variables": null
@@ -281,11 +357,12 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  updateProDoc(\n    id: \"A2XIrw66byobb3e4ky\",\n    proDoc: {\n      category: \"Final Document\",\n      projectId: \"A2WQKsOv9ZD0Ad6zhY\",\n      signature: false,\n      signedByPro: false,\n      userId: \"A2WQK7EgVo5ttGxeim\"\n    }\n  ) {\n    id\n    category\n    projects {id}\n    signature\n    signedByPro\n    users {id email role}\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKs8y6sRrN9eFpw\\\",\\n      signedByTp: false\\n    }\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    accessGranted\\n    signedByTp\\n    projects {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\"\\n    }\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    accessGranted\\n    signedByTp\\n    projects {id}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false\\n    }\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    accessGranted\\n    signedByTp\\n    projects {id}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false\\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsCrsNZFZFTMum\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    file: [],\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsCrsNZFZFTMum\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    file: {},\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsCrsNZFZFTMum\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    file: [],\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsCrsNZFZFTMum\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsCrsNZFZFTMum\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2XDqkV4gs9eT1S6im\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2XF1oy2FJU8hg4kXg\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProDoc(\\n    id: \\\"A2XH6fhXAGDXWAochk\\\",\\n    proDoc: {\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsOv9ZD0Ad6zhY\\\",\\n      signature: false,\\n      signedByPro: false,\\n      userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n    }\\n  ) {\\n    id\\n    category\\n    projects {id}\\n    signature\\n    signedByPro\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProDoc(\\n    id: \\\"A2XH6fhXAGDXWAochk\\\",\\n    proDoc: {\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n      signature: false,\\n      signedByPro: false,\\n      userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n    }\\n  ) {\\n    id\\n    category\\n    projects {id}\\n    signature\\n    signedByPro\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProDoc(\\n    id: \\\"A2XH6fhXAGDXWAochk\\\",\\n    proDoc: {\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsOv9ZD0Ad6zhY\\\",\\n      signature: true,\\n      signedByPro: true,\\n      userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n    }\\n  ) {\\n    id\\n    category\\n    projects {id}\\n    signature\\n    signedByPro\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProDoc(\\n    id: \\\"A2XH6fhXAGDXWAochk\\\",\\n    proDoc: {\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsOv9ZD0Ad6zhY\\\",\\n      signature: false,\\n      signedByPro: false,\\n      userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n    }\\n  ) {\\n    id\\n    category\\n    projects {id}\\n    signature\\n    signedByPro\\n    users {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateProDoc(\\n    id: \\\"A2XIrw66byobb3e4ky\\\",\\n    proDoc: {\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsOv9ZD0Ad6zhY\\\",\\n      signature: false,\\n      signedByPro: false,\\n      userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n    }\\n  ) {\\n    id\\n    category\\n    projects {id}\\n    signature\\n    signedByPro\\n    users {id email role}\\n  }\\n}\"}]}",
+      "graphiql:query": "mutation($img: Upload!) {\n  updateProDoc(\n    id: \"A78hlNCvu7HqdjEVEW\",\n    file: {picture: {file: $img}},\n    proDoc: {\n      category: \"Final Document\",\n      projectId: \"A2WQKs54LNKTB3p8l6\",\n      signature: false,\n      signedByPro: false\n    }\n  ) {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } } \n    signature\n    signedByPro\n    users { id email role }\n  }\n}",
+      "graphiql:variables": "{\n  \"img\": \"/tmp/trumpy.jpg\"\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKs8y6sRrN9eFpw\\\",\\n      signedByTp: false\\n    }\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    accessGranted\\n    signedByTp\\n    projects {id}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\"\\n    }\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    accessGranted\\n    signedByTp\\n    projects {id}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false\\n    }\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    accessGranted\\n    signedByTp\\n    projects {id}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false\\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsCrsNZFZFTMum\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    file: [],\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsCrsNZFZFTMum\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    file: {},\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsCrsNZFZFTMum\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    file: [],\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsCrsNZFZFTMum\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKsCrsNZFZFTMum\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2XDqkV4gs9eT1S6im\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateTpDoc(\\n    id: \\\"A2XF1oy2FJU8hg4kXg\\\",\\n    tpDoc: {\\n      userId: \\\"A2WQJuenHQFqsU4p72\\\",\\n      accessGranted: false,\\n      category: \\\"Final Document\\\",\\n      projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n      signedByTp: false\\n      \\n    }\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n    \\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:editorFlex": 0.4769736842105263,
-      "graphiql:variableEditorHeight": 200
+      "graphiql:editorFlex": 0.7685305591677504,
+      "graphiql:variableEditorHeight": 119
     },
     {
       "id": "tab8",
@@ -296,18 +373,22 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgAv9kCWdgFiAAFRgA.BjlpYQTxuhxcTm8O-2doOgVA1nAF1PKNWBBOKgZ5RZc"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNlhrd0xJZm5lTlBUUDlsSzRuBgCa6lxWeQFiAAFRgA.Ij3EnSQQGX5X9b14nqASFNvelVaVTEWNV-Xj_7XffvE"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
-          "query": "mutation {\n  deleteProDoc(\n    projectId: \"A2WQKsOv9ZD0Ad6zhY\",\n    userId: \"A2WQK7EgVo5ttGxeim\"\n  ) {id}\n}",
+          "query": "query {\n  showProDoc(id: \"A78hlNCvu7HqdjEVEW\") {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } }\n    signature\n    signedByPro\n    users { id email role }\n  }\n}",
           "variables": null
         },
         {
-          "query": "mutation {\n  deleteProDoc(\n    projectId: \"A2XH6fhXAGDXWAochk\",\n    userId: \"A2WQK7EgVo5ttGxeim\"\n  ) {id}\n}",
+          "query": "query {\n  showProDoc(id: \"A78hlNCvu7HqdjEVEW\") {\n    id\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showTpDoc(id: \"A76t463XQqiL5rLiCW\") {\n    id\n    accessGranted\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } } \n    signedByTp\n  }\n}",
           "variables": null
         },
         {
@@ -323,11 +404,45 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  deleteProDoc(\n    projectId: \"A2WQKsOv9ZD0Ad6zhY\",\n    userId: \"A2WQK7EgVo5ttGxeim\"\n  ) {id}\n}",
+      "graphiql:query": "query {\n  showProDoc(id: \"A78hlNCvu7HqdjEVEW\") {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } }\n    signature\n    signedByPro\n    users { id email role }\n  }\n}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    userId: \\\"A2WQJuenHQFqsU4p72\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteTpDoc(\\n    id: \\\"A2XCiXzvsXQFVbmWS8\\\",\\n    userId: \\\"A2WQJuenHQFqsU4p72\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteTpDoc(\\n    id: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    userId: \\\"A2WQJuenHQFqsU4p72\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteTpDoc(\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    userId: \\\"A2WQJuenHQFqsU4p72\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteProDoc(\\n    projectId: \\\"A2XH6fhXAGDXWAochk\\\",\\n    userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteProDoc(\\n    projectId: \\\"A2WQKsOv9ZD0Ad6zhY\\\",\\n    userId: \\\"A2WQK7EgVo5ttGxeim\\\"\\n  ) {id}\\n}\"}]}",
-      "graphiql:editorFlex": 0.3801229508196721
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteTpDoc(\\n    id: \\\"A2X78Ysi4k9mgsxNFw\\\",\\n    userId: \\\"A2WQJuenHQFqsU4p72\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteTpDoc(\\n    id: \\\"A2XCiXzvsXQFVbmWS8\\\",\\n    userId: \\\"A2WQJuenHQFqsU4p72\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteTpDoc(\\n    id: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    userId: \\\"A2WQJuenHQFqsU4p72\\\"\\n  ) {id}\\n}\"},{\"query\":\"mutation {\\n  deleteTpDoc(\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    userId: \\\"A2WQJuenHQFqsU4p72\\\"\\n  ) {id}\\n}\"},{\"query\":\"query {\\n  showTpDoc(id: \\\"A76t463XQqiL5rLiCW\\\") {\\n    id\\n    accessGranted\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } } \\n    signedByTp\\n  }\\n}\"},{\"query\":\"query {\\n  showProDoc(id: \\\"A78hlNCvu7HqdjEVEW\\\") {\\n    id\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } }\\n    signature\\n    signedByPro\\n    users { id email role }\\n  }\\n}\"},{\"query\":\"query {\\n  showProDoc(id: \\\"A78hlNCvu7HqdjEVEW\\\") {\\n    id\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    signature\\n    signedByPro\\n    users { id email role }\\n  }\\n}\"},{\"query\":\"query {\\n  showProDoc(id: \\\"A78hlNCvu7HqdjEVEW\\\") {\\n    id\\n  }\\n}\"},{\"query\":\"query {\\n  showProDoc(id: \\\"A78hlNCvu7HqdjEVEW\\\") {\\n    id\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } }\\n    signature\\n    signedByPro\\n    users { id email role }\\n  }\\n}\"}]}",
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab10",
+      "name": "Query 7",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNlhrY2pnMVNVV25IZ2pFdFVuBgBLzq9beQFiAAFRgA.xudRCXOeRYkEMLEVSzjUs9PzpbR6_K94IUhEmamdsQo"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  deleteProDoc(id: \"A78hlNCvu7HqdjEVEW\") {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } }\n    signature\n    signedByPro\n    users { id email role }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteTpDoc(id: \"A76zLkZkdMk5PWDYNl\") {\n    id\n    accessGranted\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } } \n    signedByTp\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteTpDoc(id: \"A76t463XQqiL5rLiCW\") {\n    id\n    accessGranted\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } } \n    signedByTp\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deleteProDoc(id: \"A78hlNCvu7HqdjEVEW\") {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } }\n    signature\n    signedByPro\n    users { id email role }\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteTpDoc(id: \\\"A76t463XQqiL5rLiCW\\\") {\\n    id\\n    accessGranted\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } } \\n    signedByTp\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteTpDoc(id: \\\"A76zLkZkdMk5PWDYNl\\\") {\\n    id\\n    accessGranted\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } } \\n    signedByTp\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteProDoc(id: \\\"A78hlNCvu7HqdjEVEW\\\") {\\n    id\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } }\\n    signature\\n    signedByPro\\n    users { id email role }\\n  }\\n}\"}]}",
+      "graphiql:editorFlex": 0.8153638814016172,
+      "graphiql:variableEditorHeight": 200
     }
   ]
 }

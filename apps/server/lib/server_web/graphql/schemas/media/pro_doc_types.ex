@@ -14,13 +14,23 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
 
   @desc "The pro docs on the site"
   object :pro_doc do
-    field :id, non_null(:string)
-    field :category, non_null(:string)
+    field :category, :string
+    field :error, :string
+    field :error_description, :string
     field :file, :picture, description: "An upload's file"
+    field :id, :string
     field :projects, :project, resolve: dataloader(Data)
-    field :signature, non_null(:boolean)
-    field :signed_by_pro, non_null(:boolean)
+    field :signature, :boolean
+    field :signed_by_pro, :boolean
     field :users, :user, resolve: dataloader(Data)
+  end
+
+  @desc "The pro docs an update via params"
+  input_object :update_pro_doc_params do
+    field :category, :string
+    field :project_id, :string
+    field :signature, :boolean
+    field :signed_by_pro, :boolean
   end
 
   @desc "An attached picture or a link to a picture"
@@ -30,18 +40,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
 
   @desc "An attached picture"
   input_object :picture_input_object do
-    field(:alt, :string)
     field(:file, non_null(:upload))
-    field(:name, :string)
-  end
-
-  @desc "The pro docs an update via params"
-  input_object :update_pro_doc_params do
-    field :category, :string
-    field :project_id, :string
-    field :signature, :boolean
-    field :signed_by_pro, :boolean
-    field :user_id, non_null(:string)
   end
 
   object :pro_doc_queries do
@@ -65,7 +64,6 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
       arg :project_id, non_null(:string)
       arg :signature, non_null(:boolean)
       arg :signed_by_pro, non_null(:boolean)
-      arg :user_id, non_null(:string)
       resolve &ProDocResolver.create/3
     end
 
@@ -79,8 +77,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
 
     @desc "Delete a specific pro docs"
     field :delete_pro_doc, :pro_doc do
-      arg :project_id, non_null(:string)
-      arg :user_id, non_null(:string)
+      arg :id, non_null(:string)
       resolve &ProDocResolver.delete/3
     end
   end
