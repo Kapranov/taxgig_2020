@@ -26,7 +26,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
 
   @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
   def list(_parent, _args, _resolutions) do
-    {:ok, nil}
+    {:error, "Unauthenticated"}
   end
 
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
@@ -41,7 +41,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
 
   @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def show(_parent, _args, _info) do
-    {:ok, nil}
+    {:error, "Unauthenticated"}
   end
 
   @spec create(any, %{category: String.t(), file: %{picture: %{file: %Plug.Upload{}}}, project_id: String.t(), signature: boolean, signed_by_pro: boolean}, %{context: %{current_user: User.t()}}) :: result()
@@ -132,7 +132,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
             Media.delete_pro_doc(struct)
             |> case do
               {:ok, struct} ->
-                {:ok, struct}
+                {:ok, %{id: struct.id}}
               {:error, changeset} ->
                 {:error, extract_error_msg(changeset)}
             end

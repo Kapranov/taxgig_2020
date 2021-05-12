@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-FILE="@/tmp/trump.jpg"
-TOKEN="SFMyNTY.g2gDbQAAABJBNlhrY2pnMVNVV25IZ2pFdFVuBgDiCydMeQFiAAFRgA.u5TE0lM9khQiw-aZ_0sawQj6brJA0UtDNvJvsnpi384"
+FILE="@/tmp/bernie.jpg"
+TOKEN="SFMyNTY.g2gDbQAAABJBNlhrY2pnMVNVV25IZ2pFdFVuBgDcVL5feQFiAAFRgA.3gaTdXIghWLG0CLKJiPiUiEXzqEOovKzJCgUO88dRS0"
 URL="http://localhost:4000"
 
 generate_data() {

@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-clear
-
-set -eu
-
-echo -e "\n"
-
 FIRST="GuStAvO"
 LAST="MaTa"
 ZIP="33155"
@@ -23,5 +17,3 @@ curl -X POST \
      -H 'Content-Type: multipart/form-data' \
      -F query="query { searchReptin($(generate_post_data)) { id busStCode busAddrZip error firstName lastName profession } }" \
      ${URL}
-
-echo -e "\n"

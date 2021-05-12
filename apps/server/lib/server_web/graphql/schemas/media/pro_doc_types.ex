@@ -25,6 +25,11 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
     field :users, :user, resolve: dataloader(Data)
   end
 
+  @desc "The pro docs on the site after destroy"
+  object :pro_doc_deleted do
+    field :id, :string
+  end
+
   @desc "The pro docs an update via params"
   input_object :update_pro_doc_params do
     field :category, :string
@@ -76,7 +81,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
     end
 
     @desc "Delete a specific pro docs"
-    field :delete_pro_doc, :pro_doc do
+    field :delete_pro_doc, :pro_doc_deleted do
       arg :id, non_null(:string)
       resolve &ProDocResolver.delete/3
     end

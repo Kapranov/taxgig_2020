@@ -1,6 +1,6 @@
 {
   "key": "graphiql",
-  "lastId": 10,
+  "lastId": 11,
   "tabIds": [
     "tab1",
     "tab2",
@@ -11,6 +11,39 @@
     "tab10"
   ],
   "closedTabs": [
+    {
+      "id": "tab11",
+      "name": "Query 8",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allProDocs {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } }\n    signature\n    signedByPro\n    users { id email role }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProDocs {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } }\n    signature\n    signedByPro\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProDocs {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    \n    signature\n    signedByPro\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProDocs {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } }\n    signature\n    signedByPro\n    users { id email role }\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allProDocs {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } }\n    signature\n    signedByPro\n    users { id email role }\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allProDocs {\\n    id\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } }\\n    signature\\n    signedByPro\\n    users { id email role }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allProDocs {\\n    id\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    \\n    signature\\n    signedByPro\\n    \\n  }\\n}\"},{\"query\":\"query {\\n  allProDocs {\\n    id\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } }\\n    signature\\n    signedByPro\\n    \\n  }\\n}\"},{\"query\":\"query {\\n  allProDocs {\\n    id\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } }\\n    signature\\n    signedByPro\\n    users { id email role }\\n  }\\n}\"}]}"
+    },
     {
       "id": "tab9",
       "name": "Query 7",
@@ -109,7 +142,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab3",
+  "activeId": "tab10",
   "tabs": [
     {
       "id": "tab1",
@@ -310,7 +343,7 @@
       "graphiql:variables": "{\n  \"img\": \"/tmp/trumpy.jpg\"\n}",
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\"},{\"query\":\"mutation($files: PictureInput) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: $files,\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\n  \\\"files\\\": {\\\"picture\\\": {\\\"alt\\\": \\\"god bless trumpy bear\\\", \\\"name\\\": \\\"trumpy\\\", \\\"file\\\": \\\"/tmp/trumpy.jpg\\\"}}\\n}\"},{\"query\":\"mutation($files: PictureInputObject) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: $files},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\\"files\\\": {\\\"alt\\\": \\\"god bless trumpy bear\\\", \\\"name\\\": \\\"trumpy\\\", \\\"file\\\": \\\"/tmp/trumpy.jpg\\\"}}\"},{\"query\":\"mutation($files: Upload!) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: $files},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\\"files\\\": \\\"/tmp/trumpy.jpg\\\"}\\n\"},{\"query\":\"mutation($files: Upload!) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: {file: $files}},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\\"files\\\": \\\"/tmp/trumpy.jpg\\\"}\\n\"},{\"query\":\"mutation($files: PictureInputObject) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: $files},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\\"files\\\": {\\\"file\\\": \\\"/tmp/trumpy.jpg\\\"}}\"},{\"query\":\"mutation($files: Upload!) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: {file: $files}},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\\"files\\\": \\\"/tmp/trumpy.jpg\\\"}\"},{\"query\":\"mutation($files: PictureInputObject) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: $files},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\\"files\\\": {\\\"file\\\": \\\"/tmp/trumpy.jpg\\\"}}\"},{\"query\":\"mutation {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: {file: \\\"/tmp/trumpy.jpg\\\"}},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation($img: Upload!) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: {file: $img}},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\n  \\\"img\\\": \\\"/tmp/trumpy.jpg\\\"\\n}\"},{\"query\":\"mutation($img: [Upload!]!) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: {file: $img}},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\n  \\\"img\\\": \\\"/tmp/trumpy.jpg\\\"\\n}\"},{\"query\":\"mutation($img: Upload!) {\\n  createTpDoc(\\n    accessGranted: true,\\n    category: \\\"Files\\\",\\n    file: {picture: {file: $img}},\\n    projectId: \\\"A2WQKs54LNKTB3p8l6\\\",\\n    signedByTp: true\\n  ) {\\n    id\\n    accessGranted\\n    category\\n    projects {id}\\n    signedByTp\\n  }\\n}\",\"variables\":\"{\\n  \\\"img\\\": \\\"/tmp/trumpy.jpg\\\"\\n}\"}]}",
       "graphiql:variableEditorHeight": 176,
-      "graphiql:editorFlex": 0.7085427135678392,
+      "graphiql:editorFlex": 1,
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -426,6 +459,14 @@
       "maxHistory": 20,
       "history": [
         {
+          "query": "mutation {\n  deleteProDoc(id: \"A7AS1YkJes5HMx8U4W\") {\n    id\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteProDoc(id: \"A7993RIqPO7YjeF0VN\") {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } }\n    signature\n    signedByPro\n    users { id email role }\n  }\n}",
+          "variables": null
+        },
+        {
           "query": "mutation {\n  deleteProDoc(id: \"A78hlNCvu7HqdjEVEW\") {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } }\n    signature\n    signedByPro\n    users { id email role }\n  }\n}",
           "variables": null
         },
@@ -438,10 +479,10 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  deleteProDoc(id: \"A78hlNCvu7HqdjEVEW\") {\n    id\n    category\n    error\n    errorDescription\n    file { id contentType error errorDescription name size url }\n    projects { id users { id email role } }\n    signature\n    signedByPro\n    users { id email role }\n  }\n}",
+      "graphiql:query": "mutation {\n  deleteProDoc(id: \"A7AS1YkJes5HMx8U4W\") {\n    id\n  }\n}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteTpDoc(id: \\\"A76t463XQqiL5rLiCW\\\") {\\n    id\\n    accessGranted\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } } \\n    signedByTp\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteTpDoc(id: \\\"A76zLkZkdMk5PWDYNl\\\") {\\n    id\\n    accessGranted\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } } \\n    signedByTp\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteProDoc(id: \\\"A78hlNCvu7HqdjEVEW\\\") {\\n    id\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } }\\n    signature\\n    signedByPro\\n    users { id email role }\\n  }\\n}\"}]}",
-      "graphiql:editorFlex": 0.8153638814016172,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteTpDoc(id: \\\"A76t463XQqiL5rLiCW\\\") {\\n    id\\n    accessGranted\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } } \\n    signedByTp\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteTpDoc(id: \\\"A76zLkZkdMk5PWDYNl\\\") {\\n    id\\n    accessGranted\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } } \\n    signedByTp\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteProDoc(id: \\\"A78hlNCvu7HqdjEVEW\\\") {\\n    id\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } }\\n    signature\\n    signedByPro\\n    users { id email role }\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteProDoc(id: \\\"A7993RIqPO7YjeF0VN\\\") {\\n    id\\n    category\\n    error\\n    errorDescription\\n    file { id contentType error errorDescription name size url }\\n    projects { id users { id email role } }\\n    signature\\n    signedByPro\\n    users { id email role }\\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteProDoc(id: \\\"A7AS1YkJes5HMx8U4W\\\") {\\n    id\\n  }\\n}\"}]}",
+      "graphiql:editorFlex": 0.4769736842105263,
       "graphiql:variableEditorHeight": 200
     }
   ]
