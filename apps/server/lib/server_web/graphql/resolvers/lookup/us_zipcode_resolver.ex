@@ -12,24 +12,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Lookup.UsZipcodeResolver do
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
 
-  @spec show(any, %{id: bitstring}, Absinthe.Resolution.t()) :: result()
-  def show(_parent, %{id: id}, _info) do
-    if is_nil(id) do
-      {:error, [[field: :id, message: "Can't be blank"]]}
-    else
-      try do
-        struct = Lookup.get_zipcode!(id)
-        {:ok, struct}
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The UsZipcode #{id} not found!"}
-      end
-    end
-  end
-
-  @spec show(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
-  def show(_parent, _args, _info) do
-    {:error, [[field: :id, message: "Can't be blank"]]}
+  @spec list(any, any, Absinthe.Resolution.t()) :: result()
+  def list(_parent, _args, _info) do
+    struct = Core.Lookup.list_zipcode()
+    {:ok, struct}
   end
 
   @spec search(any, %{zipcode: integer}, Absinthe.Resolution.t()) :: result()

@@ -16,10 +16,9 @@ defmodule ServerWeb.GraphQL.Schemas.Lookup.UsZipcodeTypes do
   end
 
   object :us_zipcode_queries do
-    @desc "Get a specific UsZipcode"
-    field :show_zipcode, :us_zipcode do
-      arg(:id, non_null(:string))
-      resolve(&UsZipcodeResolver.show/3)
+    @desc "All UsZipcode"
+    field :all_zipcode, non_null(list_of(non_null(:us_zipcode))) do
+      resolve(&UsZipcodeResolver.list/3)
     end
 
     @desc "Search a specific UsZipcode via number"
