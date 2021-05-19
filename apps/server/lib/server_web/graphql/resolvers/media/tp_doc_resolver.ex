@@ -57,33 +57,37 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
     if current_user.role == true do
       {:error, [[field: :current_user, message: "Permission denied for current_user to perform action Create"]]}
     else
-      try do
-        with project <- Contracts.get_project!(project_id),
-             {:ok, %{content_type: content_type, name: name, size: size, url: url}} = Core.Upload.store(file),
-             params <-
-               Map.new
-               |> Map.put(:content_type, content_type)
-               |> Map.put(:name, name)
-               |> Map.put(:size, size)
-               |> Map.put(:url, url),
-             {:ok, tp_doc = %TpDoc{}} <- Media.create_tp_doc(%{
-               "access_granted" => access_granted,
-               "category" => category,
-               "file" => params,
-               "project_id" => project.id,
-               "signed_by_tp" => signed_by_tp
-             })
-        do
-          {:ok, tp_doc}
-        else
-          nil ->
-            {:error, "ProjectId is not owned by authenticated user"}
-          {:error, changeset} ->
-            {:error, extract_error_msg(changeset)}
+      if category == "Files" do
+        try do
+          with project <- Contracts.get_project!(project_id),
+               {:ok, %{content_type: content_type, name: name, size: size, url: url}} = Core.Upload.store(file),
+               params <-
+                 Map.new
+                 |> Map.put(:content_type, content_type)
+                 |> Map.put(:name, name)
+                 |> Map.put(:size, size)
+                 |> Map.put(:url, url),
+               {:ok, tp_doc = %TpDoc{}} <- Media.create_tp_doc(%{
+                 "access_granted" => access_granted,
+                 "category" => category,
+                 "file" => params,
+                 "project_id" => project.id,
+                 "signed_by_tp" => signed_by_tp
+               })
+          do
+            {:ok, tp_doc}
+          else
+            nil ->
+              {:error, "ProjectId is not owned by authenticated user"}
+            {:error, changeset} ->
+              {:error, extract_error_msg(changeset)}
+          end
+        rescue
+          Ecto.NoResultsError ->
+            {:error, "Project for currentUser #{current_user.id} not found!"}
         end
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "Project for currentUser #{current_user.id} not found!"}
+      else
+        {:error, [[field: :category, message: "category #{category} incorrect"]]}
       end
     end
   end
@@ -93,18 +97,41 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
     {:error, "Unauthenticated"}
   end
 
-  @spec update(any, %{id: bitstring(), file: %{picture: %{file: %Plug.Upload{}}}, tp_doc: map}, %{context: %{current_user: User.t()}}) :: result()
-  def update(_parent, %{id: id, file: %{picture: %{file: %Plug.Upload{} = file}}, tp_doc: params}, %{context: %{current_user: current_user}}) do
+#  @spec update(any, %{id: bitstring(), file: %{picture: %{file: %Plug.Upload{}}}, tp_doc: map}, %{context: %{current_user: User.t()}}) :: result()
+#  def update(_parent, %{id: id, file: %{picture: %{file: %Plug.Upload{} = file}}, tp_doc: params}, %{context: %{current_user: current_user}}) do
+#    if current_user.role == true do
+#      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
+#    else
+#      try do
+#        with struct <- Media.get_tp_doc(id),
+#             {:ok, %{content_type: content_type, name: name, size: size, url: url}} <- Core.Upload.store(file),
+#             args <-
+#               %{file: %{content_type: content_type, name: name, size: size, url: url}}
+#               |> Map.merge(params),
+#             {:ok, tp_doc = %TpDoc{}} <- Media.update_tp_doc(struct, args)
+#        do
+#          {:ok, tp_doc}
+#        else
+#          nil ->
+#            {:error, "TpDoc is not owned by authenticated user"}
+#          {:error, changeset} ->
+#            {:error, extract_error_msg(changeset)}
+#        end
+#      rescue
+#        Ecto.NoResultsError ->
+#          {:error, "The Tp Docs #{id} not found!"}
+#      end
+#    end
+#  end
+
+  @spec update(any, %{id: bitstring(), tp_doc: map}, %{context: %{current_user: User.t()}}) :: result()
+  def update(_parent, %{id: id, tp_doc: params}, %{context: %{current_user: current_user}}) do
     if current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
       try do
         with struct <- Media.get_tp_doc(id),
-             {:ok, %{content_type: content_type, name: name, size: size, url: url}} <- Core.Upload.store(file),
-             args <-
-               %{file: %{content_type: content_type, name: name, size: size, url: url}}
-               |> Map.merge(params),
-             {:ok, tp_doc = %TpDoc{}} <- Media.update_tp_doc(struct, args)
+             {:ok, tp_doc = %TpDoc{}} <- Media.update_tp_doc(struct, params)
         do
           {:ok, tp_doc}
         else
@@ -138,7 +165,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
             Media.delete_tp_doc(struct)
             |> case do
               {:ok, struct} ->
-                {:ok, struct}
+                {:ok, %{id: struct.id}}
               {:error, changeset} ->
                 {:error, extract_error_msg(changeset)}
             end

@@ -24,11 +24,14 @@ defmodule ServerWeb.GraphQL.Schemas.Media.TpDocTypes do
     field :signed_by_tp, non_null(:boolean)
   end
 
+  @desc "The tp docs on the site after destroy"
+  object :tp_doc_deleted do
+    field :id, :string
+  end
+
   @desc "The tp docs an update via params"
   input_object :update_tp_doc_params do
     field :access_granted, :boolean
-    field :category, :string
-    field :project_id, :string
     field :signed_by_tp, :boolean
   end
 
@@ -59,13 +62,13 @@ defmodule ServerWeb.GraphQL.Schemas.Media.TpDocTypes do
     @desc "Update a specific tp docs"
     field :update_tp_doc, :tp_doc do
       arg :id, non_null(:string)
-      arg :file, :picture_input, description: "The file for the tp docs, either as an object or directly the ID of an existing Picture"
+      # arg :file, :picture_input, description: "The file for the tp docs, either as an object or directly the ID of an existing Picture"
       arg :tp_doc, :update_tp_doc_params, description: "The params for tp docs, either as an object"
       resolve &TpDocResolver.update/3
     end
 
     @desc "Delete a specific tp docs"
-    field :delete_tp_doc, :tp_doc do
+    field :delete_tp_doc, :tp_doc_deleted do
       arg :id, non_null(:string)
       resolve &TpDocResolver.delete/3
     end
