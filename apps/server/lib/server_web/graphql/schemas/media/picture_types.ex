@@ -5,17 +5,29 @@ defmodule ServerWeb.GraphQL.Schemas.Media.PictureTypes do
 
   use Absinthe.Schema.Notation
 
-  alias ServerWeb.GraphQL.Resolvers.Media.PicturesResolver
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
+
+  alias ServerWeb.GraphQL.{
+    Data,
+    Resolvers.Media.PicturesResolver
+  }
 
   @desc "A picture"
-  object :picture do
+  object :pictures  do
     field :id, non_null(:string), description: "The picture's ID"
-    field :content_type, :string, description: "The picture's detected content type"
-    field :error, :string
-    field :error_description, :string
-    field :name, :string, description: "The picture's name"
-    field :size, :integer, description: "The picture's size"
-    field :url, :string, description: "The picture's full URL"
+    field :file, :picture, description: "The picture's ID"
+    field :profile, :profile, resolve: dataloader(Data)
+  end
+
+  @desc "A picture via file"
+  object :picture do
+    field :id, non_null(:string), description: "File's id"
+    field :content_type, :string, description: "File's detected content type"
+    field :error, :string, description: "short term error via amazon"
+    field :error_description, :string, description: "full term via amazon"
+    field :name, :string, description: "File's name"
+    field :size, :integer, description: "File's size"
+    field :url, :string, description: "File's full URL"
   end
 
   @desc "When picture had has been deleted"

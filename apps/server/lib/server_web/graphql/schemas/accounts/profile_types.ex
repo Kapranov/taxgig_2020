@@ -18,6 +18,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProfileTypes do
     field :banner, :string, description: "profile banner"
     field :description, :string, description: "profile description"
     field :logo, :picture, description: "An user's logo picture"
+    field :picture, :pictures, resolve: dataloader(Data)
     field :us_zipcode, :us_zipcode, resolve: dataloader(Data)
     field :user, :user, resolve: dataloader(Data)
   end
