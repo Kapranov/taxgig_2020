@@ -41,6 +41,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :phone, :string, description: "accounts user phone"
     field :platform, list_of(:platform), description: "list user's platform"
     field :profession, :string, description: "credentials received from searchProfession"
+    field :profile, list_of(:profile), resolve: dataloader(Data), description: "user's profile"
     field :provider, non_null(:string), description: "accounts user provider"
     field :role, non_null(:boolean), description: "accounts user role"
     field :rooms, list_of(:room), resolve: dataloader(Data), description: "list user's room"
