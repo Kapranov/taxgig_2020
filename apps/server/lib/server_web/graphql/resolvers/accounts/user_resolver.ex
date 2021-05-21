@@ -95,7 +95,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         :languages,
         :platform,
         :sale_taxes,
-        :work_experiences
+        :work_experiences,
+        profile: [:picture]
       ]) do
         nil -> {:error, "Not found"}
         struct ->
@@ -134,7 +135,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
               }
             end
           else
-            {:ok, struct}
+            [data] = struct
+            {:ok, data}
           end
       end
     end
