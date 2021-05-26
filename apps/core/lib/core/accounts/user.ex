@@ -212,6 +212,7 @@ defmodule Core.Accounts.User do
     |> update_change(:email, &String.downcase/1)
     |> unique_constraint(:email, name: :users_email_index, message: "The format of the email address isn't correct or email has already been taken!")
     |> validate_email()
+    |> name_zip_validation()
     |> validate_length(:bio, max: bio_limit)
     |> validate_length(:first_name, max: name_limit)
     |> validate_length(:last_name, max: name_limit)
@@ -332,6 +333,18 @@ defmodule Core.Accounts.User do
         put_change(changeset, :password_hash, Argon2.hash_pwd_salt(password))
       _ ->
         changeset
+    end
+  end
+
+  @spec name_zip_validation(Ecto.Changeset.t()) :: Ecto.Changeset.t()
+  defp name_zip_validation(changeset) do
+    bus_addr_zip = get_field(changeset, :bus_addr_zip)
+    first_name = get_field(changeset, :first_name)
+    last_name = get_field(changeset, :last_name)
+
+    case Repo.get_by(User, [bus_addr_zip: bus_addr_zip, first_name: first_name, last_name: last_name]) do
+      nil -> changeset
+      _ -> add_error(changeset, :error, "such user already exists")
     end
   end
 end
