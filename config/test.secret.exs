@@ -22,6 +22,8 @@ config :blockscore,
   token: "sk_test_6596def12b6a0fba8784ce0bd381a8e6:",
   url: "https://sk_test_6596def12b6a0fba8784ce0bd381a8e6:@api.blockscore.com/people"
 
+config :plaid, client_id: "your_client_id", secret: "your_secret"
+
 config :ex_aws,
   access_key_id: [{:system, "VYPQIQWQEFQ3PWORFF4Y"}, :instance_role],
   bucket_url: "https://taxgig.nyc3.digitaloceanspaces.com",
