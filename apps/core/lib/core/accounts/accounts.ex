@@ -1222,7 +1222,7 @@ defmodule Core.Accounts do
   @spec update_user(User.t(), %{atom => any}) :: result() | error_tuple()
   def update_user(struct, attrs) do
     struct
-    |> User.changeset(attrs)
+    |> User.update_changeset(attrs)
     |> Repo.update()
   end
 

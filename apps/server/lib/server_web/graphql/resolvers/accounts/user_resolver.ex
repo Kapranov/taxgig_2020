@@ -263,7 +263,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                 {:ok, %{error: "old password is not correct"}}
               {:ok, user} ->
                 user
-                |> User.changeset(params)
+                |> User.update_changeset(params)
                 |> Repo.update
                 |> case do
                   {:ok, struct} ->
