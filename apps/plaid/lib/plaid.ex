@@ -4,41 +4,6 @@ defmodule Plaid do
 
   [Plaid API Docs](https://plaid.com/docs/api)
   """
-#  @account_subtypes Application.get_env(:plaid, :account_subtypes)
-#  @adapter Application.get_env(:plaid, :adapter)
-#  @client_id Application.get_env(:plaid, :client_id)
-#  @client_name Application.get_env(:plaid, :client_name)
-#  @country_codes Application.get_env(:plaid, :country_codes)
-#  @header Application.get_env(:plaid, :header)
-#  @headers [accept: "#{@header}"]
-#  @language Application.get_env(:plaid, :language)
-#  @products Application.get_env(:plaid, :products)
-#  @secret Application.get_env(:plaid, :secret)
-#  @url Application.get_env(:plaid, :url)
-#  @webhook Application.get_env(:plaid, :webhook)
-#
-#  @spec create_link_token(String.t()) :: map
-#  def create_link_token(user_id) do
-#    params = %{
-#      "client_id" => @client_id,
-#      "secret" => @secret,
-#      "user" => %{
-#        "client_user_id" => user_id
-#      },
-#      "client_name" => @client_name,
-#      "products" => [@products],
-#      "country_codes" => [@country_codes],
-#      "language" => @language,
-#      "webhook" => @webhook,
-#      "account_filters" => %{
-#        "depository" => %{
-#          "account_subtypes" => [@account_subtypes]
-#        }
-#      }
-#    }
-#
-#    @adapter.post(@url, body, @headers, params: params)
-#  end
 
   use HTTPoison.Base
 

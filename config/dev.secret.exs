@@ -58,17 +58,10 @@ config :blockscore,
   url: "https://sk_test_6596def12b6a0fba8784ce0bd381a8e6:@api.blockscore.com/people"
 
 config :plaid,
-  account_subtypes: "checking",
-  adapter: HTTPoison,
   client_id: "5d2720284fa1190016b49501",
   client_name: "Taxgig",
-  country_codes: "US",
-  header: "application/json",
-  language: "en",
-  products: "transactions",
   root_uri: "https://sandbox.plaid.com/",
-  secret: "f19d8cf41ff4265c2ada3ab7539e5c",
-  webhook: "https://taxgig.com/"
+  secret: "f19d8cf41ff4265c2ada3ab7539e5c"
 
 config :ex_aws,
   access_key_id: [{:system, "VYPQIQWQEFQ3PWORFF4Y"}, :instance_role],
