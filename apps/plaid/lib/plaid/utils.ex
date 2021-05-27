@@ -27,4 +27,41 @@ defmodule Plaid.Utils do
   def map_response(response, :link) do
     Jason.decode!(response)
   end
+
+  def map_response(response, :item) do
+    Jason.decode!(response)
+  end
+
+  def map_response(response, :sandbox) do
+    Jason.decode!(response)
+  end
+
+  def map_response(response, :transactions) do
+    Jason.decode!(response)
+  end
+
+  def map_response(response, :accounts) do
+    Jason.decode!(response)
+  end
+
+  def map_response(%{"item" => item} = response, :item) do
+    new_response = response |> Map.take(["request_id"]) |> Map.merge(item)
+    Jason.decode!(new_response)
+  end
+
+  def map_response(%{"public_token" => _} = response, :sandbox) do
+    response
+    |> Map.take(["public_token", "expiration", "request_id"])
+    |> Enum.reduce(%{}, fn {k, v}, acc ->
+      Map.put(acc, String.to_atom(k), v)
+    end)
+  end
+
+  def map_response(%{"access_token" => _} = response, :item) do
+    response
+    |> Map.take(["access_token", "item_id", "request_id"])
+    |> Enum.reduce(%{}, fn {k, v}, acc ->
+      Map.put(acc, String.to_atom(k), v)
+    end)
+  end
 end
