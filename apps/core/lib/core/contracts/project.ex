@@ -14,6 +14,7 @@ defmodule Core.Contracts.Project do
     Contracts.ServiceReview,
     Media.ProDoc,
     Media.TpDoc,
+    Plaid.PlaidAccount,
     Services.BookKeeping,
     Services.BusinessTaxReturn,
     Services.IndividualTaxReturn,
@@ -37,6 +38,7 @@ defmodule Core.Contracts.Project do
     messages: [Message.t()],
     offer_price: integer,
     offers: Offer.t(),
+    plaid_accounts: [PlaidAccount.t()],
     pro_docs: [ProDoc.t()],
     pro_ratings: [ProRating.t()],
     sale_tax_id: SaleTax.t(),
@@ -122,6 +124,7 @@ defmodule Core.Contracts.Project do
     has_many :tp_docs, TpDoc, on_delete: :delete_all
 
     many_to_many :pro_ratings, ProRating, join_through: "pro_ratings_projects", on_replace: :delete
+    many_to_many :plaid_accounts, PlaidAccount, join_through: "plaid_accounts_projects", on_replace: :delete
 
     timestamps()
   end
