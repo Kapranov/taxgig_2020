@@ -22,7 +22,6 @@ defmodule Core.Repo.Migrations.CreatePlaidTransactions do
       timestamps(type: :utc_datetime_usec)
     end
 
-    create index(:plaid_transactions, [:plaid_account_id])
     create(unique_index(:plaid_transactions, [:id_from_plaid_transaction], name: :plaid_transactions_id_from_plaid_transaction_index))
   end
 end
