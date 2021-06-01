@@ -11,7 +11,7 @@ defmodule Core.Repo.Migrations.CreatePlaidAccounts do
       add :from_plaid_account_type, :string, null: false
       add :from_plaid_balance_currency, :string, null: true
       add :from_plaid_balance_current, :decimal, default: 0.0, null: false
-      add :from_plaid_total_transaction, :integer, null: false
+      add :from_plaid_total_transaction, :integer, default: 0, null: false
       add :id_from_plaid_account, :string, null: false
 
       timestamps(type: :utc_datetime_usec)

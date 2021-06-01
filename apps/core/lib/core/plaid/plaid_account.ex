@@ -53,7 +53,7 @@ defmodule Core.Plaid.PlaidAccount do
     field :from_plaid_account_type, :string, null: false
     field :from_plaid_balance_currency, :string, null: true
     field :from_plaid_balance_current, :decimal, default: 0.0, null: false
-    field :from_plaid_total_transaction, :integer, null: false
+    field :from_plaid_total_transaction, :integer, default: 0, null: false
     field :id_from_plaid_account, :string, null: false
 
     has_many :plaid_transactions, PlaidTransaction, on_delete: :delete_all
