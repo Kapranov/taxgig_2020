@@ -121,12 +121,12 @@ defmodule Core.PlaidService.PlaidPlatformTransactionService do
               |> Multi.update({:plaid_accounts, plaid_transaction.plaid_account_id}, account_changeset)
               |> Repo.transaction()
               |> case do
-                {:ok, _} ->
-                  {:ok, nil}
-                {:error, _model, changeset, _completed} ->
-                  {:error, changeset}
+              {:ok, _} ->
+                    {:ok, nil}
+              {:error, _model, changeset, _completed} ->
+                    {:error, changeset}
               end
-              {:ok, plaid_transaction}
+              {:ok, :ok}
             {:error, _model, changeset, _completed} ->
               {:error, changeset}
           end
