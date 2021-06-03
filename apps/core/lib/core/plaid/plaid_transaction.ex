@@ -79,8 +79,7 @@ defmodule Core.Plaid.PlaidTransaction do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
-    |> foreign_key_constraint(:plaid_account_id, message: "Select the PlaidAccounts")
-    |> foreign_key_constraint(:id_from_plaid_transaction, message: "Select the PlaidTransaction")
+    |> foreign_key_constraint(:plaid_account_id)
     |> unique_constraint(:id_from_plaid_transaction, name: :plaid_transactions_id_from_plaid_transaction_index, message: "Only one a  by PlaidTransaction")
   end
 end

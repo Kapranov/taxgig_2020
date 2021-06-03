@@ -73,7 +73,7 @@ defmodule Core.PlaidService.Adapters.PlaidPlatformTransactionAdapter do
         "transaction_type" => "special",
         "unofficial_currency_code" => nil
       }
-      iex> attrs = %{plaid_account_id: "MM5v3b8zm9IKbpp9PdlesEM1ePjbJaf98yr84"}
+      iex> attrs = %{"plaid_account_id" => "MM5v3b8zm9IKbpp9PdlesEM1ePjbJaf98yr84"}
       iex> to_params(data, attrs)
       {:ok,
         %{
