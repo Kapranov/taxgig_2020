@@ -110,4 +110,9 @@ iex> attrs = %{"plaid_account_id" => "MM5v3b8zm9IKbpp9PdlesEM1ePjbJaf98yr84"}
 iex> Core.PlaidService.Adapters.PlaidPlatformTransactionAdapter.to_params(data_transactions, attrs)
 ```
 
+```
+{:error, %{"display_message" => nil, "documentation_url" => "https://plaid.com/docs/?ref=error#item-errors", "error_code" => "PRODUCT_NOT_READY", "error_message" => "the requested product is not yet ready. please provide a webhook or try the request again later", "error_type" => "ITEM_ERROR", "request_id" => "qWS2fD6v1LQaOJX", "suggested_action" => nil}}
+
+```
+
 ### 25 May 2021 Oleg G.Kapranov

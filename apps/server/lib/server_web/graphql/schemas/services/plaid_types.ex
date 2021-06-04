@@ -15,7 +15,9 @@ defmodule ServerWeb.GraphQL.Schemas.Services.PlaidTypes do
 
   @desc "A plaid account on the site"
   object :plaid_account do
-    field :id, non_null(:string)
+    field :id, :string
+    field :error, :string
+    field :error_description, :string
     field :from_plaid_account_mask, :string
     field :from_plaid_account_name, :string
     field :from_plaid_account_official_name, :string
@@ -30,6 +32,8 @@ defmodule ServerWeb.GraphQL.Schemas.Services.PlaidTypes do
   @desc "A plaid transaction on the site"
   object :plaid_transaction do
     field :id, non_null(:string)
+    field :error, :string
+    field :error_description, :string
     field :from_plaid_transaction_address, :string
     field :from_plaid_transaction_amount, :decimal
     field :from_plaid_transaction_authorization_date, :date
@@ -77,7 +81,7 @@ defmodule ServerWeb.GraphQL.Schemas.Services.PlaidTypes do
       arg :end_date, :date
       arg :count, :integer
       arg :offset, :integer
-      arg :projects, list_of(:string)
+      arg :projects, :string
       resolve &PlaidResolver.create/3
     end
 

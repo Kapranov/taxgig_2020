@@ -1,0 +1,128 @@
+{
+  "key": "graphiql",
+  "lastId": 4,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab4"
+  ],
+  "closedTabs": [
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNlhrd0xJZm5lTlBUUDlsSzRuBgDYLsHWeQFiAAFRgA.OYL-TskRp8xv0FLAaZfXmPKmlUcA3sb9aFOZCCUkTb8"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "query {\n  allPlaidAccounts {\n    id\n    error\n    errorDescription\n    idFromPlaidAccount\n    fromPlaidAccountMask\n    fromPlaidAccountName\n    fromPlaidAccountType\n    fromPlaidAccountSubtype\n    idFromPlaidAccount\n    fromPlaidBalanceCurrent\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allPlaidAccounts {\\n    id\\n    error\\n    errorDescription\\n    idFromPlaidAccount\\n    fromPlaidAccountMask\\n    fromPlaidAccountName\\n    fromPlaidAccountType\\n    fromPlaidAccountSubtype\\n    idFromPlaidAccount\\n    fromPlaidBalanceCurrent\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.311284046692607,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    }
+  ],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNlhrd0xJZm5lTlBUUDlsSzRuBgDYLsHWeQFiAAFRgA.OYL-TskRp8xv0FLAaZfXmPKmlUcA3sb9aFOZCCUkTb8"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab4",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signInLocal(\n    is2fa: false,\n    email: \"test@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signInLocal(\n    is2fa: false,\n    email: \"test@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    userId\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signInLocal(\\n    is2fa: false,\\n    email: \\\"test@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab4",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNlhrd0xJZm5lTlBUUDlsSzRuBgDYLsHWeQFiAAFRgA.OYL-TskRp8xv0FLAaZfXmPKmlUcA3sb9aFOZCCUkTb8"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createPlaid(\n    projects: \"A76liDnHtdU89HA21Q\",\n    startDate: \"2020-01-01\",\n    endDate: \"2021-01-01\"\n    count: 500,\n    offset: 100\n   \n  ) {\n    id\n    idFromPlaidAccount\n    error\n    errorDescription\n    fromPlaidAccountMask\n    fromPlaidAccountName\n    fromPlaidAccountOfficialName\n    fromPlaidAccountSubtype\n    fromPlaidAccountType\n    fromPlaidBalanceCurrency\n    fromPlaidBalanceCurrent\n    fromPlaidTotalTransaction \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createPlaid(\n    projects: \"A76liDnHtdU89HA21Q\",\n    startDate: \"2020-01-01\",\n    endDate: \"2021-01-01\"\n    count: 500,\n    offset: 100\n   \n  ) {\n    id\n    idFromPlaidAccount\n    error\n    errorDescription\n    fromPlaidAccountMask\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createPlaid(\n    projects: \"A76liDnHtdU89HA21Q\",\n    startDate: \"2020-01-01\",\n    endDate: \"2021-03-03\"\n    count: 100,\n    offset: 100\n   \n  ) {\n    id\n    idFromPlaidAccount\n    error\n    errorDescription\n    fromPlaidAccountMask\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createPlaid(\n    projects: \"A76liDnHtdU89HA21Q\",\n    startDate: \"2021-01-01\",\n    endDate: \"2021-03-03\"\n    count: 100,\n    offset: 100\n   \n  ) {\n    id\n    idFromPlaidAccount\n    error\n    errorDescription\n    fromPlaidAccountMask\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createPlaid(\n    projects: \"A76liDnHtdU89HA21Q\",\n    startDate: \"2020-01-01\",\n    endDate: \"2021-01-01\"\n    count: 500,\n    offset: 100\n  ) {\n    id\n    idFromPlaidAccount\n    error\n    errorDescription\n    fromPlaidAccountMask\n    fromPlaidAccountName\n    fromPlaidAccountOfficialName\n    fromPlaidAccountSubtype\n    fromPlaidAccountType\n    fromPlaidBalanceCurrency\n    fromPlaidBalanceCurrent\n    fromPlaidTotalTransaction \n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createPlaid(\\n    projects: \\\"A76liDnHtdU89HA21Q\\\",\\n    startDate: \\\"2021-01-01\\\",\\n    endDate: \\\"2021-03-03\\\"\\n    count: 100,\\n    offset: 100\\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createPlaid(\\n    projects: \\\"A76liDnHtdU89HA21Q\\\",\\n    startDate: \\\"2021-01-01\\\",\\n    endDate: \\\"2021-03-03\\\"\\n    count: 100,\\n    offset: 100\\n   \\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPlaid(\\n    projects: [\\\"A76liDnHtdU89HA21Q\\\"],\\n    startDate: \\\"2021-01-01\\\",\\n    endDate: \\\"2021-03-03\\\"\\n    count: 100,\\n    offset: 100\\n   \\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPlaid(\\n    projects: \\\"A76liDnHtdU89HA21Q\\\",\\n    startDate: \\\"2021-01-01\\\",\\n    endDate: \\\"2021-03-03\\\"\\n    count: 100,\\n    offset: 100\\n   \\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPlaid(\\n    projects: \\\"A76liDnHtdU89HA21Q\\\",\\n    startDate: \\\"2020-01-01\\\",\\n    endDate: \\\"2021-03-03\\\"\\n    count: 100,\\n    offset: 100\\n   \\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPlaid(\\n    projects: \\\"A76liDnHtdU89HA21Q\\\",\\n    startDate: \\\"2020-01-01\\\",\\n    endDate: \\\"2021-01-01\\\"\\n    count: 500,\\n    offset: 100\\n   \\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPlaid(\\n    projects: \\\"A76liDnHtdU89HA21Q\\\",\\n    startDate: \\\"2020-01-01\\\",\\n    endDate: \\\"2021-01-01\\\"\\n    count: 500,\\n    offset: 100\\n   \\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n    fromPlaidAccountName\\n    fromPlaidAccountOfficialName\\n    fromPlaidAccountSubtype\\n    fromPlaidAccountType\\n    fromPlaidBalanceCurrency\\n    fromPlaidBalanceCurrent\\n    fromPlaidTotalTransaction \\n  }\\n}\"},{\"query\":\"mutation {\\n  createPlaid(\\n    projects: \\\"A76liDnHtdU89HA21Q\\\",\\n    startDate: \\\"2020-01-01\\\",\\n    endDate: \\\"2021-01-01\\\"\\n    count: 500,\\n    offset: 100\\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n    fromPlaidAccountName\\n    fromPlaidAccountOfficialName\\n    fromPlaidAccountSubtype\\n    fromPlaidAccountType\\n    fromPlaidBalanceCurrency\\n    fromPlaidBalanceCurrent\\n    fromPlaidTotalTransaction \\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3671399594320487,
+      "graphiql:docExplorerWidth": 350
+    }
+  ]
+}

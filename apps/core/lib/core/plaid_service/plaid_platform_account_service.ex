@@ -34,7 +34,7 @@ defmodule Core.PlaidService.PlaidPlatformAccountService do
     Repo
   }
 
-  alias Ecto.Multi
+  alias Ecto.{Changeset, Multi}
 
   @doc """
   Creates a new `Core.Plaid.PlaidAccount` record on Plaid API,
@@ -70,7 +70,7 @@ defmodule Core.PlaidService.PlaidPlatformAccountService do
       iex> params = %{public_token: data["public_token"]}
       iex> {:ok, data} = Plaid.Item.exchange_public_token(params)
       iex> params = %{
-        access_token: data3["access_token"],
+        access_token: data["access_token"],
         start_date: "2020-01-01",
         end_date: "2021-01-01",
         options: %{
@@ -106,8 +106,27 @@ defmodule Core.PlaidService.PlaidPlatformAccountService do
           Multi.new()
           |> Multi.insert(:plaid_accounts, account_changeset)
           |> Repo.transaction()
-        _ -> acc
+          |> case do
+            {:ok, %{plaid_accounts: struct}} ->
+              {:ok, struct}
+            {:error, :plaid_accounts, %Changeset{} = changeset, _completed} ->
+              {:error, extract_error_msg(changeset)}
+            {:error, _model, changeset, _completed} ->
+              {:error, extract_error_msg(changeset)}
+          end
+        _ -> {:ok, acc}
       end
+    end)
+  end
+
+  @spec extract_error_msg(Changeset.t()) :: Ecto.Changeset.t()
+  defp extract_error_msg(changeset) do
+    changeset.errors
+    |> Enum.map(fn {field, {error, _details}} ->
+      [
+        field: field,
+        message: String.capitalize(error)
+      ]
     end)
   end
 end
