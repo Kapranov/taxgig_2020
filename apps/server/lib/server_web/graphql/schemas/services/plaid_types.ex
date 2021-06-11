@@ -27,6 +27,7 @@ defmodule ServerWeb.GraphQL.Schemas.Services.PlaidTypes do
     field :from_plaid_balance_current, :decimal
     field :from_plaid_total_transaction, :integer
     field :id_from_plaid_account, :string
+    field :plaid_transactions, list_of(:plaid_transaction), resolve: dataloader(Data)
   end
 
   @desc "A plaid transaction on the site"

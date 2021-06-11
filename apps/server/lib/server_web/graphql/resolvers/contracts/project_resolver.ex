@@ -29,7 +29,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     else
       struct =
         Queries.by_list(Project, :user_id, current_user.id)
-        |> Repo.preload([:tp_docs, :pro_docs])
+        |> Repo.preload([:plaid_accounts, :tp_docs, :pro_docs])
       Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
       {:ok, struct}
     end

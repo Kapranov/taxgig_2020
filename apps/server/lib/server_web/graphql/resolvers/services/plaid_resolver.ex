@@ -115,7 +115,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PlaidResolver do
 
         {:ok, _link_token} = Plaid.Link.create_link_token(link_token_params)
 
-        Process.sleep(100)
+        Process.sleep(1000)
 
         public_token_params = %{
         initial_products: ["transactions"],
@@ -126,13 +126,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PlaidResolver do
 
         {:ok, public_token} = Plaid.Item.create_public_token(public_token_params)
 
-        Process.sleep(100)
+        Process.sleep(1000)
 
         exchange_public_token_params = %{public_token: public_token["public_token"]}
 
         {:ok, exchange_public_token} = Plaid.Item.exchange_public_token(exchange_public_token_params)
 
-        Process.sleep(100)
+        Process.sleep(5000)
 
         transactions_params = %{
           access_token: exchange_public_token["access_token"],
@@ -146,11 +146,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PlaidResolver do
 
         {:ok, data} = Plaid.Transactions.get(transactions_params)
 
-        Process.sleep(100)
-
         with :ok <- File.write("/tmp/demo.json", Jason.encode!(data), [:binary]),
              {:ok, struct} <- PlaidPlatformAccountService.create(data, %{projects: args.projects, user_id: current_user.id}),
-             Process.sleep(100),
              {:ok, :ok} <- PlaidPlatformTransactionService.create(data)
         do
           {:ok, struct}
@@ -164,17 +161,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PlaidResolver do
           [] -> {:ok, %{error: "none records", error_description: "plaid transactions are empty"}}
           {:error, %Ecto.Changeset{}} -> {:ok, %{error: "changeset", error_description: "problem with save data"}}
         end
-
-#        case PlaidPlatformAccountService.create(data, %{projects: args.projects, user_id: current_user.id}) do
-#          [] -> {:ok, []}
-#          {:ok, struct} ->
-#            case PlaidPlatformTransactionService.create(data) do
-#              {:ok, :ok} ->
-#                {:ok, struct}
-#              _ ->
-#              {:ok, %{error: "500", error_description: "something wrong"}}
-#            end
-#        end
     end
   end
 
