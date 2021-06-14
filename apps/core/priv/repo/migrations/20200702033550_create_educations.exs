@@ -13,6 +13,7 @@ defmodule Core.Repo.Migrations.CreateEducations do
     end
 
     create index(:educations, [:user_id])
-    create(unique_index(:educations, [:university_id], name: :universities_user_id_index))
+    create index(:educations, [:university_id])
+    # create(unique_index(:educations, [:university_id], name: :universities_user_id_index))
   end
 end

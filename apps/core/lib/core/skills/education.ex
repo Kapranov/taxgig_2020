@@ -60,7 +60,7 @@ defmodule Core.Skills.Education do
     |> validate_required(@required_params)
     |> foreign_key_constraint(:university_id, message: "Select an University")
     |> foreign_key_constraint(:user_id, message: "Select an User")
-    |> unique_constraint(:university_id, name: :universities_user_id_index)
+    #|> unique_constraint(:university_id, name: :universities_user_id_index)
   end
 
   @doc """
