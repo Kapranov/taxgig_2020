@@ -22,6 +22,10 @@
   "recentHeaders": [
     {
       "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBNlhrY2pnMVNVV25IZ2pFdFVuBgBYs98ZegFiAAFRgA.oagLMmlSo-8wV96z8vD92-hggj7_RG3yzFOPVrfLo34"
+    },
+    {
+      "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBMk9tcjhPeE1WckhZQVRsamNuBgCBmUiBdgFiAAFRgA.zXfBQEDudIG9guNFLR2QLI7giMIP0ZD0S9f-Ypnh9Sk"
     },
     {
@@ -33,7 +37,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab6",
+  "activeId": "tab3",
   "tabs": [
     {
       "id": "tab1",
@@ -46,8 +50,8 @@
       "maxHistory": 20,
       "history": [],
       "graphiql:editorFlex": 1,
-      "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
     },
     {
       "id": "tab2",
@@ -60,14 +64,22 @@
       "maxHistory": 20,
       "history": [
         {
+          "query": "query {\n  signInLocal(\n    is2fa: false\n    email: \"protest@gmail.com\"\n    password: \"qwerty\"\n    passwordConfirmation: \"qwerty\"\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    is2fa: false\n    email: \"op@taxgig.com\"\n    password: \"qwerty\"\n    passwordConfirmation: \"qwerty\"\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
           "query": "query {\n  signIn (\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  signIn (\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:query": "query {\n  signInLocal(\n    is2fa: false\n    email: \"protest@gmail.com\"\n    password: \"qwerty\"\n    passwordConfirmation: \"qwerty\"\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
       "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn (\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signInLocal(\\n    is2fa: false\\n    email: \\\"op@taxgig.com\\\"\\n    password: \\\"qwerty\\\"\\n    passwordConfirmation: \\\"qwerty\\\"\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signInLocal(\\n    is2fa: false\\n    email: \\\"protest@gmail.com\\\"\\n    password: \\\"qwerty\\\"\\n    passwordConfirmation: \\\"qwerty\\\"\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn (\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.3336633663366337
     },
@@ -80,7 +92,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMk9tcjhPeE1WckhZQVRsamNuBgCBmUiBdgFiAAFRgA.zXfBQEDudIG9guNFLR2QLI7giMIP0ZD0S9f-Ypnh9Sk"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNlhrY2pnMVNVV25IZ2pFdFVuBgBYs98ZegFiAAFRgA.oagLMmlSo-8wV96z8vD92-hggj7_RG3yzFOPVrfLo34"
         }
       ],
       "collapsed": true,
@@ -96,7 +108,7 @@
       "graphiql:docExplorerWidth": 350,
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allEducations {\\n    id\\n    graduation\\n    universities {id name}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.28285714285714286
+      "graphiql:editorFlex": 0.40856844305120166
     },
     {
       "id": "tab4",
@@ -116,8 +128,8 @@
       "graphiql:query": "query {\n  allUniversities {id name}\n}",
       "graphiql:variables": "",
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allUniversities {id name}\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 0.32188420019627084,
       "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.32188420019627084,
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -129,12 +141,16 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMk9mZnExZnBXMkJlaUx6WHNuBgA7awWBdgFiAAFRgA.PgLLAA2BedFijlrSZ0153QZZijgkDkXWBNhK-yRLN0w"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNlhrY2pnMVNVV25IZ2pFdFVuBgBYs98ZegFiAAFRgA.oagLMmlSo-8wV96z8vD92-hggj7_RG3yzFOPVrfLo34"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "mutation {\n  createEducation(\n    course: \"some text\",\n    graduation: \"2021-06-06\",\n    userId: \"A6Xkcjg1SUWnHgjEtU\",\n    universityId: \"3Rj7Y1NgJll3DPgJzV6HJq\"\n  ) {\n    id\n    graduation\n    course\n    universities {id name}\n    users {id email role}\n  }\n}",
+          "variables": null
+        },
         {
           "query": "mutation {\n  createEducation(\n    course: \"some text\",\n    graduation: \"2020-12-14\",\n    userId: \"A2Offq1fpW2BeiLzXs\",\n    universityId: \"68XMCqy6AUAt3dtd4FO0wE\"\n  ) {\n    id\n    graduation\n    course\n    universities {id name}\n    users {id email role}\n  }\n}",
           "variables": null
@@ -144,12 +160,12 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  createEducation(\n    course: \"some text\",\n    graduation: \"2020-12-14\",\n    userId: \"A2Offq1fpW2BeiLzXs\",\n    universityId: \"68XMCqy6AUAt3dtd4FO0wE\"\n  ) {\n    id\n    graduation\n    course\n    universities {id name}\n    users {id email role}\n  }\n}",
+      "graphiql:query": "mutation {\n  createEducation(\n    course: \"some text\",\n    graduation: \"2021-06-06\",\n    userId: \"A6Xkcjg1SUWnHgjEtU\",\n    universityId: \"3Rj7Y1NgJll3DPgJzV6HJq\"\n  ) {\n    id\n    graduation\n    course\n    universities {id name}\n    users {id email role}\n  }\n}",
       "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createEducation(\\n    course: \\\"some text\\\",\\n    graduation: \\\"2020-12-14\\\",\\n    userId: \\\"A2Offq1fpW2BeiLzXs\\\",\\n    universityId: \\\"48BRx3j5nr7e6S3AFeVNOc\\\"\\n  ) {\\n    id\\n    graduation\\n    course\\n    universities {id name}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createEducation(\\n    course: \\\"some text\\\",\\n    graduation: \\\"2020-12-14\\\",\\n    userId: \\\"A2Offq1fpW2BeiLzXs\\\",\\n    universityId: \\\"68XMCqy6AUAt3dtd4FO0wE\\\"\\n  ) {\\n    id\\n    graduation\\n    course\\n    universities {id name}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:docExplorerWidth": 350,
-      "graphiql:editorFlex": 1,
-      "graphiql:variableEditorHeight": 200
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createEducation(\\n    course: \\\"some text\\\",\\n    graduation: \\\"2020-12-14\\\",\\n    userId: \\\"A2Offq1fpW2BeiLzXs\\\",\\n    universityId: \\\"48BRx3j5nr7e6S3AFeVNOc\\\"\\n  ) {\\n    id\\n    graduation\\n    course\\n    universities {id name}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createEducation(\\n    course: \\\"some text\\\",\\n    graduation: \\\"2020-12-14\\\",\\n    userId: \\\"A2Offq1fpW2BeiLzXs\\\",\\n    universityId: \\\"68XMCqy6AUAt3dtd4FO0wE\\\"\\n  ) {\\n    id\\n    graduation\\n    course\\n    universities {id name}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createEducation(\\n    course: \\\"some text\\\",\\n    graduation: \\\"2021-06-06\\\",\\n    userId: \\\"A6Xkcjg1SUWnHgjEtU\\\",\\n    universityId: \\\"3Rj7Y1NgJll3DPgJzV6HJq\\\"\\n  ) {\\n    id\\n    graduation\\n    course\\n    universities {id name}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.44017094017094016,
+      "graphiql:docExplorerWidth": 350
     },
     {
       "id": "tab6",
@@ -160,7 +176,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMk9tcjhPeE1WckhZQVRsamNuBgCBmUiBdgFiAAFRgA.zXfBQEDudIG9guNFLR2QLI7giMIP0ZD0S9f-Ypnh9Sk"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBNlhrY2pnMVNVV25IZ2pFdFVuBgBYs98ZegFiAAFRgA.oagLMmlSo-8wV96z8vD92-hggj7_RG3yzFOPVrfLo34"
         }
       ],
       "collapsed": false,
@@ -177,9 +193,9 @@
       ],
       "graphiql:query": "mutation {\n  updateEducation(\n    id: \"A2Oms9uLFPOgVkeDtw\",\n    education: {\n      course: \"updated text\",\n      graduation: \"2020-12-25\",\n      universityId: \"6Xtcv6u8kBC2Ne1n4KDphS\",\n      userId: \"A2Omr8OxMVrHYATljc\"\n    }\n  ) {\n    id\n    course\n    graduation\n    universities {id name}\n    users {id email role}\n  }\n}",
       "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateEducation(\\n    id: \\\"A2Oms9uLFPOgVkeDtw\\\",\\n    education: {\\n      course: \\\"updated text\\\",\\n      graduation: \\\"2020-12-25\\\",\\n      universityId: \\\"6Xtcv6u8kBC2Ne1n4KDphS\\\",\\n      userId: \\\"6Xtcv6u8kBC2Ne1n4KDphS\\\"\\n    }\\n  ) {\\n    id\\n    course\\n    graduation\\n    universities {id name}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateEducation(\\n    id: \\\"A2Oms9uLFPOgVkeDtw\\\",\\n    education: {\\n      course: \\\"updated text\\\",\\n      graduation: \\\"2020-12-25\\\",\\n      universityId: \\\"6Xtcv6u8kBC2Ne1n4KDphS\\\",\\n      userId: \\\"A2Omr8OxMVrHYATljc\\\"\\n    }\\n  ) {\\n    id\\n    course\\n    graduation\\n    universities {id name}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 0.4705240174672489,
       "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.4705240174672489,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateEducation(\\n    id: \\\"A2Oms9uLFPOgVkeDtw\\\",\\n    education: {\\n      course: \\\"updated text\\\",\\n      graduation: \\\"2020-12-25\\\",\\n      universityId: \\\"6Xtcv6u8kBC2Ne1n4KDphS\\\",\\n      userId: \\\"6Xtcv6u8kBC2Ne1n4KDphS\\\"\\n    }\\n  ) {\\n    id\\n    course\\n    graduation\\n    universities {id name}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateEducation(\\n    id: \\\"A2Oms9uLFPOgVkeDtw\\\",\\n    education: {\\n      course: \\\"updated text\\\",\\n      graduation: \\\"2020-12-25\\\",\\n      universityId: \\\"6Xtcv6u8kBC2Ne1n4KDphS\\\",\\n      userId: \\\"A2Omr8OxMVrHYATljc\\\"\\n    }\\n  ) {\\n    id\\n    course\\n    graduation\\n    universities {id name}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:docExplorerWidth": 350
     }
   ]

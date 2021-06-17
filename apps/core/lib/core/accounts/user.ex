@@ -125,7 +125,7 @@ defmodule Core.Accounts.User do
     field :avatar, :binary, null: true
     field :bio, :string, null: true
     field :birthday, :date, null: true
-    field :bus_addr_zip, :string, null: true
+    field :bus_addr_zip, :string, null: false, default: "00000"
     field :email, :string, null: false
     field :finished_project_count, :integer, virtual: true
     field :first_name, :string, null: true
@@ -190,7 +190,7 @@ defmodule Core.Accounts.User do
   """
   @spec changeset(t, %{atom => any}) :: Ecto.Changeset.t()
   def changeset(struct, attrs) do
-    bio_limit = Config.get([:instance, :user_bio_length], 25)
+    bio_limit = Config.get([:instance, :user_bio_length], 255)
     name_limit = Config.get([:instance, :user_name_length], 25)
 
     attr =
@@ -225,7 +225,7 @@ defmodule Core.Accounts.User do
   """
   @spec update_changeset(t, %{atom => any}) :: Ecto.Changeset.t()
   def update_changeset(struct, attrs) do
-    bio_limit = Config.get([:instance, :user_bio_length], 25)
+    bio_limit = Config.get([:instance, :user_bio_length], 255)
     name_limit = Config.get([:instance, :user_name_length], 25)
 
     attr =
