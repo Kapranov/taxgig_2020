@@ -190,8 +190,8 @@ defmodule Core.Accounts.User do
   """
   @spec changeset(t, %{atom => any}) :: Ecto.Changeset.t()
   def changeset(struct, attrs) do
-    bio_limit = Config.get([:instance, :user_bio_length], 255)
-    name_limit = Config.get([:instance, :user_name_length], 25)
+    bio_limit = Config.get([:instance, :user_bio_length])
+    name_limit = Config.get([:instance, :user_name_length])
 
     attr =
       attrs
@@ -225,12 +225,12 @@ defmodule Core.Accounts.User do
   """
   @spec update_changeset(t, %{atom => any}) :: Ecto.Changeset.t()
   def update_changeset(struct, attrs) do
-    bio_limit = Config.get([:instance, :user_bio_length], 255)
+    #bio_limit = Config.get([:instance, :user_bio_length], 555)
     name_limit = Config.get([:instance, :user_name_length], 25)
 
     attr =
       attrs
-      |> truncate_if_exists(:bio, bio_limit)
+      #|> truncate_if_exists(:bio, bio_limit)
       |> truncate_if_exists(:first_name, name_limit)
       |> truncate_if_exists(:last_name, name_limit)
       |> truncate_if_exists(:middle_name, name_limit)
@@ -248,7 +248,7 @@ defmodule Core.Accounts.User do
     |> unique_constraint(:email, name: :users_email_index, message: "The format of the email address isn't correct or email has already been taken!")
     |> validate_email()
     |> name_zip_validation()
-    |> validate_length(:bio, max: bio_limit)
+    #|> validate_length(:bio, max: bio_limit)
     |> validate_length(:first_name, max: name_limit)
     |> validate_length(:last_name, max: name_limit)
     |> validate_length(:middle_name, max: name_limit)
