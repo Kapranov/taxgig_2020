@@ -21,44 +21,35 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountResolve
 
   @spec delete(any, %{id_from_stripe: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id_from_stripe: id_from_stripe}, %{context: %{current_user: current_user}}) do
-    if is_nil(id_from_stripe) do
-      {:error, [[field: :id_from_stripe, message: "Can't be blank"]]}
-    else
-      try do
-        case !is_nil(current_user) do
-          true ->
-            with {:ok, struct} <- StripePlatformAccountService.delete(id_from_stripe) do
-              {:ok, struct}
-            else
-              nil -> {:error, :not_found}
-              failure ->
-                case failure do
-                  {:error, %Stripe.Error{code: _, extra: %{
-                        card_code: _,
-                        http_status: http_status,
-                        raw_error: _
-                      },
-                      message: message,
-                      request_id: _,
-                      source: _,
-                      user_message: _
-                    }
-                  } -> {:ok, %{error: "HTTP Status: #{http_status}, account invalid request error. #{message}"}}
-                  {:error, %Ecto.Changeset{}} -> {:ok, %{error: "account not found!"}}
-                end
-            end
-          false ->
-            {:error, "permission denied"}
-        end
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The StripeAccount #{id_from_stripe} not found!"}
+    try do
+      with {:ok, struct} <- StripePlatformAccountService.delete(id_from_stripe) do
+        {:ok, struct}
+      else
+        nil -> {:ok, %{error: "account not found!"}}
+        failure ->
+          case failure do
+            {:error, %Stripe.Error{code: _, extra: %{
+                  card_code: _,
+                  http_status: http_status,
+                  raw_error: _
+                },
+                message: message,
+                request_id: _,
+                source: _,
+                user_message: _
+              }
+            } -> {:ok, %{error: "HTTP Status: #{http_status}, account invalid request error. #{message}"}}
+            {:error, %Ecto.Changeset{}} -> {:ok, %{error: "account not found!"}}
+          end
       end
+    rescue
+      Ecto.NoResultsError ->
+        {:error, "The StripeAccount #{id_from_stripe} not found!"}
     end
   end
 
   @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def delete(_parent, _args, _info) do
-    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
+    {:ok, %{error: "unauthenticated"}}
   end
 end

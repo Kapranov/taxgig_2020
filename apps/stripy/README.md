@@ -250,3 +250,36 @@ is used in a similar fashion.
 [29]: https://github.com/BlakeWilliams/Elixir-Slack
 [30]: https://github.com/alexgaribay/braintree-elixir
 [31]: https://github.com/sorentwo/braintree-elixir
+
+ 1. Account - create, delete, update
+    graph - delete
+    AccountToken - delete
+ 2. AccountToken - create, delete
+    graph - create
+    Account - create, delete
+ 3. BalanceTransactions list
+    graph - list
+ 4. BankAccountToken - create, delete
+    graph - create
+ 5. Card - list, create, delete
+    graph - list, create, delete
+    Customer - create
+ 6. ChargeCapture - create(update)
+    graph - update
+ 7. Charge - list, create, delete
+    graph - list, show, create, delete
+ 8. Customer - create, delete, update
+    graph - delete
+ 9. ExternalAccountBank - list, create, delete
+    graph - list, create, delete
+    BankAccountToken - delete
+10. ExternalAccountCard - list, create, delete
+    graph - list, create, delete
+11. Payout - create
+    graph - create
+12. Refund - create, delete
+    graph - create, delete
+13. TransferReversal - create, delete
+    graph - create, delete
+14. Transfer - create, delete
+    graph - create, delete

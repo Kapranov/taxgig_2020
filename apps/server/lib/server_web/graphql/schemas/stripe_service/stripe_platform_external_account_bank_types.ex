@@ -16,6 +16,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformExternalAccountB
     field :country, :string
     field :currency, :string
     field :error, :string
+    field :error_description, :string
     field :fingerprint, :string
     field :id_from_account, :string
     field :id_from_stripe, :string

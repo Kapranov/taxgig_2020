@@ -125,7 +125,7 @@ defmodule Core.Accounts.User do
     field :avatar, :binary, null: true
     field :bio, :string, null: true
     field :birthday, :date, null: true
-    field :bus_addr_zip, :string, null: false, default: "00000"
+    field :bus_addr_zip, :string, null: false, default: ""
     field :email, :string, null: false
     field :finished_project_count, :integer, virtual: true
     field :first_name, :string, null: true

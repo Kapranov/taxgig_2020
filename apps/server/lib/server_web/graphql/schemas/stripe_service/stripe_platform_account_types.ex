@@ -9,20 +9,22 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTypes do
 
   @desc "The StripePlatformAccount"
   object :stripe_platform_account do
-    field :id, non_null(:string)
-    field :id_from_stripe, non_null(:string)
-    field :business_url, non_null(:string)
+    field :id, :string
+    field :business_url, :string
     field :capabilities, list_of(:string)
-    field :charges_enabled, non_null(:boolean)
-    field :country, non_null(:string)
-    field :created, non_null(:integer)
-    field :default_currency, non_null(:string)
-    field :details_submitted, non_null(:boolean)
-    field :email, non_null(:string)
-    field :payouts_enabled, non_null(:boolean)
+    field :charges_enabled, :boolean
+    field :country, :string
+    field :created, :integer
+    field :default_currency, :string
+    field :details_submitted, :boolean
+    field :email, :string
+    field :error, :string
+    field :error_description, :string
+    field :id_from_stripe, :string
+    field :payouts_enabled, :boolean
     field :tos_acceptance, list_of(:string)
-    field :type, non_null(:string)
-    field :user_id, non_null(:string)
+    field :type, :string
+    field :user_id, :string
   end
 
   object :stripe_platform_account_mutations do

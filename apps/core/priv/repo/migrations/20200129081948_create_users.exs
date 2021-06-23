@@ -9,7 +9,7 @@ defmodule Core.Repo.Migrations.CreateUsers do
       add :avatar, :string, null: true
       add :bio, :text, null: true
       add :birthday, :date, null: true
-      add :bus_addr_zip, :string, null: false, default: "00000"
+      add :bus_addr_zip, :string, null: false, default: ""
       add :email, :string, null: false
       add :first_name, :string, null: true
       add :init_setup, :boolean, null: true
