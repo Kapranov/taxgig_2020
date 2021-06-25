@@ -40,7 +40,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTokenType
     end
 
     @desc "Delete a specific the StripePlatformAccountToken"
-    field :delete_stripe_platform_charge, :stripe_platform_account_token do
+    field :delete_stripe_platform_account_token, :stripe_platform_account_token do
       arg :id_from_stripe, non_null(:string)
       resolve &StripePlatformAccountTokenResolver.delete/3
     end

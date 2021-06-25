@@ -26,7 +26,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab3",
+  "activeId": "tab2",
   "tabs": [
     {
       "id": "tab1",
@@ -38,8 +38,6 @@
       "collapsed": true,
       "maxHistory": 20,
       "history": [],
-      "graphiql:query": "",
-      "graphiql:variables": "",
       "graphiql:editorFlex": 1,
       "graphiql:variableEditorHeight": 200,
       "graphiql:docExplorerWidth": 350
@@ -51,20 +49,24 @@
       "websocketUrl": "ws://localhost:4000/socket",
       "proxy": false,
       "headers": [],
-      "collapsed": true,
+      "collapsed": false,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "query {\n  signInLocal(\n    is2fa: false\n    email: \"pro1@gmail.com\"\n    password: \"qwerty\"\n    passwordConfirmation: \"qwerty\"\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
         {
           "query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:query": "query {\n  signInLocal(\n    is2fa: false\n    email: \"pro1@gmail.com\"\n    password: \"qwerty\"\n    passwordConfirmation: \"qwerty\"\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
       "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 1,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signInLocal(\\n    is2fa: false\\n    email: \\\"pro1@gmail.com\\\"\\n    password: \\\"qwerty\\\"\\n    passwordConfirmation: \\\"qwerty\\\"\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350
+      "graphiql:editorFlex": 0.38969072164948454
     },
     {
       "id": "tab3",
@@ -88,10 +90,10 @@
       ],
       "graphiql:query": "mutation {\n  createStripePlatformAccountToken (\n    businessType: \"individual\",\n    city: \"New Your\",\n    country: \"us\",\n    day: 23,\n    email: \"op@taxgig.com\",\n    firstName: \"Oleh\",\n    lastName: \"Puryshev\",\n    maidenName: \"Jr.\",\n    line1: \"95 Wall St\",\n    month: 5,\n    phone: \"917-754-6997\",\n    postalCode: 10005,\n    ssnLast4: \"0000\",\n    state: \"NY\",\n    tosShownAndAccepted: true,\n    year: 1995\n  ) {id idFromStripe created used userId }\n}",
       "graphiql:variables": "",
+      "graphiql:docExplorerWidth": 350,
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformAccountToken (\\n    businessType: \\\"individual\\\",\\n    city: \\\"New Your\\\",\\n    country: \\\"us\\\",\\n    day: 23,\\n    email: \\\"op@taxgig.com\\\",\\n    firstName: \\\"Oleh\\\",\\n    lastName: \\\"Puryshev\\\",\\n    maidenName: \\\"Jr.\\\",\\n    line1: \\\"95 Wall St\\\",\\n    month: 5,\\n    phone: \\\"917-754-6997\\\",\\n    postalCode: 10005,\\n    ssnLast4: \\\"0000\\\",\\n    state: \\\"NY\\\",\\n    tosShownAndAccepted: true,\\n    year: 1995\\n  ) {id idFromStripe created used userId }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 1,
       "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350
+      "graphiql:editorFlex": 1
     }
   ]
 }

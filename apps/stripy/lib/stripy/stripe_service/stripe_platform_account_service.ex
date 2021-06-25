@@ -132,8 +132,6 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
           {:ok, StripeAccount.t()}
           | {:error, Ecto.Changeset.t()}
           | {:error, Stripe.Error.t()}
-          | {:error, :platform_not_ready}
-          | {:error, :not_found}
   def delete(id) do
     case Repo.get_by(StripeAccount, %{id_from_stripe: id}) do
       nil -> {:ok, %{error: "idFromStripe by Account not found"}}

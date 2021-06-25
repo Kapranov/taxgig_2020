@@ -22,6 +22,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   alias Stripy.{
     Payments,
     Payments.StripeAccount,
+    Payments.StripeAccountToken,
     Payments.StripeBankAccountToken,
     Payments.StripeCardToken,
     Payments.StripeCustomer,
@@ -29,6 +30,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     Payments.StripeExternalAccountCard,
     Queries,
     StripeService.StripePlatformAccountService,
+    StripeService.StripePlatformAccountTokenService,
     StripeService.StripePlatformCustomerService
   }
 
@@ -334,14 +336,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
         case Repo.aggregate(querty, :count, :id) == 1 do
           true ->
-            with struct <- Accounts.get_user!(current_user.id),
-                 [account] = StripyQueries.by_list(StripeAccount, :user_id, struct.id),
-                 {:ok, stripe} <- StripePlatformAccountService.delete(account.id_from_stripe),
-                 ex_cards <- StripyQueries.by_list(StripeExternalAccountCard, :user_id, stripe.user_id),
-                 ex_banks <- StripyQueries.by_list(StripeExternalAccountBank, :user_id, stripe.user_id),
-                 cards <- StripyQueries.by_list(StripeCardToken, :user_id, stripe.user_id),
-                 bank_account_tokens <- StripyQueries.by_list(StripeBankAccountToken, :user_id, stripe.user_id),
-                 {:ok, deleted} <- Accounts.delete_user(struct, reason)
+            with [account] = StripyQueries.by_list(StripeAccount, :user_id, current_user.id),
+                 [account_token] = StripyQueries.by_list(StripeAccountToken, :user_id, current_user.id),
+                 {:ok, _account} <- StripePlatformAccountService.delete(account.id_from_stripe),
+                 {:ok, _account_token} <- StripePlatformAccountTokenService.delete(account_token.id_from_stripe),
+                 ex_cards <- StripyQueries.by_list(StripeExternalAccountCard, :user_id, current_user.id),
+                 ex_banks <- StripyQueries.by_list(StripeExternalAccountBank, :user_id, current_user.id),
+                 cards <- StripyQueries.by_list(StripeCardToken, :user_id, current_user.id),
+                 bank_account_tokens <- StripyQueries.by_list(StripeBankAccountToken, :user_id, current_user.id),
+                 {:ok, deleted} <- Accounts.delete_user(current_user, reason)
             do
               Enum.reduce(ex_cards, [], fn(x, acc) ->
                 [Payments.delete_stripe_external_account_card(x) | acc]
@@ -357,7 +360,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
               end)
               {:ok, deleted}
             else
-              nil -> {:error, "permission denied"}
+              nil -> {:ok, %{error: "unauthenticated"}}
               {:error, %Stripe.Error{code: _, extra: %{
                     card_code: _,
                     http_status: http_status,
@@ -377,7 +380,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             do
               {:ok, deleted}
             else
-              nil -> {:error, "permission denied"}
+              nil -> {:ok, %{error: "unauthenticated"}}
               {:error, changeset} -> {:error, extract_error_msg(changeset)}
             end
         end
@@ -397,7 +400,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
               end)
               {:ok, deleted}
             else
-              nil -> {:error, "permission denied"}
+              nil -> {:ok, %{error: "unauthenticated"}}
               {:error, %Stripe.Error{code: _, extra: %{
                     card_code: _,
                     http_status: http_status,
@@ -417,7 +420,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             do
               {:ok, deleted}
             else
-              nil -> {:error, "permission denied"}
+              nil -> {:ok, %{error: "unauthenticated"}}
               {:error, changeset} -> {:error, extract_error_msg(changeset)}
             end
         end
