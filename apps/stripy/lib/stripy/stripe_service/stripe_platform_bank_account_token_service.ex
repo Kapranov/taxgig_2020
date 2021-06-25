@@ -54,8 +54,6 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
           {:ok, StripeBankAccountToken.t()}
           | {:error, Ecto.Changeset.t()}
           | {:error, Stripe.Error.t()}
-          | {:error, :platform_not_ready}
-          | {:error, :not_found}
   def create(attrs, user_attrs) do
     querty = Queries.by_count(StripeBankAccountToken, :user_id, user_attrs["user_id"])
 

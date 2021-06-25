@@ -83,30 +83,23 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
           {:ok, StripeAccount.t()}
           | {:error, Ecto.Changeset.t()}
           | {:error, Stripe.Error.t()}
-          | {:error, :platform_not_ready}
-          | {:error, :not_found}
   def create(attrs, user_attrs) do
-    querty =
-      try do
-        Queries.by_count(StripeAccount, :user_id, user_attrs["user_id"])
-      rescue
-        ArgumentError -> :error
-      end
+    querty = Queries.by_count(StripeAccount, :user_id, user_attrs["user_id"])
 
-    with {:ok, %Stripe.Account{} = account} = Stripe.Account.create(attrs),
-         {:ok, params} <- StripePlatformAccountAdapter.to_params(account, user_attrs)
-    do
-      case Repo.aggregate(querty, :count, :id) < 1 do
-        false -> {:error, %Ecto.Changeset{}}
-        true ->
-          case Payments.create_stripe_account(params) do
-            {:error, error} -> {:error, error}
-            {:ok, data} -> {:ok, data}
-          end
-      end
-    else
-      nil -> {:error, :not_found}
-      failure -> failure
+    case Repo.aggregate(querty, :count, :id) < 1 do
+      false -> {:ok, %{error: "stripe account record already exists"}}
+      true ->
+        case Stripe.Account.create(attrs) do
+          {:ok, account} ->
+            with {:ok, params} <- StripePlatformAccountAdapter.to_params(account, user_attrs),
+                 {:ok, struct} <- Payments.create_stripe_account(params)
+            do
+              {:ok, struct}
+            else
+              {:error, %Ecto.Changeset{}} -> {:ok, %{error: "account token doesn't create"}}
+            end
+          failure -> failure
+        end
     end
   end
 

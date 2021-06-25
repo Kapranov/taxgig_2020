@@ -44,11 +44,11 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountResolve
                 {:error, %Ecto.Changeset{}} -> {:ok, %{error: "The StripeAccount #{id_from_stripe} not found!"}}
               end
           end
-        false -> {:ok, %{error: "unauthenticated"}}
+        false -> {:ok, %{error: "wrong type of user"}}
       end
     rescue
       Ecto.NoResultsError ->
-        {:error, "The StripeAccount #{id_from_stripe} not found!"}
+        {:ok, %{error: "The StripeAccount #{id_from_stripe} not found!"}}
     end
   end
 
