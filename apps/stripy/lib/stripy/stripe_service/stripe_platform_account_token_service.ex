@@ -91,31 +91,24 @@ defmodule Stripy.StripeService.StripePlatformAccountTokenService do
           {:ok, StripeAccountToken.t()}
           | {:error, Ecto.Changeset.t()}
           | {:error, Stripe.Error.t()}
-          | {:error, :platform_not_ready}
-          | {:error, :not_found}
+          | nil
   def create(attrs, user_attrs) do
-    querty =
-      try do
-        Queries.by_count(StripeAccountToken, :user_id, user_attrs["user_id"])
-      rescue
-        ArgumentError -> :error
-      end
+    querty = Queries.by_count(StripeAccountToken, :user_id, user_attrs["user_id"])
 
-    with {:ok, %Stripe.Token{} = account_token} = Stripe.Token.create(%{account: attrs}),
-         {:ok, params} <- StripePlatformAccountTokenAdapter.to_params(account_token, user_attrs)
-    do
-      case Repo.aggregate(querty, :count, :id) < 10 do
-        false -> {:error, %Ecto.Changeset{}}
-        true ->
-          case Payments.create_stripe_account_token(params) do
-            {:error, error} -> {:error, error}
-            {:ok, data} -> {:ok, data}
-          end
-      end
-
-    else
-      nil -> {:error, :not_found}
-      failure -> failure
+    case Repo.aggregate(querty, :count, :id) < 10 do
+      false -> nil
+      true ->
+        case Stripe.Token.create(%{account: attrs}) do
+          {:ok, account_token} ->
+            with {:ok, params} <- StripePlatformAccountTokenAdapter.to_params(account_token, user_attrs),
+                 {:ok, struct} <- Payments.create_stripe_account_token(params)
+            do
+              {:ok, struct}
+            else
+              failure -> failure
+            end
+          failure -> failure
+        end
     end
   end
 
@@ -131,17 +124,16 @@ defmodule Stripy.StripeService.StripePlatformAccountTokenService do
   @spec delete(String.t) ::
           {:ok, StripeAccountToken.t()}
           | {:error, Ecto.Changeset.t()}
-          | {:error, Stripe.Error.t()}
-          | {:error, :platform_not_ready}
-          | {:error, :not_found}
+          | nil
   def delete(id) do
-    with struct <- Repo.get_by(StripeAccountToken, %{id_from_stripe: id}),
-         {:ok, deleted} <- Payments.delete_stripe_account_token(struct)
-    do
-      {:ok, deleted}
-    else
-      nil -> {:error, :not_found}
-      failure -> failure
+    case Repo.get_by(StripeAccountToken, %{id_from_stripe: id}) do
+      nil -> nil
+      struct ->
+        with {:ok, deleted} <- Payments.delete_stripe_account_token(struct) do
+          {:ok, deleted}
+        else
+          failure -> failure
+        end
     end
   end
 end

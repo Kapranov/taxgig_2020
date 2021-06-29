@@ -86,8 +86,8 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
   def create(attrs, user_attrs) do
     querty = Queries.by_count(StripeAccount, :user_id, user_attrs["user_id"])
 
-    case Repo.aggregate(querty, :count, :id) < 1 do
-      false -> {:ok, %{error: "stripe account record already exists"}}
+    case Repo.aggregate(querty, :count, :id) == 0 do
+      false -> {:error, %Ecto.Changeset{}}
       true ->
         case Stripe.Account.create(attrs) do
           {:ok, account} ->
@@ -96,8 +96,38 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
             do
               {:ok, struct}
             else
-              {:error, %Ecto.Changeset{}} -> {:ok, %{error: "account token doesn't create"}}
+              failure -> failure
             end
+          failure -> failure
+        end
+    end
+  end
+
+  @doc """
+  If updated User's fields `[:email]`,
+  we should updated `Stripe.Account` and  StripeAccount`.
+
+  ## Example
+
+      iex> id = "acct_1HmmYOQ1ofBpQHz3"
+      iex> attrs = %{email: "edward@yahoo.com"}
+      iex> {:ok, updated} = update(id, attrs)
+
+  """
+  @spec update(String.t, map) ::
+          {:ok, StripeAccount.t}
+          | {:error, Ecto.Changeset.t}
+          | {:error, Stripe.Error.t}
+          | nil
+  def update(id, attrs) do
+    case Repo.get_by(StripeAccount, %{id_from_stripe: id}) do
+      nil -> nil
+      struct ->
+        with {:ok, _data} <- Stripe.Account.update(id, attrs),
+             {:ok, updated} <- Payments.update_stripe_account(struct, attrs)
+        do
+          {:ok, updated}
+        else
           failure -> failure
         end
     end
@@ -125,9 +155,10 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
           {:ok, StripeAccount.t()}
           | {:error, Ecto.Changeset.t()}
           | {:error, Stripe.Error.t()}
+          | nil
   def delete(id) do
     case Repo.get_by(StripeAccount, %{id_from_stripe: id}) do
-      nil -> {:ok, %{error: "idFromStripe by Account not found"}}
+      nil -> nil
       struct ->
         with {:ok, _data} <- Stripe.Account.delete(struct.id_from_stripe),
              {:ok, deleted} <- Payments.delete_stripe_account(struct)
@@ -136,35 +167,6 @@ defmodule Stripy.StripeService.StripePlatformAccountService do
         else
           failure -> failure
         end
-    end
-  end
-
-  @doc """
-  If updated User's fields `[:email]`,
-  we should updated `Stripe.Account` and  StripeAccount`.
-
-  ## Example
-
-      iex> id = "acct_1HmmYOQ1ofBpQHz3"
-      iex> attrs = %{email: "edward@yahoo.com"}
-      iex> {:ok, updated} = update(id, attrs)
-
-  """
-  @spec update(String.t, map) ::
-          {:ok, StripeAccount.t} |
-          {:error, Ecto.Changeset.t} |
-          {:error, Stripe.Error.t} |
-          {:error, :platform_not_ready} |
-          {:error, :not_found}
-  def update(id, attrs) do
-    with struct <- Repo.get_by(StripeAccount, %{id_from_stripe: id}),
-         {:ok, _data} <- Stripe.Account.update(id, attrs),
-         {:ok, updated} <- Payments.update_stripe_account(struct, attrs)
-    do
-      {:ok, updated}
-    else
-      nil -> {:error, :not_found}
-      failure -> failure
     end
   end
 end

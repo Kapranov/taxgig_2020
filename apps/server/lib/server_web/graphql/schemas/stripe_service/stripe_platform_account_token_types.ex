@@ -9,12 +9,14 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTokenType
 
   @desc "The StripeAccountToken"
   object :stripe_platform_account_token do
-    field :id, non_null(:string)
-    field :id_from_stripe, non_null(:string)
-    field :client_ip, non_null(:string)
-    field :created, non_null(:integer)
-    field :used, non_null(:boolean)
-    field :user_id, non_null(:string)
+    field :client_ip, :string
+    field :created, :integer
+    field :error, :string
+    field :error_description, :string
+    field :id, :string
+    field :id_from_stripe, :string
+    field :used, :boolean
+    field :user_id, :string
   end
 
   object :stripe_platform_account_token_mutations do
