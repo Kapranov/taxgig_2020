@@ -11,7 +11,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTypes do
   object :stripe_platform_account do
     field :id, :string
     field :business_url, :string
-    field :capabilities, list_of(:string)
+    field :capabilities, :capability
     field :charges_enabled, :boolean
     field :country, :string
     field :created, :integer
@@ -27,10 +27,16 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTypes do
     field :user_id, :string
   end
 
+  object :capability do
+    field :card_payments, :string
+    field :transfers, :string
+  end
+
   object :stripe_platform_account_mutations do
     @desc "Delete a specific the StripePlatformAccount"
     field :delete_stripe_platform_account, :stripe_platform_account do
       arg :id_from_stripe, non_null(:string)
+      arg :user_id, non_null(:string)
       resolve &StripePlatformAccountResolver.delete/3
     end
   end

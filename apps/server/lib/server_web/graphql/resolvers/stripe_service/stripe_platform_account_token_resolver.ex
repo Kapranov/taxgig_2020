@@ -109,7 +109,10 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountTokenRe
                           source: _,
                           user_message: _
                         }
-                      } -> {:ok, %{error: "HTTP Status: #{http_status}, account token invalid request error. #{message}"}}
+                      } ->
+                        query = Queries.by_value(StripeAccountToken, :user_id, current_user.id)
+                        {_, _} = Stripy.Repo.delete_all(query)
+                        {:ok, %{error: "HTTP Status: #{http_status}, account token invalid request error. #{message}"}}
                       {:error, %Stripe.Error{code: _, extra: %{
                             http_status: http_status,
                             param: _,
@@ -123,7 +126,10 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountTokenRe
                           source: _,
                           user_message: _
                         }
-                      } -> {:ok, %{error: "HTTP Status: #{http_status}, account token invalid request error. #{message} with #{param}"}}
+                      } ->
+                        query = Queries.by_value(StripeAccountToken, :user_id, current_user.id)
+                        {_, _} = Stripy.Repo.delete_all(query)
+                        {:ok, %{error: "HTTP Status: #{http_status}, account token invalid request error. #{message} with #{param}"}}
                       {:error, %Stripe.Error{code: _, extra: %{
                             http_status: http_status,
                             raw_error: %{

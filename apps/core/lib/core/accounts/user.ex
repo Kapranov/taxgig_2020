@@ -225,7 +225,6 @@ defmodule Core.Accounts.User do
   """
   @spec update_changeset(t, %{atom => any}) :: Ecto.Changeset.t()
   def update_changeset(struct, attrs) do
-    #bio_limit = Config.get([:instance, :user_bio_length], 555)
     name_limit = Config.get([:instance, :user_name_length], 25)
 
     attr =
@@ -248,7 +247,6 @@ defmodule Core.Accounts.User do
     |> unique_constraint(:email, name: :users_email_index, message: "The format of the email address isn't correct or email has already been taken!")
     |> validate_email()
     |> name_zip_validation()
-    #|> validate_length(:bio, max: bio_limit)
     |> validate_length(:first_name, max: name_limit)
     |> validate_length(:last_name, max: name_limit)
     |> validate_length(:middle_name, max: name_limit)
