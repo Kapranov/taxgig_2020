@@ -159,7 +159,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountTokenRe
 
   @spec delete(any, %{id_from_stripe: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id_from_stripe: id_from_stripe}, %{context: %{current_user: current_user}}) do
-    case current_user.role do
+    case current_user.admin do
       true ->
         with {:ok, struct} <- StripePlatformAccountTokenService.delete(id_from_stripe) do
           {:ok, struct}
