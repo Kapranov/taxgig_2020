@@ -130,17 +130,16 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
   @spec delete(String.t) ::
           {:ok, StripeBankAccountToken.t()}
           | {:error, Ecto.Changeset.t()}
-          | {:error, Stripe.Error.t()}
-          | {:error, :platform_not_ready}
-          | {:error, :not_found}
+          | nil
   def delete(id) do
-    with struct <- Repo.get_by(StripeBankAccountToken, %{id_from_stripe: id}),
-         {:ok, deleted} <- Payments.delete_stripe_bank_account_token(struct)
-    do
-      {:ok, deleted}
-    else
-      nil -> {:error, :not_found}
-      failure -> failure
+    case Repo.get_by(StripeBankAccountToken, %{id_from_stripe: id}) do
+      nil -> nil
+      struct ->
+        with {:ok, deleted} <- Payments.delete_stripe_bank_account_token(struct) do
+          {:ok, deleted}
+        else
+          failure -> failure
+        end
     end
   end
 end
