@@ -9,7 +9,6 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
   alias Stripy.{
     Payments,
     Payments.StripeBankAccountToken,
-    Queries,
     Repo,
     StripeService.Adapters.StripePlatformBankAccountTokenAdapter
   }
@@ -55,40 +54,66 @@ defmodule Stripy.StripeService.StripePlatformBankAccountTokenService do
           | {:error, Ecto.Changeset.t()}
           | {:error, Stripe.Error.t()}
   def create(attrs, user_attrs) do
-    querty = Queries.by_count(StripeBankAccountToken, :user_id, user_attrs["user_id"])
-
-    case Repo.aggregate(querty, :count, :id) < 10 do
-      false -> {:ok, %{error: "bank account token's record more 10"}}
-      true ->
-        case Stripe.Token.create(attrs) do
-          {:error, %Stripe.Error{
-            code: _,
-            extra: %{
-              card_code: _,
-              http_status: http_status,
-              param: _,
-              raw_error: %{
-                "code" => _,
-                "doc_url" => _,
-                "message" => _,
-                "param" => _,
-                "type" => _
-              }
-            },
-            message: message,
-            request_id: _,
-            source: _,
-            user_message: _
-          }} ->
-            {:ok, %{error: "http status: #{http_status}, bank account token invalid, invalid request error. #{message}"}}
-          {:ok, bank_account_token} ->
-            with {:ok, params} <- StripePlatformBankAccountTokenAdapter.to_params(bank_account_token, user_attrs),
-                 {:ok, struct} <- Payments.create_stripe_bank_account_token(params)
-            do
-              {:ok, struct}
-            else
-              {:error, %Ecto.Changeset{}} -> {:ok, %{error: "bank account token doesn't create"}}
-            end
+    case Stripe.Token.create(attrs) do
+      {:error, %Stripe.Error{
+        code: _,
+        extra: %{
+          card_code: _,
+          http_status: http_status,
+          param: _,
+          raw_error: %{
+            "code" => _,
+            "doc_url" => _,
+            "message" => _,
+            "param" => _,
+            "type" => _
+          }
+        },
+        message: message,
+        request_id: _,
+        source: _,
+        user_message: _
+      }} ->
+        {:ok, %{error: "http status: #{http_status}, bank account token invalid, invalid request error. #{message}"}}
+      {:error, %Stripe.Error{
+          code: _,
+          extra: %{
+            http_status: http_status,
+            param: _,
+            raw_error: %{
+              "message" => message,
+              "param" => _,
+              "type" => _
+            }
+          },
+          message: message,
+          request_id: _,
+          source: _,
+          user_message: _
+        }} ->
+          {:ok, %{error: "http status: #{http_status}, bank account token invalid, invalid request error. #{message}"}}
+      {:error, %Stripe.Error{
+          code: _,
+          extra: %{
+            http_status: http_status,
+            raw_error: %{
+              "message" => _,
+              "type" => _
+            }
+          },
+          message: message,
+          request_id: _,
+          source: _,
+          user_message: _
+        }} ->
+          {:ok, %{error: "http status: #{http_status}, bank account token invalid, invalid request error. #{message}"}}
+      {:ok, bank_account_token} ->
+        with {:ok, params} <- StripePlatformBankAccountTokenAdapter.to_params(bank_account_token, user_attrs),
+             {:ok, struct} <- Payments.create_stripe_bank_account_token(params)
+        do
+          {:ok, struct}
+        else
+          {:error, %Ecto.Changeset{}} -> {:ok, %{error: "bank account token doesn't create"}}
         end
     end
   end

@@ -42,7 +42,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.BanReasonResolver do
         {:ok, struct}
       rescue
         Ecto.NoResultsError ->
-          {:error, "The Ban Reason #{id} not found!"}
+          {:error, "The Ban Reason #{id} not found xxxx!"}
       end
     end
   end

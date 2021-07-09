@@ -9,7 +9,6 @@ defmodule Stripy.StripeService.StripePlatformAccountTokenService do
   alias Stripy.{
     Payments,
     Payments.StripeAccountToken,
-    Queries,
     Repo,
     StripeService.Adapters.StripePlatformAccountTokenAdapter
   }
@@ -93,22 +92,16 @@ defmodule Stripy.StripeService.StripePlatformAccountTokenService do
           | {:error, Stripe.Error.t()}
           | nil
   def create(attrs, user_attrs) do
-    querty = Queries.by_count(StripeAccountToken, :user_id, user_attrs["user_id"])
-
-    case Repo.aggregate(querty, :count, :id) < 10 do
-      false -> nil
-      true ->
-        case Stripe.Token.create(%{account: attrs}) do
-          {:ok, account_token} ->
-            with {:ok, params} <- StripePlatformAccountTokenAdapter.to_params(account_token, user_attrs),
-                 {:ok, struct} <- Payments.create_stripe_account_token(params)
-            do
-              {:ok, struct}
-            else
-              failure -> failure
-            end
+    case Stripe.Token.create(%{account: attrs}) do
+      {:ok, account_token} ->
+        with {:ok, params} <- StripePlatformAccountTokenAdapter.to_params(account_token, user_attrs),
+             {:ok, struct} <- Payments.create_stripe_account_token(params)
+        do
+          {:ok, struct}
+        else
           failure -> failure
         end
+      failure -> failure
     end
   end
 
