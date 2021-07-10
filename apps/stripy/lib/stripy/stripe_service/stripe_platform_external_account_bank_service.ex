@@ -9,8 +9,6 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountBankService do
   alias Stripy.{
     Payments,
     Payments.StripeExternalAccountBank,
-    Payments.StripeExternalAccountCard,
-    Queries,
     Repo,
     StripeService.Adapters.StripePlatformExternalAccountBankAdapter
   }
@@ -48,29 +46,16 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountBankService do
           {:ok, StripeExternalAccountBank.t()}
           | {:error, Ecto.Changeset.t()}
           | {:error, Stripe.Error.t()}
-          | {:error, :platform_not_ready}
-          | {:error, :not_found}
   def create(attrs, user_attrs) do
-    querty =
-      try do
-        Queries.by_count(StripeExternalAccountCard, StripeExternalAccountBank, :user_id, user_attrs["user_id"])
-      rescue
-        ArgumentError -> :error
-      end
-
-    with {:ok, %Stripe.BankAccount{} = external_account_bank} = Stripe.ExternalAccount.create(attrs),
-         {:ok, params} <- StripePlatformExternalAccountBankAdapter.to_params(external_account_bank, user_attrs)
-    do
-      case Repo.aggregate(querty, :count, :id) < 10 do
-        false -> {:error, %Ecto.Changeset{}}
-        true ->
-          case Payments.create_stripe_external_account_bank(params) do
-            {:error, error} -> {:error, error}
-            {:ok, data} -> {:ok, data}
-          end
-      end
-    else
-      nil -> {:error, :not_found}
+    case Stripe.ExternalAccount.create(attrs) do
+      {:ok, external_account_bank} ->
+        with {:ok, params} <- StripePlatformExternalAccountBankAdapter.to_params(external_account_bank, user_attrs),
+             {:ok, struct} <- Payments.create_stripe_external_account_bank(params)
+        do
+          {:ok, struct}
+        else
+          failure -> failure
+        end
       failure -> failure
     end
   end
@@ -89,17 +74,18 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountBankService do
           {:ok, StripeExternalAccountBank.t} |
           {:error, Ecto.Changeset.t} |
           {:error, Stripe.Error.t} |
-          {:error, :platform_not_ready} |
-          {:error, :not_found}
+          nil
   def delete(id, attrs) do
-    with struct <- Repo.get_by(StripeExternalAccountBank, %{id_from_stripe: id}),
-         {:ok, _data} <- Stripe.ExternalAccount.delete(id, attrs),
-         {:ok, deleted} <- Payments.delete_stripe_external_account_bank(struct)
-    do
-      {:ok, deleted}
-    else
-      nil -> {:error, :not_found}
-      failure -> failure
+    case Repo.get_by(StripeExternalAccountBank, %{id_from_stripe: id}) do
+      nil -> nil
+      struct ->
+        with {:ok, _data} <- Stripe.ExternalAccount.delete(id, attrs),
+             {:ok, deleted} <- Payments.delete_stripe_external_account_bank(struct)
+        do
+          {:ok, deleted}
+        else
+          failure -> failure
+        end
     end
   end
 
