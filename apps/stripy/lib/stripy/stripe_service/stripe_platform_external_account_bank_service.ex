@@ -100,15 +100,12 @@ defmodule Stripy.StripeService.StripePlatformExternalAccountBankService do
   """
   @spec list(atom, %{account: String.t}) ::
           {:ok, Stripe.List.t} |
-          {:error, Ecto.Changeset.t} |
-          {:error, Stripe.Error.t} |
-          {:error, :platform_not_ready} |
-          {:error, :not_found}
+          {:ok, []} |
+          {:error, Stripe.Error.t}
   def list(:bank_account, attrs) do
     with {:ok, %Stripe.List{data: data}} <- Stripe.ExternalAccount.list(:bank_account, attrs) do
       {:ok, data}
     else
-      nil -> {:error, :not_found}
       failure -> failure
     end
   end
