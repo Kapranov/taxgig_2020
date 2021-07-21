@@ -43,8 +43,8 @@ defmodule Stripe.Balance do
   See the [Stripe docs](https://stripe.com/docs/api/balance/balance_retrieve).
   """
   @spec retrieve(Stripe.options()) :: {:ok, t} | {:error, Stripe.Error.t()}
-  def retrieve(opts \\ []) do
-    new_request(opts)
+  def retrieve(opts \\ [], header \\ %{}) do
+    new_request(opts, header)
     |> put_endpoint(@endpoint)
     |> put_method(:get)
     |> make_request()

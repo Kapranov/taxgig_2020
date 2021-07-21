@@ -21,10 +21,37 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformBalanceTransacti
     field :type, :string
   end
 
+  object :source_types_stripe_balance do
+    field :card, :integer
+  end
+
+  object :available_stripe_balance do
+    field :amount, :integer
+    field :currency, :string
+    field :source_types, :source_types_stripe_balance
+  end
+
+  object :stripe_platform_balance_retrieve do
+    field :available, list_of(:available_stripe_balance)
+    field :object, :string
+    field :pending, list_of(:pending_stripe_balance)
+  end
+
+  object :pending_stripe_balance do
+    field :amount, :integer
+    field :currency, :string
+    field :source_types, :source_types_stripe_balance
+  end
+
   object :stripe_platform_balance_transaction_queries do
     @desc "Get all StripePlatformBalanceTransactions"
     field :all_stripe_platform_balance_transaction, list_of(:stripe_platform_balance_transaction) do
       resolve(&StripePlatformBalanceTransactionResolver.list/3)
+    end
+
+    @desc "Retrieve StripePlatformBalance by StripeAccount"
+    field :retrieve_stripe_platform_balance, list_of(:stripe_platform_balance_retrieve) do
+      resolve(&StripePlatformBalanceTransactionResolver.retrieve/3)
     end
   end
 
