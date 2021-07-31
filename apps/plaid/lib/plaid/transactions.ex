@@ -154,4 +154,22 @@ defmodule Plaid.Transactions do
     make_request_with_cred(:post, endpoint, config, params)
     |> Utils.handle_resp(@endpoint)
   end
+
+  @doc """
+  Refresh transaction data
+
+  Parameters
+
+  %{
+    access_token: "access-env-identifier",
+  }
+  """
+  @spec refresh(params, config | nil) :: {:ok, Plaid.Transactions.t()} | {:error, Plaid.Error.t()}
+  def refresh(params, config \\ %{}) do
+    config = validate_cred(config)
+    endpoint = "#{@endpoint}/refresh"
+
+    make_request_with_cred(:post, endpoint, config, params)
+    |> Utils.handle_resp(@endpoint)
+  end
 end

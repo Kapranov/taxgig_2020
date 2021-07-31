@@ -19,7 +19,7 @@ defmodule Core.Queries do
   @type word() :: String.t()
 
   @doc """
-  Retrurn all records
+  Retrurn all records with 3 items
 
   ## Example
 
@@ -35,6 +35,72 @@ defmodule Core.Queries do
       Repo.all(
         from c in struct,
         where: field(c, ^row) == ^id
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Retrurn all records with 8 items
+
+  ## Example
+
+      iex> struct_a = Core.Plaid.PlaidAccount
+      iex> struct_b = Core.Contracts.Project
+      iex> struct_c = Core.Plaid.PlaidAccountsProject
+      iex> row_a = :user_id
+      iex> row_b = :project_id
+      iex> row_c = :plaid_account_id
+      iex> row_d = :id
+      iex> id  = current_user.id
+      iex> by_list(struct, row, id)
+
+  """
+  @spec by_list(map, map, map, atom, atom, atom, atom, String.t()) :: Ecto.Query.t()
+  def by_list(struct_a, struct_b, struct_c, row_a, row_b, row_c, row_d, id) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in ^struct_b,
+        join: cu in ^struct_c,
+        where: field(c, ^row_d) == field(cu, ^row_c),
+        where: field(ct, ^row_a) == ^id,
+        where: field(cu, ^row_b) == field(ct, ^row_d)
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Retrurn all records with 9 items
+
+  ## Example
+
+      iex> struct_a = Core.Plaid.PlaidTransaction
+      iex> struct_b = Core.Plaid.PlaidAccount
+      iex> struct_c = Core.Plaid.PlaidAccountsProject
+      iex> struct_d = Core.Contracts.Project
+      iex> row_a = :user_id
+      iex> row_b = :project_id
+      iex> row_c = :plaid_account_id
+      iex> row_d = :id
+      iex> id  = current_user.id
+      iex> by_list(struct, row, id)
+
+  """
+  @spec by_list(map, map, map, map, atom, atom, atom, atom, String.t()) :: Ecto.Query.t()
+  def by_list(struct_a, struct_b, struct_c, struct_d, row_a, row_b, row_c, row_d, id) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: cp in ^struct_b,
+        join: ct in ^struct_c,
+        join: cu in ^struct_d,
+        where: field(cu, ^row_a) == ^id,
+        where: field(c, ^row_c) == field(cp, ^row_d),
+        where: field(cu, ^row_d) == field(ct, ^row_b)
       )
     rescue
       Ecto.Query.CastError -> nil

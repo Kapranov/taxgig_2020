@@ -133,4 +133,11 @@ defmodule Stripy.StripeService.StripePlatformCustomerService do
       failure -> failure
     end
   end
+
+  @spec retrieve(String.t) ::
+          {:ok, Stripe.Balance.t} |
+          {:error, Stripe.Error.t}
+  def retrieve(id_from_customer) do
+    id_from_customer
+  end
 end

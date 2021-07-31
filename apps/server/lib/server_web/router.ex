@@ -22,7 +22,6 @@ defmodule ServerWeb.Router do
     pipe_through :api
   end
 
-
   scope "/" do
     pipe_through :api
 

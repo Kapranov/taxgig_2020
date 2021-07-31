@@ -41,8 +41,8 @@ defmodule ServerWeb.GraphQL.Schemas.Services.PlaidTypes do
     field :from_plaid_transaction_category, list_of(:string)
     field :from_plaid_transaction_city, :string
     field :from_plaid_transaction_country, :string
-    field :from_plaid_transaction_currency, :decimal
-    field :from_plaid_transaction_merchant_name, :integer
+    field :from_plaid_transaction_currency, :string
+    field :from_plaid_transaction_merchant_name, :string
     field :from_plaid_transaction_name, :string
     field :from_plaid_transaction_postal_code, :string
     field :from_plaid_transaction_region, :string
@@ -50,6 +50,13 @@ defmodule ServerWeb.GraphQL.Schemas.Services.PlaidTypes do
     field :id_from_plaid_transaction_category, :string
     field :plaid_accounts, list_of(:plaid_account), resolve: dataloader(Data)
   end
+
+   @desc "A unique identifier for the request"
+   object :refresh do
+     field :request_id, :string
+     field :error, :string
+     field :error_description, :string
+   end
 
   object :plaid_queries do
     @desc "Get all plaid accounts"
@@ -72,6 +79,11 @@ defmodule ServerWeb.GraphQL.Schemas.Services.PlaidTypes do
     field :show_plaid_transaction, :plaid_transaction do
       arg(:id, non_null(:string))
       resolve(&PlaidResolver.show_transaction/3)
+    end
+
+    @desc "Refresh transaction data"
+    field :refresh_transactions, :refresh do
+      resolve(&PlaidResolver.update/3)
     end
   end
 

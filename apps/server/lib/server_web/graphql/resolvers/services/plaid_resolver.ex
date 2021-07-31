@@ -4,9 +4,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PlaidResolver do
   """
 
   alias Core.Accounts.User
+  alias Core.Contracts.Project
   alias Core.Queries
   alias Core.Plaid.PlaidAccount
   alias Core.Plaid.PlaidTransaction
+  alias Core.Plaid.PlaidAccountsProject
   alias Core.PlaidService.PlaidPlatformAccountService
   alias Core.PlaidService.PlaidPlatformTransactionService
   alias Core.Repo
@@ -21,32 +23,32 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PlaidResolver do
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
 
-  @spec list_account(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  @spec list_account(any, any, %{context: %{current_user: User.t()}}) :: result()
   def list_account(_parent, _args, %{context: %{current_user: current_user}}) do
     if current_user.role == true do
       {:ok, %{error: "unauthenticated", error_description: "permission denied for current user"}}
     else
-      struct = Queries.by_list(PlaidAccount, :user_id, current_user.id)
+      struct = Queries.by_list(PlaidAccount, Project, PlaidAccountsProject, :user_id, :project_id, :plaid_account_id, :id, current_user.id)
       {:ok, struct}
     end
   end
 
-  @spec list_account(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  @spec list_account(any, any, Absinthe.Resolution.t()) :: error_tuple
   def list_account(_parent, _args, _resolutions) do
     {:ok, %{error: "unauthenticated", error_description: "permission denied for current user"}}
   end
 
-  @spec list_transaction(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  @spec list_transaction(any, any, %{context: %{current_user: User.t()}}) :: result()
   def list_transaction(_parent, _args, %{context: %{current_user: current_user}}) do
     if current_user.role == true do
       {:ok, %{error: "unauthenticated", error_description: "permission denied for current user"}}
     else
-      struct = Queries.by_list(PlaidTransaction, :user_id, current_user.id)
+      struct = Queries.by_list(PlaidTransaction, PlaidAccount, PlaidAccountsProject, Project, :user_id, :project_id, :plaid_account_id, :id, current_user.id)
       {:ok, struct}
     end
   end
 
-  @spec list_transaction(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  @spec list_transaction(any, any, Absinthe.Resolution.t()) :: error_tuple
   def list_transaction(_parent, _args, _resolutions) do
     {:ok, %{error: "unauthenticated", error_description: "permission denied for current user"}}
   end
@@ -66,7 +68,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PlaidResolver do
     end
   end
 
-  @spec show_account(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  @spec show_account(any, any, Absinthe.Resolution.t()) :: error_tuple()
   def show_account(_parent, _args, _info) do
     {:ok, %{error: "unauthenticated", error_description: "permission denied for current user"}}
   end
@@ -86,7 +88,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PlaidResolver do
     end
   end
 
-  @spec show_transaction(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  @spec show_transaction(any, any, Absinthe.Resolution.t()) :: error_tuple()
   def show_transaction(_parent, _args, _info) do
     {:ok, %{error: "unauthenticated", error_description: "permission denied for current user"}}
   end
@@ -118,10 +120,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PlaidResolver do
         Process.sleep(1000)
 
         public_token_params = %{
-        initial_products: ["transactions"],
-        institution_id: "ins_3",
-        options: %{webhook: "https://www.taxgig.com"},
-        public_key: "b30a98d754948d92aee5adfe058cf3"
+          initial_products: ["transactions"],
+          institution_id: "ins_3",
+          options: %{webhook: "https://www.taxgig.com"},
+          public_key: "b30a98d754948d92aee5adfe058cf3"
         }
 
         {:ok, public_token} = Plaid.Item.create_public_token(public_token_params)
@@ -164,8 +166,62 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PlaidResolver do
     end
   end
 
-  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  @spec create(any, any, Absinthe.Resolution.t()) :: error_tuple()
   def create(_parent, _args, _info) do
+    {:ok, %{error: "unauthenticated", error_description: "permission denied for current user"}}
+  end
+
+  @spec update(any, any, %{context: %{current_user: User.t()}}) :: result()
+  def update(_parent, _args, %{context: %{current_user: current_user}}) do
+    case current_user.role do
+      true ->
+        {:ok, %{error: "unauthenticated", error_description: "permission denied for current user"}}
+     false ->
+        link_token_params = %{
+          client_name: "Taxgig",
+          country_codes: ["US"],
+          products: ["transactions"],
+          language: "en",
+          webhook: "https://taxgig.com/link/token/create",
+          account_filters: %{
+            depository: %{
+              account_subtypes: ["checking"]
+            }
+          },
+          user: %{
+            client_user_id: current_user.id
+          }
+        }
+
+        {:ok, _link_token} = Plaid.Link.create_link_token(link_token_params)
+
+        Process.sleep(1000)
+
+        public_token_params = %{
+          initial_products: ["transactions"],
+          institution_id: "ins_3",
+          options: %{webhook: "https://www.taxgig.com"},
+          public_key: "b30a98d754948d92aee5adfe058cf3"
+        }
+
+        {:ok, public_token} = Plaid.Item.create_public_token(public_token_params)
+
+        Process.sleep(1000)
+
+        exchange_public_token_params = %{public_token: public_token["public_token"]}
+
+        {:ok, exchange_public_token} = Plaid.Item.exchange_public_token(exchange_public_token_params)
+
+        Process.sleep(1000)
+
+        with {:ok, data} <- Plaid.Transactions.refresh(exchange_public_token) do
+          {:ok, %{request_id: data["request_id"]}}
+        end
+    end
+  end
+
+  @spec update(any, any, Absinthe.Resolution.t()) :: error_tuple()
+  def update(_parent, _args, _info) do
     {:ok, %{error: "unauthenticated", error_description: "permission denied for current user"}}
   end
 
@@ -184,7 +240,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PlaidResolver do
     end
   end
 
-  @spec delete_account(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  @spec delete_account(any, any, Absinthe.Resolution.t()) :: error_tuple()
   def delete_account(_parent, _args, _info) do
     {:ok, %{error: "unauthenticated", error_description: "permission denied for current user"}}
   end
@@ -204,7 +260,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PlaidResolver do
     end
   end
 
-  @spec delete_transaction(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  @spec delete_transaction(any, any, Absinthe.Resolution.t()) :: error_tuple()
   def delete_transaction(_parent, _args, _info) do
     {:ok, %{error: "unauthenticated", error_description: "permission denied for current user"}}
   end
