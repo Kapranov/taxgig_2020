@@ -1,12 +1,61 @@
 {
   "key": "graphiql",
-  "lastId": 4,
+  "lastId": 7,
   "tabIds": [
     "tab1",
     "tab2",
-    "tab4"
+    "tab4",
+    "tab5",
+    "tab6"
   ],
   "closedTabs": [
+    {
+      "id": "tab7",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBOVc1dThIbnFBc3Q3bUZ4eWFuBgD4b4H7egFiAAFRgA.3ZFuabfp4FdMLlXdaWM5Z8aTZOGRj8zZb6gC1K-PzSA"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allPlaidTransactions {\n    id\n    error\n    errorDescription\n    fromPlaidTransactionAddress\n    fromPlaidTransactionAmount\n    fromPlaidTransactionAuthorizationDate\n    fromPlaidTransactionCategory\n    fromPlaidTransactionCity\n    fromPlaidTransactionCountry\n    fromPlaidTransactionCurrency\n    fromPlaidTransactionMerchantName\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPlaidTransactions {\n    id\n    error\n    errorDescription\n    fromPlaidTransactionAddress\n    fromPlaidTransactionAmount\n    fromPlaidTransactionAuthorizationDate\n    fromPlaidTransactionCategory\n    fromPlaidTransactionCity\n    fromPlaidTransactionCountry\n    fromPlaidTransactionCurrency\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPlaidTransactions {\n    id\n    error\n    errorDescription\n    fromPlaidTransactionAddress\n    fromPlaidTransactionAmount\n    fromPlaidTransactionAuthorizationDate\n    fromPlaidTransactionCategory\n    fromPlaidTransactionCity\n    fromPlaidTransactionCountry\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPlaidTransactions {\n    id\n    error\n    errorDescription\n    fromPlaidTransactionAddress\n    fromPlaidTransactionAmount\n    fromPlaidTransactionAuthorizationDate\n    fromPlaidTransactionCategory\n    fromPlaidTransactionCity\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPlaidTransactions {\n    id\n    error\n    errorDescription\n    fromPlaidTransactionAddress\n    fromPlaidTransactionAmount\n    fromPlaidTransactionAuthorizationDate\n    fromPlaidTransactionCategory\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPlaidTransactions {\n    id\n    error\n    errorDescription\n    fromPlaidTransactionAddress\n    fromPlaidTransactionAmount\n    fromPlaidTransactionAuthorizationDate  \n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allPlaidTransactions {\n    id\n    error\n    errorDescription\n    fromPlaidTransactionAddress\n    fromPlaidTransactionAmount\n    fromPlaidTransactionAuthorizationDate\n    fromPlaidTransactionCategory\n    fromPlaidTransactionCity\n    fromPlaidTransactionCountry\n    fromPlaidTransactionCurrency\n    fromPlaidTransactionMerchantName\n    \n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allPlaidTransactions {\\n    id\\n    error\\n    errorDescription\\n    fromPlaidTransactionAddress\\n    fromPlaidTransactionAmount\\n    fromPlaidTransactionAuthorizationDate  \\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allPlaidTransactions {\\n    id\\n    error\\n    errorDescription\\n    fromPlaidTransactionAddress\\n    fromPlaidTransactionAmount\\n    fromPlaidTransactionAuthorizationDate\\n    fromPlaidTransactionCategory\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allPlaidTransactions {\\n    id\\n    error\\n    errorDescription\\n    fromPlaidTransactionAddress\\n    fromPlaidTransactionAmount\\n    fromPlaidTransactionAuthorizationDate\\n    fromPlaidTransactionCategory\\n    fromPlaidTransactionCity\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allPlaidTransactions {\\n    id\\n    error\\n    errorDescription\\n    fromPlaidTransactionAddress\\n    fromPlaidTransactionAmount\\n    fromPlaidTransactionAuthorizationDate\\n    fromPlaidTransactionCategory\\n    fromPlaidTransactionCity\\n    fromPlaidTransactionCountry\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allPlaidTransactions {\\n    id\\n    error\\n    errorDescription\\n    fromPlaidTransactionAddress\\n    fromPlaidTransactionAmount\\n    fromPlaidTransactionAuthorizationDate\\n    fromPlaidTransactionCategory\\n    fromPlaidTransactionCity\\n    fromPlaidTransactionCountry\\n    fromPlaidTransactionCurrency\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allPlaidTransactions {\\n    id\\n    error\\n    errorDescription\\n    fromPlaidTransactionAddress\\n    fromPlaidTransactionAmount\\n    fromPlaidTransactionAuthorizationDate\\n    fromPlaidTransactionCategory\\n    fromPlaidTransactionCity\\n    fromPlaidTransactionCountry\\n    fromPlaidTransactionCurrency\\n    fromPlaidTransactionMerchantName\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.5197294250281849,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
     {
       "id": "tab3",
       "name": "Query 3",
@@ -42,6 +91,10 @@
   "recentHeaders": [
     {
       "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBOVc1dThIbnFBc3Q3bUZ4eWFuBgD4b4H7egFiAAFRgA.3ZFuabfp4FdMLlXdaWM5Z8aTZOGRj8zZb6gC1K-PzSA"
+    },
+    {
+      "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBNlhrd0xJZm5lTlBUUDlsSzRuBgDYLsHWeQFiAAFRgA.OYL-TskRp8xv0FLAaZfXmPKmlUcA3sb9aFOZCCUkTb8"
     }
   ],
@@ -49,7 +102,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab4",
+  "activeId": "tab5",
   "tabs": [
     {
       "id": "tab1",
@@ -76,15 +129,19 @@
       "maxHistory": 20,
       "history": [
         {
+          "query": "query {\n  signInLocal(\n    is2fa: false,\n    email: \"client1@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
           "query": "query {\n  signInLocal(\n    is2fa: false,\n    email: \"test@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    userId\n  }\n}",
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  signInLocal(\n    is2fa: false,\n    email: \"test@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    userId\n  }\n}",
+      "graphiql:query": "query {\n  signInLocal(\n    is2fa: false,\n    email: \"client1@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    userId\n  }\n}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signInLocal(\\n    is2fa: false,\\n    email: \\\"test@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signInLocal(\\n    is2fa: false,\\n    email: \\\"test@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signInLocal(\\n    is2fa: false,\\n    email: \\\"client1@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    userId\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 1
+      "graphiql:editorFlex": 0.32938856015779094
     },
     {
       "id": "tab4",
@@ -98,7 +155,7 @@
           "value": "Bearer SFMyNTY.g2gDbQAAABJBNlhrd0xJZm5lTlBUUDlsSzRuBgDYLsHWeQFiAAFRgA.OYL-TskRp8xv0FLAaZfXmPKmlUcA3sb9aFOZCCUkTb8"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -122,6 +179,78 @@
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createPlaid(\\n    projects: \\\"A76liDnHtdU89HA21Q\\\",\\n    startDate: \\\"2021-01-01\\\",\\n    endDate: \\\"2021-03-03\\\"\\n    count: 100,\\n    offset: 100\\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createPlaid(\\n    projects: \\\"A76liDnHtdU89HA21Q\\\",\\n    startDate: \\\"2021-01-01\\\",\\n    endDate: \\\"2021-03-03\\\"\\n    count: 100,\\n    offset: 100\\n   \\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPlaid(\\n    projects: [\\\"A76liDnHtdU89HA21Q\\\"],\\n    startDate: \\\"2021-01-01\\\",\\n    endDate: \\\"2021-03-03\\\"\\n    count: 100,\\n    offset: 100\\n   \\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPlaid(\\n    projects: \\\"A76liDnHtdU89HA21Q\\\",\\n    startDate: \\\"2021-01-01\\\",\\n    endDate: \\\"2021-03-03\\\"\\n    count: 100,\\n    offset: 100\\n   \\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPlaid(\\n    projects: \\\"A76liDnHtdU89HA21Q\\\",\\n    startDate: \\\"2020-01-01\\\",\\n    endDate: \\\"2021-03-03\\\"\\n    count: 100,\\n    offset: 100\\n   \\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPlaid(\\n    projects: \\\"A76liDnHtdU89HA21Q\\\",\\n    startDate: \\\"2020-01-01\\\",\\n    endDate: \\\"2021-01-01\\\"\\n    count: 500,\\n    offset: 100\\n   \\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n  }\\n}\"},{\"query\":\"mutation {\\n  createPlaid(\\n    projects: \\\"A76liDnHtdU89HA21Q\\\",\\n    startDate: \\\"2020-01-01\\\",\\n    endDate: \\\"2021-01-01\\\"\\n    count: 500,\\n    offset: 100\\n   \\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n    fromPlaidAccountName\\n    fromPlaidAccountOfficialName\\n    fromPlaidAccountSubtype\\n    fromPlaidAccountType\\n    fromPlaidBalanceCurrency\\n    fromPlaidBalanceCurrent\\n    fromPlaidTotalTransaction \\n  }\\n}\"},{\"query\":\"mutation {\\n  createPlaid(\\n    projects: \\\"A76liDnHtdU89HA21Q\\\",\\n    startDate: \\\"2020-01-01\\\",\\n    endDate: \\\"2021-01-01\\\"\\n    count: 500,\\n    offset: 100\\n  ) {\\n    id\\n    idFromPlaidAccount\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n    fromPlaidAccountName\\n    fromPlaidAccountOfficialName\\n    fromPlaidAccountSubtype\\n    fromPlaidAccountType\\n    fromPlaidBalanceCurrency\\n    fromPlaidBalanceCurrent\\n    fromPlaidTotalTransaction \\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.3671399594320487,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBOVc1dThIbnFBc3Q3bUZ4eWFuBgD4b4H7egFiAAFRgA.3ZFuabfp4FdMLlXdaWM5Z8aTZOGRj8zZb6gC1K-PzSA"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allPlaidAccounts {\n    id\n    error\n    errorDescription\n    fromPlaidAccountMask\n    fromPlaidAccountName\n    fromPlaidAccountType\n    fromPlaidAccountSubtype\n    fromPlaidBalanceCurrent\n    fromPlaidBalanceCurrency\n    fromPlaidTotalTransaction\n    fromPlaidAccountOfficialName\n    idFromPlaidAccount\n    plaidTransactions {id}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allPlaidAccounts {\n    id\n    error\n    errorDescription\n    fromPlaidAccountMask\n    fromPlaidAccountName\n    fromPlaidAccountType\n    fromPlaidAccountSubtype\n    fromPlaidBalanceCurrent\n    fromPlaidBalanceCurrency\n    fromPlaidTotalTransaction\n    fromPlaidAccountOfficialName\n    idFromPlaidAccount\n    plaidTransactions {id}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allPlaidAccounts {\\n    id\\n    error\\n    errorDescription\\n    fromPlaidAccountMask\\n    fromPlaidAccountName\\n    fromPlaidAccountType\\n    fromPlaidAccountSubtype\\n    fromPlaidBalanceCurrent\\n    fromPlaidBalanceCurrency\\n    fromPlaidTotalTransaction\\n    fromPlaidAccountOfficialName\\n    idFromPlaidAccount\\n    plaidTransactions {id}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.506145251396648,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab6",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBOVc1dThIbnFBc3Q3bUZ4eWFuBgD4b4H7egFiAAFRgA.3ZFuabfp4FdMLlXdaWM5Z8aTZOGRj8zZb6gC1K-PzSA"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allPlaidTransactions {\n    id\n    error\n    errorDescription\n    fromPlaidTransactionAddress\n    fromPlaidTransactionAmount\n    fromPlaidTransactionAuthorizationDate\n    fromPlaidTransactionCategory\n    fromPlaidTransactionCity\n    fromPlaidTransactionCountry\n    fromPlaidTransactionCurrency\n    fromPlaidTransactionMerchantName\n    fromPlaidTransactionName\n    fromPlaidTransactionPostalCode\n    fromPlaidTransactionRegion\n    idFromPlaidTransaction\n    idFromPlaidTransactionCategory\n    plaidAccounts {\n      id\n      error\n      errorDescription\n      fromPlaidAccountMask\n      fromPlaidAccountName\n      fromPlaidAccountType\n      fromPlaidAccountSubtype\n      fromPlaidBalanceCurrent\n      fromPlaidBalanceCurrency\n      fromPlaidTotalTransaction\n      fromPlaidAccountOfficialName\n      idFromPlaidAccount\n      plaidTransactions {id}\n      \n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPlaidTransactions {\n    id\n    error\n    errorDescription\n    fromPlaidTransactionAddress\n    fromPlaidTransactionAmount\n    fromPlaidTransactionAuthorizationDate\n    fromPlaidTransactionCategory\n    fromPlaidTransactionCity\n    fromPlaidTransactionCountry\n    fromPlaidTransactionCurrency\n    fromPlaidTransactionMerchantName\n    fromPlaidTransactionName\n    fromPlaidTransactionPostalCode\n    fromPlaidTransactionRegion\n    idFromPlaidTransaction\n    idFromPlaidTransactionCategory\n    plaidAccounts {\n      id\n      error\n      errorDescription\n      fromPlaidAccountMask\n      fromPlaidAccountName\n      fromPlaidAccountType\n      fromPlaidAccountSubtype\n      fromPlaidBalanceCurrent\n      fromPlaidBalanceCurrency\n      fromPlaidTotalTransaction\n      fromPlaidAccountOfficialName\n      idFromPlaidAccount\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPlaidTransactions {\n    id\n    error\n    errorDescription\n    fromPlaidTransactionAddress\n    fromPlaidTransactionAmount\n    fromPlaidTransactionAuthorizationDate\n    fromPlaidTransactionCategory\n    fromPlaidTransactionCity\n    fromPlaidTransactionCountry\n    fromPlaidTransactionCurrency\n    fromPlaidTransactionMerchantName\n    fromPlaidTransactionName\n    fromPlaidTransactionPostalCode\n    fromPlaidTransactionRegion\n    idFromPlaidTransaction\n    idFromPlaidTransactionCategory\n    plaidAccounts {\n      id\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPlaidTransactions {\n    id\n    error\n    errorDescription\n    fromPlaidTransactionAddress\n    fromPlaidTransactionAmount\n    fromPlaidTransactionAuthorizationDate\n    fromPlaidTransactionCategory\n    fromPlaidTransactionCity\n    fromPlaidTransactionCountry\n    fromPlaidTransactionCurrency\n    fromPlaidTransactionMerchantName\n    fromPlaidTransactionName\n    fromPlaidTransactionPostalCode\n    fromPlaidTransactionRegion\n    idFromPlaidTransaction\n    idFromPlaidTransactionCategory\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPlaidTransactions {\n    id\n    idFromPlaidTransaction\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPlaidTransactions {\n    id\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allPlaidTransactions {\n    id\n    error\n    errorDescription\n    fromPlaidTransactionAddress\n    fromPlaidTransactionAmount\n    fromPlaidTransactionAuthorizationDate\n    fromPlaidTransactionCategory\n    fromPlaidTransactionCity\n    fromPlaidTransactionCountry\n    fromPlaidTransactionCurrency\n    fromPlaidTransactionMerchantName\n    fromPlaidTransactionName\n    fromPlaidTransactionPostalCode\n    fromPlaidTransactionRegion\n    idFromPlaidTransaction\n    idFromPlaidTransactionCategory\n    plaidAccounts {\n      id\n      error\n      errorDescription\n      fromPlaidAccountMask\n      fromPlaidAccountName\n      fromPlaidAccountType\n      fromPlaidAccountSubtype\n      fromPlaidBalanceCurrent\n      fromPlaidBalanceCurrency\n      fromPlaidTotalTransaction\n      fromPlaidAccountOfficialName\n      idFromPlaidAccount\n      plaidTransactions {id}\n      \n    }\n  }\n}",
+      "graphiql:editorFlex": 0.4386339381003202,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allPlaidTransactions {\\n    id\\n  }\\n}\"},{\"query\":\"query {\\n  allPlaidTransactions {\\n    id\\n    idFromPlaidTransaction\\n  }\\n}\"},{\"query\":\"query {\\n  allPlaidTransactions {\\n    id\\n    error\\n    errorDescription\\n    fromPlaidTransactionAddress\\n    fromPlaidTransactionAmount\\n    fromPlaidTransactionAuthorizationDate\\n    fromPlaidTransactionCategory\\n    fromPlaidTransactionCity\\n    fromPlaidTransactionCountry\\n    fromPlaidTransactionCurrency\\n    fromPlaidTransactionMerchantName\\n    fromPlaidTransactionName\\n    fromPlaidTransactionPostalCode\\n    fromPlaidTransactionRegion\\n    idFromPlaidTransaction\\n    idFromPlaidTransactionCategory\\n  }\\n}\"},{\"query\":\"query {\\n  allPlaidTransactions {\\n    id\\n    error\\n    errorDescription\\n    fromPlaidTransactionAddress\\n    fromPlaidTransactionAmount\\n    fromPlaidTransactionAuthorizationDate\\n    fromPlaidTransactionCategory\\n    fromPlaidTransactionCity\\n    fromPlaidTransactionCountry\\n    fromPlaidTransactionCurrency\\n    fromPlaidTransactionMerchantName\\n    fromPlaidTransactionName\\n    fromPlaidTransactionPostalCode\\n    fromPlaidTransactionRegion\\n    idFromPlaidTransaction\\n    idFromPlaidTransactionCategory\\n    plaidAccounts {\\n      id\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  allPlaidTransactions {\\n    id\\n    error\\n    errorDescription\\n    fromPlaidTransactionAddress\\n    fromPlaidTransactionAmount\\n    fromPlaidTransactionAuthorizationDate\\n    fromPlaidTransactionCategory\\n    fromPlaidTransactionCity\\n    fromPlaidTransactionCountry\\n    fromPlaidTransactionCurrency\\n    fromPlaidTransactionMerchantName\\n    fromPlaidTransactionName\\n    fromPlaidTransactionPostalCode\\n    fromPlaidTransactionRegion\\n    idFromPlaidTransaction\\n    idFromPlaidTransactionCategory\\n    plaidAccounts {\\n      id\\n      error\\n      errorDescription\\n      fromPlaidAccountMask\\n      fromPlaidAccountName\\n      fromPlaidAccountType\\n      fromPlaidAccountSubtype\\n      fromPlaidBalanceCurrent\\n      fromPlaidBalanceCurrency\\n      fromPlaidTotalTransaction\\n      fromPlaidAccountOfficialName\\n      idFromPlaidAccount\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  allPlaidTransactions {\\n    id\\n    error\\n    errorDescription\\n    fromPlaidTransactionAddress\\n    fromPlaidTransactionAmount\\n    fromPlaidTransactionAuthorizationDate\\n    fromPlaidTransactionCategory\\n    fromPlaidTransactionCity\\n    fromPlaidTransactionCountry\\n    fromPlaidTransactionCurrency\\n    fromPlaidTransactionMerchantName\\n    fromPlaidTransactionName\\n    fromPlaidTransactionPostalCode\\n    fromPlaidTransactionRegion\\n    idFromPlaidTransaction\\n    idFromPlaidTransactionCategory\\n    plaidAccounts {\\n      id\\n      error\\n      errorDescription\\n      fromPlaidAccountMask\\n      fromPlaidAccountName\\n      fromPlaidAccountType\\n      fromPlaidAccountSubtype\\n      fromPlaidBalanceCurrent\\n      fromPlaidBalanceCurrency\\n      fromPlaidTotalTransaction\\n      fromPlaidAccountOfficialName\\n      idFromPlaidAccount\\n      plaidTransactions {id}\\n      \\n    }\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350
     }
   ]
