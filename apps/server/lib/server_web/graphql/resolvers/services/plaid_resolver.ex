@@ -28,7 +28,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PlaidResolver do
     if current_user.role == true do
       {:ok, %{error: "unauthenticated", error_description: "permission denied for current user"}}
     else
-      struct = Queries.by_list(PlaidAccount, Project, PlaidAccountsProject, :user_id, :project_id, :plaid_account_id, :id, current_user.id)
+      # struct = Core.Plaid.list_plaid_account()
+      struct = Queries.by_list(PlaidAccount, PlaidAccountsProject, Project, :id, :project_id, :plaid_account_id, :user_id, current_user.id)
       {:ok, struct}
     end
   end
@@ -99,57 +100,62 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PlaidResolver do
       true ->
         {:ok, %{error: "unauthenticated", error_description: "permission denied for current user"}}
      false ->
-        link_token_params = %{
-          client_name: "Taxgig",
-          country_codes: ["US"],
-          products: ["transactions"],
-          language: "en",
-          webhook: "https://taxgig.com/",
-          account_filters: %{
-            depository: %{
-              account_subtypes: ["checking"]
-            }
-          },
-          user: %{
-            client_user_id: current_user.id
-          }
-        }
+#        link_token_params = %{
+#          client_name: "Taxgig",
+#          country_codes: ["US"],
+#          products: ["transactions"],
+#          language: "en",
+#          webhook: "https://taxgig.com/",
+#          account_filters: %{
+#            depository: %{
+#              account_subtypes: ["checking"]
+#            }
+#          },
+#          user: %{
+#            client_user_id: current_user.id
+#          }
+#        }
+#
+#        {:ok, _link_token} = Plaid.Link.create_link_token(link_token_params)
+#
+#        Process.sleep(1000)
+#
+#        public_token_params = %{
+#          initial_products: ["transactions"],
+#          institution_id: "ins_3",
+#          options: %{webhook: "https://www.taxgig.com"},
+#          public_key: "b30a98d754948d92aee5adfe058cf3"
+#        }
+#
+#        {:ok, public_token} = Plaid.Item.create_public_token(public_token_params)
+#
+#        Process.sleep(1000)
+#
+#        exchange_public_token_params = %{public_token: public_token["public_token"]}
+#
+#        {:ok, exchange_public_token} = Plaid.Item.exchange_public_token(exchange_public_token_params)
+#
+#        Process.sleep(5000)
+#
+#        transactions_params = %{
+#          access_token: exchange_public_token["access_token"],
+#          start_date: args.start_date,
+#          end_date: args.end_date,
+#          options: %{
+#            count: args.count,
+#            offset: args.offset
+#          }
+#        }
+#
+#        {:ok, data} = Plaid.Transactions.get(transactions_params)
 
-        {:ok, _link_token} = Plaid.Link.create_link_token(link_token_params)
+#        with :ok <- File.write("/tmp/demo.json", Jason.encode!(data), [:binary]),
+#             {:ok, struct} <- PlaidPlatformAccountService.create(data, %{projects: args.projects, user_id: current_user.id}),
+#             {:ok, :ok} <- PlaidPlatformTransactionService.create(data)
 
-        Process.sleep(1000)
+        data = "/tmp/demo.json" |> File.read! |> Jason.decode!
 
-        public_token_params = %{
-          initial_products: ["transactions"],
-          institution_id: "ins_3",
-          options: %{webhook: "https://www.taxgig.com"},
-          public_key: "b30a98d754948d92aee5adfe058cf3"
-        }
-
-        {:ok, public_token} = Plaid.Item.create_public_token(public_token_params)
-
-        Process.sleep(1000)
-
-        exchange_public_token_params = %{public_token: public_token["public_token"]}
-
-        {:ok, exchange_public_token} = Plaid.Item.exchange_public_token(exchange_public_token_params)
-
-        Process.sleep(5000)
-
-        transactions_params = %{
-          access_token: exchange_public_token["access_token"],
-          start_date: args.start_date,
-          end_date: args.end_date,
-          options: %{
-            count: args.count,
-            offset: args.offset
-          }
-        }
-
-        {:ok, data} = Plaid.Transactions.get(transactions_params)
-
-        with :ok <- File.write("/tmp/demo.json", Jason.encode!(data), [:binary]),
-             {:ok, struct} <- PlaidPlatformAccountService.create(data, %{projects: args.projects, user_id: current_user.id}),
+        with {:ok, struct} <- PlaidPlatformAccountService.create(data, %{projects: args.projects, user_id: current_user.id}),
              {:ok, :ok} <- PlaidPlatformTransactionService.create(data)
         do
           {:ok, struct}

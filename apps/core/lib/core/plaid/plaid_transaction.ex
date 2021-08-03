@@ -21,7 +21,7 @@ defmodule Core.Plaid.PlaidTransaction do
     from_plaid_transaction_region: String.t(),
     id_from_plaid_transaction: String.t(),
     id_from_plaid_transaction_category: String.t(),
-    plaid_account_id: PlaidAccount.t()
+    plaid_accounts: [PlaidAccount.t()]
   }
 
   @allowed_params ~w(

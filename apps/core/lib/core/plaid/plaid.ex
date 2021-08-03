@@ -17,7 +17,10 @@ defmodule Core.Plaid do
       [%PlaidAccount{}, ...]
   """
   @spec list_plaid_account() :: [PlaidAccount.t()]
-  def list_plaid_account, do: Repo.all(PlaidAccount)
+  def list_plaid_account do
+    Repo.all(PlaidAccount)
+    |> Repo.preload([:plaid_transactions])
+  end
 
   @doc """
   Returns the list of PlaidTransaction.

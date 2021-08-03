@@ -44,15 +44,17 @@ defmodule Core.Queries do
   @doc """
   Retrurn all records with 8 items
 
+  Queries.by_list(PlaidAccount, PlaidAccountsProject, Project, :id, :project_id, :plaid_account_id, :user_id, current_user.id)
+
   ## Example
 
       iex> struct_a = Core.Plaid.PlaidAccount
-      iex> struct_b = Core.Contracts.Project
-      iex> struct_c = Core.Plaid.PlaidAccountsProject
-      iex> row_a = :user_id
+      iex> struct_b = Core.Plaid.PlaidAccountsProject
+      iex> struct_c = Core.Contracts.Project
+      iex> row_a = :id
       iex> row_b = :project_id
       iex> row_c = :plaid_account_id
-      iex> row_d = :id
+      iex> row_d = :user_id
       iex> id  = current_user.id
       iex> by_list(struct, row, id)
 
@@ -64,10 +66,11 @@ defmodule Core.Queries do
         from c in struct_a,
         join: ct in ^struct_b,
         join: cu in ^struct_c,
-        where: field(c, ^row_d) == field(cu, ^row_c),
-        where: field(ct, ^row_a) == ^id,
-        where: field(cu, ^row_b) == field(ct, ^row_d)
+        where: field(cu, ^row_d) == ^id,
+        where: field(cu, ^row_a) == field(ct, ^row_b),
+        where: field(c, ^row_a) == field(ct, ^row_c)
       )
+      |> Repo.preload([:plaid_transactions])
     rescue
       Ecto.Query.CastError -> nil
     end
