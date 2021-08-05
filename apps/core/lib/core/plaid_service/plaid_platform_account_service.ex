@@ -29,8 +29,10 @@ defmodule Core.PlaidService.PlaidPlatformAccountService do
   """
 
   alias Core.{
+    Contracts.Project,
     Plaid.PlaidAccount,
     PlaidService.Adapters.PlaidPlatformAccountAdapter,
+    Queries,
     Repo
   }
 
@@ -116,6 +118,30 @@ defmodule Core.PlaidService.PlaidPlatformAccountService do
           end
         _ -> {:ok, acc}
       end
+    end)
+  end
+
+  @spec update_count(String.t()) :: PlaidAccount.t()
+  def update_count(user_id) do
+    structs = Queries.by_list(PlaidAccount, PlaidAccountsProject, Project, :id, :project_id, :plaid_account_id, :user_id, user_id)
+    # structs = Core.Queries.by_list(PlaidTransaction, PlaidAccount, PlaidAccountsProject, Project, :user_id, :project_id, :plaid_account_id, :id, user_id)
+    # plaid_accounts_idx = Enum.reduce(structs, [], fn k, acc -> [k.id_from_plaid_account | acc] end)
+    # plaid_accounts_idx = Enum.reduce(structs, [], fn k, acc -> [k.plaid_account_id | acc] end)
+    # Enum.reduce(structs, [], fn k, acc -> query = Queries.by_value(PlaidTransaction, :plaid_account_id, k.id_from_plaid_account) end)
+    plaid_accounts_idx =
+      Enum.reduce(structs, [], fn k, acc ->
+        if length(k.plaid_transactions) != 0 do
+          [k.id | acc]
+        else
+          acc
+        end
+      end)
+
+    Enum.reduce(plaid_accounts_idx, [], fn k, acc ->
+      query = Queries.by_value(PlaidTransaction, :plaid_account_id, k)
+      num = Repo.aggregate(query, :count, :id)
+      struct = Core.Repo.get_by(PlaidAccount, %{id: k})
+      [Core.Plaid.update_plaid_account(struct, %{from_plaid_total_transaction: num}) | acc]
     end)
   end
 

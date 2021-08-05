@@ -115,4 +115,10 @@ iex> Core.PlaidService.Adapters.PlaidPlatformTransactionAdapter.to_params(data_t
 
 ```
 
+```
+data = "/tmp/demo.json" |> File.read! |> Jason.decode!
+transactions = data |> Map.get("transactions")
+Enum.reduce(transactions, [], fn k, acc -> [k["account_id"] | acc] end) |> Enum.count
+```
+
 ### 25 May 2021 Oleg G.Kapranov

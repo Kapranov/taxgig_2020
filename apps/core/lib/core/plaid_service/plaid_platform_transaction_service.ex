@@ -32,7 +32,6 @@ defmodule Core.PlaidService.PlaidPlatformTransactionService do
     Plaid.PlaidAccount,
     Plaid.PlaidTransaction,
     PlaidService.Adapters.PlaidPlatformTransactionAdapter,
-    Queries,
     Repo
   }
 
@@ -113,19 +112,7 @@ defmodule Core.PlaidService.PlaidPlatformTransactionService do
           |> Multi.insert(:plaid_transactions, transaction_changeset)
           |> Repo.transaction()
           |> case do
-            {:ok, %{plaid_transactions: plaid_transaction}} ->
-              query = Queries.by_value(PlaidTransaction, :plaid_account_id, plaid_transaction.plaid_account_id)
-              num = Repo.aggregate(query, :count, :id)
-              account_changeset = PlaidAccount.changeset(struct, %{from_plaid_total_transaction: num})
-              Multi.new()
-              |> Multi.update({:plaid_accounts, plaid_transaction.plaid_account_id}, account_changeset)
-              |> Repo.transaction()
-              |> case do
-              {:ok, _} ->
-                    {:ok, nil}
-              {:error, _model, changeset, _completed} ->
-                    {:error, changeset}
-              end
+            {:ok, %{plaid_transactions: _plaid_transaction}} ->
               {:ok, :ok}
             {:error, _model, changeset, _completed} ->
               {:error, changeset}
@@ -133,4 +120,22 @@ defmodule Core.PlaidService.PlaidPlatformTransactionService do
       end
     end)
   end
+
+# structs = Core.Repo.all(Core.Plaid.PlaidTransaction)
+# Enum.reduce(structs, [], fn k, acc -> [k.plaid_account_id | acc] end)
+
+# query = Core.Queries.by_value(Core.Plaid.PlaidTransaction, :plaid_account_id, "A9yao4WCzKnrr6QHT6")
+# num = Core.Repo.aggregate(query, :count, :id)
+# Map.merge(%{}, %{from_plaid_total_transaction: num})
+
+# query = Queries.by_value(PlaidTransaction, :plaid_account_id, plaid_transaction.plaid_account_id)
+# num = Repo.aggregate(query, :count, :id)
+# account_changeset = PlaidAccount.changeset(struct, %{from_plaid_total_transaction: num})
+# Multi.new()
+# |> Multi.update({:plaid_accounts, plaid_transaction.plaid_account_id}, account_changeset)
+# |> Repo.transaction()
+# |> case do
+#   {:ok, _} -> {:ok, nil}
+#   {:error, _model, changeset, _completed} -> {:error, changeset}
+# end
 end
