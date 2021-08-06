@@ -76,6 +76,18 @@ defmodule Core.Plaid.PlaidAccount do
     |> unique_constraint(:id_from_plaid_account, name: :plaid_accounts_id_from_plaid_account_index, message: "Only one a PlaidAccountId by Plaid")
   end
 
+  @doc """
+  Create changeset for Plaid's Account.
+  """
+  @spec changeset(t, %{atom => any}) :: Ecto.Changeset.t()
+  def update_changeset(struct, attrs) do
+    struct
+    |> cast(attrs, @allowed_params)
+    |> validate_required(@required_params)
+    |> changeset_preload(:projects)
+    |> unique_constraint(:id_from_plaid_account, name: :plaid_accounts_id_from_plaid_account_index, message: "Only one a PlaidAccountId by Plaid")
+  end
+
   @spec put_assoc_nochange(map, Keyword.t(), map) :: Ecto.Changeset.t()
   defp put_assoc_nochange(ch, field, new_change) do
     case get_change(ch, field) do

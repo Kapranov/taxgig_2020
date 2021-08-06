@@ -31,6 +31,8 @@ defmodule Core.PlaidService.PlaidPlatformAccountService do
   alias Core.{
     Contracts.Project,
     Plaid.PlaidAccount,
+    Plaid.PlaidAccountsProject,
+    Plaid.PlaidTransaction,
     PlaidService.Adapters.PlaidPlatformAccountAdapter,
     Queries,
     Repo
@@ -85,7 +87,7 @@ defmodule Core.PlaidService.PlaidPlatformAccountService do
       iex> create(data, attrs)
       []
   """
-  @spec create(map, %{projects: [String.t()], user_id: String.t()}) :: [PlaidAccount.t()] | []
+  @spec create(map, %{projects: [String.t()], user_id: String.t()}) :: [PlaidAccount.t()] | [] | {:error, Ecto.Changeset.t()}
   def create(data, attrs) do
     accounts = data |> Map.get("accounts")
     Enum.reduce(accounts, [], fn(account, acc) ->
@@ -121,13 +123,9 @@ defmodule Core.PlaidService.PlaidPlatformAccountService do
     end)
   end
 
-  @spec update_count(String.t()) :: PlaidAccount.t()
+  @spec update_count(String.t()) :: {:ok, :ok} | {:error, Ecto.Changeset.t()}
   def update_count(user_id) do
     structs = Queries.by_list(PlaidAccount, PlaidAccountsProject, Project, :id, :project_id, :plaid_account_id, :user_id, user_id)
-    # structs = Core.Queries.by_list(PlaidTransaction, PlaidAccount, PlaidAccountsProject, Project, :user_id, :project_id, :plaid_account_id, :id, user_id)
-    # plaid_accounts_idx = Enum.reduce(structs, [], fn k, acc -> [k.id_from_plaid_account | acc] end)
-    # plaid_accounts_idx = Enum.reduce(structs, [], fn k, acc -> [k.plaid_account_id | acc] end)
-    # Enum.reduce(structs, [], fn k, acc -> query = Queries.by_value(PlaidTransaction, :plaid_account_id, k.id_from_plaid_account) end)
     plaid_accounts_idx =
       Enum.reduce(structs, [], fn k, acc ->
         if length(k.plaid_transactions) != 0 do
@@ -137,12 +135,21 @@ defmodule Core.PlaidService.PlaidPlatformAccountService do
         end
       end)
 
-    Enum.reduce(plaid_accounts_idx, [], fn k, acc ->
-      query = Queries.by_value(PlaidTransaction, :plaid_account_id, k)
-      num = Repo.aggregate(query, :count, :id)
-      struct = Core.Repo.get_by(PlaidAccount, %{id: k})
-      [Core.Plaid.update_plaid_account(struct, %{from_plaid_total_transaction: num}) | acc]
-    end)
+    updated =
+      Enum.reduce(plaid_accounts_idx, [], fn k, acc ->
+        query = Queries.by_value(PlaidTransaction, :plaid_account_id, k)
+        num = Repo.aggregate(query, :count, :id)
+        struct = Core.Repo.get_by(PlaidAccount, %{id: k})
+        [Core.Plaid.update_plaid_account(struct, %{from_plaid_total_transaction: num}) | acc]
+      end)
+
+    case updated do
+      {:error, :plaid_accounts, %Changeset{} = changeset, _completed} ->
+        {:error, extract_error_msg(changeset)}
+      {:error, _model, changeset, _completed} ->
+        {:error, extract_error_msg(changeset)}
+      _ -> {:ok, :ok}
+    end
   end
 
   @spec extract_error_msg(Changeset.t()) :: Ecto.Changeset.t()

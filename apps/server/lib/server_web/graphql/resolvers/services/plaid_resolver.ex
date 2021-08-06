@@ -156,7 +156,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.PlaidResolver do
         data = "/tmp/demo.json" |> File.read! |> Jason.decode!
 
         with {:ok, struct} <- PlaidPlatformAccountService.create(data, %{projects: args.projects, user_id: current_user.id}),
-             {:ok, :ok} <- PlaidPlatformTransactionService.create(data)
+             {:ok, :ok} <- PlaidPlatformTransactionService.create(data),
+             {:ok, :ok} <- PlaidPlatformAccountService.update_count(current_user.id)
         do
           {:ok, struct}
         else

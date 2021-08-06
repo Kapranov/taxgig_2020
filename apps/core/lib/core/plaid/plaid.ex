@@ -120,7 +120,7 @@ defmodule Core.Plaid do
   @spec update_plaid_account(PlaidAccount.t(), %{atom => any}) :: result() | error_tuple()
   def update_plaid_account(%PlaidAccount{} = struct, attrs) do
     struct
-    |> PlaidAccount.changeset(attrs)
+    |> PlaidAccount.update_changeset(attrs)
     |> Repo.update()
   end
 
