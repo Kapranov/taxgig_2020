@@ -7,7 +7,9 @@ bash> mix phx.new server --no-html --no-webpack --no-ecto
 ### Update SSL on DigitalOcean
 
 ```
-bash> certbot renew --dry-run
+bash> sudo certbot renew --dry-run
+bash> cp /etc/letsencrypt/archive/taxgig.com/fullchain16.pem /home/kapranov/landing/apps/server/priv/cert/fullchain.pem
+bash> cp /etc/letsencrypt/archive/taxgig.com/privkey16.pem /home/kapranov/landing/apps/server/priv/cert/privkey.pem
 ```
 
 ### Channels
@@ -103,3 +105,10 @@ null* Closing connection 0
 [19]: https://stackoverflow.com/questions/38911936/how-to-make-twitter-api-call-through-curl-in-unix
 [20]: https://github.com/twitter/twurl
 [21]: https://github.com/almightycouch/twittex
+[22]: https://paper.dropbox.com/doc/Kapranov-tasks-2021-glTOGqfGdLcyTU4IOVDE8
+[23]: https://github.com/rosswilson/totp-example
+[24]: https://authenticatorapi.com/
+[25]: https://github.com/google/google-authenticator/wiki/Key-Uri-Format
+[26]: https://github.com/yuce/pot
+[27]: https://dashbit.co/blog/introducing-nimble-totp
+[28]: https://github.com/SiliconJungles/eqrcode

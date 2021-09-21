@@ -57,7 +57,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformBalanceTransacti
 
   object :stripe_platform_balance_transaction_subscriptions do
     @desc "All List StripeBalanceTransactions via Channel"
-    field :stripe_platform_balance_transaction_all, :stripe_platform_balance_transaction do
+    field :stripe_platform_balance_transaction_all, list_of(:stripe_platform_balance_transaction) do
       config(fn _, _ ->
         {:ok, topic: "stripe_platform_balance_transactions"}
       end)

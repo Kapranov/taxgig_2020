@@ -28,6 +28,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformBalanceTransac
           nil -> {:ok, %{error: "stripeAccount not found"}}
           account ->
             with {:ok, struct} <- StripePlatformBalanceTransactionService.list(account.id_from_stripe) do
+              Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, stripe_platform_balance_transaction_all: "stripe_platform_balance_transactions")
               {:ok, struct}
             else
               failure ->
