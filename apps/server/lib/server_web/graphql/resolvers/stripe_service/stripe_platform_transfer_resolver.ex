@@ -181,25 +181,47 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformTransferResolv
 
   @spec amount(integer, integer) :: integer
   defp amount(offer_price, addon_price) do
-    val1 =
-      (Decimal.to_float(offer_price) * 100)
+    if addon_price == nil do
+      val1 =
+        (Decimal.to_float(offer_price) * 100)
+        |> :erlang.float_to_binary(decimals: 0)
+        |> String.to_integer
+
+      ((val1 + 0) * 0.8)
       |> :erlang.float_to_binary(decimals: 0)
       |> String.to_integer
+    else
+      val1 =
+        (Decimal.to_float(offer_price) * 100)
+        |> :erlang.float_to_binary(decimals: 0)
+        |> String.to_integer
 
-    ((val1 + addon_price) * 0.8)
-    |> :erlang.float_to_binary(decimals: 0)
-    |> String.to_integer
+      ((val1 + addon_price) * 0.8)
+      |> :erlang.float_to_binary(decimals: 0)
+      |> String.to_integer
+    end
   end
 
   @spec amount_doc(integer, integer) :: integer
   defp amount_doc(offer_price, addon_price) do
-    val1 =
-      (Decimal.to_float(offer_price) * 100)
+    if addon_price == nil do
+      val1 =
+        (Decimal.to_float(offer_price) * 100)
+        |> :erlang.float_to_binary(decimals: 0)
+        |> String.to_integer
+
+      (((val1 + 0) * 0.7) * 0.8)
       |> :erlang.float_to_binary(decimals: 0)
       |> String.to_integer
+    else
+      val1 =
+        (Decimal.to_float(offer_price) * 100)
+        |> :erlang.float_to_binary(decimals: 0)
+        |> String.to_integer
 
-    (((val1 + addon_price) * 0.7) * 0.8)
-    |> :erlang.float_to_binary(decimals: 0)
-    |> String.to_integer
+      (((val1 + addon_price) * 0.7) * 0.8)
+      |> :erlang.float_to_binary(decimals: 0)
+      |> String.to_integer
+    end
   end
 end
