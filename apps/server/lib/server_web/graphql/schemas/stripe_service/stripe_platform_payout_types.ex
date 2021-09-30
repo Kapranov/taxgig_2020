@@ -9,28 +9,28 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformPayoutTypes do
 
   @desc "The StripePayout"
   object :stripe_platform_payout do
-    field :id, non_null(:string)
-    field :object, non_null(:string)
-    field :amount, non_null(:integer)
-    field :arrival_date, non_null(:integer)
-    field :automatic, non_null(:boolean)
-    field :balance_transaction, non_null(:string)
-    field :created, non_null(:integer)
-    field :currency, non_null(:string)
+    field :id, :string
+    #field :metadata, list_of(:string)
+    field :amount, :integer
+    field :arrival_date, :integer
+    field :automatic, :boolean
+    field :balance_transaction, :string
+    field :created, :integer
+    field :currency, :string
     field :description, :string
-    field :destination, non_null(:string)
+    field :destination, :string
     field :failure_balance_transaction, :string
     field :failure_code, :string
     field :failure_message, :string
-    field :livemode, non_null(:boolean)
-    #field :metadata, list_of(:string)
-    field :method, non_null(:string)
+    field :livemode, :boolean
+    field :method, :string
+    field :object, :string
     field :original_payout, :string
     field :reversed_by, :string
-    field :source_type, non_null(:string)
+    field :source_type, :string
     field :statement_descriptor, :string
-    field :status, non_null(:string)
-    field :type, non_null(:string)
+    field :status, :string
+    field :type, :string
   end
 
   object :stripe_platform_payout_mutations do
@@ -41,6 +41,17 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformPayoutTypes do
       arg :destination, non_null(:string)
       arg :type, non_null(:string)
       resolve &StripePlatformPayoutResolver.create/3
+    end
+  end
+
+  object :stripe_platform_payout_subscriptions do
+    @desc "Create StripePayout via Channel"
+    field :stripe_platform_payout_create, list_of(:stripe_platform_balance_transaction) do
+      config(fn _, _ ->
+        {:ok, topic: "stripe_platform_balance_transactions"}
+      end)
+
+      trigger(:all_stripe_platform_balance_transaction, topic: fn _ -> "stripe_platform_balance_transactions" end)
     end
   end
 end

@@ -317,6 +317,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:sale_tax_subscriptions)
     import_fields(:service_review_subscriptions)
     import_fields(:stripe_platform_balance_transaction_subscriptions)
+    import_fields(:stripe_platform_payout_subscriptions)
     import_fields(:subscriber_subscriptions)
     import_fields(:tp_doc_subscriptions)
     import_fields(:university_subscriptions)

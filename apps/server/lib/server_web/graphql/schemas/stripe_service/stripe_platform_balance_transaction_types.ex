@@ -62,11 +62,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformBalanceTransacti
         {:ok, topic: "stripe_platform_balance_transactions"}
       end)
 
-      trigger(:all_stripe_platform_balance_transaction,
-        topic: fn _ ->
-          "stripe_platform_balance_transactions"
-        end
-      )
+      trigger(:all_stripe_platform_balance_transaction, topic: fn _ -> "stripe_platform_balance_transactions" end)
     end
   end
 end

@@ -11,6 +11,7 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformPayoutResolver
   alias Stripy.{
     Payments.StripeAccount,
     Repo,
+    StripeService.StripePlatformBalanceTransactionService,
     StripeService.StripePlatformPayoutService
   }
 
@@ -31,12 +32,14 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformPayoutResolver
         case args[:type] do
           "bank" ->
             with account <- Repo.get_by(StripeAccount, %{user_id: current_user.id}),
+                 {:ok, sbt} <- StripePlatformBalanceTransactionService.list(account.id_from_stripe),
                  {:ok, struct} <- StripePlatformPayoutService.create_bank(%{
                    amount: args[:amount],
                    destination: args[:destination],
                    currency: args[:currency]
                  }, account.id_from_stripe)
             do
+              Absinthe.Subscription.publish(ServerWeb.Endpoint, sbt, stripe_platform_payout_create: "stripe_platform_balance_transactions")
               {:ok, struct}
             else
               nil -> {:error, :not_found}
@@ -62,8 +65,11 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformPayoutResolver
                    amount: args[:amount],
                    destination: args[:destination],
                    currency: args[:currency]
-                 }, account.id_from_stripe)
+                 }, account.id_from_stripe),
+                 {:ok, sbt} <- StripePlatformBalanceTransactionService.list(account.id_from_stripe)
+
             do
+              Absinthe.Subscription.publish(ServerWeb.Endpoint, sbt, stripe_platform_payout_create: "stripe_platform_balance_transactions")
               {:ok, struct}
             else
               nil -> {:error, :not_found}
