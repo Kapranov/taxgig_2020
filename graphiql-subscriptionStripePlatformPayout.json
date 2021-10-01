@@ -1,0 +1,221 @@
+{
+  "key": "graphiql",
+  "lastId": 7,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5",
+    "tab6"
+  ],
+  "closedTabs": [
+    {
+      "id": "tab7",
+      "name": "Query 7",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "mutation {\n  createStripePlatformPayout(\n    amount: 5000\n    currency: \"usd\"\n    destination: \"card_1Jf42GQ207001CmueHxvQIVd\"\n    type: \"card\"\n  ) {\n    amount\n    arrivalDate\n    automatic\n    balanceTransaction\n    created\n    currency\n    description\n    destination\n    failureBalanceTransaction\n    failureCode\n    failureMessage\n    id\n    livemode   \n    method\n    object\n    originalPayout\n    reversedBy\n    sourceType\n    statementDescriptor\n    status\n    type\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200
+    }
+  ],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBQmdidXplOUpiS0swdXg4VG9uBgDeuKo2fAFiAAFRgA.niHroVi3o4xcMdH0IwqgANVP3XLCYt6CqB1uPxjaTTg"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBQmdidXplOUpiS0swdXg4VG9uBgAX5l8yfAFiAAFRgA.5TSzTMYGBZ2q4wpSaS5gsALBU9l7hqNa7dBPaZMwIx0"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBQmdidXplOUpiS0swdXg4VG9uBgAX5l8yfAFiAAFRgA.5TSzTMYGBZ2q4wpSaS5gsALBU9l7hqNa7dBPaZMwIx0                                                        "
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBQmdidXplOUpiS0swdXg4VG9uBgAUmx8yfAFiAAFRgA.73_ojP-xhAXBBBFGBkJWArR3r5aeqFpLjun0FD0152o"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBQmdidXplOUpiS0swdXg4VG9uBgDJ2w8yfAFiAAFRgA.ZLuAyrFZq-ohuX3xXubZ_wL1up24r7MJIicHYTcDEI8"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab2",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n stripePlatformBalanceTransactionAll {\\n  id\\n  amount\\n  availableOn\\n  created\\n  currency\\n  error\\n  net\\n  reportingCategory\\n  status\\n  type\\n }\\n}\"}]}",
+      "graphiql:editorFlex": 0.40310880829015544,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signInLocal(\n    is2fa: false\n    email: \"protest@gmail.com\"\n    provider: \"localhost\"\n    password: \"qwerty\"\n    passwordConfirmation: \"qwerty\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    is2fa: false\n    email: \"protest@gmail.com\"\n    password: \"qwerty\"\n    passwordConfirmation: \"qwerty\"\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    userId\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signInLocal(\n    is2fa: false\n    email: \"protest@gmail.com\"\n    provider: \"localhost\"\n    password: \"qwerty\"\n    passwordConfirmation: \"qwerty\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    userId\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signInLocal(\\n    is2fa: false\\n    email: \\\"protest@gmail.com\\\"\\n    password: \\\"qwerty\\\"\\n    passwordConfirmation: \\\"qwerty\\\"\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n stripePlatformBalanceTransactionAll {\\n  id\\n  amount\\n  availableOn\\n  created\\n  currency\\n  error\\n  net\\n  reportingCategory\\n  status\\n  type\\n }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    is2fa: false\\n    email: \\\"protest@gmail.com\\\"\\n    password: \\\"qwerty\\\"\\n    passwordConfirmation: \\\"qwerty\\\"\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    is2fa: false\\n    email: \\\"protest@gmail.com\\\"\\n    provider: \\\"localhost\\\"\\n    password: \\\"qwerty\\\"\\n    passwordConfirmation: \\\"qwerty\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    userId\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.324853228962818
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signInLocal(\n    is2fa: false\n    email: \"protest@gmail.com\"\n    password: \"qwerty\"\n    passwordConfirmation: \"qwerty\"\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allStripePlatformBalanceTransaction {\n    id\n    amount\n    availableOn\n    created\n    currency\n    error\n    net\n    reportingCategory\n    status\n    type\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "subscription {\n stripePlatformBalanceTransactionAll {\n  id\n  amount\n  availableOn\n  created\n  currency\n  error\n  net\n  reportingCategory\n  status\n  type\n }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3973168214654283,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allStripePlatformBalanceTransaction {\\n    id\\n    amount\\n    availableOn\\n    created\\n    currency\\n    error\\n    net\\n    reportingCategory\\n    status\\n    type\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signInLocal(\\n    is2fa: false\\n    email: \\\"protest@gmail.com\\\"\\n    password: \\\"qwerty\\\"\\n    passwordConfirmation: \\\"qwerty\\\"\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    userId\\n  }\\n}\"},{\"query\":\"subscription {\\n stripePlatformBalanceTransactionAll {\\n  id\\n  amount\\n  availableOn\\n  created\\n  currency\\n  error\\n  net\\n  reportingCategory\\n  status\\n  type\\n }\\n}\"}]}"
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allStripePlatformBalanceTransaction {\n    id\n    amount\n    availableOn\n    created\n    currency\n    error\n    net\n    reportingCategory\n    status\n    type\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createStripePlatformPayout(\n    amount: 5000\n    currency: \"usd\"\n    destination: \"card_1Jf42GQ207001CmueHxvQIVd\"\n    type: \"card\"\n  ) {\n    amount\n    arrivalDate\n    automatic\n    balanceTransaction\n    created\n    currency\n    description\n    destination\n    failureBalanceTransaction\n    failureCode\n    failureMessage\n    id\n    livemode   \n    method\n    object\n    originalPayout\n    reversedBy\n    sourceType\n    statementDescriptor\n    status\n    type\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createStripePlatformPayout(\n    amount: 5000\n    currency: \"usd\"\n    destination: \"card_1Jf42GQ207001CmueHxvQIVd\"\n    type: \"card\"\n  ) {\n    amount\n    arrivalDate\n    automatic\n    balanceTransaction\n    created\n    currency\n    description\n    destination\n    failureBalanceTransaction\n    failureCode\n    failureMessage\n    id\n    livemode\n    \n    method\n    object\n    originalPayout\n    reversedBy\n    sourceType\n    statementDescriptor\n    status\n    type\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "subscription {\n stripePlatformPayoutCreate {\n    id\n    amount\n    availableOn\n    created\n    currency\n    error\n    net\n    reportingCategory\n    status\n    type\n }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformPayout(\\n    amount: 5000\\n    currency: \\\"usd\\\"\\n    destination: \\\"card_1Jf42GQ207001CmueHxvQIVd\\\"\\n    type: \\\"card\\\"\\n  ) {\\n    amount\\n    arrivalDate\\n    automatic\\n    balanceTransaction\\n    created\\n    currency\\n    description\\n    destination\\n    failureBalanceTransaction\\n    failureCode\\n    failureMessage\\n    id\\n    livemode\\n    \\n    method\\n    object\\n    originalPayout\\n    reversedBy\\n    sourceType\\n    statementDescriptor\\n    status\\n    type\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createStripePlatformPayout(\\n    amount: 5000\\n    currency: \\\"usd\\\"\\n    destination: \\\"card_1Jf42GQ207001CmueHxvQIVd\\\"\\n    type: \\\"card\\\"\\n  ) {\\n    amount\\n    arrivalDate\\n    automatic\\n    balanceTransaction\\n    created\\n    currency\\n    description\\n    destination\\n    failureBalanceTransaction\\n    failureCode\\n    failureMessage\\n    id\\n    livemode   \\n    method\\n    object\\n    originalPayout\\n    reversedBy\\n    sourceType\\n    statementDescriptor\\n    status\\n    type\\n  }\\n}\"},{\"query\":\"query {\\n  allStripePlatformBalanceTransaction {\\n    id\\n    amount\\n    availableOn\\n    created\\n    currency\\n    error\\n    net\\n    reportingCategory\\n    status\\n    type\\n  }\\n}\"},{\"query\":\"subscription {\\n stripePlatformPayoutCreate {\\n    id\\n    amount\\n    availableOn\\n    created\\n    currency\\n    error\\n    net\\n    reportingCategory\\n    status\\n    type\\n }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3419226957383548,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBQmdidXplOUpiS0swdXg4VG9uBgDeuKo2fAFiAAFRgA.niHroVi3o4xcMdH0IwqgANVP3XLCYt6CqB1uPxjaTTg"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allStripePlatformBalanceTransaction {\n    id\n    amount\n    availableOn\n    created\n    currency\n    error\n    net\n    reportingCategory\n    status\n    type\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createStripePlatformPayout(\n    amount: 5000\n    currency: \"usd\"\n    destination: \"card_1Jf42GQ207001CmueHxvQIVd\"\n    type: \"card\"\n  ) {\n    amount\n    created\n    currency\n    id\n    status\n    type\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createStripePlatformPayout(\n    amount: 5000\n    currency: \"usd\"\n    destination: \"card_1Jf42GQ207001CmueHxvQIVd\"\n    type: \"card\"\n  ) {\n    amount\n    arrivalDate\n    automatic\n    balanceTransaction\n    created\n    currency\n    description\n    destination\n    failureBalanceTransaction\n    failureCode\n    failureMessage\n    id\n    livemode   \n    method\n    object\n    originalPayout\n    reversedBy\n    sourceType\n    statementDescriptor\n    status\n    type\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allStripePlatformBalanceTransaction {\n    id\n    amount\n    availableOn\n    created\n    currency\n    error\n    net\n    reportingCategory\n    status\n    type\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformPayout(\\n    amount: 5000\\n    currency: \\\"usd\\\"\\n    destination: \\\"card_1Jf42GQ207001CmueHxvQIVd\\\"\\n    type: \\\"card\\\"\\n  ) {\\n    amount\\n    arrivalDate\\n    automatic\\n    balanceTransaction\\n    created\\n    currency\\n    description\\n    destination\\n    failureBalanceTransaction\\n    failureCode\\n    failureMessage\\n    id\\n    livemode   \\n    method\\n    object\\n    originalPayout\\n    reversedBy\\n    sourceType\\n    statementDescriptor\\n    status\\n    type\\n  }\\n}\"},{\"query\":\"mutation {\\n  createStripePlatformPayout(\\n    amount: 5000\\n    currency: \\\"usd\\\"\\n    destination: \\\"card_1Jf42GQ207001CmueHxvQIVd\\\"\\n    type: \\\"card\\\"\\n  ) {\\n    amount\\n    created\\n    currency\\n    id\\n    status\\n    type\\n  }\\n}\"},{\"query\":\"query {\\n  allStripePlatformBalanceTransaction {\\n    id\\n    amount\\n    availableOn\\n    created\\n    currency\\n    error\\n    net\\n    reportingCategory\\n    status\\n    type\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.5948174322732627,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab6",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBQmdidXplOUpiS0swdXg4VG9uBgDeuKo2fAFiAAFRgA.niHroVi3o4xcMdH0IwqgANVP3XLCYt6CqB1uPxjaTTg"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createStripePlatformPayout(\n    amount: 5000\n    currency: \"usd\"\n    destination: \"card_1Jf42GQ207001CmueHxvQIVd\"\n    type: \"card\"\n  ) {\n    amount\n    arrivalDate\n    automatic\n    balanceTransaction\n    created\n    currency\n    description\n    destination\n    failureBalanceTransaction\n    failureCode\n    failureMessage\n    id\n    livemode   \n    method\n    object\n    originalPayout\n    reversedBy\n    sourceType\n    statementDescriptor\n    status\n    type\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createStripePlatformPayout(\n    amount: 5000\n    currency: \"usd\"\n    destination: \"card_1Jf42GQ207001CmueHxvQIVd\"\n    type: \"card\"\n  ) {\n    amount\n    arrivalDate\n    automatic\n    balanceTransaction\n    created\n    currency\n    description\n    destination\n    failureBalanceTransaction\n    failureCode\n    failureMessage\n    id\n    livemode   \n    method\n    object\n    originalPayout\n    reversedBy\n    sourceType\n    statementDescriptor\n    status\n    type\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n stripePlatformPayoutCreate {\\n  id\\n  amount\\n  availableOn\\n  created\\n  currency\\n  error\\n  net\\n  reportingCategory\\n  status\\n  type\\n }\\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n stripePlatformPayoutCreate {\\n    id\\n    amount\\n    availableOn\\n    created\\n    currency\\n    error\\n    net\\n    reportingCategory\\n    status\\n    type\\n }\\n}\"},{\"query\":\"mutation {\\n  createStripePlatformPayout(\\n    amount: 5000\\n    currency: \\\"usd\\\"\\n    destination: \\\"card_1Jf42GQ207001CmueHxvQIVd\\\"\\n    type: \\\"card\\\"\\n  ) {\\n    amount\\n    arrivalDate\\n    automatic\\n    balanceTransaction\\n    created\\n    currency\\n    description\\n    destination\\n    failureBalanceTransaction\\n    failureCode\\n    failureMessage\\n    id\\n    livemode   \\n    method\\n    object\\n    originalPayout\\n    reversedBy\\n    sourceType\\n    statementDescriptor\\n    status\\n    type\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350
+    }
+  ]
+}

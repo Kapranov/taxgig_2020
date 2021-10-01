@@ -48,10 +48,13 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformPayoutTypes do
     @desc "Create StripePayout via Channel"
     field :stripe_platform_payout_create, list_of(:stripe_platform_balance_transaction) do
       config(fn _, _ ->
-        {:ok, topic: "stripe_platform_balance_transactions"}
+        {:ok, topic: "stripe_platform_payouts"}
       end)
 
-      trigger(:all_stripe_platform_balance_transaction, topic: fn _ -> "stripe_platform_balance_transactions" end)
+      trigger([
+        :all_stripe_platform_balance_transaction,
+        :create_stripe_platform_payout
+      ], topic: fn _ -> "stripe_platform_balance_transactions" end)
     end
   end
 end
