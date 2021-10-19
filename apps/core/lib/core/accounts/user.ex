@@ -135,7 +135,7 @@ defmodule Core.Accounts.User do
     field :middle_name, :string, null: true
     field :on_going_project_count, :integer, virtual: true
     field :otp_last, :integer, null: false, default: 0
-    field :otp_secret, :string, null: true
+    field :otp_secret, :string, null: false
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string, default: @pass_salt, null: false
@@ -217,6 +217,7 @@ defmodule Core.Accounts.User do
     |> validate_length(:last_name, max: name_limit)
     |> validate_length(:middle_name, max: name_limit)
     |> put_password_hash()
+    |> generate_otp_secret()
   end
 
   @doc """
@@ -368,6 +369,12 @@ defmodule Core.Accounts.User do
       _ ->
         changeset
     end
+  end
+
+  @spec generate_otp_secret(Ecto.Changeset.t()) :: Ecto.Changeset.t()
+  defp generate_otp_secret(changeset) do
+    secret = :crypto.strong_rand_bytes(10) |> Base.encode32()
+    put_change(changeset, :otp_secret, secret)
   end
 
   @spec name_zip_validation(Ecto.Changeset.t()) :: Ecto.Changeset.t()

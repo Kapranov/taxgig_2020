@@ -82,6 +82,15 @@ Output showing success, `HTTP/1.1 200 OK`:
 null* Closing connection 0
 ```
 
+### 2fa - only SigIn
+
+1. localhost
+
+2. SocialNetwork
+     - google
+     - linkedIn
+     - facebook
+
 ### 21 Jan 2020 by Oleg G.Kapranov
 
  [1]: https://github.com/ueberauth/ueberauth_twitter

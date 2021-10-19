@@ -37,7 +37,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :middle_name, :string, description: "accounts user middle_name"
     field :on_going_project_count, :integer, description: "virtual field with calculates all projects In Progress and in Transition"
     field :otp_last, non_null(:integer), description: "2factor last code"
-    field :otp_secret, :string, description: "2factor token"
+    field :otp_secret, non_null(:string), description: "2factor token"
     field :phone, :string, description: "accounts user phone"
     field :platform, list_of(:platform), description: "list user's platform"
     field :profession, :string, description: "credentials received from searchProfession"
@@ -100,6 +100,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :access_token, :string, description: "Generate JWT access token"
     field :error, :string, description: "A short sentence with error"
     field :error_description, :string, description: "Full details of the error"
+    field :is2fa, :boolean, description: "usage two factory authorization"
     field :provider, non_null(:string), description: "Choose provider service"
     field :user_id, :string, description: "A userId is a unique identifier"
   end
@@ -107,6 +108,13 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
   @desc "Get email"
   object :info_email do
     field :email, :string, description: "accounts user email"
+    field :error, :string, description: "a short sentence with error"
+  end
+
+  @desc "Get 2fa"
+  object :two_factory do
+    field :qcode, :string, description: "2fa barcode"
+    field :is2fa, :boolean, description: "on or off two factory"
     field :error, :string, description: "a short sentence with error"
   end
 
@@ -218,11 +226,15 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     @desc "SignIn via localhost"
     field :sign_in_local, :session do
       arg(:email, non_null(:string), description: "A field type for email addresses")
-      arg(:is2fa, non_null(:boolean), description: "2FA two-factor authentication")
       arg(:password, non_null(:string), description: "Input created a secure passphrase")
       arg(:password_confirmation, non_null(:string), description: "Input a secure passphrase match")
       arg(:provider, non_null(:string), description: "Choose provider service")
       resolve(&UserResolver.signin/3)
+    end
+
+    @desc "Two factory authorization"
+    field :create2fa, :two_factory do
+      resolve(&UserResolver.create_2fa/3)
     end
   end
 
@@ -236,7 +248,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       arg :email, :string
       arg :first_name, :string
       arg :init_setup, :boolean
-      arg :is2fa, :boolean
       arg :languages, :string
       arg :last_name, :string
       arg :middle_name, :string

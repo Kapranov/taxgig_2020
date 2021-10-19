@@ -17,7 +17,7 @@ defmodule Core.Repo.Migrations.CreateUsers do
       add :last_name, :string, null: true
       add :middle_name, :string, null: true
       add :otp_last, :integer, null: false, default: 0
-      add :otp_secret, :string, null: true
+      add :otp_secret, :string, null: false
       add :password_hash, :string, null: false
       add :phone, :string, null: true
       add :profession, :string, null: true

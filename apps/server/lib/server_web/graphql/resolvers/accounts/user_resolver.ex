@@ -1233,6 +1233,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                         with token <- generate_token(user) do
                           {:ok, %{
                               access_token: token,
+                              is2fa: user.is2fa,
                               provider: args[:provider],
                               user_id: user.id
                             }}
@@ -1269,6 +1270,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
           }}
     end
   end
+
+  @spec create_2fa(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: success_tuple() | error_tuple()
+  def create_2fa(_parent, _args, %{context: %{current_user: current_user}}) do
+    try do
+      struct = Accounts.get_user!(current_user.id)
+      if struct.is2fa do
+        with barcode <- generate_totp_enrolment_url(struct) do
+          {:ok, %{qcode: barcode, is2fa: struct.is2fa}}
+        end
+      else
+        {:ok, %{error: "is2fa is disable"}}
+      end
+    rescue
+      Ecto.NoResultsError ->
+        {:ok, %{error: "An User not found!"}}
+    end
+  end
+
+  @spec create_2fa(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def create_2fa(_parent, _args, _resolutions), do: {:error, "Unauthenticated"}
 
   @spec required_keys([atom()], map()) :: boolean()
   defp required_keys(keys, args) do
@@ -1322,5 +1343,36 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     |> :calendar.datetime_to_gregorian_seconds()
     |> (fn now_in_seconds -> now_in_seconds - @email_age end).()
     |> :calendar.gregorian_seconds_to_datetime()
+  end
+
+  @doc """
+  Returns the current interval TOTP code for a given user.
+
+  ## Examples
+
+      iex> generate_totp_code(user)
+      473820
+
+  """
+  @spec generate_totp_code(User.t()) :: String.t()
+  def generate_totp_code(%User{otp_secret: secret}) do
+    :pot.totp(secret)
+  end
+
+  @doc """
+  Returns a URL that be rendered with a QR code. It meets the Google Authenticator specification
+  at https://github.com/google/google-authenticator/wiki/Key-Uri-Format.
+
+  ## Examples
+
+      iex> generate_totp_enrolment_url(user)
+      473820
+  """
+  @spec generate_totp_enrolment_url(User.t()) :: String.t()
+  def generate_totp_enrolment_url(%User{email: email, otp_secret: secret}) do
+    uri = "otpauth://totp/TOTP%20Example:#{email}?secret=#{secret}&issuer=TOTP%20Example&algorithm=SHA1&digits=6&period=30"
+    uri
+    |> EQRCode.encode()
+    |> EQRCode.svg()
   end
 end
