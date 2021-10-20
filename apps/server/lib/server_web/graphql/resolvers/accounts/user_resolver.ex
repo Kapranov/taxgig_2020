@@ -57,18 +57,20 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   @keys ~w(provider)a
   @code_keys ~w(provider redirect)a
+  @error_2fa "invalid 2fa"
+  @error_2fa_des "invalid barcode"
   @error_code "invalid code"
   @error_des "invalid url by"
-  @error_pro "invalid provider"
-  @error_pro_des "invalid url by provider"
   @error_email "invalid an email"
   @error_email_des "an email is empty or doesn't correct"
   @error_password "invalid password"
   @error_password_des "password is empty or doesn't correct"
-  @error_token "invalid token"
-  @error_token_des "token is empty or doesn't correct"
+  @error_pro "invalid provider"
+  @error_pro_des "invalid url by provider"
   @error_request "invalid grant"
   @error_request_des "Bad Request"
+  @error_token "invalid token"
+  @error_token_des "token is empty or doesn't correct"
 
   def default_avatars(_parent, _args, _resolutions) do
     image_url = "http://robohash.org/set_set1/bgset_bg1"
@@ -1230,13 +1232,24 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                         }}
                     {:ok, user} ->
                       if {:ok, user} == Argon2.check_pass(user, args[:password_confirmation]) do
-                        with token <- generate_token(user) do
-                          {:ok, %{
-                              access_token: token,
-                              is2fa: user.is2fa,
-                              provider: args[:provider],
-                              user_id: user.id
-                            }}
+                        if user.is2fa do
+                          with barcode <- generate_totp_enrolment_url(user) do
+                            {:ok, %{
+                                access_token: barcode,
+                                is2fa: user.is2fa,
+                                provider: args[:provider],
+                                user_id: user.id
+                              }}
+                          end
+                        else
+                          with token <- generate_token(user) do
+                            {:ok, %{
+                                access_token: token,
+                                is2fa: user.is2fa,
+                                provider: args[:provider],
+                                user_id: user.id
+                              }}
+                          end
                         end
                       else
                         {:ok, %{
@@ -1273,23 +1286,52 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   @spec create_2fa(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: success_tuple() | error_tuple()
   def create_2fa(_parent, _args, %{context: %{current_user: current_user}}) do
-    try do
-      struct = Accounts.get_user!(current_user.id)
-      if struct.is2fa do
-        with barcode <- generate_totp_enrolment_url(struct) do
-          {:ok, %{qcode: barcode, is2fa: struct.is2fa}}
-        end
-      else
-        {:ok, %{error: "is2fa is disable"}}
+    if current_user.is2fa do
+      with barcode <- generate_totp_enrolment_url(current_user) do
+        {:ok, %{qcode: barcode, is2fa: current_user.is2fa}}
       end
-    rescue
-      Ecto.NoResultsError ->
-        {:ok, %{error: "An User not found!"}}
+    else
+      {:ok, %{error: "is2fa is disable"}}
     end
   end
 
   @spec create_2fa(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
   def create_2fa(_parent, _args, _resolutions), do: {:error, "Unauthenticated"}
+
+  @spec signin2fa(any, %{atom => any}, Absinthe.Resolution.t()) :: result() | error_map()
+  def signin2fa(_parent, args, _resolution) do
+    case User.find_by(id: args[:user_id]) do
+      nil ->
+        {:ok, %{
+            error: @error_email,
+            error_description: @error_email_des
+          }}
+      user ->
+        url = "https://www.authenticatorApi.com/Validate.aspx?Pin=#{args[:pin]}&SecretCode=#{user.otp_secret}"
+        {:ok, result} = HTTPoison.get(url, headers: [], params: [])
+        case result.body do
+          "True" ->
+            with token <- generate_token(user) do
+              {:ok, %{
+                  access_token: token,
+                  is2fa: user.is2fa,
+                  provider: user.provider,
+                  user_id: user.id
+                }}
+            end
+          "False" ->
+            {:ok, %{
+                error: @error_2fa,
+                error_description: @error_2fa_des
+              }}
+          _ ->
+            {:ok, %{
+                error: @error_2fa,
+                error_description: @error_2fa_des
+              }}
+        end
+    end
+  end
 
   @spec required_keys([atom()], map()) :: boolean()
   defp required_keys(keys, args) do

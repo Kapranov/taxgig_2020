@@ -101,7 +101,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :error, :string, description: "A short sentence with error"
     field :error_description, :string, description: "Full details of the error"
     field :is2fa, :boolean, description: "usage two factory authorization"
-    field :provider, non_null(:string), description: "Choose provider service"
+    field :provider, :string, description: "Choose provider service"
     field :user_id, :string, description: "A userId is a unique identifier"
   end
 
@@ -235,6 +235,13 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     @desc "Two factory authorization"
     field :create2fa, :two_factory do
       resolve(&UserResolver.create_2fa/3)
+    end
+
+    @desc "SignIn via 2FA"
+    field :sign_in2fa, :session do
+      arg(:pin, non_null(:string), description: "code number via 2fa")
+      arg(:user_id, non_null(:string), description: "A field type for email addresses")
+      resolve(&UserResolver.signin2fa/3)
     end
   end
 
