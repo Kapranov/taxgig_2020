@@ -105,6 +105,14 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :user_id, :string, description: "A userId is a unique identifier"
   end
 
+  @desc "Updated is2fa when successful google authentificator"
+  object :updated2fa do
+    field :error, :string, description: "A short sentence with error"
+    field :error_description, :string, description: "Full details of the error"
+    field :is2fa, :boolean, description: "usage two factory authorization"
+    field :user_id, :string, description: "A userId is a unique identifier"
+  end
+
   @desc "Get email"
   object :info_email do
     field :email, :string, description: "accounts user email"
@@ -310,6 +318,12 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       arg :password, non_null(:string)
       arg :password_confirmation, non_null(:string)
       resolve &UserResolver.password_reset/3
+    end
+
+    @desc "Change is2fa via 2FA"
+    field :verify2fa, :updated2fa do
+      arg :pin, non_null(:integer), description: "code number via 2fa"
+      resolve &UserResolver.verify2fa/3
     end
 
     @desc "Delete a specific accounts an user"

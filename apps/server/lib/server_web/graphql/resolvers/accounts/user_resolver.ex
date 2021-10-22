@@ -1070,12 +1070,23 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                 {:ok, verifed} = OauthFacebook.verify_token(data["access_token"])
                 case verifed["expires_in"] > 0 do
                   true ->
-                    with token <- generate_token(user) do
+                    if user.is2fa do
                       {:ok, %{
-                          access_token: token,
+                          error: "2fa",
+                          error_description: "2fa verification required",
+                          is2fa: user.is2fa,
                           provider: args[:provider],
                           user_id: user.id
                         }}
+                    else
+                      with token <- generate_token(user) do
+                        {:ok, %{
+                            access_token: token,
+                            is2fa: user.is2fa,
+                            provider: args[:provider],
+                            user_id: user.id
+                          }}
+                      end
                     end
                   false ->
                     {:ok, %{
@@ -1124,12 +1135,23 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                 {:ok, verifed} = OauthLinkedIn.verify_token(data["access_token"])
                 case verifed["email"] == user.email do
                   true ->
-                    with token <- generate_token(user) do
+                    if user.is2fa do
                       {:ok, %{
-                          access_token: token,
+                          error: "2fa",
+                          error_description: "2fa verification required",
+                          is2fa: user.is2fa,
                           provider: args[:provider],
                           user_id: user.id
                         }}
+                    else
+                      with token <- generate_token(user) do
+                        {:ok, %{
+                            access_token: token,
+                            is2fa: user.is2fa,
+                            provider: args[:provider],
+                            user_id: user.id
+                          }}
+                      end
                     end
                   false ->
                     {:ok, %{
@@ -1170,12 +1192,23 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                 {:ok, verifed} = OauthGoogle.verify_token(data["access_token"])
                 case verifed["access_type"] == "online" || verifed["email_verified"] == "true" do
                   true ->
-                    with token <- generate_token(user) do
+                    if user.is2fa do
                       {:ok, %{
-                          access_token: token,
+                          error: "2fa",
+                          error_description: "2fa verification required",
+                          is2fa: user.is2fa,
                           provider: args[:provider],
                           user_id: user.id
                         }}
+                    else
+                      with token <- generate_token(user) do
+                        {:ok, %{
+                            access_token: token,
+                            is2fa: user.is2fa,
+                            provider: args[:provider],
+                            user_id: user.id
+                          }}
+                      end
                     end
                   false ->
                     {:ok, %{
@@ -1233,14 +1266,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                     {:ok, user} ->
                       if {:ok, user} == Argon2.check_pass(user, args[:password_confirmation]) do
                         if user.is2fa do
-                          with barcode <- generate_totp_enrolment_url(user) do
-                            {:ok, %{
-                                access_token: barcode,
-                                is2fa: user.is2fa,
-                                provider: args[:provider],
-                                user_id: user.id
-                              }}
-                          end
+                          {:ok, %{
+                              error: "2fa",
+                              error_description: "2fa verification required",
+                              is2fa: user.is2fa,
+                              provider: args[:provider],
+                              user_id: user.id
+                            }}
                         else
                           with token <- generate_token(user) do
                             {:ok, %{
@@ -1287,11 +1319,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   @spec create_2fa(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: success_tuple() | error_tuple()
   def create_2fa(_parent, _args, %{context: %{current_user: current_user}}) do
     if current_user.is2fa do
+      {:ok, %{error: "2fa is enabled already"}}
+    else
       with barcode <- generate_totp_enrolment_url(current_user) do
         {:ok, %{qcode: barcode, is2fa: current_user.is2fa}}
       end
-    else
-      {:ok, %{error: "is2fa is disable"}}
     end
   end
 
@@ -1332,6 +1364,37 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
         end
     end
   end
+
+  @spec verify2fa(any, %{pin: integer}, %{context: %{current_user: User.t()}}) :: result()
+  def verify2fa(_parent, %{pin: pin}, %{context: %{current_user: current_user}}) do
+    url = "https://www.authenticatorApi.com/Validate.aspx?Pin=#{pin}&SecretCode=#{current_user.otp_secret}"
+    {:ok, result} = HTTPoison.get(url, headers: [], params: [])
+    case result.body do
+      "True" ->
+        Repo.get!(User, current_user.id)
+        |> User.changeset(%{is2fa: true})
+        |> Repo.update
+        |> case do
+          {:ok, struct} ->
+            {:ok, %{is2fa: struct.is2fa, user_id: struct.id}}
+          {:error, changeset} ->
+            {:error, extract_error_msg(changeset)}
+        end
+      "False" ->
+        {:ok, %{
+            error: "Authentifaction failed",
+            error_description: "something went wrong when verifying pin"
+          }}
+      _ ->
+        {:ok, %{
+            error: "Authentifaction failed",
+            error_description: "something went wrong when verifying pin"
+          }}
+    end
+  end
+
+  @spec verify2fa(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def verify2fa(_parent, _args, _resolutions), do: {:error, "Unauthenticated"}
 
   @spec required_keys([atom()], map()) :: boolean()
   defp required_keys(keys, args) do
