@@ -289,7 +289,7 @@ defmodule Core.Accounts do
       :accounting_software,
       :languages,
       :work_experiences,
-      educations: [:universities],
+      educations: [:universities]
     ])
   end
 
@@ -416,7 +416,7 @@ defmodule Core.Accounts do
       :accounting_software,
       :languages,
       :work_experiences,
-      educations: [:universities],
+      educations: [:universities]
     ])
   end
 

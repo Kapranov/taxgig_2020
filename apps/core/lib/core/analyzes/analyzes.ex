@@ -24,7 +24,22 @@ defmodule Core.Analyzes do
               {:error, _} ->
                 case Core.Services.SaleTax.by_role(id) do
                   {:error, msg} -> {:error, msg}
-                  _ ->
+                true ->
+                  match = total_match(id)
+                  price = total_price(id)
+                  [value] = total_value(id) |> Map.values
+                  Map.merge(
+                    Enum.into(match, %{}, fn {k, v} -> {k, %{id: k, sum_match: v}} end),
+                    Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
+                    fn _k, v1, v2 -> Map.merge(v1, v2) end
+                  ) |> Enum.map(fn {_k, v} ->
+                    record = Map.merge(v, Core.Queries.by_sale_taxes_for_tp(Core.Services.SaleTax, Core.Accounts.User, Core.Contracts.Project, Core.Services.SaleTaxFrequency, Core.Services.SaleTaxIndustry, :user_id, :sale_tax_id, v.id, "SaleTax"))
+                    langs = Core.Accounts.get_user!(record.user.id).languages
+                    Map.merge(record, %{
+                      user: %{avatar: record.user.avatar, first_name: record.user.first_name, id: record.user.id, languages: langs},
+                    })
+                  end)
+                false ->
                     match = total_match(id)
                     price = total_price(id)
                     [value] = total_value(id) |> Map.values
@@ -32,7 +47,81 @@ defmodule Core.Analyzes do
                       Enum.into(match, %{}, fn {k, v} -> {k, %{id: k, sum_match: v}} end),
                       Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
                       fn _k, v1, v2 -> Map.merge(v1, v2) end
-                    ) |> Enum.map(fn {_k, v} -> v end)
+                    ) |> Enum.map(fn {_k, v} ->
+                      record = Core.Services.get_sale_tax!(v.id)
+                      Map.merge(v, %{
+                        name: "SaleTax",
+                        user: %{
+                          id: record.user_id,
+                          first_name: record.user.first_name,
+                          last_name: record.user.last_name,
+                          middle_name: record.user.middle_name,
+                          avatar: record.user.avatar,
+                          profession: record.user.profession,
+                          languages: record.user.languages,
+                          pro_ratings: record.user.pro_ratings
+                        }
+                      })
+                    end)
+                end
+              _ ->
+                match = total_match(id)
+                price = total_price(id)
+                [value] = total_value(id) |> Map.values
+                Map.merge(
+                  Enum.into(match, %{}, fn {k, v} -> {k, %{id: k, sum_match: v}} end),
+                  Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
+                  fn _k, v1, v2 -> Map.merge(v1, v2) end
+                ) |> Enum.map(fn {_k, v} -> v end)
+            end
+          _ ->
+            match = total_match(id)
+            price = total_price(id)
+            [value] = total_value(id) |> Map.values
+            Map.merge(
+              Enum.into(match, %{}, fn {k, v} -> {k, %{id: k, sum_match: v}} end),
+              Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
+              fn _k, v1, v2 -> Map.merge(v1, v2) end
+            ) |> Enum.map(fn {_k, v} -> v end)
+        end
+      _ ->
+        match = total_match(id)
+        price = total_price(id)
+        [value] = total_value(id) |> Map.values
+        Map.merge(
+          Enum.into(match, %{}, fn {k, v} -> {k, %{id: k, sum_match: v}} end),
+          Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
+          fn _k, v1, v2 -> Map.merge(v1, v2) end
+        ) |> Enum.map(fn {_k, v} -> v end)
+    end
+  end
+
+  def find(id) do
+    case Core.Services.BookKeeping.by_role(id) do
+      {:error, _} ->
+        case Core.Services.BusinessTaxReturn.by_role(id) do
+          {:error, _} ->
+            case Core.Services.IndividualTaxReturn.by_role(id) do
+              {:error, _} ->
+                case Core.Services.SaleTax.by_role(id) do
+                  {:error, msg} -> {:error, msg}
+                  _ ->
+                    match = total_match(id)
+                    price = total_price(id)
+                    [value] = total_value(id) |> Map.values
+                    data =
+                      Map.merge(
+                        Enum.into(match, %{}, fn {k, v} -> {k, %{id: k, sum_match: v}} end),
+                        Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
+                        fn _k, v1, v2 -> Map.merge(v1, v2) end
+                      )
+                    result =
+                      data
+                      |> Enum.map(fn {k, v} ->
+                        struct = Core.Services.get_sale_tax!(k)
+                        Map.merge(v, %{id: struct, name: "Service's SaleTax"})
+                      end)
+                    result
                 end
               _ ->
                 match = total_match(id)

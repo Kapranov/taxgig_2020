@@ -833,6 +833,64 @@ defmodule Core.Queries do
     end
   end
 
+  @doc """
+  ## Example
+
+      iex> struct_a = Core.Servives.SaleTax
+      iex> struct_b = Core.Accounts.User
+      iex> struct_c = Core.Contracts.Project
+      iex> struct_d = Core.Services.SaleTaxFrequency
+      iex> struct_f = Core.Servives.SaleTaxIndustry
+      iex> row_a = :user_id
+      iex> row_b = :sale_tax_id
+      iex> id = FlakeId.get()
+      iex> by_sale_taxes_for_tp(Core.Services.SaleTax, Core.Accounts.User, Core.Contracts.Project, Core.Services.SaleTaxFrequency, Core.Services.SaleTaxIndustry, :user_id, :sale_tax_id, "ADxsR9DkXb6Z5ELoOG", "SaleTax")
+      Map.new()
+  """
+  #@spec by_sale_taxes_for_tp(map, atom, atom, atom, word) :: [{word}] | nil
+  def by_sale_taxes_for_tp(struct_a, struct_b, struct_c, struct_d, struct_f, row_a, row_b, id, name) do
+    try do
+      Repo.one(
+        from c in struct_a,
+        join: cp in ^struct_c,
+        join: cd in ^struct_d,
+        join: cf in ^struct_f,
+        join: cu in ^struct_b,
+        where: c.id == ^id,
+        where: not is_nil(field(c, ^row_a)),
+        where: not is_nil(field(cp, ^row_b)),
+        where: c.user_id == cu.id,
+        where: c.id == field(cp, ^row_b),
+        where: c.id == field(cd, ^row_b),
+        where: c.id == field(cf, ^row_b),
+        select: %{
+          name: ^name,
+          project: %{
+            id: cp.id,
+            instant_matched: cp.instant_matched,
+            status: cp.status
+          },
+          sale_tax: %{
+            id: c.id,
+            deadline: c.deadline,
+            sale_tax_count: c.sale_tax_count,
+            state: c.state,
+            sale_tax_frequency: %{name: cd.name},
+            sale_tax_industry: %{name: cf.name},
+          },
+          user: %{
+            id: cu.id,
+            avatar: cu.avatar,
+            first_name: cu.first_name,
+            languages: nil
+          }
+        }
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
 #  @spec filtered_service(map) :: map
 #  def filtered_service(attrs) do
 #    case is_nil(attrs.book_keeping_id) do

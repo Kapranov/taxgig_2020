@@ -5949,7 +5949,7 @@ defmodule Core.Services do
     |> Repo.preload([
       :sale_tax_frequencies,
       :sale_tax_industries,
-      user: [:sale_taxes]
+      user: [:languages, projects: [:sale_tax], pro_ratings: [:projects]]
     ])
   end
 

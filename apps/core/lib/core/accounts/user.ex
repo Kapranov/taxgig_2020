@@ -254,7 +254,6 @@ defmodule Core.Accounts.User do
     |> put_password_hash()
   end
 
-
   @doc "Returns status account"
   @spec account_status(User.t()) :: atom()
   def account_status(%User{active: true}), do: :active
