@@ -39,6 +39,9 @@ defmodule Core.Analyzes do
                       user: %{avatar: record.user.avatar, first_name: record.user.first_name, id: record.user.id, languages: langs},
                     })
                   end)
+                  |> Enum.reject(&(&1.project.status != :New))
+                  |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
+                  |> Enum.take(5)
                 false ->
                     match = total_match(id)
                     price = total_price(id)
