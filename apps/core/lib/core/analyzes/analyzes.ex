@@ -66,6 +66,7 @@ defmodule Core.Analyzes do
                         }
                       })
                     end)
+                    |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
                 end
               _ ->
                 match = total_match(id)
