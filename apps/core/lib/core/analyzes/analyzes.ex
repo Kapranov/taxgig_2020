@@ -14,8 +14,8 @@ defmodule Core.Analyzes do
 
   @type word() :: String.t()
 
-  @spec total_all(word) :: [%{atom => word, atom => integer | float}]
-  def total_all(id) do
+  @spec total_all(word, integer) :: [%{atom => word, atom => integer | float}]
+  def total_all(id, num) do
     case Core.Services.BookKeeping.by_role(id) do
       {:error, _} ->
         case Core.Services.BusinessTaxReturn.by_role(id) do
@@ -41,7 +41,7 @@ defmodule Core.Analyzes do
                   end)
                   |> Enum.reject(&(&1.project.status != :New))
                   |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
-                  |> Enum.take(5)
+                  |> Enum.take(num)
                 false ->
                     match = total_match(id)
                     price = total_price(id)

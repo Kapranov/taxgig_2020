@@ -86,6 +86,7 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
 
     @desc "Get an analyze sale_tax for role's pro"
     field :show_analyze_sale_tax_for_pro, list_of(:analyze_sale_tax_for_tp) do
+      arg(:page, non_null(:integer))
       arg(:service_id, non_null(:string))
       resolve(&AnalyzeResolver.show/3)
     end

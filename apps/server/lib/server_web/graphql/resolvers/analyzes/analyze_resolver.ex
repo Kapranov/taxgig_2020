@@ -13,11 +13,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Analyzes.AnalyzeResolver do
   @type result :: success_tuple | error_tuple
 
   @spec show(any, %{service_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def show(_parent, %{service_id: id}, %{context: %{current_user: current_user}}) do
+  def show(_parent, %{page: num, service_id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
       {:error, [[field: :service_id, message: "Can't be blank or Permission denied for current_user to perform action Show"]]}
     else
-      case Analyzes.total_all(id) do
+      case Analyzes.total_all(id, num) do
         {:error, [field: :user_id, message: "UserId Not Found in SaleTax"]} ->
           {:error, "The ServiceId #{id} not found!"}
         data ->

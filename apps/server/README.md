@@ -91,6 +91,15 @@ null* Closing connection 0
      - linkedIn
      - facebook
 
+### pagination with elixir, phoenix, absinthe
+
+- `https://github.com/robobakery/absinthe-relay-cursor-pagination`
+- `https://hexdocs.pm/absinthe/relay.html`
+- `https://www.apollographql.com/blog/graphql/explaining-graphql-connections/`
+- `https://medium.com/@gottfrois/stream-paginated-graphql-api-in-elixir-11b3b5fdf8fe`
+- `https://dev.to/revent/graphql-journey-part-3-pagination-3a8n`
+- `Craft GraphQL APIs in Elixir with Absinthe`
+
 ### 21 Jan 2020 by Oleg G.Kapranov
 
  [1]: https://github.com/ueberauth/ueberauth_twitter
