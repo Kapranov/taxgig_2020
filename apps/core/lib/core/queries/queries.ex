@@ -847,7 +847,7 @@ defmodule Core.Queries do
       iex> by_sale_taxes_for_tp(Core.Services.SaleTax, Core.Accounts.User, Core.Contracts.Project, Core.Services.SaleTaxFrequency, Core.Services.SaleTaxIndustry, :user_id, :sale_tax_id, "ADxsR9DkXb6Z5ELoOG", "SaleTax")
       Map.new()
   """
-  #@spec by_sale_taxes_for_tp(map, atom, atom, atom, word) :: [{word}] | nil
+  @spec by_sale_taxes_for_tp(map, map, map, map, map, atom, atom, atom, word) :: [{word}] | nil
   def by_sale_taxes_for_tp(struct_a, struct_b, struct_c, struct_d, struct_f, row_a, row_b, id, name) do
     try do
       Repo.one(
@@ -877,6 +877,90 @@ defmodule Core.Queries do
             state: c.state,
             sale_tax_frequency: %{name: cd.name},
             sale_tax_industry: %{name: cf.name},
+          },
+          user: %{
+            id: cu.id,
+            avatar: cu.avatar,
+            first_name: cu.first_name,
+            languages: nil
+          }
+        }
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+  @doc """
+  ## Example
+
+      iex> struct_a = Core.Servives.BookKeeping
+      iex> struct_b = Core.Accounts.User
+      iex> struct_c = Core.Contracts.Project
+      iex> struct_d = Core.Services.BookKeepingAdditionalNeed
+      iex> struct_f = Core.Services.BookKeepingAnnualRevenue
+      iex> struct_h = Core.Services.BookKeepingClassifyInventory
+      iex> struct_g = Core.Services.BookKeepingIndustry
+      iex> struct_l = Core.Services.BookKeepingNumberEmployee
+      iex> struct_n = Core.Services.BookKeepingTransactionVolume
+      iex> struct_m = Core.Services.BookKeepingTypeClient
+      iex> row_a = :user_id
+      iex> row_b = :book_keeping_id
+      iex> id = FlakeId.get()
+      iex> by_book_keepings_for_tp(Core.Services.BookKeeping, Core.Accounts.User, Core.Contracts.Project, Core.Services.BookKeepingAdditionalNeed, Core.Services.BookKeepingAnnualRevenue, Core.Services.BookKeepingClassifyInventory, Core.Services.BookKeepingIndustry, Core.Services.BookKeepingNumberEmployee, Core.Services.BookKeepingTransactionVolume, Core.Services.BookKeepingTypeClient, :user_id, :book_keeping_id, "ADxsR9DkXb6Z5ELoOG", "BookKeeping")
+      Map.new()
+  """
+  @spec by_book_keepings_for_tp(map, map, map, map, map, map, map, map, map, map, atom, atom, atom, word) :: [{word}] | nil
+  def by_book_keepings_for_tp(struct_a, struct_b, struct_c, struct_d, struct_f, struct_h, struct_g, struct_l, struct_n, struct_m, row_a, row_b, id, name) do
+    try do
+      Repo.one(
+        from c in struct_a,
+        join: cc in ^struct_c,
+        join: cd in ^struct_d,
+        join: cf in ^struct_f,
+        join: ch in ^struct_h,
+        join: cg in ^struct_g,
+        join: cl in ^struct_l,
+        join: cn in ^struct_n,
+        join: cm in ^struct_m,
+        join: cu in ^struct_b,
+        where: c.id == ^id,
+        where: not is_nil(field(c, ^row_a)),
+        where: not is_nil(field(cc, ^row_b)),
+        where: not is_nil(field(cd, ^row_b)),
+        where: not is_nil(field(cf, ^row_b)),
+        where: not is_nil(field(ch, ^row_b)),
+        where: not is_nil(field(cg, ^row_b)),
+        where: not is_nil(field(cl, ^row_b)),
+        where: not is_nil(field(cn, ^row_b)),
+        where: not is_nil(field(cm, ^row_b)),
+        where: c.user_id == cu.id,
+        where: c.id == field(cc, ^row_b),
+        where: c.id == field(cd, ^row_b),
+        where: c.id == field(cf, ^row_b),
+        where: c.id == field(ch, ^row_b),
+        where: c.id == field(cg, ^row_b),
+        where: c.id == field(cl, ^row_b),
+        where: c.id == field(cn, ^row_b),
+        where: c.id == field(cm, ^row_b),
+        select: %{
+          name: ^name,
+          project: %{
+            id: cc.id,
+            instant_matched: cc.instant_matched,
+            status: cc.status
+          },
+          book_keeping: %{
+            id: c.id,
+            deadline: c.deadline,
+            sale_tax_count: c.sale_tax_count,
+            state: c.state,
+            book_keeping_additional_need: %{},
+            book_keeping_annual_revenue: %{},
+            book_keeping_classify_inventory: %{},
+            book_keeping_industry: %{},
+            book_keeping_number_employee: %{},
+            book_keeping_transaction_volume: %{},
+            book_keeping_type_client: %{}
           },
           user: %{
             id: cu.id,

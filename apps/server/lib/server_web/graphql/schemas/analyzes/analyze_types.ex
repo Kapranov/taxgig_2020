@@ -80,6 +80,7 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
   object :analyze_queries do
     @desc "Get an analyze specific service"
     field :show_analyze, list_of(:analyze) do
+      arg(:page, :integer, default_value: 0)
       arg(:service_id, non_null(:string))
       resolve(&AnalyzeResolver.show/3)
     end
@@ -93,6 +94,7 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
 
     @desc "Get an analyze sale_tax for role's tp"
     field :show_analyze_sale_tax_for_tp, list_of(:analyze_sale_tax_for_pro) do
+      # arg(:page, :integer, default_value: 0)
       arg(:service_id, non_null(:string))
       resolve(&AnalyzeResolver.show/3)
     end

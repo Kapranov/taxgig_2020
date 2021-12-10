@@ -15,7 +15,7 @@ defmodule Core.Analyzes do
   @type word() :: String.t()
 
   @spec total_all(word, integer) :: [%{atom => word, atom => integer | float}]
-  def total_all(id, num) do
+  def total_all(id, num \\ 5) do
     case Core.Services.BookKeeping.by_role(id) do
       {:error, _} ->
         case Core.Services.BusinessTaxReturn.by_role(id) do
@@ -88,7 +88,7 @@ defmodule Core.Analyzes do
               fn _k, v1, v2 -> Map.merge(v1, v2) end
             ) |> Enum.map(fn {_k, v} -> v end)
         end
-      _ ->
+    true ->
         match = total_match(id)
         price = total_price(id)
         [value] = total_value(id) |> Map.values
@@ -96,58 +96,17 @@ defmodule Core.Analyzes do
           Enum.into(match, %{}, fn {k, v} -> {k, %{id: k, sum_match: v}} end),
           Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
           fn _k, v1, v2 -> Map.merge(v1, v2) end
-        ) |> Enum.map(fn {_k, v} -> v end)
-    end
-  end
-
-  def find(id) do
-    case Core.Services.BookKeeping.by_role(id) do
-      {:error, _} ->
-        case Core.Services.BusinessTaxReturn.by_role(id) do
-          {:error, _} ->
-            case Core.Services.IndividualTaxReturn.by_role(id) do
-              {:error, _} ->
-                case Core.Services.SaleTax.by_role(id) do
-                  {:error, msg} -> {:error, msg}
-                  _ ->
-                    match = total_match(id)
-                    price = total_price(id)
-                    [value] = total_value(id) |> Map.values
-                    data =
-                      Map.merge(
-                        Enum.into(match, %{}, fn {k, v} -> {k, %{id: k, sum_match: v}} end),
-                        Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
-                        fn _k, v1, v2 -> Map.merge(v1, v2) end
-                      )
-                    result =
-                      data
-                      |> Enum.map(fn {k, v} ->
-                        struct = Core.Services.get_sale_tax!(k)
-                        Map.merge(v, %{id: struct, name: "Service's SaleTax"})
-                      end)
-                    result
-                end
-              _ ->
-                match = total_match(id)
-                price = total_price(id)
-                [value] = total_value(id) |> Map.values
-                Map.merge(
-                  Enum.into(match, %{}, fn {k, v} -> {k, %{id: k, sum_match: v}} end),
-                  Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
-                  fn _k, v1, v2 -> Map.merge(v1, v2) end
-                ) |> Enum.map(fn {_k, v} -> v end)
-            end
-          _ ->
-            match = total_match(id)
-            price = total_price(id)
-            [value] = total_value(id) |> Map.values
-            Map.merge(
-              Enum.into(match, %{}, fn {k, v} -> {k, %{id: k, sum_match: v}} end),
-              Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
-              fn _k, v1, v2 -> Map.merge(v1, v2) end
-            ) |> Enum.map(fn {_k, v} -> v end)
-        end
-      _ ->
+        ) |> Enum.map(fn {_k, v} ->
+          record = Map.merge(v, Core.Queries.by_book_keepings_for_tp(Core.Services.BookKeeping, Core.Accounts.User, Core.Contracts.Project, Core.Services.BookKeepingAdditionalNeed, Core.Services.BookKeepingAnnualRevenue, Core.Services.BookKeepingClassifyInventory, Core.Services.BookKeepingIndustry, Core.Services.BookKeepingNumberEmployee, Core.Services.BookKeepingTransactionVolume, Core.Services.BookKeepingTypeClient, :user_id, :book_keeping_id, v.id, "BookKeeping"))
+          langs = Core.Accounts.get_user!(record.user.id).languages
+          Map.merge(record, %{
+            user: %{avatar: record.user.avatar, first_name: record.user.first_name, id: record.user.id, languages: langs},
+          })
+        end)
+        |> Enum.reject(&(&1.project.status != :New))
+        |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
+        |> Enum.take(num)
+    false ->
         match = total_match(id)
         price = total_price(id)
         [value] = total_value(id) |> Map.values
