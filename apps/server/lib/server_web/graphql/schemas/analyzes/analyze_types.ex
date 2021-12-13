@@ -15,14 +15,23 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
     field :sum_price, :integer
   end
 
+  object :book_keeping_for_tp do
+    field :id, :string
+    field :deadline, :string
+    field :tax_year, list_of(:string)
+    field :book_keeping_annual_revenue, :name_by_service
+    field :book_keeping_number_employee, :name_by_service
+    field :book_keeping_type_client, :name_by_service
+  end
+
   object :sale_tax_for_tp do
     field :id, :string
     field :deadline, :string
     field :sale_tax_count, :integer
     field :state, list_of(:string)
     field :status, :string
-    field :sale_tax_frequency, :sale_tax_frequency_for_tp
-    field :sale_tax_industry, :sale_tax_industry_for_tp
+    field :sale_tax_frequency, :name_by_service
+    field :sale_tax_industry, :names_by_service
   end
 
   object :project_for_tp do
@@ -31,12 +40,23 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
     field :status, :string
   end
 
-  object :sale_tax_frequency_for_tp do
+  object :name_by_service do
     field :name, :string
   end
 
-  object :sale_tax_industry_for_tp do
+  object :names_by_service do
     field :name, list_of(:string)
+  end
+
+  object :analyze_book_keeping_for_tp do
+    field :id, non_null(:string), description: "service id"
+    field :name, :string
+    field :sum_value, :decimal
+    field :sum_match, :integer
+    field :sum_price, :integer
+    field :book_keeping, :book_keeping_for_tp
+    field :project, :project_for_tp
+    field :user, :user_by_tp
   end
 
   object :analyze_sale_tax_for_tp do
@@ -81,6 +101,13 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
     @desc "Get an analyze specific service"
     field :show_analyze, list_of(:analyze) do
       arg(:page, :integer, default_value: 0)
+      arg(:service_id, non_null(:string))
+      resolve(&AnalyzeResolver.show/3)
+    end
+
+    @desc "Get an analyze book_keeping for role's pro"
+    field :show_analyze_book_keeping_for_pro, list_of(:analyze_book_keeping_for_tp) do
+      arg(:page, non_null(:integer))
       arg(:service_id, non_null(:string))
       resolve(&AnalyzeResolver.show/3)
     end

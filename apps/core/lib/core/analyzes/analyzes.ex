@@ -97,7 +97,7 @@ defmodule Core.Analyzes do
           Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
           fn _k, v1, v2 -> Map.merge(v1, v2) end
         ) |> Enum.map(fn {_k, v} ->
-          record = Map.merge(v, Core.Queries.by_book_keepings_for_tp(Core.Services.BookKeeping, Core.Accounts.User, Core.Contracts.Project, Core.Services.BookKeepingAdditionalNeed, Core.Services.BookKeepingAnnualRevenue, Core.Services.BookKeepingClassifyInventory, Core.Services.BookKeepingIndustry, Core.Services.BookKeepingNumberEmployee, Core.Services.BookKeepingTransactionVolume, Core.Services.BookKeepingTypeClient, :user_id, :book_keeping_id, v.id, "BookKeeping"))
+          record = Map.merge(v, Core.Queries.by_book_keepings_for_tp(Core.Services.BookKeeping, Core.Accounts.User, Core.Contracts.Project, Core.Services.BookKeepingAnnualRevenue, Core.Services.BookKeepingNumberEmployee, Core.Services.BookKeepingTypeClient, :user_id, :book_keeping_id, v.id, "BookKeeping"))
           langs = Core.Accounts.get_user!(record.user.id).languages
           Map.merge(record, %{
             user: %{avatar: record.user.avatar, first_name: record.user.first_name, id: record.user.id, languages: langs},
