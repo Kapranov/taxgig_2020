@@ -673,7 +673,7 @@ defmodule Core.Services do
       :book_keeping_number_employees,
       :book_keeping_transaction_volumes,
       :book_keeping_type_clients,
-      user: [:languages, projects: [:book_keeping], pro_ratings: [:projects]]
+      user: [:languages, :platform, projects: [:book_keeping], pro_ratings: [:projects]]
     ])
   end
 

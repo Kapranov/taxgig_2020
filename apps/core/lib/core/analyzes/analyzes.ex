@@ -100,7 +100,7 @@ defmodule Core.Analyzes do
           record = Map.merge(v, Core.Queries.by_book_keepings_for_tp(Core.Services.BookKeeping, Core.Accounts.User, Core.Contracts.Project, Core.Services.BookKeepingAnnualRevenue, Core.Services.BookKeepingNumberEmployee, Core.Services.BookKeepingTypeClient, :user_id, :book_keeping_id, v.id, "BookKeeping"))
           langs = Core.Accounts.get_user!(record.user.id).languages
           Map.merge(record, %{
-            user: %{avatar: record.user.avatar, first_name: record.user.first_name, id: record.user.id, languages: langs},
+            user: %{avatar: record.user.avatar, first_name: record.user.first_name, id: record.user.id, languages: langs}
           })
         end)
         |> Enum.reject(&(&1.project.status != :New))
@@ -126,10 +126,12 @@ defmodule Core.Analyzes do
               avatar: record.user.avatar,
               profession: record.user.profession,
               languages: record.user.languages,
+              platform: record.user.platform,
               pro_ratings: record.user.pro_ratings
             }
           })
         end)
+        |> Enum.reject(&(&1.user.platform.client_limit_reach == true))
         |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
     end
   end

@@ -48,6 +48,12 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
     field :name, list_of(:string)
   end
 
+  object :platform_for_pro do
+    field :client_limit_reach, non_null(:boolean)
+    field :hero_status, non_null(:boolean)
+    field :is_online, non_null(:boolean)
+  end
+
   object :analyze_book_keeping_for_tp do
     field :id, non_null(:string), description: "service id"
     field :name, :string
@@ -103,6 +109,7 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
     field :middle_name, :string
     field :profession, :string
     field :languages, list_of(:language)
+    field :platform, :platform_for_pro
     field :pro_ratings, list_of(:pro_rating)
   end
 
