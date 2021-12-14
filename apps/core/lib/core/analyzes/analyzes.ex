@@ -114,7 +114,23 @@ defmodule Core.Analyzes do
           Enum.into(match, %{}, fn {k, v} -> {k, %{id: k, sum_match: v}} end),
           Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
           fn _k, v1, v2 -> Map.merge(v1, v2) end
-        ) |> Enum.map(fn {_k, v} -> v end)
+        ) |> Enum.map(fn {_k, v} ->
+          record = Core.Services.get_book_keeping!(v.id)
+          Map.merge(v, %{
+            name: "BookKeeping",
+            user: %{
+              id: record.user_id,
+              first_name: record.user.first_name,
+              last_name: record.user.last_name,
+              middle_name: record.user.middle_name,
+              avatar: record.user.avatar,
+              profession: record.user.profession,
+              languages: record.user.languages,
+              pro_ratings: record.user.pro_ratings
+            }
+          })
+        end)
+        |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
     end
   end
 
