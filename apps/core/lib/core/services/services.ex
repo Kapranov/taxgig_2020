@@ -2249,7 +2249,7 @@ defmodule Core.Services do
       :business_number_employees,
       :business_total_revenues,
       :business_transaction_counts,
-      user: [:business_tax_returns]
+      user: [:business_tax_returns, :languages, :platform, projects: [:business_tax_returns], pro_ratings: [:projects]]
     ])
   end
 

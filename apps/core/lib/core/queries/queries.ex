@@ -844,7 +844,8 @@ defmodule Core.Queries do
       iex> row_a = :user_id
       iex> row_b = :sale_tax_id
       iex> id = FlakeId.get()
-      iex> by_sale_taxes_for_tp(Core.Services.SaleTax, Core.Accounts.User, Core.Contracts.Project, Core.Services.SaleTaxFrequency, Core.Services.SaleTaxIndustry, :user_id, :sale_tax_id, "ADxsR9DkXb6Z5ELoOG", "SaleTax")
+      iex> name = "SaleTax"
+      iex> by_sale_taxes_for_tp(Core.Services.SaleTax, Core.Accounts.User, Core.Contracts.Project, Core.Services.SaleTaxFrequency, Core.Services.SaleTaxIndustry, :user_id, :sale_tax_id, "ADxsR9DkXb6Z5ELoOG", name)
       Map.new()
   """
   @spec by_sale_taxes_for_tp(map, map, map, map, map, atom, atom, atom, word) :: [{word}] | nil
@@ -890,6 +891,7 @@ defmodule Core.Queries do
       Ecto.Query.CastError -> nil
     end
   end
+
   @doc """
   ## Example
 
@@ -902,7 +904,8 @@ defmodule Core.Queries do
       iex> row_a = :user_id
       iex> row_b = :book_keeping_id
       iex> id = FlakeId.get()
-      iex> by_book_keepings_for_tp(Core.Services.BookKeeping, Core.Accounts.User, Core.Contracts.Project, Core.Services.BookKeepingAnnualRevenue, Core.Services.BookKeepingNumberEmployee, Core.Services.BookKeepingTypeClient, :user_id, :book_keeping_id, "AEGZXAy9T6sfnd0xAO", "BookKeeping")
+      iex> name = "BookKeeping"
+      iex> by_book_keepings_for_tp(Core.Services.BookKeeping, Core.Accounts.User, Core.Contracts.Project, Core.Services.BookKeepingAnnualRevenue, Core.Services.BookKeepingNumberEmployee, Core.Services.BookKeepingTypeClient, :user_id, :book_keeping_id, "AEGZXAy9T6sfnd0xAO", name)
       Map.new()
   """
   @spec by_book_keepings_for_tp(map, map, map, map, map, map, atom, atom, atom, word) :: [{word}] | nil
@@ -940,6 +943,71 @@ defmodule Core.Queries do
             book_keeping_annual_revenue: %{name: cd.name},
             book_keeping_number_employee: %{name: ch.name},
             book_keeping_type_client: %{name: cf.name}
+          },
+          user: %{
+            id: cu.id,
+            avatar: cu.avatar,
+            first_name: cu.first_name,
+            languages: nil
+          }
+        }
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  ## Example
+
+      iex> struct_a = Core.Servives.BusinessTaxReturn
+      iex> struct_b = Core.Accounts.User
+      iex> struct_c = Core.Contracts.Project
+      iex> struct_d = Core.Services.BusinessEntityType
+      iex> struct_f = Core.Services.BusinessNumberEmployee
+      iex> struct_h = Core.Services.BusinessTotalRevenue
+      iex> row_a = :user_id
+      iex> row_b = :business_tax_return_id
+      iex> id = FlakeId.get()
+      iex> name = "BusinessTaxReturn"
+      iex> by_business_tax_returns_for_tp(Core.Services.BusinessTaxReturn, Core.Accounts.User, Core.Contracts.Project, Core.Services.BusinessEntityType, Core.Services.BusinessNumberEmployee, Core.Services.BusinessTotalRevenue, :user_id, :business_tax_return_id, "xxx", name)
+      Map.new()
+  """
+  @spec by_business_tax_returns_for_tp(map, map, map, map, map, map, atom, atom, atom, word) :: [{word}] | nil
+  def by_business_tax_returns_for_tp(struct_a, struct_b, struct_c, struct_d, struct_f, struct_h, row_a, row_b, id, name) do
+    try do
+      Repo.one(
+        from c in struct_a,
+        join: cc in ^struct_c,
+        join: cd in ^struct_d,
+        join: cf in ^struct_f,
+        join: ch in ^struct_h,
+        join: cu in ^struct_b,
+        where: c.id == ^id,
+        where: not is_nil(field(c, ^row_a)),
+        where: not is_nil(field(cc, ^row_b)),
+        where: not is_nil(field(cd, ^row_b)),
+        where: not is_nil(field(cf, ^row_b)),
+        where: not is_nil(field(ch, ^row_b)),
+        where: c.user_id == cu.id,
+        where: c.id == field(cc, ^row_b),
+        where: c.id == field(cd, ^row_b),
+        where: c.id == field(cf, ^row_b),
+        where: c.id == field(ch, ^row_b),
+        select: %{
+          name: ^name,
+          project: %{
+            id: cc.id,
+            instant_matched: cc.instant_matched,
+            status: cc.status
+          },
+          business_tax_return: %{
+            id: c.id,
+            deadline: c.deadline,
+            tax_year: c.tax_year,
+            business_entity_type: %{name: cd.name},
+            business_number_employee: %{name: ch.name},
+            business_total_revenue: %{name: cf.name}
           },
           user: %{
             id: cu.id,
