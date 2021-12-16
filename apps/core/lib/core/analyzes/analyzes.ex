@@ -68,7 +68,7 @@ defmodule Core.Analyzes do
                     end)
                     |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
                 end
-              _ ->
+              true ->
                 match = total_match(id)
                 price = total_price(id)
                 [value] = total_value(id) |> Map.values
@@ -76,7 +76,42 @@ defmodule Core.Analyzes do
                   Enum.into(match, %{}, fn {k, v} -> {k, %{id: k, sum_match: v}} end),
                   Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
                   fn _k, v1, v2 -> Map.merge(v1, v2) end
-                ) |> Enum.map(fn {_k, v} -> v end)
+                ) |> Enum.map(fn {_k, v} ->
+                  record = Map.merge(v, Core.Queries.by_individual_tax_returns_for_tp(Core.Servives.IndividualTaxReturn, Core.Accounts.User, Core.Contracts.Project, Core.Services.IndividualEmploymentStatus, Core.Services.IndividualFilingStatus, Core.Services.IndividualItemizedDeduction, :user_id, :individual_tax_return_id, v.id, "IndividualTaxReturn"))
+                  langs = Core.Accounts.get_user!(record.user.id).languages
+                  Map.merge(record, %{
+                    user: %{avatar: record.user.avatar, first_name: record.user.first_name, id: record.user.id, languages: langs},
+                  })
+                end)
+                |> Enum.reject(&(&1.project.status != :New))
+                |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
+                |> Enum.take(num)
+              false ->
+                match = total_match(id)
+                price = total_price(id)
+                [value] = total_value(id) |> Map.values
+                Map.merge(
+                  Enum.into(match, %{}, fn {k, v} -> {k, %{id: k, sum_match: v}} end),
+                  Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
+                  fn _k, v1, v2 -> Map.merge(v1, v2) end
+                ) |> Enum.map(fn {_k, v} ->
+                  record = Core.Services.get_individual_tax_return!(v.id)
+                  Map.merge(v, %{
+                    name: "IndividualTaxReturn",
+                    user: %{
+                      id: record.user_id,
+                      first_name: record.user.first_name,
+                      last_name: record.user.last_name,
+                      middle_name: record.user.middle_name,
+                      avatar: record.user.avatar,
+                      profession: record.user.profession,
+                      languages: record.user.languages,
+                      platform: record.user.platform,
+                      pro_ratings: record.user.pro_ratings
+                    }
+                  })
+                end)
+                |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
             end
           true ->
             match = total_match(id)
@@ -105,7 +140,7 @@ defmodule Core.Analyzes do
               Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
               fn _k, v1, v2 -> Map.merge(v1, v2) end
             ) |> Enum.map(fn {_k, v} ->
-              record = Core.Services.get_book_keeping!(v.id)
+              record = Core.Services.get_business_tax_return!(v.id)
               Map.merge(v, %{
                 name: "BusinessTaxReturn",
                 user: %{

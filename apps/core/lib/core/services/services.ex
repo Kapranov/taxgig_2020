@@ -4252,7 +4252,7 @@ defmodule Core.Services do
       :individual_industries,
       :individual_itemized_deductions,
       :individual_stock_transaction_counts,
-      user: [:individual_tax_returns]
+      user: [:individual_tax_returns, :languages, :platform, projects: [:individual_tax_returns], pro_ratings: [:projects]]
     ])
   end
 

@@ -33,6 +33,15 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
     field :business_total_revenue, :name_by_service
   end
 
+  object :individual_tax_return_for_tp do
+    field :id, :string
+    field :deadline, :string
+    field :tax_year, list_of(:string)
+    field :individual_employment_status, :name_by_service
+    field :individual_filing_status, :name_by_service
+    field :individual_itemized_deduction, :name_by_service
+  end
+
   object :sale_tax_for_tp do
     field :id, :string
     field :deadline, :string
@@ -95,6 +104,26 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
   end
 
   object :analyze_business_tax_return_for_pro do
+    field :id, non_null(:string), description: "service id"
+    field :name, :string
+    field :sum_value, :decimal
+    field :sum_match, :integer
+    field :sum_price, :integer
+    field :user, :user_by_pro
+  end
+
+  object :analyze_individual_tax_return_for_tp do
+    field :id, non_null(:string), description: "service id"
+    field :name, :string
+    field :sum_value, :decimal
+    field :sum_match, :integer
+    field :sum_price, :integer
+    field :individual_tax_return, :individual_tax_return_for_tp
+    field :project, :project_for_tp
+    field :user, :user_by_tp
+  end
+
+  object :analyze_individual_tax_return_for_pro do
     field :id, non_null(:string), description: "service id"
     field :name, :string
     field :sum_value, :decimal
@@ -173,6 +202,20 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
 
     @desc "Get an analyze business_tax_return for role's tp"
     field :show_analyze_business_tax_return_for_tp, list_of(:analyze_business_tax_return_for_pro) do
+      arg(:page, :integer, default_value: 0)
+      arg(:service_id, non_null(:string))
+      resolve(&AnalyzeResolver.show/3)
+    end
+
+    @desc "Get an analyze individual_tax_return for role's pro"
+    field :show_analyze_individual_tax_return_for_pro, list_of(:analyze_individual_tax_return_for_tp) do
+      arg(:page, non_null(:integer))
+      arg(:service_id, non_null(:string))
+      resolve(&AnalyzeResolver.show/3)
+    end
+
+    @desc "Get an analyze individual_tax_return for role's tp"
+    field :show_analyze_individual_tax_return_for_tp, list_of(:analyze_individual_tax_return_for_pro) do
       arg(:page, :integer, default_value: 0)
       arg(:service_id, non_null(:string))
       resolve(&AnalyzeResolver.show/3)

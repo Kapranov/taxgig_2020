@@ -1022,6 +1022,71 @@ defmodule Core.Queries do
     end
   end
 
+  @doc """
+  ## Example
+
+      iex> struct_a = Core.Servives.IndividualTaxReturn
+      iex> struct_b = Core.Accounts.User
+      iex> struct_c = Core.Contracts.Project
+      iex> struct_d = Core.Services.IndividualEmploymentStatus
+      iex> struct_f = Core.Services.IndividualFilingStatus
+      iex> struct_h = Core.Services.IndividualItemizedDeduction
+      iex> row_a = :user_id
+      iex> row_b = :individual_tax_return_id
+      iex> id = FlakeId.get()
+      iex> name = "IndividualTaxReturn"
+      iex> by_individual_tax_returns_for_tp(Core.Services.IndividualTaxReturn, Core.Accounts.User, Core.Contracts.Project, Core.Services.IndividualEmploymentStatus, Core.Services.IndividualFilingStatus, Core.Services.IndividualItemizedDeduction, :user_id, :individual_tax_return_id, "xxx", name)
+      Map.new()
+  """
+  @spec by_individual_tax_returns_for_tp(map, map, map, map, map, map, atom, atom, atom, word) :: [{word}] | nil
+  def by_individual_tax_returns_for_tp(struct_a, struct_b, struct_c, struct_d, struct_f, struct_h, row_a, row_b, id, name) do
+    try do
+      Repo.one(
+        from c in struct_a,
+        join: cc in ^struct_c,
+        join: cd in ^struct_d,
+        join: cf in ^struct_f,
+        join: ch in ^struct_h,
+        join: cu in ^struct_b,
+        where: c.id == ^id,
+        where: not is_nil(field(c, ^row_a)),
+        where: not is_nil(field(cc, ^row_b)),
+        where: not is_nil(field(cd, ^row_b)),
+        where: not is_nil(field(cf, ^row_b)),
+        where: not is_nil(field(ch, ^row_b)),
+        where: c.user_id == cu.id,
+        where: c.id == field(cc, ^row_b),
+        where: c.id == field(cd, ^row_b),
+        where: c.id == field(cf, ^row_b),
+        where: c.id == field(ch, ^row_b),
+        select: %{
+          name: ^name,
+          project: %{
+            id: cc.id,
+            instant_matched: cc.instant_matched,
+            status: cc.status
+          },
+          individual_tax_return: %{
+            id: c.id,
+            deadline: c.deadline,
+            tax_year: c.tax_year,
+            individual_employment_status: %{name: cd.name},
+            individual_filing_status: %{name: ch.name},
+            individual_itemized_deduction: %{name: cf.name}
+          },
+          user: %{
+            id: cu.id,
+            avatar: cu.avatar,
+            first_name: cu.first_name,
+            languages: nil
+          }
+        }
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
 #  @spec filtered_service(map) :: map
 #  def filtered_service(attrs) do
 #    case is_nil(attrs.book_keeping_id) do
