@@ -3,12 +3,33 @@ defmodule Core.Analyzes do
   Analyze's Services.
   """
 
-  alias Core.Analyzes.{
-    BookKeeping,
-    BusinessTaxReturn,
-    IndividualTaxReturn,
-    SaleTax
+  alias Core.{
+    Accounts,
+    Accounts.User,
+    Analyzes.BookKeeping,
+    Analyzes.BusinessTaxReturn,
+    Analyzes.IndividualTaxReturn,
+    Analyzes.SaleTax,
+    Contracts.Project,
+    Queries,
+    Services
   }
+
+  alias Core.Services.BookKeeping, as: ServiceBookKeeping
+  alias Core.Services.BookKeepingAnnualRevenue, as: ServiceBookKeepingAnnualRevenue
+  alias Core.Services.BookKeepingNumberEmployee, as: ServiceBookKeepingNumberEmployee
+  alias Core.Services.BookKeepingTypeClient, as: ServiceBookKeepingTypeClient
+  alias Core.Services.BusinessEntityType, as: ServiceBusinessEntityType
+  alias Core.Services.BusinessNumberEmployee, as: ServiceBusinessNumberEmployee
+  alias Core.Services.BusinessTaxReturn, as: ServiceBusinessTaxReturn
+  alias Core.Services.BusinessTotalRevenue, as: ServiceBusinessTotalRevenue
+  alias Core.Services.IndividualEmploymentStatus, as: ServiceIndividualEmploymentStatus
+  alias Core.Services.IndividualFilingStatus, as: ServiceIndividualFilingStatus
+  alias Core.Services.IndividualItemizedDeduction, as: ServiceIndividualItemizedDeduction
+  alias Core.Services.IndividualTaxReturn, as: ServiceIndividualTaxReturn
+  alias Core.Services.SaleTax, as: ServiceSaleTax
+  alias Core.Services.SaleTaxFrequency, as: ServiceSaleTaxFrequency
+  alias Core.Services.SaleTaxIndustry, as: ServiceSaleTaxIndustry
 
   alias Decimal, as: D
 
@@ -16,13 +37,13 @@ defmodule Core.Analyzes do
 
   @spec total_all(word, integer) :: [%{atom => word, atom => integer | float}]
   def total_all(id, num \\ 5) do
-    case Core.Services.BookKeeping.by_role(id) do
+    case ServiceBookKeeping.by_role(id) do
       {:error, _} ->
-        case Core.Services.BusinessTaxReturn.by_role(id) do
+        case ServiceBusinessTaxReturn.by_role(id) do
           {:error, _} ->
-            case Core.Services.IndividualTaxReturn.by_role(id) do
+            case ServiceIndividualTaxReturn.by_role(id) do
               {:error, _} ->
-                case Core.Services.SaleTax.by_role(id) do
+                case ServiceSaleTax.by_role(id) do
                   {:error, msg} -> {:error, msg}
                 true ->
                   match = total_match(id)
@@ -33,10 +54,25 @@ defmodule Core.Analyzes do
                     Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
                     fn _k, v1, v2 -> Map.merge(v1, v2) end
                   ) |> Enum.map(fn {_k, v} ->
-                    record = Map.merge(v, Core.Queries.by_sale_taxes_for_tp(Core.Services.SaleTax, Core.Accounts.User, Core.Contracts.Project, Core.Services.SaleTaxFrequency, Core.Services.SaleTaxIndustry, :user_id, :sale_tax_id, v.id, "SaleTax"))
-                    langs = Core.Accounts.get_user!(record.user.id).languages
+                    record = Map.merge(v, Queries.by_sale_taxes_for_tp(
+                      ServiceSaleTax,
+                      User,
+                      Project,
+                      ServiceSaleTaxFrequency,
+                      ServiceSaleTaxIndustry,
+                      :user_id,
+                      :sale_tax_id,
+                      v.id,
+                      "SaleTax"
+                    ))
+                    langs = Accounts.get_user!(record.user.id).languages
                     Map.merge(record, %{
-                      user: %{avatar: record.user.avatar, first_name: record.user.first_name, id: record.user.id, languages: langs},
+                      user: %{
+                        avatar: record.user.avatar,
+                        first_name: record.user.first_name,
+                        id: record.user.id,
+                        languages: langs
+                      }
                     })
                   end)
                   |> Enum.reject(&(&1.project.status != :New))
@@ -51,7 +87,7 @@ defmodule Core.Analyzes do
                       Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
                       fn _k, v1, v2 -> Map.merge(v1, v2) end
                     ) |> Enum.map(fn {_k, v} ->
-                      record = Core.Services.get_sale_tax!(v.id)
+                      record = Services.get_sale_tax!(v.id)
                       Map.merge(v, %{
                         name: "SaleTax",
                         user: %{
@@ -77,10 +113,26 @@ defmodule Core.Analyzes do
                   Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
                   fn _k, v1, v2 -> Map.merge(v1, v2) end
                 ) |> Enum.map(fn {_k, v} ->
-                  record = Map.merge(v, Core.Queries.by_individual_tax_returns_for_tp(Core.Servives.IndividualTaxReturn, Core.Accounts.User, Core.Contracts.Project, Core.Services.IndividualEmploymentStatus, Core.Services.IndividualFilingStatus, Core.Services.IndividualItemizedDeduction, :user_id, :individual_tax_return_id, v.id, "IndividualTaxReturn"))
-                  langs = Core.Accounts.get_user!(record.user.id).languages
+                  record = Map.merge(v, Queries.by_individual_tax_returns_for_tp(
+                    ServiceIndividualTaxReturn,
+                    User,
+                    Project,
+                    ServiceIndividualEmploymentStatus,
+                    ServiceIndividualFilingStatus,
+                    ServiceIndividualItemizedDeduction,
+                    :user_id,
+                    :individual_tax_return_id,
+                    v.id,
+                    "IndividualTaxReturn"
+                  ))
+                  langs = Accounts.get_user!(record.user.id).languages
                   Map.merge(record, %{
-                    user: %{avatar: record.user.avatar, first_name: record.user.first_name, id: record.user.id, languages: langs},
+                    user: %{
+                      avatar: record.user.avatar,
+                      first_name: record.user.first_name,
+                      id: record.user.id,
+                      languages: langs
+                    }
                   })
                 end)
                 |> Enum.reject(&(&1.project.status != :New))
@@ -95,7 +147,7 @@ defmodule Core.Analyzes do
                   Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
                   fn _k, v1, v2 -> Map.merge(v1, v2) end
                 ) |> Enum.map(fn {_k, v} ->
-                  record = Core.Services.get_individual_tax_return!(v.id)
+                  record = Services.get_individual_tax_return!(v.id)
                   Map.merge(v, %{
                     name: "IndividualTaxReturn",
                     user: %{
@@ -122,10 +174,26 @@ defmodule Core.Analyzes do
               Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
               fn _k, v1, v2 -> Map.merge(v1, v2) end
             ) |> Enum.map(fn {_k, v} ->
-              record = Map.merge(v, Core.Queries.by_business_tax_returns_for_tp(Core.Services.BusinessTaxReturn, Core.Accounts.User, Core.Contracts.Project, Core.Services.BusinessEntityType, Core.Services.BusinessNumberEmployee, Core.Services.BusinessTotalRevenue, :user_id, :business_tax_return_id, v.id, "BusinessTaxReturn"))
-              langs = Core.Accounts.get_user!(record.user.id).languages
+              record = Map.merge(v, Queries.by_business_tax_returns_for_tp(
+                ServiceBusinessTaxReturn,
+                User,
+                Project,
+                ServiceBusinessEntityType,
+                ServiceBusinessNumberEmployee,
+                ServiceBusinessTotalRevenue,
+                :user_id,
+                :business_tax_return_id,
+                v.id,
+                "BusinessTaxReturn"
+              ))
+              langs = Accounts.get_user!(record.user.id).languages
               Map.merge(record, %{
-                user: %{avatar: record.user.avatar, first_name: record.user.first_name, id: record.user.id, languages: langs},
+                user: %{
+                  avatar: record.user.avatar,
+                  first_name: record.user.first_name,
+                  id: record.user.id,
+                  languages: langs
+                }
               })
             end)
             |> Enum.reject(&(&1.project.status != :New))
@@ -140,7 +208,7 @@ defmodule Core.Analyzes do
               Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
               fn _k, v1, v2 -> Map.merge(v1, v2) end
             ) |> Enum.map(fn {_k, v} ->
-              record = Core.Services.get_business_tax_return!(v.id)
+              record = Services.get_business_tax_return!(v.id)
               Map.merge(v, %{
                 name: "BusinessTaxReturn",
                 user: %{
@@ -167,10 +235,26 @@ defmodule Core.Analyzes do
             Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
             fn _k, v1, v2 -> Map.merge(v1, v2) end
           ) |> Enum.map(fn {_k, v} ->
-            record = Map.merge(v, Core.Queries.by_book_keepings_for_tp(Core.Services.BookKeeping, Core.Accounts.User, Core.Contracts.Project, Core.Services.BookKeepingAnnualRevenue, Core.Services.BookKeepingNumberEmployee, Core.Services.BookKeepingTypeClient, :user_id, :book_keeping_id, v.id, "BookKeeping"))
-            langs = Core.Accounts.get_user!(record.user.id).languages
+            record = Map.merge(v, Queries.by_book_keepings_for_tp(
+              ServiceBookKeeping,
+              User,
+              Project,
+              ServiceBookKeepingAnnualRevenue,
+              ServiceBookKeepingNumberEmployee,
+              ServiceBookKeepingTypeClient,
+              :user_id,
+              :book_keeping_id,
+              v.id,
+              "BookKeeping"
+            ))
+            langs = Accounts.get_user!(record.user.id).languages
             Map.merge(record, %{
-              user: %{avatar: record.user.avatar, first_name: record.user.first_name, id: record.user.id, languages: langs}
+              user: %{
+                avatar: record.user.avatar,
+                first_name: record.user.first_name,
+                id: record.user.id,
+                languages: langs
+              }
             })
           end)
           |> Enum.reject(&(&1.project.status != :New))
@@ -185,7 +269,7 @@ defmodule Core.Analyzes do
             Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
             fn _k, v1, v2 -> Map.merge(v1, v2) end
           ) |> Enum.map(fn {_k, v} ->
-            record = Core.Services.get_book_keeping!(v.id)
+            record = Services.get_book_keeping!(v.id)
             Map.merge(v, %{
               name: "BookKeeping",
               user: %{
@@ -236,13 +320,13 @@ defmodule Core.Analyzes do
     # SaleTax.check_match_sale_tax_frequency(id)
     # SaleTax.check_match_sale_tax_industry(id)
 
-    case Core.Services.BookKeeping.by_role(id) do
+    case ServiceBookKeeping.by_role(id) do
       {:error, _} ->
-        case Core.Services.BusinessTaxReturn.by_role(id) do
+        case ServiceBusinessTaxReturn.by_role(id) do
           {:error, _} ->
-            case Core.Services.IndividualTaxReturn.by_role(id) do
+            case ServiceIndividualTaxReturn.by_role(id) do
               {:error, _} ->
-                case Core.Services.SaleTax.by_role(id) do
+                case ServiceSaleTax.by_role(id) do
                   {:error, msg} -> msg
                   _ ->
                     cnt1 =
@@ -450,13 +534,13 @@ defmodule Core.Analyzes do
     # SaleTax.check_price_sale_tax_count(id)
     # SaleTax.check_price_sale_tax_frequency(id)
 
-    case Core.Services.BookKeeping.by_role(id) do
+    case ServiceBookKeeping.by_role(id) do
       {:error, _} ->
-        case Core.Services.BusinessTaxReturn.by_role(id) do
+        case ServiceBusinessTaxReturn.by_role(id) do
           {:error, _} ->
-            case Core.Services.IndividualTaxReturn.by_role(id) do
+            case ServiceIndividualTaxReturn.by_role(id) do
               {:error, _} ->
-                case Core.Services.SaleTax.by_role(id) do
+                case ServiceSaleTax.by_role(id) do
                   {:error, msg} -> msg
                   _ ->
                     cnt1 =
@@ -686,13 +770,13 @@ defmodule Core.Analyzes do
     #
     # SaleTax.check_value_sale_tax_count(id)
 
-    case Core.Services.BookKeeping.by_role(id) do
+    case ServiceBookKeeping.by_role(id) do
       {:error, _} ->
-        case Core.Services.BusinessTaxReturn.by_role(id) do
+        case ServiceBusinessTaxReturn.by_role(id) do
           {:error, _} ->
-            case Core.Services.IndividualTaxReturn.by_role(id) do
+            case ServiceIndividualTaxReturn.by_role(id) do
               {:error, _} ->
-                case Core.Services.SaleTax.by_role(id) do
+                case ServiceSaleTax.by_role(id) do
                   {:error, msg} -> msg
                   _ ->
                     val1 =
