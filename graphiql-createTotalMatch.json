@@ -1,6 +1,6 @@
 {
   "key": "graphiql",
-  "lastId": 40,
+  "lastId": 45,
   "tabIds": [
     "tab1",
     "tab2",
@@ -8,9 +8,39 @@
     "tab37",
     "tab38",
     "tab39",
-    "tab40"
+    "tab40",
+    "tab41",
+    "tab42",
+    "tab43",
+    "tab44"
   ],
   "closedTabs": [
+    {
+      "id": "tab45",
+      "name": "Query 12",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgAx4w_JfQFiAAFRgA.7q2462FZgqN84JmZGcL6IlZXtQgb-4NXA1EgcL1H48o"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createProIndividualFilingStatus (\n    individualTaxReturnId: \"AEV00YLIeTYXZ7dx8C\"\n    name: \"Married filing jointly\"\n    price: 150\n  ) {\n    id\n    individualTaxReturns { id }\n    name\n    price\n    \n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createProIndividualFilingStatus (\n    individualTaxReturnId: \"AEV00YLIeTYXZ7dx8C\"\n    name: \"Married filing jointly\"\n    price: 150\n  ) {\n    id\n    individualTaxReturns { id }\n    name\n    price\n    \n  }\n}",
+      "graphiql:editorFlex": 0.44967880085653106,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createProIndividualFilingStatus (\\n    individualTaxReturnId: \\\"\\\"\\n    name: \\\"Married filing jointly\\\"\\n    price: 150\\n  ) {\\n    id\\n    individualTaxReturns { id }\\n    name\\n    price\\n    \\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createProIndividualFilingStatus (\\n    individualTaxReturnId: \\\"AEV00YLIeTYXZ7dx8C\\\"\\n    name: \\\"Married filing jointly\\\"\\n    price: 150\\n  ) {\\n    id\\n    individualTaxReturns { id }\\n    name\\n    price\\n    \\n  }\\n}\"}]}"
+    },
     {
       "id": "tab4",
       "name": "Query 3",
@@ -759,36 +789,6 @@
       "graphiql:variableEditorHeight": 200,
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createByInTransitionStripePlatformCharge(\\n    capture: false,\\n    currency: \\\"usd\\\",\\n    description: \\\"A3bMMJi2zA272VOQWe\\\",\\n    idFromCard: \\\"card_1IDXyVLhtqtNnMebiwuNMk2o\\\"\\n  ) {\\n    id\\n    idFromCard\\n    idFromCustomer\\n    idFromStripe\\n    amount\\n    amountRefunded\\n    captured\\n    created\\n    currency\\n    description\\n    failureCode\\n    failureMessage\\n    receiptUrl\\n    status\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:docExplorerWidth": 350
-    },
-    {
-      "id": "tab35",
-      "name": "Query 31",
-      "url": "http://localhost:4000/graphiql",
-      "websocketUrl": "ws://localhost:4000/socket",
-      "proxy": false,
-      "headers": [
-        {
-          "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgCTfAxedwFiAAFRgA.pJM5m3Fp525lRrAUm9w_G5-3eF4Qt22RRZD86JRwsZM"
-        }
-      ],
-      "collapsed": true,
-      "maxHistory": 20,
-      "history": [
-        {
-          "query": "mutation {\n  createStripePlatformTransferByDoc(\n    idFromProject: \"A3paO2elUfmqulxdLs\",\n    currency: \"usd\"\n  ) {\n    idFromStripe\n    amount\n    amountReversed\n    balanceTransaction\n    created\n    currency\n    destination\n    destinationPayment\n    reversed\n    sourceType\n    userId\n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  createStripePlatformTransfer(\n    idFromProject: \"A3paO2elUfmqulxdLs\",\n    currency: \"usd\"\n  ) {\n    idFromStripe\n    amount\n    amountReversed\n    balanceTransaction\n    created\n    currency\n    destination\n    destinationPayment\n    reversed\n    sourceType\n    userId\n  }\n}",
-          "variables": null
-        }
-      ],
-      "graphiql:query": "mutation {\n  createStripePlatformTransferByDoc(\n    idFromProject: \"A3paO2elUfmqulxdLs\",\n    currency: \"usd\"\n  ) {\n    idFromStripe\n    amount\n    amountReversed\n    balanceTransaction\n    created\n    currency\n    destination\n    destinationPayment\n    reversed\n    sourceType\n    userId\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformTransfer(\\n    idFromProject: \\\"A3paO2elUfmqulxdLs\\\",\\n    currency: \\\"usd\\\"\\n  ) {\\n    idFromStripe\\n    amount\\n    amountReversed\\n    balanceTransaction\\n    created\\n    currency\\n    destination\\n    destinationPayment\\n    reversed\\n    sourceType\\n    userId\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createStripePlatformTransferByDoc(\\n    idFromProject: \\\"A3paO2elUfmqulxdLs\\\",\\n    currency: \\\"usd\\\"\\n  ) {\\n    idFromStripe\\n    amount\\n    amountReversed\\n    balanceTransaction\\n    created\\n    currency\\n    destination\\n    destinationPayment\\n    reversed\\n    sourceType\\n    userId\\n  }\\n}\"}]}",
-      "graphiql:editorFlex": 0.49666666666666665,
-      "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350
     }
   ],
   "defaultUrl": "http://localhost:4000/graphiql",
@@ -801,6 +801,26 @@
     "http://localhost:4000/graphiql"
   ],
   "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgAx4w_JfQFiAAFRgA.7q2462FZgqN84JmZGcL6IlZXtQgb-4NXA1EgcL1H48o"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgAdRbrIfQFiAAFRgA.kyqpJ0COHghHWmiyg-FPzT66LZf3YiuWAtl4wuANa_M"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgDobLbIfQFiAAFRgA.LHSCbU-QwW6c1XxHHh2mxdw-KgFy85erAmhaN_1zLa0"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgBtHK3IfQFiAAFRgA.kSqjlbYbZSUe4BngqLvV8B0-ZSF3gvKBgrgg1dWiX_A"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgDefarIfQFiAAFRgA.StFQ1EjkmFXUgcVeZAXf-n3rL49Qj6h3I4yqFxqOy3Y"
+    },
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgChLkS4fQFiAAFRgA.9pvB8h5ETFV85HmeMPLp6jjUqv_rrfzyQ5SAufgIZek"
@@ -860,33 +880,13 @@
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgAw3XdPdwFiAAFRgA.YWeItwTHu3Pjk4G3AH0D6zfozNVxrnoXHAX9n7vuvQ4"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgDzRXdPdwFiAAFRgA.QC1GM_bWqP6Nkl_LXEvOu3mgT57-kj0jTawzkDEiK-M"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgDxPHRPdwFiAAFRgA.Hkzw3WVAgdjFrZZYndXeBBay1cKf5So8VtkF5Gj-Pag"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgABpmRPdwFiAAFRgA.htUd9nf9TKkEHGqE1LfSyn6EeqYmAh9uwPx8_1V6reo"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgCOGGRPdwFiAAFRgA.ZEswat4PrYkT3RmP-5yiSaQ7g65YioXHCDd3rqNQauY"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgAWVGBPdwFiAAFRgA.p7AH9mFNfnig7aBtGuPgkna-GDL6SN_OrAxQOZd-I0k"
     }
   ],
   "maxTabHistory": 20,
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab40",
+  "activeId": "tab44",
   "tabs": [
     {
       "id": "tab1",
@@ -913,6 +913,26 @@
       "maxHistory": 20,
       "history": [
         {
+          "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"client@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"client@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
           "query": "query {\n  signInLocal(\n    email: \"client@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
           "variables": null
         },
@@ -937,11 +957,11 @@
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  signInLocal(\n    email: \"client@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"}]}",
+      "graphiql:query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.32188420019627084
+      "graphiql:editorFlex": 0.3366238894373149
     },
     {
       "id": "tab36",
@@ -958,6 +978,14 @@
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "query {\n  showAnalyze(page: 10 serviceId: \"AEEMSRyMiMinAuuvku\") {\n    id\n    sumMatch\n    sumPrice\n    sumValue\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showAnalyze(page: 0 serviceId: \"AEEMSRyMiMinAuuvku\") {\n    id\n    sumMatch\n    sumPrice\n    sumValue\n  }\n}",
+          "variables": null
+        },
         {
           "query": "query {\n  showAnalyze(page: 10 serviceId: \"AEEMSRyMiMinAuuvku\") {\n    id\n    sumMatch\n    sumPrice\n    sumValue\n  }\n}",
           "variables": null
@@ -1024,7 +1052,7 @@
         }
       ],
       "graphiql:query": "query {\n  showAnalyze(page: 10 serviceId: \"AEEMSRyMiMinAuuvku\") {\n    id\n    sumMatch\n    sumPrice\n    sumValue\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"A3b0eaUEX7weXSyLSa\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxkx8ZJhZJuh6BJMu\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      firstName\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      \\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n      \\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(page: 1 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(page: 0 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(page: 1 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(page: 0 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(page: 3 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(page: 10 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"}]}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"A3b0eaUEX7weXSyLSa\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxkx8ZJhZJuh6BJMu\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      firstName\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      \\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n      \\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(page: 1 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(page: 0 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(page: 1 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(page: 0 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(page: 3 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(page: 10 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(page: 0 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyze(page: 10 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    sumMatch\\n    sumPrice\\n    sumValue\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.585480093676815,
       "graphiql:docExplorerWidth": 350
@@ -1044,6 +1072,10 @@
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "query {\n  showAnalyzeSaleTaxForPro(page: 10 serviceId: \"ADxlYKNgkKCg2oTaOe\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    saleTax {\n      id\n      deadline\n      saleTaxCount\n      state\n      saleTaxFrequency {name}\n      saleTaxIndustry {name}\n    }\n    project {id instantMatched status}\n    user {\n      id\n      avatar\n      firstName\n      languages {id abbr name}\n    }\n  }\n}",
+          "variables": null
+        },
         {
           "query": "query {\n  showAnalyzeSaleTaxForPro(page: 1 serviceId: \"ADxlYKNgkKCg2oTaOe\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    saleTax {\n      id\n      deadline\n      saleTaxCount\n      state\n      saleTaxFrequency {name}\n      saleTaxIndustry {name}\n    }\n    project {id instantMatched status}\n    user {\n      id\n      avatar\n      firstName\n      languages {id abbr name}\n    }\n  }\n}",
           "variables": null
@@ -1119,14 +1151,10 @@
         {
           "query": "query {\n  showAnalyzeSaleTaxForTp(serviceId: \"ADxp8pPRA3LkZ2OGqe\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    user {\n      id\n      avatar\n      firstName\n      languages {id abbr name}\n    }\n  }\n}",
           "variables": null
-        },
-        {
-          "query": "query {\n  showAnalyzeSaleTaxForTp(serviceId: \"ADxlYKNgkKCg2oTaOe\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    user {\n      id\n      avatar\n      firstName\n      languages {id abbr name}\n    }\n  }\n}",
-          "variables": null
         }
       ],
-      "graphiql:query": "query {\n  showAnalyzeSaleTaxForPro(page: 1 serviceId: \"ADxlYKNgkKCg2oTaOe\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    saleTax {\n      id\n      deadline\n      saleTaxCount\n      state\n      saleTaxFrequency {name}\n      saleTaxIndustry {name}\n    }\n    project {id instantMatched status}\n    user {\n      id\n      avatar\n      firstName\n      languages {id abbr name}\n    }\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showAnalyzeSaleTaxForTp(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForTp(serviceId: \\\"ADxp8pPRA3LkZ2OGqe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForTp(serviceId: \\\"ADxp8pPRA3LkZ2OGqq\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForTp(serviceId: \\\"ADxp8pPRA3LkZ2OGqe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForTp(serviceId: \\\"ADxp8pPRA3LkZ2OGqe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    project {id}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForTp(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    project {id}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    project {id}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {id}\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {id deadline}\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {id deadline saleTaxCount}\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {id deadline saleTaxCount state}\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxp8pPRA3LkZ2OGqe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(page: 1 serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(page: 3 serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(page: 9 serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(page: 0 serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(page: 1 serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"}]}",
+      "graphiql:query": "query {\n  showAnalyzeSaleTaxForPro(page: 10 serviceId: \"ADxlYKNgkKCg2oTaOe\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    saleTax {\n      id\n      deadline\n      saleTaxCount\n      state\n      saleTaxFrequency {name}\n      saleTaxIndustry {name}\n    }\n    project {id instantMatched status}\n    user {\n      id\n      avatar\n      firstName\n      languages {id abbr name}\n    }\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showAnalyzeSaleTaxForTp(serviceId: \\\"ADxp8pPRA3LkZ2OGqe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForTp(serviceId: \\\"ADxp8pPRA3LkZ2OGqq\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForTp(serviceId: \\\"ADxp8pPRA3LkZ2OGqe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForTp(serviceId: \\\"ADxp8pPRA3LkZ2OGqe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    project {id}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForTp(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    project {id}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    project {id}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {id}\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {id deadline}\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {id deadline saleTaxCount}\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {id deadline saleTaxCount state}\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxp8pPRA3LkZ2OGqe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(page: 1 serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(page: 3 serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(page: 9 serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(page: 0 serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(page: 1 serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeSaleTaxForPro(page: 10 serviceId: \\\"ADxlYKNgkKCg2oTaOe\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    saleTax {\\n      id\\n      deadline\\n      saleTaxCount\\n      state\\n      saleTaxFrequency {name}\\n      saleTaxIndustry {name}\\n    }\\n    project {id instantMatched status}\\n    user {\\n      id\\n      avatar\\n      firstName\\n      languages {id abbr name}\\n    }\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
       "graphiql:editorFlex": 0.7957559681697612,
       "graphiql:variableEditorHeight": 200
@@ -1197,6 +1225,10 @@
       "maxHistory": 20,
       "history": [
         {
+          "query": "query {\n  showAnalyzeBookKeepingForPro(page: 10 serviceId: \"AEEMSRyMiMinAuuvku\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    bookKeeping {\n      id\n      deadline\n      taxYear\n      bookKeepingTypeClient { name }\n      bookKeepingAnnualRevenue { name }\n      bookKeepingNumberEmployee { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
           "query": "query {\n  showAnalyzeBookKeepingForPro(page: 1 serviceId: \"AEEMSRyMiMinAuuvku\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    bookKeeping {\n      id\n      deadline\n      taxYear\n      bookKeepingTypeClient { name }\n      bookKeepingAnnualRevenue { name }\n      bookKeepingNumberEmployee { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n  }\n}",
           "variables": null
         },
@@ -1241,8 +1273,8 @@
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  showAnalyzeBookKeepingForPro(page: 1 serviceId: \"AEEMSRyMiMinAuuvku\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    bookKeeping {\n      id\n      deadline\n      taxYear\n      bookKeepingTypeClient { name }\n      bookKeepingAnnualRevenue { name }\n      bookKeepingNumberEmployee { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 0 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 1 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 9 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 1 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 1 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      taxYear\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 10 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      taxYear\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 100 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      taxYear\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 0 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      taxYear\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 1 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      taxYear\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 10 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      taxYear\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 1 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      taxYear\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"}]}",
+      "graphiql:query": "query {\n  showAnalyzeBookKeepingForPro(page: 10 serviceId: \"AEEMSRyMiMinAuuvku\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    bookKeeping {\n      id\n      deadline\n      taxYear\n      bookKeepingTypeClient { name }\n      bookKeepingAnnualRevenue { name }\n      bookKeepingNumberEmployee { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 0 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 1 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 9 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 1 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 1 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      taxYear\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 10 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      taxYear\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 100 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      taxYear\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 0 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      taxYear\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 1 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      taxYear\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 10 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      taxYear\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 1 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      taxYear\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForPro(page: 10 serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    bookKeeping {\\n      id\\n      deadline\\n      taxYear\\n      bookKeepingTypeClient { name }\\n      bookKeepingAnnualRevenue { name }\\n      bookKeepingNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:docExplorerWidth": 350,
       "graphiql:editorFlex": 1
@@ -1259,7 +1291,7 @@
           "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgAeTje4fQFiAAFRgA.b0ZhsXBwy7KTRrzg96GodO3vVgIbsdtaZ-s5-0mUQzo"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -1340,6 +1372,142 @@
       "graphiql:editorFlex": 1,
       "graphiql:variableEditorHeight": 200,
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(serviceId: \\\"xxx\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(serviceId: \\\"AEEMSRyMiMinAuuvku\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(serviceId: \\\"AEEOLkb7Gic6owyYlM\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(serviceId: \\\"AEEVR1q1IQ5zPyPWeu\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(serviceId: \\\"AEGNiF2XTVY69zZo4e\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(serviceId: \\\"AEGT1AeEWnrfoN3MaO\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(serviceId: \\\"AEGUWytDsdcWZ4nSPg\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(serviceId: \\\"AEGWnKkaZPI2uFgR60\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(serviceId: \\\"AEGYMcKbISbvWPur2W\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(serviceId: \\\"AEGYvS65L4QxutjlIW\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(serviceId: \\\"AEGZXAy9T6sfnd0xAO\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(serviceId: \\\"AEEVR1q1IQ5zPyPWeu\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(page: 0, serviceId: \\\"AEEVR1q1IQ5zPyPWeu\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(page: 0, serviceId: \\\"AEEVR1q1IQ5zPyPWeu\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      platform {id}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(page: 0, serviceId: \\\"AEEVR1q1IQ5zPyPWeu\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(page: 0, serviceId: \\\"AEEVR1q1IQ5zPyPWeu\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      platform {id}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(page: 0, serviceId: \\\"AEEVR1q1IQ5zPyPWeu\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      platform {id clientLimitReach heroActive heroStatus}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeBookKeepingForTp(page: 0, serviceId: \\\"AEEVR1q1IQ5zPyPWeu\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      platform {clientLimitReach heroStatus isOnline}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\"}]}"
+    },
+    {
+      "id": "tab41",
+      "name": "Query 8",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgDefarIfQFiAAFRgA.StFQ1EjkmFXUgcVeZAXf-n3rL49Qj6h3I4yqFxqOy3Y"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  showAnalyzeBusinessTaxReturnForPro(page: 10 serviceId: \"AEOy97q9G2VzffZ83E\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    businessTaxReturn {\n      id\n      deadline\n      taxYear\n      businessEntityType { name }\n      businessTotalRevenue { name }\n      businessNumberEmployee { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showAnalyzeBusinessTaxReturnForPro(page: 1 serviceId: \"AEOy97q9G2VzffZ83E\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    businessTaxReturn {\n      id\n      deadline\n      taxYear\n      businessEntityType { name }\n      businessTotalRevenue { name }\n      businessNumberEmployee { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  showAnalyzeBusinessTaxReturnForPro(page: 10 serviceId: \"AEOy97q9G2VzffZ83E\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    businessTaxReturn {\n      id\n      deadline\n      taxYear\n      businessEntityType { name }\n      businessTotalRevenue { name }\n      businessNumberEmployee { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showAnalyzeBusinessTaxReturnForPro(page: 1 serviceId: \\\"AEOy97q9G2VzffZ83E\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    businessTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      businessEntityType { name }\\n      businessTotalRevenue { name }\\n      businessNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeBusinessTaxReturnForPro(page: 10 serviceId: \\\"AEOy97q9G2VzffZ83E\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    businessTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      businessEntityType { name }\\n      businessTotalRevenue { name }\\n      businessNumberEmployee { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1.0299850074962518
+    },
+    {
+      "id": "tab42",
+      "name": "Query 9",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgBtHK3IfQFiAAFRgA.kSqjlbYbZSUe4BngqLvV8B0-ZSF3gvKBgrgg1dWiX_A"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  showAnalyzeBusinessTaxReturnForTp (page: 0, serviceId: \"AEQsxCtbzmCdXBxqNc\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    user {\n      id\n      avatar\n      firstName\n      lastName\n      middleName\n      profession\n      languages {id abbr name}\n      platform {clientLimitReach heroStatus isOnline}\n      proRatings {\n        averageRating\n        projects {id}\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showAnalyzeBusinessTaxReturnForTp (page: 10, serviceId: \"AEQsxCtbzmCdXBxqNc\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    user {\n      id\n      avatar\n      firstName\n      lastName\n      middleName\n      profession\n      languages {id abbr name}\n      platform {clientLimitReach heroStatus isOnline}\n      proRatings {\n        averageRating\n        projects {id}\n      }\n    }\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  showAnalyzeBusinessTaxReturnForTp (page: 0, serviceId: \"AEQsxCtbzmCdXBxqNc\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    user {\n      id\n      avatar\n      firstName\n      lastName\n      middleName\n      profession\n      languages {id abbr name}\n      platform {clientLimitReach heroStatus isOnline}\n      proRatings {\n        averageRating\n        projects {id}\n      }\n    }\n  }\n}",
+      "graphiql:editorFlex": 1.0766871165644172,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showAnalyzeBusinessTaxReturnForTp (page: 10, serviceId: \\\"AEQsxCtbzmCdXBxqNc\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      platform {clientLimitReach heroStatus isOnline}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeBusinessTaxReturnForTp (page: 0, serviceId: \\\"AEQsxCtbzmCdXBxqNc\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      platform {clientLimitReach heroStatus isOnline}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab43",
+      "name": "Query 10",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgDobLbIfQFiAAFRgA.LHSCbU-QwW6c1XxHHh2mxdw-KgFy85erAmhaN_1zLa0"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \"AEV00YLIeTYXZ7dx8C\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    individualTaxReturn {\n      id\n      deadline\n      taxYear\n      individualFilingStatus { name }\n      individualEmploymentStatus { name }\n      individualItemizedDeduction { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n showAnalyzeIndividualTaxReturnForPro (page: 0, serviceId: \"AEV00YLIeTYXZ7dx8C\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    individualTaxReturn {\n      id\n      deadline\n      taxYear\n      individualFilingStatus { name }\n      individualEmploymentStatus { name }\n      individualItemizedDeduction { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \"AEV00YLIeTYXZ7dx8C\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    individualTaxReturn {\n      id\n      deadline\n      taxYear\n      individualFilingStatus { name }\n      individualEmploymentStatus { name }\n      individualItemizedDeduction { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \"xxx\") {\n      id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    individualTaxReturn {\n      id\n      deadline\n      taxYear\n      individualFilingStatus { name }\n      individualEmploymentStatus { name }\n      individualItemizedDeduction { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \"AEV00YLIeTYXZ7dx8C\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    individualTaxReturn {\n      id\n      deadline\n      taxYear\n      individualFilingStatus { name }\n      individualEmploymentStatus { name }\n      individualItemizedDeduction { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n }\n}",
+      "graphiql:editorFlex": 1.1090342679127725,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \\\"xxx\\\") {\\n      id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \\\"AEV00YLIeTYXZ7dx8C\\\") {\\n      id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\"},{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \\\"AEV00YLIeTYXZ7dx8C\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\"},{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 0, serviceId: \\\"AEV00YLIeTYXZ7dx8C\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\"},{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \\\"AEV00YLIeTYXZ7dx8C\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\"}]}"
+    },
+    {
+      "id": "tab44",
+      "name": "Query 11",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgAdRbrIfQFiAAFRgA.kyqpJ0COHghHWmiyg-FPzT66LZf3YiuWAtl4wuANa_M"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  showAnalyzeIndividualTaxReturnForTp (page: 0, serviceId: \"AEV3P0PMFxhBQBtQyO\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    user {\n      id\n      avatar\n      firstName\n      lastName\n      middleName\n      profession\n      languages {id abbr name}\n      platform {clientLimitReach heroStatus isOnline}\n      proRatings {\n        averageRating\n        projects {id}\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showAnalyzeIndividualTaxReturnForTp (page: 10, serviceId: \"AEV3P0PMFxhBQBtQyO\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    user {\n      id\n      avatar\n      firstName\n      lastName\n      middleName\n      profession\n      languages {id abbr name}\n      platform {clientLimitReach heroStatus isOnline}\n      proRatings {\n        averageRating\n        projects {id}\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showAnalyzeIndividualTaxReturnForTp (page: 10, serviceId: \"xxx\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    user {\n      id\n      avatar\n      firstName\n      lastName\n      middleName\n      profession\n      languages {id abbr name}\n      platform {clientLimitReach heroStatus isOnline}\n      proRatings {\n        averageRating\n        projects {id}\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showAnalyzeIndividualTaxReturnForTp (page: 10, serviceId: \"AEQsxCtbzmCdXBxqNc\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    user {\n      id\n      avatar\n      firstName\n      lastName\n      middleName\n      profession\n      languages {id abbr name}\n      platform {clientLimitReach heroStatus isOnline}\n      proRatings {\n        averageRating\n        projects {id}\n      }\n    }\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  showAnalyzeIndividualTaxReturnForTp (page: 0, serviceId: \"AEV3P0PMFxhBQBtQyO\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    user {\n      id\n      avatar\n      firstName\n      lastName\n      middleName\n      profession\n      languages {id abbr name}\n      platform {clientLimitReach heroStatus isOnline}\n      proRatings {\n        averageRating\n        projects {id}\n      }\n    }\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showAnalyzeIndividualTaxReturnForTp (page: 10, serviceId: \\\"AEQsxCtbzmCdXBxqNc\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      platform {clientLimitReach heroStatus isOnline}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeIndividualTaxReturnForTp (page: 10, serviceId: \\\"xxx\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      platform {clientLimitReach heroStatus isOnline}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showAnalyzeIndividualTaxReturnForTp (page: 10, serviceId: \\\"AEV3P0PMFxhBQBtQyO\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      platform {clientLimitReach heroStatus isOnline}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showAnalyzeIndividualTaxReturnForTp (page: 0, serviceId: \\\"AEV3P0PMFxhBQBtQyO\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    user {\\n      id\\n      avatar\\n      firstName\\n      lastName\\n      middleName\\n      profession\\n      languages {id abbr name}\\n      platform {clientLimitReach heroStatus isOnline}\\n      proRatings {\\n        averageRating\\n        projects {id}\\n      }\\n    }\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 1.1123244929797191,
+      "graphiql:variableEditorHeight": 200
     }
   ]
 }

@@ -27,6 +27,7 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
   object :business_tax_return_for_tp do
     field :id, :string
     field :deadline, :string
+    field :state, list_of(:string)
     field :tax_year, list_of(:string)
     field :business_entity_type, :name_by_service
     field :business_number_employee, :name_by_service
@@ -36,6 +37,7 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
   object :individual_tax_return_for_tp do
     field :id, :string
     field :deadline, :string
+    field :state, list_of(:string)
     field :tax_year, list_of(:string)
     field :individual_employment_status, :name_by_service
     field :individual_filing_status, :name_by_service

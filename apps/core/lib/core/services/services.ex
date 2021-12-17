@@ -2249,7 +2249,7 @@ defmodule Core.Services do
       :business_number_employees,
       :business_total_revenues,
       :business_transaction_counts,
-      user: [:business_tax_returns, :languages, :platform, projects: [:business_tax_returns], pro_ratings: [:projects]]
+      user: [:business_tax_returns, :languages, :platform, projects: [:business_tax_return], pro_ratings: [:projects]]
     ])
   end
 
@@ -4252,7 +4252,7 @@ defmodule Core.Services do
       :individual_industries,
       :individual_itemized_deductions,
       :individual_stock_transaction_counts,
-      user: [:individual_tax_returns, :languages, :platform, projects: [:individual_tax_returns], pro_ratings: [:projects]]
+      user: [:individual_tax_returns, :languages, :platform, projects: [:individual_tax_return], pro_ratings: [:projects]]
     ])
   end
 
@@ -5949,7 +5949,7 @@ defmodule Core.Services do
     |> Repo.preload([
       :sale_tax_frequencies,
       :sale_tax_industries,
-      user: [:languages, projects: [:sale_tax], pro_ratings: [:projects]]
+      user: [:languages, :platform, projects: [:sale_tax], pro_ratings: [:projects]]
     ])
   end
 

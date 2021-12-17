@@ -1004,10 +1004,11 @@ defmodule Core.Queries do
           business_tax_return: %{
             id: c.id,
             deadline: c.deadline,
+            state: c.state,
             tax_year: c.tax_year,
             business_entity_type: %{name: cd.name},
-            business_number_employee: %{name: ch.name},
-            business_total_revenue: %{name: cf.name}
+            business_number_employee: %{name: cf.name},
+            business_total_revenue: %{name: ch.name}
           },
           user: %{
             id: cu.id,
@@ -1069,10 +1070,11 @@ defmodule Core.Queries do
           individual_tax_return: %{
             id: c.id,
             deadline: c.deadline,
+            state: c.state,
             tax_year: c.tax_year,
             individual_employment_status: %{name: cd.name},
-            individual_filing_status: %{name: ch.name},
-            individual_itemized_deduction: %{name: cf.name}
+            individual_filing_status: %{name: cf.name},
+            individual_itemized_deduction: %{name: ch.name}
           },
           user: %{
             id: cu.id,
