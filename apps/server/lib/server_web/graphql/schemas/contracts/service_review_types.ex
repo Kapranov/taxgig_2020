@@ -32,6 +32,11 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ServiceReviewTypes do
     field :work_quality, :integer
   end
 
+  @desc "The service review update via params for Pro"
+  input_object :update_service_review_params_for_pro, description: "update service review" do
+    field :pro_response, non_null(:string)
+  end
+
   object :service_review_queries do
     @desc "Get all service reviews"
     field :all_service_reviews, list_of(:service_review) do
@@ -61,6 +66,13 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ServiceReviewTypes do
       arg :id, non_null(:string)
       arg :service_review, :update_service_review_params
       resolve &ServiceReviewResolver.update/3
+    end
+
+    @desc "Update a specific service review by role's Pro"
+    field :update_service_review_for_pro, :service_review do
+      arg :id, non_null(:string)
+      arg :service_review, :update_service_review_params_for_pro
+      resolve &ServiceReviewResolver.update_by_pro/3
     end
 
     @desc "Delete a specific the service review"

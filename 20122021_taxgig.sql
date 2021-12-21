@@ -1881,6 +1881,7 @@ COPY public.faqs (id, content, faq_category_id, title, inserted_at, updated_at) 
 0000017d-5ce4-7eee-c761-76e576ba0000	\n Here is the illustration of how TaxGig is superior to other market competitors: \n\n\n <img width=100% src='/images/faq/competitive_advantage.png' /> \n	0000017d-5ce4-7c51-c761-76e576ba0000	How TaxGig differs from other platforms?	2021-11-26 15:36:58	2021-11-26 15:36:58
 0000017d-5ce4-7d04-c761-76e576ba0000	# Requesting services not listed on TaxGig \n TaxGig works every day to improve our platform and add new services. As of now, we do not have occupancy tax assistance, quarterly estimates or incorporation services yet. However, you can always ask your Pro if he/she provides those. Your Pro will use add-ons to include additional service charge to your quote. \n\n	0000017d-5ce4-7c4d-c761-76e576ba0000	Requesting services not listed on TaxGig	2021-11-26 15:36:57	2021-11-26 15:36:57
 0000017d-5ce4-7dac-c761-76e576ba0000	# Will my quote change? \n Your quote may be changed only if the information provided during the questionnaire was not complete or you require additional services not stated initially.  Your Pro will recalculate the quote. \n\n\n If it requires extra payment, your Pro will send you add-ons. You can accept or decline them. \n\n\n Please remember that if you don't come to a mutual agreement, TaxGig may intervene upon request as a mediator to resolve a dispute. \n\n\n If the new quote is lower than the original one, please contact support@taxgig.com to resolve the matter. \n\n	0000017d-5ce4-7c4d-c761-76e576ba0000	Will my quote change?	2021-11-26 15:36:58	2021-11-26 15:36:58
+0000017d-5ce4-7d31-c761-76e576ba0000	# Can I use TaxGig outside the US? \n Yes, you certainly can access the service outside of the US. TaxGig is here to help you fulfill your obligations with the IRS, regardless of your current location. \n\n\n Filling from abroad may be difficult and uncomfortable, that’s why we have created this platform to ensure easy and fast communication between you and your tax professional. Just identify your status of filling from abroad via questionnaire when creating a project. \n\n	0000017d-5ce4-7c4d-c761-76e576ba0000	Can I use TaxGig outside the US?	2021-11-26 15:36:57	2021-11-26 15:36:57
 0000017d-5ce4-7e8b-c761-76e576ba0000	# Why join as a Pro? \n Tired of working for somebody else and/or wasting hours on searching for new clients via your family, friends, LinkedIn or by using online advertising? TaxGig offers you to become your own boss, work when you want and with whom you want. Here is the list of a few other reasons to join: \n\n* Forget about local boundaries - prepare tax returns and/or provide bookkeeping for clients located in other states.\n* Don't Waste Time on Search - get instantly matched to the client based on your set of skills.\n* Earn more - determine your own price for the service.\n* Advanced scam protection -  deal only with real people and their needs.\n* Intelligent analysis - know how you perform.\n* Secure payment system - receive payment protection and guaranties for the work you provide.\n* Instant verification - we use open IRS databases and Blockscore to momentarily verify your personal information and credentials.\n	0000017d-5ce4-7c51-c761-76e576ba0000	Why join as a Pro?	2021-11-26 15:36:58	2021-11-26 15:36:58
 0000017d-5ce4-7ef9-c761-76e576ba0000	# Cancelation Policy\n\n To secure the interaction between clients and Pros and ensure the fairness of the work performed, we have created the following cancellation policy: \n\n\n 1. If you cancelled the job in the first 2 hours and your client did not upload any document, there will be no penalty as well as no money received \n\n\n 2. If you cancel after the first 2 hours since client went in stage Current Client, you will not receive any money and your client will be able to leave you a rating \n\n\n 3. When more than 24 hours have passed since your client went in stage Current Client and/or you have uploaded the Final Document, the cancellation button is disabled. If you have any issues at that point, please contact support@taxgig.com right away. \n\n\n 4. If your client cancels the job within the first 2 hours and NOT uploaded any documents, there will be no penalty for any of you and no payout collected. \n\n\n 5. If your client cancels the job after 2 passes since he/she went in stage Current Client, he/she will receive a 35% penalty fee that will be paid out to your account. \n\n\n 6. If your client cancels the job after you have prepared and uploaded the Final Document, the 75% fee will apply to him/her that will be paid out to your account. However, the client will still be able to leave you a rating. \n\n	0000017d-5ce4-7c51-c761-76e576ba0000	Cancelation policy	2021-11-26 15:36:58	2021-11-26 15:36:58
 0000017d-5ce4-7d1a-c761-76e576ba0000	# Can I contact my Pro outside of TaxGig? \n Unfortunately, this would be a violation of our Terms of Usage. TaxGig can guarantee the security of your documents and payment only within the platform. We use encryption for shared files and have specific policies to prevent fraud and identity theft. \n\n\n If you choose to take your return outside of the TaxGig, it won’t be secure and the following penalties will apply. \n\n	0000017d-5ce4-7c4d-c761-76e576ba0000	Can I contact my Pro outside of TaxGig?	2021-11-26 15:36:57	2021-11-26 15:36:57
@@ -1891,7 +1892,6 @@ COPY public.faqs (id, content, faq_category_id, title, inserted_at, updated_at) 
 0000017d-5ce4-7dcd-c761-76e576ba0000	# Why was my credit card just billed for a few dollars? \n This is a standard procedure to verify the new payment method. This money will be automatically returned when the card/bank account is approved. \n\n\n If your project is Assigned (meaning you already matched with a Pro), we charge a fixed 35% fee of the quote which is put into an escrow account. If you wish to cancel the project, please read our cancellation policy carefully first. \n\n	0000017d-5ce4-7c4d-c761-76e576ba0000	Why was my credit card just billed for a few dollars?	2021-11-26 15:36:58	2021-11-26 15:36:58
 0000017d-5ce4-7ea1-c761-76e576ba0000	# What is the verification process? \n Clients will be sharing their most private information with you. Therefore, we check your information via the SSA and IRS Directory of PTIN holders by using Blockscore as a third party service and IRS’ open database. Make sure to enter your information correctly to proceed with the registration. **We do not store your SSN**. \n\n\n Furthermore, to secure payments and guarantee the payout, we create a Stripe connected account for each Pro. Stripe requires your personal information, such as First Name, Last Name and SSN (last four digits). After successfully passing the verification, the unlimited payouts will be automatically enabled. Make sure to read Stripe’s Terms and Conditions carefully before proceeding. \n\n	0000017d-5ce4-7c51-c761-76e576ba0000	What is the verification process?	2021-11-26 15:36:58	2021-11-26 15:36:58
 0000017d-5ce4-7f10-c761-76e576ba0000	# How often do I get paid? \n Stripe has a scheduled payout once a week. You will be able to see the transaction history and pending balance via your Profile. You are free to add up to 10 payout methods that include Debit cards and/or Bank accounts. You will be paid out the whole sum after your client goes to the stage Past. If the job is cancelled, the Cancellation policy may apply and only a partial sum will be paid out depending on the stage the incident occurred. Learn more via our Cancelation Policy. \n\n	0000017d-5ce4-7c51-c761-76e576ba0000	How often do I get paid?	2021-11-26 15:36:58	2021-11-26 15:36:58
-0000017d-5ce4-7d31-c761-76e576ba0000	# Can I use TaxGig outside the US? \n Yes, you certainly can access the service outside of the US. TaxGig is here to help you fulfill your obligations with the IRS, regardless of your current location. \n\n\n Filling from abroad may be difficult and uncomfortable, that’s why we have created this platform to ensure easy and fast communication between you and your tax professional. Just identify your status of filling from abroad via questionnaire when creating a project. \n\n	0000017d-5ce4-7c4d-c761-76e576ba0000	Can I use TaxGig outside the US?	2021-11-26 15:36:57	2021-11-26 15:36:57
 0000017d-5ce4-7de4-c761-76e576ba0000	# How is my project routed to the right Pro? \n We ask Pros to describe their previous work experience and identify job preferences, so we can help our algorithms to match you perfectly. Even if you find a Pro on your own rather than using the one we have pre-selected, the Pros shown will still match the service you require. This will help you to find your Pro much faster and still get the perfect match you seek. \n\n	0000017d-5ce4-7c4d-c761-76e576ba0000	How is my project routed to the right Pro?	2021-11-26 15:36:58	2021-11-26 15:36:58
 0000017d-5ce4-7eac-c761-76e576ba0000	# What services can I provide? \n TaxGig is a marketplace for tax related services. As of now, we have prepared customized questionnaires for services, such as **Individual Tax Return**, **Business Tax Return**, **Bookkeeping** and **Sales Tax**. Other services, such as Tax Consultation, Quarterly Estimates, Financial Planning and Tax Extension will be enabled in the nearest future. \n\n\n If you can provide additional services not listed on the platform, feel free to notify your client and increase the final quote via an Add-On function. \n\n	0000017d-5ce4-7c51-c761-76e576ba0000	What services can I provide?	2021-11-26 15:36:58	2021-11-26 15:36:58
 0000017d-5ce4-7f1b-c761-76e576ba0000	# What is a TaxGig Hero? \n TaxGig Hero is a premium function we offer to the best performing Pros. Becoming one will allow you to have more clients and look more professional in the eyes of your potential customers. \n\n### Here is the list of perks you automatically get \n\n\n * Increased number of open jobs - you can have up to three more clients simultaneously via Instant match. \n\n\n * TaxGig Hero badge - let others know that you are the best at your job. \n\n\n * Instant match - no more waiting for the response. Now, you will be instantly matched to new clients who match your expertise. Make sure to keep the button ON. \n\n# The Deal\n\n We will instantly calculate your potential earnings based on the client's answers. You can always use add-ons, if you feel that the price needs to be adjusted. \n\n	0000017d-5ce4-7c51-c761-76e576ba0000	What is a TaxGig Hero?	2021-11-26 15:36:58	2021-11-26 15:36:58
@@ -1920,6 +1920,8 @@ COPY public.individual_employment_statuses (id, individual_tax_return_id, name, 
 0000017d-c952-3d01-0b5b-d08ca3590000	0000017d-c952-3d00-0b5b-d08ca3590000	unemployed	\N	2021-12-17 16:55:49	2021-12-17 16:56:56
 0000017d-c955-7691-0b5b-d08ca3590000	0000017d-c955-768f-0b5b-d08ca3590000	unemployed	\N	2021-12-17 16:59:21	2021-12-17 17:00:24
 0000017d-c95c-3275-0b5b-d08ca3590000	0000017d-c95c-3273-0b5b-d08ca3590000	employed	\N	2021-12-17 17:06:42	2021-12-17 17:07:56
+0000017d-dd40-984d-6a4e-baa3c5db0000	0000017d-dd40-982d-6a4e-baa3c5db0000	\N	\N	2021-12-21 13:48:57	2021-12-21 13:48:57
+0000017d-dd41-0249-6a4e-baa3c5db0000	0000017d-dd41-0247-6a4e-baa3c5db0000	\N	\N	2021-12-21 13:49:24	2021-12-21 13:49:24
 \.
 
 
@@ -1944,6 +1946,8 @@ COPY public.individual_filing_statuses (id, individual_tax_return_id, name, pric
 0000017d-c952-3d02-0b5b-d08ca3590000	0000017d-c952-3d00-0b5b-d08ca3590000	Single	\N	2021-12-17 16:55:49	2021-12-17 16:57:10
 0000017d-c955-7692-0b5b-d08ca3590000	0000017d-c955-768f-0b5b-d08ca3590000	Single	\N	2021-12-17 16:59:21	2021-12-17 17:00:46
 0000017d-c95c-3276-0b5b-d08ca3590000	0000017d-c95c-3273-0b5b-d08ca3590000	Married filing separately	\N	2021-12-17 17:06:42	2021-12-17 17:08:17
+0000017d-dd40-984e-6a4e-baa3c5db0000	0000017d-dd40-982d-6a4e-baa3c5db0000	\N	\N	2021-12-21 13:48:57	2021-12-21 13:48:57
+0000017d-dd41-024b-6a4e-baa3c5db0000	0000017d-dd41-0247-6a4e-baa3c5db0000	\N	\N	2021-12-21 13:49:24	2021-12-21 13:49:24
 \.
 
 
@@ -1961,6 +1965,8 @@ COPY public.individual_foreign_account_counts (id, individual_tax_return_id, nam
 0000017d-c952-3d02-0b5b-d08ca3590001	0000017d-c952-3d00-0b5b-d08ca3590000	2-5	2021-12-17 16:55:49	2021-12-17 16:57:25
 0000017d-c955-7696-0b5b-d08ca3590000	0000017d-c955-768f-0b5b-d08ca3590000	2-5	2021-12-17 16:59:21	2021-12-17 17:01:06
 0000017d-c95c-3276-0b5b-d08ca3590001	0000017d-c95c-3273-0b5b-d08ca3590000	2-5	2021-12-17 17:06:42	2021-12-17 17:08:34
+0000017d-dd40-984f-6a4e-baa3c5db0000	0000017d-dd40-982d-6a4e-baa3c5db0000	\N	2021-12-21 13:48:57	2021-12-21 13:48:57
+0000017d-dd41-024e-6a4e-baa3c5db0000	0000017d-dd41-0247-6a4e-baa3c5db0000	\N	2021-12-21 13:49:24	2021-12-21 13:49:24
 \.
 
 
@@ -1980,6 +1986,8 @@ COPY public.individual_industries (id, individual_tax_return_id, name, inserted_
 0000017d-c952-3d03-0b5b-d08ca3590000	0000017d-c952-3d00-0b5b-d08ca3590000	{Consulting}	2021-12-17 16:55:49	2021-12-17 16:57:42
 0000017d-c955-7697-0b5b-d08ca3590000	0000017d-c955-768f-0b5b-d08ca3590000	{Legal}	2021-12-17 16:59:21	2021-12-17 17:01:42
 0000017d-c95c-3277-0b5b-d08ca3590000	0000017d-c95c-3273-0b5b-d08ca3590000	{Retail}	2021-12-17 17:06:42	2021-12-17 17:09:02
+0000017d-dd40-9851-6a4e-baa3c5db0000	0000017d-dd40-982d-6a4e-baa3c5db0000	\N	2021-12-21 13:48:57	2021-12-21 13:48:57
+0000017d-dd41-0254-6a4e-baa3c5db0000	0000017d-dd41-0247-6a4e-baa3c5db0000	\N	2021-12-21 13:49:24	2021-12-21 13:49:24
 \.
 
 
@@ -2002,6 +2010,8 @@ COPY public.individual_itemized_deductions (id, individual_tax_return_id, name, 
 0000017d-c952-3d04-0b5b-d08ca3590000	0000017d-c952-3d00-0b5b-d08ca3590000	Charitable contributions	\N	2021-12-17 16:55:49	2021-12-17 16:58:08
 0000017d-c955-7698-0b5b-d08ca3590000	0000017d-c955-768f-0b5b-d08ca3590000	Charitable contributions	\N	2021-12-17 16:59:21	2021-12-17 17:02:06
 0000017d-c95c-3278-0b5b-d08ca3590000	0000017d-c95c-3273-0b5b-d08ca3590000	Charitable contributions	\N	2021-12-17 17:06:42	2021-12-17 17:09:20
+0000017d-dd40-9852-6a4e-baa3c5db0000	0000017d-dd40-982d-6a4e-baa3c5db0000	\N	\N	2021-12-21 13:48:57	2021-12-21 13:48:57
+0000017d-dd41-0256-6a4e-baa3c5db0000	0000017d-dd41-0247-6a4e-baa3c5db0000	\N	\N	2021-12-21 13:49:24	2021-12-21 13:49:24
 \.
 
 
@@ -2019,6 +2029,8 @@ COPY public.individual_stock_transaction_counts (id, individual_tax_return_id, n
 0000017d-c952-3d05-0b5b-d08ca3590000	0000017d-c952-3d00-0b5b-d08ca3590000	51-100	2021-12-17 16:55:49	2021-12-17 16:58:27
 0000017d-c955-7699-0b5b-d08ca3590000	0000017d-c955-768f-0b5b-d08ca3590000	51-100	2021-12-17 16:59:21	2021-12-17 17:02:32
 0000017d-c95c-3279-0b5b-d08ca3590000	0000017d-c95c-3273-0b5b-d08ca3590000	51-100	2021-12-17 17:06:42	2021-12-17 17:09:42
+0000017d-dd40-9853-6a4e-baa3c5db0000	0000017d-dd40-982d-6a4e-baa3c5db0000	\N	2021-12-21 13:48:57	2021-12-21 13:48:57
+0000017d-dd41-0258-6a4e-baa3c5db0000	0000017d-dd41-0247-6a4e-baa3c5db0000	\N	2021-12-21 13:49:24	2021-12-21 13:49:24
 \.
 
 
@@ -2038,6 +2050,8 @@ COPY public.individual_tax_returns (id, active, deadline, financial_situation, f
 0000017d-c952-3d00-0b5b-d08ca3590000	t	2021-03-05	\N	t	t	f	f	8	t	f	t	t	t	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	8	t	6	{"New York",Ohio}	t	{2015,2019,2020,2021}	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 16:55:49	2021-12-17 16:55:49
 0000017d-c955-768f-0b5b-d08ca3590000	t	2021-03-05	\N	t	t	t	f	8	t	f	t	t	f	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	8	t	6	{"New York",Ohio}	t	{2015,2019,2020,2021}	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 16:59:21	2021-12-17 16:59:21
 0000017d-c95c-3273-0b5b-d08ca3590000	t	2021-03-05	\N	f	t	t	f	8	t	f	f	f	f	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	8	t	8	{"New York",Ohio}	t	{2015,2020}	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-17 17:06:42	2021-12-17 17:06:42
+0000017d-dd40-982d-6a4e-baa3c5db0000	t	2021-03-05	tt	f	t	t	f	8	t	f	f	f	f	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	8	t	8	{"New York",Ohio}	t	{2015,2020}	0000017d-767b-5050-d80a-6b7256d10000	2021-12-21 13:48:57	2021-12-21 13:48:57
+0000017d-dd41-0247-6a4e-baa3c5db0000	t	2021-03-05	hello	f	t	t	f	8	t	f	f	f	f	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	8	t	8	{"New York",Ohio}	t	{2015,2020}	0000017d-767b-5050-d80a-6b7256d10000	2021-12-21 13:49:24	2021-12-21 13:51:57
 \.
 
 
@@ -2208,7 +2222,6 @@ COPY public.projects (id, addon_price, assigned_id, book_keeping_id, business_ta
 0000017d-76b6-71eb-d80a-6b7256d10000	\N	\N	\N	\N	f	\N	\N	\N	\N	f	\N	0000017d-76b4-def7-d80a-6b7256d10000	\N	New	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-01 15:56:47	2021-12-01 15:56:47
 0000017d-76b7-6136-d80a-6b7256d10000	\N	\N	\N	\N	f	\N	\N	\N	\N	f	\N	0000017d-76b6-9fa8-d80a-6b7256d10000	\N	New	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-01 15:57:49	2021-12-01 15:57:49
 0000017d-76b8-ad00-d80a-6b7256d10000	\N	\N	\N	\N	f	\N	\N	\N	\N	f	\N	0000017d-76b7-9380-d80a-6b7256d10000	\N	New	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-01 15:59:14	2021-12-01 15:59:14
-0000017d-76a1-304a-d80a-6b7256d10000	\N	0000017d-7684-3b49-d80a-6b7256d10000	\N	\N	f	\N	card_1K2HcHLhtqtNnMebb1P3tvqX	\N	\N	f	250.00	0000017d-767d-6821-d80a-6b7256d10000	\N	In Progress	0000017d-767b-5050-d80a-6b7256d10000	2021-12-01 15:33:34	2021-12-02 15:58:41
 0000017d-76a5-7607-d80a-6b7256d10000	\N	0000017d-766a-cd16-d80a-6b7256d10000	\N	\N	f	\N	card_1K2Hn4LhtqtNnMebbkMnSNBg	\N	\N	f	250.00	0000017d-7695-c4ff-d80a-6b7256d10000	\N	In Progress	0000017d-7693-3760-d80a-6b7256d10000	2021-12-01 15:38:14	2021-12-02 16:06:30
 0000017d-76b3-ddba-d80a-6b7256d10000	\N	0000017d-766a-cd16-d80a-6b7256d10000	\N	\N	f	\N	card_1K2Hn4LhtqtNnMebbkMnSNBg	\N	\N	f	250.00	0000017d-76b2-e04a-d80a-6b7256d10000	\N	In Progress	0000017d-7693-3760-d80a-6b7256d10000	2021-12-01 15:53:58	2021-12-02 16:11:35
 0000017d-a022-83b6-215d-34b38af10000	\N	\N	0000017d-a008-12c5-215d-34b38af10000	\N	f	\N	\N	\N	\N	f	\N	\N	\N	New	0000017d-767b-5050-d80a-6b7256d10000	2021-12-09 16:59:16	2021-12-09 16:59:16
@@ -2233,10 +2246,11 @@ COPY public.projects (id, addon_price, assigned_id, book_keeping_id, business_ta
 0000017d-c947-f1df-0b5b-d08ca3590000	\N	\N	\N	\N	f	\N	\N	\N	0000017d-c943-1bf1-0b5b-d08ca3590000	f	\N	\N	\N	New	0000017d-768e-6737-d80a-6b7256d10000	2021-12-17 16:44:35	2021-12-17 16:44:35
 0000017d-c94c-f152-0b5b-d08ca3590000	\N	\N	\N	\N	f	\N	\N	\N	0000017d-c949-61c0-0b5b-d08ca3590000	f	\N	\N	\N	New	0000017d-768e-6737-d80a-6b7256d10000	2021-12-17 16:50:02	2021-12-17 16:50:02
 0000017d-c94f-469a-0b5b-d08ca3590000	\N	0000017d-766a-cd16-d80a-6b7256d10000	\N	\N	f	\N	card_1K2Hn4LhtqtNnMebbkMnSNBg	\N	0000017d-c94e-fd37-0b5b-d08ca3590000	f	250.00	\N	\N	In Progress	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 16:52:35	2021-12-17 16:52:58
-0000017d-c94f-faf4-0b5b-d08ca3590000	\N	0000017d-766a-cd16-d80a-6b7256d10000	\N	\N	f	\N	card_1K2Hn4LhtqtNnMebbkMnSNBg	\N	0000017d-c94f-c0c6-0b5b-d08ca3590000	f	250.00	\N	\N	In Progress	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 16:53:21	2021-12-17 16:53:43
 0000017d-c954-f35e-0b5b-d08ca3590000	\N	\N	\N	\N	f	\N	\N	\N	0000017d-c952-3d00-0b5b-d08ca3590000	f	\N	\N	\N	New	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 16:58:47	2021-12-17 16:58:47
 0000017d-c958-ba04-0b5b-d08ca3590000	\N	\N	\N	\N	f	\N	\N	\N	0000017d-c955-768f-0b5b-d08ca3590000	f	\N	\N	\N	New	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 17:02:54	2021-12-17 17:02:54
 0000017d-c95d-06fe-0b5b-d08ca3590000	\N	\N	\N	\N	f	\N	\N	\N	0000017d-c95c-3273-0b5b-d08ca3590000	f	\N	\N	\N	New	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-17 17:07:36	2021-12-17 17:07:36
+0000017d-c94f-faf4-0b5b-d08ca3590000	\N	0000017d-766a-cd16-d80a-6b7256d10000	\N	\N	f	\N	card_1K2Hn4LhtqtNnMebbkMnSNBg	\N	0000017d-c94f-c0c6-0b5b-d08ca3590000	f	250.00	\N	0000017d-dd70-cf79-9a35-c35fafa50000	Done	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 16:53:21	2021-12-21 14:43:21
+0000017d-76a1-304a-d80a-6b7256d10000	\N	0000017d-7684-3b49-d80a-6b7256d10000	\N	\N	f	\N	card_1K2HcHLhtqtNnMebb1P3tvqX	\N	\N	f	250.00	0000017d-767d-6821-d80a-6b7256d10000	0000017d-dd7e-c883-7115-cc2e09ae0000	Done	0000017d-767b-5050-d80a-6b7256d10000	2021-12-01 15:33:34	2021-12-21 14:58:16
 \.
 
 
@@ -2410,6 +2424,8 @@ COPY public.schema_migrations (version, inserted_at) FROM stdin;
 --
 
 COPY public.service_reviews (id, client_comment, communication, final_rating, pro_response, professionalism, user_id, work_quality, inserted_at, updated_at) FROM stdin;
+0000017d-dd70-cf79-9a35-c35fafa50000	nice job	4	4	hello world	5	0000017d-7693-3760-d80a-6b7256d10000	5	2021-12-21 14:41:37	2021-12-21 14:50:58
+0000017d-dd7e-c883-7115-cc2e09ae0000	nice job	4	4	\N	5	0000017d-767b-5050-d80a-6b7256d10000	5	2021-12-21 14:56:53	2021-12-21 14:56:53
 \.
 
 

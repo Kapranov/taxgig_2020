@@ -114,6 +114,38 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ServiceReviewResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :service_review, message: "Can't be blank"]]}
   end
 
+  @spec update_by_pro(any, %{id: bitstring, service_review: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update_by_pro(_parent, %{id: id, service_review: params}, %{context: %{current_user: current_user}}) do
+    if is_nil(id) || is_nil(current_user) || current_user.role == false do
+      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
+    else
+      try do
+        attrs = %{pro_response: params[:pro_response]}
+        struct = Repo.get!(ServiceReview, id) |> Repo.preload([:project])
+        if struct.project.assigned_id == current_user.id do
+          struct
+          |> Contracts.update_service_review(attrs)
+          |> case do
+            {:ok, struct} ->
+              {:ok, struct}
+            {:error, changeset} ->
+              {:error, extract_error_msg(changeset)}
+          end
+        else
+          {:error, "Permission denied for user to perform action update"}
+        end
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "The Service Review #{id} not found!"}
+      end
+    end
+  end
+
+  @spec update_by_pro(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update_by_pro(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :service_review, message: "Can't be blank"]]}
+  end
+
   @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) || current_user.role == true do
