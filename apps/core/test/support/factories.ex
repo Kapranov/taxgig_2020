@@ -836,6 +836,7 @@ defmodule Core.Factory do
   def individual_tax_return_factory do
     %IndividualTaxReturn{
       deadline: Date.utc_today(),
+      financial_situation: Lorem.sentence(),
       foreign_account: random_boolean(),
       foreign_account_limit: random_boolean(),
       foreign_financial_interest: random_boolean(),
@@ -870,6 +871,7 @@ defmodule Core.Factory do
   def tp_individual_tax_return_factory do
     %IndividualTaxReturn{
       deadline: Date.utc_today(),
+      financial_situation: Lorem.sentence(),
       foreign_account: random_boolean(),
       foreign_account_limit: random_boolean(),
       foreign_financial_interest: random_boolean(),

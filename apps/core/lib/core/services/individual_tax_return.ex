@@ -24,6 +24,7 @@ defmodule Core.Services.IndividualTaxReturn do
 
   @type t :: %__MODULE__{
     deadline: DateTime.t(),
+    financial_situation: String.t(),
     foreign_account: boolean,
     foreign_account_limit: boolean,
     foreign_financial_interest: boolean,
@@ -56,6 +57,7 @@ defmodule Core.Services.IndividualTaxReturn do
 
   @allowed_params ~w(
     deadline
+    financial_situation
     foreign_account
     foreign_account_limit
     foreign_financial_interest
@@ -91,6 +93,7 @@ defmodule Core.Services.IndividualTaxReturn do
 
   schema "individual_tax_returns" do
     field :deadline, :date
+    field :financial_situation, :string
     field :foreign_account, :boolean
     field :foreign_account_limit, :boolean
     field :foreign_financial_interest, :boolean

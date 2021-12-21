@@ -346,6 +346,7 @@ defmodule Core.Services do
 
   @tp_individual_tax_return_params ~w(
     deadline
+    financial_situation
     foreign_account
     foreign_account_limit
     foreign_financial_interest
@@ -389,6 +390,7 @@ defmodule Core.Services do
 
   @tp_individual_tax_return_attrs %{
     deadline: Date.utc_today(),
+    financial_situation: "some situation",
     foreign_account: true,
     foreign_account_limit: true,
     foreign_financial_interest: true,
@@ -4683,6 +4685,7 @@ defmodule Core.Services do
     ])
     pro_attrs = Map.drop(attrs, [
       :deadline,
+      :financial_situation,
       :foreign_account_limit,
       :foreign_financial_interest,
       :k1_count,

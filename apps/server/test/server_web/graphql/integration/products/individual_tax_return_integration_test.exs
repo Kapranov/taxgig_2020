@@ -21,6 +21,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
         allIndividualTaxReturns {
           id
           deadline
+          financial_situation
           foreign_account
           foreign_account_limit
           foreign_financial_interest
@@ -59,6 +60,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
 
       assert List.first(data)["id"]                         == struct.id
       assert List.first(data)["deadline"]                   == format_deadline(struct.deadline)
+      assert List.first(data)["financial_situation"]        == struct.financial_situation
       assert List.first(data)["foreign_account"]            == struct.foreign_account
       assert List.first(data)["foreign_account_limit"]      == struct.foreign_account_limit
       assert List.first(data)["foreign_financial_interest"] == struct.foreign_financial_interest
@@ -86,6 +88,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
 
       assert first["id"]                         == struct.id
       assert first["deadline"]                   == format_deadline(struct.deadline)
+      assert first["financial_situation"]        == struct.financial_situation
       assert first["foreign_account"]            == struct.foreign_account
       assert first["foreign_account_limit"]      == struct.foreign_account_limit
       assert first["foreign_financial_interest"] == struct.foreign_financial_interest
@@ -226,6 +229,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
         showIndividualTaxReturn(id: \"#{struct.id}\") {
           id
           deadline
+          financial_situation
           foreign_account
           foreign_account_limit
           foreign_financial_interest
@@ -258,6 +262,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
 
       assert found["id"]                         == struct.id
       assert found["deadline"]                   == format_deadline(struct.deadline)
+      assert found["financial_situation"]        == struct.financial_situation
       assert found["foreign_account"]            == struct.foreign_account
       assert found["foreign_account_limit"]      == struct.foreign_account_limit
       assert found["foreign_financial_interest"] == struct.foreign_financial_interest
@@ -289,6 +294,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
 
       assert found["id"]                         == struct.id
       assert found["deadline"]                   == format_deadline(struct.deadline)
+      assert found["financial_situation"]        == struct.financial_situation
       assert found["foreign_account"]            == struct.foreign_account
       assert found["foreign_account_limit"]      == struct.foreign_account_limit
       assert found["foreign_financial_interest"] == struct.foreign_financial_interest
@@ -427,6 +433,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
         findIndividualTaxReturn(id: \"#{struct.id}\") {
           id
           deadline
+          financial_situation
           foreign_account
           foreign_account_limit
           foreign_financial_interest
@@ -459,6 +466,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
 
       assert found["id"]                         == struct.id
       assert found["deadline"]                   == format_deadline(struct.deadline)
+      assert found["financial_situation"]        == struct.financial_situation
       assert found["foreign_account"]            == struct.foreign_account
       assert found["foreign_account_limit"]      == struct.foreign_account_limit
       assert found["foreign_financial_interest"] == struct.foreign_financial_interest
@@ -490,6 +498,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
 
       assert found["id"]                         == struct.id
       assert found["deadline"]                   == format_deadline(struct.deadline)
+      assert found["financial_situation"]        == struct.financial_situation
       assert found["foreign_account"]            == struct.foreign_account
       assert found["foreign_account_limit"]      == struct.foreign_account_limit
       assert found["foreign_financial_interest"] == struct.foreign_financial_interest
@@ -619,6 +628,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
       {
         createIndividualTaxReturn(
           deadline: \"#{Date.utc_today()}\",
+          financial_situation: "some text",
           foreign_account: true,
           foreign_account_limit: true,
           foreign_financial_interest: true,
@@ -639,6 +649,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
         ) {
           id
           deadline
+          financial_situation
           foreign_account
           foreign_account_limit
           foreign_financial_interest
@@ -676,6 +687,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
       created = json_response(res, 200)["data"]["createIndividualTaxReturn"]
 
       assert created["deadline"]                   == format_deadline(Date.utc_today())
+      assert created["financial_situation"]        == "some text"
       assert created["foreign_account"]            == true
       assert created["foreign_account_limit"]      == true
       assert created["foreign_financial_interest"] == true
@@ -801,6 +813,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
           id: \"#{struct.id}\",
           IndividualTaxReturn: {
             deadline: \"#{Date.utc_today |> Date.add(-3)}\",
+            financial_situation: "updated text",
             foreign_account: false,
             foreign_account_limit: false,
             foreign_financial_interest: false,
@@ -823,6 +836,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
         {
           id
           deadline
+          financial_situation
           foreign_account
           foreign_account_limit
           foreign_financial_interest
@@ -861,6 +875,7 @@ defmodule ServerWeb.GraphQL.Integration.Products.IndividualTaxReturnIntegrationT
 
       assert updated["id"]                         == struct.id
       assert updated["deadline"]                   == format_deadline(Date.utc_today |> Date.add(-3))
+      assert updated["financial_situation"]        == "updated text"
       assert updated["foreign_account"]            == false
       assert updated["foreign_account_limit"]      == false
       assert updated["foreign_financial_interest"] == false

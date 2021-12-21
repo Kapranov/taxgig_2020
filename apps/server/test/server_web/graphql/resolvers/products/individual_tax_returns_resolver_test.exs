@@ -15,6 +15,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualTaxReturnsResolverTest 
 
       assert List.first(data).id                         == individual_tax_return.id
       assert List.first(data).deadline                   == individual_tax_return.deadline
+      assert List.first(data).financial_situation        == individual_tax_return.financial_situation
       assert List.first(data).foreign_account            == individual_tax_return.foreign_account
       assert List.first(data).foreign_account_limit      == individual_tax_return.foreign_account_limit
       assert List.first(data).foreign_financial_interest == individual_tax_return.foreign_financial_interest
@@ -56,6 +57,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualTaxReturnsResolverTest 
 
       assert List.last(data).id                          == individual_tax_return.id
       assert List.last(data).deadline                    == individual_tax_return.deadline
+      assert List.last(data).financial_situation         == individual_tax_return.financial_situation
       assert List.last(data).foreign_account             == individual_tax_return.foreign_account
       assert List.last(data).foreign_account_limit       == individual_tax_return.foreign_account_limit
       assert List.last(data).foreign_financial_interest  == individual_tax_return.foreign_financial_interest
@@ -200,6 +202,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualTaxReturnsResolverTest 
 
       assert found.id                         == individual_tax_return.id
       assert found.deadline                   == individual_tax_return.deadline
+      assert found.financial_situation        == individual_tax_return.financial_situation
       assert found.foreign_account            == individual_tax_return.foreign_account
       assert found.foreign_account_limit      == individual_tax_return.foreign_account_limit
       assert found.foreign_financial_interest == individual_tax_return.foreign_financial_interest
@@ -317,6 +320,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualTaxReturnsResolverTest 
 
       assert found.id                         == individual_tax_return.id
       assert found.deadline                   == individual_tax_return.deadline
+      assert found.financial_situation        == individual_tax_return.financial_situation
       assert found.foreign_account            == individual_tax_return.foreign_account
       assert found.foreign_account_limit      == individual_tax_return.foreign_account_limit
       assert found.foreign_financial_interest == individual_tax_return.foreign_financial_interest
@@ -432,6 +436,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualTaxReturnsResolverTest 
 
       args = %{
         deadline: Date.utc_today(),
+        financial_situation: "some financial situation",
         foreign_account: true,
         foreign_account_limit: true,
         foreign_financial_interest: true,
@@ -454,6 +459,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualTaxReturnsResolverTest 
       {:ok, created} = IndividualTaxReturnsResolver.create(nil, args, context)
 
       assert created.deadline                   == Date.utc_today()
+      assert created.financial_situation        == "some financial situation"
       assert created.foreign_account            == true
       assert created.foreign_account_limit      == true
       assert created.foreign_financial_interest == true
@@ -539,6 +545,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualTaxReturnsResolverTest 
 
       params = %{
         deadline: Date.utc_today(),
+        financial_situation: "updated some financial situation",
         foreign_account: false,
         foreign_account_limit: false,
         foreign_financial_interest: false,
@@ -563,6 +570,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.IndividualTaxReturnsResolverTest 
 
       assert updated.id                         == individual_tax_return.id
       assert updated.deadline                   == Date.utc_today()
+      assert updated.financial_situation        == "updated some financial situation"
       assert updated.foreign_account            == false
       assert updated.foreign_account_limit      == false
       assert updated.foreign_financial_interest == false

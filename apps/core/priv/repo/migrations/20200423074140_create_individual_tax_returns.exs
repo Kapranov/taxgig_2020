@@ -6,6 +6,7 @@ defmodule Core.Repo.Migrations.CreateIndividualTaxReturns do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"), read_after_writes: true
       add :active, :boolean, default: true, null: false
       add :deadline, :date, default: nil, null: true
+      add :financial_situation, :text, default: nil, null: true
       add :foreign_account, :boolean, default: nil, null: true
       add :foreign_account_limit, :boolean, default: nil, null: true
       add :foreign_financial_interest, :boolean, default: nil, null: true

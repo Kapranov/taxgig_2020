@@ -74,6 +74,15 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
     field :is_online, non_null(:boolean)
   end
 
+  object :analyze_for_pro do
+    field :id, non_null(:string), description: "service id"
+    field :name, :string
+    field :sum_value, :decimal
+    field :sum_match, :integer
+    field :sum_price, :integer
+    field :user, :user_by_pro
+  end
+
   object :analyze_book_keeping_for_tp do
     field :id, non_null(:string), description: "service id"
     field :name, :string
@@ -232,6 +241,13 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
 
     @desc "Get an analyze sale_tax for role's tp"
     field :show_analyze_sale_tax_for_tp, list_of(:analyze_sale_tax_for_pro) do
+      arg(:page, :integer, default_value: 0)
+      arg(:service_id, non_null(:string))
+      resolve(&AnalyzeResolver.show/3)
+    end
+
+    @desc "Get an analyzes for all services by role's tp"
+    field :show_analyze_for_tp, list_of(:analyze_for_pro) do
       arg(:page, :integer, default_value: 0)
       arg(:service_id, non_null(:string))
       resolve(&AnalyzeResolver.show/3)

@@ -50,24 +50,25 @@ defmodule Core.Services.IndividualTaxReturnTest do
       user = insert(:tp_user)
 
       params = %{
-        deadline:             Date.utc_today(),
-        foreign_account:                  true,
-        foreign_account_limit:            true,
-        foreign_financial_interest:       true,
-        home_owner:                       true,
-        k1_count:                           22,
-        k1_income:                        true,
-        living_abroad:                    true,
-        non_resident_earning:             true,
-        none_expat:                      false,
-        own_stock_crypto:                 true,
-        rental_property_count:              22,
-        rental_property_income:           true,
-        sole_proprietorship_count:          22,
-        state:    ["Ohio", "New York", "Ohio"],
-        stock_divident:                   true,
-        tax_year:     ["2018", "2017", "2016"],
-        user_id: user.id
+        deadline:                      Date.utc_today(),
+        financial_situation: "some financial situation",
+        foreign_account:                           true,
+        foreign_account_limit:                     true,
+        foreign_financial_interest:                true,
+        home_owner:                                true,
+        k1_count:                                    22,
+        k1_income:                                 true,
+        living_abroad:                             true,
+        non_resident_earning:                      true,
+        none_expat:                               false,
+        own_stock_crypto:                          true,
+        rental_property_count:                       22,
+        rental_property_income:                    true,
+        sole_proprietorship_count:                   22,
+        state:             ["Ohio", "New York", "Ohio"],
+        stock_divident:                            true,
+        tax_year:              ["2018", "2017", "2016"],
+        user_id:                                user.id
       }
 
       assert {:ok, %IndividualTaxReturn{} = individual_tax_return} =
@@ -81,6 +82,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
 
       assert loaded.id                              == individual_tax_return.id
       assert loaded.deadline                        == Date.utc_today()
+      assert loaded.financial_situation             == "some financial situation",
       assert loaded.foreign_account                 == true
       assert loaded.foreign_account_limit           == true
       assert loaded.foreign_financial_interest      == true
@@ -150,34 +152,35 @@ defmodule Core.Services.IndividualTaxReturnTest do
       user = insert(:tp_user)
 
       params = %{
-        deadline:             Date.utc_today(),
-        foreign_account:                  true,
-        foreign_account_limit:            true,
-        foreign_financial_interest:       true,
-        home_owner:                       true,
-        k1_count:                           22,
-        k1_income:                        true,
-        living_abroad:                    true,
-        non_resident_earning:             true,
-        none_expat:                      false,
-        own_stock_crypto:                 true,
-        price_foreign_account:              33,
-        price_home_owner:                   33,
-        price_living_abroad:                33,
-        price_non_resident_earning:         33,
-        price_own_stock_crypto:             33,
-        price_rental_property_income:       33,
-        price_sole_proprietorship_count:    33,
-        price_state:                        33,
-        price_stock_divident:               33,
-        price_tax_year:                     33,
-        rental_property_count:              22,
-        rental_property_income:           true,
-        sole_proprietorship_count:          22,
-        state: ["Alabama", "Ohio", "New York"],
-        stock_divident:                   true,
-        tax_year:     ["2018", "2017", "2016"],
-        user_id:                        user.id
+        deadline:                      Date.utc_today(),
+        financial_situation: "some financial situation",
+        foreign_account:                           true,
+        foreign_account_limit:                     true,
+        foreign_financial_interest:                true,
+        home_owner:                                true,
+        k1_count:                                    22,
+        k1_income:                                 true,
+        living_abroad:                             true,
+        non_resident_earning:                      true,
+        none_expat:                               false,
+        own_stock_crypto:                          true,
+        price_foreign_account:                       33,
+        price_home_owner:                            33,
+        price_living_abroad:                         33,
+        price_non_resident_earning:                  33,
+        price_own_stock_crypto:                      33,
+        price_rental_property_income:                33,
+        price_sole_proprietorship_count:             33,
+        price_state:                                 33,
+        price_stock_divident:                        33,
+        price_tax_year:                              33,
+        rental_property_count:                       22,
+        rental_property_income:                    true,
+        sole_proprietorship_count:                   22,
+        state:          ["Alabama", "Ohio", "New York"],
+        stock_divident:                            true,
+        tax_year:              ["2018", "2017", "2016"],
+        user_id:                                user.id
       }
 
       assert {:error, %Ecto.Changeset{}} = Services.create_individual_tax_return(params)
@@ -195,24 +198,25 @@ defmodule Core.Services.IndividualTaxReturnTest do
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
 
       params = %{
-        deadline:             Date.utc_today(),
-        foreign_account:                 false,
-        foreign_account_limit:           false,
-        foreign_financial_interest:      false,
-        home_owner:                      false,
-        k1_count:                           33,
-        k1_income:                       false,
-        living_abroad:                   false,
-        non_resident_earning:            false,
-        none_expat:                       true,
-        own_stock_crypto:                false,
-        rental_property_count:              33,
-        rental_property_income:          false,
-        sole_proprietorship_count:          33,
-        state:     ["Iowa", "Arizona", "Iowa"],
-        stock_divident:                  false,
-        tax_year:             ["2018", "2019"],
-        user_id:                       user.id
+        deadline:                         Date.utc_today(),
+        financial_situation: "updated financial situation",
+        foreign_account:                             false,
+        foreign_account_limit:                       false,
+        foreign_financial_interest:                  false,
+        home_owner:                                  false,
+        k1_count:                                       33,
+        k1_income:                                   false,
+        living_abroad:                               false,
+        non_resident_earning:                        false,
+        none_expat:                                   true,
+        own_stock_crypto:                            false,
+        rental_property_count:                          33,
+        rental_property_income:                      false,
+        sole_proprietorship_count:                      33,
+        state:                 ["Iowa", "Arizona", "Iowa"],
+        stock_divident:                              false,
+        tax_year:                         ["2018", "2019"],
+        user_id:                                   user.id
       }
 
 
@@ -225,6 +229,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
 
       assert updated.id                              == individual_tax_return.id
       assert updated.deadline                        == Date.utc_today()
+      assert updated.financial_situation             == "updated financial situation"
       assert updated.foreign_account                 == false
       assert updated.foreign_account_limit           == false
       assert updated.foreign_financial_interest      == false
@@ -296,34 +301,35 @@ defmodule Core.Services.IndividualTaxReturnTest do
       individual_tax_return = insert(:tp_individual_tax_return, user: user)
 
       params = %{
-        deadline:             Date.utc_today(),
-        foreign_account:                 false,
-        foreign_account_limit:           false,
-        foreign_financial_interest:      false,
-        home_owner:                      false,
-        k1_count:                           33,
-        k1_income:                       false,
-        living_abroad:                   false,
-        non_resident_earning:            false,
-        none_expat:                       true,
-        own_stock_crypto:                false,
-        price_foreign_account:              33,
-        price_home_owner:                   33,
-        price_living_abroad:                33,
-        price_non_resident_earning:         33,
-        price_own_stock_crypto:             33,
-        price_rental_property_income:       33,
-        price_sole_proprietorship_count:    33,
-        price_state:                        33,
-        price_stock_divident:               33,
-        price_tax_year:                     33,
-        rental_property_count:              33,
-        rental_property_income:          false,
-        sole_proprietorship_count:          33,
-        state:             ["Arizona", "Iowa"],
-        stock_divident:                  false,
-        tax_year:             ["2018", "2019"],
-        user_id:                       user.id
+        deadline:                         Date.utc_today(),
+        financial_situation: "updated financial situation",
+        foreign_account:                             false,
+        foreign_account_limit:                       false,
+        foreign_financial_interest:                  false,
+        home_owner:                                  false,
+        k1_count:                                       33,
+        k1_income:                                   false,
+        living_abroad:                               false,
+        non_resident_earning:                        false,
+        none_expat:                                   true,
+        own_stock_crypto:                            false,
+        price_foreign_account:                          33,
+        price_home_owner:                               33,
+        price_living_abroad:                            33,
+        price_non_resident_earning:                     33,
+        price_own_stock_crypto:                         33,
+        price_rental_property_income:                   33,
+        price_sole_proprietorship_count:                33,
+        price_state:                                    33,
+        price_stock_divident:                           33,
+        price_tax_year:                                 33,
+        rental_property_count:                          33,
+        rental_property_income:                      false,
+        sole_proprietorship_count:                      33,
+        state:                         ["Arizona", "Iowa"],
+        stock_divident:                              false,
+        tax_year:                         ["2018", "2019"],
+        user_id:                                   user.id
       }
 
 
@@ -336,6 +342,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
 
       assert updated.id                              == individual_tax_return.id
       assert updated.deadline                        == Date.utc_today()
+      assert updated.financial_situation             == "updated financial situation"
       assert updated.foreign_account                 == false
       assert updated.foreign_account_limit           == false
       assert updated.foreign_financial_interest      == false
@@ -504,6 +511,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
 
       assert loaded.id                              == individual_tax_return.id
       assert loaded.deadline                        == nil
+      assert loaded.financial_situation             == nil
       assert loaded.foreign_account                 == true
       assert loaded.foreign_account_limit           == nil
       assert loaded.foreign_financial_interest      == nil
@@ -648,6 +656,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
 
       assert updated.id                              == individual_tax_return.id
       assert updated.deadline                        == nil
+      assert updated.financial_situation             == nil
       assert updated.foreign_account                 == false
       assert updated.foreign_account_limit           == nil
       assert updated.foreign_financial_interest      == nil
@@ -758,6 +767,7 @@ defmodule Core.Services.IndividualTaxReturnTest do
 
       assert updated.id                              == individual_tax_return.id
       assert updated.deadline                        == nil
+      assert updated.financial_situation             == nil
       assert updated.foreign_account                 == false
       assert updated.foreign_account_limit           == nil
       assert updated.foreign_financial_interest      == nil

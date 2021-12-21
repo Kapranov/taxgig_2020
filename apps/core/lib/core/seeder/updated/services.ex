@@ -1481,6 +1481,7 @@ defmodule Core.Seeder.Updated.Services do
     [
       Services.update_individual_tax_return(itr1, %{
         deadline:                               date,
+        financial_situation:        Lorem.sentence(),
         foreign_account:            random_boolean(),
         foreign_account_limit:      random_boolean(),
         foreign_financial_interest: random_boolean(),
@@ -1501,6 +1502,7 @@ defmodule Core.Seeder.Updated.Services do
       }),
       Services.update_individual_tax_return(itr2, %{
         deadline:                               date,
+        financial_situation:        Lorem.sentence(),
         foreign_account:            random_boolean(),
         foreign_account_limit:      random_boolean(),
         foreign_financial_interest: random_boolean(),
@@ -1521,6 +1523,7 @@ defmodule Core.Seeder.Updated.Services do
       }),
       Services.update_individual_tax_return(itr3, %{
         deadline:                               date,
+        financial_situation:        Lorem.sentence(),
         foreign_account:            random_boolean(),
         foreign_account_limit:      random_boolean(),
         foreign_financial_interest: random_boolean(),
@@ -1541,6 +1544,7 @@ defmodule Core.Seeder.Updated.Services do
       }),
       Services.update_individual_tax_return(itr4, %{
         deadline:                               date,
+        financial_situation:        Lorem.sentence(),
         foreign_account:            random_boolean(),
         foreign_account_limit:      random_boolean(),
         foreign_financial_interest: random_boolean(),
@@ -1561,6 +1565,7 @@ defmodule Core.Seeder.Updated.Services do
       }),
       Services.update_individual_tax_return(itr5, %{
         deadline:                               date,
+        financial_situation:        Lorem.sentence(),
         foreign_account:            random_boolean(),
         foreign_account_limit:      random_boolean(),
         foreign_financial_interest: random_boolean(),
@@ -1598,7 +1603,7 @@ defmodule Core.Seeder.Updated.Services do
         price_tax_year:                  random_integer(),
         rental_property_income:          true,
         stock_divident:                  true,
-        user_id:                                     pro1
+        user_id:                         pro1
       }),
       Services.update_individual_tax_return(itr7, %{
         foreign_account:                 true,
@@ -1619,7 +1624,7 @@ defmodule Core.Seeder.Updated.Services do
         price_tax_year:                  random_integer(),
         rental_property_income:          true,
         stock_divident:                  true,
-        user_id:                                     pro2
+        user_id:                         pro2
       }),
       Services.update_individual_tax_return(itr8, %{
         foreign_account:                 random_boolean(),
@@ -1640,7 +1645,7 @@ defmodule Core.Seeder.Updated.Services do
         price_tax_year:                  random_integer(),
         rental_property_income:          random_boolean(),
         stock_divident:                  random_boolean(),
-        user_id:                                     pro3
+        user_id:                         pro3
       })
     ]
   end

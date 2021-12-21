@@ -16,6 +16,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
   object :individual_tax_return do
     field :id, non_null(:string)
     field :deadline, :date
+    field :financial_situation, :string
     field :foreign_account, :boolean
     field :foreign_account_limit, :boolean
     field :foreign_financial_interest, :boolean
@@ -55,6 +56,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
   object :tp_individual_tax_return do
     field :id, non_null(:string)
     field :deadline, :date
+    field :financial_situation, :string
     field :foreign_account, :boolean
     field :foreign_account_limit, :boolean
     field :foreign_financial_interest, :boolean
@@ -111,6 +113,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
   @desc "The individual tax return update via params"
   input_object :update_individual_tax_return_params do
     field :deadline, :date
+    field :financial_situation, :string
     field :foreign_account, :boolean
     field :foreign_account_limit, :boolean
     field :foreign_financial_interest, :boolean
@@ -143,6 +146,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
   @desc "The individual tax return via role's Tp update with params"
   input_object :update_tp_individual_tax_return_params do
     field :deadline, :date
+    field :financial_situation, :string
     field :foreign_account, :boolean
     field :foreign_account_limit, :boolean
     field :foreign_financial_interest, :boolean
@@ -245,6 +249,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
     @desc "Create the individual tax return"
     field :create_individual_tax_return, :individual_tax_return do
       arg :deadline, :date
+      arg :financial_situation, :string
       arg :foreign_account, :boolean
       arg :foreign_account_limit, :boolean
       arg :foreign_financial_interest, :boolean
@@ -278,6 +283,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
     @desc "Create the individual tax return via role's Tp"
     field :create_tp_individual_tax_return, :tp_individual_tax_return do
       arg :deadline, :date
+      arg :financial_situation, :string
       arg :foreign_account, :boolean
       arg :foreign_account_limit, :boolean
       arg :foreign_financial_interest, :boolean

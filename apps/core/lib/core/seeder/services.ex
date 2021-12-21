@@ -1399,6 +1399,7 @@ defmodule Core.Seeder.Services do
       false ->
         [
           Repo.insert!(%IndividualTaxReturn{
+            financial_situation:             Lorem.sentence(),
             foreign_account:                 random_boolean(),
             home_owner:                      random_boolean(),
             living_abroad:                   random_boolean(),
@@ -1421,6 +1422,7 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%IndividualTaxReturn{
             deadline:                   Date.utc_today(),
+            financial_situation:        Lorem.sentence(),
             foreign_account:            random_boolean(),
             foreign_account_limit:      random_boolean(),
             foreign_financial_interest: random_boolean(),
@@ -1441,6 +1443,7 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%IndividualTaxReturn{
             deadline:                   Date.utc_today(),
+            financial_situation:        Lorem.sentence(),
             foreign_account:            random_boolean(),
             foreign_account_limit:      random_boolean(),
             foreign_financial_interest: random_boolean(),
@@ -1461,6 +1464,7 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%IndividualTaxReturn{
             deadline:                   Date.utc_today(),
+            financial_situation:        Lorem.sentence(),
             foreign_account:            random_boolean(),
             foreign_account_limit:      random_boolean(),
             foreign_financial_interest: random_boolean(),
@@ -1481,6 +1485,7 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%IndividualTaxReturn{
             deadline:                   Date.utc_today(),
+            financial_situation:        Lorem.sentence(),
             foreign_account:            random_boolean(),
             foreign_account_limit:      random_boolean(),
             foreign_financial_interest: random_boolean(),
@@ -1501,6 +1506,7 @@ defmodule Core.Seeder.Services do
           }),
           Repo.insert!(%IndividualTaxReturn{
             deadline:                   Date.utc_today(),
+            financial_situation:        Lorem.sentence(),
             foreign_account:            random_boolean(),
             foreign_account_limit:      random_boolean(),
             foreign_financial_interest: random_boolean(),
