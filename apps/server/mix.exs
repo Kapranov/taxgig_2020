@@ -22,7 +22,7 @@ defmodule Server.MixProject do
     [
       mod: {Server.Application, []},
       extra_applications: [:logger, :runtime_tools],
-      included_applications: [:ex_syslogger]
+      included_applications: []
     ]
   end
 
@@ -34,7 +34,7 @@ defmodule Server.MixProject do
     [
       server: [
         include_executables_for: [:unix],
-        applications: [ex_syslogger: :load, syslog: :load]
+        applications: []
       ]
     ]
   end
@@ -57,7 +57,6 @@ defmodule Server.MixProject do
       {:eqrcode, "~> 0.1.10"},
       {:ex_machina, "~> 2.4"},
       {:ex_spec, "~> 2.0", only: [:test]},
-      {:ex_syslogger, "~> 1.5"},
       {:ex_unit_notifier, "~> 0.1", only: [:test]},
       {:ex_url, "~> 1.3"},
       {:faker, "~> 0.13", only: [:benchmark, :dev, :test]},
