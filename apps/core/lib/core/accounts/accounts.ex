@@ -414,7 +414,11 @@ defmodule Core.Accounts do
     Repo.get!(User, id)
     |> Repo.preload([
       :accounting_software,
+      :book_keepings,
+      :business_tax_returns,
+      :individual_tax_returns,
       :languages,
+      :sale_taxes,
       :work_experiences,
       educations: [:universities]
     ])

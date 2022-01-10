@@ -33,6 +33,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     field :tp_docs, list_of(:doc_for_tp), resolve: dataloader(Data)
     field :pro_docs, list_of(:doc_for_pro), resolve: dataloader(Data)
     field :plaid_accounts, list_of(:plaid_account), resolve: dataloader(Data)
+    field :offers, list_of(:offer), resolve: dataloader(Data)
   end
 
   object :doc_for_tp do
