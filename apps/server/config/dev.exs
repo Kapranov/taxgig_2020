@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 ssl_dir = Path.expand("../priv/cert/", __DIR__)
 ssl_cer_path = "#{ssl_dir}/fullchain.pem"

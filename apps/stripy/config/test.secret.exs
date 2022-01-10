@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :core, Stripy.Repo,
   username: "kapranov",

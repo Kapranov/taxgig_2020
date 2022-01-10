@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :server, ServerWeb.Endpoint,
   url: [host: "taxgig.me", port: 4001, ip: {127, 0, 0, 1}],

@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 root_path = Path.expand("../config/", __DIR__)
 file_path = "#{root_path}/test.secret.exs"
@@ -24,7 +24,7 @@ if File.exists?(file_path) do
   import_config "test.secret.exs"
 else
   File.write(file_path, """
-  use Mix.Config
+  import Config
 
   config :core, Core.Repo,
     username: "your_login",

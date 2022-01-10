@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :server, ServerWeb.Endpoint,
   url: [host: "example.com", port: 80],
