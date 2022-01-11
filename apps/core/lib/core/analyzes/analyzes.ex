@@ -53,7 +53,8 @@ defmodule Core.Analyzes do
                       Enum.into(match, %{}, fn {k, v} -> {k, %{id: k, sum_match: v}} end),
                       Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
                       fn _k, v1, v2 -> Map.merge(v1, v2) end
-                    ) |> Enum.map(fn {_k, v} ->
+                    )
+                    |> Enum.map(fn {_k, v} ->
                       record = Map.merge(v, Queries.by_sale_taxes_for_tp(
                         ServiceSaleTax,
                         User,

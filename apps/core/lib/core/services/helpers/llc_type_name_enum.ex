@@ -2,7 +2,7 @@ import EctoEnum
 
 defenum Core.Services.Helpers.LlcTypeNameEnum, :name, [
   "C-Corp / Corporation",
-  "LLC",
+  "Sole proprietorship",
   "Non-profit corp",
   "Partnership",
   "S-Corp"
