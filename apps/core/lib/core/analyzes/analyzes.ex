@@ -55,7 +55,7 @@ defmodule Core.Analyzes do
                       fn _k, v1, v2 -> Map.merge(v1, v2) end
                     )
                     |> Enum.map(fn {_k, v} ->
-                      record = Map.merge(v, Queries.by_sale_taxes_for_tp(
+                      query_tp = Queries.by_sale_taxes_for_tp(
                         ServiceSaleTax,
                         User,
                         Project,
@@ -65,16 +65,22 @@ defmodule Core.Analyzes do
                         :sale_tax_id,
                         v.id,
                         "SaleTax"
-                      ))
-                      langs = Accounts.get_user!(record.user.id).languages
-                      Map.merge(record, %{
-                        user: %{
-                          avatar: record.user.avatar,
-                          first_name: record.user.first_name,
-                          id: record.user.id,
-                          languages: langs
-                        }
-                      })
+                      )
+
+                      case query_tp do
+                        nil -> %{project: %{status: nil}}
+                        _ ->
+                          record = Map.merge(v, query_tp)
+                          langs = Accounts.get_user!(record.user.id).languages
+                          Map.merge(record, %{
+                            user: %{
+                              avatar: record.user.avatar,
+                              first_name: record.user.first_name,
+                              id: record.user.id,
+                              languages: langs
+                            }
+                          })
+                      end
                     end)
                     |> Enum.reject(&(&1.project.status != :New))
                     |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
@@ -116,7 +122,7 @@ defmodule Core.Analyzes do
                   Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
                   fn _k, v1, v2 -> Map.merge(v1, v2) end
                 ) |> Enum.map(fn {_k, v} ->
-                  record = Map.merge(v, Queries.by_individual_tax_returns_for_tp(
+                  query_tp = Queries.by_individual_tax_returns_for_tp(
                     ServiceIndividualTaxReturn,
                     User,
                     Project,
@@ -127,16 +133,22 @@ defmodule Core.Analyzes do
                     :individual_tax_return_id,
                     v.id,
                     "IndividualTaxReturn"
-                  ))
-                  langs = Accounts.get_user!(record.user.id).languages
-                  Map.merge(record, %{
-                    user: %{
-                      avatar: record.user.avatar,
-                      first_name: record.user.first_name,
-                      id: record.user.id,
-                      languages: langs
-                    }
-                  })
+                  )
+
+                  case query_tp do
+                    nil -> %{project: %{status: nil}}
+                    _ ->
+                      record = Map.merge(v, query_tp)
+                      langs = Accounts.get_user!(record.user.id).languages
+                      Map.merge(record, %{
+                        user: %{
+                          avatar: record.user.avatar,
+                          first_name: record.user.first_name,
+                          id: record.user.id,
+                          languages: langs
+                        }
+                      })
+                  end
                 end)
                 |> Enum.reject(&(&1.project.status != :New))
                 |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
@@ -178,7 +190,7 @@ defmodule Core.Analyzes do
               Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
               fn _k, v1, v2 -> Map.merge(v1, v2) end
             ) |> Enum.map(fn {_k, v} ->
-              record = Map.merge(v, Queries.by_business_tax_returns_for_tp(
+              query_tp = Queries.by_business_tax_returns_for_tp(
                 ServiceBusinessTaxReturn,
                 User,
                 Project,
@@ -189,16 +201,22 @@ defmodule Core.Analyzes do
                 :business_tax_return_id,
                 v.id,
                 "BusinessTaxReturn"
-              ))
-              langs = Accounts.get_user!(record.user.id).languages
-              Map.merge(record, %{
-                user: %{
-                  avatar: record.user.avatar,
-                  first_name: record.user.first_name,
-                  id: record.user.id,
-                  languages: langs
-                }
-              })
+              )
+
+              case query_tp do
+                nil -> %{project: %{status: nil}}
+                _ ->
+                  record = Map.merge(v, query_tp)
+                  langs = Accounts.get_user!(record.user.id).languages
+                  Map.merge(record, %{
+                    user: %{
+                      avatar: record.user.avatar,
+                      first_name: record.user.first_name,
+                      id: record.user.id,
+                      languages: langs
+                    }
+                  })
+              end
             end)
             |> Enum.reject(&(&1.project.status != :New))
             |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
@@ -240,7 +258,7 @@ defmodule Core.Analyzes do
             Enum.into(price, %{}, fn {k, v} -> {k, %{id: k, sum_price: v, sum_value: value}} end),
             fn _k, v1, v2 -> Map.merge(v1, v2) end
           ) |> Enum.map(fn {_k, v} ->
-            record = Map.merge(v, Queries.by_book_keepings_for_tp(
+            query_tp = Queries.by_book_keepings_for_tp(
               ServiceBookKeeping,
               User,
               Project,
@@ -251,16 +269,22 @@ defmodule Core.Analyzes do
               :book_keeping_id,
               v.id,
               "BookKeeping"
-            ))
-            langs = Accounts.get_user!(record.user.id).languages
-            Map.merge(record, %{
-              user: %{
-                avatar: record.user.avatar,
-                first_name: record.user.first_name,
-                id: record.user.id,
-                languages: langs
-              }
-            })
+            )
+
+            case query_tp do
+              nil -> %{project: %{status: nil}}
+              _ ->
+                record = Map.merge(v, query_tp)
+                langs = Accounts.get_user!(record.user.id).languages
+                Map.merge(record, %{
+                  user: %{
+                    avatar: record.user.avatar,
+                    first_name: record.user.first_name,
+                    id: record.user.id,
+                    languages: langs
+                  }
+                })
+            end
           end)
           |> Enum.reject(&(&1.project.status != :New))
           |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
