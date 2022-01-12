@@ -1509,6 +1509,7 @@ COPY public.book_keeping_additional_needs (id, book_keeping_id, name, price, ins
 0000017d-a51e-2c60-e071-13906e020000	0000017d-a51e-2c5e-e071-13906e020000	accounts payable	\N	2021-12-10 16:12:37	2021-12-10 16:13:49
 0000017d-a523-efe6-e071-13906e020000	0000017d-a523-efe5-e071-13906e020000	accounts receivable	\N	2021-12-10 16:18:55	2021-12-10 16:19:47
 0000017d-a52a-2dcb-e071-13906e020000	0000017d-a52a-2dc9-e071-13906e020000	accounts receivable	\N	2021-12-10 16:25:44	2021-12-10 16:26:46
+0000017e-4f48-f032-45cc-cad0f6a80000	0000017e-4f48-f01d-45cc-cad0f6a80000	\N	\N	2022-01-12 17:14:47	2022-01-12 17:14:47
 \.
 
 
@@ -1528,6 +1529,7 @@ COPY public.book_keeping_annual_revenues (id, book_keeping_id, name, price, inse
 0000017d-a51e-2c61-e071-13906e020000	0000017d-a51e-2c5e-e071-13906e020000	$10M+	\N	2021-12-10 16:12:37	2021-12-10 16:14:30
 0000017d-a523-efe7-e071-13906e020000	0000017d-a523-efe5-e071-13906e020000	$10M+	\N	2021-12-10 16:18:55	2021-12-10 16:20:20
 0000017d-a52a-2dcc-e071-13906e020000	0000017d-a52a-2dc9-e071-13906e020000	$10M+	\N	2021-12-10 16:25:44	2021-12-10 16:27:42
+0000017e-4f48-f035-45cc-cad0f6a80000	0000017e-4f48-f01d-45cc-cad0f6a80000	\N	\N	2022-01-12 17:14:47	2022-01-12 17:14:47
 \.
 
 
@@ -1544,6 +1546,7 @@ COPY public.book_keeping_classify_inventories (id, book_keeping_id, name, insert
 0000017d-a51e-2c62-e071-13906e020000	0000017d-a51e-2c5e-e071-13906e020000	Expenses	2021-12-10 16:12:37	2021-12-10 16:15:06
 0000017d-a523-efe8-e071-13906e020000	0000017d-a523-efe5-e071-13906e020000	Expenses	2021-12-10 16:18:55	2021-12-10 16:21:00
 0000017d-a52a-2dcd-e071-13906e020000	0000017d-a52a-2dc9-e071-13906e020000	Expenses	2021-12-10 16:25:44	2021-12-10 16:28:47
+0000017e-4f48-f036-45cc-cad0f6a80000	0000017e-4f48-f01d-45cc-cad0f6a80000	\N	2022-01-12 17:14:47	2022-01-12 17:14:47
 \.
 
 
@@ -1562,6 +1565,7 @@ COPY public.book_keeping_industries (id, book_keeping_id, name, inserted_at, upd
 0000017d-a51e-2c63-e071-13906e020000	0000017d-a51e-2c5e-e071-13906e020000	{Legal}	2021-12-10 16:12:37	2021-12-10 16:15:42
 0000017d-a523-efe8-e071-13906e020001	0000017d-a523-efe5-e071-13906e020000	{Legal}	2021-12-10 16:18:55	2021-12-10 16:21:57
 0000017d-a52a-2dcd-e071-13906e020001	0000017d-a52a-2dc9-e071-13906e020000	{Retail}	2021-12-10 16:25:44	2021-12-10 16:30:46
+0000017e-4f48-f037-45cc-cad0f6a80000	0000017e-4f48-f01d-45cc-cad0f6a80000	\N	2022-01-12 17:14:47	2022-01-12 17:14:47
 \.
 
 
@@ -1581,6 +1585,7 @@ COPY public.book_keeping_number_employees (id, book_keeping_id, name, price, ins
 0000017d-a51e-2c64-e071-13906e020000	0000017d-a51e-2c5e-e071-13906e020000	1 employee	\N	2021-12-10 16:12:37	2021-12-10 16:16:36
 0000017d-a523-efea-e071-13906e020000	0000017d-a523-efe5-e071-13906e020000	1 employee	\N	2021-12-10 16:18:55	2021-12-10 16:22:40
 0000017d-a52a-2dce-e071-13906e020000	0000017d-a52a-2dc9-e071-13906e020000	1 employee	\N	2021-12-10 16:25:44	2021-12-10 16:32:15
+0000017e-4f48-f038-45cc-cad0f6a80000	0000017e-4f48-f01d-45cc-cad0f6a80000	\N	\N	2022-01-12 17:14:47	2022-01-12 17:14:47
 \.
 
 
@@ -1600,6 +1605,7 @@ COPY public.book_keeping_transaction_volumes (id, book_keeping_id, name, price, 
 0000017d-a51e-2c66-e071-13906e020000	0000017d-a51e-2c5e-e071-13906e020000	200+	\N	2021-12-10 16:12:37	2021-12-10 16:17:14
 0000017d-a523-efeb-e071-13906e020000	0000017d-a523-efe5-e071-13906e020000	200+	\N	2021-12-10 16:18:55	2021-12-10 16:23:18
 0000017d-a52a-2dcf-e071-13906e020000	0000017d-a52a-2dc9-e071-13906e020000	200+	\N	2021-12-10 16:25:44	2021-12-10 16:33:39
+0000017e-4f48-f039-45cc-cad0f6a80000	0000017e-4f48-f01d-45cc-cad0f6a80000	\N	\N	2022-01-12 17:14:47	2022-01-12 17:14:47
 \.
 
 
@@ -1619,6 +1625,7 @@ COPY public.book_keeping_type_clients (id, book_keeping_id, name, price, inserte
 0000017d-a51e-2c67-e071-13906e020000	0000017d-a51e-2c5e-e071-13906e020000	C-Corp / Corporation	\N	2021-12-10 16:12:37	2021-12-10 16:17:52
 0000017d-a523-efec-e071-13906e020000	0000017d-a523-efe5-e071-13906e020000	LLC	\N	2021-12-10 16:18:55	2021-12-10 16:24:01
 0000017d-a52a-2dd0-e071-13906e020000	0000017d-a52a-2dc9-e071-13906e020000	C-Corp / Corporation	\N	2021-12-10 16:25:44	2021-12-10 16:37:36
+0000017e-4f48-f03a-45cc-cad0f6a80000	0000017e-4f48-f01d-45cc-cad0f6a80000	\N	\N	2022-01-12 17:14:47	2022-01-12 17:14:47
 \.
 
 
@@ -1637,6 +1644,7 @@ COPY public.book_keepings (id, active, account_count, balance_sheet, deadline, f
 0000017d-a51e-2c5e-e071-13906e020000	t	9	t	2023-02-05	Kapranov	t	5	t	\N	t	{2019,2020,2021}	0000017d-7693-3760-d80a-6b7256d10000	2021-12-10 16:12:37	2021-12-10 16:12:37
 0000017d-a523-efe5-e071-13906e020000	t	9	t	2023-02-05	Kapranov	t	5	t	\N	t	{2020}	0000017d-7693-3760-d80a-6b7256d10000	2021-12-10 16:18:55	2021-12-10 16:18:55
 0000017d-a52a-2dc9-e071-13906e020000	t	9	t	2023-02-05	Kapranov	t	5	t	\N	t	{2020}	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-10 16:25:44	2021-12-10 16:25:44
+0000017e-4f48-f01d-45cc-cad0f6a80000	t	2	t	2023-02-05	Kapranov	t	2	t	\N	t	{2019,2020}	0000017d-767b-5050-d80a-6b7256d10000	2022-01-12 17:14:47	2022-01-12 17:14:47
 \.
 
 
@@ -1661,6 +1669,7 @@ COPY public.business_entity_types (id, business_tax_return_id, name, price, inse
 0000017d-c8ac-fb64-a466-22c22c9d0000	0000017d-c8ac-fb62-a466-22c22c9d0000	Non-profit corp	\N	2021-12-17 13:55:19	2021-12-17 13:58:55
 0000017d-c8b3-7f4e-a466-22c22c9d0000	0000017d-c8b3-7f4c-a466-22c22c9d0000	Non-profit corp	\N	2021-12-17 14:02:26	2021-12-17 14:06:51
 0000017d-c8c1-444d-0b5b-d08ca3590000	0000017d-c8c1-4440-0b5b-d08ca3590000	Non-profit corp	\N	2021-12-17 14:17:28	2021-12-17 14:27:39
+0000017e-4f44-eb08-923b-3cfc83cd0000	0000017e-4f44-eafb-923b-3cfc83cd0000	\N	\N	2022-01-12 17:10:23	2022-01-12 17:10:23
 \.
 
 
@@ -1678,6 +1687,7 @@ COPY public.business_foreign_account_counts (id, business_tax_return_id, name, i
 0000017d-c8ac-fb65-a466-22c22c9d0000	0000017d-c8ac-fb62-a466-22c22c9d0000	1	2021-12-17 13:55:19	2021-12-17 14:00:47
 0000017d-c8b3-7f4f-a466-22c22c9d0000	0000017d-c8b3-7f4c-a466-22c22c9d0000	1	2021-12-17 14:02:26	2021-12-17 14:13:35
 0000017d-c8c1-4451-0b5b-d08ca3590000	0000017d-c8c1-4440-0b5b-d08ca3590000	1	2021-12-17 14:17:28	2021-12-17 14:29:52
+0000017e-4f44-eb0a-923b-3cfc83cd0000	0000017e-4f44-eafb-923b-3cfc83cd0000	\N	2022-01-12 17:10:23	2022-01-12 17:10:23
 \.
 
 
@@ -1695,6 +1705,7 @@ COPY public.business_foreign_ownership_counts (id, business_tax_return_id, name,
 0000017d-c8ac-fb66-a466-22c22c9d0000	0000017d-c8ac-fb62-a466-22c22c9d0000	2-5	2021-12-17 13:55:19	2021-12-17 14:00:12
 0000017d-c8b3-7f50-a466-22c22c9d0000	0000017d-c8b3-7f4c-a466-22c22c9d0000	2-5	2021-12-17 14:02:26	2021-12-17 14:12:03
 0000017d-c8c1-4454-0b5b-d08ca3590000	0000017d-c8c1-4440-0b5b-d08ca3590000	2-5	2021-12-17 14:17:28	2021-12-17 14:29:25
+0000017e-4f44-eb0b-923b-3cfc83cd0000	0000017e-4f44-eafb-923b-3cfc83cd0000	\N	2022-01-12 17:10:23	2022-01-12 17:10:23
 \.
 
 
@@ -1714,6 +1725,7 @@ COPY public.business_industries (id, business_tax_return_id, name, inserted_at, 
 0000017d-c8ac-fb67-a466-22c22c9d0000	0000017d-c8ac-fb62-a466-22c22c9d0000	{Legal}	2021-12-17 13:55:19	2021-12-17 13:56:06
 0000017d-c8b3-7f52-a466-22c22c9d0000	0000017d-c8b3-7f4c-a466-22c22c9d0000	{Legal}	2021-12-17 14:02:26	2021-12-17 14:03:25
 0000017d-c8c1-4457-0b5b-d08ca3590000	0000017d-c8c1-4440-0b5b-d08ca3590000	{Legal}	2021-12-17 14:17:28	2021-12-17 14:22:59
+0000017e-4f44-eb0c-923b-3cfc83cd0000	0000017e-4f44-eafb-923b-3cfc83cd0000	\N	2022-01-12 17:10:23	2022-01-12 17:10:23
 \.
 
 
@@ -1731,6 +1743,7 @@ COPY public.business_llc_types (id, business_tax_return_id, name, inserted_at, u
 0000017d-c8ac-fb68-a466-22c22c9d0000	0000017d-c8ac-fb62-a466-22c22c9d0000	\N	2021-12-17 13:55:19	2021-12-17 13:55:19
 0000017d-c8b3-7f52-a466-22c22c9d0001	0000017d-c8b3-7f4c-a466-22c22c9d0000	\N	2021-12-17 14:02:26	2021-12-17 14:02:26
 0000017d-c8c1-445a-0b5b-d08ca3590000	0000017d-c8c1-4440-0b5b-d08ca3590000	\N	2021-12-17 14:17:28	2021-12-17 14:17:28
+0000017e-4f44-eb0e-923b-3cfc83cd0000	0000017e-4f44-eafb-923b-3cfc83cd0000	\N	2022-01-12 17:10:23	2022-01-12 17:10:23
 \.
 
 
@@ -1755,6 +1768,7 @@ COPY public.business_number_employees (id, business_tax_return_id, name, price, 
 0000017d-c8ac-fb69-a466-22c22c9d0000	0000017d-c8ac-fb62-a466-22c22c9d0000	500+ employees	\N	2021-12-17 13:55:19	2021-12-17 13:57:33
 0000017d-c8b3-7f53-a466-22c22c9d0000	0000017d-c8b3-7f4c-a466-22c22c9d0000	500+ employees	\N	2021-12-17 14:02:26	2021-12-17 14:04:26
 0000017d-c8c1-445d-0b5b-d08ca3590000	0000017d-c8c1-4440-0b5b-d08ca3590000	500+ employees	\N	2021-12-17 14:17:28	2021-12-17 14:23:49
+0000017e-4f44-eb0f-923b-3cfc83cd0000	0000017e-4f44-eafb-923b-3cfc83cd0000	\N	\N	2022-01-12 17:10:23	2022-01-12 17:10:23
 \.
 
 
@@ -1774,6 +1788,7 @@ COPY public.business_tax_returns (id, active, accounting_software, capital_asset
 0000017d-c8ac-fb62-a466-22c22c9d0000	t	t	t	t	2023-06-07	t	t	t	ff	t	t	t	6	t	t	f	t	t	t	t	9	f	f	t	f	\N	\N	t	t	26	f	f	{Alabama,"New Jersey","New York"}	f	{2018,2019,2020,2021}	t	t	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 13:55:19	2021-12-17 13:55:19
 0000017d-c8b3-7f4c-a466-22c22c9d0000	t	t	t	t	2023-06-07	t	t	t	ff	t	t	t	6	t	t	f	t	t	t	t	9	f	f	t	f	\N	\N	t	t	26	f	f	{"New York"}	f	{2020}	t	t	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 14:02:26	2021-12-17 14:02:26
 0000017d-c8c1-4440-0b5b-d08ca3590000	t	t	t	t	2023-06-07	t	t	t	ff	t	t	t	6	t	t	f	t	t	t	t	9	f	f	t	f	\N	\N	t	t	26	f	f	{Alabama,"New York"}	f	{2020}	t	t	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-17 14:17:28	2021-12-17 14:17:28
+0000017e-4f44-eafb-923b-3cfc83cd0000	t	t	t	f	2023-06-07	t	t	f	ff	t	t	t	2	t	t	f	t	t	f	f	3	f	f	f	f	\N	\N	t	f	2	f	f	{Alabama,"New York"}	f	{2018,2019,2020}	f	t	0000017d-767b-5050-d80a-6b7256d10000	2022-01-12 17:10:23	2022-01-12 17:10:23
 \.
 
 
@@ -1798,6 +1813,7 @@ COPY public.business_total_revenues (id, business_tax_return_id, name, price, in
 0000017d-c8b3-7f54-a466-22c22c9d0000	0000017d-c8b3-7f4c-a466-22c22c9d0000	Less than $100K	\N	2021-12-17 14:02:26	2021-12-17 14:06:11
 0000017d-c8c1-4460-0b5b-d08ca3590000	0000017d-c8c1-4440-0b5b-d08ca3590000	Less than $100K	\N	2021-12-17 14:17:28	2021-12-17 14:25:09
 0000017d-c3cf-94c7-a017-b703a2420000	0000017d-c3cf-9423-a017-b703a2420000	$100K - $500K	\N	2021-12-16 15:15:00	2021-12-17 17:48:29
+0000017e-4f44-eb10-923b-3cfc83cd0000	0000017e-4f44-eafb-923b-3cfc83cd0000	\N	\N	2022-01-12 17:10:23	2022-01-12 17:10:23
 \.
 
 
@@ -1815,6 +1831,7 @@ COPY public.business_transaction_counts (id, business_tax_return_id, name, inser
 0000017d-c8ac-fb6b-a466-22c22c9d0000	0000017d-c8ac-fb62-a466-22c22c9d0000	11-25	2021-12-17 13:55:19	2021-12-17 13:59:33
 0000017d-c8b3-7f55-a466-22c22c9d0000	0000017d-c8b3-7f4c-a466-22c22c9d0000	11-25	2021-12-17 14:02:26	2021-12-17 14:09:36
 0000017d-c8c1-4463-0b5b-d08ca3590000	0000017d-c8c1-4440-0b5b-d08ca3590000	11-25	2021-12-17 14:17:28	2021-12-17 14:29:02
+0000017e-4f44-eb11-923b-3cfc83cd0000	0000017e-4f44-eafb-923b-3cfc83cd0000	\N	2022-01-12 17:10:23	2022-01-12 17:10:23
 \.
 
 
@@ -1823,6 +1840,7 @@ COPY public.business_transaction_counts (id, business_tax_return_id, name, inser
 --
 
 COPY public.deleted_users (id, reason, user_id, inserted_at, updated_at) FROM stdin;
+0000017e-4f33-8713-c8f1-cc6930a10000	Needs	0000017e-44b2-a37f-699a-54727a0a0000	2022-01-12 16:51:24	2022-01-12 16:51:24
 \.
 
 
@@ -1911,14 +1929,8 @@ COPY public.individual_employment_statuses (id, individual_tax_return_id, name, 
 0000017d-c90d-8219-0b5b-d08ca3590000	0000017d-c902-2437-0b5b-d08ca3590000	unemployed	686	2021-12-17 15:40:45	2021-12-17 15:40:45
 0000017d-c91c-4f11-0b5b-d08ca3590000	0000017d-c91c-4f0f-0b5b-d08ca3590000	self-employed	67	2021-12-17 15:56:55	2021-12-17 15:58:31
 0000017d-c91f-8fa7-0b5b-d08ca3590000	0000017d-c91c-4f0f-0b5b-d08ca3590000	unemployed	686	2021-12-17 16:00:28	2021-12-17 16:00:28
-0000017d-c924-f683-0b5b-d08ca3590000	0000017d-c924-f681-0b5b-d08ca3590000	employed	\N	2021-12-17 16:06:22	2021-12-17 16:08:25
-0000017d-c92a-06de-0b5b-d08ca3590000	0000017d-c92a-06dd-0b5b-d08ca3590000	unemployed	\N	2021-12-17 16:11:54	2021-12-17 16:13:03
-0000017d-c943-1bf2-0b5b-d08ca3590000	0000017d-c943-1bf1-0b5b-d08ca3590000	self-employed	\N	2021-12-17 16:39:18	2021-12-17 16:40:33
-0000017d-c949-61c2-0b5b-d08ca3590000	0000017d-c949-61c0-0b5b-d08ca3590000	employed	\N	2021-12-17 16:46:09	2021-12-17 16:47:29
-0000017d-c952-3d01-0b5b-d08ca3590000	0000017d-c952-3d00-0b5b-d08ca3590000	unemployed	\N	2021-12-17 16:55:49	2021-12-17 16:56:56
-0000017d-c955-7691-0b5b-d08ca3590000	0000017d-c955-768f-0b5b-d08ca3590000	unemployed	\N	2021-12-17 16:59:21	2021-12-17 17:00:24
-0000017d-c95c-3275-0b5b-d08ca3590000	0000017d-c95c-3273-0b5b-d08ca3590000	employed	\N	2021-12-17 17:06:42	2021-12-17 17:07:56
-0000017e-44b4-5f9e-699a-54727a0a0000	0000017e-44b4-5f6f-699a-54727a0a0000	\N	\N	2022-01-10 15:56:18	2022-01-10 15:56:18
+0000017e-4f39-0284-c8f1-cc6930a10000	0000017e-4f39-0280-c8f1-cc6930a10000	\N	\N	2022-01-12 16:57:23	2022-01-12 16:57:23
+0000017e-4f3e-ded8-9c0e-472ab8280000	0000017e-4f3e-decb-9c0e-472ab8280000	\N	\N	2022-01-12 17:03:47	2022-01-12 17:03:47
 \.
 
 
@@ -1934,14 +1946,8 @@ COPY public.individual_filing_statuses (id, individual_tax_return_id, name, pric
 0000017d-c90c-c93e-0b5b-d08ca3590000	0000017d-c902-2437-0b5b-d08ca3590000	Qualifying widow(-er) with dependent child	150	2021-12-17 15:39:58	2021-12-17 15:39:58
 0000017d-c91c-4f12-0b5b-d08ca3590000	0000017d-c91c-4f0f-0b5b-d08ca3590000	Single	50	2021-12-17 15:56:55	2021-12-17 15:58:49
 0000017d-c91f-71d8-0b5b-d08ca3590000	0000017d-c91c-4f0f-0b5b-d08ca3590000	Married filing jointly	150	2021-12-17 16:00:20	2021-12-17 16:00:20
-0000017d-c924-f684-0b5b-d08ca3590000	0000017d-c924-f681-0b5b-d08ca3590000	Married filing jointly	\N	2021-12-17 16:06:22	2021-12-17 16:08:40
-0000017d-c92a-06df-0b5b-d08ca3590000	0000017d-c92a-06dd-0b5b-d08ca3590000	Head of Household	\N	2021-12-17 16:11:54	2021-12-17 16:13:36
-0000017d-c943-1bf3-0b5b-d08ca3590000	0000017d-c943-1bf1-0b5b-d08ca3590000	Qualifying widow(-er) with dependent child	\N	2021-12-17 16:39:18	2021-12-17 16:41:02
-0000017d-c949-61c3-0b5b-d08ca3590000	0000017d-c949-61c0-0b5b-d08ca3590000	Single	\N	2021-12-17 16:46:09	2021-12-17 16:47:57
-0000017d-c952-3d02-0b5b-d08ca3590000	0000017d-c952-3d00-0b5b-d08ca3590000	Single	\N	2021-12-17 16:55:49	2021-12-17 16:57:10
-0000017d-c955-7692-0b5b-d08ca3590000	0000017d-c955-768f-0b5b-d08ca3590000	Single	\N	2021-12-17 16:59:21	2021-12-17 17:00:46
-0000017d-c95c-3276-0b5b-d08ca3590000	0000017d-c95c-3273-0b5b-d08ca3590000	Married filing separately	\N	2021-12-17 17:06:42	2021-12-17 17:08:17
-0000017e-44b4-5f9f-699a-54727a0a0000	0000017e-44b4-5f6f-699a-54727a0a0000	\N	\N	2022-01-10 15:56:18	2022-01-10 15:56:18
+0000017e-4f39-0285-c8f1-cc6930a10000	0000017e-4f39-0280-c8f1-cc6930a10000	\N	\N	2022-01-12 16:57:23	2022-01-12 16:57:23
+0000017e-4f3e-ded9-9c0e-472ab8280000	0000017e-4f3e-decb-9c0e-472ab8280000	\N	\N	2022-01-12 17:03:47	2022-01-12 17:03:47
 \.
 
 
@@ -1950,14 +1956,8 @@ COPY public.individual_filing_statuses (id, individual_tax_return_id, name, pric
 --
 
 COPY public.individual_foreign_account_counts (id, individual_tax_return_id, name, inserted_at, updated_at) FROM stdin;
-0000017d-c924-f685-0b5b-d08ca3590000	0000017d-c924-f681-0b5b-d08ca3590000	2-5	2021-12-17 16:06:22	2021-12-17 16:08:55
-0000017d-c92a-06e0-0b5b-d08ca3590000	0000017d-c92a-06dd-0b5b-d08ca3590000	2-5	2021-12-17 16:11:54	2021-12-17 16:13:54
-0000017d-c943-1bf4-0b5b-d08ca3590000	0000017d-c943-1bf1-0b5b-d08ca3590000	2-5	2021-12-17 16:39:18	2021-12-17 16:42:30
-0000017d-c949-61c4-0b5b-d08ca3590000	0000017d-c949-61c0-0b5b-d08ca3590000	2-5	2021-12-17 16:46:09	2021-12-17 16:48:17
-0000017d-c952-3d02-0b5b-d08ca3590001	0000017d-c952-3d00-0b5b-d08ca3590000	2-5	2021-12-17 16:55:49	2021-12-17 16:57:25
-0000017d-c955-7696-0b5b-d08ca3590000	0000017d-c955-768f-0b5b-d08ca3590000	2-5	2021-12-17 16:59:21	2021-12-17 17:01:06
-0000017d-c95c-3276-0b5b-d08ca3590001	0000017d-c95c-3273-0b5b-d08ca3590000	2-5	2021-12-17 17:06:42	2021-12-17 17:08:34
-0000017e-44b4-5fa0-699a-54727a0a0000	0000017e-44b4-5f6f-699a-54727a0a0000	\N	2022-01-10 15:56:18	2022-01-10 15:56:18
+0000017e-4f39-0287-c8f1-cc6930a10000	0000017e-4f39-0280-c8f1-cc6930a10000	\N	2022-01-12 16:57:23	2022-01-12 16:57:23
+0000017e-4f3e-dedb-9c0e-472ab8280000	0000017e-4f3e-decb-9c0e-472ab8280000	\N	2022-01-12 17:03:47	2022-01-12 17:03:47
 \.
 
 
@@ -1968,14 +1968,8 @@ COPY public.individual_foreign_account_counts (id, individual_tax_return_id, nam
 COPY public.individual_industries (id, individual_tax_return_id, name, inserted_at, updated_at) FROM stdin;
 0000017d-c902-2460-0b5b-d08ca3590000	0000017d-c902-2437-0b5b-d08ca3590000	{Agriculture/Farming,"Automotive Sales/Repair",Computer/Software/IT,Construction/Contractors,Consulting,Design/Architecture/Engineering,Education,"Financial Services","Government Agency",Hospitality,Insurance/Brokerage,"Lawn Care/Landscaping",Manufacturing,"Medical/Dental/Health Services","Non Profit","Property Management","Real Estate/Development",Restaurant/Bar,Retail,Salon/Beauty,Telecommunications,Transportation,"Wholesale Distribution"}	2021-12-17 15:28:20	2021-12-17 15:36:43
 0000017d-c91c-4f12-0b5b-d08ca3590001	0000017d-c91c-4f0f-0b5b-d08ca3590000	{Agriculture/Farming,"Automotive Sales/Repair",Computer/Software/IT,Construction/Contractors,Consulting,Legal,Design/Architecture/Engineering,Education,"Financial Services","Government Agency",Hospitality,Insurance/Brokerage,"Lawn Care/Landscaping",Manufacturing,"Medical/Dental/Health Services","Non Profit","Property Management","Real Estate/Development",Restaurant/Bar,Retail,Salon/Beauty,Telecommunications,Transportation,"Wholesale Distribution"}	2021-12-17 15:56:55	2021-12-17 15:59:38
-0000017d-c924-f687-0b5b-d08ca3590000	0000017d-c924-f681-0b5b-d08ca3590000	{Retail}	2021-12-17 16:06:22	2021-12-17 16:09:12
-0000017d-c92a-06e0-0b5b-d08ca3590001	0000017d-c92a-06dd-0b5b-d08ca3590000	{Legal}	2021-12-17 16:11:54	2021-12-17 16:14:19
-0000017d-c943-1bf5-0b5b-d08ca3590000	0000017d-c943-1bf1-0b5b-d08ca3590000	{Legal}	2021-12-17 16:39:18	2021-12-17 16:42:48
-0000017d-c949-61c5-0b5b-d08ca3590000	0000017d-c949-61c0-0b5b-d08ca3590000	{Consulting}	2021-12-17 16:46:09	2021-12-17 16:48:50
-0000017d-c952-3d03-0b5b-d08ca3590000	0000017d-c952-3d00-0b5b-d08ca3590000	{Consulting}	2021-12-17 16:55:49	2021-12-17 16:57:42
-0000017d-c955-7697-0b5b-d08ca3590000	0000017d-c955-768f-0b5b-d08ca3590000	{Legal}	2021-12-17 16:59:21	2021-12-17 17:01:42
-0000017d-c95c-3277-0b5b-d08ca3590000	0000017d-c95c-3273-0b5b-d08ca3590000	{Retail}	2021-12-17 17:06:42	2021-12-17 17:09:02
-0000017e-44b4-5fa1-699a-54727a0a0000	0000017e-44b4-5f6f-699a-54727a0a0000	\N	2022-01-10 15:56:18	2022-01-10 15:56:18
+0000017e-4f39-0287-c8f1-cc6930a10001	0000017e-4f39-0280-c8f1-cc6930a10000	\N	2022-01-12 16:57:23	2022-01-12 16:57:23
+0000017e-4f3e-dedc-9c0e-472ab8280000	0000017e-4f3e-decb-9c0e-472ab8280000	\N	2022-01-12 17:03:47	2022-01-12 17:03:47
 \.
 
 
@@ -1989,14 +1983,8 @@ COPY public.individual_itemized_deductions (id, individual_tax_return_id, name, 
 0000017d-c90e-36ab-0b5b-d08ca3590000	0000017d-c902-2437-0b5b-d08ca3590000	Medical and dental expenses	35	2021-12-17 15:41:31	2021-12-17 15:41:31
 0000017d-c91c-4f13-0b5b-d08ca3590000	0000017d-c91c-4f0f-0b5b-d08ca3590000	Charitable contributions	123	2021-12-17 15:56:55	2021-12-17 15:59:56
 0000017d-c91f-a71a-0b5b-d08ca3590000	0000017d-c91c-4f0f-0b5b-d08ca3590000	Medical and dental expenses	35	2021-12-17 16:00:34	2021-12-17 16:00:34
-0000017d-c924-f688-0b5b-d08ca3590000	0000017d-c924-f681-0b5b-d08ca3590000	Charitable contributions	\N	2021-12-17 16:06:22	2021-12-17 16:09:31
-0000017d-c92a-06e1-0b5b-d08ca3590000	0000017d-c92a-06dd-0b5b-d08ca3590000	Health insurance	\N	2021-12-17 16:11:54	2021-12-17 16:14:55
-0000017d-c943-1bf5-0b5b-d08ca3590001	0000017d-c943-1bf1-0b5b-d08ca3590000	Medical and dental expenses	\N	2021-12-17 16:39:18	2021-12-17 16:43:20
-0000017d-c949-61c6-0b5b-d08ca3590000	0000017d-c949-61c0-0b5b-d08ca3590000	Charitable contributions	\N	2021-12-17 16:46:09	2021-12-17 16:49:28
-0000017d-c952-3d04-0b5b-d08ca3590000	0000017d-c952-3d00-0b5b-d08ca3590000	Charitable contributions	\N	2021-12-17 16:55:49	2021-12-17 16:58:08
-0000017d-c955-7698-0b5b-d08ca3590000	0000017d-c955-768f-0b5b-d08ca3590000	Charitable contributions	\N	2021-12-17 16:59:21	2021-12-17 17:02:06
-0000017d-c95c-3278-0b5b-d08ca3590000	0000017d-c95c-3273-0b5b-d08ca3590000	Charitable contributions	\N	2021-12-17 17:06:42	2021-12-17 17:09:20
-0000017e-44b4-5fa2-699a-54727a0a0000	0000017e-44b4-5f6f-699a-54727a0a0000	\N	\N	2022-01-10 15:56:18	2022-01-10 15:56:18
+0000017e-4f39-0288-c8f1-cc6930a10000	0000017e-4f39-0280-c8f1-cc6930a10000	\N	\N	2022-01-12 16:57:23	2022-01-12 16:57:23
+0000017e-4f3e-dedd-9c0e-472ab8280000	0000017e-4f3e-decb-9c0e-472ab8280000	\N	\N	2022-01-12 17:03:47	2022-01-12 17:03:47
 \.
 
 
@@ -2005,14 +1993,8 @@ COPY public.individual_itemized_deductions (id, individual_tax_return_id, name, 
 --
 
 COPY public.individual_stock_transaction_counts (id, individual_tax_return_id, name, inserted_at, updated_at) FROM stdin;
-0000017d-c924-f689-0b5b-d08ca3590000	0000017d-c924-f681-0b5b-d08ca3590000	51-100	2021-12-17 16:06:22	2021-12-17 16:09:51
-0000017d-c92a-06e2-0b5b-d08ca3590000	0000017d-c92a-06dd-0b5b-d08ca3590000	51-100	2021-12-17 16:11:54	2021-12-17 16:15:19
-0000017d-c943-1bf6-0b5b-d08ca3590000	0000017d-c943-1bf1-0b5b-d08ca3590000	51-100	2021-12-17 16:39:18	2021-12-17 16:43:45
-0000017d-c949-61c7-0b5b-d08ca3590000	0000017d-c949-61c0-0b5b-d08ca3590000	51-100	2021-12-17 16:46:09	2021-12-17 16:49:46
-0000017d-c952-3d05-0b5b-d08ca3590000	0000017d-c952-3d00-0b5b-d08ca3590000	51-100	2021-12-17 16:55:49	2021-12-17 16:58:27
-0000017d-c955-7699-0b5b-d08ca3590000	0000017d-c955-768f-0b5b-d08ca3590000	51-100	2021-12-17 16:59:21	2021-12-17 17:02:32
-0000017d-c95c-3279-0b5b-d08ca3590000	0000017d-c95c-3273-0b5b-d08ca3590000	51-100	2021-12-17 17:06:42	2021-12-17 17:09:42
-0000017e-44b4-5fa3-699a-54727a0a0000	0000017e-44b4-5f6f-699a-54727a0a0000	\N	2022-01-10 15:56:18	2022-01-10 15:56:18
+0000017e-4f39-0289-c8f1-cc6930a10000	0000017e-4f39-0280-c8f1-cc6930a10000	\N	2022-01-12 16:57:23	2022-01-12 16:57:23
+0000017e-4f3e-dee0-9c0e-472ab8280000	0000017e-4f3e-decb-9c0e-472ab8280000	\N	2022-01-12 17:03:47	2022-01-12 17:03:47
 \.
 
 
@@ -2023,14 +2005,8 @@ COPY public.individual_stock_transaction_counts (id, individual_tax_return_id, n
 COPY public.individual_tax_returns (id, active, deadline, financial_situation, foreign_account, foreign_account_limit, foreign_financial_interest, home_owner, k1_count, k1_income, living_abroad, non_resident_earning, none_expat, own_stock_crypto, price_foreign_account, price_home_owner, price_living_abroad, price_non_resident_earning, price_own_stock_crypto, price_rental_property_income, price_sole_proprietorship_count, price_state, price_stock_divident, price_tax_year, rental_property_count, rental_property_income, sole_proprietorship_count, state, stock_divident, tax_year, user_id, inserted_at, updated_at) FROM stdin;
 0000017d-c902-2437-0b5b-d08ca3590000	t	\N	\N	t	\N	\N	t	\N	\N	t	t	t	t	250	340	120	135	12	66	77	75	87	98	\N	t	\N	\N	t	\N	0000017d-766a-cd16-d80a-6b7256d10000	2021-12-17 15:28:20	2021-12-17 15:28:20
 0000017d-c91c-4f0f-0b5b-d08ca3590000	t	\N	\N	t	\N	\N	t	\N	\N	t	t	t	t	250	340	120	135	12	66	77	75	87	98	\N	t	\N	\N	t	\N	0000017d-7684-3b49-d80a-6b7256d10000	2021-12-17 15:56:55	2021-12-17 15:56:55
-0000017d-c924-f681-0b5b-d08ca3590000	t	2021-03-05	\N	f	f	f	f	\N	t	t	f	f	t	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	5	t	6	{"New York"}	t	{2020,2021}	0000017d-767b-5050-d80a-6b7256d10000	2021-12-17 16:06:22	2021-12-17 16:06:22
-0000017d-c92a-06dd-0b5b-d08ca3590000	t	2021-03-05	\N	f	f	f	t	5	t	t	f	t	t	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	58	t	6	{Alabama,"New York"}	t	{2019,2020,2021}	0000017d-767b-5050-d80a-6b7256d10000	2021-12-17 16:11:54	2021-12-17 16:11:54
-0000017d-c943-1bf1-0b5b-d08ca3590000	t	2021-03-05	\N	t	t	f	t	5	t	t	f	t	t	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	58	t	6	{Alabama,"New York"}	t	{2019,2020,2021}	0000017d-768e-6737-d80a-6b7256d10000	2021-12-17 16:39:18	2021-12-17 16:39:18
-0000017d-c949-61c0-0b5b-d08ca3590000	t	2021-03-05	\N	t	t	f	f	8	t	t	f	t	t	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	58	t	6	{Alabama,"New York",Ohio}	t	{2015,2019,2020,2021}	0000017d-768e-6737-d80a-6b7256d10000	2021-12-17 16:46:09	2021-12-17 16:46:09
-0000017d-c952-3d00-0b5b-d08ca3590000	t	2021-03-05	\N	t	t	f	f	8	t	f	t	t	t	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	8	t	6	{"New York",Ohio}	t	{2015,2019,2020,2021}	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 16:55:49	2021-12-17 16:55:49
-0000017d-c955-768f-0b5b-d08ca3590000	t	2021-03-05	\N	t	t	t	f	8	t	f	t	t	f	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	8	t	6	{"New York",Ohio}	t	{2015,2019,2020,2021}	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 16:59:21	2021-12-17 16:59:21
-0000017d-c95c-3273-0b5b-d08ca3590000	t	2021-03-05	\N	f	t	t	f	8	t	f	f	f	f	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	8	t	8	{"New York",Ohio}	t	{2015,2020}	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-17 17:06:42	2021-12-17 17:06:42
-0000017e-44b4-5f6f-699a-54727a0a0000	t	2021-03-05	\N	f	f	f	f	\N	t	t	f	f	t	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	5	t	\N	{"New York"}	t	{2020}	0000017e-44b2-a37f-699a-54727a0a0000	2022-01-10 15:56:18	2022-01-10 15:56:18
+0000017e-4f39-0280-c8f1-cc6930a10000	t	2021-03-05	\N	f	f	f	f	\N	t	t	f	f	t	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	5	t	\N	{"New York"}	t	{2020}	0000017d-767b-5050-d80a-6b7256d10000	2022-01-12 16:57:23	2022-01-12 16:57:23
+0000017e-4f3e-decb-9c0e-472ab8280000	t	2021-03-05	\N	f	f	f	f	\N	t	t	f	f	t	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	5	t	\N	{"New York"}	t	{2020}	0000017d-767b-5050-d80a-6b7256d10000	2022-01-12 17:03:47	2022-01-12 17:03:47
 \.
 
 
@@ -2084,7 +2060,6 @@ COPY public.messages (id, body, is_read, project_id, recipient_id, room_id, user
 --
 
 COPY public.offers (id, price, project_id, status, user_id, inserted_at, updated_at) FROM stdin;
-0000017e-44e3-78d9-439a-ae5e49410000	250	0000017d-c92d-6768-0b5b-d08ca3590000	Sent	0000017d-766a-cd16-d80a-6b7256d10000	2022-01-10 16:47:45	2022-01-10 16:47:45
 \.
 
 
@@ -2187,7 +2162,6 @@ b445ed61-5b10-4bc2-850e-f21595a19727	\N	\N	\N	\N	\N	0000017d-767b-5050-d80a-6b72
 442af2bf-e7a5-4038-9bf9-f7aa3bb28898	\N	\N	\N	\N	\N	0000017d-768e-6737-d80a-6b7256d10000	2021-12-01 15:13:03	2021-12-01 15:13:03
 1829b2ef-a7a2-4e50-8fc5-5d9f87ea7ab7	\N	\N	\N	\N	\N	0000017d-7693-3760-d80a-6b7256d10000	2021-12-01 15:18:19	2021-12-01 15:18:19
 221333f8-6318-47af-ac92-694872d5c08c	\N	\N	\N	\N	\N	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-01 15:24:00	2021-12-01 15:24:00
-65f04ff6-a512-4de3-b6ec-5f031034aa46	\N	\N	\N	\N	\N	0000017e-44b2-a37f-699a-54727a0a0000	2022-01-10 15:54:25	2022-01-10 15:54:25
 \.
 
 
@@ -2222,15 +2196,8 @@ COPY public.projects (id, addon_price, assigned_id, book_keeping_id, business_ta
 0000017d-c8b2-4f05-a466-22c22c9d0000	\N	\N	\N	0000017d-c8ac-fb62-a466-22c22c9d0000	f	\N	\N	\N	\N	f	\N	\N	\N	New	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 14:01:08	2021-12-17 14:01:08
 0000017d-c8bd-fe08-0b5b-d08ca3590000	\N	\N	\N	0000017d-c8b3-7f4c-a466-22c22c9d0000	f	\N	\N	\N	\N	f	\N	\N	\N	New	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 14:13:54	2021-12-17 14:13:54
 0000017d-c8cd-8f43-0b5b-d08ca3590000	\N	\N	\N	0000017d-c8c1-4440-0b5b-d08ca3590000	f	\N	\N	\N	\N	f	\N	\N	\N	New	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-17 14:30:54	2021-12-17 14:30:54
-0000017d-c929-1f2e-0b5b-d08ca3590000	\N	\N	\N	\N	f	\N	\N	\N	0000017d-c924-f681-0b5b-d08ca3590000	f	\N	\N	\N	New	0000017d-767b-5050-d80a-6b7256d10000	2021-12-17 16:10:55	2021-12-17 16:10:55
-0000017d-c92d-6768-0b5b-d08ca3590000	\N	\N	\N	\N	f	\N	\N	\N	0000017d-c92a-06dd-0b5b-d08ca3590000	f	\N	\N	\N	New	0000017d-767b-5050-d80a-6b7256d10000	2021-12-17 16:15:35	2021-12-17 16:15:35
-0000017d-c947-f1df-0b5b-d08ca3590000	\N	\N	\N	\N	f	\N	\N	\N	0000017d-c943-1bf1-0b5b-d08ca3590000	f	\N	\N	\N	New	0000017d-768e-6737-d80a-6b7256d10000	2021-12-17 16:44:35	2021-12-17 16:44:35
-0000017d-c94c-f152-0b5b-d08ca3590000	\N	\N	\N	\N	f	\N	\N	\N	0000017d-c949-61c0-0b5b-d08ca3590000	f	\N	\N	\N	New	0000017d-768e-6737-d80a-6b7256d10000	2021-12-17 16:50:02	2021-12-17 16:50:02
-0000017d-c954-f35e-0b5b-d08ca3590000	\N	\N	\N	\N	f	\N	\N	\N	0000017d-c952-3d00-0b5b-d08ca3590000	f	\N	\N	\N	New	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 16:58:47	2021-12-17 16:58:47
-0000017d-c958-ba04-0b5b-d08ca3590000	\N	\N	\N	\N	f	\N	\N	\N	0000017d-c955-768f-0b5b-d08ca3590000	f	\N	\N	\N	New	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 17:02:54	2021-12-17 17:02:54
-0000017d-c95d-06fe-0b5b-d08ca3590000	\N	\N	\N	\N	f	\N	\N	\N	0000017d-c95c-3273-0b5b-d08ca3590000	f	\N	\N	\N	New	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-17 17:07:36	2021-12-17 17:07:36
 0000017d-76a1-304a-d80a-6b7256d10000	\N	0000017d-7684-3b49-d80a-6b7256d10000	\N	\N	f	\N	card_1K2HcHLhtqtNnMebb1P3tvqX	\N	\N	f	250.00	0000017d-767d-6821-d80a-6b7256d10000	0000017d-dd7e-c883-7115-cc2e09ae0000	Done	0000017d-767b-5050-d80a-6b7256d10000	2021-12-01 15:33:34	2021-12-21 14:58:16
-0000017e-44b9-dd54-699a-54727a0a0000	\N	\N	\N	\N	f	\N	\N	\N	0000017e-44b4-5f6f-699a-54727a0a0000	f	\N	\N	\N	New	0000017e-44b2-a37f-699a-54727a0a0000	2022-01-10 16:02:18	2022-01-10 16:02:18
+0000017e-4f3a-73d1-c8f1-cc6930a10000	\N	\N	\N	\N	f	\N	\N	\N	0000017e-4f39-0280-c8f1-cc6930a10000	f	\N	\N	\N	New	0000017d-767b-5050-d80a-6b7256d10000	2022-01-12 16:58:57	2022-01-12 16:58:57
 \.
 
 
@@ -2253,7 +2220,6 @@ COPY public.rooms (id, active, description, name, topic, user_id, inserted_at, u
 0000017d-768e-673a-d80a-6b7256d10000	f	\N	client2@gmail.com_room	\N	0000017d-768e-6737-d80a-6b7256d10000	2021-12-01 15:13:03	2021-12-01 15:13:03
 0000017d-7693-3767-d80a-6b7256d10000	f	\N	client3@gmail.com_room	\N	0000017d-7693-3760-d80a-6b7256d10000	2021-12-01 15:18:19	2021-12-01 15:18:19
 0000017d-7698-6d27-d80a-6b7256d10000	f	\N	client4@gmail.com_room	\N	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-01 15:24:00	2021-12-01 15:24:00
-0000017e-44b2-a3b2-699a-54727a0a0000	f	\N	client5@gmail.com_room	\N	0000017e-44b2-a37f-699a-54727a0a0000	2022-01-10 15:54:25	2022-01-10 15:54:25
 \.
 
 
@@ -54734,7 +54700,6 @@ COPY public.users (id, active, admin, avatar, bio, birthday, bus_addr_zip, email
 0000017d-767b-5050-d80a-6b7256d10000	f	f	https://www.gravatar.com/avatar/12399f315adaa4c4fcdfabaafc900c7a	Briefly desrie how sensitive the information you as a client share is. Then, name the important things that tax professionals should have, like PTIN. Name few ways a regular user can check/verify credentials. End it with TaxGig taking all this responsibility on our shoulders and automating the verification process. Begin with comparing tax preparers to personal doctors. That finding the right one is hard and the relationship between you is very intimate. Name a few ways to find the right PRO. In the end, explain why TaxGig is a best place to find one. 	\N		client@gmail.com	Client	\N	f	One	\N	0	2XGKA4AAB2CA6FTV	$argon2id$v=19$m=131072,t=8,p=4$s+ewrzIKYIoM5I+hxSP6EQ$YgL7yKQ7SL4G1Xzh6ggX6kaX8n1IQH577GknTeca8eg	917-656-6789	\N	localhost	f	\N	\N	10005	2021-12-01 14:52:12	2021-12-03 17:39:15
 0000017d-768e-6737-d80a-6b7256d10000	f	f	https://www.gravatar.com/avatar/858a4169dc677d8ef31f11982a94847f	Briefly desrie how sensitive the information you as a client share is. Then, name the important things that tax professionals should have, like PTIN. Name few ways a regular user can check/verify credentials. End it with TaxGig taking all this responsibility on our shoulders and automating the verification process. Begin with comparing tax preparers to personal doctors. That finding the right one is hard and the relationship between you is very intimate. Name a few ways to find the right PRO. In the end, explain why TaxGig is a best place to find one. 	\N		client2@gmail.com	Client	\N	f	Two	\N	0	YCX4QZNLADVDJRAX	$argon2id$v=19$m=131072,t=8,p=4$+TwmpEad+UZINSMziYKNPQ$sD9IursVBbaxyA5zfONRoCZf8whr2ZshsN3F8ATk0nQ	917-656-6789	\N	localhost	f	\N	\N	10005	2021-12-01 15:13:03	2021-12-02 14:05:39
 0000017d-7693-3760-d80a-6b7256d10000	f	f	https://www.gravatar.com/avatar/e376593b3452d257b1b3bfe26326db0e	Briefly desrie how sensitive the information you as a client share is. Then, name the important things that tax professionals should have, like PTIN. Name few ways a regular user can check/verify credentials. End it with TaxGig taking all this responsibility on our shoulders and automating the verification process. Begin with comparing tax preparers to personal doctors. That finding the right one is hard and the relationship between you is very intimate. Name a few ways to find the right PRO. In the end, explain why TaxGig is a best place to find one. 	\N		client3@gmail.com	Client	\N	f	Three	\N	0	2YSOUUTMKP7AW53V	$argon2id$v=19$m=131072,t=8,p=4$vUhcf3ATmoG/TjryOByHsA$3b5bCqPrtPT3H6PkiX5KK3738621/Q0HBP/qvMZw0O4	917-656-6789	\N	localhost	f	\N	\N	10005	2021-12-01 15:18:19	2021-12-02 14:06:30
-0000017e-44b2-a37f-699a-54727a0a0000	f	f	https://www.gravatar.com/avatar/ccd2d088d92150b3bde2bd4aa703cc61	\N	\N		client5@gmail.com	\N	\N	f	\N	\N	0	2WL34EN3BNFN2VPL	$argon2id$v=19$m=131072,t=8,p=4$L9CAgnvTWdS8b/jHEFd4wg$/0eRau/3RLswA7ggOWOskuqFlpSBlsb8MGp28C748qI	917-656-6789	\N	localhost	f	\N	\N	10005	2022-01-10 15:54:25	2022-01-10 15:54:25
 \.
 
 
