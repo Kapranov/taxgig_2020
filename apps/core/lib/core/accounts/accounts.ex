@@ -418,6 +418,7 @@ defmodule Core.Accounts do
       :business_tax_returns,
       :individual_tax_returns,
       :languages,
+      :platform,
       :sale_taxes,
       :work_experiences,
       educations: [:universities]
