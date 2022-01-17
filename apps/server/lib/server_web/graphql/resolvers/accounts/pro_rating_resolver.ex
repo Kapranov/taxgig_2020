@@ -61,7 +61,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProRatingResolver do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Show"]]}
     else
       try do
-        struct = Repo.get_by(ProRating, user_id: user_id)
+        struct =
+          Repo.get_by(ProRating, user_id: user_id)
+          |> Core.Repo.preload([projects: [users: [:languages]]])
         {:ok, struct}
       rescue
         Ecto.NoResultsError ->
