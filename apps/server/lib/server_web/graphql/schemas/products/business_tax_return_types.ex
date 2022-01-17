@@ -166,7 +166,7 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
 
   @desc "The business tax return via role's Tp update with params"
   input_object :update_tp_business_tax_return_params do
-    field :id, non_null(:string)
+    #field :id, non_null(:string)
     field :accounting_software, :boolean
     field :capital_asset_sale, :boolean
     field :church_hospital, :boolean
@@ -378,7 +378,6 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
     field :update_tp_business_tax_return, :tp_business_tax_return do
       arg :id, non_null(:string)
       arg :business_tax_return, :update_tp_business_tax_return_params
-
       resolve &BusinessTaxReturnsResolver.update/3
     end
 
