@@ -44,6 +44,12 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProRatingTypes do
       arg(:id, non_null(:string))
       resolve(&ProRatingResolver.show/3)
     end
+
+    @desc "Get a specific pro rating by tp"
+    field :show_pro_rating_by_tp, :pro_rating do
+      arg(:user_id, non_null(:string))
+      resolve(&ProRatingResolver.show_by_tp/3)
+    end
   end
 
   object :pro_rating_mutations do

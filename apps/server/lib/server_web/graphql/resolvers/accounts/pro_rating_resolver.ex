@@ -55,6 +55,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProRatingResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
+  @spec show_by_tp(any, %{user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def show_by_tp(_parent, %{user_id: user_id}, %{context: %{current_user: current_user}}) do
+    if is_nil(user_id) || is_nil(current_user) do
+      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Show"]]}
+    else
+      try do
+        struct = Repo.get_by(ProRating, user_id: user_id)
+        {:ok, struct}
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "An user #{user_id} not found!"}
+      end
+    end
+  end
+
+  @spec show_by_tp(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def show_by_tp(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
+  end
+
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
     if is_nil(current_user) || current_user.role == false do
