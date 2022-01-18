@@ -275,12 +275,11 @@ defmodule Reptin.Downloads do
       |> run()
 
     for zip <- data do
-      #%URI{path: "/pub/irs-utl/" <> name_zip} = URI.parse(zip)
-      %URI{path: name_zip} = URI.parse(zip)
+      %URI{path: "/pub/irs-utl/" <> name_zip} = URI.parse(zip)
       case download(zip) do
         {:ok, file_zip} ->
           :ok = save_files(full_path(path), name_zip, file_zip)
-          :ok = extract(Path.join(full_path(path), filename(name_zip)), full_path(path))
+          #:ok = extract(Path.join(full_path(path), filename(name_zip)), full_path(path))
           {:ok, [name_csv, _]} = path |> full_path() |> File.ls()
           exec_format = bin_dir() <> "/" <> "format.sh"
           exec_import = bin_dir() <> "/" <> "import.sh"
@@ -328,7 +327,7 @@ defmodule Reptin.Downloads do
   end
 
   @spec extract(bitstring(), bitstring()) :: result()
-  defp extract(file, path) when is_bitstring(file) and is_bitstring(path) do
+  def extract(file, path) when is_bitstring(file) and is_bitstring(path) do
     case Z.extract(~c'#{file}', cwd: ~c'#{path}') do
       {:ok, content} ->
         Stream.map(content, &(List.to_string(&1)))
