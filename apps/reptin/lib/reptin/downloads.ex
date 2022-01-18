@@ -276,7 +276,7 @@ defmodule Reptin.Downloads do
 
     for zip <- data do
       #%URI{path: "/pub/irs-utl/" <> name_zip} = URI.parse(zip)
-      %URI{path: name_zip} = URI.parse(zip)
+      %URI{path: "/" <> name_zip} = URI.parse(zip)
       case download(zip) do
         {:ok, file_zip} ->
           :ok = save_files(full_path(path), name_zip, file_zip)
