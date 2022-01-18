@@ -299,8 +299,7 @@ defmodule Reptin.Downloads do
   defp download(url) when is_bitstring(url) do
     {:ok, data} = HTTPoison.head(url)
     case data.status_code do
-      #200 ->
-      301 ->
+      200 ->
         %HTTPoison.Response{body: file} = HTTPoison.get!(url)
         {:ok, file}
       _ ->
