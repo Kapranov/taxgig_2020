@@ -276,7 +276,7 @@ defmodule Reptin.Downloads do
 
     for zip <- data do
       #%URI{path: "/pub/irs-utl/" <> name_zip} = URI.parse(zip)
-      %URI{path: "/" <> name_zip} = URI.parse(zip)
+      %URI{path: name_zip} = URI.parse(zip)
       case download(zip) do
         {:ok, file_zip} ->
           :ok = save_files(full_path(path), name_zip, file_zip)
@@ -300,7 +300,8 @@ defmodule Reptin.Downloads do
   defp download(url) when is_bitstring(url) do
     {:ok, data} = HTTPoison.head(url)
     case data.status_code do
-      200 ->
+      #200 ->
+      301 ->
         %HTTPoison.Response{body: file} = HTTPoison.get!(url)
         {:ok, file}
       _ ->
