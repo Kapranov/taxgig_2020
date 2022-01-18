@@ -280,7 +280,8 @@ defmodule Reptin.Downloads do
         {:ok, file_zip} ->
           :ok = save_files(full_path(path), name_zip, file_zip)
           #:ok = extract(Path.join(full_path(path), filename(name_zip)), full_path(path))
-          {:ok, [name_csv, _]} = path |> full_path() |> File.ls()
+          #{:ok, [name_csv, _]} = path |> full_path() |> File.ls()
+          {:ok, [name_csv]} = path |> full_path() |> File.ls()
           exec_format = bin_dir() <> "/" <> "format.sh"
           exec_import = bin_dir() <> "/" <> "import.sh"
           old_file = full_path(path) <> "/" <> name_csv
