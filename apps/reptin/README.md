@@ -105,6 +105,14 @@ console> r.db("ptin").table("ptins").update({First_NAME: r.row('First_NAME').dow
           # awk --field-separator , 'BEGIN{OFS=","} {$1 = tolower($1); $2 = tolower($2); print}' foia_extract.csv > new_foia_extract.csv
 ```
 
+```
+console> import RethinkDB.Query
+console> db_list |> Reptin.Database.run
+console> table_list |> Reptin.Database.run
+console> table("expires") |> count |> Reptin.Database.run
+console> table("ptins") |> count |> Reptin.Database.run
+```
+
 #### 5 March 2021 by Oleg G.Kapranov
 
  [1]: http://taxgig.com:8080/

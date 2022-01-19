@@ -10,6 +10,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     Repo
   }
 
+  alias Reptin.Client
+
   alias Mailings.Mailer
   alias Server.Token
 
@@ -158,7 +160,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     else
       try do
         struct = Accounts.get_user!(id)
-        {:ok, struct}
+        reptin = Client.search(struct.bus_addr_zip, struct.first_name, struct.last_name) |> List.first
+        data = Map.merge(struct, %{profession: reptin.profession})
+        {:ok, data}
       rescue
         Ecto.NoResultsError ->
           {:error, "An User #{id} not found!"}
