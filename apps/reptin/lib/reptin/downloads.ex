@@ -300,7 +300,7 @@ defmodule Reptin.Downloads do
             {:ok, [csv, new_csv]} ->
               {:ok, %{dir: path, new: new_csv, csv: csv}}
             {:ok, [csv, zip, new_csv, new_zip]} ->
-              {:ok, %{dir: path, new: new_csv, new_zip: new_zip, zip: zip, csv: csv}}
+              {:ok, %{dir: new_file, new: new_csv, new_zip: new_zip, zip: zip, csv: csv}}
           end
         {:error, error} ->
           {:ok, %{error: error}}
