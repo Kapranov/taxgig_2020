@@ -25,6 +25,7 @@ defmodule ServerWeb.GraphQL.Schemas.Services.ReptinTypes do
     field :new, :string
     field :path, :string
     field :zip, :string
+    field :new_zip, :string
   end
 
   object :reptin_directory do

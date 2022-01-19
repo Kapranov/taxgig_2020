@@ -151,10 +151,16 @@ defmodule Reptin.Downloads do
     data = Path.join(base_data(), path)
     if File.exists?(data) do
       case File.rm_rf!(data) do
-        [dir, new, zip, csv] ->
-          {:ok, %{dir: dir, new: new, zip: zip, csv: csv}}
         [dir] ->
           {:ok, %{dir: dir, path: data}}
+        [dir, csv] ->
+          {:ok, %{dir: dir, csv: csv}}
+        [dir, new, csv] ->
+          {:ok, %{dir: dir, new: new, csv: csv}}
+        [dir, new, zip, csv] ->
+          {:ok, %{dir: dir, new: new, zip: zip, csv: csv}}
+        [dir, new_zip, new, zip, csv] ->
+          {:ok, %{dir: dir, new: new, new_zip: new_zip, zip: zip, csv: csv}}
       end
     else
       {:error, "Directory #{data} doesn't exist!"}

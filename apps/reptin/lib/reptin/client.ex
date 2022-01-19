@@ -77,6 +77,16 @@ defmodule Reptin.Client do
       |> Reptin.Database.run()
 
     case q do
+      %RethinkDB.Response{
+        data: %{
+          "b" => [],
+          "e" => _,
+          "r" => ["Database `ptin` does not exist."],
+          "t" => _
+        },
+        profile: _,
+        token: _
+      } ->   [%{bus_addr_zip: nil, profession: "Database PTIN does not exist."}]
       %RethinkDB.Collection{data: [], profile: nil} ->
         [%{bus_addr_zip: nil, profession: "no found record"}]
       %RethinkDB.Feed{

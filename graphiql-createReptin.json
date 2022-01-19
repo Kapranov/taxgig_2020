@@ -1,11 +1,12 @@
 {
   "key": "graphiql",
-  "lastId": 4,
+  "lastId": 5,
   "tabIds": [
     "tab1",
     "tab2",
     "tab3",
-    "tab4"
+    "tab4",
+    "tab5"
   ],
   "closedTabs": [],
   "defaultUrl": "http://localhost:4000/graphiql",
@@ -22,7 +23,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab4",
+  "activeId": "tab2",
   "tabs": [
     {
       "id": "tab1",
@@ -49,15 +50,19 @@
       "maxHistory": 20,
       "history": [
         {
+          "query": "query {\n  searchReptin(\n    busAddrZip: \"33155\",\n    firstName: \"GuStAvO\",\n    lastName: \"MaTa\"\n    \n  ) {\n    id\n    busStCode\n    busAddrZip\n    error\n    firstName\n    lastName\n    profession\n  }\n}",
+          "variables": null
+        },
+        {
           "query": "mutation {\n  createReptin(\n    expired: \"Updated February 20, 2021\",\n    url: \"https://www.irs.gov/pub/irs-utl/FOIA_Extract.zip\"\n  ) {\n    csv\n    dir\n    error\n    new\n    path\n    zip\n  }\n}",
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  createReptin(\n    expired: \"Updated February 20, 2021\",\n    url: \"https://www.irs.gov/pub/irs-utl/FOIA_Extract.zip\"\n  ) {\n    csv\n    dir\n    error\n    new\n    path\n    zip\n  }\n}",
+      "graphiql:query": "query {\n  searchReptin(\n    busAddrZip: \"33155\",\n    firstName: \"GuStAvO\",\n    lastName: \"MaTa\"\n    \n  ) {\n    id\n    busStCode\n    busAddrZip\n    error\n    firstName\n    lastName\n    profession\n  }\n}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createReptin(\\n    expired: \\\"Updated February 20, 2021\\\",\\n    url: \\\"https://www.irs.gov/pub/irs-utl/FOIA_Extract.zip\\\"\\n  ) {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createReptin(\\n    expired: \\\"Updated February 20, 2021\\\",\\n    url: \\\"https://www.irs.gov/pub/irs-utl/FOIA_Extract.zip\\\"\\n  ) {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  searchReptin(\\n    busAddrZip: \\\"33155\\\",\\n    firstName: \\\"GuStAvO\\\",\\n    lastName: \\\"MaTa\\\"\\n    \\n  ) {\\n    id\\n    busStCode\\n    busAddrZip\\n    error\\n    firstName\\n    lastName\\n    profession\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.75390625
+      "graphiql:editorFlex": 0.3056894889103182
     },
     {
       "id": "tab3",
@@ -74,11 +79,11 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  deleteDir(date: \"2021-3-29\") {\n    csv\n    dir\n    error\n    new\n    path\n    zip \n  }\n}",
+      "graphiql:query": "mutation {\n  createReptin(\n    expired: \"Updated February 20, 2021\",\n    url: \"https://www.irs.gov/pub/irs-utl/FOIA_Extract.zip\"\n  ) {\n    csv\n    dir\n    error\n    new\n    path\n    zip\n  }\n}",
       "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-29\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip \\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.3801229508196721,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-29\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip \\n  }\\n}\"}]}"
+      "graphiql:editorFlex": 0.7493540051679587
     },
     {
       "id": "tab4",
@@ -87,20 +92,48 @@
       "websocketUrl": "ws://localhost:4000/socket",
       "proxy": false,
       "headers": [],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "mutation {\n  deleteDir(date: \"2022-1-22\") {\n    csv\n    dir\n    error\n    new\n    newZip\n    path\n    zip\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deleteDir(date: \"2022-1-22\") {\n    csv\n    dir\n    error\n    new\n    path\n    zip \n  }\n}",
+          "variables": null
+        },
         {
           "query": "query {\n  searchReptin(\n    busAddrZip: \"33155\",\n    firstName: \"GuStAvO\",\n    lastName: \"MaTa\"\n    \n  ) {\n    id\n    busStCode\n    busAddrZip\n    error\n    firstName\n    lastName\n    profession\n  }\n}",
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  searchReptin(\n    busAddrZip: \"33155\",\n    firstName: \"GuStAvO\",\n    lastName: \"MaTa\"\n    \n  ) {\n    id\n    busStCode\n    busAddrZip\n    error\n    firstName\n    lastName\n    profession\n  }\n}",
-      "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  searchReptin(\\n    busAddrZip: \\\"33155\\\",\\n    firstName: \\\"GuStAvO\\\",\\n    lastName: \\\"MaTa\\\"\\n    \\n  ) {\\n    id\\n    busStCode\\n    busAddrZip\\n    error\\n    firstName\\n    lastName\\n    profession\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 0.35376884422110555,
+      "graphiql:query": "mutation {\n  deleteDir(date: \"2022-1-22\") {\n    csv\n    dir\n    error\n    new\n    newZip\n    path\n    zip\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  searchReptin(\\n    busAddrZip: \\\"33155\\\",\\n    firstName: \\\"GuStAvO\\\",\\n    lastName: \\\"MaTa\\\"\\n    \\n  ) {\\n    id\\n    busStCode\\n    busAddrZip\\n    error\\n    firstName\\n    lastName\\n    profession\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-22\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip \\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-22\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.30067243035542746,
       "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  deleteReptin {\n    error\n    reptin\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deleteReptin {\n    error\n    reptin\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteReptin {\\n    error\\n    reptin\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.19085312225153914,
+      "graphiql:variableEditorHeight": 200
     }
   ]
 }
