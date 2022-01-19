@@ -296,11 +296,12 @@ defmodule Reptin.Downloads do
           :os.cmd(:"#{exec_import} #{new_file}")
           #[dir, new, zip, csv] = File.rm_rf!(full_path(path))
           #{:ok, %{dir: dir, new: new, zip: zip, csv: csv}}
+          time = storage_data()
           case full_path(path) |> File.ls() do
             {:ok, [csv, new_csv]} ->
-              {:ok, %{dir: path, new: new_csv, csv: csv}}
+              {:ok, %{dir: time, new: new_csv, csv: csv}}
             {:ok, [csv, zip, new_csv, new_zip]} ->
-              {:ok, %{dir: new_file, new: new_csv, new_zip: new_zip, zip: zip, csv: csv}}
+              {:ok, %{dir: time, new: new_csv, new_zip: new_zip, zip: zip, csv: csv}}
           end
         {:error, error} ->
           {:ok, %{error: error}}
