@@ -294,8 +294,14 @@ defmodule Reptin.Downloads do
           new_file = full_path(path) <> "/" <> "new_" <> name_csv
           :os.cmd(:"#{exec_format} #{old_file} #{new_file}")
           :os.cmd(:"#{exec_import} #{new_file}")
-          [dir, new, zip, csv] = File.rm_rf!(full_path(path))
-          {:ok, %{dir: dir, new: new, zip: zip, csv: csv}}
+          #[dir, new, zip, csv] = File.rm_rf!(full_path(path))
+          #{:ok, %{dir: dir, new: new, zip: zip, csv: csv}}
+          case full_path(path) |> File.ls() do
+            {:ok, [csv, new_csv]} ->
+              {:ok, %{dir: path, new: new_csv, csv: csv}}
+            {:ok, [csv, zip, new_csv, new_zip]} ->
+              {:ok, %{dir: path, new: new_csv, new_zip: new_zip, zip: zip, csv: csv}}
+          end
         {:error, error} ->
           {:ok, %{error: error}}
       end
