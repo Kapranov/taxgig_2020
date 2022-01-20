@@ -1,12 +1,13 @@
 {
   "key": "graphiql",
-  "lastId": 6,
+  "lastId": 7,
   "tabIds": [
     "tab1",
     "tab2",
     "tab3",
     "tab4",
-    "tab5"
+    "tab5",
+    "tab7"
   ],
   "closedTabs": [
     {
@@ -43,7 +44,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab2",
+  "activeId": "tab7",
   "tabs": [
     {
       "id": "tab1",
@@ -66,7 +67,7 @@
       "websocketUrl": "ws://taxgig.com:4001/socket",
       "proxy": false,
       "headers": [],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -87,10 +88,10 @@
         }
       ],
       "graphiql:query": "query {\n  searchReptin(\n    busAddrZip: \"33155\",\n    firstName: \"GuStAvO\",\n    lastName: \"MaTa\"\n    \n  ) {\n    id\n    busStCode\n    busAddrZip\n    error\n    firstName\n    lastName\n    profession\n  }\n}",
-      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.30694980694980695,
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createReptin(\\n    expired: \\\"Updated February 20, 2021\\\",\\n    url: \\\"https://www.irs.gov/pub/irs-utl/FOIA_Extract.zip\\\"\\n  ) {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createReptin(\\n    expired: \\\"Updated August 24, 2021\\\",\\n    url: \\\"https://www.irs.gov/pub/irs-utl/FOIA_Extract.csv\\\"\\n  ) {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip\\n  }\\n}\"},{\"query\":\"mutation {\\n  createReptin(\\n    expired: \\\"Updated August 24, 2021\\\",\\n    url: \\\"https://taxgig.com/FOIA_Extract.csv.zip\\\"\\n  ) {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip\\n  }\\n}\"},{\"query\":\"mutation {\\n  createReptin(\\n    expired: \\\"Updated August 24, 2021\\\",\\n    url: \\\"https://www.irs.gov/pub/irs-utl/FOIA_Extract.csv\\\"\\n  ) {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip\\n  }\\n}\"},{\"query\":\"query {\\n  searchReptin(\\n    busAddrZip: \\\"33155\\\",\\n    firstName: \\\"GuStAvO\\\",\\n    lastName: \\\"MaTa\\\"\\n    \\n  ) {\\n    id\\n    busStCode\\n    busAddrZip\\n    error\\n    firstName\\n    lastName\\n    profession\\n  }\\n}\"}]}",
-      "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 1
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
     },
     {
       "id": "tab3",
@@ -136,6 +137,10 @@
       "maxHistory": 20,
       "history": [
         {
+          "query": "mutation {\n  deleteDir(date: \"2022-1-20\") {\n    csv\n    dir\n    error\n    new\n    newZip\n    path\n    zip \n  }\n}",
+          "variables": null
+        },
+        {
           "query": "mutation {\n  deleteDir(date: \"2022-1-19\") {\n    csv\n    dir\n    error\n    new\n    newZip\n    path\n    zip \n  }\n}",
           "variables": null
         },
@@ -156,10 +161,10 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  deleteDir(date: \"2022-1-19\") {\n    csv\n    dir\n    error\n    new\n    newZip\n    path\n    zip \n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  searchReptin(\\n    busAddrZip: \\\"33155\\\",\\n    firstName: \\\"GuStAvO\\\",\\n    lastName: \\\"MaTa\\\"\\n    \\n  ) {\\n    id\\n    busStCode\\n    busAddrZip\\n    error\\n    firstName\\n    lastName\\n    profession\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-18\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-18\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-19\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-18\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-19\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"}]}",
-      "graphiql:variableEditorHeight": 200,
+      "graphiql:query": "mutation {\n  deleteDir(date: \"2022-1-20\") {\n    csv\n    dir\n    error\n    new\n    newZip\n    path\n    zip \n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  searchReptin(\\n    busAddrZip: \\\"33155\\\",\\n    firstName: \\\"GuStAvO\\\",\\n    lastName: \\\"MaTa\\\"\\n    \\n  ) {\\n    id\\n    busStCode\\n    busAddrZip\\n    error\\n    firstName\\n    lastName\\n    profession\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-18\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-18\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-19\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-18\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-19\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-20\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"}]}",
       "graphiql:editorFlex": 0.35376884422110555,
+      "graphiql:variableEditorHeight": 200,
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -179,9 +184,31 @@
       ],
       "graphiql:query": "mutation {\n  deleteReptin {\n    error\n    reptin\n  }\n}",
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteReptin {\\n    error\\n    reptin\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:docExplorerWidth": 350,
       "graphiql:editorFlex": 0.18150087260034903,
+      "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab7",
+      "name": "Query 6",
+      "url": "https://taxgig.com:4001/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  listReptin\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  listReptin\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  listReptin\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.40894901144641,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
     }
   ]
 }
