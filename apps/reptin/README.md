@@ -109,26 +109,38 @@ console> r.db("ptin").table("ptins").update({First_NAME: r.row('First_NAME').dow
 console> import RethinkDB.Query
 console> db_list |> Reptin.Database.run
 console> table_list |> Reptin.Database.run
-console> table("expires") |> count |> Reptin.Database.run
-console> table("ptins") |> count |> Reptin.Database.run
+
+console> RethinkDB.Query.db_list |> Reptin.Database.run
+console> RethinkDB.Query.table_list |> Reptin.Database.run
+console> RethinkDB.Query.table("expires") |> RethinkDB.Query.count |> Reptin.Database.run
+console> RethinkDB.Query.table("ptins") |> RethinkDB.Query.count |> Reptin.Database.run
+console> RethinkDB.Query.table("expires") |> RethinkDB.Query.limit(5) |> Reptin.Database.run
+console> RethinkDB.Query.table("ptins") |> RethinkDB.Query.limit(5) |> Reptin.Database.run
+console> RethinkDB.Query.table("expires") |> RethinkDB.Query.pluck({"id", "url"}) |> Reptin.Database.run
+console> RethinkDB.Query.table("expires") |> RethinkDB.Query.filter(%{id: "xxx"}) |> Reptin.Database.run
+console> RethinkDB.Query.table("expires") |> RethinkDB.Query.filter(%{expired: "Updated August 24, 2021"}) |> Reptin.Database.run
+console> RethinkDB.Query.table("ptins") |> RethinkDB.Query.filter(%{last_name: "mata"}) |> Reptin.Database.run
+console> RethinkDB.Query.table("ptins") |> RethinkDB.Query.filter(%{first_name: "oleg"}) |> Reptin.Database.run
+console> RethinkDB.Query.table("ptins") |> RethinkDB.Query.filter(%{last_name: "mata"}) |> RethinkDB.Query.count |> Reptin.Database.run
 ```
 
 #### 5 March 2021 by Oleg G.Kapranov
 
  [1]: http://taxgig.com:8080/
- [2]: https://rethinkdb.com/docs/quickstart/
- [3]: https://rethinkdb.com/docs/start-on-startup/
- [4]: https://blog.programster.org/rethinkdb-import-data
- [5]: https://rethinkdb.com/docs/importing/
- [6]: https://rethinkdb.com/api/ruby/connect/
- [7]: https://rethinkdb.com/api/javascript/count/
- [8]: https://rethinkdb.com/api/javascript/filter
- [9]: https://hexdocs.pm/rethinkdb/extra-api-reference.html
-[10]: https://github.com/hamiltop/rethinkdb-elixir
-[11]: https://github.com/hamiltop/rethinkdb-elixir/wiki/Ten-minute-guide-with-RethinkDB-Elixir
-[12]: https://github.com/et/collaborative-editor
-[13]: https://github.com/hamiltop/friends-demo
-[14]: https://github.com/azukiapp/elixir-rethinkdb
-[15]: https://github.com/hamiltop/rethinkdb-elixir
-[16]: https://stackoverflow.com/questions/31457945/how-to-use-rethinkdb-with-phoenixframework
-[17]: https://www.compose.com/articles/connecting-to-rethinkdb-with-elixir/
+ [2]: https://rethinkdb.com/docs/sql-to-reql/python/
+ [3]: https://rethinkdb.com/docs/quickstart/
+ [4]: https://rethinkdb.com/docs/start-on-startup/
+ [5]: https://blog.programster.org/rethinkdb-import-data
+ [6]: https://rethinkdb.com/docs/importing/
+ [7]: https://rethinkdb.com/api/ruby/connect/
+ [8]: https://rethinkdb.com/api/javascript/count/
+ [9]: https://rethinkdb.com/api/javascript/filter
+[10]: https://hexdocs.pm/rethinkdb/extra-api-reference.html
+[11]: https://github.com/hamiltop/rethinkdb-elixir
+[12]: https://github.com/hamiltop/rethinkdb-elixir/wiki/Ten-minute-guide-with-RethinkDB-Elixir
+[13]: https://github.com/et/collaborative-editor
+[14]: https://github.com/hamiltop/friends-demo
+[15]: https://github.com/azukiapp/elixir-rethinkdb
+[16]: https://github.com/hamiltop/rethinkdb-elixir
+[17]: https://stackoverflow.com/questions/31457945/how-to-use-rethinkdb-with-phoenixframework
+[18]: https://www.compose.com/articles/connecting-to-rethinkdb-with-elixir/
