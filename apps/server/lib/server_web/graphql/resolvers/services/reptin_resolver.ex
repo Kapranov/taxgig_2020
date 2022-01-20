@@ -23,6 +23,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.ReptinResolver do
   )a
 
   @doc """
+  List directories with are archives
+  """
+  @spec list(any, any, Absinthe.Resolution.t()) :: result()
+  def list(_root, _args, _info) do
+    data = File.ls!(@base_dir)
+    {:ok, data}
+  end
+
+  @doc """
   Search value by profession in Reptin via RethinkDB.
   """
   @spec search(any, %{atom => any}, Absinthe.Resolution.t()) :: result()

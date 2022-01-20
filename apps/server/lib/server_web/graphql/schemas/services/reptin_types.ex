@@ -34,6 +34,11 @@ defmodule ServerWeb.GraphQL.Schemas.Services.ReptinTypes do
   end
 
   object :reptin_queries do
+    @desc "List diretories are timestamps"
+    field :list_reptin, list_of(:string) do
+      resolve &ReptinResolver.list/3
+    end
+
     @desc "Search a specific a ptin"
     field :search_reptin, list_of(:reptin) do
       arg :bus_addr_zip, non_null(:string)
