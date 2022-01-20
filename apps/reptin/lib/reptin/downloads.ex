@@ -282,29 +282,54 @@ defmodule Reptin.Downloads do
 
     for zip <- data do
       %URI{path: "/pub/irs-utl/" <> name_zip} = URI.parse(zip)
-      case download(zip) do
-        {:ok, file_zip} ->
-          :ok = save_files(full_path(path), name_zip, file_zip)
-          #:ok = extract(Path.join(full_path(path), filename(name_zip)), full_path(path))
-          #{:ok, [name_csv, _]} = path |> full_path() |> File.ls()
-          {:ok, [name_csv]} = path |> full_path() |> File.ls()
-          exec_format = bin_dir() <> "/" <> "format.sh"
-          exec_import = bin_dir() <> "/" <> "import.sh"
-          old_file = full_path(path) <> "/" <> name_csv
-          new_file = full_path(path) <> "/" <> "new_" <> name_csv
-          :os.cmd(:"#{exec_format} #{old_file} #{new_file}")
-          :os.cmd(:"#{exec_import} #{new_file}")
-          #[dir, new, zip, csv] = File.rm_rf!(full_path(path))
-          #{:ok, %{dir: dir, new: new, zip: zip, csv: csv}}
-          time = storage_data()
-          case full_path(path) |> File.ls() do
-            {:ok, [csv, new_csv]} ->
-              {:ok, %{dir: time, new: new_csv, csv: csv}}
-            {:ok, [csv, zip, new_csv, new_zip]} ->
-              {:ok, %{dir: time, new: new_csv, new_zip: new_zip, zip: zip, csv: csv}}
+      case MIME.from_path(name_zip) do
+        "text/csv" ->
+          case download(zip) do
+            {:ok, file_zip} ->
+              :ok = save_files(full_path(path), name_zip, file_zip)
+              {:ok, [name_csv]} = path |> full_path() |> File.ls()
+              exec_format = bin_dir() <> "/" <> "format.sh"
+              exec_import = bin_dir() <> "/" <> "import.sh"
+              old_file = full_path(path) <> "/" <> name_csv
+              new_file = full_path(path) <> "/" <> "new_" <> name_csv
+              :os.cmd(:"#{exec_format} #{old_file} #{new_file}")
+              :os.cmd(:"#{exec_import} #{new_file}")
+              time = storage_data()
+              case full_path(path) |> File.ls() do
+                {:ok, [csv, new_csv]} ->
+                  {:ok, %{dir: time, new: new_csv, csv: csv}}
+                {:ok, [csv, zip, new_csv, new_zip]} ->
+                  {:ok, %{dir: time, new: new_csv, new_zip: new_zip, zip: zip, csv: csv}}
+              end
+            {:error, error} ->
+              {:ok, %{error: error}}
           end
-        {:error, error} ->
-          {:ok, %{error: error}}
+        "application/zip" ->
+          case download(zip) do
+            {:ok, file_zip} ->
+              :ok = save_files(full_path(path), name_zip, file_zip)
+              :ok = extract(Path.join(full_path(path), filename(name_zip)), full_path(path))
+              {:ok, [name_csv, _]} = path |> full_path() |> File.ls()
+              exec_format = bin_dir() <> "/" <> "format.sh"
+              exec_import = bin_dir() <> "/" <> "import.sh"
+              old_file = full_path(path) <> "/" <> name_csv
+              new_file = full_path(path) <> "/" <> "new_" <> name_csv
+              :os.cmd(:"#{exec_format} #{old_file} #{new_file}")
+              :os.cmd(:"#{exec_import} #{new_file}")
+              #[dir, new, zip, csv] = File.rm_rf!(full_path(path))
+              #{:ok, %{dir: dir, new: new, zip: zip, csv: csv}}
+              time = storage_data()
+              case full_path(path) |> File.ls() do
+                {:ok, [csv, new_csv]} ->
+                  {:ok, %{dir: time, new: new_csv, csv: csv}}
+                {:ok, [csv, zip, new_csv, new_zip]} ->
+                  {:ok, %{dir: time, new: new_csv, new_zip: new_zip, zip: zip, csv: csv}}
+              end
+            {:error, error} ->
+              {:ok, %{error: error}}
+          end
+        _ ->
+          {:ok, %{error: "file format not supported or file is corrupted"}}
       end
     end
   end
