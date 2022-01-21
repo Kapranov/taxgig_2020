@@ -132,9 +132,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
                   |> Decimal.round(2)
                 end
 
+              [data] = struct
+              reptin = Client.search(data.bus_addr_zip, data.first_name, data.last_name) |> List.first
+              record = Map.merge(data, %{profession: reptin.profession})
+
               {:ok,
-                struct
-                |> List.last
+                record
                 |> Map.update!(:finished_project_count, fn _ -> new_val1 end)
                 |> Map.update!(:on_going_project_count, fn _ -> val2 end)
                 |> Map.update!(:total_earned, fn _ -> new_val3 end)
@@ -142,7 +145,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             end
           else
             [data] = struct
-            {:ok, data}
+            reptin = Client.search(data.bus_addr_zip, data.first_name, data.last_name) |> List.first
+            record = Map.merge(data, %{profession: reptin.profession})
+            {:ok, record}
           end
       end
     end
