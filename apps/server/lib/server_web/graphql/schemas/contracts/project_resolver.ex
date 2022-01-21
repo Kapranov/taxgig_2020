@@ -13,6 +13,31 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
   }
 
   @desc "The project on the site"
+  object :single_project, description: "Project" do
+    field :id, non_null(:string), description: "unique identifier"
+    field :addon_price, :integer
+    field :assigned, :user, resolve: dataloader(Data)
+    field :book_keeping, :book_keeping, resolve: dataloader(Data)
+    field :business_tax_return, :business_tax_return, resolve: dataloader(Data)
+    field :by_pro_status, :boolean
+    field :end_time, :date
+    field :id_from_stripe_card, :string
+    field :id_from_stripe_transfer, :string
+    field :individual_tax_return, :individual_tax_return, resolve: dataloader(Data)
+    field :instant_matched, non_null(:boolean)
+    field :offer_price, :decimal
+    field :sale_tax, :sale_tax, resolve: dataloader(Data)
+    field :service_review, :service_review, resolve: dataloader(Data)
+    field :status, non_null(:string)
+    field :users, non_null(:user)
+    field :tp_docs, list_of(:doc_for_tp), resolve: dataloader(Data)
+    field :pro_docs, list_of(:doc_for_pro), resolve: dataloader(Data)
+    field :plaid_accounts, list_of(:plaid_account), resolve: dataloader(Data)
+    field :addons, list_of(:addon), resolve: dataloader(Data)
+    field :offers, list_of(:offer), resolve: dataloader(Data)
+  end
+
+  @desc "The project on the site for all projects"
   object :project, description: "Project" do
     field :id, non_null(:string), description: "unique identifier"
     field :addon_price, :integer
@@ -29,7 +54,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     field :sale_tax, :sale_tax, resolve: dataloader(Data)
     field :service_review, :service_review, resolve: dataloader(Data)
     field :status, non_null(:string)
-    field :users, :user, resolve: dataloader(Data)
+    field :users, list_of(:user), resolve: dataloader(Data)
     field :tp_docs, list_of(:doc_for_tp), resolve: dataloader(Data)
     field :pro_docs, list_of(:doc_for_pro), resolve: dataloader(Data)
     field :plaid_accounts, list_of(:plaid_account), resolve: dataloader(Data)
@@ -87,7 +112,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     end
 
     @desc "Get a specific project"
-    field :show_project, :project do
+    field :show_project, :single_project do
       arg(:id, non_null(:string))
       resolve(&ProjectResolver.show/3)
     end

@@ -392,6 +392,7 @@ defmodule Core.Contracts do
   @spec get_project!(String.t()) :: Project.t() | error_tuple()
   def get_project!(id) do
     Repo.get!(Project, id)
+    |> Repo.preload([:users])
   end
 
   @doc """

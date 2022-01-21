@@ -12,6 +12,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     Repo
   }
 
+  alias Reptin.Client
+
   @type t :: Project.t()
   @type reason :: any
   @type ok :: {:ok}
@@ -64,8 +66,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     else
       try do
         struct = Contracts.get_project!(id)
-        Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
-        {:ok, struct}
+        reptin = Client.search(struct.users.bus_addr_zip, struct.users.first_name, struct.users.last_name) |> List.first
+        data = Map.merge(struct.users, %{profession: reptin.profession})
+        record = Map.merge(struct, %{users: data})
+        Absinthe.Subscription.publish(ServerWeb.Endpoint, record, project_show: id)
+        {:ok, record}
       rescue
         Ecto.NoResultsError ->
           {:error, "The Project #{id} not found!"}
