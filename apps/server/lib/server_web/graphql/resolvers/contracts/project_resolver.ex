@@ -61,8 +61,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
 
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.role == true do
-      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Show"]]}
+    if current_user.role == true do
+      try do
+        struct = Contracts.get_project!(id)
+        Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
+        {:ok, struct}
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "The Project #{id} not found!"}
+      end
     else
       try do
         struct = Contracts.get_project!(id)
