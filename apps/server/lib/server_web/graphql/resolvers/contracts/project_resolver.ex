@@ -29,9 +29,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     if is_nil(current_user) || current_user.role == true do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct =
+      structs =
         Queries.by_list(Project, :user_id, current_user.id)
-        |> Repo.preload([:plaid_accounts, :tp_docs, :pro_docs])
+        |> Repo.preload([:plaid_accounts, :tp_docs, :pro_docs, :users])
+      user = structs |> List.first |> Map.get(:users)
+      reptin = Client.search(user.bus_addr_zip, user.first_name, user.last_name) |> List.first
+      struct =
+        Enum.reduce(structs, [], fn(x, acc) ->
+          user = Map.merge(x.users, %{profession: reptin.profession})
+          [Map.merge(x, %{users: user}) | acc]
+        end)
       Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
       {:ok, struct}
     end
@@ -47,9 +54,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     if is_nil(current_user) || current_user.role == false do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct =
+      structs =
         Queries.by_list(Project, :assigned_id, current_user.id)
-        |> Repo.preload([:tp_docs, :pro_docs])
+        |> Repo.preload([:tp_docs, :pro_docs, :users])
+      user = structs |> List.first |> Map.get(:users)
+      reptin = Client.search(user.bus_addr_zip, user.first_name, user.last_name) |> List.first
+
+      struct =
+        Enum.reduce(structs, [], fn(x, acc) ->
+          user = Map.merge(x.users, %{profession: reptin.profession})
+          [Map.merge(x, %{users: user}) | acc]
+        end)
       {:ok, struct}
     end
   end

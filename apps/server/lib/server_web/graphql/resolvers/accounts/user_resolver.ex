@@ -146,7 +146,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
           else
             [data] = struct
             reptin = Client.search(data.bus_addr_zip, data.first_name, data.last_name) |> List.first
-            record = Map.merge(data, %{profession: reptin.profession})
+            record =
+              if reptin == %{error: "format is not correct"} do
+                Map.merge(data, %{profession: "full name and busAddrZip not filled"})
+              else
+                Map.merge(data, %{profession: reptin.profession})
+              end
             {:ok, record}
           end
       end

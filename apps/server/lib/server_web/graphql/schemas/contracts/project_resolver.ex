@@ -102,12 +102,12 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
 
   object :project_queries do
     @desc "Get all projects"
-    field :all_projects, list_of(:project) do
+    field :all_projects, list_of(:single_project) do
       resolve(&ProjectResolver.list/3)
     end
 
     @desc "Get all pro projects"
-    field :pro_projects, list_of(:project) do
+    field :pro_projects, list_of(:single_project) do
       resolve(&ProjectResolver.pro_list/3)
     end
 

@@ -58,7 +58,8 @@ defmodule Core.MixProject do
       {:qr_code, "~> 2.2"},
       {:stream_data, "~> 0.5", only: :test},
       {:sweet_xml, "~> 0.6"},
-      {:timex, "~> 3.6"}
+      {:timex, "~> 3.6"},
+      {:reptin, in_umbrella: true}
     ]
   end
 

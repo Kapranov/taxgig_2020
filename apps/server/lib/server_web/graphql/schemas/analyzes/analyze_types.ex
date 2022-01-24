@@ -164,9 +164,9 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
   end
 
   object :user_by_tp do
-    field :id, :string, description: "user id"
     field :avatar, :string
     field :first_name, :string
+    field :id, :string, description: "user id"
     field :languages, list_of(:language)
   end
 
