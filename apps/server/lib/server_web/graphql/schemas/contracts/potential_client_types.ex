@@ -26,7 +26,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.PotentialClientTypes do
 
   object :potential_client_queries do
     @desc "Get all potential clients"
-    field :all_potential_clients, list_of(:potential_client) do
+    field :all_potential_clients, :potential_client do
       resolve(&PotentialClientResolver.list/3)
     end
 

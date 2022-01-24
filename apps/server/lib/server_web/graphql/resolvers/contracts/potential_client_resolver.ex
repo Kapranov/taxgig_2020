@@ -26,7 +26,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
     if is_nil(current_user) || current_user.role == false do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct = Contracts.list_potential_client()
+      struct = Repo.get_by(PotentialClient, user_id: current_user.id)
       {:ok, struct}
     end
   end
