@@ -32,15 +32,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
       structs =
         Queries.by_list(Project, :user_id, current_user.id)
         |> Repo.preload([:plaid_accounts, :tp_docs, :pro_docs, :users])
-      user = structs |> List.first |> Map.get(:users)
-      reptin = Client.search(user.bus_addr_zip, user.first_name, user.last_name) |> List.first
-      struct =
-        Enum.reduce(structs, [], fn(x, acc) ->
-          user = Map.merge(x.users, %{profession: reptin.profession})
-          [Map.merge(x, %{users: user}) | acc]
-        end)
-      Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
-      {:ok, struct}
+
+      case structs do
+        [] ->
+          {:ok, []}
+        _ ->
+          user = structs |> List.first |> Map.get(:users)
+          reptin = Client.search(user.bus_addr_zip, user.first_name, user.last_name) |> List.first
+          struct =
+            Enum.reduce(structs, [], fn(x, acc) ->
+              user = Map.merge(x.users, %{profession: reptin.profession})
+              [Map.merge(x, %{users: user}) | acc]
+            end)
+          Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
+          {:ok, struct}
+      end
     end
   end
 
@@ -57,15 +63,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
       structs =
         Queries.by_list(Project, :assigned_id, current_user.id)
         |> Repo.preload([:tp_docs, :pro_docs, :users])
-      user = structs |> List.first |> Map.get(:users)
-      reptin = Client.search(user.bus_addr_zip, user.first_name, user.last_name) |> List.first
 
-      struct =
-        Enum.reduce(structs, [], fn(x, acc) ->
-          user = Map.merge(x.users, %{profession: reptin.profession})
-          [Map.merge(x, %{users: user}) | acc]
-        end)
-      {:ok, struct}
+      case structs do
+        [] ->
+          {:ok, []}
+        _ ->
+          user = structs |> List.first |> Map.get(:users)
+          reptin = Client.search(user.bus_addr_zip, user.first_name, user.last_name) |> List.first
+
+          struct =
+            Enum.reduce(structs, [], fn(x, acc) ->
+              user = Map.merge(x.users, %{profession: reptin.profession})
+              [Map.merge(x, %{users: user}) | acc]
+            end)
+          {:ok, struct}
+        end
     end
   end
 
