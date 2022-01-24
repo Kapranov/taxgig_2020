@@ -27,7 +27,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
       struct = Repo.get_by(PotentialClient, user_id: current_user.id)
-      {:ok, struct}
+      projects =
+        Enum.reduce(struct.project, [], fn(x, acc) ->
+          project = Contracts.get_project!(x)
+          [ project | acc ]
+        end)
+      records = Map.merge(struct, %{project: projects})
+      {:ok, records}
     end
   end
 

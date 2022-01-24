@@ -19,6 +19,13 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.PotentialClientTypes do
     field :user, :user, resolve: dataloader(Data)
   end
 
+  @desc "The potential client on the site"
+  object :potential_clients, description: "Potential Client" do
+    field :id, non_null(:string), description: "unique identifier"
+    field :project, list_of(:single_project)
+    field :user, :user, resolve: dataloader(Data)
+  end
+
   @desc "The potential client update via params"
   input_object :update_potential_client_params, description: "update potential client" do
     field :project, list_of(:string)
@@ -26,7 +33,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.PotentialClientTypes do
 
   object :potential_client_queries do
     @desc "Get all potential clients"
-    field :all_potential_clients, :potential_client do
+    field :all_potential_clients, :potential_clients do
       resolve(&PotentialClientResolver.list/3)
     end
 
