@@ -62,7 +62,6 @@ bash> curl -k \\
 ### Fix build source
 
 1. `apps/chat` - `entropy_string/mix.ex` - in `def package: xref: [exclude: :crypto]`
-2.
 
 ### 20 Jan 2020 by Oleg G.Kapranov
 
