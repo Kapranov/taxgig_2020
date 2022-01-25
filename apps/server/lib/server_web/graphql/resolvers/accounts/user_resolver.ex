@@ -155,16 +155,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
               end
             end
           else
-            [data] = struct
-            reptin = Client.search(data.bus_addr_zip, data.first_name, data.last_name) |> List.first
-            case reptin do
-              %{error: "format is not correct"} ->
-                record = Map.merge(data, %{profession: "full name and busAddrZip not filled"})
-                {:ok, record}
-              _ ->
-                record = Map.merge(data, %{profession: reptin.profession})
-                {:ok, record}
-            end
+            [record] = struct
+            {:ok, record}
           end
       end
     end
