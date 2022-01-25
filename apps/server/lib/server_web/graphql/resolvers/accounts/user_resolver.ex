@@ -134,25 +134,37 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
               [data] = struct
               reptin = Client.search(data.bus_addr_zip, data.first_name, data.last_name) |> List.first
-              record = Map.merge(data, %{profession: reptin.profession})
 
-              {:ok,
-                record
-                |> Map.update!(:finished_project_count, fn _ -> new_val1 end)
-                |> Map.update!(:on_going_project_count, fn _ -> val2 end)
-                |> Map.update!(:total_earned, fn _ -> new_val3 end)
-              }
+              case reptin do
+                %{error: "format is not correct"} ->
+                  record = Map.merge(data, %{profession: "full name and busAddrZip not filled"})
+                  {:ok,
+                    record
+                    |> Map.update!(:finished_project_count, fn _ -> new_val1 end)
+                    |> Map.update!(:on_going_project_count, fn _ -> val2 end)
+                    |> Map.update!(:total_earned, fn _ -> new_val3 end)
+                  }
+                _ ->
+                  record = Map.merge(data, %{profession: reptin.profession})
+                  {:ok,
+                    record
+                    |> Map.update!(:finished_project_count, fn _ -> new_val1 end)
+                    |> Map.update!(:on_going_project_count, fn _ -> val2 end)
+                    |> Map.update!(:total_earned, fn _ -> new_val3 end)
+                  }
+              end
             end
           else
             [data] = struct
             reptin = Client.search(data.bus_addr_zip, data.first_name, data.last_name) |> List.first
-            record =
-              if reptin == %{error: "format is not correct"} do
-                Map.merge(data, %{profession: "full name and busAddrZip not filled"})
-              else
-                Map.merge(data, %{profession: reptin.profession})
-              end
-            {:ok, record}
+            case reptin do
+              %{error: "format is not correct"} ->
+                record = Map.merge(data, %{profession: "full name and busAddrZip not filled"})
+                {:ok, record}
+              _ ->
+                record = Map.merge(data, %{profession: reptin.profession})
+                {:ok, record}
+            end
           end
       end
     end
