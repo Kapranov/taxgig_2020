@@ -1,14 +1,65 @@
 {
   "key": "graphiql",
-  "lastId": 5,
+  "lastId": 10,
   "tabIds": [
     "tab1",
     "tab2",
     "tab3",
     "tab4",
-    "tab5"
+    "tab5",
+    "tab6",
+    "tab10"
   ],
-  "closedTabs": [],
+  "closedTabs": [
+    {
+      "id": "tab8",
+      "name": "Query 8",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "mutation {\n  createPotentialClient(\n    project: [\"A2MPGBoUF4xmjtzS0e\", \"A2MPGBIEB19v7qtgjA\"],\n    userId: \"A2MPEqnCuXcfFtkkzY\"\n  ) {\n    project\n    user {id email role}\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab9",
+      "name": "Query 9",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "mutation {\n  updatePotentialClient(\n    id: \"AFlvzK7aIZBVxO4Nl2\",\n    potentialClient: {\n      project: [\n        \"A2MPGBwHm5CZ85dgAK\",\n        \"A2MPGBsO0a5AvzoZ5U\",\n        \"A2MPGBIEB19v7qtgjA\"\n      ]\n    }\n  ) {\n    id\n    project\n    user {id email role}\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab7",
+      "name": "Query 7",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "",
+      "graphiql:variables": "",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    }
+  ],
   "defaultUrl": "http://localhost:4000/graphiql",
   "defaultWebsocketUrl": "ws://localhost:4000/socket",
   "defaultQuery": "",
@@ -19,6 +70,10 @@
     "http://localhost:4000/graphiql"
   ],
   "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCq3EqQfgFiAAFRgA.I5WCveRi3ZkpYZTpH1pImXj6dYSa9iqzUP5kkE1TVnI"
+    },
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBMk1QRXFuQ3VYY2ZGdGtrelluBgAaKpZ7dgFiAAFRgA.YB_15aqxLycuPikcFS-v2c63tpFzlNNqgEZ4rv8mxys"
@@ -44,11 +99,9 @@
       "collapsed": true,
       "maxHistory": 20,
       "history": [],
-      "graphiql:query": "",
-      "graphiql:variables": "",
       "graphiql:editorFlex": 1,
-      "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
     },
     {
       "id": "tab2",
@@ -61,16 +114,19 @@
       "maxHistory": 20,
       "history": [
         {
+          "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
           "query": "query {\n  signIn(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  signIn(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
-      "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 0.35786290322580644,
+      "graphiql:query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350
+      "graphiql:editorFlex": 0.35786290322580644
     },
     {
       "id": "tab3",
@@ -81,23 +137,26 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMk1QRXFuQ3VYY2ZGdGtrelluBgDw9pB7dgFiAAFRgA.tq88ko48a-qPrCQnXhmkpBVITbYZR2DHPw5ZR2cY12g"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCq3EqQfgFiAAFRgA.I5WCveRi3ZkpYZTpH1pImXj6dYSa9iqzUP5kkE1TVnI"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
+          "query": "query {\n  allPotentialClients {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      avatar\n      email\n      role\n      firstName\n      lastName\n      languages { abbr name }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
           "query": "mutation {\n  createPotentialClient(\n    project: [\"A2MPGBoUF4xmjtzS0e\", \"A2MPGBIEB19v7qtgjA\"],\n    userId: \"A2MPEqnCuXcfFtkkzY\"\n  ) {\n    project\n    user {id email role}\n  }\n}",
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  createPotentialClient(\n    project: [\"A2MPGBoUF4xmjtzS0e\", \"A2MPGBIEB19v7qtgjA\"],\n    userId: \"A2MPEqnCuXcfFtkkzY\"\n  ) {\n    project\n    user {id email role}\n  }\n}",
-      "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createPotentialClient(\\n    project: [\\\"A2MPGBoUF4xmjtzS0e\\\", \\\"A2MPGBIEB19v7qtgjA\\\"],\\n    userId: \\\"A2MPEqnCuXcfFtkkzY\\\"\\n  ) {\\n    project\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 1,
+      "graphiql:query": "query {\n  allPotentialClients {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      avatar\n      email\n      role\n      firstName\n      lastName\n      languages { abbr name }\n    }\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createPotentialClient(\\n    project: [\\\"A2MPGBoUF4xmjtzS0e\\\", \\\"A2MPGBIEB19v7qtgjA\\\"],\\n    userId: \\\"A2MPEqnCuXcfFtkkzY\\\"\\n  ) {\\n    project\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allPotentialClients {\\n    id\\n    project {\\n      id\\n      bookKeeping { id }\\n      businessTaxReturn { id }\\n      individualTaxReturn { id }\\n      saleTax { id }\\n      status\\n      offerPrice\\n      tpDocs { id signedByTp }\\n    }\\n    user {\\n      id\\n      avatar\\n      email\\n      role\\n      firstName\\n      lastName\\n      languages { abbr name }\\n    }\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350
+      "graphiql:editorFlex": 0.4328042328042328
     },
     {
       "id": "tab4",
@@ -108,12 +167,44 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMk1QRXFuQ3VYY2ZGdGtrelluBgAaKpZ7dgFiAAFRgA.YB_15aqxLycuPikcFS-v2c63tpFzlNNqgEZ4rv8mxys"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCq3EqQfgFiAAFRgA.I5WCveRi3ZkpYZTpH1pImXj6dYSa9iqzUP5kkE1TVnI"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "query {\n  showPotentialClient ( id: \"AFnG9zFe9RhwbCV3qq\") {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      avatar\n      email\n      role\n      firstName\n      lastName\n      languages { abbr name }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showPotentialClient ( id: \"AFnFVdl6Cek4HhMkMK\") {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      avatar\n      email\n      role\n      firstName\n      lastName\n      languages { abbr name }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showPotentialClient ( id: \"AFlvzK7aIZBVxO4Nl2\") {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      avatar\n      email\n      role\n      firstName\n      lastName\n      languages { abbr name }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPotentialClients {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      avatar\n      email\n      role\n      firstName\n      lastName\n      languages { abbr name }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPotentialClients {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      email\n      role\n      firstName\n      lastName\n      languages { abbr name }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPotentialClients {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      email\n      role\n      profession\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPotentialClients {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n    }\n    user {\n      id\n      email\n      role\n      profession\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allPotentialClients {\n    id\n    user {\n      id\n      email\n      role\n    }\n  }\n}",
+          "variables": null
+        },
         {
           "query": "query {\n  allPotentialClients {id project, user {id email role}}\n}",
           "variables": null
@@ -123,11 +214,10 @@
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  allPotentialClients {id project, user {id email role}}\n}",
-      "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allPotentialClients {project, user {id email role}}\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allPotentialClients {id project, user {id email role}}\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 0.611244019138756,
+      "graphiql:query": "query {\n  showPotentialClient ( id: \"AFnG9zFe9RhwbCV3qq\") {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      avatar\n      email\n      role\n      firstName\n      lastName\n      languages { abbr name }\n    }\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allPotentialClients {project, user {id email role}}\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allPotentialClients {id project, user {id email role}}\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allPotentialClients {\\n    id\\n    user {\\n      id\\n      email\\n      role\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allPotentialClients {\\n    id\\n    project {\\n      id\\n      bookKeeping { id }\\n      businessTaxReturn { id }\\n      individualTaxReturn { id }\\n      saleTax { id }\\n      status\\n    }\\n    user {\\n      id\\n      email\\n      role\\n      profession\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allPotentialClients {\\n    id\\n    project {\\n      id\\n      bookKeeping { id }\\n      businessTaxReturn { id }\\n      individualTaxReturn { id }\\n      saleTax { id }\\n      status\\n      offerPrice\\n      tpDocs { id signedByTp }\\n    }\\n    user {\\n      id\\n      email\\n      role\\n      profession\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allPotentialClients {\\n    id\\n    project {\\n      id\\n      bookKeeping { id }\\n      businessTaxReturn { id }\\n      individualTaxReturn { id }\\n      saleTax { id }\\n      status\\n      offerPrice\\n      tpDocs { id signedByTp }\\n    }\\n    user {\\n      id\\n      email\\n      role\\n      firstName\\n      lastName\\n      languages { abbr name }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allPotentialClients {\\n    id\\n    project {\\n      id\\n      bookKeeping { id }\\n      businessTaxReturn { id }\\n      individualTaxReturn { id }\\n      saleTax { id }\\n      status\\n      offerPrice\\n      tpDocs { id signedByTp }\\n    }\\n    user {\\n      id\\n      avatar\\n      email\\n      role\\n      firstName\\n      lastName\\n      languages { abbr name }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showPotentialClient ( id: \\\"AFlvzK7aIZBVxO4Nl2\\\") {\\n    id\\n    project {\\n      id\\n      bookKeeping { id }\\n      businessTaxReturn { id }\\n      individualTaxReturn { id }\\n      saleTax { id }\\n      status\\n      offerPrice\\n      tpDocs { id signedByTp }\\n    }\\n    user {\\n      id\\n      avatar\\n      email\\n      role\\n      firstName\\n      lastName\\n      languages { abbr name }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showPotentialClient ( id: \\\"AFnFVdl6Cek4HhMkMK\\\") {\\n    id\\n    project {\\n      id\\n      bookKeeping { id }\\n      businessTaxReturn { id }\\n      individualTaxReturn { id }\\n      saleTax { id }\\n      status\\n      offerPrice\\n      tpDocs { id signedByTp }\\n    }\\n    user {\\n      id\\n      avatar\\n      email\\n      role\\n      firstName\\n      lastName\\n      languages { abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showPotentialClient ( id: \\\"AFnG9zFe9RhwbCV3qq\\\") {\\n    id\\n    project {\\n      id\\n      bookKeeping { id }\\n      businessTaxReturn { id }\\n      individualTaxReturn { id }\\n      saleTax { id }\\n      status\\n      offerPrice\\n      tpDocs { id signedByTp }\\n    }\\n    user {\\n      id\\n      avatar\\n      email\\n      role\\n      firstName\\n      lastName\\n      languages { abbr name }\\n    }\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.540386803185438,
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -139,23 +229,102 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMk1QRXFuQ3VYY2ZGdGtrelluBgAaKpZ7dgFiAAFRgA.YB_15aqxLycuPikcFS-v2c63tpFzlNNqgEZ4rv8mxys"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCq3EqQfgFiAAFRgA.I5WCveRi3ZkpYZTpH1pImXj6dYSa9iqzUP5kkE1TVnI"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
+          "query": "mutation {\n  updatePotentialClient(\n    id: \"AFnG9zFe9RhwbCV3qq\",\n    potentialClient: {\n      project: [\n        \"ADxrxYJefmVIEA07Ki\",\n        \"AEUsE3uwv8zi1ig4PI\",\n        \"AEUtMfvqPq9LnNL3AW\"\n      ]\n    }\n  ) {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      avatar\n      email\n      role\n      firstName\n      lastName\n      languages { abbr name }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updatePotentialClient(\n    id: \"AFnFVdl6Cek4HhMkMK\",\n    potentialClient: {\n      project: [\"ADxrxYJefmVIEA07Ki\"]\n    }\n  ) {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      avatar\n      email\n      role\n      firstName\n      lastName\n      languages { abbr name }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updatePotentialClient(\n    id: \"AFlvzK7aIZBVxO4Nl2\",\n    potentialClient: {\n      project: [\"ADxrxYJefmVIEA07Ki\"]\n    }\n  ) {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      avatar\n      email\n      role\n      firstName\n      lastName\n      languages { abbr name }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updatePotentialClient(\n    id: \"AFlvzK7aIZBVxO4Nl2\",\n    potentialClient: {\n      project: [\"ADxrxYJefmVIEA07Ki\"]\n    }\n  ) {\n    id\n    project\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updatePotentialClient(\n    id: \"AEUsLFIP0zALLK4aFE\",\n    potentialClient: {\n      project: [\"ADxrxYJefmVIEA07Ki\"]\n    }\n  ) {\n    id\n    project\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
           "query": "mutation {\n  updatePotentialClient(\n    id: \"A2MYH9hKwD7513z9ay\",\n    potentialClient: {\n      project: [\n        \"A2MPGBwHm5CZ85dgAK\",\n        \"A2MPGBsO0a5AvzoZ5U\",\n        \"A2MPGBIEB19v7qtgjA\"\n      ]\n    }\n  ) {\n    id\n    project\n    user {id email role}\n  }\n}",
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  updatePotentialClient(\n    id: \"A2MYH9hKwD7513z9ay\",\n    potentialClient: {\n      project: [\n        \"A2MPGBwHm5CZ85dgAK\",\n        \"A2MPGBsO0a5AvzoZ5U\",\n        \"A2MPGBIEB19v7qtgjA\"\n      ]\n    }\n  ) {\n    id\n    project\n    user {id email role}\n  }\n}",
-      "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updatePotentialClient(\\n    id: \\\"A2MYH9hKwD7513z9ay\\\",\\n    potentialClient: {\\n      project: [\\n        \\\"A2MPGBwHm5CZ85dgAK\\\",\\n        \\\"A2MPGBsO0a5AvzoZ5U\\\",\\n        \\\"A2MPGBIEB19v7qtgjA\\\"\\n      ]\\n    }\\n  ) {\\n    id\\n    project\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 1,
+      "graphiql:query": "mutation {\n  updatePotentialClient(\n    id: \"AFnG9zFe9RhwbCV3qq\",\n    potentialClient: {\n      project: [\n        \"ADxrxYJefmVIEA07Ki\",\n        \"AEUsE3uwv8zi1ig4PI\",\n        \"AEUtMfvqPq9LnNL3AW\"\n      ]\n    }\n  ) {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      avatar\n      email\n      role\n      firstName\n      lastName\n      languages { abbr name }\n    }\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updatePotentialClient(\\n    id: \\\"A2MYH9hKwD7513z9ay\\\",\\n    potentialClient: {\\n      project: [\\n        \\\"A2MPGBwHm5CZ85dgAK\\\",\\n        \\\"A2MPGBsO0a5AvzoZ5U\\\",\\n        \\\"A2MPGBIEB19v7qtgjA\\\"\\n      ]\\n    }\\n  ) {\\n    id\\n    project\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePotentialClient(\\n    id: \\\"AEUsLFIP0zALLK4aFE\\\",\\n    potentialClient: {\\n      project: [\\\"ADxrxYJefmVIEA07Ki\\\"]\\n    }\\n  ) {\\n    id\\n    project\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePotentialClient(\\n    id: \\\"AFlvzK7aIZBVxO4Nl2\\\",\\n    potentialClient: {\\n      project: [\\\"ADxrxYJefmVIEA07Ki\\\"]\\n    }\\n  ) {\\n    id\\n    project\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePotentialClient(\\n    id: \\\"AFlvzK7aIZBVxO4Nl2\\\",\\n    potentialClient: {\\n      project: [\\\"ADxrxYJefmVIEA07Ki\\\"]\\n    }\\n  ) {\\n    id\\n    project {\\n      id\\n      bookKeeping { id }\\n      businessTaxReturn { id }\\n      individualTaxReturn { id }\\n      saleTax { id }\\n      status\\n      offerPrice\\n      tpDocs { id signedByTp }\\n    }\\n    user {\\n      id\\n      avatar\\n      email\\n      role\\n      firstName\\n      lastName\\n      languages { abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePotentialClient(\\n    id: \\\"AFnFVdl6Cek4HhMkMK\\\",\\n    potentialClient: {\\n      project: [\\\"ADxrxYJefmVIEA07Ki\\\"]\\n    }\\n  ) {\\n    id\\n    project {\\n      id\\n      bookKeeping { id }\\n      businessTaxReturn { id }\\n      individualTaxReturn { id }\\n      saleTax { id }\\n      status\\n      offerPrice\\n      tpDocs { id signedByTp }\\n    }\\n    user {\\n      id\\n      avatar\\n      email\\n      role\\n      firstName\\n      lastName\\n      languages { abbr name }\\n    }\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePotentialClient(\\n    id: \\\"AFnG9zFe9RhwbCV3qq\\\",\\n    potentialClient: {\\n      project: [\\n        \\\"ADxrxYJefmVIEA07Ki\\\",\\n        \\\"AEUsE3uwv8zi1ig4PI\\\",\\n        \\\"AEUtMfvqPq9LnNL3AW\\\"\\n      ]\\n    }\\n  ) {\\n    id\\n    project {\\n      id\\n      bookKeeping { id }\\n      businessTaxReturn { id }\\n      individualTaxReturn { id }\\n      saleTax { id }\\n      status\\n      offerPrice\\n      tpDocs { id signedByTp }\\n    }\\n    user {\\n      id\\n      avatar\\n      email\\n      role\\n      firstName\\n      lastName\\n      languages { abbr name }\\n    }\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1,
       "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab6",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCq3EqQfgFiAAFRgA.I5WCveRi3ZkpYZTpH1pImXj6dYSa9iqzUP5kkE1TVnI"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createPotentialClient(\n    project: [\n      \"ADxrxYJefmVIEA07Ki\",\n      \"AEUsE3uwv8zi1ig4PI\",\n      \"AEUtMfvqPq9LnNL3AW\"\n    ]\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      avatar\n      email\n      role\n      firstName\n      lastName\n      languages { abbr name }\n    } \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createPotentialClient(\n    project: [\n      \"ADxrxYJefmVIEA07Ki\",\n      \"AEUsE3uwv8zi1ig4PI\",\n      \"AEUtMfvqPq9LnNL3AW\"\n    ]\n    userId: \"A2MPEqnCuXcfFtkkzY\"\n  ) {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      avatar\n      email\n      role\n      firstName\n      lastName\n      languages { abbr name }\n    } \n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createPotentialClient(\n    project: [\n      \"ADxrxYJefmVIEA07Ki\",\n      \"AEUsE3uwv8zi1ig4PI\",\n      \"AEUtMfvqPq9LnNL3AW\"\n    ]\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    project {\n      id\n      bookKeeping { id }\n      businessTaxReturn { id }\n      individualTaxReturn { id }\n      saleTax { id }\n      status\n      offerPrice\n      tpDocs { id signedByTp }\n    }\n    user {\n      id\n      avatar\n      email\n      role\n      firstName\n      lastName\n      languages { abbr name }\n    } \n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.34860557768924305,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createPotentialClient(\\n    project: [\\n      \\\"ADxrxYJefmVIEA07Ki\\\",\\n      \\\"AEUsE3uwv8zi1ig4PI\\\",\\n      \\\"AEUtMfvqPq9LnNL3AW\\\"\\n    ]\\n    userId: \\\"A2MPEqnCuXcfFtkkzY\\\"\\n  ) {\\n    id\\n    project {\\n      id\\n      bookKeeping { id }\\n      businessTaxReturn { id }\\n      individualTaxReturn { id }\\n      saleTax { id }\\n      status\\n      offerPrice\\n      tpDocs { id signedByTp }\\n    }\\n    user {\\n      id\\n      avatar\\n      email\\n      role\\n      firstName\\n      lastName\\n      languages { abbr name }\\n    } \\n  }\\n}\"},{\"query\":\"mutation {\\n  createPotentialClient(\\n    project: [\\n      \\\"ADxrxYJefmVIEA07Ki\\\",\\n      \\\"AEUsE3uwv8zi1ig4PI\\\",\\n      \\\"AEUtMfvqPq9LnNL3AW\\\"\\n    ]\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    project {\\n      id\\n      bookKeeping { id }\\n      businessTaxReturn { id }\\n      individualTaxReturn { id }\\n      saleTax { id }\\n      status\\n      offerPrice\\n      tpDocs { id signedByTp }\\n    }\\n    user {\\n      id\\n      avatar\\n      email\\n      role\\n      firstName\\n      lastName\\n      languages { abbr name }\\n    } \\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab10",
+      "name": "Query 7",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCq3EqQfgFiAAFRgA.I5WCveRi3ZkpYZTpH1pImXj6dYSa9iqzUP5kkE1TVnI"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  deletePotentialClient(id: \"AFnFVdl6Cek4HhMkMK\") {\n    id\n    project\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  deletePotentialClient(id: \"AFlvzK7aIZBVxO4Nl2\") {\n    id\n    project\n    user {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  deletePotentialClient(id: \"AFnFVdl6Cek4HhMkMK\") {\n    id\n    project\n    user {id email role}\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deletePotentialClient(id: \\\"AFlvzK7aIZBVxO4Nl2\\\") {\\n    id\\n    project\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  deletePotentialClient(id: \\\"AFnFVdl6Cek4HhMkMK\\\") {\\n    id\\n    project\\n    user {id email role}\\n  }\\n}\"}]}",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200
     }
   ]
 }

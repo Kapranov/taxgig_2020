@@ -38,7 +38,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.PotentialClientTypes do
     end
 
     @desc "Get a specific potential client"
-    field :show_potential_client, :potential_client do
+    field :show_potential_client, :potential_clients do
       arg(:id, non_null(:string))
       resolve(&PotentialClientResolver.show/3)
     end
@@ -46,14 +46,14 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.PotentialClientTypes do
 
   object :potential_client_mutations do
     @desc "Create the potential client"
-    field :create_potential_client, :potential_client, description: "Create a new potential client" do
+    field :create_potential_client, :potential_clients, description: "Create a new potential client" do
       arg :project, non_null(list_of(:string))
       arg :user_id, non_null(:string)
       resolve &PotentialClientResolver.create/3
     end
 
     @desc "Update a specific potential client"
-    field :update_potential_client, :potential_client do
+    field :update_potential_client, :potential_clients do
       arg :id, non_null(:string)
       arg :potential_client, :update_potential_client_params
       resolve &PotentialClientResolver.update/3

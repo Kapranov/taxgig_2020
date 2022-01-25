@@ -23,17 +23,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
 
   @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def list(_parent, _args, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) || current_user.role == false do
+    if current_user.role == false do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
       struct = Repo.get_by(PotentialClient, user_id: current_user.id)
-      projects =
-        Enum.reduce(struct.project, [], fn(x, acc) ->
-          project = Contracts.get_project!(x)
-          [ project | acc ]
-        end)
-      records = Map.merge(struct, %{project: projects})
-      {:ok, records}
+      case struct do
+        nil -> {:error, "not found are records"}
+        _ ->
+          projects =
+            Enum.reduce(struct.project, [], fn(x, acc) ->
+              project = Contracts.get_project!(x)
+              [ project | acc ]
+            end)
+          record = Map.merge(struct, %{project: projects})
+          {:ok, record}
+      end
     end
   end
 
@@ -44,12 +48,18 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
 
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.role == false do
-      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Show"]]}
+    if current_user.role == false do
+      {:error, [[field: :id, message: "Permission denied for current_user to perform action Show"]]}
     else
       try do
         struct = Contracts.get_potential_client!(id)
-        {:ok, struct}
+        projects =
+          Enum.reduce(struct.project, [], fn(x, acc) ->
+            project = Contracts.get_project!(x)
+            [ project | acc ]
+          end)
+        record = Map.merge(struct, %{project: projects})
+        {:ok, record}
       rescue
         Ecto.NoResultsError ->
           {:error, "The Potential Client #{id} not found!"}
@@ -64,7 +74,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
 
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) || current_user.role == false do
+    if current_user.role == false do
       {:error, [[field: :current_user, message: "Permission denied for current_user to perform action Create"]]}
     else
       case Accounts.by_role(current_user.id) do
@@ -85,7 +95,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
           |> Contracts.create_potential_client()
           |> case do
             {:ok, struct} ->
-              {:ok, struct}
+              projects =
+                Enum.reduce(struct.project, [], fn(x, acc) ->
+                  project = Contracts.get_project!(x)
+                  [ project | acc ]
+                end)
+              record = Map.merge(struct, %{project: projects})
+              {:ok, record}
             {:error, changeset} ->
               {:error, extract_error_msg(changeset)}
           end
@@ -100,8 +116,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
 
   @spec update(any, %{id: bitstring, potential_client: map()}, %{context: %{current_user: User.t()}}) :: result()
   def update(_parent, %{id: id, potential_client: params}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.role == false do
-      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
+    if current_user.role == false do
+      {:error, [[field: :id, message: "Permission denied for current_user to perform action Update"]]}
     else
       try do
         project_idx =
@@ -118,7 +134,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
         |> Contracts.update_potential_client(attrs)
         |> case do
           {:ok, struct} ->
-            {:ok, struct}
+            projects =
+              Enum.reduce(struct.project, [], fn(x, acc) ->
+                project = Contracts.get_project!(x)
+                [ project | acc ]
+              end)
+            record = Map.merge(struct, %{project: projects})
+            {:ok, record}
           {:error, changeset} ->
             {:error, extract_error_msg(changeset)}
         end
@@ -136,8 +158,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
 
   @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) || current_user.role == false do
-      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Delete"]]}
+    if current_user.role == false do
+      {:error, [[field: :id, message: "Permission denied for current_user to perform action Delete"]]}
     else
       try do
         struct = Contracts.get_potential_client!(id)
