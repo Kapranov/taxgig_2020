@@ -33,20 +33,36 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
         Queries.by_list(Project, :user_id, current_user.id)
         |> Repo.preload([:plaid_accounts, :tp_docs, :pro_docs, :users])
 
-      case structs do
-        [] ->
-          {:ok, []}
-        _ ->
-          user = structs |> List.first |> Map.get(:users)
-          reptin = Client.search(user.bus_addr_zip, user.first_name, user.last_name) |> List.first
-          struct =
-            Enum.reduce(structs, [], fn(x, acc) ->
-              user = Map.merge(x.users, %{profession: reptin.profession})
-              [Map.merge(x, %{users: user}) | acc]
-            end)
-          Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
-          {:ok, struct}
-      end
+      records =
+        Enum.reduce(structs, [], fn(x, acc) ->
+          case x.assigned_id do
+            nil ->
+              [x | acc]
+            _ ->
+              user = Accounts.get_user!(x.assigned_id)
+              reptin = Client.search(user.bus_addr_zip, user.first_name, user.last_name) |> List.first
+              record = Map.merge(user, %{profession: reptin.profession})
+              [Map.merge(x, %{assigned: record}) | acc]
+          end
+        end)
+
+      Absinthe.Subscription.publish(ServerWeb.Endpoint, records, project_list: "projects")
+      {:ok, records}
+
+#      case structs do
+#        [] ->
+#          {:ok, []}
+#        _ ->
+#          user = structs |> List.first |> Map.get(:users)
+#          reptin = Client.search(user.bus_addr_zip, user.first_name, user.last_name) |> List.first
+#          struct =
+#            Enum.reduce(structs, [], fn(x, acc) ->
+#              user = Map.merge(x.users, %{profession: reptin.profession})
+#              [Map.merge(x, %{users: user}) | acc]
+#            end)
+#          Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
+#          {:ok, struct}
+#      end
     end
   end
 

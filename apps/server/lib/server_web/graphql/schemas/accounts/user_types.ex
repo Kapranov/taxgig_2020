@@ -39,7 +39,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :otp_last, non_null(:integer), description: "2factor last code"
     field :otp_secret, non_null(:string), description: "2factor token"
     field :phone, :string, description: "accounts user phone"
-    field :platform, list_of(:platform), description: "list user's platform"
+    field :platform, list_of(:platform), resolve: dataloader(Data), description: "list user's platform"
     field :profession, :string, description: "credentials received from searchProfession"
     field :profile, list_of(:profile), resolve: dataloader(Data), description: "user's profile"
     field :provider, non_null(:string), description: "accounts user provider"
