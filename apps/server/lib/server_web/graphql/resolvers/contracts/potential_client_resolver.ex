@@ -28,7 +28,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
     else
       struct = Repo.get_by(PotentialClient, user_id: current_user.id)
       case struct do
-        nil -> {:error, "not found are records"}
+        nil -> {:ok, nil}
         _ ->
           projects =
             Enum.reduce(struct.project, [], fn(x, acc) ->

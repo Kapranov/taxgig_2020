@@ -10,8 +10,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     Repo
   }
 
-  alias Reptin.Client
-
   alias Mailings.Mailer
   alias Server.Token
 
@@ -89,76 +87,58 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: success_list() | error_tuple()
   def list(_parent, _args, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) do
-      {:error, [[field: :user_id, message: "An User not found! or Unauthenticated"]]}
-    else
-      case Accounts.all(User, [desc: :id], [id: current_user.id], [
-        :accounting_software,
-        :book_keepings,
-        :business_tax_returns,
-        :educations,
-        :individual_tax_returns,
-        :languages,
-        :platform,
-        :sale_taxes,
-        :work_experiences,
-        profile: [:picture]
-      ]) do
-        nil -> {:error, "Not found"}
-        struct ->
-          if current_user.role == true do
-            with val1 <- CoreQueries.by_count_with_status_projects(Project, User, false, "Done", current_user),
-                 [val2] <- CoreQueries.by_count_with_status_projects(Project, User, false, "In Progress", "In Transition", current_user),
-                 val3 <- CoreQueries.by_count_with_offer_addon_projects(Project, User, false, "Done", current_user)
-            do
-              new_val1 = if val1 == [], do: 0, else: List.last(val1)
-              new_val3 =
-                if val3 == [] do
-                  Decimal.new("0.0")
-                else
-                  val3
-                  |> Enum.map(fn n ->
-                    if is_nil(elem(n, 1)) do
-                      data = { n |> elem(0) |> Decimal.to_string |> String.to_float, 0 }
-                      ((elem(data, 0) + (elem(data, 1) * 0.01)) * 0.8) |> Float.round(2)
+    case Accounts.all(User, [desc: :id], [id: current_user.id], [
+      :accounting_software,
+      :book_keepings,
+      :business_tax_returns,
+      :educations,
+      :individual_tax_returns,
+      :languages,
+      :platform,
+      :sale_taxes,
+      :work_experiences,
+      profile: [:picture]
+    ]) do
+      nil -> {:error, "Not found"}
+      struct ->
+        if current_user.role == true do
+          with val1 <- CoreQueries.by_count_with_status_projects(Project, User, false, "Done", current_user),
+               [val2] <- CoreQueries.by_count_with_status_projects(Project, User, false, "In Progress", "In Transition", current_user),
+               val3 <- CoreQueries.by_count_with_offer_addon_projects(Project, User, false, "Done", current_user)
+          do
+            new_val1 = if val1 == [], do: 0, else: List.last(val1)
+            new_val3 =
+              if val3 == [] do
+                Decimal.new("0.0")
+              else
+                val3
+                |> Enum.map(fn n ->
+                  if is_nil(elem(n, 1)) do
+                    data = { n |> elem(0) |> Decimal.to_string |> String.to_float, 0 }
+                    ((elem(data, 0) + (elem(data, 1) * 0.01)) * 0.8) |> Float.round(2)
 
-                    else
-                      data = { n |> elem(0) |> Decimal.to_string |> String.to_float, n |> elem(1) }
-                      ((elem(data, 0) + (elem(data, 1) * 0.01)) * 0.8) |> Float.round(2)
-                    end
-                  end)
-                  |> Enum.sum
-                  |> Decimal.from_float
-                  |> Decimal.round(2)
-                end
-
-              [data] = struct
-              reptin = Client.search(data.bus_addr_zip, data.first_name, data.last_name) |> List.first
-
-              case reptin do
-                %{error: "format is not correct"} ->
-                  record = Map.merge(data, %{profession: "full name and busAddrZip not filled"})
-                  {:ok,
-                    record
-                    |> Map.update!(:finished_project_count, fn _ -> new_val1 end)
-                    |> Map.update!(:on_going_project_count, fn _ -> val2 end)
-                    |> Map.update!(:total_earned, fn _ -> new_val3 end)
-                  }
-                _ ->
-                  record = Map.merge(data, %{profession: reptin.profession})
-                  {:ok,
-                    record
-                    |> Map.update!(:finished_project_count, fn _ -> new_val1 end)
-                    |> Map.update!(:on_going_project_count, fn _ -> val2 end)
-                    |> Map.update!(:total_earned, fn _ -> new_val3 end)
-                  }
+                  else
+                    data = { n |> elem(0) |> Decimal.to_string |> String.to_float, n |> elem(1) }
+                    ((elem(data, 0) + (elem(data, 1) * 0.01)) * 0.8) |> Float.round(2)
+                  end
+                end)
+                |> Enum.sum
+                |> Decimal.from_float
+                |> Decimal.round(2)
               end
-            end
-          else
-            [record] = struct
-            {:ok, record}
+
+            {:ok,
+              struct
+              |> List.last
+              |> Map.update!(:finished_project_count, fn _ -> new_val1 end)
+              |> Map.update!(:on_going_project_count, fn _ -> val2 end)
+              |> Map.update!(:total_earned, fn _ -> new_val3 end)
+            }
           end
-      end
+        else
+          [data] = struct
+          {:ok, data}
+        end
     end
   end
 
@@ -169,14 +149,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) do
+    if is_nil(current_user) do
       {:error, [[field: :id, message: "Can't be blank or Unauthenticated"]]}
     else
       try do
         struct = Accounts.get_user!(id)
-        reptin = Client.search(struct.bus_addr_zip, struct.first_name, struct.last_name) |> List.first
-        data = Map.merge(struct, %{profession: reptin.profession})
-        {:ok, data}
+        {:ok, struct}
       rescue
         Ecto.NoResultsError ->
           {:error, "An User #{id} not found!"}

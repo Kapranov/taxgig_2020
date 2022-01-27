@@ -12,8 +12,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     Repo
   }
 
-  alias Reptin.Client
-
   @type t :: Project.t()
   @type reason :: any
   @type ok :: {:ok}
@@ -26,43 +24,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
 
   @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def list(_parent, _args, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) || current_user.role == true do
+    if current_user.role == true do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      structs =
+      struct =
         Queries.by_list(Project, :user_id, current_user.id)
-        |> Repo.preload([:plaid_accounts, :tp_docs, :pro_docs, :users])
+        |> Repo.preload([:plaid_accounts, :tp_docs, :pro_docs])
 
-      records =
-        Enum.reduce(structs, [], fn(x, acc) ->
-          case x.assigned_id do
-            nil ->
-              [x | acc]
-            _ ->
-              user = Accounts.get_user!(x.assigned_id)
-              reptin = Client.search(user.bus_addr_zip, user.first_name, user.last_name) |> List.first
-              record = Map.merge(user, %{profession: reptin.profession})
-              [Map.merge(x, %{assigned: record}) | acc]
-          end
-        end)
-
-      Absinthe.Subscription.publish(ServerWeb.Endpoint, records, project_list: "projects")
-      {:ok, records}
-
-#      case structs do
-#        [] ->
-#          {:ok, []}
-#        _ ->
-#          user = structs |> List.first |> Map.get(:users)
-#          reptin = Client.search(user.bus_addr_zip, user.first_name, user.last_name) |> List.first
-#          struct =
-#            Enum.reduce(structs, [], fn(x, acc) ->
-#              user = Map.merge(x.users, %{profession: reptin.profession})
-#              [Map.merge(x, %{users: user}) | acc]
-#            end)
-#          Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
-#          {:ok, struct}
-#      end
+      Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
+      {:ok, struct}
     end
   end
 
@@ -73,27 +43,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
 
   @spec pro_list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def pro_list(_parent, _args, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) || current_user.role == false do
+    if current_user.role == false do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      structs =
+      struct =
         Queries.by_list(Project, :assigned_id, current_user.id)
-        |> Repo.preload([:tp_docs, :pro_docs, :users])
+        |> Repo.preload([:tp_docs, :pro_docs])
 
-      case structs do
-        [] ->
-          {:ok, []}
-        _ ->
-          user = structs |> List.first |> Map.get(:users)
-          reptin = Client.search(user.bus_addr_zip, user.first_name, user.last_name) |> List.first
-
-          struct =
-            Enum.reduce(structs, [], fn(x, acc) ->
-              user = Map.merge(x.users, %{profession: reptin.profession})
-              [Map.merge(x, %{users: user}) | acc]
-            end)
-          {:ok, struct}
-        end
+      {:ok, struct}
     end
   end
 
@@ -103,28 +60,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
   end
 
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
-    if current_user.role == true do
-      try do
-        struct = Contracts.get_project!(id)
-        Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
-        {:ok, struct}
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The Project #{id} not found!"}
-      end
-    else
-      try do
-        struct = Contracts.get_project!(id)
-        reptin = Client.search(struct.users.bus_addr_zip, struct.users.first_name, struct.users.last_name) |> List.first
-        data = Map.merge(struct.users, %{profession: reptin.profession})
-        record = Map.merge(struct, %{users: data})
-        Absinthe.Subscription.publish(ServerWeb.Endpoint, record, project_show: id)
-        {:ok, record}
-      rescue
-        Ecto.NoResultsError ->
-          {:error, "The Project #{id} not found!"}
-      end
+  def show(_parent, %{id: id}, %{context: %{current_user: _current_user}}) do
+    try do
+      struct = Contracts.get_project!(id)
+      Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
+      {:ok, struct}
+    rescue
+      Ecto.NoResultsError ->
+        {:error, "The Project #{id} not found!"}
     end
   end
 
@@ -135,7 +78,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
 
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) || current_user.role == true do
+    if current_user.role == true do
       {:error, [[field: :current_user, message: "Permission denied for current_user to perform action Create"]]}
     else
       case Accounts.by_role(current_user.id) do

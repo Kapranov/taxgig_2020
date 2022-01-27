@@ -31,8 +31,6 @@ defmodule Core.Analyzes do
   alias Core.Services.SaleTaxFrequency, as: ServiceSaleTaxFrequency
   alias Core.Services.SaleTaxIndustry, as: ServiceSaleTaxIndustry
 
-  alias Reptin.Client
-
   alias Decimal, as: D
 
   @type word() :: String.t()
@@ -97,7 +95,6 @@ defmodule Core.Analyzes do
                       fn _k, v1, v2 -> Map.merge(v1, v2) end
                     ) |> Enum.map(fn {_k, v} ->
                       record = Services.get_sale_tax!(v.id)
-                      reptin = Client.search(record.user.bus_addr_zip, record.user.first_name, record.user.last_name) |> List.first
                       Map.merge(v, %{
                         name: "SaleTax",
                         user: %{
@@ -106,7 +103,7 @@ defmodule Core.Analyzes do
                           last_name: record.user.last_name,
                           middle_name: record.user.middle_name,
                           avatar: record.user.avatar,
-                          profession: reptin.profession,
+                          profession: record.user.profession,
                           languages: record.user.languages,
                           platform: record.user.platform,
                           pro_ratings: record.user.pro_ratings
@@ -166,7 +163,6 @@ defmodule Core.Analyzes do
                   fn _k, v1, v2 -> Map.merge(v1, v2) end
                 ) |> Enum.map(fn {_k, v} ->
                   record = Services.get_individual_tax_return!(v.id)
-                  reptin = Client.search(record.user.bus_addr_zip, record.user.first_name, record.user.last_name) |> List.first
                   Map.merge(v, %{
                     name: "IndividualTaxReturn",
                     user: %{
@@ -175,7 +171,7 @@ defmodule Core.Analyzes do
                       last_name: record.user.last_name,
                       middle_name: record.user.middle_name,
                       avatar: record.user.avatar,
-                      profession: reptin.profession,
+                      profession: record.user.profession,
                       languages: record.user.languages,
                       platform: record.user.platform,
                       pro_ratings: record.user.pro_ratings
@@ -235,7 +231,6 @@ defmodule Core.Analyzes do
               fn _k, v1, v2 -> Map.merge(v1, v2) end
             ) |> Enum.map(fn {_k, v} ->
               record = Services.get_business_tax_return!(v.id)
-              reptin = Client.search(record.user.bus_addr_zip, record.user.first_name, record.user.last_name) |> List.first
               Map.merge(v, %{
                 name: "BusinessTaxReturn",
                 user: %{
@@ -244,7 +239,7 @@ defmodule Core.Analyzes do
                   last_name: record.user.last_name,
                   middle_name: record.user.middle_name,
                   avatar: record.user.avatar,
-                  profession: reptin.profession,
+                  profession: record.user.profession,
                   languages: record.user.languages,
                   platform: record.user.platform,
                   pro_ratings: record.user.pro_ratings
@@ -304,7 +299,6 @@ defmodule Core.Analyzes do
             fn _k, v1, v2 -> Map.merge(v1, v2) end
           ) |> Enum.map(fn {_k, v} ->
             record = Services.get_book_keeping!(v.id)
-            reptin = Client.search(record.user.bus_addr_zip, record.user.first_name, record.user.last_name) |> List.first
             Map.merge(v, %{
               name: "BookKeeping",
               user: %{
@@ -313,7 +307,7 @@ defmodule Core.Analyzes do
                 last_name: record.user.last_name,
                 middle_name: record.user.middle_name,
                 avatar: record.user.avatar,
-                profession: reptin.profession,
+                profession: record.user.profession,
                 languages: record.user.languages,
                 platform: record.user.platform,
                 pro_ratings: record.user.pro_ratings
