@@ -2485,7 +2485,7 @@ defmodule Core.Seeder.Services do
   defp random_name_llc_type do
     names = [
       "C-Corp / Corporation",
-      "LLC",
+      "Sole proprietorship",
       "Non-profit corp",
       "Partnership",
       "S-Corp"

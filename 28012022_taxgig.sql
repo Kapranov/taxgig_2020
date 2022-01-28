@@ -1931,6 +1931,7 @@ COPY public.individual_employment_statuses (id, individual_tax_return_id, name, 
 0000017d-c91f-8fa7-0b5b-d08ca3590000	0000017d-c91c-4f0f-0b5b-d08ca3590000	unemployed	686	2021-12-17 16:00:28	2021-12-17 16:00:28
 0000017e-4f39-0284-c8f1-cc6930a10000	0000017e-4f39-0280-c8f1-cc6930a10000	\N	\N	2022-01-12 16:57:23	2022-01-12 16:57:23
 0000017e-4f3e-ded8-9c0e-472ab8280000	0000017e-4f3e-decb-9c0e-472ab8280000	\N	\N	2022-01-12 17:03:47	2022-01-12 17:03:47
+0000017e-9c52-b1ad-b6ca-4450a0630000	0000017e-9c52-b171-b6ca-4450a0630000	unemployed	\N	2022-01-27 16:16:12	2022-01-27 16:20:41
 \.
 
 
@@ -1948,6 +1949,7 @@ COPY public.individual_filing_statuses (id, individual_tax_return_id, name, pric
 0000017d-c91f-71d8-0b5b-d08ca3590000	0000017d-c91c-4f0f-0b5b-d08ca3590000	Married filing jointly	150	2021-12-17 16:00:20	2021-12-17 16:00:20
 0000017e-4f39-0285-c8f1-cc6930a10000	0000017e-4f39-0280-c8f1-cc6930a10000	\N	\N	2022-01-12 16:57:23	2022-01-12 16:57:23
 0000017e-4f3e-ded9-9c0e-472ab8280000	0000017e-4f3e-decb-9c0e-472ab8280000	\N	\N	2022-01-12 17:03:47	2022-01-12 17:03:47
+0000017e-9c52-b1ae-b6ca-4450a0630000	0000017e-9c52-b171-b6ca-4450a0630000	Married filing separately	\N	2022-01-27 16:16:12	2022-01-27 16:21:01
 \.
 
 
@@ -1958,6 +1960,7 @@ COPY public.individual_filing_statuses (id, individual_tax_return_id, name, pric
 COPY public.individual_foreign_account_counts (id, individual_tax_return_id, name, inserted_at, updated_at) FROM stdin;
 0000017e-4f39-0287-c8f1-cc6930a10000	0000017e-4f39-0280-c8f1-cc6930a10000	\N	2022-01-12 16:57:23	2022-01-12 16:57:23
 0000017e-4f3e-dedb-9c0e-472ab8280000	0000017e-4f3e-decb-9c0e-472ab8280000	\N	2022-01-12 17:03:47	2022-01-12 17:03:47
+0000017e-9c52-b1b0-b6ca-4450a0630000	0000017e-9c52-b171-b6ca-4450a0630000	2-5	2022-01-27 16:16:12	2022-01-27 16:21:26
 \.
 
 
@@ -1970,6 +1973,7 @@ COPY public.individual_industries (id, individual_tax_return_id, name, inserted_
 0000017d-c91c-4f12-0b5b-d08ca3590001	0000017d-c91c-4f0f-0b5b-d08ca3590000	{Agriculture/Farming,"Automotive Sales/Repair",Computer/Software/IT,Construction/Contractors,Consulting,Legal,Design/Architecture/Engineering,Education,"Financial Services","Government Agency",Hospitality,Insurance/Brokerage,"Lawn Care/Landscaping",Manufacturing,"Medical/Dental/Health Services","Non Profit","Property Management","Real Estate/Development",Restaurant/Bar,Retail,Salon/Beauty,Telecommunications,Transportation,"Wholesale Distribution"}	2021-12-17 15:56:55	2021-12-17 15:59:38
 0000017e-4f39-0287-c8f1-cc6930a10001	0000017e-4f39-0280-c8f1-cc6930a10000	\N	2022-01-12 16:57:23	2022-01-12 16:57:23
 0000017e-4f3e-dedc-9c0e-472ab8280000	0000017e-4f3e-decb-9c0e-472ab8280000	\N	2022-01-12 17:03:47	2022-01-12 17:03:47
+0000017e-9c52-b1d6-b6ca-4450a0630000	0000017e-9c52-b171-b6ca-4450a0630000	{Retail}	2022-01-27 16:16:12	2022-01-27 16:21:47
 \.
 
 
@@ -1985,6 +1989,7 @@ COPY public.individual_itemized_deductions (id, individual_tax_return_id, name, 
 0000017d-c91f-a71a-0b5b-d08ca3590000	0000017d-c91c-4f0f-0b5b-d08ca3590000	Medical and dental expenses	35	2021-12-17 16:00:34	2021-12-17 16:00:34
 0000017e-4f39-0288-c8f1-cc6930a10000	0000017e-4f39-0280-c8f1-cc6930a10000	\N	\N	2022-01-12 16:57:23	2022-01-12 16:57:23
 0000017e-4f3e-dedd-9c0e-472ab8280000	0000017e-4f3e-decb-9c0e-472ab8280000	\N	\N	2022-01-12 17:03:47	2022-01-12 17:03:47
+0000017e-9c52-b1d8-b6ca-4450a0630000	0000017e-9c52-b171-b6ca-4450a0630000	Charitable contributions	\N	2022-01-27 16:16:12	2022-01-27 16:22:13
 \.
 
 
@@ -1995,6 +2000,7 @@ COPY public.individual_itemized_deductions (id, individual_tax_return_id, name, 
 COPY public.individual_stock_transaction_counts (id, individual_tax_return_id, name, inserted_at, updated_at) FROM stdin;
 0000017e-4f39-0289-c8f1-cc6930a10000	0000017e-4f39-0280-c8f1-cc6930a10000	\N	2022-01-12 16:57:23	2022-01-12 16:57:23
 0000017e-4f3e-dee0-9c0e-472ab8280000	0000017e-4f3e-decb-9c0e-472ab8280000	\N	2022-01-12 17:03:47	2022-01-12 17:03:47
+0000017e-9c52-b1e9-b6ca-4450a0630000	0000017e-9c52-b171-b6ca-4450a0630000	51-100	2022-01-27 16:16:12	2022-01-27 16:22:48
 \.
 
 
@@ -2007,6 +2013,7 @@ COPY public.individual_tax_returns (id, active, deadline, financial_situation, f
 0000017d-c91c-4f0f-0b5b-d08ca3590000	t	\N	\N	t	\N	\N	t	\N	\N	t	t	t	t	250	340	120	135	12	66	77	75	87	98	\N	t	\N	\N	t	\N	0000017d-7684-3b49-d80a-6b7256d10000	2021-12-17 15:56:55	2021-12-17 15:56:55
 0000017e-4f39-0280-c8f1-cc6930a10000	t	2021-03-05	\N	f	f	f	f	\N	t	t	f	f	t	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	5	t	\N	{"New York"}	t	{2020}	0000017d-767b-5050-d80a-6b7256d10000	2022-01-12 16:57:23	2022-01-12 16:57:23
 0000017e-4f3e-decb-9c0e-472ab8280000	t	2021-03-05	\N	f	f	f	f	\N	t	t	f	f	t	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	5	t	\N	{"New York"}	t	{2020}	0000017d-767b-5050-d80a-6b7256d10000	2022-01-12 17:03:47	2022-01-12 17:03:47
+0000017e-9c52-b171-b6ca-4450a0630000	t	2021-03-05	text	f	f	f	f	\N	t	t	f	f	t	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	5	t	\N	{"New York"}	t	{2020}	0000017d-767b-5050-d80a-6b7256d10000	2022-01-27 16:16:12	2022-01-27 16:25:24
 \.
 
 
@@ -2110,6 +2117,7 @@ COPY public.platforms (id, client_limit_reach, hero_active, hero_status, is_bann
 --
 
 COPY public.potential_clients (id, project, user_id, inserted_at, updated_at) FROM stdin;
+0000017e-a01a-aa7a-417d-b182390f0000	{ADxrxYJefmVIEA07Ki,AEUsE3uwv8zi1ig4PI}	0000017d-766a-cd16-d80a-6b7256d10000	2022-01-28 09:53:29	2022-01-28 09:53:29
 \.
 
 
@@ -2162,6 +2170,8 @@ b445ed61-5b10-4bc2-850e-f21595a19727	\N	\N	\N	\N	\N	0000017d-767b-5050-d80a-6b72
 442af2bf-e7a5-4038-9bf9-f7aa3bb28898	\N	\N	\N	\N	\N	0000017d-768e-6737-d80a-6b7256d10000	2021-12-01 15:13:03	2021-12-01 15:13:03
 1829b2ef-a7a2-4e50-8fc5-5d9f87ea7ab7	\N	\N	\N	\N	\N	0000017d-7693-3760-d80a-6b7256d10000	2021-12-01 15:18:19	2021-12-01 15:18:19
 221333f8-6318-47af-ac92-694872d5c08c	\N	\N	\N	\N	\N	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-01 15:24:00	2021-12-01 15:24:00
+9ffc4df6-b293-4861-8b5b-b0fbc075bdc0	\N	\N	\N	\N	\N	0000017e-8c44-d732-f7f4-16ffc1830000	2022-01-24 13:27:08	2022-01-24 13:27:08
+688b7b6e-4297-45a6-9746-530116304b7d	\N	\N	\N	\N	\N	0000017e-9168-40fd-9f46-0bfb0d720000	2022-01-25 13:23:55	2022-01-25 13:23:55
 \.
 
 
@@ -2194,10 +2204,10 @@ COPY public.projects (id, addon_price, assigned_id, book_keeping_id, business_ta
 0000017d-c89a-4c21-a466-22c22c9d0000	\N	0000017d-766a-cd16-d80a-6b7256d10000	\N	0000017d-c89a-0124-a466-22c22c9d0000	f	\N	card_1K2Hn4LhtqtNnMebbkMnSNBg	\N	\N	f	250.00	\N	\N	In Progress	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 13:34:55	2021-12-17 13:35:21
 0000017d-c8ab-fa13-a466-22c22c9d0000	\N	\N	\N	0000017d-c89c-df5d-a466-22c22c9d0000	f	\N	\N	\N	\N	f	\N	\N	\N	New	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 13:54:13	2021-12-17 13:54:13
 0000017d-c8b2-4f05-a466-22c22c9d0000	\N	\N	\N	0000017d-c8ac-fb62-a466-22c22c9d0000	f	\N	\N	\N	\N	f	\N	\N	\N	New	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 14:01:08	2021-12-17 14:01:08
-0000017d-c8bd-fe08-0b5b-d08ca3590000	\N	\N	\N	0000017d-c8b3-7f4c-a466-22c22c9d0000	f	\N	\N	\N	\N	f	\N	\N	\N	New	0000017d-7693-3760-d80a-6b7256d10000	2021-12-17 14:13:54	2021-12-17 14:13:54
 0000017d-c8cd-8f43-0b5b-d08ca3590000	\N	\N	\N	0000017d-c8c1-4440-0b5b-d08ca3590000	f	\N	\N	\N	\N	f	\N	\N	\N	New	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-17 14:30:54	2021-12-17 14:30:54
 0000017d-76a1-304a-d80a-6b7256d10000	\N	0000017d-7684-3b49-d80a-6b7256d10000	\N	\N	f	\N	card_1K2HcHLhtqtNnMebb1P3tvqX	\N	\N	f	250.00	0000017d-767d-6821-d80a-6b7256d10000	0000017d-dd7e-c883-7115-cc2e09ae0000	Done	0000017d-767b-5050-d80a-6b7256d10000	2021-12-01 15:33:34	2021-12-21 14:58:16
 0000017e-4f3a-73d1-c8f1-cc6930a10000	\N	\N	\N	\N	f	\N	\N	\N	0000017e-4f39-0280-c8f1-cc6930a10000	f	\N	\N	\N	New	0000017d-767b-5050-d80a-6b7256d10000	2022-01-12 16:58:57	2022-01-12 16:58:57
+0000017e-9c6d-e8b8-b70f-b390ed6c0000	\N	0000017d-766a-cd16-d80a-6b7256d10000	\N	\N	f	\N	card_1KMbQMLhtqtNnMebajaCNZXh	\N	0000017e-9c52-b171-b6ca-4450a0630000	f	250.00	\N	\N	In Progress	0000017d-767b-5050-d80a-6b7256d10000	2022-01-27 16:45:55	2022-01-27 17:08:05
 \.
 
 
@@ -2220,6 +2230,8 @@ COPY public.rooms (id, active, description, name, topic, user_id, inserted_at, u
 0000017d-768e-673a-d80a-6b7256d10000	f	\N	client2@gmail.com_room	\N	0000017d-768e-6737-d80a-6b7256d10000	2021-12-01 15:13:03	2021-12-01 15:13:03
 0000017d-7693-3767-d80a-6b7256d10000	f	\N	client3@gmail.com_room	\N	0000017d-7693-3760-d80a-6b7256d10000	2021-12-01 15:18:19	2021-12-01 15:18:19
 0000017d-7698-6d27-d80a-6b7256d10000	f	\N	client4@gmail.com_room	\N	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-01 15:24:00	2021-12-01 15:24:00
+0000017e-8c44-d7ab-f7f4-16ffc1830000	f	\N	client8@gmail.com_room	\N	0000017e-8c44-d732-f7f4-16ffc1830000	2022-01-24 13:27:08	2022-01-24 13:27:08
+0000017e-9168-417e-9f46-0bfb0d720000	f	\N	protest10@gmail.com_room	\N	0000017e-9168-40fd-9f46-0bfb0d720000	2022-01-25 13:23:55	2022-01-25 13:23:55
 \.
 
 
@@ -2481,6 +2493,7 @@ COPY public.stripe_card_tokens (id, id_from_customer, id_from_stripe, brand, cli
 0000017d-7699-6631-d80a-6b7256d10000	cus_KhJIAwYK1K1rCJ	card_1K1ug8LhtqtNnMebya0G5Kmw	Visa	159.224.174.183	1638372304	unchecked	5	2022	credit	4242	Card Two	xxxxxxxxx	f	0000017d-7698-6d23-d80a-6b7256d10000	2021-12-01 15:25:04	2021-12-01 15:25:05
 0000017d-7bda-d3da-c162-4ea1a2810000	cus_KhInMVsIheMQz4	card_1K2HcHLhtqtNnMebb1P3tvqX	Visa	159.224.174.183	1638460478	unchecked	5	2022	credit	4242	Card Two	xxxxxxxxx	f	0000017d-767b-5050-d80a-6b7256d10000	2021-12-02 15:54:38	2021-12-02 15:54:39
 0000017d-7be5-079b-c162-4ea1a2810000	cus_KhJCLwTcNxim67	card_1K2Hn4LhtqtNnMebbkMnSNBg	Visa	159.224.174.183	1638461146	unchecked	5	2022	credit	4242	Card Two	xxxxxxxxx	f	0000017d-7693-3760-d80a-6b7256d10000	2021-12-02 16:05:47	2021-12-02 16:05:47
+0000017e-9c80-94a6-b09a-b3d09f430000	cus_KhInMVsIheMQz4	card_1KMbQMLhtqtNnMebajaCNZXh	Visa	159.224.174.183	1643303179	unchecked	5	2022	credit	4242	Card Two	xxxxxxxxx	f	0000017d-767b-5050-d80a-6b7256d10000	2022-01-27 17:06:19	2022-01-27 17:06:20
 \.
 
 
@@ -54695,11 +54708,13 @@ COPY public.us_zipcodes (id, city, state, zipcode) FROM stdin;
 
 COPY public.users (id, active, admin, avatar, bio, birthday, bus_addr_zip, email, first_name, init_setup, is2fa, last_name, middle_name, otp_last, otp_secret, password_hash, phone, profession, provider, role, sex, street, zip, inserted_at, updated_at) FROM stdin;
 0000017d-7698-6d23-d80a-6b7256d10000	f	f	https://www.gravatar.com/avatar/9c2fac3eda68468ab931f94ad4215b82	Briefly desrie how sensitive the information you as a client share is. Then, name the important things that tax professionals should have, like PTIN. Name few ways a regular user can check/verify credentials. End it with TaxGig taking all this responsibility on our shoulders and automating the verification process. Begin with comparing tax preparers to personal doctors. That finding the right one is hard and the relationship between you is very intimate. Name a few ways to find the right PRO. In the end, explain why TaxGig is a best place to find one. 	\N		client4@gmail.com	Client	\N	f	Four	\N	0	CGPMKPHMRXKGPRGD	$argon2id$v=19$m=131072,t=8,p=4$V2hY0isjotiqMODWrp9DBQ$m2Id0YSeIJxNeYZiR9wt3ScDh4mL7KagnQ4jjEBtJkc	917-656-6789	\N	localhost	f	\N	\N	10005	2021-12-01 15:24:00	2021-12-02 14:07:08
-0000017d-766a-cd16-d80a-6b7256d10000	f	f	https://www.gravatar.com/avatar/0072258bc5b0f7c2b4c6cb4f387d30c4	Briefly desrie how sensitive the information you as a client share is. Then, name the important things that tax professionals should have, like PTIN. Name few ways a regular user can check/verify credentials. End it with TaxGig taking all this responsibility on our shoulders and automating the verification process. Begin with comparing tax preparers to personal doctors. That finding the right one is hard and the relationship between you is very intimate. Name a few ways to find the right PRO. In the end, explain why TaxGig is a best place to find one. 	\N		protest@gmail.com	John	\N	f	Wiick	\N	0	ATC6K5VT46LIVUOW	$argon2id$v=19$m=131072,t=8,p=4$0kaNe4cVv4Iz+MgTY1e0+Q$iM2FLb7PUoEm9tTnIDfFKoB46OgvmxFjAEB1E594WKI	917-656-6789	\N	localhost	t	\N	\N	10005	2021-12-01 14:34:10	2021-12-17 19:15:25
 0000017d-7684-3b49-d80a-6b7256d10000	f	f	https://www.gravatar.com/avatar/b5bd62de4e797f52dfc560f43e4866c6	Briefly desrie how sensitive the information you as a client share is. Then, name the important things that tax professionals should have, like PTIN. Name few ways a regular user can check/verify credentials. End it with TaxGig taking all this responsibility on our shoulders and automating the verification process. Begin with comparing tax preparers to personal doctors. That finding the right one is hard and the relationship between you is very intimate. Name a few ways to find the right PRO. In the end, explain why TaxGig is a best place to find one. 	\N		pro2@gmail.com	Pro	\N	f	One	\N	0	WD6ZXNAVUQ76Z4TE	$argon2id$v=19$m=131072,t=8,p=4$JFAevxdBQI3K7eOk33cr1Q$jLn+Vcnr3HkwyNMK2e74L6TWgJlFSev7RQ7C2jkXt18	917-656-6789	\N	localhost	t	\N	\N	10005	2021-12-01 15:01:57	2021-12-02 14:09:21
-0000017d-767b-5050-d80a-6b7256d10000	f	f	https://www.gravatar.com/avatar/12399f315adaa4c4fcdfabaafc900c7a	Briefly desrie how sensitive the information you as a client share is. Then, name the important things that tax professionals should have, like PTIN. Name few ways a regular user can check/verify credentials. End it with TaxGig taking all this responsibility on our shoulders and automating the verification process. Begin with comparing tax preparers to personal doctors. That finding the right one is hard and the relationship between you is very intimate. Name a few ways to find the right PRO. In the end, explain why TaxGig is a best place to find one. 	\N		client@gmail.com	Client	\N	f	One	\N	0	2XGKA4AAB2CA6FTV	$argon2id$v=19$m=131072,t=8,p=4$s+ewrzIKYIoM5I+hxSP6EQ$YgL7yKQ7SL4G1Xzh6ggX6kaX8n1IQH577GknTeca8eg	917-656-6789	\N	localhost	f	\N	\N	10005	2021-12-01 14:52:12	2021-12-03 17:39:15
 0000017d-768e-6737-d80a-6b7256d10000	f	f	https://www.gravatar.com/avatar/858a4169dc677d8ef31f11982a94847f	Briefly desrie how sensitive the information you as a client share is. Then, name the important things that tax professionals should have, like PTIN. Name few ways a regular user can check/verify credentials. End it with TaxGig taking all this responsibility on our shoulders and automating the verification process. Begin with comparing tax preparers to personal doctors. That finding the right one is hard and the relationship between you is very intimate. Name a few ways to find the right PRO. In the end, explain why TaxGig is a best place to find one. 	\N		client2@gmail.com	Client	\N	f	Two	\N	0	YCX4QZNLADVDJRAX	$argon2id$v=19$m=131072,t=8,p=4$+TwmpEad+UZINSMziYKNPQ$sD9IursVBbaxyA5zfONRoCZf8whr2ZshsN3F8ATk0nQ	917-656-6789	\N	localhost	f	\N	\N	10005	2021-12-01 15:13:03	2021-12-02 14:05:39
 0000017d-7693-3760-d80a-6b7256d10000	f	f	https://www.gravatar.com/avatar/e376593b3452d257b1b3bfe26326db0e	Briefly desrie how sensitive the information you as a client share is. Then, name the important things that tax professionals should have, like PTIN. Name few ways a regular user can check/verify credentials. End it with TaxGig taking all this responsibility on our shoulders and automating the verification process. Begin with comparing tax preparers to personal doctors. That finding the right one is hard and the relationship between you is very intimate. Name a few ways to find the right PRO. In the end, explain why TaxGig is a best place to find one. 	\N		client3@gmail.com	Client	\N	f	Three	\N	0	2YSOUUTMKP7AW53V	$argon2id$v=19$m=131072,t=8,p=4$vUhcf3ATmoG/TjryOByHsA$3b5bCqPrtPT3H6PkiX5KK3738621/Q0HBP/qvMZw0O4	917-656-6789	\N	localhost	f	\N	\N	10005	2021-12-01 15:18:19	2021-12-02 14:06:30
+0000017d-767b-5050-d80a-6b7256d10000	f	f	https://www.gravatar.com/avatar/12399f315adaa4c4fcdfabaafc900c7a	Briefly desrie how sensitive the information you as a client share is. Then, name the important things that tax professionals should have, like PTIN. Name few ways a regular user can check/verify credentials. End it with TaxGig taking all this responsibility on our shoulders and automating the verification process. Begin with comparing tax preparers to personal doctors. That finding the right one is hard and the relationship between you is very intimate. Name a few ways to find the right PRO. In the end, explain why TaxGig is a best place to find one. 	\N	33410	client@gmail.com	christopher	\N	f	weeg	\N	0	2XGKA4AAB2CA6FTV	$argon2id$v=19$m=131072,t=8,p=4$s+ewrzIKYIoM5I+hxSP6EQ$YgL7yKQ7SL4G1Xzh6ggX6kaX8n1IQH577GknTeca8eg	917-656-6789	\N	localhost	f	\N	\N	10005	2021-12-01 14:52:12	2022-01-21 09:42:13
+0000017e-8c44-d732-f7f4-16ffc1830000	f	f	https://www.gravatar.com/avatar/80537936a50ce8f672b6b6d78339ee99	\N	\N		client8@gmail.com	\N	\N	f	\N	\N	0	N3ZOT2LVIQSEXEPW	$argon2id$v=19$m=131072,t=8,p=4$RdcLmYz0evDpu76GiGfkog$FWgoouHc9CfZRiyKZS26bG7WwWECo2F151yPkj7IwXU	917-656-6789	\N	localhost	f	\N	\N	10005	2022-01-24 13:27:08	2022-01-24 13:27:08
+0000017e-9168-40fd-9f46-0bfb0d720000	f	f	https://www.gravatar.com/avatar/20d5ef2ddcfaf4c7c9a7f8d72d18d5f0	\N	\N		protest10@gmail.com	\N	\N	f	\N	\N	0	WPZWJ7JX5O66SKTL	$argon2id$v=19$m=131072,t=8,p=4$3bqbMkwk5XJ9bS5DjwQs/g$++AYQ13WbHZAhkXzxHV0gghNAaST0J+gY0DDzRTf4JM	917-656-6789	\N	localhost	t	\N	\N	10005	2022-01-25 13:23:55	2022-01-25 13:23:55
+0000017d-766a-cd16-d80a-6b7256d10000	f	f	https://www.gravatar.com/avatar/0072258bc5b0f7c2b4c6cb4f387d30c4	Briefly desrie how sensitive the information you as a client share is. Then, name the important things that tax professionals should have, like PTIN. Name few ways a regular user can check/verify credentials. End it with TaxGig taking all this responsibility on our shoulders and automating the verification process. Begin with comparing tax preparers to personal doctors. That finding the right one is hard and the relationship between you is very intimate. Name a few ways to find the right PRO. In the end, explain why TaxGig is a best place to find one. 	\N		protest@gmail.com	John	\N	f	Wiick	\N	0	ATC6K5VT46LIVUOW	$argon2id$v=19$m=131072,t=8,p=4$0kaNe4cVv4Iz+MgTY1e0+Q$iM2FLb7PUoEm9tTnIDfFKoB46OgvmxFjAEB1E594WKI	917-656-6789	\N	localhost	t	\N	\N	10005	2021-12-01 14:34:10	2022-01-26 09:17:44
 \.
 
 
@@ -54708,7 +54723,6 @@ COPY public.users (id, active, admin, avatar, bio, birthday, bus_addr_zip, email
 --
 
 COPY public.users_languages (id, language_id, user_id) FROM stdin;
-15253e08-3952-4ab3-91de-09e380ad46d8	73329ee5-ba26-46c6-bca2-66b8e276988d	0000017d-767b-5050-d80a-6b7256d10000
 17ab9214-e151-4260-aeb0-2ba50432e154	f3d51cd8-9770-4f6a-b3da-05300ee48bb1	0000017d-768e-6737-d80a-6b7256d10000
 4ab29934-9e58-4f7c-89bb-d76f49f0b594	adacc8b8-77d2-41e0-878b-a879d2689081	0000017d-768e-6737-d80a-6b7256d10000
 fa806d26-be63-40dd-a0ce-c15ff9321731	73329ee5-ba26-46c6-bca2-66b8e276988d	0000017d-768e-6737-d80a-6b7256d10000
@@ -54721,9 +54735,6 @@ da9821ec-27b8-412a-9816-4d881bc0772a	73329ee5-ba26-46c6-bca2-66b8e276988d	000001
 c780b809-f8d5-4fb4-b64b-fca293f43481	b71a71ca-7888-416e-9fc5-be7965de0546	0000017d-7684-3b49-d80a-6b7256d10000
 b5561b88-1cc7-4d0d-aeec-27529e83a057	06548ed5-f1c0-4d8a-a358-26d6f0564dcc	0000017d-7684-3b49-d80a-6b7256d10000
 49710d07-8153-465c-9bbe-9ce9bd8cfaf5	73329ee5-ba26-46c6-bca2-66b8e276988d	0000017d-7684-3b49-d80a-6b7256d10000
-0563f1db-61f3-4fec-a15e-3b57326e5cb2	b71a71ca-7888-416e-9fc5-be7965de0546	0000017d-767b-5050-d80a-6b7256d10000
-244d1005-2007-41e8-a308-264718168b4c	b71a71ca-7888-416e-9fc5-be7965de0546	0000017d-766a-cd16-d80a-6b7256d10000
-d7918f02-3280-4995-aec3-85527fc1850a	73329ee5-ba26-46c6-bca2-66b8e276988d	0000017d-766a-cd16-d80a-6b7256d10000
 \.
 
 
