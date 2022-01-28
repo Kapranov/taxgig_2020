@@ -45,6 +45,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :provider, non_null(:string), description: "accounts user provider"
     field :role, non_null(:boolean), description: "accounts user role"
     field :rooms, list_of(:room), resolve: dataloader(Data), description: "list user's room"
+    field :pro_ratings, list_of(:pro_rating), resolve: dataloader(Data)
     field :sale_taxes, list_of(:sale_tax), description: "list user's sale_taxes"
     field :sex, :string, description: "accounts user sex"
     field :street, :string, description: "accounts user street"

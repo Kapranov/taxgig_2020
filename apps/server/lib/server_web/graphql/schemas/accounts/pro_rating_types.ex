@@ -19,7 +19,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProRatingTypes do
     field :average_professionalism, non_null(:decimal)
     field :average_rating, non_null(:decimal)
     field :average_work_quality, non_null(:decimal)
-    field :projects, list_of(:project), description: "projects list"
+    field :projects, list_of(:project), resolve: dataloader(Data)
     field :users, :user, resolve: dataloader(Data)
   end
 
