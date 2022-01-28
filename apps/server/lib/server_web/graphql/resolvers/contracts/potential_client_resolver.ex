@@ -32,7 +32,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
         _ ->
           projects =
             Enum.reduce(struct.project, [], fn(x, acc) ->
-              project = Contracts.get_project!(x)
+              project =
+                try do
+                  Contracts.get_project!(x)
+                rescue
+                  Ecto.NoResultsError ->
+                    updated =
+                      struct.project
+                      |> Enum.reject(&(&1 == x))
+                    struct
+                    |> Contracts.update_potential_client(%{project: updated})
+                end
               [ project | acc ]
             end)
           record = Map.merge(struct, %{project: projects})
@@ -55,7 +65,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
         struct = Contracts.get_potential_client!(id)
         projects =
           Enum.reduce(struct.project, [], fn(x, acc) ->
-            project = Contracts.get_project!(x)
+            project =
+              try do
+                Contracts.get_project!(x)
+              rescue
+                 Ecto.NoResultsError ->
+                   updated =
+                     struct.project
+                     |> Enum.reject(&(&1 == x))
+                   struct
+                   |> Contracts.update_potential_client(%{project: updated})
+              end
             [ project | acc ]
           end)
         record = Map.merge(struct, %{project: projects})

@@ -23,7 +23,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.PotentialClientTypes do
   @desc "The potential client on the site"
   object :potential_clients, description: "Potential Client" do
     field :id, non_null(:string), description: "unique identifier"
-    field :project, list_of(:single_project)
+    field :project, non_null(list_of(:single_project))
     field :user, :user, resolve: dataloader(Data)
   end
 
@@ -31,7 +31,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.PotentialClientTypes do
   object :single_project, description: "Project" do
     field :id, non_null(:string), description: "unique identifier"
     field :addon_price, :integer
-    field :assigned, :proba
+    field :assigned, :pro_user_for_project
     field :book_keeping, :book_keeping, resolve: dataloader(Data)
     field :business_tax_return, :business_tax_return, resolve: dataloader(Data)
     field :by_pro_status, :boolean
@@ -52,7 +52,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.PotentialClientTypes do
     field :offers, list_of(:offer), resolve: dataloader(Data)
   end
 
-  object :proba do
+  object :pro_user_for_project do
     field :accounting_software, list_of(:accounting_software), description: "list user's accounting_software"
     field :active, :boolean, description: "accounts user active"
     field :avatar, :string, description: "accounts user avatar"
@@ -92,7 +92,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.PotentialClientTypes do
 
   @desc "The potential client update via params"
   input_object :update_potential_client_params, description: "update potential client" do
-    field :project, list_of(:string)
+    field :project, non_null(list_of(:string))
   end
 
   object :potential_client_queries do
