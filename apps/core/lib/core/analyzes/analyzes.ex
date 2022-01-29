@@ -759,6 +759,234 @@ defmodule Core.Analyzes do
     end
   end
 
+  @spec total_price(word, word) :: [%{atom => word, atom => integer}]
+  def total_price(id, customer_id) do
+    # BookKeeping.check_price_payroll(id, customer_id)
+    # BookKeeping.check_price_book_keeping_additional_need(id, customer_id)
+    # BookKeeping.check_price_book_keeping_annual_revenue(id, customer_id)
+    # BookKeeping.check_price_book_keeping_number_employee(id, customer_id)
+    # BookKeeping.check_price_book_keeping_transaction_volume(id, customer_id)
+    # BookKeeping.check_price_book_keeping_type_client(id, customer_id)
+    #
+    # BusinessTaxReturn.check_price_business_entity_type(id, customer_id)
+    # BusinessTaxReturn.check_price_business_number_of_employee(id, customer_id)
+    # BusinessTaxReturn.check_price_business_total_revenue(id, customer_id)
+    # BusinessTaxReturn.check_price_state(id, customer_id)
+    # BusinessTaxReturn.check_price_tax_year(id, customer_id)
+    #
+    # IndividualTaxReturn.check_price_foreign_account(id, customer_id)
+    # IndividualTaxReturn.check_price_home_owner(id, customer_id)
+    # IndividualTaxReturn.check_price_individual_employment_status(id, customer_id)
+    # IndividualTaxReturn.check_price_individual_filing_status(id, customer_id)
+    # IndividualTaxReturn.check_price_individual_itemized_deduction(id, customer_id)
+    # IndividualTaxReturn.check_price_living_abroad(id, customer_id)
+    # IndividualTaxReturn.check_price_non_resident_earning(id, customer_id)
+    # IndividualTaxReturn.check_price_own_stock_crypto(id, customer_id)
+    # IndividualTaxReturn.check_price_rental_property_income(id, customer_id)
+    # IndividualTaxReturn.check_price_sole_proprietorship_count(id, customer_id)
+    # IndividualTaxReturn.check_price_state(id, customer_id)
+    # IndividualTaxReturn.check_price_stock_divident(id, customer_id)
+    # IndividualTaxReturn.check_price_tax_year(id, customer_id)
+    #
+    # SaleTax.check_price_sale_tax_count(id, customer_id)
+    # SaleTax.check_price_sale_tax_frequency(id, customer_id)
+
+    case ServiceBookKeeping.by_role(id) do
+      {:error, _} ->
+        case ServiceBusinessTaxReturn.by_role(id) do
+          {:error, _} ->
+            case ServiceIndividualTaxReturn.by_role(id) do
+              {:error, _} ->
+                case ServiceSaleTax.by_role(id) do
+                  {:error, msg} -> msg
+                  _ ->
+                    cnt1 =
+                      case SaleTax.check_price_sale_tax_count(id, customer_id) do
+                        :error -> %{}
+                        data -> data
+                      end
+
+                    cnt2 =
+                      case SaleTax.check_price_sale_tax_frequency(id, customer_id) do
+                        :error -> %{}
+                        data -> data
+                      end
+
+                    Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
+                end
+              _ ->
+                cnt1 =
+                  case IndividualTaxReturn.check_price_foreign_account(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt2 =
+                  case IndividualTaxReturn.check_price_home_owner(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt3 =
+                  case IndividualTaxReturn.check_price_individual_employment_status(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt4 =
+                  case IndividualTaxReturn.check_price_individual_filing_status(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt5 =
+                  case IndividualTaxReturn.check_price_individual_itemized_deduction(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt6 =
+                  case IndividualTaxReturn.check_price_living_abroad(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt7 =
+                  case IndividualTaxReturn.check_price_non_resident_earning(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt8 =
+                  case IndividualTaxReturn.check_price_own_stock_crypto(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt9 =
+                  case IndividualTaxReturn.check_price_rental_property_income(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt10 =
+                  case IndividualTaxReturn.check_price_sole_proprietorship_count(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt11 =
+                  case IndividualTaxReturn.check_price_state(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt12 =
+                  case IndividualTaxReturn.check_price_stock_divident(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                cnt13 =
+                  case IndividualTaxReturn.check_price_tax_year(id) do
+                    :error -> %{}
+                    data -> data
+                  end
+
+                 rst1 = Map.merge(cnt1,   cnt2, fn _k, v1, v2 -> v1 + v2 end)
+                 rst2 = Map.merge(rst1,   cnt3, fn _k, v1, v2 -> v1 + v2 end)
+                 rst3 = Map.merge(rst2,   cnt4, fn _k, v1, v2 -> v1 + v2 end)
+                 rst4 = Map.merge(rst3,   cnt5, fn _k, v1, v2 -> v1 + v2 end)
+                 rst5 = Map.merge(rst4,   cnt6, fn _k, v1, v2 -> v1 + v2 end)
+                 rst6 = Map.merge(rst5,   cnt7, fn _k, v1, v2 -> v1 + v2 end)
+                 rst7 = Map.merge(rst6,   cnt8, fn _k, v1, v2 -> v1 + v2 end)
+                 rst8 = Map.merge(rst7,   cnt9, fn _k, v1, v2 -> v1 + v2 end)
+                 rst9 = Map.merge(rst8,  cnt10, fn _k, v1, v2 -> v1 + v2 end)
+                rst10 = Map.merge(rst9,  cnt11, fn _k, v1, v2 -> v1 + v2 end)
+                rst11 = Map.merge(rst10, cnt12, fn _k, v1, v2 -> v1 + v2 end)
+                Map.merge(rst11, cnt13, fn _k, v1, v2 -> v1 + v2 end)
+            end
+          _ ->
+            cnt1 =
+              case BusinessTaxReturn.check_price_business_entity_type(id) do
+                :error -> %{}
+                data -> data
+              end
+
+            cnt2 =
+              case BusinessTaxReturn.check_price_business_number_of_employee(id) do
+                :error -> %{}
+                data -> data
+              end
+
+            cnt3 =
+              case BusinessTaxReturn.check_price_business_total_revenue(id) do
+                :error -> %{}
+                data -> data
+              end
+
+            cnt4 =
+              case BusinessTaxReturn.check_price_state(id) do
+                :error -> %{}
+                data -> data
+              end
+
+            cnt5 =
+              case BusinessTaxReturn.check_price_tax_year(id) do
+                :error -> %{}
+                data -> data
+              end
+
+            rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
+            rst2 = Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
+            rst3 = Map.merge(rst2, cnt4, fn _k, v1, v2 -> v1 + v2 end)
+            Map.merge(rst3, cnt5, fn _k, v1, v2 -> v1 + v2 end)
+        end
+      _ ->
+        cnt1 =
+          case BookKeeping.check_price_payroll(id) do
+            :error -> %{}
+            data -> data
+          end
+
+        cnt2 =
+          case BookKeeping.check_price_book_keeping_additional_need(id) do
+            :error -> %{}
+            data -> data
+          end
+
+        cnt3 =
+          case BookKeeping.check_price_book_keeping_annual_revenue(id) do
+            :error -> %{}
+            data -> data
+          end
+
+        cnt4 =
+          case BookKeeping.check_price_book_keeping_number_employee(id) do
+            :error -> %{}
+            data -> data
+          end
+
+        cnt5 =
+          case BookKeeping.check_price_book_keeping_transaction_volume(id) do
+            :error -> %{}
+            data -> data
+          end
+
+        cnt6 =
+          case BookKeeping.check_price_book_keeping_type_client(id) do
+            :error -> %{}
+            data -> data
+          end
+
+        rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
+        rst2 = Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
+        rst3 = Map.merge(rst2, cnt4, fn _k, v1, v2 -> v1 + v2 end)
+        rst4 = Map.merge(rst3, cnt5, fn _k, v1, v2 -> v1 + v2 end)
+        Map.merge(rst4, cnt6, fn _k, v1, v2 -> v1 + v2 end)
+    end
+  end
+
   @spec total_value(word) :: [%{atom => word, atom => float}]
   def total_value(id) do
     # BookKeeping.check_value_payroll(id)

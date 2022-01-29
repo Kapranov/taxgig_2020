@@ -191,6 +191,49 @@ defmodule Core.Analyzes.SaleTax do
     end
   end
 
+  @spec check_price_sale_tax_count(nil, nil) :: :error
+  def check_price_sale_tax_count(id, id) when is_nil(id), do: :error
+
+  @spec check_price_sale_tax_count(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_sale_tax_count(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_sale_tax!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_sale_tax!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case SaleTax.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        case SaleTax.by_role(customer_id) do
+          {:error, _} -> :error
+          false ->
+            case struct do
+              :error -> :error
+              %SaleTax{sale_tax_count: sale_tax_count, price_sale_tax_count: price_sale_tax_count} ->
+                if !is_nil(sale_tax_count) || is_nil(price_sale_tax_count) || price_sale_tax_count == 0 do
+                  :error
+                else
+                  data = by_counts(SaleTax, false, :sale_tax_count)
+                  record = for {k, v} <- data, into: %{}, do: {k, v * price_sale_tax_count}
+                  record
+                  |> Map.take([customer_struct.id])
+                end
+            end
+          true -> :error
+        end
+    end
+  end
+
   @spec check_price_sale_tax_count() :: :error
   def check_price_sale_tax_count, do: :error
 
@@ -236,6 +279,55 @@ defmodule Core.Analyzes.SaleTax do
                    end)
                  for {k, v} <- data, into: %{}, do: {k, v}
              end
+        end
+    end
+  end
+
+  @spec check_price_sale_tax_frequency(nil, nil) :: :error
+  def check_price_sale_tax_frequency(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_sale_tax_frequency(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_sale_tax_frequency(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_sale_tax!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_sale_tax!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case SaleTax.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        case SaleTax.by_role(customer_id) do
+          {:error, _} -> :error
+          false ->
+            case struct do
+              :error -> :error
+              _ ->
+                case by_service_with_price_for_pro(SaleTaxFrequency, :sale_tax_id, :name, :price, struct.id) do
+                  [] -> :error
+                  service ->
+                    data =
+                      Enum.reduce(service, [], fn(x, acc) ->
+                        case by_name_for_tp(SaleTaxFrequency, SaleTax, false, :sale_tax_id, :name, elem(x, 0)) do
+                          [] -> acc
+                          data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                        end
+                      end)
+                    record = for {k, v} <- data, into: %{}, do: {k, v}
+                    record
+                    |> Map.take([customer_struct.id])
+                end
+            end
+          true -> :error
         end
     end
   end
