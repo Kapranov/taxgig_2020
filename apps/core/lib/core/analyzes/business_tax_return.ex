@@ -262,6 +262,59 @@ defmodule Core.Analyzes.BusinessTaxReturn do
     end
   end
 
+  @spec check_price_business_entity_type(nil, nil) :: :error
+  def check_price_business_entity_type(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_business_entity_type(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_business_entity_type(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_business_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_business_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case BusinessTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case BusinessTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                _ ->
+                  case by_service_with_price_for_pro(BusinessEntityType, :business_tax_return_id, :name, :price, struct.id) do
+                    [] -> :error
+                    service ->
+                      data =
+                        Enum.reduce(service, [], fn(x, acc) ->
+                          case by_name_for_tp(BusinessEntityType, BusinessTaxReturn, false, :business_tax_return_id, :name, elem(x, 0)) do
+                            [] -> acc
+                            data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                          end
+                        end)
+                      record = for {k, v} <- data, into: %{}, do: {k, v}
+                      record
+                      |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
+        end
+    end
+  end
+
   @spec check_price_business_entity_type :: :error
   def check_price_business_entity_type, do: :error
 
@@ -307,6 +360,59 @@ defmodule Core.Analyzes.BusinessTaxReturn do
                    end)
                  for {k, v} <- data, into: %{}, do: {k, v}
              end
+        end
+    end
+  end
+
+  @spec check_price_business_number_of_employee(nil, nil) :: :error
+  def check_price_business_number_of_employee(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_business_number_of_employee(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_business_number_of_employee(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_business_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_business_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case BusinessTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case BusinessTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                _ ->
+                  case by_service_with_price_for_pro(BusinessNumberEmployee, :business_tax_return_id, :name, :price, struct.id) do
+                    [] -> :error
+                    service ->
+                      data =
+                        Enum.reduce(service, [], fn(x, acc) ->
+                          case by_name_for_tp(BusinessNumberEmployee, BusinessTaxReturn, false, :business_tax_return_id, :name, elem(x, 0)) do
+                            [] -> acc
+                            data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                          end
+                        end)
+                      record = for {k, v} <- data, into: %{}, do: {k, v}
+                      record
+                      |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
         end
     end
   end
@@ -360,6 +466,59 @@ defmodule Core.Analyzes.BusinessTaxReturn do
     end
   end
 
+  @spec check_price_business_total_revenue(nil, nil) :: :error
+  def check_price_business_total_revenue(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_business_total_revenue(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_business_total_revenue(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_business_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_business_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case BusinessTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case BusinessTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                _ ->
+                  case by_service_with_price_for_pro(BusinessTotalRevenue, :business_tax_return_id, :name, :price, struct.id) do
+                    [] -> :error
+                    service ->
+                      data =
+                        Enum.reduce(service, [], fn(x, acc) ->
+                          case by_name_for_tp(BusinessTotalRevenue, BusinessTaxReturn, false, :business_tax_return_id, :name, elem(x, 0)) do
+                            [] -> acc
+                            data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                          end
+                        end)
+                      record = for {k, v} <- data, into: %{}, do: {k, v}
+                      record
+                      |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
+        end
+    end
+  end
+
   @spec check_price_business_total_revenue :: :error
   def check_price_business_total_revenue, do: :error
 
@@ -402,6 +561,58 @@ defmodule Core.Analyzes.BusinessTaxReturn do
     end
   end
 
+  @spec check_price_state(nil, nil) :: :error
+  def check_price_state(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_state(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_state(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_business_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_business_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case BusinessTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case BusinessTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                %BusinessTaxReturn{state: state, price_state: price_state} ->
+                  if !is_nil(state) || is_nil(price_state) || price_state == 0 do
+                    :error
+                  else
+                    states = by_prices(BusinessTaxReturn, false, :state)
+                    data =
+                      Enum.reduce(states, [], fn(x, acc) ->
+                        count = Enum.count(elem(x, 1))
+                        if count > 1, do: [x | acc], else: acc
+                      end)
+                    record = for {k, v} <- data, into: %{}, do: {k, Enum.count(v) * price_state}
+                    record
+                    |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
+        end
+    end
+  end
+
   @spec check_price_state :: :error
   def check_price_state, do: :error
 
@@ -440,6 +651,58 @@ defmodule Core.Analyzes.BusinessTaxReturn do
                 end)
               for {k, v} <- data, into: %{}, do: {k, (Enum.count(v) - 1) * price_tax_year}
             end
+        end
+    end
+  end
+
+  @spec check_price_tax_year(nil, nil) :: :error
+  def check_price_tax_year(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_tax_year(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_tax_year(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_business_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_business_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case BusinessTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case BusinessTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                %BusinessTaxReturn{tax_year: tax_year, price_tax_year: price_tax_year} ->
+                  if !is_nil(tax_year) || is_nil(price_tax_year) || price_tax_year == 0 do
+                    :error
+                  else
+                    years = by_prices(BusinessTaxReturn, false, :tax_year)
+                    data =
+                      Enum.reduce(years, [], fn(x, acc) ->
+                        count = Enum.count(elem(x, 1))
+                        if count >= 2, do: [x | acc], else: acc
+                      end)
+                    record = for {k, v} <- data, into: %{}, do: {k, (Enum.count(v) - 1) * price_tax_year}
+                    record
+                    |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
         end
     end
   end

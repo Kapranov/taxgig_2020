@@ -908,31 +908,31 @@ defmodule Core.Analyzes do
             end
           _ ->
             cnt1 =
-              case BusinessTaxReturn.check_price_business_entity_type(id) do
+              case BusinessTaxReturn.check_price_business_entity_type(id, customer_id) do
                 :error -> %{}
                 data -> data
               end
 
             cnt2 =
-              case BusinessTaxReturn.check_price_business_number_of_employee(id) do
+              case BusinessTaxReturn.check_price_business_number_of_employee(id, customer_id) do
                 :error -> %{}
                 data -> data
               end
 
             cnt3 =
-              case BusinessTaxReturn.check_price_business_total_revenue(id) do
+              case BusinessTaxReturn.check_price_business_total_revenue(id, customer_id) do
                 :error -> %{}
                 data -> data
               end
 
             cnt4 =
-              case BusinessTaxReturn.check_price_state(id) do
+              case BusinessTaxReturn.check_price_state(id, customer_id) do
                 :error -> %{}
                 data -> data
               end
 
             cnt5 =
-              case BusinessTaxReturn.check_price_tax_year(id) do
+              case BusinessTaxReturn.check_price_tax_year(id, customer_id) do
                 :error -> %{}
                 data -> data
               end
