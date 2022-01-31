@@ -553,6 +553,53 @@ defmodule Core.Analyzes.IndividualTaxReturn do
     end
   end
 
+  @spec check_price_foreign_account(nil, nil) :: :error
+  def check_price_foreign_account(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_foreign_account(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_foreign_account(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_individual_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case IndividualTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case IndividualTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                %IndividualTaxReturn{foreign_account: foreign_account, price_foreign_account: price_foreign_account} ->
+                  if is_nil(foreign_account) || is_nil(price_foreign_account) || foreign_account == false || price_foreign_account == 0 do
+                    :error
+                  else
+                    data = by_values(IndividualTaxReturn, false, true, :foreign_account)
+                    record = for {k} <- data, into: %{}, do: {k, price_foreign_account}
+                    record
+                    |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
+        end
+    end
+  end
+
   @spec check_price_foreign_account :: :error
   def check_price_foreign_account, do: :error
 
@@ -586,6 +633,53 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               data = by_values(IndividualTaxReturn, false, true, :home_owner)
               for {k} <- data, into: %{}, do: {k, price_home_owner}
             end
+        end
+    end
+  end
+
+  @spec check_price_home_owner(nil, nil) :: :error
+  def check_price_home_owner(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_home_owner(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_home_owner(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_individual_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case IndividualTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case IndividualTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                %IndividualTaxReturn{home_owner: home_owner, price_home_owner: price_home_owner} ->
+                  if is_nil(home_owner) || is_nil(price_home_owner) || home_owner == false || price_home_owner == 0 do
+                    :error
+                  else
+                    data = by_values(IndividualTaxReturn, false, true, :home_owner)
+                    record = for {k} <- data, into: %{}, do: {k, price_home_owner}
+                    record
+                    |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
         end
     end
   end
@@ -639,6 +733,59 @@ defmodule Core.Analyzes.IndividualTaxReturn do
     end
   end
 
+  @spec check_price_individual_employment_status(nil, nil) :: :error
+  def check_price_individual_employment_status(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_individual_employment_status(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_individual_employment_status(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_individual_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case IndividualTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case IndividualTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                _ ->
+                  case by_service_with_price_for_pro(IndividualEmploymentStatus, :individual_tax_return_id, :name, :price, struct.id) do
+                    [] -> :error
+                    service ->
+                      data =
+                        Enum.reduce(service, [], fn(x, acc) ->
+                          case by_name_for_tp(IndividualEmploymentStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name, elem(x, 0)) do
+                            [] -> acc
+                            data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                          end
+                        end)
+                      record = for {k, v} <- data, into: %{}, do: {k, v}
+                      record
+                      |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
+        end
+    end
+  end
+
   @spec check_price_individual_employment_status :: :error
   def check_price_individual_employment_status, do: :error
 
@@ -684,6 +831,59 @@ defmodule Core.Analyzes.IndividualTaxReturn do
                    end)
                  for {k, v} <- data, into: %{}, do: {k, v}
              end
+        end
+    end
+  end
+
+  @spec check_price_individual_filing_status(nil, nil) :: :error
+  def check_price_individual_filing_status(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_individual_filing_status(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_individual_filing_status(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_individual_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case IndividualTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case IndividualTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                _ ->
+                  case by_service_with_price_for_pro(IndividualFilingStatus, :individual_tax_return_id, :name, :price, struct.id) do
+                    [] -> :error
+                    service ->
+                      data =
+                        Enum.reduce(service, [], fn(x, acc) ->
+                          case by_name_for_tp(IndividualFilingStatus, IndividualTaxReturn, false, :individual_tax_return_id, :name, elem(x, 0)) do
+                            [] -> acc
+                            data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                          end
+                        end)
+                      record = for {k, v} <- data, into: %{}, do: {k, v}
+                      record
+                      |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
         end
     end
   end
@@ -737,6 +937,59 @@ defmodule Core.Analyzes.IndividualTaxReturn do
     end
   end
 
+  @spec check_price_individual_itemized_deduction(nil, nil) :: :error
+  def check_price_individual_itemized_deduction(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_individual_itemized_deduction(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_individual_itemized_deduction(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_individual_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case IndividualTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case IndividualTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                _ ->
+                  case by_service_with_price_for_pro(IndividualItemizedDeduction, :individual_tax_return_id, :name, :price, struct.id) do
+                    [] -> :error
+                    service ->
+                      data =
+                        Enum.reduce(service, [], fn(x, acc) ->
+                          case by_name_for_tp(IndividualItemizedDeduction, IndividualTaxReturn, false, :individual_tax_return_id, :name, elem(x, 0)) do
+                            [] -> acc
+                            data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                          end
+                        end)
+                      record = for {k, v} <- data, into: %{}, do: {k, v}
+                      record
+                      |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
+        end
+    end
+  end
+
   @spec check_price_individual_itemized_deduction :: :error
   def check_price_individual_itemized_deduction, do: :error
 
@@ -770,6 +1023,53 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               data = by_values(IndividualTaxReturn, false, true, :living_abroad)
               for {k} <- data, into: %{}, do: {k, price_living_abroad}
             end
+        end
+    end
+  end
+
+  @spec check_price_living_abroad(nil, nil) :: :error
+  def check_price_living_abroad(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_living_abroad(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_living_abroad(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_individual_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case IndividualTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case IndividualTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                %IndividualTaxReturn{living_abroad: living_abroad, price_living_abroad: price_living_abroad} ->
+                  if is_nil(living_abroad) || is_nil(price_living_abroad) || living_abroad == false || price_living_abroad == 0 do
+                    :error
+                  else
+                    data = by_values(IndividualTaxReturn, false, true, :living_abroad)
+                    record = for {k} <- data, into: %{}, do: {k, price_living_abroad}
+                    record
+                    |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
         end
     end
   end
@@ -811,6 +1111,53 @@ defmodule Core.Analyzes.IndividualTaxReturn do
     end
   end
 
+  @spec check_price_non_resident_earning(nil, nil) :: :error
+  def check_price_non_resident_earning(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_non_resident_earning(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_non_resident_earning(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_individual_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case IndividualTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case IndividualTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                %IndividualTaxReturn{non_resident_earning: non_resident_earning, price_non_resident_earning: price_non_resident_earning} ->
+                  if is_nil(non_resident_earning) || is_nil(price_non_resident_earning) || non_resident_earning == false || price_non_resident_earning == 0 do
+                    :error
+                  else
+                    data = by_values(IndividualTaxReturn, false, true, :non_resident_earning)
+                    record = for {k} <- data, into: %{}, do: {k, price_non_resident_earning}
+                    record
+                    |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
+        end
+    end
+  end
+
   @spec check_price_non_resident_earning :: :error
   def check_price_non_resident_earning, do: :error
 
@@ -844,6 +1191,53 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               data = by_values(IndividualTaxReturn, false, true, :own_stock_crypto)
               for {k} <- data, into: %{}, do: {k, price_own_stock_crypto}
             end
+        end
+    end
+  end
+
+  @spec check_price_own_stock_crypto(nil, nil) :: :error
+  def check_price_own_stock_crypto(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_own_stock_crypto(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_own_stock_crypto(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_individual_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case IndividualTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case IndividualTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                %IndividualTaxReturn{own_stock_crypto: own_stock_crypto, price_own_stock_crypto: price_own_stock_crypto} ->
+                  if is_nil(own_stock_crypto) || is_nil(price_own_stock_crypto) || own_stock_crypto == false || price_own_stock_crypto == 0 do
+                    :error
+                  else
+                    data = by_values(IndividualTaxReturn, false, true, :own_stock_crypto)
+                    record = for {k} <- data, into: %{}, do: {k, price_own_stock_crypto}
+                    record
+                    |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
         end
     end
   end
@@ -885,6 +1279,53 @@ defmodule Core.Analyzes.IndividualTaxReturn do
     end
   end
 
+  @spec check_price_rental_property_income(nil, nil) :: :error
+  def check_price_rental_property_income(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_rental_property_income(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_rental_property_income(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_individual_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case IndividualTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case IndividualTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                %IndividualTaxReturn{rental_property_income: rental_property_income, price_rental_property_income: price_rental_property_income} ->
+                  if is_nil(rental_property_income) || is_nil(price_rental_property_income) || rental_property_income == false || price_rental_property_income == 0 do
+                    :error
+                  else
+                    data = by_values(IndividualTaxReturn, false, true, :rental_property_income)
+                    record = for {k} <- data, into: %{}, do: {k, price_rental_property_income}
+                    record
+                    |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
+        end
+    end
+  end
+
   @spec check_price_rental_property_income :: :error
   def check_price_rental_property_income, do: :error
 
@@ -918,6 +1359,53 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               data = by_counts(IndividualTaxReturn, false, :sole_proprietorship_count)
               for {k, v} <- data, into: %{}, do: {k, price_sole_proprietorship_count * (v - 1)}
             end
+        end
+    end
+  end
+
+  @spec check_price_sole_proprietorship_count(nil, nil) :: :error
+  def check_price_sole_proprietorship_count(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_sole_proprietorship_count(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_sole_proprietorship_count(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_individual_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case IndividualTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case IndividualTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                %IndividualTaxReturn{sole_proprietorship_count: sole_proprietorship_count, price_sole_proprietorship_count: price_sole_proprietorship_count} ->
+                  if !is_nil(sole_proprietorship_count) || is_nil(price_sole_proprietorship_count) || sole_proprietorship_count <= 1 do
+                    :error
+                  else
+                    data = by_counts(IndividualTaxReturn, false, :sole_proprietorship_count)
+                    record = for {k, v} <- data, into: %{}, do: {k, price_sole_proprietorship_count * (v - 1)}
+                    record
+                    |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
         end
     end
   end
@@ -964,6 +1452,58 @@ defmodule Core.Analyzes.IndividualTaxReturn do
     end
   end
 
+  @spec check_price_state(nil, nil) :: :error
+  def check_price_state(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_state(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_state(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_individual_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case IndividualTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case IndividualTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                %IndividualTaxReturn{state: state, price_state: price_state} ->
+                  if !is_nil(state) || is_nil(price_state) || price_state == 0 do
+                    :error
+                  else
+                    states = by_prices(IndividualTaxReturn, false, :state)
+                    data =
+                      Enum.reduce(states, [], fn(x, acc) ->
+                        count = Enum.count(elem(x, 1))
+                        if count > 1, do: [x | acc], else: acc
+                      end)
+                    record = for {k, v} <- data, into: %{}, do: {k, Enum.count(v) * price_state}
+                    record
+                    |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
+        end
+    end
+  end
+
   @spec check_price_state :: :error
   def check_price_state, do: :error
 
@@ -997,6 +1537,53 @@ defmodule Core.Analyzes.IndividualTaxReturn do
               data = by_values(IndividualTaxReturn, false, true, :stock_divident)
               for {k} <- data, into: %{}, do: {k, price_stock_divident}
             end
+        end
+    end
+  end
+
+  @spec check_price_stock_divident(nil, nil) :: :error
+  def check_price_stock_divident(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_stock_divident(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_stock_divident(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_individual_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case IndividualTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case IndividualTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                %IndividualTaxReturn{stock_divident: stock_divident, price_stock_divident: price_stock_divident} ->
+                  if is_nil(stock_divident) || is_nil(price_stock_divident) || stock_divident == false || price_stock_divident == 0 do
+                    :error
+                  else
+                    data = by_values(IndividualTaxReturn, false, true, :stock_divident)
+                    record = for {k} <- data, into: %{}, do: {k, price_stock_divident}
+                    record
+                    |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
         end
     end
   end
@@ -1039,6 +1626,58 @@ defmodule Core.Analyzes.IndividualTaxReturn do
                 end)
               for {k, v} <- data, into: %{}, do: {k, (Enum.count(v) - 1) * price_tax_year}
             end
+        end
+    end
+  end
+
+  @spec check_price_tax_year(nil, nil) :: :error
+  def check_price_tax_year(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_tax_year(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_tax_year(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_individual_tax_return!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_individual_tax_return!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case IndividualTaxReturn.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case IndividualTaxReturn.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                %IndividualTaxReturn{tax_year: tax_year, price_tax_year: price_tax_year} ->
+                  if !is_nil(tax_year) || is_nil(price_tax_year) || price_tax_year == 0 do
+                    :error
+                  else
+                    years = by_prices(IndividualTaxReturn, false, :tax_year)
+                    data =
+                      Enum.reduce(years, [], fn(x, acc) ->
+                        count = Enum.count(elem(x, 1))
+                        if count >= 2, do: [x | acc], else: acc
+                      end)
+                    record = for {k, v} <- data, into: %{}, do: {k, (Enum.count(v) - 1) * price_tax_year}
+                    record
+                    |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
         end
     end
   end

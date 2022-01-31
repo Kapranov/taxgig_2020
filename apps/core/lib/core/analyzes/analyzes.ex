@@ -816,79 +816,79 @@ defmodule Core.Analyzes do
                 end
               _ ->
                 cnt1 =
-                  case IndividualTaxReturn.check_price_foreign_account(id) do
+                  case IndividualTaxReturn.check_price_foreign_account(id, customer_id) do
                     :error -> %{}
                     data -> data
                   end
 
                 cnt2 =
-                  case IndividualTaxReturn.check_price_home_owner(id) do
+                  case IndividualTaxReturn.check_price_home_owner(id, customer_id) do
                     :error -> %{}
                     data -> data
                   end
 
                 cnt3 =
-                  case IndividualTaxReturn.check_price_individual_employment_status(id) do
+                  case IndividualTaxReturn.check_price_individual_employment_status(id, customer_id) do
                     :error -> %{}
                     data -> data
                   end
 
                 cnt4 =
-                  case IndividualTaxReturn.check_price_individual_filing_status(id) do
+                  case IndividualTaxReturn.check_price_individual_filing_status(id, customer_id) do
                     :error -> %{}
                     data -> data
                   end
 
                 cnt5 =
-                  case IndividualTaxReturn.check_price_individual_itemized_deduction(id) do
+                  case IndividualTaxReturn.check_price_individual_itemized_deduction(id, customer_id) do
                     :error -> %{}
                     data -> data
                   end
 
                 cnt6 =
-                  case IndividualTaxReturn.check_price_living_abroad(id) do
+                  case IndividualTaxReturn.check_price_living_abroad(id, customer_id) do
                     :error -> %{}
                     data -> data
                   end
 
                 cnt7 =
-                  case IndividualTaxReturn.check_price_non_resident_earning(id) do
+                  case IndividualTaxReturn.check_price_non_resident_earning(id, customer_id) do
                     :error -> %{}
                     data -> data
                   end
 
                 cnt8 =
-                  case IndividualTaxReturn.check_price_own_stock_crypto(id) do
+                  case IndividualTaxReturn.check_price_own_stock_crypto(id, customer_id) do
                     :error -> %{}
                     data -> data
                   end
 
                 cnt9 =
-                  case IndividualTaxReturn.check_price_rental_property_income(id) do
+                  case IndividualTaxReturn.check_price_rental_property_income(id, customer_id) do
                     :error -> %{}
                     data -> data
                   end
 
                 cnt10 =
-                  case IndividualTaxReturn.check_price_sole_proprietorship_count(id) do
+                  case IndividualTaxReturn.check_price_sole_proprietorship_count(id, customer_id) do
                     :error -> %{}
                     data -> data
                   end
 
                 cnt11 =
-                  case IndividualTaxReturn.check_price_state(id) do
+                  case IndividualTaxReturn.check_price_state(id, customer_id) do
                     :error -> %{}
                     data -> data
                   end
 
                 cnt12 =
-                  case IndividualTaxReturn.check_price_stock_divident(id) do
+                  case IndividualTaxReturn.check_price_stock_divident(id, customer_id) do
                     :error -> %{}
                     data -> data
                   end
 
                 cnt13 =
-                  case IndividualTaxReturn.check_price_tax_year(id) do
+                  case IndividualTaxReturn.check_price_tax_year(id, customer_id) do
                     :error -> %{}
                     data -> data
                   end
@@ -944,37 +944,37 @@ defmodule Core.Analyzes do
         end
       _ ->
         cnt1 =
-          case BookKeeping.check_price_payroll(id) do
+          case BookKeeping.check_price_payroll(id, customer_id) do
             :error -> %{}
             data -> data
           end
 
         cnt2 =
-          case BookKeeping.check_price_book_keeping_additional_need(id) do
+          case BookKeeping.check_price_book_keeping_additional_need(id, customer_id) do
             :error -> %{}
             data -> data
           end
 
         cnt3 =
-          case BookKeeping.check_price_book_keeping_annual_revenue(id) do
+          case BookKeeping.check_price_book_keeping_annual_revenue(id, customer_id) do
             :error -> %{}
             data -> data
           end
 
         cnt4 =
-          case BookKeeping.check_price_book_keeping_number_employee(id) do
+          case BookKeeping.check_price_book_keeping_number_employee(id, customer_id) do
             :error -> %{}
             data -> data
           end
 
         cnt5 =
-          case BookKeeping.check_price_book_keeping_transaction_volume(id) do
+          case BookKeeping.check_price_book_keeping_transaction_volume(id, customer_id) do
             :error -> %{}
             data -> data
           end
 
         cnt6 =
-          case BookKeeping.check_price_book_keeping_type_client(id) do
+          case BookKeeping.check_price_book_keeping_type_client(id, customer_id) do
             :error -> %{}
             data -> data
           end

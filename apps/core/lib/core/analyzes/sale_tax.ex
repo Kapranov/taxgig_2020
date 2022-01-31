@@ -214,7 +214,7 @@ defmodule Core.Analyzes.SaleTax do
       {:error, _} -> :error
       false -> :error
       true ->
-        case SaleTax.by_role(customer_id) do
+        case SaleTax.by_role(customer_struct.id) do
           {:error, _} -> :error
           false ->
             case struct do
@@ -306,7 +306,7 @@ defmodule Core.Analyzes.SaleTax do
       {:error, _} -> :error
       false -> :error
       true ->
-        case SaleTax.by_role(customer_id) do
+        case SaleTax.by_role(customer_struct.id) do
           {:error, _} -> :error
           false ->
             case struct do

@@ -341,6 +341,53 @@ defmodule Core.Analyzes.BookKeeping do
     end
   end
 
+  @spec check_price_payroll(nil, nil) :: :error
+  def check_price_payroll(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_payroll(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_payroll(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_book_keeping!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_book_keeping!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case BookKeeping.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case BookKeeping.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                %BookKeeping{payroll: payroll, price_payroll: price_payroll} ->
+                  if is_nil(payroll) || is_nil(price_payroll) || payroll == false || price_payroll == 0 do
+                    :error
+                  else
+                    data = by_payrolls(BookKeeping, false, true, :payroll)
+                    record = for {k} <- data, into: %{}, do: {k, price_payroll}
+                    record
+                    |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
+        end
+    end
+  end
+
   @spec check_price_payroll :: :error
   def check_price_payroll, do: :error
 
@@ -386,6 +433,59 @@ defmodule Core.Analyzes.BookKeeping do
                    end)
                  for {k, v} <- data, into: %{}, do: {k, v}
              end
+        end
+    end
+  end
+
+  @spec check_price_book_keeping_additional_need(nil, nil) :: :error
+  def check_price_book_keeping_additional_need(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_book_keeping_additional_need(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_book_keeping_additional_need(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_book_keeping!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_book_keeping!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case BookKeeping.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case BookKeeping.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                _ ->
+                  case by_service_with_price_for_pro(BookKeepingAdditionalNeed, :book_keeping_id, :name, :price, struct.id) do
+                    [] -> :error
+                    service ->
+                      data =
+                        Enum.reduce(service, [], fn(x, acc) ->
+                          case by_name_for_tp(BookKeepingAdditionalNeed, BookKeeping, false, :book_keeping_id, :name, elem(x, 0)) do
+                            [] -> acc
+                            data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                          end
+                        end)
+                      record = for {k, v} <- data, into: %{}, do: {k, v}
+                      record
+                      |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
         end
     end
   end
@@ -439,6 +539,59 @@ defmodule Core.Analyzes.BookKeeping do
     end
   end
 
+  @spec check_price_book_keeping_annual_revenue(nil, nil) :: :error
+  def check_price_book_keeping_annual_revenue(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_book_keeping_annual_revenue(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_book_keeping_annual_revenue(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_book_keeping!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_book_keeping!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case BookKeeping.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case BookKeeping.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                _ ->
+                  case by_service_with_price_for_pro(BookKeepingAnnualRevenue, :book_keeping_id, :name, :price, struct.id) do
+                    [] -> :error
+                    service ->
+                      data =
+                        Enum.reduce(service, [], fn(x, acc) ->
+                          case by_name_for_tp(BookKeepingAnnualRevenue, BookKeeping, false, :book_keeping_id, :name, elem(x, 0)) do
+                            [] -> acc
+                            data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                          end
+                        end)
+                      record = for {k, v} <- data, into: %{}, do: {k, v}
+                      record
+                      |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
+        end
+    end
+  end
+
   @spec check_price_book_keeping_annual_revenue :: :error
   def check_price_book_keeping_annual_revenue, do: :error
 
@@ -484,6 +637,59 @@ defmodule Core.Analyzes.BookKeeping do
                    end)
                  for {k, v} <- data, into: %{}, do: {k, v}
              end
+        end
+    end
+  end
+
+  @spec check_price_book_keeping_number_employee(nil, nil) :: :error
+  def check_price_book_keeping_number_employee(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_book_keeping_number_employee(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_book_keeping_number_employee(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_book_keeping!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_book_keeping!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case BookKeeping.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case BookKeeping.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                _ ->
+                  case by_service_with_price_for_pro(BookKeepingNumberEmployee, :book_keeping_id, :name, :price, struct.id) do
+                    [] -> :error
+                    service ->
+                      data =
+                        Enum.reduce(service, [], fn(x, acc) ->
+                          case by_name_for_tp(BookKeepingNumberEmployee, BookKeeping, false, :book_keeping_id, :name, elem(x, 0)) do
+                            [] -> acc
+                            data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                          end
+                        end)
+                      record = for {k, v} <- data, into: %{}, do: {k, v}
+                      record
+                      |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
         end
     end
   end
@@ -537,6 +743,59 @@ defmodule Core.Analyzes.BookKeeping do
     end
   end
 
+  @spec check_price_book_keeping_transaction_volume(nil, nil) :: :error
+  def check_price_book_keeping_transaction_volume(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_book_keeping_transaction_volume(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_book_keeping_transaction_volume(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_book_keeping!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_book_keeping!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case BookKeeping.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case BookKeeping.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                _ ->
+                  case by_service_with_price_for_pro(BookKeepingTransactionVolume, :book_keeping_id, :name, :price, struct.id) do
+                    [] -> :error
+                    service ->
+                      data =
+                        Enum.reduce(service, [], fn(x, acc) ->
+                          case by_name_for_tp(BookKeepingTransactionVolume, BookKeeping, false, :book_keeping_id, :name, elem(x, 0)) do
+                            [] -> acc
+                            data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                          end
+                        end)
+                      record = for {k, v} <- data, into: %{}, do: {k, v}
+                      record
+                      |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
+        end
+    end
+  end
+
   @spec check_price_book_keeping_transaction_volume :: :error
   def check_price_book_keeping_transaction_volume, do: :error
 
@@ -582,6 +841,59 @@ defmodule Core.Analyzes.BookKeeping do
                    end)
                  for {k, v} <- data, into: %{}, do: {k, v}
              end
+        end
+    end
+  end
+
+  @spec check_price_book_keeping_type_client(nil, nil) :: :error
+  def check_price_book_keeping_type_client(id, customer_id) when is_nil(id) and is_nil(customer_id), do: :error
+
+  @spec check_price_book_keeping_type_client(word, word) :: %{atom => word, atom => integer} | :error
+  def check_price_book_keeping_type_client(id, customer_id) when not is_nil(id) and not is_nil(customer_id) do
+    struct =
+      try do
+        Services.get_book_keeping!(id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    customer_struct =
+      try do
+        Services.get_book_keeping!(customer_id)
+      rescue
+        Ecto.NoResultsError -> :error
+      end
+
+    case BookKeeping.by_role(id) do
+      {:error, _} -> :error
+      false -> :error
+      true ->
+        try do
+          case BookKeeping.by_role(customer_struct.id) do
+            {:error, _} -> :error
+            false ->
+              case struct do
+                :error -> :error
+                _ ->
+                  case by_service_with_price_for_pro(BookKeepingTypeClient, :book_keeping_id, :name, :price, struct.id) do
+                    [] -> :error
+                    service ->
+                      data =
+                        Enum.reduce(service, [], fn(x, acc) ->
+                          case by_name_for_tp(BookKeepingTypeClient, BookKeeping, false, :book_keeping_id, :name, elem(x, 0)) do
+                            [] -> acc
+                            data -> Enum.map(data, &(Tuple.append(&1, elem(x, 1))))
+                          end
+                        end)
+                      record = for {k, v} <- data, into: %{}, do: {k, v}
+                      record
+                      |> Map.take([customer_struct.id])
+                  end
+              end
+            true -> :error
+          end
+        rescue
+          UndefinedFunctionError -> :error
         end
     end
   end
