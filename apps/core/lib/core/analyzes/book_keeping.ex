@@ -1272,6 +1272,51 @@ defmodule Core.Analyzes.BookKeeping do
     Map.merge(rst4, cnt6, fn _k, v1, v2 -> v1 + v2 end)
   end
 
+  @spec total_price(word, word) :: [%{atom => word, atom => integer}]
+  def total_price(id, customer_id) do
+    cnt1 =
+      case check_price_payroll(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt2 =
+      case check_price_book_keeping_additional_need(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt3 =
+      case check_price_book_keeping_annual_revenue(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt4 =
+      case check_price_book_keeping_number_employee(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt5 =
+      case check_price_book_keeping_transaction_volume(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt6 =
+      case check_price_book_keeping_type_client(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
+    rst2 = Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
+    rst3 = Map.merge(rst2, cnt4, fn _k, v1, v2 -> v1 + v2 end)
+    rst4 = Map.merge(rst3, cnt5, fn _k, v1, v2 -> v1 + v2 end)
+    Map.merge(rst4, cnt6, fn _k, v1, v2 -> v1 + v2 end)
+  end
+
   @spec total_value(word) :: [%{atom => word, atom => float}]
   def total_value(id) do
     val1 =

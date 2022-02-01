@@ -319,6 +319,16 @@ defmodule Core.Analyzes do
     end
   end
 
+  @spec total_max_price(word, word) :: [%{atom => word, atom => integer | float}]
+  def total_max_price(id, customer_id) do
+    case total_price(id, customer_id) do
+      :error -> {:error, "none found"}
+    data ->
+      Enum.into(data, %{}, fn {k, v} -> {k, %{id: k, sum_price: v}} end)
+      |> Enum.map(fn {_k, v} -> v end)
+    end
+  end
+
   @spec total_match(word) :: [%{atom => word, atom => integer}]
   def total_match(id) do
     # BookKeeping.check_match_payroll(id)

@@ -423,6 +423,23 @@ defmodule Core.Analyzes.SaleTax do
     Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
   end
 
+  @spec total_price(word, word) :: [%{atom => word, atom => integer}]
+  def total_price(id, customer_id) do
+    cnt1 =
+      case check_price_sale_tax_count(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt2 =
+      case check_price_sale_tax_frequency(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
+  end
+
   @spec total_value(word) :: [%{atom => word, atom => integer}]
   def total_value(id) do
     val1 =

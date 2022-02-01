@@ -2276,6 +2276,100 @@ defmodule Core.Analyzes.IndividualTaxReturn do
     Map.merge(rst11, cnt13, fn _k, v1, v2 -> v1 + v2 end)
   end
 
+  @spec total_price(word, word) :: [%{atom => word, atom => integer}]
+  def total_price(id, customer_id) do
+    cnt1 =
+      case check_price_foreign_account(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt2 =
+      case check_price_home_owner(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt3 =
+      case check_price_individual_employment_status(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt4 =
+      case check_price_individual_filing_status(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt5 =
+      case check_price_individual_itemized_deduction(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt6 =
+      case check_price_living_abroad(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt7 =
+      case check_price_non_resident_earning(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt8 =
+      case check_price_own_stock_crypto(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt9 =
+      case check_price_rental_property_income(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt10 =
+      case check_price_sole_proprietorship_count(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt11 =
+      case check_price_state(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt12 =
+      case check_price_stock_divident(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt13 =
+      case check_price_tax_year(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+     rst1 = Map.merge(cnt1,   cnt2, fn _k, v1, v2 -> v1 + v2 end)
+     rst2 = Map.merge(rst1,   cnt3, fn _k, v1, v2 -> v1 + v2 end)
+     rst3 = Map.merge(rst2,   cnt4, fn _k, v1, v2 -> v1 + v2 end)
+     rst4 = Map.merge(rst3,   cnt5, fn _k, v1, v2 -> v1 + v2 end)
+     rst5 = Map.merge(rst4,   cnt6, fn _k, v1, v2 -> v1 + v2 end)
+     rst6 = Map.merge(rst5,   cnt7, fn _k, v1, v2 -> v1 + v2 end)
+     rst7 = Map.merge(rst6,   cnt8, fn _k, v1, v2 -> v1 + v2 end)
+     rst8 = Map.merge(rst7,   cnt9, fn _k, v1, v2 -> v1 + v2 end)
+     rst9 = Map.merge(rst8,  cnt10, fn _k, v1, v2 -> v1 + v2 end)
+    rst10 = Map.merge(rst9,  cnt11, fn _k, v1, v2 -> v1 + v2 end)
+    rst11 = Map.merge(rst10, cnt12, fn _k, v1, v2 -> v1 + v2 end)
+    Map.merge(rst11, cnt13, fn _k, v1, v2 -> v1 + v2 end)
+  end
+
   @spec total_value(word) :: [%{atom => word, atom => float}]
   def total_value(id) do
     val1 =

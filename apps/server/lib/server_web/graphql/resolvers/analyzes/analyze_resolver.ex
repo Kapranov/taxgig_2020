@@ -30,4 +30,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Analyzes.AnalyzeResolver do
   def show(_parent, _args, _info) do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
+
+  @spec max_price(any, %{customer_id: bitstring, service_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def max_price(_parent, %{service_id: id, customer_id: customer_id}, %{context: %{current_user: _current_user}}) do
+    case Analyzes.total_max_price(id, customer_id) do
+      {:error, _} ->
+        {:error, "The ServiceId #{id} or CustomerId #{customer_id} not found!"}
+      data ->
+        {:ok, data}
+    end
+  end
 end

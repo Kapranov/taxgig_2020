@@ -74,6 +74,11 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
     field :is_online, non_null(:boolean)
   end
 
+  object :analyze_max_price do
+    field :id, :string, description: "service id"
+    field :sum_price, :integer
+  end
+
   object :analyze_for_pro do
     field :id, non_null(:string), description: "service id"
     field :name, :string
@@ -251,6 +256,13 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
       arg(:page, :integer, default_value: 0)
       arg(:service_id, non_null(:string))
       resolve(&AnalyzeResolver.show/3)
+    end
+
+    @desc "Get an analyzes are services to max price by role's pro"
+    field :total_price_by_pro, list_of(:analyze_max_price) do
+      arg(:customer_id, non_null(:string))
+      arg(:service_id, non_null(:string))
+      resolve(&AnalyzeResolver.max_price/3)
     end
   end
 

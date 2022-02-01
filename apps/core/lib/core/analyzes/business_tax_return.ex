@@ -1345,6 +1345,44 @@ defmodule Core.Analyzes.BusinessTaxReturn do
     Map.merge(rst3, cnt5, fn _k, v1, v2 -> v1 + v2 end)
   end
 
+  @spec total_price(word, word) :: [%{atom => integer}] | :error
+  def total_price(id, customer_id) do
+    cnt1 =
+      case check_price_business_entity_type(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt2 =
+      case check_price_business_number_of_employee(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt3 =
+      case check_price_business_total_revenue(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt4 =
+      case check_price_state(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    cnt5 =
+      case check_price_tax_year(id, customer_id) do
+        :error -> %{}
+        data -> data
+      end
+
+    rst1 = Map.merge(cnt1, cnt2, fn _k, v1, v2 -> v1 + v2 end)
+    rst2 = Map.merge(rst1, cnt3, fn _k, v1, v2 -> v1 + v2 end)
+    rst3 = Map.merge(rst2, cnt4, fn _k, v1, v2 -> v1 + v2 end)
+    Map.merge(rst3, cnt5, fn _k, v1, v2 -> v1 + v2 end)
+  end
+
   @spec total_value(word) :: [%{atom => float}] | :error
   def total_value(id) do
     val1 =
