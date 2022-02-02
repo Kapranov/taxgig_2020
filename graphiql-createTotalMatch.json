@@ -1,6 +1,6 @@
 {
   "key": "graphiql",
-  "lastId": 47,
+  "lastId": 49,
   "tabIds": [
     "tab1",
     "tab2",
@@ -10,9 +10,31 @@
     "tab41",
     "tab43",
     "tab46",
-    "tab47"
+    "tab47",
+    "tab48"
   ],
   "closedTabs": [
+    {
+      "id": "tab49",
+      "name": "Query 11",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhuUXBoeWFYRENuT1dISzRuBgAxKam5fgFiAAFRgA.JReHToypv3uTHHVvgFiye5MFoM4vP0CiNznuEA3M8p8"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "query {\n  totalPriceByPro(\n    customerId: \"\"\n    serviceId: \"AEV2YhbcuvZk37gwM4\"\n  ) {\n    id\n    sumPrice\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
     {
       "id": "tab44",
       "name": "Query 11",
@@ -727,32 +749,6 @@
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createStripePlatformTransfer(\\n    idFromProject: \\\"A3bMMJi2zA272VOQWe\\\",\\n    currency: \\\"usd\\\"\\n  ) {\\n    idFromStripe\\n    amount\\n    amountReversed\\n    balanceTransaction\\n    created\\n    currency\\n    destination\\n    destinationPayment\\n    reversed\\n    sourceType\\n    userId\\n  }\\n}\"}]}",
       "graphiql:editorFlex": 0.4705240174672489,
       "graphiql:docExplorerWidth": 350
-    },
-    {
-      "id": "tab18",
-      "name": "Query 16",
-      "url": "http://localhost:4000/graphiql",
-      "websocketUrl": "ws://localhost:4000/socket",
-      "proxy": false,
-      "headers": [
-        {
-          "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgBAja9DdwFiAAFRgA.d_dE1_yTk4bJNhZRp0Uaxe1hQsWAa-4oT0_lGv5ouU0"
-        }
-      ],
-      "collapsed": true,
-      "maxHistory": 20,
-      "history": [
-        {
-          "query": "mutation {\n  updateByDoneStripePlatformChargeCapture(\n    idFromStripe: \"ch_1IDujuLhtqtNnMebX8tKY7Zv\"\n  ) {\n    id\n    idFromCard\n    idFromStripe\n    idFromCustomer\n    amount\n    amountRefunded\n    captured\n    created\n    currency\n    description\n    failureCode\n    failureMessage\n    receiptUrl\n    status\n    userId\n  }\n}",
-          "variables": null
-        }
-      ],
-      "graphiql:query": "mutation {\n  updateByDoneStripePlatformChargeCapture(\n    idFromStripe: \"ch_1IDujuLhtqtNnMebX8tKY7Zv\"\n  ) {\n    id\n    idFromCard\n    idFromStripe\n    idFromCustomer\n    amount\n    amountRefunded\n    captured\n    created\n    currency\n    description\n    failureCode\n    failureMessage\n    receiptUrl\n    status\n    userId\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateByDoneStripePlatformChargeCapture(\\n    idFromStripe: \\\"ch_1IDujuLhtqtNnMebX8tKY7Zv\\\"\\n  ) {\\n    id\\n    idFromCard\\n    idFromStripe\\n    idFromCustomer\\n    amount\\n    amountRefunded\\n    captured\\n    created\\n    currency\\n    description\\n    failureCode\\n    failureMessage\\n    receiptUrl\\n    status\\n    userId\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:docExplorerWidth": 350,
-      "graphiql:editorFlex": 0.5254813137032842,
-      "graphiql:variableEditorHeight": 200
     }
   ],
   "defaultUrl": "http://localhost:4000/graphiql",
@@ -765,6 +761,14 @@
     "http://localhost:4000/graphiql"
   ],
   "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhuUXBoeWFYRENuT1dISzRuBgAxKam5fgFiAAFRgA.JReHToypv3uTHHVvgFiye5MFoM4vP0CiNznuEA3M8p8"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhuUXBoeWFYRENuT1dISzRuBgCUmLe1fgFiAAFRgA.RjtybFAkFMjMsvXOJgDDG7Op47djohSuKBTNkcrMkt4"
+    },
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgDUa1C1fgFiAAFRgA.FItO-6cGnBD3el0zul1WncKd5C5-nYBwJIvsXral0Fw"
@@ -836,21 +840,13 @@
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZG5HaldYMXp0UEhON0FuBgDIsuxddwFiAAFRgA.RjcIkJP2YI3FvwY3jFbzUR3fRIgemkLAoyRypO-LQMc"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBM2IwZFgxRndKOHpVbHVtbGtuBgCXOMlddwFiAAFRgA.kJ7VeKUIt8LpRFh1U0unlrtmTMm7DwhsDSQGsWh9_Pk"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer id     addonPrice     assigned {id email role}     byProStatus     bookKeeping {id}     businessTaxReturn {id}     endTime     idFromStripeCard     idFromStripeTransfer     individualTaxReturn {id}     instantMatched     offerPrice     saleTax {id}     serviceReview {id}     status     users {id email role}"
     }
   ],
   "maxTabHistory": 20,
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab47",
+  "activeId": "tab43",
   "tabs": [
     {
       "id": "tab1",
@@ -876,6 +872,10 @@
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "query {\n  signInLocal(\n    email: \"pro2@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
         {
           "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
           "variables": null
@@ -929,8 +929,8 @@
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"}]}",
+      "graphiql:query": "query {\n  signInLocal(\n    email: \"pro2@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"pro2@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.3366238894373149
@@ -1240,12 +1240,16 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgDobLbIfQFiAAFRgA.LHSCbU-QwW6c1XxHHh2mxdw-KgFy85erAmhaN_1zLa0"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhuUXBoeWFYRENuT1dISzRuBgAxKam5fgFiAAFRgA.JReHToypv3uTHHVvgFiye5MFoM4vP0CiNznuEA3M8p8"
         }
       ],
-      "collapsed": true,
+      "collapsed": false,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "query {\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \"AEV2YhbcuvZk37gwM4\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    individualTaxReturn {\n      id\n      deadline\n      taxYear\n      individualFilingStatus { name }\n      individualEmploymentStatus { name }\n      individualItemizedDeduction { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n }\n}",
+          "variables": null
+        },
         {
           "query": "query {\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \"AEV00YLIeTYXZ7dx8C\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    individualTaxReturn {\n      id\n      deadline\n      taxYear\n      individualFilingStatus { name }\n      individualEmploymentStatus { name }\n      individualItemizedDeduction { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n }\n}",
           "variables": null
@@ -1263,11 +1267,11 @@
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \"AEV00YLIeTYXZ7dx8C\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    individualTaxReturn {\n      id\n      deadline\n      taxYear\n      individualFilingStatus { name }\n      individualEmploymentStatus { name }\n      individualItemizedDeduction { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n }\n}",
+      "graphiql:query": "query {\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \"AEV2YhbcuvZk37gwM4\") {\n    id\n    name\n    sumMatch\n    sumPrice\n    sumValue\n    individualTaxReturn {\n      id\n      deadline\n      taxYear\n      individualFilingStatus { name }\n      individualEmploymentStatus { name }\n      individualItemizedDeduction { name }\n    }\n    project {id instantMatched status}\n    user {\n      avatar\n      firstName\n      languages { id abbr name }\n    }\n }\n}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 1.1090342679127725,
+      "graphiql:editorFlex": 1.135646687697161,
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \\\"xxx\\\") {\\n      id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \\\"AEV00YLIeTYXZ7dx8C\\\") {\\n      id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\"},{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \\\"AEV00YLIeTYXZ7dx8C\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\"},{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 0, serviceId: \\\"AEV00YLIeTYXZ7dx8C\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\"},{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \\\"AEV00YLIeTYXZ7dx8C\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\"}]}"
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \\\"xxx\\\") {\\n      id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \\\"AEV00YLIeTYXZ7dx8C\\\") {\\n      id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\"},{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \\\"AEV00YLIeTYXZ7dx8C\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\"},{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 0, serviceId: \\\"AEV00YLIeTYXZ7dx8C\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\"},{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \\\"AEV00YLIeTYXZ7dx8C\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\"},{\"query\":\"query {\\n showAnalyzeIndividualTaxReturnForPro (page: 10, serviceId: \\\"AEV2YhbcuvZk37gwM4\\\") {\\n    id\\n    name\\n    sumMatch\\n    sumPrice\\n    sumValue\\n    individualTaxReturn {\\n      id\\n      deadline\\n      taxYear\\n      individualFilingStatus { name }\\n      individualEmploymentStatus { name }\\n      individualItemizedDeduction { name }\\n    }\\n    project {id instantMatched status}\\n    user {\\n      avatar\\n      firstName\\n      languages { id abbr name }\\n    }\\n }\\n}\"}]}"
     },
     {
       "id": "tab46",
@@ -1281,7 +1285,7 @@
           "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgD3wBvcfQFiAAFRgA.ADN2isDL0Hjg5gNS4KerFQHuoVDXhHJIVi5DrGa--w0"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -1348,10 +1352,10 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgDUa1C1fgFiAAFRgA.FItO-6cGnBD3el0zul1WncKd5C5-nYBwJIvsXral0Fw"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhuUXBoeWFYRENuT1dISzRuBgAxKam5fgFiAAFRgA.JReHToypv3uTHHVvgFiye5MFoM4vP0CiNznuEA3M8p8"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -1365,9 +1369,39 @@
       ],
       "graphiql:query": "query {\n  totalPriceByPro(\n    customerId: \"AFN1JXJ3c3axOtLKLI\"\n    serviceId: \"AEV00YLIeTYXZ7dx8C\"\n  ) {\n    id\n    sumPrice\n  }\n}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:editorFlex": 1,
+      "graphiql:editorFlex": 0.4781659388646288,
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  totalPriceByPro(\\n    customerId: \\\"AEV00YLIeTYXZ7dx8C\\\"\\n    serviceId: \\\"AFN1JXJ3c3axOtLKLI\\\"\\n  ) {\\n    id\\n    sumPrice\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  totalPriceByPro(\\n    customerId: \\\"AFN1JXJ3c3axOtLKLI\\\"\\n    serviceId: \\\"AEV00YLIeTYXZ7dx8C\\\"\\n  ) {\\n    id\\n    sumPrice\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab48",
+      "name": "Query 10",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhuUXBoeWFYRENuT1dISzRuBgAxKam5fgFiAAFRgA.JReHToypv3uTHHVvgFiye5MFoM4vP0CiNznuEA3M8p8"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query{\n  allPotentialClients{\n    id\n    project{\n      status\n      individualTaxReturn{deadline}\n    }\n    user{email}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query{\n  allPotentialClients{\n    id\n    project{status\n    individualTaxReturn{deadline}}\n    user{email}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query{\n  allPotentialClients{\n    id\n    project{\n      status\n      individualTaxReturn{deadline}\n    }\n    user{email}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.466955579631636,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query{\\n  allPotentialClients{\\n    id\\n    project{status\\n    individualTaxReturn{deadline}}\\n    user{email}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query{\\n  allPotentialClients{\\n    id\\n    project{\\n      status\\n      individualTaxReturn{deadline}\\n    }\\n    user{email}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350
     }
   ]
 }

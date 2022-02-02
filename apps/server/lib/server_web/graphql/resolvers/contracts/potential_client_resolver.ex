@@ -102,7 +102,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
           {:error, [[field: :user_id, message: "Can't be blank or Permission denied for current_user"]]}
         true ->
           project_idx =
-            Enum.map(args[:project], fn ids ->
+            Enum.map(Enum.uniq(args[:project]), fn ids ->
               case Queries.by_project(Project, :status, :New, :id, ids) do
                 nil -> []
                 _ -> [] ++ [ids]
@@ -141,7 +141,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
     else
       try do
         project_idx =
-          Enum.map(params[:project], fn ids ->
+          Enum.map(Enum.uniq(params[:project]), fn ids ->
             case Queries.by_project(Project, :status, :New, :id, ids) do
               nil -> []
               _ -> [] ++ [ids]

@@ -10,6 +10,7 @@ defmodule Core.Analyzes do
     Analyzes.BusinessTaxReturn,
     Analyzes.IndividualTaxReturn,
     Analyzes.SaleTax,
+    Contracts.PotentialClient,
     Contracts.Project,
     Queries,
     Services
@@ -35,8 +36,8 @@ defmodule Core.Analyzes do
 
   @type word() :: String.t()
 
-  @spec total_all(word, integer) :: [%{atom => word, atom => integer | float}]
-  def total_all(id, num \\ 5) do
+  @spec total_all(word, word, integer) :: [%{atom => word, atom => integer | float}]
+  def total_all(id, user_id, num \\ 5) do
     case ServiceBookKeeping.by_role(id) do
       {:error, _} ->
         case ServiceBusinessTaxReturn.by_role(id) do
@@ -83,6 +84,7 @@ defmodule Core.Analyzes do
                       end
                     end)
                     |> Enum.reject(&(&1.project.status != :New))
+                    |> check_potential_client(user_id)
                     |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
                     |> Enum.take(num)
                   false ->
@@ -151,6 +153,7 @@ defmodule Core.Analyzes do
                   end
                 end)
                 |> Enum.reject(&(&1.project.status != :New))
+                |> check_potential_client(user_id)
                 |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
                 |> Enum.take(num)
               false ->
@@ -219,6 +222,7 @@ defmodule Core.Analyzes do
               end
             end)
             |> Enum.reject(&(&1.project.status != :New))
+            |> check_potential_client(user_id)
             |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
             |> Enum.take(num)
           false ->
@@ -287,6 +291,7 @@ defmodule Core.Analyzes do
             end
           end)
           |> Enum.reject(&(&1.project.status != :New))
+          |> check_potential_client(user_id)
           |> Enum.sort_by(&Map.fetch(&1, :sum_match), :desc)
           |> Enum.take(num)
       false ->
@@ -1297,5 +1302,17 @@ defmodule Core.Analyzes do
 
         %{id => result}
     end
+  end
+
+  #@spec check_potential_client([map], word) :: [map]
+  defp check_potential_client(data, user_id) do
+    data
+    |> Enum.reduce([], fn(x, acc) ->
+      record = Queries.by_search_list(PotentialClient, true, :user_id, :project, user_id, [x.project.id])
+      case record do
+        nil -> [ x | acc ]
+        _ -> acc
+      end
+    end)
   end
 end

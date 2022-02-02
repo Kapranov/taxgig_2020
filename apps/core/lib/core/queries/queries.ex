@@ -248,6 +248,36 @@ defmodule Core.Queries do
     end
   end
 
+  @doc """
+
+  ## Example
+
+      struct_a = Core.Contracts.PotentialClient
+      role = true
+      row_a = :user_id
+      row_b = :project
+      user_id = "ADxnQphyaXDCnOWHK4"
+      id = "AG2LLCDsiAIodUMn1k"
+
+      iex> by_search_list(struct_a, role, row_a, row_b, user_id, [id])
+
+  """
+  @spec by_search_list(map, boolean, atom, atom, word, word) :: [{word}] | nil
+  def by_search_list(struct_a, role, row_a, row_b, user_id, id) do
+    try do
+      Repo.one(
+        from c in struct_a,
+        join: ct in User,
+        where: field(c, ^row_a) == ct.id and ct.role == ^role and c.user_id == ^user_id,
+        where: not is_nil(field(c, ^row_b)),
+        where: fragment("? @> ?", field(c, ^row_b), ^id),
+        select: {c.user_id}
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
   @spec by_hero_active(map, map, atom, atom, String.t()) :: {String.t(), boolean} | nil
   def by_hero_active(struct_a, struct_b, row_a, row_b, id) do
     try do
