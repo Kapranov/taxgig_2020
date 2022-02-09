@@ -33,7 +33,7 @@ defmodule Core.Talk do
       join: user in assoc(msg, :user),
       where: msg.room_id == ^room_id,
       order_by: [desc: msg.inserted_at],
-      preload: [:projects, :users]
+      preload: [:projects, :user]
     )
   end
 
@@ -58,7 +58,7 @@ defmodule Core.Talk do
       join: user in assoc(msg, :user),
       where: msg.project_id == ^project_id,
       order_by: [desc: msg.inserted_at],
-      preload: [:projects, :users]
+      preload: [:projects, :user]
     )
   end
 

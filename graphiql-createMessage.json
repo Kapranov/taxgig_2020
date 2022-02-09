@@ -1,6 +1,6 @@
 {
   "key": "graphiql",
-  "lastId": 7,
+  "lastId": 10,
   "tabIds": [
     "tab1",
     "tab2",
@@ -8,9 +8,28 @@
     "tab4",
     "tab5",
     "tab6",
-    "tab7"
+    "tab7",
+    "tab8",
+    "tab9"
   ],
-  "closedTabs": [],
+  "closedTabs": [
+    {
+      "id": "tab10",
+      "name": "Query 10",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "mutation {\n  \n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.25254394079555964,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  messages\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  messages \\n}\"},{\"query\":\"mutation {\\n  messages\\n  name\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200
+    }
+  ],
   "defaultUrl": "http://localhost:4000/graphiql",
   "defaultWebsocketUrl": "ws://localhost:4000/socket",
   "defaultQuery": "",
@@ -21,6 +40,10 @@
     "http://localhost:4000/graphiql"
   ],
   "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCrXHfefgFiAAFRgA.d5uvmAo3fSoZmVNeBBWiyZpaz3boByl3Q8aUEmPxzXg"
+    },
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgArP1yUdgFiAAFRgA.zB6_kobwDYs3rs-b_J2sUzlt12B28Rhjxj0_rOFu3IE"
@@ -58,7 +81,7 @@
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab7",
+  "activeId": "tab9",
   "tabs": [
     {
       "id": "tab1",
@@ -85,6 +108,10 @@
       "maxHistory": 20,
       "history": [
         {
+          "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+          "variables": null
+        },
+        {
           "query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
           "variables": null
         },
@@ -93,8 +120,8 @@
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.3402985074626866
@@ -117,7 +144,7 @@
       "graphiql:query": "query {\n  rooms {\n    id\n    name\n    description\n    topic\n    active\n    user {id, email, role}\n  }\n}",
       "graphiql:docExplorerWidth": 350,
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.2731568998109641,
+      "graphiql:editorFlex": 0.38445807770961143,
       "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  rooms {\\n    id\\n    name\\n    description\\n    topic\\n    active\\n    user {id, email, role}\\n  }\\n}\",\"variables\":\"\"}]}"
     },
     {
@@ -129,12 +156,20 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBMldRSzdFZ1ZvNXR0R3hlaW1uBgArP1yUdgFiAAFRgA.zB6_kobwDYs3rs-b_J2sUzlt12B28Rhjxj0_rOFu3IE"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCrXHfefgFiAAFRgA.d5uvmAo3fSoZmVNeBBWiyZpaz3boByl3Q8aUEmPxzXg"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "query {\n  showRoomByMsg(\n    roomId: \"ADxkx9U2IggrX0ibmC\"\n  ) {\n    id\n    body\n    isRead\n    warning\n    projects {id}\n    recipient {id email role}\n    user {id email role}\n    room {\n      id\n      topic\n      description\n      active\n      name\n      user {id email role}\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showRoomByMsg(\n    roomId: \"A2WQKxU4FrIRw2Yfuy\"\n  ) {\n    id\n    body\n    isRead\n    warning\n    projects {id}\n    recipient {id email role}\n    user {id email role}\n    room {\n      id\n      topic\n      description\n      active\n      name\n      user {id email role}\n    }\n  }\n}",
+          "variables": null
+        },
         {
           "query": "query {\n  messages(\n    roomId: \"A2WQKxU4FrIRw2Yfuy\"\n  ) {\n    id\n    body\n    isRead\n    warning\n    projects {id}\n    recipient {id email role}\n    user {id email role}\n    room {\n      id\n      topic\n      description\n      active\n      name\n      user {id email role}\n    }\n  }\n}",
           "variables": null
@@ -196,10 +231,10 @@
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  messages(\n    roomId: \"A2WQKxU4FrIRw2Yfuy\"\n  ) {\n    id\n    body\n    isRead\n    warning\n    projects {id}\n    recipient {id email role}\n    user {id email role}\n    room {\n      id\n      topic\n      description\n      active\n      name\n      user {id email role}\n    }\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  messages {\\n    id\\n    body\\n    isRead\\n    warning\\n    recipient {id}\\n    project {id}\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  messages(roomId: \\\"A2V2vSPrXMAxIMVwoK\\\") {\\n    id\\n    body\\n    isRead\\n    warning\\n    recipient {id}\\n    project {id}\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2V2vSPrXMAxIMVwoK\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    recipient {id}\\n    project {id}\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2V2vSPrXMAxIMVwoK\\\"\\n  ) {\\n    id\\n    body\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2V2vSPrXMAxIMVwoK\\\"\\n  ) {\\n    id\\n    body\\n    user {firstName}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2V2vSPrXMAxIMVwoK\\\"\\n  ) {\\n    id\\n    body\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id emai role}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id email role}\\n    room {id topic description}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id email role}\\n    room {id topic description active}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id email role}\\n    room {id topic description active name}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id email role}\\n    room {id topic description active name user {id email role} }\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id email role}\\n    room {\\n      id\\n      topic\\n      description\\n      active\\n      name\\n      user {id email role}\\n    }\\n  }\\n}\"}]}",
+      "graphiql:query": "query {\n  showRoomByMsg(\n    roomId: \"ADxkx9U2IggrX0ibmC\"\n  ) {\n    id\n    body\n    isRead\n    warning\n    projects {id}\n    recipient {id email role}\n    user {id email role}\n    room {\n      id\n      topic\n      description\n      active\n      name\n      user {id email role}\n    }\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  messages {\\n    id\\n    body\\n    isRead\\n    warning\\n    recipient {id}\\n    project {id}\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  messages(roomId: \\\"A2V2vSPrXMAxIMVwoK\\\") {\\n    id\\n    body\\n    isRead\\n    warning\\n    recipient {id}\\n    project {id}\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2V2vSPrXMAxIMVwoK\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    recipient {id}\\n    project {id}\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2V2vSPrXMAxIMVwoK\\\"\\n  ) {\\n    id\\n    body\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2V2vSPrXMAxIMVwoK\\\"\\n  ) {\\n    id\\n    body\\n    user {firstName}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2V2vSPrXMAxIMVwoK\\\"\\n  ) {\\n    id\\n    body\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id emai role}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id email role}\\n    room {id topic description}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id email role}\\n    room {id topic description active}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id email role}\\n    room {id topic description active name}\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id email role}\\n    room {id topic description active name user {id email role} }\\n  }\\n}\"},{\"query\":\"query {\\n  messages(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id email role}\\n    room {\\n      id\\n      topic\\n      description\\n      active\\n      name\\n      user {id email role}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showRoomByMsg(\\n    roomId: \\\"A2WQKxU4FrIRw2Yfuy\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id email role}\\n    room {\\n      id\\n      topic\\n      description\\n      active\\n      name\\n      user {id email role}\\n    }\\n  }\\n}\"},{\"query\":\"query {\\n  showRoomByMsg(\\n    roomId: \\\"ADxkx9U2IggrX0ibmC\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    warning\\n    projects {id}\\n    recipient {id email role}\\n    user {id email role}\\n    room {\\n      id\\n      topic\\n      description\\n      active\\n      name\\n      user {id email role}\\n    }\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.6209386281588448,
+      "graphiql:editorFlex": 1,
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -286,7 +321,7 @@
           "value": "Bearer SFMyNTY.g2gDbQAAABJBMlYwWnpmQ01mcTkwQmxBWWFuBgAlRieRdgFiAAFRgA.9PZkkzLWZCl_-kY2vVtZ_Iaj9F7CGo8JE_0M2tA4Ye0"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -299,6 +334,58 @@
       "graphiql:docExplorerWidth": 350,
       "graphiql:editorFlex": 1,
       "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab8",
+      "name": "Query 8",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCrXHfefgFiAAFRgA.d5uvmAo3fSoZmVNeBBWiyZpaz3boByl3Q8aUEmPxzXg"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  showMessage (\n    id: \"AGIfwQg9zsU007EdE0\"\n  ) {\n    id\n    body\n    isRead\n    projects { id }\n    room { id }\n    warning\n    recipient { id }\n    user { id email role }\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  showMessage (\n    id: \"AGIfwQg9zsU007EdE0\"\n  ) {\n    id\n    body\n    isRead\n    projects { id }\n    room { id }\n    warning\n    recipient { id }\n    user { id email role }\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showMessage (\\n    id: \\\"AGIfwQg9zsU007EdE0\\\"\\n  ) {\\n    id\\n    body\\n    isRead\\n    projects { id }\\n    room { id }\\n    warning\\n    recipient { id }\\n    user { id email role }\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.312015503875969
+    },
+    {
+      "id": "tab9",
+      "name": "Query 9",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCrXHfefgFiAAFRgA.d5uvmAo3fSoZmVNeBBWiyZpaz3boByl3Q8aUEmPxzXg"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  showProjectByMsg (projectId: \"AEEY0phm5Ef07akqNk\") {\n    id\n    body\n    isRead\n    projects { id }\n    recipient { id }\n    room { id }\n    warning\n    user { id email role }\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  showProjectByMsg (projectId: \"AEEY0phm5Ef07akqNk\") {\n    id\n    body\n    isRead\n    projects { id }\n    recipient { id }\n    room { id }\n    warning\n    user { id email role }\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.5671296296296297,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showProjectByMsg (projectId: \\\"AEEY0phm5Ef07akqNk\\\") {\\n    id\\n    body\\n    isRead\\n    projects { id }\\n    recipient { id }\\n    room { id }\\n    warning\\n    user { id email role }\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350
     }
   ]
 }
