@@ -77,6 +77,12 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
       resolve &MessageResolver.update/3
     end
 
+    @desc "Update a specific messages"
+    field :update_message_by_read, :message do
+      arg :id, list_of(non_null(:string))
+      resolve &MessageResolver.update_by_read/3
+    end
+
     @desc "Delete a specific the message"
     field :delete_message, :message do
       arg :id, non_null(:string)
