@@ -17,11 +17,13 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
     field :id, :string
     field :body, :string
     field :is_read, :boolean
-    field :projects, list_of(:project), resolve: dataloader(Data)
-    field :recipient, list_of(:user), resolve: dataloader(Data)
-    field :room, list_of(:room), resolve: dataloader(Data)
-    field :user, list_of(:user), resolve: dataloader(Data)
+    field :projects, :project, resolve: dataloader(Data)
+    field :recipient, :user, resolve: dataloader(Data)
+    field :room, :room, resolve: dataloader(Data)
+    field :user, :user, resolve: dataloader(Data)
     field :warning, :boolean
+    field :inserted_at, :datetime
+    field :updated_at, :datetime
   end
 
   @desc "The message update via params"

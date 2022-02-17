@@ -19,6 +19,8 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.OfferTypes do
     field :projects, :project, resolve: dataloader(Data)
     field :status, non_null(:string)
     field :users, :user, resolve: dataloader(Data)
+    field :inserted_at, :datetime
+    field :updated_at, :datetime
   end
 
   @desc "The an offer update via params"
