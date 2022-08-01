@@ -6,6 +6,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
   alias Core.{
     Accounts.Platform,
     Accounts.User,
+    Queries,
     Repo,
     Talk,
     Talk.Room
@@ -19,10 +20,19 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
 
-  @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: success_list()
-  def list(_parent, _args, _info) do
-    struct = Talk.list_room()
-    {:ok, struct}
+  @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def list(_parent, _args, %{context: %{current_user: current_user}}) do
+    if is_nil(current_user) do
+      {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
+    else
+      struct = Queries.by_list(Room, :user_id, current_user.id)
+      {:ok, struct}
+    end
+  end
+
+  @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def list(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
   end
 
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
@@ -47,24 +57,24 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
 
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) do
-      {:error, [[field: :current_user, message: "Permission denied for current_user to perform action Create"]]}
-    else
-      case Repo.get_by(Platform, %{user_id: args[:user_id]}) do
-        nil -> {:error, [[field: :user_id, message: "Please create Platform for your user_id"]]}
-        data ->
-          if data.payment_active == true do
-            case Talk.create_room(current_user, Map.merge(args, %{active: true})) do
-              {:ok, room} -> {:ok, room}
-              {:error, _changeset} -> {:error, "Something went wrong with your room"}
+    case Queries.by_names(Room, :user_id, :name, args[:name], current_user.id) do
+      [] ->
+        case Repo.get_by(Platform, %{user_id: args[:user_id]}) do
+          nil -> {:error, [[field: :user_id, message: "Please create Platform for your user_id"]]}
+          data ->
+            if data.payment_active == true do
+              case Talk.create_room(current_user, Map.merge(args, %{active: true})) do
+                {:ok, room} -> {:ok, room}
+                {:error, _changeset} -> {:error, "Something went wrong with your room"}
+              end
+            else
+              case Talk.create_room(current_user, Map.merge(args, %{active: false})) do
+                {:ok, room} -> {:ok, room}
+                {:error, _changeset} -> {:error, "Something went wrong with your room"}
+              end
             end
-          else
-            case Talk.create_room(current_user, Map.merge(args, %{active: false})) do
-              {:ok, room} -> {:ok, room}
-              {:error, _changeset} -> {:error, "Something went wrong with your room"}
-            end
-          end
-      end
+        end
+      [_] -> {:error, [[field: :name, message: "Something went wrong with your name"]]}
     end
   end
 
@@ -113,6 +123,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
           try do
             struct = Talk.get_room!(id)
             Repo.delete(struct)
+            |> case do
+              {:ok, struct} ->
+                {:ok, struct}
+              {:error, changeset} ->
+                {:error, extract_error_msg(changeset)}
+            end
           rescue
             Ecto.NoResultsError ->
               {:error, "The Room #{id} not found!"}

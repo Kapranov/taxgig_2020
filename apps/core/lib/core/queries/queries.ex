@@ -468,6 +468,22 @@ defmodule Core.Queries do
     end
   end
 
+  @spec by_names(map, atom, atom, word, word) :: [word] | []
+  def by_names(struct, row_a, row_b, name, id) do
+    try do
+      Repo.all(
+        from c in struct,
+        where: not is_nil(field(c, ^row_a)),
+        where: not is_nil(field(c, ^row_b)),
+        where: field(c, ^row_a) == ^id,
+        where: field(c, ^row_b) == ^name,
+        select: c.name
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
   @spec by_names(map, map, boolean, atom, atom, atom, word) :: [{word}] | nil
   def by_names(struct_a, struct_b, role, row_a, row_b, row_c, name) do
     try do

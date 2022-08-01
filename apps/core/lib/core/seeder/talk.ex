@@ -41,6 +41,9 @@ defmodule Core.Seeder.Talk do
 
   @spec insert_rooms() :: Ecto.Schema.t()
   defp insert_rooms do
+    project_ids =
+      Enum.map(Repo.all(Project), fn(data) -> data.id end)
+
     user_ids =
       Enum.map(Repo.all(User), fn(data) -> data end)
 
@@ -62,6 +65,7 @@ defmodule Core.Seeder.Talk do
       active: true,
       description: "Raheem Kassam, Jack Maxey, and Greg Manz are joined",
       name: "citizens of republic",
+      project: random_project(project_ids),
       topic: "warroom"
     }
 
@@ -69,6 +73,7 @@ defmodule Core.Seeder.Talk do
       active: true,
       description: "This Is Exactly What Is Going To Happen If Police",
       name: "defunded",
+      project: random_project(project_ids),
       topic: "infowars"
     }
 
@@ -76,6 +81,7 @@ defmodule Core.Seeder.Talk do
       active: true,
       description: "The lion cannot protect himself from traps",
       name: "it can't get any more",
+      project: random_project(project_ids),
       topic: "lionelnation"
     }
 
@@ -83,6 +89,7 @@ defmodule Core.Seeder.Talk do
       active: true,
       description: "John Sununu, former White House chief of staff",
       name: "trump dismisses report",
+      project: random_project(project_ids),
       topic: "foxnews"
     }
 
@@ -90,6 +97,7 @@ defmodule Core.Seeder.Talk do
       active: true,
       description: "For reference on size this day was about 18ft-20ft!",
       name: "full raw waimea session",
+      project: random_project(project_ids),
       topic: "florence"
     }
 
@@ -97,6 +105,7 @@ defmodule Core.Seeder.Talk do
       active: true,
       description: "too funny no police...to passify the left",
       name: "we're witnessing",
+      project: random_project(project_ids),
       topic: "rush_limbaugh"
     }
 
@@ -104,6 +113,7 @@ defmodule Core.Seeder.Talk do
       active: true,
       description: "The democrats are more outraged that Trump",
       name: "why socialism sucks",
+      project: random_project(project_ids),
       topic: "dan_bongino"
     }
 
@@ -111,6 +121,7 @@ defmodule Core.Seeder.Talk do
       active: true,
       description: "A society that puts equality before freedom",
       name: "sounds like",
+      project: random_project(project_ids),
       topic: "mark_levin"
     }
 
@@ -118,6 +129,7 @@ defmodule Core.Seeder.Talk do
       active: true,
       description: "As summer arrives, the waves go flat",
       name: "perfect summertime",
+      project: random_project(project_ids),
       topic: "koa_rothman"
     }
 

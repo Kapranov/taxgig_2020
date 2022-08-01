@@ -17,8 +17,11 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
     field :id, non_null(:string)
     field :active, non_null(:boolean)
     field :description, :string
+    field :last_msg, :string
     field :name, non_null(:string)
+    field :projects, :project, resolve: dataloader(Data)
     field :topic, :string
+    field :unread_msg, :integer
     field :user, :user, resolve: dataloader(Data)
   end
 
@@ -48,6 +51,7 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
     field :create_room, :room, description: "Create a new room" do
       arg :description, :string
       arg :name, non_null(:string)
+      arg :project_id, non_null(:string)
       arg :topic, :string
       arg :user_id, non_null(:string)
       resolve &RoomResolver.create/3
