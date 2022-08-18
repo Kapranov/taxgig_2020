@@ -19,6 +19,36 @@ defmodule Core.Queries do
   @type word() :: String.t()
 
   @doc """
+  Retrurn list of the integer by all records when is_read is true
+
+  ## Example
+
+      iex> struct_a = Core.Talk.Room
+      iex> struct_b = Core.Talk.Message
+      iex> room_id = FlakeId.get
+      iex> current_user = Core.Repo.get_by(Core.Accounts.User, email: "client@gmail.com")
+      iex> aggregate_for_room(struct_a, struct_b, room_id, current_user)
+      []
+  """
+  @spec aggregate_for_room(map, map, String.t(), String.t()) :: [integer] | []
+  def aggregate_for_room(struct_a, struct_b, room_id, current_user) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: cu in ^struct_b,
+        where: c.user_id == ^current_user.id,
+        where: cu.room_id == ^room_id,
+        where: c.id == cu.room_id,
+        where: cu.is_read == false,
+        select: count(cu.id),
+        group_by: cu.id
+      )
+    rescue
+      Ecto.Query.CastError -> []
+    end
+  end
+
+  @doc """
   Retrurn all records with 3 items
 
   ## Example

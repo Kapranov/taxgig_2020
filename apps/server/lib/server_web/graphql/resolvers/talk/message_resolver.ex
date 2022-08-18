@@ -36,6 +36,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
     {:error, "Unauthenticated"}
   end
 
+  @spec list_by_room_id(any, %{room_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def list_by_room_id(_parent, %{room_id: id}, %{context: %{current_user: current_user}}) do
+    case Repo.get_by(Message, %{room_id: id, user_id: current_user.id}) do
+      nil ->
+        {:error, "none correct roomId for current_user"}
+      struct ->
+        {:ok, struct}
+    end
+  end
+
+  @spec list_by_room_id(any, %{atom => any}, any) :: result()
+  def list_by_room_id(_parent, _args, _info) do
+    {:error, "there is roomId none record"}
+  end
+
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
@@ -85,6 +100,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
             Talk.create_message(current_user, room, args)
             |> case do
               {:ok, struct} ->
+                {:ok, _struct} = Talk.update_room(room, %{last_msg: struct.id})
                 {:ok, struct}
               {:error, changeset} ->
                 {:error, extract_error_msg(changeset)}
@@ -97,6 +113,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
             Talk.create_message(current_user, room, args)
             |> case do
               {:ok, struct} ->
+                {:ok, _struct} = Talk.update_room(room, %{last_msg: struct.id})
                 {:ok, struct}
               {:error, changeset} ->
                 {:error, extract_error_msg(changeset)}

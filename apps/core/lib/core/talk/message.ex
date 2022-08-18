@@ -7,14 +7,12 @@ defmodule Core.Talk.Message do
 
   alias Core.{
     Accounts.User,
-    Contracts.Project,
     Talk.Room
   }
 
   @type t :: %__MODULE__{
     body: String.t(),
     is_read: boolean,
-    project_id: Project.t(),
     recipient_id: User.t(),
     room_id: Room.t(),
     user_id: User.t(),
@@ -24,7 +22,6 @@ defmodule Core.Talk.Message do
   @allowed_params ~w(
     body
     is_read
-    project_id
     recipient_id
     room_id
     user_id
@@ -34,7 +31,6 @@ defmodule Core.Talk.Message do
   @required_params ~w(
     body
     is_read
-    project_id
     recipient_id
     room_id
     user_id
@@ -45,12 +41,6 @@ defmodule Core.Talk.Message do
     field :body, :string, null: false
     field :is_read, :boolean, null: false
     field :warning, :boolean, null: false
-
-
-    belongs_to :projects, Project,
-      foreign_key: :project_id,
-      type: FlakeId.Ecto.CompatType,
-      references: :id
 
     belongs_to :room, Room,
       foreign_key: :room_id,
@@ -78,7 +68,6 @@ defmodule Core.Talk.Message do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
-    |> foreign_key_constraint(:project_id, message: "Select a Project")
     |> foreign_key_constraint(:recipient_id, message: "Select Recipients")
     |> foreign_key_constraint(:room_id, message: "Select a Room")
     |> foreign_key_constraint(:user_id, message: "Select an User")

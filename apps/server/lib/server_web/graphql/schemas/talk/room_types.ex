@@ -19,6 +19,7 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
     field :description, :string
     field :last_msg, :string
     field :name, non_null(:string)
+    field :participant, :user, resolve: dataloader(Data)
     field :projects, :project, resolve: dataloader(Data)
     field :topic, :string
     field :unread_msg, :integer
@@ -29,6 +30,7 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
   input_object :update_room_params, description: "update room" do
     field :description, :string
     field :name, :string
+    field :participant_id, non_null(:string)
     field :topic, :string
     field :user_id, non_null(:string)
   end
@@ -39,10 +41,23 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
       resolve &RoomResolver.list/3
     end
 
+    @desc "Get all rooms by projectId"
+    field :all_rooms_by_project, list_of(:room) do
+      arg(:project_id, non_null(:string))
+      resolve &RoomResolver.list_by_project_id/3
+    end
+
     @desc "Get a specific room"
     field :show_room, :room do
       arg(:id, non_null(:string))
       resolve(&RoomResolver.show/3)
+    end
+
+    @desc "Get a specific room by current user, participantId and projectId"
+    field :show_room_by_participant, :room do
+      arg(:participant_id, non_null(:string))
+      arg(:project_id, non_null(:string))
+      resolve(&RoomResolver.show_by_participant/3)
     end
   end
 
@@ -51,6 +66,7 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
     field :create_room, :room, description: "Create a new room" do
       arg :description, :string
       arg :name, non_null(:string)
+      arg :participant_id, non_null(:string)
       arg :project_id, non_null(:string)
       arg :topic, :string
       arg :user_id, non_null(:string)

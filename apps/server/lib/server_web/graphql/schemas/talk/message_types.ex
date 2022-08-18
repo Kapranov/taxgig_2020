@@ -13,6 +13,18 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
   }
 
   @desc "The Message"
+  object :created do
+    field :id, :string
+    field :body, :string
+    field :is_read, :boolean
+    field :recipient, :user, resolve: dataloader(Data)
+    field :room, :room, resolve: dataloader(Data)
+    field :user, :user, resolve: dataloader(Data)
+    field :warning, :boolean
+    field :inserted_at, :datetime
+    field :updated_at, :datetime
+  end
+
   object :message do
     field :id, :string
     field :body, :string
@@ -44,6 +56,12 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
       resolve &MessageResolver.list/3
     end
 
+    @desc "Get all message by roomId"
+    field :all_messages_by_room, list_of(:message) do
+      arg(:room_id, non_null(:string))
+      resolve &MessageResolver.list_by_room_id/3
+    end
+
     @desc "Get all messages via projectId"
     field :show_project_by_msg, list_of(:message) do
       arg(:project_id, non_null(:string))
@@ -59,10 +77,9 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
 
   object :message_mutations do
     @desc "Create the Message"
-    field :create_message, :message, description: "Create a new message" do
+    field :create_message, :created, description: "Create a new message" do
       arg :body, non_null(:string)
       arg :is_read, non_null(:boolean)
-      arg :project_id, non_null(:string)
       arg :recipient_id, non_null(:string)
       arg :room_id, non_null(:string)
       arg :user_id, non_null(:string)

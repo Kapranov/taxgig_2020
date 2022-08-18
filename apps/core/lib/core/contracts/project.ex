@@ -19,7 +19,6 @@ defmodule Core.Contracts.Project do
     Services.BusinessTaxReturn,
     Services.IndividualTaxReturn,
     Services.SaleTax,
-    Talk.Message
   }
 
   @type t :: %__MODULE__{
@@ -35,7 +34,6 @@ defmodule Core.Contracts.Project do
     individual_tax_return_id: IndividualTaxReturn.t(),
     instant_matched: boolean,
     mailers: [%{email: String.t(), user_id: String.t()}],
-    messages: [Message.t()],
     offer_price: integer,
     offers: Offer.t(),
     plaid_accounts: [PlaidAccount.t()],
@@ -118,7 +116,6 @@ defmodule Core.Contracts.Project do
       references: :id
 
     has_many :addons, Addon, on_delete: :delete_all
-    has_many :messages, Message, on_delete: :delete_all
     has_many :offers, Offer, on_delete: :delete_all
     has_many :pro_docs, ProDoc, on_delete: :delete_all
     has_many :tp_docs, TpDoc, on_delete: :delete_all
@@ -145,7 +142,6 @@ defmodule Core.Contracts.Project do
     |> foreign_key_constraint(:individual_tax_return_id, message: "Select a Service IndividualTaxReturn")
     |> foreign_key_constraint(:sale_tax_id, message: "Select a Service SaleTax")
     |> foreign_key_constraint(:user_id, message: "Select an User")
-    |> unique_constraint(:assigned_id, name: :assigned_id_unique_index)
     |> unique_constraint(:book_keeping_id, name: :book_keeping_id_unique_index)
     |> unique_constraint(:business_tax_return_id, name: :business_tax_return_id_unique_index)
     |> unique_constraint(:individual_tax_return_id, name: :individual_tax_return_id_unique_index)

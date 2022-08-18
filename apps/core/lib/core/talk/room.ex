@@ -17,6 +17,7 @@ defmodule Core.Talk.Room do
     last_msg: String.t(),
     messages: [Message.t()],
     name: String.t(),
+    participant_id: User.t(),
     project_id: Project.t(),
     topic: String.t(),
     unread_msg: integer,
@@ -28,6 +29,7 @@ defmodule Core.Talk.Room do
     description
     last_msg
     name
+    participant_id
     project_id
     topic
     unread_msg
@@ -37,6 +39,7 @@ defmodule Core.Talk.Room do
   @required_params ~w(
     active
     name
+    participant_id
     project_id
     user_id
   )a
@@ -48,6 +51,11 @@ defmodule Core.Talk.Room do
     field :name, :string, null: false
     field :topic, :string, null: true
     field :unread_msg, :integer, null: true
+
+    belongs_to :participant, User,
+      foreign_key: :participant_id,
+      type: FlakeId.Ecto.CompatType,
+      references: :id
 
     belongs_to :projects, Project,
       foreign_key: :project_id,
@@ -74,8 +82,5 @@ defmodule Core.Talk.Room do
     |> validate_required(@required_params)
     |> validate_length(:name, min: 1, max: 30)
     |> validate_length(:topic, min: 1, max: 120)
-    |> foreign_key_constraint(:name, message: "Only a single unique names")
-    |> foreign_key_constraint(:project_id, message: "Select a Project")
-    |> foreign_key_constraint(:user_id, message: "Select an User")
   end
 end

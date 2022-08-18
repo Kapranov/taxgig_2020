@@ -4,6 +4,8 @@
 /doc/dist/*
 /doc/.build
 
+apps/sender
+
 apps/ptin/priv/data/*
 apps/reptin/priv/data/*
 apps/reptin/src/*
