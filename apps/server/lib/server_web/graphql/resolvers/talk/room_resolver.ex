@@ -54,6 +54,22 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
     {:error, "there is projectId none record"}
   end
 
+  @spec list_by_participant(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def list_by_participant(_parent, _args, %{context: %{current_user: current_user}}) do
+    if is_nil(current_user) do
+      {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
+    else
+      query = from p in Room, where: p.participant_id == ^current_user.id
+      struct = Repo.all(query)
+      {:ok, struct}
+    end
+  end
+
+  @spec list_by_participant(any, %{atom => any}, any) :: result()
+  def list_by_participant(_parent, _args, _info) do
+    {:error, "there is projectId none record"}
+  end
+
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     try do
@@ -91,41 +107,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
     {:error, "Unauthenticated"}
   end
 
-#  @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
-#  def create(_parent, args, %{context: %{current_user: current_user}}) do
-#    participant = Repo.get_by(User, id: args[:participant_id])
-#    case is_nil(participant) do
-#      true ->
-#        {:error, "there is participant_id doesn't exist"}
-#      false ->
-#        case participant.role == current_user.role do
-#          true ->
-#            {:error, "user_id role cannot match the role in participant_id"}
-#          false ->
-#            case Queries.by_names(Room, :user_id, :name, args[:name], current_user.id) do
-#              [] ->
-#                case Repo.get_by(Platform, %{user_id: args[:user_id]}) do
-#                  nil -> {:error, [[field: :user_id, message: "Please create Platform for your user_id"]]}
-#                  data ->
-#                    if data.payment_active == true do
-#                      case Talk.create_room(current_user, Map.merge(args, %{active: true})) do
-#                        {:ok, room} -> {:ok, room}
-#                        {:error, _changeset} -> {:error, "Fuck Fuck Fuck"}
-#                      end
-#                    else
-#                      case Talk.create_room(current_user, Map.merge(args, %{active: false})) do
-#                        {:ok, room} -> {:ok, room}
-#                        {:error, _changeset} -> {:error, "Fuck Fuck Fuck"}
-#                      end
-#                    end
-#                end
-#              _ ->
-#                {:error, [[field: :name, message: "Name already exists for selected user"]]}
-#            end
-#        end
-#    end
-#  end
-
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
     participant = Repo.get_by(User, id: args[:participant_id])
@@ -144,12 +125,22 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
                   data ->
                     if data.payment_active == true do
                       case Talk.create_room(current_user, Map.merge(args, %{active: true})) do
-                        {:ok, room} -> {:ok, room}
+                        {:ok, room} ->
+                          struct = Queries.by_list(Room, :user_id, current_user.id)
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, room_all: "rooms")
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, rooms_by_project_all: args[:project_id])
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, rooms_by_participant_all: "rooms")
+                          {:ok, room}
                         {:error, _changeset} -> {:error, "Something went wrong with your room"}
                       end
                     else
                       case Talk.create_room(current_user, Map.merge(args, %{active: false})) do
-                        {:ok, room} -> {:ok, room}
+                        {:ok, room} ->
+                          struct = Queries.by_list(Room, :user_id, current_user.id)
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, room_all: "rooms")
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, rooms_by_project_all: struct.project_id)
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, rooms_by_participant_all: "rooms")
+                          {:ok, room}
                         {:error, _changeset} -> {:error, "Something went wrong with your room"}
                       end
                     end
@@ -170,22 +161,22 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
     if is_nil(id) || is_nil(current_user) do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
-      case params[:user_id] == current_user.id do
-        true  ->
-          try do
-            Repo.get!(Room, id)
-            |> Talk.update_room(Map.delete(params, :user_id))
-            |> case do
-              {:ok, struct} ->
-                {:ok, struct}
-              {:error, changeset} ->
-                {:error, extract_error_msg(changeset)}
-            end
-          rescue
-            Ecto.NoResultsError ->
-              {:error, "The Room #{id} not found!"}
-          end
-        false -> {:error, "permission denied"}
+      try do
+        Repo.get!(Room, id)
+        |> Talk.update_room(params)
+        |> case do
+          {:ok, struct} ->
+            data = Queries.by_list(Room, :user_id, current_user.id)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, data, room_all: "rooms")
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, data, rooms_by_project_all: struct.project_id)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, data, rooms_by_participant_all: "rooms")
+            {:ok, struct}
+          {:error, changeset} ->
+            {:error, extract_error_msg(changeset)}
+        end
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "The Room #{id} not found!"}
       end
     end
   end

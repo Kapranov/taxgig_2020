@@ -28,11 +28,10 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
 
   @desc "The room update via params"
   input_object :update_room_params, description: "update room" do
+    field :active, non_null(:boolean)
     field :description, :string
     field :name, :string
-    field :participant_id, non_null(:string)
     field :topic, :string
-    field :user_id, non_null(:string)
   end
 
   object :room_queries do
@@ -45,6 +44,11 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
     field :all_rooms_by_project, list_of(:room) do
       arg(:project_id, non_null(:string))
       resolve &RoomResolver.list_by_project_id/3
+    end
+
+    @desc "Get all rooms by participantId"
+    field :all_rooms_by_participant, list_of(:room) do
+      resolve &RoomResolver.list_by_participant/3
     end
 
     @desc "Get a specific room"
@@ -89,13 +93,40 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
   end
 
   object :room_subscriptions do
-    @desc "Create the room via channel"
-    field :room_created, :room do
+    @desc "Return all the rooms via channel"
+    field :room_all, list_of(:room) do
       config(fn _, _ ->
         {:ok, topic: "rooms"}
       end)
 
-      trigger(:create_room,
+      trigger(:room_all,
+        topic: fn _ ->
+          "rooms"
+        end
+      )
+    end
+
+    @desc "Return all the rooms by projectId via channel"
+    field :rooms_by_project_all, list_of(:room) do
+      arg(:project_id, non_null(:string))
+      config(fn args, _ ->
+        {:ok, topic: [args.project_id]}
+      end)
+
+      trigger(:all_rooms_by_project,
+        topic: fn args ->
+          args.project_id
+        end
+      )
+    end
+
+    @desc "Return all the rooms by participantId  via channel"
+    field :rooms_by_participant_all, list_of(:room) do
+      config(fn _, _ ->
+        {:ok, topic: "rooms"}
+      end)
+
+      trigger(:all_rooms_by_participant,
         topic: fn _ ->
           "rooms"
         end

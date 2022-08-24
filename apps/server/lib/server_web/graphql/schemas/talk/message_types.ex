@@ -29,10 +29,9 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
     field :id, :string
     field :body, :string
     field :is_read, :boolean
-    field :projects, :project, resolve: dataloader(Data)
     field :recipient, :user, resolve: dataloader(Data)
     field :room, :room, resolve: dataloader(Data)
-    field :user, :user, resolve: dataloader(Data)
+    field :user, non_null(:user), resolve: dataloader(Data)
     field :warning, :boolean
     field :inserted_at, :datetime
     field :updated_at, :datetime
@@ -41,11 +40,7 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
   @desc "The message update via params"
   input_object :update_message_params, description: "update message" do
     field :body, :string
-    field :is_read, :boolean
-    field :project_id, :string
-    field :recipient_id, :string
-    field :room_id, :string
-    field :user_id, non_null(:string)
+    field :is_read, non_null(:boolean)
     field :warning, :boolean
   end
 
@@ -109,6 +104,20 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
   end
 
   object :message_subscriptions do
+    @desc "Return all the rooms via channel"
+    field :messages_by_room_all, list_of(:message) do
+      arg(:room_id, non_null(:string))
+      config(fn args, _ ->
+        {:ok, topic: [args.room_id]}
+      end)
+
+      trigger(:all_messages_by_room,
+        topic: fn args ->
+          args.room_id
+        end
+      )
+    end
+
     @desc "Show all the messages via channel with roomId"
     field :msg_by_room, list_of(:message) do
       arg(:room_id, non_null(:string))

@@ -44,6 +44,8 @@ defmodule Core.Talk.Room do
     user_id
   )a
 
+  @required_updated_params ~w(active)a
+
   schema "rooms" do
     field :active, :boolean, null: false, default: false
     field :description, :string, null: true
@@ -80,6 +82,18 @@ defmodule Core.Talk.Room do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
+    |> validate_length(:name, min: 1, max: 30)
+    |> validate_length(:topic, min: 1, max: 120)
+  end
+
+  @doc """
+  Updated changeset for Room.
+  """
+  @spec updated_changeset(t, %{atom => any}) :: Ecto.Changeset.t()
+  def updated_changeset(struct, attrs) do
+    struct
+    |> cast(attrs, @allowed_params)
+    |> validate_required(@required_updated_params)
     |> validate_length(:name, min: 1, max: 30)
     |> validate_length(:topic, min: 1, max: 120)
   end

@@ -1,6 +1,6 @@
 {
   "key": "graphiql",
-  "lastId": 10,
+  "lastId": 20,
   "tabIds": [
     "tab1",
     "tab2",
@@ -11,9 +11,50 @@
     "tab7",
     "tab8",
     "tab9",
-    "tab10"
+    "tab10",
+    "tab11",
+    "tab13",
+    "tab14",
+    "tab15",
+    "tab17",
+    "tab18",
+    "tab19",
+    "tab20"
   ],
-  "closedTabs": [],
+  "closedTabs": [
+    {
+      "id": "tab12",
+      "name": "Query 12",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "",
+      "graphiql:variables": "",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab16",
+      "name": "Query 16",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "subscription {\n  room\n}",
+      "graphiql:variables": "",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    }
+  ],
   "defaultUrl": "http://localhost:4000/graphiql",
   "defaultWebsocketUrl": "ws://localhost:4000/socket",
   "defaultQuery": "",
@@ -24,6 +65,62 @@
     "http://localhost:4000/graphiql"
   ],
   "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgBSfA3PggFiAAFRgA.ruov2u_BGWQCBUa86-t1i4kphCmiSEIVMsJ3EhylQz4"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgCFZQbPggFiAAFRgA.gwS9kRw8zLfwyzdsB0D7oXX96PVlbyrmzMLhlHbpGyM "
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgA9pfrOggFiAAFRgA.DiKo2muwefVe3EGag_CYfLXu_qS11ypsuRb4XY0Q6YM"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgAojNjOggFiAAFRgA.FFn66r7zRmBrU9jVNtBKGuE60l56KrjhB85I5R4uJhg"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgAazbLJggFiAAFRgA.pi2RBwk-ly4yd2Tl0VqweOQCw_v1O1Vuuor-8MbGO0w "
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgAazbLJggFiAAFRgA.pi2RBwk-ly4yd2Tl0VqweOQCw_v1O1Vuuor-8MbGO0w"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgCjp3q1ggFiAAFRgA.DMpcnaM2RARZ19eu7vYnKZYeCPEJdTjfGQaN-tlAPRI"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCaVXK1ggFiAAFRgA.1S7BxeplhdYkWTtWWAq5z5FZRmLQbtiVwDKSm8_At2w"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgDqq2W1ggFiAAFRgA.0ndqsHqx9LR_8c6nDGhpojIi9SGSwMalDwWLSkoqKjA"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgA6W2K1ggFiAAFRgA.SKPlM9XTYW3DFCVX6oihEVKvJ3Qgm-2g-9SAVsO4_O4"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgDJ82C1ggFiAAFRgA.Dn3jxEFTNZm8eAYmJmeJvrN_h0Z37yFcdhUv3euoV1g"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgC5tFK1ggFiAAFRgA.nUxnmwmEGfyBdwvxvSUPNbrbJKDaU4q49sXvPh-sP24"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgACYUm1ggFiAAFRgA.9q6wGZmt79Tyy-rKmgyG0syuVLEBEhos8Yue1CKYu0E"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCJYkK1ggFiAAFRgA.7tZ76wXKEnu_--6ark90mQYqd79U7O66Kld-2kJ2GEM"
+    },
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgACBg-wggFiAAFRgA.i1xp47-ouzaboVmqfhlAXI-gcRSAL2VttBWXcY_3ZX8"
@@ -47,69 +144,13 @@
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgBOdZGlggFiAAFRgA.acWrs5dgIhUGM5FZ8wKMMsqE-uYZk4h8A3Tgh7_kRRI"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgALpnmlggFiAAFRgA.L6YvjdpzuduU8AmJ1GXzzaxMPiuBNLDZ8KUZnwTRQDQ"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgDTRR9kggFiAAFRgA.r1_Lc6IR5AmtUhGFhkaBe0Px4WkW1_LZapfJF45y8-o"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgD3_XpZggFiAAFRgA.GuMor5njzYSrtwYs5llNYTvlAugv_Fv7i150xAWpKAA"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgB88WpZggFiAAFRgA.iD0PQxyq9jqHYVU3ugRgTU-c9GQdwuTnnLQTVXe4qLU"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCu6EBZggFiAAFRgA.knxJCr3Ah4EKm0VNm-2beNqqxlIYRX7ktqLNWq6e4gA "
-    },
-    {
-      "name": "Authorization",
-      "value": "BearerSFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCu6EBZggFiAAFRgA.knxJCr3Ah4EKm0VNm-2beNqqxlIYRX7ktqLNWq6e4gA "
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgDoQ2hKggFiAAFRgA.eSS4fTOSfU8T1IJ0Gpa8FPUq1Bo4o4Ak0_v_WCV1Xyw"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhvUUo5MWw4SFBrdFVDNVFuBgCfpmRKggFiAAFRgA.41kDtAlNB7scEGzLBTZYz6dhTVd7aX5E_hSPVhnO-XU"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgBpF2FKggFiAAFRgA.dnXoXk5Q9MpFAzyupC4247ZgrRgLMz_-CSdJLdOeecI"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgAr8UZKggFiAAFRgA.H0g4q-p4ximwgaWsE2Nm2F2nKSNCZDXs5hG6kQf4p5c"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgAn_zVKggFiAAFRgA.bm0lrA2tYVcaOOJHThffx6rrNR_msF6NMAlIZtACFQA"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhvUUo5MWw4SFBrdFVDNVFuBgBveCJJggFiAAFRgA.9wSs9A6kCPvGNjMSIdcab9P_Hl2KBw03ZmBUrS8EaAY"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgBvRQ9JggFiAAFRgA.Lj6cEl7CS5gDpIFz87M0sPh_Wo_vAPwafGU2-Fwqkfc"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgC3pw5JggFiAAFRgA.dJHo6GY5fEJ6YRDgzgCIabRrhpwo5QFbHe4XpuVkpf4"
     }
   ],
   "maxTabHistory": 20,
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab10",
+  "activeId": "tab20",
   "tabs": [
     {
       "id": "tab1",
@@ -122,8 +163,8 @@
       "maxHistory": 20,
       "history": [],
       "graphiql:editorFlex": 0.3915289256198347,
-      "graphiql:docExplorerWidth": 350,
-      "graphiql:variableEditorHeight": 200
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
     },
     {
       "id": "tab2",
@@ -136,6 +177,50 @@
       "maxHistory": 20,
       "history": [
         {
+          "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"client@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"client@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"client@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"client@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"client@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
           "query": "query {\n  signInLocal(\n    email: \"client@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
           "variables": null
         },
@@ -169,26 +254,14 @@
         },
         {
           "query": "query {\n  signInLocal(\n    email: \"client@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "query {\n  signInLocal(\n    email: \"client@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "query {\n  signIn(\n    email: \"op@taxgig.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n  }\n}",
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  signInLocal(\n    email: \"client@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signIn(\\n    email: \\\"op@taxgig.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client2@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client2@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client2@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
-      "graphiql:docExplorerWidth": 350,
+      "graphiql:query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.3121998078770413
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client2@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client2@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client2@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 1
     },
     {
       "id": "tab3",
@@ -199,7 +272,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgCQLeOqggFiAAFRgA.hLVwmsFiA6X5YA8uBEZQJ4kLudJlwQJeugyPuFuicNc"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgBSfA3PggFiAAFRgA.ruov2u_BGWQCBUa86-t1i4kphCmiSEIVMsJ3EhylQz4"
         }
       ],
       "collapsed": true,
@@ -251,10 +324,10 @@
         }
       ],
       "graphiql:query": "query {\n  rooms {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+      "graphiql:editorFlex": 0.8635743519781719,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  rooms {\\n    id\\n    name\\n    topic\\n    description\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    project {id}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    projects {id}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    projects {id endTime}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    projects {id status}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    projects {id status saleTax {id}}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    projects {id status saleTax {id saleTaxCount}}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount}}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 1,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  rooms {\\n    id\\n    name\\n    topic\\n    description\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    project {id}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    projects {id}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    projects {id endTime}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    projects {id status}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    projects {id status saleTax {id}}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    projects {id status saleTax {id saleTaxCount}}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount}}\\n  }\\n}\"},{\"query\":\"query {\\n  rooms {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\"}]}"
+      "graphiql:variableEditorHeight": 200
     },
     {
       "id": "tab4",
@@ -295,12 +368,72 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgCQLeOqggFiAAFRgA.hLVwmsFiA6X5YA8uBEZQJ4kLudJlwQJeugyPuFuicNc"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgA9pfrOggFiAAFRgA.DiKo2muwefVe3EGag_CYfLXu_qS11ypsuRb4XY0Q6YM"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxoQJ91l8HPktUC5Q\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxmYw44jt8Cs99jma\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createRoom(\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n    participantId: \"ADxmYw44jt8Cs99jma\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxmYw44jt8Cs99jma\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createRoom(\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n    participantId: \"ADxmYw44jt8Cs99jma\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxmYw44jt8Cs99jma\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createRoom(\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n    participantId: \"ADxmYw44jt8Cs99jma\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createRoom(\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n    participantId: \"ADxoQJ91l8HPktUC5Q\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createRoom(\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n    participantId: \"ADxmYw44jt8Cs99jma\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createRoom(\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n    participantId: \"ADxoQJ91l8HPktUC5Q\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createRoom(\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n    participantId: \"ADxmYw44jt8Cs99jma\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createRoom(\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n    participantId: \"ADxoQJ91l8HPktUC5Q\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createRoom(\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n    participantId: \"ADxmYw44jt8Cs99jma\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createRoom(\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n    participantId: \"ADxoQJ91l8HPktUC5Q\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createRoom(\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n    participantId: \"ADxmYw44jt8Cs99jma\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+          "variables": null
+        },
         {
           "query": "mutation {\n  createRoom(\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n    participantId: \"ADxkx8ZJhZJuh6BJMu\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxmYw44jt8Cs99jma\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
           "variables": null
@@ -320,72 +453,12 @@
         {
           "query": "mutation {\n  createRoom(\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n    participantId: \"ADxmYw44jt8Cs99jma\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
           "variables": null
-        },
-        {
-          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxkx8ZJhZJuh6BJMu\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxnQphyaXDCnOWHK4\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxmYw44jt8Cs99jma\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxmYw44jt8Cs99jma\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    user {id email role}\n    \n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxnQphyaXDCnOWHK4\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    user {id email role}\n    \n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxoQJ91l8HPktUC5Q\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    user {id email role}\n    \n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxoQJ91l8HPktUC5Q\"\n    name: \"olegKapranov_olegPuryshevv2\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    user {id email role}\n    \n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxoQJ91l8HPktUC5Q\"\n    name: \"olegKapranov_olegPuryshevv\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    user {id email role}\n    \n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxmYw44jt8Cs99jma\"\n    name: \"olegKapranov_olegPuryshevv2\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    user {id email role}\n    \n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxmYw44jt8Cs99jma\"\n    name: \"olegKapranov_olegPuryshevv\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    user {id email role}\n    \n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxnQphyaXDCnOWHK4\"\n    name: \"olegKapranov_olegPuryshevv\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    user {id email role}\n    \n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"AFnewYAtgWzFa6TG2C\"\n    name: \"olegKapranov_olegPuryshevv3\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxmYw44jt8Cs99jma\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    user {id email role}\n    \n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxoQJ91l8HPktUC5Q\"\n    name: \"olegKapranov_olegPuryshevv3\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxmYw44jt8Cs99jma\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    user {id email role}\n    \n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxnQphyaXDCnOWHK4\"\n    name: \"olegKapranov_olegPuryshevv3\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxmYw44jt8Cs99jma\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    user {id email role}\n    \n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxnQphyaXDCnOWHK4\"\n    name: \"olegKapranov_olegPuryshevv2\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxmYw44jt8Cs99jma\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    user {id email role}\n    \n  }\n}",
-          "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  createRoom(\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n    participantId: \"ADxkx8ZJhZJuh6BJMu\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxmYw44jt8Cs99jma\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxnQphyaXDCnOWHK4\\\"\\n    name: \\\"olegKapranov_olegPuryshevv2\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxmYw44jt8Cs99jma\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxnQphyaXDCnOWHK4\\\"\\n    name: \\\"olegKapranov_olegPuryshevv3\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxmYw44jt8Cs99jma\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n    name: \\\"olegKapranov_olegPuryshevv3\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxmYw44jt8Cs99jma\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"AFnewYAtgWzFa6TG2C\\\"\\n    name: \\\"olegKapranov_olegPuryshevv3\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxmYw44jt8Cs99jma\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxnQphyaXDCnOWHK4\\\"\\n    name: \\\"olegKapranov_olegPuryshevv\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshevv\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshevv2\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n    name: \\\"olegKapranov_olegPuryshevv\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n    name: \\\"olegKapranov_olegPuryshevv2\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxnQphyaXDCnOWHK4\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxnQphyaXDCnOWHK4\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxmYw44jt8Cs99jma\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxmYw44jt8Cs99jma\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxmYw44jt8Cs99jma\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"}]}",
+      "graphiql:query": "mutation {\n  createRoom(\n    projectId: \"ALzE8hCNZrK6YCiDD6\"\n    participantId: \"ADxoQJ91l8HPktUC5Q\"\n    name: \"olegKapranov_olegPuryshev\"\n    description: \"Hawaii\",\n    topic: \"awseome shore\",\n    userId: \"ADxkx8ZJhZJuh6BJMu\"\n  ) {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n    \n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxmYw44jt8Cs99jma\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxmYw44jt8Cs99jma\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxmYw44jt8Cs99jma\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"},{\"query\":\"mutation {\\n  createRoom(\\n    projectId: \\\"ALzE8hCNZrK6YCiDD6\\\"\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n    name: \\\"olegKapranov_olegPuryshev\\\"\\n    description: \\\"Hawaii\\\",\\n    topic: \\\"awseome shore\\\",\\n    userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n    \\n  }\\n}\"}]}",
+      "graphiql:editorFlex": 0.43940990516332984,
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.6014067995310668,
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -397,12 +470,48 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgB1gnfYgQFiAAFRgA.fPJahxXTSr4W79x3kbz0isgoQT5HXOVL0NUOxWpyu98"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgA9pfrOggFiAAFRgA.DiKo2muwefVe3EGag_CYfLXu_qS11ypsuRb4XY0Q6YM"
         }
       ],
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "mutation {\n  updateRoom(\n    id: \"AMr0m4nDAOBg89KyCu\",\n    room: {\n      active: false\n      name: \"olegKapranov_olegPuryshevv\"\n      description: \"updated Hawaii\"\n      topic: \"updated awseome shore\"\n    }\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateRoom(\n    id: \"AMqfS4N5RNesvpDYoq\",\n    room: {\n      active: false\n      name: \"olegKapranov_olegPuryshevv\"\n      description: \"updated Hawaii\"\n      topic: \"updated awseome shore\"\n    }\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateRoom(\n    id: \"AMqZG1OcckLrV0WWm0\",\n    room: {\n      active: false\n      name: \"olegKapranov_olegPuryshevv\"\n      description: \"updated Hawaii\"\n      topic: \"updated awseome shore\"\n    }\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateRoom(\n    id: \"AMoZh2Crpth9X5UfM8\",\n    room: {\n      active: false\n      participantId: \"ADxoQJ91l8HPktUC5Q\"\n      name: \"olegKapranov_olegPuryshevv\"\n      description: \"updated Hawaii\"\n      topic: \"updated awseome shore\"\n    }\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateRoom(\n    id: \"AMoZh2Crpth9X5UfM8\",\n    room: {\n      active: false\n      participantId: \"ADxoQJ91l8HPktUC5Q\"\n      name: \"updated olegKapranov_olegPuryshev\"\n      description: \"updated Hawaii\"\n      topic: \"updated awseome shore\"\n    }\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateRoom(\n    id: \"AMoXEasonrKKFLfow4\",\n    room: {\n      active: false\n      participantId: \"ADxoQJ91l8HPktUC5Q\"\n      name: \"updated olegKapranov_olegPuryshev\"\n      description: \"updated Hawaii\"\n      topic: \"updated awseome shore\"\n    }\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateRoom(\n    id: \"AMoXEasonrKKFLfow4\",\n    room: {\n      active: true\n      participantId: \"ADxoQJ91l8HPktUC5Q\"\n      name: \"updated olegKapranov_olegPuryshev\"\n      description: \"updated Hawaii\"\n      topic: \"updated awseome shore\"\n    }\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateRoom(\n    id: \"AMoXEasonrKKFLfow4\",\n    room: {\n      active: false\n      participantId: \"ADxoQJ91l8HPktUC5Q\"\n      name: \"updated olegKapranov_olegPuryshev\"\n      description: \"updated Hawaii\"\n      topic: \"updated awseome shore\"\n    }\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateRoom(\n    id: \"AMoXEasonrKKFLfow4\",\n    room: {\n      active: false\n      participantId: \"ADxmYw44jt8Cs99jma\"\n      name: \"olegKapranov_olegPuryshev\"\n      description: \"Hawaii\"\n      topic: \"awseome shore\"\n    }\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+          "variables": null
+        },
         {
           "query": "mutation {\n  updateRoom(\n    id: \"ALFQbSCbW3XnqQNUky\",\n    room: {\n      name: \"protest@gmail.com\",\n      description: \"updated text\",\n      topic: \"updated text\",\n      userId: \"ADxkx8ZJhZJuh6BJMu\"\n    }\n  ) {\n    id\n    active\n    name\n    description\n    user {id email role}\n  }\n}",
           "variables": null
@@ -424,10 +533,10 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  updateRoom(\n    id: \"ALFQbSCbW3XnqQNUky\",\n    room: {\n      name: \"protest@gmail.com\",\n      description: \"updated text\",\n      topic: \"updated text\",\n      userId: \"ADxkx8ZJhZJuh6BJMu\"\n    }\n  ) {\n    id\n    active\n    name\n    description\n    user {id email role}\n  }\n}",
+      "graphiql:query": "mutation {\n  updateRoom(\n    id: \"AMr0m4nDAOBg89KyCu\",\n    room: {\n      active: false\n      name: \"olegKapranov_olegPuryshevv\"\n      description: \"updated Hawaii\"\n      topic: \"updated awseome shore\"\n    }\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.34565434565434566,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"A2V27CMwvQNB2zBcf2\\\",\\n    room: {\\n      name: \\\"Witten\\\",\\n      description: \\\"updated text\\\",\\n      topic: \\\"updated text\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"A2V27CMwvQNB2zBcf2\\\",\\n    room: {\\n      name: \\\"Witten\\\",\\n      description: \\\"updated text\\\",\\n      topic: \\\"updated text\\\",\\n      userId: \\\"A2V0ZzfCMfq90BlAYa\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"A2V27CMwvQNB2zBcf2\\\",\\n    room: {\\n      name: \\\"Aloha\\\",\\n      description: \\\"updated text\\\",\\n      topic: \\\"updated text\\\",\\n      userId: \\\"A2V0ZzfCMfq90BlAYa\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"ALFPMfHsZwofn3Cfcu\\\",\\n    room: {\\n      name: \\\"protest@gmail.com\\\",\\n      description: \\\"updated text\\\",\\n      topic: \\\"updated text\\\",\\n      userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"ALFQbSCbW3XnqQNUky\\\",\\n    room: {\\n      name: \\\"protest@gmail.com\\\",\\n      description: \\\"updated text\\\",\\n      topic: \\\"updated text\\\",\\n      userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    user {id email role}\\n  }\\n}\"}]}",
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"A2V27CMwvQNB2zBcf2\\\",\\n    room: {\\n      name: \\\"Witten\\\",\\n      description: \\\"updated text\\\",\\n      topic: \\\"updated text\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"A2V27CMwvQNB2zBcf2\\\",\\n    room: {\\n      name: \\\"Witten\\\",\\n      description: \\\"updated text\\\",\\n      topic: \\\"updated text\\\",\\n      userId: \\\"A2V0ZzfCMfq90BlAYa\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"A2V27CMwvQNB2zBcf2\\\",\\n    room: {\\n      name: \\\"Aloha\\\",\\n      description: \\\"updated text\\\",\\n      topic: \\\"updated text\\\",\\n      userId: \\\"A2V0ZzfCMfq90BlAYa\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"ALFPMfHsZwofn3Cfcu\\\",\\n    room: {\\n      name: \\\"protest@gmail.com\\\",\\n      description: \\\"updated text\\\",\\n      topic: \\\"updated text\\\",\\n      userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"ALFQbSCbW3XnqQNUky\\\",\\n    room: {\\n      name: \\\"protest@gmail.com\\\",\\n      description: \\\"updated text\\\",\\n      topic: \\\"updated text\\\",\\n      userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    description\\n    user {id email role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"AMoXEasonrKKFLfow4\\\",\\n    room: {\\n      active: false\\n      participantId: \\\"ADxmYw44jt8Cs99jma\\\"\\n      name: \\\"olegKapranov_olegPuryshev\\\"\\n      description: \\\"Hawaii\\\"\\n      topic: \\\"awseome shore\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"AMoXEasonrKKFLfow4\\\",\\n    room: {\\n      active: false\\n      participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n      name: \\\"updated olegKapranov_olegPuryshev\\\"\\n      description: \\\"updated Hawaii\\\"\\n      topic: \\\"updated awseome shore\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"AMoXEasonrKKFLfow4\\\",\\n    room: {\\n      active: true\\n      participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n      name: \\\"updated olegKapranov_olegPuryshev\\\"\\n      description: \\\"updated Hawaii\\\"\\n      topic: \\\"updated awseome shore\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"AMoXEasonrKKFLfow4\\\",\\n    room: {\\n      active: false\\n      participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n      name: \\\"updated olegKapranov_olegPuryshev\\\"\\n      description: \\\"updated Hawaii\\\"\\n      topic: \\\"updated awseome shore\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"AMoZh2Crpth9X5UfM8\\\",\\n    room: {\\n      active: false\\n      participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n      name: \\\"updated olegKapranov_olegPuryshev\\\"\\n      description: \\\"updated Hawaii\\\"\\n      topic: \\\"updated awseome shore\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"AMoZh2Crpth9X5UfM8\\\",\\n    room: {\\n      active: false\\n      participantId: \\\"ADxoQJ91l8HPktUC5Q\\\"\\n      name: \\\"olegKapranov_olegPuryshevv\\\"\\n      description: \\\"updated Hawaii\\\"\\n      topic: \\\"updated awseome shore\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"AMqZG1OcckLrV0WWm0\\\",\\n    room: {\\n      active: false\\n      name: \\\"olegKapranov_olegPuryshevv\\\"\\n      description: \\\"updated Hawaii\\\"\\n      topic: \\\"updated awseome shore\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"AMqfS4N5RNesvpDYoq\\\",\\n    room: {\\n      active: false\\n      name: \\\"olegKapranov_olegPuryshevv\\\"\\n      description: \\\"updated Hawaii\\\"\\n      topic: \\\"updated awseome shore\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updateRoom(\\n    id: \\\"AMr0m4nDAOBg89KyCu\\\",\\n    room: {\\n      active: false\\n      name: \\\"olegKapranov_olegPuryshevv\\\"\\n      description: \\\"updated Hawaii\\\"\\n      topic: \\\"updated awseome shore\\\"\\n    }\\n  ) {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -521,10 +630,10 @@
         }
       ],
       "graphiql:query": "mutation {\n  updatePlatform(\n    id: \"ALFPLDz0btq6okgqMC\",\n    platform: {\n      paymentActive: true,\n      userId: \"ADxkx8ZJhZJuh6BJMu\"\n    }\n  ) {\n    id\n    isBanned\n    isStuck\n    isOnline\n    heroStatus\n    heroActive\n    clientLimitReach\n    paymentActive\n    stuckStage\n    user {id, email, role}\n  }\n}",
-      "graphiql:variableEditorHeight": 200,
-      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.4119496855345912,
       "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2V0aBOGlRQdN9vops\\\",\\n    platform: {\\n      paymentActive: true,\\n      userId: \\\"A2V0ZzfCMfq90BlAYa\\\"\\n    }\\n  ) {\\n    id\\n    isBanned\\n    isStuck\\n    isOnline\\n    heroStatus\\n    heroActive\\n    clientLimitReach\\n    paymentActive\\n    stuckStage\\n    user {id, email, role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"A2V0aBOGlRQdN9vops\\\",\\n    platform: {\\n      paymentActive: false,\\n      userId: \\\"A2V0ZzfCMfq90BlAYa\\\"\\n    }\\n  ) {\\n    id\\n    isBanned\\n    isStuck\\n    isOnline\\n    heroStatus\\n    heroActive\\n    clientLimitReach\\n    paymentActive\\n    stuckStage\\n    user {id, email, role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"ALFPLDz0btq6okgqMC\\\",\\n    platform: {\\n      paymentActive: false,\\n      userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n    }\\n  ) {\\n    id\\n    isBanned\\n    isStuck\\n    isOnline\\n    heroStatus\\n    heroActive\\n    clientLimitReach\\n    paymentActive\\n    stuckStage\\n    user {id, email, role}\\n  }\\n}\"},{\"query\":\"mutation {\\n  updatePlatform(\\n    id: \\\"ALFPLDz0btq6okgqMC\\\",\\n    platform: {\\n      paymentActive: true,\\n      userId: \\\"ADxkx8ZJhZJuh6BJMu\\\"\\n    }\\n  ) {\\n    id\\n    isBanned\\n    isStuck\\n    isOnline\\n    heroStatus\\n    heroActive\\n    clientLimitReach\\n    paymentActive\\n    stuckStage\\n    user {id, email, role}\\n  }\\n}\"}]}",
-      "graphiql:editorFlex": 0.4119496855345912
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
     },
     {
       "id": "tab9",
@@ -561,10 +670,10 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgACBg-wggFiAAFRgA.i1xp47-ouzaboVmqfhlAXI-gcRSAL2VttBWXcY_3ZX8"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgAojNjOggFiAAFRgA.FFn66r7zRmBrU9jVNtBKGuE60l56KrjhB85I5R4uJhg"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
         {
@@ -581,10 +690,227 @@
         }
       ],
       "graphiql:query": "query {\n  allRoomsByProject(projectId: \"ALzE8hCNZrK6YCiDD6\") {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
-      "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allRoomsByProject(projectId: \\\"ALzE8hCNZrK6YCiDD6\\\") {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allRoomsByProject(projectId: \\\"ALzE8hCNZrK6YCiDDD\\\") {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allRoomsByProject(projectId: \\\"ALzE8hCNZrK6YCiDD6\\\") {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allRoomsByProject(projectId: \\\"ALzE8hCNZrK6YCiDD6\\\") {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allRoomsByProject(projectId: \\\"ALzE8hCNZrK6YCiDDD\\\") {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allRoomsByProject(projectId: \\\"ALzE8hCNZrK6YCiDD6\\\") {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"}]}"
+    },
+    {
+      "id": "tab11",
+      "name": "Query 11",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgACYUm1ggFiAAFRgA.9q6wGZmt79Tyy-rKmgyG0syuVLEBEhos8Yue1CKYu0E"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allRoomsByProject(projectId: \"ALzEAkCnMy7KSGspzU\") {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allRoomsByProject(projectId: \"ALzE8hCNZrK6YCiDD6\") {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allRoomsByProject(projectId: \"ALzEAkCnMy7KSGspzU\") {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allRoomsByProject(projectId: \"ALzEAkCnMy7KSGspzU\") {\n    id\n    active\n    name\n    description\n    topic\n    participant {id email role}\n    user {id email role}\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allRoomsByProject(projectId: \\\"ALzEAkCnMy7KSGspzU\\\") {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allRoomsByProject(projectId: \\\"ALzE8hCNZrK6YCiDD6\\\") {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allRoomsByProject(projectId: \\\"ALzEAkCnMy7KSGspzU\\\") {\\n    id\\n    active\\n    name\\n    description\\n    topic\\n    participant {id email role}\\n    user {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab13",
+      "name": "Query 13",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgDJ82C1ggFiAAFRgA.Dn3jxEFTNZm8eAYmJmeJvrN_h0Z37yFcdhUv3euoV1g"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allMessagesByRoom(roomId: \"AMgFhMMR7hd8LgVqm8\") {\n    recipient{id email}\n    room{id}\n    user{id email}\n    warning\n    updatedAt\n    insertedAt\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allMessagesByRoom(roomId: \"AMgFhMMR7hd8LgVqm9\") {\n    recipient{id email}\n    room{id}\n    user{id email}\n    warning\n    updatedAt\n    insertedAt\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allMessagesByRoom(roomId: \"AMgFhMMR7hd8LgVqm8\") {\n    recipient{id email}\n    room{id}\n    user{id email}\n    warning\n    updatedAt\n    insertedAt\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allMessagesByRoom(roomId: \"AMgFhMMR7hd8LgVqm8\") {\n    recipient{id email}\n    room{id}\n    user{id email}\n    warning\n    updatedAt\n    insertedAt\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allMessagesByRoom(roomId: \\\"AMgFhMMR7hd8LgVqm8\\\") {\\n    recipient{id email}\\n    room{id}\\n    user{id email}\\n    warning\\n    updatedAt\\n    insertedAt\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allMessagesByRoom(roomId: \\\"AMgFhMMR7hd8LgVqm9\\\") {\\n    recipient{id email}\\n    room{id}\\n    user{id email}\\n    warning\\n    updatedAt\\n    insertedAt\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allMessagesByRoom(roomId: \\\"AMgFhMMR7hd8LgVqm8\\\") {\\n    recipient{id email}\\n    room{id}\\n    user{id email}\\n    warning\\n    updatedAt\\n    insertedAt\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:editorFlex": 1,
       "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab14",
+      "name": "Query 14",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCaVXK1ggFiAAFRgA.1S7BxeplhdYkWTtWWAq5z5FZRmLQbtiVwDKSm8_At2w"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  showRoom(id: \"AMgFhMMR7hd8LgVqm8\") {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showRoom(id: \"AMgFhMMR7hd8LgVqm9\") {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showRoom(id: \"AMgFhMMR7hd8LgVqm8\") {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  showRoom(id: \"AMgFhMMR7hd8LgVqm8\") {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showRoom(id: \\\"AMgFhMMR7hd8LgVqm8\\\") {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showRoom(id: \\\"AMgFhMMR7hd8LgVqm9\\\") {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  showRoom(id: \\\"AMgFhMMR7hd8LgVqm8\\\") {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab15",
+      "name": "Query 15",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgA9pfrOggFiAAFRgA.DiKo2muwefVe3EGag_CYfLXu_qS11ypsuRb4XY0Q6YM"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  showRoomByParticipant(\n    participantId: \"ADxoQJ91l8HPktUC5Q\",\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}\n",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showRoomByParticipant(\n    participantId: \"ADxoQJ91l8HPktUC5Q\",\n    projectId: \"ALzEAkCnMy5KSGspzU\"\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}\n",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showRoomByParticipant(\n    participantId: \"ADxoQJ91l8HPktUC5Q\",\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}\n",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showRoomByParticipant(\n    participantId: \"ADxoQJ91l8HPktUC1Q\",\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}\n",
+          "variables": null
+        },
+        {
+          "query": "query {\n  showRoomByParticipant(\n    participantId: \"ADxoQJ91l8HPktUC5Q\",\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}\n",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  showRoomByParticipant(\n    participantId: \"ADxoQJ91l8HPktUC5Q\",\n    projectId: \"ALzEAkCnMy7KSGspzU\"\n  ) {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}\n",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  showRoomByParticipant(\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\",\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\\n\",\"variables\":\"\"},{\"query\":\"query {\\n  showRoomByParticipant(\\n    participantId: \\\"ADxoQJ91l8HPktUC1Q\\\",\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\\n\",\"variables\":\"\"},{\"query\":\"query {\\n  showRoomByParticipant(\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\",\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\\n\",\"variables\":\"\"},{\"query\":\"query {\\n  showRoomByParticipant(\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\",\\n    projectId: \\\"ALzEAkCnMy5KSGspzU\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\\n\",\"variables\":\"\"},{\"query\":\"query {\\n  showRoomByParticipant(\\n    participantId: \\\"ADxoQJ91l8HPktUC5Q\\\",\\n    projectId: \\\"ALzEAkCnMy7KSGspzU\\\"\\n  ) {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\\n\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab17",
+      "name": "Query 16",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "subscription {\n  roomAll {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+      "graphiql:editorFlex": 0.8610354223433242,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n  roomAll {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab18",
+      "name": "Query 16",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "subscription {\n  roomsByProjectAll(projectId: \"ALzEAkCnMy7KSGspzU\") {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n  roomsByProjectAll(projectId: \\\"ALzEAkCnMy7KSGspzU\\\") {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab19",
+      "name": "Query 17",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgCFZQbPggFiAAFRgA.gwS9kRw8zLfwyzdsB0D7oXX96PVlbyrmzMLhlHbpGyM "
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allRoomsByParticipant {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allRoomsByParticipant {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allRoomsByParticipant {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\"}]}",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab20",
+      "name": "Query 18",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "subscription {\n  roomsByParticipantAll {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n  roomByParticipantAll {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n  roomsByParticipantAll {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1,
       "graphiql:docExplorerWidth": 350
     }
   ]

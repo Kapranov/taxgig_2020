@@ -117,7 +117,7 @@ defmodule Core.Talk do
   @spec update_message(Message.t(), %{atom => any}) :: result() | error_tuple()
   def update_message(%Message{} = struct, attrs) do
     struct
-    |> Message.changeset(attrs)
+    |> Message.updated_changeset(attrs)
     |> Repo.update()
   end
 
@@ -356,7 +356,7 @@ defmodule Core.Talk do
   @spec update_room(Room.t(), %{atom => any}) :: result() | error_tuple()
   def update_room(%Room{} = struct, attrs) do
     struct
-    |> Room.changeset(attrs)
+    |> Room.updated_changeset(attrs)
     |> Repo.update()
   end
 

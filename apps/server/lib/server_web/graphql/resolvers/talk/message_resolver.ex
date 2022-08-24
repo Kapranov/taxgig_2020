@@ -3,19 +3,23 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
   The Message GraphQL resolvers.
   """
 
+  import Ecto.Query
+
   alias Core.{
     Accounts,
     Accounts.User,
+    Queries,
     Repo,
     Talk,
     Talk.Message,
     Talk.Room
   }
 
+  @type r :: Room.t()
   @type t :: Message.t()
   @type reason :: any
   @type ok :: {:ok}
-  @type success_tuple :: {:ok, t}
+  @type success_tuple :: {:ok, t} | {:ok, [r]}
   @type success_list :: {:ok, [t]}
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
@@ -38,11 +42,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
 
   @spec list_by_room_id(any, %{room_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def list_by_room_id(_parent, %{room_id: id}, %{context: %{current_user: current_user}}) do
-    case Repo.get_by(Message, %{room_id: id, user_id: current_user.id}) do
-      nil ->
-        {:error, "none correct roomId for current_user"}
-      struct ->
-        {:ok, struct}
+    if is_nil(current_user) do
+      {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
+    else
+      query = from p in Message, where: p.room_id == ^id
+      case Repo.all(query) do
+        nil ->
+          {:error, "none correct roomId for current_user"}
+        data ->
+          {:ok, data}
+      end
     end
   end
 
@@ -101,6 +110,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
             |> case do
               {:ok, struct} ->
                 {:ok, _struct} = Talk.update_room(room, %{last_msg: struct.id})
+                data = Queries.by_list(Room, :user_id, args[:recipient_id])
+                query = from p in Message, where: p.room_id == ^args[:room_id]
+                messages = Repo.all(query)
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, data, room_all: "rooms")
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, messages, messages_by_room_all: args[:room_id])
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, data, rooms_by_project_all: room.project_id)
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, data, rooms_by_participant_all: "rooms")
                 {:ok, struct}
               {:error, changeset} ->
                 {:error, extract_error_msg(changeset)}
@@ -114,6 +130,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
             |> case do
               {:ok, struct} ->
                 {:ok, _struct} = Talk.update_room(room, %{last_msg: struct.id})
+                data = Queries.by_list(Room, :user_id, args[:recipient_id])
+                query = from p in Message, where: p.room_id == ^args[:room_id]
+                messages = Repo.all(query)
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, data, room_all: "rooms")
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, messages, messages_by_room_all: args[:room_id])
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, data, rooms_by_project_all: room.project_id)
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, data, rooms_by_participant_all: "rooms")
                 {:ok, struct}
               {:error, changeset} ->
                 {:error, extract_error_msg(changeset)}
@@ -135,38 +158,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
     if is_nil(id) || is_nil(current_user) do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
-      case params[:user_id] == current_user.id do
-        true  ->
-          if Map.has_key?(params, :recipient_id) and Accounts.by_role(params[:recipient_id]) == true do
-            try do
-              Repo.get!(Message, id)
-              |> Talk.update_message(Map.delete(params, :user_id))
-              |> case do
-                {:ok, struct} ->
-                  {:ok, struct}
-                {:error, changeset} ->
-                  {:error, extract_error_msg(changeset)}
-              end
-            rescue
-              Ecto.NoResultsError ->
-                {:error, "The Message #{id} not found!"}
-            end
-          else
-            try do
-              Repo.get!(Message, id)
-              |> Talk.update_message(params |> Map.delete(:user_id) |> Map.delete(:recipient_id))
-              |> case do
-                {:ok, struct} ->
-                  {:ok, struct}
-                {:error, changeset} ->
-                  {:error, extract_error_msg(changeset)}
-              end
-            rescue
-              Ecto.NoResultsError ->
-                {:error, "The Message #{id} not found!"}
-            end
-          end
-        false -> {:error, "permission denied"}
+      try do
+        Repo.get!(Message, id)
+        |> Talk.update_message(params)
+        |> case do
+          {:ok, struct} ->
+            query = from p in Message, where: p.room_id == ^struct.room_id
+            data = Repo.all(query)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, data, messages_by_room_all: struct.room_id)
+            {:ok, struct}
+          {:error, changeset} ->
+            {:error, extract_error_msg(changeset)}
+        end
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "The Message #{id} not found!"}
       end
     end
   end
@@ -178,14 +184,19 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
 
   @spec update_by_read(any, %{id: [bitstring]}, %{context: %{current_user: User.t()}}) :: result()
   def update_by_read(_parent, %{id: idx}, %{context: %{current_user: current_user}}) do
-    Enum.reduce(idx, [], fn(x, acc) ->
-      struct = Repo.get!(Message, x)
-      if struct.user_id == current_user.id do
+    if is_nil(current_user) do
+      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
+    else
+      Enum.reduce(idx, [], fn(x, acc) ->
         try do
-          struct
+          Message
+          |> Repo.get!(x)
           |> Talk.update_message(%{is_read: true})
           |> case do
             {:ok, struct} ->
+              query = from p in Message, where: p.room_id == ^struct.room_id
+              data = Repo.all(query)
+              Absinthe.Subscription.publish(ServerWeb.Endpoint, data, messages_by_room_all: struct.room_id)
               {:ok, struct}
             {:error, _changeset} ->
               acc
@@ -193,10 +204,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
         rescue
           Ecto.NoResultsError -> acc
         end
-      else
-        acc
-      end
-    end)
+      end)
+    end
   end
 
   @spec update_by_read(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()

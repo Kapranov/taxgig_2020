@@ -37,6 +37,13 @@ defmodule Core.Talk.Message do
     warning
   )a
 
+
+  @required_updated_params ~w(
+    body
+    is_read
+    warning
+  )a
+
   schema "messages" do
     field :body, :string, null: false
     field :is_read, :boolean, null: false
@@ -68,6 +75,19 @@ defmodule Core.Talk.Message do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
+    |> foreign_key_constraint(:recipient_id, message: "Select Recipients")
+    |> foreign_key_constraint(:room_id, message: "Select a Room")
+    |> foreign_key_constraint(:user_id, message: "Select an User")
+  end
+
+  @doc """
+  Updated changeset for Messages.
+  """
+  @spec updated_changeset(t, %{atom => any}) :: Ecto.Changeset.t()
+  def updated_changeset(struct, attrs) do
+    struct
+    |> cast(attrs, @allowed_params)
+    |> validate_required(@required_updated_params)
     |> foreign_key_constraint(:recipient_id, message: "Select Recipients")
     |> foreign_key_constraint(:room_id, message: "Select a Room")
     |> foreign_key_constraint(:user_id, message: "Select an User")
