@@ -120,34 +120,34 @@ defmodule Core.Accounts.User do
   )a
 
   schema "users" do
-    field :active, :boolean, default: false, null: false
-    field :admin, :boolean, default: false, null: false
-    field :avatar, :binary, null: true
-    field :bio, :string, null: true
-    field :birthday, :date, null: true
-    field :bus_addr_zip, :string, null: false, default: ""
-    field :email, :string, null: false
+    field :active, :boolean, default: false
+    field :admin, :boolean, default: false
+    field :avatar, :binary
+    field :bio, :string
+    field :birthday, :date
+    field :bus_addr_zip, :string, default: ""
+    field :email, :string
     field :finished_project_count, :integer, virtual: true
-    field :first_name, :string, null: true
-    field :init_setup, :boolean, null: true
-    field :is2fa, :boolean, null: false, default: false
-    field :last_name, :string, null: true
-    field :middle_name, :string, null: true
+    field :first_name, :string
+    field :init_setup, :boolean
+    field :is2fa, :boolean, default: false
+    field :last_name, :string
+    field :middle_name, :string
     field :on_going_project_count, :integer, virtual: true
-    field :otp_last, :integer, null: false, default: 0
-    field :otp_secret, :string, null: false
+    field :otp_last, :integer, default: 0
+    field :otp_secret, :string
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
-    field :password_hash, :string, default: @pass_salt, null: false
-    field :phone, :string, null: true
-    field :profession, :string, null: true
-    field :provider, :string, default: "localhost", null: false
-    field :role, :boolean, default: false, null: false
-    field :sex, :string, null: true
-    field :street, :string, null: true
+    field :password_hash, :string, default: @pass_salt
+    field :phone, :string
+    field :profession, :string
+    field :provider, :string, default: "localhost"
+    field :role, :boolean, default: false
+    field :sex, :string
+    field :street, :string
     field :token, :string, virtual: true
     field :total_earned, :decimal, virtual: true
-    field :zip, :integer, null: true
+    field :zip, :integer
 
     has_one :accounting_software, AccountingSoftware, on_delete: :delete_all
     has_one :platform, Platform, on_delete: :delete_all

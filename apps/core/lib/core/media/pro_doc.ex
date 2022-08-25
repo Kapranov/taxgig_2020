@@ -45,9 +45,9 @@ defmodule Core.Media.ProDoc do
   )a
 
   schema "pro_docs" do
-    field :category, CategoryEnum, null: false
-    field :signature, :boolean, null: false
-    field :signed_by_pro, :boolean, null: false
+    field :category, CategoryEnum
+    field :signature, :boolean
+    field :signed_by_pro, :boolean
 
     embeds_one(:file, File, on_replace: :update)
 

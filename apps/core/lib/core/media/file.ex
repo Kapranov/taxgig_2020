@@ -17,16 +17,9 @@ defmodule Core.Media.File do
     url: String.t()
   }
 
-#  @primary_key false
   @required_attrs [:name, :url]
   @optional_attrs [:content_type, :size]
   @attrs @required_attrs ++ @optional_attrs
-#  @derive {Jason.Encoder, only: [
-#      :content_type,
-#      :name,
-#      :size,
-#      :url
-#    ]}
 
   embedded_schema do
     field :content_type, :string

@@ -23,8 +23,8 @@ defmodule Core.Accounts.DeletedUser do
   )a
 
   schema "deleted_users" do
-    field :reason, DeletedUserEnum, null: false
-    field :user_id, FlakeId.Ecto.Type, null: false
+    field :reason, DeletedUserEnum
+    field :user_id, FlakeId.Ecto.Type
 
     timestamps()
   end

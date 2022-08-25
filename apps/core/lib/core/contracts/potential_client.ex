@@ -20,7 +20,7 @@ defmodule Core.Contracts.PotentialClient do
   @required_params ~w(user_id)a
 
   schema "potential_clients" do
-    field :project, {:array, :string}, null: false, default: []
+    field :project, {:array, :string}, default: []
 
     belongs_to :user, User,
       foreign_key: :user_id,

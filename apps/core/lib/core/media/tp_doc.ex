@@ -41,9 +41,9 @@ defmodule Core.Media.TpDoc do
   )a
 
   schema "tp_docs" do
-    field :access_granted, :boolean, null: false
-    field :category, CategoryEnum, null: false
-    field :signed_by_tp, :boolean, null: false
+    field :access_granted, :boolean
+    field :category, CategoryEnum
+    field :signed_by_tp, :boolean
 
     embeds_one(:file, File, on_replace: :update)
 

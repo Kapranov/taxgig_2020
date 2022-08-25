@@ -54,18 +54,18 @@ defmodule Stripy.Payments.StripeExternalAccountBank do
   )a
 
   schema "stripe_external_account_banks" do
-    field :account_holder_name, :string, null: false
-    field :account_holder_type, :string, null: false
-    field :bank_name, :string, null: false
-    field :country, :string, null: false
-    field :currency, :string, null: false, default: "usd"
-    field :fingerprint, :string, null: false
-    field :id_from_account, :string, null: false
-    field :id_from_stripe, :string, null: false
-    field :last4, :string, null: false
-    field :routing_number, :string, null: false
-    field :status, :string, null: false
-    field :user_id, FlakeId.Ecto.CompatType, null: false
+    field :account_holder_name, :string
+    field :account_holder_type, :string
+    field :bank_name, :string
+    field :country, :string
+    field :currency, :string, default: "usd"
+    field :fingerprint, :string
+    field :id_from_account, :string
+    field :id_from_stripe, :string
+    field :last4, :string
+    field :routing_number, :string
+    field :status, :string
+    field :user_id, FlakeId.Ecto.CompatType
 
     timestamps()
   end

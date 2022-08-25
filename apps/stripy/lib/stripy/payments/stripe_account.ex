@@ -57,19 +57,19 @@ defmodule Stripy.Payments.StripeAccount do
   )a
 
   schema "stripe_accounts" do
-    field :business_url, :string, null: false, default: "https://taxgig.com"
-    field :capabilities, :map, null: false
-    field :charges_enabled, :boolean, null: false
-    field :country, :string, null: false, default: "US"
-    field :created, :integer, null: false
-    field :default_currency, :string, null: false, default: "usd"
-    field :details_submitted, :boolean, null: false
-    field :email, :string, null: false
-    field :id_from_stripe, :string, null: false
-    field :payouts_enabled, :boolean, null: false
-    field :tos_acceptance, :map, null: false
-    field :type, :string, null: false, default: "custom"
-    field :user_id, FlakeId.Ecto.CompatType, null: false
+    field :business_url, :string, default: "https://taxgig.com"
+    field :capabilities, :map
+    field :charges_enabled, :boolean
+    field :country, :string, default: "US"
+    field :created, :integer
+    field :default_currency, :string, default: "usd"
+    field :details_submitted, :boolean
+    field :email, :string
+    field :id_from_stripe, :string
+    field :payouts_enabled, :boolean
+    field :tos_acceptance, :map
+    field :type, :string, default: "custom"
+    field :user_id, FlakeId.Ecto.CompatType
 
     timestamps()
   end

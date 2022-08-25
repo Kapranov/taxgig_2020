@@ -45,9 +45,9 @@ defmodule Core.Talk.Message do
   )a
 
   schema "messages" do
-    field :body, :string, null: false
-    field :is_read, :boolean, null: false
-    field :warning, :boolean, null: false
+    field :body, :string
+    field :is_read, :boolean
+    field :warning, :boolean
 
     belongs_to :room, Room,
       foreign_key: :room_id,

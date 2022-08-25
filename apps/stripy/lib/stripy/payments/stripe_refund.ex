@@ -42,14 +42,14 @@ defmodule Stripy.Payments.StripeRefund do
   )a
 
   schema "stripe_refunds" do
-    field :amount, :integer, null: false
-    field :balance_transaction, :string, null: false
-    field :created, :integer, null: false
-    field :currency, :string, null: false, default: "usd"
-    field :id_from_charge, :string, null: false
-    field :id_from_stripe, :string, null: false
-    field :status, :string, null: false
-    field :user_id, FlakeId.Ecto.CompatType, null: false
+    field :amount, :integer
+    field :balance_transaction, :string
+    field :created, :integer
+    field :currency, :string, default: "usd"
+    field :id_from_charge, :string
+    field :id_from_stripe, :string
+    field :status, :string
+    field :user_id, FlakeId.Ecto.CompatType
 
     timestamps()
   end

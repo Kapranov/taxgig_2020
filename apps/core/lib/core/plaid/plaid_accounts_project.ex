@@ -16,8 +16,8 @@ defmodule Core.Plaid.PlaidAccountsProject do
   )a
 
   schema "plaid_accounts_projects" do
-    field :plaid_account_id, FlakeId.Ecto.CompatType, null: false
-    field :project_id, FlakeId.Ecto.CompatType, null: false
+    field :plaid_account_id, FlakeId.Ecto.CompatType
+    field :project_id, FlakeId.Ecto.CompatType
   end
 
   @doc """

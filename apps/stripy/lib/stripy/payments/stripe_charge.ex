@@ -64,22 +64,22 @@ defmodule Stripy.Payments.StripeCharge do
   )a
 
   schema "stripe_charges" do
-    field :amount, :integer, null: false
-    field :amount_refunded, :integer, null: false
-    field :captured, :boolean, null: false
-    field :created, :integer, null: false
-    field :currency, :string, null: false, default: "usd"
-    field :description, :string, null: false
-    field :failure_code, :string, null: true
-    field :failure_message, :string, null: true
-    field :fraud_details, :map, null: false, default: %{}
-    field :id_from_card, :string, null: false
-    field :id_from_customer, :string, null: false
-    field :id_from_stripe, :string, null: false
-    field :outcome, :map, null: false, default: %{}
-    field :receipt_url, :string, null: false
-    field :status, :string, null: false
-    field :user_id, FlakeId.Ecto.CompatType, null: false
+    field :amount, :integer
+    field :amount_refunded, :integer
+    field :captured, :boolean
+    field :created, :integer
+    field :currency, :string, default: "usd"
+    field :description, :string
+    field :failure_code, :string
+    field :failure_message, :string
+    field :fraud_details, :map, default: %{}
+    field :id_from_card, :string
+    field :id_from_customer, :string
+    field :id_from_stripe, :string
+    field :outcome, :map, default: %{}
+    field :receipt_url, :string
+    field :status, :string
+    field :user_id, FlakeId.Ecto.CompatType
 
     timestamps()
   end

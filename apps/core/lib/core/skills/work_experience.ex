@@ -34,9 +34,9 @@ defmodule Core.Skills.WorkExperience do
   @required_params ~w(user_id)a
 
   schema "work_experiences" do
-    field :end_date, :date, null: true
-    field :name, :string, null: true
-    field :position, :string, null: true
+    field :end_date, :date
+    field :name, :string
+    field :position, :string
     field :start_date, :date
 
     belongs_to :users, User,

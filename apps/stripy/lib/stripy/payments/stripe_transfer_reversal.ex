@@ -42,14 +42,14 @@ defmodule Stripy.Payments.StripeTransferReversal do
   )a
 
   schema "stripe_transfer_reversals" do
-    field :amount, :integer, null: false
-    field :balance_transaction, :string, null: false
-    field :created, :integer, null: false
-    field :currency, :string, null: false, default: "usd"
-    field :destination_payment_refund, :string, null: false
-    field :id_from_stripe, :string, null: false
-    field :id_from_transfer, :string, null: false
-    field :user_id, FlakeId.Ecto.CompatType, null: false
+    field :amount, :integer
+    field :balance_transaction, :string
+    field :created, :integer
+    field :currency, :string, default: "usd"
+    field :destination_payment_refund, :string
+    field :id_from_stripe, :string
+    field :id_from_transfer, :string
+    field :user_id, FlakeId.Ecto.CompatType
 
     timestamps()
   end

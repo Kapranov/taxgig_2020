@@ -64,73 +64,100 @@ defmodule Core.Seeder.Talk do
     attrs_for_user1 = %{
       active: true,
       description: "Raheem Kassam, Jack Maxey, and Greg Manz are joined",
+      last_msg: user2.id,
       name: "citizens of republic",
       project: random_project(project_ids),
-      topic: "warroom"
+      participant_id: user2.id,
+      topic: "warroom",
+      unread_msg: 0
     }
 
     attrs_for_user2 = %{
       active: true,
       description: "This Is Exactly What Is Going To Happen If Police",
+      last_msg: user1.id,
       name: "defunded",
+      participant_id: user1.id,
       project: random_project(project_ids),
-      topic: "infowars"
+      topic: "infowars",
+      unread_msg: 0
     }
 
     attrs_for_user3 = %{
       active: true,
       description: "The lion cannot protect himself from traps",
+      last_msg: user1.id,
       name: "it can't get any more",
+      participant_id: user1.id,
       project: random_project(project_ids),
-      topic: "lionelnation"
+      topic: "lionelnation",
+      unread_msg: 0
     }
 
     attrs_for_user4 = %{
       active: true,
       description: "John Sununu, former White House chief of staff",
+      last_msg: user1.id,
       name: "trump dismisses report",
+      participant_id: user1.id,
       project: random_project(project_ids),
-      topic: "foxnews"
+      topic: "foxnews",
+      unread_msg: 0
     }
 
     attrs_for_user5 = %{
       active: true,
       description: "For reference on size this day was about 18ft-20ft!",
+      last_msg: user2.id,
       name: "full raw waimea session",
+      participant_id: user2.id,
       project: random_project(project_ids),
-      topic: "florence"
+      topic: "florence",
+      unread_msg: 0
     }
 
     attrs_for_user6 = %{
       active: true,
       description: "too funny no police...to passify the left",
+      last_msg: user2.id,
       name: "we're witnessing",
+      participant_id: user2.id,
       project: random_project(project_ids),
-      topic: "rush_limbaugh"
+      topic: "rush_limbaugh",
+      unread_msg: 0
     }
 
     attrs_for_user7 = %{
       active: true,
       description: "The democrats are more outraged that Trump",
+      last_msg: user2.id,
       name: "why socialism sucks",
+      participant_id: user2.id,
       project: random_project(project_ids),
-      topic: "dan_bongino"
+      topic: "dan_bongino",
+      unread_msg: 0
     }
 
     attrs_for_user8 = %{
       active: true,
       description: "A society that puts equality before freedom",
+      last_msg: user1.id,
       name: "sounds like",
+      participant_id: user1.id,
       project: random_project(project_ids),
-      topic: "mark_levin"
+      topic: "mark_levin",
+      unread_msg: 0
     }
 
     attrs_for_user9 = %{
       active: true,
       description: "As summer arrives, the waves go flat",
+      last_msg: user1.id,
       name: "perfect summertime",
+      participant_id: user1.id,
       project: random_project(project_ids),
-      topic: "koa_rothman"
+      topic: "koa_rothman",
+      unread_msg: 0
     }
 
     [
@@ -200,176 +227,176 @@ defmodule Core.Seeder.Talk do
       Talk.create_message(user1, room1, %{
         body: "The left have been using racism to fuel.",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room2.id,
         warning: random_boolean()
       }),
       Talk.create_message(user1, room1, %{
         body: "If I could put a face on all of this, it would be Obama's first.",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room2.id,
         warning: random_boolean()
       }),
       Talk.create_message(user1, room1, %{
         body: "Nancy and crew are used being on their knees.",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room2.id,
         warning: random_boolean()
       }),
       Talk.create_message(user2, room2, %{
         body: "Nothing I regret more than being a Democrat",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room1.id,
         warning: random_boolean()
       }),
       Talk.create_message(user2, room2, %{
         body: "In Minnesota,  defunding the police is an excellent open door for Sharia law",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room1.id,
         warning: random_boolean()
       }),
       Talk.create_message(user2, room2, %{
         body: "Only cult people act to defund the police.",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room1.id,
         warning: random_boolean()
       }),
       Talk.create_message(user3, room3, %{
         body: "Only 1 person is responsible for the killing.",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room1.id,
         warning: random_boolean()
       }),
       Talk.create_message(user3, room3, %{
         body: "Minnisota will get Sharia Law if they defund the police!",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room1.id,
         warning: random_boolean()
       }),
       Talk.create_message(user4, room4, %{
         body: "Liberalism is a severe mental disorder.",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room1.id,
         warning: random_boolean()
       }),
       Talk.create_message(user5, room5, %{
         body: "whose paying for the riots and  damage",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room2.id,
         warning: random_boolean()
       }),
       Talk.create_message(user5, room5, %{
         body: "Somalia has brought their country, their violence, and their insanity right to our door step.",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room2.id,
         warning: random_boolean()
       }),
       Talk.create_message(user6, room6, %{
         body: "Rush is the best. God bless you. Praying for you",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room2.id,
         warning: random_boolean()
       }),
       Talk.create_message(user6, room6, %{
         body: "Why do we allow the DemocRATS to be this dumb on our dime",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room2.id,
         warning: random_boolean()
       }),
       Talk.create_message(user6, room6, %{
         body: "See what happens when government gets too big",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room2.id,
         warning: random_boolean()
       }),
       Talk.create_message(user6, room6, %{
         body: "It's all a plan to federalize the police",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room2.id,
         warning: random_boolean()
       }),
       Talk.create_message(user7, room7, %{
         body: "The road to hell is paved with liberal intentions.",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room2.id,
         warning: random_boolean()
       }),
       Talk.create_message(user7, room7, %{
         body: "How are a bunch of easily-triggered snowflakes going to handle actual violence",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room2.id,
         warning: random_boolean()
       }),
       Talk.create_message(user8, room8, %{
         body: "Liberalism is a Mental illness.",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room1.id,
         warning: random_boolean()
       }),
       Talk.create_message(user8, room8, %{
         body: "if im taking a knee its because the target is short",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room1.id,
         warning: random_boolean()
       }),
       Talk.create_message(user8, room8, %{
         body: "These are the times that try men’s souls",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room1.id,
         warning: random_boolean()
       }),
       Talk.create_message(user8, room8, %{
         body: "Your show is the best. Ding Ding Ding",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room1.id,
         warning: random_boolean()
       }),
       Talk.create_message(user9, room9, %{
         body: "Oh Rush is on Sundays now, cool. lol",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room1.id,
         warning: random_boolean()
       }),
       Talk.create_message(user9, room9, %{
         body: "Joe Biden wants to know who Aunt Teefa is and why is she always so mad.",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room1.id,
         warning: random_boolean()
       }),
       Talk.create_message(user9, room9, %{
         body: "They are using fake polls to prepare people giving mail in fraud credibility.",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room1.id,
         warning: random_boolean()
       }),
       Talk.create_message(user9, room9, %{
         body: "I'm not depressed. Fight these maggots with the convincing truth.",
         is_read: random_boolean(),
-        project_id: random_project(project_ids),
         recipient_id: random_user(users_ids),
+        room_id: room1.id,
         warning: random_boolean()
       })
     ]

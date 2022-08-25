@@ -47,12 +47,12 @@ defmodule Core.Talk.Room do
   @required_updated_params ~w(active)a
 
   schema "rooms" do
-    field :active, :boolean, null: false, default: false
-    field :description, :string, null: true
-    field :last_msg, :string, null: true
-    field :name, :string, null: false
-    field :topic, :string, null: true
-    field :unread_msg, :integer, null: true
+    field :active, :boolean, default: false
+    field :description, :string
+    field :last_msg, :string
+    field :name, :string
+    field :topic, :string
+    field :unread_msg, :integer
 
     belongs_to :participant, User,
       foreign_key: :participant_id,

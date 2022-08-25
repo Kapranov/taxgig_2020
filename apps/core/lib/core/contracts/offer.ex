@@ -33,8 +33,8 @@ defmodule Core.Contracts.Offer do
   )a
 
   schema "offers" do
-    field :price, :integer, null: false, default: 0
-    field :status, StatusEnum, null: false, default: "Sent"
+    field :price, :integer, default: 0
+    field :status, StatusEnum, default: "Sent"
 
     belongs_to :projects, Project,
       foreign_key: :project_id,

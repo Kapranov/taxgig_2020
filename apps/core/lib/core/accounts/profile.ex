@@ -36,9 +36,9 @@ defmodule Core.Accounts.Profile do
   @required_params ~w(user_id)a
 
   schema "profiles" do
-    field :address, :string, null: true
-    field :banner, :string, null: true
-    field :description, :string, null: true
+    field :address, :string
+    field :banner, :string
+    field :description, :string
 
     embeds_one :logo, File, on_replace: :update
 

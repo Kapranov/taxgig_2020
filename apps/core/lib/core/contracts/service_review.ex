@@ -40,12 +40,12 @@ defmodule Core.Contracts.ServiceReview do
   )a
 
   schema "service_reviews" do
-    field :client_comment, :string, null: true
-    field :communication, :integer, null: false
-    field :final_rating, :integer, null: false
-    field :pro_response, :string, null: true
-    field :professionalism, :integer, null: false
-    field :work_quality, :integer, null: false
+    field :client_comment, :string
+    field :communication, :integer
+    field :final_rating, :integer
+    field :pro_response, :string
+    field :professionalism, :integer
+    field :work_quality, :integer
 
     belongs_to :users, User,
       foreign_key: :user_id,

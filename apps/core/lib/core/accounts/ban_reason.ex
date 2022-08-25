@@ -34,9 +34,9 @@ defmodule Core.Accounts.BanReason do
   )a
 
   schema "ban_reasons" do
-    field :other, :boolean, null: false
-    field :description, :string, null: true
-    field :reasons, BanReasonsEnum, null: true
+    field :other, :boolean
+    field :description, :string
+    field :reasons, BanReasonsEnum
 
     belongs_to :platform, Platform,
       foreign_key: :platform_id,

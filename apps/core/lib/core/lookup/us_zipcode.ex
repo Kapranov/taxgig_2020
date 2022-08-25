@@ -27,9 +27,9 @@ defmodule Core.Lookup.UsZipcode do
   )a
 
   schema "us_zipcodes" do
-    field :city, :string, null: false
-    field :state, :string, null: false
-    field :zipcode, :integer, null: false
+    field :city, :string
+    field :state, :string
+    field :zipcode, :integer
 
     has_one :profile, Profile
   end

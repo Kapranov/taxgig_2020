@@ -58,20 +58,20 @@ defmodule Stripy.Payments.StripeCardToken do
   )a
 
   schema "stripe_card_tokens" do
-    field :brand, :string, null: false
-    field :client_ip, :string, null: false
-    field :created, :integer, null: false
-    field :cvc_check, :string, null: false
-    field :exp_month, :integer, null: false
-    field :exp_year, :integer, null: false
-    field :funding, :string, null: false
-    field :id_from_customer, :string, null: true
-    field :id_from_stripe, :string, null: false
-    field :last4, :string, null: false
-    field :name, :string, null: false
-    field :token, :string, null: false
-    field :used, :boolean, null: false
-    field :user_id, FlakeId.Ecto.CompatType, null: false
+    field :brand, :string
+    field :client_ip, :string
+    field :created, :integer
+    field :cvc_check, :string
+    field :exp_month, :integer
+    field :exp_year, :integer
+    field :funding, :string
+    field :id_from_customer, :string
+    field :id_from_stripe, :string
+    field :last4, :string
+    field :name, :string
+    field :token, :string
+    field :used, :boolean
+    field :user_id, FlakeId.Ecto.CompatType
 
     timestamps()
   end

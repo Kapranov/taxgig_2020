@@ -41,7 +41,7 @@ defmodule Server.MixProject do
 
   defp deps do
     [
-      {:absinthe, "~> 1.5", override: true},
+      {:absinthe, "1.6.8", override: true},
       {:absinthe_auth, "~> 0.2"},
       {:absinthe_error_payload, "~> 1.1", override: true},
       {:absinthe_phoenix, "~> 2.0", override: true},

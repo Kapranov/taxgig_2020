@@ -60,20 +60,20 @@ defmodule Stripy.Payments.StripeExternalAccountCard do
   )a
 
   schema "stripe_external_account_cards" do
-    field :brand, :string, null: false
-    field :country, :string, null: false
-    field :currency, :string, null: false, default: "usd"
-    field :cvc_check, :string, null: false
-    field :default_for_currency, :boolean, null: false
-    field :exp_month, :integer, null: false
-    field :exp_year, :integer, null: false
-    field :fingerprint, :string, null: false
-    field :funding, :string, null: false
-    field :id_from_account, :string, null: false
-    field :id_from_stripe, :string, null: false
-    field :last4, :string, null: false
-    field :name, :string, null: false
-    field :user_id, FlakeId.Ecto.CompatType, null: false
+    field :brand, :string
+    field :country, :string
+    field :currency, :string, default: "usd"
+    field :cvc_check, :string
+    field :default_for_currency, :boolean
+    field :exp_month, :integer
+    field :exp_year, :integer
+    field :fingerprint, :string
+    field :funding, :string
+    field :id_from_account, :string
+    field :id_from_stripe, :string
+    field :last4, :string
+    field :name, :string
+    field :user_id, FlakeId.Ecto.CompatType
 
     timestamps()
   end

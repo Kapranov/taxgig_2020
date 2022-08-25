@@ -51,17 +51,17 @@ defmodule Stripy.Payments.StripeTransfer do
   )a
 
   schema "stripe_transfers" do
-    field :amount, :integer, null: false
-    field :amount_reversed, :integer, null: false
-    field :balance_transaction, :string, null: false
-    field :created, :integer, null: false
-    field :currency, :string, null: false, default: "usd"
-    field :destination, :string, null: false
-    field :destination_payment, :string, null: false
-    field :id_from_stripe, :string, null: false
-    field :reversed, :boolean, null: false
-    field :source_type, :string, null: false
-    field :user_id, FlakeId.Ecto.CompatType, null: false
+    field :amount, :integer
+    field :amount_reversed, :integer
+    field :balance_transaction, :string
+    field :created, :integer
+    field :currency, :string, default: "usd"
+    field :destination, :string
+    field :destination_payment, :string
+    field :id_from_stripe, :string
+    field :reversed, :boolean
+    field :source_type, :string
+    field :user_id, FlakeId.Ecto.CompatType
 
     timestamps()
   end

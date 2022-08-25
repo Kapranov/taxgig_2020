@@ -72,15 +72,15 @@ defmodule Core.Contracts.Project do
   )a
 
   schema "projects" do
-    field :addon_price, :integer, null: true
-    field :by_pro_status, :boolean, null: false, default: false
-    field :end_time, :date, null: true
-    field :id_from_stripe_card, :string, null: true
-    field :id_from_stripe_transfer, :string, null: true
-    field :instant_matched, :boolean, null: false
+    field :addon_price, :integer
+    field :by_pro_status, :boolean, default: false
+    field :end_time, :date
+    field :id_from_stripe_card, :string
+    field :id_from_stripe_transfer, :string
+    field :instant_matched, :boolean
     field :mailers, {:array, :map}, virtual: true
-    field :offer_price, :decimal, null: true
-    field :status, ProjectEnum, null: false
+    field :offer_price, :decimal
+    field :status, ProjectEnum
 
     belongs_to :assigned, User,
       foreign_key: :assigned_id,

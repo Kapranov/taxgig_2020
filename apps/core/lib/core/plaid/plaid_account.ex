@@ -46,15 +46,15 @@ defmodule Core.Plaid.PlaidAccount do
   )a
 
   schema "plaid_accounts" do
-    field :from_plaid_account_mask, :string, null: true
-    field :from_plaid_account_name, :string, null: false
-    field :from_plaid_account_official_name, :string, null: true
-    field :from_plaid_account_subtype, :string, null: true
-    field :from_plaid_account_type, :string, null: false
-    field :from_plaid_balance_currency, :string, null: true
-    field :from_plaid_balance_current, :decimal, default: 0.0, null: false
-    field :from_plaid_total_transaction, :integer, default: 0, null: false
-    field :id_from_plaid_account, :string, null: false
+    field :from_plaid_account_mask, :string
+    field :from_plaid_account_name, :string
+    field :from_plaid_account_official_name, :string
+    field :from_plaid_account_subtype, :string
+    field :from_plaid_account_type, :string
+    field :from_plaid_balance_currency, :string
+    field :from_plaid_balance_current, :decimal, default: 0.0
+    field :from_plaid_total_transaction, :integer, default: 0
+    field :id_from_plaid_account, :string
 
     has_many :plaid_transactions, PlaidTransaction, on_delete: :delete_all
 

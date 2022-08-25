@@ -33,8 +33,8 @@ defmodule Core.Contracts.Addon do
   )a
 
   schema "addons" do
-    field :price, :integer, null: false, default: 0
-    field :status, StatusEnum, null: false
+    field :price, :integer, default: 0
+    field :status, StatusEnum
 
     belongs_to :projects, Project,
       foreign_key: :project_id,

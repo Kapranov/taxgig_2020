@@ -116,8 +116,8 @@ console> RethinkDB.Query.table("expires") |> RethinkDB.Query.count |> Reptin.Dat
 console> RethinkDB.Query.table("ptins") |> RethinkDB.Query.count |> Reptin.Database.run
 console> RethinkDB.Query.table("expires") |> RethinkDB.Query.limit(5) |> Reptin.Database.run
 console> RethinkDB.Query.table("ptins") |> RethinkDB.Query.limit(5) |> Reptin.Database.run
-console> RethinkDB.Query.table("expires") |> RethinkDB.Query.pluck({"id", "url"}) |> Reptin.Database.run
-console> RethinkDB.Query.table("expires") |> RethinkDB.Query.filter(%{id: "xxx"}) |> Reptin.Database.run
+console> RethinkDB.Query.table("expires") |> RethinkDB.Query.pluck({"id", "https://www.irs.gov/pub/irs-utl/FOIA_Extract.csv"}) |> Reptin.Database.run
+console> RethinkDB.Query.table("expires") |> RethinkDB.Query.filter(%{id: "7058796e-808a-49be-8ba3-f40b4dac779d"}) |> Reptin.Database.run
 console> RethinkDB.Query.table("expires") |> RethinkDB.Query.filter(%{expired: "Updated August 24, 2021"}) |> Reptin.Database.run
 console> RethinkDB.Query.table("ptins") |> RethinkDB.Query.filter(%{last_name: "mata"}) |> Reptin.Database.run
 console> RethinkDB.Query.table("ptins") |> RethinkDB.Query.filter(%{first_name: "oleg"}) |> Reptin.Database.run

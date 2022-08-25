@@ -49,19 +49,19 @@ defmodule Core.Plaid.PlaidTransaction do
   )a
 
   schema "plaid_transactions" do
-    field :from_plaid_transaction_address, :string, null: true
-    field :from_plaid_transaction_amount, :decimal, default: 0.0, null: false
-    field :from_plaid_transaction_authorization_date, :date, default: nil, null: true
-    field :from_plaid_transaction_category, {:array, :string}, default: nil, null: true
-    field :from_plaid_transaction_city, :string, null: true
-    field :from_plaid_transaction_country, :string, null: true
-    field :from_plaid_transaction_currency, :string, null: true
-    field :from_plaid_transaction_merchant_name, :string, null: true
-    field :from_plaid_transaction_name, :string, null: false
-    field :from_plaid_transaction_postal_code, :string, null: true
-    field :from_plaid_transaction_region, :string, null: true
-    field :id_from_plaid_transaction, :string, null: false
-    field :id_from_plaid_transaction_category, :string, null: true
+    field :from_plaid_transaction_address, :string
+    field :from_plaid_transaction_amount, :decimal, default: 0.0
+    field :from_plaid_transaction_authorization_date, :date, default: nil
+    field :from_plaid_transaction_category, {:array, :string}, default: nil
+    field :from_plaid_transaction_city, :string
+    field :from_plaid_transaction_country, :string
+    field :from_plaid_transaction_currency, :string
+    field :from_plaid_transaction_merchant_name, :string
+    field :from_plaid_transaction_name, :string
+    field :from_plaid_transaction_postal_code, :string
+    field :from_plaid_transaction_region, :string
+    field :id_from_plaid_transaction, :string
+    field :id_from_plaid_transaction_category, :string
 
     belongs_to :plaid_accounts, PlaidAccount,
       foreign_key: :plaid_account_id,

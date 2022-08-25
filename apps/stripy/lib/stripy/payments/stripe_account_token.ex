@@ -33,11 +33,11 @@ defmodule Stripy.Payments.StripeAccountToken do
   )a
 
   schema "stripe_account_tokens" do
-    field :client_ip, :string, null: false
-    field :created, :integer, null: false
-    field :id_from_stripe, :string, null: false
-    field :used, :boolean, null: false
-    field :user_id, FlakeId.Ecto.CompatType, null: false
+    field :client_ip, :string
+    field :created, :integer
+    field :id_from_stripe, :string
+    field :used, :boolean
+    field :user_id, FlakeId.Ecto.CompatType
 
     timestamps()
   end

@@ -63,21 +63,21 @@ defmodule Stripy.Payments.StripeBankAccountToken do
   )a
 
   schema "stripe_bank_account_tokens" do
-    field :account_holder_name, :string, null: false
-    field :account_holder_type, :string, null: false
-    field :bank_name, :string, null: false
-    field :client_ip, :string, null: false
-    field :country, :string, null: false
-    field :created, :integer, null: false
-    field :currency, :string, null: false, default: "usd"
-    field :fingerprint, :string, null: false
-    field :id_from_bank_account, :string, null: false
-    field :id_from_stripe, :string, null: false
-    field :last4, :string, null: false
-    field :routing_number, :string, null: false
-    field :status, :string, null: false
-    field :used, :boolean, null: false
-    field :user_id, FlakeId.Ecto.CompatType, null: false
+    field :account_holder_name, :string
+    field :account_holder_type, :string
+    field :bank_name, :string
+    field :client_ip, :string
+    field :country, :string
+    field :created, :integer
+    field :currency, :string, default: "usd"
+    field :fingerprint, :string
+    field :id_from_bank_account, :string
+    field :id_from_stripe, :string
+    field :last4, :string
+    field :routing_number, :string
+    field :status, :string
+    field :used, :boolean
+    field :user_id, FlakeId.Ecto.CompatType
 
     timestamps()
   end

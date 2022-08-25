@@ -37,10 +37,10 @@ defmodule Core.Accounts.ProRating do
   )a
 
   schema "pro_ratings" do
-    field :average_communication, :decimal, null: false
-    field :average_professionalism, :decimal, null: false
-    field :average_rating, :decimal, null: false
-    field :average_work_quality, :decimal, null: false
+    field :average_communication, :decimal
+    field :average_professionalism, :decimal
+    field :average_rating, :decimal
+    field :average_work_quality, :decimal
 
     belongs_to :users, User,
       foreign_key: :user_id,

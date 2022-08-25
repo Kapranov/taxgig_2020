@@ -41,14 +41,14 @@ defmodule Stripy.Payments.StripeCustomer do
   )a
 
   schema "stripe_customers" do
-    field :balance, :integer, null: false, default: 0
-    field :created, :integer, null: false
-    field :currency, :string, null: true, default: "usd"
-    field :email, :string, null: false
-    field :id_from_stripe, :string, null: false
-    field :name, :string, null: false
-    field :phone, :string, null: false
-    field :user_id, FlakeId.Ecto.CompatType, null: false
+    field :balance, :integer, default: 0
+    field :created, :integer
+    field :currency, :string, default: "usd"
+    field :email, :string
+    field :id_from_stripe, :string
+    field :name, :string
+    field :phone, :string
+    field :user_id, FlakeId.Ecto.CompatType
 
     timestamps()
   end

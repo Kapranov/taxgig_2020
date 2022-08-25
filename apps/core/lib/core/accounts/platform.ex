@@ -45,14 +45,14 @@ defmodule Core.Accounts.Platform do
   )a
 
   schema "platforms" do
-    field :client_limit_reach, :boolean, null: true
-    field :hero_active, :boolean, null: true
-    field :hero_status, :boolean, null: true
-    field :is_banned, :boolean, null: false, default: false
-    field :is_online, :boolean, null: false, default: false
-    field :is_stuck, :boolean, null: false, default: false
-    field :payment_active, :boolean, null: false, default: false
-    field :stuck_stage, StuckStageEnum, null: true
+    field :client_limit_reach, :boolean
+    field :hero_active, :boolean
+    field :hero_status, :boolean
+    field :is_banned, :boolean, default: false
+    field :is_online, :boolean, default: false
+    field :is_stuck, :boolean, default: false
+    field :payment_active, :boolean, default: false
+    field :stuck_stage, StuckStageEnum
 
     belongs_to :user, User,
       foreign_key: :user_id,

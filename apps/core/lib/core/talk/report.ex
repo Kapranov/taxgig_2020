@@ -32,10 +32,10 @@ defmodule Core.Talk.Report do
   )a
 
   schema "reports" do
-    field :description, :string, null: true
-    field :messages, {:array, :string}, null: false, default: []
-    field :other, :boolean, null: true
-    field :reasons, ReportEnum, null: true
+    field :description, :string
+    field :messages, {:array, :string}, default: []
+    field :other, :boolean
+    field :reasons, ReportEnum
 
     belongs_to :users, User,
       foreign_key: :user_id,
