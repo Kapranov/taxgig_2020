@@ -65,6 +65,8 @@ bash> curl -k \\
 
 ### 21 Jan 2020 by Oleg G.Kapranov
 
+### Updated 25 Aug 2022
+
 [1]: https://gitlab.com/taxgig/taxgig_ex
 [2]: https://paper.dropbox.com/doc/Graph-API--AsyYKWDkl3ycVg1z40YLkKukAg-FNst2XVqeQQW5HBCs0JKH
 [3]: https://paper.dropbox.com/doc/Backend-Tech-Documentation-UOhiP5AhK7PsJBJ5ZVKJo
