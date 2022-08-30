@@ -12,6 +12,10 @@ defmodule Core.Talk do
     Talk.Room
   }
 
+  @type return :: list()
+
+  @search [Message]
+
   @doc """
   Gets the list of messages by roomId.
 
@@ -80,6 +84,19 @@ defmodule Core.Talk do
   def get_message!(id) do
     Repo.get!(Message, id)
     |> Repo.preload([:user, :projects])
+  end
+
+  @spec search(String.t(), String.t()) :: return()
+  def search(id, term) do
+    pattern = "%#{term}%"
+    Enum.flat_map(@search, &search_ecto(&1, pattern, id))
+  end
+
+  @spec search_ecto(atom(), String.t(), String.t()) :: return()
+  defp search_ecto(ecto_schema, pattern, id) do
+    Repo.all(
+      from(q in ecto_schema, where: ilike(fragment("?::text", q.body), ^"%#{pattern}%") or ilike(fragment("?::text", q.id), ^"%#{pattern}%"), where: q.room_id == ^id)
+    )
   end
 
   @doc """

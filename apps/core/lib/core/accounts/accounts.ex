@@ -1525,6 +1525,18 @@ defmodule Core.Accounts do
     {:error, [field: :user_id, message: "Can't be blank"]}
   end
 
+  @doc """
+  Share user's firstName and lastName.
+  """
+  @spec by_first_last_name(word, word) :: User.t() | {:error, [field: atom(), message: String.t()]}
+  def by_first_last_name(first_name, last_name) when not is_nil(first_name) and not is_nil(last_name) do
+    case Repo.get_by(User, %{first_name: first_name, last_name: last_name}) do
+      nil -> {:error, [field: :first_name, message: "no record"]}
+      struct ->
+        struct
+    end
+  end
+
   @spec by_user(word) :: Ecto.Schema.t() | nil
   defp by_user(user_id) do
     try do

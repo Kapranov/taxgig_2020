@@ -97,6 +97,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
     {:error, "Unauthenticated"}
   end
 
+  @spec search_message(any, %{room_id: bitstring, keywords: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def search_message(_parent, %{room_id: room_id, keywords: term}, %{context: %{current_user: current_user}}) do
+    if is_nil(current_user) do
+      {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
+    else
+      data = Talk.search(room_id, term)
+      {:ok, data}
+    end
+  end
+
+  @spec search_message(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def search_message(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
+  end
+
   @spec create(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create(_parent, args, %{context: %{current_user: current_user}}) do
     if is_nil(current_user) do

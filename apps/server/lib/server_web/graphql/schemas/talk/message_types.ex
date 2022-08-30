@@ -45,6 +45,13 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
   end
 
   object :message_queries do
+    @desc "Search are messages via roomId and any words"
+    field :search_message, list_of(:message) do
+      arg(:room_id, non_null(:string))
+      arg(:keywords, non_null(:string))
+      resolve &MessageResolver.search_message/3
+    end
+
     @desc "Get all messages via roomId"
     field :show_room_by_msg, list_of(:message) do
       arg(:room_id, non_null(:string))
