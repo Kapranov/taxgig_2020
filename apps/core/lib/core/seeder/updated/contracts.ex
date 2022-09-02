@@ -347,90 +347,105 @@ defmodule Core.Seeder.Updated.Contracts do
         id_from_stripe_card: "card_1HGMdsre2yNYS1KlMqTP7HHH",
         id_from_stripe_transfer: "tr_1HFksnldFHW3Alzp8qtrMHHH",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         status: random_project_status()
       }),
       Contracts.update_project(project2, %{
         id_from_stripe_card: "card_1HKawbxc7sFA9kmL4DFwm999",
         id_from_stripe_transfer: "tr_1HALhdvNQlF1M7HyrpAZ6GGG",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         status: random_project_status()
       }),
       Contracts.update_project(project3, %{
         id_from_stripe_card: "card_1HRdjqwMv6AD8CxzLq5ht777",
         id_from_stripe_transfer: "tr_1HAQmkdvbzas7wE2tR6MABBB",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         status: random_project_status()
       }),
       Contracts.update_project(project4, %{
         id_from_stripe_card: "card_1HIKf6DQwe3NZ0JklMAS5QQQ",
         id_from_stripe_transfer: "tr_1HABkqWel7CvsazKLA8GO333",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         status: random_project_status()
       }),
       Contracts.update_project(project5, %{
         id_from_stripe_card: "card_1HCD5sDQlm7Cxs9AfbzytMMM",
         id_from_stripe_transfer: "tr_1HLdf5AlMCV4qwErxt7JAVVV",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         status: random_project_status()
       }),
       Contracts.update_project(project6, %{
         id_from_stripe_card: "card_1HV5Dgqxcd8DF3mSA7NfkEEE",
         id_from_stripe_transfer: "tr_1HW4Gawqlor6NrQwe0ndf555",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         status: random_project_status()
       }),
       Contracts.update_project(project7, %{
         id_from_stripe_card: "card_1HChtqwe4VnBaZX6LkqweJJJ",
         id_from_stripe_transfer: "tr_1HF3jKqWvam8Su1KM7DrAZZZ",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         status: random_project_status()
       }),
       Contracts.update_project(project8, %{
         id_from_stripe_card: "card_1HT6kisrtNX3pO5hQmavNZZZ",
         id_from_stripe_transfer: "tr_1HX9kquTr0FM2Csqp9MJaLLL",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         status: random_project_status()
       }),
       Contracts.update_project(project9, %{
         id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9TTT",
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaXIII",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         status: random_project_status()
       }),
       Contracts.update_project(project10, %{
         id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9FFF",
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaXSSS",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         status: random_project_status()
       }),
       Contracts.update_project(project11, %{
         id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9WWW",
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaXNNN",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         status: random_project_status()
       }),
       Contracts.update_project(project12, %{
         id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9DDD",
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX222",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         status: random_project_status()
       }),
       Contracts.update_project(project13, %{
         id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9777",
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX999",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         status: random_project_status()
       }),
       Contracts.update_project(project14, %{
         id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9000",
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX111",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         status: random_project_status()
       }),
       Contracts.update_project(project15, %{
         id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9333",
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX888",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         status: random_project_status()
       })
     ]

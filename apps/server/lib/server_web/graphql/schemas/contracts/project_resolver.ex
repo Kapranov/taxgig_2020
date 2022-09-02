@@ -26,6 +26,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     field :individual_tax_return, :individual_tax_return, resolve: dataloader(Data)
     field :instant_matched, non_null(:boolean)
     field :offer_price, :decimal
+    field :room_id, :string
     field :sale_tax, :sale_tax, resolve: dataloader(Data)
     field :service_review, :service_review, resolve: dataloader(Data)
     field :status, non_null(:string)
@@ -69,6 +70,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     field :individual_tax_return_id, :string
     field :instant_matched, :boolean
     field :offer_price, :decimal
+    field :room_id, :string
     field :sale_tax_id, :string
     field :service_review_id, :string
     field :status, :string

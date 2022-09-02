@@ -36,8 +36,8 @@ defmodule Core.Queries do
       Repo.all(
         from c in struct_a,
         join: cu in ^struct_b,
-        where: c.user_id == ^current_user.id,
         where: cu.room_id == ^room_id,
+        where: cu.recipient_id == ^current_user.id,
         where: c.id == cu.room_id,
         where: cu.is_read == false,
         select: count(cu.id),

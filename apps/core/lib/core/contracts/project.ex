@@ -18,7 +18,7 @@ defmodule Core.Contracts.Project do
     Services.BookKeeping,
     Services.BusinessTaxReturn,
     Services.IndividualTaxReturn,
-    Services.SaleTax,
+    Services.SaleTax
   }
 
   @type t :: %__MODULE__{
@@ -39,6 +39,7 @@ defmodule Core.Contracts.Project do
     plaid_accounts: [PlaidAccount.t()],
     pro_docs: [ProDoc.t()],
     pro_ratings: [ProRating.t()],
+    room_id: FlakeId.Ecto.CompatType.t(),
     sale_tax_id: SaleTax.t(),
     service_review_id: ServiceReview.t(),
     status: String.t(),
@@ -59,6 +60,7 @@ defmodule Core.Contracts.Project do
     instant_matched
     mailers
     offer_price
+    room_id
     sale_tax_id
     service_review_id
     status
@@ -80,6 +82,7 @@ defmodule Core.Contracts.Project do
     field :instant_matched, :boolean
     field :mailers, {:array, :map}, virtual: true
     field :offer_price, :decimal
+    field :room_id, FlakeId.Ecto.CompatType
     field :status, ProjectEnum
 
     belongs_to :assigned, User,

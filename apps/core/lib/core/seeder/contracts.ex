@@ -271,6 +271,7 @@ defmodule Core.Seeder.Contracts do
         id_from_stripe_card: "card_1HGMdsre2yNYS1KlMqTP7Hkw",
         id_from_stripe_transfer: "tr_1HFksnldFHW3Alzp8qtrMkub",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         service_review_id: srv1,
         status: random_project_status(),
         user_id: tp1
@@ -280,6 +281,7 @@ defmodule Core.Seeder.Contracts do
         id_from_stripe_card: "card_1HKawbxc7sFA9kmL4DFwmc91",
         id_from_stripe_transfer: "tr_1HALhdvNQlF1M7HyrpAZ6oGM",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         service_review_id: srv2,
         status: random_project_status(),
         user_id: tp1
@@ -289,6 +291,7 @@ defmodule Core.Seeder.Contracts do
         id_from_stripe_transfer: "tr_1HAQmkdvbzas7wE2tR6MA8B9",
         individual_tax_return_id: tp1_individual_tax_return.id,
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         service_review_id: srv3,
         status: random_project_status(),
         user_id: tp1
@@ -298,6 +301,7 @@ defmodule Core.Seeder.Contracts do
         id_from_stripe_transfer: "tr_1HABkqWel7CvsazKLA8GO3Jm",
         instant_matched: random_boolean(),
         sale_tax_id: tp2_sale_tax.id,
+        room_id: FlakeId.get(),
         service_review_id: srv4,
         status: random_project_status(),
         user_id: tp2
@@ -307,6 +311,7 @@ defmodule Core.Seeder.Contracts do
         id_from_stripe_card: "card_1HCD5sDQlm7Cxs9Afbzyt4Mw",
         id_from_stripe_transfer: "tr_1HLdf5AlMCV4qwErxt7JAqVi",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         service_review_id: srv5,
         status: random_project_status(),
         user_id: tp2
@@ -316,6 +321,7 @@ defmodule Core.Seeder.Contracts do
         id_from_stripe_card: "card_1HV5Dgqxcd8DF3mSA7Nfkeq1",
         id_from_stripe_transfer: "tr_1HW4Gawqlor6NrQwe0ndf751",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         service_review_id: srv6,
         status: random_project_status(),
         user_id: tp2
@@ -325,6 +331,7 @@ defmodule Core.Seeder.Contracts do
         id_from_stripe_transfer: "tr_1HF3jKqWvam8Su1KM7DrAlz9",
         individual_tax_return_id: tp3_individual_tax_return.id,
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         service_review_id: srv7,
         status: random_project_status(),
         user_id: tp3
@@ -334,6 +341,7 @@ defmodule Core.Seeder.Contracts do
         id_from_stripe_transfer: "tr_1HX9kquTr0FM2Csqp9MJaYLg",
         instant_matched: random_boolean(),
         sale_tax_id: tp3_sale_tax.id,
+        room_id: FlakeId.get(),
         service_review_id: srv8,
         status: random_project_status(),
         user_id: tp3
@@ -344,6 +352,7 @@ defmodule Core.Seeder.Contracts do
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
         instant_matched: random_boolean(),
         offer_price: random_float(),
+        room_id: FlakeId.get(),
         service_review_id: srv9,
         status: random_project_status(),
         user_id: tp3
@@ -353,6 +362,7 @@ defmodule Core.Seeder.Contracts do
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
         individual_tax_return_id: tp4_individual_tax_return.id,
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         service_review_id: srv10,
         status: random_project_status(),
         user_id: tp4
@@ -362,6 +372,7 @@ defmodule Core.Seeder.Contracts do
         id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         service_review_id: srv11,
         status: random_project_status(),
         user_id: tp4
@@ -371,6 +382,7 @@ defmodule Core.Seeder.Contracts do
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
         instant_matched: random_boolean(),
         sale_tax_id: tp4_sale_tax.id,
+        room_id: FlakeId.get(),
         service_review_id: srv12,
         status: random_project_status(),
         user_id: tp4
@@ -380,6 +392,7 @@ defmodule Core.Seeder.Contracts do
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
         instant_matched: random_boolean(),
         sale_tax_id: tp5_sale_tax.id,
+        room_id: FlakeId.get(),
         service_review_id: srv13,
         status: random_project_status(),
         user_id: tp5
@@ -389,6 +402,7 @@ defmodule Core.Seeder.Contracts do
         id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         service_review_id: srv14,
         status: random_project_status(),
         user_id: tp5
@@ -398,6 +412,7 @@ defmodule Core.Seeder.Contracts do
         id_from_stripe_card: "card_1HNPuaw1bNaSPUWqN8Dp9QxT",
         id_from_stripe_transfer: "tr_1HO8nQ8D5N7f1art7NPaX0Iq",
         instant_matched: random_boolean(),
+        room_id: FlakeId.get(),
         service_review_id: srv15,
         status: random_project_status(),
         user_id: tp5

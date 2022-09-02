@@ -15,6 +15,7 @@ defmodule Core.Repo.Migrations.CreateProjects do
       add :individual_tax_return_id, references(:individual_tax_returns, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
       add :instant_matched, :boolean, null: false
       add :offer_price, :decimal, null: true
+      add :room_id, :uuid, null: true
       add :sale_tax_id, references(:sale_taxes, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
       add :service_review_id, references(:service_reviews, type: :uuid, on_delete: :delete_all), null: true, primary_key: false
       add :status, :string, null: false

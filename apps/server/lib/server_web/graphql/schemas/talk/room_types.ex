@@ -51,6 +51,11 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
       resolve &RoomResolver.list_by_participant/3
     end
 
+    @desc "Get all rooms by currentUser and participantId"
+    field :all_rooms_by_user_and_participant, list_of(:room) do
+      resolve &RoomResolver.list_by_current_participant/3
+    end
+
     @desc "Get a specific room"
     field :show_room, :room do
       arg(:id, non_null(:string))

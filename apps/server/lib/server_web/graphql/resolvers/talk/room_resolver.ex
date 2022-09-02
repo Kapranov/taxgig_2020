@@ -70,6 +70,23 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
     {:error, "there is projectId none record"}
   end
 
+  @spec list_by_current_participant(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def list_by_current_participant(_parent, _args, %{context: %{current_user: current_user}}) do
+    if is_nil(current_user) do
+      {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
+    else
+      data1 = Queries.by_list(Room, :user_id, current_user.id)
+      data2 = from p in Room, where: p.participant_id == ^current_user.id
+      data = Repo.all(data2)
+      {:ok, data1 ++ data}
+    end
+  end
+
+  @spec list_by_current_participant(any, %{atom => any}, any) :: result()
+  def list_by_current_participant(_parent, _args, _info) do
+    {:error, "there is projectId none record"}
+  end
+
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     try do
