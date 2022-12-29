@@ -4,13 +4,19 @@
 /doc/dist/*
 /doc/.build
 
+apps/client
+apps/manage
 apps/sender
+apps/stagger
+apps/twitter
 
 apps/ptin/priv/data/*
 apps/reptin/priv/data/*
 apps/reptin/src/*
 
 /config/*.secret.exs
+
+apps/*.tar.bz2
 
 uploads/*.gif
 uploads/*.jpg

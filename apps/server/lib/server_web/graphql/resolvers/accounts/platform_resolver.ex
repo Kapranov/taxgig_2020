@@ -7,6 +7,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
     Accounts,
     Accounts.Platform,
     Accounts.User,
+    Notifications,
+    Notifications.Notify,
     Queries,
     Repo,
     Talk,
@@ -133,6 +135,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                     |> case do
                       {:ok, updated} ->
                         {:ok, _} = Talk.update_room(room, %{active: true})
+                        case updated.is_banned do
+                          true ->
+                            {:ok, notify} = Notifications.create_notify(%{
+                              is_hidden: false,
+                              is_read: false,
+                              template: 13,
+                              user_id: updated.user_id
+                            })
+                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                          false ->
+                            {:ok, notify} = Notifications.create_notify(%{
+                              is_hidden: false,
+                              is_read: false,
+                              template: 15,
+                              user_id: updated.user_id
+                            })
+                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                        end
                         {:ok, updated}
                       {:error, changeset} ->
                         {:error, extract_error_msg(changeset)}
@@ -143,6 +165,38 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                     |> case do
                       {:ok, updated} ->
                         {:ok, _} = Talk.update_room(room, %{active: true})
+                        case updated.is_banned do
+                          true ->
+                            {:ok, notify} = Notifications.create_notify(%{
+                              is_hidden: false,
+                              is_read: false,
+                              template: 13,
+                              user_id: updated.user_id
+                            })
+                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                          false ->
+                            {:ok, notify} = Notifications.create_notify(%{
+                              is_hidden: false,
+                              is_read: false,
+                              template: 15,
+                              user_id: updated.user_id
+                            })
+                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                        end
+                        case updated.hero_status do
+                          true -> :ok
+                          false ->
+                            {:ok, notify} = Notifications.create_notify(%{
+                              is_hidden: false,
+                              is_read: false,
+                              template: 18,
+                              user_id: updated.user_id
+                            })
+                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                        end
                         {:ok, updated}
                       {:error, changeset} ->
                         {:error, extract_error_msg(changeset)}
@@ -155,6 +209,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                     |> case do
                       {:ok, updated} ->
                         {:ok, _} = Talk.update_room(room, %{active: false})
+                        case updated.is_banned do
+                          true ->
+                            {:ok, notify} = Notifications.create_notify(%{
+                              is_hidden: false,
+                              is_read: false,
+                              template: 13,
+                              user_id: updated.user_id
+                            })
+                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                          false ->
+                            {:ok, notify} = Notifications.create_notify(%{
+                              is_hidden: false,
+                              is_read: false,
+                              template: 15,
+                              user_id: updated.user_id
+                            })
+                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                        end
                         {:ok, updated}
                       {:error, changeset} ->
                         {:error, extract_error_msg(changeset)}
@@ -165,6 +239,38 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                     |> case do
                       {:ok, updated} ->
                         {:ok, _} = Talk.update_room(room, %{active: false})
+                        case updated.is_banned do
+                          true ->
+                            {:ok, notify} = Notifications.create_notify(%{
+                              is_hidden: false,
+                              is_read: false,
+                              template: 13,
+                              user_id: updated.user_id
+                            })
+                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                          false ->
+                            {:ok, notify} = Notifications.create_notify(%{
+                              is_hidden: false,
+                              is_read: false,
+                              template: 15,
+                              user_id: updated.user_id
+                            })
+                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                        end
+                        case updated.hero_status do
+                          true -> :ok
+                          false ->
+                            {:ok, notify} = Notifications.create_notify(%{
+                              is_hidden: false,
+                              is_read: false,
+                              template: 18,
+                              user_id: updated.user_id
+                            })
+                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                        end
                         {:ok, updated}
                       {:error, changeset} ->
                         {:error, extract_error_msg(changeset)}
@@ -183,6 +289,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                   |> case do
                     {:ok, updated} ->
                       {:ok, _} = Talk.update_room(room, %{active: true})
+                      case updated.is_banned do
+                        true ->
+                          {:ok, notify} = Notifications.create_notify(%{
+                            is_hidden: false,
+                            is_read: false,
+                            template: 12,
+                            user_id: updated.user_id
+                          })
+                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                        false ->
+                          {:ok, notify} = Notifications.create_notify(%{
+                            is_hidden: false,
+                            is_read: false,
+                            template: 14,
+                            user_id: updated.user_id
+                          })
+                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                      end
                       {:ok, updated}
                     {:error, changeset} ->
                       {:error, extract_error_msg(changeset)}
@@ -193,6 +319,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                   |> case do
                     {:ok, updated} ->
                       {:ok, _} = Talk.update_room(room, %{active: false})
+                      case updated.is_banned do
+                        true ->
+                          {:ok, notify} = Notifications.create_notify(%{
+                            is_hidden: false,
+                            is_read: false,
+                            template: 12,
+                            user_id: updated.user_id
+                          })
+                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                        false ->
+                          {:ok, notify} = Notifications.create_notify(%{
+                            is_hidden: false,
+                            is_read: false,
+                            template: 14,
+                            user_id: updated.user_id
+                          })
+                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                      end
                       {:ok, updated}
                     {:error, changeset} ->
                       {:error, extract_error_msg(changeset)}

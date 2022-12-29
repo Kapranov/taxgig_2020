@@ -64,6 +64,7 @@ defmodule Core.Accounts.User do
     platform: Platform.t(),
     potential_client: PotentialClient.t(),
     pro_ratings: [ProRating.t()],
+    profession: String.t(),
     profile: Profile.t(),
     projects: [Project.t()],
     provider: String.t(),
@@ -103,6 +104,7 @@ defmodule Core.Accounts.User do
     password
     password_confirmation
     phone
+    profession
     provider
     role
     sex

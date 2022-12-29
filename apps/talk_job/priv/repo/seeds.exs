@@ -1,0 +1,2 @@
+TalkJob.Seeder.Repo.seed!
+

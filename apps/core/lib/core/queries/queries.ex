@@ -19,7 +19,7 @@ defmodule Core.Queries do
   @type word() :: String.t()
 
   @doc """
-  Retrurn list of the integer by all records when is_read is true
+  Retrurn list of the integer by all records when is_read is false
 
   ## Example
 

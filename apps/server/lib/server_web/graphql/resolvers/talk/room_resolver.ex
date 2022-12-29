@@ -144,9 +144,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
                       case Talk.create_room(current_user, Map.merge(args, %{active: true})) do
                         {:ok, room} ->
                           struct = Queries.by_list(Room, :user_id, current_user.id)
+                          structs = from p in Room, where: p.participant_id == ^current_user.id
+                          data = Repo.all(structs)
+                          merge_data = struct ++ data
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, room_all: "rooms")
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, rooms_by_project_all: args[:project_id])
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, rooms_by_participant_all: "rooms")
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, merge_data, rooms_by_current_participant_user_all: "rooms")
                           {:ok, room}
                         {:error, _changeset} -> {:error, "Something went wrong with your room"}
                       end
@@ -154,9 +158,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
                       case Talk.create_room(current_user, Map.merge(args, %{active: false})) do
                         {:ok, room} ->
                           struct = Queries.by_list(Room, :user_id, current_user.id)
+                          structs = from p in Room, where: p.participant_id == ^current_user.id
+                          data = Repo.all(structs)
+                          merge_data = struct ++ data
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, room_all: "rooms")
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, rooms_by_project_all: struct.project_id)
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, rooms_by_participant_all: "rooms")
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, merge_data, rooms_by_current_participant_user_all: "rooms")
                           {:ok, room}
                         {:error, _changeset} -> {:error, "Something went wrong with your room"}
                       end

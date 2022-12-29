@@ -65,6 +65,7 @@ defmodule Server.MixProject do
       {:jason, "~> 1.2"},
       {:mailings, in_umbrella: true},
       {:mox, "~> 0.5"},
+      {:observer_cli, "~> 1.7"},
       {:phoenix, "~> 1.5"},
       {:phoenix_client, "~> 0.11"},
       {:phoenix_pubsub, "~> 2.0"},
@@ -75,6 +76,7 @@ defmodule Server.MixProject do
       #{:plaid, in_umbrella: true},
       {:reptin, in_umbrella: true},
       {:stripy, in_umbrella: true},
+      {:talk_job, in_umbrella: true},
       {:restarter, path: "./restarter"}
     ]
   end

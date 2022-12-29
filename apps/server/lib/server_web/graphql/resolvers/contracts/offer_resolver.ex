@@ -8,6 +8,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
     Accounts.User,
     Contracts,
     Contracts.Offer,
+    Notifications,
+    Notifications.Notify,
     Queries,
     Repo
   }
@@ -70,6 +72,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
             |> Contracts.create_offer()
             |> case do
               {:ok, struct} ->
+                {:ok, notify} = Notifications.create_notify(%{
+                  is_hidden: false,
+                  is_read: false,
+                  project_id: struct.project_id,
+                  sender_id: struct.user_id,
+                  template: 4,
+                  user_id: Repo.preload(struct, :projects).user_id
+                })
+                notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                 {:ok, struct}
               {:error, changeset} ->
                 {:error, extract_error_msg(changeset)}
@@ -101,7 +113,32 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
               |> Contracts.update_offer(Map.delete(params, :user_id))
               |> case do
                 {:ok, struct} ->
-                  {:ok, struct}
+                  case struct.status do
+                    "Accepted" ->
+                      {:ok, notify} = Notifications.create_notify(%{
+                        is_hidden: false,
+                        is_read: false,
+                        project_id: struct.project_id,
+                        template: 16,
+                        user_id: struct.user_id
+                      })
+                      notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                      Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                      {:ok, struct}
+                    "Declined" ->
+                      {:ok, notify} = Notifications.create_notify(%{
+                        is_hidden: false,
+                        is_read: false,
+                        project_id: struct.project_id,
+                        template: 17,
+                        user_id: struct.user_id
+                      })
+                      notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                      Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                      {:ok, struct}
+                    _ ->
+                      {:ok, struct}
+                  end
                 {:error, changeset} ->
                   {:error, extract_error_msg(changeset)}
               end

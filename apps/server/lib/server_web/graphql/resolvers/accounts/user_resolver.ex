@@ -7,6 +7,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     Accounts,
     Accounts.User,
     Contracts.Project,
+    Notifications,
+    Notifications.Notify,
     Repo
   }
 
@@ -154,7 +156,20 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     else
       try do
         struct = Accounts.get_user!(id)
-        {:ok, struct}
+        case current_user.role and is_nil(struct.profession) do
+          true ->
+            {:ok, notify} = Notifications.create_notify(%{
+              is_hidden: false,
+              is_read: false,
+              template: 19,
+              user_id: struct.id
+            })
+            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+            {:ok, struct}
+          false ->
+            {:ok, struct}
+        end
       rescue
         Ecto.NoResultsError ->
           {:error, "An User #{id} not found!"}

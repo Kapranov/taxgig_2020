@@ -8,6 +8,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
   alias Core.{
     Accounts,
     Accounts.User,
+    Notifications,
+    Notifications.Notify,
     Queries,
     Repo,
     Talk,
@@ -125,13 +127,24 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
             |> case do
               {:ok, struct} ->
                 {:ok, _struct} = Talk.update_room(room, %{last_msg: struct.id})
+                {:ok, notify} = Notifications.create_notify(%{
+                  is_hidden: false,
+                  is_read: false,
+                  project_id: Repo.preload(struct, :room).room.project_id,
+                  room_id: struct.room_id,
+                  sender_id: struct.user_id,
+                  template: 3,
+                  user_id: struct.recipient_id
+                })
                 data = Queries.by_list(Room, :user_id, args[:recipient_id])
                 query = from p in Message, where: p.room_id == ^args[:room_id]
                 messages = Repo.all(query)
+                notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, data, room_all: "rooms")
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, messages, messages_by_room_all: args[:room_id])
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, data, rooms_by_project_all: room.project_id)
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, data, rooms_by_participant_all: "rooms")
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                 {:ok, struct}
               {:error, changeset} ->
                 {:error, extract_error_msg(changeset)}
@@ -145,6 +158,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
             |> case do
               {:ok, struct} ->
                 {:ok, _struct} = Talk.update_room(room, %{last_msg: struct.id})
+                {:ok, _struct} = Notifications.create_notify(%{
+                  is_hidden: false,
+                  is_read: false,
+                  project_id: Repo.preload(struct, :room).room.project_id,
+                  room_id: struct.room_id,
+                  sender_id: struct.user_id,
+                  template: 2,
+                  user_id: struct.recipient_id
+                })
                 data = Queries.by_list(Room, :user_id, args[:recipient_id])
                 query = from p in Message, where: p.room_id == ^args[:room_id]
                 messages = Repo.all(query)

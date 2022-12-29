@@ -8,6 +8,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
     Contracts,
     Media,
     Media.ProDoc,
+    Notifications,
+    Notifications.Notify,
     Queries
   }
 
@@ -68,6 +70,28 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
                  "user_id" => current_user.id
                })
           do
+            {:ok, notify} = Notifications.create_notify(%{
+              is_hidden: false,
+              is_read: false,
+              project_id: project.id,
+              template: 11,
+              user_id: project.user_id
+            })
+            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+            case pro_doc.signature do
+              true ->
+                {:ok, notify} = Notifications.create_notify(%{
+                  is_hidden: false,
+                  is_read: false,
+                  project_id: project.id,
+                  template: 20,
+                  user_id: project.user_id
+                })
+                notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+              _ -> :ok
+            end
             {:ok, pro_doc}
           else
             nil ->

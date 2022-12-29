@@ -7,7 +7,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
     Accounts.User,
     Contracts,
     Media,
-    Media.TpDoc
+    Media.TpDoc,
+    Notifications,
+    Notifications.Notify,
+    Repo
   }
 
   @type t :: TpDoc.t()
@@ -75,6 +78,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
                  "signed_by_tp" => signed_by_tp
                })
           do
+            {:ok, notify} = Notifications.create_notify(%{
+              is_hidden: false,
+              is_read: false,
+              project_id: project.id,
+              sender_id: current_user.id,
+              template: 21,
+              user_id: project.assigned_id
+            })
+            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
             {:ok, tp_doc}
           else
             nil ->

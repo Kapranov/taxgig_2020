@@ -47,6 +47,14 @@ config :core, Core.Uploaders.S3,
 config :core,
   email_regex: ~r/[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}/
 
+config :talk_job, TalkJob.Repo,
+  username: "kapranov",
+  password: "nicmos6922",
+  database: "taxgig",
+  hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
 config :mailings,
   mailgun_domain: "https://api.mailgun.net/v3/mail.taxgig.com",
   mailgun_key: "key-b31b4b2c597c0b4da2876f8a55e49b5f"

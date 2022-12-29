@@ -4,14 +4,6 @@ config :logger, level: :warn
 
 config :argon2_elixir, t_cost: 2, m_cost: 12
 
-config :core, Core.Repo,
-  username: "kapranov",
-  password: "nicmos6922",
-  database: "taxgig_test",
-  hostname: "localhost",
-  show_sensitive_data_on_connection_error: true,
-  pool: Ecto.Adapters.SQL.Sandbox
-
 config :mailings,
   mailgun_domain: "https://api.mailgun.net/v3/mail.taxgig.com",
   mailgun_key: "d88a0873cc6c3ca3f55e7a12465178cf-2d27312c-6a0b1e90"
@@ -39,6 +31,14 @@ config :ex_aws,
     secret_access_key: "qKDzXvnTdQxhVmp4hBa9MnJw/5A/SG35m8AvQMBCwOI"
   ]
 
+config :core, Core.Repo,
+  username: "kapranov",
+  password: "nicmos6922",
+  database: "taxgig_test",
+  hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool: Ecto.Adapters.SQL.Sandbox
+
 config :core, Core.Upload,
   uploader: Core.Uploaders.S3,
   filters: [
@@ -65,6 +65,14 @@ config :core, Core.Uploaders.S3,
   bucket: "taxgig",
   streaming_enabled: true,
   public_endpoint: "https://nyc3.digitaloceanspaces.com"
+
+config :talk_job, TalkJob.Repo,
+  username: "kapranov",
+  password: "nicmos6922",
+  database: "taxgig_test",
+  hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool: Ecto.Adapters.SQL.Sandbox
 
 config :server, Google,
   client_id: "991262252553-18hlqfkgmkmk9l9o1niuq0ehcqvd097u.apps.googleusercontent.com",

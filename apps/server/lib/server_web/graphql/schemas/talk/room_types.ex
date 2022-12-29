@@ -137,5 +137,18 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
         end
       )
     end
+
+    @desc "Return all the rooms a merge by participantId and userId via channel"
+    field :rooms_by_current_participant_user_all, list_of(:room) do
+      config(fn _, _ ->
+        {:ok, topic: "rooms"}
+      end)
+
+      trigger(:all_rooms_by_current_participant,
+        topic: fn _ ->
+          "rooms"
+        end
+      )
+    end
   end
 end

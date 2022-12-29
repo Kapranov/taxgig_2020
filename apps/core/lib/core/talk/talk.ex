@@ -83,7 +83,7 @@ defmodule Core.Talk do
   @spec get_message!(String.t()) :: Message.t() | error_tuple()
   def get_message!(id) do
     Repo.get!(Message, id)
-    |> Repo.preload([:user, :projects])
+    |> Repo.preload([:user])
   end
 
   @spec search(String.t(), String.t()) :: return()
