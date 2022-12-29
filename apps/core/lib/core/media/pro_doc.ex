@@ -16,7 +16,8 @@ defmodule Core.Media.ProDoc do
     Accounts.User,
     Contracts.Project,
     Media.File,
-    Media.Helpers.CategoryEnum
+    Media.Helpers.CategoryEnum,
+    Media.Signature
   }
 
   @type t :: %__MODULE__{
@@ -50,6 +51,8 @@ defmodule Core.Media.ProDoc do
     field :signed_by_pro, :boolean
 
     embeds_one(:file, File, on_replace: :update)
+
+    has_many :signatures, Signature, on_delete: :delete_all
 
     belongs_to :projects, Project,
       foreign_key: :project_id,

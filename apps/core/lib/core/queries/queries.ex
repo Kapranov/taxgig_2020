@@ -59,12 +59,27 @@ defmodule Core.Queries do
       iex> by_list(struct, row, id)
 
   """
-  @spec by_list(map, atom, String.t()) :: Ecto.Query.t()
+  @spec by_list(map, atom, word) :: Ecto.Query.t()
   def by_list(struct, row, id) do
     try do
       Repo.all(
         from c in struct,
         where: field(c, ^row) == ^id
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @spec by_list(map, atom, atom, word, word) :: [word] | []
+  def by_list(struct, row_a, row_b, id_a, id_b) do
+    try do
+      Repo.all(
+        from c in struct,
+        where: not is_nil(field(c, ^row_a)),
+        where: not is_nil(field(c, ^row_b)),
+        where: field(c, ^row_a) == ^id_a,
+        where: field(c, ^row_b) == ^id_b
       )
     rescue
       Ecto.Query.CastError -> nil

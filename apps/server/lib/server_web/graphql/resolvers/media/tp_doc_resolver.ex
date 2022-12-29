@@ -10,7 +10,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
     Media.TpDoc,
     Notifications,
     Notifications.Notify,
-    Repo
+    Queries
   }
 
   @type t :: TpDoc.t()

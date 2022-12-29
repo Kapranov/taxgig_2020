@@ -13,6 +13,7 @@ defmodule Core.Media do
     Media.File,
     Media.Picture,
     Media.ProDoc,
+    Media.Signature,
     Media.TpDoc,
     Repo,
     Upload
@@ -469,6 +470,83 @@ defmodule Core.Media do
               {:error, changeset}
           end
       end
+  end
+
+  @doc """
+  Gets a single the Signature.
+
+  Raises `Ecto.NoResultsError` if the Signature does not exist.
+
+  ## Examples
+
+      iex> get_signature!(123)
+      %Signature{}
+
+      iex> get_signature!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  @spec get_signature!(String.t()) :: Signature.t() | error_tuple()
+  def get_signature!(id), do: Repo.get!(Signature, id)
+
+  @doc """
+  Creates the signature.
+  """
+  @spec create_signature(%{atom => any}) :: {:ok, Signature.t()} | {:error, Ecto.Changeset.t()}
+  def create_signature(attrs \\ %{}) do
+    %Signature{}
+    |> Signature.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates the Signature.
+
+  ## Examples
+
+      iex> update_signature(struct, %{field: new_value})
+      {:ok, %Signature{}}
+
+      iex> update_signature(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_signature(Signature.t(), %{atom => any}) :: result() | error_tuple()
+  def update_signature(%Signature{} = struct, attrs) do
+    struct
+    |> Signature.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes the Signature.
+
+  ## Examples
+
+      iex> delete_signature(struct)
+      {:ok, %Signature{}}
+
+      iex> delete_signature(struct)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec delete_signature(Signature.t()) :: result()
+  def delete_signature(%Signature{} = struct) do
+    Repo.delete(struct)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking the Signature Changes.
+
+  ## Examples
+
+      iex> change_signature(struct)
+      %Ecto.Changeset{source: %Signature{}}
+
+  """
+  @spec change_signature(Signature.t()) :: Ecto.Changeset.t()
+  def change_signature(%Signature{} = struct) do
+    Signature.changeset(struct, %{})
   end
 
   @spec picture_by_url_query(String.t()) :: Ecto.Query.t()

@@ -5,10 +5,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Notifications.NotifyResolver do
 
   alias Core.{
     Accounts.User,
-    Notifications,
     Notifications.Notify,
     Queries,
-    Repo
   }
 
   @type t :: Notify.t()

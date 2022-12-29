@@ -102,7 +102,8 @@ bash> mix ecto.gen.migration -r Core.Repo create_plaid_transactions
 ```
 
 ```
-bash> mix ecto.gen.migration -r Core.Repo create_notification
+bash> mix ecto.gen.migration -r Core.Repo create_notifies
+bash> mix ecto.gen.migration -r Core.Repo create_signatures
 ```
 
 # You can create a bash file as import.sh (that your CSV format is a tab delimiter)
