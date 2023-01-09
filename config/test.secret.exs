@@ -88,5 +88,5 @@ config :server, Twitter,
   client_secret: "DyOjOFidMtPJQIlu"
 
 config :server, LinkedIn,
-  client_id: "86o1wzfjly49rc",
-  client_secret: "DyOjOFidMtPJQIlu"
+  client_id: "77em5r3mjow7oy",
+  client_secret: "gyAt8UOtXXtYH2jY",

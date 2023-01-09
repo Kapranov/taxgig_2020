@@ -105,6 +105,6 @@ config :server, Twitter,
   redirect_uri: ["https://localhost:4200/auth/registration-creating-account?provider=twitter", "https://localhost:4200/auth/login?provider=twitter"]
 
 config :server, LinkedIn,
-  client_id: "7836672fm66v60",
-  client_secret: "8pxTP1OulfSn5xaq",
+  client_id: "77em5r3mjow7oy",
+  client_secret: "gyAt8UOtXXtYH2jY",
   redirect_uri: ["https://tax.unicore-group.com/auth/registration-creating-account?provider=linkedin", "https://tax.unicore-group.com/auth/login?provider=linkedin", "https://localhost:4200/auth/registration-creating-account?provider=linkedin", "https://localhost:4200/auth/login?provider=linkedin"]
