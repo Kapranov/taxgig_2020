@@ -1,0 +1,187 @@
+{
+  "key": "graphiql",
+  "lastId": 6,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5",
+    "tab6"
+  ],
+  "closedTabs": [],
+  "defaultUrl": "http://localhost:4000/graphiql",
+  "defaultWebsocketUrl": "ws://localhost:4000/socket",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/graphiql"
+  ],
+  "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgCuYeOfhQFiAAFRgA.f1gmgUotqrLFDoX2QWYeCltvYuzKn6WPK6YEZoZ6EvY"
+    }
+  ],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab2",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Query 1",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab2",
+      "name": "Query 2",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgCuYeOfhQFiAAFRgA.f1gmgUotqrLFDoX2QWYeCltvYuzKn6WPK6YEZoZ6EvY"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  createSignature(\n    altitude: \"21.315603\"\n    longitude: \"-157.858093\"\n    proDocId: \"ARWpNrR7CPWCKwTinx\"\n  ) {\n    id\n    altitude\n    longitude\n    proDocs {\n      id\n      error\n      users {id email role}\n      category\n      projects {id}\n      signature\n      signedByPro\n      file {\n      id\n      url\n      name\n      size\n      error\n      errorDescription\n      contentType\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  createSignature(\n    altitude: \"37.386051\"\n    longitude: \"-122.083855\"\n    proDocId: \"ARWpNrR7CPWCKwTinx\"\n  ) {\n    id\n    altitude\n    longitude\n    proDocs {\n      id\n      error\n      users {id email role}\n      category\n      projects {id}\n      signature\n      signedByPro\n      file {\n      id\n      url\n      name\n      size\n      error\n      errorDescription\n      contentType\n      }\n    }\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  createSignature(\n    altitude: \"21.315603\"\n    longitude: \"157.858093\"\n    proDocId: \"ARWpNrR7CPWCKwTinx\"\n  ) {\n    id\n    altitude\n    longitude\n    proDocs {\n      id\n      error\n      users {id email role}\n      category\n      projects {id}\n      signature\n      signedByPro\n      file {\n      id\n      url\n      name\n      size\n      error\n      errorDescription\n      contentType\n      }\n    }\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.3784056508577195,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  createSignature(\\n    altitude: \\\"37.386051\\\"\\n    longitude: \\\"-122.083855\\\"\\n    proDocId: \\\"ARWpNrR7CPWCKwTinx\\\"\\n  ) {\\n    id\\n    altitude\\n    longitude\\n    proDocs {\\n      id\\n      error\\n      users {id email role}\\n      category\\n      projects {id}\\n      signature\\n      signedByPro\\n      file {\\n      id\\n      url\\n      name\\n      size\\n      error\\n      errorDescription\\n      contentType\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  createSignature(\\n    altitude: \\\"21.315603\\\"\\n    longitude: \\\"-157.858093\\\"\\n    proDocId: \\\"ARWpNrR7CPWCKwTinx\\\"\\n  ) {\\n    id\\n    altitude\\n    longitude\\n    proDocs {\\n      id\\n      error\\n      users {id email role}\\n      category\\n      projects {id}\\n      signature\\n      signedByPro\\n      file {\\n      id\\n      url\\n      name\\n      size\\n      error\\n      errorDescription\\n      contentType\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"}]}"
+    },
+    {
+      "id": "tab3",
+      "name": "Query 3",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgCuYeOfhQFiAAFRgA.f1gmgUotqrLFDoX2QWYeCltvYuzKn6WPK6YEZoZ6EvY"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allSignatureByProDoc(proDocId: \"ARWpNrR7CPWCKwTinx\") {\n    id\n    altitude\n    longitude\n    proDocs {\n      id\n      error\n      users {id email role}\n      category\n      projects {id}\n      signature\n      signedByPro\n      file {\n      id\n      url\n      name\n      size\n      error\n      errorDescription\n      contentType\n      }\n    }\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allSignatureByProDoc(proDocId: \"ARWpNrR7CPWCKwTinx\") {\n    id\n    altitude\n    longitude\n    proDocs {\n      id\n      error\n      users {id email role}\n      category\n      projects {id}\n      signature\n      signedByPro\n      file {\n      id\n      url\n      name\n      size\n      error\n      errorDescription\n      contentType\n      }\n    }\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 0.590221187427241,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allSignatureByProDoc(proDocId: \\\"ARWpNrR7CPWCKwTinx\\\") {\\n    id\\n    altitude\\n    longitude\\n    proDocs {\\n      id\\n      error\\n      users {id email role}\\n      category\\n      projects {id}\\n      signature\\n      signedByPro\\n      file {\\n      id\\n      url\\n      name\\n      size\\n      error\\n      errorDescription\\n      contentType\\n      }\\n    }\\n  }\\n}\",\"variables\":\"\"}]}"
+    },
+    {
+      "id": "tab4",
+      "name": "Query 4",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgCuYeOfhQFiAAFRgA.f1gmgUotqrLFDoX2QWYeCltvYuzKn6WPK6YEZoZ6EvY"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  allProDocs {\n    id\n    error\n    users {id email role}\n    category\n    projects {id}\n    signature\n    signedByPro\n    file {\n    \tid\n    \turl\n    \tname\n    \tsize\n    \terror\n    \terrorDescription\n    \tcontentType\n    }\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  allProDocs {\n    id\n    error\n    users {id email role}\n    category\n    projects {id}\n    signature\n    signedByPro\n    file {\n    \tid\n    \turl\n    \tname\n    \tsize\n    \terror\n    \terrorDescription\n    \tcontentType\n    }\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:editorFlex": 0.3953013278855976,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allProDocs {\\n    id\\n    error\\n    users {id email role}\\n    category\\n    projects {id}\\n    signature\\n    signedByPro\\n    file {\\n    \\tid\\n    \\turl\\n    \\tname\\n    \\tsize\\n    \\terror\\n    \\terrorDescription\\n    \\tcontentType\\n    }\\n  }\\n}\",\"variables\":\"\"}]}"
+    },
+    {
+      "id": "tab5",
+      "name": "Query 5",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  signInLocal(\n    email: \"lugatex@yahoo.com\"\n    password: \"qwerty\"\n    passwordConfirmation: \"qwerty\"\n    provider: \"localhost\"\n  ) {\n    error\n    errorDescription\n    is2fa\n    userId\n    provider\n    accessToken\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  signInLocal(\n    email: \"lugatex@yahoo.com\"\n    password: \"qwerty\"\n    passwordConfirmation: \"qwerty\"\n    provider: \"localhost\"\n  ) {\n    error\n    errorDescription\n    is2fa\n    userId\n    provider\n    accessToken\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 0.3868020304568528,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"lugatex@yahoo.com\\\"\\n    password: \\\"qwerty\\\"\\n    passwordConfirmation: \\\"qwerty\\\"\\n    provider: \\\"localhost\\\"\\n  ) {\\n    error\\n    errorDescription\\n    is2fa\\n    userId\\n    provider\\n    accessToken\\n  }\\n}\",\"variables\":\"\"}]}"
+    },
+    {
+      "id": "tab6",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgCuYeOfhQFiAAFRgA.f1gmgUotqrLFDoX2QWYeCltvYuzKn6WPK6YEZoZ6EvY"
+        }
+      ],
+      "collapsed": true,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "query {\n  proProjects {\n    id\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  allProjects {\n    id\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "query {\n  proProjects {\n    id\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allProjects {\\n    id\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  proProjects {\\n    id\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 0.37424547283702214,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    }
+  ]
+}
