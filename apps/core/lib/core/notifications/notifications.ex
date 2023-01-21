@@ -56,4 +56,23 @@ defmodule Core.Notifications do
     |> Notify.changeset(attrs)
     |> Repo.insert()
   end
+
+  @doc """
+  Updates the Notify.
+
+  ## Examples
+
+      iex> update_notify(struct, %{field: new_value})
+      {:ok, %Notify{}}
+
+      iex> update_notify(struct, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_notify(Notify.t(), %{atom => any}) :: result() | error_tuple()
+  def update_notify(%Notify{} = struct, attrs) do
+    struct
+    |> Notify.changeset(attrs)
+    |> Repo.update()
+  end
 end

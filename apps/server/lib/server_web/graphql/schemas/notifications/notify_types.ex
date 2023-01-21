@@ -14,21 +14,37 @@ defmodule ServerWeb.GraphQL.Schemas.Notifications.NotifyTypes do
 
   @desc "The notify"
   object :notify do
-    field :id, non_null(:string)
+    field :id, :string
+    field :error, :string
     field :is_hidden, :boolean
     field :is_read, :boolean
     field :project_id, :string
     field :room_id, :string
     field :sender, :user, resolve: dataloader(Data)
     field :service_review_id, :string
-    field :template, non_null(:integer)
+    field :template, :integer
     field :users, :user, resolve: dataloader(Data)
+  end
+
+  @desc "The Notify update via params"
+  input_object :update_notify_params do
+    field :is_hidden, :boolean
+    field :is_read, :boolean
   end
 
   object :notify_queries do
     @desc "Get all notifies by currentUser"
     field :all_notifies, list_of(:notify) do
       resolve &NotifyResolver.list/3
+    end
+  end
+
+  object :notify_mutations do
+    @desc "Update a specific notify"
+    field :update_notify, :notify do
+      arg :id, non_null(:string)
+      arg :notify, :update_notify_params
+      resolve &NotifyResolver.update/3
     end
   end
 

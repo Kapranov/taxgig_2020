@@ -279,7 +279,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                                 template: 5,
                                 user_id: struct.user_id
                               })
-                              notifies = Queries.by_list(Notify, :user_id, struct.user_id)
+                              notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                               {:ok, struct}
                             {:error, changeset} ->
