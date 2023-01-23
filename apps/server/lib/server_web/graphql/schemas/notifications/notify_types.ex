@@ -46,6 +46,12 @@ defmodule ServerWeb.GraphQL.Schemas.Notifications.NotifyTypes do
       arg :notify, :update_notify_params
       resolve &NotifyResolver.update/3
     end
+
+    @desc "Update a specific notify"
+    field :update_notify_is_read, list_of(:notify) do
+      arg :id, list_of(non_null(:string))
+      resolve &NotifyResolver.update_is_read/3
+    end
   end
 
   object :notify_subscriptions do

@@ -1,12 +1,13 @@
 {
   "key": "graphiql",
-  "lastId": 22,
+  "lastId": 23,
   "tabIds": [
     "tab1",
     "tab2",
     "tab20",
     "tab21",
-    "tab22"
+    "tab22",
+    "tab23"
   ],
   "closedTabs": [
     {
@@ -568,6 +569,10 @@
   "recentHeaders": [
     {
       "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgBA99fdhQFiAAFRgA.mQpOtJRYhGj-_IQUbVjtS5XzYnavkkVszWJhlVmPPyo"
+    },
+    {
+      "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkSDIySDRBN3E1VTBUV0NuBgBjD7_ZhQFiAAFRgA.eWSwhA7V7LkVd5l-bhj6SlI9w5LI3A9jKfAETOdhGpI"
     },
     {
@@ -641,17 +646,13 @@
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgBPl9PKggFiAAFRgA.Le_YkJRlwCQR05K-Ppb7c82wJeBNIUzhzx4KN9wd3Po"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgBaeNLKggFiAAFRgA.f3iN0Oq845pEuELBk4bTsxseuJdBKzDTSD9v8IhWcF8"
     }
   ],
   "maxTabHistory": 20,
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab22",
+  "activeId": "tab23",
   "tabs": [
     {
       "id": "tab1",
@@ -677,6 +678,10 @@
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "query {\n  signInLocal(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
         {
           "query": "query {\n  signInLocal(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
           "variables": null
@@ -752,17 +757,13 @@
         {
           "query": "query {\n  signInLocal(\n    email: \"client@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
           "variables": null
-        },
-        {
-          "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
-          "variables": null
         }
       ],
-      "graphiql:query": "query {\n  signInLocal(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+      "graphiql:query": "query {\n  signInLocal(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client2@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client2@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"lugatex@yahoo.com.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client2@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client2@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"lugatex@yahoo.com.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:editorFlex": 0.5957943925233645
+      "graphiql:editorFlex": 0.385395537525355
     },
     {
       "id": "tab20",
@@ -773,7 +774,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgCgZbrZhQFiAAFRgA.5pgZTrioP_rfGWfiTMKnpIARc02H_3r4FEj2W53fjX8"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgBA99fdhQFiAAFRgA.mQpOtJRYhGj-_IQUbVjtS5XzYnavkkVszWJhlVmPPyo"
         }
       ],
       "collapsed": true,
@@ -785,10 +786,9 @@
         }
       ],
       "graphiql:query": "query {\n  allNotifies {\n    id\n    isRead\n    isHidden\n    projectId\n    roomId\n    serviceReviewId\n    template\n    sender {id email role}\n    users {id email role}   \n  }\n}",
-      "graphiql:variables": "",
-      "graphiql:editorFlex": 0.30842911877394635,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allNotifies {\\n    id\\n    isRead\\n    isHidden\\n    projectId\\n    roomId\\n    serviceReviewId\\n    template\\n    sender {id email role}\\n    users {id email role}   \\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 1,
       "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allNotifies {\\n    id\\n    isRead\\n    isHidden\\n    projectId\\n    roomId\\n    serviceReviewId\\n    template\\n    sender {id email role}\\n    users {id email role}   \\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:docExplorerWidth": 350
     },
     {
@@ -802,10 +802,9 @@
       "maxHistory": 20,
       "history": [],
       "graphiql:query": "subscription {\n  notifyList {\n    id\n    isRead\n    isHidden\n    projectId\n    roomId\n    serviceReviewId\n    template\n    sender {id email role}\n    users {id email role}\n  }\n}",
-      "graphiql:variables": "",
-      "graphiql:variableEditorHeight": 200,
       "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n  notifyList {\\n    id\\n    isRead\\n    isHidden\\n    projectId\\n    roomId\\n    serviceReviewId\\n    template\\n    sender {id email role}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.5331088664421998
     },
     {
@@ -817,12 +816,20 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkSDIySDRBN3E1VTBUV0NuBgBjD7_ZhQFiAAFRgA.eWSwhA7V7LkVd5l-bhj6SlI9w5LI3A9jKfAETOdhGpI"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgBA99fdhQFiAAFRgA.mQpOtJRYhGj-_IQUbVjtS5XzYnavkkVszWJhlVmPPyo"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "mutation {\n  updateNotify(\n    id: \"AQCemUIAOZKdIzJHnc\",\n    notify: {\n      isRead: true\n      isHidden: true\n    }\n  ) {\n    id\n    isRead\n    isHidden\n    projectId\n    roomId\n    serviceReviewId\n    template\n    sender {id email role}\n    users {id email role}\n    error\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "mutation {\n  updateNotify(\n    id: \"AQCemUIAOZKdIzJHnc\",\n    notify: {\n      isRead: false\n      isHidden: false\n    }\n  ) {\n    id\n    isRead\n    isHidden\n    projectId\n    roomId\n    serviceReviewId\n    template\n    sender {id email role}\n    users {id email role}\n    error\n  }\n}",
+          "variables": null
+        },
         {
           "query": "mutation {\n  updateNotify(\n    id: \"AQCemUIAOZKdIzJHnc\",\n    notify: {\n      isHidden: false\n    }\n  ) {\n    id\n    isRead\n    isHidden\n    projectId\n    roomId\n    serviceReviewId\n    template\n    sender {id email role}\n    users {id email role}\n    error\n  }\n}",
           "variables": null
@@ -836,12 +843,37 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  updateNotify(\n    id: \"AQCemUIAOZKdIzJHnc\",\n    notify: {\n      isHidden: false\n    }\n  ) {\n    id\n    isRead\n    isHidden\n    projectId\n    roomId\n    serviceReviewId\n    template\n    sender {id email role}\n    users {id email role}\n    error\n  }\n}",
-      "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateNotify(\\n    id: \\\"AQCemUIAOZKdIzJHnc\\\",\\n    notify: {\\n      isRead: true\\n    }\\n  ) {\\n    id\\n    isRead\\n    isHidden\\n    projectId\\n    roomId\\n    serviceReviewId\\n    template\\n    sender {id email role}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateNotify(\\n    id: \\\"AQCemUIAOZKdIzJHnc\\\",\\n    notify: {\\n      isHidden: true\\n    }\\n  ) {\\n    id\\n    isRead\\n    isHidden\\n    projectId\\n    roomId\\n    serviceReviewId\\n    template\\n    sender {id email role}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateNotify(\\n    id: \\\"AQCemUIAOZKdIzJHnc\\\",\\n    notify: {\\n      isHidden: false\\n    }\\n  ) {\\n    id\\n    isRead\\n    isHidden\\n    projectId\\n    roomId\\n    serviceReviewId\\n    template\\n    sender {id email role}\\n    users {id email role}\\n    error\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:query": "mutation {\n  updateNotify(\n    id: \"AQCemUIAOZKdIzJHnc\",\n    notify: {\n      isRead: true\n      isHidden: true\n    }\n  ) {\n    id\n    isRead\n    isHidden\n    projectId\n    roomId\n    serviceReviewId\n    template\n    sender {id email role}\n    users {id email role}\n    error\n  }\n}",
       "graphiql:editorFlex": 0.333984375,
       "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateNotify(\\n    id: \\\"AQCemUIAOZKdIzJHnc\\\",\\n    notify: {\\n      isRead: true\\n    }\\n  ) {\\n    id\\n    isRead\\n    isHidden\\n    projectId\\n    roomId\\n    serviceReviewId\\n    template\\n    sender {id email role}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateNotify(\\n    id: \\\"AQCemUIAOZKdIzJHnc\\\",\\n    notify: {\\n      isHidden: true\\n    }\\n  ) {\\n    id\\n    isRead\\n    isHidden\\n    projectId\\n    roomId\\n    serviceReviewId\\n    template\\n    sender {id email role}\\n    users {id email role}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateNotify(\\n    id: \\\"AQCemUIAOZKdIzJHnc\\\",\\n    notify: {\\n      isHidden: false\\n    }\\n  ) {\\n    id\\n    isRead\\n    isHidden\\n    projectId\\n    roomId\\n    serviceReviewId\\n    template\\n    sender {id email role}\\n    users {id email role}\\n    error\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateNotify(\\n    id: \\\"AQCemUIAOZKdIzJHnc\\\",\\n    notify: {\\n      isRead: false\\n      isHidden: false\\n    }\\n  ) {\\n    id\\n    isRead\\n    isHidden\\n    projectId\\n    roomId\\n    serviceReviewId\\n    template\\n    sender {id email role}\\n    users {id email role}\\n    error\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  updateNotify(\\n    id: \\\"AQCemUIAOZKdIzJHnc\\\",\\n    notify: {\\n      isRead: true\\n      isHidden: true\\n    }\\n  ) {\\n    id\\n    isRead\\n    isHidden\\n    projectId\\n    roomId\\n    serviceReviewId\\n    template\\n    sender {id email role}\\n    users {id email role}\\n    error\\n  }\\n}\",\"variables\":\"\"}]}",
       "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab23",
+      "name": "Query 6",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgBA99fdhQFiAAFRgA.mQpOtJRYhGj-_IQUbVjtS5XzYnavkkVszWJhlVmPPyo"
+        }
+      ],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "mutation {\n  updateNotifyIsRead (\n    id: [\"AQCemUIAOZKdIzJHnc\", \"AQId3yQOKSB5qU5skC\", \"AQIfOeQNYLHO7KTIJc\"]\n  ) {\n    id\n    isRead\n    isHidden\n    projectId\n    roomId\n    serviceReviewId\n    template\n    sender {id email role}\n    users {id email role}\n    error\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "mutation {\n  updateNotifyIsRead (\n    id: [\"AQCemUIAOZKdIzJHnc\", \"AQId3yQOKSB5qU5skC\", \"AQIfOeQNYLHO7KTIJc\"]\n  ) {\n    id\n    isRead\n    isHidden\n    projectId\n    roomId\n    serviceReviewId\n    template\n    sender {id email role}\n    users {id email role}\n    error\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  updateNotifyIsRead (\\n    id: [\\\"AQCemUIAOZKdIzJHnc\\\", \\\"AQId3yQOKSB5qU5skC\\\", \\\"AQIfOeQNYLHO7KTIJc\\\"]\\n  ) {\\n    id\\n    isRead\\n    isHidden\\n    projectId\\n    roomId\\n    serviceReviewId\\n    template\\n    sender {id email role}\\n    users {id email role}\\n    error\\n  }\\n}\",\"variables\":\"\"}]}"
     }
   ]
 }
