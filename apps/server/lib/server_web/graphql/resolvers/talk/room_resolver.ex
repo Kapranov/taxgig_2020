@@ -78,6 +78,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
       data1 = Queries.by_list(Room, :user_id, current_user.id)
       data2 = from p in Room, where: p.participant_id == ^current_user.id
       data = Repo.all(data2)
+      Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data, rooms_by_user_and_participant_all: "rooms")
       {:ok, data1 ++ data}
     end
   end

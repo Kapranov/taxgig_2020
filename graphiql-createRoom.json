@@ -1,6 +1,6 @@
 {
   "key": "graphiql",
-  "lastId": 21,
+  "lastId": 22,
   "tabIds": [
     "tab1",
     "tab2",
@@ -20,7 +20,8 @@
     "tab18",
     "tab19",
     "tab20",
-    "tab21"
+    "tab21",
+    "tab22"
   ],
   "closedTabs": [
     {
@@ -66,6 +67,10 @@
     "http://localhost:4000/graphiql"
   ],
   "recentHeaders": [
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgAzyDzuhQFiAAFRgA.MoU7vfPHKeBOnHyDQl_v2s83aTk6ZuRvhQNfuOCq0XY"
+    },
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgCNzlH-ggFiAAFRgA.avgPKBfzb2cMy12A6RpCo-_RWOQM3hitmETh4wfD-Xw"
@@ -141,17 +146,13 @@
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCOSpeqggFiAAFRgA.FHaXfyLorvCB-SYvz3si1jmkBJuoPBX_CgdNq1gi_3Y"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgAyfqClggFiAAFRgA.7w-Pur8zx2vE8BN6-ofg8xaBCNdoU4IS--mmAYRN65M"
     }
   ],
   "maxTabHistory": 20,
   "maxUrlHistory": 20,
   "maxHistory": 20,
   "savedQueries": [],
-  "activeId": "tab21",
+  "activeId": "tab22",
   "tabs": [
     {
       "id": "tab1",
@@ -923,21 +924,42 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgCNzlH-ggFiAAFRgA.avgPKBfzb2cMy12A6RpCo-_RWOQM3hitmETh4wfD-Xw"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgAzyDzuhQFiAAFRgA.MoU7vfPHKeBOnHyDQl_v2s83aTk6ZuRvhQNfuOCq0XY"
         }
       ],
-      "collapsed": false,
+      "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "query {\n  allRoomsByUserAndParticipant {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+          "variables": null
+        },
         {
           "query": "query {\n  allRoomsByCurrentParticipantUser {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
           "variables": null
         }
       ],
-      "graphiql:query": "query {\n  allRoomsByCurrentParticipantUser {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+      "graphiql:query": "query {\n  allRoomsByUserAndParticipant {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
       "graphiql:variables": "",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allRoomsByCurrentParticipantUser {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"}]}",
-      "graphiql:editorFlex": 0.9431009957325747,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  allRoomsByCurrentParticipantUser {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"query {\\n  allRoomsByUserAndParticipant {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:editorFlex": 1
+    },
+    {
+      "id": "tab22",
+      "name": "Query 20",
+      "url": "http://localhost:4000/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "subscription {\n  roomsByUserAndParticipantAll {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n  roomsByUserAndParticipantAll {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 1,
       "graphiql:variableEditorHeight": 200,
       "graphiql:docExplorerWidth": 350
     }

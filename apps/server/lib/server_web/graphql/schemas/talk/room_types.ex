@@ -150,5 +150,18 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
         end
       )
     end
+
+    @desc "Return all the rooms by user and participant via channel"
+    field :rooms_by_user_and_participant_all, list_of(:room) do
+      config(fn _, _ ->
+        {:ok, topic: "rooms"}
+      end)
+
+      trigger(:all_rooms_by_user_and_participant,
+        topic: fn _ ->
+          "rooms"
+        end
+      )
+    end
   end
 end
