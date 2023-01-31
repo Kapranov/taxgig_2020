@@ -17,6 +17,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
     Talk.Room
   }
 
+  alias Mailings.Mailer
+
   @type r :: Room.t()
   @type t :: Message.t()
   @type reason :: any
@@ -136,6 +138,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
                   template: 3,
                   user_id: struct.recipient_id
                 })
+                email_and_name = Accounts.by_email(notify.user_id)
+                Task.async(fn -> Mailer.send_by_notification(email_and_name.email, "new_message_pro", email_and_name.first_name) end)
                 data = Queries.by_list(Room, :user_id, args[:recipient_id])
                 query = from p in Message, where: p.room_id == ^args[:room_id]
                 messages = Repo.all(query)

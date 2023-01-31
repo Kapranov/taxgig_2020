@@ -133,6 +133,16 @@ defmodule Mailings.Mailer do
     :ok
   end
 
+  @spec send_by_notification(String.t(), String.t(), String.t()) :: :ok
+  def send_by_notification(email, template, name) do
+    send_email to: email,
+               from: "postmaster@mail.taxgig.com",
+               subject: "by created message",
+               template: template,
+               'v:firstname': name
+    :ok
+  end
+
   @doc false
   @spec email_subject() :: String.t()
   defp email_subject do

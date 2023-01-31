@@ -1486,6 +1486,24 @@ defmodule Core.Accounts do
   end
 
   @doc """
+  Share user's email.
+  """
+  @spec by_email(word) :: String.t() | {:error, nonempty_list(message)}
+  def by_email(id) when not is_nil(id) do
+    with %User{email: email, first_name: name} <- by_user(id), do: %{email: email, first_name: name}
+  end
+
+  @spec by_email(nil) :: {:error, nonempty_list(message)}
+  def by_email(id) when is_nil(id) do
+    {:error, [field: :user_id, message: "Can't be blank"]}
+  end
+
+  @spec by_email :: {:error, nonempty_list(message)}
+  def by_email do
+    {:error, [field: :user_id, message: "Can't be blank"]}
+  end
+
+  @doc """
   Share user's role.
   """
   @spec by_role(word) :: boolean | {:error, nonempty_list(message)}
