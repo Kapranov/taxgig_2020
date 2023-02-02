@@ -71,6 +71,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
             |> Contracts.create_addon()
             |> case do
               {:ok, struct} ->
+                project = Contracts.get_project!(struct.project_id)
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
                 {:ok, struct}
               {:error, changeset} ->
                 {:error, extract_error_msg(changeset)}
@@ -96,6 +98,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
         |> Contracts.update_addon(Map.delete(params, :user_id))
         |> case do
           {:ok, struct} ->
+            project = Contracts.get_project!(struct.project_id)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
             {:ok, struct}
           {:error, changeset} ->
             {:error, extract_error_msg(changeset)}

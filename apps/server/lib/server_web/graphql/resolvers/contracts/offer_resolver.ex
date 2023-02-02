@@ -80,8 +80,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
                   template: 4,
                   user_id: Repo.preload(struct, :projects).user_id
                 })
+                project = Contracts.get_project!(struct.project_id)
                 notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
                 {:ok, struct}
               {:error, changeset} ->
                 {:error, extract_error_msg(changeset)}
@@ -122,8 +124,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
                         template: 16,
                         user_id: struct.user_id
                       })
+                      project = Contracts.get_project!(struct.project_id)
                       notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                       Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                      Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
                       {:ok, struct}
                     "Declined" ->
                       {:ok, notify} = Notifications.create_notify(%{
@@ -133,8 +137,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
                         template: 17,
                         user_id: struct.user_id
                       })
+                      project = Contracts.get_project!(struct.project_id)
                       notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                       Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                      Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
                       {:ok, struct}
                     _ ->
                       {:ok, struct}

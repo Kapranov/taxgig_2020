@@ -171,6 +171,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                 )
                 |> case do
                   {:ok, struct} ->
+                    Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                     {:ok, struct}
                   {:error, changeset} ->
                     {:error, extract_error_msg(changeset)}
@@ -185,6 +186,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                 |> Contracts.update_project(%{})
                 |> case do
                   {:ok, struct} ->
+                    Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                     {:ok, struct}
                   {:error, changeset} ->
                     {:error, extract_error_msg(changeset)}
@@ -221,6 +223,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -250,6 +253,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -281,6 +285,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                               })
                               notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                               {:ok, struct}
                             {:error, changeset} ->
                               {:error, extract_error_msg(changeset)}
@@ -322,6 +327,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -346,6 +352,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -378,6 +385,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -407,6 +415,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -436,6 +445,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -465,6 +475,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -494,6 +505,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -536,6 +548,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                               })
                               notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                               {:ok, struct}
                             {:error, changeset} ->
                               {:error, extract_error_msg(changeset)}
@@ -567,6 +580,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                               })
                               notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                               {:ok, struct}
                             {:error, changeset} ->
                               {:error, extract_error_msg(changeset)}
@@ -621,6 +635,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -648,6 +663,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -685,6 +701,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                             })
                             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -735,6 +752,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -767,6 +785,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -805,6 +824,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                               })
                               notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                               {:ok, struct}
                             {:error, changeset} ->
                               {:error, extract_error_msg(changeset)}
@@ -837,6 +857,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                               })
                               notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                               {:ok, struct}
                             {:error, changeset} ->
                               {:error, extract_error_msg(changeset)}
@@ -877,6 +898,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -906,6 +928,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -935,6 +958,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -966,6 +990,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -995,6 +1020,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -1026,6 +1052,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                               })
                               notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                               {:ok, struct}
                             {:error, changeset} ->
                               {:error, extract_error_msg(changeset)}
@@ -1056,6 +1083,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                                 })
                                 notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                                 Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                                Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                                 {:ok, struct}
                               {:error, changeset} ->
                                 {:error, extract_error_msg(changeset)}
@@ -1087,6 +1115,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                                   })
                                   notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                                   Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                                  Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                                   {:ok, struct}
                                 {:error, changeset} ->
                                   {:error, extract_error_msg(changeset)}
@@ -1130,6 +1159,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
@@ -1158,6 +1188,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                         )
                         |> case do
                           {:ok, struct} ->
+                            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
                             {:ok, struct}
                           {:error, changeset} ->
                             {:error, extract_error_msg(changeset)}
