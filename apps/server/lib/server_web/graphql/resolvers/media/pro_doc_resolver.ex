@@ -92,6 +92,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
               _ -> :ok
             end
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
             {:ok, pro_doc}
           else
             nil ->
@@ -150,6 +151,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
         with struct <- Media.get_pro_doc(id),
              {:ok, pro_doc = %ProDoc{}} <- Media.update_pro_doc(struct, params)
         do
+          project = Contracts.get_project!(pro_doc.project_id)
+          Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
           {:ok, pro_doc}
         else
           nil ->

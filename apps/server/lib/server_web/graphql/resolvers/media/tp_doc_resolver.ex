@@ -88,6 +88,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
             })
             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
             {:ok, tp_doc}
           else
             nil ->
@@ -146,6 +147,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
         with struct <- Media.get_tp_doc(id),
              {:ok, tp_doc = %TpDoc{}} <- Media.update_tp_doc(struct, params)
         do
+          project = Contracts.get_project!(tp_doc.project_id)
+          Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
           {:ok, tp_doc}
         else
           nil ->
