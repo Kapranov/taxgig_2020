@@ -8,11 +8,11 @@ defmodule Reptin.Application do
     children = [
       %{
         id: RethinkDB.Connection,
-        start: {RethinkDB.Connection, :start_link, [[port: 28015, host: 'taxgig.com', name: :rethinkdb_connection]]}
+        start: {RethinkDB.Connection, :start_link, [[port: 28015, host: 'api.taxgig.com', name: :rethinkdb_connection]]}
       },
       %{
         id: Reptin.Database,
-        start: {Reptin.Database, :start_link, [[db: "ptin", host: 'taxgig.com', port: 28015]]}
+        start: {Reptin.Database, :start_link, [[db: "ptin", host: 'api.taxgig.com', port: 28015]]}
       }
     ]
     opts = [strategy: :one_for_one, name: Reptin.Supervisor]
