@@ -4,6 +4,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
   """
 
   alias Core.{
+    Accounts,
     Accounts.User,
     Contracts,
     Media,
@@ -12,6 +13,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
     Notifications.Notify,
     Queries
   }
+
+  alias Mailings.Mailer
 
   @type t :: ProDoc.t()
   @type reason :: any
@@ -151,9 +154,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
         with struct <- Media.get_pro_doc(id),
              {:ok, pro_doc = %ProDoc{}} <- Media.update_pro_doc(struct, params)
         do
-          project = Contracts.get_project!(pro_doc.project_id)
-          Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
-          {:ok, pro_doc}
+          if params.signed_by_pro == true do
+            {:ok, notify} = Notifications.create_notify(%{
+              is_hidden: false,
+              is_read: false,
+              project_id: pro_doc.project_id,
+              template: 24,
+              user_id: pro_doc.user_id
+            })
+            email_and_name = Accounts.by_email(notify.user_id)
+            Task.async(fn -> Mailer.send_by_notification(email_and_name.email, "new_message_pro", email_and_name.first_name) end)
+            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+            project = Contracts.get_project!(pro_doc.project_id)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
+            {:ok, pro_doc}
+          else
+            project = Contracts.get_project!(pro_doc.project_id)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
+            {:ok, pro_doc}
+          end
         else
           nil ->
             {:ok, %{error: "pro_doc", error_description: "id is not owned by authenticated user"}}
