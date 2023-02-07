@@ -144,11 +144,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
                 query = from p in Message, where: p.room_id == ^args[:room_id]
                 messages = Repo.all(query)
                 notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                data1 = Queries.by_list(Room, :user_id, current_user.id)
+                data2 = from p in Room, where: p.participant_id == ^current_user.id
+                data3 = Repo.all(data2)
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, data, room_all: "rooms")
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, messages, messages_by_room_all: args[:room_id])
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, data, rooms_by_project_all: room.project_id)
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, data, rooms_by_participant_all: "rooms")
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data3, rooms_by_user_and_participant_all: "rooms")
                 {:ok, struct}
               {:error, changeset} ->
                 {:error, extract_error_msg(changeset)}
@@ -174,10 +178,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
                 data = Queries.by_list(Room, :user_id, args[:recipient_id])
                 query = from p in Message, where: p.room_id == ^args[:room_id]
                 messages = Repo.all(query)
+                data1 = Queries.by_list(Room, :user_id, current_user.id)
+                data2 = from p in Room, where: p.participant_id == ^current_user.id
+                data3 = Repo.all(data2)
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, data, room_all: "rooms")
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, messages, messages_by_room_all: args[:room_id])
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, data, rooms_by_project_all: room.project_id)
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, data, rooms_by_participant_all: "rooms")
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data3, rooms_by_user_and_participant_all: "rooms")
                 {:ok, struct}
               {:error, changeset} ->
                 {:error, extract_error_msg(changeset)}
@@ -206,7 +214,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
           {:ok, struct} ->
             query = from p in Message, where: p.room_id == ^struct.room_id
             data = Repo.all(query)
+            data1 = Queries.by_list(Room, :user_id, current_user.id)
+            data2 = from p in Room, where: p.participant_id == ^current_user.id
+            data3 = Repo.all(data2)
             Absinthe.Subscription.publish(ServerWeb.Endpoint, data, messages_by_room_all: struct.room_id)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data3, rooms_by_user_and_participant_all: "rooms")
             {:ok, struct}
           {:error, changeset} ->
             {:error, extract_error_msg(changeset)}
