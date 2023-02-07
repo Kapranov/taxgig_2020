@@ -14,6 +14,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
     Repo
   }
 
+  alias Mailings.Mailer
+
   @type t :: Offer.t()
   @type reason :: any
   @type ok :: {:ok}
@@ -80,6 +82,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
                   template: 4,
                   user_id: Repo.preload(struct, :projects).user_id
                 })
+                email_and_name = Accounts.by_email(notify.user_id)
+                Task.async(fn -> Mailer.send_by_notification(email_and_name.email, "new_offer", email_and_name.first_name) end)
                 project = Contracts.get_project!(struct.project_id)
                 notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")

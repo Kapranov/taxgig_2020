@@ -14,6 +14,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     Repo
   }
 
+  alias Mailings.Mailer
+
   @type t :: Project.t()
   @type reason :: any
   @type ok :: {:ok}
@@ -283,6 +285,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                                 template: 5,
                                 user_id: struct.user_id
                               })
+                              email_and_name = Accounts.by_email(notify.user_id)
+                              Task.async(fn -> Mailer.send_by_notification(email_and_name.email, "canceled_projectby_client", email_and_name.first_name) end)
                               notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
@@ -546,6 +550,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                                 template: 7,
                                 user_id: struct.assigned_id
                               })
+                              email_and_name = Accounts.by_email(notify.user_id)
+                              Task.async(fn -> Mailer.send_by_notification(email_and_name.email, "canceled_project_by_client", email_and_name.first_name) end)
                               notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
@@ -578,6 +584,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                                 template: 6,
                                 user_id: struct.user_id
                               })
+                              email_and_name = Accounts.by_email(notify.user_id)
+                              Task.async(fn -> Mailer.send_by_notification(email_and_name.email, "canceled_project_by_pro", email_and_name.first_name) end)
                               notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
@@ -699,6 +707,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                               template: 8,
                               user_id: struct.user_id
                             })
+                            email_and_name = Accounts.by_email(notify.user_id)
+                            Task.async(fn -> Mailer.send_by_notification(email_and_name.email, "project_in_transition", email_and_name.first_name) end)
                             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                             Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
@@ -822,6 +832,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                                 template: 10,
                                 user_id: struct.user_id
                               })
+                              email_and_name = Accounts.by_email(notify.user_id)
+                              Task.async(fn -> Mailer.send_by_notification(email_and_name.email, "project_done_automatically", email_and_name.first_name) end)
                               notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
@@ -855,6 +867,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                                 template: 9,
                                 user_id: struct.assigned_id
                               })
+                              email_and_name = Accounts.by_email(notify.user_id)
+                              Task.async(fn -> Mailer.send_by_notification(email_and_name.email, "project_done", email_and_name.first_name) end)
                               notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
@@ -1050,6 +1064,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                                 template: 5,
                                 user_id: struct.user_id
                               })
+                              email_and_name = Accounts.by_email(notify.user_id)
+                              Task.async(fn -> Mailer.send_by_notification(email_and_name.email, "project_in_progress", email_and_name.first_name) end)
                               notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
@@ -1081,6 +1097,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                                   template: 5,
                                   user_id: struct.user_id
                                 })
+                                email_and_name = Accounts.by_email(notify.user_id)
+                                Task.async(fn -> Mailer.send_by_notification(email_and_name.email, "project_in_progress", email_and_name.first_name) end)
                                 notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                                 Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                                 Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
@@ -1113,6 +1131,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                                     template: 5,
                                     user_id: struct.user_id
                                   })
+                                  email_and_name = Accounts.by_email(notify.user_id)
+                                  Task.async(fn -> Mailer.send_by_notification(email_and_name.email, "project_in_progress", email_and_name.first_name) end)
                                   notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                                   Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                                   Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)

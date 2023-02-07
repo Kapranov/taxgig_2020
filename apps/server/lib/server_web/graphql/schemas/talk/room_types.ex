@@ -144,7 +144,7 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
         {:ok, topic: "rooms"}
       end)
 
-      trigger(:all_rooms_by_current_participant,
+      trigger(:all_rooms_by_user_and_participant,
         topic: fn _ ->
           "rooms"
         end
