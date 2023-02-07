@@ -27,6 +27,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
   @type success_list :: {:ok, [t]}
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
+  # @type task :: %__MODULE__{ pid: pid() | nil, ref: reference(), owner: pid() }
 
   @spec list(any, %{room_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def list(_parent, %{room_id: room_id}, %{context: %{current_user: current_user}}) do
@@ -138,8 +139,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
                   template: 3,
                   user_id: struct.recipient_id
                 })
-                email_and_name = Accounts.by_email(notify.user_id)
-                Task.async(fn -> Mailer.send_by_notification(email_and_name.email, "new_message_pro", email_and_name.first_name) end)
+                mailing_to(notify.user_id, "new_message_pro")
                 data = Queries.by_list(Room, :user_id, args[:recipient_id])
                 query = from p in Message, where: p.room_id == ^args[:room_id]
                 messages = Repo.all(query)
@@ -286,6 +286,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
         field: field,
         message: String.capitalize(error)
       ]
+    end)
+  end
+
+  @spec mailing_to(String.t(), String.t()) :: map
+  defp mailing_to(user_id, template) do
+    email_and_name = Accounts.by_email(user_id)
+    Task.async(fn ->
+      Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name)
     end)
   end
 end

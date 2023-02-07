@@ -4,6 +4,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
   """
 
   alias Core.{
+    Accounts,
     Accounts.User,
     Contracts,
     Media,
@@ -12,6 +13,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
     Notifications.Notify,
     Queries
   }
+
+  alias Mailings.Mailer
 
   @type t :: TpDoc.t()
   @type reason :: any
@@ -86,6 +89,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
               template: 21,
               user_id: project.assigned_id
             })
+            mailing_to(notify.user_id, "uploaded_pro_doc")
             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
             Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
@@ -206,6 +210,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
         field: field,
         message: String.capitalize(error)
       ]
+    end)
+  end
+
+  @spec mailing_to(String.t(), String.t()) :: map
+  defp mailing_to(user_id, template) do
+    email_and_name = Accounts.by_email(user_id)
+    Task.async(fn ->
+      Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name)
     end)
   end
 end

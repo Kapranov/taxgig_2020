@@ -164,6 +164,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
               template: 19,
               user_id: struct.id
             })
+            mailing_to(notify.user_id, "no_ptin_match")
             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
             {:ok, struct}
@@ -1490,5 +1491,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     uri
     |> EQRCode.encode()
     |> EQRCode.svg()
+  end
+
+  @spec mailing_to(String.t(), String.t()) :: map
+  defp mailing_to(user_id, template) do
+    email_and_name = Accounts.by_email(user_id)
+    Task.async(fn ->
+      Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name)
+    end)
   end
 end

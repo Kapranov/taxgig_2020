@@ -15,6 +15,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
     Talk.Room
   }
 
+  alias Mailings.Mailer
+
   @type t :: Platform.t()
   @type reason :: any
   @type success_tuple :: {:ok, t}
@@ -143,6 +145,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                               template: 13,
                               user_id: updated.user_id
                             })
+                            mailing_to(notify.user_id, "user_banned_pro")
                             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                           false ->
@@ -152,6 +155,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                               template: 15,
                               user_id: updated.user_id
                             })
+                            mailing_to(notify.user_id, "user_restored_pro")
                             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                         end
@@ -173,6 +177,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                               template: 13,
                               user_id: updated.user_id
                             })
+                            mailing_to(notify.user_id, "user_banned_pro")
                             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                           false ->
@@ -182,6 +187,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                               template: 15,
                               user_id: updated.user_id
                             })
+                            mailing_to(notify.user_id, "user_restored_pro")
                             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                         end
@@ -194,6 +200,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                               template: 18,
                               user_id: updated.user_id
                             })
+                            mailing_to(notify.user_id, "hero_status_lost")
                             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                         end
@@ -217,6 +224,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                               template: 13,
                               user_id: updated.user_id
                             })
+                            mailing_to(notify.user_id, "user_banned_pro")
                             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                           false ->
@@ -226,6 +234,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                               template: 15,
                               user_id: updated.user_id
                             })
+                            mailing_to(notify.user_id, "user_restored_pro")
                             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                         end
@@ -247,6 +256,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                               template: 13,
                               user_id: updated.user_id
                             })
+                            mailing_to(notify.user_id, "user_banned_pro")
                             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                           false ->
@@ -256,6 +266,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                               template: 15,
                               user_id: updated.user_id
                             })
+                            mailing_to(notify.user_id, "user_restored_pro")
                             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                         end
@@ -268,6 +279,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                               template: 18,
                               user_id: updated.user_id
                             })
+                            mailing_to(notify.user_id, "hero_status_lost")
                             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                         end
@@ -306,6 +318,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                             template: 14,
                             user_id: updated.user_id
                           })
+                          mailing_to(notify.user_id, "user_restored_client")
                           notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                       end
@@ -387,6 +400,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
         field: field,
         message: String.capitalize(error)
       ]
+    end)
+  end
+
+  @spec mailing_to(String.t(), String.t()) :: map
+  defp mailing_to(user_id, template) do
+    email_and_name = Accounts.by_email(user_id)
+    Task.async(fn ->
+      Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name)
     end)
   end
 end

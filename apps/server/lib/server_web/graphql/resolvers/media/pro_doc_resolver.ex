@@ -80,6 +80,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
               template: 11,
               user_id: project.user_id
             })
+            mailing_to(notify.user_id, "uploaded_tp_doc")
             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
             case pro_doc.signature do
@@ -162,8 +163,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
               template: 24,
               user_id: pro_doc.user_id
             })
-            email_and_name = Accounts.by_email(notify.user_id)
-            Task.async(fn -> Mailer.send_by_notification(email_and_name.email, "new_message_pro", email_and_name.first_name) end)
+            mailing_to(notify.user_id, "doc_signed")
             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
             project = Contracts.get_project!(pro_doc.project_id)
             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
@@ -230,6 +230,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
         field: field,
         message: String.capitalize(error)
       ]
+    end)
+  end
+
+  @spec mailing_to(String.t(), String.t()) :: map
+  defp mailing_to(user_id, template) do
+    email_and_name = Accounts.by_email(user_id)
+    Task.async(fn ->
+      Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name)
     end)
   end
 end

@@ -8,9 +8,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
     Accounts.User,
     Contracts,
     Contracts.Addon,
+    Notifications,
+    Notifications.Notify,
     Queries,
     Repo
   }
+
+  alias Mailings.Mailer
 
   @type t :: Addon.t()
   @type reason :: any
@@ -71,7 +75,18 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
             |> Contracts.create_addon()
             |> case do
               {:ok, struct} ->
+                {:ok, notify} = Notifications.create_notify(%{
+                  is_hidden: false,
+                  is_read: false,
+                  project_id: struct.project_id,
+                  sender_id: struct.user_id,
+                  template: 25,
+                  user_id: Repo.preload(struct, :projects).user_id
+                })
+                mailing_to(notify.user_id, "add-ons_for_your_approval_client")
+                notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                 project = Contracts.get_project!(struct.project_id)
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
                 {:ok, struct}
               {:error, changeset} ->
@@ -98,6 +113,32 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
         |> Contracts.update_addon(Map.delete(params, :user_id))
         |> case do
           {:ok, struct} ->
+            case struct.status do
+              "Accepted" ->
+                {:ok, notify} = Notifications.create_notify(%{
+                  is_hidden: false,
+                  is_read: false,
+                  project_id: struct.project_id,
+                  template: 26,
+                  user_id: struct.user_id
+                })
+                mailing_to(notify.user_id, "client_accepted_addons_pro")
+                notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+              "Declined" ->
+                {:ok, notify} = Notifications.create_notify(%{
+                  is_hidden: false,
+                  is_read: false,
+                  project_id: struct.project_id,
+                  sender_id: struct.user_id,
+                  template: 4,
+                  user_id: struct.user_id
+                })
+                mailing_to(notify.user_id, "client_declined_addons_pro")
+                notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+              _ -> :ok
+            end
             project = Contracts.get_project!(struct.project_id)
             Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
             {:ok, struct}
@@ -148,6 +189,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
         field: field,
         message: String.capitalize(error)
       ]
+    end)
+  end
+
+  @spec mailing_to(String.t(), String.t()) :: map
+  defp mailing_to(user_id, template) do
+    email_and_name = Accounts.by_email(user_id)
+    Task.async(fn ->
+      Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name)
     end)
   end
 end
