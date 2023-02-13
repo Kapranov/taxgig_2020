@@ -2,30 +2,29 @@ defmodule ServerWeb.UserSocket do
   use Phoenix.Socket
   use Absinthe.Phoenix.Socket, schema: ServerWeb.GraphQL.Schema
 
+  alias Phoenix.Token
+  alias ServerWeb.Endpoint
+
+  @max_age Application.compile_env(:server, Endpoint)[:max_age]
+  @salt Application.compile_env(:server, Endpoint)[:salt]
+  @secret Application.compile_env(:server, Endpoint)[:secret_key_base]
+
   channel "rooms:*", ServerWeb.RoomChannel
 
-#  @max_age 24 * 60 * 60
-
-  @spec connect(params :: map(), Phoenix.Socket.t(), connect_info :: map()) :: {:ok, Phoenix.Socket.t()} | :error
-  def connect(_params, socket, _connect_info) do
-    {:ok, assign(socket, :absinthe, %{schema: ServerWeb.GraphQL.Schema})}
+  def connect(%{"Authorization" => header_content}, socket, _connection_info) do
+    [[_, token]] = Regex.scan(~r/^Bearer (.*)/, header_content)
+    case Token.verify(@secret, @salt, token, max_age: @max_age) do
+      {:ok, user_id} ->
+        {:ok, assign(socket, :user_id, user_id)}
+      {:error, _} ->
+        :error
+    end
   end
 
-#  @spec connect(map(), phoenix.socket.t(), connect_info :: map()) :: {:ok, phoenix.socket.t()} | :error
-#  def connect(%{"token" => token}, socket, _connection_info) do
-#    case Phoenix.Token.verify(socket, "user token", token, max_age: @max_age) do
-#      {:ok, user_id} ->
-#        {:ok, assign(socket, :current_user_id, user_id)}
-#      {:error, _} ->
-#        :error
-#    end
-#  end
+  def connect(_params, _socket, connect_info) do
+    IO.inspect connect_info
+    :error
+  end
 
-#  @spec connect(any(), any(), any()) :: :error
-#  def connect(_params, _socket, _connect_info) do
-#    :error
-#  end
-
-  @spec id(any()) :: nil
   def id(_socket), do: nil
 end
