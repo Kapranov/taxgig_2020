@@ -6,9 +6,9 @@ defmodule ServerWeb.Provider.OauthFacebookTest do
 
   test "get Facebook login url" do
     facebook_auth_url = "https://www.facebook.com/v6.0/dialog/oauth?response_type=code"
-    client_id = Application.get_env(:server, :client_id, 123)
-    client_secret = Application.get_env(:server, :client_secret, 123)
-    redirect_uri = Application.get_env(:server, :redirect_uri, "https://taxgig.me:4001/graphiql")
+    client_id = Application.compile_env(:server, :client_id, 123)
+    client_secret = Application.compile_env(:server, :client_secret, 123)
+    redirect_uri = Application.compile_env(:server, :redirect_uri, "https://taxgig.me:4001/graphiql")
 
     url = "#{facebook_auth_url}client_id=#{client_id}&client_secret=#{client_secret}&redirect_uri=#{redirect_uri}"
 
@@ -21,8 +21,8 @@ defmodule ServerWeb.Provider.OauthFacebookTest do
   test "get refresh token login url" do
     facebook_code_url = "https://graph.facebook.com/oauth/client_code?"
     client_id = Application.put_env(:server, :client_id, 123)
-    client_secret = Application.get_env(:server, :client_secret, 123)
-    redirect_uri = Application.get_env(:server, Facebook)[:redirect_uri]
+    client_secret = Application.compile_env(:server, :client_secret, 123)
+    redirect_uri = Application.compile_env(:server, Facebook)[:redirect_uri]
     token = "1234"
     url = "#{facebook_code_url}client_id=#{client_id}&client_secret=#{client_secret}&redirect_uri=#{redirect_uri}&access_token=#{token}"
 

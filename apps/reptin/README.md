@@ -93,7 +93,7 @@ console> r.db("ptin").table("ptins").update({First_NAME: r.row('First_NAME').dow
           # [] = :os.cmd(:"#{exec1} #{old_file} #{new_file}")
           # [] = :os.cmd(:"#{exec2} #{new_file}")
           #
-          # bin_dir = Application.get_env(:reptin, :bin_dir)
+          # bin_dir = Application.compile_env(:reptin, :bin_dir)
           # exec1 = bin_dir <> "/" <> "format.sh"
           # {"", 0} = System.cmd("#{exec1}", ["#{old_file}", "#{new_file}"])
           # [] = :os.cmd(:"#{exec1} #{old_file} #{new_file}")

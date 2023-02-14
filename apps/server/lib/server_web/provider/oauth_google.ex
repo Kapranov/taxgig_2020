@@ -6,7 +6,7 @@ defmodule ServerWeb.Provider.OauthGoogle do
 
   @behaviour ServerWeb.HTTPoison.GoogleBehaviour
 
-  @httpoison Application.get_env(:server, :httpoison) || HTTPoison
+  @httpoison Application.compile_env(:server, :httpoison) || HTTPoison
   @google_auth_url "https://accounts.google.com/o/oauth2/v2/auth?response_type=code"
   @google_auth_refresh_token_url "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&access_type=offline&prompt=consent&include_granted_scopes=true"
   @google_token_info_url "https://www.googleapis.com/oauth2/v3/tokeninfo"
@@ -14,14 +14,16 @@ defmodule ServerWeb.Provider.OauthGoogle do
   @google_user_profile_url "https://www.googleapis.com/oauth2/v3/userinfo"
   @google_user_email_url "https://www.googleapis.com/userinfo/v2/me"
 
+  @client_id Application.compile_env(:server, Google)[:client_id]
+  @client_secret Application.compile_env(:server, Google)[:client_secret]
+  @redirect_uri Application.compile_env(:server, Google)[:redirect_uri]
+  @scope Application.compile_env(:server, Google)[:scope] || "profile+email"
+  @scope_profile Application.compile_env(:server, Google)[:scope] || "profile"
+
   @spec generate_url(String.t()) :: String.t() | nil
   def generate_url(redirect) when not is_nil(redirect) and is_bitstring(redirect) do
-    client_id = Application.get_env(:server, Google)[:client_id]
-    scope = Application.get_env(:server, Google)[:scope] || "profile+email"
-    redirect_uri = Application.get_env(:server, Google)[:redirect_uri]
-
-    if Enum.find_value(redirect_uri, &(&1 == redirect)) do
-      "#{@google_auth_url}&client_id=#{client_id}&scope=#{scope}&redirect_uri=#{redirect}"
+    if Enum.find_value(@redirect_uri, &(&1 == redirect)) do
+      "#{@google_auth_url}&client_id=#{@client_id}&scope=#{@scope}&redirect_uri=#{redirect}"
     else
       nil
     end
@@ -29,23 +31,17 @@ defmodule ServerWeb.Provider.OauthGoogle do
 
   @spec generate_refresh_token_url() :: String.t()
   def generate_refresh_token_url do
-    client_id = Application.get_env(:server, Google)[:client_id]
-    scope = Application.get_env(:server, Google)[:scope] || "profile"
-    redirect_uri = Application.get_env(:server, Google)[:redirect_uri]
-
-    "#{@google_auth_refresh_token_url}&client_id=#{client_id}&scope=#{scope}&redirect_uri=#{redirect_uri}"
+    "#{@google_auth_refresh_token_url}&client_id=#{@client_id}&scope=#{@scope_profile}&redirect_uri=#{@redirect_uri}"
   end
 
   @spec token(String.t(), String.t()) :: %{atom => any} | {:ok, %{atom => String.t()}}
   def token(code, redirect) when not is_nil(code) and is_bitstring(code) and not is_nil(redirect) and is_bitstring(redirect) do
-    redirect_uri = Application.get_env(:server, Google)[:redirect_uri]
-
-    if Enum.find_value(redirect_uri, &(&1 == redirect)) do
+    if Enum.find_value(@redirect_uri, &(&1 == redirect)) do
       decode = URI.decode(code)
       body = Jason.encode!(%{
         code: decode,
-        client_id: Application.get_env(:server, Google)[:client_id],
-        client_secret: Application.get_env(:server, Google)[:client_secret],
+        client_id: @client_id,
+        client_secret: @client_secret,
         redirect_uri: redirect,
         grant_type: "authorization_code"
       })
@@ -74,8 +70,8 @@ defmodule ServerWeb.Provider.OauthGoogle do
   def refresh_token(token) when not is_nil(token) and is_bitstring(token) do
     body = Jason.encode!(%{
       refresh_token: token,
-      client_id: Application.get_env(:server, Google)[:client_id],
-      client_secret: Application.get_env(:server, Google)[:client_secret],
+      client_id: @client_id,
+      client_secret: @client_secret,
       grant_type: "refresh_token"
     })
 

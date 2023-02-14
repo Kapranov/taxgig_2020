@@ -369,9 +369,9 @@ defmodule ServerWeb.Provider.InMemoryTest do
   end
 
   test "generate Facebook url" do
-    client_id = Application.get_env(:server, Facebook)[:client_id]
-    client_secret = Application.get_env(:server, Facebook)[:client_secret]
-    redirect_uri = Application.get_env(:server, Facebook)[:redirect_uri]
+    client_id = Application.compile_env(:server, Facebook)[:client_id]
+    client_secret = Application.compile_env(:server, Facebook)[:client_secret]
+    redirect_uri = Application.compile_env(:server, Facebook)[:redirect_uri]
     url = "https://www.facebook.com/v6.0/dialog/oauth?client_id=#{client_id}&client_secret=#{client_secret}&redirect_uri=#{redirect_uri}"
     assert OauthFacebook.generate_url() =~ url
   end

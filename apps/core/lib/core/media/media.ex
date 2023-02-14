@@ -19,7 +19,7 @@ defmodule Core.Media do
     Upload
   }
 
-  @bucket Application.get_env(:core, Core.Uploaders.S3)[:bucket]
+  @bucket Application.compile_env(:core, Core.Uploaders.S3)[:bucket]
 
   @doc """
   Gets a single picture.

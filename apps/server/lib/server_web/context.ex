@@ -13,9 +13,9 @@ defmodule ServerWeb.Context do
 
   @type opts :: [context: map]
 
-  @max_age Application.get_env(:server, Endpoint)[:max_age]
-  @salt Application.get_env(:server, Endpoint)[:salt]
-  @secret Application.get_env(:server, Endpoint)[:secret_key_base]
+  @max_age Application.compile_env(:server, Endpoint)[:max_age]
+  @salt Application.compile_env(:server, Endpoint)[:salt]
+  @secret Application.compile_env(:server, Endpoint)[:secret_key_base]
 
   @spec init(opts :: opts()) :: map()
   def init(opts), do: opts

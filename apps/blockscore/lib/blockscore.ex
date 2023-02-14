@@ -5,10 +5,10 @@ defmodule Blockscore do
   return `{:ok, "valid"}` if value is `"0000"` or return
   `{:ok, "invalid"}` if value is any but except `"0000"`.
   """
-  @url Application.get_env(:blockscore, :url)
-  @header Application.get_env(:blockscore, :header)
+  @url Application.compile_env(:blockscore, :url)
+  @header Application.compile_env(:blockscore, :header)
   @headers [accept: "#{@header}"]
-  @adapter Application.get_env(:blockscore, :adapter)
+  @adapter Application.compile_env(:blockscore, :adapter)
 
   @type b :: bitstring()
   @type i :: integer()

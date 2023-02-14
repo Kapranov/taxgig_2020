@@ -8,7 +8,7 @@ defmodule ServerWeb.Provider.OauthGoogleTest do
     google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code"
     client_id = Application.put_env(:server, :client_id, 123)
     scope = Application.put_env(:server, :scope, "profile+email")
-    redirect_uri = Application.get_env(:server, Google)[:redirect_uri]
+    redirect_uri = Application.compile_env(:server, Google)[:redirect_uri]
 
     url = "#{google_auth_url}&client_id=#{client_id}&scope=#{scope}&redirect_uri=#{redirect_uri}"
 
@@ -22,7 +22,7 @@ defmodule ServerWeb.Provider.OauthGoogleTest do
     google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&access_type=offline&prompt=consent&include_granted_scopes=true"
     client_id = Application.put_env(:server, :client_id, 123)
     scope = Application.put_env(:server, :scope, "profile+email")
-    redirect_uri = Application.get_env(:server, Google)[:redirect_uri]
+    redirect_uri = Application.compile_env(:server, Google)[:redirect_uri]
 
     url = "#{google_auth_url}&client_id=#{client_id}&scope=#{scope}&redirect_uri=#{redirect_uri}"
 

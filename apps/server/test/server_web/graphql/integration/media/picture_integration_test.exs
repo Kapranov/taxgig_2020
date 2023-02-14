@@ -16,7 +16,7 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
   describe "Resolver: Get picture" do
     it "picture/3 returns the information on a picture - `AbsintheHelpers`" do
       %Picture{profile_id: id} = picture = insert(:picture)
-      public_endpoint = Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
+      public_endpoint = Application.compile_env(:core, Core.Uploaders.S3)[:public_endpoint]
 
       query = """
       {
@@ -53,7 +53,7 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
 
     it "picture/3 returns the information on a picture - `Absinthe.run`" do
       %Picture{profile_id: id} = picture = insert(:picture)
-      public_endpoint = Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
+      public_endpoint = Application.compile_env(:core, Core.Uploaders.S3)[:public_endpoint]
       context = %{}
 
       query = """
@@ -796,7 +796,7 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
     it "update specific picture by profileId - `AbsintheHelpers`" do
       struct = insert(:picture)
       user = Core.Accounts.User.find_by(id: struct.profile_id)
-      public_endpoint = Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
+      public_endpoint = Application.compile_env(:core, Core.Uploaders.S3)[:public_endpoint]
       picture = %{name: "Time for #NeverBernie", alt: "I woke up this morning wondering whether it’s time to unfurl the #NeverBernie banner.", file: "bernie.jpg"}
 
       query = """
@@ -866,7 +866,7 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
     it "update specific picture by profileId - `Absinthe.run`" do
       struct = insert(:picture)
       user = Core.Accounts.User.find_by(id: struct.profile_id)
-      public_endpoint = Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
+      public_endpoint = Application.compile_env(:core, Core.Uploaders.S3)[:public_endpoint]
       context = %{current_user: user}
       picture = %{name: "Time for #NeverBernie", alt: "I woke up this morning wondering whether it’s time to unfurl the #NeverBernie banner.", file: "bernie.jpg"}
 
@@ -933,7 +933,7 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
     it "nothing change for duplicate file params - `AbsintheHelpers`" do
       struct = insert(:picture)
       user = Accounts.get_user!(struct.profile_id)
-      public_endpoint = Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
+      public_endpoint = Application.compile_env(:core, Core.Uploaders.S3)[:public_endpoint]
       picture = %{alt: "represents something", file: "image_tmp.jpg", name: "Logo"}
 
       query = """
@@ -1003,7 +1003,7 @@ defmodule ServerWeb.GraphQL.Integration.Media.PictureIntegrationTest do
     it "nothing change for duplicate file params - `Absinthe.run`" do
       struct = insert(:picture)
       user = Core.Accounts.User.find_by(id: struct.profile_id)
-      public_endpoint = Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
+      public_endpoint = Application.compile_env(:core, Core.Uploaders.S3)[:public_endpoint]
       context = %{current_user: user}
       picture = %{name: "Time for #NeverBernie", alt: "I woke up this morning wondering whether it’s time to unfurl the #NeverBernie banner.", file: "bernie.jpg"}
 

@@ -6,22 +6,23 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
 
   @behaviour ServerWeb.HTTPoison.LinkedInBehaviour
 
-  @httpoison Application.get_env(:server, :httpoison) || HTTPoison
+  @httpoison Application.compile_env(:server, :httpoison) || HTTPoison
   @linkedin_auth_url "https://www.linkedin.com/oauth/v2/authorization?response_type=code"
   @linkedin_token_url "https://www.linkedin.com/oauth/v2/accessToken"
   @linkedin_email_url "https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))"
   @linkedin_profile_url "https://api.linkedin.com/v2/me?projection=(localizedFirstName,localizedLastName,profilePicture(displayImage~:playableStreams))"
   @avatar_url "https://robohash.org/set_set3/bgset_bg2/dky6Sd"
 
+  @client_id Application.compile_env(:server, LinkedIn)[:client_id]
+  @client_secret Application.compile_env(:server, LinkedIn)[:client_secret]
+  @state Application.compile_env(:server, LinkedIn)[:state] || "pureagency"
+  @scope Application.compile_env(:server, LinkedIn)[:scope] || "r_liteprofile%20r_emailaddress%20"
+  @redirect_uri Application.compile_env(:server, LinkedIn)[:redirect_uri]
+
   @spec generate_url(String.t()) :: {:ok, %{atom() => String.t()}} | {:ok, %{atom() => nil}}
   def generate_url(redirect) when not is_nil(redirect) and is_bitstring(redirect) do
-    client_id = Application.get_env(:server, LinkedIn)[:client_id]
-    state = Application.get_env(:server, LinkedIn)[:state] || "pureagency"
-    scope = Application.get_env(:server, LinkedIn)[:scope] || "r_liteprofile%20r_emailaddress%20"
-    redirect_uri = Application.get_env(:server, LinkedIn)[:redirect_uri]
-
-    if Enum.find_value(redirect_uri, &(&1 == redirect)) do
-      url = "#{@linkedin_auth_url}&client_id=#{client_id}&redirect_uri=#{redirect}&state=#{state}&scope=#{scope}"
+    if Enum.find_value(@redirect_uri, &(&1 == redirect)) do
+      url = "#{@linkedin_auth_url}&client_id=#{@client_id}&redirect_uri=#{redirect}&state=#{@state}&scope=#{@scope}"
       {:ok, %{"url" => url}}
     else
       {:ok, %{"url" => nil}}
@@ -32,10 +33,8 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
   def generate_refresh_token_url(token) when not is_nil(token) and is_bitstring(token) do
     grant_type = "refresh_token"
     refresh_token = token
-    client_id = Application.get_env(:server, LinkedIn)[:client_id]
-    client_secret = Application.get_env(:server, LinkedIn)[:client_secret]
 
-    url = "#{@linkedin_token_url}&grant_type=#{grant_type}&refresh_token=#{refresh_token}&client_id=#{client_id}&client_secret=#{client_secret}"
+    url = "#{@linkedin_token_url}&grant_type=#{grant_type}&refresh_token=#{refresh_token}&client_id=#{@client_id}&client_secret=#{@client_secret}"
 
     {:ok, %{"code" => url}}
   end
@@ -50,15 +49,14 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
 
   @spec token(String.t(), String.t()) :: {:ok, %{atom => String.t()}}
   def token(code, redirect) when not is_nil(code) and is_bitstring(code) and not is_nil(redirect) and is_bitstring(redirect) do
-    redirect_uri = Application.get_env(:server, LinkedIn)[:redirect_uri]
     decode = URI.decode(code)
     headers = [{"Content-type", "application/x-www-form-urlencoded"}]
 
-    if Enum.find_value(redirect_uri, &(&1 == redirect)) do
+    if Enum.find_value(@redirect_uri, &(&1 == redirect)) do
       body = URI.encode_query(%{
         code: decode,
-        client_id: Application.get_env(:server, LinkedIn)[:client_id],
-        client_secret: Application.get_env(:server, LinkedIn)[:client_secret],
+        client_id: @client_id,
+        client_secret: @client_secret,
         redirect_uri: redirect,
         grant_type: "authorization_code"
       })
@@ -93,8 +91,8 @@ defmodule ServerWeb.Provider.OauthLinkedIn do
   def refresh_token(token) when not is_nil(token) and is_bitstring(token) do
     headers = [{"Content-type", "application/x-www-form-urlencoded"}]
     body = URI.encode_query(%{
-      client_id: Application.get_env(:server, LinkedIn)[:client_id],
-      client_secret: Application.get_env(:server, LinkedIn)[:client_secret],
+      client_id: @client_id,
+      client_secret: @client_secret,
       grant_type: "refresh_token",
       refresh_token: token
     })

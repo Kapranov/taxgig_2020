@@ -8,8 +8,8 @@ defmodule Server.AbsintheHelpers do
   alias Core.Accounts.User
 
   @endpoint ServerWeb.Endpoint
-  @salt Application.get_env(:server, ServerWeb.Endpoint)[:salt]
-  @secret Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_base]
+  @salt Application.compile_env(:server, ServerWeb.Endpoint)[:salt]
+  @secret Application.compile_env(:server, ServerWeb.Endpoint)[:secret_key_base]
 
   @spec authenticate_conn(Plug.Conn.t(), User.t()) :: Plug.Conn.t()
   def authenticate_conn(%Plug.Conn{} = conn, %User{} = user) do

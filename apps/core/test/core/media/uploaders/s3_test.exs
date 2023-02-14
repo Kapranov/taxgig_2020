@@ -12,9 +12,9 @@ defmodule Core.Media.Uploaders.S3Test do
     Uploaders.S3
   }
 
-  @bucket Application.get_env(:core, S3)[:bucket]
+  @bucket Application.compile_env(:core, S3)[:bucket]
   @image_path Path.absname("test/fixtures/image_tmp.jpg")
-  @public_endpoint Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
+  @public_endpoint Application.compile_env(:core, Core.Uploaders.S3)[:public_endpoint]
 
   clear_config([S3]) do
     Config.put([S3],

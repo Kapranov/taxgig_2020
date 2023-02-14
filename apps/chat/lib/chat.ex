@@ -4,17 +4,21 @@ defmodule Chat do
   use Application
   require Logger
 
+  @port Application.compile_env(:chat, :port, 4005)
+  @url Application.compile_env(:server, ServerWeb.Endpoint)[:url]
+
+
   def start(_type, _args) do
     case Mix.env do
       :benchmark ->
-        [host: host, port: _port, ip: _ip] = Application.get_env(:server, ServerWeb.Endpoint)[:url]
+        [host: host, port: _port, ip: _ip] = @url
         Logger.info("Running #{inspect(__MODULE__)} with Cowboy using http://#{host}:#{port()}")
       :dev ->
-        [ip: _ip, scheme: schema, host: host, port: _port] = Application.get_env(:server, ServerWeb.Endpoint)[:url]
+        [ip: _ip, scheme: schema, host: host, port: _port] = @url
         Logger.info("Running #{inspect(__MODULE__)} with Cowboy using #{schema}://#{host}:#{port()}")
       :prod -> nil
       :test ->
-        [host: host, port: _port, ip: _ip] = Application.get_env(:server, ServerWeb.Endpoint)[:url]
+        [host: host, port: _port, ip: _ip] = @url
         Logger.info("Running #{inspect(__MODULE__)} with Cowboy using http://#{host}:#{port()}")
     end
 
@@ -22,5 +26,5 @@ defmodule Chat do
   end
 
   @spec port :: integer()
-  defp port, do: Application.get_env(:chat, :port, 4005)
+  defp port, do: @port
 end

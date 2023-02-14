@@ -9,8 +9,6 @@ defmodule ServerWeb.UserSocket do
   @salt Application.compile_env(:server, Endpoint)[:salt]
   @secret Application.compile_env(:server, Endpoint)[:secret_key_base]
 
-  channel "rooms:*", ServerWeb.RoomChannel
-
   def connect(%{"Authorization" => header_content}, socket, _connection_info) do
     [[_, token]] = Regex.scan(~r/^Bearer (.*)/, header_content)
     case Token.verify(@secret, @salt, token, max_age: @max_age) do

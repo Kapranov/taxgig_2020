@@ -15,10 +15,12 @@ defmodule Reptin.Downloads do
   @type success_tuple :: {:ok}
   @type result :: success_tuple | error_tuple
 
+  @base_data Application.compile_env(:reptin, :base_data)
+  @bin_dir Application.compile_env(:reptin, :bin_dir)
   @db "ptin"
+  @fields ~w(expired url)a
   @tbl1 "expires"
   @tbl2 "ptins"
-  @fields ~w(expired url)a
 
   @doc """
   Insert into table an Expires with data, attrs is `expired` - "Updated August 30, 2019"
@@ -245,10 +247,10 @@ defmodule Reptin.Downloads do
   end
 
   @spec base_data() :: String.t()
-  defp base_data, do: Application.get_env(:reptin, :base_data)
+  defp base_data, do: @base_data
 
   @spec bin_dir() :: String.t()
-  defp bin_dir, do: Application.get_env(:reptin, :bin_dir)
+  defp bin_dir, do: @bin_dir
 
   @spec repository(bitstring()) :: result()
   defp repository(path) when is_bitstring(path) do

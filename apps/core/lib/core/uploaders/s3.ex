@@ -10,6 +10,7 @@ defmodule Core.Uploaders.S3 do
   alias Core.Config
 
   @name __MODULE__
+  @bucket Application.compile_env(:core, Core.Uploaders.S3)[:bucket]
 
   @spec get_file(String.t()) :: {:ok, {:url, String.t()}}
   def get_file(file) do
@@ -73,10 +74,9 @@ defmodule Core.Uploaders.S3 do
 
   @spec remove_file(String.t()) :: ExAws.Operation.S3.t() | {:error, String.t()}
   def remove_file(file) do
-    bucket = Application.get_env(:core, Core.Uploaders.S3)[:bucket]
     if strict_encode(URI.decode(file)) do
       data =
-        ExAws.S3.list_objects(bucket)
+        ExAws.S3.list_objects(@bucket)
         |> ExAws.stream!
         |> Enum.to_list
         |> Enum.find(&(&1.key == file))
@@ -84,7 +84,7 @@ defmodule Core.Uploaders.S3 do
       if is_nil(data) do
         {:error, "S3 Upload failed"}
       else
-        ExAws.S3.delete_object(bucket, file)
+        ExAws.S3.delete_object(@bucket, file)
         |> ExAws.request()
       end
     end

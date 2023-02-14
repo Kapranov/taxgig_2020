@@ -7,7 +7,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
   @image_path Path.absname("../core/test/fixtures/picture.png")
   @trump_path Path.absname("../core/test/fixtures/trump.jpg")
   @logo_path Path.absname("../core/test/fixtures/image_tmp.jpg")
-  @public_endpoint Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
+  @public_endpoint Application.compile_env(:core, Core.Uploaders.S3)[:public_endpoint]
 
   describe "#picture" do
     it "get picture for an event's pic" do
@@ -307,7 +307,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolverTest do
     it "update specific profile by user_id" do
       struct = insert(:picture)
       user = Accounts.get_user!(struct.profile_id)
-      public_endpoint = Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
+      public_endpoint = Application.compile_env(:core, Core.Uploaders.S3)[:public_endpoint]
       context = %{context: %{current_user: user}}
 
       file = %Plug.Upload{

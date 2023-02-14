@@ -51,10 +51,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   @type error_map :: {:ok, %{error: any, error_description: any, provider: any}}
   @type result :: success_tuple | success_list | error_tuple
 
-  @salt Application.get_env(:server, ServerWeb.Endpoint)[:salt]
-  @secret Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_base]
-  @secret_email Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_email]
-  @email_age Application.get_env(:server, ServerWeb.Endpoint)[:email_age]
+  @salt Application.compile_env(:server, ServerWeb.Endpoint)[:salt]
+  @secret Application.compile_env(:server, ServerWeb.Endpoint)[:secret_key_base]
+  @secret_email Application.compile_env(:server, ServerWeb.Endpoint)[:secret_key_email]
+  @email_age Application.compile_env(:server, ServerWeb.Endpoint)[:email_age]
   @ts DateTime.utc_now |> DateTime.to_unix
 
   @keys ~w(provider)a

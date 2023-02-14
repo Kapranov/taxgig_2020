@@ -5,8 +5,8 @@ defmodule Mailings.Mailer do
 
   alias Faker.{Lorem, Lorem.Shakespeare.En}
 
-  @config domain: Application.get_env(:mailings, :mailgun_domain),
-    key: Application.get_env(:mailings, :mailgun_key),
+  @config domain: Application.compile_env(:mailings, :mailgun_domain),
+    key: Application.compile_env(:mailings, :mailgun_key),
     httpc_opts: [connect_timeout: 2000, timeout: 3000]
 
   @root_dir Path.expand("../../../mailings/data/", __DIR__)

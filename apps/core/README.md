@@ -469,7 +469,7 @@ source = %{alt: "created an empty pdf document", file: "demo.pdf", name: "demo"}
 file = %Plug.Upload{content_type: "application/pdf", filename: source.file, path: Path.absname("/tmp/demo.pdf")}
 args = %{category: "Final Document", signature: false, signed_by_pro: false, file: %{picture: %{file: file}}, project_id: project.id, user_id: current_user.id}
 ServerWeb.GraphQL.Resolvers.Media.ProDocResolver.create(%{}, args, authenticated)
-bucket = Application.get_env(:core, Core.Uploaders.S3)[:bucket]
+bucket = Application.compile_env(:core, Core.Uploaders.S3)[:bucket]
 list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
 ```
 
@@ -482,7 +482,7 @@ current_user = Repo.get_by(User, email: "o.puryshev@gmail.com")
 ### Upload New Picture
 
 ```
-iex> bucket = Application.get_env(:core, Core.Uploaders.S3)[:bucket]
+iex> bucket = Application.compile_env(:core, Core.Uploaders.S3)[:bucket]
 iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
 iex> user = Accounts.User.find_by(email: "kapranov.lugatex@gmail.com")
 iex> authenticated = %{context: %{current_user: user}}
@@ -498,7 +498,7 @@ iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
 ### Update Picture
 
 ```
-iex> bucket = Application.get_env(:core, Core.Uploaders.S3)[:bucket]
+iex> bucket = Application.compile_env(:core, Core.Uploaders.S3)[:bucket]
 iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
 iex> user = Accounts.User.find_by(email: "kapranov.lugatex@gmail.com")
 iex> authenticated = %{context: %{current_user: user}}
@@ -512,7 +512,7 @@ iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
 ### Delete Picture
 
 ```
-iex> bucket = Application.get_env(:core, Core.Uploaders.S3)[:bucket]
+iex> bucket = Application.compile_env(:core, Core.Uploaders.S3)[:bucket]
 iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
 iex> user = Accounts.User.find_by(email: "kapranov.lugatex@gmail.com")
 iex> authenticated = %{context: %{current_user: user}}
@@ -524,7 +524,7 @@ iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
 ### Show Picture
 
 ```
-iex> bucket = Application.get_env(:core, Core.Uploaders.S3)[:bucket]
+iex> bucket = Application.compile_env(:core, Core.Uploaders.S3)[:bucket]
 iex> list = ExAws.S3.list_objects(bucket) |> ExAws.stream! |> Enum.to_list
 iex> user = Accounts.User.find_by(email: "kapranov.lugatex@gmail.com")
 iex> authenticated = %{context: %{current_user: user}}
@@ -794,7 +794,7 @@ Stripe.charge.capture -> ByDone
 
 # ################################################################
 #
-# @email_validation_regex Application.get_env(:mail, :email_regex)
+# @email_validation_regex Application.compile_env(:mail, :email_regex)
 #
 # :ets.new(:security_level, [:named_table])
 # :ets.lookup(:security_level, 1)

@@ -5,16 +5,16 @@ defmodule Core.ConfigTest do
   alias ServerWeb.Endpoint
 
   test "get/1 with an atom" do
-    assert Config.get(:instance) == Application.get_env(:core, :instance)
+    assert Config.get(:instance) == Application.compile_env(:core, :instance)
     assert Config.get(:azertyuiop) == nil
     assert Config.get(:azertyuiop, true) == true
   end
 
   test "get/1 with a list of keys" do
     assert Config.get([:instance, :upload_limit]) ==
-      Keyword.get(Application.get_env(:core, :instance), :upload_limit)
+      Keyword.get(Application.compile_env(:core, :instance), :upload_limit)
     assert Config.get([Endpoint, :render_errors, :view]) ==
-      get_in(Application.get_env(:core, Endpoint), [:render_errors, :view])
+      get_in(Application.compile_env(:core, Endpoint), [:render_errors, :view])
     assert Config.get([:azerty, :uiop]) == nil
     assert Config.get([:azerty, :uiop], true) == true
   end
@@ -28,9 +28,9 @@ defmodule Core.ConfigTest do
   end
 
   test "get!/1" do
-    assert Config.get!(:instance) == Application.get_env(:core, :instance)
+    assert Config.get!(:instance) == Application.compile_env(:core, :instance)
     assert Config.get!([:instance, :upload_limit]) ==
-      Keyword.get(Application.get_env(:core, :instance), :upload_limit)
+      Keyword.get(Application.compile_env(:core, :instance), :upload_limit)
   end
 
   test "get!/1 when value is false" do

@@ -73,7 +73,7 @@ defmodule Server.MixProject do
       {:pot, "~> 1.0"},
       {:timex, "~> 3.6"},
       {:websocket_client, "~> 1.4"},
-      #{:plaid, in_umbrella: true},
+      {:plaid, in_umbrella: true},
       {:reptin, in_umbrella: true},
       {:stripy, in_umbrella: true},
       {:talk_job, in_umbrella: true},

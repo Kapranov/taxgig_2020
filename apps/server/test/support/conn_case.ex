@@ -33,8 +33,8 @@ defmodule ServerWeb.ConnCase do
       alias Core.Accounts.User
       alias ServerWeb.Router.Helpers, as: Routes
 
-      @salt Application.get_env(:server, ServerWeb.Endpoint)[:salt]
-      @secret Application.get_env(:server, ServerWeb.Endpoint)[:secret_key_base]
+      @salt Application.compile_env(:server, ServerWeb.Endpoint)[:salt]
+      @secret Application.compile_env(:server, ServerWeb.Endpoint)[:secret_key_base]
 
       @spec auth_conn(Plug.Conn.t(), User.t()) :: Plug.Conn.t()
       def auth_conn(%Plug.Conn{} = conn, %User{} = user) do

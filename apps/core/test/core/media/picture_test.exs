@@ -29,7 +29,7 @@ defmodule Core.Media.PictureTest do
       }
     }
 
-    @public_endpoint Application.get_env(:core, Core.Uploaders.S3)[:public_endpoint]
+    @public_endpoint Application.compile_env(:core, Core.Uploaders.S3)[:public_endpoint]
 
     test "get_picture!/1 returns the picture with given user_id" do
       picture = insert(:picture)

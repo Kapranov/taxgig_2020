@@ -83,6 +83,7 @@ defmodule Core.Accounts.User do
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
   @secret :crypto.strong_rand_bytes(32) |> Base.url_encode64 |> binary_part(0, 32)
   @pass_salt Argon2.hash_pwd_salt(@secret)
+  @base_url Application.compile_env(:core, :base_url)
 
   @allowed_params ~w(
     active
@@ -267,10 +268,9 @@ defmodule Core.Accounts.User do
 
   @spec avatar_url(User.t(), list()) :: String.t()
   def avatar_url(user, options \\ []) do
-    base_url = Application.get_env(:core, :base_url)
     case user.avatar do
       %{"url" => [%{"href" => href} | _]} -> href
-      _ -> !options[:no_default] && "#{base_url}/images/default.png"
+      _ -> !options[:no_default] && "#{@base_url}/images/default.png"
     end
   end
 

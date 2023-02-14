@@ -31,7 +31,7 @@ defmodule Stripy.StripeCase do
   end
 
   def stripe_base_url() do
-    Application.get_env(:stripity_stripe, :api_base_url)
+    Application.compile_env(:stripity_stripe, :api_base_url)
   end
 
   defp assert_stripe_request_headers(nil, _), do: nil

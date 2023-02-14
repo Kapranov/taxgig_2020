@@ -26,73 +26,73 @@ defmodule ServerWeb.Provider.HTTPoison.InMemory do
   @linkedin_refresh "https://www.linkedin.com/oauth/v2/accessToken"
   @linkedin_token   "https://api.linkedin.com/v2/me?oauth2_access_token=#{@token_wrong}"
 
-  @facebook_client_id Application.get_env(:server, Facebook)[:client_id]
-  @facebook_client_secret Application.get_env(:server, Facebook)[:client_secret]
+  @facebook_client_id Application.compile_env(:server, Facebook)[:client_id]
+  @facebook_client_secret Application.compile_env(:server, Facebook)[:client_secret]
   @facebook_fields "first_name,last_name,middle_name,name,email,picture.type(normal){url}"
   @facebook_profile "https://graph.facebook.com/me?"
   @facebook_refresh "https://graph.facebook.com/oauth/client_code?"
   @facebook_token   "https://graph.facebook.com/oauth/access_token?"
   @facebook_verify  "https://graph.facebook.com/oauth/access_token_info?"
 
-  @redirect_uri URI.decode("#{List.first(Application.get_env(:server, Facebook)[:redirect_uri])}")
+  @redirect_uri URI.decode("#{List.first(Application.compile_env(:server, Facebook)[:redirect_uri])}")
 
   @body1 URI.encode_query(%{
-    client_id: Application.get_env(:server, LinkedIn)[:client_id],
-    client_secret: Application.get_env(:server, LinkedIn)[:client_secret],
+    client_id: Application.compile_env(:server, LinkedIn)[:client_id],
+    client_secret: Application.compile_env(:server, LinkedIn)[:client_secret],
     grant_type: "refresh_token",
     refresh_token: "ok_token"
   })
 
   @body2 URI.encode_query(%{
-    client_id: Application.get_env(:server, LinkedIn)[:client_id],
-    client_secret: Application.get_env(:server, LinkedIn)[:client_secret],
+    client_id: Application.compile_env(:server, LinkedIn)[:client_id],
+    client_secret: Application.compile_env(:server, LinkedIn)[:client_secret],
     grant_type: "refresh_token",
     refresh_token: "wrong_token"
   })
 
   @body3 URI.encode_query(%{
     code: @code_ok,
-    client_id: Application.get_env(:server, LinkedIn)[:client_id],
-    client_secret: Application.get_env(:server, LinkedIn)[:client_secret],
-    redirect_uri: List.first(Application.get_env(:server, LinkedIn)[:redirect_uri]),
+    client_id: Application.compile_env(:server, LinkedIn)[:client_id],
+    client_secret: Application.compile_env(:server, LinkedIn)[:client_secret],
+    redirect_uri: List.first(Application.compile_env(:server, LinkedIn)[:redirect_uri]),
     grant_type: "authorization_code"
   })
 
   @body4 URI.encode_query(%{
     code: @code_wrong,
-    client_id: Application.get_env(:server, LinkedIn)[:client_id],
-    client_secret: Application.get_env(:server, LinkedIn)[:client_secret],
-    redirect_uri: List.first(Application.get_env(:server, LinkedIn)[:redirect_uri]),
+    client_id: Application.compile_env(:server, LinkedIn)[:client_id],
+    client_secret: Application.compile_env(:server, LinkedIn)[:client_secret],
+    redirect_uri: List.first(Application.compile_env(:server, LinkedIn)[:redirect_uri]),
     grant_type: "authorization_code"
   })
 
   @body5 Jason.encode!(%{
     refresh_token: @token_ok,
-    client_id: Application.get_env(:server, Google)[:client_id],
-    client_secret: Application.get_env(:server, Google)[:client_secret],
+    client_id: Application.compile_env(:server, Google)[:client_id],
+    client_secret: Application.compile_env(:server, Google)[:client_secret],
     grant_type: "refresh_token"
   })
 
   @body6 Jason.encode!(%{
     refresh_token: @token_wrong,
-    client_id: Application.get_env(:server, Google)[:client_id],
-    client_secret: Application.get_env(:server, Google)[:client_secret],
+    client_id: Application.compile_env(:server, Google)[:client_id],
+    client_secret: Application.compile_env(:server, Google)[:client_secret],
     grant_type: "refresh_token"
   })
 
   @body7 Jason.encode!(%{
     code: @code_ok,
-    client_id: Application.get_env(:server, Google)[:client_id],
-    client_secret: Application.get_env(:server, Google)[:client_secret],
-    redirect_uri: List.first(Application.get_env(:server, Google)[:redirect_uri]),
+    client_id: Application.compile_env(:server, Google)[:client_id],
+    client_secret: Application.compile_env(:server, Google)[:client_secret],
+    redirect_uri: List.first(Application.compile_env(:server, Google)[:redirect_uri]),
     grant_type: "authorization_code"
   })
 
   @body8 Jason.encode!(%{
     code: @code_wrong,
-    client_id: Application.get_env(:server, Google)[:client_id],
-    client_secret: Application.get_env(:server, Google)[:client_secret],
-    redirect_uri: List.first(Application.get_env(:server, Google)[:redirect_uri]),
+    client_id: Application.compile_env(:server, Google)[:client_id],
+    client_secret: Application.compile_env(:server, Google)[:client_secret],
+    redirect_uri: List.first(Application.compile_env(:server, Google)[:redirect_uri]),
     grant_type: "authorization_code"
   })
 

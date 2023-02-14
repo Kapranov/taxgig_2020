@@ -14,7 +14,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Services.ReptinResolver do
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
 
-  @base_dir Application.get_env(:reptin, :base_data)
+  @base_dir Application.compile_env(:reptin, :base_data)
 
   @search_fields ~w(
     bus_addr_zip
