@@ -2265,7 +2265,7 @@ defmodule Core.Seeder.Services do
 
   @spec random_float() :: float()
   def random_float do
-    :random.uniform() * 100
+    :rand.uniform() * 100
     |> Float.round(2)
   end
 

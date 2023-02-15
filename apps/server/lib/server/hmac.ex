@@ -14,7 +14,7 @@ defmodule Server.HMAC do
 
   def hmac(data, key, [type: :sha256]) do
     try do
-      {:ok, :crypto.hmac(:sha256, key, data)}
+      {:ok, :crypto.mac(:hmac, :sha256, key, data)}
     rescue
       e in ArgumentError -> {:error, e}
     end

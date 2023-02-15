@@ -7,7 +7,7 @@ defmodule Core.Queries.FileUtil do
     |> URI.encode(&valid_path_char?/1)
   end
 
-  def valid_path_char?(?\ ), do: false
+  def valid_path_char?(?\s), do: false
   def valid_path_char?(?/), do: true
   def valid_path_char?(c) do
     URI.char_unescaped?(c) && !URI.char_reserved?(c)
@@ -20,7 +20,7 @@ defmodule Core.Queries.FileUtil do
   end
 
   def hmac_sha256(key, data) do
-    :crypto.hmac(:sha256, key, data)
+    :crypto.mac(:hmac, :sha256, key, data)
   end
 
   def bytes_to_hex(bytes) do

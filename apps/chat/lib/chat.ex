@@ -9,17 +9,15 @@ defmodule Chat do
 
 
   def start(_type, _args) do
+    [ip: _ip, scheme: schema, host: host, port: _port] = @url
     case Mix.env do
       :benchmark ->
-        [host: host, port: _port, ip: _ip] = @url
+        Logger.info("Running #{inspect(__MODULE__)} with Cowboy using http://#{host}:#{port()}")
+      :test ->
         Logger.info("Running #{inspect(__MODULE__)} with Cowboy using http://#{host}:#{port()}")
       :dev ->
-        [ip: _ip, scheme: schema, host: host, port: _port] = @url
         Logger.info("Running #{inspect(__MODULE__)} with Cowboy using #{schema}://#{host}:#{port()}")
       :prod -> nil
-      :test ->
-        [host: host, port: _port, ip: _ip] = @url
-        Logger.info("Running #{inspect(__MODULE__)} with Cowboy using http://#{host}:#{port()}")
     end
 
     Chat.Application.start_link([])

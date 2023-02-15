@@ -183,9 +183,6 @@ defmodule Core.Seeder.Talk do
 
   @spec insert_messages() :: Ecto.Schema.t()
   defp insert_messages do
-    project_ids =
-      Enum.map(Repo.all(Project), fn(data) -> data.id end)
-
     room_ids =
       Enum.map(Repo.all(Room), fn(data) -> data end)
 

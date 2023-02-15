@@ -153,15 +153,29 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
 
     @desc "Return all the rooms by user and participant via channel"
     field :rooms_by_user_and_participant_all, list_of(:room) do
-      config(fn _, _ ->
+      arg(:current_user, non_null(:string))
+      config(fn _args, _context ->
         {:ok, topic: "rooms"}
       end)
 
       trigger(:all_rooms_by_user_and_participant,
-        topic: fn _ ->
-          "rooms"
-        end
+        topic: fn _ -> "rooms" end
       )
+
+      resolve fn struct, args, _ ->
+        data = transfer(struct, args.current_user)
+        {:ok, data}
+      end
+    end
+
+    defp transfer(struct, current_user) do
+      Enum.reduce(struct, [], fn(x, acc) ->
+        if x.user_id == current_user or x.participant_id == current_user do
+          [x | acc]
+        else
+          acc
+        end
+      end)
     end
   end
 end
