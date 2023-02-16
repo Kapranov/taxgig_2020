@@ -57,15 +57,24 @@ defmodule ServerWeb.GraphQL.Schemas.Notifications.NotifyTypes do
   object :notify_subscriptions do
     @desc "Show all the notifies with currentUser via channel"
     field :notify_list, list_of(:notify) do
-      config fn _, _ ->
-        {:ok, topic: "notifies"}
-      end
+      arg(:current_user, non_null(:string))
+      config(fn _args, _context -> {:ok, topic: "notifies"} end)
+      trigger(:all_notifies, topic: fn _ -> "notifies" end)
 
-      trigger(:all_notifies,
-        topic: fn _ ->
-          "notifies"
+      resolve fn struct, args, _ ->
+        data = transfer(struct, args.current_user)
+        {:ok, data}
+      end
+    end
+
+    defp transfer(struct, current_user) do
+      Enum.reduce(struct, [], fn(x, acc) ->
+        if x.user_id == current_user == current_user do
+          [x | acc]
+        else
+          acc
         end
-      )
+      end)
     end
   end
 end
