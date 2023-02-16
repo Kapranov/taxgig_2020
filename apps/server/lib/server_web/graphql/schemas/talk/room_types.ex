@@ -100,15 +100,14 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
   object :room_subscriptions do
     @desc "Return all the rooms via channel"
     field :room_all, list_of(:room) do
-      config(fn _, _ ->
-        {:ok, topic: "rooms"}
-      end)
+      arg(:current_user, non_null(:string))
+      config(fn _args, _context -> {:ok, topic: "rooms"} end)
+      trigger(:room_all, topic: fn _ -> "rooms" end)
 
-      trigger(:room_all,
-        topic: fn _ ->
-          "rooms"
-        end
-      )
+      resolve fn struct, args, _ ->
+        data = transfer(struct, args.current_user)
+        {:ok, data}
+      end
     end
 
     @desc "Return all the rooms by projectId via channel"
