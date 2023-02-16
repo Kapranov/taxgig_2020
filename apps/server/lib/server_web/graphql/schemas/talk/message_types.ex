@@ -114,15 +114,14 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
     @desc "Return all the rooms via channel"
     field :messages_by_room_all, list_of(:message) do
       arg(:room_id, non_null(:string))
-      config(fn args, _ ->
-        {:ok, topic: [args.room_id]}
-      end)
+      arg(:current_user, non_null(:string))
+      config(fn args, _ -> {:ok, topic: [args.room_id]} end)
+      trigger(:all_messages_by_room, topic: fn args -> args.room_id end)
 
-      trigger(:all_messages_by_room,
-        topic: fn args ->
-          args.room_id
-        end
-      )
+      resolve fn struct, args, _ ->
+        data = transfer(struct, args.current_user)
+        {:ok, data}
+      end
     end
 
     @desc "Show all the messages via channel with roomId"
@@ -179,6 +178,16 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
           "messages"
         end
       )
+    end
+
+    defp transfer(struct, current_user) do
+      Enum.reduce(struct, [], fn(x, acc) ->
+        if x.user_id == current_user or x.participant_id == current_user do
+          [x | acc]
+        else
+          acc
+        end
+      end)
     end
   end
 end
