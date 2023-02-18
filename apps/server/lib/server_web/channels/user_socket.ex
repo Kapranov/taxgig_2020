@@ -13,7 +13,8 @@ defmodule ServerWeb.UserSocket do
     [[_, token]] = Regex.scan(~r/^Bearer (.*)/, header_content)
     case Token.verify(@secret, @salt, token, max_age: @max_age) do
       {:ok, user_id} ->
-        {:ok, assign(socket, :user_id, user_id)}
+        socket = Absinthe.Phoenix.Socket.put_options(socket, context: %{current_user: user_id})
+        {:ok, socket}
       {:error, _} ->
         :error
     end

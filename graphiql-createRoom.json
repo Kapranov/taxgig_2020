@@ -69,6 +69,22 @@
   "recentHeaders": [
     {
       "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkSDIySDRBN3E1VTBUV0NuBgDLVTFkhgFiAAFRgA.C6yV3L09LYk97ekJBLtx2_nknZLMQDIYu4oig45Ys08"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgDvXC9khgFiAAFRgA.SopiOqJG-Lu4v89oLT_DDblgVFnEBCSERJWMENvwm1Y"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkSDIySDRBN3E1VTBUV0NuBgBjISxkhgFiAAFRgA.FVAUXEyNJBPF7Y4z_eZSXgLJr5qTtboLa5Alsw0TinE"
+    },
+    {
+      "name": "Authorization",
+      "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgATDCdkhgFiAAFRgA.ysJKLPXcus1xXJnIEZACcHBeN7yc_jDy_ua-VWiA1kw"
+    },
+    {
+      "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgAzyDzuhQFiAAFRgA.MoU7vfPHKeBOnHyDQl_v2s83aTk6ZuRvhQNfuOCq0XY"
     },
     {
@@ -130,22 +146,6 @@
     {
       "name": "Authorization",
       "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCJYkK1ggFiAAFRgA.7tZ76wXKEnu_--6ark90mQYqd79U7O66Kld-2kJ2GEM"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgACBg-wggFiAAFRgA.i1xp47-ouzaboVmqfhlAXI-gcRSAL2VttBWXcY_3ZX8"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhtWXc0NGp0OENzOTlqbWFuBgCQLeOqggFiAAFRgA.hLVwmsFiA6X5YA8uBEZQJ4kLudJlwQJeugyPuFuicNc"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhvUUo5MWw4SFBrdFVDNVFuBgBZvuKqggFiAAFRgA.Pbgn5iECOEWBCcGPb4h7rC1RRDVDtoYVdQeOq--x7Xw"
-    },
-    {
-      "name": "Authorization",
-      "value": "Bearer SFMyNTY.g2gDbQAAABJBRHhreDhaSmhaSnVoNkJKTXVuBgCOSpeqggFiAAFRgA.FHaXfyLorvCB-SYvz3si1jmkBJuoPBX_CgdNq1gi_3Y"
     }
   ],
   "maxTabHistory": 20,
@@ -178,6 +178,18 @@
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "query {\n  signInLocal(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "query {\n  signInLocal(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+          "variables": null
+        },
         {
           "query": "query {\n  signInLocal(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
           "variables": null
@@ -245,23 +257,11 @@
         {
           "query": "query {\n  signInLocal(\n    email: \"protest@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
           "variables": null
-        },
-        {
-          "query": "query {\n  signInLocal(\n    email: \"client2@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "query {\n  signInLocal(\n    email: \"client@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
-          "variables": null
-        },
-        {
-          "query": "query {\n  signInLocal(\n    email: \"client2@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
-          "variables": null
         }
       ],
-      "graphiql:query": "query {\n  signInLocal(\n    email: \"lugatex@yahoo.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
+      "graphiql:query": "query {\n  signInLocal(\n    email: \"o.puryshev@gmail.com\",\n    password: \"qwerty\",\n    passwordConfirmation: \"qwerty\",\n    provider: \"localhost\"\n  ) {\n    accessToken\n    error\n    errorDescription\n    provider\n    userId\n  }\n}",
       "graphiql:variableEditorHeight": 200,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client2@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client2@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client2@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client2@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"client@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"protest@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"lugatex@yahoo.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"},{\"query\":\"query {\\n  signInLocal(\\n    email: \\\"o.puryshev@gmail.com\\\",\\n    password: \\\"qwerty\\\",\\n    passwordConfirmation: \\\"qwerty\\\",\\n    provider: \\\"localhost\\\"\\n  ) {\\n    accessToken\\n    error\\n    errorDescription\\n    provider\\n    userId\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350,
       "graphiql:editorFlex": 0.3924566768603466
     },
@@ -924,7 +924,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgAzyDzuhQFiAAFRgA.MoU7vfPHKeBOnHyDQl_v2s83aTk6ZuRvhQNfuOCq0XY"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgDvXC9khgFiAAFRgA.SopiOqJG-Lu4v89oLT_DDblgVFnEBCSERJWMENvwm1Y"
         }
       ],
       "collapsed": true,
@@ -954,16 +954,16 @@
       "headers": [
         {
           "name": "Authorization",
-          "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgAzyDzuhQFiAAFRgA.MoU7vfPHKeBOnHyDQl_v2s83aTk6ZuRvhQNfuOCq0XY"
+          "value": "Bearer SFMyNTY.g2gDbQAAABJBTjlkSDIySDRBN3E1VTBUV0NuBgDLVTFkhgFiAAFRgA.C6yV3L09LYk97ekJBLtx2_nknZLMQDIYu4oig45Ys08"
         }
       ],
       "collapsed": false,
       "maxHistory": 20,
       "history": [],
-      "graphiql:query": "subscription {\n  roomsByUserAndParticipantAll(currentUser: \"AN9dGhBmZcFlQtIGvI\") {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
+      "graphiql:query": "subscription {\n  roomsByUserAndParticipantAll {\n    id\n    active\n    name\n    topic\n    description\n    user {id email role}\n    lastMsg\n    unreadMsg\n    participant {id email role}\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\n  }\n}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 1,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n  roomsByUserAndParticipantAll {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n  roomsByUserAndParticipantAll(currentUser: \\\"AN9dGhBmZcFlQtIGvI\\\") {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n  roomsByUserAndParticipantAll {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n  roomsByUserAndParticipantAll(currentUser: \\\"AN9dGhBmZcFlQtIGvI\\\") {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n  roomsByUserAndParticipantAll {\\n    id\\n    active\\n    name\\n    topic\\n    description\\n    user {id email role}\\n    lastMsg\\n    unreadMsg\\n    participant {id email role}\\n    projects {id status saleTax {id saleTaxCount} users {id email role}}\\n  }\\n}\"}]}",
       "graphiql:docExplorerWidth": 350
     }
   ]
