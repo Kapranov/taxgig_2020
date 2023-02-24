@@ -114,12 +114,11 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
     @desc "Return all the rooms via channel"
     field :messages_by_room_all, list_of(:message) do
       arg(:room_id, non_null(:string))
-      arg(:current_user, non_null(:string))
       config(fn args, _ -> {:ok, topic: [args.room_id]} end)
       trigger(:all_messages_by_room, topic: fn args -> args.room_id end)
 
-      resolve fn struct, args, _ ->
-        data = transfer(struct, args.current_user)
+      resolve fn struct, _args, %{context: %{current_user: user_id}} ->
+        data = transfer(struct, user_id)
         {:ok, data}
       end
     end

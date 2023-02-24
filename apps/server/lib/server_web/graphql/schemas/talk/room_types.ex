@@ -100,12 +100,11 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
   object :room_subscriptions do
     @desc "Return all the rooms via channel"
     field :room_all, list_of(:room) do
-      arg(:current_user, non_null(:string))
       config(fn _args, _context -> {:ok, topic: "rooms"} end)
       trigger(:room_all, topic: fn _ -> "rooms" end)
 
-      resolve fn struct, args, _ ->
-        data = transfer(struct, args.current_user)
+      resolve fn struct, _args, %{context: %{current_user: user_id}} ->
+        data = transfer(struct, user_id)
         {:ok, data}
       end
     end
@@ -126,12 +125,11 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
 
     @desc "Return all the rooms by participantId  via channel"
     field :rooms_by_participant_all, list_of(:room) do
-      arg(:current_user, non_null(:string))
       config(fn _args, _context -> {:ok, topic: "rooms"} end)
       trigger(:all_rooms_by_participant, topic: fn _ -> "rooms" end)
 
-      resolve fn struct, args, _ ->
-        data = transfer(struct, args.current_user)
+      resolve fn struct, _args, %{context: %{current_user: user_id}} ->
+        data = transfer(struct, user_id)
         {:ok, data}
       end
     end

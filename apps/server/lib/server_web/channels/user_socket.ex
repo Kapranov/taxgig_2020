@@ -11,11 +11,14 @@ defmodule ServerWeb.UserSocket do
 
   def connect(%{"Authorization" => header_content}, socket, _connection_info) do
     [[_, token]] = Regex.scan(~r/^Bearer (.*)/, header_content)
-    case Token.verify(@secret, @salt, token, max_age: @max_age) do
+    case verify(token) do
       {:ok, user_id} ->
-        socket = Absinthe.Phoenix.Socket.put_options(socket, context: %{current_user: user_id})
+        socket = Absinthe.Phoenix.Socket.put_options(
+          socket,
+          context: %{current_user: user_id}
+        )
         {:ok, socket}
-      {:error, _} ->
+      {:error, _reason} ->
         :error
     end
   end
@@ -26,4 +29,13 @@ defmodule ServerWeb.UserSocket do
   end
 
   def id(_socket), do: nil
+
+  defp verify(token) do
+    Token.verify(
+      @secret,
+      @salt,
+      token,
+      max_age: @max_age
+    )
+  end
 end
