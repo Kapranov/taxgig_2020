@@ -67,6 +67,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     field :end_time, :date
     field :id_from_stripe_card, :string
     field :id_from_stripe_transfer, :string
+    field :id_from_stripe_charge, :string
     field :individual_tax_return_id, :string
     field :instant_matched, :boolean
     field :offer_price, :decimal

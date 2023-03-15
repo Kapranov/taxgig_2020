@@ -181,7 +181,7 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
 
     defp transfer(struct, current_user) do
       Enum.reduce(struct, [], fn(x, acc) ->
-        if x.user_id == current_user or x.participant_id == current_user do
+        if x.user_id == current_user or x.recipient_id == current_user do
           [x | acc]
         else
           acc

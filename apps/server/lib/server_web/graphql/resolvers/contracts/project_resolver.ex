@@ -15,6 +15,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
   }
 
   alias Mailings.Mailer
+  alias Stripy.Repo, as: StripyRepo
+  alias Stripy.{
+    Payments.StripeCharge,
+    StripeService.StripePlatformChargeCaptureService
+  }
 
   @type t :: Project.t()
   @type reason :: any
@@ -24,7 +29,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
   @current_time :os.system_time(:seconds)
-  @seconds  (2 * 24 * 3600)
+  @two_days  (2 * 24 * 3600)
+  #@current_time DateTime.to_unix(DateTime.utc_now)
+  @seconds  (2 * 3600)
 
   @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def list(_parent, _args, %{context: %{current_user: current_user}}) do
@@ -803,7 +810,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                     "Done" ->
                       try do
                         project = Repo.get!(Project, id)
-                        if (DateTime.to_unix(project.updated_at) + @seconds) > @current_time do
+                        if (DateTime.to_unix(project.updated_at) + @two_days) > @current_time do
                           project
                           |> Contracts.update_project(
                             Map.delete(params, :user_id)
@@ -1062,6 +1069,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                               notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
+                              Task.async(fn -> create_captured(struct, params) end)
                               {:ok, struct}
                             {:error, changeset} ->
                               {:error, extract_error_msg(changeset)}
@@ -1260,7 +1268,54 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
   defp mailing_to(user_id, template) do
     email_and_name = Accounts.by_email(user_id)
     Task.async(fn ->
+      #:timer.sleep(5_000)
       Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name)
+      Process.sleep 75_000
     end)
+    |> Task.await(:infinity)
+  end
+
+  @spec create_captured(Project.t(), map) :: :ok | :error
+  defp create_captured(struct, params) do
+    with charge <- StripyRepo.get_by(StripeCharge, %{id_from_stripe: params["id_from_stripe_charge"]}),
+         {:ok, _struct} <- captured(charge, struct)
+    do
+      :ok
+    else
+      nil -> :error
+      failure ->
+        case failure do
+          {:error, %Stripe.Error{code: _, extra: %{
+                card_code: _,
+                http_status: http_status,
+                raw_error: _
+              },
+              message: message,
+              request_id: _,
+              source: _,
+              user_message: _
+            }
+          } -> {:ok, %{error: "HTTP Status: #{http_status}, charge capture invalid, invalid request error. #{message}"}}
+          {:error, %Ecto.Changeset{}} -> :error
+        end
+    end
+  end
+
+  @spec captured(StripeCharge.t(), Project.t()) :: {:ok, StripeCharge.t()}
+  defp captured(charge, project) do
+    if (DateTime.to_unix(charge.updated_at) + @seconds) > @current_time or project.status == "In Progress" or project.status == "In Transition" do
+      StripePlatformChargeCaptureService.create(charge.id_from_stripe, %{amount: amounted(charge)})
+    else
+      {:ok, charge}
+    end
+  end
+
+  @spec amounted(StripeCharge.t()) :: integer
+  defp amounted(charge) do
+    (charge.amount * 0.35)
+    |> Float.round(2)
+    |> Float.ceil(0)
+    |> Float.ratio
+    |> elem(0)
   end
 end
