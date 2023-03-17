@@ -324,6 +324,8 @@ defmodule Reptin.Downloads do
               case full_path(path) |> File.ls() do
                 {:ok, [csv, new_csv]} ->
                   {:ok, %{dir: time, new: new_csv, csv: csv}}
+                {:ok, [csv, zip, new_csv]} ->
+                  {:ok, %{dir: time, new: new_csv, zip: zip, csv: csv}}
                 {:ok, [csv, zip, new_csv, new_zip]} ->
                   {:ok, %{dir: time, new: new_csv, new_zip: new_zip, zip: zip, csv: csv}}
               end

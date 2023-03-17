@@ -35,6 +35,7 @@ defmodule Core.MixProject do
       {:argon2_elixir, "~> 2.3"},
       {:burnex, "~> 1.1"},
       {:decimal, "~> 1.8", optional: true},
+      {:ecto_anon, "~> 0.5.0"},
       {:ecto_enum, "~> 1.4"},
       {:ecto_job, "~> 3.1"},
       {:ecto_sql, "~> 3.4"},
