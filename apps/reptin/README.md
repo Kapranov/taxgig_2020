@@ -124,6 +124,18 @@ console> RethinkDB.Query.table("ptins") |> RethinkDB.Query.filter(%{first_name: 
 console> RethinkDB.Query.table("ptins") |> RethinkDB.Query.filter(%{last_name: "mata"}) |> RethinkDB.Query.count |> Reptin.Database.run
 ```
 
+## Fix UTF-8 not encoded
+
+```
+bash> cd apps/reptin/priv/data/2023-3-18
+bash> file -i foia_extract.csv
+foia_extract.csv: text/plain; charset=us-ascii
+bash> file -i new_foia_extract.csv
+new_foia_extract.csv: text/plain; charset=us-ascii
+bash> iconv -f US-ASCII -t US-ASCII new_foia_extract.csv -o new.csv
+bash> rethinkdb-import -c localhost:28015 -f /home/kapranov/landing/apps/reptin/priv/data/2023-3-18/new_foia_extract.csv --force --format csv --table ptin.ptins --fields last_name,first_name,bus_st_code,bus_addr_zip,profession
+```
+
 #### 5 March 2021 by Oleg G.Kapranov
 
  [1]: http://taxgig.com:8080/

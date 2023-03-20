@@ -105,6 +105,10 @@
       "maxHistory": 20,
       "history": [
         {
+          "query": "mutation {\n  createReptin(\n    expired: \"Updated February 1, 2023\",\n    url: \"https://www.irs.gov/pub/irs-utl/foia-extract.zip\"\n  ) {\n    csv\n    dir\n    error\n    new\n    newZip\n    path\n    zip\n  }\n}",
+          "variables": null
+        },
+        {
           "query": "mutation {\n  createReptin(\n    expired: \"Updated August, 3 2022\",\n    url: \"https://www.irs.gov/pub/irs-utl/foia-extract.csv\"\n  ) {\n    csv\n    dir\n    error\n    new\n    newZip\n    path\n    zip\n  }\n}",
           "variables": null
         },
@@ -125,9 +129,9 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  createReptin(\n    expired: \"Updated August, 3 2022\",\n    url: \"https://www.irs.gov/pub/irs-utl/foia-extract.csv\"\n  ) {\n    csv\n    dir\n    error\n    new\n    newZip\n    path\n    zip\n  }\n}",
+      "graphiql:query": "mutation {\n  createReptin(\n    expired: \"Updated February 1, 2023\",\n    url: \"https://www.irs.gov/pub/irs-utl/foia-extract.zip\"\n  ) {\n    csv\n    dir\n    error\n    new\n    newZip\n    path\n    zip\n  }\n}",
       "graphiql:docExplorerWidth": 350,
-      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-29\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-9-8\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-18\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  createReptin(\\n    expired: \\\"Updated August 24, 2021\\\",\\n    url: \\\"https://www.irs.gov/pub/irs-utl/FOIA_Extract.csv\\\"\\n  ) {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip\\n  }\\n}\"},{\"query\":\"mutation {\\n  createReptin(\\n    expired: \\\"Updated August, 3 2022\\\",\\n    url: \\\"https://www.irs.gov/pub/irs-utl/foia-extract.csv\\\"\\n  ) {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip\\n  }\\n}\"}]}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-3-29\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2021-9-8\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-18\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  createReptin(\\n    expired: \\\"Updated August 24, 2021\\\",\\n    url: \\\"https://www.irs.gov/pub/irs-utl/FOIA_Extract.csv\\\"\\n  ) {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip\\n  }\\n}\"},{\"query\":\"mutation {\\n  createReptin(\\n    expired: \\\"Updated August, 3 2022\\\",\\n    url: \\\"https://www.irs.gov/pub/irs-utl/foia-extract.csv\\\"\\n  ) {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip\\n  }\\n}\"},{\"query\":\"mutation {\\n  createReptin(\\n    expired: \\\"Updated February 1, 2023\\\",\\n    url: \\\"https://www.irs.gov/pub/irs-utl/foia-extract.csv\\\"\\n  ) {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip\\n  }\\n}\"},{\"query\":\"mutation {\\n  createReptin(\\n    expired: \\\"Updated February 1, 2023\\\",\\n    url: \\\"https://www.irs.gov/pub/irs-utl/foia-extract.zip\\\"\\n  ) {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip\\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.6412121212121212
     },
@@ -141,6 +145,10 @@
       "collapsed": true,
       "maxHistory": 20,
       "history": [
+        {
+          "query": "mutation {\n  deleteDir(date: \"2023-3-17\") {\n    csv\n    dir\n    error\n    new\n    newZip\n    path\n    zip \n  }\n}",
+          "variables": null
+        },
         {
           "query": "mutation {\n  deleteDir(date: \"2023-2-3\") {\n    csv\n    dir\n    error\n    new\n    newZip\n    path\n    zip \n  }\n}",
           "variables": null
@@ -170,8 +178,8 @@
           "variables": null
         }
       ],
-      "graphiql:query": "mutation {\n  deleteDir(date: \"2023-2-3\") {\n    csv\n    dir\n    error\n    new\n    newZip\n    path\n    zip \n  }\n}",
-      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  searchReptin(\\n    busAddrZip: \\\"33155\\\",\\n    firstName: \\\"GuStAvO\\\",\\n    lastName: \\\"MaTa\\\"\\n    \\n  ) {\\n    id\\n    busStCode\\n    busAddrZip\\n    error\\n    firstName\\n    lastName\\n    profession\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-18\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-18\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-19\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-18\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-19\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-20\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2023-2-3\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"}]}",
+      "graphiql:query": "mutation {\n  deleteDir(date: \"2023-3-17\") {\n    csv\n    dir\n    error\n    new\n    newZip\n    path\n    zip \n  }\n}",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"query {\\n  searchReptin(\\n    busAddrZip: \\\"33155\\\",\\n    firstName: \\\"GuStAvO\\\",\\n    lastName: \\\"MaTa\\\"\\n    \\n  ) {\\n    id\\n    busStCode\\n    busAddrZip\\n    error\\n    firstName\\n    lastName\\n    profession\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-18\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-18\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-19\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-18\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-19\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2022-1-20\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2023-2-3\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"},{\"query\":\"mutation {\\n  deleteDir(date: \\\"2023-3-17\\\") {\\n    csv\\n    dir\\n    error\\n    new\\n    newZip\\n    path\\n    zip \\n  }\\n}\"}]}",
       "graphiql:variableEditorHeight": 200,
       "graphiql:editorFlex": 0.35376884422110555,
       "graphiql:docExplorerWidth": 350
