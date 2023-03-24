@@ -124,7 +124,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
             |> Map.merge(is_stuck_stage)
             |> Map.delete(:user_id)
 
-          room = Repo.get_by(Room, %{user_id: params[:user_id]})
+          rooms = Queries.by_list(Room, :user_id, params[:user_id])
 
           try do
             struct = Repo.get!(Platform, id)
@@ -136,7 +136,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                     |> Accounts.update_platform(attrs)
                     |> case do
                       {:ok, updated} ->
-                        {:ok, _} = Talk.update_room(room, %{active: true})
+                        Enum.reduce(rooms, [], fn(x, acc) ->
+                          [{:ok, _} = Talk.update_room(x, %{active: true}) | acc]
+                        end)
                         case updated.is_banned do
                           true ->
                             {:ok, notify} = Notifications.create_notify(%{
@@ -168,7 +170,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                     |> Accounts.update_platform(Map.put(attrs, :hero_active, false))
                     |> case do
                       {:ok, updated} ->
-                        {:ok, _} = Talk.update_room(room, %{active: true})
+                        Enum.reduce(rooms, [], fn(x, acc) ->
+                          [{:ok, _} = Talk.update_room(x, %{active: true}) | acc]
+                        end)
                         case updated.is_banned do
                           true ->
                             {:ok, notify} = Notifications.create_notify(%{
@@ -215,7 +219,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                     |> Accounts.update_platform(attrs)
                     |> case do
                       {:ok, updated} ->
-                        {:ok, _} = Talk.update_room(room, %{active: false})
+                        Enum.reduce(rooms, [], fn(x, acc) ->
+                          [{:ok, _} = Talk.update_room(x, %{active: false}) | acc]
+                        end)
                         case updated.is_banned do
                           true ->
                             {:ok, notify} = Notifications.create_notify(%{
@@ -247,7 +253,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                     |> Accounts.update_platform(Map.put(attrs, :hero_active, false))
                     |> case do
                       {:ok, updated} ->
-                        {:ok, _} = Talk.update_room(room, %{active: false})
+                        Enum.reduce(rooms, [], fn(x, acc) ->
+                          [{:ok, _} = Talk.update_room(x, %{active: false}) | acc]
+                        end)
                         case updated.is_banned do
                           true ->
                             {:ok, notify} = Notifications.create_notify(%{
@@ -300,7 +308,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                   |> Accounts.update_platform(deleted)
                   |> case do
                     {:ok, updated} ->
-                      {:ok, _} = Talk.update_room(room, %{active: true})
+                      Enum.reduce(rooms, [], fn(x, acc) ->
+                        [{:ok, _} = Talk.update_room(x, %{active: true}) | acc]
+                      end)
                       case updated.is_banned do
                         true ->
                           {:ok, notify} = Notifications.create_notify(%{
@@ -331,7 +341,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                   |> Accounts.update_platform(deleted)
                   |> case do
                     {:ok, updated} ->
-                      {:ok, _} = Talk.update_room(room, %{active: false})
+                      Enum.reduce(rooms, [], fn(x, acc) ->
+                        [{:ok, _} = Talk.update_room(x, %{active: false}) | acc]
+                      end)
                       case updated.is_banned do
                         true ->
                           {:ok, notify} = Notifications.create_notify(%{
