@@ -92,11 +92,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
               })
               notifies = Queries.by_list(Notify, :user_id, notify.user_id)
               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+              mailing_to(notify.user_id, "uploaded_pro_doc")
+              Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
             else
               :ok
             end
-            mailing_to(notify.user_id, "uploaded_pro_doc")
-            Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
             {:ok, tp_doc}
           else
             nil ->
