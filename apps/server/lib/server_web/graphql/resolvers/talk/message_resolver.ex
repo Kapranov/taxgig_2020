@@ -139,7 +139,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
                   template: 3,
                   user_id: struct.recipient_id
                 })
-                mailing_to(notify.user_id, "new_message_pro")
+                mailing_to(notify.user_id, "new_message_pro", notify.project_id)
                 data = Queries.by_list(Room, :user_id, args[:recipient_id])
                 query = from p in Message, where: p.room_id == ^args[:room_id]
                 messages = Repo.all(query)
@@ -166,7 +166,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
             |> case do
               {:ok, struct} ->
                 {:ok, _struct} = Talk.update_room(room, %{last_msg: struct.id})
-                {:ok, _struct} = Notifications.create_notify(%{
+                {:ok, notify} = Notifications.create_notify(%{
                   is_hidden: false,
                   is_read: false,
                   project_id: Repo.preload(struct, :room).room.project_id,
@@ -175,6 +175,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
                   template: 2,
                   user_id: struct.recipient_id
                 })
+                mailing_to(notify.user_id, "new_message_client", notify.project_id)
                 data = Queries.by_list(Room, :user_id, args[:recipient_id])
                 query = from p in Message, where: p.room_id == ^args[:room_id]
                 messages = Repo.all(query)
@@ -301,11 +302,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
     end)
   end
 
-  @spec mailing_to(String.t(), String.t()) :: map
-  defp mailing_to(user_id, template) do
+  @spec mailing_to(String.t(), String.t(), String.t()) :: map
+  defp mailing_to(user_id, template, project_id) do
     email_and_name = Accounts.by_email(user_id)
     Task.async(fn ->
-      Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name)
+      Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name, project_id)
     end)
   end
 end

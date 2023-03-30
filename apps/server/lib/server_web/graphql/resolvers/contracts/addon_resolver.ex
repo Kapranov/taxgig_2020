@@ -83,7 +83,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
                   template: 25,
                   user_id: Repo.preload(struct, :projects).user_id
                 })
-                mailing_to(notify.user_id, "add-ons_for_your_approval_client")
+                mailing_to(notify.user_id, "add-ons_for_your_approval_client", notify.project_id)
                 notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                 project = Contracts.get_project!(struct.project_id)
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
@@ -122,7 +122,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
                   template: 26,
                   user_id: struct.user_id
                 })
-                mailing_to(notify.user_id, "client_accepted_addons_pro")
+                mailing_to(notify.user_id, "client_accepted_addons_pro", notify.project_id)
                 notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
               "Declined" ->
@@ -134,7 +134,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
                   template: 4,
                   user_id: struct.user_id
                 })
-                mailing_to(notify.user_id, "client_declined_addons_pro")
+                mailing_to(notify.user_id, "client_declined_addons_pro", notify.project_id)
                 notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
               _ -> :ok
@@ -192,11 +192,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.AddonResolver do
     end)
   end
 
-  @spec mailing_to(String.t(), String.t()) :: map
-  defp mailing_to(user_id, template) do
+  @spec mailing_to(String.t(), String.t(), String.t()) :: map
+  defp mailing_to(user_id, template, project_id) do
     email_and_name = Accounts.by_email(user_id)
     Task.async(fn ->
-      Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name)
+      Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name, project_id)
     end)
   end
 end

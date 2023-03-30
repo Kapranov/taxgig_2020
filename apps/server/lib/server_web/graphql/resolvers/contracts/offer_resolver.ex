@@ -82,7 +82,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
                   template: 4,
                   user_id: Repo.preload(struct, :projects).user_id
                 })
-                mailing_to(notify.user_id, "new_offer")
+                mailing_to(notify.user_id, "new_offer", notify.project_id)
                 project = Contracts.get_project!(struct.project_id)
                 notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                 Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
@@ -127,7 +127,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
                         template: 16,
                         user_id: struct.user_id
                       })
-                      mailing_to(notify.user_id, "offer_accepted")
+                      mailing_to(notify.user_id, "offer_accepted", notify.project_id)
                       project = Contracts.get_project!(struct.project_id)
                       notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                       Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
@@ -141,7 +141,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
                         template: 17,
                         user_id: struct.user_id
                       })
-                      mailing_to(notify.user_id, "offer_declined")
+                      mailing_to(notify.user_id, "offer_declined", notify.project_id)
                       project = Contracts.get_project!(struct.project_id)
                       notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                       Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
@@ -203,11 +203,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
     end)
   end
 
-  @spec mailing_to(String.t(), String.t()) :: map
-  defp mailing_to(user_id, template) do
+  @spec mailing_to(String.t(), String.t(), String.t()) :: map
+  defp mailing_to(user_id, template, project_id) do
     email_and_name = Accounts.by_email(user_id)
     Task.async(fn ->
-      Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name)
+      Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name, project_id)
     end)
   end
 end

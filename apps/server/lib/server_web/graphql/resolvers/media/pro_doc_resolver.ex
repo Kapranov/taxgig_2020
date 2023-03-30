@@ -80,7 +80,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
               template: 11,
               user_id: project.user_id
             })
-            mailing_to(notify.user_id, "uploaded_tp_doc")
+            mailing_to(notify.user_id, "uploaded_tp_doc", notify.project_id)
             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
             case pro_doc.signature do
@@ -163,7 +163,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
               template: 24,
               user_id: pro_doc.user_id
             })
-            mailing_to(notify.user_id, "doc_signed")
+            mailing_to(notify.user_id, "doc_signed", notify.project_id)
             notifies = Queries.by_list(Notify, :user_id, notify.user_id)
             project = Contracts.get_project!(pro_doc.project_id)
             Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
@@ -233,11 +233,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
     end)
   end
 
-  @spec mailing_to(String.t(), String.t()) :: map
-  defp mailing_to(user_id, template) do
+  @spec mailing_to(String.t(), String.t(), String.t()) :: map
+  defp mailing_to(user_id, template, project_id) do
     email_and_name = Accounts.by_email(user_id)
     Task.async(fn ->
-      Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name)
+      Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name, project_id)
     end)
   end
 end
