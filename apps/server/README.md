@@ -1,5 +1,7 @@
 # Server
 
+## Used old Phoenix version `1.16.5`
+
 ```
 bash> mix phx.new server --no-html --no-webpack --no-ecto
 ```
