@@ -66,7 +66,7 @@ defmodule Server.MixProject do
       {:mailings, in_umbrella: true},
       {:mox, "~> 0.5"},
       {:observer_cli, "~> 1.7"},
-      {:phoenix, "~> 1.5"},
+      {:phoenix, "1.6.15"},
       {:phoenix_client, "~> 0.11"},
       {:phoenix_pubsub, "~> 2.0"},
       {:plug_cowboy, "~> 2.2"},

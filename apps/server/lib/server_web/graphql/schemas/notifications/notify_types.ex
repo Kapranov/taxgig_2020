@@ -24,6 +24,8 @@ defmodule ServerWeb.GraphQL.Schemas.Notifications.NotifyTypes do
     field :service_review_id, :string
     field :template, :integer
     field :users, :user, resolve: dataloader(Data)
+    field :inserted_at, :datetime
+    field :updated_at, :datetime
   end
 
   @desc "The Notify update via params"
@@ -68,7 +70,7 @@ defmodule ServerWeb.GraphQL.Schemas.Notifications.NotifyTypes do
 
     defp transfer(struct, current_user) do
       Enum.reduce(struct, [], fn(x, acc) ->
-        if x.user_id == current_user == current_user do
+        if x.user_id == current_user do
           [x | acc]
         else
           acc
