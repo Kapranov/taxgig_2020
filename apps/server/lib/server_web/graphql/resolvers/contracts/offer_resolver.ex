@@ -68,7 +68,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.OfferResolver do
         false ->
           {:error, [[field: :user_id, message: "Can't be blank or Permission denied for current_user"]]}
         true ->
-          if Enum.count(Repo.all(Queries.by_offer(Offer, :user_id, :project_id, :status, "Declined", args[:user_id], args[:project_id]))) == 0 do
+          if Enum.count(Repo.all(Queries.by_offer(Offer, :user_id, :project_id, :status, "Sent", args[:user_id], args[:project_id]))) == 0 do
             args
             |> Map.merge(%{status: "Sent"})
             |> Contracts.create_offer()
