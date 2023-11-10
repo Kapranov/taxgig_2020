@@ -215,7 +215,6 @@ defmodule Core.Accounts.User do
     |> update_change(:email, &String.downcase/1)
     |> unique_constraint(:email, name: :users_email_index, message: "The format of the email address isn't correct or email has already been taken!")
     |> validate_email()
-    |> name_zip_validation()
     |> validate_length(:bio, max: bio_limit)
     |> validate_length(:first_name, max: name_limit)
     |> validate_length(:last_name, max: name_limit)
@@ -240,21 +239,41 @@ defmodule Core.Accounts.User do
       |> truncate_if_exists(:middle_name, name_limit)
       |> truncate_if_exists(:street, name_limit)
 
-    struct
-    |> cast(attr, @allowed_params)
-    |> validate_required(@required_params)
-    |> changeset_preload(:languages)
-    |> put_assoc_nochange(:languages, parse_name(attrs))
-    |> validate_format(:email, email_regex())
-    |> validate_length(:password, min: 5, max: 20)
-    |> validate_confirmation(:password)
-    |> update_change(:email, &String.downcase/1)
-    |> unique_constraint(:email, name: :users_email_index, message: "The format of the email address isn't correct or email has already been taken!")
-    |> validate_email()
-    |> validate_length(:first_name, max: name_limit)
-    |> validate_length(:last_name, max: name_limit)
-    |> validate_length(:middle_name, max: name_limit)
-    |> put_password_hash()
+    case struct.role do
+      true ->
+        struct
+        |> cast(attr, @allowed_params)
+        |> validate_required(@required_params)
+        |> changeset_preload(:languages)
+        |> put_assoc_nochange(:languages, parse_name(attrs))
+        |> validate_format(:email, email_regex())
+        |> validate_length(:password, min: 5, max: 20)
+        |> validate_confirmation(:password)
+        |> update_change(:email, &String.downcase/1)
+        |> unique_constraint(:email, name: :users_email_index, message: "The format of the email address isn't correct or email has already been taken!")
+        |> validate_email()
+        |> name_zip_validation()
+        |> validate_length(:first_name, max: name_limit)
+        |> validate_length(:last_name, max: name_limit)
+        |> validate_length(:middle_name, max: name_limit)
+        |> put_password_hash()
+      false ->
+        struct
+        |> cast(attr, @allowed_params)
+        |> validate_required(@required_params)
+        |> changeset_preload(:languages)
+        |> put_assoc_nochange(:languages, parse_name(attrs))
+        |> validate_format(:email, email_regex())
+        |> validate_length(:password, min: 5, max: 20)
+        |> validate_confirmation(:password)
+        |> update_change(:email, &String.downcase/1)
+        |> unique_constraint(:email, name: :users_email_index, message: "The format of the email address isn't correct or email has already been taken!")
+        |> validate_email()
+        |> validate_length(:first_name, max: name_limit)
+        |> validate_length(:last_name, max: name_limit)
+        |> validate_length(:middle_name, max: name_limit)
+        |> put_password_hash()
+    end
   end
 
   @doc "Returns status account"
