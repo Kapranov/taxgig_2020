@@ -36,6 +36,11 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
     field :signed_by_pro, :boolean
   end
 
+  @desc "The pro docs an update via params for tp"
+  input_object :update_pro_doc_params_for_tp do
+    field :signed_by_pro, :boolean
+  end
+
   @desc "An attached picture or a link to a picture"
   input_object :picture_input do
     field(:picture, :picture_input_object)
@@ -73,9 +78,17 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
     @desc "Update a specific pro docs"
     field :update_pro_doc, :pro_doc do
       arg :id, non_null(:string)
-      # arg :file, :picture_input, description: "The file for the pro docs, either as an object or directly the ID of an existing Picture"
+      arg :file, :picture_input, description: "The file for the pro docs, either as an object or directly the ID of an existing Picture"
       arg :pro_doc, :update_pro_doc_params, description: "The params for pro docs, either as an object"
       resolve &ProDocResolver.update/3
+    end
+
+    @desc "Update a specific pro docs for tp"
+    field :update_pro_doc_for_tp, :pro_doc do
+      arg :id, non_null(:string)
+      arg :file, :picture_input, description: "The file for the pro docs, either as an object or directly the ID of an existing Picture"
+      arg :pro_doc, :update_pro_doc_params_for_tp, description: "The params for pro docs, either as an object for role tp"
+      resolve &ProDocResolver.update_for_tp/3
     end
 
     @desc "Delete a specific pro docs"

@@ -4,6 +4,7 @@ defmodule ServerWeb.GraphQL.Schema do
   """
 
   use Absinthe.Schema
+  use Absinthe.Relay.Schema, :classic
 
   alias Absinthe.{
     Middleware,
@@ -278,6 +279,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:update_potential_client_params)
     import_fields(:update_press_article_params)
     import_fields(:update_pro_doc_params)
+    import_fields(:update_pro_doc_params_for_tp)
     import_fields(:update_pro_rating_params)
     import_fields(:update_profile_params)
     import_fields(:update_project_params)

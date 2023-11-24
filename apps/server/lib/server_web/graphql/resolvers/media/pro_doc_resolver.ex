@@ -192,6 +192,52 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :tp_doc, message: "Can't be blank"]]}
   end
 
+  @spec update_for_tp(any, %{id: bitstring(), pro_doc: map}, %{context: %{current_user: User.t()}}) :: result()
+  def update_for_tp(_parent, %{id: id, pro_doc: params}, %{context: %{current_user: current_user}}) do
+    if current_user.role == true do
+      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
+    else
+      try do
+        with struct <- Media.get_pro_doc(id),
+             {:ok, pro_doc = %ProDoc{}} <- Media.update_pro_doc(struct, params)
+        do
+          if params.signed_by_pro == true do
+            {:ok, notify} = Notifications.create_notify(%{
+              is_hidden: false,
+              is_read: false,
+              project_id: pro_doc.project_id,
+              template: 24,
+              user_id: pro_doc.user_id
+            })
+            mailing_to(notify.user_id, "doc_signed", notify.project_id)
+            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+            project = Contracts.get_project!(pro_doc.project_id)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
+            {:ok, pro_doc}
+          else
+            project = Contracts.get_project!(pro_doc.project_id)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
+            {:ok, pro_doc}
+          end
+        else
+          nil ->
+            {:ok, %{error: "pro_doc", error_description: "id is not owned by authenticated user"}}
+          {:error, changeset} ->
+            {:ok, %{error: "pro_docs schema", error_description: extract_error_msg(changeset)}}
+        end
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "The Tp Docs #{id} not found!"}
+      end
+    end
+  end
+
+  @spec update_for_tp(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update_for_tp(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :tp_doc, message: "Can't be blank"]]}
+  end
+
   @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if current_user.role == false do

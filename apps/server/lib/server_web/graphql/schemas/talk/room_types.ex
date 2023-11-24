@@ -24,6 +24,8 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
     field :topic, :string
     field :unread_msg, :integer
     field :user, :user, resolve: dataloader(Data)
+    field :inserted_at, :datetime
+    field :updated_at, :datetime
   end
 
   @desc "The room update via params"

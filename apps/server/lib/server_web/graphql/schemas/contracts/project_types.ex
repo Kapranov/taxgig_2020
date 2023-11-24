@@ -154,7 +154,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     end
 
     @desc "Create the project via channel"
-    field :project_created, :project do
+    field :project_create, :project do
       config(fn _, _ ->
         {:ok, topic: "projects"}
       end)
