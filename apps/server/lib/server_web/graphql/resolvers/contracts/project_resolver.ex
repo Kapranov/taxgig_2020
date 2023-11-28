@@ -124,15 +124,87 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
   end
 
   @spec pro_list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
-  def pro_list(_parent, _args, %{context: %{current_user: current_user}}) do
+  def pro_list(_parent, %{filter: args}, %{context: %{current_user: current_user}}) do
     if current_user.role == false do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct =
-        Queries.by_list(Project, :assigned_id, current_user.id)
-        |> Repo.preload([:tp_docs, :pro_docs])
+      case args do
+        %{status: status, page: page, limit_counter: counter} ->
+          if page < counter do
+            struct =
+              Queries.by_list(Project, :assigned_id, current_user.id, :status, status)
+              |> Repo.preload([:tp_docs, :pro_docs])
+              |> Enum.take(page)
 
-      {:ok, struct}
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
+            {:ok, struct}
+          else
+            struct =
+              Queries.by_list(Project, :assigned_id, current_user.id, :status, status)
+              |> Repo.preload([:tp_docs, :pro_docs])
+              |> Enum.take(counter)
+
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
+            {:ok, struct}
+          end
+        %{status: status, page: page} ->
+            struct =
+              Queries.by_list(Project, :assigned_id, current_user.id, :status, status)
+              |> Repo.preload([:tp_docs, :pro_docs])
+              |> Enum.take(page)
+
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
+            {:ok, struct}
+        %{status: status, limit_counter: counter} ->
+            struct =
+              Queries.by_list(Project, :assigned_id, current_user.id, :status, status)
+              |> Repo.preload([:tp_docs, :pro_docs])
+              |> Enum.take(counter)
+
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
+            {:ok, struct}
+        %{page: page, limit_counter: counter} ->
+          if page < counter do
+            struct =
+              Queries.by_list(Project, :assigned_id, current_user.id)
+              |> Repo.preload([:tp_docs, :pro_docs])
+              |> Enum.take(page)
+
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
+            {:ok, struct}
+          else
+            struct =
+              Queries.by_list(Project, :assigned_id, current_user.id)
+              |> Repo.preload([:tp_docs, :pro_docs])
+              |> Enum.take(counter)
+
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
+            {:ok, struct}
+          end
+        %{status: status} ->
+            struct =
+              Queries.by_list(Project, :assigned_id, current_user.id, :status, status)
+              |> Repo.preload([:tp_docs, :pro_docs])
+
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
+            {:ok, struct}
+        %{page: page} ->
+            struct =
+              Queries.by_list(Project, :assigned_id, current_user.id)
+              |> Repo.preload([:tp_docs, :pro_docs])
+              |> Enum.take(page)
+
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
+            {:ok, struct}
+        %{limit_counter: counter} ->
+            struct =
+              Queries.by_list(Project, :assigned_id, current_user.id)
+              |> Repo.preload([:tp_docs, :pro_docs])
+              |> Enum.take(counter)
+
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
+            {:ok, struct}
+      end
     end
   end
 

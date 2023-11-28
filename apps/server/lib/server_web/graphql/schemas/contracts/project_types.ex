@@ -94,6 +94,7 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
 
     @desc "Get all pro projects"
     field :pro_projects, list_of(:project) do
+      arg :filter, non_null(:filter_project_params)
       resolve(&ProjectResolver.pro_list/3)
     end
 
