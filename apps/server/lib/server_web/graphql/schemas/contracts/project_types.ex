@@ -78,9 +78,17 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
     field :user_id, non_null(:string)
   end
 
+  @desc "The project filter via params"
+  input_object :filter_project_params, description: "filter project" do
+    field :page, :integer
+    field :status, :string
+    field :limit_counter, :integer
+  end
+
   object :project_queries do
     @desc "Get all projects"
     field :all_projects, list_of(:project) do
+      arg :filter, non_null(:filter_project_params)
       resolve(&ProjectResolver.list/3)
     end
 

@@ -240,6 +240,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:user_mutations)
     import_fields(:vacancy_mutations)
     import_fields(:work_experience_mutations)
+    import_fields(:filter_project_params)
     import_fields(:update_addon_params)
     import_fields(:update_ban_reason_params)
     import_fields(:update_book_keeping_additional_need_params)
