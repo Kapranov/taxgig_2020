@@ -44,6 +44,12 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
     field :warning, :boolean
   end
 
+  @desc "The message filter via params"
+  input_object :filter_message_params, description: "filter message" do
+    field :page, :integer
+    field :limit_counter, :integer
+  end
+
   object :message_queries do
     @desc "Search are messages via roomId and any words"
     field :search_message, list_of(:message) do
@@ -60,6 +66,7 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
 
     @desc "Get all message by roomId"
     field :all_messages_by_room, list_of(:message) do
+      arg :filter, non_null(:filter_message_params)
       arg(:room_id, non_null(:string))
       resolve &MessageResolver.list_by_room_id/3
     end

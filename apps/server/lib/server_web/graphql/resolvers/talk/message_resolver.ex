@@ -46,7 +46,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
   end
 
   @spec list_by_room_id(any, %{room_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
-  def list_by_room_id(_parent, %{room_id: id}, %{context: %{current_user: current_user}}) do
+  def list_by_room_id(_parent, %{filter: args, room_id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(current_user) do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
@@ -55,7 +55,18 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
         nil ->
           {:error, "none correct roomId for current_user"}
         data ->
-          {:ok, data}
+          case args do
+            %{page: page, limit_counter: counter} ->
+              if page < counter do
+                {:ok, Enum.take(data, page)}
+              else
+              {:ok, Enum.take(data, counter)}
+              end
+            %{page: page} ->
+              {:ok, Enum.take(data, page)}
+            %{limit_counter: counter} ->
+              {:ok, Enum.take(data, counter)}
+          end
       end
     end
   end

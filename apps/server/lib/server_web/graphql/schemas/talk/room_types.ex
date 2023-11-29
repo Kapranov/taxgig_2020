@@ -36,6 +36,12 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
     field :topic, :string
   end
 
+  @desc "The room filter via params"
+  input_object :filter_room_params, description: "filter room" do
+    field :page, :integer
+    field :limit_counter, :integer
+  end
+
   object :room_queries do
     @desc "Get all rooms"
     field :rooms, list_of(:room) do
@@ -50,11 +56,13 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
 
     @desc "Get all rooms by participantId"
     field :all_rooms_by_participant, list_of(:room) do
+      arg :filter, non_null(:filter_room_params)
       resolve &RoomResolver.list_by_participant/3
     end
 
     @desc "Get all rooms by currentUser and participantId"
     field :all_rooms_by_user_and_participant, list_of(:room) do
+      arg :filter, non_null(:filter_room_params)
       resolve &RoomResolver.list_by_current_participant/3
     end
 
