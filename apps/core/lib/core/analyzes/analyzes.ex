@@ -74,11 +74,13 @@ defmodule Core.Analyzes do
                         _ ->
                           record = Map.merge(v, query_tp)
                           langs = Accounts.get_user!(record.user.id).languages
+                          profile = Accounts.get_profile!(record.user.id)
                           Map.merge(record, %{
                             user: %{
                               avatar: record.user.avatar,
                               first_name: record.user.first_name,
                               id: record.user.id,
+                              profile: profile,
                               languages: langs
                             }
                           })
@@ -98,6 +100,7 @@ defmodule Core.Analyzes do
                       fn _k, v1, v2 -> Map.merge(v1, v2) end
                     ) |> Enum.map(fn {_k, v} ->
                       record = Services.get_sale_tax!(v.id)
+                      profile = Accounts.get_profile!(record.user.id)
                       Map.merge(v, %{
                         name: "SaleTax",
                         user: %{
@@ -107,6 +110,7 @@ defmodule Core.Analyzes do
                           middle_name: record.user.middle_name,
                           avatar: record.user.avatar,
                           profession: record.user.profession,
+                          profile: profile,
                           languages: record.user.languages,
                           platform: record.user.platform,
                           pro_ratings: record.user.pro_ratings
@@ -143,11 +147,13 @@ defmodule Core.Analyzes do
                     _ ->
                       record = Map.merge(v, query_tp)
                       langs = Accounts.get_user!(record.user.id).languages
+                      profile = Accounts.get_profile!(record.user.id)
                       Map.merge(record, %{
                         user: %{
                           avatar: record.user.avatar,
                           first_name: record.user.first_name,
                           id: record.user.id,
+                          profile: profile,
                           languages: langs
                         }
                       })
@@ -167,6 +173,7 @@ defmodule Core.Analyzes do
                   fn _k, v1, v2 -> Map.merge(v1, v2) end
                 ) |> Enum.map(fn {_k, v} ->
                   record = Services.get_individual_tax_return!(v.id)
+                  profile = Accounts.get_profile!(record.user.id)
                   Map.merge(v, %{
                     name: "IndividualTaxReturn",
                     user: %{
@@ -176,6 +183,7 @@ defmodule Core.Analyzes do
                       middle_name: record.user.middle_name,
                       avatar: record.user.avatar,
                       profession: record.user.profession,
+                      profile: profile,
                       languages: record.user.languages,
                       platform: record.user.platform,
                       pro_ratings: record.user.pro_ratings
@@ -212,12 +220,14 @@ defmodule Core.Analyzes do
                 _ ->
                   record = Map.merge(v, query_tp)
                   langs = Accounts.get_user!(record.user.id).languages
+                  profile = Accounts.get_profile!(record.user.id)
                   Map.merge(record, %{
                     user: %{
                       avatar: record.user.avatar,
                       first_name: record.user.first_name,
                       id: record.user.id,
-                      languages: langs
+                      languages: langs,
+                      profile: profile
                     }
                   })
               end
@@ -236,6 +246,7 @@ defmodule Core.Analyzes do
               fn _k, v1, v2 -> Map.merge(v1, v2) end
             ) |> Enum.map(fn {_k, v} ->
               record = Services.get_business_tax_return!(v.id)
+              profile = Accounts.get_profile!(record.user.id)
               Map.merge(v, %{
                 name: "BusinessTaxReturn",
                 user: %{
@@ -247,6 +258,7 @@ defmodule Core.Analyzes do
                   profession: record.user.profession,
                   languages: record.user.languages,
                   platform: record.user.platform,
+                  profile: profile,
                   pro_ratings: record.user.pro_ratings
                 }
               })
@@ -281,12 +293,14 @@ defmodule Core.Analyzes do
               _ ->
                 record = Map.merge(v, query_tp)
                 langs = Accounts.get_user!(record.user.id).languages
+                profile = Accounts.get_profile!(record.user.id)
                 Map.merge(record, %{
                   user: %{
                     avatar: record.user.avatar,
                     first_name: record.user.first_name,
                     id: record.user.id,
-                    languages: langs
+                    languages: langs,
+                    profile: profile
                   }
                 })
             end
@@ -305,6 +319,7 @@ defmodule Core.Analyzes do
             fn _k, v1, v2 -> Map.merge(v1, v2) end
           ) |> Enum.map(fn {_k, v} ->
             record = Services.get_book_keeping!(v.id)
+            profile = Accounts.get_profile!(record.user.id)
             Map.merge(v, %{
               name: "BookKeeping",
               user: %{
@@ -316,6 +331,7 @@ defmodule Core.Analyzes do
                 profession: record.user.profession,
                 languages: record.user.languages,
                 platform: record.user.platform,
+                profile: profile,
                 pro_ratings: record.user.pro_ratings
               }
             })
