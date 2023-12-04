@@ -176,6 +176,7 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
     field :avatar, :string
     field :first_name, :string
     field :id, :string, description: "user id"
+    field :profile, :profile
     field :languages, list_of(:language)
   end
 
