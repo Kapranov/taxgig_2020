@@ -97,7 +97,6 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
     field :book_keeping, :book_keeping_for_tp
     field :project, :project_for_tp
     field :user, :user_by_tp
-    field :profile, :profile
   end
 
   object :analyze_book_keeping_for_pro do
@@ -118,7 +117,6 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
     field :business_tax_return, :business_tax_return_for_tp
     field :project, :project_for_tp
     field :user, :user_by_tp
-    field :profile, :profile
   end
 
   object :analyze_business_tax_return_for_pro do
@@ -139,7 +137,6 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
     field :individual_tax_return, :individual_tax_return_for_tp
     field :project, :project_for_tp
     field :user, :user_by_tp
-    field :profile, :profile
   end
 
   object :analyze_individual_tax_return_for_pro do
@@ -160,7 +157,6 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
     field :project, :project_for_tp
     field :sale_tax, :sale_tax_for_tp
     field :user, :user_by_tp
-    field :profile, :profile
   end
 
   object :analyze_sale_tax_for_pro do
@@ -188,6 +184,7 @@ defmodule ServerWeb.GraphQL.Schemas.Analyzes.AnalyzeTypes do
     field :last_name, :string
     field :middle_name, :string
     field :platform, :platform_for_pro
+    field :profile, :profile
     field :pro_ratings, list_of(:pro_rating)
     field :profession, :string
   end
