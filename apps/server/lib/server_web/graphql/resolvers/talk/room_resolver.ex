@@ -97,32 +97,32 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
           if page < counter do
             data1 = Queries.by_list(Room, :user_id, current_user.id)
             data2 = from p in Room, where: p.participant_id == ^current_user.id
-            data = Repo.all(data2) |> Enum.take(page)
+            data = Repo.all(data2)
 
             Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data, rooms_by_user_and_participant_all: "rooms")
-            {:ok, data1 ++ data}
+            {:ok, (data1 ++ data) |> Enum.take(page)}
           else
             data1 = Queries.by_list(Room, :user_id, current_user.id)
             data2 = from p in Room, where: p.participant_id == ^current_user.id
-            data = Repo.all(data2) |> Enum.take(counter)
+            data = Repo.all(data2)
 
             Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data, rooms_by_user_and_participant_all: "rooms")
-            {:ok, data1 ++ data}
+            {:ok, (data1 ++ data) |> Enum.take(counter)}
           end
         %{page: page} ->
             data1 = Queries.by_list(Room, :user_id, current_user.id)
             data2 = from p in Room, where: p.participant_id == ^current_user.id
-            data = Repo.all(data2) |> Enum.take(page)
+            data = Repo.all(data2)
 
             Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data, rooms_by_user_and_participant_all: "rooms")
-            {:ok, data1 ++ data}
+            {:ok, (data1 ++ data) |> Enum.take(page)}
         %{limit_counter: counter} ->
             data1 = Queries.by_list(Room, :user_id, current_user.id)
             data2 = from p in Room, where: p.participant_id == ^current_user.id
-            data = Repo.all(data2) |> Enum.take(counter)
+            data = Repo.all(data2)
 
             Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data, rooms_by_user_and_participant_all: "rooms")
-            {:ok, data1 ++ data}
+            {:ok, (data1 ++ data) |> Enum.take(counter)}
       end
     end
   end
