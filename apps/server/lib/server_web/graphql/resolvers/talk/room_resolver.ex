@@ -63,20 +63,20 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
         %{page: page, limit_counter: counter} ->
           if page < counter do
             query = from p in Room, where: p.participant_id == ^current_user.id
-            struct = Repo.all(query |> Enum.take(page))
+            struct = Repo.all(query) |> Enum.take(page)
             {:ok, struct}
           else
             query = from p in Room, where: p.participant_id == ^current_user.id
-            struct = Repo.all(query |> Enum.take(counter))
+            struct = Repo.all(query) |> Enum.take(counter)
             {:ok, struct}
           end
         %{page: page} ->
             query = from p in Room, where: p.participant_id == ^current_user.id
-            struct = Repo.all(query |> Enum.take(page))
+            struct = Repo.all(query) |> Enum.take(page)
             {:ok, struct}
         %{limit_counter: counter} ->
             query = from p in Room, where: p.participant_id == ^current_user.id
-            struct = Repo.all(query |> Enum.take(counter))
+            struct = Repo.all(query) |> Enum.take(counter)
             {:ok, struct}
       end
     end
@@ -95,31 +95,31 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
       case args do
         %{page: page, limit_counter: counter} ->
           if page < counter do
-            data1 = Queries.by_list(Room, :user_id, current_user.id) |> Enum.take(page)
+            data1 = Queries.by_list(Room, :user_id, current_user.id)
             data2 = from p in Room, where: p.participant_id == ^current_user.id
-            data = Repo.all(data2)
+            data = Repo.all(data2) |> Enum.take(page)
 
             Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data, rooms_by_user_and_participant_all: "rooms")
             {:ok, data1 ++ data}
           else
-            data1 = Queries.by_list(Room, :user_id, current_user.id) |> Enum.take(counter)
+            data1 = Queries.by_list(Room, :user_id, current_user.id)
             data2 = from p in Room, where: p.participant_id == ^current_user.id
-            data = Repo.all(data2)
+            data = Repo.all(data2) |> Enum.take(counter)
 
             Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data, rooms_by_user_and_participant_all: "rooms")
             {:ok, data1 ++ data}
           end
         %{page: page} ->
-            data1 = Queries.by_list(Room, :user_id, current_user.id) |> Enum.take(page)
+            data1 = Queries.by_list(Room, :user_id, current_user.id)
             data2 = from p in Room, where: p.participant_id == ^current_user.id
-            data = Repo.all(data2)
+            data = Repo.all(data2) |> Enum.take(page)
 
             Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data, rooms_by_user_and_participant_all: "rooms")
             {:ok, data1 ++ data}
         %{limit_counter: counter} ->
-            data1 = Queries.by_list(Room, :user_id, current_user.id) |> Enum.take(counter)
+            data1 = Queries.by_list(Room, :user_id, current_user.id)
             data2 = from p in Room, where: p.participant_id == ^current_user.id
-            data = Repo.all(data2)
+            data = Repo.all(data2) |> Enum.take(counter)
 
             Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data, rooms_by_user_and_participant_all: "rooms")
             {:ok, data1 ++ data}
