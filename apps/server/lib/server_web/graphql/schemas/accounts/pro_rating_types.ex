@@ -21,6 +21,8 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProRatingTypes do
     field :average_work_quality, non_null(:decimal)
     field :projects, list_of(:project), resolve: dataloader(Data)
     field :users, :user, resolve: dataloader(Data)
+    field :inserted_at, :datetime
+    field :updated_at, :datetime
   end
 
   @desc "The pro rating update via params"

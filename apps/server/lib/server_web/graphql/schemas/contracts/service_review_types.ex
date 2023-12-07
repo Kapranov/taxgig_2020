@@ -22,6 +22,8 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ServiceReviewTypes do
     field :professionalism, non_null(:integer)
     field :users, :user, resolve: dataloader(Data)
     field :work_quality, non_null(:integer)
+    field :inserted_at, :datetime
+    field :updated_at, :datetime
   end
 
   @desc "The service review update via params"
