@@ -42,9 +42,9 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformCardResolver d
             {:ok, []}
           else
             with customer <- StripyRepo.get_by(StripeCustomer, %{user_id: current_user.id}),
-                 {:ok, struct} <- StripePlatformCardService.list_card(%{customer: customer.id_from_stripe})
+                 {:ok, data} <- StripePlatformCardService.list_card(%{customer: customer.id_from_stripe})
             do
-              {:ok, struct}
+              {:ok, data}
             else
               nil -> {:error, :not_found}
               failure ->

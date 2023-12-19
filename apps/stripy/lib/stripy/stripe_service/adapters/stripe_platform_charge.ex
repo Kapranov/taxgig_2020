@@ -50,48 +50,20 @@ defmodule Stripy.StripeService.Adapters.StripePlatformChargeAdapter do
     {:ok, result}
   end
 
-  @spec to_params_for_list(String.t()) :: {:ok, map}
+  @spec to_params_for_list(String.t()) :: {:ok, [map]}
   def to_params_for_list(stripe_charge) do
-#    %{source: source} =
-#      stripe_charge
-#      |> List.first
-#      |> Map.from_struct
-#      |> Map.take([:source])
-#
-#    source_data = %{
-#      source: %{
-#        brand: source.brand,
-#        funding: source.funding,
-#        id: source.id,
-#        last4: source.last4,
-#        object: source.object
-#      }
-#    }
-#
-#    %{payment_method_details: payment_method_details} =
-#      stripe_charge
-#      |> List.first
-#      |> Map.from_struct
-#      |> Map.take([:payment_method_details])
-#
-#    payment_method_details_data = %{
-#      payment_method_details: %{
-#        brand: payment_method_details.card.brand,
-#        funding: payment_method_details.card.funding,
-#        last4: payment_method_details.card.last4,
-#        type: payment_method_details.type
-#      }
-#    }
-#
-#    result =
-#      stripe_charge
-#      |> List.first
-#      |> Map.from_struct
-#      |> Map.take(@stripe_list_charges_attributes)
-#      |> Map.merge(source_data)
-#      |> Map.merge(payment_method_details_data)
-#
-#    {:ok, result}
+     {:ok, completed(stripe_charge)}
+  end
+
+  @spec add_non_stripe_attributes(map, map) :: map
+  defp add_non_stripe_attributes(%{} = params, %{} = attrs) do
+    attrs
+    |> Map.take(@non_stripe_attributes)
+    |> Map.merge(params)
+  end
+
+  @spec completed(list()) :: [map()]
+  defp completed(stripe_charge) do
     Enum.reduce(stripe_charge, [], fn(item, acc) ->
       %{source: source} =
         item
@@ -131,12 +103,5 @@ defmodule Stripy.StripeService.Adapters.StripePlatformChargeAdapter do
 
       [result | acc]
     end)
-  end
-
-  @spec add_non_stripe_attributes(map, map) :: map
-  defp add_non_stripe_attributes(%{} = params, %{} = attrs) do
-    attrs
-    |> Map.take(@non_stripe_attributes)
-    |> Map.merge(params)
   end
 end
