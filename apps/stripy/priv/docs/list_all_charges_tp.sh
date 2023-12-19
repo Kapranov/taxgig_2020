@@ -4,5 +4,5 @@
 
 curl https://api.stripe.com/v1/charges \
   -u sk_test_IFLwitpOxgYTWSEG4eJWyoVN: \
-  -d customer=cus_IxlurcKgXfBKth \
+  -d customer=cus_P2WAKNqEfEiZhJ \
   -G

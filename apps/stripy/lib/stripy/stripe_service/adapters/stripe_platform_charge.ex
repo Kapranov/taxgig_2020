@@ -90,7 +90,6 @@ defmodule Stripy.StripeService.Adapters.StripePlatformChargeAdapter do
       |> Map.take(@stripe_list_charges_attributes)
       |> Map.merge(source_data)
       |> Map.merge(payment_method_details_data)
-      |> keys_to_string
 
     {:ok, result}
   end
