@@ -49,6 +49,33 @@ defmodule Core.Queries do
   end
 
   @doc """
+  Retrurn counts by all records when is_read is false
+
+  ## Example
+
+      iex> struct_a = Core.Talk.Room
+      iex> struct_b = Core.Talk.Message
+      iex> room_id = FlakeId.get
+      iex> aggregate_unread_msg(struct_a, struct_b, room_id)
+      []
+  """
+  @spec aggregate_unread_msg(map, map, String.t()) :: integer
+  def aggregate_unread_msg(struct_a, struct_b, room_id) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: cu in ^struct_b,
+        where: cu.room_id == ^room_id,
+        where: c.id == cu.room_id,
+        where: cu.is_read == false,
+        select: count(cu.id)
+      )
+    rescue
+      Ecto.Query.CastError -> []
+    end
+  end
+
+  @doc """
   Retrurn all records with 3 items
 
   ## Example
