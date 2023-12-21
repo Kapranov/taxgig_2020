@@ -69,21 +69,41 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
         %{page: page, limit_counter: counter} ->
           if page < counter do
             query = from p in Room, where: p.participant_id == ^current_user.id
-            struct = Repo.all(query) |> Enum.take(page)
-            {:ok, struct}
+            data = Repo.all(query) |> Enum.take(page)
+            structs = Enum.reduce(data, [], fn(x, acc) ->
+              [counter] = Queries.aggregate_unread_msg(Room, Message, x.id)
+              record = Map.merge(x, %{unread_msg: counter})
+              [record | acc]
+            end)
+            {:ok, structs}
           else
             query = from p in Room, where: p.participant_id == ^current_user.id
-            struct = Repo.all(query) |> Enum.take(counter)
-            {:ok, struct}
+            data = Repo.all(query) |> Enum.take(counter)
+            structs = Enum.reduce(data, [], fn(x, acc) ->
+              [counter] = Queries.aggregate_unread_msg(Room, Message, x.id)
+              record = Map.merge(x, %{unread_msg: counter})
+              [record | acc]
+            end)
+            {:ok, structs}
           end
         %{page: page} ->
             query = from p in Room, where: p.participant_id == ^current_user.id
-            struct = Repo.all(query) |> Enum.take(page)
-            {:ok, struct}
+            data = Repo.all(query) |> Enum.take(page)
+            structs = Enum.reduce(data, [], fn(x, acc) ->
+              [counter] = Queries.aggregate_unread_msg(Room, Message, x.id)
+              record = Map.merge(x, %{unread_msg: counter})
+              [record | acc]
+            end)
+            {:ok, structs}
         %{limit_counter: counter} ->
             query = from p in Room, where: p.participant_id == ^current_user.id
-            struct = Repo.all(query) |> Enum.take(counter)
-            {:ok, struct}
+            data = Repo.all(query) |> Enum.take(counter)
+            structs = Enum.reduce(data, [], fn(x, acc) ->
+              [counter] = Queries.aggregate_unread_msg(Room, Message, x.id)
+              record = Map.merge(x, %{unread_msg: counter})
+              [record | acc]
+            end)
+            {:ok, structs}
       end
     end
   end
@@ -104,31 +124,51 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
             data1 = Queries.by_list(Room, :user_id, current_user.id)
             data2 = from p in Room, where: p.participant_id == ^current_user.id
             data = Repo.all(data2)
-
-            Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data, rooms_by_user_and_participant_all: "rooms")
-            {:ok, (data1 ++ data) |> Enum.take(page)}
+            data3 = (data1 ++ data) |> Enum.take(page)
+            structs = Enum.reduce(data3, [], fn(x, acc) ->
+              [n] = Queries.aggregate_unread_msg(Room, Message, x.id)
+              record = Map.merge(x, %{unread_msg: n})
+              [record | acc]
+            end)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, structs, rooms_by_user_and_participant_all: "rooms")
+            {:ok, structs}
           else
             data1 = Queries.by_list(Room, :user_id, current_user.id)
             data2 = from p in Room, where: p.participant_id == ^current_user.id
             data = Repo.all(data2)
-
-            Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data, rooms_by_user_and_participant_all: "rooms")
-            {:ok, (data1 ++ data) |> Enum.take(counter)}
+            data3 = (data1 ++ data) |> Enum.take(counter)
+            structs = Enum.reduce(data3, [], fn(x, acc) ->
+              [n] = Queries.aggregate_unread_msg(Room, Message, x.id)
+              record = Map.merge(x, %{unread_msg: n})
+              [record | acc]
+            end)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, structs, rooms_by_user_and_participant_all: "rooms")
+            {:ok, structs}
           end
         %{page: page} ->
             data1 = Queries.by_list(Room, :user_id, current_user.id)
             data2 = from p in Room, where: p.participant_id == ^current_user.id
             data = Repo.all(data2)
-
-            Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data, rooms_by_user_and_participant_all: "rooms")
-            {:ok, (data1 ++ data) |> Enum.take(page)}
+            data3 = (data1 ++ data) |> Enum.take(page)
+            structs = Enum.reduce(data3, [], fn(x, acc) ->
+              [n] = Queries.aggregate_unread_msg(Room, Message, x.id)
+              record = Map.merge(x, %{unread_msg: n})
+              [record | acc]
+            end)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, structs, rooms_by_user_and_participant_all: "rooms")
+            {:ok, structs}
         %{limit_counter: counter} ->
             data1 = Queries.by_list(Room, :user_id, current_user.id)
             data2 = from p in Room, where: p.participant_id == ^current_user.id
             data = Repo.all(data2)
-
-            Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data, rooms_by_user_and_participant_all: "rooms")
-            {:ok, (data1 ++ data) |> Enum.take(counter)}
+            data3 = (data1 ++ data) |> Enum.take(counter)
+            structs = Enum.reduce(data3, [], fn(x, acc) ->
+              [n] = Queries.aggregate_unread_msg(Room, Message, x.id)
+              record = Map.merge(x, %{unread_msg: n})
+              [record | acc]
+            end)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, structs, rooms_by_user_and_participant_all: "rooms")
+            {:ok, structs}
       end
     end
   end
