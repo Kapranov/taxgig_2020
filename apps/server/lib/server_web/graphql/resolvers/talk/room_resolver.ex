@@ -44,8 +44,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
       query = from p in Room, where: p.project_id == ^id
-      struct = Repo.all(query)
-      {:ok, struct}
+      data = Repo.all(query)
+      structs = Enum.reduce(data, [], fn(x, acc) ->
+        [counter] = Queries.aggregate_unread_msg(Room, Message, x.id)
+        record = Map.merge(x, %{unread_msg: counter})
+        [record | acc]
+      end)
+
+      {:ok, structs}
     end
   end
 
