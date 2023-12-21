@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-FILE="@/tmp/elixir.jpg"
-ID="A78zWRnkdQoB8atIUj"
-TOKEN="SFMyNTY.g2gDbQAAABJBNlhrY2pnMVNVV25IZ2pFdFVuBgB7yxtbeQFiAAFRgA.PFM7Fx7bYdWWu5iGAhdYlRFR8FXM47JxYH_7glyDd0A"
+FILE="@/tmp/reducer.jpg"
+ID="Ad2J1T8TD1z1ET2Vmb"
+TOKEN="SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgCSB5OMjAFiAAFRgA.STpp9TrdyjRwF5rAwnAvM7q2W5pydAodtGO80FukXMA"
 URL="http://localhost:4000"
 
 generate_data() {
@@ -10,10 +10,8 @@ cat << EOF
 id: "${ID}"
 file: { picture: { file: "input" } },
 pro_doc: {
-  category: "Final Document",
-  project_id: "A76liDnHtdU89HA21Q",
-  signature: true,
-  signed_by_pro: true
+  signature: false,
+  signed_by_pro: false
 }
 EOF
 }

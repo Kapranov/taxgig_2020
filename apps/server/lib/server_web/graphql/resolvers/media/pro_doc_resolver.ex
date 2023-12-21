@@ -119,41 +119,18 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
     {:error, "Unauthenticated"}
   end
 
-#  @spec update(any, %{id: bitstring(), file: %{picture: %{file: %Plug.Upload{}}}, pro_doc: map}, %{context: %{current_user: User.t()}}) :: result()
-#  def update(_parent, %{id: id, file: %{picture: %{file: %Plug.Upload{} = file}}, pro_doc: params}, %{context: %{current_user: current_user}}) do
-#    if current_user.role == false do
-#      {:ok, nil}
-#    else
-#      try do
-#        with struct <- Media.get_pro_doc(id),
-#             {:ok, %{content_type: content_type, name: name, size: size, url: url}} <- Core.Upload.store(file),
-#             args <-
-#               %{file: %{content_type: content_type, name: name, size: size, url: url}}
-#               |> Map.merge(params),
-#             {:ok, pro_doc = %ProDoc{}} <- Media.update_pro_doc(struct, args)
-#        do
-#          {:ok, pro_doc}
-#        else
-#          nil ->
-#            {:ok, %{error: "pro_doc", error_description: "id is not owned by authenticated user"}}
-#          {:error, changeset} ->
-#            {:ok, %{error: "pro_docs schema", error_description: extract_error_msg(changeset)}}
-#        end
-#      rescue
-#        Ecto.NoResultsError ->
-#          {:error, "The Tp Docs #{id} not found!"}
-#      end
-#    end
-#  end
-
-  @spec update(any, %{id: bitstring(), pro_doc: map}, %{context: %{current_user: User.t()}}) :: result()
-  def update(_parent, %{id: id, pro_doc: params}, %{context: %{current_user: current_user}}) do
+  @spec update(any, %{id: bitstring(), file: %{picture: %{file: %Plug.Upload{}}}, pro_doc: map}, %{context: %{current_user: User.t()}}) :: result()
+  def update(_parent, %{id: id, file: %{picture: %{file: %Plug.Upload{} = file}}, pro_doc: params}, %{context: %{current_user: current_user}}) do
     if current_user.role == false do
-      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
+      {:ok, nil}
     else
       try do
         with struct <- Media.get_pro_doc(id),
-             {:ok, pro_doc = %ProDoc{}} <- Media.update_pro_doc(struct, params)
+             {:ok, %{content_type: content_type, name: name, size: size, url: url}} <- Core.Upload.store(file),
+             args <-
+               %{file: %{content_type: content_type, name: name, size: size, url: url}}
+               |> Map.merge(params),
+             {:ok, pro_doc = %ProDoc{}} <- Media.update_pro_doc(struct, args)
         do
           if params.signed_by_pro == true do
             {:ok, notify} = Notifications.create_notify(%{
@@ -192,14 +169,18 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.ProDocResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :tp_doc, message: "Can't be blank"]]}
   end
 
-  @spec update_for_tp(any, %{id: bitstring(), pro_doc: map}, %{context: %{current_user: User.t()}}) :: result()
-  def update_for_tp(_parent, %{id: id, pro_doc: params}, %{context: %{current_user: current_user}}) do
+  @spec update_for_tp(any, %{id: bitstring(), file: %{picture: %{file: %Plug.Upload{}}}, pro_doc: map}, %{context: %{current_user: User.t()}}) :: result()
+  def update_for_tp(_parent, %{id: id, file: %{picture: %{file: %Plug.Upload{} = file}}, pro_doc: params}, %{context: %{current_user: current_user}}) do
     if current_user.role == true do
-      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
+      {:ok, nil}
     else
       try do
         with struct <- Media.get_pro_doc(id),
-             {:ok, pro_doc = %ProDoc{}} <- Media.update_pro_doc(struct, params)
+             {:ok, %{content_type: content_type, name: name, size: size, url: url}} <- Core.Upload.store(file),
+             args <-
+               %{file: %{content_type: content_type, name: name, size: size, url: url}}
+               |> Map.merge(params),
+             {:ok, pro_doc = %ProDoc{}} <- Media.update_pro_doc(struct, args)
         do
           if params.signed_by_pro == true do
             {:ok, notify} = Notifications.create_notify(%{

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-ID="A78zWRnkdQoB8atIUj"
-TOKEN="SFMyNTY.g2gDbQAAABJBNlhrd0xJZm5lTlBUUDlsSzRuBgCa6lxWeQFiAAFRgA.Ij3EnSQQGX5X9b14nqASFNvelVaVTEWNV-Xj_7XffvE"
+ID="Ad2Hsb8AWI3QGVIl7o"
+TOKEN="SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgCSB5OMjAFiAAFRgA.STpp9TrdyjRwF5rAwnAvM7q2W5pydAodtGO80FukXMA"
 URL="http://localhost:4000"
 
 curl -X POST \

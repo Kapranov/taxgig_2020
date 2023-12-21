@@ -14,7 +14,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
 
   @desc "The pro docs on the site"
   object :pro_doc do
-    field :category, :string
+    field :category, non_null(:string)
     field :error, :string
     field :error_description, :string
     field :file, :picture, description: "An upload's file"
@@ -68,7 +68,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.ProDocTypes do
     @desc "Create the pro docs"
     field :create_pro_doc, :pro_doc, description: "Create a new pro docs" do
       arg :category, non_null(:string)
-      arg :file, :picture_input
+      arg :file, :picture_input, description: "The file for the pro docs, either as an object or directly the ID of an existing Picture"
       arg :project_id, non_null(:string)
       arg :signature, non_null(:boolean)
       arg :signed_by_pro, non_null(:boolean)

@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
-FILE="@/tmp/trumpy.jpg"
-TOKEN="SFMyNTY.g2gDbQAAABJBNlhrY2pnMVNVV25IZ2pFdFVuBgB7yxtbeQFiAAFRgA.PFM7Fx7bYdWWu5iGAhdYlRFR8FXM47JxYH_7glyDd0A"
+FILE="@/tmp/takahashi.jpg"
+TOKEN="SFMyNTY.g2gDbQAAABJBTjlkR2hCbVpjRmxRdElHdkluBgCSB5OMjAFiAAFRgA.STpp9TrdyjRwF5rAwnAvM7q2W5pydAodtGO80FukXMA"
 URL="http://localhost:4000"
 
 generate_data() {
 cat << EOF
-category: "Files",
+category: "Final Document",
 file: { picture: { file: "input" } },
-project_id: "A76liDnHtdU89HA21Q",
+project_id: "AN9dHtcxoTxuIca1Z2",
 signature: true,
 signed_by_pro: true
 EOF
