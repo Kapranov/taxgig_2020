@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-FILE="@/tmp/trump.jpg"
-TOKEN="SFMyNTY.g2gDbQAAABJBNlhrd0xJZm5lTlBUUDlsSzRuBgCa6lxWeQFiAAFRgA.Ij3EnSQQGX5X9b14nqASFNvelVaVTEWNV-Xj_7XffvE"
+FILE="@/tmp/takahashi.jpg"
+TOKEN="SFMyNTY.g2gDbQAAABJBTjlkR244b1JaUlZ0UHd6N3duBgCxQDWMjAFiAAFRgA.Bfx7zkpTD8SWiLo4BO9IFhYqN7sNpxXElJ8QIuwmBPE"
 URL="http://localhost:4000"
 
 generate_data() {
@@ -9,7 +9,7 @@ cat << EOF
 access_granted: true,
 category: "Files",
 file: { picture: { file: "input" } },
-project_id: "A76liDnHtdU89HA21Q",
+project_id: "AN9dHtklLUCggoEFii",
 signed_by_tp: true
 EOF
 }

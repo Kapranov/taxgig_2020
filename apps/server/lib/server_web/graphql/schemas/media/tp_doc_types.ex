@@ -62,7 +62,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.TpDocTypes do
     @desc "Update a specific tp docs"
     field :update_tp_doc, :tp_doc do
       arg :id, non_null(:string)
-      # arg :file, :picture_input, description: "The file for the tp docs, either as an object or directly the ID of an existing Picture"
+      arg :file, :picture_input, description: "The file for the tp docs, either as an object or directly the ID of an existing Picture"
       arg :tp_doc, :update_tp_doc_params, description: "The params for tp docs, either as an object"
       resolve &TpDocResolver.update/3
     end

@@ -1,17 +1,16 @@
 #!/usr/bin/env bash
 
-FILE="@/tmp/elixir.jpg"
-TOKEN="SFMyNTY.g2gDbQAAABJBNlhrd0xJZm5lTlBUUDlsSzRuBgCa6lxWeQFiAAFRgA.Ij3EnSQQGX5X9b14nqASFNvelVaVTEWNV-Xj_7XffvE"
+FILE="@/tmp/dovetail.jpg"
+ID="Ad2850YO4L8a3ozXhw"
+TOKEN="SFMyNTY.g2gDbQAAABJBTjlkR244b1JaUlZ0UHd6N3duBgCxQDWMjAFiAAFRgA.Bfx7zkpTD8SWiLo4BO9IFhYqN7sNpxXElJ8QIuwmBPE"
 URL="http://localhost:4000"
 
 generate_data() {
 cat << EOF
-id: "A76t463XQqiL5rLiCW",
+id: "${ID}"
 file: { picture: { file: "input" } },
 tp_doc: {
   access_granted: true,
-  category: "Final Document",
-  project_id: "A76liDnHtdU89HA21Q",
   signed_by_tp: true
 }
 EOF

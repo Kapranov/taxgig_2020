@@ -119,41 +119,18 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
     {:error, "Unauthenticated"}
   end
 
-#  @spec update(any, %{id: bitstring(), file: %{picture: %{file: %Plug.Upload{}}}, tp_doc: map}, %{context: %{current_user: User.t()}}) :: result()
-#  def update(_parent, %{id: id, file: %{picture: %{file: %Plug.Upload{} = file}}, tp_doc: params}, %{context: %{current_user: current_user}}) do
-#    if current_user.role == true do
-#      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
-#    else
-#      try do
-#        with struct <- Media.get_tp_doc(id),
-#             {:ok, %{content_type: content_type, name: name, size: size, url: url}} <- Core.Upload.store(file),
-#             args <-
-#               %{file: %{content_type: content_type, name: name, size: size, url: url}}
-#               |> Map.merge(params),
-#             {:ok, tp_doc = %TpDoc{}} <- Media.update_tp_doc(struct, args)
-#        do
-#          {:ok, tp_doc}
-#        else
-#          nil ->
-#            {:error, "TpDoc is not owned by authenticated user"}
-#          {:error, changeset} ->
-#            {:error, extract_error_msg(changeset)}
-#        end
-#      rescue
-#        Ecto.NoResultsError ->
-#          {:error, "The Tp Docs #{id} not found!"}
-#      end
-#    end
-#  end
-
-  @spec update(any, %{id: bitstring(), tp_doc: map}, %{context: %{current_user: User.t()}}) :: result()
-  def update(_parent, %{id: id, tp_doc: params}, %{context: %{current_user: current_user}}) do
+  @spec update(any, %{id: bitstring(), file: %{picture: %{file: %Plug.Upload{}}}, tp_doc: map}, %{context: %{current_user: User.t()}}) :: result()
+  def update(_parent, %{id: id, file: %{picture: %{file: %Plug.Upload{} = file}}, tp_doc: params}, %{context: %{current_user: current_user}}) do
     if current_user.role == true do
       {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
     else
       try do
         with struct <- Media.get_tp_doc(id),
-             {:ok, tp_doc = %TpDoc{}} <- Media.update_tp_doc(struct, params)
+             {:ok, %{content_type: content_type, name: name, size: size, url: url}} <- Core.Upload.store(file),
+             args <-
+               %{file: %{content_type: content_type, name: name, size: size, url: url}}
+               |> Map.merge(params),
+             {:ok, tp_doc = %TpDoc{}} <- Media.update_tp_doc(struct, args)
         do
           project = Contracts.get_project!(tp_doc.project_id)
           Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
