@@ -1351,11 +1351,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
             error_description: @error_email_des
           }}
       user ->
-        #phrase = user.otp_secret |> Base.decode32! |> Base.url_encode64(padding: false)
-        # :base64.encode_to_string
-        #phrase = user.otp_secret |> Base.decode32! |> :base64.encode
-        #url = "https://www.authenticatorApi.com/Validate.aspx?Pin=#{args[:pin]}&SecretCode=#{secret}"
-        #{:ok, result} = HTTPoison.get(url, headers: [], params: [])
         case NimbleTOTP.valid?(user.otp_secret, args[:pin]) do
           true ->
             with token <- generate_token(user) do
@@ -1382,12 +1377,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   @spec verify2fa(any, %{pin: integer}, %{context: %{current_user: User.t()}}) :: result()
   def verify2fa(_parent, %{pin: pin}, %{context: %{current_user: current_user}}) do
-    #<<_ :: utf8, phrase :: binary>> = current_user.otp_secret
-    _phrase = current_user.otp_secret |> Base.decode32!
-    url = "https://www.authenticatorApi.com/Validate.aspx?Pin=#{pin}&SecretCode=aloha"
-    {:ok, result} = HTTPoison.get(url, headers: [], params: [])
-    case result.body do
-      "True" ->
+    case NimbleTOTP.valid?(current_user.otp_secret, pin) do
+      true ->
         Repo.get!(User, current_user.id)
         |> User.changeset(%{is2fa: true})
         |> Repo.update
@@ -1397,7 +1388,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
           {:error, changeset} ->
             {:error, extract_error_msg(changeset)}
         end
-      "False" ->
+      false ->
         {:ok, %{
             error: "Authentifaction failed",
             error_description: "something went wrong when verifying pin"
@@ -1492,19 +1483,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   """
   @spec generate_totp_enrolment_url(User.t()) :: String.t()
   def generate_totp_enrolment_url(%User{email: email, otp_secret: secret}) do
-    #uri = "otpauth://totp/TOTP%20Example:#{email}?secret=#{secret}&issuer=TOTP%20Example&algorithm=SHA1&digits=6&period=30"
-    #uri = "otpauth://totp/taxgig:#{email}?secret=#{secret}&issuer=taxgig"
-    #secret = :crypto.strong_rand_bytes(10) |> Base.encode32()
-    #secret = "BGEIHSCZHTFDJLVT"
-    #uri = "otpauth://totp/taxgig:#{email}?secret=#{secret}&issuer=taxgig"
-    #uri = "https://www.authenticatorApi.com/pair.aspx?AppName=Taxgig&AppInfo=#{email}&SecretCode=#{secret}"
-    #qr_code_png = uri |> EQRCode.encode() |> EQRCode.png()
-    #File.write("/tmp/save.png", qr_code_png, [:binary])
-    #url = "https://www.authenticatorApi.com/pair.aspx?AppName=Taxgig&AppInfo=#{email}&SecretCode=#{secret}"
-    #{:ok, result} = HTTPoison.get(url, headers: [], params: [])
-
     uri = NimbleTOTP.otpauth_uri("taxgig:#{email}", secret, issuer: "taxgig")
-
     uri
     |> EQRCode.encode()
     |> EQRCode.svg()
@@ -1516,12 +1495,5 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     Task.async(fn ->
       Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name)
     end)
-  end
-
-  @spec permalink(integer) :: binary
-  def permalink(bytes_count) do
-    bytes_count
-    |> :crypto.strong_rand_bytes()
-    |> Base.url_encode64(padding: false)
   end
 end
