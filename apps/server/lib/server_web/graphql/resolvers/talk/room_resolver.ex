@@ -50,7 +50,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
         record = Map.merge(x, %{unread_msg: counter})
         [record | acc]
       end)
-
+      Absinthe.Subscription.publish(ServerWeb.Endpoint, structs, rooms_by_project_all: id)
       {:ok, structs}
     end
   end
@@ -75,6 +75,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
               record = Map.merge(x, %{unread_msg: counter})
               [record | acc]
             end)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, structs, rooms_by_participant_all: "rooms")
             {:ok, structs}
           else
             query = from p in Room, where: p.participant_id == ^current_user.id
@@ -84,6 +85,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
               record = Map.merge(x, %{unread_msg: counter})
               [record | acc]
             end)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, structs, rooms_by_participant_all: "rooms")
             {:ok, structs}
           end
         %{page: page} ->
@@ -94,6 +96,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
               record = Map.merge(x, %{unread_msg: counter})
               [record | acc]
             end)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, structs, rooms_by_participant_all: "rooms")
             {:ok, structs}
         %{limit_counter: counter} ->
             query = from p in Room, where: p.participant_id == ^current_user.id
@@ -103,6 +106,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
               record = Map.merge(x, %{unread_msg: counter})
               [record | acc]
             end)
+            Absinthe.Subscription.publish(ServerWeb.Endpoint, structs, rooms_by_participant_all: "rooms")
             {:ok, structs}
       end
     end

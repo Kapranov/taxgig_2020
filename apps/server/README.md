@@ -132,3 +132,5 @@ null* Closing connection 0
 [26]: https://github.com/yuce/pot
 [27]: https://dashbit.co/blog/introducing-nimble-totp
 [28]: https://github.com/SiliconJungles/eqrcode
+[29]: https://github.com/jackjoe/ex_2fa
+[30]: https://github.com/riverrun/one_time_pass_ecto

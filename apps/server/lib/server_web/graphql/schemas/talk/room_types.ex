@@ -12,6 +12,12 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
     Resolvers.Talk.RoomResolver
   }
 
+  alias Core.{
+    Queries,
+    Talk.Message,
+    Talk.Room
+  }
+
   @desc "The Room"
   object :room do
     field :id, non_null(:string)
@@ -162,16 +168,18 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
       config(fn _args, _context -> {:ok, topic: "rooms"} end)
       trigger(:all_rooms_by_user_and_participant, topic: fn _ -> "rooms" end)
 
-      resolve fn struct, _args, %{context: %{current_user: user_id}} ->
-        data = transfer(struct, user_id)
+      resolve fn structs, _args, %{context: %{current_user: user_id}} ->
+        data = transfer(structs, user_id)
         {:ok, data}
       end
     end
 
-    defp transfer(struct, current_user) do
-      Enum.reduce(struct, [], fn(x, acc) ->
+    defp transfer(structs, current_user) do
+      Enum.reduce(structs, [], fn(x, acc) ->
         if x.user_id == current_user or x.participant_id == current_user do
-          [x | acc]
+          [counter] = Queries.aggregate_unread_msg(Room, Message, x.id)
+          record = Map.merge(x, %{unread_msg: counter})
+          [record | acc]
         else
           acc
         end
