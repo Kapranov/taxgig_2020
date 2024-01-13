@@ -1375,7 +1375,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     end
   end
 
-  @spec verify2fa(any, %{pin: integer}, %{context: %{current_user: User.t()}}) :: result()
+  @spec verify2fa(any, %{pin: String.t()}, %{context: %{current_user: User.t()}}) :: result()
   def verify2fa(_parent, %{pin: pin}, %{context: %{current_user: current_user}}) do
     case NimbleTOTP.valid?(current_user.otp_secret, pin) do
       true ->

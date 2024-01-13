@@ -323,7 +323,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
 
     @desc "Change is2fa via 2FA"
     field :verify2fa, :updated2fa do
-      arg :pin, non_null(:integer), description: "code number via 2fa"
+      arg :pin, non_null(:string), description: "code number via 2fa"
       resolve &UserResolver.verify2fa/3
     end
 
