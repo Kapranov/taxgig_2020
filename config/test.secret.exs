@@ -89,4 +89,4 @@ config :server, Twitter,
 
 config :server, LinkedIn,
   client_id: "77em5r3mjow7oy",
-  client_secret: "gyAt8UOtXXtYH2jY",
+  client_secret: "gyAt8UOtXXtYH2jY"

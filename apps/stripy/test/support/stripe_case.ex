@@ -8,6 +8,8 @@ defmodule Stripy.StripeCase do
   alias Stripy.Repo
   alias Ecto.Adapters.SQL.Sandbox, as: Adapter
 
+  @url Application.compile_env(:stripity_stripe, :api_base_url)
+
   setup tags do
     :ok = Adapter.checkout(Repo)
 
@@ -30,9 +32,7 @@ defmodule Stripy.StripeCase do
     assert_stripe_request_headers(expected_headers, headers)
   end
 
-  def stripe_base_url() do
-    Application.compile_env(:stripity_stripe, :api_base_url)
-  end
+  def stripe_base_url(), do: @url
 
   defp assert_stripe_request_headers(nil, _), do: nil
 

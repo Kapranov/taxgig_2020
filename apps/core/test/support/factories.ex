@@ -112,53 +112,53 @@ defmodule Core.Factory do
     end
   end
 
-  @spec document_factory() :: Document.t()
-  def document_factory do
-    %Document{
-      access_granted:                 random_boolean(),
-      category:                       random_integer(),
-      document_link:                  Internet.url(),
-      format:                         random_integer(),
-      name:                           random_integer(),
-      project:                        build(:tp_project),
-      signature_required_from_client: random_boolean(),
-      signed_by_client:               random_boolean(),
-      signed_by_pro:                  random_boolean(),
-      size:                           random_float()
-    }
-  end
-
-  @spec tp_document_factory() :: Document.t()
-  def tp_document_factory do
-    %Document{
-      access_granted:                 random_boolean(),
-      category:                       random_integer(),
-      document_link:                  Internet.url(),
-      format:                         random_integer(),
-      name:                           random_integer(),
-      project:                        build(:tp_project),
-      signature_required_from_client: random_boolean(),
-      signed_by_client:               random_boolean(),
-      signed_by_pro:                  random_boolean(),
-      size:                           random_float()
-    }
-  end
-
-  @spec pro_document_factory() :: Document.t()
-  def pro_document_factory do
-    %Document{
-      access_granted:                 random_boolean(),
-      category:                       random_integer(),
-      document_link:                  Internet.url(),
-      format:                         random_integer(),
-      name:                           random_integer(),
-      project:                        build(:tp_project),
-      signature_required_from_client: random_boolean(),
-      signed_by_client:               random_boolean(),
-      signed_by_pro:                  random_boolean(),
-      size:                           random_float()
-    }
-  end
+#  @spec document_factory() :: Document.t()
+#  def document_factory do
+#    %Document{
+#      access_granted:                 random_boolean(),
+#      category:                       random_integer(),
+#      document_link:                  Internet.url(),
+#      format:                         random_integer(),
+#      name:                           random_integer(),
+#      project:                        build(:tp_project),
+#      signature_required_from_client: random_boolean(),
+#      signed_by_client:               random_boolean(),
+#      signed_by_pro:                  random_boolean(),
+#      size:                           random_float()
+#    }
+#  end
+#
+#  @spec tp_document_factory() :: Document.t()
+#  def tp_document_factory do
+#    %Document{
+#      access_granted:                 random_boolean(),
+#      category:                       random_integer(),
+#      document_link:                  Internet.url(),
+#      format:                         random_integer(),
+#      name:                           random_integer(),
+#      project:                        build(:tp_project),
+#      signature_required_from_client: random_boolean(),
+#      signed_by_client:               random_boolean(),
+#      signed_by_pro:                  random_boolean(),
+#      size:                           random_float()
+#    }
+#  end
+#
+#  @spec pro_document_factory() :: Document.t()
+#  def pro_document_factory do
+#    %Document{
+#      access_granted:                 random_boolean(),
+#      category:                       random_integer(),
+#      document_link:                  Internet.url(),
+#      format:                         random_integer(),
+#      name:                           random_integer(),
+#      project:                        build(:tp_project),
+#      signature_required_from_client: random_boolean(),
+#      signed_by_client:               random_boolean(),
+#      signed_by_pro:                  random_boolean(),
+#      size:                           random_float()
+#    }
+#  end
 
   @spec picture_factory() :: Picture.t()
   def picture_factory do
@@ -271,7 +271,6 @@ defmodule Core.Factory do
       provider: random_provider(),
       role: random_boolean(),
       sex: random_gender(),
-      ssn: random_ssn(),
       street: Address.street_address(),
       zip: Address.zip_code()
     }
@@ -296,7 +295,6 @@ defmodule Core.Factory do
       provider: "localhost",
       role: false,
       sex: random_gender(),
-      ssn: random_ssn(),
       street: Address.street_address(),
       zip: Address.zip_code()
     }
@@ -321,7 +319,6 @@ defmodule Core.Factory do
       provider: "localhost",
       role: true,
       sex: random_gender(),
-      ssn: random_ssn(),
       street: Address.street_address(),
       zip: Address.zip_code()
     }
@@ -1132,16 +1129,16 @@ defmodule Core.Factory do
     }
   end
 
-  @spec tp_service_link_factory() :: ServiceLink.t()
-  def tp_service_link_factory do
-    %ServiceLink{
-      book_keeping: build(:tp_book_keeping),
-      business_tax_return: build(:tp_business_tax_return),
-      individual_tax_return: build(:tp_individual_tax_return),
-      project: build(:tp_project),
-      sale_tax: build(:tp_sale_tax)
-    }
-  end
+#  @spec tp_service_link_factory() :: ServiceLink.t()
+#  def tp_service_link_factory do
+#    %ServiceLink{
+#      book_keeping: build(:tp_book_keeping),
+#      business_tax_return: build(:tp_business_tax_return),
+#      individual_tax_return: build(:tp_individual_tax_return),
+#      project: build(:tp_project),
+#      sale_tax: build(:tp_sale_tax)
+#    }
+#  end
 
   @spec room_factory() :: Room.t()
   def room_factory do
@@ -1172,15 +1169,15 @@ defmodule Core.Factory do
     }
   end
 
-  @spec report_factory() :: Message.t()
-  def report_factory do
-    %Report{
-      message: build(:message),
-      other: random_boolean(),
-      other_description: Lorem.sentence(),
-      reasons: random_report_reasons()
-    }
-  end
+#  @spec report_factory() :: Message.t()
+#  def report_factory do
+#    %Report{
+#      message: build(:message),
+#      other: random_boolean(),
+#      other_description: Lorem.sentence(),
+#      reasons: random_report_reasons()
+#    }
+#  end
 
   @spec accounting_software_factory() :: AccountingSoftware.t()
   def accounting_software_factory do
@@ -1190,30 +1187,30 @@ defmodule Core.Factory do
     }
   end
 
-  @spec education_factory() :: Education.t()
-  def education_factory do
-    %Education{
-      course: Lorem.word(),
-      graduation: Date.utc_today |> Date.add(-6),
-      university: build(:university),
-      user: build(:pro_user)
-    }
-  end
+#  @spec education_factory() :: Education.t()
+#  def education_factory do
+#    %Education{
+#      course: Lorem.word(),
+#      graduation: Date.utc_today |> Date.add(-6),
+#      university: build(:university),
+#      user: build(:pro_user)
+#    }
+#  end
 
   @spec university_factory() :: University.t()
   def university_factory do
     %University{name: random_name_university()}
   end
 
-  @spec work_experience_factory() :: WorkExperience.t()
-  def work_experience_factory do
-    %WorkExperience{
-      name: Lorem.word(),
-      start_date: Date.utc_today |> Date.add(-16),
-      end_date: Date.utc_today |> Date.add(-12),
-      user: build(:pro_user)
-    }
-  end
+#  @spec work_experience_factory() :: WorkExperience.t()
+#  def work_experience_factory do
+#    %WorkExperience{
+#      name: Lorem.word(),
+#      start_date: Date.utc_today |> Date.add(-16),
+#      end_date: Date.utc_today |> Date.add(-12),
+#      user: build(:pro_user)
+#    }
+#  end
 
   @spec ban_reason_factory() :: BanReason.t()
   def ban_reason_factory do
@@ -1272,87 +1269,87 @@ defmodule Core.Factory do
     }
   end
 
-  @spec pro_rating_factory() :: Platform.t()
-  def pro_rating_factory do
-    %ProRating{
-      average_communication: random_float(),
-      average_professionalism: random_float(),
-      average_rating: random_float(),
-      average_work_quality: random_float(),
-      user: build(:pro_user)
-    }
-  end
+#  @spec pro_rating_factory() :: Platform.t()
+#  def pro_rating_factory do
+#    %ProRating{
+#      average_communication: random_float(),
+#      average_professionalism: random_float(),
+#      average_rating: random_float(),
+#      average_work_quality: random_float(),
+#      user: build(:pro_user)
+#    }
+#  end
 
-  @spec deleted_user_factory() :: DeletedUser.t()
-  def deleted_user_factory do
-    %DeletedUser{
-      reason: random_reason(),
-      user: build(:user)
-    }
-  end
+#  @spec deleted_user_factory() :: DeletedUser.t()
+#  def deleted_user_factory do
+#    %DeletedUser{
+#      reason: random_reason(),
+#      user: build(:user)
+#    }
+#  end
 
-  @spec pro_addon_factory() :: Addon.t()
-  def pro_addon_factory do
-    %Addon{
-      price: random_integer(),
-      status: random_status(),
-      user: build(:pro_user)
-    }
-  end
+#  @spec pro_addon_factory() :: Addon.t()
+#  def pro_addon_factory do
+#    %Addon{
+#      price: random_integer(),
+#      status: random_status(),
+#      user: build(:pro_user)
+#    }
+#  end
 
-  @spec pro_offer_factory() :: Offer.t()
-  def pro_offer_factory do
-    %Offer{
-      price: random_integer(),
-      status: random_status(),
-      user: build(:pro_user)
-    }
-  end
-
-  @spec service_review_factory() :: Project.t()
-  def service_review_factory do
-    %ServiceReview{
-      client_comment: Lorem.sentence(),
-      communication: random_integer(),
-      final_rating: random_float(),
-      pro_response: Lorem.sentence(),
-      professionalism: random_integer(),
-      user: build(:tp_user),
-      work_quality: random_integer()
-    }
-  end
-
-  @spec project_factory() :: Project.t()
-  def project_factory do
-    %Project{
-      addon: build(:addon),
-      assigned_pro: build(:pro_user).id,
-      end_time: Date.utc_today(),
-      id_from_stripe_card: FlakeId.get(),
-      id_from_stripe_transfer: FlakeId.get(),
-      instant_matched: random_boolean(),
-      offer: build(:offer),
-      project_price: random_integer(),
-      status: random_project_status(),
-      users: build(:tp_user)
-    }
-  end
-
-  @spec tp_project_factory() :: Project.t()
-  def tp_project_factory do
-    %Project{
-      addon: build(:addon),
-      assigned_pro: build(:pro_user).id,
-      end_time: Date.utc_today(),
-      id_from_stripe_card: FlakeId.get(),
-      id_from_stripe_transfer: FlakeId.get(),
-      instant_matched: random_boolean(),
-      offer: build(:offer),
-      project_price: random_integer(),
-      status: random_project_status(),
-      users: build(:tp_user)
-    }
-  end
+#  @spec pro_offer_factory() :: Offer.t()
+#  def pro_offer_factory do
+#    %Offer{
+#      price: random_integer(),
+#      status: random_status(),
+#      user: build(:pro_user)
+#    }
+#  end
+#
+#  @spec service_review_factory() :: Project.t()
+#  def service_review_factory do
+#    %ServiceReview{
+#      client_comment: Lorem.sentence(),
+#      communication: random_integer(),
+#      final_rating: random_float(),
+#      pro_response: Lorem.sentence(),
+#      professionalism: random_integer(),
+#      user: build(:tp_user),
+#      work_quality: random_integer()
+#    }
+#  end
+#
+#  @spec project_factory() :: Project.t()
+#  def project_factory do
+#    %Project{
+#      addon: build(:addon),
+#      assigned_pro: build(:pro_user).id,
+#      end_time: Date.utc_today(),
+#      id_from_stripe_card: FlakeId.get(),
+#      id_from_stripe_transfer: FlakeId.get(),
+#      instant_matched: random_boolean(),
+#      offer: build(:offer),
+#      project_price: random_integer(),
+#      status: random_project_status(),
+#      users: build(:tp_user)
+#    }
+#  end
+#
+#  @spec tp_project_factory() :: Project.t()
+#  def tp_project_factory do
+#    %Project{
+#      addon: build(:addon),
+#      assigned_pro: build(:pro_user).id,
+#      end_time: Date.utc_today(),
+#      id_from_stripe_card: FlakeId.get(),
+#      id_from_stripe_transfer: FlakeId.get(),
+#      instant_matched: random_boolean(),
+#      offer: build(:offer),
+#      project_price: random_integer(),
+#      status: random_project_status(),
+#      users: build(:tp_user)
+#    }
+#  end
 
   @spec pro_rating_projects_factory() ::  {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
   def pro_rating_projects_factory do

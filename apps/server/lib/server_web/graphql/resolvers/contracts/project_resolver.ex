@@ -301,7 +301,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     else
       case Accounts.by_role(current_user.id) do
         true ->
-          case Map.has_key?(params, :status) and params[:status] == "In Progress" do
+          case Map.has_key?(params, :status) and params[:status] == "Canceled" do
             true ->
               case Repo.get_by(Project, %{id: id}).status do
                 :"In Progress" ->
