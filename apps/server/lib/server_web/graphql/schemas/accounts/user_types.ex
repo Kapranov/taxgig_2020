@@ -127,6 +127,18 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :error, :string, description: "a short sentence with error"
   end
 
+  @desc "Statistica totalCount"
+  object :total_count do
+    field :total_client, list_of(:integer), description: "total user client"
+    field :total_client_difference, list_of(:integer), description: "total user client timestamp"
+    field :total_deleted, list_of(:integer), description: "total deleted user"
+    field :total_deleted_difference, list_of(:integer), description: "total deleted user timestamp"
+    field :total_pro, list_of(:integer), description: "total user pro"
+    field :total_pro_difference, list_of(:integer), description: "total user pro timestamp"
+    field :total_user, list_of(:integer), description: "total all users"
+    field :total_user_difference, list_of(:integer), description: "total user timestamp"
+  end
+
   @desc "The accounts an user update via params"
   input_object :update_user_params do
     field :active, :boolean
@@ -161,6 +173,12 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :code, non_null(:string)
     field :password, non_null(:string)
     field :password_confirmation, non_null(:string)
+  end
+
+  @desc "The user filter via params"
+  input_object :filter_user_params, description: "filter user" do
+    field :start_date, non_null(:date)
+    field :end_date, non_null(:date)
   end
 
   object :user_queries do
@@ -251,6 +269,12 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       arg(:pin, non_null(:string), description: "code number via 2fa")
       arg(:user_id, non_null(:string), description: "A field type for email addresses")
       resolve(&UserResolver.signin2fa/3)
+    end
+
+    @desc "Statistica total Users"
+    field :total_user_count_by_admin, :total_count do
+      arg :filter, non_null(:filter_user_params)
+      resolve(&UserResolver.total_user_count/3)
     end
   end
 

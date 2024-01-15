@@ -19,6 +19,104 @@ defmodule Core.Queries do
   @type word() :: String.t()
 
   @doc """
+  Countable records by roles
+
+  ## Example.
+
+      iex> count_by_roles(Core.Accounts.User, false)
+      [2]
+      iex> count_by_roles(Core.Accounts.User, true)
+      []
+
+  """
+  @spec count_by_roles(struct(), boolean) :: [integer()] | []
+  def count_by_roles(struct, role) do
+    try do
+      Repo.all(
+        from c in struct,
+        where: fragment("?::boolean", c.role) == ^role,
+        select: count(c.id)
+      )
+    rescue
+      Ecto.Query.CastError -> []
+    end
+  end
+
+  @doc """
+  Countable records by roles and time steps
+
+  ## Example.
+
+      iex> {:ok, start_date} = Date.new(2023, 12, 17)
+      iex> end_date = Date.add(start_date, 7)
+      iex> count_by_roles_timestamp(Core.Accounts.User, false, start_date, end_date)
+      [2]
+      iex> count_by_roles_timestamp(Core.Accounts.User, true, start_date, end_date)
+      []
+
+  """
+  @spec count_by_roles_timestamp(struct(), boolean, struct(), struct()) :: [integer()] | []
+  def count_by_roles_timestamp(struct, role, start_date, end_date) do
+    try do
+      Repo.all(
+        from c in struct,
+        where:
+          fragment("?::date", c.inserted_at) >= ^start_date and
+          fragment("?::date", c.inserted_at) <= ^end_date and
+          fragment("?::boolean", c.role) == ^role,
+        select: count(c.id)
+      )
+    rescue
+      Ecto.Query.CastError -> []
+    end
+  end
+
+  @doc """
+  Countable records by model
+
+  ## Example.
+
+      iex> count_by_model(Core.Accounts.User)
+      [2]
+
+  """
+  @spec count_by_model(struct()) :: [integer()] | []
+  def count_by_model(struct) do
+    try do
+      Repo.all(
+        from c in struct,
+        select: count(c.id)
+      )
+    rescue
+      Ecto.Query.CastError -> []
+    end
+  end
+
+  @doc """
+  Countable records by model with time steps
+
+  ## Example.
+
+      iex> {:ok, start_date} = Date.new(2023, 12, 17)
+      iex> end_date = Date.add(start_date, 7)
+      iex> count_by_model_timestamp(Core.Accounts.User, start_date, end_date)
+      [2]
+
+  """
+  @spec count_by_model_timestamp(struct(), struct(), struct()) :: [integer()] | []
+  def count_by_model_timestamp(struct, start_date, end_date) do
+    try do
+      Repo.all(
+        from c in struct,
+        where: fragment("?::date", c.inserted_at) >= ^start_date and fragment("?::date", c.inserted_at) <= ^end_date,
+        select: count(c.id)
+      )
+    rescue
+      Ecto.Query.CastError -> []
+    end
+  end
+
+  @doc """
   Retrurn list of the integer by all records when is_read is false
 
   ## Example

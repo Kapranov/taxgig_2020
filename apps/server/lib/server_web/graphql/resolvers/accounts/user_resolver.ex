@@ -5,6 +5,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   alias Core.{
     Accounts,
+    Accounts.DeletedUser,
     Accounts.User,
     Contracts.Project,
     Notifications,
@@ -1403,6 +1404,39 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   @spec verify2fa(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
   def verify2fa(_parent, _args, _resolutions), do: {:error, "Unauthenticated"}
+
+  @spec total_user_count(any, %{atom => map()}, %{context: %{current_user: User.t()}}) :: result()
+  def total_user_count(_parent, %{filter: args}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      count_client = CoreQueries.count_by_roles(User, false)
+      count_client_diff = CoreQueries.count_by_roles_timestamp(User, false, args.start_date, args.end_date)
+      count_pro = CoreQueries.count_by_roles(User, true)
+      count_pro_diff = CoreQueries.count_by_roles_timestamp(User, true, args.start_date, args.end_date)
+      count_user = CoreQueries.count_by_model(User)
+      count_user_diff = CoreQueries.count_by_model_timestamp(User, args.start_date, args.end_date)
+      count_deleted = CoreQueries.count_by_model(DeletedUser)
+      count_deleted_diff = CoreQueries.count_by_model_timestamp(DeletedUser, args.start_date, args.end_date)
+
+      {:ok, %{
+          total_client: count_client,
+          total_client_difference: count_client_diff,
+          total_deleted: count_pro,
+          total_deleted_difference: count_pro_diff,
+          total_pro: count_user,
+          total_pro_difference: count_user_diff,
+          total_user: count_deleted,
+          total_user_difference: count_deleted_diff
+        }}
+    else
+      {:ok, %{
+          error: "Unauthenticated",
+          error_description: "Permission denied for current user "
+        }}
+    end
+  end
+
+  @spec total_user_count(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def total_user_count(_parent, _args, _resolutions), do: {:error, "Unauthenticated"}
 
   @spec required_keys([atom()], map()) :: boolean()
   defp required_keys(keys, args) do
