@@ -1420,12 +1420,12 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       {:ok, %{
           total_client: count_client,
           total_client_difference: count_client_diff,
-          total_deleted: count_pro,
-          total_deleted_difference: count_pro_diff,
-          total_pro: count_user,
-          total_pro_difference: count_user_diff,
-          total_user: count_deleted,
-          total_user_difference: count_deleted_diff
+          total_deleted: count_deleted,
+          total_deleted_difference: count_deleted_diff,
+          total_pro: count_pro,
+          total_pro_difference: count_pro_diff,
+          total_user: count_user,
+          total_user_difference: count_user_diff
         }}
     else
       {:ok, %{
