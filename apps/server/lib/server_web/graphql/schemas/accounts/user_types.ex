@@ -137,6 +137,8 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :total_pro_difference, list_of(:integer), description: "total user pro timestamp"
     field :total_user, list_of(:integer), description: "total all users"
     field :total_user_difference, list_of(:integer), description: "total user timestamp"
+    field :error,  :string
+    field :error_description, :string
   end
 
   @desc "The accounts an user update via params"
