@@ -183,6 +183,12 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :end_date, non_null(:date)
   end
 
+  @desc "The users filter via params"
+  input_object :filter_users_params, description: "filter users" do
+    field :page, :integer
+    field :limit_counter, :integer
+  end
+
   object :user_queries do
     @desc "Get default avatars"
     field :default_avatars, list_of(:string) do
@@ -192,6 +198,12 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     @desc "Get all accounts an user"
     field :all_users, list_of(:user) do
       resolve(&UserResolver.list/3)
+    end
+
+    @desc "Get all accounts an user for admin"
+    field :all_users_by_admin, list_of(:user) do
+      arg :filter, non_null(:filter_users_params)
+      resolve(&UserResolver.list_users/3)
     end
 
     @desc "Get a specific accounts an user"

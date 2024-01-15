@@ -123,6 +123,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:faq_category_queries)
     import_fields(:faq_queries)
     import_fields(:filter_user_params)
+    import_fields(:filter_users_params)
     import_fields(:individual_employment_status_queries)
     import_fields(:individual_filing_status_queries)
     import_fields(:individual_foreign_account_count_queries)

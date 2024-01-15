@@ -150,6 +150,46 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     {:error, "Unauthenticated"}
   end
 
+  @spec list_users(any, %{:filter => map()}, %{context: %{current_user: User.t()}}) :: success_list() | error_tuple()
+  def list_users(_parent, %{filter: args}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      case args do
+        %{page: page, limit_counter: counter} ->
+          if page < counter do
+            data =
+              Accounts.list_user
+              |> Enum.take(page)
+
+            {:ok, data}
+          else
+            data =
+              Accounts.list_user
+              |> Enum.take(counter)
+
+            {:ok, data}
+          end
+        %{page: page} ->
+            data =
+              Accounts.list_user
+              |> Enum.take(page)
+
+            {:ok, data}
+        %{limit_counter: counter} ->
+            data =
+              Accounts.list_user
+              |> Enum.take(counter)
+            {:ok, data}
+      end
+    else
+      {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
+    end
+  end
+
+  @spec list_users(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def list_users(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
+  end
+
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(current_user) do
