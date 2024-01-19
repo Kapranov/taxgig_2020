@@ -1422,7 +1422,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       true ->
         Repo.get!(User, current_user.id)
         |> User.changeset(%{is2fa: true})
-        |> Repo.update
+        |> User.update_changeset
         |> case do
           {:ok, struct} ->
             {:ok, %{is2fa: struct.is2fa, user_id: struct.id}}
