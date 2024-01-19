@@ -1421,8 +1421,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     case NimbleTOTP.valid?(current_user.otp_secret, pin) do
       true ->
         Repo.get!(User, current_user.id)
-        |> User.changeset(%{is2fa: true})
-        |> User.update_changeset
+        |> User.update_changeset(%{is2fa: true})
+        |> Repo.update
         |> case do
           {:ok, struct} ->
             {:ok, %{is2fa: struct.is2fa, user_id: struct.id}}
