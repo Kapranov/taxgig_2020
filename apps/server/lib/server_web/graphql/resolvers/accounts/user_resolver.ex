@@ -5,7 +5,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   alias Core.{
     Accounts,
+    Accounts.BanReason,
     Accounts.DeletedUser,
+    Accounts.Platform,
     Accounts.User,
     Contracts.Project,
     Notifications,
@@ -179,6 +181,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
               Accounts.list_user
               |> Enum.take(counter)
             {:ok, data}
+        _ ->
+          {:ok, []}
       end
     else
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
@@ -187,6 +191,254 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
 
   @spec list_users(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
   def list_users(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
+  end
+
+  @spec list_pro_users(any, %{:filter => map()}, %{context: %{current_user: User.t()}}) :: success_list() | error_tuple()
+  def list_pro_users(_parent, %{filter: args}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      case args do
+        %{page: page, limit_counter: counter, profession: profession, hero_status: hero_status} ->
+          if page < counter do
+            data =
+              CoreQueries.by_role_list(User, Platform, :role, true, :profession, profession, :hero_status, hero_status)
+              |> Enum.take(page)
+
+            {:ok, data}
+          else
+            data =
+              CoreQueries.by_role_list(User, Platform, :role, true, :profession, profession, :hero_status, hero_status)
+              |> Enum.take(counter)
+
+            {:ok, data}
+          end
+        %{page: page, limit_counter: counter, profession: profession} ->
+          if page < counter do
+            data =
+              CoreQueries.by_role_list(User, :role, true, :profession, profession)
+              |> Enum.take(page)
+
+            {:ok, data}
+          else
+            data =
+              CoreQueries.by_role_list(User, :role, true, :profession, profession)
+              |> Enum.take(counter)
+
+            {:ok, data}
+          end
+        %{page: page, limit_counter: counter, hero_status: hero_status} ->
+          if page < counter do
+            data =
+              CoreQueries.by_role_list(User, Platform, :role, true, :hero_status, hero_status)
+              |> Enum.take(page)
+
+            {:ok, data}
+          else
+            data =
+              CoreQueries.by_role_list(User, Platform, :role, true, :hero_status, hero_status)
+              |> Enum.take(counter)
+
+            {:ok, data}
+          end
+        %{page: page, limit_counter: counter} ->
+          if page < counter do
+            data =
+              CoreQueries.by_role_list(User, :role, true)
+              |> Enum.take(page)
+
+            {:ok, data}
+          else
+            data =
+              CoreQueries.by_role_list(User, :role, true)
+              |> Enum.take(counter)
+
+            {:ok, data}
+          end
+        _ -> {:ok, []}
+      end
+    else
+      {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
+    end
+  end
+
+  @spec list_pro_users(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def list_pro_users(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
+  end
+
+  @spec list_tp_users(any, %{:filter => map()}, %{context: %{current_user: User.t()}}) :: success_list() | error_tuple()
+  def list_tp_users(_parent, %{filter: args}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      case args do
+        %{page: page, limit_counter: counter} ->
+          if page < counter do
+            data =
+              CoreQueries.by_role_list(User, :role, false)
+              |> Enum.take(page)
+
+            {:ok, data}
+          else
+            data =
+              CoreQueries.by_role_list(User, :role, false)
+              |> Enum.take(counter)
+
+            {:ok, data}
+          end
+        _ ->
+          data = CoreQueries.by_role_list(User, :role, false)
+          {:ok, data}
+      end
+    else
+      {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
+    end
+  end
+
+  @spec list_tp_users(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def list_tp_users(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
+  end
+
+  @spec list_stuck_users(any, %{:filter => map()}, %{context: %{current_user: User.t()}}) :: success_list() | error_tuple()
+  def list_stuck_users(_parent, %{filter: args}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      case args do
+        %{page: page, limit_counter: counter, stuck_stage: stuck_stage, role: role} ->
+          if page < counter do
+            data =
+              CoreQueries.by_stuck_list(User, Platform, :is_stuck, true, :stuck_stage, stuck_stage, :role, role)
+              |> Enum.take(page)
+
+            {:ok, data}
+          else
+            data =
+              CoreQueries.by_stuck_list(User, Platform, :is_stuck, true, :stuck_stage, stuck_stage, :role, role)
+              |> Enum.take(counter)
+
+            {:ok, data}
+          end
+        %{page: page, limit_counter: counter, stuck_stage: stuck_stage} ->
+          if page < counter do
+            data =
+              CoreQueries.by_stuck_stage_list(User, Platform, :is_stuck, true, :stuck_stage, stuck_stage)
+              |> Enum.take(page)
+
+            {:ok, data}
+          else
+            data =
+              CoreQueries.by_stuck_stage_list(User, Platform, :is_stuck, true, :stuck_stage, stuck_stage)
+              |> Enum.take(counter)
+
+            {:ok, data}
+          end
+        %{page: page, limit_counter: counter, role: role} ->
+          if page < counter do
+            data =
+              CoreQueries.by_stuck_list(User, Platform, :is_stuck, true, :role, role)
+              |> Enum.take(page)
+
+            {:ok, data}
+          else
+            data =
+              CoreQueries.by_stuck_list(User, Platform, :is_stuck, true, :role, role)
+              |> Enum.take(counter)
+
+            {:ok, data}
+          end
+        %{page: page, limit_counter: counter} ->
+          if page < counter do
+            data =
+              CoreQueries.by_stuck_list(User, Platform, :is_stuck, true)
+              |> Enum.take(page)
+
+            {:ok, data}
+          else
+            data =
+              CoreQueries.by_stuck_list(User, Platform, :is_stuck, true)
+              |> Enum.take(counter)
+
+            {:ok, data}
+          end
+        _ -> {:ok, []}
+      end
+    else
+      {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
+    end
+  end
+
+  @spec list_stuck_users(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def list_stuck_users(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
+  end
+
+  @spec list_banned_users(any, %{:filter => map()}, %{context: %{current_user: User.t()}}) :: success_list() | error_tuple()
+  def list_banned_users(_parent, %{filter: args}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      case args do
+        %{page: page, limit_counter: counter, reason: reason, role: role} ->
+          if page < counter do
+            data =
+              CoreQueries.by_banned_list(User, Platform, BanReason, :is_banned, true, :reasons, reason, :role, role)
+              |> Enum.take(page)
+
+            {:ok, data}
+          else
+            data =
+              CoreQueries.by_banned_list(User, Platform, BanReason, :is_banned, true, :reasons, reason, :role, role)
+              |> Enum.take(counter)
+
+            {:ok, data}
+          end
+        %{page: page, limit_counter: counter, role: role} ->
+          if page < counter do
+            data =
+              CoreQueries.by_banned_list(User, Platform, :is_banned, true, :role, role)
+              |> Enum.take(page)
+
+            {:ok, data}
+          else
+            data =
+              CoreQueries.by_banned_list(User, Platform, :is_banned, true, :role, role)
+              |> Enum.take(counter)
+
+            {:ok, data}
+          end
+        %{page: page, limit_counter: counter, reasons: reason} ->
+          if page < counter do
+            data =
+              CoreQueries.by_banned_reason_list(User, Platform, BanReason, :is_banned, true, :reasons, reason)
+              |> Enum.take(page)
+
+            {:ok, data}
+          else
+            data =
+              CoreQueries.by_banned_reason_list(User, Platform, BanReason, :is_banned, true, :reasons, reason)
+              |> Enum.take(counter)
+
+            {:ok, data}
+          end
+        %{page: page, limit_counter: counter} ->
+          if page < counter do
+            data =
+              CoreQueries.by_banned_list(User, Platform, :is_banned, true)
+              |> Enum.take(page)
+
+            {:ok, data}
+          else
+            data =
+              CoreQueries.by_banned_list(User, Platform, :is_banned, true)
+              |> Enum.take(counter)
+
+            {:ok, data}
+          end
+        _ -> {:ok, []}
+      end
+    else
+      {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
+    end
+  end
+
+  @spec list_banned_users(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def list_banned_users(_parent, _args, _resolutions) do
     {:error, "Unauthenticated"}
   end
 

@@ -18,13 +18,40 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.DeletedUserResolver do
   @type error_tuple :: {:error, reason}
   @type result :: success_tuple | error_tuple
 
-  @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
-  def list(_parent, _args, %{context: %{current_user: current_user}}) do
+  @spec list(any, %{:filter => map()}, %{context: %{current_user: User.t()}}) :: result()
+  def list(_parent, %{filter: args}, %{context: %{current_user: current_user}}) do
     if is_nil(current_user) || current_user.admin == false do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
-      struct = Accounts.list_deleted_user()
-      {:ok, struct}
+      case args do
+        %{page: page, limit_counter: counter} ->
+          if page < counter do
+            data =
+              Accounts.list_deleted_user()
+              |> Enum.take(page)
+
+            {:ok, data}
+          else
+            data =
+              Accounts.list_deleted_user()
+              |> Enum.take(counter)
+
+            {:ok, data}
+          end
+        %{page: page} ->
+            data =
+              Accounts.list_deleted_user()
+              |> Enum.take(page)
+
+            {:ok, data}
+        %{limit_counter: counter} ->
+            data =
+              Accounts.list_deleted_user()
+              |> Enum.take(counter)
+            {:ok, data}
+        _ ->
+          {:ok, []}
+      end
     end
   end
 

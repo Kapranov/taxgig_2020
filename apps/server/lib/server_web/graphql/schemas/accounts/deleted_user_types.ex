@@ -19,9 +19,16 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.DeletedUserTypes do
     field :reason, list_of(:string)
   end
 
+  @desc "The deleted user filter via params"
+  input_object :filter_deleted_user_params, description: "filter deleted user" do
+    field :page, :integer
+    field :limit_counter, :integer
+  end
+
   object :deleted_user_queries do
     @desc "Get all deleted user"
     field :all_deleted_users, list_of(:deleted_user) do
+      arg :filter, non_null(:filter_deleted_user_params)
       resolve(&DeletedUserResolver.list/3)
     end
 

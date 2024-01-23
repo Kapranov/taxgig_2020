@@ -174,6 +174,366 @@ defmodule Core.Queries do
   end
 
   @doc """
+  Retrurn all records with 2 items
+
+  ## Example
+
+      iex> struct = Core.Accounts.User
+      iex> row = :role
+      iex> value = true
+      iex> by_role_list(struct, row, value)
+      []
+
+  """
+  @spec by_role_list(map, atom, boolean) :: Ecto.Query.t()
+  def by_role_list(struct, row, value) do
+    try do
+      Repo.all(
+        from c in struct,
+        where: field(c, ^row) == ^value
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Retrurn all records with 3 items
+
+  ## Example
+
+      iex> struct = Core.Accounts.User
+      iex> row1 = :role
+      iex> row2 = :profession
+      iex> val1 = true
+      iex> val2 = "CPA"
+      iex> by_role_list(struct, row1, val1, row2, val2)
+      []
+
+  """
+  @spec by_role_list(map, atom, boolean, atom, String.t()) :: Ecto.Query.t()
+  def by_role_list(struct, row1, val1, row2, val2) do
+    try do
+      Repo.all(
+        from c in struct,
+        where: field(c, ^row1) == ^val1,
+        where: field(c, ^row2) == ^val2
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Retrurn all records with 6 items
+
+  ## Example
+
+      iex> struct_a = Core.Accounts.User
+      iex> struct_b = Core.Accounts.Platform
+      iex> row1 = :role
+      iex> row2 = :hero_status
+      iex> val1 = true
+      iex> val2 = true
+      iex> by_role_list(struct_a, struct_b, row1, val1, row2, val2)
+      []
+
+  """
+  @spec by_role_list(map, map, atom, boolean, atom, boolean) :: Ecto.Query.t()
+  def by_role_list(struct_a, struct_b, row1, val1, row2, val2) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in ^struct_b,
+        where: c.id == ct.user_id,
+        where: field(c, ^row1) == ^val1,
+        where: field(ct, ^row2) == ^val2
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Retrurn all records with 8 items
+
+  ## Example
+
+      iex> struct_a = Core.Accounts.User
+      iex> struct_b = Core.Accounts.Platform
+      iex> row1 = :role
+      iex> row2 = :profession
+      iex> row3 = :hero_status
+      iex> val1 = true
+      iex> val2 = "CPA"
+      iex> val3 = true
+      iex> by_role_list(struct_a, struct_b, row1, val1, row2, val2, row3, val3)
+      []
+
+  """
+  @spec by_role_list(map, map, atom, boolean, atom, String.t(), atom, boolean) :: Ecto.Query.t()
+  def by_role_list(struct_a, struct_b, row1, val1, row2, val2, row3, val3) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in ^struct_b,
+        where: c.id == ct.user_id,
+        where: field(c, ^row1) == ^val1,
+        where: field(c, ^row2) == ^val2,
+        where: field(ct, ^row3) == ^val3
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Retrurn all records with 4 items
+
+  ## Example
+
+      iex> struct_a = Core.Accounts.User
+      iex> struct_b = Core.Accounts.Platform
+      iex> row = :is_stuck
+      iex> value = true
+      iex> by_stuck_list(struct_a, struct_b, row, value)
+      []
+
+  """
+  @spec by_stuck_list(map, map, atom, boolean) :: Ecto.Query.t()
+  def by_stuck_list(struct_a, struct_b, row, value) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in ^struct_b,
+        where: c.id == ct.user_id,
+        where: field(ct, ^row) == ^value
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Retrurn all records with 6 items
+
+  ## Example
+
+      iex> struct_a = Core.Accounts.User
+      iex> struct_b = Core.Accounts.Platform
+      iex> row1 = :is_stuck
+      iex> val1 = true
+      iex> row2 = :role
+      iex> val2 = true
+      iex> by_stuck_list(struct_a, struct_b, row1, val1, row2, val2)
+      []
+
+  """
+  @spec by_stuck_list(map, map, atom, boolean, atom, boolean) :: Ecto.Query.t()
+  def by_stuck_list(struct_a, struct_b, row1, val1, row2, val2) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in ^struct_b,
+        where: c.id == ct.user_id,
+        where: field(c, ^row2) == ^val2,
+        where: field(ct, ^row1) == ^val1
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Retrurn all records with 8 items
+
+  ## Example
+
+      iex> struct_a = Core.Accounts.User
+      iex> struct_b = Core.Accounts.Platform
+      iex> row1 = :is_stuck
+      iex> val1 = true
+      iex> row2 = :stuck_stage
+      iex> val2 = "Blockscore"
+      iex> row3 = :role
+      iex> val3 = true
+      iex> by_stuck_list(struct_a, struct_b, row1, val1, row2, val2, row3, val3)
+      []
+
+  """
+  @spec by_stuck_list(map, map, atom, boolean, atom, String.t(), atom, boolean) :: Ecto.Query.t()
+  def by_stuck_list(struct_a, struct_b, row1, val1, row2, val2, row3, val3) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in ^struct_b,
+        where: c.id == ct.user_id,
+        where: field(c, ^row3) == ^val3,
+        where: field(ct, ^row1) == ^val1,
+        where: field(ct, ^row2) == ^val2
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Retrurn all records with 6 items
+
+  ## Example
+
+      iex> struct_a = Core.Accounts.User
+      iex> struct_b = Core.Accounts.Platform
+      iex> row1 = :is_stuck
+      iex> val1 = true
+      iex> row2 = :stuck_stage
+      iex> val2 = "Blockscore"
+      iex> by_stuck_stage_list(struct_a, struct_b, row1, val1, row2, val2)
+      []
+
+  """
+  @spec by_stuck_stage_list(map, map, atom, boolean, atom, String.t()) :: Ecto.Query.t()
+  def by_stuck_stage_list(struct_a, struct_b, row1, val1, row2, val2) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in ^struct_b,
+        where: c.id == ct.user_id,
+        where: field(ct, ^row1) == ^val1,
+        where: field(ct, ^row2) == ^val2
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Retrurn all records with 4 items
+
+  ## Example
+
+      iex> struct_a = Core.Accounts.User
+      iex> struct_b = Core.Accounts.Platform
+      iex> row = :is_banned
+      iex> value = true
+      iex> by_banned_list(struct_a, struct_b, row, value)
+      []
+
+  """
+  @spec by_banned_list(map, map, atom, boolean) :: Ecto.Query.t()
+  def by_banned_list(struct_a, struct_b, row, value) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in ^struct_b,
+        where: c.id == ct.user_id,
+        where: field(ct, ^row) == ^value
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Retrurn all records with 6 items
+
+  ## Example
+
+      iex> struct_a = Core.Accounts.User
+      iex> struct_b = Core.Accounts.Platform
+      iex> row1 = :is_banned
+      iex> val1 = true
+      iex> row2 = :role
+      iex> val2 = true
+      iex> by_banned_list(struct_a, struct_b, row1, val1, row2, val2)
+      []
+
+  """
+  @spec by_banned_list(map, map, atom, boolean, atom, boolean) :: Ecto.Query.t()
+  def by_banned_list(struct_a, struct_b, row1, val1, row2, val2) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in ^struct_b,
+        where: c.id == ct.user_id,
+        where: field(c, ^row2) == ^val2,
+        where: field(ct, ^row1) == ^val1
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Retrurn all records with 9 items
+
+  ## Example
+
+      iex> struct_a = Core.Accounts.User
+      iex> struct_b = Core.Accounts.Platform
+      iex> struct_c = Core.Accounts.BanReason
+      iex> row1 = :is_banned
+      iex> val1 = true
+      iex> row2 = :reason
+      iex> val2 = "Fraud"
+      iex> row3 = :role
+      iex> val3 = true
+      iex> by_banned_list(struct_a, struct_b, struct_c, row1, val1, row2, val2, row3, val3)
+      []
+
+  """
+  @spec by_banned_list(map, map, map, atom, boolean, atom, String.t(), atom, boolean) :: Ecto.Query.t()
+  def by_banned_list(struct_a, struct_b, struct_c, row1, val1, row2, val2, row3, val3) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in ^struct_b,
+        join: cx in ^struct_c,
+        where: c.id == ct.user_id,
+        where: c.id == cx.user_id,
+        where: field(c, ^row3) == ^val3,
+        where: field(ct, ^row1) == ^val1,
+        where: field(cx, ^row2) == ^val2
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
+  Retrurn all records with 7 items
+
+  ## Example
+
+      iex> struct_a = Core.Accounts.User
+      iex> struct_b = Core.Accounts.Platform
+      iex> struct_c = Core.Accounts.BanReason
+      iex> row1 = :is_banned
+      iex> val1 = true
+      iex> row2 = :reasons
+      iex> val2 = "Fraud"
+      iex> by_banned_reason_list(struct_a, struct_b, struct_c, row1, val1, row2, val2)
+      []
+
+  """
+  @spec by_banned_reason_list(map, map, map, atom, boolean, atom, String.t()) :: Ecto.Query.t()
+  def by_banned_reason_list(struct_a, struct_b, struct_c, row1, val1, row2, val2) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: ct in ^struct_b,
+        join: cx in ^struct_c,
+        where: c.id == ct.user_id,
+        where: c.id == cx.user_id,
+        where: field(ct, ^row1) == ^val1,
+        where: field(cx, ^row2) == ^val2
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @doc """
   Retrurn all records with 3 items
 
   ## Example

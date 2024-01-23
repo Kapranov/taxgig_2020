@@ -183,10 +183,34 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
     field :end_date, non_null(:date)
   end
 
+  @desc "The pro user filter via params"
+  input_object :filter_pro_users_params, description: "filter pro role by an user" do
+    field :hero_status, :boolean
+    field :limit_counter, non_null(:integer)
+    field :page, non_null(:integer)
+    field :profession, :string
+  end
+
   @desc "The users filter via params"
   input_object :filter_users_params, description: "filter users" do
     field :page, :integer
     field :limit_counter, :integer
+  end
+
+  @desc "The stuck users filter via params"
+  input_object :filter_stuck_users_params, description: "filter stuck users" do
+    field :limit_counter, non_null(:integer)
+    field :page, non_null(:integer)
+    field :role, :boolean
+    field :stuck_stage, :string
+  end
+
+  @desc "The banned users filter via params"
+  input_object :filter_banned_users_params, description: "filter banned users" do
+    field :limit_counter, non_null(:integer)
+    field :page, non_null(:integer)
+    field :reasons, :string
+    field :role, :boolean
   end
 
   object :user_queries do
@@ -200,7 +224,31 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       resolve(&UserResolver.list/3)
     end
 
-    @desc "Get all accounts an user for admin"
+    @desc "Get all stuck accounts an user for admin"
+    field :all_stuck_users_by_admin, list_of(:user) do
+      arg :filter, non_null(:filter_stuck_users_params)
+      resolve(&UserResolver.list_stuck_users/3)
+    end
+
+    @desc "Get all banned accounts an user for admin"
+    field :all_banned_users_by_admin, list_of(:user) do
+      arg :filter, non_null(:filter_banned_users_params)
+      resolve(&UserResolver.list_banned_users/3)
+    end
+
+    @desc "Get all pro accounts an user for admin"
+    field :all_pro_users_by_admin, list_of(:user) do
+      arg :filter, non_null(:filter_pro_users_params)
+      resolve(&UserResolver.list_pro_users/3)
+    end
+
+    @desc "Get all tp accounts an user for admin"
+    field :all_tp_users_by_admin, list_of(:user) do
+      arg :filter, non_null(:filter_users_params)
+      resolve(&UserResolver.list_tp_users/3)
+    end
+
+    @desc "Get all accounts ian user for admin"
     field :all_users_by_admin, list_of(:user) do
       arg :filter, non_null(:filter_users_params)
       resolve(&UserResolver.list_users/3)
