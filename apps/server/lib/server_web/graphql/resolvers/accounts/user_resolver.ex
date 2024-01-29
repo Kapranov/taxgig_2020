@@ -476,6 +476,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
+  @spec show_for_admin(any, %{user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def show_for_admin(_parent, %{user_id: id}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      try do
+        struct = Accounts.get_user!(id)
+        {:ok, struct}
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "An User #{id} not found!"}
+      end
+    else
+      {:error, [[field: :id, message: "Can't be blank or Unauthenticated"]]}
+    end
+  end
+
+  @spec show_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def show_for_admin(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
+  end
+
   @spec search(any, %{email: bitstring}, any) :: result()
   def search(_parent, %{email: term}, _resolutions) do
     data = Accounts.search_email(term)

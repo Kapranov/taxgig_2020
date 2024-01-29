@@ -260,6 +260,12 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       resolve(&UserResolver.show/3)
     end
 
+    @desc "Get a specific accounts an user for admin"
+    field :show_user_by_admin, :user do
+      arg(:user_id, non_null(:string))
+      resolve(&UserResolver.show_for_admin/3)
+    end
+
     @desc "Get email"
     field :get_email, :info_email do
       arg(:email, non_null(:string))
