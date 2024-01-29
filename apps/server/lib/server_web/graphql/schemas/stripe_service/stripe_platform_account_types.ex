@@ -32,7 +32,19 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTypes do
     field :transfers, :string
   end
 
+  @desc "The stripe account an update via params"
+  input_object :update_stripe_account_params do
+    field :email, :string
+  end
+
   object :stripe_platform_account_mutations do
+    @desc "Update a specific StripePlatformAccount"
+    field :update_stripe_platform_account, :stripe_platform_account do
+      arg :id_from_stripe, non_null(:string)
+      arg :stripe_account, :update_stripe_account_params
+      resolve &StripePlatformAccountResolver.update/3
+    end
+
     @desc "Delete a specific the StripePlatformAccount"
     field :delete_stripe_platform_account, :stripe_platform_account do
       arg :id_from_stripe, non_null(:string)

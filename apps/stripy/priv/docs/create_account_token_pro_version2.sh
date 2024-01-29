@@ -15,9 +15,9 @@ curl https://api.stripe.com/v1/tokens \
   -d "account[individual][dob][month]"=7 \
   -d "account[individual][dob][year]"=1989 \
   -d "account[individual][ssn_last_4]"=0000 \
-  -d "account[tos_shown_and_accepted]"=true \
   -d "account[individual][email]"="vk@taxgig.com" \
   -d "account[individual][phone]"="999-999-9999" \
+  -d "account[individual][id_number]"="000000000" \
+  -d "account[tos_shown_and_accepted]"=true \
   -d "account[company][name]"="Vlad Puryshev" \
-  -d "account[company][tax_id]"="000000000" \
-  -d "account[individual][id_number]"="000000000"
+  -d "account[company][tax_id]"="000000000"

@@ -299,6 +299,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:update_sale_tax_params)
     import_fields(:update_service_review_params)
     import_fields(:update_signature_params)
+    import_fields(:update_stripe_account_params)
     import_fields(:update_subscriber_params)
     import_fields(:update_tp_doc_params)
     import_fields(:update_university_params)

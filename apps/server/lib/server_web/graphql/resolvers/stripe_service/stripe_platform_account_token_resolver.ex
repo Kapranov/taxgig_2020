@@ -46,11 +46,16 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformAccountTokenRe
               true ->
                 with {:ok, struct} <- StripePlatformAccountTokenService.create(%{
                   business_type: args[:business_type],
+                  company: %{
+                    name: args[:name],
+                    tax_id: args[:tax_id]
+                  },
                   individual: %{
+                    email: args[:email],
                     first_name: args[:first_name],
+                    id_number: args[:id_number],
                     last_name: args[:last_name],
                     maiden_name: args[:maiden_name],
-                    email: args[:email],
                     phone: args[:phone],
                     address: %{
                       city: args[:city],

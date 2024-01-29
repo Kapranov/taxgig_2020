@@ -23,11 +23,14 @@ defmodule Stripy.StripeService.StripePlatformAccountTokenService do
   StripeAccountToken:
   fronend - [
     :business_type,
+    :email,
     :first_name,
+    :id_number,
     :last_name,
     :maiden_name,
-    :email,
+    :name,
     :phone,
+    :tax_id,
     address: %{
       :city,
       :country,
@@ -61,11 +64,16 @@ defmodule Stripy.StripeService.StripePlatformAccountTokenService do
       iex> user_attrs = %{"user_id" => user_id}
       iex> attrs = %{
         business_type: "individual",
+        company: %{
+          name: "Vlad Puryshev",
+          tax_id: "000000000"
+        },
         individual: %{
+          email: "vk@taxgig.com",
           first_name: "Vlad",
+          id_number: "000000000",
           last_name: "Puryshev",
           maiden_name: "Jr",
-          email: "vk@taxgig.com",
           phone: "999-999-9999",
           address: %{
             city: "New York",

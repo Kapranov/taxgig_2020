@@ -28,14 +28,17 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformAccountTokenType
       arg :day, non_null(:integer)
       arg :email, non_null(:string)
       arg :first_name, non_null(:string)
+      arg :id_number, non_null(:string)
       arg :last_name, non_null(:string)
       arg :line1, non_null(:string)
       arg :maiden_name, :string
       arg :month, non_null(:integer)
+      arg :name, non_null(:string)
       arg :phone, non_null(:string)
       arg :postal_code, non_null(:integer)
       arg :ssn_last4, non_null(:string)
       arg :state, non_null(:string)
+      arg :tax_id, non_null(:string)
       arg :tos_shown_and_accepted, (:boolean)
       arg :year, non_null(:integer)
       resolve &StripePlatformAccountTokenResolver.create/3
