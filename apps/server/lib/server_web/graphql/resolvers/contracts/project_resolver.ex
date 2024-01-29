@@ -57,22 +57,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
             Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
             {:ok, struct}
           end
-        %{status: status, page: page} ->
-            struct =
-              Queries.by_list(Project, :user_id, current_user.id, :status, status)
-              |> Repo.preload([:plaid_accounts, :tp_docs, :pro_docs])
-              |> Enum.take(page)
-
-            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
-            {:ok, struct}
-        %{status: status, limit_counter: counter} ->
-            struct =
-              Queries.by_list(Project, :user_id, current_user.id, :status, status)
-              |> Repo.preload([:plaid_accounts, :tp_docs, :pro_docs])
-              |> Enum.take(counter)
-
-            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
-            {:ok, struct}
         %{page: page, limit_counter: counter} ->
           if page < counter do
             struct =
@@ -91,35 +75,57 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
             Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
             {:ok, struct}
           end
-        %{status: status} ->
-            struct =
-              Queries.by_list(Project, :user_id, current_user.id, :status, status)
-              |> Repo.preload([:plaid_accounts, :tp_docs, :pro_docs])
-
-            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
-            {:ok, struct}
-        %{page: page} ->
-            struct =
-              Queries.by_list(Project, :user_id, current_user.id)
-              |> Repo.preload([:plaid_accounts, :tp_docs, :pro_docs])
-              |> Enum.take(page)
-
-            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
-            {:ok, struct}
-        %{limit_counter: counter} ->
-            struct =
-              Queries.by_list(Project, :user_id, current_user.id)
-              |> Repo.preload([:plaid_accounts, :tp_docs, :pro_docs])
-              |> Enum.take(counter)
-
-            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
-            {:ok, struct}
+        _ -> {:ok, []}
       end
     end
   end
 
   @spec list(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
   def list(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
+  end
+
+  @spec list_for_admin(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def list_for_admin(_parent, %{user_id: id, filter: args}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      case args do
+        %{status: status, page: page, limit_counter: counter} ->
+          if page < counter do
+            struct =
+              Queries.by_list(Project, :user_id, id, :status, status)
+              |> Enum.take(page)
+
+            {:ok, struct}
+          else
+            struct =
+              Queries.by_list(Project, :user_id, id, :status, status)
+              |> Enum.take(counter)
+
+            {:ok, struct}
+          end
+        %{page: page, limit_counter: counter} ->
+          if page < counter do
+            struct =
+              Queries.by_list(Project, :user_id, id)
+              |> Enum.take(page)
+
+            {:ok, struct}
+          else
+            struct =
+              Queries.by_list(Project, :user_id, id)
+              |> Enum.take(counter)
+
+            {:ok, struct}
+          end
+        _ -> {:ok, []}
+      end
+    else
+      {:error, "Unauthenticated"}
+    end
+  end
+
+  @spec list_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def list_for_admin(_parent, _args, _resolutions) do
     {:error, "Unauthenticated"}
   end
 
