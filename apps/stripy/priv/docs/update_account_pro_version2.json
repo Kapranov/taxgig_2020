@@ -1,0 +1,255 @@
+{
+  "id": "acct_1OcolEQ7eoO1z55W",
+  "object": "account",
+  "business_profile": {
+    "annual_revenue": null,
+    "estimated_worker_count": null,
+    "mcc": "8931",
+    "name": "Vlad Puryshev",
+    "product_description": null,
+    "support_address": null,
+    "support_email": null,
+    "support_phone": null,
+    "support_url": null,
+    "url": "https://taxgig.com"
+  },
+  "business_type": "individual",
+  "capabilities": {
+    "card_payments": "inactive",
+    "transfers": "inactive"
+  },
+  "charges_enabled": false,
+  "company": {
+    "address": {
+      "city": "New York",
+      "country": "US",
+      "line1": "95 Wall St",
+      "line2": null,
+      "postal_code": "10005",
+      "state": "NY"
+    },
+    "directors_provided": true,
+    "executives_provided": true,
+    "name": "Vlad Puryshev",
+    "owners_provided": true,
+    "phone": "+19999999999",
+    "tax_id_provided": true,
+    "verification": {
+      "document": {
+        "back": null,
+        "details": null,
+        "details_code": null,
+        "front": null
+      }
+    }
+  },
+  "country": "US",
+  "created": 1706273038,
+  "default_currency": "usd",
+  "details_submitted": false,
+  "email": "vk@taxgig.com",
+  "external_accounts": {
+    "object": "list",
+    "data": [],
+    "has_more": false,
+    "total_count": 0,
+    "url": "/v1/accounts/acct_1OcolEQ7eoO1z55W/external_accounts"
+  },
+  "future_requirements": {
+    "alternatives": [],
+    "current_deadline": 1713294000,
+    "currently_due": [
+      "external_account",
+      "individual.phone"
+    ],
+    "disabled_reason": null,
+    "errors": [
+      {
+        "code": "invalid_phone_number",
+        "detailed_code": "invalid_phone_number",
+        "reason": "This field must contain a valid phone number for your country, or it has too many repeating or sequential numbers. +19999999999 is not a valid phone number.",
+        "requirement": "individual.phone"
+      }
+    ],
+    "eventually_due": [
+      "external_account",
+      "individual.phone"
+    ],
+    "past_due": [
+      "external_account"
+    ],
+    "pending_verification": []
+  },
+  "individual": {
+    "id": "person_1OcolFQ7eoO1z55W6e8f4XzR",
+    "object": "person",
+    "account": "acct_1OcolEQ7eoO1z55W",
+    "address": {
+      "city": "New York",
+      "country": "US",
+      "line1": "95 Wall St",
+      "line2": null,
+      "postal_code": "10005",
+      "state": "NY"
+    },
+    "created": 1706273037,
+    "dob": {
+      "day": 15,
+      "month": 7,
+      "year": 1989
+    },
+    "email": "vk@taxgig.com",
+    "first_name": "Vlad",
+    "future_requirements": {
+      "alternatives": [],
+      "currently_due": [
+        "phone"
+      ],
+      "errors": [
+        {
+          "code": "invalid_phone_number",
+          "detailed_code": "invalid_phone_number",
+          "reason": "This field must contain a valid phone number for your country, or it has too many repeating or sequential numbers. +19999999999 is not a valid phone number.",
+          "requirement": "phone"
+        }
+      ],
+      "eventually_due": [
+        "phone"
+      ],
+      "past_due": [],
+      "pending_verification": []
+    },
+    "id_number_provided": true,
+    "last_name": "Puryshev",
+    "maiden_name": "Jr",
+    "metadata": {},
+    "phone": "+19999999999",
+    "relationship": {
+      "director": false,
+      "executive": false,
+      "legal_guardian": false,
+      "owner": false,
+      "percent_ownership": null,
+      "representative": true,
+      "title": null
+    },
+    "requirements": {
+      "alternatives": [],
+      "currently_due": [
+        "phone"
+      ],
+      "errors": [
+        {
+          "code": "invalid_phone_number",
+          "detailed_code": "invalid_phone_number",
+          "reason": "This field must contain a valid phone number for your country, or it has too many repeating or sequential numbers. +19999999999 is not a valid phone number.",
+          "requirement": "phone"
+        }
+      ],
+      "eventually_due": [
+        "phone"
+      ],
+      "past_due": [
+        "phone"
+      ],
+      "pending_verification": []
+    },
+    "ssn_last_4_provided": true,
+    "verification": {
+      "additional_document": {
+        "back": null,
+        "details": null,
+        "details_code": null,
+        "front": null
+      },
+      "details": null,
+      "details_code": null,
+      "document": {
+        "back": null,
+        "details": null,
+        "details_code": null,
+        "front": null
+      },
+      "status": "verified"
+    }
+  },
+  "metadata": {},
+  "payouts_enabled": false,
+  "requirements": {
+    "alternatives": [],
+    "current_deadline": null,
+    "currently_due": [
+      "external_account",
+      "individual.phone"
+    ],
+    "disabled_reason": "requirements.past_due",
+    "errors": [
+      {
+        "code": "invalid_phone_number",
+        "detailed_code": "invalid_phone_number",
+        "reason": "This field must contain a valid phone number for your country, or it has too many repeating or sequential numbers. +19999999999 is not a valid phone number.",
+        "requirement": "individual.phone"
+      }
+    ],
+    "eventually_due": [
+      "external_account",
+      "individual.phone"
+    ],
+    "past_due": [
+      "external_account",
+      "individual.phone"
+    ],
+    "pending_verification": []
+  },
+  "settings": {
+    "bacs_debit_payments": {
+      "display_name": null,
+      "service_user_number": null
+    },
+    "branding": {
+      "icon": null,
+      "logo": null,
+      "primary_color": null,
+      "secondary_color": null
+    },
+    "card_issuing": {
+      "tos_acceptance": {
+        "date": null,
+        "ip": null
+      }
+    },
+    "card_payments": {
+      "decline_on": {
+        "avs_failure": false,
+        "cvc_failure": false
+      },
+      "statement_descriptor_prefix": null,
+      "statement_descriptor_prefix_kana": null,
+      "statement_descriptor_prefix_kanji": null
+    },
+    "dashboard": {
+      "display_name": "Taxgig",
+      "timezone": "Etc/UTC"
+    },
+    "payments": {
+      "statement_descriptor": "TAXGIG.COM",
+      "statement_descriptor_kana": null,
+      "statement_descriptor_kanji": null
+    },
+    "payouts": {
+      "debit_negative_balances": false,
+      "schedule": {
+        "delay_days": 2,
+        "interval": "manual"
+      },
+      "statement_descriptor": null
+    },
+    "sepa_debit_payments": {}
+  },
+  "tos_acceptance": {
+    "date": 1706272744,
+    "ip": "159.224.174.183",
+    "user_agent": "Mozilla/5.0"
+  },
+  "type": "custom"
+}

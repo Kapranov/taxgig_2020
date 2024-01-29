@@ -134,3 +134,4 @@ null* Closing connection 0
 [28]: https://github.com/SiliconJungles/eqrcode
 [29]: https://github.com/jackjoe/ex_2fa
 [30]: https://github.com/riverrun/one_time_pass_ecto
+[31]: https://itecnote.com/tecnote/elixir-check-if-map-contains-a-list-of-keys/#google_vignette

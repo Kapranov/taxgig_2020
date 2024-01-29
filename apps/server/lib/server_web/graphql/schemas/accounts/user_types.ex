@@ -385,6 +385,13 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
       resolve(&UserResolver.signup/3)
     end
 
+    @desc "Update a specific accounts an user fo admin"
+    field :update_user_by_admin, :user do
+      arg :id, non_null(:string)
+      arg :user, :update_user_params
+      resolve &UserResolver.update_for_admin/3
+    end
+
     @desc "Update a specific accounts an user"
     field :update_user, :user do
       arg :id, non_null(:string)
