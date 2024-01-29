@@ -107,205 +107,30 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
 
   @spec update(any, %{id: bitstring, platform: map()}, %{context: %{current_user: User.t()}}) :: result()
   def update(_parent, %{id: id, platform: params}, %{context: %{current_user: current_user}}) do
-    if is_nil(id) || is_nil(current_user) do
-      {:error, [[field: :id, message: "Can't be blank or Permission denied for current_user to perform action Update"]]}
-    else
-      case params[:user_id] == current_user.id do
-        true  ->
-          is_stuck_stage =
-            if is_nil(params[:stuck_stage]) do
-              Map.put(params, :is_stuck, false)
-            else
-              Map.put(params, :is_stuck, true)
-            end
+    case params[:user_id] == current_user.id do
+      true  ->
+        is_stuck_stage =
+          if is_nil(params[:stuck_stage]) do
+            Map.put(params, :is_stuck, false)
+          else
+            Map.put(params, :is_stuck, true)
+          end
 
-          attrs =
-            params
-            |> Map.merge(is_stuck_stage)
-            |> Map.delete(:user_id)
+        attrs =
+          params
+          |> Map.merge(is_stuck_stage)
+          |> Map.delete(:user_id)
 
-          rooms = Queries.by_list(Room, :user_id, params[:user_id])
+        rooms = Queries.by_list(Room, :user_id, params[:user_id])
 
-          try do
-            struct = Repo.get!(Platform, id)
-            case Accounts.by_role(current_user.id) do
-              true ->
-                if params[:payment_active] ==  true do
-                  if struct.hero_status == true and struct.client_limit_reach == false and params[:hero_active] == true do
-                    struct
-                    |> Accounts.update_platform(attrs)
-                    |> case do
-                      {:ok, updated} ->
-                        Enum.reduce(rooms, [], fn(x, acc) ->
-                          [{:ok, _} = Talk.update_room(x, %{active: true}) | acc]
-                        end)
-                        case updated.is_banned do
-                          true ->
-                            {:ok, notify} = Notifications.create_notify(%{
-                              is_hidden: false,
-                              is_read: false,
-                              template: 13,
-                              user_id: updated.user_id
-                            })
-                            mailing_to(notify.user_id, "user_banned_pro")
-                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
-                          false ->
-                            {:ok, notify} = Notifications.create_notify(%{
-                              is_hidden: false,
-                              is_read: false,
-                              template: 15,
-                              user_id: updated.user_id
-                            })
-                            mailing_to(notify.user_id, "user_restored_pro")
-                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
-                        end
-                        {:ok, updated}
-                      {:error, changeset} ->
-                        {:error, extract_error_msg(changeset)}
-                    end
-                  else
-                    struct
-                    |> Accounts.update_platform(Map.put(attrs, :hero_active, false))
-                    |> case do
-                      {:ok, updated} ->
-                        Enum.reduce(rooms, [], fn(x, acc) ->
-                          [{:ok, _} = Talk.update_room(x, %{active: true}) | acc]
-                        end)
-                        case updated.is_banned do
-                          true ->
-                            {:ok, notify} = Notifications.create_notify(%{
-                              is_hidden: false,
-                              is_read: false,
-                              template: 13,
-                              user_id: updated.user_id
-                            })
-                            mailing_to(notify.user_id, "user_banned_pro")
-                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
-                          false ->
-                            {:ok, notify} = Notifications.create_notify(%{
-                              is_hidden: false,
-                              is_read: false,
-                              template: 15,
-                              user_id: updated.user_id
-                            })
-                            mailing_to(notify.user_id, "user_restored_pro")
-                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
-                        end
-                        case updated.hero_status do
-                          true -> :ok
-                          false ->
-                            {:ok, notify} = Notifications.create_notify(%{
-                              is_hidden: false,
-                              is_read: false,
-                              template: 18,
-                              user_id: updated.user_id
-                            })
-                            mailing_to(notify.user_id, "hero_status_lost")
-                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
-                        end
-                        {:ok, updated}
-                      {:error, changeset} ->
-                        {:error, extract_error_msg(changeset)}
-                    end
-                  end
-                else
-                  if struct.hero_status == true and struct.client_limit_reach == false and params[:hero_active] == true do
-                    struct
-                    |> Accounts.update_platform(attrs)
-                    |> case do
-                      {:ok, updated} ->
-                        Enum.reduce(rooms, [], fn(x, acc) ->
-                          [{:ok, _} = Talk.update_room(x, %{active: false}) | acc]
-                        end)
-                        case updated.is_banned do
-                          true ->
-                            {:ok, notify} = Notifications.create_notify(%{
-                              is_hidden: false,
-                              is_read: false,
-                              template: 13,
-                              user_id: updated.user_id
-                            })
-                            mailing_to(notify.user_id, "user_banned_pro")
-                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
-                          false ->
-                            {:ok, notify} = Notifications.create_notify(%{
-                              is_hidden: false,
-                              is_read: false,
-                              template: 15,
-                              user_id: updated.user_id
-                            })
-                            mailing_to(notify.user_id, "user_restored_pro")
-                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
-                        end
-                        {:ok, updated}
-                      {:error, changeset} ->
-                        {:error, extract_error_msg(changeset)}
-                    end
-                  else
-                    struct
-                    |> Accounts.update_platform(Map.put(attrs, :hero_active, false))
-                    |> case do
-                      {:ok, updated} ->
-                        Enum.reduce(rooms, [], fn(x, acc) ->
-                          [{:ok, _} = Talk.update_room(x, %{active: false}) | acc]
-                        end)
-                        case updated.is_banned do
-                          true ->
-                            {:ok, notify} = Notifications.create_notify(%{
-                              is_hidden: false,
-                              is_read: false,
-                              template: 13,
-                              user_id: updated.user_id
-                            })
-                            mailing_to(notify.user_id, "user_banned_pro")
-                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
-                          false ->
-                            {:ok, notify} = Notifications.create_notify(%{
-                              is_hidden: false,
-                              is_read: false,
-                              template: 15,
-                              user_id: updated.user_id
-                            })
-                            mailing_to(notify.user_id, "user_restored_pro")
-                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
-                        end
-                        case updated.hero_status do
-                          true -> :ok
-                          false ->
-                            {:ok, notify} = Notifications.create_notify(%{
-                              is_hidden: false,
-                              is_read: false,
-                              template: 18,
-                              user_id: updated.user_id
-                            })
-                            mailing_to(notify.user_id, "hero_status_lost")
-                            notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                            Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
-                        end
-                        {:ok, updated}
-                      {:error, changeset} ->
-                        {:error, extract_error_msg(changeset)}
-                    end
-                  end
-                end
-              false ->
-                deleted =
-                  attrs
-                  |> Map.delete(:hero_active)
-                  |> Map.delete(:hero_status)
-
-                if params[:payment_active] ==  true do
+        try do
+          struct = Repo.get!(Platform, id)
+          case Accounts.by_role(current_user.id) do
+            true ->
+              if params[:payment_active] ==  true do
+                if struct.hero_status == true and struct.client_limit_reach == false and params[:hero_active] == true do
                   struct
-                  |> Accounts.update_platform(deleted)
+                  |> Accounts.update_platform(attrs)
                   |> case do
                     {:ok, updated} ->
                       Enum.reduce(rooms, [], fn(x, acc) ->
@@ -316,19 +141,20 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                           {:ok, notify} = Notifications.create_notify(%{
                             is_hidden: false,
                             is_read: false,
-                            template: 12,
+                            template: 13,
                             user_id: updated.user_id
                           })
+                          mailing_to(notify.user_id, "user_banned_pro")
                           notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                         false ->
                           {:ok, notify} = Notifications.create_notify(%{
                             is_hidden: false,
                             is_read: false,
-                            template: 14,
+                            template: 15,
                             user_id: updated.user_id
                           })
-                          mailing_to(notify.user_id, "user_restored_client")
+                          mailing_to(notify.user_id, "user_restored_pro")
                           notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                       end
@@ -338,7 +164,56 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                   end
                 else
                   struct
-                  |> Accounts.update_platform(deleted)
+                  |> Accounts.update_platform(Map.put(attrs, :hero_active, false))
+                  |> case do
+                    {:ok, updated} ->
+                      Enum.reduce(rooms, [], fn(x, acc) ->
+                        [{:ok, _} = Talk.update_room(x, %{active: true}) | acc]
+                      end)
+                      case updated.is_banned do
+                        true ->
+                          {:ok, notify} = Notifications.create_notify(%{
+                            is_hidden: false,
+                            is_read: false,
+                            template: 13,
+                            user_id: updated.user_id
+                          })
+                          mailing_to(notify.user_id, "user_banned_pro")
+                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                        false ->
+                          {:ok, notify} = Notifications.create_notify(%{
+                            is_hidden: false,
+                            is_read: false,
+                            template: 15,
+                            user_id: updated.user_id
+                          })
+                          mailing_to(notify.user_id, "user_restored_pro")
+                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                      end
+                      case updated.hero_status do
+                        true -> :ok
+                        false ->
+                          {:ok, notify} = Notifications.create_notify(%{
+                            is_hidden: false,
+                            is_read: false,
+                            template: 18,
+                            user_id: updated.user_id
+                          })
+                          mailing_to(notify.user_id, "hero_status_lost")
+                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                      end
+                      {:ok, updated}
+                    {:error, changeset} ->
+                      {:error, extract_error_msg(changeset)}
+                  end
+                end
+              else
+                if struct.hero_status == true and struct.client_limit_reach == false and params[:hero_active] == true do
+                  struct
+                  |> Accounts.update_platform(attrs)
                   |> case do
                     {:ok, updated} ->
                       Enum.reduce(rooms, [], fn(x, acc) ->
@@ -349,18 +224,67 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                           {:ok, notify} = Notifications.create_notify(%{
                             is_hidden: false,
                             is_read: false,
-                            template: 12,
+                            template: 13,
                             user_id: updated.user_id
                           })
+                          mailing_to(notify.user_id, "user_banned_pro")
                           notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                         false ->
                           {:ok, notify} = Notifications.create_notify(%{
                             is_hidden: false,
                             is_read: false,
-                            template: 14,
+                            template: 15,
                             user_id: updated.user_id
                           })
+                          mailing_to(notify.user_id, "user_restored_pro")
+                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                      end
+                      {:ok, updated}
+                    {:error, changeset} ->
+                      {:error, extract_error_msg(changeset)}
+                  end
+                else
+                  struct
+                  |> Accounts.update_platform(Map.put(attrs, :hero_active, false))
+                  |> case do
+                    {:ok, updated} ->
+                      Enum.reduce(rooms, [], fn(x, acc) ->
+                        [{:ok, _} = Talk.update_room(x, %{active: false}) | acc]
+                      end)
+                      case updated.is_banned do
+                        true ->
+                          {:ok, notify} = Notifications.create_notify(%{
+                            is_hidden: false,
+                            is_read: false,
+                            template: 13,
+                            user_id: updated.user_id
+                          })
+                          mailing_to(notify.user_id, "user_banned_pro")
+                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                        false ->
+                          {:ok, notify} = Notifications.create_notify(%{
+                            is_hidden: false,
+                            is_read: false,
+                            template: 15,
+                            user_id: updated.user_id
+                          })
+                          mailing_to(notify.user_id, "user_restored_pro")
+                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                      end
+                      case updated.hero_status do
+                        true -> :ok
+                        false ->
+                          {:ok, notify} = Notifications.create_notify(%{
+                            is_hidden: false,
+                            is_read: false,
+                            template: 18,
+                            user_id: updated.user_id
+                          })
+                          mailing_to(notify.user_id, "hero_status_lost")
                           notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                       end
@@ -369,18 +293,116 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                       {:error, extract_error_msg(changeset)}
                   end
                 end
-            end
-          rescue
-            Ecto.NoResultsError ->
-              {:error, "The Platform #{id} not found!"}
+              end
+            false ->
+              deleted =
+                attrs
+                |> Map.delete(:hero_active)
+                |> Map.delete(:hero_status)
+
+              if params[:payment_active] ==  true do
+                struct
+                |> Accounts.update_platform(deleted)
+                |> case do
+                  {:ok, updated} ->
+                    Enum.reduce(rooms, [], fn(x, acc) ->
+                      [{:ok, _} = Talk.update_room(x, %{active: true}) | acc]
+                    end)
+                    case updated.is_banned do
+                      true ->
+                        {:ok, notify} = Notifications.create_notify(%{
+                          is_hidden: false,
+                          is_read: false,
+                          template: 12,
+                          user_id: updated.user_id
+                        })
+                        notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                        Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                      false ->
+                        {:ok, notify} = Notifications.create_notify(%{
+                          is_hidden: false,
+                          is_read: false,
+                          template: 14,
+                          user_id: updated.user_id
+                        })
+                        mailing_to(notify.user_id, "user_restored_client")
+                        notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                        Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                    end
+                    {:ok, updated}
+                  {:error, changeset} ->
+                    {:error, extract_error_msg(changeset)}
+                end
+              else
+                struct
+                |> Accounts.update_platform(deleted)
+                |> case do
+                  {:ok, updated} ->
+                    Enum.reduce(rooms, [], fn(x, acc) ->
+                      [{:ok, _} = Talk.update_room(x, %{active: false}) | acc]
+                    end)
+                    case updated.is_banned do
+                      true ->
+                        {:ok, notify} = Notifications.create_notify(%{
+                          is_hidden: false,
+                          is_read: false,
+                          template: 12,
+                          user_id: updated.user_id
+                        })
+                        notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                        Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                      false ->
+                        {:ok, notify} = Notifications.create_notify(%{
+                          is_hidden: false,
+                          is_read: false,
+                          template: 14,
+                          user_id: updated.user_id
+                        })
+                        notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                        Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                    end
+                    {:ok, updated}
+                  {:error, changeset} ->
+                    {:error, extract_error_msg(changeset)}
+                end
+              end
           end
-        false -> {:error, "permission denied"}
-      end
+        rescue
+          Ecto.NoResultsError ->
+            {:error, "The Platform #{id} not found!"}
+        end
+      false -> {:error, "permission denied"}
     end
   end
 
   @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def update(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :platform, message: "Can't be blank"]]}
+  end
+
+  @spec update_for_admin(any, %{id: bitstring, platform: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update_for_admin(_parent, %{id: id, platform: params}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      try do
+        Repo.get!(Platform, id)
+        |> Accounts.update_platform(params)
+        |> case do
+          {:ok, struct} ->
+            {:ok, struct}
+          {:error, changeset} ->
+            {:error, extract_error_msg(changeset)}
+        end
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "The Platform #{id} not found!"}
+      end
+    else
+      {:error, "permission denied"}
+    end
+  end
+
+  @spec update_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update_for_admin(_parent, _args, _info) do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :platform, message: "Can't be blank"]]}
   end
 

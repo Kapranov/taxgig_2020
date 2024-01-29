@@ -71,6 +71,13 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.PlatformTypes do
       resolve &PlatformResolver.update/3
     end
 
+    @desc "Update a specific platform for admin"
+    field :update_platform_by_admin, :platform do
+      arg :id, non_null(:string)
+      arg :platform, :update_platform_params
+      resolve &PlatformResolver.update_for_admin/3
+    end
+
     @desc "Delete a specific the platform"
     field :delete_platform, :platform do
       arg :id, non_null(:string)
