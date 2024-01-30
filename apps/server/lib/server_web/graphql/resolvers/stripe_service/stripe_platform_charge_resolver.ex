@@ -301,6 +301,8 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
 
     val2 =
       (val1 * 0.35)
+      |> Float.round(2)
+      |> Float.ceil(0)
       |> Float.ratio
       |> elem(0)
 
