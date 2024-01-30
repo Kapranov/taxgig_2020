@@ -412,7 +412,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
           case params[:user_id] == current_user.id do
             true  ->
               case Repo.get_by(Project, %{id: id}).status do
-                :Canceled ->
+                :"Canceled" ->
                   case params[:status] do
                     "Canceled" ->
                       try do
@@ -575,7 +575,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                           {:error, "The Project #{id} not found!"}
                       end
                   end
-                :Done ->
+                :"Done" ->
                   case params[:status] do
                     "Canceled" ->
                       try do
@@ -1186,7 +1186,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                           {:error, "The Project #{id} not found!"}
                       end
                   end
-                :New ->
+                :"New" ->
                   case params[:status] do
                     "Canceled" ->
                       try do
