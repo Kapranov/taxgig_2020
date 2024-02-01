@@ -153,22 +153,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
             Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
             {:ok, struct}
           end
-        %{status: status, page: page} ->
-            struct =
-              Queries.by_list(Project, :assigned_id, current_user.id, :status, status)
-              |> Repo.preload([:tp_docs, :pro_docs])
-              |> Enum.take(page)
-
-            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
-            {:ok, struct}
-        %{status: status, limit_counter: counter} ->
-            struct =
-              Queries.by_list(Project, :assigned_id, current_user.id, :status, status)
-              |> Repo.preload([:tp_docs, :pro_docs])
-              |> Enum.take(counter)
-
-            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
-            {:ok, struct}
         %{page: page, limit_counter: counter} ->
           if page < counter do
             struct =
@@ -187,35 +171,57 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
             Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
             {:ok, struct}
           end
-        %{status: status} ->
-            struct =
-              Queries.by_list(Project, :assigned_id, current_user.id, :status, status)
-              |> Repo.preload([:tp_docs, :pro_docs])
-
-            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
-            {:ok, struct}
-        %{page: page} ->
-            struct =
-              Queries.by_list(Project, :assigned_id, current_user.id)
-              |> Repo.preload([:tp_docs, :pro_docs])
-              |> Enum.take(page)
-
-            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
-            {:ok, struct}
-        %{limit_counter: counter} ->
-            struct =
-              Queries.by_list(Project, :assigned_id, current_user.id)
-              |> Repo.preload([:tp_docs, :pro_docs])
-              |> Enum.take(counter)
-
-            Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_list: "projects")
-            {:ok, struct}
+        _ -> {:ok, []}
       end
     end
   end
 
   @spec pro_list(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
   def pro_list(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
+  end
+
+  @spec pro_list_for_admin(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def pro_list_for_admin(_parent, %{user_id: user_id, filter: args}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      case args do
+        %{status: status, page: page, limit_counter: counter} ->
+          if page < counter do
+            struct =
+              Queries.by_list(User, Project, :assigned_id, user_id, :status, status, true)
+              |> Enum.take(page)
+
+            {:ok, struct}
+          else
+            struct =
+              Queries.by_list(User, Project, :assigned_id, user_id, :status, status, true)
+              |> Enum.take(counter)
+
+            {:ok, struct}
+          end
+        %{page: page, limit_counter: counter} ->
+          if page < counter do
+            struct =
+              Queries.by_list_admin(User, Project, :assigned_id, user_id, true)
+              |> Enum.take(page)
+
+            {:ok, struct}
+          else
+            struct =
+              Queries.by_list_admin(User, Project, :assigned_id, user_id, true)
+              |> Enum.take(counter)
+
+            {:ok, struct}
+          end
+        _ -> {:ok, []}
+      end
+    else
+      {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
+    end
+  end
+
+  @spec pro_list_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def pro_list_for_admin(_parent, _args, _resolutions) do
     {:error, "Unauthenticated"}
   end
 

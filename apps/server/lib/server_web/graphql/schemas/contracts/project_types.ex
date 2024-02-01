@@ -105,6 +105,13 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
       resolve(&ProjectResolver.pro_list/3)
     end
 
+    @desc "Get all pro projects for admin"
+    field :pro_projects_by_admin, list_of(:project) do
+      arg(:user_id, non_null(:string))
+      arg :filter, non_null(:filter_project_params)
+      resolve(&ProjectResolver.pro_list_for_admin/3)
+    end
+
     @desc "Get a specific project"
     field :show_project, :project do
       arg(:id, non_null(:string))

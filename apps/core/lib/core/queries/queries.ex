@@ -584,6 +584,34 @@ defmodule Core.Queries do
 #    end
 #  end
 
+  @spec by_list(map, atom, word, atom, word, boolean) :: Ecto.Query.t()
+  def by_list(struct, row_a, id, row_b, name, role) do
+    try do
+      Repo.all(
+        from c in struct,
+        where: field(c, ^row_a) == ^id,
+        where: field(c, ^row_b) == ^name
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @spec by_list(map, map, atom, word, atom, word, boolean) :: Ecto.Query.t()
+  def by_list(struct_a, struct_b, row_a, id, row_b, name, role) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: cu in ^struct_b,
+        where: c.role == ^role,
+        where: field(cu, ^row_a) == ^id,
+        where: field(cu, ^row_b) == ^name
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
   @doc """
   Retrurn all records with 8 items
 
@@ -647,6 +675,20 @@ defmodule Core.Queries do
         where: field(cu, ^row_a) == ^id,
         where: field(c, ^row_c) == field(cp, ^row_d),
         where: field(cu, ^row_d) == field(ct, ^row_b)
+      )
+    rescue
+      Ecto.Query.CastError -> nil
+    end
+  end
+
+  @spec by_list_admin(map, map, atom, word, boolean) :: Ecto.Query.t()
+  def by_list_admin(struct_a, struct_b, row, id, role) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: cu in ^struct_b,
+        where: c.role == ^role,
+        where: field(cu, ^row) == ^id
       )
     rescue
       Ecto.Query.CastError -> nil
