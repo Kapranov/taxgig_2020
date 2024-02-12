@@ -75,6 +75,7 @@ defmodule Core.Talk.Message do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_params)
+    |> validate_length(:body, min: 1, max: 10_000)
     |> foreign_key_constraint(:recipient_id, message: "Select Recipients")
     |> foreign_key_constraint(:room_id, message: "Select a Room")
     |> foreign_key_constraint(:user_id, message: "Select an User")
@@ -88,6 +89,7 @@ defmodule Core.Talk.Message do
     struct
     |> cast(attrs, @allowed_params)
     |> validate_required(@required_updated_params)
+    |> validate_length(:body, min: 1, max: 10_000)
     |> foreign_key_constraint(:recipient_id, message: "Select Recipients")
     |> foreign_key_constraint(:room_id, message: "Select a Room")
     |> foreign_key_constraint(:user_id, message: "Select an User")
