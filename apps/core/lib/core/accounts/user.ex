@@ -264,7 +264,59 @@ defmodule Core.Accounts.User do
         |> changeset_preload(:languages)
         |> put_assoc_nochange(:languages, parse_name(attrs))
         |> validate_format(:email, email_regex())
-        |> validate_length(:password, min: 5, max: 15)
+        |> validate_length(:password, min: 7, max: 25)
+        |> validate_confirmation(:password)
+        |> update_change(:email, &String.downcase/1)
+        |> unique_constraint(:email, name: :users_email_index, message: "The format of the email address isn't correct or email has already been taken!")
+        |> validate_email()
+        |> validate_length(:first_name, max: name_limit)
+        |> validate_length(:last_name, max: name_limit)
+        |> validate_length(:middle_name, max: name_limit)
+        |> put_password_hash()
+    end
+  end
+
+  @doc """
+  Update changeset for User, registration only requires
+  an email, password and password_confirmation are fields.
+  """
+  @spec update_verify2fa_changeset(t, %{atom => any}) :: Ecto.Changeset.t()
+  def update_verify2fa_changeset(struct, attrs) do
+    name_limit = Config.get([:instance, :user_name_length], 25)
+
+    attr =
+      attrs
+      #|> truncate_if_exists(:bio, bio_limit)
+      |> truncate_if_exists(:first_name, name_limit)
+      |> truncate_if_exists(:last_name, name_limit)
+      |> truncate_if_exists(:middle_name, name_limit)
+      |> truncate_if_exists(:street, name_limit)
+
+    case struct.role do
+      true ->
+        struct
+        |> cast(attr, @allowed_params)
+        |> validate_required(@required_params)
+        |> changeset_preload(:languages)
+        |> put_assoc_nochange(:languages, parse_name(attrs))
+        |> validate_format(:email, email_regex())
+        |> validate_length(:password, min: 7, max: 25)
+        |> validate_confirmation(:password)
+        |> update_change(:email, &String.downcase/1)
+        |> unique_constraint(:email, name: :users_email_index, message: "The format of the email address isn't correct or email has already been taken!")
+        |> validate_email()
+        |> validate_length(:first_name, max: name_limit)
+        |> validate_length(:last_name, max: name_limit)
+        |> validate_length(:middle_name, max: name_limit)
+        |> put_password_hash()
+      false ->
+        struct
+        |> cast(attr, @allowed_params)
+        |> validate_required(@required_params)
+        |> changeset_preload(:languages)
+        |> put_assoc_nochange(:languages, parse_name(attrs))
+        |> validate_format(:email, email_regex())
+        |> validate_length(:password, min: 7, max: 25)
         |> validate_confirmation(:password)
         |> update_change(:email, &String.downcase/1)
         |> unique_constraint(:email, name: :users_email_index, message: "The format of the email address isn't correct or email has already been taken!")
