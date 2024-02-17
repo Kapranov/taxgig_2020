@@ -136,7 +136,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                       Enum.reduce(rooms, [], fn(x, acc) ->
                         [{:ok, _} = Talk.update_room(x, %{active: true}) | acc]
                       end)
-                      case updated.is_banned do
+                      case params[:is_banned] do
                         true ->
                           {:ok, notify} = Notifications.create_notify(%{
                             is_hidden: false,
@@ -147,6 +147,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                           mailing_to(notify.user_id, "user_banned_pro")
                           notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                          {:ok, updated}
                         false ->
                           {:ok, notify} = Notifications.create_notify(%{
                             is_hidden: false,
@@ -157,8 +158,10 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                           mailing_to(notify.user_id, "user_restored_pro")
                           notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                          {:ok, updated}
+                        _ ->
+                          {:ok, updated}
                       end
-                      {:ok, updated}
                     {:error, changeset} ->
                       {:error, extract_error_msg(changeset)}
                   end
@@ -170,42 +173,116 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                       Enum.reduce(rooms, [], fn(x, acc) ->
                         [{:ok, _} = Talk.update_room(x, %{active: true}) | acc]
                       end)
-                      case updated.is_banned do
+                      case params[:is_banned] do
                         true ->
-                          {:ok, notify} = Notifications.create_notify(%{
-                            is_hidden: false,
-                            is_read: false,
-                            template: 13,
-                            user_id: updated.user_id
-                          })
-                          mailing_to(notify.user_id, "user_banned_pro")
-                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                          case params[:hero_status] do
+                            true ->
+                              {:ok, notify_is_banned} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 13,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_is_banned.user_id, "user_banned_pro")
+                              notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                              {:ok, updated}
+                            false ->
+                              {:ok, notify_is_banned} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 13,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_is_banned.user_id, "user_banned_pro")
+                              notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                              {:ok, notify_hero_status} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 18,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_hero_status.user_id, "hero_status_lost")
+                              notifies_hero_status = Queries.by_list(Notify, :user_id, notify_hero_status.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_hero_status, notify_list: "notifies")
+                              {:ok, updated}
+                            _ ->
+                              {:ok, notify_is_banned} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 13,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_is_banned.user_id, "user_banned_pro")
+                              notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                              {:ok, updated}
+                          end
                         false ->
-                          {:ok, notify} = Notifications.create_notify(%{
-                            is_hidden: false,
-                            is_read: false,
-                            template: 15,
-                            user_id: updated.user_id
-                          })
-                          mailing_to(notify.user_id, "user_restored_pro")
-                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                          case params[:hero_status] do
+                            true ->
+                              {:ok, notify_is_banned} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 15,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_is_banned.user_id, "user_restored_pro")
+                              notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                              {:ok, updated}
+                            false ->
+                              {:ok, notify_is_banned} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 15,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_is_banned.user_id, "user_restored_pro")
+                              notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                              {:ok, notify_hero_status} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 18,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_hero_status.user_id, "hero_status_lost")
+                              notifies_hero_status = Queries.by_list(Notify, :user_id, notify_hero_status.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_hero_status, notify_list: "notifies")
+                              {:ok, updated}
+                            _ ->
+                              {:ok, notify_is_banned} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 15,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_is_banned.user_id, "user_restored_pro")
+                              notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                              {:ok, updated}
+                          end
+                        _ ->
+                          case params[:hero_status] do
+                            true ->
+                              {:ok, updated}
+                            false ->
+                              {:ok, notify_hero_status} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 18,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_hero_status.user_id, "hero_status_lost")
+                              notifies_hero_status = Queries.by_list(Notify, :user_id, notify_hero_status.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_hero_status, notify_list: "notifies")
+                              {:ok, updated}
+                            _ ->
+                              {:ok, updated}
+                          end
                       end
-                      case updated.hero_status do
-                        true -> :ok
-                        false ->
-                          {:ok, notify} = Notifications.create_notify(%{
-                            is_hidden: false,
-                            is_read: false,
-                            template: 18,
-                            user_id: updated.user_id
-                          })
-                          mailing_to(notify.user_id, "hero_status_lost")
-                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
-                      end
-                      {:ok, updated}
                     {:error, changeset} ->
                       {:error, extract_error_msg(changeset)}
                   end
@@ -219,29 +296,32 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                       Enum.reduce(rooms, [], fn(x, acc) ->
                         [{:ok, _} = Talk.update_room(x, %{active: false}) | acc]
                       end)
-                      case updated.is_banned do
+                      case params[:is_banned] do
                         true ->
-                          {:ok, notify} = Notifications.create_notify(%{
+                          {:ok, notify_is_banned} = Notifications.create_notify(%{
                             is_hidden: false,
                             is_read: false,
                             template: 13,
                             user_id: updated.user_id
                           })
-                          mailing_to(notify.user_id, "user_banned_pro")
-                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                          mailing_to(notify_is_banned.user_id, "user_banned_pro")
+                          notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                          {:ok, updated}
                         false ->
-                          {:ok, notify} = Notifications.create_notify(%{
+                          {:ok, notify_is_banned} = Notifications.create_notify(%{
                             is_hidden: false,
                             is_read: false,
                             template: 15,
                             user_id: updated.user_id
                           })
-                          mailing_to(notify.user_id, "user_restored_pro")
-                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                          mailing_to(notify_is_banned.user_id, "user_restored_pro")
+                          notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                          {:ok, updated}
+                        _ ->
+                          {:ok, updated}
                       end
-                      {:ok, updated}
                     {:error, changeset} ->
                       {:error, extract_error_msg(changeset)}
                   end
@@ -253,42 +333,116 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                       Enum.reduce(rooms, [], fn(x, acc) ->
                         [{:ok, _} = Talk.update_room(x, %{active: false}) | acc]
                       end)
-                      case updated.is_banned do
+                      case params[:is_banned] do
                         true ->
-                          {:ok, notify} = Notifications.create_notify(%{
-                            is_hidden: false,
-                            is_read: false,
-                            template: 13,
-                            user_id: updated.user_id
-                          })
-                          mailing_to(notify.user_id, "user_banned_pro")
-                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                          case params[:hero_status] do
+                            true ->
+                              {:ok, notify_is_banned} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 13,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_is_banned.user_id, "user_banned_pro")
+                              notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                              {:ok, updated}
+                            false ->
+                              {:ok, notify_is_banned} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 13,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_is_banned.user_id, "user_banned_pro")
+                              notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                              {:ok, notify_hero_status} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 18,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_hero_status.user_id, "hero_status_lost")
+                              notifies_hero_status = Queries.by_list(Notify, :user_id, notify_hero_status.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_hero_status, notify_list: "notifies")
+                              {:ok, updated}
+                            _ ->
+                              {:ok, notify_is_banned} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 13,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_is_banned.user_id, "user_banned_pro")
+                              notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                              {:ok, updated}
+                          end
                         false ->
-                          {:ok, notify} = Notifications.create_notify(%{
-                            is_hidden: false,
-                            is_read: false,
-                            template: 15,
-                            user_id: updated.user_id
-                          })
-                          mailing_to(notify.user_id, "user_restored_pro")
-                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                          case params[:hero_status] do
+                            true ->
+                              {:ok, notify_is_banned} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 15,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_is_banned.user_id, "user_restored_pro")
+                              notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                              {:ok, updated}
+                            false ->
+                              {:ok, notify_is_banned} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 15,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_is_banned.user_id, "user_restored_pro")
+                              notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                              {:ok, notify_hero_status} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 18,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_hero_status.user_id, "hero_status_lost")
+                              notifies_hero_status = Queries.by_list(Notify, :user_id, notify_hero_status.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_hero_status, notify_list: "notifies")
+                              {:ok, updated}
+                            _ ->
+                              {:ok, notify_is_banned} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 15,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_is_banned.user_id, "user_restored_pro")
+                              notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                              {:ok, updated}
+                          end
+                        _ ->
+                          case params[:hero_status] do
+                            true ->
+                              {:ok, updated}
+                            false ->
+                              {:ok, notify_hero_status} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                template: 18,
+                                user_id: updated.user_id
+                              })
+                              mailing_to(notify_hero_status.user_id, "hero_status_lost")
+                              notifies_hero_status = Queries.by_list(Notify, :user_id, notify_hero_status.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_hero_status, notify_list: "notifies")
+                              {:ok, updated}
+                            _ ->
+                              {:ok, updated}
+                          end
                       end
-                      case updated.hero_status do
-                        true -> :ok
-                        false ->
-                          {:ok, notify} = Notifications.create_notify(%{
-                            is_hidden: false,
-                            is_read: false,
-                            template: 18,
-                            user_id: updated.user_id
-                          })
-                          mailing_to(notify.user_id, "hero_status_lost")
-                          notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                          Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
-                      end
-                      {:ok, updated}
                     {:error, changeset} ->
                       {:error, extract_error_msg(changeset)}
                   end
@@ -308,28 +462,31 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                     Enum.reduce(rooms, [], fn(x, acc) ->
                       [{:ok, _} = Talk.update_room(x, %{active: true}) | acc]
                     end)
-                    case updated.is_banned do
+                    case params[:is_banned] do
                       true ->
-                        {:ok, notify} = Notifications.create_notify(%{
+                        {:ok, notify_is_banned} = Notifications.create_notify(%{
                           is_hidden: false,
                           is_read: false,
                           template: 12,
                           user_id: updated.user_id
                         })
-                        notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                        Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                        notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                        Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                        {:ok, updated}
                       false ->
-                        {:ok, notify} = Notifications.create_notify(%{
+                        {:ok, notify_is_banned} = Notifications.create_notify(%{
                           is_hidden: false,
                           is_read: false,
                           template: 14,
                           user_id: updated.user_id
                         })
-                        mailing_to(notify.user_id, "user_restored_client")
-                        notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                        Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                        mailing_to(notify_is_banned.user_id, "user_restored_client")
+                        notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                        Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                        {:ok, updated}
+                      _ ->
+                      {:ok, updated}
                     end
-                    {:ok, updated}
                   {:error, changeset} ->
                     {:error, extract_error_msg(changeset)}
                 end
@@ -341,27 +498,30 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.PlatformResolver do
                     Enum.reduce(rooms, [], fn(x, acc) ->
                       [{:ok, _} = Talk.update_room(x, %{active: false}) | acc]
                     end)
-                    case updated.is_banned do
+                    case params[:is_banned] do
                       true ->
-                        {:ok, notify} = Notifications.create_notify(%{
+                        {:ok, notify_is_banned} = Notifications.create_notify(%{
                           is_hidden: false,
                           is_read: false,
                           template: 12,
                           user_id: updated.user_id
                         })
-                        notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                        Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                        notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                        Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                        {:ok, updated}
                       false ->
-                        {:ok, notify} = Notifications.create_notify(%{
+                        {:ok, notify_is_banned} = Notifications.create_notify(%{
                           is_hidden: false,
                           is_read: false,
                           template: 14,
                           user_id: updated.user_id
                         })
-                        notifies = Queries.by_list(Notify, :user_id, notify.user_id)
-                        Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                        notifies_is_banned = Queries.by_list(Notify, :user_id, notify_is_banned.user_id)
+                        Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies_is_banned, notify_list: "notifies")
+                        {:ok, updated}
+                      _ ->
+                      {:ok, updated}
                     end
-                    {:ok, updated}
                   {:error, changeset} ->
                     {:error, extract_error_msg(changeset)}
                 end
