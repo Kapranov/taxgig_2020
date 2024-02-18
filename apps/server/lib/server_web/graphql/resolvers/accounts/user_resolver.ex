@@ -1896,7 +1896,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       :ban_reasons,
       :book_keepings,
       :business_tax_returns,
-      :deleted_users,
       :educations,
       :individual_tax_returns,
       :languages,
