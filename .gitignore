@@ -44,6 +44,7 @@ gen_server_try.tar.bz2
 mix.lock
 payments.ex
 phx-1.5-upgrade.md
+platform_resolver.ex.save
 project_schema.pdf
 project_schema.txt
 ptin_schema_csv.txt

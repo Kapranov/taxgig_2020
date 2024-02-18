@@ -202,12 +202,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
           if page < counter do
             data =
               CoreQueries.by_role_list(User, Platform, :role, true, :profession, profession, :hero_status, hero_status)
+              |> Repo.preload(user_preload())
               |> Enum.take(page)
 
             {:ok, data}
           else
             data =
               CoreQueries.by_role_list(User, Platform, :role, true, :profession, profession, :hero_status, hero_status)
+              |> Repo.preload(user_preload())
               |> Enum.take(counter)
 
             {:ok, data}
@@ -216,12 +218,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
           if page < counter do
             data =
               CoreQueries.by_role_list(User, :role, true, :profession, profession)
+              |> Repo.preload(user_preload())
               |> Enum.take(page)
 
             {:ok, data}
           else
             data =
               CoreQueries.by_role_list(User, :role, true, :profession, profession)
+              |> Repo.preload(user_preload())
               |> Enum.take(counter)
 
             {:ok, data}
@@ -230,12 +234,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
           if page < counter do
             data =
               CoreQueries.by_role_list(User, Platform, :role, true, :hero_status, hero_status)
+              |> Repo.preload(user_preload())
               |> Enum.take(page)
 
             {:ok, data}
           else
             data =
               CoreQueries.by_role_list(User, Platform, :role, true, :hero_status, hero_status)
+              |> Repo.preload(user_preload())
               |> Enum.take(counter)
 
             {:ok, data}
@@ -244,12 +250,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
           if page < counter do
             data =
               CoreQueries.by_role_list(User, :role, true)
+              |> Repo.preload(user_preload())
               |> Enum.take(page)
 
             {:ok, data}
           else
             data =
               CoreQueries.by_role_list(User, :role, true)
+              |> Repo.preload(user_preload())
               |> Enum.take(counter)
 
             {:ok, data}
@@ -1878,5 +1886,34 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     Task.async(fn ->
       Mailer.send_by_notification(email_and_name.email, template, email_and_name.first_name)
     end)
+  end
+
+  @spec user_preload() :: list
+  defp user_preload do
+    [
+      :accounting_software,
+      :addons,
+      :ban_reasons,
+      :book_keepings,
+      :business_tax_returns,
+      :deleted_users,
+      :educations,
+      :individual_tax_returns,
+      :languages,
+      :messages,
+      :offers,
+      :platform,
+      :potential_client,
+      :pro_docs,
+      :pro_ratings,
+      :profile,
+      :projects,
+      :reports,
+      :rooms,
+      :sale_taxes,
+      :service_reviews,
+      :tp_docs,
+      :work_experiences
+    ]
   end
 end
