@@ -19,7 +19,6 @@ defmodule Core.Accounts.User do
     Contracts.ServiceReview,
     Localization.Language,
     Media.ProDoc,
-    Media.TpDoc,
     Repo,
     Services.BookKeeping,
     Services.BusinessTaxReturn,
@@ -79,7 +78,6 @@ defmodule Core.Accounts.User do
     sex: String.t(),
     street: String.t(),
     total_earned: integer,
-    tp_docs: [TpDoc.t()],
     work_experiences: WorkExperience.t(),
     zip: integer
   }
@@ -176,7 +174,6 @@ defmodule Core.Accounts.User do
     has_many :rooms, Room, on_delete: :delete_all
     has_many :sale_taxes, SaleTax, on_delete: :delete_all
     has_many :service_reviews, ServiceReview, on_delete: :delete_all
-    has_many :tp_docs, TpDoc, on_delete: :delete_all
     has_many :work_experiences, WorkExperience, on_delete: :delete_all
 
     many_to_many :languages, Language, join_through: "users_languages", on_replace: :delete
