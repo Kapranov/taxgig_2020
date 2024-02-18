@@ -1912,7 +1912,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       :rooms,
       :sale_taxes,
       :service_reviews,
-      :tp_docs,
       :work_experiences
     ]
   end
