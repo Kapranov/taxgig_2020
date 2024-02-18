@@ -1904,7 +1904,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       :offers,
       :platform,
       :potential_client,
-      :pro_docs,
       :pro_ratings,
       :profile,
       :projects,
