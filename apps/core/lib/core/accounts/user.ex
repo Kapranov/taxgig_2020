@@ -18,6 +18,8 @@ defmodule Core.Accounts.User do
     Contracts.Project,
     Contracts.ServiceReview,
     Localization.Language,
+    Media.ProDoc,
+    Media.TpDoc,
     Repo,
     Services.BookKeeping,
     Services.BusinessTaxReturn,
@@ -63,6 +65,7 @@ defmodule Core.Accounts.User do
     phone: String.t(),
     platform: Platform.t(),
     potential_client: PotentialClient.t(),
+    pro_docs: [ProDoc.t()],
     pro_ratings: [ProRating.t()],
     profession: String.t(),
     profile: Profile.t(),
@@ -76,6 +79,7 @@ defmodule Core.Accounts.User do
     sex: String.t(),
     street: String.t(),
     total_earned: integer,
+    tp_docs: [TpDoc.t()],
     work_experiences: WorkExperience.t(),
     zip: integer
   }
@@ -165,12 +169,14 @@ defmodule Core.Accounts.User do
     has_many :individual_tax_returns, IndividualTaxReturn, on_delete: :delete_all
     has_many :messages, Message, on_delete: :delete_all
     has_many :offers, Offer, on_delete: :delete_all
+    has_many :pro_docs, ProDoc, on_delete: :delete_all
     has_many :pro_ratings, ProRating, on_delete: :delete_all
     has_many :projects, Project, on_delete: :delete_all
     has_many :reports, Report, on_delete: :delete_all
     has_many :rooms, Room, on_delete: :delete_all
     has_many :sale_taxes, SaleTax, on_delete: :delete_all
     has_many :service_reviews, ServiceReview, on_delete: :delete_all
+    has_many :tp_docs, TpDoc, on_delete: :delete_all
     has_many :work_experiences, WorkExperience, on_delete: :delete_all
 
     many_to_many :languages, Language, join_through: "users_languages", on_replace: :delete
