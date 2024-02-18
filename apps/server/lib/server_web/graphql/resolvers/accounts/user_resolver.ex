@@ -1894,10 +1894,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       :accounting_software,
       :addons,
       :ban_reasons,
-      :book_keepings,
-      :business_tax_returns,
       :educations,
-      :individual_tax_returns,
       :languages,
       :messages,
       :offers,
@@ -1909,9 +1906,39 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       :projects,
       :reports,
       :rooms,
-      :sale_taxes,
       :service_reviews,
-      :work_experiences
+      :work_experiences,
+      book_keepings: [
+        :book_keeping_additional_needs,
+        :book_keeping_annual_revenues,
+        :book_keeping_classify_inventories,
+        :book_keeping_industries,
+        :book_keeping_number_employees,
+        :book_keeping_transaction_volumes,
+        :book_keeping_type_clients
+      ],
+      business_tax_returns: [
+        :business_entity_types,
+        :business_foreign_account_counts,
+        :business_foreign_ownership_counts,
+        :business_industries,
+        :business_llc_types,
+        :business_number_employees,
+        :business_total_revenues,
+        :business_transaction_counts
+      ],
+      individual_tax_returns: [
+        :individual_employment_statuses,
+        :individual_filing_statuses,
+        :individual_foreign_account_counts,
+        :individual_industries,
+        :individual_itemized_deductions,
+        :individual_stock_transaction_counts
+      ],
+      sale_taxes: [
+        :sale_tax_frequencies,
+        :sale_tax_industries
+      ]
     ]
   end
 end
