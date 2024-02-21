@@ -591,19 +591,14 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
   def update_for_admin(_root, %{id: id, user: params}, %{context: %{current_user: current_user}}) do
     if current_user.admin do
       try do
-        case id == current_user.id do
-          true ->
-            Repo.get!(User, id)
-            |> User.changeset(params)
-            |> Repo.update
-            |> case do
-              {:ok, struct} ->
-                {:ok, struct}
-              {:error, changeset} ->
-                {:error, extract_error_msg(changeset)}
-            end
-          false ->
-            {:error, "permission denied"}
+        Repo.get!(User, id)
+        |> User.changeset(params)
+        |> Repo.update
+        |> case do
+          {:ok, struct} ->
+            {:ok, struct}
+          {:error, changeset} ->
+            {:error, extract_error_msg(changeset)}
         end
       rescue
         Ecto.NoResultsError ->
