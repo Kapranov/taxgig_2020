@@ -103,6 +103,28 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProRatingResolver do
     {:error, "Unauthenticated"}
   end
 
+  @spec create_for_admin(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def create_for_admin(_parent, args, %{context: %{current_user: current_user}}) do
+    case current_user.admin do
+      false ->
+        {:error, [[field: :user_id, message: "Permission denied for current_user"]]}
+      true ->
+        args
+        |> Accounts.create_pro_rating()
+        |> case do
+          {:ok, struct} ->
+            {:ok, struct}
+          {:error, changeset} ->
+            {:error, extract_error_msg(changeset)}
+        end
+    end
+  end
+
+  @spec create_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def create_for_admin(_parent, _args, _info) do
+    {:error, "Unauthenticated"}
+  end
+
   @spec update(any, %{id: bitstring, pro_rating: map()}, %{context: %{current_user: User.t()}}) :: result()
   def update(_parent, %{id: id, pro_rating: params}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) || current_user.role == false do
@@ -133,6 +155,32 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProRatingResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :pro_rating, message: "Can't be blank"]]}
   end
 
+  @spec update_for_admin(any, %{id: bitstring, pro_rating: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update_for_admin(_parent, %{id: id, pro_rating: params}, %{context: %{current_user: current_user}}) do
+    case current_user.admin do
+      true  ->
+        try do
+          Repo.get!(ProRating, id)
+          |> Accounts.update_pro_rating(params)
+          |> case do
+            {:ok, struct} ->
+              {:ok, struct}
+            {:error, changeset} ->
+              {:error, extract_error_msg(changeset)}
+          end
+        rescue
+          Ecto.NoResultsError ->
+            {:error, "The Pro Rating #{id} not found!"}
+        end
+      false -> {:error, "permission denied for current user"}
+    end
+  end
+
+  @spec update_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update_for_admin(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :pro_rating, message: "Can't be blank"]]}
+  end
+
   @spec delete(any, %{id: bitstring, user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) || current_user.role == false do
@@ -154,6 +202,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.ProRatingResolver do
 
   @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def delete(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
+  end
+
+  @spec delete_for_admin(any, %{id: bitstring, user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def delete_for_admin(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
+    case current_user.admin do
+      true  ->
+        try do
+          struct = Accounts.get_pro_rating!(id)
+          Repo.delete(struct)
+        rescue
+          Ecto.NoResultsError ->
+            {:error, "The Pro Rating #{id} not found!"}
+        end
+      false -> {:error, "permission denied for current user"}
+    end
+  end
+
+  @spec delete_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def delete_for_admin(_parent, _args, _info) do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 

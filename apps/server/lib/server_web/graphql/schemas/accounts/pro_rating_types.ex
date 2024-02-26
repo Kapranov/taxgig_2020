@@ -66,6 +66,17 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProRatingTypes do
       resolve &ProRatingResolver.create/3
     end
 
+    @desc "Create the pro rating by admin"
+    field :create_pro_rating_by_admin, :pro_rating, description: "Create a new pro rating" do
+      arg :average_communication, non_null(:decimal)
+      arg :average_professionalism, non_null(:decimal)
+      arg :average_rating, non_null(:decimal)
+      arg :average_work_quality, non_null(:decimal)
+      arg :projects, non_null(:string)
+      arg :user_id, non_null(:string)
+      resolve &ProRatingResolver.create_for_admin/3
+    end
+
     @desc "Update a specific pro rating"
     field :update_pro_rating, :pro_rating do
       arg :id, non_null(:string)
@@ -73,11 +84,24 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.ProRatingTypes do
       resolve &ProRatingResolver.update/3
     end
 
+    @desc "Update a specific pro rating for admin"
+    field :update_pro_rating_by_admin, :pro_rating do
+      arg :id, non_null(:string)
+      arg :pro_rating, :update_pro_rating_params
+      resolve &ProRatingResolver.update_for_admin/3
+    end
+
     @desc "Delete a specific the pro rating"
     field :delete_pro_rating, :pro_rating do
       arg :id, non_null(:string)
       arg :user_id, non_null(:string)
       resolve &ProRatingResolver.delete/3
+    end
+
+    @desc "Delete a specific the pro rating by admin"
+    field :delete_pro_rating_by_admin, :pro_rating do
+      arg :id, non_null(:string)
+      resolve &ProRatingResolver.delete_for_admin/3
     end
   end
 
