@@ -63,11 +63,28 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ServiceReviewTypes do
       resolve &ServiceReviewResolver.create/3
     end
 
+    @desc "Create the service review by admin"
+    field :create_service_review_by_admin, :service_review, description: "Create a new service review" do
+      arg :client_comment, :string
+      arg :communication, non_null(:integer)
+      arg :professionalism, non_null(:integer)
+      arg :user_id, non_null(:string)
+      arg :work_quality, non_null(:integer)
+      resolve &ServiceReviewResolver.create_for_admin/3
+    end
+
     @desc "Update a specific service review"
     field :update_service_review, :service_review do
       arg :id, non_null(:string)
       arg :service_review, :update_service_review_params
       resolve &ServiceReviewResolver.update/3
+    end
+
+    @desc "Update a specific service review by admin"
+    field :update_service_review_by_admin, :service_review do
+      arg :id, non_null(:string)
+      arg :service_review, :update_service_review_params
+      resolve &ServiceReviewResolver.update_for_admin/3
     end
 
     @desc "Update a specific service review by role's Pro"
@@ -81,6 +98,12 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ServiceReviewTypes do
     field :delete_service_review, :service_review do
       arg :id, non_null(:string)
       resolve &ServiceReviewResolver.delete/3
+    end
+
+    @desc "Delete a specific the service review by admin"
+    field :delete_service_review_by_admin, :service_review do
+      arg :id, non_null(:string)
+      resolve &ServiceReviewResolver.delete_for_admin/3
     end
   end
 

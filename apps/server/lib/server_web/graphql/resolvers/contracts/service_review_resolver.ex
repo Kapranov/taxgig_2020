@@ -84,6 +84,32 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ServiceReviewResolver do
     {:error, "Unauthenticated"}
   end
 
+  @spec create_for_admin(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def create_for_admin(_parent, args, %{context: %{current_user: current_user}}) do
+    case current_user.admin do
+      true ->
+        attrs = Map.merge(args, %{
+          final_rating: total(args[:communication], args[:professionalism], args[:work_quality])
+        })
+
+        attrs
+        |> Contracts.create_service_review()
+        |> case do
+          {:ok, struct} ->
+            {:ok, struct}
+          {:error, changeset} ->
+            {:error, extract_error_msg(changeset)}
+        end
+      false ->
+        {:error, [[field: :user_id, message: "permission denied for current_user"]]}
+    end
+  end
+
+  @spec create_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def create_for_admin(_parent, _args, _info) do
+    {:error, "Unauthenticated"}
+  end
+
   @spec update(any, %{id: bitstring, service_review: map()}, %{context: %{current_user: User.t()}}) :: result()
   def update(_parent, %{id: id, service_review: params}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) || current_user.role == true do
@@ -111,6 +137,36 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ServiceReviewResolver do
 
   @spec update(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def update(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :service_review, message: "Can't be blank"]]}
+  end
+
+  @spec update_for_admin(any, %{id: bitstring, service_review: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update_for_admin(_parent, %{id: id, service_review: params}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      try do
+        attrs = Map.merge(params, %{
+          final_rating: total(params[:communication], params[:professionalism], params[:work_quality])
+        })
+
+        Repo.get!(ServiceReview, id)
+        |> Contracts.update_service_review(attrs)
+        |> case do
+          {:ok, struct} ->
+            {:ok, struct}
+          {:error, changeset} ->
+            {:error, extract_error_msg(changeset)}
+        end
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "The Service Review #{id} not found!"}
+      end
+    else
+      {:error, [[field: :id, message: "permission denied for current_user"]]}
+    end
+  end
+
+  @spec update_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update_for_admin(_parent, _args, _info) do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :service_review, message: "Can't be blank"]]}
   end
 
@@ -163,6 +219,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ServiceReviewResolver do
 
   @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def delete(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
+  end
+
+  @spec delete_for_admin(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def delete_for_admin(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      try do
+        struct = Contracts.get_service_review!(id)
+        Repo.delete(struct)
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "The Service Review #{id} not found!"}
+      end
+    else
+      {:error, [[field: :id, message: "permission denied for current_user"]]}
+    end
+  end
+
+  @spec delete_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def delete_for_admin(_parent, _args, _info) do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
