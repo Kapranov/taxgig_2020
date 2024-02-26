@@ -59,6 +59,13 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.EducationTypes do
       resolve &EducationResolver.update/3
     end
 
+    @desc "Update a specific Education by admin"
+    field :update_education_by_admin, :education do
+      arg :id, non_null(:string)
+      arg :education, :update_education_params
+      resolve &EducationResolver.update_for_admin/3
+    end
+
     @desc "Delete a specific the education"
     field :delete_education, :education do
       arg :id, non_null(:string)

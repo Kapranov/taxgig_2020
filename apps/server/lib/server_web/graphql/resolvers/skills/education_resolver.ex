@@ -127,6 +127,27 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.EducationResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :education, message: "Can't be blank"]]}
   end
 
+  @spec update_for_admin(any, %{id: bitstring, education: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update_for_admin(_parent, %{id: id, education: params}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      try do
+        Repo.get!(Education, id)
+        |> Education.changeset(Map.delete(params, :user_id))
+        |> Repo.update
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "An Education #{id} not found!"}
+      end
+    else
+      {:error, [[field: :id, message: "Permission denied for current user"]]}
+    end
+  end
+
+  @spec update_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update_for_admin(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :education, message: "Can't be blank"]]}
+  end
+
   @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
