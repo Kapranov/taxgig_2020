@@ -1438,6 +1438,32 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :project, message: "Can't be blank"]]}
   end
 
+  @spec update_for_admin(any, %{id: bitstring, project: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update_for_admin(_parent, %{id: id, project: params}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      try do
+        Repo.get!(Project, id)
+        |> Contracts.update_project(params)
+        |> case do
+          {:ok, struct} ->
+            {:ok, struct}
+          {:error, changeset} ->
+            {:error, extract_error_msg(changeset)}
+          end
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "The Project #{id} not found!"}
+      end
+    else
+      {:error, "permission denied for current user"}
+    end
+  end
+
+  @spec update_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update_for_admin(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :project, message: "Can't be blank"]]}
+  end
+
   @spec delete(any, %{id: bitstring, user_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) || current_user.role == true do

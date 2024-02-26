@@ -95,10 +95,23 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.PotentialClientTypes do
     field :project, non_null(list_of(:string))
   end
 
+  @desc "The potential client filter via params"
+  input_object :filter_potential_client_params, description: "filter potential client" do
+    field :page, non_null(:integer)
+    field :limit_counter, non_null(:integer)
+  end
+
   object :potential_client_queries do
     @desc "Get all potential clients"
     field :all_potential_clients, :potential_clients do
       resolve(&PotentialClientResolver.list/3)
+    end
+
+    @desc "Get all potential clients by admin"
+    field :all_potential_clients_by_admin, :potential_clients do
+      arg :filter, non_null(:filter_potential_client_params)
+      arg :user_id, non_null(:string)
+      resolve(&PotentialClientResolver.list_for_admin/3)
     end
 
     @desc "Get a specific potential client"

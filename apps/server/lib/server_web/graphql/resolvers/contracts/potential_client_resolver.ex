@@ -56,6 +56,70 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.PotentialClientResolver do
     {:error, "Unauthenticated"}
   end
 
+  @spec list_for_admin(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def list_for_admin(_parent, args, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      case args.filter do
+        %{page: page, limit_counter: counter} ->
+          if page < counter do
+            struct = Repo.get_by(PotentialClient, user_id: args.user_id)
+            case struct do
+              nil -> {:ok, nil}
+              _ ->
+                projects =
+                  Enum.reduce(struct.project, [], fn(x, acc) ->
+                    project =
+                      try do
+                        Contracts.get_project!(x)
+                      rescue
+                        Ecto.NoResultsError ->
+                          updated =
+                            struct.project
+                            |> Enum.reject(&(&1 == x))
+                          struct
+                          |> Contracts.update_potential_client(%{project: updated})
+                      end
+                    [ project | acc ]
+                  end)
+                record = Map.merge(struct, %{project: Enum.take(projects, page)})
+                {:ok, record}
+            end
+          else
+            struct = Repo.get_by(PotentialClient, user_id: args.user_id)
+            case struct do
+              nil -> {:ok, nil}
+              _ ->
+                projects =
+                  Enum.reduce(struct.project, [], fn(x, acc) ->
+                    project =
+                      try do
+                        Contracts.get_project!(x)
+                      rescue
+                        Ecto.NoResultsError ->
+                          updated =
+                            struct.project
+                            |> Enum.reject(&(&1 == x))
+                          struct
+                          |> Contracts.update_potential_client(%{project: updated})
+                      end
+                    [ project | acc ]
+                  end)
+                record = Map.merge(struct, %{project: Enum.take(projects, counter)})
+                {:ok, record}
+            end
+          end
+        _ -> {:ok, nil}
+      end
+    else
+      {:error, [[field: :current_user, message: "permission denied for user current_user"]]}
+    end
+  end
+
+  @spec list_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def list_for_admin(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
+  end
+
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if current_user.role == false do

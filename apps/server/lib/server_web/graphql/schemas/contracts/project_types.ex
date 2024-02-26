@@ -139,6 +139,13 @@ defmodule ServerWeb.GraphQL.Schemas.Contracts.ProjectTypes do
       resolve &ProjectResolver.update/3
     end
 
+    @desc "Update a specific project by admin"
+    field :update_project_by_admin, :project do
+      arg :id, non_null(:string)
+      arg :project, :update_project_params
+      resolve &ProjectResolver.update_for_admin/3
+    end
+
     @desc "Delete a specific the project"
     field :delete_project, :project do
       arg :id, non_null(:string)
