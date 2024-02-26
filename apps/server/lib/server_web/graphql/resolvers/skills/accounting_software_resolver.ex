@@ -112,6 +112,27 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.AccountingSoftwareResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :accounting_software, message: "Can't be blank"]]}
   end
 
+  @spec update_for_admin(any, %{id: bitstring, accounting_software: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update_for_admin(_parent, %{id: id, accounting_software: params}, %{context: %{current_user: current_user}}) do
+    case current_user.admin do
+      true  ->
+        try do
+          Repo.get!(AccountingSoftware, id)
+          |> AccountingSoftware.changeset(params)
+          |> Repo.update
+        rescue
+          Ecto.NoResultsError ->
+            {:error, "An AccountingSoftware #{id} not found!"}
+        end
+      false -> {:error, "permission denied for current user"}
+    end
+  end
+
+  @spec update_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update_for_admin(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :accounting_software, message: "Can't be blank"]]}
+  end
+
   @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do

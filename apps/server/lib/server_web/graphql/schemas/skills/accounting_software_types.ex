@@ -53,6 +53,13 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.AccountingSoftwareTypes do
       resolve &AccountingSoftwareResolver.update/3
     end
 
+    @desc "Update a specific accounting software by admin"
+    field :update_accounting_software_by_admin, :accounting_software do
+      arg :id, non_null(:string)
+      arg :accounting_software, :update_accounting_software_params
+      resolve &AccountingSoftwareResolver.update_for_admin/3
+    end
+
     @desc "Delete a specific the accounting software"
     field :delete_accounting_software, :accounting_software do
       arg :id, non_null(:string)
