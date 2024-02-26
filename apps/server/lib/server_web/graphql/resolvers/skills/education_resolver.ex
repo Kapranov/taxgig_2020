@@ -132,7 +132,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.EducationResolver do
     if current_user.admin do
       try do
         Repo.get!(Education, id)
-        |> Education.changeset(Map.delete(params, :user_id))
+        |> Education.changeset(params)
         |> Repo.update
       rescue
         Ecto.NoResultsError ->

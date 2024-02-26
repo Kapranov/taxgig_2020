@@ -62,6 +62,13 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.WorkExperienceTypes do
       resolve &WorkExperienceResolver.update/3
     end
 
+    @desc "Update a specific WorkExperience by admin"
+    field :update_work_experience_by_admin, :work_experience do
+      arg :id, non_null(:string)
+      arg :work_experience, :update_work_experience_params
+      resolve &WorkExperienceResolver.update_for_admin/3
+    end
+
     @desc "Delete a specific WorkExperience"
     field :delete_work_experience, :work_experience do
       arg :id, non_null(:string)
