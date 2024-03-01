@@ -102,6 +102,32 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.EducationResolver do
     {:error, "Unauthenticated"}
   end
 
+  @spec create_for_admin(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def create_for_admin(_parent, args, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      try do
+        args
+        |> Skills.create_education()
+        |> case do
+          {:ok, struct} ->
+            {:ok, struct}
+          {:error, changeset} ->
+            {:error, extract_error_msg(changeset)}
+        end
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "An User #{args[:user_id]} not found!"}
+      end
+    else
+      {:error, [[field: :user_id, message: "Permission denied for current user"]]}
+    end
+  end
+
+  @spec create_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def create_for_admin(_parent, _args, _info) do
+    {:error, "Unauthenticated"}
+  end
+
   @spec update(any, %{id: bitstring, education: map()}, %{context: %{current_user: User.t()}}) :: result()
   def update(_parent, %{id: id, education: params}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
@@ -165,6 +191,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Skills.EducationResolver do
 
   @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def delete(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
+  end
+
+  @spec delete_for_admin(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def delete_for_admin(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      try do
+        struct = Skills.get_education!(id)
+        Repo.delete(struct)
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "An Education #{id} not found!"}
+      end
+    else
+      {:error, [[field: :id, message: "Permission denied for current user"]]}
+    end
+  end
+
+  @spec delete_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def delete_for_admin(_parent, _args, _info) do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 

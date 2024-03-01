@@ -52,6 +52,15 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.EducationTypes do
       resolve &EducationResolver.create/3
     end
 
+    @desc "Create the Education byAdmin"
+    field :create_education_by_admin, :education, description: "Create a new Education by Admin" do
+      arg :course, non_null(:string)
+      arg :graduation, non_null(:date)
+      arg :university_id, non_null(:string)
+      arg :user_id, non_null(:string)
+      resolve &EducationResolver.create_for_admin/3
+    end
+
     @desc "Update a specific Education"
     field :update_education, :education do
       arg :id, non_null(:string)
@@ -70,6 +79,12 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.EducationTypes do
     field :delete_education, :education do
       arg :id, non_null(:string)
       resolve &EducationResolver.delete/3
+    end
+
+    @desc "Delete a specific the education by admin"
+    field :delete_education_by_admin, :education do
+      arg :id, non_null(:string)
+      resolve &EducationResolver.delete_for_admin/3
     end
   end
 
