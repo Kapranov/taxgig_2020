@@ -55,6 +55,16 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.WorkExperienceTypes do
       resolve &WorkExperienceResolver.create/3
     end
 
+    @desc "Create WorkExperience by Admin"
+    field :create_work_experience_by_admin, :work_experience, description: "Create a ane WorkExperience by admin" do
+      arg :end_date, :date
+      arg :name, :string
+      arg :position, :string
+      arg :start_date, :date
+      arg :user_id, non_null(:string)
+      resolve &WorkExperienceResolver.create_for_admin/3
+    end
+
     @desc "Update a specific WorkExperience"
     field :update_work_experience, :work_experience do
       arg :id, non_null(:string)
@@ -73,6 +83,12 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.WorkExperienceTypes do
     field :delete_work_experience, :work_experience do
       arg :id, non_null(:string)
       resolve &WorkExperienceResolver.delete/3
+    end
+
+    @desc "Delete a specific WorkExperience by Admin"
+    field :delete_work_experience_by_admin, :work_experience do
+      arg :id, non_null(:string)
+      resolve &WorkExperienceResolver.delete_for_admin/3
     end
   end
 
