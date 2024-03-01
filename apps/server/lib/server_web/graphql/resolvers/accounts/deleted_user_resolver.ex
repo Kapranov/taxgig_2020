@@ -133,8 +133,29 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.DeletedUserResolver do
     end
   end
 
-  @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
-  def delete(_parent, _args, _info) do
+  @spec delete_for_admin(any, %{id: [String.t()]}, %{context: %{current_user: User.t()}}) :: result()
+  def delete_for_admin(_parent, %{id: idx}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      Enum.reduce(idx, [], fn(x, acc) ->
+        try do
+          Accounts.get_deleted_user!(x)
+          |> Repo.delete()
+          |> case do
+            {:ok, _} ->
+              {:ok, []}
+            {:error, _changeset} -> acc
+          end
+        rescue
+          Ecto.NoResultsError -> acc
+        end
+      end)
+    else
+      {:error, [[field: :id, message: "Permission denied for current user"]]}
+    end
+  end
+
+  @spec delete_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def delete_for_admin(_parent, _args, _info) do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
