@@ -71,6 +71,13 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.MessageTypes do
       resolve &MessageResolver.list_by_room_id/3
     end
 
+    @desc "Get all message by room by admin"
+    field :all_messages_by_room_by_admin, list_of(:message) do
+      arg :filter, non_null(:filter_message_params)
+      arg(:room_id, non_null(:string))
+      resolve &MessageResolver.list_by_room_id_for_admin/3
+    end
+
     @desc "Get all messages via projectId"
     field :show_project_by_msg, list_of(:message) do
       arg(:project_id, non_null(:string))

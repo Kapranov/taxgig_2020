@@ -76,6 +76,37 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.MessageResolver do
     {:error, "there is roomId none record"}
   end
 
+  @spec list_by_room_id_for_admin(any, %{room_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def list_by_room_id_for_admin(_parent, %{filter: args, room_id: id}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      query = from p in Message, where: p.room_id == ^id
+      case Repo.all(query) do
+        nil ->
+          {:error, "none correct roomId for current_user"}
+        data ->
+          case args do
+            %{page: page, limit_counter: counter} ->
+              if page < counter do
+                {:ok, Enum.take(data, page)}
+              else
+              {:ok, Enum.take(data, counter)}
+              end
+            %{page: page} ->
+              {:ok, Enum.take(data, page)}
+            %{limit_counter: counter} ->
+              {:ok, Enum.take(data, counter)}
+          end
+      end
+    else
+      {:error, [[field: :current_user, message: "Permission denied for user current user"]]}
+    end
+  end
+
+  @spec list_by_room_id_for_admin(any, %{atom => any}, any) :: result()
+  def list_by_room_id_for_admin(_parent, _args, _info) do
+    {:error, "there is roomId none record"}
+  end
+
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
