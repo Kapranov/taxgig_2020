@@ -54,6 +54,11 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
       resolve &RoomResolver.list/3
     end
 
+    @desc "Get all rooms by admin"
+    field :allrooms_by_project_by_admin, list_of(:room) do
+      resolve &RoomResolver.list_for_admin/3
+    end
+
     @desc "Get all rooms by projectId"
     field :all_rooms_by_project, list_of(:room) do
       arg(:project_id, non_null(:string))

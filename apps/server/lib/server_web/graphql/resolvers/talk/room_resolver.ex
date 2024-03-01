@@ -38,6 +38,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
     {:error, "Unauthenticated"}
   end
 
+  @spec list_for_admin(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def list_for_admin(_parent, _args, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      struct = Queries.by_list(Room, :user_id, current_user.id)
+      {:ok, Repo.preload(struct, [:projects])}
+    else
+      {:error, [[field: :current_user, message: "Permission denied for user current user"]]}
+    end
+  end
+
+  @spec list_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def list_for_admin(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
+  end
+
   @spec list_by_project_id(any, %{project_id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def list_by_project_id(_parent, %{project_id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(current_user) do
