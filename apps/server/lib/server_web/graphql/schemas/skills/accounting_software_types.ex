@@ -46,6 +46,13 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.AccountingSoftwareTypes do
       resolve &AccountingSoftwareResolver.create/3
     end
 
+    @desc "Create an AccountingSoftware by admin"
+    field :create_accounting_software_by_admin, :accounting_software, description: "Create a new AccountingSoftware by admin" do
+      arg :name, list_of(:string)
+      arg :user_id, non_null(:string)
+      resolve &AccountingSoftwareResolver.create_for_admin/3
+    end
+
     @desc "Update a specific accounting software"
     field :update_accounting_software, :accounting_software do
       arg :id, non_null(:string)
@@ -64,6 +71,12 @@ defmodule ServerWeb.GraphQL.Schemas.Skills.AccountingSoftwareTypes do
     field :delete_accounting_software, :accounting_software do
       arg :id, non_null(:string)
       resolve &AccountingSoftwareResolver.delete/3
+    end
+
+    @desc "Delete a specific the accounting software by admin"
+    field :delete_accounting_software_by_admin, :accounting_software do
+      arg :id, non_null(:string)
+      resolve &AccountingSoftwareResolver.delete_for_admin/3
     end
   end
 
