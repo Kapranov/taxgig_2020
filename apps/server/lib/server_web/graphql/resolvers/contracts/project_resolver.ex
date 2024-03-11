@@ -188,13 +188,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
         %{status: status, page: page, limit_counter: counter} ->
           if page < counter do
             struct =
-              Queries.by_list(User, Project, :assigned_id, user_id, :status, status, true)
+              Queries.by_list(Project, :assigned_id, user_id, :status, status)
               |> Enum.take(page)
 
             {:ok, struct}
           else
             struct =
-              Queries.by_list(User, Project, :assigned_id, user_id, :status, status, true)
+              Queries.by_list(Project, :assigned_id, user_id, :status, status)
               |> Enum.take(counter)
 
             {:ok, struct}
@@ -202,13 +202,13 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
         %{page: page, limit_counter: counter} ->
           if page < counter do
             struct =
-              Queries.by_list_admin(User, Project, :assigned_id, user_id, true)
+              Queries.by_list(Project, :assigned_id, user_id)
               |> Enum.take(page)
 
             {:ok, struct}
           else
             struct =
-              Queries.by_list_admin(User, Project, :assigned_id, user_id, true)
+              Queries.by_list(Project, :assigned_id, user_id)
               |> Enum.take(counter)
 
             {:ok, struct}
