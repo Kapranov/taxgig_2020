@@ -136,19 +136,25 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.DeletedUserResolver do
   @spec delete_for_admin(any, %{id: [String.t()]}, %{context: %{current_user: User.t()}}) :: result()
   def delete_for_admin(_parent, %{id: idx}, %{context: %{current_user: current_user}}) do
     if current_user.admin do
-      Enum.reduce(idx, [], fn(x, acc) ->
-        try do
-          Accounts.get_deleted_user!(x)
-          |> Repo.delete()
-          |> case do
-            {:ok, _} ->
-              {:ok, []}
-            {:error, _changeset} -> acc
+      data =
+        Enum.reduce(idx, [], fn(x, acc) ->
+          try do
+            Accounts.get_deleted_user!(x)
+            |> Repo.delete()
+            |> case do
+              {:ok, _} -> :ok
+              {:error, _changeset} -> acc
+            end
+          rescue
+            Ecto.NoResultsError -> acc
           end
-        rescue
-          Ecto.NoResultsError -> acc
-        end
-      end)
+        end)
+
+      if data == [] do
+        {:ok, %{message: "Users not found"}}
+      else
+         {:ok, %{message: "Users successfully deleted"}}
+      end
     else
       {:error, [[field: :id, message: "Permission denied for current user"]]}
     end
