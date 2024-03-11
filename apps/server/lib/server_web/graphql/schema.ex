@@ -126,6 +126,7 @@ defmodule ServerWeb.GraphQL.Schema do
     import_fields(:filter_deleted_user_params)
     import_fields(:filter_potential_client_params)
     import_fields(:filter_pro_users_params)
+    import_fields(:filter_report_params)
     import_fields(:filter_stuck_users_params)
     import_fields(:filter_user_params)
     import_fields(:filter_users_params)

@@ -20,6 +20,8 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.ReportTypes do
     field :other, :boolean
     field :reasons, :string
     field :users, :user, resolve: dataloader(Data)
+    field :inserted_at, :datetime
+    field :updated_at, :datetime
   end
 
   @desc "The report update via params"
@@ -31,9 +33,16 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.ReportTypes do
     field :user_id, non_null(:string)
   end
 
+  @desc "The report filter via params"
+  input_object :filter_report_params, description: "filter report" do
+    field :page, non_null(:integer)
+    field :limit_counter, non_null(:integer)
+  end
+
   object :report_queries do
     @desc "Get all reports"
     field :all_reports, list_of(:report) do
+      arg :filter, non_null(:filter_report_params)
       resolve(&ReportResolver.list/3)
     end
 

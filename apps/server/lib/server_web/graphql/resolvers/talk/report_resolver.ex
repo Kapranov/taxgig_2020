@@ -20,12 +20,19 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.ReportResolver do
   @type result :: success_tuple | error_tuple
 
   @spec list(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
-  def list(_parent, _args, %{context: %{current_user: current_user}}) do
-    if is_nil(current_user) do
-      {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
-    else
-      struct = Queries.by_list(Report, :user_id, current_user.id)
-      {:ok, struct}
+  def list(_parent, %{filter: args}, %{context: %{current_user: current_user}}) do
+    case args do
+      %{page: page, limit_counter: counter} ->
+        if page < counter do
+          struct = Queries.by_list(Report, :user_id, current_user.id)
+          {:ok, Enum.take(struct, page)}
+        else
+          struct = Queries.by_list(Report, :user_id, current_user.id)
+          {:ok, Enum.take(struct, counter)}
+        end
+      _ ->
+        struct = Queries.by_list(Report, :user_id, current_user.id)
+        {:ok, struct}
     end
   end
 
