@@ -92,6 +92,32 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.DeletedUserResolver do
     end
   end
 
+  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def create(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :deleted_user, message: "Can't be blank"]]}
+  end
+
+  @spec create_for_admin(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def create_for_admin(_parent, args, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      args
+      |> Accounts.create_deleted_user()
+      |> case do
+        {:ok, struct} ->
+          {:ok, struct}
+        {:error, changeset} ->
+          {:error, extract_error_msg(changeset)}
+      end
+    else
+      {:error, [[field: :id, message: "Permission denied for current user"]]}
+    end
+  end
+
+  @spec create_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def create_for_admin(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :deleted_user, message: "Can't be blank"]]}
+  end
+
   @spec update(any, %{id: bitstring, deleted_user: map()}, %{context: %{current_user: User.t()}}) :: result()
   def update(_parent, %{id: id, deleted_user: params}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) || current_user.admin == false do
@@ -131,38 +157,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.DeletedUserResolver do
           {:error, "The Deleted User #{id} not found!"}
       end
     end
-  end
-
-  @spec delete_for_admin(any, %{id: [String.t()]}, %{context: %{current_user: User.t()}}) :: result()
-  def delete_for_admin(_parent, %{id: idx}, %{context: %{current_user: current_user}}) do
-    if current_user.admin do
-      data =
-        Enum.reduce(idx, [], fn(x, acc) ->
-          try do
-            Accounts.get_deleted_user!(x)
-            |> Repo.delete()
-            |> case do
-              {:ok, _} -> :ok
-              {:error, _changeset} -> acc
-            end
-          rescue
-            Ecto.NoResultsError -> acc
-          end
-        end)
-
-      if data == [] do
-        {:ok, %{message: "Users not found"}}
-      else
-         {:ok, %{message: "Users successfully deleted"}}
-      end
-    else
-      {:error, [[field: :id, message: "Permission denied for current user"]]}
-    end
-  end
-
-  @spec delete_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
-  def delete_for_admin(_parent, _args, _info) do
-    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 
   @spec extract_error_msg(Ecto.Changeset.t()) :: Ecto.Changeset.t()

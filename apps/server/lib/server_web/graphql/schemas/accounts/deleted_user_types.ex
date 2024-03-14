@@ -52,6 +52,13 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.DeletedUserTypes do
       resolve &DeletedUserResolver.create/3
     end
 
+    @desc "Create the deleted user by admin"
+    field :create_deleted_user_by_admin, :deleted_user do
+      arg :reason, non_null(:string)
+      arg :user_id, non_null(:string)
+      resolve &DeletedUserResolver.create_for_admin/3
+    end
+
     @desc "Update a specific deleted user"
     field :update_deleted_user, :deleted_user do
       arg :id, non_null(:string)
@@ -63,12 +70,6 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.DeletedUserTypes do
     field :delete_deleted_user, :deleted_user do
       arg :id, non_null(:string)
       resolve &DeletedUserResolver.delete/3
-    end
-
-    @desc "Delete a specific deleted user by admin"
-    field :delete_user_by_admin, :deleted_users do
-      arg :id, non_null(list_of(:string))
-      resolve &DeletedUserResolver.delete_for_admin/3
     end
   end
 end
