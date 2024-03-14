@@ -1687,7 +1687,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
       {:ok, %{error: "2fa is enabled already"}}
     else
       with barcode <- generate_totp_enrolment_url(current_user) do
-        {:ok, %{qcode: barcode, is2fa: current_user.is2fa, key: current_user.otp_secret}}
+        uri = NimbleTOTP.otpauth_uri("taxgig:#{current_user.email}", current_user.otp_secret, issuer: "taxgig")
+        {:ok, %{qcode: barcode, is2fa: current_user.is2fa, key: uri}}
       end
     end
   end
