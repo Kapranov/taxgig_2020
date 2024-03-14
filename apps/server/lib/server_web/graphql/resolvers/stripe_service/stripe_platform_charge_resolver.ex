@@ -147,10 +147,10 @@ defmodule ServerWeb.GraphQL.Resolvers.StripeService.StripePlatformChargeResolver
       {:error, [[field: :stripe_charge, message: "Can't be blank"]]}
     else
       case Accounts.by_role(current_user.id) do
-        true -> {:error, :not_found}
-        false ->
-          with customer <- StripyRepo.get_by(StripeCustomer, %{user_id: current_user.id}),
-                project <- CoreRepo.get_by(Project, %{id: args[:description]}),
+        false -> {:error, :access_denied}
+        true ->
+          with project <- CoreRepo.get_by(Project, %{id: args[:description]}),
+                customer <- StripyRepo.get_by(StripeCustomer, %{user_id: project.user_id}),
                 {:ok, struct} <- StripePlatformChargeService.create(%{
                   amount: amounted(project),
                   capture: args[:capture],

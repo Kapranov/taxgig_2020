@@ -6,10 +6,10 @@ set -eu
 
 echo -e "\n"
 
-EMAIL="o.puryshev@gmail.com"
-PASSWORD="qwerty"
+EMAIL="lugatex@yahoo.com"
+PASSWORD="bisque"
 PROVIDER="localhost"
-URL="http://taxgig.me:4000/graphiql"
+URL="http://localhost:4000"
 
 generate_data() {
 cat << EOF
@@ -22,7 +22,7 @@ EOF
 
 curl -X POST \
      -H 'Content-Type: multipart/form-data' \
-     -F query="query { signIn($(generate_data)) {accessToken error errorDescription provider} }" \
+     -F query="query { signInLocal($(generate_data)) {accessToken error errorDescription provider} }" \
      ${URL}
 
 echo -e "\n"
