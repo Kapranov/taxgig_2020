@@ -1688,7 +1688,9 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.UserResolver do
     else
       with barcode <- generate_totp_enrolment_url(current_user) do
         uri = NimbleTOTP.otpauth_uri("taxgig:#{current_user.email}", current_user.otp_secret, issuer: "taxgig")
-        {:ok, %{qcode: barcode, is2fa: current_user.is2fa, key: uri}}
+        [_, parsed] = String.split(uri, "secret=")
+        [key, _] = parsed |> String.split("&issuer")
+        {:ok, %{qcode: barcode, is2fa: current_user.is2fa, key: key}}
       end
     end
   end
