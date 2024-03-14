@@ -124,6 +124,7 @@ defmodule ServerWeb.GraphQL.Schemas.Accounts.UserTypes do
   object :two_factory do
     field :qcode, :string, description: "2fa barcode"
     field :is2fa, :boolean, description: "on or off two factory"
+    field :key, :string, description: "your secret key for otp"
     field :error, :string, description: "a short sentence with error"
   end
 
