@@ -566,6 +566,12 @@ iex> data = %URI{authority: "taxgig.me:4001", fragment: nil, host: "taxgig.me", 
 ```
 
 ```
+iex> file = File.read!("/tmp/flowers_data_uri")
+iex> current_user = Core.Repo.get_by(Core.Accounts.User, email: "lugatex@yahoo.com")
+iex> ServerWeb.GraphQL.Resolvers.Media.PicturesResolver.upload_picture(%{}, %{file: file}, %{context: %{current_user: current_user}})
+```
+
+```
 SaleTax.check_match_sale_tax_count(sale_tax_tp1)
 %{
   "0ea97a6c-7e6b-4a2c-80cd-be0758432555" => 50,

@@ -79,6 +79,9 @@ defmodule Core.MIME do
     "image/jpg"
   end
 
+  # 696D6167652F68656966
+  # <<head::binary-size(10), rest::binary>> = "image/heif"
+
   @spec check_mime_type(binary()) :: String.t()
   defp check_mime_type(<<0x1A, 0x45, 0xDF, 0xA3, _::binary>>) do
     "video/webm"

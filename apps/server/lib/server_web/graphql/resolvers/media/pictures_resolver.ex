@@ -183,7 +183,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
     try do
       case Media.get_picture!(current_user.id)do
         nil ->
-          {:error, "permission denied"}
+          {:error, "not found images"}
         struct ->
           Media.delete_picture(struct)
           |> case do
