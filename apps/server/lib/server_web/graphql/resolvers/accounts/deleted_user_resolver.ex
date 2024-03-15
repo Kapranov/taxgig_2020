@@ -92,11 +92,6 @@ defmodule ServerWeb.GraphQL.Resolvers.Accounts.DeletedUserResolver do
     end
   end
 
-  @spec create(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
-  def create(_parent, _args, _info) do
-    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :deleted_user, message: "Can't be blank"]]}
-  end
-
   @spec create_for_admin(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
   def create_for_admin(_parent, args, %{context: %{current_user: current_user}}) do
     if current_user.admin do
