@@ -85,6 +85,9 @@ defmodule Core.Upload do
      {:error, error} ->
        Logger.info("#{@name} store (using #{inspect(opts.uploader)}) failed: #{inspect(error)}")
        {:error, :enoent}
+     false ->
+       Logger.info("#{@name} store (using #{inspect(opts.uploader)}) failed: file format not supported")
+       {:error, :enoent}
    end
   end
 
@@ -105,34 +108,58 @@ defmodule Core.Upload do
     URI.char_unreserved?(char) or char == ?/
   end
 
-  @spec get_opts(keyword(t)) :: integer()
-  defp get_opts(opts) do
-    {size_limit, activity_type} =
+  @spec get_opts(keyword(t)) ::
+    %{description: String.t(),
+      filters: [struct()] | [],
+      base_url: String.t(),
+      formats: [String.t()] | [],
+      uploader: struct(),
+      activity_type: String.t(),
+      size_limit: integer()
+    }
+  def get_opts(opts) do
+    media_1 = Config.get!([:instance, :formats])
+    media_2 = Config.get!([:instance, :formats]) |> List.delete(".pdf")
+    media_3 = Config.get!([:instance, :formats]) |> List.delete(".pdf") |> List.delete(".gif")
+    media_4 = Config.get!([:instance, :formats]) |> List.delete(".pdf") |> List.delete(".gif") |> List.delete(".jpg") |> List.delete(".jpeg")
+    media_5 = Config.get!([:instance, :formats]) |> List.delete(".jpg") |> List.delete(".jpeg") |> List.delete(".gif") |> List.delete(".png")
+
+    {size_limit, activity_type, description, filter, formats} =
       case Keyword.get(opts, :type) do
         :avatar ->
-          {Config.get!([:instance, :avatar_upload_limit]), "Image"}
+          {Config.get!([:instance, :avatar_upload_limit]), "Image", "Uploaded Image", Config.get([@name, :filters]), media_2}
         :banner ->
-          {Config.get!([:instance, :banner_upload_limit]), "Image"}
+          {Config.get!([:instance, :banner_upload_limit]), "Image", "Uploaded Image", Config.get([@name, :filters]), media_3}
         :logo ->
-          {Config.get!([:instance, :logo_upload_limit]), "Image"}
+          {Config.get!([:instance, :logo_upload_limit]), "Image", "Uploaded Image", Config.get([@name, :filters]), media_4}
+        :pdf ->
+          {Config.get!([:instance, :pdf_upload_limit]), "Document", "Uploaded Document", [], media_5}
         _ ->
-          {Config.get!([:instance, :upload_limit]), nil}
+          {Config.get!([:instance, :upload_limit]), "Media", "Uploaded all Media", Config.get([@name, :filters]), media_1}
       end
 
     %{
       activity_type: Keyword.get(opts, :activity_type, activity_type),
+      formats: Keyword.get(opts, :formats, formats),
+      base_url: Keyword.get(opts, :base_url, Config.get([@name, :base_url], @url)),
+      description: Keyword.get(opts, :description, description),
+      filters: Keyword.get(opts, :filters, filter),
       size_limit: Keyword.get(opts, :size_limit, size_limit),
-      uploader: Keyword.get(opts, :uploader, Config.get([@name, :uploader])),
-      filters: Keyword.get(opts, :filters, Config.get([@name, :filters])),
-      description: Keyword.get(opts, :description),
-      base_url: Keyword.get(opts, :base_url, Config.get([@name, :base_url], @url))
+      uploader: Keyword.get(opts, :uploader, Config.get([@name, :uploader]))
     }
   end
 
-  @spec prepare_upload(Plug.Upload.t(), map()) :: {:ok, %__MODULE__{id: String.t(), name: String.t(), tempfile: String.t(), content_type: String.t(), size: integer()}}
-  defp prepare_upload(%Plug.Upload{} = file, opts) do
+  @spec prepare_upload(Plug.Upload.t(), map()) ::
+    {:ok, %__MODULE__{id: String.t(),
+        name: String.t(),
+        tempfile: String.t(),
+        content_type: String.t(),
+        size: integer()}} |
+    {:error, atom()}
+  def prepare_upload(%Plug.Upload{} = file, opts) do
     id = UUID.generate()
     with {:ok, size} <- check_file_size(file.path, opts.size_limit),
+         true <- opts.formats |> Enum.member?(Path.extname(file.filename)),
          {:ok, content_type, name} <- CoreMIME.file_mime_type(file.path, file.filename)
     do
       {:ok,
@@ -147,41 +174,49 @@ defmodule Core.Upload do
     end
   end
 
-  @spec prepare_upload(%{img: bitstring()}, map()) :: {:ok, %__MODULE__{id: String.t(), name: String.t(), tempfile: String.t(), content_type: String.t(), size: integer()}}
-  defp  prepare_upload(%{img: "data:image/" <> image_data}, opts) do
-    id = UUID.generate()
-    parsed = Regex.named_captures(~r/(?<filetype>jpeg|png|gif|heic|heif);base64,(?<data>.*)/, image_data)
-    data = Base.decode64!(parsed["data"], ignore: :whitespace)
-    hash = Base.encode16(:crypto.hash(:sha256, data), lower: true)
-    content_type = "image/" <> parsed["filetype"]
-
-    with :ok <- check_binary_size(data, opts.size_limit),
-         tmp_path <- tempfile_for_image(data),
-         {:ok, size} <- check_file_size(tmp_path, opts.size_limit),
-         [ext | _] <- MIME.extensions(content_type)
-    do
-      {:ok,
-        %@name{
-          content_type: content_type,
-          id: id,
-          name: hash <> "." <> ext,
-          path: "#{id}/#{hash <> "." <> ext}",
-          size: size,
-          tempfile: tmp_path
-        }}
+  @spec prepare_upload(%{img: bitstring()}, map()) ::
+    {:ok, %__MODULE__{id: String.t(),
+        name: String.t(),
+        tempfile: String.t(),
+        content_type: String.t(),
+        size: integer()}} |
+    {:error, atom()}
+  def prepare_upload(%{img: "data:image/" <> image_data}, opts) do
+    case Regex.named_captures(~r/(?<filetype>jpeg|jpg|png|gif|heic|heif);base64,(?<data>.*)/, image_data) do
+      nil -> false
+      parsed ->
+        id = UUID.generate()
+        data = Base.decode64!(parsed["data"], ignore: :whitespace)
+        hash = Base.encode16(:crypto.hash(:sha256, data), lower: true)
+        content_type = "image/" <> parsed["filetype"]
+        with :ok <- check_binary_size(data, opts.size_limit),
+             tmp_path <- tempfile_for_image(data),
+             {:ok, size} <- check_file_size(tmp_path, opts.size_limit),
+             [ext | _] <- MIME.extensions(content_type)
+        do
+          {:ok,
+            %@name{
+              content_type: content_type,
+              id: id,
+              name: hash <> "." <> ext,
+              path: "#{id}/#{hash <> "." <> ext}",
+              size: size,
+              tempfile: tmp_path
+            }}
+        end
     end
   end
 
   @spec check_binary_size(bitstring(), integer()) :: tuple()
-  def check_binary_size(binary, size_limit) when is_integer(size_limit) and size_limit > 0 and byte_size(binary) >= size_limit do
+  defp check_binary_size(binary, size_limit) when is_integer(size_limit) and size_limit > 0 and byte_size(binary) >= size_limit do
     {:error, :file_too_large}
   end
 
   @spec check_binary_size(any(), any()) :: atom()
-  def check_binary_size(_, _), do: :ok
+  defp check_binary_size(_, _), do: :ok
 
   @spec check_file_size(String.t(), integer()) :: {:ok, integer()} | {:error, atom()} | atom()
-  def check_file_size(path, size_limit) when is_integer(size_limit) and size_limit > 0 do
+  defp check_file_size(path, size_limit) when is_integer(size_limit) and size_limit > 0 do
     with {:ok, %{size: size}} <- File.stat(path), true <- size <= size_limit do
       {:ok, size}
     else
@@ -191,10 +226,10 @@ defmodule Core.Upload do
   end
 
   @spec check_file_size(any(), any()) :: atom()
-  def check_file_size(_, _), do: :ok
+  defp check_file_size(_, _), do: :ok
 
   @spec tempfile_for_image(bitstring()) :: String.t()
-  def tempfile_for_image(data) do
+  defp tempfile_for_image(data) do
     {:ok, tmp_path} = Plug.Upload.random_file("profile_pics")
     {:ok, tmp_file} = File.open(tmp_path, [:write, :raw, :binary])
     :ok = IO.binwrite(tmp_file, data)

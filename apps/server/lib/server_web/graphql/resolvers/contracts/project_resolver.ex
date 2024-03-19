@@ -313,7 +313,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
     else
       case Accounts.by_role(current_user.id) do
         true ->
-          case Map.has_key?(params, :status) and params[:status] == "Canceled" do
+          case Map.has_key?(params, :status) and params[:status] == "Canceled" or Map.has_key?(params, :status) and params[:status] == "In Transition" do
             true ->
               case Repo.get_by(Project, %{id: id}).status do
                 :"In Progress" ->
@@ -351,6 +351,53 @@ defmodule ServerWeb.GraphQL.Resolvers.Contracts.ProjectResolver do
                                 user_id: struct.assigned_id
                               })
                               mailing_to(notify.user_id, "canceled_project_by_client", notify.project_id)
+                              notifies = Queries.by_list(Notify, :user_id, notify.user_id)
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
+                              Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)
+                              {:ok, struct}
+                            {:error, changeset} ->
+                              {:error, extract_error_msg(changeset)}
+                          end
+                        else
+                          {:error, "permission denied"}
+                        end
+                      rescue
+                        Ecto.NoResultsError ->
+                          {:error, "The Project #{id} not found!"}
+                      end
+                    "In Transition" ->
+                      try do
+                        struct = Repo.get!(Project, id)
+                        if struct.assigned_id == current_user.id do
+                          struct
+                          |> Contracts.update_project(
+                            Map.delete(params, :user_id)
+                            |> Map.delete(:addon_price)
+                            |> Map.delete(:assigned_id)
+                            |> Map.delete(:book_keeping_id)
+                            |> Map.delete(:business_tax_return_id)
+                            |> Map.delete(:end_time)
+                            |> Map.delete(:id_from_stripe_card)
+                            |> Map.delete(:id_from_stripe_transfer)
+                            |> Map.delete(:individual_tax_return_id)
+                            |> Map.delete(:instant_matched)
+                            |> Map.delete(:mailers)
+                            |> Map.delete(:offer_price)
+                            |> Map.delete(:room_id)
+                            |> Map.delete(:sale_tax_id)
+                            |> Map.delete(:service_review_id)
+                            |> Map.delete(:user_id)
+                          )
+                          |> case do
+                            {:ok, struct} ->
+                              {:ok, notify} = Notifications.create_notify(%{
+                                is_hidden: false,
+                                is_read: false,
+                                project_id: struct.id,
+                                template: 8,
+                                user_id: struct.user_id
+                              })
+                              mailing_to(notify.user_id, "project_in_transition", notify.project_id)
                               notifies = Queries.by_list(Notify, :user_id, notify.user_id)
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, notifies, notify_list: "notifies")
                               Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, project_show: id)

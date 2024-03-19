@@ -566,9 +566,55 @@ iex> data = %URI{authority: "taxgig.me:4001", fragment: nil, host: "taxgig.me", 
 ```
 
 ```
-iex> file = File.read!("/tmp/flowers_data_uri")
+iex> path = File.read!("app/core/test/fixtures/book.jpg")
+iex> file = %Plug.Upload{path: path, content_type: "image/jpeg", filename: "book.jpg"}
 iex> current_user = Core.Repo.get_by(Core.Accounts.User, email: "lugatex@yahoo.com")
 iex> ServerWeb.GraphQL.Resolvers.Media.PicturesResolver.upload_picture(%{}, %{file: file}, %{context: %{current_user: current_user}})
+iex> ServerWeb.GraphQL.Resolvers.Media.PicturesResolver.remove_picture(%{}, %{}, %{context: %{current_user: current_user}})
+```
+
+```
+hash = File.stream!(tmp_path, [], 2048) |> Upload.sha256()
+
+with {:ok, %File.Stat{size: size}} <- File.stat(tmp_path),
+  {:ok, upload} <- %Upload{} |>
+    Upload.changeset(%{
+      filename: filename,
+      content_type: content_type,
+      hash: hash,
+      size: size
+    }) |> Repo.insert(),
+  :ok <- File.cp(tmp_path, Upload.local_path(upload.id, filename) ) do
+    {:ok, upload}
+  else
+    {:error, reason}=error -> error
+  end
+end
+
+File.stream!("assets/static/images/phoenix.png", [], 2048) \
+|> Documents.Upload.sha256()
+
+defmodule Documents.Upload do
+  def sha256(chunks_enum) do
+    chunks_enum
+    |> Enum.reduce(:crypto.hash_init(:sha256), &(:crypto.hash_update(&2, &1)))
+    |> :crypto.hash_final()
+    |> Base.encode16()
+    |> String.downcase()
+  end
+end
+```
+
+```
+path = "/tmp/tst0002.fits"
+file = File.read!(path)
+IO.inspect(file4, base: :hex)
+```
+
+```
+# Decode the image
+image_base64 = "https://image_bucket.s3.amazonaws.com/dbaaee81609747ba82bea2453cc33b83.png"
+{:ok, image_binary} = Base.decode64(image_base64)
 ```
 
 ```
@@ -1194,3 +1240,49 @@ $   defp _max(current, [head|tail]) when current < head do
 # end, timeout: :infinity)
 #
 ### 21 Jan 2020 by Oleg G.Kapranov
+
+ [1]: https://github.com/elixir-plug/plug/blob/main/lib/plug/upload.ex
+ [2]: https://github.com/mathieuprog/uploader
+ [3]: https://github.com/davecaos/jaws3
+ [4]: https://github.com/rzane/upload
+ [5]: https://github.com/akash-akya/vix
+ [6]: https://github.com/marucjmar/uex
+ [7]: https://hex.pm/packages/s3_direct_upload
+ [8]: https://github.com/akappen/s3_direct_upload
+ [9]: https://github.com/akappen/s3_direct_upload/blob/master/lib/s3_direct_upload/date_util.ex
+[10]: https://github.com/akappen/s3_direct_upload/blob/master/lib/s3_direct_upload/static_date_util.ex
+[11]: https://github.com/keichan34/exfile
+[12]: https://github.com/keichan34/exfile-encryption
+[13]: https://github.com/keichan34/exfile-imagemagick
+[14]: https://github.com/stavro/arc
+[15]: https://github.com/elixir-waffle/waffle
+[16]: https://github.com/shavit/absinthe-upload
+[17]: https://github.com/elixir-image/image
+[18]: https://relay.dev/
+[19]: https://spec.graphql.org/draft/
+[20]: https://hexdocs.pm/absinthe/file-uploads.html
+[21]: https://szajbus.dev/elixir/2019/02/13/file-uploads-with-phoenix-and-plug.html
+[22]: https://dockyard.com/blog/2017/08/22/building-an-image-upload-api-with-phoenix
+[23]: https://blog.kiprosh.com/upload-files-on-s3-with-elixir-phoenix-using-ex_aws/
+[24]: https://www.poeticoding.com/step-by-step-tutorial-to-build-a-phoenix-app-that-supports-user-uploads/
+[25]: https://flyers-web.blogspot.com/2019/11/elixir-upload-zip-to-s3.html
+[26]: https://curiosum.com/blog/how-upload-file-elixir-waffle
+[27]: https://alexgaribay.com/upload-files-to-s3-with-phoenix-and-ex_aws/
+[28]: https://curiosum.com/blog/absinthe-with-phoenix-framework-a-guide-to-properly-get-started-with-graphql-using-elixir
+[29]: https://peterullrich.com/upload-encrypted-files-to-s3
+[30]: https://www.poeticoding.com/step-by-step-tutorial-to-build-a-phoenix-app-that-supports-user-uploads/
+[31]: https://www.poeticoding.com/hashing-a-file-in-elixir/
+[32]: https://www.poeticoding.com/exaws-with-digitalocean-spaces/
+[33]: https://www.poeticoding.com/aws-s3-in-elixir-with-exaws/
+[34]: https://www.poeticoding.com/add-a-progress-bar-in-the-phoenix-file-upload-app/
+[35]: https://www.poeticoding.com/dealing-with-long-running-http-requests-and-timeouts-in-phoenix/
+[36]: https://www.poeticoding.com/the-primitives-of-elixir-concurrency-full-example/
+
+https://filesamples.com/formats/heif
+https://fits.gsfc.nasa.gov/nrao_data/tests/pg93/
+https://heasarc.gsfc.nasa.gov/docs/heasarc/ofwg/ofwg_samples.html
+https://fits.gsfc.nasa.gov/fits_samples.html
+https://gist.github.com/bryanhunter/a3a905ba890a21eb345f
+https://groups.google.com/g/elixir-lang-talk/c/_F-sdpOE7PI?pli=1
+https://hexdocs.pm/elixir/binaries-strings-and-charlists.html
+https://hexdocs.pm/elixir/1.12/Inspect.Opts.html

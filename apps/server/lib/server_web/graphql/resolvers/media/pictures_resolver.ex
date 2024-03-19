@@ -46,7 +46,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
       0 ->
         try do
           with struct <- Accounts.get_profile!(current_user.id),
-               {:ok, %{content_type: content_type, name: name, size: size, url: url}} = Core.Upload.store(file),
+               {:ok, %{content_type: content_type, name: name, size: size, url: url}} = Core.Upload.store(file, [type: :logo]),
                params <-
                  %{}
                  |> Map.put(:content_type, content_type)

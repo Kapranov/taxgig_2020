@@ -79,55 +79,24 @@ defmodule Core.MIME do
     "image/jpg"
   end
 
-  # 696D6167652F68656966
-  # <<head::binary-size(10), rest::binary>> = "image/heif"
-
   @spec check_mime_type(binary()) :: String.t()
-  defp check_mime_type(<<0x1A, 0x45, 0xDF, 0xA3, _::binary>>) do
-    "video/webm"
+  defp check_mime_type(<<0xFF, 0xD8, 0xFF, 0xE0, _::binary>>) do
+    # <<0xFF, 0xD8, 0xFF, 0xE0, 0x0, 0x10, 0x4A, 0x46, 0x49, 0x46, 0x0, 0x1, 0x1, 0x1
+    # <<head::binary-size(10), rest::binary>> = "image/heif"
+    # a = "hello world"
+    # <<h::binary-size(8), _rest::binary>>
+    # <<h2::size(64), _rest::binary>> = a
+    "image/heif"
   end
 
   @spec check_mime_type(binary()) :: String.t()
-  defp check_mime_type(<<0x00, 0x00, 0x00, _, 0x66, 0x74, 0x79, 0x70, _::binary>>) do
-    "video/mp4"
+  defp check_mime_type(<<0xFF, 0xD8, 0xFF, 0xE0, 0x0, 0x10, 0x4A, 0x46, 0x49, 0x46, _::binary>>) do
+    "image/heic"
   end
 
   @spec check_mime_type(binary()) :: String.t()
-  defp check_mime_type(<<0x49, 0x44, 0x33, _::binary>>) do
-    "audio/mpeg"
-  end
-
-  @spec check_mime_type(binary()) :: String.t()
-  defp check_mime_type(<<255, 251, _, 68, 0, 0, 0, 0, _::binary>>) do
-    "audio/mpeg"
-  end
-
-  @spec check_mime_type(binary()) :: String.t()
-  defp check_mime_type(
-        <<0x4F, 0x67, 0x67, 0x53, 0x00, 0x02, 0x00, 0x00, _::size(160), 0x80, 0x74, 0x68, 0x65,
-          0x6F, 0x72, 0x61, _::binary>>
-       ) do
-    "video/ogg"
-  end
-
-  @spec check_mime_type(binary()) :: String.t()
-  defp check_mime_type(<<0x4F, 0x67, 0x67, 0x53, 0x00, 0x02, 0x00, 0x00, _::binary>>) do
-    "audio/ogg"
-  end
-
-  @spec check_mime_type(binary()) :: String.t()
-  defp check_mime_type(<<"RIFF", _::binary-size(4), "WAVE", _::binary>>) do
-    "audio/wav"
-  end
-
-  @spec check_mime_type(binary()) :: String.t()
-  defp check_mime_type(<<"RIFF", _::binary-size(4), "WEBP", _::binary>>) do
-    "image/webp"
-  end
-
-  @spec check_mime_type(binary()) :: String.t()
-  defp check_mime_type(<<"RIFF", _::binary-size(4), "AVI.", _::binary>>) do
-    "video/avi"
+  defp check_mime_type(<<0x25, 0x50, 0x44, 0x46, 0x2D, 0x31, 0x2E, _::binary>>) do
+    "application/pdf"
   end
 
   @spec check_mime_type(any) :: String.t()
