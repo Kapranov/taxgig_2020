@@ -574,6 +574,18 @@ iex> ServerWeb.GraphQL.Resolvers.Media.PicturesResolver.remove_picture(%{}, %{},
 ```
 
 ```
+key = GenerateSecureString.call(32)
+
+defmodule Demo.GenerateSecureString do
+  def call(size) do
+    size
+    |> :crypto.strong_rand_bytes()
+    |> Base.encode64()
+  end
+end
+```
+
+```
 hash = File.stream!(tmp_path, [], 2048) |> Upload.sha256()
 
 with {:ok, %File.Stat{size: size}} <- File.stat(tmp_path),
@@ -609,6 +621,18 @@ end
 path = "/tmp/tst0002.fits"
 file = File.read!(path)
 IO.inspect(file4, base: :hex)
+```
+
+```
+path = "/tmp/book_data_uri"
+file = File.read!(path)
+%{img: "data:image/" <> image_data} = %{img: file}
+parsed = `Regex.named_captures(~r/(?<filetype>jpeg|jpg|png|gif|heic|heif);base64,(?<data>.*)/, image_data)`
+data = Base.decode64!(parsed["data"], ignore: :whitespace)
+File.write!("/tmp/book.jpg", data, [])
+
+newFile = data |> Base.encode64()
+File.write("/tmp/book_data_uri", "data:image/jpeg;base64," <> newFile)
 ```
 
 ```
@@ -1241,48 +1265,55 @@ $   defp _max(current, [head|tail]) when current < head do
 #
 ### 21 Jan 2020 by Oleg G.Kapranov
 
- [1]: https://github.com/elixir-plug/plug/blob/main/lib/plug/upload.ex
- [2]: https://github.com/mathieuprog/uploader
- [3]: https://github.com/davecaos/jaws3
- [4]: https://github.com/rzane/upload
- [5]: https://github.com/akash-akya/vix
- [6]: https://github.com/marucjmar/uex
- [7]: https://hex.pm/packages/s3_direct_upload
- [8]: https://github.com/akappen/s3_direct_upload
- [9]: https://github.com/akappen/s3_direct_upload/blob/master/lib/s3_direct_upload/date_util.ex
-[10]: https://github.com/akappen/s3_direct_upload/blob/master/lib/s3_direct_upload/static_date_util.ex
-[11]: https://github.com/keichan34/exfile
-[12]: https://github.com/keichan34/exfile-encryption
-[13]: https://github.com/keichan34/exfile-imagemagick
-[14]: https://github.com/stavro/arc
-[15]: https://github.com/elixir-waffle/waffle
-[16]: https://github.com/shavit/absinthe-upload
-[17]: https://github.com/elixir-image/image
-[18]: https://relay.dev/
-[19]: https://spec.graphql.org/draft/
-[20]: https://hexdocs.pm/absinthe/file-uploads.html
-[21]: https://szajbus.dev/elixir/2019/02/13/file-uploads-with-phoenix-and-plug.html
-[22]: https://dockyard.com/blog/2017/08/22/building-an-image-upload-api-with-phoenix
-[23]: https://blog.kiprosh.com/upload-files-on-s3-with-elixir-phoenix-using-ex_aws/
-[24]: https://www.poeticoding.com/step-by-step-tutorial-to-build-a-phoenix-app-that-supports-user-uploads/
-[25]: https://flyers-web.blogspot.com/2019/11/elixir-upload-zip-to-s3.html
-[26]: https://curiosum.com/blog/how-upload-file-elixir-waffle
-[27]: https://alexgaribay.com/upload-files-to-s3-with-phoenix-and-ex_aws/
-[28]: https://curiosum.com/blog/absinthe-with-phoenix-framework-a-guide-to-properly-get-started-with-graphql-using-elixir
-[29]: https://peterullrich.com/upload-encrypted-files-to-s3
-[30]: https://www.poeticoding.com/step-by-step-tutorial-to-build-a-phoenix-app-that-supports-user-uploads/
-[31]: https://www.poeticoding.com/hashing-a-file-in-elixir/
-[32]: https://www.poeticoding.com/exaws-with-digitalocean-spaces/
-[33]: https://www.poeticoding.com/aws-s3-in-elixir-with-exaws/
-[34]: https://www.poeticoding.com/add-a-progress-bar-in-the-phoenix-file-upload-app/
-[35]: https://www.poeticoding.com/dealing-with-long-running-http-requests-and-timeouts-in-phoenix/
-[36]: https://www.poeticoding.com/the-primitives-of-elixir-concurrency-full-example/
-
-https://filesamples.com/formats/heif
-https://fits.gsfc.nasa.gov/nrao_data/tests/pg93/
-https://heasarc.gsfc.nasa.gov/docs/heasarc/ofwg/ofwg_samples.html
-https://fits.gsfc.nasa.gov/fits_samples.html
-https://gist.github.com/bryanhunter/a3a905ba890a21eb345f
-https://groups.google.com/g/elixir-lang-talk/c/_F-sdpOE7PI?pli=1
-https://hexdocs.pm/elixir/binaries-strings-and-charlists.html
-https://hexdocs.pm/elixir/1.12/Inspect.Opts.html
+[1]:  https://alexgaribay.com/upload-files-to-s3-with-phoenix-and-ex_aws/
+[2]:  https://blog.kiprosh.com/upload-files-on-s3-with-elixir-phoenix-using-ex_aws/
+[3]:  https://curiosum.com/blog/absinthe-with-phoenix-framework-a-guide-to-properly-get-started-with-graphql-using-elixir
+[4]:  https://curiosum.com/blog/how-upload-file-elixir-waffle
+[5]:  https://danschultzer.com/posts/dynamic-image-generation-with-elixir
+[6]:  https://dockyard.com/blog/2017/08/22/building-an-image-upload-api-with-phoenix
+[7]:  https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html
+[8]:  https://filesamples.com/formats/heif
+[9]:  https://fits.gsfc.nasa.gov/fits_samples.html
+[10]: https://fits.gsfc.nasa.gov/nrao_data/tests/pg93/
+[11]: https://flyers-web.blogspot.com/2019/11/elixir-upload-zip-to-s3.html
+[12]: https://gist.github.com/bryanhunter/a3a905ba890a21eb345f
+[13]: https://gist.github.com/plicjo/5e5ced381f2b71d69d98b3e48885aacf#file-simple_s3_upload-ex
+[14]: https://git.pleroma.social/pleroma/pleroma/-/tree/develop/lib/pleroma
+[15]: https://github.com/Group4Layers/ex_image_info
+[16]: https://github.com/akappen/s3_direct_upload
+[17]: https://github.com/akappen/s3_direct_upload/blob/master/lib/s3_direct_upload/date_util.ex
+[18]: https://github.com/akappen/s3_direct_upload/blob/master/lib/s3_direct_upload/static_date_util.ex
+[19]: https://github.com/akash-akya/vix
+[20]: https://github.com/davecaos/jaws3
+[21]: https://github.com/elixir-image/image
+[22]: https://github.com/elixir-plug/mime/
+[23]: https://github.com/elixir-plug/plug/blob/main/lib/plug/upload.ex
+[24]: https://github.com/elixir-waffle/waffle
+[25]: https://github.com/keichan34/exfile
+[26]: https://github.com/keichan34/exfile-encryption
+[27]: https://github.com/keichan34/exfile-imagemagick
+[28]: https://github.com/marucjmar/uex
+[29]: https://github.com/mathieuprog/uploader
+[30]: https://github.com/poeticoding/phoenix_uploads_articles
+[31]: https://github.com/rzane/upload
+[32]: https://github.com/shavit/absinthe-upload
+[33]: https://github.com/stavro/arc
+[34]: https://gitlab.com/billyidle/mobilizon/
+[35]: https://groups.google.com/g/elixir-lang-talk/c/_F-sdpOE7PI?pli=1
+[36]: https://heasarc.gsfc.nasa.gov/docs/heasarc/fits.html
+[37]: https://heasarc.gsfc.nasa.gov/docs/heasarc/ofwg/ofwg_samples.html
+[38]: https://hex.pm/packages/s3_direct_upload
+[39]: https://hexdocs.pm/absinthe/file-uploads.html
+[40]: https://hexdocs.pm/elixir/1.12/Inspect.Opts.html
+[41]: https://hexdocs.pm/elixir/binaries-strings-and-charlists.html
+[42]: https://peterullrich.com/upload-encrypted-files-to-s3
+[43]: https://relay.dev/
+[44]: https://spec.graphql.org/draft/
+[45]: https://szajbus.dev/elixir/2019/02/13/file-uploads-with-phoenix-and-plug.html
+[46]: https://www.poeticoding.com/add-a-progress-bar-in-the-phoenix-file-upload-app/
+[47]: https://www.poeticoding.com/aws-s3-in-elixir-with-exaws/
+[48]: https://www.poeticoding.com/dealing-with-long-running-http-requests-and-timeouts-in-phoenix/
+[49]: https://www.poeticoding.com/exaws-with-digitalocean-spaces/
+[50]: https://www.poeticoding.com/hashing-a-file-in-elixir/
+[51]: https://www.poeticoding.com/step-by-step-tutorial-to-build-a-phoenix-app-that-supports-user-uploads/
+[52]: https://www.poeticoding.com/the-primitives-of-elixir-concurrency-full-example/

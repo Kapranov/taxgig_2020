@@ -1,6 +1,10 @@
 defmodule Core.Upload do
   @moduledoc """
   Manage user uploads
+      formats: [String.t()] | [],
+      uploader: struct(),
+      activity_type: String.t(),
+      size_limit: integer()
 
   Options:
   * `:type`: presets for activity type (defaults to Document) and size limits from app configuration
@@ -8,6 +12,7 @@ defmodule Core.Upload do
   * `:base_url`: override base url
   * `:uploader`: override uploader
   * `:filters`: override filters
+  * `:formats`: format file extension
   * `:size_limit`: override size limit
   * `:activity_type`: override activity type
 
@@ -38,8 +43,8 @@ defmodule Core.Upload do
   require Logger
 
   @name __MODULE__
-  @host "nyc3.digitaloceanspaces.com"
-  @url "https://" <> @host
+  @location Application.compile_env(:core, :instance)[:hostname] |> String.split(".") |> List.first()
+  @url  Application.compile_env(:core, Core.Uploaders.S3)[:public_endpoint]
 
   @type source ::
           Plug.Upload.t()
@@ -68,9 +73,8 @@ defmodule Core.Upload do
   @spec store(source(), [option()]) :: {:ok, map()} | {:error, any()}
   def store(upload, opts \\ []) do
    opts = get_opts(opts)
-
    with {:ok, upload} <- prepare_upload(upload, opts),
-        upload = %__MODULE__{upload | path: upload.path || "#{upload.id}/#{upload.name}"},
+        upload = %@name{upload | path: upload.path || "#{upload.id}/#{upload.name}"},
         {:ok, upload} <- Upload.Filter.filter(opts.filters, upload),
         {:ok, url_spec} <- Uploaders.Uploader.put_file(opts.uploader, upload) do
      {:ok,
@@ -82,6 +86,9 @@ defmodule Core.Upload do
        }
      }
    else
+     {:error, :wrong_content_type} ->
+       Logger.info("#{@name} store (using #{inspect(opts.uploader)}) failed: application/octet-stream")
+       {:error, :enoent}
      {:error, error} ->
        Logger.info("#{@name} store (using #{inspect(opts.uploader)}) failed: #{inspect(error)}")
        {:error, :enoent}
@@ -93,7 +100,11 @@ defmodule Core.Upload do
 
   @spec remove(String.t(), list()) :: String.t() | {:error, String.t()}
   def remove(url, opts \\ []) do
-    with opts <- get_opts(opts), %URI{path: "/taxgig/" <> path, host: host} <- URI.parse(url), {:same_host, true} <- {:same_host, host == @host} do
+    with opts <- get_opts(opts),
+      "https://" <> domain <- @url,
+      %URI{path: "/#{@location}/" <> path, host: host} <- URI.parse(url),
+      {:same_host, true} <- {:same_host, host == domain}
+    do
       Uploaders.Uploader.remove_file(opts.uploader, path)
     else
       %URI{} = _uri ->
@@ -101,11 +112,6 @@ defmodule Core.Upload do
       {:same_host, _} ->
         Logger.error("Media can't be deleted because its URL doesn't match current host")
     end
-  end
-
-  @spec char_unescaped?(char()) :: boolean()
-  def char_unescaped?(char) do
-    URI.char_unreserved?(char) or char == ?/
   end
 
   @spec get_opts(keyword(t)) ::
@@ -117,25 +123,25 @@ defmodule Core.Upload do
       activity_type: String.t(),
       size_limit: integer()
     }
-  def get_opts(opts) do
+  defp get_opts(opts) do
     media_1 = Config.get!([:instance, :formats])
-    media_2 = Config.get!([:instance, :formats]) |> List.delete(".pdf")
-    media_3 = Config.get!([:instance, :formats]) |> List.delete(".pdf") |> List.delete(".gif")
-    media_4 = Config.get!([:instance, :formats]) |> List.delete(".pdf") |> List.delete(".gif") |> List.delete(".jpg") |> List.delete(".jpeg")
-    media_5 = Config.get!([:instance, :formats]) |> List.delete(".jpg") |> List.delete(".jpeg") |> List.delete(".gif") |> List.delete(".png")
+    media_2 = Config.get!([:instance, :formats]) |> List.delete("pdf")
+    media_3 = Config.get!([:instance, :formats]) |> List.delete("pdf") |> List.delete("gif")
+    media_4 = Config.get!([:instance, :formats]) |> List.delete("pdf") |> List.delete("gif") |> List.delete("jpg") |> List.delete("jpeg")
+    media_5 = Config.get!([:instance, :formats]) |> List.delete("jpg") |> List.delete("jpeg") |> List.delete("gif") |> List.delete("png")
 
     {size_limit, activity_type, description, filter, formats} =
       case Keyword.get(opts, :type) do
         :avatar ->
-          {Config.get!([:instance, :avatar_upload_limit]), "Image", "Uploaded Image", Config.get([@name, :filters]), media_2}
+          {Config.get!([:instance, :avatar_upload_limit]), "Image", "Uploaded Image", Config.get([@name, :filters]), Enum.map(media_2, &("." <> &1 ))}
         :banner ->
-          {Config.get!([:instance, :banner_upload_limit]), "Image", "Uploaded Image", Config.get([@name, :filters]), media_3}
+          {Config.get!([:instance, :banner_upload_limit]), "Image", "Uploaded Image", Config.get([@name, :filters]), Enum.map(media_3, &("." <> &1 ))}
         :logo ->
-          {Config.get!([:instance, :logo_upload_limit]), "Image", "Uploaded Image", Config.get([@name, :filters]), media_4}
+          {Config.get!([:instance, :logo_upload_limit]), "Image", "Uploaded Image", Config.get([@name, :filters]), Enum.map(media_4, &("." <> &1 ))}
         :pdf ->
-          {Config.get!([:instance, :pdf_upload_limit]), "Document", "Uploaded Document", [], media_5}
+          {Config.get!([:instance, :pdf_upload_limit]), "Document", "Uploaded Document", [], Enum.map(media_5, &("." <> &1 ))}
         _ ->
-          {Config.get!([:instance, :upload_limit]), "Media", "Uploaded all Media", Config.get([@name, :filters]), media_1}
+          {Config.get!([:instance, :upload_limit]), "Media", "Uploaded all Media", Config.get([@name, :filters]), Enum.map(media_1, &("." <> &1 ))}
       end
 
     %{
@@ -155,22 +161,27 @@ defmodule Core.Upload do
         tempfile: String.t(),
         content_type: String.t(),
         size: integer()}} |
-    {:error, atom()}
-  def prepare_upload(%Plug.Upload{} = file, opts) do
+    {:error, atom()} |
+    boolean()
+  defp prepare_upload(%Plug.Upload{} = file, opts) do
     id = UUID.generate()
     with {:ok, size} <- check_file_size(file.path, opts.size_limit),
          true <- opts.formats |> Enum.member?(Path.extname(file.filename)),
          {:ok, content_type, name} <- CoreMIME.file_mime_type(file.path, file.filename)
     do
-      {:ok,
-        %@name{
-          content_type: content_type,
-          id: id,
-          name: name,
-          path: "#{id}/#{name}",
-          size: size,
-          tempfile: file.path
-        }}
+      if content_type == "application/octet-stream" do
+        {:error, :wrong_content_type}
+      else
+        {:ok,
+          %@name{
+            content_type: content_type,
+            id: id,
+            name: name,
+            path: "#{id}/#{name}",
+            size: size,
+            tempfile: file.path
+          }}
+      end
     end
   end
 
@@ -180,29 +191,76 @@ defmodule Core.Upload do
         tempfile: String.t(),
         content_type: String.t(),
         size: integer()}} |
-    {:error, atom()}
-  def prepare_upload(%{img: "data:image/" <> image_data}, opts) do
+    {:error, atom()} |
+    boolean()
+  defp prepare_upload(%{img: "data:image/" <> image_data}, opts) do
     case Regex.named_captures(~r/(?<filetype>jpeg|jpg|png|gif|heic|heif);base64,(?<data>.*)/, image_data) do
       nil -> false
       parsed ->
         id = UUID.generate()
         data = Base.decode64!(parsed["data"], ignore: :whitespace)
-        hash = Base.encode16(:crypto.hash(:sha256, data), lower: true)
         content_type = "image/" <> parsed["filetype"]
-        with :ok <- check_binary_size(data, opts.size_limit),
-             tmp_path <- tempfile_for_image(data),
-             {:ok, size} <- check_file_size(tmp_path, opts.size_limit),
-             [ext | _] <- MIME.extensions(content_type)
-        do
-          {:ok,
-            %@name{
-              content_type: content_type,
-              id: id,
-              name: hash <> "." <> ext,
-              path: "#{id}/#{hash <> "." <> ext}",
-              size: size,
-              tempfile: tmp_path
-            }}
+        {:ok, mime} = CoreMIME.bin_mime_type(data)
+
+        unless content_type != "application/octet-stream" do
+          {:error, :wrong_content_type}
+        end
+
+        cond do
+          content_type == "image/jpg" and mime == "image/jpeg" ->
+            hash = Base.encode16(:crypto.hash(:sha256, data), lower: true)
+            with :ok <- check_binary_size(data, opts.size_limit),
+                 tmp_path <- tempfile_for_image(data),
+                 {:ok, size} <- check_file_size(tmp_path, opts.size_limit),
+                 true <- opts.formats |> Enum.member?("." <> parsed["filetype"]),
+                 [ext | _] <- MIME.extensions(content_type)
+            do
+              {:ok,
+                %@name{
+                  content_type: content_type,
+                  id: id,
+                  name: hash <> "." <> ext,
+                  path: "#{id}/#{hash <> "." <> ext}",
+                  size: size,
+                  tempfile: tmp_path
+                }}
+            end
+          content_type == "image/jpeg" and mime == "image/jpg" ->
+            hash = Base.encode16(:crypto.hash(:sha256, data), lower: true)
+            with :ok <- check_binary_size(data, opts.size_limit),
+                 tmp_path <- tempfile_for_image(data),
+                 {:ok, size} <- check_file_size(tmp_path, opts.size_limit),
+                 true <- opts.formats |> Enum.member?("." <> parsed["filetype"]),
+                 [ext | _] <- MIME.extensions(content_type)
+            do
+              {:ok,
+                %@name{
+                  content_type: content_type,
+                  id: id,
+                  name: hash <> "." <> ext,
+                  path: "#{id}/#{hash <> "." <> ext}",
+                  size: size,
+                  tempfile: tmp_path
+                }}
+            end
+          content_type == mime ->
+            hash = Base.encode16(:crypto.hash(:sha256, data), lower: true)
+            with :ok <- check_binary_size(data, opts.size_limit),
+                 tmp_path <- tempfile_for_image(data),
+                 {:ok, size} <- check_file_size(tmp_path, opts.size_limit),
+                 true <- opts.formats |> Enum.member?("." <> parsed["filetype"]),
+                 [ext | _] <- MIME.extensions(content_type)
+            do
+              {:ok,
+                %@name{
+                  content_type: content_type,
+                  id: id,
+                  name: hash <> "." <> ext,
+                  path: "#{id}/#{hash <> "." <> ext}",
+                  size: size,
+                  tempfile: tmp_path
+                }}
+            end
         end
     end
   end
@@ -252,4 +310,9 @@ defmodule Core.Upload do
 
   @spec url_from_spec(any(), any(), {:url, String.t()}) :: String.t()
   defp url_from_spec(_upload, _base_url, {:url, url}), do: url
+
+  @spec char_unescaped?(char()) :: boolean()
+  defp char_unescaped?(char) do
+    URI.char_unreserved?(char) or char == ?/
+  end
 end

@@ -46,7 +46,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
       0 ->
         try do
           with struct <- Accounts.get_profile!(current_user.id),
-               {:ok, %{content_type: content_type, name: name, size: size, url: url}} = Core.Upload.store(file, [type: :logo]),
+               {:ok, %{content_type: content_type, name: name, size: size, url: url}} = Core.Upload.store(file, []),
                params <-
                  %{}
                  |> Map.put(:content_type, content_type)
@@ -62,18 +62,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
                 size: picture.file.size,
                 url: picture.file.url
               }}
-          else
-            nil ->
-              {:error, "User id is not owned by authenticated user"}
-            {:error, changeset} ->
-              {:error, extract_error_msg(changeset)}
           end
         rescue
+          WithClauseError ->
+            {:ok, %{error: "uploadPicture", error_description: "file format problem's not supported, large a size, content-type"}}
+          MatchError ->
+            {:ok, %{error: "uploadPicture", error_description: "file format problem's not supported, large a size, content-type"}}
           Ecto.NoResultsError ->
-            {:error, "An User #{current_user.id} not found!"}
+            {:ok, %{error: "uploadPicture", error_description: "An User #{current_user.id} not found!"}}
         end
       _ ->
-        {:error, "picture for current_user already exists"}
+        {:ok, %{error: "uploadPicture", error_description: "picture for current_user already exists"}}
     end
   end
 
@@ -84,7 +83,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
       0 ->
         try do
           with struct <- Accounts.get_profile!(current_user.id),
-               {:ok, %{content_type: content_type, name: name, size: size, url: url}} = Core.Upload.store(%{img: file}),
+               {:ok, %{content_type: content_type, name: name, size: size, url: url}} = Core.Upload.store(%{img: file}, []),
                params <-
                  %{}
                  |> Map.put(:content_type, content_type)
@@ -100,18 +99,17 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.PicturesResolver do
                 size: picture.file.size,
                 url: picture.file.url
               }}
-          else
-            nil ->
-              {:error, "User id is not owned by authenticated user"}
-            {:error, changeset} ->
-              {:error, extract_error_msg(changeset)}
           end
         rescue
+          WithClauseError ->
+            {:ok, %{error: "uploadPicture", error_description: "file format problem's not supported, large a size, content-type"}}
+          MatchError ->
+            {:ok, %{error: "uploadPicture", error_description: "file format problem's not supported, large a size, content-type"}}
           Ecto.NoResultsError ->
-            {:error, "An User #{current_user.id} not found!"}
+            {:ok, %{error: "uploadPicture", error_description: "An User #{current_user.id} not found!"}}
         end
       _ ->
-        {:error, "picture for current_user already exists"}
+        {:ok, %{error: "uploadPicture", error_description: "picture for current_user already exists"}}
     end
   end
 

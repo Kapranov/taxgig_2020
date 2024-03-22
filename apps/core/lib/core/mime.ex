@@ -5,19 +5,50 @@ defmodule Core.MIME do
   @default "application/octet-stream"
   @read_bytes 35
 
-  @spec file_mime_type(String.t()) ::
-          {:ok, content_type :: String.t(), filename :: String.t()} | {:error, any()} | :error
-  def file_mime_type(path, filename) do
-    with {:ok, content_type} <- file_mime_type(path), filename <- fix_extension(filename, content_type) do
-      {:ok, content_type, filename}
-    end
-  end
+  @doc """
+  Check file content type when one param.
 
+  ## Examples.
+
+      iex> Core.MIME.file_mime_type("/tmp/book.jpg")
+      {:ok, "image/jpg"}
+      iex> Core.MIME.file_mime_type("/tmp/books.jpg")
+      {:error, :enoent}
+      iex> Core.MIME.file_mime_type("/tmp")
+      {:error, :eisdir}
+      iex> Core.MIME.file_mime_type("/tmp/WFPC2u5780205r_c0fx.fits")
+      {:ok, "application/octet-stream"}
+
+  """
   @spec file_mime_type(String.t()) :: {:ok, String.t()} | {:error, any()} | :error
   def file_mime_type(filename) do
     File.open(filename, [:read], fn f ->
       check_mime_type(IO.binread(f, @read_bytes))
     end)
+  end
+
+  @doc """
+  Check file content type when two params.
+
+  ## Examples.
+
+      iex> Core.MIME.file_mime_type("/tmp/book.jpg", "book.jpg")
+      {:ok, "image/jpg"}
+      iex> Core.MIME.file_mime_type("/tmp/books.jpg", "books.jpg")
+      {:error, :enoent}
+      iex> Core.MIME.file_mime_type("/tmp/books.jpg", "book.jpg")
+      {:error, :enoent}
+      iex> Core.MIME.file_mime_type("/tmp/book.jpg", "books.jpg")
+      {:ok, "image/jpg", "books.jpg"}
+      iex> Core.MIME.file_mime_type("/tmp/WFPC2u5780205r_c0fx.fits", "WFPC2u5780205r_c0fx.fits")
+      {:ok, "application/octet-stream", "WFPC2u5780205r_c0fx.fits"}
+
+  """
+  @spec file_mime_type(String.t(), String.t()) :: {:ok, content_type :: String.t(), filename :: String.t()} | {:error, any()} | :error
+  def file_mime_type(path, filename) do
+    with {:ok, content_type} <- file_mime_type(path), filename <- fix_extension(filename, content_type) do
+      {:ok, content_type, filename}
+    end
   end
 
   @spec bin_mime_type(binary(), String.t()) :: {:ok, String.t(), String.t()}
