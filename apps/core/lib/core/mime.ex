@@ -112,11 +112,6 @@ defmodule Core.MIME do
 
   @spec check_mime_type(binary()) :: String.t()
   defp check_mime_type(<<0xFF, 0xD8, 0xFF, 0xE0, _::binary>>) do
-    # <<0xFF, 0xD8, 0xFF, 0xE0, 0x0, 0x10, 0x4A, 0x46, 0x49, 0x46, 0x0, 0x1, 0x1, 0x1
-    # <<head::binary-size(10), rest::binary>> = "image/heif"
-    # a = "hello world"
-    # <<h::binary-size(8), _rest::binary>>
-    # <<h2::size(64), _rest::binary>> = a
     "image/heif"
   end
 

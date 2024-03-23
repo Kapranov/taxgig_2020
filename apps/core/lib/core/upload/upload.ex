@@ -128,7 +128,7 @@ defmodule Core.Upload do
     media_2 = Config.get!([:instance, :formats]) |> List.delete("pdf")
     media_3 = Config.get!([:instance, :formats]) |> List.delete("pdf") |> List.delete("gif")
     media_4 = Config.get!([:instance, :formats]) |> List.delete("pdf") |> List.delete("gif") |> List.delete("jpg") |> List.delete("jpeg")
-    media_5 = Config.get!([:instance, :formats]) |> List.delete("jpg") |> List.delete("jpeg") |> List.delete("gif") |> List.delete("png")
+    media_5 = Config.get!([:instance, :formats]) |> List.delete("jpg") |> List.delete("jpeg") |> List.delete("gif") |> List.delete("png") |> List.delete("heif") |> List.delete("heic")
 
     {size_limit, activity_type, description, filter, formats} =
       case Keyword.get(opts, :type) do
