@@ -29,6 +29,7 @@ defmodule Stripy.StripeService.Adapters.StripePlatformChargeAdapter do
     :captured,
     :created,
     :currency,
+    :description,
     :object,
     :payment_method,
     :refunded,

@@ -35,6 +35,7 @@ defmodule ServerWeb.GraphQL.Schemas.StripeService.StripePlatformChargeTypes do
     field :captured, :boolean
     field :created, :integer
     field :currency, :string
+    field :description, :string
     field :error, :string
     field :object, :string
     field :payment_method, :string
