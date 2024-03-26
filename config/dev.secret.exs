@@ -89,12 +89,12 @@ config :ex_aws,
 config :server, Google,
   client_id: "991262252553-18hlqfkgmkmk9l9o1niuq0ehcqvd097u.apps.googleusercontent.com",
   client_secret: "GYyCMYA1hLMYAJrfBZoJxHa0",
-  redirect_uri: ["https://tax.unicore-group.com/auth/registration-creating-account?provider=google", "https://tax.unicore-group.com/auth/login?provider=google", "https://localhost:4200/auth/login?provider=google", "https://localhost:4200/auth/registration-creating-account?provider=google"]
+  redirect_uri: ["https://app.taxgig.com/auth/registration-creating-account?provider=google", "https://app.taxgig.com/auth/login?provider=google", "https://localhost:4200/auth/login?provider=google", "https://localhost:4200/auth/registration-creating-account?provider=google"]
 
 config :server, Facebook,
   client_id: "693824267691319",
   client_secret: "250e5db3f21f6138c75f551f758a8652",
-  redirect_uri: ["https://tax.unicore-group.com/auth/registration-creating-account?provider=facebook", "https://tax.unicore-group.com/auth/login?provider=facebook", "https://localhost:4200/auth/registration-creating-account?provider=facebook", "https://localhost:4200/auth/login?provider=facebook"],
+  redirect_uri: ["https://app.taxgig.com/auth/registration-creating-account?provider=facebook", "https://app.taxgig.com/auth/login?provider=facebook", "https://localhost:4200/auth/registration-creating-account?provider=facebook", "https://localhost:4200/auth/login?provider=facebook"],
   scope: "email,user_photos"
 
 config :server, Twitter,
@@ -107,4 +107,4 @@ config :server, Twitter,
 config :server, LinkedIn,
   client_id: "77em5r3mjow7oy",
   client_secret: "gyAt8UOtXXtYH2jY",
-  redirect_uri: ["https://tax.unicore-group.com/auth/registration-creating-account?provider=linkedin", "https://tax.unicore-group.com/auth/login?provider=linkedin", "https://localhost:4200/auth/registration-creating-account?provider=linkedin", "https://localhost:4200/auth/login?provider=linkedin"]
+  redirect_uri: ["https://app.taxgig.com/auth/registration-creating-account?provider=linkedin", "https://app.taxgig.com/auth/login?provider=linkedin", "https://localhost:4200/auth/registration-creating-account?provider=linkedin", "https://localhost:4200/auth/login?provider=linkedin"]
