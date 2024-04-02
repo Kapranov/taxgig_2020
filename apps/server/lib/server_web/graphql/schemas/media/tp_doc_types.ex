@@ -14,14 +14,14 @@ defmodule ServerWeb.GraphQL.Schemas.Media.TpDocTypes do
 
   @desc "The tp docs on the site"
   object :tp_doc do
-    field :access_granted, non_null(:boolean)
-    field :category, non_null(:string)
+    field :access_granted, :boolean
+    field :category, :string
     field :error, :string
     field :error_description, :string
     field :file, :picture, description: "An upload's file"
-    field :id, non_null(:string)
+    field :id, :string
     field :projects, :project, resolve: dataloader(Data)
-    field :signed_by_tp, non_null(:boolean)
+    field :signed_by_tp, :boolean
   end
 
   @desc "The tp docs on the site after destroy"

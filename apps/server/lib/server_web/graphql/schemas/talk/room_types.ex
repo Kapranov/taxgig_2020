@@ -29,6 +29,8 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
     field :projects, :project, resolve: dataloader(Data)
     field :topic, :string
     field :unread_msg, :integer
+    field :unread_msg_by_user, :integer
+    field :unread_msg_by_participant, :integer
     field :user, :user, resolve: dataloader(Data)
     field :inserted_at, :datetime
     field :updated_at, :datetime

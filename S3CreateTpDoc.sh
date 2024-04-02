@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-FILE="@/tmp/takahashi.jpg"
-TOKEN="SFMyNTY.g2gDbQAAABJBTjlkR244b1JaUlZ0UHd6N3duBgCxQDWMjAFiAAFRgA.Bfx7zkpTD8SWiLo4BO9IFhYqN7sNpxXElJ8QIuwmBPE"
+FILE="@/tmp/220111667.pdf"
+TOKEN="SFMyNTY.g2gDbQAAABJBTjlkR244b1JaUlZ0UHd6N3duBgD11JGYjgFiAAFRgA.N8QTOuUInuk1hKcfpFubv3HIleajv-ys9UN5_QsH-O0"
 URL="http://localhost:4000"
 
 generate_data() {

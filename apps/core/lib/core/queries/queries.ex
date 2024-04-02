@@ -174,6 +174,69 @@ defmodule Core.Queries do
   end
 
   @doc """
+  Return counts by total number of unread `messages` via `userId`.
+
+  Take `room.userId` and `room.message` then find all `messages` where `room.userId`
+  is `message.recipient` then count all matching `messages` where `message.isRead`
+  is `false` and return total number of unread `messages`.
+
+  ## Examples.
+
+      iex> struct_a = Core.Talk.Room
+      iex> struct_b = Core.Talk.Message
+      iex> user_id = struct_a.user_id
+      iex> aggregate_unread_msg_by_user(struct_a, struct_b, user_id)
+      1
+
+  """
+  @spec aggregate_unread_msg_by_user(map, map, String.t()) :: integer
+  def aggregate_unread_msg_by_user(struct_a, struct_b, user_id) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: cu in ^struct_b,
+        where: c.user_id == ^user_id and c.user_id == cu.recipient,
+        where: cu.is_read == false,
+        select: count(cu.id)
+      )
+    rescue
+      Ecto.Query.CastError -> []
+    end
+  end
+
+  @doc """
+  Return counts by total number of unread `messages`via `participantId`.
+
+
+  Take `room.participantId` and `room.message` then find all`messages` where
+  `room.participantId` is `message.recipient` then count all matching `messages`
+  where `message.isRead` is `false` and return total number of unread `messages`.
+
+  ## Examples.
+
+      iex> struct_a = Core.Talk.Room
+      iex> struct_b = Core.Talk.Message
+      iex> participantId = struct_a.user_id
+      iex> aggregate_unread_msg_by_user(struct_a, struct_b, participantId)
+      1
+
+  """
+  @spec aggregate_unread_msg_by_participant(map, map, String.t()) :: integer
+  def aggregate_unread_msg_by_participant(struct_a, struct_b, participant_id) do
+    try do
+      Repo.all(
+        from c in struct_a,
+        join: cu in ^struct_b,
+        where: c.participant_id == ^participant_id and c.participant_id == cu.recipient,
+        where: cu.is_read == false,
+        select: count(cu.id)
+      )
+    rescue
+      Ecto.Query.CastError -> []
+    end
+  end
+
+  @doc """
   Retrurn all records with 2 items
 
   ## Example

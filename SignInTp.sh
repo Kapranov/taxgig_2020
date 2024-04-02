@@ -6,8 +6,8 @@ set -eu
 
 echo -e "\n"
 
-EMAIL="lugatex@yahoo.com"
-PASSWORD="bisque"
+EMAIL="kapranov.lugatex@gmail.com"
+PASSWORD="qwerty"
 PROVIDER="localhost"
 URL="http://localhost:4000"
 

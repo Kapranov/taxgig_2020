@@ -79,7 +79,7 @@ defmodule Core.Upload do
         {:ok, url_spec} <- Uploaders.Uploader.put_file(opts.uploader, upload) do
      {:ok,
        %{
-         name: Map.get(opts, :description) || upload.name,
+         name: upload.name || Map.get(opts, :description),
          url: url_from_spec(upload, opts.base_url, url_spec),
          content_type: upload.content_type,
          size: upload.size
