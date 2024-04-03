@@ -125,6 +125,16 @@ defmodule Core.MIME do
     "application/pdf"
   end
 
+  @spec check_mime_type(binary()) :: String.t()
+  defp check_mime_type(<<0x50, 0x4B, 0x3, 0x4, 0x14, 0x0, 0x6, 0x0, 0x8, _::binary>>) do
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  end
+
+  @spec check_mime_type(binary()) :: String.t()
+  defp check_mime_type(<<0x50, 0x4B, 0x3, 0x4, 0x14, _::binary>>) do
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  end
+
   @spec check_mime_type(any) :: String.t()
   defp check_mime_type(_) do
     @default

@@ -2,7 +2,6 @@
 
 FILE="@/tmp/220111667.pdf"
 TOKEN="SFMyNTY.g2gDbQAAABJBTjlkR244b1JaUlZ0UHd6N3duBgD11JGYjgFiAAFRgA.N8QTOuUInuk1hKcfpFubv3HIleajv-ys9UN5_QsH-O0"
-PROJECT_ID="AN9dHtklLUCggoEFii"
 URL="http://localhost:4000"
 
 generate_data() {
@@ -10,7 +9,7 @@ cat << EOF
 access_granted: true,
 category: "Files",
 file: { picture: { file: "input" } },
-project_id: $PROJECT_ID,
+project_id: "AN9dHtklLUCggoEFii",
 signed_by_tp: true
 EOF
 }
