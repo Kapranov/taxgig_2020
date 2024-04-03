@@ -101,6 +101,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
           else
             nil ->
               {:error, "ProjectId is not owned by authenticated user"}
+            {:error, :enoent} ->
+                {:error, "something wrong with format"}
             {:error, changeset} ->
               {:error, extract_error_msg(changeset)}
           end

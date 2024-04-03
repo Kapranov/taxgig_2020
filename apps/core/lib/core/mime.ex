@@ -126,13 +126,13 @@ defmodule Core.MIME do
   end
 
   @spec check_mime_type(binary()) :: String.t()
-  defp check_mime_type(<<0x50, 0x4B, 0x3, 0x4, 0x14, 0x0, 0x6, 0x0, 0x8, _::binary>>) do
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  defp check_mime_type(<<0x50, 0x4B, 0x3, 0x4, 0x14, 0x0, 0x6, _::binary>>) do
+    "application/xlsx"
   end
 
   @spec check_mime_type(binary()) :: String.t()
-  defp check_mime_type(<<0x50, 0x4B, 0x3, 0x4, 0x14, _::binary>>) do
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  defp check_mime_type(<<0x50, 0x4B, 0x3, 0x4, 0x14, 0x0, 0x8, _::binary>>) do
+    "application/zip"
   end
 
   @spec check_mime_type(any) :: String.t()

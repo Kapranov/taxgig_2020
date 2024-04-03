@@ -140,6 +140,10 @@ defmodule Core.Upload do
           {Config.get!([:instance, :logo_upload_limit]), "Image", "Uploaded Image", Config.get([@name, :filters]), Enum.map(media_4, &("." <> &1 ))}
         :pdf ->
           {Config.get!([:instance, :pdf_upload_limit]), "Document", "Uploaded Document", [], Enum.map(media_5, &("." <> &1 ))}
+        :xlsx ->
+          {Config.get!([:instance, :upload_limit]), "Document", "Microsoft Excel 2007+", [], Enum.map(media_1, &("." <> &1 ))}
+        :zip ->
+          {Config.get!([:instance, :upload_limit]), "Document", "Microsoft Excel/Docs", [], Enum.map(media_1, &("." <> &1 ))}
         _ ->
           {Config.get!([:instance, :upload_limit]), "Media", "Uploaded all Media", Config.get([@name, :filters]), Enum.map(media_1, &("." <> &1 ))}
       end
