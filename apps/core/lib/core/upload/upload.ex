@@ -125,10 +125,134 @@ defmodule Core.Upload do
     }
   defp get_opts(opts) do
     media_1 = Config.get!([:instance, :formats])
-    media_2 = Config.get!([:instance, :formats]) |> List.delete("pdf")
-    media_3 = Config.get!([:instance, :formats]) |> List.delete("pdf") |> List.delete("gif")
-    media_4 = Config.get!([:instance, :formats]) |> List.delete("pdf") |> List.delete("gif") |> List.delete("jpg") |> List.delete("jpeg")
-    media_5 = Config.get!([:instance, :formats]) |> List.delete("jpg") |> List.delete("jpeg") |> List.delete("gif") |> List.delete("png") |> List.delete("heif") |> List.delete("heic")
+    media_2 =
+      Config.get!([:instance, :formats])
+      |> List.delete("bmp")
+      |> List.delete("csv")
+      |> List.delete("doc")
+      |> List.delete("docx")
+      |> List.delete("markdown")
+      |> List.delete("md")
+      |> List.delete("ods")
+      |> List.delete("odt")
+      |> List.delete("pdf")
+      |> List.delete("rtf")
+      |> List.delete("text")
+      |> List.delete("txt")
+      |> List.delete("xls")
+      |> List.delete("xlsx")
+      |> List.delete("zip")
+
+    media_3 =
+      Config.get!([:instance, :formats])
+      |> List.delete("bmp")
+      |> List.delete("csv")
+      |> List.delete("doc")
+      |> List.delete("docx")
+      |> List.delete("gif")
+      |> List.delete("heic")
+      |> List.delete("heif")
+      |> List.delete("markdown")
+      |> List.delete("md")
+      |> List.delete("ods")
+      |> List.delete("odt")
+      |> List.delete("pdf")
+      |> List.delete("rtf")
+      |> List.delete("text")
+      |> List.delete("txt")
+      |> List.delete("xls")
+      |> List.delete("xlsx")
+      |> List.delete("zip")
+
+    media_4 =
+      Config.get!([:instance, :formats])
+      |> List.delete("csv")
+      |> List.delete("doc")
+      |> List.delete("docx")
+      |> List.delete("gif")
+      |> List.delete("heic")
+      |> List.delete("heif")
+      |> List.delete("jpeg")
+      |> List.delete("jpg")
+      |> List.delete("markdown")
+      |> List.delete("md")
+      |> List.delete("ods")
+      |> List.delete("odt")
+      |> List.delete("pdf")
+      |> List.delete("rtf")
+      |> List.delete("text")
+      |> List.delete("txt")
+      |> List.delete("xls")
+      |> List.delete("xlsx")
+      |> List.delete("zip")
+
+    media_5 =
+      Config.get!([:instance, :formats])
+      |> List.delete("bmp")
+      |> List.delete("csv")
+      |> List.delete("doc")
+      |> List.delete("docx")
+      |> List.delete("gif")
+      |> List.delete("heic")
+      |> List.delete("heif")
+      |> List.delete("jpeg")
+      |> List.delete("jpg")
+      |> List.delete("markdown")
+      |> List.delete("md")
+      |> List.delete("ods")
+      |> List.delete("odt")
+      |> List.delete("png")
+      |> List.delete("rtf")
+      |> List.delete("text")
+      |> List.delete("txt")
+      |> List.delete("xls")
+      |> List.delete("xlsx")
+      |> List.delete("zip")
+
+    media_6 =
+      Config.get!([:instance, :formats])
+      |> List.delete("bmp")
+      |> List.delete("csv")
+      |> List.delete("doc")
+      |> List.delete("docx")
+      |> List.delete("gif")
+      |> List.delete("heic")
+      |> List.delete("heif")
+      |> List.delete("jpeg")
+      |> List.delete("jpg")
+      |> List.delete("markdown")
+      |> List.delete("md")
+      |> List.delete("ods")
+      |> List.delete("odt")
+      |> List.delete("pdf")
+      |> List.delete("png")
+      |> List.delete("rtf")
+      |> List.delete("text")
+      |> List.delete("txt")
+      |> List.delete("zip")
+
+    media_7 =
+      Config.get!([:instance, :formats])
+      |> List.delete("bmp")
+      |> List.delete("csv")
+      |> List.delete("doc")
+      |> List.delete("docx")
+      |> List.delete("gif")
+      |> List.delete("heic")
+      |> List.delete("heif")
+      |> List.delete("jpeg")
+      |> List.delete("jpg")
+      |> List.delete("markdown")
+      |> List.delete("md")
+      |> List.delete("ods")
+      |> List.delete("odt")
+      |> List.delete("pdf")
+      |> List.delete("png")
+      |> List.delete("rtf")
+      |> List.delete("text")
+      |> List.delete("txt")
+      |> List.delete("xls")
+      |> List.delete("xlsx")
 
     {size_limit, activity_type, description, filter, formats} =
       case Keyword.get(opts, :type) do
@@ -141,9 +265,9 @@ defmodule Core.Upload do
         :pdf ->
           {Config.get!([:instance, :pdf_upload_limit]), "Document", "Uploaded Document", [], Enum.map(media_5, &("." <> &1 ))}
         :xlsx ->
-          {Config.get!([:instance, :upload_limit]), "Document", "Microsoft Excel 2007+", [], Enum.map(media_1, &("." <> &1 ))}
+          {Config.get!([:instance, :upload_limit]), "Document", "Microsoft Excel 2007+", [], Enum.map(media_6, &("." <> &1 ))}
         :zip ->
-          {Config.get!([:instance, :upload_limit]), "Document", "Microsoft Excel/Docs", [], Enum.map(media_1, &("." <> &1 ))}
+          {Config.get!([:instance, :upload_limit]), "Document", "Microsoft Excel/Docs", [], Enum.map(media_7, &("." <> &1 ))}
         _ ->
           {Config.get!([:instance, :upload_limit]), "Media", "Uploaded all Media", Config.get([@name, :filters]), Enum.map(media_1, &("." <> &1 ))}
       end
@@ -159,6 +283,32 @@ defmodule Core.Upload do
     }
   end
 
+  @doc """
+  Uploads prepare for AWS and Local store.
+
+  Formats: "bmp", "csv", "doc", "docx", "gif", "heic", "heif", "jpeg", "jpg", "markdown",
+           "md", "ods", "odt", "pdf", "png", "rtf", "text", "txt", "xls", "xlsx", "zip"
+  MIME:
+    "application/msword" => ["doc"]
+    "application/pdf" => ["pdf"]
+    "application/rtf" => ["rtf"]
+    "application/vnd.ms-excel" => ["xls"]
+    "application/vnd.oasis.opendocument.spreadsheet" => ["ods"]
+    "application/vnd.oasis.opendocument.text" => ["odt"]
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => ["xlsx"]
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => ["docx"]
+    "application/zip" => ["zip"]
+    "image/bmp" => ["bmp"]
+    "image/gif" => ["gif"]
+    "image/heic" => ["heic"]
+    "image/heif" => ["heif"]
+    "image/jpeg" => ["jpg", "jpeg"]
+    "image/png" => ["png"]
+    "text/csv" => ["csv"]
+    "text/markdown" => ["md", "markdown"]
+    "text/plain" => ["txt", "text"]
+
+  """
   @spec prepare_upload(Plug.Upload.t(), map()) ::
     {:ok, %__MODULE__{id: String.t(),
         name: String.t(),

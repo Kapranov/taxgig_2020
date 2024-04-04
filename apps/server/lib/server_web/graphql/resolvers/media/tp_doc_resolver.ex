@@ -101,14 +101,16 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
           else
             nil ->
               {:error, "ProjectId is not owned by authenticated user"}
-            {:error, :enoent} ->
-                {:error, "something wrong with format"}
             {:error, changeset} ->
               {:error, extract_error_msg(changeset)}
           end
         rescue
+          WithClauseError ->
+            {:ok, %{error: "uploadTpDoc", error_description: "file format problem's not supported, large a size, content-type"}}
+          MatchError ->
+            {:ok, %{error: "uploadTpDoc", error_escription: "something wrong with format"}}
           Ecto.NoResultsError ->
-            {:error, "Project for currentUser #{current_user.id} not found!"}
+            {:ok, %{error: "uploadTpDoc", error_escription: "Project for currentUser #{current_user.id} not found!"}}
         end
       else
         {:error, [[field: :category, message: "category #{category} incorrect"]]}
