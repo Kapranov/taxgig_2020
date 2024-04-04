@@ -5,12 +5,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.TpDocTypes do
 
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
-
-  alias ServerWeb.GraphQL.{
-    Data,
-    Resolvers.Media.TpDocResolver
-  }
+  alias ServerWeb.GraphQL.Resolvers.Media.TpDocResolver
 
   @desc "The tp docs on the site"
   object :tp_doc do
@@ -20,7 +15,7 @@ defmodule ServerWeb.GraphQL.Schemas.Media.TpDocTypes do
     field :error_description, :string
     field :file, :picture, description: "An upload's file"
     field :id, :string
-    field :projects, :project, resolve: dataloader(Data)
+    field :projects, :project
     field :signed_by_tp, :boolean
   end
 

@@ -327,10 +327,7 @@ defmodule Core.Media do
   Gets a single tp document.
   """
   @spec get_tp_doc(String.t()) :: TpDoc.t() | nil
-  def get_tp_doc(id) do
-    Repo.get(TpDoc, id)
-    |> Repo.preload([:projects])
-  end
+  def get_tp_doc(id), do: Repo.get(TpDoc, id)
 
   @doc """
   Gets a single tp document.

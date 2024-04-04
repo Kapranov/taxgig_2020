@@ -11,7 +11,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
     Media.TpDoc,
     Notifications,
     Notifications.Notify,
-    Queries
+    Queries,
+    Repo
   }
 
   alias Mailings.Mailer
@@ -29,7 +30,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
       {:error, [[field: :current_user, message: "Permission denied for user current_user to perform action List"]]}
     else
       struct = Media.list_tp_doc()
-      {:ok, struct}
+      {:ok, struct |> Repo.preload([projects: [:users]])}
     end
   end
 
@@ -45,7 +46,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
     else
       try do
         struct = Media.get_tp_doc(id)
-        {:ok, struct}
+        {:ok, struct |> Repo.preload([projects: [:users]])}
       rescue
         Ecto.NoResultsError ->
           {:error, "The Tp Docs #{id} not found!"}
@@ -97,20 +98,15 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
             else
               :ok
             end
-            {:ok, tp_doc}
-          else
-            nil ->
-              {:error, "ProjectId is not owned by authenticated user"}
-            {:error, changeset} ->
-              {:error, extract_error_msg(changeset)}
+            {:ok, tp_doc |> Repo.preload([projects: [:users]])}
           end
         rescue
           WithClauseError ->
             {:ok, %{error: "uploadTpDoc", error_description: "file format problem's not supported, large a size, content-type"}}
           MatchError ->
-            {:ok, %{error: "uploadTpDoc", error_escription: "something wrong with format"}}
+            {:ok, %{error: "uploadTpDoc", error_description: "something wrong with format"}}
           Ecto.NoResultsError ->
-            {:ok, %{error: "uploadTpDoc", error_escription: "Project for currentUser #{current_user.id} not found!"}}
+            {:ok, %{error: "uploadTpDoc", error_description: "Project for currentUser #{current_user.id} not found!"}}
         end
       else
         {:error, [[field: :category, message: "category #{category} incorrect"]]}
@@ -134,7 +130,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
         do
           project = Contracts.get_project!(tp_doc.project_id)
           Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
-          {:ok, tp_doc}
+          {:ok, tp_doc |> Repo.preload([projects: [:users]])}
         else
           nil ->
             {:error, "TpDoc is not owned by authenticated user"}
@@ -163,7 +159,7 @@ defmodule ServerWeb.GraphQL.Resolvers.Media.TpDocResolver do
         do
           project = Contracts.get_project!(tp_doc.project_id)
           Absinthe.Subscription.publish(ServerWeb.Endpoint, project, project_show: project.id)
-          {:ok, tp_doc}
+          {:ok, tp_doc |> Repo.preload([projects: [:users]])}
         else
           nil ->
             {:error, "TpDoc is not owned by authenticated user"}
