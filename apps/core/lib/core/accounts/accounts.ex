@@ -601,10 +601,10 @@ defmodule Core.Accounts do
       profile_changeset = %Profile{user_id: user.id}
       Repo.insert(profile_changeset)
     end)
-    |> Multi.run(:rooms, fn _, %{users: user} ->
-      room_changeset = %Room{user_id: user.id, name: "#{user.email}_room"}
-      Repo.insert(room_changeset)
-    end)
+#    |> Multi.run(:rooms, fn _, %{users: user} ->
+#      room_changeset = %Room{user_id: user.id, name: "#{user.email}_room"}
+#      Repo.insert(room_changeset)
+#    end)
     |> Repo.transaction()
     |> case do
       {:ok, %{users: user}} ->
