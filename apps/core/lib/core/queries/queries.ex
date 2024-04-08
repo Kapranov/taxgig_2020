@@ -195,7 +195,8 @@ defmodule Core.Queries do
       Repo.all(
         from c in struct_a,
         join: cu in ^struct_b,
-        where: c.user_id == ^user_id and c.user_id == not is_nil(cu.recipient_id),
+        where: not is_nil(cu.participant_id),
+        where: c.user_id == ^user_id and c.user_id == cu.recipient_id,
         where: cu.is_read == false,
         select: count(cu.id)
       )
@@ -227,7 +228,9 @@ defmodule Core.Queries do
       Repo.all(
         from c in struct_a,
         join: cu in ^struct_b,
-        where: not is_nil(c.participant_id) == ^participant_id and not is_nil(c.participant_id) == not is_nil(cu.recipient_id),
+        where: not is_nil(c.participant_id),
+        where: not is_nil(cu.participant_id),
+        where: c.participant_id == ^participant_id and c.participant_id == cu.recipient_id,
         where: cu.is_read == false,
         select: count(cu.id)
       )
