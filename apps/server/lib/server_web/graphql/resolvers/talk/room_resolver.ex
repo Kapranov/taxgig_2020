@@ -47,8 +47,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
       data = Repo.all(query)
       structs = Enum.reduce(data, [], fn(x, acc) ->
         [n] = Queries.aggregate_unread_msg(Room, Message, x.id)
-        [m] = Queries.aggregate_unread_msg_by_user(Room, Message, current_user.id)
-        [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, current_user.id)
+        [m] = Queries.aggregate_unread_msg_by_user(Room, Message, x.user_id)
+        [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, x.participant)
         record = Map.merge(x, %{unread_msg: n, unread_msg_by_user: m, unread_msg_by_participant: t})
         [record | acc]
       end)
@@ -95,8 +95,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
             data = Repo.all(query) |> Enum.take(page)
             structs = Enum.reduce(data, [], fn(x, acc) ->
               [n] = Queries.aggregate_unread_msg(Room, Message, x.id)
-              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, current_user.id)
-              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, current_user.id)
+              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, x.user_id)
+              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, x.participant)
               record = Map.merge(x, %{unread_msg: n, unread_msg_by_user: m, unread_msg_by_participant: t})
               [record | acc]
             end)
@@ -107,8 +107,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
             data = Repo.all(query) |> Enum.take(counter)
             structs = Enum.reduce(data, [], fn(x, acc) ->
               [n] = Queries.aggregate_unread_msg(Room, Message, x.id)
-              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, current_user.id)
-              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, current_user.id)
+              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, x.user_id)
+              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, x.participant)
               record = Map.merge(x, %{unread_msg: n, unread_msg_by_user: m, unread_msg_by_participant: t})
               [record | acc]
             end)
@@ -120,8 +120,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
             data = Repo.all(query) |> Enum.take(page)
             structs = Enum.reduce(data, [], fn(x, acc) ->
               [n] = Queries.aggregate_unread_msg(Room, Message, x.id)
-              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, current_user.id)
-              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, current_user.id)
+              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, x.user_id)
+              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, x.participant)
               record = Map.merge(x, %{unread_msg: n, unread_msg_by_user: m, unread_msg_by_participant: t})
               [record | acc]
             end)
@@ -132,8 +132,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
             data = Repo.all(query) |> Enum.take(counter)
             structs = Enum.reduce(data, [], fn(x, acc) ->
               [n] = Queries.aggregate_unread_msg(Room, Message, x.id)
-              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, current_user.id)
-              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, current_user.id)
+              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, x.user_id)
+              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, x.participant)
               record = Map.merge(x, %{unread_msg: n, unread_msg_by_user: m, unread_msg_by_participant: t})
               [record | acc]
             end)
@@ -162,8 +162,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
             data3 = (data1 ++ data) |> Enum.take(page)
             structs = Enum.reduce(data3, [], fn(x, acc) ->
               [n] = Queries.aggregate_unread_msg(Room, Message, x.id)
-              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, current_user.id)
-              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, current_user.id)
+              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, x.user_id)
+              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, x.participant)
               record = Map.merge(x, %{unread_msg: n, unread_msg_by_user: m, unread_msg_by_participant: t})
               [record | acc]
             end)
@@ -176,8 +176,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
             data3 = (data1 ++ data) |> Enum.take(counter)
             structs = Enum.reduce(data3, [], fn(x, acc) ->
               [n] = Queries.aggregate_unread_msg(Room, Message, x.id)
-              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, current_user.id)
-              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, current_user.id)
+              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, x.user_id)
+              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, x.participant)
               record = Map.merge(x, %{unread_msg: n, unread_msg_by_user: m, unread_msg_by_participant: t})
               [record | acc]
             end)
@@ -191,8 +191,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
             data3 = (data1 ++ data) |> Enum.take(page)
             structs = Enum.reduce(data3, [], fn(x, acc) ->
               [n] = Queries.aggregate_unread_msg(Room, Message, x.id)
-              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, current_user.id)
-              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, current_user.id)
+              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, x.user_id)
+              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, x.participant)
               record = Map.merge(x, %{unread_msg: n, unread_msg_by_user: m, unread_msg_by_participant: t})
               [record | acc]
             end)
@@ -205,8 +205,8 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
             data3 = (data1 ++ data) |> Enum.take(counter)
             structs = Enum.reduce(data3, [], fn(x, acc) ->
               [n] = Queries.aggregate_unread_msg(Room, Message, x.id)
-              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, current_user.id)
-              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, current_user.id)
+              [m] = Queries.aggregate_unread_msg_by_user(Room, Message, x.user_id)
+              [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, x.participant)
               record = Map.merge(x, %{unread_msg: n, unread_msg_by_user: m, unread_msg_by_participant: t})
               [record | acc]
             end)
