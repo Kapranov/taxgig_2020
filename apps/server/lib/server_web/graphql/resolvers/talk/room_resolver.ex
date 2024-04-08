@@ -281,14 +281,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
                           structs = from p in Room, where: p.participant_id == ^current_user.id
                           data = Repo.all(structs)
                           merge_data = struct ++ data
-                          data1 = Queries.by_list(Room, :user_id, current_user.id)
-                          data2 = from p in Room, where: p.participant_id == ^current_user.id
-                          data3 = Repo.all(data2)
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, room_all: "rooms")
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, rooms_by_project_all: args[:project_id])
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, rooms_by_participant_all: "rooms")
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, merge_data, rooms_by_current_participant_user_all: "rooms")
-                          Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data3, rooms_by_user_and_participant_all: "rooms")
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, struct ++ merge_data, rooms_by_user_and_participant_all: "rooms")
                           {:ok, room}
                         {:error, _changeset} -> {:error, "Something went wrong with your room"}
                       end
@@ -299,14 +296,11 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.RoomResolver do
                           structs = from p in Room, where: p.participant_id == ^current_user.id
                           data = Repo.all(structs)
                           merge_data = struct ++ data
-                          data1 = Queries.by_list(Room, :user_id, current_user.id)
-                          data2 = from p in Room, where: p.participant_id == ^current_user.id
-                          data3 = Repo.all(data2)
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, room_all: "rooms")
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, rooms_by_project_all: struct.project_id)
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, struct, rooms_by_participant_all: "rooms")
                           Absinthe.Subscription.publish(ServerWeb.Endpoint, merge_data, rooms_by_current_participant_user_all: "rooms")
-                          Absinthe.Subscription.publish(ServerWeb.Endpoint, data1 ++ data3, rooms_by_user_and_participant_all: "rooms")
+                          Absinthe.Subscription.publish(ServerWeb.Endpoint, struct ++ merge_data, rooms_by_user_and_participant_all: "rooms")
                           {:ok, room}
                         {:error, _changeset} -> {:error, "Something went wrong with your room"}
                       end
