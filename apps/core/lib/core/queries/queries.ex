@@ -229,8 +229,8 @@ defmodule Core.Queries do
         join: cu in ^struct_b,
         where: c.participant_id == ^participant_id and c.participant_id == cu.recipient_id,
         where: cu.is_read == false,
-        select: count(cu.id)
-      )
+        select: cu.id
+      ) |> Enum.uniq |> Enum.count
     rescue
       Ecto.Query.CastError -> []
     end

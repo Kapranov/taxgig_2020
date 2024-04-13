@@ -187,7 +187,7 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
         if x.user_id == current_user or x.participant_id == current_user do
           [n] = Queries.aggregate_unread_msg(Room, Message, x.id)
           [m] = Queries.aggregate_unread_msg_by_user(Room, Message, x.user_id)
-          [t] = Queries.aggregate_unread_msg_by_participant(Room, Message, x.participant_id)
+          t = Queries.aggregate_unread_msg_by_participant(Room, Message, x.participant_id)
           record = Map.merge(x, %{unread_msg: n, unread_msg_by_user: m, unread_msg_by_participant: t})
           [record | acc]
         else
