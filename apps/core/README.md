@@ -1318,3 +1318,4 @@ $   defp _max(current, [head|tail]) when current < head do
 [51]: https://www.poeticoding.com/hashing-a-file-in-elixir/
 [52]: https://www.poeticoding.com/step-by-step-tutorial-to-build-a-phoenix-app-that-supports-user-uploads/
 [53]: https://www.poeticoding.com/the-primitives-of-elixir-concurrency-full-example/
+[54]: https://hexdocs.pm/ecto/Ecto.Query.html

@@ -32,7 +32,7 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.RoomTypes do
     field :unread_msg_by_user, :integer
     field :unread_msg_by_participant, :integer
     field :user, :user, resolve: dataloader(Data)
-    field :inserted_at, :datetime
+    field :inserted_at, :isoz_datetime
     field :updated_at, :datetime
   end
 

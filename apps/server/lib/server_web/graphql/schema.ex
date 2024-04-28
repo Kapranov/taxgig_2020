@@ -371,6 +371,11 @@ defmodule ServerWeb.GraphQL.Schema do
     |> apply(:debug, field, object)
   end
 
+  scalar :isoz_datetime, description: "UTC only ISO8601 date time" do
+    parse &Timex.parse(&1, "{ISO:Extended:Z}")
+    serialize &Timex.format!(&1, "{ISO:Extended:Z}")
+  end
+
   @spec apply(list(), atom(), any(), map()) :: list()
   defp apply(middleware, :errors, _field, %{identifier: :mutation}) do
     middleware ++ [ServerWeb.GraphQL.Schemas.Middleware.ChangesetErrors] ++
