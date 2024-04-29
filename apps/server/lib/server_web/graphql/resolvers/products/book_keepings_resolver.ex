@@ -123,6 +123,27 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingsResolver do
     {:error, "Unauthenticated"}
   end
 
+  @spec create_for_admin(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def create_for_admin(_parent, args, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      args
+      |> Services.create_book_keeping()
+      |> case do
+        {:ok, data} ->
+          {:ok, data}
+        {:error, changeset} ->
+          {:error, extract_error_msg(changeset)}
+      end
+    else
+      {:error, [[field: :current_user, message: "Permission denied for current user"]]}
+    end
+  end
+
+  @spec create_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def create_for_admin(_parent, _args, _info) do
+    {:error, "Unauthenticated"}
+  end
+
   @spec update(any, %{id: bitstring, book_keeping: map()}, %{context: %{current_user: User.t()}}) :: result()
   def update(_parent, %{id: id, book_keeping: params}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
@@ -144,6 +165,27 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingsResolver do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :book_keeping, message: "Can't be blank"]]}
   end
 
+  @spec update_for_admin(any, %{id: bitstring, book_keeping: map()}, %{context: %{current_user: User.t()}}) :: result()
+  def update_for_admin(_parent, %{id: id, book_keeping: params}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      try do
+        Repo.get!(BookKeeping, id)
+        |> BookKeeping.changeset(params)
+        |> Repo.update
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "The BookKeeping #{id} not found!"}
+      end
+    else
+      {:error, [[field: :id, message: "Can't be blank or Permission denied for current user"]]}
+    end
+  end
+
+  @spec update_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def update_for_admin(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"], [field: :book_keeping, message: "Can't be blank"]]}
+  end
+
   @spec delete(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def delete(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
@@ -161,6 +203,26 @@ defmodule ServerWeb.GraphQL.Resolvers.Products.BookKeepingsResolver do
 
   @spec delete(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
   def delete(_parent, _args, _info) do
+    {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
+  end
+
+  @spec delete_for_admin(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
+  def delete_for_admin(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      try do
+        data = Services.get_book_keeping!(id)
+        Repo.delete(data)
+      rescue
+        Ecto.NoResultsError ->
+          {:error, "The BookKeeping #{id} not found!"}
+      end
+    else
+      {:error, [[field: :id, message: "Can't be blank or Permission denied for current user"]]}
+    end
+  end
+
+  @spec delete_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple()
+  def delete_for_admin(_parent, _args, _info) do
     {:error, [[field: :current_user,  message: "Unauthenticated"], [field: :id, message: "Can't be blank"]]}
   end
 

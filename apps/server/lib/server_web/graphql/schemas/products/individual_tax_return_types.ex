@@ -328,6 +328,30 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
       resolve &IndividualTaxReturnsResolver.create/3
     end
 
+    @desc "Create the individual tax return via role's Pro for Admin"
+    field :create_pro_individual_tax_return_by_admin, :pro_individual_tax_return do
+      arg :foreign_account, :boolean
+      arg :home_owner, :boolean
+      arg :living_abroad, :boolean
+      arg :non_resident_earning, :boolean
+      arg :none_expat, :boolean
+      arg :own_stock_crypto, :boolean
+      arg :price_foreign_account, :integer
+      arg :price_home_owner, :integer
+      arg :price_living_abroad, :integer
+      arg :price_non_resident_earning, :integer
+      arg :price_own_stock_crypto, :integer
+      arg :price_rental_property_income, :integer
+      arg :price_sole_proprietorship_count, :integer
+      arg :price_state, :integer
+      arg :price_stock_divident, :integer
+      arg :price_tax_year, :integer
+      arg :rental_property_income, :boolean
+      arg :stock_divident, :boolean
+      arg :user_id, non_null(:string)
+      resolve &IndividualTaxReturnsResolver.create_for_admin/3
+    end
+
     @desc "Update a specific the individual tax return"
     field :update_individual_tax_return, :individual_tax_return do
       arg :id, non_null(:string)
@@ -349,10 +373,23 @@ defmodule ServerWeb.GraphQL.Schemas.Products.IndividualTaxReturnTypes do
       resolve &IndividualTaxReturnsResolver.update/3
     end
 
+    @desc "Update a specific the individual tax return via role's Pro for Admin"
+    field :update_pro_individual_tax_return_by_admin, :pro_individual_tax_return do
+      arg :id, non_null(:string)
+      arg :individual_tax_return, :update_pro_individual_tax_return_params
+      resolve &IndividualTaxReturnsResolver.update_for_admin/3
+    end
+
     @desc "Delete a specific the individual tax return"
     field :delete_individual_tax_return, :individual_tax_return do
       arg :id, non_null(:string)
       resolve &IndividualTaxReturnsResolver.delete/3
+    end
+
+    @desc "Delete a specific the individual tax return for Admin"
+    field :delete_individual_tax_return_by_admin, :individual_tax_return do
+      arg :id, non_null(:string)
+      resolve &IndividualTaxReturnsResolver.delete_for_admin/3
     end
   end
 

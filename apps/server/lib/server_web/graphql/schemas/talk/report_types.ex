@@ -46,6 +46,11 @@ defmodule ServerWeb.GraphQL.Schemas.Talk.ReportTypes do
       resolve(&ReportResolver.list/3)
     end
 
+    @desc "Get all reports"
+    field :all_reports_by_admin, list_of(:report) do
+      resolve(&ReportResolver.list_for_admin/3)
+    end
+
     @desc "Get a specific report"
     field :show_report, :report do
       arg(:id, non_null(:string))

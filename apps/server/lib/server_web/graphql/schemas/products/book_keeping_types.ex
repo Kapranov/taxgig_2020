@@ -211,6 +211,15 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingTypes do
       resolve &BookKeepingsResolver.create/3
     end
 
+    @desc "Create the book keeping via role's Pro for Admin"
+    field :create_pro_book_keeping_by_admin, :pro_book_keeping do
+      arg :payroll, :boolean
+      arg :price_payroll, :integer
+      arg :user_id, non_null(:string)
+
+      resolve &BookKeepingsResolver.create_for_admin/3
+    end
+
     @desc "Update a specific the book keeping"
     field :update_book_keeping, :book_keeping do
       arg :id, non_null(:string)
@@ -235,11 +244,26 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BookKeepingTypes do
       resolve &BookKeepingsResolver.update/3
     end
 
+    @desc "Update a specific the book keeping via role's Pro for Admin"
+    field :update_pro_book_keeping_by_admin, :pro_book_keeping do
+      arg :id, non_null(:string)
+      arg :book_keeping, :update_pro_book_keeping_params
+
+      resolve &BookKeepingsResolver.update_for_admin/3
+    end
+
     @desc "Delete a specific the book keeping"
     field :delete_book_keeping, :book_keeping do
       arg :id, non_null(:string)
 
       resolve &BookKeepingsResolver.delete/3
+    end
+
+    @desc "Delete a specific the book keeping for Admin"
+    field :delete_book_keeping_by_admin, :book_keeping do
+      arg :id, non_null(:string)
+
+      resolve &BookKeepingsResolver.delete_for_admin/3
     end
   end
 

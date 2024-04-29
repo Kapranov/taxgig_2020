@@ -164,6 +164,14 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxTypes do
       resolve &SaleTaxesResolver.create/3
     end
 
+    @desc "Create the sale tax via role's Pro for Admin"
+    field :create_pro_sale_tax_by_admin, :pro_sale_tax do
+      arg :price_sale_tax_count, :integer
+      arg :user_id, non_null(:string)
+
+      resolve &SaleTaxesResolver.create_for_admin/3
+    end
+
     @desc "Update a specific the sale tax"
     field :update_sale_tax, :sale_tax do
       arg :id, non_null(:string)
@@ -188,11 +196,26 @@ defmodule ServerWeb.GraphQL.Schemas.Products.SaleTaxTypes do
       resolve &SaleTaxesResolver.update/3
     end
 
+    @desc "Update a specific the sale tax via role's Pro for Admin"
+    field :update_pro_sale_tax_for_admin, :pro_sale_tax do
+      arg :id, non_null(:string)
+      arg :sale_tax, :update_pro_sale_tax_params
+
+      resolve &SaleTaxesResolver.update_for_admin/3
+    end
+
     @desc "Delete a specific the sale tax"
     field :delete_sale_tax, :sale_tax do
       arg :id, non_null(:string)
 
       resolve &SaleTaxesResolver.delete/3
+    end
+
+    @desc "Delete a specific the sale tax for Admin"
+    field :delete_sale_tax_for_admin, :sale_tax do
+      arg :id, non_null(:string)
+
+      resolve &SaleTaxesResolver.delete_for_admin/3
     end
   end
 

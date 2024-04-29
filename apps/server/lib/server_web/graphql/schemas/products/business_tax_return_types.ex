@@ -366,6 +366,16 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
       resolve &BusinessTaxReturnsResolver.create/3
     end
 
+    @desc "Create the business tax return via role's Pro for Admin"
+    field :create_pro_business_tax_return_by_admin, :pro_business_tax_return do
+      arg :none_expat, non_null(:boolean)
+      arg :price_state, :integer
+      arg :price_tax_year, :integer
+      arg :user_id, non_null(:string)
+
+      resolve &BusinessTaxReturnsResolver.create_for_admin/3
+    end
+
     @desc "Update a specific the business tax return"
     field :update_business_tax_return, :business_tax_return do
       arg :id, non_null(:string)
@@ -389,11 +399,26 @@ defmodule ServerWeb.GraphQL.Schemas.Products.BusinessTaxReturnTypes do
       resolve &BusinessTaxReturnsResolver.update/3
     end
 
+    @desc "Update a specific the business tax return via role's Pro for Admin"
+    field :update_pro_business_tax_return_by_admin, :pro_business_tax_return do
+      arg :id, non_null(:string)
+      arg :business_tax_return, :update_pro_business_tax_return_params
+
+      resolve &BusinessTaxReturnsResolver.update_for_admin/3
+    end
+
     @desc "Delete a specific the business tax return"
     field :delete_business_tax_return, :business_tax_return do
       arg :id, non_null(:string)
 
       resolve &BusinessTaxReturnsResolver.delete/3
+    end
+
+    @desc "Delete a specific the business tax return for Admin"
+    field :delete_business_tax_return_by_admin, :business_tax_return do
+      arg :id, non_null(:string)
+
+      resolve &BusinessTaxReturnsResolver.delete_for_admin/3
     end
   end
 

@@ -41,6 +41,21 @@ defmodule ServerWeb.GraphQL.Resolvers.Talk.ReportResolver do
     {:error, "Unauthenticated"}
   end
 
+  @spec list_for_admin(any, %{atom => any}, %{context: %{current_user: User.t()}}) :: result()
+  def list_for_admin(_parent, _args, %{context: %{current_user: current_user}}) do
+    if current_user.admin do
+      structs = Talk.list_report()
+      {:ok, structs}
+    else
+      {:error, [[field: :current_user, message: "Permission denied for user current user"]]}
+    end
+  end
+
+  @spec list_for_admin(any, %{atom => any}, Absinthe.Resolution.t()) :: error_tuple
+  def list_for_admin(_parent, _args, _resolutions) do
+    {:error, "Unauthenticated"}
+  end
+
   @spec show(any, %{id: bitstring}, %{context: %{current_user: User.t()}}) :: result()
   def show(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     if is_nil(id) || is_nil(current_user) do
